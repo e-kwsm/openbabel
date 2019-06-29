@@ -748,10 +748,7 @@ namespace OpenBabel
 
     public:
       //! Constructor
-      OBRotorKeys()
-      {
-        _vr.clear();
-      }
+      OBRotorKeys() { }
 
       //! Clear all rotors
       void Clear(){
@@ -801,7 +798,6 @@ namespace OpenBabel
       std::vector<int> GetKey() const
       {
         std::vector<int> rt;
-        rt.clear();
         rt.push_back(0);
         for(unsigned int i = 0; i < _vr.size(); i++){
           rt.push_back(_vr[i].get_state());
