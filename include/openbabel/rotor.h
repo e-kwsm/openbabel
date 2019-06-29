@@ -483,7 +483,7 @@ namespace OpenBabel
     /**
      * @return the number of rotors in this list
      */
-    size_t Size()
+    size_t Size() const
     {
       return _rotor.size();
     }
@@ -497,7 +497,7 @@ namespace OpenBabel
     /**
      * @return True if this rotor list has any fixed bonds.
      */
-    bool HasFixedBonds()
+    bool HasFixedBonds() const
     {
       return !_fixedbonds.IsEmpty();
     }
@@ -510,7 +510,7 @@ namespace OpenBabel
      * @return True if this rotor list has any ring bonds.
      * @since version 2.4
      */
-    bool HasRingRotors()
+    bool HasRingRotors() const
     { return _ringRotors; }
 
     ///@name Setup
