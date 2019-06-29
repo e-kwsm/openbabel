@@ -454,7 +454,6 @@ namespace OpenBabel
 
   OBRotorList::OBRotorList()
   {
-    _rotor.clear();
     _quiet = true;
     _removesym = true;
     _ringRotors = false;
