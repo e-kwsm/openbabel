@@ -398,7 +398,7 @@ namespace OpenBabel
      * @param coordinates The coordinates (e.g. OBMol::GetCoordinates()).
      * @return The torsion angle in radians.
      */
-    double CalcTorsion(double *coordinates);
+    double CalcTorsion(const double* const coordinates);
     /**
      * Calculate the bond length for this OBRotor using the specified coordinates.
      * @param coordinates The coordinates (e.g. OBMol::GetCoordinates()).

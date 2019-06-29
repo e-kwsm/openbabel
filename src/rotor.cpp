@@ -508,7 +508,7 @@ namespace OpenBabel
     }
   }
 
-  double OBRotor::CalcTorsion(double *c)
+  double OBRotor::CalcTorsion(const double* const c)
   {
     double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
     double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
