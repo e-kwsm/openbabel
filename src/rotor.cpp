@@ -29,7 +29,6 @@ GNU General Public License for more details.
 #include <openbabel/elements.h>
 
 #include <set>
-#include <assert.h>
 
 // private data headers with default parameters
 #include "torlib.h"
@@ -809,7 +808,6 @@ namespace OpenBabel
     if (EQn(buffer,"SP3-SP3",7))
       {
         _sp3sp3.clear();
-        //        assert (vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
           _sp3sp3.push_back(DEG_TO_RAD*atof(j->c_str()));
         return;
@@ -818,7 +816,6 @@ namespace OpenBabel
     if (EQn(buffer,"SP3-SP2",7))
       {
         _sp3sp2.clear();
-        //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
           _sp3sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
         return;
@@ -827,7 +824,6 @@ namespace OpenBabel
     if (EQn(buffer,"SP2-SP2",7))
       {
         _sp2sp2.clear();
-        //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
           _sp2sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
         return;
