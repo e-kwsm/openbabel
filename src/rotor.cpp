@@ -496,16 +496,13 @@ namespace OpenBabel
     if (_bond == NULL)
       return; // nothing to do
 
-    vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
-
     OBMol *mol = _bond->GetParent();
 
     if (mol == NULL)
       return; // nothing to do
 
-    rlist = mol->GetSSSR();
-    for (i = rlist.begin();i != rlist.end();++i) {
+    vector<OBRing*> rlist = mol->GetSSSR();
+    for (vector<OBRing*>::iterator i = rlist.begin(); i != rlist.end(); ++i) {
       if ((*i)->IsMember(_bond))
         _rings.push_back(*i);
     }
