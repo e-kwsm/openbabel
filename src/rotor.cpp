@@ -753,23 +753,14 @@ namespace OpenBabel
     _torsionAngles = tv;
   }
 
-  void OBRotor::SetDihedralAtoms(std::vector<int> &ref)
+  void OBRotor::SetDihedralAtoms(const std::vector<int> &ref)
   {
     if (ref.size() != 4)
       return;
-    // copy indexes starting from 1
-    _ref.resize(4);
-    for (int i = 0;i < 4;++i)
-      _ref[i] = ref[i];
-    _torsion.resize(4);
-    // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
-    _torsion[0] = (ref[0]-1)*3;
-    _torsion[1] = (ref[1]-1)*3;
-    _torsion[2] = (ref[2]-1)*3;
-    _torsion[3] = (ref[3]-1)*3;
+    SetDihedralAtoms(ref.data());
   }
 
-  void OBRotor::SetDihedralAtoms(int ref[4])
+  void OBRotor::SetDihedralAtoms(const int ref[4])
   {
     // copy indexes starting from 1
     _ref.resize(4);
