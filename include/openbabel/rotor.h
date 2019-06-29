@@ -644,17 +644,11 @@ namespace OpenBabel
   /// @cond DEV
   class rotor_digit {
   public:
-    rotor_digit(unsigned int rs)
-      {
-        resolution_size = rs;
-        state = 0;
-      }
-
-    rotor_digit()
-      {
-        resolution_size = 0;
-        state = 0;
-      }
+    rotor_digit(unsigned int rs = 0)
+    {
+      resolution_size = rs;
+      state = 0;
+    }
 
     void set_size(unsigned int rs)
     {
