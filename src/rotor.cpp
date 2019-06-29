@@ -560,10 +560,9 @@ namespace OpenBabel
   double OBRotor::CalcBondLength(double *c)
   {
     // compute the difference
-    double dx, dy, dz;
-    dx = c[_torsion[1]  ] - c[_torsion[2]  ];
-    dy = c[_torsion[1]+1] - c[_torsion[2]+1];
-    dz = c[_torsion[1]+2] - c[_torsion[2]+2];
+    double dx = c[_torsion[1]  ] - c[_torsion[2]  ];
+    double dy = c[_torsion[1]+1] - c[_torsion[2]+1];
+    double dz = c[_torsion[1]+2] - c[_torsion[2]+2];
     // compute the length
     return sqrt(SQUARE(dx) + SQUARE(dy) + SQUARE(dz));
   }
@@ -660,18 +659,16 @@ namespace OpenBabel
   // used in combination with Set
   void OBRotor::Precalc(const vector<double*> &cv)
   {
-    double *c,ang;
-    vector<double>::iterator j;
     vector<double> cs,sn,t;
     for (vector<double*>::const_iterator i = cv.begin(); i != cv.end(); ++i)
       {
-        c = *i;
+        double *c = *i;
         cs.clear();
         sn.clear();
         t.clear();
-        ang = CalcTorsion(c);
+        double ang = CalcTorsion(c);
 
-        for (j = _torsionAngles.begin();j != _torsionAngles.end();++j)
+        for (vector<double>::iterator j = _torsionAngles.begin(); j != _torsionAngles.end(); ++j)
           {
             cs.push_back(cos(*j-ang));
             sn.push_back(sin(*j-ang));
