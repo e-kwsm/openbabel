@@ -75,15 +75,15 @@ namespace OpenBabel
       }
 
     //! \return whether this rotor rule is valid (i.e., is the SMARTS pattern valid)
-    bool    IsValid()    {        return(_sp->IsValid());       }
+    bool    IsValid() const { return _sp->IsValid(); }
     //! \return a copy of the reference atom indexes inside the SMARTS pattern
     //!
     //!  These should be freed after use.
-    void    GetReferenceAtoms(int ref[4]) { memcpy(ref,_ref,sizeof(int)*4); }
+    void    GetReferenceAtoms(int ref[4]) const { memcpy(ref,_ref,sizeof(int)*4); }
     //! Set the resolution (delta) of a torsional step in degrees
     void    SetDelta(double d)    {       _delta = d;           }
     //! \return the resolution (delta) of a torsional step in degrees
-    double  GetDelta()            {       return(_delta);       }
+    double  GetDelta() const { return _delta; }
     //! \return a reference to the dihedral angles to evaluate (in radians)
     std::vector<double>   &GetTorsionVals()    { return(_vals); }
     //! \return the text of the SMARTS pattern for this rule
@@ -111,10 +111,10 @@ namespace OpenBabel
 
     void ParseLine(const char*);
     //! \return the number of rotor rules
-    size_t GetSize()                 { return _vr.size();}
+    size_t GetSize() const { return _vr.size();}
 
     //! Set the filename to be used for the database. Default = torlib.txt
-    void SetFilename(std::string &s)       { _filename = s;    }
+    void SetFilename(const std::string &s) { _filename = s; }
 
     //! Determine the torsional angles to evaluate based on the database
     //! \param mol molecule to evaluate
@@ -182,29 +182,29 @@ namespace OpenBabel
      * Set the dihedral atoms.
      * @param ref The dihedral atom indexes. These indexes start from 1.
      */
-    void SetDihedralAtoms(std::vector<int> &ref);
+    void SetDihedralAtoms(const std::vector<int> &ref);
     /**
      * Set the dihedral atoms.
      * @param ref The dihedral atom indexes. These indexes start from 1.
      */
-    void SetDihedralAtoms(int ref[4]);
+    void SetDihedralAtoms(const int ref[4]);
     /**
      * Set the atom indexes that will be displaced when this rotor
      * changes torsion angle. These indexes start from 0 and are multiplied
      * by 3 for easy coordinate access.
      */
-    void SetRotAtoms(std::vector<int> &atoms);
+    void SetRotAtoms(const std::vector<int> &atoms);
     /**
      * Set the possible torsion values or angles.
      */
-    void SetTorsionValues(std::vector<double> &angles)
+    void SetTorsionValues(const std::vector<double> &angles)
     {
       _torsionAngles = angles;
     }
     /**
      * Set the bonds that will be fixed.
      */
-    void SetFixedBonds(OBBitVec &bv)
+    void SetFixedBonds(const OBBitVec &bv)
     {
       _fixedbonds = bv;
     }
