@@ -675,12 +675,12 @@ namespace OpenBabel
       state = st;
     }
 
-    int get_state()
+    int get_state() const
     {
       return state;
     }
 
-    unsigned int size()
+    unsigned int size() const
     {
       return resolution_size;
     }
@@ -806,7 +806,7 @@ namespace OpenBabel
 
       //! Get the currently selected rotor key
       //! \return current rotor key
-      std::vector<int> GetKey()
+      std::vector<int> GetKey() const
       {
         std::vector<int> rt;
         rt.clear();
