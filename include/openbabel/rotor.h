@@ -219,19 +219,18 @@ namespace OpenBabel
      */
     inline void SetToAngle(double *coordinates, double setang)
     {
-      double /*dx,dy,dz,*/ sn,cs,t,ang,mag;
       // compute the angle to rotate (radians)
-      ang = setang - CalcTorsion(coordinates);
+      double ang = setang - CalcTorsion(coordinates);
       // if the angle to rotate is too small, we're done
       if (std::fabs(ang) < 1e-5)
         return;
 
       // compute the bond length
-      mag = CalcBondLength(coordinates);
+      double mag = CalcBondLength(coordinates);
       // compute some rotation matrix elements
-      sn = std::sin(ang);
-      cs = std::cos(ang);
-      t = 1 - cs;
+      double sn = std::sin(ang);
+      double cs = std::cos(ang);
+      double t = 1 - cs;
 
       // perform rotation
       Set(coordinates, sn, cs, t, 1.0 / mag);
