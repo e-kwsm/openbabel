@@ -476,8 +476,8 @@ namespace OpenBabel
 
   bool CompareRotor(const pair<OBBond*,int> &a,const pair<OBBond*,int> &b)
   {
-    //return(a.second > b.second); //outside->in
-    return(a.second < b.second);   //inside->out
+    //return a.second > b.second; //outside->in
+    return a.second < b.second;   //inside->out
   }
 
   //**********************************
