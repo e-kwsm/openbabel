@@ -344,7 +344,7 @@ namespace OpenBabel
      * Get the number of possible torsion angles for this OBRotor. This
      * is the length of the GetTorsionValues() list.
      */
-    size_t Size()
+    size_t Size() const
     {
       return _torsionAngles.size();
     }
@@ -358,7 +358,7 @@ namespace OpenBabel
     /**
      * Get the dihedral atom indexes. These indexes start from 1.
      */
-    void GetDihedralAtoms(int ref[4])
+    void GetDihedralAtoms(int ref[4]) const
     {
       for (int i = 0; i < 4; ++i)
         ref[i] = _ref[i];
