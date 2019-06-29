@@ -142,7 +142,7 @@ namespace OpenBabel
     return true;
   }
 
-  bool OBRotorList::IsFixedBond(OBBond *bond)
+  bool OBRotorList::IsFixedBond(OBBond *bond) const
   {
     if (_fixedatoms.IsEmpty() && _fixedbonds.IsEmpty())
       return false;

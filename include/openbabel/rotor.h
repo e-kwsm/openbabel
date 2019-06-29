@@ -493,7 +493,7 @@ namespace OpenBabel
      * this function will return true if the bond and at least one neighboring
      * bond has fixed atoms.
      */
-    bool IsFixedBond(OBBond*);
+    bool IsFixedBond(OBBond*) const;
     /**
      * @return True if this rotor list has any fixed bonds.
      */
