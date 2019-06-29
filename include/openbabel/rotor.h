@@ -314,7 +314,7 @@ namespace OpenBabel
      * used in combination with Set(double *coordinates, int conformer, int idx).
      * @param conformers The pointers to the conformer coordinates
      */
-    void Precalc(std::vector<double*> &conformers);
+    void Precalc(const std::vector<double*> &conformers);
     /**
      * Rotate the @p coordinates to set the torsion to the torsion value with the
      * specified @p index. The coordinates should be the same as the conformer used
