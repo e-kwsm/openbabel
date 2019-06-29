@@ -223,14 +223,14 @@ namespace OpenBabel
       // compute the angle to rotate (radians)
       ang = setang - CalcTorsion(coordinates);
       // if the angle to rotate is too small, we're done
-      if (fabs(ang) < 1e-5)
+      if (std::fabs(ang) < 1e-5)
         return;
 
       // compute the bond length
       mag = CalcBondLength(coordinates);
       // compute some rotation matrix elements
-      sn = sin(ang);
-      cs = cos(ang);
+      sn = std::sin(ang);
+      cs = std::cos(ang);
       t = 1 - cs;
 
       // perform rotation
