@@ -783,7 +783,7 @@ namespace OpenBabel
     _torsion[3] = (ref[3]-1)*3;
   }
 
-  void OBRotor::SetRotAtoms(vector<int> &vi)
+  void OBRotor::SetRotAtoms(const vector<int> &vi)
   {
     _rotatoms = vi;
   }
