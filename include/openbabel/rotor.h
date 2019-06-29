@@ -403,7 +403,7 @@ namespace OpenBabel
      * Calculate the bond length for this OBRotor using the specified coordinates.
      * @param coordinates The coordinates (e.g. OBMol::GetCoordinates()).
      */
-    double CalcBondLength(double *coordinates);
+    double CalcBondLength(const double* const coordinates);
     ///@}
 
 

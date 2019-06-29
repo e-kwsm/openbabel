@@ -557,7 +557,7 @@ namespace OpenBabel
     return(ang);
   }
 
-  double OBRotor::CalcBondLength(double *c)
+  double OBRotor::CalcBondLength(const double* const c)
   {
     // compute the difference
     double dx = c[_torsion[1]  ] - c[_torsion[2]  ];
