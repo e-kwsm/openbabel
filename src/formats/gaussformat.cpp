@@ -14,6 +14,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/data.h>
 #include <openbabel/data_utilities.h>
 #include <openbabel/obmolecformat.h>
@@ -331,7 +332,7 @@ namespace OpenBabel
         S0MT += 1000*eFactor*(Hcorr-Gcorr)/temperature;
     }
 
-    double Rgas = 1.9872041; // cal/mol K http://en.wikipedia.org/wiki/Gas_constant
+    double Rgas = constants::molar_gas_constant / constants::calorie_to_joule; // cal/mol K
     double Srot = -Rgas * log(double(RotSymNum));
 
     if (RotSymNum > 1)

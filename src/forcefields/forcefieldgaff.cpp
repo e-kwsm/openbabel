@@ -18,6 +18,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/bond.h>
 #include <openbabel/obiter.h>
@@ -566,7 +567,7 @@ namespace OpenBabel
         if (parameter == nullptr) {
           parameter = GetParameter("X", b->GetType(), nullptr, nullptr, _ffbondparams);
           if (parameter == nullptr) {
-            bondcalc.kr = KCAL_TO_KJ * 500.0;
+            bondcalc.kr = constants::calorie_to_joule * 500.0;
             bondcalc.r0 = 1.100;
             bondcalc.SetupPointers();
 
@@ -581,7 +582,7 @@ namespace OpenBabel
           }
         }
       }
-      bondcalc.kr = KCAL_TO_KJ * parameter->_dpar[0];
+      bondcalc.kr = constants::calorie_to_joule * parameter->_dpar[0];
       bondcalc.r0 = parameter->_dpar[1];
       bondcalc.SetupPointers();
 
@@ -631,7 +632,7 @@ namespace OpenBabel
           if (parameter == nullptr) {
             parameter = GetParameter("X", b->GetType(), "X", nullptr, _ffangleparams);
             if (parameter == nullptr) {
-              anglecalc.kth = KCAL_TO_KJ * 0.020;
+              anglecalc.kth = constants::calorie_to_joule * 0.020;
               anglecalc.theta0 = 120.0;
               anglecalc.SetupPointers();
 
@@ -647,7 +648,7 @@ namespace OpenBabel
           }
         }
       }
-      anglecalc.kth = KCAL_TO_KJ * parameter->_dpar[0];
+      anglecalc.kth = constants::calorie_to_joule * parameter->_dpar[0];
       anglecalc.theta0 = parameter->_dpar[1];
       anglecalc.SetupPointers();
 
@@ -717,7 +718,7 @@ namespace OpenBabel
           }
         }
       }
-      torsioncalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0]/ parameter->_ipar[0];
+      torsioncalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0]/ parameter->_ipar[0];
       torsioncalc.gamma = parameter->_dpar[1];
       torsioncalc.n = parameter->_dpar[2];
 
@@ -779,7 +780,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = c;
 	oopcalc.d = d;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -793,7 +794,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = c;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -807,7 +808,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = a;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -821,7 +822,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = c;
 	oopcalc.d = d;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -835,7 +836,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = c;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -849,7 +850,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = a;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -863,7 +864,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = c;
 	oopcalc.d = d;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -877,7 +878,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = c;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -891,7 +892,7 @@ namespace OpenBabel
 	oopcalc.b = b;
 	oopcalc.c = d;
 	oopcalc.d = a;
-	oopcalc.vn_half = KCAL_TO_KJ * parameter->_dpar[0];
+	oopcalc.vn_half = constants::calorie_to_joule * parameter->_dpar[0];
 	oopcalc.gamma = parameter->_dpar[1];
 	oopcalc.n = parameter->_dpar[2];
 	oopcalc.SetupPointers();
@@ -972,7 +973,7 @@ namespace OpenBabel
 
       //this calculations only need to be done once for each pair,
       //we do them now and save them for later use
-      vdwcalc.Eab = KCAL_TO_KJ * sqrt(Ea * Eb);
+      vdwcalc.Eab = constants::calorie_to_joule * sqrt(Ea * Eb);
 
       // 1-4 scaling
       if (a->IsOneFour(b))
@@ -1041,7 +1042,7 @@ namespace OpenBabel
           continue;
       }
 
-      elecalc.qq = KCAL_TO_KJ * 332.17 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
+      elecalc.qq = constants::calorie_to_joule * 332.17 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
 
       if (elecalc.qq) {
         elecalc.a = &*a;

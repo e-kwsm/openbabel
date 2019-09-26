@@ -17,6 +17,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -30,8 +31,6 @@ GNU General Public License for more details.
 using namespace std;
 namespace OpenBabel
 {
-#define BOHR_TO_ANGSTROM 0.529177249
-
   class MolproOutputFormat : public OBMoleculeFormat
   {
   public:
@@ -147,9 +146,9 @@ namespace OpenBabel
             while (vs.size() == 6)
               {
                 atom = mol.NewAtom();
-                x = atof((char*)vs[3].c_str())*BOHR_TO_ANGSTROM;
-                y = atof((char*)vs[4].c_str())*BOHR_TO_ANGSTROM;
-                z = atof((char*)vs[5].c_str())*BOHR_TO_ANGSTROM;
+                x = atof((char*)vs[3].c_str()) * constants::bohr_to_angstrom;
+                y = atof((char*)vs[4].c_str()) * constants::bohr_to_angstrom;
+                z = atof((char*)vs[5].c_str()) * constants::bohr_to_angstrom;
                 atom->SetVector(x,y,z); //set coordinates
 
                 //set atomic number

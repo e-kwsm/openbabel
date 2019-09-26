@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -25,11 +26,6 @@ GNU General Public License for more details.
 using namespace std;
 namespace OpenBabel
 {
-
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
-
-
   class DMolFormat : public OBMoleculeFormat
   {
   public:
@@ -104,23 +100,23 @@ namespace OpenBabel
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer); // we really need to check that it's 3 entries only
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = atof((char*)vs[0].c_str()) * constants::bohr_to_angstrom;
+        y = atof((char*)vs[1].c_str()) * constants::bohr_to_angstrom;
+        z = atof((char*)vs[2].c_str()) * constants::bohr_to_angstrom;
         v1.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = atof((char*)vs[0].c_str()) * constants::bohr_to_angstrom;
+        y = atof((char*)vs[1].c_str()) * constants::bohr_to_angstrom;
+        z = atof((char*)vs[2].c_str()) * constants::bohr_to_angstrom;
         v2.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = atof((char*)vs[0].c_str()) * constants::bohr_to_angstrom;
+        y = atof((char*)vs[1].c_str()) * constants::bohr_to_angstrom;
+        z = atof((char*)vs[2].c_str()) * constants::bohr_to_angstrom;
         v3.Set(x,y,z);
 
         OBUnitCell *uc = new OBUnitCell;
@@ -143,9 +139,9 @@ namespace OpenBabel
         atom = mol.NewAtom();
         //set atomic number
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
-        x = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[3].c_str()) * BOHR_TO_ANGSTROM;
+        x = atof((char*)vs[1].c_str()) * constants::bohr_to_angstrom;
+        y = atof((char*)vs[2].c_str()) * constants::bohr_to_angstrom;
+        z = atof((char*)vs[3].c_str()) * constants::bohr_to_angstrom;
         atom->SetVector(x,y,z); //set coordinates
       }
 
@@ -191,15 +187,15 @@ namespace OpenBabel
         vector3 v1;
 
         ofs << "$cell vectors" << endl;
-        v1 = v[0] * ANGSTROM_TO_BOHR;
+        v1 = v[0] / constants::bohr_to_angstrom;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
         ofs << buffer << endl;
-        v1 = v[1] * ANGSTROM_TO_BOHR;
+        v1 = v[1] / constants::bohr_to_angstrom;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
         ofs << buffer << endl;
-        v1 = v[2] * ANGSTROM_TO_BOHR;
+        v1 = v[2] / constants::bohr_to_angstrom;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
         ofs << buffer << endl;
@@ -213,9 +209,9 @@ namespace OpenBabel
         atom = mol.GetAtom(i);
         snprintf(buffer, BUFF_SIZE, "%-3s% 27.14f% 20.14f% 20.14f",
                  OBElements::GetSymbol(atom->GetAtomicNum()),
-                 atom->GetX() * ANGSTROM_TO_BOHR,
-                 atom->GetY() * ANGSTROM_TO_BOHR,
-                 atom->GetZ() * ANGSTROM_TO_BOHR);
+                 atom->GetX() / constants::bohr_to_angstrom,
+                 atom->GetY() / constants::bohr_to_angstrom,
+                 atom->GetZ() / constants::bohr_to_angstrom);
         ofs << buffer << endl;
       }
 

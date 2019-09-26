@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -22,8 +23,6 @@ GNU General Public License for more details.
 #include <openbabel/generic.h>
 #include <cstdlib>
 
-
-#define EV_TO_KCAL_PER_MOL 23.060538
 
 using namespace std;
 namespace OpenBabel {
@@ -297,7 +296,7 @@ namespace OpenBabel {
       if (strstr(buffer, "Total lattice energy") && strstr(buffer, "eV") ) {
         tokenize(vs, buffer);
         if (vs.size() > 4) {
-          pmol->SetEnergy(atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL);
+          pmol->SetEnergy(atof(vs[4].c_str()) * constants::electronvolt_to_kcal_per_mol);
         }
       }
 
@@ -305,7 +304,7 @@ namespace OpenBabel {
       if (strstr(buffer, "Final energy")) {
         tokenize(vs, buffer);
         if (vs.size() > 3) {
-          pmol->SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
+          pmol->SetEnergy(atof(vs[3].c_str()) * constants::electronvolt_to_kcal_per_mol);
         }
       }
 
@@ -346,7 +345,7 @@ namespace OpenBabel {
             break;
         }
         if (hasPV)
-          pmol->SetEnergy((enthalpy_eV - pv_eV) * EV_TO_KCAL_PER_MOL);
+          pmol->SetEnergy((enthalpy_eV - pv_eV) * constants::electronvolt_to_kcal_per_mol);
       }
     }
 
@@ -367,8 +366,8 @@ namespace OpenBabel {
       enthalpyPD_pv->SetAttribute("Enthalpy PV term (kcal/mol)");
       enthalpyPD_eV->SetAttribute("Enthalpy (eV)");
       enthalpyPD_pv_eV->SetAttribute("Enthalpy PV term (eV)");
-      double en_kcal_per_mole = enthalpy_eV * EV_TO_KCAL_PER_MOL;
-      double pv_kcal_per_mole = pv_eV * EV_TO_KCAL_PER_MOL;
+      double en_kcal_per_mole = enthalpy_eV * constants::electronvolt_to_kcal_per_mol;
+      double pv_kcal_per_mole = pv_eV * constants::electronvolt_to_kcal_per_mol;
       snprintf(tag, BUFF_SIZE, "%f", en_kcal_per_mole);
       enthalpyPD->SetValue(tag);
       snprintf(tag, BUFF_SIZE, "%f", pv_kcal_per_mole);
