@@ -18,6 +18,7 @@ GNU General Public License for more details.
 
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 
 #include <set>
 
@@ -44,6 +45,8 @@ using namespace std;
 
 namespace OpenBabel
 {
+  const double gas_const = constants::molar_gas_constant / constants::calorie_to_joule; // kcal/(mol*K)
+
 #if defined(__CYGWIN__) || defined(__MINGW32__)
   // macro to implement static OBPlugin::PluginMapType& Map()
   PLUGIN_CPP_FILE(OBForceField)
@@ -3794,7 +3797,7 @@ namespace OpenBabel
     double velocity, E_kin, E_kin2, factor;
 
     // E_kin = 0.5 * Ndf * R * T
-    E_kin = _ncoords * GAS_CONSTANT * _temp;
+    E_kin = _ncoords * gas_const * _temp;
     //cout << "E_{kin} = Ndf * R * T = " << E_kin << endl;
 
     // E_kin = 0.5 * sum( m_i * v_i^2 )

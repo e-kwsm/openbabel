@@ -13,6 +13,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -26,11 +27,6 @@ GNU General Public License for more details.
 using namespace std;
 namespace OpenBabel
 {
-
-#define BOHR_TO_ANGSTROM 0.5291772108
-#define ANGSTROM_TO_BOHR 1.0 / BOHR_TO_ANGSTROM
-
-
   class ABINITFormat : public OBMoleculeFormat
   {
   public:
@@ -123,7 +119,7 @@ namespace OpenBabel
           }
         }
         else if (strstr(buffer, " xcart ")) {
-          double unit = BOHR_TO_ANGSTROM;
+          double unit = constants::bohr_to_angstrom;
           if (strstr(buffer, "ngstrom"))
             unit = 1.0; // no conversion needed
 
@@ -170,9 +166,9 @@ namespace OpenBabel
             //else
               column = 0;
 
-            x = atof((char*)vs[column].c_str()) * BOHR_TO_ANGSTROM;
-            y = atof((char*)vs[column+1].c_str()) * BOHR_TO_ANGSTROM;
-            z = atof((char*)vs[column+2].c_str()) * BOHR_TO_ANGSTROM;
+            x = atof((char*)vs[column].c_str()) * constants::bohr_to_angstrom;
+            y = atof((char*)vs[column+1].c_str()) * constants::bohr_to_angstrom;
+            z = atof((char*)vs[column+2].c_str()) * constants::bohr_to_angstrom;
             translationVectors[numTranslationVectors++].Set(x, y,z);
             ifs.getline(buffer,BUFF_SIZE);
           }

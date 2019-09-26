@@ -14,7 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -22,9 +22,6 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
-
-
-const double AAU = 0.5291772108;  // �ngstr�m per bohr (CODATA 2002)
 
 using namespace std;
 namespace OpenBabel
@@ -84,7 +81,7 @@ bool TurbomoleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;
-    double UnitConv=AAU;
+    double UnitConv = constants::bohr_to_angstrom;
     if(pConv->IsOption("a", OBConversion::INOPTIONS))
       UnitConv=1;
 
@@ -165,7 +162,7 @@ bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
-    double UnitConv=AAU;
+    double UnitConv = constants::bohr_to_angstrom;
     if(pConv->IsOption("a"))
       UnitConv=1;
 

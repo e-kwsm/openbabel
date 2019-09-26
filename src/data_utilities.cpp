@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <fstream>
 #include <iostream>
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/data_utilities.h>
 #include <openbabel/mol.h>
 #include <openbabel/generic.h>
@@ -54,7 +55,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
         kkTYPE kk;
     } energy_unit;
     double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
-    double Rgas      = 1.9872041; 
+    double Rgas      = constants::molar_gas_constant / constants::calorie_to_joule;
     int    RotSymNum = 1;
     OpenBabel::OBRotationData* rd;
     
