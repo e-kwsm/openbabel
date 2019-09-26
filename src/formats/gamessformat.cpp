@@ -15,7 +15,7 @@
   GNU General Public License for more details.
  ***********************************************************************/
 #include <openbabel/babelconfig.h>
-
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -31,10 +31,6 @@ namespace Gamess {
 }
 
 namespace OpenBabel {
-
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
-
   class GAMESSOutputFormat: public OBMoleculeFormat {
     public:
       // Register this format type ID
@@ -274,9 +270,9 @@ namespace OpenBabel {
        while (vs.size() == 5) {
          // Parse the current one
          int atomicNum = atoi(vs[1].c_str());
-         x = atof((char*) vs[2].c_str()) * BOHR_TO_ANGSTROM;
-         y = atof((char*) vs[3].c_str()) * BOHR_TO_ANGSTROM;
-         z = atof((char*) vs[4].c_str()) * BOHR_TO_ANGSTROM;
+         x = atof((char*) vs[2].c_str()) * constants::bohr_to_angstrom;
+         y = atof((char*) vs[3].c_str()) * constants::bohr_to_angstrom;
+         z = atof((char*) vs[4].c_str()) * constants::bohr_to_angstrom;
          // First time reading the molecule, create each atom
          if (natoms == 0) {
            atom = mol.NewAtom();
@@ -324,17 +320,17 @@ namespace OpenBabel {
               atom = mol.NewAtom();
               atom->SetAtomicNum(atomicNum);
             }
-            x = atof((char*) vs[1].c_str())* BOHR_TO_ANGSTROM;
-            y = atof((char*) vs[2].c_str())* BOHR_TO_ANGSTROM;
-            z = atof((char*) vs[3].c_str())* BOHR_TO_ANGSTROM;
+            x = atof((char*) vs[1].c_str())* constants::bohr_to_angstrom;
+            y = atof((char*) vs[2].c_str())* constants::bohr_to_angstrom;
+            z = atof((char*) vs[3].c_str())* constants::bohr_to_angstrom;
             coordinates.push_back(x);
             coordinates.push_back(y);
             coordinates.push_back(z);
           } else if (vs[0].substr(0, 1) == "Z") {
             atomicNum = OBElements::GetAtomicNum(vs[0].substr(1, 1).c_str());
-            x = atof((char*) vs[1].c_str())* BOHR_TO_ANGSTROM;
-            y = atof((char*) vs[2].c_str())* BOHR_TO_ANGSTROM;
-            z = atof((char*) vs[3].c_str())* BOHR_TO_ANGSTROM;
+            x = atof((char*) vs[1].c_str())* constants::bohr_to_angstrom;
+            y = atof((char*) vs[2].c_str())* constants::bohr_to_angstrom;
+            z = atof((char*) vs[3].c_str())* constants::bohr_to_angstrom;
             coordinates.push_back(x);
             coordinates.push_back(y);
             coordinates.push_back(z);

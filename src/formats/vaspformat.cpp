@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -29,7 +30,6 @@ GNU General Public License for more details.
 #include <algorithm>
 #include <cstdlib>
 
-#define EV_TO_KCAL_PER_MOL 23.060538
 
 using namespace std;
 namespace OpenBabel {
@@ -434,7 +434,7 @@ namespace OpenBabel {
         // Free energy
         if (strstr(buffer, "free  energy")) {
           tokenize(vs, buffer);
-          pmol->SetEnergy(atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL);
+          pmol->SetEnergy(atof(vs[4].c_str()) * constants::electronvolt_to_kcal_per_mol);
         }
 
         // Frequencies
@@ -553,8 +553,8 @@ namespace OpenBabel {
       enthalpyPD_pv->SetAttribute("Enthalpy PV term (kcal/mol)");
       enthalpyPD_eV->SetAttribute("Enthalpy (eV)");
       enthalpyPD_pv_eV->SetAttribute("Enthalpy PV term (eV)");
-      double en_kcal_per_mole = enthalpy_eV * EV_TO_KCAL_PER_MOL;
-      double pv_kcal_per_mole = pv_eV * EV_TO_KCAL_PER_MOL;
+      double en_kcal_per_mole = enthalpy_eV * constants::electronvolt_to_kcal_per_mol;
+      double pv_kcal_per_mole = pv_eV * constants::electronvolt_to_kcal_per_mol;
       snprintf(tag, BUFF_SIZE, "%f", en_kcal_per_mole);
       enthalpyPD->SetValue(tag);
       snprintf(tag, BUFF_SIZE, "%f", pv_kcal_per_mole);

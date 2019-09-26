@@ -1393,7 +1393,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  m_i : mass of atom i
      *  v_i : velocity of atom i
      *  Ndf : number of degrees of freedom (3 * number of atoms)
-     *  R : gas constant
+     *  R : molar gas constant
      *  T : temperature
      *  \endcode
      *

@@ -18,6 +18,7 @@ GNU General Public License for more details.
 
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 
 #include <set>
 
@@ -40,6 +41,8 @@ using namespace std;
 
 namespace OpenBabel
 {
+  const double gas_const = constants::molar_gas_constant / constants::calorie_to_joule; // kcal/(mol*K)
+
 #if defined(__CYGWIN__) || defined(__MINGW32__)
   // macro to implement static OBPlugin::PluginMapType& Map()
   PLUGIN_CPP_FILE(OBForceField)
@@ -3421,6 +3424,7 @@ namespace OpenBabel
     _ncoords = _mol.NumAtoms() * 3;
     int velocityIdx;
     double velocity;
+    kB = 0.00831451 / constants::calorie_to_joule;  // kcal/(mol*K)
 
     _velocityPtr = new double[_ncoords];
     memset(_velocityPtr, '\0', sizeof(double)*_ncoords);
@@ -3436,7 +3440,7 @@ namespace OpenBabel
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity *= sqrt((gas_const * _temp)/ (1000 * a->GetAtomicMass()));
           _velocityPtr[velocityIdx] = velocity; // x10: gromacs uses nm instead of A
         }
 
@@ -3445,7 +3449,7 @@ namespace OpenBabel
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity *= sqrt((gas_const * _temp)/ (1000 * a->GetAtomicMass()));
           _velocityPtr[velocityIdx+1] = velocity; // idem
         }
 
@@ -3454,7 +3458,7 @@ namespace OpenBabel
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity *= sqrt((gas_const * _temp)/ (1000 * a->GetAtomicMass()));
           _velocityPtr[velocityIdx+2] = velocity; // idem
         }
       }
@@ -3470,7 +3474,7 @@ namespace OpenBabel
     double velocity, E_kin, E_kin2, factor;
 
     // E_kin = 0.5 * Ndf * R * T
-    E_kin = _ncoords * GAS_CONSTANT * _temp;
+    E_kin = _ncoords * gas_const * _temp;
     //cout << "E_{kin} = Ndf * R * T = " << E_kin << endl;
 
     // E_kin = 0.5 * sum( m_i * v_i^2 )

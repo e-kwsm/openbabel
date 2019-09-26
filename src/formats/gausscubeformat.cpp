@@ -26,6 +26,7 @@ GNU General Public License for more details.
 #include <cstdlib>
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -42,12 +43,9 @@ using namespace std;
 /// reference: https://www.gaussian.com/cubegen/
 /// <Num points along first axis> > 0 means that the values
 /// are already in Angstroms.
-static const double BOHR_TO_ANGSTROM = 0.529177249;
-static const double ANGSTROM_TO_BOHR = 1.0 / 0.529177249;
 
 namespace OpenBabel
 {
-
   class OBGaussianCubeFormat : public OpenBabel::OBMoleculeFormat
   {
   public:
@@ -213,7 +211,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       return false;
     }
     vector3 origin(x, y, z);
-    origin *= BOHR_TO_ANGSTROM;
+    origin *= constants::bohr_to_angstrom;
 
     // The next three lines contain the number of voxels in x, y and z along
     // with the three cube cell axes.
@@ -292,7 +290,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         return false;
       }
       axes[i] = vector3(x, y, z);
-      axes[i] *= BOHR_TO_ANGSTROM;
+      axes[i] *= constants::bohr_to_angstrom;
     }
 
     pmol->BeginModify();
@@ -374,9 +372,9 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         return false;
       }
       // Convert units...
-      x *= BOHR_TO_ANGSTROM;
-      y *= BOHR_TO_ANGSTROM;
-      z *= BOHR_TO_ANGSTROM;
+      x *= constants::bohr_to_angstrom;
+      y *= constants::bohr_to_angstrom;
+      z *= constants::bohr_to_angstrom;
       atom->SetVector(x, y, z);
     }
 
@@ -590,22 +588,22 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     // line 3: number of atoms, origin x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", - static_cast<signed int> (mol.NumAtoms()),
-        origin[0]*ANGSTROM_TO_BOHR, origin[1]*ANGSTROM_TO_BOHR, origin[2]*ANGSTROM_TO_BOHR);
+        origin[0] / constants::bohr_to_angstrom, origin[1] / constants::bohr_to_angstrom, origin[2] / constants::bohr_to_angstrom);
     ofs << buffer << endl;
 
     // line 4: number of points x direction, axis x direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", nx,
-        xAxis[0]*ANGSTROM_TO_BOHR, xAxis[1]*ANGSTROM_TO_BOHR, xAxis[2]*ANGSTROM_TO_BOHR);
+        xAxis[0] / constants::bohr_to_angstrom, xAxis[1] / constants::bohr_to_angstrom, xAxis[2] / constants::bohr_to_angstrom);
     ofs << buffer << endl;
 
     // line 5: number of points y direction, axis y direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", ny,
-        yAxis[0]*ANGSTROM_TO_BOHR, yAxis[1]*ANGSTROM_TO_BOHR, yAxis[2]*ANGSTROM_TO_BOHR);
+        yAxis[0] / constants::bohr_to_angstrom, yAxis[1] / constants::bohr_to_angstrom, yAxis[2] / constants::bohr_to_angstrom);
     ofs << buffer << endl;
 
     // line 6: number of points z direction, axis z direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", nz,
-        zAxis[0]*ANGSTROM_TO_BOHR, zAxis[1]*ANGSTROM_TO_BOHR, zAxis[2]*ANGSTROM_TO_BOHR);
+        zAxis[0] / constants::bohr_to_angstrom, zAxis[1] / constants::bohr_to_angstrom, zAxis[2] / constants::bohr_to_angstrom);
     ofs << buffer << endl;
 
     // Atom lines: atomic number, ?, X, Y, Z
@@ -613,7 +611,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       double *coordPtr = atom->GetCoordinate();
       snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f%12.6f", atom->GetAtomicNum(),
           static_cast<double>(atom->GetAtomicNum()),
-          coordPtr[0]*ANGSTROM_TO_BOHR, coordPtr[1]*ANGSTROM_TO_BOHR, coordPtr[2]*ANGSTROM_TO_BOHR);
+          coordPtr[0] / constants::bohr_to_angstrom, coordPtr[1] / constants::bohr_to_angstrom, coordPtr[2] / constants::bohr_to_angstrom);
       ofs << buffer << endl;
     }
 

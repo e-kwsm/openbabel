@@ -20,6 +20,7 @@ GNU General Public License for more details.
 // No diagnoalization yet. Perhaps for 2.2 -GRH
 // #include <eigen/matrix.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/obmolecformat.h>
@@ -31,11 +32,6 @@ GNU General Public License for more details.
 #include <openbabel/generic.h>
 
 #include <openbabel/math/matrix3x3.h>
-
-#define BOHR2ANGSTROM 0.5291772083
-#define HARTREE2INVCM 219474.631371
-#define AMU2AU 1822.88848
-#define REDDIPSTR2INT 974.864
 
 using namespace std;
 
@@ -921,9 +917,9 @@ namespace OpenBabel
         atom = pmol->NewAtom();
 
         atom->SetAtomicNum(atomnos[a]);
-        atom->SetVector(coords[0 + 3 * a] * BOHR2ANGSTROM,
-                        coords[1 + 3 * a] * BOHR2ANGSTROM,
-                        coords[2 + 3 * a] * BOHR2ANGSTROM);
+        atom->SetVector(coords[0 + 3 * a] * constants::bohr_to_angstrom,
+                        coords[1 + 3 * a] * constants::bohr_to_angstrom,
+                        coords[2 + 3 * a] * constants::bohr_to_angstrom);
       }
 
     /* unless suppressed */

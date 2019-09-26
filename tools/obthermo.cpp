@@ -23,6 +23,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/data_utilities.h>
@@ -91,7 +92,7 @@ int main(int argc,char **argv)
       }
       else if (option == "--kj") {
         bKJ          = true;
-        unit_factor  = 4.184;
+        unit_factor  = constants::calorie_to_joule;
         e_unit.assign("kJ/mol");
         s_unit.assign("J/mol K");
         i += 1;
@@ -151,7 +152,7 @@ int main(int argc,char **argv)
                                   Scomponents,
                                   &ZPVE))
       {
-          double Rgas  = 1.9872041; // cal/mol K
+          const double Rgas = constants::molar_gas_constant / constants::calorie_to_joule; // cal/mol K
           printf("DeltaHform(0K)  %10g  %s\n", DeltaHf0*unit_factor, e_unit.c_str());
           printf("Temperature     %10g  K\n", temperature);
           printf("DeltaHform(T)   %10g  %s\n", DeltaHfT*unit_factor, e_unit.c_str());

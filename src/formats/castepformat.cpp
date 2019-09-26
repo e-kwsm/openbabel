@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -23,7 +24,6 @@ GNU General Public License for more details.
 
 #include <cstdlib>
 
-#define EV_TO_KCAL_PER_MOL 23.060538
 #define GPA_A3_TO_KCAL_PER_MOL 0.14383639
 
 using namespace std;
@@ -162,7 +162,7 @@ namespace OpenBabel {
       if (strstr(buffer, "Final Enthalpy")) {
         hasEnthalpyData = true;
         tokenize(vs, buffer);
-        enthalpy = atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL;
+        enthalpy = atof(vs[4].c_str()) * constants::electronvolt_to_kcal_per_mol;
       }
 
       // volume
@@ -195,8 +195,8 @@ namespace OpenBabel {
         pv = volume * pressure * GPA_A3_TO_KCAL_PER_MOL;
         energy = enthalpy - pv;
 
-        pv_ev = pv / EV_TO_KCAL_PER_MOL;
-        enthalpy_ev = enthalpy / EV_TO_KCAL_PER_MOL;
+        pv_ev = pv / constants::electronvolt_to_kcal_per_mol;
+        enthalpy_ev = enthalpy / constants::electronvolt_to_kcal_per_mol;
 
         OBPairData *opd_enthalpy = new OBPairData();
         OBPairData *opd_enthalpy_pv = new OBPairData();

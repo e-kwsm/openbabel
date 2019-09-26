@@ -13,7 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -27,13 +27,13 @@ GNU General Public License for more details.
 #include <cmath>
 // Required for TS detection in ZTS calculation
 #include <algorithm>
-#define HARTREE_TO_KCAL 627.509469
-#define AU_TO_ANGSTROM 0.529177249
-#define EV_TO_NM(x) 1239.84193/x
 
 using namespace std;
 namespace OpenBabel
 {
+  double eV_to_nm(double x) {
+    return constants::planck_constant * constants::speed_of_light / constants::elementary_charge / x * 1.0e9;
+  }
 
   class NWChemOutputFormat : public OBMoleculeFormat
   {
@@ -353,7 +353,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             //   0     1    2    3                  4        5                    6    7
             if (vs.size() < 8)
                 break;
-            wavelengths.push_back(EV_TO_NM(atof(vs[6].c_str())));
+            wavelengths.push_back(eV_to_nm(atof(vs[6].c_str())));
         }
         else if (strstr(buffer, OSCILATOR_STRENGTH_PATTERN) != nullptr)
         {
@@ -480,7 +480,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             if (vs.size() < 5)
                 break; // Orbital data is broken
 
-            double energy = atof(vs[4].c_str()) * HARTREE_TO_KCAL;
+            double energy = atof(vs[4].c_str()) * constants::hartree_to_kcal_per_mol;
             double occupation = atof(vs[2].c_str()+4); // Start from symbol after '='
             string symbol;
             if (vs.size() > 5)
@@ -557,7 +557,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     tokenize(vs, buffer);
                     molecule->SetConformer(molecule->NumConformers() - 1);
                     if (vs.size() > 2) // @ NStep   Energy...
-                        energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
+                        energies.push_back(atof(vs[2].c_str()) * constants::hartree_to_kcal_per_mol);
                 }
                 else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
                     ReadMultipoleMoment(ifs, molecule);
@@ -613,7 +613,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             tokenize(vs, buffer);
             molecule->SetConformer(molecule->NumConformers() - 1);
             if (vs.size() > 2) // @ NStep   Energy...
-                energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
+                energies.push_back(atof(vs[2].c_str()) * constants::hartree_to_kcal_per_mol);
         }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
             ReadMultipoleMoment(ifs, molecule);
@@ -756,7 +756,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         if (strstr(buffer, DFT_ENERGY_PATTERN) != nullptr || strstr(buffer, SCF_ENERGY_PATTERN) != nullptr)
         {
             tokenize(vs, buffer);
-            energy = atof(vs[4].c_str()) * HARTREE_TO_KCAL;
+            energy = atof(vs[4].c_str()) * constants::hartree_to_kcal_per_mol;
         }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
             ReadOrbitals(ifs, molecule);
@@ -844,9 +844,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     cerr << "Current bead out of range: " << current_bead << " of " << nbeads << endl;
                     break;
                 }
-                beads[current_bead][i*3] = atof(vs[2].c_str())*AU_TO_ANGSTROM;
-                beads[current_bead][1+i*3] = atof(vs[3].c_str())*AU_TO_ANGSTROM;
-                beads[current_bead][2+i*3] = atof(vs[4].c_str())*AU_TO_ANGSTROM;
+                beads[current_bead][i*3] = atof(vs[2].c_str()) * constants::bohr_to_angstrom;
+                beads[current_bead][1+i*3] = atof(vs[3].c_str()) * constants::bohr_to_angstrom;
+                beads[current_bead][2+i*3] = atof(vs[4].c_str()) * constants::bohr_to_angstrom;
             }
         }
         else if (strstr(buffer, NEB_NBEADS_PATTERN) != nullptr)
@@ -927,7 +927,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             while (vsize > 7)
             {
                 unsigned int bead_number = atoi(vs[vsize-5].c_str());
-                double bead_energy = atof(vs[vsize-1].c_str()) * HARTREE_TO_KCAL;
+                double bead_energy = atof(vs[vsize-1].c_str()) * constants::hartree_to_kcal_per_mol;
                 ifs->getline(buffer, BUFF_SIZE); // natoms
                 if (atoi(buffer) != natoms)
                     break; // table contains geometry of different molecule

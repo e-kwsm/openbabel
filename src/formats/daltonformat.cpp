@@ -12,6 +12,7 @@
  ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -29,8 +30,6 @@ namespace Dalton
 
 namespace OpenBabel
 {
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
   class DALTONOutputFormat : public OBMoleculeFormat
   {
   public:
@@ -204,7 +203,7 @@ namespace OpenBabel
 
       // if input is in bohr, convert to angstrom
       if (strstr(buffer, "Angstrom") == nullptr)
-        factor = BOHR_TO_ANGSTROM;
+        factor = constants::bohr_to_angstrom;
 
       while(atomtypes >= 0 && ifs.getline(buffer, BUFF_SIZE))
       {
@@ -283,7 +282,7 @@ namespace OpenBabel
     }
 
     if (writeatomicunit)
-      factor *= ANGSTROM_TO_BOHR;
+      factor /= constants::bohr_to_angstrom;
 
     // containers for atomtypes and charges
     std::vector<int> groupcounts;
@@ -390,9 +389,9 @@ namespace OpenBabel
           {
             atom = mol.NewAtom();
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
-            x = atof((char*)vs[4].c_str()) * BOHR_TO_ANGSTROM;
-            y = atof((char*)vs[7].c_str()) * BOHR_TO_ANGSTROM;
-            z = atof((char*)vs[10].c_str()) * BOHR_TO_ANGSTROM;
+            x = atof((char*)vs[4].c_str()) * constants::bohr_to_angstrom;
+            y = atof((char*)vs[7].c_str()) * constants::bohr_to_angstrom;
+            z = atof((char*)vs[10].c_str()) * constants::bohr_to_angstrom;
             atom->SetVector(x,y,z);
           }
         }

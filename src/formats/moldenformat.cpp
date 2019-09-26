@@ -32,6 +32,7 @@
 #include <cstdlib>
 // reference: http://www.cmbi.ru.nl/molden/molden_format.html
 
+#include <openbabel/constants.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -39,10 +40,6 @@
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
 #include <openbabel/obiter.h>
-
-
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
 
 using namespace std;
 
@@ -133,7 +130,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             lineBuffer.find( "[ATOMS]" ) != string::npos ) {
           unsigned int ecpLines = 0;
           double factor = 1.; // Angstrom
-          if( lineBuffer.find( "AU" ) != string::npos ) factor = BOHR_TO_ANGSTROM; // Bohr
+          if( lineBuffer.find( "AU" ) != string::npos ) factor = constants::bohr_to_angstrom; // Bohr
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
@@ -274,9 +271,9 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                 atom->SetAtomicNum( OBElements::GetAtomicNum(atomName.c_str()));
                 // Vibrational equilibrium geometry is mandated to be
                 // in Bohr.
-                atom->SetVector( x * BOHR_TO_ANGSTROM,
-                                 y * BOHR_TO_ANGSTROM,
-                                 z * BOHR_TO_ANGSTROM);
+                atom->SetVector( x * constants::bohr_to_angstrom,
+                                 y * constants::bohr_to_angstrom,
+                                 z * constants::bohr_to_angstrom);
              }
            }
          } // "[FR-COORD]"
@@ -403,9 +400,9 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         {
           snprintf(buffer, BUFF_SIZE, "%2s%13.6f%13.6f%13.6f\n",
                   OBElements::GetSymbol(atom->GetAtomicNum()),
-                  atom->GetX()*ANGSTROM_TO_BOHR,
-                  atom->GetY()*ANGSTROM_TO_BOHR,
-                  atom->GetZ()*ANGSTROM_TO_BOHR);
+                  atom->GetX() / constants::bohr_to_angstrom,
+                  atom->GetY() / constants::bohr_to_angstrom,
+                  atom->GetZ() / constants::bohr_to_angstrom);
           ofs << buffer;
         }
       ofs << "[FR-NORM-COORD]" << endl;
