@@ -11,6 +11,7 @@
   GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -34,9 +35,6 @@ using namespace std;
 
 namespace OpenBabel
 {
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
-
   class GAMESSUKFormat
   {
     /* Base class for GAMESS-UK readers with various utility functions that are used by
@@ -96,7 +94,7 @@ namespace OpenBabel
 
     vector<string> tokens; // list of lines and list of tokens on a line
     string line; // For convenience so we can refer to lines from the iterator as 'line'
-    double factor=BOHR_TO_ANGSTROM; // The coordinate conversion factor for handling bohr/angstrom issues
+    double factor = constants::bohr_to_angstrom; // The coordinate conversion factor for handling bohr/angstrom issues
 
     mol.BeginModify();
     // Clear out any existing information
@@ -232,7 +230,7 @@ namespace OpenBabel
       return 1.0;
     } else if (text.compare(0, 4, "bohr")==0||text.compare(0, 4, "a.u.")==0
                ||text.compare(0, 2, "au")==0) {
-      return BOHR_TO_ANGSTROM;
+      return constants::bohr_to_angstrom;
     } else {
       return -1.0;
     }
@@ -570,7 +568,7 @@ namespace OpenBabel
     vector<string> geomList, tokens; // list of lines and list of tokens on a line
     string line; // For convenience so we can refer to lines from the iterator as 'line'
     ReadMode_t ReadMode=SKIP;
-    double factor=BOHR_TO_ANGSTROM;
+    double factor = constants::bohr_to_angstrom;
 
     // Read File and copy geometry specification into geomList
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
@@ -832,11 +830,11 @@ namespace OpenBabel
           ok = from_string<int>(n, tokens.at(2), std::dec);
           atom->SetAtomicNum(n);
           ok = from_string<double>(x, tokens.at(3), std::dec);
-          x=x*BOHR_TO_ANGSTROM;
+          x = x * constants::bohr_to_angstrom;
           ok = from_string<double>(y, tokens.at(4), std::dec);
-          y=y*BOHR_TO_ANGSTROM;
+          y = y * constants::bohr_to_angstrom;
           ok = from_string<double>(z, tokens.at(5), std::dec);
-          z=z*BOHR_TO_ANGSTROM;
+          z = z * constants::bohr_to_angstrom;
           atom->SetVector(x, y, z);
         }
       }
@@ -882,11 +880,11 @@ namespace OpenBabel
         ok = from_string<int>(n, tokens.at(2), std::dec);
         atom->SetAtomicNum(n);
         ok = from_string<double>(x, tokens.at(3), std::dec);
-        x=x*BOHR_TO_ANGSTROM;
+        x = x * constants::bohr_to_angstrom;
         ok = from_string<double>(y, tokens.at(4), std::dec);
-        y=y*BOHR_TO_ANGSTROM;
+        y = y * constants::bohr_to_angstrom;
         ok = from_string<double>(z, tokens.at(5), std::dec);
-        z=z*BOHR_TO_ANGSTROM;
+        z = z * constants::bohr_to_angstrom;
         atom->SetVector(x, y, z);
 
       }
@@ -927,11 +925,11 @@ namespace OpenBabel
         ok = from_string<int>(n, tokens.at(3), std::dec);
         atom->SetAtomicNum(n);
         ok = from_string<double>(x, tokens.at(0), std::dec);
-        x=x*BOHR_TO_ANGSTROM;
+        x = x * constants::bohr_to_angstrom;
         ok = from_string<double>(y, tokens.at(1), std::dec);
-        y=y*BOHR_TO_ANGSTROM;
+        y = y * constants::bohr_to_angstrom;
         ok = from_string<double>(z, tokens.at(2), std::dec);
-        z=z*BOHR_TO_ANGSTROM;
+        z = z * constants::bohr_to_angstrom;
         atom->SetVector(x, y, z);
       }
 
@@ -1176,7 +1174,7 @@ namespace OpenBabel
       ifs.getline(buffer, BUFF_SIZE);
 
       // Process them
-      if (! ReadVariables(ifs, BOHR_TO_ANGSTROM,
+      if (! ReadVariables(ifs, bohr_to_angstrom,
       "===============================================")) return false;
 
       // Now go and process with the geometry we read before

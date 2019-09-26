@@ -32,6 +32,7 @@
 #include <sstream>
 #include <cstring>
 
+#include <openbabel/constants.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -45,13 +46,8 @@
 
 #include <openbabel/griddata.h>
 
-#define EV_TO_KCAL_PER_MOL 23.060538
-
 using namespace std;
 using namespace OpenBabel;
-
-
-static const double BOHR_TO_ANGSTROM = 0.529177249;
 
 namespace OpenBabel {
 
@@ -223,7 +219,7 @@ namespace OpenBabel {
               }
               else break;
             }
-            mol.SetEnergy(energy * EV_TO_KCAL_PER_MOL);
+            mol.SetEnergy(energy * constants::electronvolt_to_kcal_per_mol);
           }
 
       } // end while
@@ -419,7 +415,7 @@ namespace OpenBabel {
       if (strstr(buffer, "length Bohr") || strstr(buffer, "length BOHR") ||
           strstr(buffer, "length bohr")) {
         // We have units of Bohr!
-        lengthConversion = BOHR_TO_ANGSTROM;
+        lengthConversion = constants::bohr_to_angstrom;
       }
       else if (strstr(buffer,
                       "G E O M E T R Y    I N    X - Y - Z    F O R M A T")) {
@@ -454,9 +450,9 @@ namespace OpenBabel {
             break;
 
           // These are in Bohrs
-          double x = atof(vs[1].c_str()) * BOHR_TO_ANGSTROM;
-          double y = atof(vs[2].c_str()) * BOHR_TO_ANGSTROM;
-          double z = atof(vs[3].c_str()) * BOHR_TO_ANGSTROM;
+          double x = atof(vs[1].c_str()) * constants::bohr_to_angstrom;
+          double y = atof(vs[2].c_str()) * constants::bohr_to_angstrom;
+          double z = atof(vs[3].c_str()) * constants::bohr_to_angstrom;
           vectors.push_back(vector3(x, y, z));
         }
 
@@ -564,7 +560,7 @@ namespace OpenBabel {
           double lengthConversion = 1.0;
           // Check the units
           if (strstr(buffer, "bohr"))
-            lengthConversion = BOHR_TO_ANGSTROM;
+            lengthConversion = constants::bohr_to_angstrom;
 
           while (ifs.getline(buffer, BUFF_SIZE)) {
             tokenize(vs, buffer);
@@ -587,7 +583,7 @@ namespace OpenBabel {
           double lengthConversion = 1.0;
           // Check the units
           if (strstr(buffer, "bohr"))
-            lengthConversion = BOHR_TO_ANGSTROM;
+            lengthConversion = constants::bohr_to_angstrom;
 
           std::vector<vector3> vectors;
           for (short i = 0; i < 3; ++i) {
@@ -624,7 +620,7 @@ namespace OpenBabel {
             if (vs.size() != 4)
               break;
 
-            mol.SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
+            mol.SetEnergy(atof(vs[3].c_str()) * constants::electronvolt_to_kcal_per_mol);
             break;
           }
         }
@@ -947,9 +943,9 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
       for (unsigned int i = 0; i != numAtoms; ++i)
       {
 
-          atoms[ i ].coord[ 0 ] *= BOHR_TO_ANGSTROM;
-          atoms[ i ].coord[ 1 ] *= BOHR_TO_ANGSTROM;
-          atoms[ i ].coord[ 2 ] *= BOHR_TO_ANGSTROM;
+          atoms[ i ].coord[ 0 ] *= constants::bohr_to_angstrom;
+          atoms[ i ].coord[ 1 ] *= constants::bohr_to_angstrom;
+          atoms[ i ].coord[ 2 ] *= constants::bohr_to_angstrom;
   //        atoms[ i ].coord[ 0 ] *= scale;
   //        atoms[ i ].coord[ 1 ] *= scale;
   //        atoms[ i ].coord[ 2 ] *= scale;
@@ -1000,9 +996,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     eol( is );
     is >> gd.startPoint[ 0 ] >> gd.startPoint[ 1 ] >> gd.startPoint[ 2 ];
 
-    gd.startPoint[ 0 ] *= BOHR_TO_ANGSTROM;
-    gd.startPoint[ 1 ] *= BOHR_TO_ANGSTROM;
-    gd.startPoint[ 2 ] *= BOHR_TO_ANGSTROM;
+    gd.startPoint[ 0 ] *= constants::bohr_to_angstrom;
+    gd.startPoint[ 1 ] *= constants::bohr_to_angstrom;
+    gd.startPoint[ 2 ] *= constants::bohr_to_angstrom;
 
     // nr of points x
     if( !NextTag( is, "Grid" ) ) return gd;
@@ -1037,9 +1033,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     eol( is );
     is >> gd.xAxis[ 0 ] >> gd.xAxis[ 1 ] >> gd.xAxis[ 2 ];
 
-    gd.xAxis[ 0 ] *= BOHR_TO_ANGSTROM;
-    gd.xAxis[ 1 ] *= BOHR_TO_ANGSTROM;
-    gd.xAxis[ 2 ] *= BOHR_TO_ANGSTROM;
+    gd.xAxis[ 0 ] *= constants::bohr_to_angstrom;
+    gd.xAxis[ 1 ] *= constants::bohr_to_angstrom;
+    gd.xAxis[ 2 ] *= constants::bohr_to_angstrom;
 
     //y-vector
     if( !NextTag( is, "Grid" ) ) return gd;
@@ -1048,9 +1044,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     eol( is );
     is >> gd.yAxis[ 0 ] >> gd.yAxis[ 1 ] >> gd.yAxis[ 2 ];
 
-    gd.yAxis[ 0 ] *= BOHR_TO_ANGSTROM;
-    gd.yAxis[ 1 ] *= BOHR_TO_ANGSTROM;
-    gd.yAxis[ 2 ] *= BOHR_TO_ANGSTROM;
+    gd.yAxis[ 0 ] *= constants::bohr_to_angstrom;
+    gd.yAxis[ 1 ] *= constants::bohr_to_angstrom;
+    gd.yAxis[ 2 ] *= constants::bohr_to_angstrom;
 
     //z-vector
     if( !NextTag( is, "Grid" ) ) return gd;
@@ -1059,9 +1055,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     eol( is );
     is >> gd.zAxis[ 0 ] >> gd.zAxis[ 1 ] >> gd.zAxis[ 2 ];
 
-    gd.zAxis[ 0 ] *= BOHR_TO_ANGSTROM;
-    gd.zAxis[ 1 ] *= BOHR_TO_ANGSTROM;
-    gd.zAxis[ 2 ] *= BOHR_TO_ANGSTROM;
+    gd.zAxis[ 0 ] *= constants::bohr_to_angstrom;
+    gd.zAxis[ 1 ] *= constants::bohr_to_angstrom;
+    gd.zAxis[ 2 ] *= constants::bohr_to_angstrom;
 
     //nr of symmetries
     if( !NextTag( is, "Grid" ) ) return gd;

@@ -18,6 +18,7 @@ GNU General Public License for more details.
 ************************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/locale.h>
 #include <openbabel/elements.h>
@@ -647,7 +648,7 @@ namespace OpenBabel {
 
     //this calculations only need to be done once for each pair,
     //we do them now and save them for later use
-    vdwcalc.kab = KCAL_TO_KJ * sqrt(vdwcalc.ka * vdwcalc.kb);
+    vdwcalc.kab = constants::calorie_to_joule * sqrt(vdwcalc.ka * vdwcalc.kb);
 
     // 1-4 scaling
     // This isn't mentioned in the UFF paper, but is common for other methods
@@ -961,7 +962,7 @@ namespace OpenBabel {
 
       // here we fold the 1/2 into the kij from equation 1a
       // Otherwise, this is equation 6 from the UFF paper.
-      bondcalc.kb = (0.5 * KCAL_TO_KJ * 664.12
+      bondcalc.kb = (0.5 * constants::calorie_to_joule * 664.12
                      * parameterA->_dpar[5] * parameterB->_dpar[5])
         / (bondcalc.r0 * bondcalc.r0 * bondcalc.r0);
 
@@ -1165,7 +1166,7 @@ namespace OpenBabel {
 
 			// Equation 13 from paper -- corrected by Towhee
 			// Note that 1/(rij * rjk) cancels with rij*rjk in eqn. 13
-			anglecalc.ka = (664.12 * KCAL_TO_KJ) * (anglecalc.zi * anglecalc.zk / (pow(rac, 5.0)));
+			anglecalc.ka = (664.12 * constants::calorie_to_joule) * (anglecalc.zi * anglecalc.zk / (pow(rac, 5.0)));
 			anglecalc.ka *= (3.0*rab*rbc*(1.0 - anglecalc.cosT0*anglecalc.cosT0) - rac*rac*anglecalc.cosT0);
       // Make sure to divide by n^2 to save CPU cycles
       switch (anglecalc.coord) {
@@ -1281,13 +1282,13 @@ namespace OpenBabel {
           phi0 = 90.0;
         }
 
-        torsioncalc.V = 0.5 * KCAL_TO_KJ * sqrt(vi * vj);
+        torsioncalc.V = 0.5 * constants::calorie_to_joule * sqrt(vi * vj);
 
       } else if (parameterB->_ipar[0] == 2 && parameterC->_ipar[0] == 2) {
         // two sp2 centers
         phi0 = 180.0;
         torsioncalc.n = 2;
-        torsioncalc.V = 0.5 * KCAL_TO_KJ * 5.0 *
+        torsioncalc.V = 0.5 * constants::calorie_to_joule * 5.0 *
           sqrt(parameterB->_dpar[7]*parameterC->_dpar[7]) *
           (1.0 + 4.18 * log(torsiontype));
       } else if ((parameterB->_ipar[0] == 2 && parameterC->_ipar[0] == 3)
@@ -1295,7 +1296,7 @@ namespace OpenBabel {
         // one sp3, one sp2
         phi0 = 0.0;
         torsioncalc.n = 6;
-        torsioncalc.V = 0.5 * KCAL_TO_KJ * 1.0;
+        torsioncalc.V = 0.5 * constants::calorie_to_joule * 1.0;
 
         // exception for group 6 sp3
         if (parameterC->_ipar[0] == 3) {
@@ -1372,7 +1373,7 @@ namespace OpenBabel {
         oopcalc.c0 = 1.0;
         oopcalc.c1 = -1.0;
         oopcalc.c2 = 0.0;
-        oopcalc.koop = 6.0 * KCAL_TO_KJ;
+        oopcalc.koop = 6.0 * constants::calorie_to_joule;
       }
       else if (EQn(b->GetType(), "P_3+3", 5) ||
                EQn(b->GetType(), "As3+3", 5) ||
@@ -1391,7 +1392,7 @@ namespace OpenBabel {
         oopcalc.c1 = -4.0 * cos(phi);
         oopcalc.c2 = 1.0;
         oopcalc.c0 = -1.0*oopcalc.c1 * cos(phi) + oopcalc.c2*cos(2.0*phi);
-        oopcalc.koop = 22.0 * KCAL_TO_KJ;
+        oopcalc.koop = 22.0 * constants::calorie_to_joule;
       }
       else if (!(EQn(b->GetType(), "C_2", 3) || EQn(b->GetType(), "C_R", 3)))
         continue; // inversion not defined for this atom type
@@ -1435,11 +1436,11 @@ namespace OpenBabel {
         oopcalc.c0 = 1.0;
         oopcalc.c1 = -1.0;
         oopcalc.c2 = 0.0;
-        oopcalc.koop = 6.0 * KCAL_TO_KJ;
+        oopcalc.koop = 6.0 * constants::calorie_to_joule;
         if (EQn(a->GetType(), "O_2", 3) ||
             EQn(c->GetType(), "O_2", 3) ||
             EQn(d->GetType(), "O_2", 3)) {
-          oopcalc.koop = 50.0 * KCAL_TO_KJ;
+          oopcalc.koop = 50.0 * constants::calorie_to_joule;
         }
       }
 
@@ -1575,7 +1576,7 @@ namespace OpenBabel {
 
       // Remember that at the moment, this term is not currently used
       // These are also the Gasteiger charges, not the Qeq mentioned in the UFF paper
-      elecalc.qq = KCAL_TO_KJ * 332.0637 * a->GetPartialCharge() * b->GetPartialCharge();
+      elecalc.qq = constants::calorie_to_joule * 332.0637 * a->GetPartialCharge() * b->GetPartialCharge();
 
       if (elecalc.qq) {
         elecalc.a = &*a;

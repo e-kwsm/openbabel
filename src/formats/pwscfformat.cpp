@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -22,14 +23,9 @@ GNU General Public License for more details.
 #include <openbabel/generic.h>
 #include <cstdlib>
 
-
-#define RYDBERG_TO_KCAL_PER_MOL 313.755026
-#define RYDBERG_TO_ELECTRON_VOLT 13.60569193
-#define BOHR_TO_ANGSTROM .529177
-#define EV_TO_KCAL_PER_MOL 23.060538
-
 using namespace std;
 namespace OpenBabel {
+  const double rydberg_to_kcal_per_mol = constants::hartree_to_kcal_per_mol / 2.0;
   class PWscfFormat : public OBMoleculeFormat
   {
   public:
@@ -123,10 +119,10 @@ namespace OpenBabel {
         tokenize(vs, buffer);
 
         if (strstr(vs[1].c_str(), "alat")) {
-          conv = alat * BOHR_TO_ANGSTROM;
+          conv = alat * constants::bohr_to_angstrom;
         }
         else if (strstr(vs[1].c_str(), "bohr")) {
-          conv = BOHR_TO_ANGSTROM;
+          conv = constants::bohr_to_angstrom;
         }
         // Add others if needed
 
@@ -161,7 +157,7 @@ namespace OpenBabel {
       // Unit cell info (for non-variable cell calcs)
       if (strstr(buffer, "crystal axes: (cart. coord. in units of a_0)") ||
           strstr(buffer, "crystal axes: (cart. coord. in units of alat)")) {
-        double conv = alat * BOHR_TO_ANGSTROM;
+        double conv = alat * constants::bohr_to_angstrom;
         double v11, v12, v13,
           v21, v22, v23,
           v31, v32, v33;
@@ -205,7 +201,7 @@ namespace OpenBabel {
         tokenize(vs, buffer);
 
         if (strstr(vs[1].c_str(), "alat")) {
-          conv *= (alat * BOHR_TO_ANGSTROM);
+          conv *= (alat * constants::bohr_to_angstrom);
         }
         else if (strstr(vs[1].c_str(), "crystal")) {
           // Set to the zero matrix and test below.
@@ -243,13 +239,13 @@ namespace OpenBabel {
       // Free energy
       if (strstr(buffer, "Final energy =")) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[3].c_str()) * RYDBERG_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(atof(vs[3].c_str()) * rydberg_to_kcal_per_mol);
       }
 
       // H - PV = U energy
       if (strstr(buffer, "!    total energy              =")) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[4].c_str()) * RYDBERG_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(atof(vs[4].c_str()) * rydberg_to_kcal_per_mol);
       }
 
       // Enthalphy
@@ -257,7 +253,7 @@ namespace OpenBabel {
         tokenize(vs, buffer);
 
         hasEnthalpy = true;
-        enthalpy = atof(vs.at(3).c_str()) * RYDBERG_TO_KCAL_PER_MOL;
+        enthalpy = atof(vs.at(3).c_str()) * rydberg_to_kcal_per_mol;
         pv = enthalpy - pmol->GetEnergy();
       }
     }
@@ -277,8 +273,8 @@ namespace OpenBabel {
       enthalpyPD_pv_eV->SetAttribute("Enthalpy PV term (eV)");
       double en_kcal_per_mole = enthalpy;
       double pv_kcal_per_mole = pv;
-      double en_eV = enthalpy / EV_TO_KCAL_PER_MOL;
-      double pv_eV = pv / EV_TO_KCAL_PER_MOL;
+      double en_eV = enthalpy / constants::electronvolt_to_kcal_per_mol;
+      double pv_eV = pv / constants::electronvolt_to_kcal_per_mol;
       snprintf(tag, BUFF_SIZE, "%f", en_kcal_per_mole);
       enthalpyPD->SetValue(tag);
       snprintf(tag, BUFF_SIZE, "%f", pv_kcal_per_mole);

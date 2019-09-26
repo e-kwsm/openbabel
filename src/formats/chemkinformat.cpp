@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include <iterator>
 #include <locale>
 
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
 #include <openbabel/elements.h>
@@ -306,8 +307,12 @@ bool ChemKinFormat::ReadHeader(istream& ifs, OBConversion* pConv)
     {
       //Units may be specified on this line
       string EKeywords[6] ={"CAL/MOLE","KCAL/MOLE","JOULES/MOLE","KJOULES/MOLE","KELVINS","EVOLTS"};
-      double EFactor[6]   ={   1.0    ,   0.001  ,    4.1816    ,   0.041816   ,   1.98  , 0.0};
-      double AvFactor = 6.023E23;
+      double EFactor[6] = {1.0,
+                           0.001,
+                           constants::carolie_to_joule,
+                           constants::carolie_to_joule * 1e-3,
+                           constants::molar_gas_constant / constants::carolie_to_joule,
+                           0.0};
 
       for (unsigned int i=1; i<toks.size(); ++i)
       {
@@ -315,7 +320,7 @@ bool ChemKinFormat::ReadHeader(istream& ifs, OBConversion* pConv)
           if(!strcasecmp(toks[i].c_str(), EKeywords[j].c_str()))
             EUnitsFactor = EFactor[j];
         if(!strcasecmp(toks[i].c_str(),"MOLECULES"))
-          AUnitsFactor = AvFactor;
+          AUnitsFactor = constants::avogadro_number;
       }
 
       //Need to check here whether thermo data has been input and if not

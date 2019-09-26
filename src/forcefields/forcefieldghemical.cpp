@@ -17,6 +17,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/mol.h>
 #include <openbabel/locale.h>
 
@@ -470,7 +471,7 @@ namespace OpenBabel
         if (parameter == nullptr) {
           parameter = GetParameterGhemical(bondtype, "FFFF", b->GetType(), nullptr, nullptr, _ffbondparams);
           if (parameter == nullptr) {
-            bondcalc.kb = KCAL_TO_KJ * 500.0;
+            bondcalc.kb = constants::calorie_to_joule * 500.0;
             bondcalc.r0 = 1.100;
             bondcalc.SetupPointers();
 
@@ -485,7 +486,7 @@ namespace OpenBabel
           }
         }
       }
-      bondcalc.kb = KCAL_TO_KJ * parameter->_dpar[1];
+      bondcalc.kb = constants::calorie_to_joule * parameter->_dpar[1];
       bondcalc.r0 = parameter->_dpar[0];
       bondcalc.SetupPointers();
 
@@ -535,7 +536,7 @@ namespace OpenBabel
           if (parameter == nullptr) {
             parameter = GetParameter("FFFF", b->GetType(), "FFFF", nullptr, _ffangleparams);
             if (parameter == nullptr) {
-              anglecalc.ka = KCAL_TO_KJ * 0.020;
+              anglecalc.ka = constants::calorie_to_joule * 0.020;
               anglecalc.theta0 = 120.0;
               anglecalc.SetupPointers();
 
@@ -551,7 +552,7 @@ namespace OpenBabel
           }
         }
       }
-      anglecalc.ka = KCAL_TO_KJ * parameter->_dpar[1];
+      anglecalc.ka = constants::calorie_to_joule * parameter->_dpar[1];
       anglecalc.theta0 = parameter->_dpar[0];
       anglecalc.SetupPointers();
 
@@ -632,7 +633,7 @@ namespace OpenBabel
           }
         }
       }
-      torsioncalc.V = KCAL_TO_KJ * parameter->_dpar[0];
+      torsioncalc.V = constants::calorie_to_joule * parameter->_dpar[0];
       torsioncalc.s = parameter->_dpar[1];
       torsioncalc.n = parameter->_dpar[2];
 
@@ -745,7 +746,7 @@ namespace OpenBabel
 
       //this calculations only need to be done once for each pair,
       //we do them now and save them for later use
-      vdwcalc.kab = KCAL_TO_KJ * sqrt(vdwcalc.ka * vdwcalc.kb);
+      vdwcalc.kab = constants::calorie_to_joule * sqrt(vdwcalc.ka * vdwcalc.kb);
 
       // 1-4 scaling
       if (a->IsOneFour(b))
@@ -815,7 +816,7 @@ namespace OpenBabel
           continue;
       }
 
-      elecalc.qq = KCAL_TO_KJ * 332.17 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
+      elecalc.qq = constants::calorie_to_joule * 332.17 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
 
       if (elecalc.qq) {
         elecalc.a = &*a;

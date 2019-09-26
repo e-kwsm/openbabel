@@ -13,6 +13,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -205,9 +206,9 @@ namespace OpenBabel
             lowerit(buffer);
 
             if (strstr(buffer, "bohr") != nullptr)
-              bohr_to_angstrom=0.529177249;
+              bohr_to_angstrom = constants::bohr_to_angstrom;
             else
-              bohr_to_angstrom=1.0;
+              bohr_to_angstrom = 1.0;
             input_style=0;
             if (strstr(buffer, "=tx90") != nullptr)
               input_style=1;

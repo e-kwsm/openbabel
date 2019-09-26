@@ -14,6 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <openbabel/constants.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -60,6 +61,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
   std::vector<double> Intensities;
   std::vector< std::vector<vector3> > Lx;
   mol.BeginModify();
+
   while (std::getline(ifs, line)) {
     std::vector<std::string> vs;
     if (line.find("atomic coordinates") != std::string::npos) {
@@ -71,7 +73,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
         vector3 coords(atof(vs[0].c_str()),
                        atof(vs[1].c_str()),
                        atof(vs[2].c_str()));
-        coords *= 0.529177249;  // Bohr to Angstrom
+        coords *= constants::bohr_to_angstrom;
         atom->SetVector(coords);
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
         atom->SetPartialCharge(atof(vs[5].c_str()));
