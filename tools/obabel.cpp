@@ -47,7 +47,7 @@ using namespace std;
 using namespace OpenBabel;
 
 void DoOption(const char* p, OBConversion& Conv, OBConversion::Option_type typ,
-          int& arg, int argc, char *argv[]);
+              int& arg, int argc, char *argv[]);
 void usage();
 void help();
 
@@ -76,223 +76,222 @@ int main(int argc,char *argv[])
   string::size_type pos;
 #ifdef _WIN32
   pos = pn.find(".exe");
-  if(pos!=string::npos)
+  if (pos != string::npos)
     argv[0][pos]='\0';
 #endif
   pos = pn.find_last_of("/\\");
-  if(pos==string::npos)
-    program_name=argv[0];
+  if (pos == string::npos)
+    program_name = argv[0];
   else
-    program_name=argv[0]+pos+1;
+    program_name = argv[0] + pos + 1;
 
   const char* p;
-  int arg;
-  for (arg = 1; arg < argc; ++arg)
-    {
-      if (argv[arg])
-        {
-          if (argv[arg][0] == '-')
+  for (int arg = 1; arg < argc; ++arg)
+  {
+    if (!argv[arg])
+      continue
+
+    if (argv[arg][0] == '-')
+      {
+        char opchar[2] = "?";
+        opchar[0] = argv[arg][1];
+        switch (opchar[0])
+          {
+
+          case 'V':
             {
-              char opchar[2]="?";
-              opchar[0]=argv[arg][1];
-              switch (opchar[0])
-                {
+              cout << "Open Babel " << BABEL_VERSION << " -- "
+                   << __DATE__ << " -- " << __TIME__ << endl;
+              exit(0);
+            }
 
-                case 'V':
+          case 'i':
+            //Parameter is the input format which overrides any file extensions
+            gotInType = true;
+            iext = argv[arg] + 2;
+            if(!*iext)
+              iext = argv[++arg]; //space left after -i: use next argument
+
+            if (iext && strncasecmp(iext, "MIME", 4) == 0)
+              {
+                // get the MIME type from the next argument
+                iext = argv[++arg];
+                pInFormat = Conv.FormatFromMIME(iext);
+              }
+            else
+                pInFormat = Conv.FindFormat(iext);
+            if(pInFormat==NULL)
+              {
+                cerr << program_name << ": cannot read input format!" << endl;
+                usage();
+                exit(1);
+              }
+            break;
+
+          case 'o':
+            //Parameter is the output format which overrides any file extension
+            gotOutType = true;
+            oext = argv[arg] + 2;
+            if(!*oext)
+              oext = argv[++arg]; //space left after -i: use next argument
+
+            if (oext && strncasecmp(oext, "MIME", 4) == 0)
+              {
+                // get the MIME type from the next argument
+                oext = argv[++arg];
+                pOutFormat = Conv.FormatFromMIME(oext);
+              }
+            else
+              pOutFormat = Conv.FindFormat(oext);
+
+            if(pOutFormat==NULL)
+              {
+                cerr << program_name << ": cannot write output format!" << endl;
+                usage();
+                exit(1);
+              }
+            break;
+
+          case 'O':
+            OutputFileName = argv[arg] + 2;
+            if(OutputFileName.size()<3)
+              OutputFileName = argv[++arg]; //space left after -O: use next argument
+            break;
+
+          case 'L': //display a list of plugin type or classes
+            {
+              const char* param=NULL;
+              if(argc>arg+1)
+                param = argv[arg+2];
+
+              // First assume first arg is a plugin type and
+              // param is a subtype, like babel -L ops gen3D
+              // or first arg is a plugin ID, like babel -L cml
+              OBPlugin* plugin;
+              if ((OBPlugin::GetPlugin("plugins", argv[arg+1]) &&
+                   (plugin = OBPlugin::GetPlugin(argv[arg+1], param))) ||
+                  (plugin = OBPlugin::GetPlugin(NULL, argv[arg+1])))
+              {
+                //Output details of subtype
+                string txt;
+                plugin->Display(txt, "verbose", argv[arg+1]);
+                cout << "One of the " << plugin->TypeID() << '\n' << txt << endl;
+                return 0;
+              }
+              //...otherwise assume it is a plugin type, like babel -L forcefields
+              //Output list of subtypes
+              OBPlugin::List(argv[arg+1], param);
+              return 0;
+            }
+
+          case '?':
+          case 'H':
+            if(isalnum(argv[arg][2]) || arg==argc-2)
+              {
+                if(strncasecmp(argv[arg]+2,"all",3))
                   {
-                    cout << "Open Babel " << BABEL_VERSION << " -- "
-                         << __DATE__ << " -- " << __TIME__ << endl;
-                    exit(0);
-                  }
-
-                case 'i':
-                  //Parameter is the input format which overrides any file extensions
-                  gotInType = true;
-                  iext = argv[arg] + 2;
-                  if(!*iext)
-                    iext = argv[++arg]; //space left after -i: use next argument
-
-                  if (iext && strncasecmp(iext, "MIME", 4) == 0)
-                    {
-                      // get the MIME type from the next argument
-                      iext = argv[++arg];
-                      pInFormat = Conv.FormatFromMIME(iext);
-                    }
-                  else
-                      pInFormat = Conv.FindFormat(iext);
-                  if (pInFormat == nullptr)
-                    {
-                      cerr << program_name << ": cannot read input format!" << endl;
-                      usage();
-                      exit(1);
-                    }
-                  break;
-
-                case 'o':
-                  //Parameter is the output format which overrides any file extension
-                  gotOutType = true;
-                  oext = argv[arg] + 2;
-                  if(!*oext)
-                    oext = argv[++arg]; //space left after -i: use next argument
-
-                  if (oext && strncasecmp(oext, "MIME", 4) == 0)
-                    {
-                      // get the MIME type from the next argument
-                      oext = argv[++arg];
-                      pOutFormat = Conv.FormatFromMIME(oext);
-                    }
-                  else
-                    pOutFormat = Conv.FindFormat(oext);
-
-                  if (pOutFormat == nullptr)
-                    {
-                      cerr << program_name << ": cannot write output format!" << endl;
-                      usage();
-                      exit(1);
-                    }
-                  break;
-
-                case 'O':
-                  OutputFileName = argv[arg] + 2;
-                  if(OutputFileName.empty())
-                    OutputFileName = argv[++arg]; //space left after -O: use next argument
-                  break;
-
-                case 'L': //display a list of plugin type or classes
-                  {
-                    const char* param = nullptr;
-                    if(argc>arg+1)
-                      param = argv[arg+2];
-
-                    // First assume first arg is a plugin type and
-                    // param is a subtype, like babel -L ops gen3D
-                    // or first arg is a plugin ID, like babel -L cml
-                    OBPlugin* plugin;
-                    if ((OBPlugin::GetPlugin("plugins", argv[arg+1]) &&
-                         (plugin = OBPlugin::GetPlugin(argv[arg+1], param))) ||
-                        (plugin = OBPlugin::GetPlugin(nullptr, argv[arg+1])))
-                    {
-                      //Output details of subtype
-                      string txt;
-                      plugin->Display(txt, "verbose", argv[arg+1]);
-                      cout << "One of the " << plugin->TypeID() << '\n' << txt << endl;
-                      return 0;
-                    }
-                    //...otherwise assume it is a plugin type, like babel -L forcefields
-                    //Output list of subtypes
-                    OBPlugin::List(argv[arg+1], param);
-                    return 0;
-                  }
-
-                case '?':
-                case 'H':
-                  if(isalnum(argv[arg][2]) || arg==argc-2)
-                    {
-                      if(strncasecmp(argv[arg]+2,"all",3))
-                        {
-                          OBFormat* pFormat
-                            = (arg==argc-2) ? Conv.FindFormat(argv[arg+1]) : Conv.FindFormat(argv[arg]+2);
-                          if(pFormat)
-                            {
-                              cout << argv[arg]+2 << "  " << pFormat->Description() << endl;
-                              if(pFormat->Flags() & NOTWRITABLE)
-                                cout << " This format is Read-only" << endl;
-                              if(pFormat->Flags() & NOTREADABLE)
-                                cout << " This format is Write-only" << endl;
-
-                              if(strlen(pFormat->SpecificationURL()))
-                                cout << "Specification at: " << pFormat->SpecificationURL() << endl;
-                            }
-                          else
-                            cout << "Format type: " << argv[arg]+2 << " was not recognized" <<endl;
-                        }
-                      else
-                        {
-                          OBPlugin::List("formats","verbose");
-                        }
-                    }
-                  else
-                    help();
-                  return 0;
-
-                case '-': //long option --name text
-                  {
-                    //Option's text is in the next and subsequent args, until one starts with -
-                    char* nam = argv[arg]+2;
-                    if(!strcasecmp(nam, "help")) //special case handled here
-                    {
-                      help();
-                      return 0;
-                    }
-                    if(*nam != '\0') //Do nothing if name is empty
+                    OBFormat* pFormat
+                      = (arg==argc-2) ? Conv.FindFormat(argv[arg+1]) : Conv.FindFormat(argv[arg]+2);
+                    if(pFormat)
                       {
-                        string txt;
-                        while(arg<argc-1 && *argv[arg+1]!='-')
-                          {
-                            //use text from subsequent args
-                            if(!txt.empty())txt += ' '; //..space separated if more than one
-                            txt += argv[++arg];
-                          }
+                        cout << argv[arg]+2 << "  " << pFormat->Description() << endl;
+                        if(pFormat->Flags() & NOTWRITABLE)
+                          cout << " This format is Read-only" << endl;
+                        if(pFormat->Flags() & NOTREADABLE)
+                          cout << " This format is Write-only" << endl;
 
-                        // If a API directive, e.g.---errorlevel
-                        // send to the pseudoformat "obapi" (without any leading -)
-                        if(*nam=='-')
-                          {
-                            OBConversion apiConv;
-                            OBFormat* pAPI= OBConversion::FindFormat("obapi");
-                            if(pAPI)
-                              {
-                                apiConv.SetOutFormat(pAPI);
-                                apiConv.AddOption(nam+1, OBConversion::GENOPTIONS, txt.c_str());
-                                apiConv.Write(nullptr, &std::cout);
-                              }
-                          }
-                        else
-                          // Is a normal long option name, e.g --addtotitle
-                          Conv.AddOption(nam,OBConversion::GENOPTIONS,txt.c_str());
+                        if(strlen(pFormat->SpecificationURL()))
+                          cout << "Specification at: " << pFormat->SpecificationURL() << endl;
                       }
+                    else
+                      cout << "Format type: " << argv[arg]+2 << " was not recognized" <<endl;
                   }
-                  break;
+                else
+                  {
+                    OBPlugin::List("formats","verbose");
+                  }
+              }
+            else
+              help();
+            return 0;
 
-                case 'm': //multiple output files
-                  SplitOrBatch=true;
-                  break;
+          case '-': //long option --name text
+            {
+              //Option's text is in the next and subsequent args, until one starts with -
+              char* nam = argv[arg]+2;
+              if(!strcasecmp(nam, "help")) //special case handled here
+              {
+                help();
+                return 0;
+              }
+              if(*nam != '\0') //Do nothing if name is empty
+                {
+                  string txt;
+                  while(arg<argc-1 && *argv[arg+1]!='-')
+                    {
+                      //use text from subsequent args
+                      if(!txt.empty())txt += ' '; //..space separated if more than one
+                      txt += argv[++arg];
+                    }
 
-                case 'a': //single character input option
-                  p = argv[arg]+2;
-                  DoOption(p,Conv,OBConversion::INOPTIONS,arg,argc,argv);
-                  break;
-
-                case 'x': //single character output option
-                  p = argv[arg]+2;
-                  DoOption(p,Conv,OBConversion::OUTOPTIONS,arg,argc,argv);
-                  break;
-
-                //Not essential, but allows these options to be before input filenames
-                //since we know they take one parameter, and are the most likely options to be misplaced
-                case 'f':
-                case 'l':
-                  p = argv[arg] + 2;
-                  if(!*p)
-                    p = argv[++arg]; //space left after -f: use next argument
-                  Conv.AddOption(opchar, OBConversion::GENOPTIONS, p);
-                  break;
-
-                case ':':
-                  //e.g. -:c1ccccc1. SMILES passed as a file name and handled in OBConversion
-                  FileList.push_back(argv[arg]);
-                  break;
-
-                default: //single character general option
-                  p = argv[arg]+1;
-                  DoOption(p,Conv,OBConversion::GENOPTIONS,arg,argc,argv);
-                  break;
+                  // If a API directive, e.g.---errorlevel
+                  // send to the pseudoformat "obapi" (without any leading -)
+                  if(*nam=='-')
+                    {
+                      OBConversion apiConv;
+                      OBFormat* pAPI= OBConversion::FindFormat("obapi");
+                      if(pAPI)
+                        {
+                          apiConv.SetOutFormat(pAPI);
+                          apiConv.AddOption(nam+1, OBConversion::GENOPTIONS, txt.c_str());
+                          apiConv.Write(NULL, &std::cout);
+                        }
+                    }
+                  else
+                    // Is a normal long option name, e.g --addtotitle
+                    Conv.AddOption(nam,OBConversion::GENOPTIONS,txt.c_str());
                 }
             }
-          else //filenames
-              FileList.push_back(argv[arg]);
-        }
-    }
+            break;
+
+          case 'm': //multiple output files
+            SplitOrBatch=true;
+            break;
+
+          case 'a': //single character input option
+            p = argv[arg]+2;
+            DoOption(p,Conv,OBConversion::INOPTIONS,arg,argc,argv);
+            break;
+
+          case 'x': //single character output option
+            p = argv[arg]+2;
+            DoOption(p,Conv,OBConversion::OUTOPTIONS,arg,argc,argv);
+            break;
+
+          //Not essential, but allows these options to be before input filenames
+          //since we know they take one parameter, and are the most likely options to be misplaced
+          case 'f':
+          case 'l':
+            p = argv[arg] + 2;
+            if(!*p)
+              p = argv[++arg]; //space left after -f: use next argument
+            Conv.AddOption(opchar, OBConversion::GENOPTIONS, p);
+            break;
+
+          case ':':
+            //e.g. -:c1ccccc1. SMILES passed as a file name and handled in OBConversion
+            FileList.push_back(argv[arg]);
+            break;
+
+          default: //single character general option
+            p = argv[arg]+1;
+            DoOption(p,Conv,OBConversion::GENOPTIONS,arg,argc,argv);
+            break;
+          }
+      }
+    else //filenames
+        FileList.push_back(argv[arg]);
+  }
 
 #if defined(_WIN32) && defined(USING_DYNAMIC_LIBS)
   //Expand wildcards in input filenames and add to FileList
@@ -392,7 +391,7 @@ int main(int argc,char *argv[])
 }
 
 void DoOption(const char* p, OBConversion& Conv,
-          OBConversion::Option_type typ, int& arg, int argc, char *argv[])
+	      OBConversion::Option_type typ, int& arg, int argc, char *argv[])
 {
   //Unlike babel, cannot have multiple concatenated single char options
   //accepts: -sCCC -s CCC -s"CCC" -s CCC red -sCCC red
@@ -470,8 +469,8 @@ void help()
   if(pAPI)
     cout << pAPI->Description();
 
-  cout << "To see a list of recognized file formats use\n  obabel -L formats [read] [write]\n"
-       << "To see details and specific options for a particular format, e.g CML, use\n  obabel -L cml\n"
+  cout << "To see a list of recognized file formats use\n  babel -L formats [read] [write]\n"
+       << "To see details and specific options for a particular format, e.g CML, use\n  babel -L cml\n"
        << endl;
   //cout << "The following file formats are recognized:" << endl;
   //OBPlugin::List("formats");
