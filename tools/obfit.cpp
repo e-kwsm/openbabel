@@ -48,7 +48,7 @@ using namespace OpenBabel;
 
 
 //find the center of mass of a list of atoms
-vector3 mass_c( vector<int> &aindex, OBMol &mol);
+vector3 mass_c(const vector<int> &aindex, OBMol &mol);
 
 ///////////////////////////////////////////////////////////////////////////////
 //! \brief superimpose a set of molecules on the atoms of a reference molecule
@@ -349,15 +349,12 @@ int main(int argc,char **argv)
 
 ///////////////////////////////////////////////////////////////////////////////
 //find the center of mass of a list of atoms
-vector3 mass_c( vector<int> &aindex, OBMol &mol)
+vector3 mass_c(const vector<int> &aindex, OBMol &mol)
 {
     vector3 center(0,0,0);
-    vector< int >::iterator j;
-    OBAtom *atom;
-
-    for(j= aindex.begin(); j != aindex.end(); ++j)
+    for (vector<int>::iterator j= aindex.begin(); j != aindex.end(); ++j)
     {
-        atom = mol.GetAtom(*j);
+        OBAtom *atom = mol.GetAtom(*j);
         center += atom->GetVector();
     }
 
