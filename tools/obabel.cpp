@@ -86,8 +86,7 @@ int main(int argc,char *argv[])
     program_name=argv[0]+pos+1;
 
   const char* p;
-  int arg;
-  for (arg = 1; arg < argc; ++arg)
+  for (int arg = 1; arg < argc; ++arg)
     {
       if (!argv[arg])
         continue;
