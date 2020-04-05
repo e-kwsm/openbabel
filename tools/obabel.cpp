@@ -89,10 +89,14 @@ int main(int argc,char *argv[])
   int arg;
   for (arg = 1; arg < argc; ++arg)
     {
-      if (argv[arg])
-        {
-          if (argv[arg][0] == '-')
+      if (!argv[arg])
+        continue;
+          if (argv[arg][0] != '-')
             {
+              FileList.push_back(argv[arg]);
+              continue;
+            }
+
               char opchar[2]="?";
               opchar[0]=argv[arg][1];
               switch (opchar[0])
@@ -288,10 +292,6 @@ int main(int argc,char *argv[])
                   DoOption(p,Conv,OBConversion::GENOPTIONS,arg,argc,argv);
                   break;
                 }
-            }
-          else //filenames
-              FileList.push_back(argv[arg]);
-        }
     }
 
 #if defined(_WIN32) && defined(USING_DYNAMIC_LIBS)
@@ -308,15 +308,12 @@ int main(int argc,char *argv[])
   }
 #endif
   
-  if (!gotInType)
+  if (!gotInType && FileList.empty())
     {
-      if(FileList.empty())
-        {
           cerr << "No input file or format spec or possibly a misplaced option.\n"
             "Most options must come after the input files. (-i -o -O -m can be anywhwere.)\n" <<endl;
           usage();
           exit(1);
-        }
     }
 
   if (!gotOutType)
