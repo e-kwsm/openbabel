@@ -56,7 +56,7 @@ static char *program_name;
 
 int main(int argc,char *argv[])
 {
-  OBConversion Conv(&cin, &cout); //default input and output are console 
+  OBConversion Conv{&cin, &cout}; //default input and output are console 
 
   OBFormat* pInFormat = nullptr;
   OBFormat* pOutFormat = nullptr;
@@ -72,7 +72,7 @@ int main(int argc,char *argv[])
   char *iext = nullptr;
 
   //Save name of program without its path (and .exe)
-  string pn(argv[0]);
+  string pn{argv[0]};
   string::size_type pos;
 #ifdef _WIN32
   pos = pn.find(".exe");
