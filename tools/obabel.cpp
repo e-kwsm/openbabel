@@ -307,7 +307,7 @@ int main(int argc,char *argv[])
 
 #if defined(_WIN32) && defined(USING_DYNAMIC_LIBS)
   //Expand wildcards in input filenames and add to FileList
-  vector<string> tempFileList(FileList);
+  vector<string> tempFileList{FileList};
   FileList.clear();
   vector<string>::iterator itr;
   for(itr=tempFileList.begin();itr!=tempFileList.end();++itr)
