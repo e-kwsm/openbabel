@@ -69,7 +69,6 @@ int main(int argc,char *argv[])
   bool SplitOrBatch=false;
 
   char *oext = nullptr;
-  char *iext = nullptr;
 
   //Save name of program without its path (and .exe)
   string pn{argv[0]};
@@ -109,6 +108,8 @@ int main(int argc,char *argv[])
                   }
 
                 case 'i':
+                  {
+                  char *iext = nullptr;
                   //Parameter is the input format which overrides any file extensions
                   gotInType = true;
                   iext = argv[arg] + 2;
@@ -132,6 +133,7 @@ int main(int argc,char *argv[])
                       exit(1);
                     }
                   break;
+                  }
 
                 case 'o':
                   //Parameter is the output format which overrides any file extension
