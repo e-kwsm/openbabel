@@ -153,7 +153,7 @@ namespace OpenBabel
     SetLength(atom2, length);
   }
 
-  bool OBBond::IsRotor(bool includeRingBonds)
+  bool OBBond::IsRotor(bool includeRingBonds) const
   {
     // This could be one hellish conditional, but let's break it down
     // .. the bond is a single bond
@@ -189,7 +189,7 @@ namespace OpenBabel
     return mol->IsPeriodic();
   }
 
-   bool OBBond::IsAmide()
+   bool OBBond::IsAmide() const
    {
       OBAtom *c,*n;
       c = n = nullptr;
@@ -221,7 +221,7 @@ namespace OpenBabel
       return(false);
    }
 
-   bool OBBond::IsPrimaryAmide()
+   bool OBBond::IsPrimaryAmide() const
    {
       OBAtom *c,*n;
       c = n = nullptr;
@@ -255,7 +255,7 @@ namespace OpenBabel
       return(false);
    }
 
-   bool OBBond::IsSecondaryAmide()
+   bool OBBond::IsSecondaryAmide() const
    {
       OBAtom *c,*n;
       c = n = nullptr;
@@ -289,7 +289,7 @@ namespace OpenBabel
       return(false);
    }
 
-   bool OBBond::IsTertiaryAmide()
+   bool OBBond::IsTertiaryAmide() const
    {
       OBAtom *c,*n;
       c = n = nullptr;
@@ -420,7 +420,7 @@ namespace OpenBabel
   }
 */
 
-  bool OBBond::IsEster()
+  bool OBBond::IsEster() const
   {
     OBAtom *a1,*a2;
     a1 = a2 = nullptr;
@@ -451,7 +451,7 @@ namespace OpenBabel
     return(false);
   }
 
-  bool OBBond::IsCarbonyl()
+  bool OBBond::IsCarbonyl() const
   {
     if (GetBondOrder() != 2)
       return(false);
