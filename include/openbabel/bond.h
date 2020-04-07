@@ -188,7 +188,7 @@ namespace OpenBabel
       //! \return The index to the neighboring atom of @p ptr (i.e., the end if @p ptr is the start)
       /** \warning If @p ptr is not part of the bond, the beginning atom
           index will always be returned **/
-      unsigned int     GetNbrAtomIdx(OBAtom *ptr)
+      unsigned int     GetNbrAtomIdx(OBAtom *ptr) const
         {
           if (ptr!=_bgn)
             return (_bgn ? _bgn->GetIdx() : 0);
@@ -214,33 +214,33 @@ namespace OpenBabel
            rings with more than 3 atoms may be included. No other bond typing is attempted.
            For more detailed rotor detection, check the OBRotorList and
            OBRotorRules classes **/
-      bool IsRotor(bool includeRingBonds=false);
+      bool IsRotor(bool includeRingBonds=false) const;
       /** \return Is the bond an amide link (i.e., between a carbonyl C and a N)?
            No distinction is made between primary, secondary, and tertiary amides. **/
       bool IsPeriodic() const;
       //! \return Is the bond within a periodic unit cell?
-      bool IsAmide();
+      bool IsAmide() const;
       /** \return Is the bond a primary amide (i.e., between carbonyl C and a NH2)?
            In versions prior to 2.3, this function incorrectly identified secondary amides. **/
-      bool IsPrimaryAmide();
+      bool IsPrimaryAmide() const;
       /** \return Is the bond a secondary amide (i.e., between a carbonyl C and a NH1)?
            In versions prior to 2.3, this function incorrectly identified tertiary amides. **/
-      bool IsSecondaryAmide();
+      bool IsSecondaryAmide() const;
       //! \return Is the bond a teriary amide (i.e., between a carbonyl C and a NH0)?
       //!  \since version 2.3.
-      bool IsTertiaryAmide();
+      bool IsTertiaryAmide() const;
       //! \return Is the bond an ester link (i.e., between a carbonyl C and an O)?
-      bool IsEster();
+      bool IsEster() const;
       //! \return Is the bond a carbonyl C=O?
-      bool IsCarbonyl();
+      bool IsCarbonyl() const;
       //! \return Does this bond "close" a ring when walking the molecular graph?
       bool IsClosure();
       /** \return Whether this bond is a "wedge" in 2D representations
           (i.e., goes in a positive Z direction from the beginning to end atoms) **/
-      bool IsWedge() {    return(HasFlag(OB_WEDGE_BOND));    }
+      bool IsWedge() const {    return(HasFlag(OB_WEDGE_BOND));    }
       /** \return Whether this bond is a "hash" in 2D representations
           (i.e., goes in a negative Z direction from the beginning to end atoms) **/
-      bool IsHash()  {    return(HasFlag(OB_HASH_BOND));     }
+      bool IsHash() const  {    return(HasFlag(OB_HASH_BOND));     }
       /**
        * @return True if this bond is either a wedge or hash.
        * @note: This is a separate bond type
