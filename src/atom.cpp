@@ -1122,7 +1122,7 @@ namespace OpenBabel
     return( this->GetDistance(mol->GetAtom(b)) );
   }
 
-  double OBAtom::GetDistance(vector3 const *const v)
+  double OBAtom::GetDistance(vector3 const *const v) const
   {
     return(( this->GetVector() - *v ).length());
   }
