@@ -174,12 +174,13 @@ namespace OpenBabel
       //! \return The neighboring atom to @p ptr (i.e., the end if @p ptr is the start)
       /** \warning If @p ptr is not part of the bond, the beginning atom
           will always be returned **/
-      OBAtom *GetNbrAtom(OBAtom *ptr)
+      OBAtom *GetNbrAtom(OBAtom const *const ptr)
         {
           return((ptr != _bgn)? _bgn : _end);
         }
       //! \return The enclosing OBMol for this bond, or NULL if none is defined.
       OBMol  *GetParent()                 {return(_parent);}
+      OBMol const *const GetParent() const {return(_parent);}
       //! \return The expected "equilibrium" length based on the covalent radii and bond order
       /** Length is given in Angstroms **/
       double  GetEquibLength() const;
@@ -188,7 +189,7 @@ namespace OpenBabel
       //! \return The index to the neighboring atom of @p ptr (i.e., the end if @p ptr is the start)
       /** \warning If @p ptr is not part of the bond, the beginning atom
           index will always be returned **/
-      unsigned int     GetNbrAtomIdx(OBAtom *ptr) const
+      unsigned int     GetNbrAtomIdx(OBAtom const *const ptr) const
         {
           if (ptr!=_bgn)
             return (_bgn ? _bgn->GetIdx() : 0);
