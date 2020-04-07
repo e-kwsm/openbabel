@@ -253,6 +253,7 @@ namespace OpenBabel
       OBResidue *GetResidue();
       //! \return the molecule which contains this atom, or NULL if none exists
       OBMol     *GetParent()        {return((OBMol*)_parent);}
+      OBMol const *const GetParent() const { return ((OBMol *)_parent); }
       //! Create a vector for a new bond from this atom, with length given by the supplied parameter
       //! \return success or failure
       bool       GetNewBondVector(vector3 &v,double length);
@@ -384,7 +385,7 @@ namespace OpenBabel
       bool IsInRingSize(int) const;
       //! \return Is this atom an element in the 15th or 16th main groups
       //!  (i.e., N, O, P, S ...) ?
-      bool IsHeteroatom();
+      bool IsHeteroatom() const;
       //! \return Is this atom directly connected to the supplied OBAtom?
       bool IsConnected(OBAtom*);
       //! \return Is this atom related to the supplied OBAtom in
@@ -413,7 +414,7 @@ namespace OpenBabel
       //!  double bond to an oxygen atom
       bool IsAromaticNOxide();
       //! \return Is this atom chiral?
-      bool IsChiral();
+      bool IsChiral() const;
       //! \return Is the atom part of a periodic unit cell?
       bool IsPeriodic() const;
       //! \return Is this atom an axial atom in a ring
@@ -428,7 +429,7 @@ namespace OpenBabel
       bool IsHbondDonorH();
       //! \return Is this atom a metal?
       //! \since version 2.4
-      bool IsMetal();
+      bool IsMetal() const;
       //! \return Whether a neighboring atom (alpha) has an unsaturated bond
       //!   to a third atom (beta).
       //! \param includePandS Whether to include phosphorus and sulfur neighbors
