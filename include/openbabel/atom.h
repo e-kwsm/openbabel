@@ -287,14 +287,14 @@ namespace OpenBabel
       //! \return the distance to the atom defined by OBMol::GetAtom()
       double GetDistance(int index);
       //! \return the distance to the supplied OBAtom
-      double GetDistance(OBAtom*);
+      double GetDistance(OBAtom const *const);
       //! \return the distance to the coordinates of the supplied vector3
       //! \since version 2.4
-      double GetDistance(vector3* v);
+      double GetDistance(vector3 const *const v);
       //! \return the angle defined by this atom -> b (vertex) -> c
       double GetAngle(int b, int c);
       //! \return the angle defined by this atom -> b (vertex) -> c
-      double GetAngle(OBAtom *b, OBAtom *c);
+      double GetAngle(OBAtom const *const b, OBAtom const *const c);
 
       //! \name Addition of residue/bond info. for an atom
       //@{
