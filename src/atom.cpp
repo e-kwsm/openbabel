@@ -1103,7 +1103,7 @@ namespace OpenBabel
     return i != _vbond.end() ? ((OBBond*) *i)->GetNbrAtom(this) : nullptr;
   }
 
-  double OBAtom::GetDistance(OBAtom *b)
+  double OBAtom::GetDistance(OBAtom const *const b)
   {
     if (!IsPeriodic())
       {
@@ -1122,12 +1122,12 @@ namespace OpenBabel
     return( this->GetDistance(mol->GetAtom(b)) );
   }
 
-  double OBAtom::GetDistance(vector3 *v)
+  double OBAtom::GetDistance(vector3 const *const v)
   {
     return(( this->GetVector() - *v ).length());
   }
 
-  double OBAtom::GetAngle(OBAtom *b, OBAtom *c)
+  double OBAtom::GetAngle(OBAtom const *const b, OBAtom const *const c)
   {
     vector3 v1,v2;
 
@@ -1589,7 +1589,7 @@ namespace OpenBabel
     return(true);
   }
 
-  OBBond *OBAtom::GetBond(OBAtom *nbr)
+  OBBond *OBAtom::GetBond(OBAtom const *const nbr)
   {
     OBBond *bond;
     vector<OBBond *>::iterator i;
