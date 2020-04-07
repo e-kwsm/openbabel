@@ -259,7 +259,7 @@ namespace OpenBabel
       bool       GetNewBondVector(vector3 &v,double length);
       //! \return the OBBond object between this atom and that supplied,
       //! or NULL if the two atoms are not bonded
-      OBBond    *GetBond(OBAtom *);
+      OBBond    *GetBond(OBAtom const *const);
       //@}
 
       //! \name Iterator methods
@@ -290,7 +290,7 @@ namespace OpenBabel
       double GetDistance(OBAtom const *const);
       //! \return the distance to the coordinates of the supplied vector3
       //! \since version 2.4
-      double GetDistance(vector3 const *const v);
+      double GetDistance(vector3 const *const v) const;
       //! \return the angle defined by this atom -> b (vertex) -> c
       double GetAngle(int b, int c);
       //! \return the angle defined by this atom -> b (vertex) -> c
