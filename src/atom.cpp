@@ -752,7 +752,7 @@ namespace OpenBabel
     return(true);
   }
 
-  bool OBAtom::IsHeteroatom()
+  bool OBAtom::IsHeteroatom() const
   {
     switch(GetAtomicNum())
       {
@@ -796,7 +796,7 @@ namespace OpenBabel
   }
 
   //! @todo
-  bool OBAtom::IsChiral()
+  bool OBAtom::IsChiral() const
   {
     OBMol *mol = (OBMol*) GetParent();
     OBStereoFacade stereoFacade(mol);
@@ -1869,7 +1869,7 @@ namespace OpenBabel
     return(false);
   }
 
-  bool OBAtom::IsMetal()
+  bool OBAtom::IsMetal() const
   {
     const unsigned NMETALS = 78;
     const int metals[NMETALS] = {
