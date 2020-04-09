@@ -80,7 +80,7 @@ public:
   /// \return false indicating object should not be output, if any Do() returns false
   static bool DoOps(OBBase* pOb, OpMap* pOptions, OBConversion* pConv)
   {
-    for (auto itr = pOptions->begin(); itr!=pOptions->end(); ++itr)
+    for (auto itr = pOptions->cbegin(); itr != pOptions->cend(); ++itr)
     {
       OBOp* pOp = FindType(itr->first.c_str());
       if(pOp)
