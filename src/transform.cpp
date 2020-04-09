@@ -63,8 +63,6 @@ namespace OpenBabel
 
     bool ret=true;
 
-    map<string,string>::const_iterator itr, itr2;
-
     if(pOptions->find("b")!=pOptions->end())
       ConvertDativeBonds();
     if(pOptions->find("B")!=pOptions->end())
@@ -83,7 +81,7 @@ namespace OpenBabel
       ret = true;
     }
 
-    itr = pOptions->find("p");
+    auto itr = pOptions->find("p");
     if(itr!=pOptions->end()) {
       if(pOptions->find("h")!=pOptions->end()){
         stringstream errorMsg;
@@ -211,7 +209,7 @@ namespace OpenBabel
           //If exactmatch option set (probably in fastsearchformat) the
           //number of atoms in the pattern (passed as a string in the option text)
           //has to be the same as in the molecule.
-          itr2 = pOptions->find("exactmatch");
+          auto itr2 = pOptions->find("exactmatch");
           if(itr2!=pOptions->end() && (int)NumHvyAtoms()!=atoi(itr2->second.c_str()))
             fmatch=false;
           else
