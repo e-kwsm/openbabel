@@ -2041,7 +2041,7 @@ namespace OpenBabel
             if (!b->IsInRing())
               reconnect.push_back(&*b);
 
-      for (auto bi=reconnect.begin(); bi!=reconnect.end(); ++bi) {
+      for (auto bi = reconnect.begin(); bi != reconnect.end(); ++bi) {
         OBBond* b = *bi;
         int bo = b->GetBondOrder();
         int begin = b->GetBeginAtomIdx();
