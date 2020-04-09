@@ -105,9 +105,8 @@ namespace OpenBabel
     }
     map<string, int> AtomType;
     int AtomIndex=0;
-    map<string, double>::iterator itr;
     //Set AtomType integer
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    AtomIndex++;
 	    AtomType[itr->first] = AtomIndex;
@@ -140,10 +139,9 @@ namespace OpenBabel
 	    }
 	    BondType[BondString] = 0;
     }
-    map<string, int>::iterator intitr;
     int BondIndex=0;
     //Set the BondType integer
-    for(intitr=BondType.begin();intitr!=BondType.end();++intitr)
+    for (auto intitr = BondType.begin(); intitr != BondType.end(); ++intitr)
     {
 	    BondIndex++;
 	    BondType[intitr->first] = BondIndex;
@@ -350,7 +348,6 @@ namespace OpenBabel
 
     //Write atomic coordinates
     vector<OBMol>           mols;
-    vector<OBMol>::iterator molitr;
     mols=mol.Separate();
     int atomcount=0;
     int molcount=0;
@@ -359,7 +356,7 @@ namespace OpenBabel
     snprintf(buffer,BUFF_SIZE,"#%3s %4s %4s %10s %10s %10s %10s\n",
 		    "idx","mol","type","charge","x","y","z");
     //ofs << buffer;
-    for(molitr=mols.begin();molitr!=mols.end();++molitr)
+    for (auto molitr = mols.begin(); molitr != mols.end(); ++molitr)
     {
 	    molcount++;
 	    FOR_ATOMS_OF_MOL(atom,*molitr) 
