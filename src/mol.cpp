@@ -2568,7 +2568,7 @@ namespace OpenBabel
                    bond.GetFlags()))
       return false;
     //copy the bond's generic data
-    for(auto diter = bond.BeginData(); diter != bond.EndData(); ++diter)
+    for (auto diter = bond.BeginData(); diter != bond.EndData(); ++diter)
       GetBond(NumBonds()-1)->CloneData(*diter);
     return true;
   }
