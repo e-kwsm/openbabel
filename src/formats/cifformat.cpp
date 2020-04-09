@@ -333,7 +333,7 @@ namespace OpenBabel
         if(mvItem.find("_cell_length_a"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_b"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_c"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        for (auto loop = mvLoop.begin(); loop != mvLoop.end(); ++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) empty_iucrjournal_block=false;
             if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) empty_iucrjournal_block=false;
@@ -628,7 +628,7 @@ namespace OpenBabel
           found = true;
         }
       else {
-        for (auto loop = mvLoop.begin(); loop != mvLoop.end(); ++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             unsigned i, nb;
             auto pos=loop->second.find("_space_group_symop_operation_xyz");
@@ -735,7 +735,7 @@ namespace OpenBabel
 
   void CIFData::ExtractAtomicPositions()
   {
-    for (auto loop = mvLoop.begin(); loop != mvLoop.end(); ++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
       {
         if(mvAtom.size()>0) break;// only extract ONE list of atoms, preferably fractional coordinates
         auto posx = loop->second.find("_atom_site_fract_x");
@@ -1427,7 +1427,7 @@ namespace OpenBabel
 
           const unsigned int nbatoms=pos->second.mvAtom.size();
           pmol->ReserveAtoms(nbatoms);
-          for (auto posat = pos->second.mvAtom.begin(); posat != pos->second.mvAtom.end(); ++posat)
+          for (auto posat = pos->second.mvAtom.cbegin(); posat != pos->second.mvAtom.cend(); ++posat)
             {
               // Problem: posat->mSymbol is not guaranteed to actually be a symbol
               // see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
@@ -1506,7 +1506,7 @@ namespace OpenBabel
             pmol->ConnectTheDots();
           if (pConv->IsOption("B",OBConversion::INOPTIONS))
             {
-              for (auto posbond = pos->second.mvBond.begin(); posbond != pos->second.mvBond.end(); ++posbond)
+              for (auto posbond = pos->second.mvBond.cbegin(); posbond != pos->second.mvBond.cend(); ++posbond)
                 {// Add bonds present in the cif and not detected by ConnectTheDots()
                   auto posat1 = vLabelOBatom.find(posbond->mLabel1);
                   auto posat2 = vLabelOBatom.find(posbond->mLabel2);
