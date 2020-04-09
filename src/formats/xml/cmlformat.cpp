@@ -1504,7 +1504,7 @@ namespace OpenBabel
     std::map<unsigned int, OBTetrahedralStereo::Config >::const_iterator tetStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           // Always get the clockwise version (it's the default anyway) as this has
@@ -1790,7 +1790,7 @@ namespace OpenBabel
     std::map<unsigned int, OBCisTransStereo* >::const_iterator ctStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
           if(ct->GetConfig().specified) {
@@ -2151,9 +2151,8 @@ namespace OpenBabel
     static const xmlChar C_SCALAR[]       = "scalar";
     static const xmlChar C_TITLE[]        = "title";
 
-    vector<OBGenericData*>::iterator k;
     vector<OBGenericData*> vdata = mol.GetData();
-    for (k = vdata.begin();k != vdata.end();++k)
+    for (auto k = vdata.begin(); k != vdata.end(); ++k)
       {
         if  ((*k)->GetDataType() == OBGenericDataType::PairData
           && (*k)->GetOrigin()   != local //internal OBPairData is not written
