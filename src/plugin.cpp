@@ -118,7 +118,7 @@ OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
   }
 
   //When Type==NULL, search all types for matching ID and stop when found
-  for (auto itr=PluginMap().begin(); itr != PluginMap().end(); ++itr)
+  for (auto itr = PluginMap().begin(); itr != PluginMap().end(); ++itr)
   {
     OBPlugin* result = BaseFindType(itr->second->GetMap(), ID);
     if(result)
