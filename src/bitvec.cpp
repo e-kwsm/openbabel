@@ -380,7 +380,7 @@ namespace OpenBabel
   */
   void OBBitVec::Clear()
   {
-    for (auto wx = _set.cbegin(), wy = _set.cend(); wx != wy; ++wx)
+    for (auto wx = _set.begin(), wy = _set.end(); wx != wy; ++wx)
       * wx = 0;
   }
 
