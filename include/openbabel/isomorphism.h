@@ -181,7 +181,7 @@ namespace OpenBabel {
 
   inline bool MapsTo(const OBIsomorphismMapper::Mapping &map, unsigned int queryIndex, unsigned int &queriedIndex)
   {
-    for (auto i = map.begin(); i != map.end(); ++i)
+    for (auto i = map.cbegin(); i != map.cend(); ++i)
       if (i->first == queryIndex) {
         queriedIndex = i->second;
         return true;
