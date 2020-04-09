@@ -126,14 +126,13 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   OBUnitCell *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
   SpaceGroup spacegroup;
   const SpaceGroup* pSG;
-  map<string,string>::const_iterator itr;
 
   if(pOptions && pOptions->find("transformations") != pOptions->end())
   {
-    itr = pOptions->find("transformations");
+    auto itr = pOptions->find("transformations");
     vector<string> vec;
     tokenize(vec, itr->second.c_str());
-    for(vector<string>::iterator iter = vec.begin(); iter != vec.end(); ++ iter)
+    for (auto iter = vec.begin(); iter != vec.end(); ++ iter)
     {
       if (iter == vec.begin()) // Warn user about converting only once
         obErrorLog.ThrowError(__FUNCTION__, "Converting to P 1 cell using available symmetry transformations." , obWarning);
@@ -164,8 +163,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   FOR_ATOMS_OF_MOL(atom, *pmol)
       vatoms[&(*atom)]=std::vector<vector3>();
 
-  for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-      atom!=vatoms.end();++atom){
+  for (auto atom = vatoms.begin(); atom != vatoms.end(); ++atom) {
     vector3 orig = atom->first->GetVector();
     orig = pUC->CartesianToFractional(orig);// To fractional coordinates
 
@@ -182,20 +180,17 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
     // First, bring back all symmetrical molecules back in the UC
     for(unsigned int i=0;i<vatoms.begin()->second.size();++i){
       vector3 ccoord(0,0,0);//geometrical center
-      for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
+      for (auto atom = vatoms.begin(); atom != vatoms.end(); ++atom) {
         ccoord+=atom->second[i];
       }
       ccoord /=vatoms.size();
       ccoord=fuzzyWrapFractionalCoordinate(ccoord)-ccoord;
-      for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
+      for (auto atom = vatoms.begin(); atom != vatoms.end(); ++atom) {
         atom->second[i]+=ccoord;
       }
     }
     // Now add atoms that are not duplicates
-    for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
+    for (auto atom = vatoms.begin(); atom != vatoms.end(); ++atom) {
       for(unsigned int i=1;i<atom->second.size();++i){
         bool foundDuplicate = false;
         for(unsigned int j=0;j<i;++j){
@@ -229,8 +224,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   else{
     if(0!=strncasecmp(OptionText, "strict", 6))
       obErrorLog.ThrowError(__FUNCTION__, "fillUC: lacking \"strict\n or \"keepconnect\" option, using strict" , obWarning);
-    for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
+    for (auto atom = vatoms.begin(); atom != vatoms.end(); ++atom) {
       // Bring back within unit cell
       for(unsigned int i=0;i<atom->second.size();++i){
         atom->second[i]=fuzzyWrapFractionalCoordinate(atom->second[i]);
