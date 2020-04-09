@@ -103,7 +103,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
 #define NEU (sizeof(eu)/sizeof(eu[0]))
     int found = 0;
     std::vector<OpenBabel::OBGenericData*> obdata = mol.GetData();
-    for(std::vector<OpenBabel::OBGenericData*>::iterator j = obdata.begin(); (j<obdata.end()); ++j)
+    for (auto j = obdata.begin(); j < obdata.end(); ++j)
     {
         std::string term  = (*j)->GetAttribute();
         double value = atof((*j)->GetValue().c_str());
