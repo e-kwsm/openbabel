@@ -183,7 +183,6 @@ namespace OpenBabel
     }
 
     vector<OBMol> mols;
-    vector<OBMol>::iterator itr;
 
     //Extract reactants and split into individual molecules
     OBMol jreactants;
@@ -194,7 +193,7 @@ namespace OpenBabel
       return false;
     }
     mols = jreactants.Separate();
-    for(itr=mols.begin();itr!=mols.end();++itr)
+    for (auto itr = mols.begin(); itr != mols.end(); ++itr)
       pReact->AddReactant(obsharedptr<OBMol>(new OBMol(*itr)));
 
     pos2 = rsmiles.find('>', pos+1);
