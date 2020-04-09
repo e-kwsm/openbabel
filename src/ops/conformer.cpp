@@ -109,7 +109,6 @@ namespace OpenBabel
       return false;
     pmol->AddHydrogens(false, false);
 
-    OpMap::const_iterator iter;
     bool log = false;
     bool systematic = false;
     bool random = false;
@@ -118,7 +117,7 @@ namespace OpenBabel
     bool rings = false;
     int numConformers = 30;
 
-    iter = pmap->find("log");
+    auto iter = pmap->find("log");
     if(iter!=pmap->end())
       log=true;
 
