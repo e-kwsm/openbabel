@@ -250,8 +250,7 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
     ret = WriteSVG(pConv, _objects);
 
     //delete all the molecules
-    vector<OBBase*>::iterator iter;
-    for(iter=_objects.begin();iter!=_objects.end(); ++iter)
+    for (auto iter = _objects.begin(); iter != _objects.end(); ++iter)
       delete *iter;
     delete _ptext;//delete text, NULL or not
 
@@ -379,9 +378,8 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
     return false;
   }
 
-  vector<OBBase*>::iterator iter;
   int indx = 0;
-  for(iter=_objects.begin(); ret && iter!=_objects.end(); ++iter,++indx)
+  for (auto iter = _objects.begin(); ret && iter != _objects.end(); ++iter, ++indx)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(*iter);
 
