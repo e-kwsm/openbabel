@@ -637,7 +637,7 @@ namespace OpenBabel {
           // a lone pair, think of C[S@](=X)(=Y)Cl.
 
           // We have remembered where to insert the lone pair in the _chiralLonePair map
-          map<unsigned int, char>::iterator m_it = _chiralLonePair.find(atom->GetIdx());
+          auto m_it = _chiralLonePair.find(atom->GetIdx());
           if (CanHaveLonePair(atom->GetAtomicNum()) && m_it != _chiralLonePair.end()) {
             ts->refs[2] = ts->refs[1]; ts->refs[1] = ts->refs[0];
             if (m_it->second == 0) { // Insert in the 'from' position
@@ -666,8 +666,7 @@ namespace OpenBabel {
     // modify so they don't get lost.
     if(!_squarePlanarMap.empty()) {
       OBAtom* atom;
-      map<OBAtom*, OBSquarePlanarStereo::Config*>::iterator ChiralSearch;
-      for(ChiralSearch = _squarePlanarMap.begin(); ChiralSearch != _squarePlanarMap.end(); ++ChiralSearch) {
+      for (auto ChiralSearch = _squarePlanarMap.begin(); ChiralSearch != _squarePlanarMap.end(); ++ChiralSearch) {
         atom = ChiralSearch->first;
         OBSquarePlanarStereo::Config *sp = ChiralSearch->second;
         if (!sp)
@@ -692,8 +691,7 @@ namespace OpenBabel {
 
   bool OBSmilesParser::IsUp(OBBond *bond)
   {
-    map<OBBond*, char>::iterator UpDownSearch;
-    UpDownSearch = _upDownMap.find(bond);
+    auto UpDownSearch = _upDownMap.find(bond);
     if (UpDownSearch != _upDownMap.end())
       if (UpDownSearch->second == BondUpChar)
         return true;
@@ -702,8 +700,7 @@ namespace OpenBabel {
 
   bool OBSmilesParser::IsDown(OBBond *bond)
   {
-    map<OBBond*, char>::iterator UpDownSearch;
-    UpDownSearch = _upDownMap.find(bond);
+    auto UpDownSearch = _upDownMap.find(bond);
     if (UpDownSearch != _upDownMap.end())
       if (UpDownSearch->second == BondDownChar)
         return true;
@@ -818,7 +815,7 @@ namespace OpenBabel {
 
           bool found = true;
           bool stereo;
-          map<OBBond*, StereoRingBond>::iterator sb_it = _stereorbond.find(b);
+          auto sb_it = _stereorbond.find(b);
           if (sb_it == _stereorbond.end()) // Not a ring closure
             // True/False for "up/down if moved to before the double bond C"
             stereo = !(IsUp(b) ^ (b->GetNbrAtomIdx(dbl_bond_atoms[i]) < dbl_bond_atoms[i]->GetIdx())) ;
@@ -878,8 +875,7 @@ namespace OpenBabel {
 
   void OBSmilesParser::InsertTetrahedralRef(OBMol &mol, unsigned long id)
   {
-    map<OBAtom*, OBTetrahedralStereo::Config*>::iterator ChiralSearch;
-    ChiralSearch = _tetrahedralMap.find(mol.GetAtom(_prev));
+    auto ChiralSearch = _tetrahedralMap.find(mol.GetAtom(_prev));
     if (ChiralSearch != _tetrahedralMap.end() && ChiralSearch->second != nullptr)
     {
       int insertpos = NumConnections(ChiralSearch->first, id == OBStereo::ImplicitRef) - 2; // -1 indicates "from"
@@ -903,8 +899,7 @@ namespace OpenBabel {
 
   void OBSmilesParser::InsertSquarePlanarRef(OBMol &mol, unsigned long id)
   {
-    map<OBAtom*, OBSquarePlanarStereo::Config*>::iterator ChiralSearch;
-    ChiralSearch = _squarePlanarMap.find(mol.GetAtom(_prev));
+    auto ChiralSearch = _squarePlanarMap.find(mol.GetAtom(_prev));
     if (ChiralSearch != _squarePlanarMap.end() && ChiralSearch->second != nullptr)
     {
       int insertpos = NumConnections(ChiralSearch->first) - 1;
@@ -2577,7 +2572,6 @@ namespace OpenBabel {
 
     // If this bond is in two different obcistransstereos (e.g. a conjugated system)
     // choose the one where the dbl bond atom is *atom (i.e. the one which comes first)
-    std::vector<unsigned long>::iterator lookup;
 
     bool dbl_bond_first = false;
     if (atom->HasDoubleBond())
@@ -2622,7 +2616,7 @@ namespace OpenBabel {
       for (auto ChiralSearch = _unvisited_cistrans.begin(); ChiralSearch != _unvisited_cistrans.end(); ++ChiralSearch)
       {
         OBCisTransStereo::Config cfg = ChiralSearch->GetConfig(OBStereo::ShapeU);
-        lookup = std::find(cfg.refs.begin(), cfg.refs.end(), endatom);
+        auto lookup = std::find(cfg.refs.begin(), cfg.refs.end(), endatom);
         if (lookup != cfg.refs.end() && (cfg.begin == centeratom || cfg.end == centeratom))
         { // Atoms endatom and centeratom are in this OBCisTransStereo
 
@@ -3118,7 +3112,6 @@ namespace OpenBabel {
     vector<OBBond*>::iterator i;
     OBAtom *nbr, *atom;
     vector<OBAtom *> sort_nbrs;
-    vector<OBAtom *>::iterator ai;
     OBBond *bond;
     OBCanSmiNode *next;
     int idx;
@@ -3154,7 +3147,8 @@ namespace OpenBabel {
       unsigned int nbr_bond_order = nbr_bond->GetBondOrder();
       int new_needs_bsymbol = NeedsBondSymbol(nbr_bond);
 
-      for (ai = sort_nbrs.begin(); ai != sort_nbrs.end(); ++ai) {
+      auto ai = sort_nbrs.begin();
+      for (; ai != sort_nbrs.end(); ++ai) {
         bond = atom->GetBond(*ai);
         unsigned int bond_order = bond->GetBondOrder();
         int sorted_needs_bsymbol = NeedsBondSymbol(bond);
@@ -3189,7 +3183,7 @@ namespace OpenBabel {
       MyFindChildren(mol, children, _uatoms, _endatom);
 
       vector<OBAtom*> front, end;
-      for (vector<OBAtom *>::iterator it=sort_nbrs.begin(); it!=sort_nbrs.end(); ++it)
+      for (auto it = sort_nbrs.begin(); it != sort_nbrs.end(); ++it)
         if (std::find(children.begin(), children.end(), *it) == children.end() && *it != _endatom)
           front.push_back(*it);
         else
@@ -3199,7 +3193,7 @@ namespace OpenBabel {
     }
 
     // Build the next layer of nodes, in canonical order
-    for (ai = sort_nbrs.begin(); ai != sort_nbrs.end(); ++ai) {
+    for (auto ai = sort_nbrs.begin(); ai != sort_nbrs.end(); ++ai) {
       nbr = *ai;
       idx = nbr->GetIdx();
       if (_uatoms[idx])   // depth-first search may have used this atom since
@@ -3258,7 +3252,6 @@ namespace OpenBabel {
   {
     vector<OBBondClosureInfo> vp_closures;
     vector<OBBond*> vbonds;
-    vector<OBBond*>::iterator bi;
     vector<OBBond*>::iterator i;
     OBBond *bond1, *bond2;
     OBAtom *nbr1, *nbr2;
@@ -3283,7 +3276,8 @@ namespace OpenBabel {
       nbr1_canorder = canonical_order[nbr1->GetIdx()-1];
 
       // Insert into the bond-vector in canonical order (by neighbor atom order)
-      for (bi = vbonds.begin(); bi != vbonds.end(); ++bi) {
+      auto bi = vbonds.begin();
+      for (; bi != vbonds.end(); ++bi) {
         bond2 = *bi;
         nbr2 = bond2->GetNbrAtom(atom);
         nbr2_canorder = canonical_order[nbr2->GetIdx()-1];
@@ -3299,7 +3293,7 @@ namespace OpenBabel {
 
     // If we found new open bonds, assign a bond-closure digits to each one,
     // add it to _vopen, and add it to the return vector.
-    for (bi = vbonds.begin(); bi != vbonds.end(); ++bi) {
+    for (auto bi = vbonds.begin(); bi != vbonds.end(); ++bi) {
       bond1 = *bi;
       _ubonds.SetBitOn(bond1->GetIdx());
       int digit = GetUnusedIndex();
@@ -3314,17 +3308,16 @@ namespace OpenBabel {
     // add it to the return vector, and erase it from _vopen.
 
     if (!_vopen.empty()) {
-      vector<OBBondClosureInfo>::iterator j;
-      for (j = _vopen.begin(); j != _vopen.end(); ) {
+      for (auto j = _vopen.begin(); j != _vopen.end();) {
         if (j->toatom == atom) {
           OBBondClosureInfo bci = *j;
           _vopen.erase(j);                // take bond off "open" list
           bci.is_open = false;            // mark it "closed"
           vp_closures.push_back(bci);     // and add it to this atom's list
           j = _vopen.begin();             // reset iterator
-        }
-        else
+        } else {
           ++j;
+        }
       }
     }
 
@@ -3476,8 +3469,7 @@ namespace OpenBabel {
       // So we need to find the corresponding atoms and add them to the list.
       // (We got the canonical ring-closure list earlier.)
       if (!vclose_bonds.empty()) {
-        vector<OBBondClosureInfo>::iterator i;
-        for (i = vclose_bonds.begin();i != vclose_bonds.end();++i) {
+        for (auto i = vclose_bonds.begin(); i != vclose_bonds.end(); ++i) {
           OBBond *bond = i->bond;
           OBAtom *nbr = bond->GetNbrAtom(atom);
           chiral_neighbors.push_back(nbr);
@@ -3505,8 +3497,7 @@ namespace OpenBabel {
 
     // Write ring-closure digits
     if (!vclose_bonds.empty()) {
-      vector<OBBondClosureInfo>::iterator bci;
-      for (bci = vclose_bonds.begin(); bci != vclose_bonds.end(); ++bci) {
+      for (auto bci = vclose_bonds.begin(); bci != vclose_bonds.end(); ++bci) {
         if (!bci->is_open)
         { // Ring closure
           char bs[2] = { '\0', '\0' };
@@ -3727,10 +3718,10 @@ namespace OpenBabel {
 
     tmp = split_aux.at(2).substr(2);
     tokenize(s_components, tmp, ";");
-    for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
+    for (auto it = s_components.begin(); it != s_components.end(); ++it) {
       tokenize(s_atoms, *it, ",");
       vector<int> atoms;
-      for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
+      for (auto itb = s_atoms.begin(); itb != s_atoms.end(); ++itb)
         atoms.push_back(atoi(itb->c_str()));
       canonical_labels.push_back(atoms);
     }
@@ -3743,7 +3734,7 @@ namespace OpenBabel {
       tokenize(s_components, split_aux.at(0), ";");
       vector<vector<int> > new_canonical_labels;
       int total = 0;
-      for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
+      for (auto it = s_components.begin(); it != s_components.end(); ++it) {
         // e.g. "1,2,3;2m" means replace the first component by "1,2,3"
         //                       but keep the next two unchanged
         if (*(it->rbegin()) == 'm') {
@@ -3759,7 +3750,7 @@ namespace OpenBabel {
         else {
           tokenize(s_atoms, *it, ",");
           vector<int> atoms;
-          for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
+          for (auto itb = s_atoms.begin(); itb != s_atoms.end(); ++itb)
             atoms.push_back(atoi(itb->c_str()));
           new_canonical_labels.push_back(atoms);
           total++;
@@ -3769,7 +3760,7 @@ namespace OpenBabel {
     }
 
     // Flatten the canonical_labels
-    for(vector<vector<int> >::iterator it=canonical_labels.begin(); it!=canonical_labels.end(); ++it) {
+    for (auto it = canonical_labels.begin(); it!=canonical_labels.end(); ++it) {
       atom_order.insert(atom_order.end(), it->begin(), it->end());
     }
 
@@ -3850,7 +3841,7 @@ namespace OpenBabel {
       if (s_atom_order.size() != mol.NumHvyAtoms())
         ppo = nullptr;
       else {
-        for (vector<string>::const_iterator cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
+        for (auto cit = s_atom_order.cbegin(); cit != s_atom_order.cend(); ++cit)
           atom_order.push_back(atoi(cit->c_str()));
         atom_idx = atom_order.at(0);
         if (atom_idx >= 1 && atom_idx <= mol.NumAtoms())
@@ -3978,7 +3969,7 @@ namespace OpenBabel {
         if ((_pconv->IsOption("I") || universal_smiles)
              && root_atom && root_atom->GetFormalCharge()==-1  && root_atom->GetExplicitDegree() == 1
              && root_atom->HasSingleBond() && (root_atom->GetAtomicNum() == OBElements::Oxygen || root_atom->GetAtomicNum() == OBElements::Sulfur)) {
-          OBBondIterator bi = root_atom->BeginBonds();
+          auto bi = root_atom->BeginBonds();
           OBAtom* central = root_atom->BeginNbrAtom(bi);
           FOR_NBORS_OF_ATOM(nbr, central) {
             if (root_atom == &*nbr) continue;
@@ -4025,7 +4016,7 @@ namespace OpenBabel {
 
   void OBMol2Cansmi::GetOutputOrder(std::string &outorder)
   {
-    std::vector<int>::iterator it = _atmorder.begin();
+    auto it = _atmorder.begin();
     if (it != _atmorder.end()) {
       char tmp[15];
       snprintf(tmp, 15, "%d", *it);
@@ -4330,7 +4321,6 @@ namespace OpenBabel {
     ofs << buffer << endl;
 
     OBAtom *atom;
-    vector<int>::iterator i;
     // Retrieve the canonical order of the molecule
     std::string orderString;
     m2s.GetOutputOrder(orderString);
