@@ -745,17 +745,17 @@ namespace OpenBabel
     int m,id;
     OBAtom *nbr;
     vector<OBBond*>::iterator j;
-    vector<unsigned int>::iterator k;
-    vector<pair<OBAtom*,unsigned int> >::iterator i;
     sort(vp1.begin(),vp1.end(),OBComparePairFirst);
     vp2.clear();
-    for (i = vp1.begin();i != vp1.end();++i)
+    for (auto i = vp1.begin(); i != vp1.end(); ++i)
       {
         vector<unsigned int> vtmp;
         for (nbr = i->first->BeginNbrAtom(j);nbr;nbr = i->first->NextNbrAtom(j))
           vtmp.push_back(vp1[nbr->GetIdx()-1].second);
         sort(vtmp.begin(),vtmp.end(),OBCompareUnsigned);
-        for (id=i->second,m=100,k = vtmp.begin();k != vtmp.end();++k,m*=100)
+        id = i->second;
+        m = 100;
+        for (auto k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
           id += *k * m;
 
         vp2.push_back(pair<OBAtom*,unsigned int> (i->first,id));
