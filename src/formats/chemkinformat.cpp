@@ -277,8 +277,7 @@ bool ChemKinFormat::ReadHeader(istream& ifs, OBConversion* pConv)
     {
       SpeciesListed = true; //Means that molecules in reactions must have been specified in SPECIES
 
-      vector<string>::iterator itr;
-      itr=toks.begin();
+      auto itr = toks.begin();
       if(!doingspecies) ++itr; //ignore "SPECIES"
       doingspecies=true;
       for(;itr!=toks.end();++itr)
@@ -389,12 +388,11 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
 
   //Do reactants
   vector<string> toks;
-  vector<string>::iterator itr;
   string temp = ln.substr(0, eqpos);
   tokenize(toks, temp, "+");
   //(ln is cleared later)
 
-  for(itr=toks.begin();itr!=toks.end();++itr)
+  for (auto itr = toks.begin(); itr != toks.end(); ++itr)
   {
     Trim(*itr);
     if(itr==toks.begin())
@@ -666,7 +664,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
 ///////////////////////////////////////////////////////////////
 std::shared_ptr<OBMol> ChemKinFormat::CheckSpecies(string& name, string& ln, bool MustBeKnown)
 {
-  MolMap::iterator mapitr = IMols.find(name);
+  auto mapitr = IMols.find(name);
   if(mapitr==IMols.end())
   {
     //unknown species
@@ -715,7 +713,7 @@ bool ChemKinFormat::ReadThermo(OBConversion* pConv)
     OBMol thmol;
     while(pConv->Read(&thmol))
     {
-      MolMap::iterator mapitr = IMols.find(thmol.GetTitle());
+      auto mapitr = IMols.find(thmol.GetTitle());
       if(mapitr!=IMols.end())
       {
         std::shared_ptr<OBMol> psnewmol(OBMoleculeFormat::MakeCombinedMolecule(mapitr->second.get(),&thmol));
@@ -753,12 +751,11 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
   StdThermConv.SetInFormat(pThermFormat);
   StdThermConv.SetInStream(&stdthermo);
 
-  MolMap::iterator mapitr;
-  for(mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for (auto mapitr = IMols.begin(); mapitr != IMols.end(); ++mapitr)
   {
     //Look up each molecules's name in index, move the the returned seek position,
     //read the molecule and combine it with the one in Imols
-    OBMoleculeFormat::NameIndexType::iterator itr = index.find(mapitr->first);
+    auto itr = index.find(mapitr->first);
     if(itr!=index.end())
     {
       OBMol thmol;
@@ -783,8 +780,7 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
 //////////////////////////////////////////////////////////
 bool ChemKinFormat::CheckAllMolsHaveThermo()
 {
-  MolMap::iterator mapitr;
-  for(mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for (auto mapitr = IMols.begin(); mapitr != IMols.end(); ++mapitr)
   {
     if(!mapitr->second->GetData(ThermoData) && mapitr->first!="M")
       return false;
@@ -834,8 +830,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
 
   set<string> elements;
   vector<string> species;
-  MolSet::iterator itr;
-  for(itr= OMols.begin();itr!=OMols.end();++itr)
+  for (auto itr = OMols.begin(); itr != OMols.end(); ++itr)
   {
     const char* title = (*itr)->GetTitle();
     if(strcmp(title, "M"))
@@ -853,13 +848,12 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
     obErrorLog.ThrowError(__FUNCTION__, "No element data available", obWarning);
 
   ofs << "SPECIES\n";
-  vector<string>::iterator sitr;
   unsigned int maxlen=0;
-  for(sitr= species.begin();sitr!=species.end();++sitr)
+  for (auto sitr = species.begin(); sitr != species.end(); ++sitr)
     if(sitr->size()>maxlen) maxlen = sitr->size();
 
   unsigned int n=0;
-  for(sitr=species.begin();sitr!=species.end();++sitr, ++n)
+  for (auto sitr = species.begin(); sitr != species.end(); ++sitr, ++n)
   {
     if(maxlen>0 && n > 80 / maxlen)
     {
