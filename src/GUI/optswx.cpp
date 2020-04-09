@@ -87,15 +87,13 @@ DynOptionswx::~DynOptionswx()
 
 void DynOptionswx::Clear()
 {
-  OMapType::iterator itr;
-  for(itr=OptionMap.begin();itr!=OptionMap.end();++itr)
+  for (auto itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
   {
     sizer->Detach(itr->second);
     (itr->second)->Destroy();
   }
   OptionMap.clear();
-  std::vector<wxSizer*>::iterator itrs;
-  for(itrs=Sizers.begin();itrs!=Sizers.end();++itrs)
+  for (auto itrs = Sizers.begin(); itrs != Sizers.end(); ++itrs)
   {
     sizer->Detach(*itrs);
     delete *itrs;
@@ -331,8 +329,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
 {
   //Now sets options directly in OBConversion
   int count=0;
-  OMapType::iterator itr;
-  for (itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
+  for (auto itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
   {
     if(itr->first.empty()) continue; //just a caption or a line
 
@@ -371,7 +368,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     }
 
     //Get the contents of subsequent editboxes
-    OMapType::iterator itr2 = itr;
+    auto itr2 = itr;
     while(++itr2!= OptionMap.end())
     {
       if((itr2->first).empty() || itr2->first[0]!=_T(' ')) //subsequent editboxes have the name preceded by a space
