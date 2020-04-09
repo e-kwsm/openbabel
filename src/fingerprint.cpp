@@ -186,7 +186,7 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
 
-    for(auto itr = candidates.begin(); itr != candidates.end(); ++itr)
+    for (auto itr = candidates.begin(); itr != candidates.end(); ++itr)
       {
         SeekPositions.push_back(_index.seekdata[*itr]);
       }
