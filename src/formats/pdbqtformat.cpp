@@ -536,7 +536,7 @@ namespace OpenBabel
       {
         if (free_bonds.count(i))
         {
-          for (auto it= (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
+          for (auto it = (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
                                   {
             vector <int> atoms=(*tree.find(*it)).second.atoms;
             for (unsigned int j=0; j < atoms.size(); j++)
@@ -573,7 +573,7 @@ namespace OpenBabel
         if (!preserve_original_index) {ofs << (new_order.find(child_atom))-> second;}
         else {ofs << child_atom;}
         ofs << endl;
-        for (auto it= (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
+        for (auto it = (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
         {
           OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
         }
