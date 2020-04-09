@@ -437,7 +437,7 @@ namespace OpenBabel {
 
       sort(vtmp.begin(),vtmp.end(),CompareUnsigned);
       m = 100;
-      for (auto k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
+      for (auto k = vtmp.begin(); k != vtmp.end(); ++k, m *= 100)
         id += *k * m;
       vp2.push_back(pair<OBAtom*,unsigned int> (atom, id));
     }
