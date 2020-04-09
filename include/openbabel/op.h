@@ -54,8 +54,7 @@ public:
   static std::string OpOptions(OBBase* pOb)
   {
     std::string s;
-    OBPlugin::PluginIterator itr;
-    for(itr=OBPlugin::Begin("ops");itr!=OBPlugin::End("ops");++itr)
+    for (auto itr = OBPlugin::Begin("ops"); itr != OBPlugin::End("ops"); ++itr)
     {
       OBOp* pOp = dynamic_cast<OBOp*>(itr->second);
        //ignore ops with IDs that begin with '_' or have "not displayed in GUI" in their first line of description
@@ -81,8 +80,7 @@ public:
   /// \return false indicating object should not be output, if any Do() returns false
   static bool DoOps(OBBase* pOb, OpMap* pOptions, OBConversion* pConv)
   {
-    OpMap::const_iterator itr;
-    for(itr=pOptions->begin();itr!=pOptions->end();++itr)
+    for (auto itr = pOptions->cbegin(); itr != pOptions->cend(); ++itr)
     {
       OBOp* pOp = FindType(itr->first.c_str());
       if(pOp)

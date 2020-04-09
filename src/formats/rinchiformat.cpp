@@ -194,7 +194,7 @@ namespace OpenBabel
       ofs << (reactants_first ? products_string : reactants_string);
       if (!inchis[M_AGENTS].empty()) {
         ofs << "<>";
-        for (std::vector<std::string>::const_iterator vit = inchis[M_AGENTS].begin(); vit != inchis[M_AGENTS].end(); ++vit) {
+        for (auto vit = inchis[M_AGENTS].cbegin(); vit != inchis[M_AGENTS].cend(); ++vit) {
           if (vit != inchis[M_AGENTS].begin())
             ofs << '!';
           ofs << *vit;

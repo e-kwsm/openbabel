@@ -105,9 +105,8 @@ namespace OpenBabel
     }
     map<string, int> AtomType;
     int AtomIndex=0;
-    map<string, double>::iterator itr;
     //Set AtomType integer
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    AtomIndex++;
 	    AtomType[itr->first] = AtomIndex;
@@ -140,10 +139,9 @@ namespace OpenBabel
 	    }
 	    BondType[BondString] = 0;
     }
-    map<string, int>::iterator intitr;
     int BondIndex=0;
     //Set the BondType integer
-    for(intitr=BondType.begin();intitr!=BondType.end();++intitr)
+    for (auto intitr = BondType.begin(); intitr != BondType.end(); ++intitr)
     {
 	    BondIndex++;
 	    BondType[intitr->first] = BondIndex;
@@ -183,7 +181,7 @@ namespace OpenBabel
     }
     int AngleIndex=0;
     //Set the AtomType integer
-    for(intitr=AngleType.begin();intitr!=AngleType.end();++intitr)
+    for (auto intitr = AngleType.begin(); intitr != AngleType.end(); ++intitr)
     {
 	    AngleIndex++;
 	    AngleType[intitr->first] = AngleIndex;
@@ -225,7 +223,7 @@ namespace OpenBabel
     }
     int DihedralIndex=0;
     //Set DihedralType integer
-    for(intitr=DihedralType.begin();intitr!=DihedralType.end();++intitr)
+    for (auto intitr = DihedralType.begin(); intitr != DihedralType.end(); ++intitr)
     {
 	    DihedralIndex++;
 	    DihedralType[intitr->first] = DihedralIndex;
@@ -304,7 +302,7 @@ namespace OpenBabel
 
     //Write the atom types
     ofs << endl << endl << "Masses" << endl << endl;
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    double mass=itr->second;
 	    ofs << AtomType[itr->first] << " " << mass << " # " << itr->first << endl;
@@ -317,7 +315,7 @@ namespace OpenBabel
     //These are charges for the SPC water model
     const char *selectCharges = pConv->IsOption("q",OBConversion::OUTOPTIONS);
     map<string, double> AtomCharge;
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    if(selectCharges)
 	    {
@@ -350,7 +348,6 @@ namespace OpenBabel
 
     //Write atomic coordinates
     vector<OBMol>           mols;
-    vector<OBMol>::iterator molitr;
     mols=mol.Separate();
     int atomcount=0;
     int molcount=0;
@@ -359,7 +356,7 @@ namespace OpenBabel
     snprintf(buffer,BUFF_SIZE,"#%3s %4s %4s %10s %10s %10s %10s\n",
 		    "idx","mol","type","charge","x","y","z");
     //ofs << buffer;
-    for(molitr=mols.begin();molitr!=mols.end();++molitr)
+    for (auto molitr = mols.begin(); molitr != mols.end(); ++molitr)
     {
 	    molcount++;
 	    FOR_ATOMS_OF_MOL(atom,*molitr) 
