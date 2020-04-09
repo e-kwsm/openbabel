@@ -2633,12 +2633,11 @@ namespace OpenBabel {
 
     // find all cis/trans bonds
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
+    for (auto u = stereoUnits.cbegin(); u != stereoUnits.cend(); ++u)
       if ((*u).type == OBStereo::CisTrans)
         bonds.push_back((*u).id);
 
-    std::vector<unsigned long>::iterator i;
-    for (i = bonds.begin(); i != bonds.end(); ++i) {
+    for (auto i = bonds.begin(); i != bonds.end(); ++i) {
       OBBond *bond = mol->GetBondById(*i);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
