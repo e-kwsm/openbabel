@@ -86,9 +86,8 @@ namespace OpenBabel
     m_ofs << fixed << "DrawLine " << x1 << " " << y1 << " to "
                                   << x2 << " " << y2;
     if (!dashes.empty()) {
-      std::vector<double>::const_iterator it;
       m_ofs << " dashes";
-      for (it=dashes.begin(); it!=dashes.end() ; ++it)
+      for (auto it = dashes.cbegin(); it != dashes.cend() ; ++it)
         m_ofs << " " << *it;
 
     }
@@ -98,8 +97,7 @@ namespace OpenBabel
   void CommandPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
   {
     m_ofs << "DrawPolygon ";
-    std::vector<std::pair<double,double> >::const_iterator i;
-    for (i = points.begin(); i != points.end(); ++i) {
+    for (auto i = points.cbegin(); i != points.cend(); ++i) {
       if (i != points.begin())
         m_ofs << " to ";
       m_ofs << i->first << " " << i->second;

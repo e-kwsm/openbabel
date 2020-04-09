@@ -227,8 +227,8 @@ namespace OpenBabel
 
       // If we reach here, then a similar molecule was found
       int startlevel = level;
-      std::vector<double>::const_iterator n_rmsd = min_nodes_rmsds.begin();
-      for (std::vector<Tree_it>::iterator n = min_nodes.begin(); n != min_nodes.end(); ++n, ++n_rmsd) {
+      auto n_rmsd = min_nodes_rmsds.cbegin();
+      for (auto n = min_nodes.begin(); n != min_nodes.end(); ++n, ++n_rmsd) {
         node = *n;
         rmsd = *n_rmsd;
         level = startlevel + 1;
@@ -246,9 +246,9 @@ namespace OpenBabel
 
 
     // If we get here, then the molecule has been accepted for addition to the tree
-    std::vector<PosePair>::iterator b = insert_data.begin();
-    std::vector<int>::iterator c = insert_level.begin();
-    for (std::vector<Tree_it>::iterator a = insert_pt.begin(); a != insert_pt.end(); ++a, ++b, ++c) {
+    auto b = insert_data.begin();
+    auto c = insert_level.begin();
+    for (auto a = insert_pt.begin(); a != insert_pt.end(); ++a, ++b, ++c) {
       node = *a;
       for (unsigned int k = *c; k < levels.size(); ++k) {
         node = poses.append_child(node, *b);
@@ -293,7 +293,7 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
   std::vector <OBDiversePoses::PosePair> confs, newconfs;
 
   // The leaf iterator will (in effect) iterate over the nodes just at the loweset level
-  for (OBDiversePoses::Tree::leaf_iterator node = poses->begin(); node != poses->end(); ++node)
+  for (auto node = poses->begin(); node != poses->end(); ++node)
     if (node->first.size() > 0) // Don't include the dummy head node
       confs.push_back(*node);
 
@@ -308,7 +308,7 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
   // Loop through the confs and filter using a tree
   newconfs.clear();
   OBDiversePoses newtree(*mol, cutoff, true);
-  for (vpp::iterator conf = confs.begin(); conf!=confs.end(); ++conf) {
+  for (auto conf = confs.begin(); conf != confs.end(); ++conf) {
     if (newtree.AddPose(conf->first, conf->second)) {
       newconfs.push_back(*conf);
     }
@@ -317,7 +317,7 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
     std::cout << "....new tree size = " << newtree.GetSize() <<  " confs = " << newconfs.size() << "\n";
 
   // Add confs to the molecule's conformer data and add the energies to molecules's energies
-  for (vpp::iterator chosen = newconfs.begin(); chosen!=newconfs.end(); ++chosen) {
+  for (auto chosen = newconfs.begin(); chosen != newconfs.end(); ++chosen) {
     energies.push_back(chosen->second);
 
     // To avoid making copies of vectors or vector3s, I am using pointers throughout

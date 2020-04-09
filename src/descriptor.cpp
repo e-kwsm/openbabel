@@ -431,8 +431,7 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
 {
   vector<string> vs;
   tokenize(vs, DescrList.c_str(), " \t\r\n,/-*&;:|%+");
-  vector<string>::iterator itr;
-  for(itr=vs.begin();itr!=vs.end();++itr)
+  for (auto itr = vs.begin(); itr != vs.end(); ++itr)
   {
     if(MatchPairData(pOb, *itr))
       pOb->DeleteData(*itr);

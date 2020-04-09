@@ -116,15 +116,13 @@ namespace OpenBabel
 
   OBAtomTyper::~OBAtomTyper()
   {
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-    for (i = _vinthyb.begin();i != _vinthyb.end();++i)
+    for (auto i = _vinthyb.begin(); i != _vinthyb.end(); ++i)
       {
         delete i->first;
         i->first = nullptr;
       }
 
-    vector<pair<OBSmartsPattern*,string> >::iterator j;
-    for (j = _vexttyp.begin();j != _vexttyp.end();++j)
+    for (auto j = _vexttyp.begin(); j != _vexttyp.end(); ++j)
       {
         delete j->first;
         j->first = nullptr;
@@ -142,14 +140,11 @@ namespace OpenBabel
 
     mol.SetAtomTypesPerceived();
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-
-    for (i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
+    for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
+        for (auto j = mlist.begin(); j != mlist.end(); ++j)
           mol.GetAtom((*j)[0])->SetType(i->second);
       }
     }
@@ -193,14 +188,11 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
       atom->SetHyb(0);
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-
-    for (i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
+    for (auto i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
+        for (auto j = mlist.begin(); j != mlist.end(); ++j)
           mol.GetAtom((*j)[0])->SetHyb(i->second);
       }
     }
@@ -276,8 +268,7 @@ namespace OpenBabel
 
   OBRingTyper::~OBRingTyper()
   {
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-    for (i = _ringtyp.begin();i != _ringtyp.end();++i) {
+    for (auto i = _ringtyp.begin(); i != _ringtyp.end(); ++i) {
       delete i->first;
       i->first = nullptr;
     }
@@ -293,23 +284,18 @@ namespace OpenBabel
 
     mol.SetRingTypesPerceived();
 
-    vector<vector<int> >::iterator j2;
-    vector<pair<OBSmartsPattern*,string> >::iterator i2;
-
-    vector<OBRing*>::iterator i;
-    vector<int>::iterator j;
     vector<OBRing*> rlist = mol.GetSSSR();
 
     unsigned int member_count;
-    for (i2 = _ringtyp.begin();i2 != _ringtyp.end();++i2) { // for each ring type
+    for (auto i2 = _ringtyp.begin(); i2 != _ringtyp.end(); ++i2) { // for each ring type
       std::vector<std::vector<int> > mlist;
       if (i2->first->Match(mol, mlist)) {
-        for (j2 = mlist.begin();j2 != mlist.end();++j2) { // for each found match
+        for (auto j2 = mlist.begin(); j2 != mlist.end(); ++j2) { // for each found match
 
-          for (i = rlist.begin();i != rlist.end();++i) { // for each ring
+          for (auto i = rlist.begin(); i != rlist.end(); ++i) { // for each ring
             member_count = 0;
 
-            for(j = j2->begin(); j != j2->end(); ++j) { // for each atom in the match
+            for (auto j = j2->begin(); j != j2->end(); ++j) { // for each atom in the match
               if ((*i)->IsMember(mol.GetAtom(*j)))
                 member_count++;
             }
@@ -849,7 +835,7 @@ namespace OpenBabel
 
 
     //loop over closure bonds
-    for(OBBondIterator bd(cbonds.begin()),bd_end(cbonds.end());bd!=bd_end;++bd)
+    for (auto bd = cbonds.begin(), bd_end = cbonds.end(); bd != bd_end; ++bd)
       {
         bond = *bd;
 
