@@ -1553,7 +1553,7 @@ namespace OpenBabel
         int obstart = indexmap[ReadUIntField(vs[4].c_str())];
         int obend = indexmap[ReadUIntField(vs[5].c_str())];
 
-        for (auto itr =vs.begin() + 6; itr != vs.end(); itr++)
+        for (auto itr = vs.begin() + 6; itr != vs.end(); itr++)
           {
             string::size_type pos = (*itr).find('=');
             if (pos==string::npos) return false;
