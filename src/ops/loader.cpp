@@ -104,8 +104,7 @@ public:
 
     // Iterate through _text and make instances of the plugins.
     // They will be deleted in the destructor.
-    vector<vector<string> >::iterator iter;
-    for(iter=_text.begin();iter!=_text.end();++iter) {
+    for (auto iter = _text.begin(); iter != _text.end(); ++iter) {
       OBPlugin* pdef = FindDef((*iter)[0].c_str());
       _instances.push_back(pdef->MakeInstance(*iter));
     }
@@ -117,8 +116,7 @@ public:
 
   virtual ~OBDefine()
   {
-    std::vector<OBPlugin*>::iterator iter;
-    for(iter=_instances.begin();iter!=_instances.end();++iter)
+    for (auto iter = _instances.begin(); iter != _instances.end(); ++iter)
       delete *iter;
   }
 
@@ -182,11 +180,10 @@ OBDefine placeholderOBDefine;
 
 OBPlugin* OBDefine::FindDef(const char* ID)
 {
-  PluginIterator typeiter, iter;
-  for(typeiter=PluginMap().begin(); typeiter!=PluginMap().end();++typeiter)
+  for (auto typeiter=PluginMap().begin(); typeiter != PluginMap().end(); ++typeiter)
   {
     PluginMapType map = typeiter->second->GetMap();
-    for(iter=map.begin();iter!=map.end();++iter)
+    for (auto iter = map.begin(); iter != map.end(); ++iter)
     {
       const char* pdescr = iter->second->Description();
       if(!pdescr)
