@@ -136,8 +136,10 @@ public:
     bool operator()(const std::string& s1, const std::string& s2) const
     {
       //stop at the first space or the end of the strings
-      std::string::const_iterator p1=s1.begin(), p2=s2.begin(),
-        p1end=find(s1.begin(), s1.end(), ' '), p2end=find(s2.begin(), s2.end(), ' ');
+      auto p1 = s1.begin();
+      auto p2 = s2.begin();
+      const auto p1end = find(s1.begin(), s1.end(), ' ');
+      const auto p2end = find(s2.begin(), s2.end(), ' ');
 
       while( p1<p1end && p2<p2end)
       {
