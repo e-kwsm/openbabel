@@ -208,8 +208,7 @@ static void ECFPPass(OpenBabel::OBMol &mol,
     std::vector<unsigned int> vint;
     vint.push_back(pass);
     vint.push_back(ptr->e[pass-1]);
-    std::vector<NborInfo>::const_iterator ni;
-    for (ni=nbrs.begin(); ni!=nbrs.end(); ++ni) {
+    for (auto ni = nbrs.cbegin(); ni != nbrs.cend(); ++ni) {
       vint.push_back(ni->order);
       vint.push_back(ni->idx);
     }

@@ -117,7 +117,7 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConver
 
   if(!_trunc.empty())
     InChIFormat::EditInchi(s, _trunc);
-  std::pair<UMap::iterator, bool> result = _inchimap.insert(make_pair(s, pmol->GetTitle()));
+  auto result = _inchimap.insert(make_pair(s, pmol->GetTitle()));
   bool ret = true;
   if(!s.empty() && !result.second)
   {

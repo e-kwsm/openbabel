@@ -99,10 +99,8 @@ public:
   bool GetNextEff(std::string& id, double& Eff)
   {
     //Supply id empty to begin, then id is the*last* id
-    std::map<std::string, double>::iterator itr;
-    if(id.empty())
-      itr = Efficiencies.begin();
-    else
+    auto itr = Efficiencies.begin();
+    if(!id.empty())
     {
       itr = Efficiencies.find(id);
       if(itr!=Efficiencies.end())

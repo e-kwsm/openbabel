@@ -114,7 +114,7 @@ void ConfabReport::WriteOutput(ostream& ofs)
 
     int bin_idx = 0;
     vector<int> bins(binvals.size());
-    for(vector<double>::iterator it=rmsd.begin(); it!=rmsd.end(); ++it) {
+    for (auto it = rmsd.begin(); it != rmsd.end(); ++it) {
       while (*it > binvals[bin_idx])
         bin_idx++;
       bins[bin_idx]++;

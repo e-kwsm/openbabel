@@ -223,7 +223,7 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OBStereo::ImplicitRef)
         out << *i << " ";
       else
@@ -255,7 +255,7 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.cbegin(); i != cfg.refs.cend(); ++i)
       if (*i != OBStereo::ImplicitRef)
         out << *i << " ";
       else
