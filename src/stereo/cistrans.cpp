@@ -355,7 +355,7 @@ namespace std {
     out << ", end = " << cfg.end;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OpenBabel::OBStereo::ImplicitRef)
         out << *i << " ";
       else
@@ -382,7 +382,7 @@ namespace std {
     out << ", end = " << cfg.end;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.cbegin(); i != cfg.refs.cend(); ++i)
       if (*i != OpenBabel::OBStereo::ImplicitRef)
         out << *i << " ";
       else
