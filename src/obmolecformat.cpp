@@ -252,8 +252,7 @@ namespace OpenBabel
         if(pos!=string::npos)
           title.erase(pos);
 
-        map<std::string, OBMol*>::iterator itr;
-        itr = IMols.find(title);
+        auto itr = IMols.find(title);
         if(itr!=IMols.end())
           {
             //Molecule with the same title has been input previously: update it
@@ -360,8 +359,7 @@ namespace OpenBabel
     *pNewMol = *pMain; //Now copies all data
 
     //Copy some OBGenericData from the OBMol which did not provide the structure
-    vector<OBGenericData*>::iterator igd;
-    for(igd=pOther->BeginData();igd!=pOther->EndData();++igd)
+    for (auto igd = pOther->BeginData(); igd != pOther->EndData(); ++igd)
       {
         //copy only if not already data of the same type from molecule already copied to pNewMol
         unsigned datatype = (*igd)->GetDataType();
@@ -382,13 +380,12 @@ namespace OpenBabel
 
   bool OBMoleculeFormat::OutputDeferredMols(OBConversion* pConv)
   {
-    std::map<std::string, OBMol*>::iterator itr, lastitr;
     bool ret=false;
     int i=1;
-    lastitr = IMols.end();
+    auto lastitr = IMols.end();
     --lastitr;
     pConv->SetOneObjectOnly(false);
-    for(itr=IMols.begin();itr!=IMols.end();++itr,++i)
+    for (auto itr = IMols.begin(); itr != IMols.end(); ++itr, ++i)
       {
         if(!(itr->second)->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS), pConv))
           continue;
@@ -409,8 +406,7 @@ namespace OpenBabel
   bool OBMoleculeFormat::DeleteDeferredMols()
   {
     //Empties IMols, deteting the OBMol objects whose pointers are stored there
-    std::map<std::string, OBMol*>::iterator itr;
-    for(itr=IMols.begin();itr!=IMols.end();++itr)
+    for (auto itr = IMols.begin(); itr != IMols.end(); ++itr)
       {
         delete itr->second; //usually NULL
       }
@@ -498,8 +494,6 @@ namespace OpenBabel
       size_t size;
     } header;
 
-    NameIndexType::iterator itr;
-
     ifstream indexstream;
     OpenDatafile(indexstream, datafilename + ".obindx");
     if(!indexstream)
@@ -537,7 +531,7 @@ namespace OpenBabel
         header.size = index.size();
         dofs.write((const char*)&header, sizeof(headertype));
 
-        for(itr=index.begin();itr!=index.end();++itr)
+        for (auto itr = index.begin(); itr != index.end(); ++itr)
           {
             //#chars; chars;  ofset(4bytes).
             const char n = static_cast<char> (itr->first.size());
@@ -550,7 +544,7 @@ namespace OpenBabel
       {
         //Read index data from file and put into hash_map
         indexstream.read((char*)&header,sizeof(headertype));
-        itr=index.begin(); // for hint
+        auto itr = index.begin(); // for hint
         for(unsigned int i=0;i<header.size;++i)
           {
             char len;
