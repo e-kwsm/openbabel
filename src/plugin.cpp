@@ -28,14 +28,12 @@ namespace OpenBabel
 
 OBPlugin::PluginMapType& OBPlugin::GetTypeMap(const char* PluginID)
 {
-  PluginMapType::iterator itr;
-
   // Make sure the plugins are loaded
   if (AllPluginsLoaded == 0) {
     OBPlugin::LoadAllPlugins();
   }
 
-  itr = PluginMap().find(PluginID);
+  auto itr = PluginMap().find(PluginID);
   if(itr!=PluginMap().end())
     return itr->second->GetMap();
   return PluginMap();//error: type not found; return plugins map
@@ -131,7 +129,6 @@ OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
 
 bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<string>& vlist)
 {
-  PluginMapType::iterator itr;
   bool ret=true;
 
   // Make sure the plugins are loaded
@@ -144,7 +141,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
     if(*PluginID!=0 && strcmp(PluginID, "plugins"))
     {
       //List the sub classes of the specified type
-      itr = PluginMap().find(PluginID);
+      auto itr = PluginMap().find(PluginID);
       if(itr!=PluginMap().end())
       {
         bool onlyIDs = param!=NULL && strstr(param,"ids")!=NULL;
@@ -169,7 +166,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
     }
   }
   //List the plugin types
-  for(itr=PluginMap().begin();itr!= PluginMap().end();++itr)
+  for (auto itr = PluginMap().begin(); itr!= PluginMap().end(); ++itr)
     vlist.push_back(itr->first);
   return ret;
 }
