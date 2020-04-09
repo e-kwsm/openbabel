@@ -2695,7 +2695,6 @@ namespace OpenBabel {
       const std::map<OBBond*, enum OBStereo::BondDirection> *updown, bool addToMol)
   {
     std::vector<OBCisTransStereo*> configs;
-    std::map<OBBond*, enum OBStereo::BondDirection>::const_iterator ud_cit;
     obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::CisTransFrom2D", obAuditMsg);
 
     // find all cis/trans bonds
@@ -2728,7 +2727,7 @@ namespace OpenBabel {
         // Check whether a single bond with unknown dir starts at the dbl bond (tip-only convention)
         OBBond *b = mol->GetBond(begin, &*nbr);
         if (updown) {
-          ud_cit = updown->find(b);
+          auto ud_cit = updown->find(b);
           if (ud_cit!=updown->end() && ud_cit->second==OBStereo::UnknownDir && b->GetBeginAtom()==begin)
             config.specified = false;
         }
@@ -2753,7 +2752,7 @@ namespace OpenBabel {
         // Check whether a single bond with unknown dir starts at the dbl bond (tip-only convention)
         OBBond *b = mol->GetBond(end, &*nbr);
         if (updown) {
-          ud_cit = updown->find(b);
+          auto ud_cit = updown->find(b);
           if (ud_cit!=updown->end() && ud_cit->second==OBStereo::UnknownDir && b->GetBeginAtom()==end)
             config.specified = false;
         }
@@ -2767,7 +2766,7 @@ namespace OpenBabel {
 
       // Handle the case where the dbl bond is marked as unknown stereo
       if (updown) {
-        ud_cit = updown->find(bond);
+        auto ud_cit = updown->find(bond);
         if (ud_cit!=updown->end() && ud_cit->second==OBStereo::UnknownDir)
             config.specified = false;
       }
@@ -2814,7 +2813,7 @@ namespace OpenBabel {
     // Store the tetcenters for the second loop (below)
     std::set <unsigned long> tetcenters;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
@@ -2824,7 +2823,7 @@ namespace OpenBabel {
     // This loop sets one bond of each tet stereo to up or to down (2D only)
     std::set <OBBond *> alreadyset;
     OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
@@ -2988,7 +2987,7 @@ namespace OpenBabel {
     // Get double bonds with unspecified CisTransStereo
     set<OBBond*> unspec_ctstereo;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo::Config cfg = ct->GetConfig();
@@ -3002,7 +3001,7 @@ namespace OpenBabel {
 
   void StereoRefToImplicit(OBMol& mol, OBStereo::Ref atomId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
@@ -3031,7 +3030,7 @@ namespace OpenBabel {
 
   void ImplicitRefToStereo(OBMol& mol, OBStereo::Ref centerId, OBStereo::Ref newId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
