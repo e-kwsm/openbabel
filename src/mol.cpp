@@ -660,10 +660,10 @@ namespace OpenBabel
     vector<int> v;
     GetGTDVector(v);
 
-    int i;
+    int i = 0;
     OBAtom *atom;
     vector<OBAtom*>::iterator j;
-    for (i=0,atom = BeginAtom(j);atom;atom = NextAtom(j),++i)
+    for (auto atom = BeginAtom(j); atom; atom = NextAtom(j), ++i)
       {
         vid[i] =  (unsigned int)v[i];
         vid[i] += (unsigned int)(atom->GetHvyDegree()*100);
