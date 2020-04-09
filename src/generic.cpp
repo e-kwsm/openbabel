@@ -1331,7 +1331,7 @@ namespace OpenBabel
 
     unsigned int ct = 0;
 
-    for (thisQuad = quads.begin();thisQuad != quads.end();++thisQuad,++ct)
+    for (auto thisQuad = quads.begin(); thisQuad != quads.end(); ++thisQuad, ++ct)
       {
         torsions[ct].resize(4);
         torsions[ct][0] = thisQuad->first->GetIdx()-1;
