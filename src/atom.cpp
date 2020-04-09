@@ -811,7 +811,6 @@ namespace OpenBabel
   bool OBAtom::IsInRingSize(int size) const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (!mol->HasSSSRPerceived())
@@ -821,7 +820,7 @@ namespace OpenBabel
       return(false);
 
     rlist = mol->GetSSSR();
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (auto i = rlist.begin(); i != rlist.end(); ++i)
       if ((*i)->IsInRing(GetIdx()) && static_cast<int>((*i)->PathSize()) == size)
         return(true);
 
@@ -831,7 +830,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingCount() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
     unsigned int count=0;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
@@ -844,7 +842,7 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (auto i = rlist.begin(); i != rlist.end(); ++i)
       if ((*i)->IsInRing(GetIdx()))
         count++;
 
@@ -854,7 +852,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingSize() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
 
@@ -866,7 +863,7 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (auto i = rlist.begin(); i != rlist.end(); ++i)
       if ((*i)->IsInRing(GetIdx()))
         return((*i)->Size());
 
@@ -1050,8 +1047,7 @@ namespace OpenBabel
 
   bool OBAtom::DeleteBond(OBBond *bond)
   {
-    OBBondIterator i;
-    for (i = _vbond.begin();i != _vbond.end();++i)
+    for (auto i = _vbond.begin(); i != _vbond.end(); ++i)
       if ((OBBond*)bond == *i)
         {
           _vbond.erase(i);
@@ -1064,14 +1060,13 @@ namespace OpenBabel
   {
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     vector<vector<int> > mlist;
-    vector<vector<int> >::iterator l;
 
     OBSmartsPattern test;
     test.Init(pattern);
     if (test.Match(*mol))
       {
         mlist = test.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           if (GetIdx() == mol->GetAtom((*l)[0])->GetIdx())
             return true;
       }
@@ -1274,8 +1269,7 @@ namespace OpenBabel
 
     //delete attached hydrogens
     mol->IncrementMod();
-    vector<OBAtom*>::iterator j;
-    for (j = delatm.begin();j != delatm.end();++j)
+    for (auto j = delatm.begin(); j != delatm.end(); ++j)
       mol->DeleteAtom(*j);
     mol->DecrementMod();
 
@@ -1781,7 +1775,6 @@ namespace OpenBabel
         unsigned int aroCount = 0;
 
         OBBond *bond;
-        OBBondIterator i;
         if (IsNitroOxygen()){ // maybe could be a bool option in the function?
           return (false);
           }
