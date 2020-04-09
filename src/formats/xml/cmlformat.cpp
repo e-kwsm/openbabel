@@ -959,7 +959,7 @@ namespace OpenBabel
       if(explH > hcount)
       {
         auto it = AtomMap.begin();
-        for(; it != AtomMap.end(); ++it)
+        for (; it != AtomMap.end(); ++it)
           if(it->second == atom->GetIdx())
             break;
         stringstream ss;
