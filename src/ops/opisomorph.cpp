@@ -174,7 +174,6 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
   //string txt(pmap->find(GetID())->second); // ID can be "s" or "v"
 
-  vector<OBQuery*>::iterator qiter;
   if(OptionText && *OptionText)//(!pConv || pConv->IsFirstInput())
   {
     //Set up on first call
@@ -307,7 +306,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
   if(!queries.empty()) //filename supplied
   {
     //match is set true if any of the structures match - OR behaviour
-    for(qiter=queries.begin();qiter!=queries.end();++qiter, ++imol)
+    for (auto qiter = queries.begin(); qiter != queries.end(); ++qiter, ++imol)
     {
       OBIsomorphismMapper* mapper = OBIsomorphismMapper::GetInstance(*qiter);
       OBIsomorphismMapper::Mappings mappings;
