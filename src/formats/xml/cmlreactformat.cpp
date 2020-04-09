@@ -393,8 +393,7 @@ bool CMLReactFormat::WriteChemObject(OBConversion* pConv)
             return false;
         }
         unsigned int n=0;
-        MolMap::iterator mapitr;
-        for(mapitr=OMols.begin();mapitr!=OMols.end() && ret; ++mapitr)
+        for (auto mapitr = OMols.begin(); mapitr != OMols.end() && ret; ++mapitr)
         {
           pConv->SetOutputIndex(++n);      //we have to increment and
           pConv->SetLast(n==OMols.size()); //setLast manually because we are not using Convert()
@@ -641,8 +640,7 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //output moleculeList
       xmlTextWriterStartElementNS(writer(), prefix, C_MOLECULELIST, nullptr);
-      MolMap::iterator mapitr;
-      for(mapitr=OMols.begin();mapitr!=OMols.end();++mapitr)
+      for (auto mapitr = OMols.begin(); mapitr != OMols.end(); ++mapitr)
       {
         if(strcmp((mapitr->second)->GetTitle(), "M"))
           pCMLFormat->WriteMolecule(mapitr->second.get(), _pxmlConv);
@@ -684,7 +682,6 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
 {
   //Adds a molecule to the map
   string id = spmol->GetTitle();
-  MolMap::iterator mapitr;
   if(id.empty())
   {
     //no id, so make one
@@ -712,7 +709,7 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
       id = "id" + id;
     spmol->SetTitle(id.c_str());//ensure that molecule title is the same as id
 
-    mapitr = mmap.find(id);
+    auto mapitr = mmap.find(id);
     if(mapitr==mmap.end())
       //not in map; need to add
       mmap[id] = spmol;
