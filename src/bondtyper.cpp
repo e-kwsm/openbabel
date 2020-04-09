@@ -100,8 +100,7 @@ namespace OpenBabel
 
   OBBondTyper::~OBBondTyper()
   {
-    vector<pair<OBSmartsPattern*, vector<int> > >::iterator i;
-    for (i = _fgbonds.begin();i != _fgbonds.end();++i)
+    for (auto i = _fgbonds.begin(); i != _fgbonds.end(); ++i)
       {
         delete i->first;
         i->first = NULL;
@@ -119,12 +118,10 @@ namespace OpenBabel
     double angle, dist1, dist2;
     vector<int> assignments;
     vector<vector<int> > mlist;
-    vector<vector<int> >::iterator matches, l;
-    vector<pair<OBSmartsPattern*, vector<int> > >::iterator i;
     unsigned int j;
 
     // Loop through for all the functional groups and assign bond orders
-    for (i = _fgbonds.begin();i != _fgbonds.end();++i)
+    for (auto i = _fgbonds.begin(); i != _fgbonds.end(); ++i)
       {
         currentPattern = i->first;
         assignments = i->second;
@@ -132,7 +129,7 @@ namespace OpenBabel
         if (currentPattern && currentPattern->Match(mol))
           {
             mlist = currentPattern->GetUMapList();
-            for (matches = mlist.begin(); matches != mlist.end(); ++matches)
+            for (auto matches = mlist.begin(); matches != mlist.end(); ++matches)
               {
                 // Now loop through the bonds to assign from _fgbonds
                 for (j = 0; j < assignments.size(); j += 3)
@@ -159,7 +156,7 @@ namespace OpenBabel
     if (carbo.Match(mol))
       {
         mlist = carbo.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           {
             a1 = mol.GetAtom((*l)[0]);
             a2 = mol.GetAtom((*l)[1]);
@@ -186,7 +183,7 @@ namespace OpenBabel
     if (thione.Match(mol))
       {
         mlist = thione.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           {
             a1 = mol.GetAtom((*l)[0]);
             a2 = mol.GetAtom((*l)[1]);
@@ -213,7 +210,7 @@ namespace OpenBabel
     if (isocyanate.Match(mol))
       {
         mlist = isocyanate.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           {
             a1 = mol.GetAtom((*l)[0]);
             a2 = mol.GetAtom((*l)[1]);
@@ -248,7 +245,7 @@ namespace OpenBabel
     if (oxime.Match(mol))
       {
         mlist = oxime.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           {
             a1 = mol.GetAtom((*l)[0]);
             a2 = mol.GetAtom((*l)[1]);
@@ -274,7 +271,7 @@ namespace OpenBabel
     if (oxidopyr.Match(mol))
       {
         mlist = oxidopyr.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto l = mlist.begin(); l != mlist.end(); ++l)
           {
             a1 = mol.GetAtom((*l)[0]);
             a2 = mol.GetAtom((*l)[1]);

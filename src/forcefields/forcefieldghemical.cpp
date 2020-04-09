@@ -64,7 +64,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGhemical::E_Bond()
   {
-    vector<OBFFBondCalculationGhemical>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -74,7 +73,7 @@ namespace OpenBabel
       OBFFLog("------------------------------------------------------------------------\n");
     }
 
-    for (i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
+    for (auto i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -133,7 +132,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGhemical::E_Angle()
   {
-    vector<OBFFAngleCalculationGhemical>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -143,7 +141,7 @@ namespace OpenBabel
       OBFFLog("-----------------------------------------------------------------------------\n");
     }
 
-    for (i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
+    for (auto i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -212,7 +210,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGhemical::E_Torsion()
   {
-    vector<OBFFTorsionCalculationGhemical>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -222,7 +219,7 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
+    for (auto i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -282,7 +279,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGhemical::E_VDW()
   {
-    vector<OBFFVDWCalculationGhemical>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -294,7 +290,7 @@ namespace OpenBabel
     }
 
     unsigned int j = 0;
-    for (i = _vdwcalculations.begin(); i != _vdwcalculations.end(); ++i, ++j) {
+    for (auto i = _vdwcalculations.begin(); i != _vdwcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
         if (!_vdwpairs.BitIsSet(j))
@@ -350,7 +346,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGhemical::E_Electrostatic()
   {
-    vector<OBFFElectrostaticCalculationGhemical>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -362,7 +357,7 @@ namespace OpenBabel
     }
 
     unsigned int j = 0;
-    for (i = _electrostaticcalculations.begin(); i != _electrostaticcalculations.end(); ++i, ++j) {
+    for (auto i = _electrostaticcalculations.begin(); i != _electrostaticcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
         if (!_elepairs.BitIsSet(j))
@@ -955,8 +950,6 @@ namespace OpenBabel
   {
     vector<vector<int> > _mlist; //!< match list for atom typing
     vector<pair<OBSmartsPattern*,string> > _vexttyp; //!< external atom type rules
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
     OBSmartsPattern *sp;
     vector<string> vs;
     char buffer[80];
@@ -989,10 +982,10 @@ namespace OpenBabel
       }
     }
 
-    for (i = _vexttyp.begin();i != _vexttyp.end();++i) {
+    for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
       if (i->first->Match(_mol)) {
         _mlist = i->first->GetMapList();
-        for (j = _mlist.begin();j != _mlist.end();++j) {
+        for (auto j = _mlist.begin(); j != _mlist.end(); ++j) {
           _mol.GetAtom((*j)[0])->SetType(i->second);
         }
       }

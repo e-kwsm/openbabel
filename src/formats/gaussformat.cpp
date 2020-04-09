@@ -223,7 +223,7 @@ namespace OpenBabel
       uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
       vector<vector3> cellVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = cellVectors.begin(); i != cellVectors.end(); ++i) {
+      for (auto i = cellVectors.begin(); i != cellVectors.end(); ++i) {
           snprintf(buffer, BUFF_SIZE, "TV       %10.5f      %10.5f      %10.5f",
                    i->x(),
                    i->y(),
@@ -311,7 +311,6 @@ namespace OpenBabel
   {
     // Initiate correction database
     OpenBabel::OBAtomicHeatOfFormationTable *ahof = new OpenBabel::OBAtomicHeatOfFormationTable();
-    OpenBabel::OBAtomIterator OBai;
     OpenBabel::OBAtom *OBa;
     char valbuf[128];
     int ii,atomid,atomicnumber,found,foundall;
@@ -319,7 +318,7 @@ namespace OpenBabel
     double eFactor = HARTEE_TO_KCALPERMOL;
 
     // Now loop over atoms in order to correct the Delta H formation
-    OBai     = mol->BeginAtoms();
+    auto OBai = mol->BeginAtoms();
     atomid   = 0;
     foundall = 0;
     dhofM0   = E0*eFactor;
@@ -875,7 +874,6 @@ namespace OpenBabel
           {
             int i,np;
             OpenBabel::OBFreeGridPoint *fgp;
-            OpenBabel::OBFreeGridPointIterator fgpi;
             for(i=0; (i<5); i++)
               {
                 ifs.getline(buffer,BUFF_SIZE);	// skip line
@@ -883,7 +881,7 @@ namespace OpenBabel
             // Assume file is correct and that potentials are present
             // where they should.
             np = esp->NumPoints();
-            fgpi = esp->BeginPoints();
+            auto fgpi = esp->BeginPoints();
             i = 0;
             for(fgp = esp->BeginPoint(fgpi); (NULL != fgp); fgp = esp->NextPoint(fgpi))
               {

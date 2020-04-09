@@ -80,11 +80,10 @@ namespace OpenBabel
   void ASCIIPainter::DrawLine(double x1, double y1, double x2, double y2, const std::vector<double> & dashes)
   {
     vector<pair<int, int> > coords;
-    vector<pair<int, int> >::iterator vp_it;
     string symbols = Bresenham(round(x1*m_scale), round(y1*m_scale/m_aspect),
                                round(x2*m_scale), round(y2*m_scale/m_aspect), coords);
-    string::iterator s_it = symbols.begin();
-    for(vp_it=coords.begin();vp_it!=coords.end();++vp_it,++s_it) {
+    auto s_it = symbols.begin();
+    for (auto vp_it = coords.begin(); vp_it != coords.end(); ++vp_it, ++s_it) {
       int x = vp_it->first;
       int y = vp_it->second;
       if (x>=0 && x<m_width && y>=0 && y<m_height)
@@ -96,8 +95,8 @@ namespace OpenBabel
   {
     if (points.size() < 2) return;
 
-    vector<pair<double,double> >::const_iterator vp_it;
-    for(vp_it=points.begin();vp_it!=(points.end() - 1);++vp_it) {
+    auto vp_it = points.cbegin();
+    for (; vp_it != (points.cend() - 1); ++vp_it) {
       DrawLine(vp_it->first, vp_it->second, (vp_it+1)->first, (vp_it+1)->second);
     }
     DrawLine(vp_it->first, vp_it->second, points.begin()->first, points.begin()->second);
@@ -135,10 +134,8 @@ namespace OpenBabel
   }
   void ASCIIPainter::Write(std::ostream &ofs)
   {
-    vector<vector<char> >::iterator vvc_it;
-    vector<char>::iterator vc_it;
-    for(vvc_it=m_buf.begin();vvc_it!=m_buf.end();++vvc_it) {
-      for(vc_it=vvc_it->begin();vc_it!=vvc_it->end();++vc_it) {
+    for (auto vvc_it = m_buf.begin(); vvc_it != m_buf.end(); ++vvc_it) {
+      for (auto vc_it = vvc_it->begin(); vc_it != vvc_it->end(); ++vc_it) {
         ofs << *vc_it;
       }
       ofs << endl;

@@ -617,8 +617,7 @@ namespace OpenBabel
     bool use2d = _pxmlConv->IsOption("2", OBConversion::INOPTIONS);
 
     int nAtoms=_pmol->NumAtoms();//was 0
-    cmlArray::iterator AtomIter;
-    for(AtomIter=AtomArray.begin();AtomIter!=AtomArray.end();++AtomIter)
+    for (auto AtomIter = AtomArray.begin(); AtomIter != AtomArray.end(); ++AtomIter)
       {
         //		OBAtom obatom;
         OBAtom* pAtom = _pmol->NewAtom();
@@ -629,8 +628,7 @@ namespace OpenBabel
         double x=0,y=0,z=0;
         bool using3=false, using2=false, usingFract=false;
 
-        vector<pair<string,string> >::iterator AttributeIter;
-        for(AttributeIter=AtomIter->begin();AttributeIter!=AtomIter->end();++AttributeIter)
+        for (auto AttributeIter = AtomIter->begin(); AttributeIter != AtomIter->end(); ++AttributeIter)
           {
             string& attrname = AttributeIter->first;
             string& value    = AttributeIter->second;
@@ -834,10 +832,8 @@ namespace OpenBabel
   ///Interprets bonds from BondArray and writes then to an OBMol
   bool CMLFormat::DoBonds()
   {
-    vector<pair<string,string> >::iterator AttributeIter;
-    cmlArray::iterator BondIter;
     bool HaveWarned = false;
-    for(BondIter=BondArray.begin();BondIter!=BondArray.end();++BondIter)
+    for (auto BondIter = BondArray.begin(); BondIter != BondArray.end(); ++BondIter)
       {
         int indx1=0,indx2=0, ord=0;
         string bondstereo, BondStereoRefs;
@@ -845,7 +841,7 @@ namespace OpenBabel
         string label;
         bool PossibleBond = false;
 
-        for(AttributeIter=BondIter->begin();AttributeIter!=BondIter->end();++AttributeIter)
+        for (auto AttributeIter = BondIter->begin(); AttributeIter != BondIter->end(); ++AttributeIter)
           {
             string attrname = AttributeIter->first;
             string value    = AttributeIter->second;
@@ -962,8 +958,8 @@ namespace OpenBabel
       int explH = atom->ExplicitHydrogenCount(); // includes H isotopes
       if(explH > hcount)
       {
-        map<string,int>::iterator it;
-        for(it=AtomMap.begin();it!=AtomMap.end();++it)
+        auto it = AtomMap.begin();
+        for (; it != AtomMap.end(); ++it)
           if(it->second == atom->GetIdx())
             break;
         stringstream ss;
@@ -979,8 +975,7 @@ namespace OpenBabel
   bool CMLFormat::DoMolWideData()
   {
     //Handle atomParity and bondStereo
-    vector<pair<string,string> >::iterator AttributeIter;
-    for(AttributeIter=molWideData.begin();AttributeIter!=molWideData.end();++AttributeIter)
+    for (auto AttributeIter = molWideData.begin(); AttributeIter != molWideData.end(); ++AttributeIter)
       {
         string name  = AttributeIter->first;
         string value = AttributeIter->second;
@@ -1017,9 +1012,9 @@ namespace OpenBabel
                   from = OBStereo::ImplicitRef;
 
                 OBStereo::Refs refs;
-                vector<unsigned int>::const_iterator idx_cit=AtomRefIdx.begin();
+                auto idx_cit = AtomRefIdx.cbegin();
                 ++idx_cit;
-                for (; idx_cit!=AtomRefIdx.end(); ++idx_cit) {
+                for (; idx_cit != AtomRefIdx.cend(); ++idx_cit) {
                   OBStereo::Ref id = _pmol->GetAtom(*idx_cit)->GetId();
                   if (id == center)
                     id = OBStereo::ImplicitRef;
@@ -1196,10 +1191,9 @@ namespace OpenBabel
   {
     vector<string> items;
     tokenize(items, formula);
-    vector<string>::iterator iSymbol, iNumber;
-    for(iSymbol=items.begin();iSymbol!=items.end();++iSymbol)
+    for (auto iSymbol = items.begin(); iSymbol != items.end(); ++iSymbol)
       {
-        iNumber = iSymbol+1;
+        auto iNumber = iSymbol + 1;
         if(iNumber==items.end())
           return false;
         int n=atoi(iNumber->c_str());
@@ -1508,7 +1502,7 @@ namespace OpenBabel
     std::map<unsigned int, OBTetrahedralStereo::Config >::const_iterator tetStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           // Always get the clockwise version (it's the default anyway) as this has
@@ -1794,7 +1788,7 @@ namespace OpenBabel
     std::map<unsigned int, OBCisTransStereo* >::const_iterator ctStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
           if(ct->GetConfig().specified) {
@@ -2155,9 +2149,8 @@ namespace OpenBabel
     static const xmlChar C_SCALAR[]       = "scalar";
     static const xmlChar C_TITLE[]        = "title";
 
-    vector<OBGenericData*>::iterator k;
     vector<OBGenericData*> vdata = mol.GetData();
-    for (k = vdata.begin();k != vdata.end();++k)
+    for (auto k = vdata.begin(); k != vdata.end(); ++k)
       {
         if  ((*k)->GetDataType() == OBGenericDataType::PairData
           && (*k)->GetOrigin()   != local //internal OBPairData is not written

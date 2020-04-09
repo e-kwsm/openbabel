@@ -639,9 +639,8 @@ class PubChemJSONFormat : public OBMoleculeFormat
         // Use 3D coordinates to determine stereochemistry
         StereoFrom3D(pmol);
         // For unspecified cis/trans stereos, set their Configs to unspecified
-        map<OBBond *, OBStereo::BondDirection>::const_iterator bd_it;
         OpenBabel::OBStereoFacade facade(pmol);
-        for (bd_it = updown.begin(); bd_it != updown.end(); ++bd_it) {
+        for (auto bd_it = updown.cbegin(); bd_it != updown.cend(); ++bd_it) {
           OBBond *bond = bd_it->first;
           if (bond->GetBondOrder() != 2 || bd_it->second != OBStereo::UnknownDir)
             continue; // Only continue for those double bonds with UnknownDir
@@ -692,7 +691,6 @@ class PubChemJSONFormat : public OBMoleculeFormat
     set<OBBond *> unspec_ctstereo = GetUnspecifiedCisTrans(*pmol);
     map<OBBond *, OBStereo::BondDirection> updown;
     map<OBBond *, OBStereo::Ref> from;
-    map<OBBond *, OBStereo::Ref>::const_iterator from_cit;
     if (!pConv->IsOption("w", pConv->OUTOPTIONS))
       TetStereoToWedgeHash(*pmol, updown, from);
 
@@ -830,7 +828,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
         }
       } else {
         // No option w means use stereochemistry information
-        from_cit = from.find(&*pbond);
+        auto from_cit = from.find(&*pbond);
         if (from_cit != from.end() && from_cit->second == pbond->GetEndAtom()->GetId()) {
           swap(aid1, aid2);  // Swap start and end atom if necessary
         }
@@ -853,7 +851,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       if (pbond->HasData("style")) {
         AnnotationData *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
         vector<string> styles = data->GetGenericValue();
-        for (vector<string>::const_iterator i = styles.begin(); i != styles.end(); ++i) {
+        for (auto i = styles.cbegin(); i != styles.cend(); ++i) {
           string stylestring = *i;
           int style = 255;
           if (stylestring == "dashed") {
@@ -875,7 +873,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
         }
       }
       annotations.erase(unique(annotations.begin(), annotations.end()), annotations.end());
-      for (vector<int>::const_iterator i = annotations.begin(); i != annotations.end(); ++i) {
+      for (auto i = annotations.cbegin(); i != annotations.cend(); ++i) {
         annAid1.PushBack(rapidjson::Value((int) pbond->GetBeginAtom()->GetId()).Move(), al);
         annAid2.PushBack(rapidjson::Value((int) pbond->GetEndAtom()->GetId()).Move(), al);
         annotation.PushBack(rapidjson::Value(*i).Move(), al);

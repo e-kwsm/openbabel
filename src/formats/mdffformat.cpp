@@ -402,7 +402,7 @@ namespace OpenBabel {
     //Set elements array
     vector< pair<string, unsigned int> > atypes_def;
     string last_atom_smb = "";
-    for(map<aindx, OBAtom *>::const_iterator it = amap.begin(); it != amap.end(); ++it)
+    for (auto it = amap.cbegin(); it != amap.cend(); ++it)
     {
       string curr_atom_smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());
       if( last_atom_smb != curr_atom_smb )
@@ -430,8 +430,7 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
-           i != cell.end(); ++i) {
+      for (auto i = cell.cbegin(); i != cell.cend(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
         ofs << buffer << endl;
@@ -460,8 +459,7 @@ namespace OpenBabel {
     
     map<string, double> charge_smb;
 
-    for (map<aindx, OBAtom *>::const_iterator it  = amap.begin(); 
-                                              it != amap.end(); ++it)
+    for (auto it = amap.cbegin(); it != amap.cend(); ++it)
     {  
       // Print coordinates
       string smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());

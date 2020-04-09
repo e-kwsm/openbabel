@@ -986,8 +986,7 @@ void OBGUIFrame::GetAvailableFormats()
   std::vector<std::string> vec;
   if(OBPlugin::ListAsVector("formats", NULL, vec))//check that there are some formats
   {
-    OBFormat::PluginIterator itr;
-    for(itr=OBFormat::Begin("formats");itr!=OBFormat::End("formats");++itr)
+    for (auto itr = OBFormat::Begin("formats"); itr != OBFormat::End("formats"); ++itr)
     {
       OBFormat* pFormat = static_cast<OBFormat*>(itr->second);
       if((pFormat->Flags() & NOTWRITABLE) && (pFormat->Flags() & NOTREADABLE))

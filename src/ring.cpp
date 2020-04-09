@@ -102,7 +102,6 @@ namespace OpenBabel
     }
 
     OBRing *ring;
-    vector<OBRing*>::iterator j;
 
     //get Fr�rejacque taking int account multiple possible spanning graphs
     int frj = DetermineFRJ(*this);
@@ -124,16 +123,15 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
 
-            for (i = cbonds.begin();i != cbonds.end();++i)
+            for (auto i = cbonds.begin(); i != cbonds.end(); ++i)
               rs.AddRingFromClosure(*this,(OBBond*)*i);
 
             rs.SortRings();
             rs.RemoveRedundant(frj);
             //store the SSSR set
 
-            for (j = rs.BeginRings();j != rs.EndRings();++j)
+            for (auto j = rs.BeginRings(); j != rs.EndRings(); ++j)
               {
                 ring = new OBRing ((*j)->_path,NumAtoms()+1);
                 ring->SetParent(this);
@@ -249,7 +247,6 @@ namespace OpenBabel
     }
 
     OBRing *ring;
-    vector<OBRing*>::iterator j;
 
     //get frerejaque taking int account multiple possible spanning graphs
     int frj = DetermineFRJ(*this);
@@ -271,9 +268,8 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
 
-            for (i = cbonds.begin();i != cbonds.end();++i)
+            for (auto i = cbonds.begin(); i != cbonds.end(); ++i)
               rs.AddRingFromClosure(*this,(OBBond*)*i);
 
             rs.SortRings();
@@ -281,7 +277,7 @@ namespace OpenBabel
 
             //store the LSSR set
 
-            for (j = rs.BeginRings();j != rs.EndRings();++j)
+            for (auto j = rs.BeginRings(); j != rs.EndRings(); ++j)
               {
                 ring = new OBRing ((*j)->_path,NumAtoms()+1);
                 ring->SetParent(this);
@@ -308,7 +304,7 @@ namespace OpenBabel
     int frj = 0;
     OBBond *bond;
     vector<OBBond*>::iterator j;
-    for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
+    for (auto bond = mol.BeginBond(j); bond; bond = mol.NextBond(j))
       if (bond->IsClosure()) // bond->HasFlag(OB_CLOSURE_BOND)?
         frj++;
     return frj;
@@ -389,10 +385,8 @@ namespace OpenBabel
     bool pathok;
     deque<int> p1,p2;
     vector<OBAtom*> path1,path2;
-    vector<OBAtom*>::iterator m,n;
-    vector<OBRTree*>::iterator i;
 
-    for (i = t1.begin();i != t1.end();++i)
+    for (auto i = t1.begin(); i != t1.end(); ++i)
       if (*i)
         {
           path1.clear();
@@ -405,14 +399,14 @@ namespace OpenBabel
               t2[(*i)->GetAtomIdx()]->PathToRoot(path2);
 
               p1.clear();
-              m = path1.begin();
+              auto m = path1.begin();
               if (m != path1.end())
                 p1.push_back((*m)->GetIdx());
               for (m = path1.begin(),++m;m != path1.end();++m)
                 {
                   p1.push_back((*m)->GetIdx());
                   p2.clear();
-                  for (n = path2.begin(),++n;n != path2.end();++n)
+                  for (auto n = path2.begin() + 1u; n != path2.end(); ++n)
                     {
                       p2.push_front((*n)->GetIdx());
                       if (*n == *m)//don't traverse across identical atoms
@@ -433,11 +427,11 @@ namespace OpenBabel
         }
 
     //clean up OBRTree vectors
-    for (i = t1.begin();i != t1.end();++i)
+    for (auto i = t1.begin(); i != t1.end(); ++i)
       if (*i)
         delete *i;
 
-    for (i = t2.begin();i != t2.end();++i)
+    for (auto i = t2.begin(); i != t2.end(); ++i)
       if (*i)
         delete *i;
 
@@ -450,22 +444,20 @@ namespace OpenBabel
   {
     vector<int> path;
     OBBitVec bv;
-    deque<int>::iterator i;
 
-    for (i = d1.begin();i != d1.end();++i)
+    for (auto i = d1.begin(); i != d1.end(); ++i)
       {
         bv.SetBitOn(*i);
         path.push_back(*i);
       }
 
-    for (i = d2.begin();i != d2.end();++i)
+    for (auto i = d2.begin(); i != d2.end(); ++i)
       {
         bv.SetBitOn(*i);
         path.push_back(*i);
       }
 
-    vector<OBRing*>::iterator j;
-    for (j = _rlist.begin();j != _rlist.end();++j)
+    for (auto j = _rlist.begin(); j != _rlist.end(); ++j)
       if (bv == (*j)->_pathset)
         return(false);
 
@@ -478,8 +470,7 @@ namespace OpenBabel
   //! Destructor -- free all rings created from this search
   OBRingSearch::~OBRingSearch()
   {
-    vector<OBRing*>::iterator i;
-    for (i = _rlist.begin();i != _rlist.end();++i)
+    for (auto i = _rlist.begin(); i != _rlist.end(); ++i)
       delete *i;
   }
 
@@ -490,9 +481,7 @@ namespace OpenBabel
 
   void OBRingSearch::WriteRings()
   {
-    vector<OBRing*>::iterator i;
-
-    for (i = _rlist.begin();i != _rlist.end();++i)
+    for (auto i = _rlist.begin(); i != _rlist.end(); ++i)
       cout << (*i)->_pathset << endl;
   }
 
@@ -580,8 +569,7 @@ namespace OpenBabel
   bool OBRing::IsAromatic()
   {
     OBMol *mol = _parent;
-    vector<int>::iterator i;
-    for (i = _path.begin();i != _path.end();++i)
+    for (auto i = _path.begin(); i != _path.end(); ++i)
       if (!(mol->GetAtom(*i))->IsAromatic())
         return(false);
 
@@ -611,19 +599,18 @@ namespace OpenBabel
 
   unsigned int OBRing::GetRootAtom()
   {
-    vector<int>::iterator i;
     OBMol *mol = (OBMol*)GetParent();
 
     //if (!IsAromatic())
     //  return 0;
 
     if (Size() == 6)
-      for (i = _path.begin();i != _path.end();++i)
+      for (auto i = _path.begin(); i != _path.end(); ++i)
         if (mol->GetAtom(*i)->GetAtomicNum() != OBElements::Carbon)
 	        return (*i);
 
     if (Size() == 5)
-      for (i = _path.begin();i != _path.end();++i) {
+      for (auto i = _path.begin(); i != _path.end(); ++i) {
         OBAtom *atom = mol->GetAtom(*i);
         switch (atom->GetAtomicNum()) {
         case OBElements::Sulfur:

@@ -70,9 +70,8 @@ namespace OpenBabel
     coords.resize(3, N);
 
     // Create a 3xN matrix of the coords
-    vector<vector3>::const_iterator it;
-    vector<vector3>::size_type colm;
-    for (colm=0,it=pcoords->begin();colm<N;++colm,++it)
+    vector<vector3>::size_type colm = 0;
+    for (auto it = pcoords->cbegin(); colm < N; ++colm, ++it)
       coords.col(colm) = Eigen::Vector3d( it->AsArray() );
   }
 
@@ -324,7 +323,6 @@ namespace OpenBabel
       Eigen::MatrixXd result, rotMatrix;
 
       // Try all of the symmetry-allowed permutations
-      OBIsomorphismMapper::Mappings::const_iterator cit;
       Eigen::MatrixXd mtarget(_mtarget.rows(), _mtarget.cols());
 
       for (unsigned int k = 0; k < _aut.size(); ++k) {

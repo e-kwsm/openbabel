@@ -55,12 +55,10 @@ namespace OpenBabel
 
   OBPhModel::~OBPhModel()
   {
-    vector<OBChemTsfm*>::iterator k;
-    for (k = _vtsfm.begin();k != _vtsfm.end();++k)
+    for (auto k = _vtsfm.begin(); k != _vtsfm.end(); ++k)
       delete *k;
 
-    vector<pair<OBSmartsPattern*,vector<double> > >::iterator m;
-    for (m = _vschrg.begin();m != _vschrg.end();++m)
+    for (auto m = _vschrg.begin(); m != _vschrg.end(); ++m)
       delete m->first;
   }
 
@@ -112,8 +110,7 @@ namespace OpenBabel
           }
 
         vector<double> vf;
-        vector<string>::iterator i;
-        for (i = vs.begin()+2;i != vs.end();++i)
+        for (auto i = vs.begin() + 2; i != vs.end(); ++i)
           vf.push_back(atof((char*)i->c_str()));
 
         _vschrg.push_back(pair<OBSmartsPattern*,vector<double> > (sp,vf));
@@ -129,15 +126,13 @@ namespace OpenBabel
     if (!mol.AutomaticPartialCharge())
       return;
 
-    vector<pair<OBSmartsPattern*,vector<double> > >::iterator i;
-    for (i = _vschrg.begin(); i != _vschrg.end(); ++i) {
+    for (auto i = _vschrg.begin(); i != _vschrg.end(); ++i) {
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist, OBSmartsPattern::AllUnique))
       {
         unsigned int k;
-        vector<vector<int> >::iterator j;
 
-        for (j = mlist.begin(); j != mlist.end(); ++j)
+        for (auto j = mlist.begin(); j != mlist.end(); ++j)
           for (k = 0; k < j->size(); ++k)
             mol.GetAtom((*j)[k])->SetPartialCharge(i->second[k]);
       }
@@ -315,11 +310,8 @@ namespace OpenBabel
 
     if (!_vchrg.empty()) //modify charges
       {
-        vector<vector<int> >::iterator i;
-        vector<pair<int,int> >::iterator j;
-
-        for (i = mlist.begin();i != mlist.end();++i)
-          for (j = _vchrg.begin();j != _vchrg.end();++j)
+        for (auto i = mlist.begin(); i != mlist.end(); ++i)
+          for (auto j = _vchrg.begin(); j != _vchrg.end(); ++j)
             if (j->first < (signed)i->size()) { //goof proofing
               OBAtom *atom = mol.GetAtom((*i)[j->first]);
               int old_charge = atom->GetFormalCharge();
@@ -334,10 +326,8 @@ namespace OpenBabel
     if (!_vbond.empty()) //modify bond orders
       {
         OBBond *bond;
-        vector<vector<int> >::iterator i;
-        vector<pair<pair<int,int>,int> >::iterator j;
-        for (i = mlist.begin();i != mlist.end();++i)
-          for (j = _vbond.begin();j != _vbond.end();++j)
+        for (auto i = mlist.begin(); i != mlist.end(); ++i)
+          for (auto j = _vbond.begin(); j != _vbond.end(); ++j)
             {
               bond = mol.GetBond((*i)[j->first.first],(*i)[j->first.second]);
               if (!bond)
@@ -359,14 +349,10 @@ namespace OpenBabel
 
     if (!_vadel.empty() || !_vele.empty()) //delete atoms and change elements
       {
-        vector<int>::iterator j;
-        vector<vector<int> >::iterator i;
-
         if (!_vele.empty())
           {
-            vector<pair<int,int> >::iterator k;
-            for (i = mlist.begin();i != mlist.end();++i)
-              for (k = _vele.begin();k != _vele.end();++k)
+            for (auto i = mlist.begin(); i != mlist.end(); ++i)
+              for (auto k = _vele.begin(); k != _vele.end(); ++k)
                 mol.GetAtom((*i)[k->first])->SetAtomicNum(k->second);
           }
 
@@ -374,16 +360,15 @@ namespace OpenBabel
         vector<bool> vda;
         vector<OBAtom*> vdel;
         vda.resize(mol.NumAtoms()+1,false);
-        for (i = mlist.begin();i != mlist.end();++i)
-          for (j = _vadel.begin();j != _vadel.end();++j)
+        for (auto i = mlist.begin(); i != mlist.end(); ++i)
+          for (auto j = _vadel.begin(); j != _vadel.end(); ++j)
             if (!vda[(*i)[*j]])
               {
                 vda[(*i)[*j]] = true;
                 vdel.push_back(mol.GetAtom((*i)[*j]));
               }
 
-        vector<OBAtom*>::iterator k;
-        for (k = vdel.begin();k != vdel.end();++k)
+        for (auto k = vdel.begin(); k != vdel.end(); ++k)
           mol.DeleteAtom((OBAtom*)*k);
       }
 

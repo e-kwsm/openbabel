@@ -417,7 +417,7 @@ namespace OpenBabel
 
   void OutputGroup(OBMol& mol, ostream& ofs, const vector <int>& group, map <unsigned int, unsigned int> new_indexes, bool use_new_indexes)
   {
-    for (vector <int>::const_iterator it = group.begin(); it != group.end(); ++it)
+    for (auto it = group.cbegin(); it != group.cend(); ++it)
     {
       if (use_new_indexes) {OutputAtom(mol.GetAtom((*it)), ofs, new_indexes.find(*it)->second);}
       else {OutputAtom(mol.GetAtom((*it)), ofs, (*it));}
@@ -452,14 +452,14 @@ namespace OpenBabel
 
     vector <OBBond*> bonds_to_delete;
     OBMol mol_pieces = mol;
-    for (OBBondIterator it=mol_pieces.BeginBonds(); it != mol_pieces.EndBonds(); it++)
+    for (auto it = mol_pieces.BeginBonds(); it != mol_pieces.EndBonds(); ++it)
     {
       if (IsRotBond_PDBQT((*it)))
       {
         bonds_to_delete.push_back(*it);
       }
     }
-    for (vector<OBBond*>::iterator bit = bonds_to_delete.begin(); bit != bonds_to_delete.end(); ++bit)
+    for (auto bit = bonds_to_delete.begin(); bit != bonds_to_delete.end(); ++bit)
     {
       mol_pieces.DeleteBond(*bit, true);
     }
@@ -470,7 +470,7 @@ namespace OpenBabel
 
   bool DeleteHydrogens(OBMol & mol)
   {
-    for (OBAtomIterator it=mol.BeginAtoms(); it != mol.EndAtoms(); it++)
+    for (auto it = mol.BeginAtoms(); it != mol.EndAtoms(); ++it)
     {
       if ( (*it)->IsNonPolarHydrogen() )
       {
@@ -497,7 +497,7 @@ namespace OpenBabel
       how_many_atoms_move.insert(pair<unsigned int, unsigned int>( (*tree.find(i)).second.how_many_atoms_moved,i));
     }
 
-    multimap <unsigned int, unsigned int>::iterator it=how_many_atoms_move.begin();
+    auto it = how_many_atoms_move.begin();
     if ((!moves_many) && !how_many_atoms_move.empty()) {
       it=how_many_atoms_move.end();
       if (it!=how_many_atoms_move.begin()) // don't move past begin
@@ -536,7 +536,7 @@ namespace OpenBabel
       {
         if (free_bonds.count(i))
         {
-          for (set <unsigned int>::iterator it= (*tree.find(i)).second.rigid_with.begin() ; it != (*tree.find(i)).second.rigid_with.end(); ++it)
+          for (auto it = (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
                                   {
             vector <int> atoms=(*tree.find(*it)).second.atoms;
             for (unsigned int j=0; j < atoms.size(); j++)
@@ -551,7 +551,7 @@ namespace OpenBabel
 
     if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
       ofs << "ROOT" << endl;
-    for (set <unsigned int>::iterator it= (*tree.find(0)).second.rigid_with.begin() ; it != (*tree.find(0)).second.rigid_with.end(); ++it)
+    for (auto it = (*tree.find(0)).second.rigid_with.begin(); it != (*tree.find(0)).second.rigid_with.end(); ++it)
     {
       OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
     }
@@ -573,17 +573,17 @@ namespace OpenBabel
         if (!preserve_original_index) {ofs << (new_order.find(child_atom))-> second;}
         else {ofs << child_atom;}
         ofs << endl;
-        for (set <unsigned int>::iterator it= (*tree.find(i)).second.rigid_with.begin() ; it != (*tree.find(i)).second.rigid_with.end(); ++it)
+        for (auto it = (*tree.find(i)).second.rigid_with.begin(); it != (*tree.find(i)).second.rigid_with.end(); ++it)
         {
           OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
         }
       }
       unsigned int child=i;
-      for (vector <unsigned int>::iterator it=(*tree.find(i)).second.parents.end(); it != (*tree.find(i)).second.parents.begin(); )
+      for (auto it = (*tree.find(i)).second.parents.end(); it != (*tree.find(i)).second.parents.begin(); )
       {
         --it;
         if ((*it)==0) {break;} //do not close the main root; that is closed separately
-        vector <unsigned int>::iterator it_parent=it;
+        auto it_parent = it;
         --it_parent;
         if ((*tree.find(*it)).second.children.size() == 0)
         {
@@ -670,7 +670,7 @@ namespace OpenBabel
   unsigned int RotBond_count(OBMol & mol)
   {
     unsigned int count=0;
-    for (OBBondIterator it=mol.BeginBonds(); it!=mol.EndBonds(); it++)
+    for (auto it = mol.BeginBonds(); it != mol.EndBonds(); ++it)
     {
       if (IsRotBond_PDBQT((*it))) {count++;}
     }
@@ -740,7 +740,7 @@ namespace OpenBabel
 
   bool IsIn(const vector<int>& vec, const int num) //checks whether a vector of int contains a specific int
   {
-    for (vector<int>::const_iterator itv=vec.begin(); itv != vec.end(); ++itv)
+    for (auto itv = vec.cbegin(); itv != vec.cend(); ++itv)
     {
       if ((*itv) == num ) {return true;}
     }
@@ -899,7 +899,7 @@ namespace OpenBabel
           int bondAtomNum;
           unsigned int end;
           OBResidue *res;
-          for (OBBondIterator it=mol.BeginBonds(); it != mol.EndBonds(); it++)
+          for (auto it = mol.BeginBonds(); it != mol.EndBonds(); ++it)
           {
             if (IsRotBond_PDBQT((*it)))
             {

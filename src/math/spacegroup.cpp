@@ -39,7 +39,7 @@ namespace OpenBabel
    */
   std::string RemoveWhiteSpaceUnderscore(const string &in){
     std::string out=in;
-    for(std::string::iterator pos=out.begin();pos!=out.end();){
+    for (auto pos = out.begin(); pos != out.end();) {
       if( ((char)(*pos)==' ') ||((char)(*pos)=='_'))  pos=out.erase(pos);
       else ++pos;
     }
@@ -74,8 +74,7 @@ namespace OpenBabel
 
   SpaceGroups::~SpaceGroups()
   {
-    set<SpaceGroup*>::iterator i, end = sgs.end();
-    for (i = sgs.begin(); i != end; ++i)
+    for (auto i = sgs.begin(), end = sgs.end(); i != end; ++i)
       delete (*i);
   }
 
@@ -146,8 +145,7 @@ namespace OpenBabel
 
   SpaceGroup::~SpaceGroup()
   {
-    list<transform3d*>::iterator i, end = m_transforms.end();
-    for (i = m_transforms.begin(); i != end; ++i)
+    for (auto i = m_transforms.begin(), end = m_transforms.end(); i != end; ++i)
       delete *i;
   }
 
@@ -296,11 +294,10 @@ namespace OpenBabel
 			v.z() -= 1.;
 
     // only push_back unique transformations
-    transform3dIterator i, iend = m_transforms.end();
     transform3d* candidate = new transform3d (m, v);
     bool transform_exists = false;
 
-    for (i = m_transforms.begin(); i!= iend; i++)
+    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i != iend; ++i)
     {
       if (candidate->DescribeAsString() == (*i)->DescribeAsString())
       {
@@ -319,8 +316,7 @@ namespace OpenBabel
   {
     static double prec = 2e-5;
     list<vector3> res;
-    transform3dIterator i, iend = m_transforms.end();
-    for (i = m_transforms.begin(); i!= iend; i++)
+    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i != iend; ++i)
       {
         vector3 t;
         t = *(*i) * v;
@@ -336,9 +332,8 @@ namespace OpenBabel
           t.z() += 1.;
         if (t.z() >= 1.)
           t.z() -= 1.;
-        list<vector3>::iterator j, jend = res.end();
         bool duplicate = false;
-        for (j = res.begin(); j != jend; ++j)
+        for (auto j = res.begin(), jend = res.end(); j != jend; ++j)
           if (fabs(t.x() - (*j).x()) < prec &&
               fabs(t.y() - (*j).y()) < prec &&
               fabs(t.z() - (*j).z()) < prec)
@@ -467,17 +462,13 @@ namespace OpenBabel
     if (m_transforms.size() != sg.m_transforms.size())
       return false;
     set<string> s0, s1;
-    list<transform3d*>::const_iterator i, iend;
-    iend = m_transforms.end();
-    for (i = m_transforms.begin(); i != iend; ++i)
+    for (auto i = m_transforms.cbegin(), iend = m_transforms.cend(); i != iend; ++i)
       s0.insert((*i)->DescribeAsString());
-    iend = sg.m_transforms.end();
-    for (i = sg.m_transforms.begin(); i != iend; ++i)
+    for (auto i = sg.m_transforms.cbegin(), iend = sg.m_transforms.cend(); i != iend; ++i)
       s1.insert((*i)->DescribeAsString());
     if (s0.size() != s1.size())
       return false;
-    set<string>::iterator j, jend = s0.end();
-    for (j = s0.begin(); j != jend; ++j)
+    for (auto j = s0.begin(), jend = s0.end(); j != jend; ++j)
       if (s1.find(*j) == s1.end())
         return false;
     return true;
@@ -489,9 +480,8 @@ namespace OpenBabel
   {
     if (!m_transforms.size())
       return false;
-    list<transform3d*>::const_iterator i, iend = m_transforms.end();
     map <string, transform3d*>T;
-    for (i = m_transforms.begin(); i != iend; ++i)
+    for (auto i = m_transforms.cbegin(), iend = m_transforms.cend(); i != iend; ++i)
       {
         if (T.find((*i)->DescribeAsString()) != T.end())
           {
@@ -500,14 +490,13 @@ namespace OpenBabel
           }
         T[(*i)->DescribeAsString()] = *i;
       }
-		// calculate all products and check if they are in the group
-		map <string, transform3d*>::iterator j, k, end = T.end();
+    // calculate all products and check if they are in the group
     string s;
     bool has_inverse;
-		for (j = T.begin(); j != end; ++j)
-		  {
+    for (auto j = T.begin(), end = T.end(); j != end; ++j)
+      {
         has_inverse = false;
-        for (k = T.begin(); k != end; ++k)
+        for (auto k = T.begin(); k != end; ++k)
           {
             s = (*(*j).second * *(*k).second).DescribeAsString();
             if (T.find(s) == end)
@@ -564,8 +553,8 @@ namespace OpenBabel
         }
         if (group->m_transforms.size())
           {// If transforms (symmetry operations) are listed, make sure they match the tabulated ones
-            list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[found->m_id - 1].end();
-            for (i = _SpaceGroups.sgbi[found->m_id - 1].begin(); i!= end; ++i)
+            for (auto i = _SpaceGroups.sgbi[found->m_id - 1].cbegin(),
+                    end = _SpaceGroups.sgbi[found->m_id - 1].cend(); i != end; ++i)
               if ((**i) == *group)
                 return *i;
             obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error (H-M symbol:"+group->m_HM+"), cannot match the list of transforms, please file a bug report.", obError);
@@ -574,8 +563,8 @@ namespace OpenBabel
         else if (group->m_transforms.size() == 0)
           {// No transforms (symmetry operations) are listed, warn if HM symbol can match several spacegroups
             int n = 0;
-            list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[group->m_id].end();
-            for (i = _SpaceGroups.sgbi[group->m_id].begin(); i!= end; ++i)
+            for (auto i = _SpaceGroups.sgbi[group->m_id].cbegin(),
+                    end = _SpaceGroups.sgbi[group->m_id].cend(); i != end; ++i)
               if (RemoveWhiteSpaceUnderscore((*i)->m_HM) == stripped_hm)
                 n++;
             if (n > 1)
@@ -589,8 +578,8 @@ namespace OpenBabel
       {
         if (group->m_transforms.size())
           {
-            list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[group->m_id - 1].end();
-            for (i = _SpaceGroups.sgbi[group->m_id - 1].begin(); i!= end; ++i)
+            for (auto i = _SpaceGroups.sgbi[group->m_id - 1].cbegin(),
+                    end = _SpaceGroups.sgbi[group->m_id - 1].cend(); i != end; ++i)
               if ((**i) == *group)
                 return *i;
           }
@@ -608,8 +597,7 @@ namespace OpenBabel
                                            +") with incomplete or wrong definition.", obWarning);
         return NULL;
       }
-    set<SpaceGroup*>::iterator i, end = _SpaceGroups.sgs.end();
-    for (i = _SpaceGroups.sgs.begin(); i != end; ++i)
+    for (auto i = _SpaceGroups.sgs.begin(), end = _SpaceGroups.sgs.end(); i != end; ++i)
       if (**i == *group)
         return *i;
     obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error, please file a bug report.", obWarning);

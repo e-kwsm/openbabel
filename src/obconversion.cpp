@@ -1297,8 +1297,8 @@ namespace OpenBabel {
               {
                 //If the output file is the same as any of the input
                 //files, send the output to a temporary stringstream
-                vector<string>::iterator itr;
-                for(itr=FileList.begin();itr!=FileList.end();++itr)
+                auto itr = FileList.begin();
+                for (; itr != FileList.end(); ++itr)
                   {
                     if(*itr==OutputFileName)
                       {
@@ -1332,8 +1332,7 @@ namespace OpenBabel {
               }
 
             stringstream allinput;
-            vector<string>::iterator itr;
-            for(itr=FileList.begin();itr!=FileList.end();++itr)
+            for (auto itr = FileList.begin(); itr != FileList.end(); ++itr)
               {
                 ifstream ifs((*itr).c_str());
                 if(!ifs)
@@ -1363,10 +1362,9 @@ namespace OpenBabel {
             if(FileList.size()>1 || OutputFileName.substr(0,2)=="*.")
               {
                 //multiple input files
-                vector<string>::iterator itr, tempitr;
-                tempitr = FileList.end();
+                auto tempitr = FileList.end();
                 --tempitr;
-                for(itr=FileList.begin();itr!=FileList.end();++itr)
+                for (auto itr = FileList.begin(); itr != FileList.end(); ++itr)
                   {
                     InFilename = *itr;
                     ifstream ifs;
@@ -1591,8 +1589,7 @@ Additional options :
   const char* OBConversion::IsOption(const char* opt, Option_type opttyp)
   {
     //Returns NULL if option not found or a pointer to the text if it is
-    map<string,string>::iterator pos;
-    pos = OptionsArray[opttyp].find(opt);
+    auto pos = OptionsArray[opttyp].find(opt);
     if(pos==OptionsArray[opttyp].end())
       return NULL;
     return pos->second.c_str();
@@ -1638,8 +1635,7 @@ Additional options :
                                          int numberParams, Option_type typ)
   {
     //Gives error message if the number of parameters conflicts with an existing registration
-    map<string,int>::iterator pos;
-    pos =	OptionParamArray(typ).find(name);
+    auto pos = OptionParamArray(typ).find(name);
     if(pos!=OptionParamArray(typ).end())
       {
         if(pos->second!=numberParams)
@@ -1660,8 +1656,7 @@ Additional options :
   int OBConversion::GetOptionParams(string name, Option_type typ)
   {
     //returns the number of parameters registered for the option, or 0 if not found
-    map<string,int>::iterator pos;
-    pos =	OptionParamArray(typ).find(name);
+    auto pos = OptionParamArray(typ).find(name);
     if(pos==OptionParamArray(typ).end())
       return 0;
     return pos->second;

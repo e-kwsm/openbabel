@@ -125,9 +125,8 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
 	DoRings();
 	DoReverses();
 
-	SetItr itr;
-  _ss.str("");
-	for(itr=fragset.begin();itr!=fragset.end();++itr)
+        _ss.str("");
+	for (auto itr = fragset.begin(); itr != fragset.end(); ++itr)
 	{
 		//Use hash of fragment to set a bit in the fingerprint
 		int hash = CalcHash(*itr);
@@ -206,11 +205,10 @@ void fingerprint2::getFragments(vector<int> levels, vector<int> curfrag,
 ///////////////////////////////////////////////////
 void fingerprint2::DoReverses()
 {
-	SetItr itr;
-	for(itr=fragset.begin();itr!=fragset.end();)
+	for (auto itr = fragset.begin(); itr != fragset.end();)
 	{
 		//Reverse the order of the atoms, add the smallest fragment and remove the larger
-		SetItr titr = itr++; //Ensure have valid next iterator in case current one is erased
+		auto titr = itr++; //Ensure have valid next iterator in case current one is erased
 		vector<int> t1(*titr); //temporary copy
 		reverse(t1.begin()+1, t1.end()); //(leave 0 at front alone)
 		if(t1!=*titr)
@@ -231,8 +229,7 @@ void fingerprint2::DoRings()
 {
 	//For each complete ring fragment, find its largest chemically identical representation
 	//by rotating and reversing, and insert into the main set of fragments
-	SetItr itr;
-	for(itr=ringset.begin();itr!=ringset.end();++itr)
+	for (auto itr = ringset.begin(); itr != ringset.end(); ++itr)
 	{
 		vector<int> t1(*itr); //temporary copy
 		vector<int> maxring(*itr); //the current largest vector

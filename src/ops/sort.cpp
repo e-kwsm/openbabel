@@ -113,17 +113,15 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
     //Copy into a pair vector
     std::vector<std::pair<OBBase*,double> > valvec;
     valvec.reserve(vec.size());
-    std::vector<OBBase*>::iterator iter;
-    for(iter=vec.begin();iter!=vec.end();++iter)
+    for (auto iter = vec.begin(); iter != vec.end(); ++iter)
       valvec.push_back(std::make_pair<OBBase*,double>(&(**iter), _pDesc->Predict(*iter, &_pDescOption)));
 
     //Sort
     std::sort(valvec.begin(),valvec.end(), Order<double>(_pDesc, _rev));
 
     //Copy back
-    std::vector<std::pair<OBBase*,double> >::iterator valiter;
-    iter=vec.begin();
-    for(valiter=valvec.begin();valiter!=valvec.end();++valiter, ++iter)
+    auto iter = vec.begin();
+    for (auto valiter = valvec.begin(); valiter != valvec.end(); ++valiter, ++iter)
     {
       *iter = valiter->first;
       if(_addDescToTitle)
@@ -140,9 +138,8 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
     //Copy into a pair vector
     std::vector<std::pair<OBBase*,std::string> > valvec;
     valvec.reserve(vec.size());
-    std::vector<OBBase*>::iterator iter;
     std::string s;
-    for(iter=vec.begin();iter!=vec.end();++iter)
+    for (auto iter = vec.begin(); iter != vec.end(); ++iter)
     {
       _pDesc->GetStringValue(*iter, s, &_pDescOption);
       valvec.push_back(std::pair<OBBase*,std::string>(&(**iter), s));
@@ -152,9 +149,8 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
     std::sort(valvec.begin(),valvec.end(), Order<std::string>(_pDesc, _rev));
 
     //Copy back
-    std::vector<std::pair<OBBase*,std::string> >::iterator valiter;
-    iter=vec.begin();
-    for(valiter=valvec.begin();valiter!=valvec.end();++valiter, ++iter)
+    auto iter = vec.begin();
+    for (auto valiter = valvec.begin(); valiter != valvec.end(); ++valiter, ++iter)
     {
       *iter = valiter->first;
       if(_addDescToTitle)

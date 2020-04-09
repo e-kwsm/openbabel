@@ -202,7 +202,7 @@ namespace OpenBabel
     for (int idx = 0; idx < 3; ++ idx)
       tla_buf[idx] = (char)toupper(tla_buf[idx]);
 
-    residue_lookup_map::const_iterator mx = residue_lookup.find(std::string(tla_buf));
+    auto mx = residue_lookup.find(std::string(tla_buf));
     if (mx != residue_lookup.end())
       {
         return_code = (* mx).second;
@@ -407,7 +407,7 @@ namespace OpenBabel
     unsigned long residue_num = 1;
     OBResidue * res = 0;
     ptrAtom resBondFrom = 0;
-    for (std::string::const_iterator sx = sequence.begin(), sy = sequence.end(); sx != sy; ++ sx, ++ residue_num)
+    for (auto sx = sequence.cbegin(), sy = sequence.cend(); sx != sy; ++sx, ++residue_num)
       {
         bool is_gap = (((* sx) == '-') || ((* sx) == '*'));
         if (is_gap)
@@ -538,7 +538,7 @@ namespace OpenBabel
             offset_x -= DNA_helix.unit_X;
             offset_Theta -= DNA_helix.unit_Theta;
             std::string rsequence;
-            for (std::string::const_reverse_iterator sx = sequence.rbegin(), sy = sequence.rend(); sx != sy; ++ sx)
+            for (auto sx = sequence.crbegin(), sy = sequence.crend(); sx != sy; ++sx)
               rsequence.append(1, * sx);
             generate_sequence(rsequence, pmol, 2, DNA_pair_helix, IUPAC_DNA_codes, DNAPairResidues, offset_x, offset_Theta, serial_no, create_bonds, bond_orders);
           }

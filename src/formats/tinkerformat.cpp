@@ -256,7 +256,7 @@ namespace OpenBabel
   int SetMM3Type(OBAtom *atom)
   {
     OBAtom *b; // neighbor
-    OBBondIterator i, j;
+    OBBondIterator j;
     int countNeighborO, countNeighborS, countNeighborN, countNeighborC;
     countNeighborO = countNeighborS = countNeighborN = countNeighborC = 0;
 

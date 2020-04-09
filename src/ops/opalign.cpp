@@ -93,13 +93,11 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   if(!pmol)
     return false;
     
-  map<string,string>::const_iterator itr;
-
   // Is there an -s option?
   if(pConv->IsFirstInput())
   {
     _pOpIsoM = NULL; //assume no -s option
-    itr = pmap->find("s");
+    auto itr = pmap->find("s");
     if(itr!=pmap->end())
     {
       //There is an -s option; check it is ok
@@ -132,7 +130,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   if(pmol->GetDimension()==0)
   {
     //Will the coordinates be 2D or 3D?
-    itr = pmap->find("gen3D");
+    auto itr = pmap->find("gen3D");
     OBOp* pgen = (itr==pmap->end()) ? OBOp::FindType("gen2D") : OBOp::FindType("gen3D");
     if(pgen)
       pgen->Do(pmol);
@@ -168,7 +166,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
       if(!ats.empty())
       {
         // Make a vector of the matching atom coordinates...
-        for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter)
+        for (auto iter = ats.begin(); iter != ats.end(); ++iter)
           _refvec.push_back((pmol->GetAtom(*iter))->GetVector());        
         // ...and use a vector reference
         _align.SetRef(_refvec);
@@ -211,7 +209,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     // Make a vector of their coordinates and get the centroid
     vector<vector3> vec;
     vector3 centroid;
-    for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter) {
+    for (auto iter = ats.begin(); iter != ats.end(); ++iter) {
       vector3 v = pmol->GetAtom(*iter)->GetVector();
       centroid += v;
       vec.push_back(v);
@@ -225,7 +223,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
 
     // Get the centroid of the reference atoms
     vector3 ref_centroid;
-    for(vector<vector3>::iterator iter=_refvec.begin(); iter!=_refvec.end(); ++iter)
+    for (auto iter = _refvec.begin(); iter != _refvec.end(); ++iter)
       ref_centroid += *iter;
     ref_centroid /= _refvec.size();
 

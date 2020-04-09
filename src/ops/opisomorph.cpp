@@ -174,7 +174,6 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
   //string txt(pmap->find(GetID())->second); // ID can be "s" or "v"
 
-  vector<OBQuery*>::iterator qiter;
   if(OptionText && *OptionText)//(!pConv || pConv->IsFirstInput())
   {
     //Set up on first call
@@ -193,7 +192,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
     //Do not filter out any molecules if there is a parameter "showall";
     //allows -s option to be used for highlighting substructures (--highlight also does this)
-    vector<string>::iterator it = std::remove(vec.begin(), vec.end(),"showall");
+    auto it = std::remove(vec.begin(), vec.end(), "showall");
     showAll = it != vec.end();
     if(showAll)
       vec.erase(it);
@@ -307,19 +306,17 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
   if(!queries.empty()) //filename supplied
   {
     //match is set true if any of the structures match - OR behaviour
-    for(qiter=queries.begin();qiter!=queries.end();++qiter, ++imol)
+    for (auto qiter = queries.begin(); qiter != queries.end(); ++qiter, ++imol)
     {
       OBIsomorphismMapper* mapper = OBIsomorphismMapper::GetInstance(*qiter);
       OBIsomorphismMapper::Mappings mappings;
       mapper->MapUnique(pmol, mappings);
       if( (match = !mappings.empty()) ) // extra parens to indicate truth value
       {
-        OBIsomorphismMapper::Mappings::iterator ita;
-        OBIsomorphismMapper::Mapping::iterator itb;
-        for(ita=mappings.begin(); ita!=mappings.end();++ita)//each mapping
+        for (auto ita = mappings.begin(); ita != mappings.end(); ++ita)//each mapping
         {
           vector<int> atomvec;
-          for(itb=ita->begin(); itb!=ita->end();++itb)//each atom index
+          for (auto itb = ita->begin(); itb != ita->end(); ++itb)//each atom index
             atomvec.push_back(itb->second+1);
           vecatomvec.push_back(atomvec);
           atomvec.clear();
@@ -364,8 +361,6 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
   if(match && !inv && vec.size()>=2 && !vec[1].empty() && !nPatternAtoms)
   {
-    vector<vector<int> >::iterator iter;
-
     if (vec[1]=="extract" || (vec.size()>3 && vec[2]=="extract"))
     {
       //Delete all unmatched atoms. Use only the first match
@@ -377,14 +372,14 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     // with multiple color parameters use the one corresponding to the query molecule, or the last
     if(imol>vec.size()-2)
       imol = vec.size()-2;
-    for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
+    for (auto iter = pMappedAtoms->begin(); iter != pMappedAtoms->end(); ++iter)//each match
        AddDataToSubstruct(pmol, *iter, "color", vec[imol+1]);
     return true;
   }
 
   if(pConv && pConv->IsLast())
   {
-    for(qiter=queries.begin();qiter!=queries.end();++qiter)
+    for (auto qiter = queries.begin(); qiter != queries.end(); ++qiter)
       delete *qiter;
     queries.clear();
   }

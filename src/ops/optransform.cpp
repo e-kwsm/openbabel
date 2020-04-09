@@ -117,8 +117,7 @@ bool OpTransform::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
     if(!Initialize())
       return false;
 
-  vector<OBChemTsfm>::iterator itr;
-  for(itr=_transforms.begin(); itr!=_transforms.end();++itr)
+  for (auto itr = _transforms.begin(); itr != _transforms.end(); ++itr)
     itr->Apply(*pmol);
   return true;
 }

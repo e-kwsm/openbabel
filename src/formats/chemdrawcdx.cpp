@@ -242,8 +242,7 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   }
 
   //At the end, output molecules that have not been used in a reaction
-  map<CDXObjectID, OBMol*>::iterator mapiter = _molmap.begin();
-  for(; mapiter!=_molmap.end(); ++mapiter)
+  for (auto mapiter = _molmap.begin(); mapiter != _molmap.end(); ++mapiter)
   {
     pmol = mapiter->second;
     if(!(pmol->GetFlags() & usedFlag) && strcmp(pmol->GetTitle(),"justplus"))
@@ -285,7 +284,7 @@ bool ChemDrawBinaryXFormat::TopLevelParse
       if(ContainingGroup)
       {
         // Add the id of this mol to the group's entry in _groupmap 
-        GroupMapIterator gmapiter = _groupmap.find(ContainingGroup);
+        auto gmapiter = _groupmap.find(ContainingGroup);
         if(gmapiter!=_groupmap.end())
           gmapiter->second.push_back(cdxr.CurrentID());
       }
@@ -375,8 +374,7 @@ vector<OBMol*> ChemDrawBinaryXFormat::LookupMol(CDXObjectID id)
 {
   vector<OBMol*> molvec;
   //Check whether the id is that of a kCDXObj_Group
-  GroupMapIterator gmapiter;
-  gmapiter = _groupmap.find(id);
+  auto gmapiter = _groupmap.find(id);
   if(gmapiter != _groupmap.end())
   {
     for(unsigned i=0;i<gmapiter->second.size();++i)
@@ -398,8 +396,7 @@ vector<OBMol*> ChemDrawBinaryXFormat::LookupMol(CDXObjectID id)
 
 OBMol* ChemDrawBinaryXFormat::LookupInMolMap(CDXObjectID id)
 {
-  std::map<CDXObjectID, OBMol*>::iterator mapiter;
-  mapiter = _molmap.find(id);
+  auto mapiter = _molmap.find(id);
   if(mapiter!=_molmap.end())
   {
     //Mark mol as used in a reaction, so that it will not be output independently
@@ -418,8 +415,7 @@ OBMol* ChemDrawBinaryXFormat::LookupInMolMap(CDXObjectID id)
 ////////////////////////////////////////////////////////////////////////
 ChemDrawBinaryXFormat::graphicType ChemDrawBinaryXFormat::LookupGraphic(CDXObjectID id)
 {
-  std::map<CDXObjectID, graphicType>::iterator mapiter;
-  mapiter = _graphicmap.find(id);
+  auto mapiter = _graphicmap.find(id);
   if(mapiter != _graphicmap.end())
     return mapiter->second;
   else
@@ -453,8 +449,7 @@ bool ChemDrawBinaryXFormat::DoFragment(CDXReader& cdxr, OBMol* pmol)
     if(ad && !ad->IsExpanded())
       aliasatoms.push_back(pAtom);
   }
-  for(vector<OBAtom*>::iterator vit=aliasatoms.begin();
-      vit!=aliasatoms.end(); ++vit)
+  for (auto vit = aliasatoms.begin(); vit != aliasatoms.end(); ++vit)
   {
     int idx = (*vit)->GetIdx();
     AliasData* ad = dynamic_cast<AliasData*>((*vit)->GetData(AliasDataType));
@@ -638,8 +633,7 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
   }
   // Handle 'implicit carbons' by adjusting their valence with
   // implicit hydrognes
-  for(vector<OBAtom*>::iterator vit=handleImplicitCarbons.begin();
-      vit!=handleImplicitCarbons.end(); ++vit)
+  for (auto vit = handleImplicitCarbons.begin(); vit != handleImplicitCarbons.end(); ++vit)
     OBAtomAssignTypicalImplicitHydrogens(*vit);
 
   return true;
@@ -852,7 +846,7 @@ string CDXReader::TagName(map<CDXTag, string>& enummap, CDXTag tag)
   string tagname;
   if(!enummap.empty())
   {
-    map<CDXTag, std::string>::iterator iter = enummap.find(tag);
+    auto iter = enummap.find(tag);
     if(iter!=enummap.end())
     {
       tagname=iter->second;
