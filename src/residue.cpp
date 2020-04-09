@@ -848,8 +848,7 @@ namespace OpenBabel
 
   OBResidue::~OBResidue()
   {
-    vector<OBAtom*>::iterator a;
-    for ( a = _atoms.begin() ; a != _atoms.end() ; ++a )
+    for (auto a = _atoms.begin(); a != _atoms.end(); ++a)
       (*a)->SetResidue(nullptr);
     _atoms.clear();
 
