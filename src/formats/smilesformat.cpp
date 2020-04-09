@@ -398,13 +398,11 @@ namespace OpenBabel {
       }
 
     // TODO: Is the following a memory leak? - there are return statements above
-    map<OBAtom*, OBTetrahedralStereo::Config*>::iterator i;
-    for (i = _tetrahedralMap.begin(); i != _tetrahedralMap.end(); ++i)
+    for (auto i = _tetrahedralMap.begin(); i != _tetrahedralMap.end(); ++i)
       delete i->second;
     _tetrahedralMap.clear();
 
-    map<OBAtom*, OBSquarePlanarStereo::Config*>::iterator j;
-    for (j = _squarePlanarMap.begin(); j != _squarePlanarMap.end(); ++j)
+    for (auto j = _squarePlanarMap.begin(); j != _squarePlanarMap.end(); ++j)
       delete j->second;
     _squarePlanarMap.clear();
 
@@ -609,8 +607,7 @@ namespace OpenBabel {
     // modify so they don't get lost.
     if(!_tetrahedralMap.empty()) {
       OBAtom* atom;
-      map<OBAtom*, OBTetrahedralStereo::Config*>::iterator ChiralSearch;
-      for(ChiralSearch = _tetrahedralMap.begin(); ChiralSearch != _tetrahedralMap.end(); ++ChiralSearch) {
+      for (auto ChiralSearch = _tetrahedralMap.begin(); ChiralSearch != _tetrahedralMap.end(); ++ChiralSearch) {
         atom = ChiralSearch->first;
         OBTetrahedralStereo::Config *ts = ChiralSearch->second;
         if (!ts)
@@ -1920,8 +1917,7 @@ namespace OpenBabel {
       return true;
 
     OBAtom *atom;
-    vector<ExternalBond>::iterator bond;
-    for (bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
+    for (auto bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
       // create new dummy atom
       atom = mol.NewAtom();
       atom->SetAtomicNum(0);
@@ -2010,9 +2006,8 @@ namespace OpenBabel {
     digit = atoi(str);  // convert indicator to digit
 
     //check for dot disconnect closures
-    vector<ExternalBond>::iterator bond;
     int upDown, bondOrder;
-    for (bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
+    for (auto bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
 
       if (bond->digit == digit) {
         upDown = (_updown > bond->updown) ? _updown : bond->updown;
@@ -2093,9 +2088,8 @@ namespace OpenBabel {
       digit = *_ptr - '0';
     }
 
-    vector<RingClosureBond>::iterator bond;
     int upDown, bondOrder;
-    for (bond = _rclose.begin(); bond != _rclose.end(); ++bond) {
+    for (auto bond = _rclose.begin(); bond != _rclose.end(); ++bond) {
       if (bond->digit == digit) {
         // Check for self-bonding, e.g. C11
         if (bond->prev == _prev) {
@@ -2133,8 +2127,7 @@ namespace OpenBabel {
         InsertSquarePlanarRef(mol, bond->prev - 1);
 
         // FIXME: needed for squreplanar too??
-        map<OBAtom*, OBTetrahedralStereo::Config*>::iterator ChiralSearch;
-        ChiralSearch = _tetrahedralMap.find(mol.GetAtom(bond->prev));
+        auto ChiralSearch = _tetrahedralMap.find(mol.GetAtom(bond->prev));
         if (ChiralSearch != _tetrahedralMap.end() && ChiralSearch->second != NULL) {
           int insertpos = bond->numConnections - 1;
           switch(insertpos) {
@@ -2199,9 +2192,8 @@ namespace OpenBabel {
     // after this function is called to handle inserting the stereo ref for the implicit H.
     if (idx-1 < _hcount.size() && _hcount[idx-1] > 0)
       val += _hcount[idx-1];
-    vector<RingClosureBond>::iterator bond;
     //correct for multiple closure bonds to a single atom
-    for (bond = _rclose.begin(); bond != _rclose.end(); ++bond)
+    for (auto bond = _rclose.begin(); bond != _rclose.end(); ++bond)
       if (bond->prev == idx)
         val++;
 
@@ -2311,8 +2303,7 @@ namespace OpenBabel {
 
   OBCanSmiNode::~OBCanSmiNode()
   {
-    vector<OBCanSmiNode*>::iterator i;
-    for (i = _child_nodes.begin();i != _child_nodes.end();++i)
+    for (auto i = _child_nodes.begin(); i != _child_nodes.end(); ++i)
       delete (*i);
   }
 
@@ -2464,8 +2455,7 @@ namespace OpenBabel {
     }
 
     int idx=1;
-    vector<OBBondClosureInfo>::iterator j;
-    for (j = _vopen.begin();j != _vopen.end();)
+    for (auto j = _vopen.begin(); j != _vopen.end(); )
       if (j->ringdigit == idx)
         {
           idx++; //increment idx and start over if digit is already used
@@ -2479,7 +2469,7 @@ namespace OpenBabel {
   void OBMol2Cansmi::CreateCisTrans(OBMol &mol)
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       if (((OBStereoBase*)*data)->GetType() != OBStereo::CisTrans)
         continue;
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
@@ -2510,7 +2500,6 @@ namespace OpenBabel {
     if (!bond || !atom)
       return false;
 
-    std::vector<OBCisTransStereo>::iterator ChiralSearch;
     OBAtom *nbr_atom = bond->GetNbrAtom(atom);
 
     bool stereo_dbl = false;
@@ -2519,7 +2508,7 @@ namespace OpenBabel {
       if (nbr_atom->HasDoubleBond())
         // Check whether the nbr_atom is a begin or end in any CisTransStereo. If so,
         // then the ring opening already had the symbol.
-        for (ChiralSearch = _cistrans.begin(); ChiralSearch != _cistrans.end(); ++ChiralSearch) {
+        for (auto ChiralSearch = _cistrans.begin(); ChiralSearch != _cistrans.end(); ++ChiralSearch) {
           OBCisTransStereo::Config cfg = ChiralSearch->GetConfig();
           if (nbr_atom->GetId() == cfg.begin || nbr_atom->GetId() == cfg.end) {
             // I don't think I need to check whether it has a bond with atom
@@ -2554,7 +2543,6 @@ namespace OpenBabel {
 
     // If this bond is in two different obcistransstereos (e.g. a conjugated system)
     // choose the one where the dbl bond atom is *atom (i.e. the one which comes first)
-    std::vector<OBCisTransStereo>::iterator ChiralSearch;
     std::vector<unsigned long>::iterator lookup;
 
     bool dbl_bond_first = false;
@@ -2563,7 +2551,7 @@ namespace OpenBabel {
       if (nbr_atom->HasDoubleBond())
         // Check whether the atom is a center in any CisTransStereo. If so,#
         // then this CisTransStereo takes precedence over any other
-        for (ChiralSearch = _cistrans.begin(); ChiralSearch != _cistrans.end(); ++ChiralSearch)
+        for (auto ChiralSearch = _cistrans.begin(); ChiralSearch != _cistrans.end(); ++ChiralSearch)
         {
           OBCisTransStereo::Config cfg = ChiralSearch->GetConfig();
           if (atom->GetId() == cfg.begin || atom->GetId() == cfg.end) {
@@ -2767,10 +2755,8 @@ namespace OpenBabel {
         bool external = false;
         vector<pair<int,pair<OBAtom *,OBBond *> > > *externalBonds =
           (vector<pair<int,pair<OBAtom *,OBBond *> > > *)((OBMol*)atom->GetParent())->GetData("extBonds");
-        vector<pair<int,pair<OBAtom *,OBBond *> > >::iterator externalBond;
-
         if (externalBonds) // TODO: This code has bit-rotted and needs some love
-          for(externalBond = externalBonds->begin();externalBond != externalBonds->end();++externalBond) {
+          for (auto externalBond = externalBonds->begin(); externalBond != externalBonds->end(); ++externalBond) {
             if (externalBond->second.first == atom) {
               external = true;
               buffer += '&';
@@ -2957,7 +2943,7 @@ namespace OpenBabel {
 
     // create a Config struct with the chiral_neighbors in canonical output order
     OBStereo::Refs canonRefs;
-    for (vector<OBAtom*>::const_iterator atom_it = chiral_neighbors.begin() + 1; atom_it != chiral_neighbors.end(); ++atom_it) {
+    for (auto atom_it = chiral_neighbors.begin() + 1; atom_it != chiral_neighbors.end(); ++atom_it) {
       if (*atom_it)
         canonRefs.push_back((*atom_it)->GetId());
       else // Handle a chiral lone pair, represented by a NULL OBAtom* in chiral_neighbors
