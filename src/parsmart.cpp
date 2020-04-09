@@ -1792,15 +1792,13 @@ namespace OpenBabel
         OBBitVec bv;
         std::vector<OBBitVec> vbv;
         std::vector<std::vector<int> > ulist;
-        std::vector<std::vector<int> >::iterator i;
-        std::vector<OBBitVec>::iterator j;
 
-        for (i = mlist.begin();i != mlist.end();++i)
+        for (auto i = mlist.begin(); i != mlist.end(); ++i)
           {
             ok = true;
             bv.Clear();
             bv.FromVecInt(*i);
-            for (j = vbv.begin();j != vbv.end() && ok;++j)
+            for (auto j = vbv.begin(); j != vbv.end() && ok; ++j)
               if ((*j) == bv)
                 ok = false;
 
@@ -1823,8 +1821,6 @@ namespace OpenBabel
   {
     bool ok;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
-    std::vector<std::pair<int,int> >::iterator j;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1832,10 +1828,10 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (auto i = mlist.begin(); i != mlist.end(); ++i)
       {
         ok = true;
-        for (j = pr.begin();j != pr.end() && ok;++j)
+        for (auto j = pr.begin(); j != pr.end() && ok; ++j)
           if ((*i)[j->first] != j->second)
             ok = false;
 
@@ -1851,9 +1847,7 @@ namespace OpenBabel
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
   {
     bool ok;
-    std::vector<int>::iterator j;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1862,10 +1856,10 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (auto i = mlist.begin(); i != mlist.end(); ++i)
       {
         ok = true;
-        for (j = i->begin();j != i->end();++j)
+        for (auto j = i->begin(); j != i->end(); ++j)
           if (!vres[*j])
             {
               ok = false;
@@ -2009,12 +2003,11 @@ namespace OpenBabel
     }
 
     if (pat->ischiral) {
-      std::vector<std::vector<int> >::iterator m;
       std::vector<std::vector<int> > tmpmlist;
 
       tmpmlist.clear();
       // iterate over the atom mappings
-      for (m = mlist.begin();m != mlist.end();++m) {
+      for (auto m = mlist.begin(); m != mlist.end(); ++m) {
 
         bool allStereoCentersMatch = true;
 
