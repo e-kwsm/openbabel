@@ -290,8 +290,8 @@ namespace OpenBabel
         CIFtagLookupTable.insert(CIFtagmap::value_type(string(CIFTagsRead[idx].tagname), CIFTagsRead[idx].tagid ));
         }
       }
-   CIFTagID::CIFDataName rtn = CIFTagID::unread_CIFDataName;
-    CIFtagmap::const_iterator found = CIFtagLookupTable.find(tag_name);
+    CIFTagID::CIFDataName rtn = CIFTagID::unread_CIFDataName;
+    auto found = CIFtagLookupTable.find(tag_name);
     if (found != CIFtagLookupTable.end())
       rtn = (* found).second;
     return rtn;
@@ -582,7 +582,7 @@ namespace OpenBabel
            int use_cartn = 0, use_residue = 0;
            use_fract = 0;
            CIFTagID::CIFDataName atom_type_tag = CIFTagID::unread_CIFDataName;
-           for (CIFColumnList::const_iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+           for (auto colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
              {
              switch (* colx)
                {
@@ -612,7 +612,7 @@ namespace OpenBabel
              }
            if (use_cartn)
              {
-             for (CIFColumnList::iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+             for (auto colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
                if ( (* colx) >= CIFTagID::_atom_site_fract_x && (* colx) <= CIFTagID::_atom_site_fract_z)
                  (* colx) = CIFTagID::unread_CIFDataName;
              use_fract = 0;
@@ -747,7 +747,7 @@ namespace OpenBabel
                atom_label.assign(token.as_text);
                if (atom_type_tag == CIFTagID::_atom_site_label_atom_id)
                  {
-                 for (string::iterator posx = token.as_text.begin(), posy = token.as_text.end(); posx != posy; ++ posx)
+                 for (auto posx = token.as_text.begin(), posy = token.as_text.end(); posx != posy; ++ posx)
                    {
                    char c = (char)toupper(* posx);
                    if ( c < 'A' || c > 'Z' )
@@ -768,7 +768,7 @@ namespace OpenBabel
                break;
              case CIFTagID::_atom_site_label_asym_id: // The strand number of the residue
                    if (token.as_text != last_asym_id) {
-                       CIFasymmap::const_iterator asym_it = asym_map.find(token.as_text);
+                       auto asym_it = asym_map.find(token.as_text);
                           if (asym_it == asym_map.end()) {
                               ++next_asym_no;
                               asym_it =
@@ -804,7 +804,7 @@ namespace OpenBabel
                  {
                  has_residue_information = true;
                  CIFResidueID res_id(chain_num, residue_num);
-                 CIFResidueMap::const_iterator resx = ResidueMap.find(res_id);
+                 auto resx = ResidueMap.find(res_id);
                  OBResidue * res;
                  if (resx == ResidueMap.end())
                    {
@@ -976,7 +976,7 @@ namespace OpenBabel
          pmol->SetData(pCell);
          if (use_fract)
            {
-           for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x)
+           for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x)
              {
              OBAtom * atom = (* atom_x);
              if (wrap_coords)
@@ -989,7 +989,7 @@ namespace OpenBabel
          if (pConv->IsOption("p",OBConversion::INOPTIONS))
            pmol->SetPeriodicMol();
          }
-       for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x )
+       for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x )
        {
          OBAtom * atom = (* atom_x);
          OBPairData * pd = dynamic_cast<OBPairData *>( atom->GetData( "_atom_site_label" ) );
@@ -1117,7 +1117,7 @@ namespace OpenBabel
    ofs << "_atom_site.Cartn_y" << endl;
    ofs << "_atom_site.Cartn_z" << endl;
    size_t site_id = 1;
-   for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x, ++ site_id)
+   for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x, ++ site_id)
      {
      OBAtom * atom = (* atom_x);
      ofs << '\t' << site_id << '\t' << OBElements::GetSymbol(atom->GetAtomicNum());
