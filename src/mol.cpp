@@ -747,11 +747,9 @@ namespace OpenBabel
     unsigned int m,id;
     OBAtom *nbr;
     vector<OBBond*>::iterator j;
-    vector<unsigned int>::iterator k;
-    vector<pair<OBAtom*,unsigned int> >::iterator i;
     sort(vp1.begin(),vp1.end(),OBComparePairFirst);
     vp2.clear();
-    for (i = vp1.begin();i != vp1.end();++i)
+    for (auto i = vp1.begin(); i != vp1.end(); ++i)
       {
         vector<unsigned int> vtmp;
         for (nbr = i->first->BeginNbrAtom(j);nbr;nbr = i->first->NextNbrAtom(j))
@@ -762,7 +760,8 @@ namespace OpenBabel
         // intermediates so it does not invoke overflow). See the matching
         // routine in graphsym.cpp for details.
         id = i->second;
-        for (m=100,k = vtmp.begin();k != vtmp.end();++k)
+        m = 100;
+        for (auto k = vtmp.begin();k != vtmp.end();++k)
           {
             id = static_cast<unsigned int>(id + static_cast<unsigned long long>(*k) * m);
             m  = static_cast<unsigned int>(static_cast<unsigned long long>(m) * 100);
