@@ -1077,9 +1077,6 @@ namespace OpenBabel
                     // These atoms have coordinates, but the fragment still has
                     // to be rotated and translated.
     vector3 molvec, moldir;
-    vector<vector<int> >::iterator j;
-    vector<int>::iterator k, k2;
-    vector<vector3>::iterator l;
     vector<vector<int> > mlist; // match list for fragments
 
     OBConversion conv;
@@ -1148,31 +1145,31 @@ namespace OpenBabel
         } else if (sp.Match(mol)) { // for all matches
           isMatchRigid = true;
           mlist = sp.GetUMapList();
-          for (j = mlist.begin(); j != mlist.end(); ++j) {
+          for (auto j = mlist.begin(); j != mlist.end(); ++j) {
             // Have any atoms of this match already been added?
             bool alreadydone = false;
-            for (k = j->begin(); k != j->end(); ++k)
+            for (auto k = j->begin(); k != j->end(); ++k)
               if (vfrag.BitIsSet(*k)) {
                 alreadydone = true;
                 break;
               }
             if (alreadydone) continue;
 
-            for (k = j->begin(); k != j->end(); ++k)
+            for (auto k = j->begin(); k != j->end(); ++k)
               vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
 
-            int counter;
+            int counter = 0;
             std::vector<vector3> coords = GetFragmentCoord(fragment_smiles);
-            for (k = j->begin(), counter=0; k != j->end(); ++k, ++counter) { // for all atoms of the fragment
+            for (auto k = j->begin(); k != j->end(); ++k, ++counter) { // for all atoms of the fragment
               // set coordinates for atoms
               OBAtom *atom = workMol.GetAtom(*k);
               atom->SetVector(coords[counter]);
             }
 
             // add the bonds for the fragment
-            for (k = j->begin(); k != j->end(); ++k) {
+            for (auto k = j->begin(); k != j->end(); ++k) {
               OBAtom *atom1 = mol.GetAtom(*k);
-              for (k2 = j->begin(); k2 != j->end(); ++k2) {
+              for (auto k2 = j->begin(); k2 != j->end(); ++k2) {
                 OBAtom *atom2 = mol.GetAtom(*k2);
                 OBBond *bond = atom1->GetBond(atom2);
                 if (bond != NULL) {
@@ -1206,29 +1203,29 @@ namespace OpenBabel
           if (i->first != NULL && i->first->Match(*f)) { // if match to fragment
             i->first->Match(mol);                        // match over mol
             mlist = i->first->GetUMapList();
-            for (j = mlist.begin();j != mlist.end();++j) { // for all matches
+            for (auto j = mlist.begin(); j != mlist.end(); ++j) { // for all matches
               // Have any atoms of this match already been added?
               bool alreadydone = false;
-              for (k = j->begin(); k != j->end(); ++k) { // for all atoms of the fragment
+              for (auto k = j->begin(); k != j->end(); ++k) { // for all atoms of the fragment
                 if (vfrag.BitIsSet(*k)) {
                   alreadydone = true;
                   break;
                 }
               }
               if (alreadydone) continue;
-              for (k = j->begin(); k != j->end(); ++k)
+              for (auto k = j->begin(); k != j->end(); ++k)
                 vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
 
-              int counter;
-              for (k = j->begin(), counter=0; k != j->end(); ++k, ++counter) { // for all atoms of the fragment
+              int counter = 0;
+              for (auto k = j->begin(); k != j->end(); ++k, ++counter) { // for all atoms of the fragment
                 // set coordinates for atoms
                 OBAtom *atom = workMol.GetAtom(*k);
                 atom->SetVector(i->second[counter]);
               }
               // add the bonds for the fragment
-              for (k = j->begin(); k != j->end(); ++k) {
+              for (auto k = j->begin(); k != j->end(); ++k) {
                 OBAtom *atom1 = mol.GetAtom(*k);
-                for (k2 = j->begin(); k2 != j->end(); ++k2) {
+                for (auto k2 = j->begin(); k2 != j->end(); ++k2) {
                   OBAtom *atom2 = mol.GetAtom(*k2);
                   OBBond *bond = atom1->GetBond(atom2);
                   if (bond != NULL)
