@@ -227,7 +227,7 @@ namespace OpenBabel
     }
     mols.clear();
     mols = jproducts.Separate();
-    for(itr=mols.begin();itr!=mols.end();++itr)
+    for (auto itr = mols.begin(); itr != mols.end(); ++itr)
       pReact->AddProduct(obsharedptr<OBMol>(new OBMol(*itr)));
 
     return true;
