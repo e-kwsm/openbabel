@@ -1141,7 +1141,7 @@ namespace OpenBabel
       LoadFragments();
 
 
-    for(vector<OBMol>::iterator f = fragments.begin(); f != fragments.end(); ++f) {
+    for (auto f = fragments.begin(); f != fragments.end(); ++f) {
       std::string fragment_smiles = conv.WriteString(&*f, true);
       bool isMatchRigid = false;
       // if rigid fragment is in database
@@ -1197,11 +1197,11 @@ namespace OpenBabel
         }
         if (ratoms < 3) continue; // Smallest ring fragment has 3 atoms
 
-        vector<pair<OBSmartsPattern*, vector<vector3 > > >::iterator i;
+        auto i = _ring_fragments.begin();
         // Skip all fragments that are too big to match
         // Note: It would be faster to compare to the size of the largest
         //       isolated ring system instead of comparing to ratoms
-        for (i = _ring_fragments.begin(); i != _ring_fragments.end() && i->first->NumAtoms() > ratoms; ++i);
+        for (; i != _ring_fragments.end() && i->first->NumAtoms() > ratoms; ++i);
 
         // Loop through the remaining fragments and assign the coordinates from
         // the first (most complex) fragment.
@@ -1592,15 +1592,14 @@ namespace OpenBabel
 
     // Set coords of new fragment to place the pivot at the origin
     vector3 posp_new;
-    vector<int>::iterator match_it;
-    int counter;
-    for (match_it=match.begin(), counter=0; match_it!=match.end(); ++match_it, ++counter)
+    int counter = 0;
+    for (auto match_it = match.begin(); match_it != match.end(); ++match_it, ++counter)
       if (*match_it == pivot[0]) {
         posp_new = coords[counter];
         break;
       }
     counter = 0;
-    for (match_it=match.begin(), counter=0; match_it!=match.end(); ++match_it, ++counter)
+    for (auto match_it = match.begin(); match_it != match.end(); ++match_it, ++counter)
       workMol.GetAtom(*match_it)->SetVector( coords[counter] - posp_new );
 
     // Find vector that bisects existing angles at the pivot in each fragment
@@ -1654,7 +1653,7 @@ namespace OpenBabel
 
     // Apply rotation
     vector3 tmpvec;
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it) {
+    for (auto match_it = match.begin(); match_it != match.end(); ++match_it) {
       tmpvec = workMol.GetAtom(*match_it)->GetVector();
       tmpvec *= mat;
       workMol.GetAtom(*match_it)->SetVector( tmpvec );
@@ -1667,18 +1666,18 @@ namespace OpenBabel
     ang = vectorAngle(v1, v2); // Should be 90
     cp = cross(v1, v2);
     mat.RotAboutAxisByAngle(cp, ang);
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it) {
+    for (auto match_it = match.begin(); match_it != match.end(); ++match_it) {
       tmpvec = workMol.GetAtom(*match_it)->GetVector();
       tmpvec *= mat;
       workMol.GetAtom(*match_it)->SetVector( tmpvec );
     }
 
     // Translate to existing pivot location
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it)
+    for (auto match_it = match.begin(); match_it != match.end(); ++match_it)
       workMol.GetAtom(*match_it)->SetVector( workMol.GetAtom(*match_it)->GetVector() + posp );
 
     // Create the bonds between the two fragments
-    for (vector<int>::iterator nbr_id=nbrs.begin(); nbr_id!=nbrs.end(); ++nbr_id)
+    for (auto nbr_id = nbrs.begin(); nbr_id != nbrs.end(); ++nbr_id)
       workMol.AddBond(p->GetIdx(), *nbr_id, 1, mol.GetBond(p->GetIdx(), *nbr_id)->GetFlags());
 
     return;
@@ -1691,7 +1690,7 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref bond_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
@@ -1721,8 +1720,7 @@ namespace OpenBabel
 
     double newangle, angle;
     OBAtom *a, *b, *c, *d;
-    for (std::vector<OBCisTransStereo*>::iterator origct = cistrans.begin();
-         origct != cistrans.end(); ++origct) {
+    for (auto origct = cistrans.begin(); origct != cistrans.end(); ++origct) {
       OBCisTransStereo::Config origConfig = (*origct)->GetConfig();
       OBBond *origBond = mol.GetBond(mol.GetAtomById(origConfig.begin),
                                      mol.GetAtomById(origConfig.end));
@@ -1802,7 +1800,7 @@ namespace OpenBabel
     vector<int> children;
     mol.FindChildren(children, idx, nbrs[0]);
     int ringnbr = -1;
-    for (vector<int>::iterator nbr=nbrs.begin() + 1; nbr!=nbrs.end(); ++nbr)
+    for (auto nbr = nbrs.begin() + 1; nbr != nbrs.end(); ++nbr)
       if (find(children.begin(), children.end(), *nbr) != children.end()) {
         ringnbr = *nbr;
         break;
@@ -1853,7 +1851,7 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref atom_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *th = dynamic_cast<OBTetrahedralStereo*>(*data);
         if (th->GetConfig().specified) {
@@ -1883,12 +1881,10 @@ namespace OpenBabel
     // tetra. Index the perceived stereos by center id so each original
     // stereo is matched against the one with the same center.
     std::map<OBStereo::Ref, OBTetrahedralStereo*> newByCenter;
-    for (std::vector<OBTetrahedralStereo*>::iterator it = newtetra.begin();
-         it != newtetra.end(); ++it)
+    for (auto it = newtetra.begin(); it != newtetra.end(); ++it)
       newByCenter[(*it)->GetConfig().center] = *it;
 
-    for (std::vector<OBTetrahedralStereo*>::iterator origth = tetra.begin();
-         origth != tetra.end(); ++origth) {
+    for (auto origth = tetra.begin(); origth != tetra.end(); ++origth) {
       OBStereo::Ref centerId = (*origth)->GetConfig().center;
       std::map<OBStereo::Ref, OBTetrahedralStereo*>::iterator found =
         newByCenter.find(centerId);
@@ -1935,8 +1931,7 @@ namespace OpenBabel
       // Reperceive non-ring TetrahedralStereos if an inversion occurred
       if (inversion) {
         sgunits.clear();
-        for (std::vector<OBTetrahedralStereo*>::iterator origth = nonringtetra.begin();
-             origth != nonringtetra.end(); ++origth)
+        for (auto origth = nonringtetra.begin(); origth != nonringtetra.end(); ++origth)
           sgunits.push_back(OBStereoUnit(OBStereo::Tetrahedral, (*origth)->GetConfig().center));
         nonringnewtetra = TetrahedralFrom3D(&mol, sgunits, false);
         // These are freshly allocated; the previous nonringnewtetra contents
@@ -1949,8 +1944,7 @@ namespace OpenBabel
     // fewer entries than nonringtetra, so match by center id instead of
     // iterating both vectors in parallel.
     std::map<OBStereo::Ref, OBTetrahedralStereo*> nonringNewByCenter;
-    for (std::vector<OBTetrahedralStereo*>::iterator it = nonringnewtetra.begin();
-         it != nonringnewtetra.end(); ++it)
+    for (auto it = nonringnewtetra.begin(); it != nonringnewtetra.end(); ++it)
       nonringNewByCenter[(*it)->GetConfig().center] = *it;
 
     for (std::vector<OBTetrahedralStereo*>::iterator origth = nonringtetra.begin();
@@ -2047,7 +2041,7 @@ namespace OpenBabel
             if (!b->IsInRing())
               reconnect.push_back(&*b);
 
-      for (std::vector<OBBond*>::iterator bi=reconnect.begin(); bi!=reconnect.end(); ++bi) {
+      for (auto bi=reconnect.begin(); bi!=reconnect.end(); ++bi) {
         OBBond* b = *bi;
         int bo = b->GetBondOrder();
         int begin = b->GetBeginAtomIdx();
