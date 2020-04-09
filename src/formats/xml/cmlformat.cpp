@@ -617,8 +617,7 @@ namespace OpenBabel
     bool use2d = _pxmlConv->IsOption("2", OBConversion::INOPTIONS);
 
     int nAtoms=_pmol->NumAtoms();//was 0
-    cmlArray::iterator AtomIter;
-    for(AtomIter=AtomArray.begin();AtomIter!=AtomArray.end();++AtomIter)
+    for (auto AtomIter = AtomArray.begin(); AtomIter != AtomArray.end(); ++AtomIter)
       {
         //		OBAtom obatom;
         OBAtom* pAtom = _pmol->NewAtom();
@@ -629,8 +628,7 @@ namespace OpenBabel
         double x=0,y=0,z=0;
         bool using3=false, using2=false, usingFract=false;
 
-        vector<pair<string,string> >::iterator AttributeIter;
-        for(AttributeIter=AtomIter->begin();AttributeIter!=AtomIter->end();++AttributeIter)
+        for (auto AttributeIter = AtomIter->begin(); AttributeIter != AtomIter->end(); ++AttributeIter)
           {
             string& attrname = AttributeIter->first;
             string& value    = AttributeIter->second;
@@ -834,10 +832,8 @@ namespace OpenBabel
   ///Interprets bonds from BondArray and writes then to an OBMol
   bool CMLFormat::DoBonds()
   {
-    vector<pair<string,string> >::iterator AttributeIter;
-    cmlArray::iterator BondIter;
     bool HaveWarned = false;
-    for(BondIter=BondArray.begin();BondIter!=BondArray.end();++BondIter)
+    for (auto BondIter = BondArray.begin(); BondIter != BondArray.end(); ++BondIter)
       {
         int indx1=0,indx2=0, ord=0;
         string bondstereo, BondStereoRefs;
@@ -845,7 +841,7 @@ namespace OpenBabel
         string label;
         bool PossibleBond = false;
 
-        for(AttributeIter=BondIter->begin();AttributeIter!=BondIter->end();++AttributeIter)
+        for (auto AttributeIter = BondIter->begin(); AttributeIter != BondIter->end(); ++AttributeIter)
           {
             string attrname = AttributeIter->first;
             string value    = AttributeIter->second;
@@ -962,8 +958,8 @@ namespace OpenBabel
       int explH = atom->ExplicitHydrogenCount(); // includes H isotopes
       if(explH > hcount)
       {
-        map<string,int>::iterator it;
-        for(it=AtomMap.begin();it!=AtomMap.end();++it)
+        auto it = AtomMap.begin();
+        for(; it != AtomMap.end(); ++it)
           if(it->second == atom->GetIdx())
             break;
         stringstream ss;
