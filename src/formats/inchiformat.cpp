@@ -319,7 +319,6 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     // Prepare stereo information for 2D, 3D
     map<OBBond*, OBStereo::BondDirection> updown;
     map<OBBond*, OBStereo::Ref> from;
-    map<OBBond*, OBStereo::Ref>::const_iterator from_cit;
     if (mol.GetDimension() == 3 || (mol.GetDimension()==2 && pConv->IsOption("s", pConv->OUTOPTIONS)!=NULL))
       TetStereoToWedgeHash(mol, updown, from);
     set<OBBond*> unspec_ctstereo = GetUnspecifiedCisTrans(mol);
@@ -342,7 +341,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       OBBond *pbond;
       for (pbond = patom->BeginBond(itr);pbond;pbond = patom->NextBond(itr))
       {
-        from_cit = from.find(pbond);
+        auto from_cit = from.find(pbond);
         // Do each bond only once. If the bond is a stereobond
         // ensure that the BeginAtom is the 'from' atom.
         if( (from_cit==from.end() && patom->GetIdx() != pbond->GetBeginAtomIdx()) ||
@@ -416,9 +415,8 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if(mol.GetDimension()==0)
     {
-      std::vector<OBGenericData*>::iterator data;
       std::vector<OBGenericData*> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-      for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+      for (auto data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
@@ -459,7 +457,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //Double bond stereo (still inside 0D section)
       //Currently does not handle cumulenes
-      for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+      for (auto data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(*data);
           OBCisTransStereo::Config config = ts->GetConfig();
@@ -584,8 +582,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if(pConv->IsLast())
     {
-      nSet::iterator itr;
-      for(itr=allInchi.begin();itr!=allInchi.end();++itr)
+      for (auto itr = allInchi.begin(); itr != allInchi.end(); ++itr)
         ofs << *itr << endl;
     }
     return true;
@@ -782,9 +779,8 @@ char* InChIFormat::GetInChIOptions(OBConversion* pConv, bool Reading)
 bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
 {
   std::vector<std::string> vec;
-  std::vector<std::string>::iterator itr;
   tokenize(vec, spec, " \t/");
-  for(itr=vec.begin();itr!=vec.end();++itr)
+  for(auto itr = vec.begin(); itr != vec.end(); ++itr)
   {
     if(*itr=="formula")
     {
