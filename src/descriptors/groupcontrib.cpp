@@ -123,8 +123,6 @@ namespace OpenBabel
       ParseFile();
 
     vector<vector<int> > _mlist; // match list for atom typing
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*, double> >::iterator i;
 
     stringstream debugMessage;
     OBBitVec seenHeavy(mol.NumAtoms() + 1);
@@ -137,10 +135,10 @@ namespace OpenBabel
 
     // atom contributions
     if (_debug) debugMessage << "Heavy atom contributions:" << endl;
-    for (i = _contribsHeavy.begin();i != _contribsHeavy.end();++i) {
+    for (auto i = _contribsHeavy.begin(); i != _contribsHeavy.end(); ++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
-        for (j = _mlist.begin();j != _mlist.end();++j) {
+        for (auto j = _mlist.begin(); j != _mlist.end(); ++j) {
           atomValues[(*j)[0] - 1] = i->second;
           seenHeavy.SetBitOn((*j)[0]);
 	        if (_debug)
@@ -153,10 +151,10 @@ namespace OpenBabel
 
     // Hydrogen contributions - note that matches to hydrogens themselves are ignored
     if (_debug) debugMessage << "  Hydrogen contributions:" << endl;
-    for (i = _contribsHydrogen.begin();i != _contribsHydrogen.end();++i) {
+    for (auto i = _contribsHydrogen.begin(); i != _contribsHydrogen.end(); ++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
-        for (j = _mlist.begin();j != _mlist.end();++j) {
+        for (auto j = _mlist.begin(); j != _mlist.end(); ++j) {
           if (tmpmol.GetAtom((*j)[0])->GetAtomicNum() == OBElements::Hydrogen)
             continue;
           int Hcount = tmpmol.GetAtom((*j)[0])->GetExplicitDegree() - tmpmol.GetAtom((*j)[0])->GetHvyDegree();
