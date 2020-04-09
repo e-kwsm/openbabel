@@ -342,9 +342,8 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       StereoFrom3D(pmol);
 
       // For unspecified cis/trans stereos, set their Configs to unspecified
-      map<OBBond *, OBStereo::BondDirection>::const_iterator bd_it;
       OpenBabel::OBStereoFacade facade(pmol);
-      for (bd_it = updown.begin(); bd_it != updown.end(); ++bd_it) {
+      for (auto bd_it = updown.cbegin(); bd_it != updown.cend(); ++bd_it) {
         OBBond *bond = bd_it->first;
         if (bond->GetBondOrder() != 2 || bd_it->second != OBStereo::UnknownDir)
           continue; // Only continue for those double bonds with UnknownDir
@@ -382,7 +381,6 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
     set<OBBond *> unspec_ctstereo = GetUnspecifiedCisTrans(*pmol);
     map<OBBond *, OBStereo::BondDirection> updown;
     map<OBBond *, OBStereo::Ref> from;
-    map<OBBond *, OBStereo::Ref>::const_iterator from_cit;
     if (!pConv->IsOption("w", pConv->OUTOPTIONS))
       TetStereoToWedgeHash(*pmol, updown, from);
 
@@ -487,7 +485,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
           // No option w means use calculated stereochemistry
 
           // Swap start and end atom if necessary
-          from_cit = from.find(&*pbond);
+          auto from_cit = from.find(&*pbond);
           if (from_cit != from.end() && from_cit->second == pbond->GetEndAtom()->GetId()) {
             bond["b"].Swap(bond["e"]);
           }
