@@ -274,7 +274,7 @@ namespace OpenBabel
 
 			// Recurse into neighbours
 
-			for (vector<OBAtom *>::iterator nbor = nbors.begin(); nbor != nbors.end(); ++nbor)
+			for (auto nbor = nbors.begin(); nbor != nbors.end(); ++nbor)
 				s += MNAize(*nbor, level - 1);
 
 			s += close_nbor_list;
