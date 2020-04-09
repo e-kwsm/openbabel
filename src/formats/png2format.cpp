@@ -127,8 +127,7 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
     //output all collected molecules
     int n=0;
 
-    vector<OBBase*>::iterator iter;
-    for(iter=_objects.begin(); ret && iter!=_objects.end(); ++iter)
+    for (auto iter = _objects.begin(); ret && iter != _objects.end(); ++iter)
     {
       //need to manually set these to mimic normal conversion
       pConv->SetOutputIndex(++n);
@@ -139,7 +138,7 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
     }
 
     //delete all the molecules
-    for(iter=_objects.begin();iter!=_objects.end(); ++iter)
+    for (auto iter = _objects.begin(); iter != _objects.end(); ++iter)
       delete *iter;
 
     _objects.clear();
@@ -299,9 +298,8 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       }
       
       // Write each molecule to png format which will embed
-      vector<OBBase*>::iterator iter;
       bool ret=true;
-      for(iter=_objects.begin(); ret && iter!=_objects.end(); ++iter)
+      for (auto iter = _objects.begin(); ret && iter != _objects.end(); ++iter)
       {
         conv2.SetLast(iter==_objects.end()-1);
         ret=ppng->WriteMolecule(*iter, &conv2);
