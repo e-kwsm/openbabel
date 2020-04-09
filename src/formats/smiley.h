@@ -2359,7 +2359,7 @@ namespace Smiley {
        */
       void printRingBonds()
       {
-        for (typename std::map<int, std::vector<RingBondInfo> >::iterator i = m_ringBonds.begin(); i != m_ringBonds.end(); ++i) {
+        for (auto i = m_ringBonds.begin(); i != m_ringBonds.end(); ++i) {
           std::cout << "    RingBond: index = " << i->first << std::endl;
           for (std::size_t j = 0; j < i->second.size(); ++j)
             std::cout << "        " << i->second[j].number << std::endl;
@@ -2374,7 +2374,7 @@ namespace Smiley {
         //std::cout << "BEFORE processing " << rnum << std::endl; printRingBonds();
 
         // check if this ringbond is the second of a pair
-        typename std::map<int, std::vector<RingBondInfo> >::iterator ringBond = m_ringBonds.begin();
+        auto ringBond = m_ringBonds.begin();
         std::size_t j;
         bool found = false;
         for (; ringBond != m_ringBonds.end(); ++ringBond) {
