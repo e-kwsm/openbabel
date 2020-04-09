@@ -95,8 +95,8 @@ namespace OpenBabel
   {
     if (points.size() < 2) return;
 
-    auto vp_it = points.begin();
-    for (; vp_it != (points.end() - 1); ++vp_it) {
+    auto vp_it = points.cbegin();
+    for (; vp_it != (points.cend() - 1); ++vp_it) {
       DrawLine(vp_it->first, vp_it->second, (vp_it+1)->first, (vp_it+1)->second);
     }
     DrawLine(vp_it->first, vp_it->second, points.begin()->first, points.begin()->second);
