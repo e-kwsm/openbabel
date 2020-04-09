@@ -125,9 +125,8 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
 
-            for (i = cbonds.begin();i != cbonds.end();++i)
+            for (auto i = cbonds.begin(); i != cbonds.end(); ++i)
               rs.AddRingFromClosure(*this,(OBBond*)*i);
 
             rs.SortRings();
@@ -483,15 +482,14 @@ namespace OpenBabel
   {
     vector<int> path;
     OBBitVec bv;
-    deque<int>::iterator i;
 
-    for (i = d1.begin();i != d1.end();++i)
+    for (auto i = d1.begin(); i != d1.end(); ++i)
       {
         bv.SetBitOn(*i);
         path.push_back(*i);
       }
 
-    for (i = d2.begin();i != d2.end();++i)
+    for (auto i = d2.begin(); i != d2.end(); ++i)
       {
         bv.SetBitOn(*i);
         path.push_back(*i);
@@ -515,8 +513,7 @@ namespace OpenBabel
   //! Destructor -- free all rings created from this search
   OBRingSearch::~OBRingSearch()
   {
-    vector<OBRing*>::iterator i;
-    for (i = _rlist.begin();i != _rlist.end();++i)
+    for (auto i = _rlist.begin(); i != _rlist.end(); ++i)
       delete *i;
   }
 
@@ -527,9 +524,7 @@ namespace OpenBabel
 
   void OBRingSearch::WriteRings()
   {
-    vector<OBRing*>::iterator i;
-
-    for (i = _rlist.begin();i != _rlist.end();++i)
+    for (auto i = _rlist.begin(); i != _rlist.end(); ++i)
       cout << (*i)->_pathset << endl;
   }
 
@@ -674,8 +669,7 @@ namespace OpenBabel
   bool OBRing::IsAromatic()
   {
     OBMol *mol = _parent;
-    vector<int>::iterator i;
-    for (i = _path.begin();i != _path.end();++i)
+    for (auto i = _path.begin(); i != _path.end(); ++i)
       if (!(mol->GetAtom(*i))->IsAromatic())
         return(false);
 
@@ -705,19 +699,18 @@ namespace OpenBabel
 
   unsigned int OBRing::GetRootAtom()
   {
-    vector<int>::iterator i;
     OBMol *mol = (OBMol*)GetParent();
 
     //if (!IsAromatic())
     //  return 0;
 
     if (Size() == 6)
-      for (i = _path.begin();i != _path.end();++i)
+      for (auto i = _path.begin(); i != _path.end(); ++i)
         if (mol->GetAtom(*i)->GetAtomicNum() != OBElements::Carbon)
 	        return (*i);
 
     if (Size() == 5)
-      for (i = _path.begin();i != _path.end();++i) {
+      for (auto i = _path.begin(); i != _path.end(); ++i) {
         OBAtom *atom = mol->GetAtom(*i);
         switch (atom->GetAtomicNum()) {
         case OBElements::Sulfur:
