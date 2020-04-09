@@ -541,7 +541,7 @@ namespace OpenBabel {
             // odd iteration: compute dipGrad = dmu / dxyz for moved ion
             for (size_t natom = 0; natom < pmol->NumAtoms(); ++natom) {
               const vector3 dxyz = currXyz[natom] - prevXyz[natom];
-              vector3::const_iterator iter = std::find_if(dxyz.begin(), dxyz.end(),
+              auto iter = std::find_if(dxyz.begin(), dxyz.end(),
                   [](double v) { return v != 0.0; });
               if (iter != dxyz.end()) dipGrad[natom].SetRow(iter - dxyz.begin(),
                                                             (currDm - prevDm) / *iter);
@@ -583,8 +583,7 @@ namespace OpenBabel {
     if (hasVibrations) {
       // compute dDip/dQ
       vector<double> Intensities;
-      for (vector<vector<vector3> >::const_iterator
-           lxIter = Lx.begin(); lxIter != Lx.end(); ++lxIter) {
+      for (auto lxIter = Lx.cbegin(); lxIter != Lx.cend(); ++lxIter) {
         vector3 intensity;
         for (size_t natom = 0; natom < dipGrad.size(); ++natom) {
           intensity += dipGrad[natom].transpose() * lxIter->at(natom)
@@ -712,8 +711,7 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
-           i != cell.end(); ++i) {
+      for (auto i = cell.cbegin(); i != cell.cend(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
         ofs << buffer << endl;
@@ -724,9 +722,7 @@ namespace OpenBabel {
     // VASP 5 format
     const char *vasp4Format = pConv->IsOption("4", OBConversion::OUTOPTIONS);
     if (!vasp4Format) {
-      for (vector< std::pair<int, int> >::const_iterator
-           it = atomicNums.begin(),
-           it_end = atomicNums.end(); it != it_end; ++it) {
+      for (auto it = atomicNums.cbegin(), it_end = atomicNums.cend(); it != it_end; ++it) {
         snprintf(buffer, BUFF_SIZE, "%-3s ", OBElements::GetSymbol(it->first));
         ofs << buffer ;
       }
@@ -734,9 +730,7 @@ namespace OpenBabel {
     }
 
     // then do the same to write out the number of ions of each element
-    for (vector< std::pair<int, int> >::const_iterator
-           it = atomicNums.begin(),
-           it_end = atomicNums.end(); it != it_end; ++it) {
+    for (auto it = atomicNums.cbegin(), it_end = atomicNums.cend(); it != it_end; ++it) {
       snprintf(buffer, BUFF_SIZE, "%-3u ", it->second);
       ofs << buffer ;
     }
@@ -758,8 +752,7 @@ namespace OpenBabel {
     // print the atomic coordinates in \AA
     ofs << "Cartesian" << endl;
 
-    for (std::vector<OBAtom *>::const_iterator it = atoms_sorted.begin();
-         it != atoms_sorted.end(); ++it) 
+    for (auto it = atoms_sorted.begin(); it != atoms_sorted.end(); ++it)
     {
       // Print coordinates
       snprintf(buffer,BUFF_SIZE, "%26.19f %26.19f %26.19f",
