@@ -194,8 +194,7 @@ namespace OpenBabel
           {
             string uri((const char*)puri);
             //Look up appropriate format class from the namespace URI
-            NsMapType::iterator nsiter;
-            nsiter = Namespaces().find(uri);
+            auto nsiter = Namespaces().find(uri);
             if(nsiter!=Namespaces().end())
               {
                 XMLBaseFormat* pNewFormat = nsiter->second;
