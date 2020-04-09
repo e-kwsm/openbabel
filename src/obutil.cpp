@@ -270,9 +270,8 @@ namespace OpenBabel
     tx = c[tor[1]];
     ty = c[tor[1]+1];
     tz = c[tor[1]+2];
-    vector<int>::iterator i;
     int j;
-    for (i = atoms.begin();i != atoms.end();++i)
+    for (auto i = atoms.begin(); i != atoms.end(); ++i)
       {
         j = *i;
         c[j] -= tx;
@@ -453,7 +452,7 @@ namespace OpenBabel
       return;
 
     if (vic[0] != NULL) {
-      std::vector<OBInternalCoord*>::iterator it = vic.begin();
+      auto it = vic.begin();
       vic.insert(it, static_cast<OBInternalCoord*>(NULL));
     }
 
@@ -535,7 +534,7 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(a, mol)
       if (a->GetAtomicNum() == 0)
         for_deletion.push_back(&(*a));
-    for(vector<OBAtom*>::iterator a_it=for_deletion.begin(); a_it!=for_deletion.end(); ++a_it)
+    for (auto a_it=for_deletion.begin(); a_it!=for_deletion.end(); ++a_it)
       mol.DeleteAtom(*a_it);
 
   }
