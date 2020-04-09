@@ -181,7 +181,7 @@ namespace OpenBabel
     }
     int AngleIndex=0;
     //Set the AtomType integer
-    for(intitr=AngleType.begin();intitr!=AngleType.end();++intitr)
+    for (auto intitr = AngleType.begin(); intitr != AngleType.end(); ++intitr)
     {
 	    AngleIndex++;
 	    AngleType[intitr->first] = AngleIndex;
@@ -223,7 +223,7 @@ namespace OpenBabel
     }
     int DihedralIndex=0;
     //Set DihedralType integer
-    for(intitr=DihedralType.begin();intitr!=DihedralType.end();++intitr)
+    for (auto intitr = DihedralType.begin(); intitr != DihedralType.end(); ++intitr)
     {
 	    DihedralIndex++;
 	    DihedralType[intitr->first] = DihedralIndex;
@@ -302,7 +302,7 @@ namespace OpenBabel
 
     //Write the atom types
     ofs << endl << endl << "Masses" << endl << endl;
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    double mass=itr->second;
 	    ofs << AtomType[itr->first] << " " << mass << " # " << itr->first << endl;
@@ -315,7 +315,7 @@ namespace OpenBabel
     //These are charges for the SPC water model
     const char *selectCharges = pConv->IsOption("q",OBConversion::OUTOPTIONS);
     map<string, double> AtomCharge;
-    for(itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for (auto itr = AtomMass.begin(); itr != AtomMass.end(); ++itr)
     {
 	    if(selectCharges)
 	    {
