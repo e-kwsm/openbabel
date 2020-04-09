@@ -748,7 +748,7 @@ namespace OpenBabel
           char * endptr;
           T num;
 
-          for (vector<string>::const_iterator it=vs.begin(); vs.end() != it; ++it)
+          for (auto it = vs.cbegin(); vs.cend() != it; ++it)
             {
               if (typeid(double) == typeid(T))
                 num = static_cast<T>(strtod((*it).c_str(), &endptr));
