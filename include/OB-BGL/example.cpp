@@ -97,7 +97,7 @@ int main(int argc,char **argv)
                 boost::record_distances(distance_map_bfs,boost::on_tree_edge()) )),
             OBAtomMap< boost::default_color_type >(mol) );
 
-        for ( OpenBabel::OBAtomIterator beg = mol.BeginAtoms(); 
+        for (auto beg = mol.BeginAtoms();
              beg != mol.EndAtoms(); ++beg )
         {
             OBAtom* parent = predecessor_map_bfs[*beg]; 
@@ -120,9 +120,7 @@ int main(int argc,char **argv)
             OBAtomMap< boost::default_color_type >(mol) );
 
         std::cout << "\nBACK EDGES\n";
-        for ( std::vector< boost::graph_traits<OpenBabel::OBMol>::edge_descriptor >::iterator 
-              beg = bv.begin(), end = bv.end();
-              beg != end; ++beg )
+        for (auto beg = bv.begin(), end = bv.end(); beg != end; ++beg)
         {
             std::cout << '(' << (*beg)->GetBeginAtom()->GetIdx() << ")--";
             std::cout << (*beg)->GetIdx() << "--(";
@@ -149,8 +147,7 @@ int main(int argc,char **argv)
             OBBondMap< boost::default_color_type >(mol),
             atom );
 
-        for ( OpenBabel::OBAtomIterator beg = mol.BeginAtoms(); 
-              beg != mol.EndAtoms(); ++beg )
+        for (auto beg = mol.BeginAtoms(); beg != mol.EndAtoms(); ++beg)
         {
             OBAtom* parent = predecessor_map_dfs[*beg]; 
             if ( parent )
