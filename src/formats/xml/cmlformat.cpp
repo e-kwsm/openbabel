@@ -975,8 +975,7 @@ namespace OpenBabel
   bool CMLFormat::DoMolWideData()
   {
     //Handle atomParity and bondStereo
-    vector<pair<string,string> >::iterator AttributeIter;
-    for(AttributeIter=molWideData.begin();AttributeIter!=molWideData.end();++AttributeIter)
+    for (auto AttributeIter = molWideData.begin(); AttributeIter != molWideData.end(); ++AttributeIter)
       {
         string name  = AttributeIter->first;
         string value = AttributeIter->second;
@@ -1013,7 +1012,7 @@ namespace OpenBabel
                   from = OBStereo::ImplicitRef;
 
                 OBStereo::Refs refs;
-                vector<unsigned int>::const_iterator idx_cit=AtomRefIdx.begin();
+                auto idx_cit = AtomRefIdx.begin();
                 ++idx_cit;
                 for (; idx_cit!=AtomRefIdx.end(); ++idx_cit) {
                   OBStereo::Ref id = _pmol->GetAtom(*idx_cit)->GetId();
@@ -1192,10 +1191,9 @@ namespace OpenBabel
   {
     vector<string> items;
     tokenize(items, formula);
-    vector<string>::iterator iSymbol, iNumber;
-    for(iSymbol=items.begin();iSymbol!=items.end();++iSymbol)
+    for (auto iSymbol = items.begin(); iSymbol != items.end(); ++iSymbol)
       {
-        iNumber = iSymbol+1;
+        auto iNumber = iSymbol+1;
         if(iNumber==items.end())
           return false;
         int n=atoi(iNumber->c_str());
