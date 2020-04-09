@@ -111,8 +111,7 @@ public:
     fp.resize(n/Getbitsperint());
 
     n=0; //bit position
-    vector<pattern>::iterator ppat;
-    for(ppat=_pats.begin();ppat!=_pats.end();++ppat)
+    for (auto ppat = _pats.begin(); ppat != _pats.end(); ++ppat)
     {
       if(ppat->numbits //ignore pattern if numbits==0
         && ppat->obsmarts.Match(*pmol, ppat->numoccurrences==0))//do single match if all that's needed
@@ -248,8 +247,7 @@ public:
   {
     //checkmol-type output with tab separated functional group names
     stringstream ss;
-    vector<pattern>::iterator ppat;
-    for(ppat=_pats.begin();ppat!=_pats.end();++ppat)
+    for (auto ppat = _pats.begin(); ppat != _pats.end(); ++ppat)
     {
       int n = ppat->bitindex;
       int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp;
