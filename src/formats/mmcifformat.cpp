@@ -582,7 +582,7 @@ namespace OpenBabel
            int use_cartn = 0, use_residue = 0;
            use_fract = 0;
            CIFTagID::CIFDataName atom_type_tag = CIFTagID::unread_CIFDataName;
-           for (auto colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+           for (auto colx = columns.cbegin(), coly = columns.cend(); colx != coly; ++ colx)
              {
              switch (* colx)
                {
