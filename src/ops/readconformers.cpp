@@ -68,8 +68,7 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
 
   std::string smiles, stored_smiles;
   OBMol* stored_pmol=NULL;
-  std::vector<OBBase*>::iterator iter;
-  for(iter= vec.begin();iter!=vec.end();++iter)
+  for (auto iter = vec.begin(); iter != vec.end(); ++iter)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(*iter);
     if(!pmol)
