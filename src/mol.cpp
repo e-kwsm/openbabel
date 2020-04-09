@@ -797,8 +797,7 @@ namespace OpenBabel
 
     vgid.clear();
     sort(vp1.begin(),vp1.end(),OBComparePairFirst);
-    vector<pair<OBAtom*,unsigned int> >::iterator k;
-    for (k = vp1.begin();k != vp1.end();++k)
+    for (auto k = vp1.begin(); k != vp1.end(); ++k)
       vgid.push_back(k->second);
   }
 
