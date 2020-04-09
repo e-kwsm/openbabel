@@ -619,10 +619,9 @@ namespace OpenBabel
 
     //Check if UCSF Dock style coments are on
     if(pConv->IsOption("c", OBConversion::OUTOPTIONS)!=NULL) {
-        vector<OBGenericData*>::iterator k;
         vector<OBGenericData*> vdata = mol.GetData();
         ofs << endl;
-        for (k = vdata.begin();k != vdata.end();++k) {
+        for (auto k = vdata.begin(); k != vdata.end(); ++k) {
             if ((*k)->GetDataType() == OBGenericDataType::PairData
             && (*k)->GetOrigin()!=local //internal OBPairData is not written
             && (*k)->GetAttribute()!="PartialCharges")
