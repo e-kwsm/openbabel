@@ -103,8 +103,7 @@ namespace OpenBabel
       verbose = false;
       include_original = false;
 
-      OpMap::const_iterator iter;
-      iter = pmap->find("rcutoff");
+      auto iter = pmap->find("rcutoff");
       if(iter!=pmap->end())
         rmsd_cutoff = atof(iter->second.c_str());
       iter = pmap->find("ecutoff");
