@@ -631,7 +631,7 @@ namespace OpenBabel
         for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             unsigned i, nb;
-            auto pos=loop->second.find("_space_group_symop_operation_xyz");
+            auto pos = loop->second.find("_space_group_symop_operation_xyz");
             if (pos==loop->second.end())
               pos=loop->second.find("_symmetry_equiv_pos_as_xyz");
             if (pos!=loop->second.end())
