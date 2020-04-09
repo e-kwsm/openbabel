@@ -373,7 +373,7 @@ namespace OpenBabel {
     // sort them into ascending order, and create a sum of (c0 + c1*10^2 + c2*10^4 + ...)
     // which becomes the new class ID (where c0 is the current classID).
 
-    for (vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
+    for (auto vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
       atom = vp_iter->first;
       id   = vp_iter->second;
       vector<unsigned int> vtmp;
@@ -426,7 +426,7 @@ namespace OpenBabel {
     // sort them into ascending order, and create a sum of (c0 + c1*10^2 + c2*10^4 + ...)
     // which becomes the new class ID (where c0 is the current classID).
 
-    for (vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
+    for (auto vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
       atom = vp_iter->first;
       id   = vp_iter->second;
       vector<unsigned int> vtmp;
