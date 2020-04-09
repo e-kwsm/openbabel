@@ -77,8 +77,7 @@ namespace OpenBabel
      * As we are using the GetAtomicNum function case is not important
      */
     // Check we don't have it already
-    labelToZType::const_iterator it;
-    it = labelToZ.find( label );
+    auto it = labelToZ.find(label);
     if ( it != labelToZ.end() ) return it-> second;
     
     // See if the first 2 characters give us a valid atomic number
