@@ -498,7 +498,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
     toks[toks.size()-1].clear();
     bool HasRateData=false;
     n=0;
-    for(itr=lastp.begin();itr!=lastp.end();++itr)
+    for (auto itr = lastp.begin(); itr != lastp.end(); ++itr)
     {
       Trim(*itr);
       //copy species names and species names with multiplier (single digit) back into orig token
@@ -542,7 +542,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
             "In " + ln + "\nNo rate data found.", obWarning);
 
     //Read in product species
-    for(itr=toks.begin();itr!=toks.end();++itr)
+    for (auto itr = toks.begin(); itr != toks.end(); ++itr)
     {
       Trim(*itr);
       if(isalpha((*itr)[0]))
@@ -866,7 +866,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
       ConvThermo.SetOutFormat(pFormat);
       ConvThermo.SetOutStream(&thermss);
       int ntherm=0;
-      for(itr= OMols.begin();itr!=OMols.end();++itr)
+      for (auto itr = OMols.begin(); itr != OMols.end(); ++itr)
       {
         const char* title = (*itr)->GetTitle();
         if(strcmp(title, "M"))
