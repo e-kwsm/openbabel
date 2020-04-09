@@ -109,9 +109,8 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if (!mol.AddAtom(atom))
             return(false);
         tokenize(vs,&buffer[60]);
-        vector<string>::iterator j;
 
-        for (j = vs.begin();j != vs.end();++j)
+        for (auto j = vs.begin(); j != vs.end(); ++j)
             if (!j->empty())
             {
                 //get the bond order
