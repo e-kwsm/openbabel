@@ -1098,7 +1098,7 @@ namespace OpenBabel
       }
 
     int angleIdx = 0;
-    for (auto angle=_angles.begin(); angle!=_angles.end(); ++angle)
+    for (auto angle = _angles.begin(); angle != _angles.end(); ++angle)
       {
         *angles[angleIdx++] = angle->_vertex->GetIdx();
         *angles[angleIdx++] = angle->_termini.first->GetIdx();
