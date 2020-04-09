@@ -780,7 +780,7 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
 {
   std::vector<std::string> vec;
   tokenize(vec, spec, " \t/");
-  for(auto itr = vec.begin(); itr != vec.end(); ++itr)
+  for (auto itr = vec.begin(); itr != vec.end(); ++itr)
   {
     if(*itr=="formula")
     {
