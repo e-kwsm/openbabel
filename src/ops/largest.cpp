@@ -101,7 +101,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
       vec[idesc].erase(0,1);
     }
     //If + is last char of descriptor the val is to be added to title on output
-    string::iterator it = vec[idesc].end() -1;
+    auto it = vec[idesc].end() -1;
     _addDescToTitle = (*it=='+');
     if(_addDescToTitle)
       vec[idesc].erase(it);
@@ -170,8 +170,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
   else
   {
     //replace mols in selection if new mol is better candidate
-    multimap<double, OBBase*>::iterator leastwanted = 
-      _rev ? --_selmap.end() : _selmap.begin();
+    auto leastwanted = _rev ? --_selmap.end() : _selmap.begin();
     if((!_rev && val>leastwanted->first) || (_rev && val<leastwanted->first))
     {
       //have a better candidate
@@ -191,8 +190,7 @@ bool OpLargest::ProcessVec(vector<OBBase*>& vec)
   //Add the selected mols to the vec for Deferred format to output
   vec.clear();
   vec.reserve(_selmap.size());
-  multimap<double, OBBase*>::reverse_iterator iter;
-  for(iter=_selmap.rbegin(); iter!=_selmap.rend(); ++iter)
+  for (auto iter = _selmap.rbegin(); iter != _selmap.rend(); ++iter)
   {
     if(_addDescToTitle)
     {
