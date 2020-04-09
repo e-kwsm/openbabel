@@ -262,8 +262,7 @@ virtual const char* Description() //required
         //also because op names are case independent
         pConv->RemoveOption("S", OBConversion::GENOPTIONS);
 
-        multimap<double, unsigned long>::reverse_iterator itr;
-        for(itr=SeekposMap.rbegin();itr!=SeekposMap.rend();++itr)
+        for (auto itr = SeekposMap.rbegin(); itr != SeekposMap.rend(); ++itr)
           {
             datastream.seekg(itr->second);
 
@@ -308,14 +307,12 @@ virtual const char* Description() //required
       else
       {
         //Do a substructure search for each target
-        vector<OBMol>::iterator iter;
-        for(iter=patternMols.begin();iter!=patternMols.end();++iter)
+        for (auto iter = patternMols.begin(); iter != patternMols.end(); ++iter)
           fs.Find(&*iter, SeekPositions, MaxCandidates);
         clog << SeekPositions.size() << " candidates from fingerprint search phase" << endl;
       }
 
-      vector<unsigned long>::iterator seekitr,
-          begin = SeekPositions.begin(), end = SeekPositions.end();
+      auto begin = SeekPositions.begin(), end = SeekPositions.end();
 
       if(patternMols.size()>1)//only sort and eliminate duplicates if necessary
       {
@@ -328,7 +325,7 @@ virtual const char* Description() //required
         pConv->RemoveOption("s",OBConversion::GENOPTIONS);
 
       pConv->SetLast(false);
-      for(seekitr=begin; seekitr!=end; ++seekitr)
+      for (auto seekitr = begin; seekitr != end; ++seekitr)
       {
         datastream.seekg(*seekitr);
         if(!pConv->GetInFormat()->ReadChemObject(pConv))
