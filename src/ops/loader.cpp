@@ -180,7 +180,7 @@ OBDefine placeholderOBDefine;
 
 OBPlugin* OBDefine::FindDef(const char* ID)
 {
-  for (auto typeiter=PluginMap().begin(); typeiter != PluginMap().end(); ++typeiter)
+  for (auto typeiter = PluginMap().begin(); typeiter != PluginMap().end(); ++typeiter)
   {
     PluginMapType map = typeiter->second->GetMap();
     for (auto iter = map.begin(); iter != map.end(); ++iter)
