@@ -190,8 +190,7 @@ namespace OpenBabel
 
     _vdata.clear();
     //Copy all the OBGenericData, providing the new atom
-    vector<OBGenericData*>::iterator itr;
-    for(itr=src->BeginData();itr!=src->EndData();++itr)
+    for (auto itr = src->BeginData(); itr != src->EndData(); ++itr)
       {
         OBGenericData* pCopiedData = (*itr)->Clone(this);
         SetData(pCopiedData);
@@ -1233,8 +1232,7 @@ namespace OpenBabel
     children.push_back(a2->GetIdx());
 
     vector3 v;
-    vector<int>::iterator i;
-    for (i = children.begin();i != children.end();++i)
+    for (auto i = children.begin(); i != children.end(); ++i)
       {
         v = mol.GetAtom(*i)->GetVector();
         v -= a1->GetVector();
