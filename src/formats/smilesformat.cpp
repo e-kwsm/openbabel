@@ -2585,7 +2585,7 @@ namespace OpenBabel {
         centeratom = nbr_atom->GetId();
       }
 
-      for (ChiralSearch = _unvisited_cistrans.begin(); ChiralSearch != _unvisited_cistrans.end(); ++ChiralSearch)
+      for (auto ChiralSearch = _unvisited_cistrans.begin(); ChiralSearch != _unvisited_cistrans.end(); ++ChiralSearch)
       {
         OBCisTransStereo::Config cfg = ChiralSearch->GetConfig(OBStereo::ShapeU);
         lookup = std::find(cfg.refs.begin(), cfg.refs.end(), endatom);
