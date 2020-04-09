@@ -123,7 +123,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
     return false;
   }
 */
-  SuperAtomTable::iterator pos = table().find(_alias);
+  auto pos = table().find(_alias);
   if(pos==table().end())
     return false;
 
@@ -343,8 +343,7 @@ bool AliasData::AddAliases(OBMol* pmol)
   if(smtable.empty())
     LoadFile(smtable);
   set<int> AllExAtoms;
-  SmartsTable::iterator iter;
-  for(iter=smtable.begin();iter!=smtable.end();++iter)
+  for (auto iter = smtable.begin(); iter != smtable.end(); ++iter)
   {
     if((*iter).second->Match(*pmol))
     {
