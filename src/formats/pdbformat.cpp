@@ -539,7 +539,7 @@ namespace OpenBabel
     bool compndWritten = false;
     bool authorWritten = false;
     std::vector<OBGenericData*> pairData = mol.GetAllData(OBGenericDataType::PairData);
-    for (std::vector<OBGenericData*>::iterator data = pairData.begin(); data != pairData.end(); ++data) {
+    for (auto data = pairData.begin(); data != pairData.end(); ++data) {
       OBPairData *pd = static_cast<OBPairData*>(*data);
       string attr = pd->GetAttribute();
 
