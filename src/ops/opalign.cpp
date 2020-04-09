@@ -130,7 +130,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   if(pmol->GetDimension()==0)
   {
     //Will the coordinates be 2D or 3D?
-    itr = pmap->find("gen3D");
+    auto itr = pmap->find("gen3D");
     OBOp* pgen = (itr==pmap->end()) ? OBOp::FindType("gen2D") : OBOp::FindType("gen3D");
     if(pgen)
       pgen->Do(pmol);
