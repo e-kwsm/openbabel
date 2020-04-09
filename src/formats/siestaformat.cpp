@@ -261,8 +261,7 @@ namespace OpenBabel {
 
         while (!strstr(buffer, "%endblock AtomicCoordinatesAndAtomicSpecies")) {
           // Find the correct atomic number
-          std::map<int, string>::iterator it;
-          it = atomTypeLabels.find(atoi(vs.at(3).c_str()));
+          auto it = atomTypeLabels.find(atoi(vs.at(3).c_str()));
           // Just a basic find() error check
           if(it == atomTypeLabels.end()) {
              delete cell;
