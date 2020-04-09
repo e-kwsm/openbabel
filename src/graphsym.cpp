@@ -357,8 +357,6 @@ namespace OpenBabel {
     unsigned int m,id;
     OBAtom *atom, *nbr;
     vector<OBBond*>::iterator nbr_iter;
-    vector<unsigned int>::iterator k;
-    vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
 
 #if DEBUG2
     cout << "CreateNewClassVector: START\n";
@@ -370,7 +368,7 @@ namespace OpenBabel {
     // mapping vector of idx-to-index for vp1.
     vector<int> idx2index(_pmol->NumAtoms() + 1, -1);  // natoms + 1
     int index = 0;
-    for (vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
+    for (auto vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
       int idx = vp_iter->first->GetIdx();
       idx2index[idx] = index++;
     }
@@ -405,7 +403,7 @@ namespace OpenBabel {
       // below 2^32 (neighbour classes are small renumbered ids), so the 64-bit
       // math itself never overflows.
       m = 100;
-      for (k = vtmp.begin(); k != vtmp.end(); ++k) {
+      for (auto k = vtmp.begin(); k != vtmp.end(); ++k) {
         id = static_cast<unsigned int>(id + static_cast<unsigned long long>(*k) * m);
         m  = static_cast<unsigned int>(static_cast<unsigned long long>(m) * 100);
       }
@@ -423,8 +421,6 @@ namespace OpenBabel {
     unsigned int m,id;
     OBAtom *atom, *nbr;
     vector<OBBond*>::iterator nbr_iter;
-    vector<unsigned int>::iterator k;
-    vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
 
 #if DEBUG2
     cout << "CreateNewClassVector: START\n";
@@ -436,7 +432,7 @@ namespace OpenBabel {
     // mapping vector of idx-to-index for vp1.
     vector<int> idx2index(mol->NumAtoms() + 1, -1);  // natoms + 1
     int index = 0;
-    for (vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
+    for (auto vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
       int idx = vp_iter->first->GetIdx();
       idx2index[idx] = index++;
     }
@@ -464,7 +460,7 @@ namespace OpenBabel {
       // computed modulo 2^32 (bit-identical to the old overflow) via 64-bit
       // intermediates, so it never trips the sanitizer.
       m = 100;
-      for (k = vtmp.begin(); k != vtmp.end(); ++k) {
+      for (auto k = vtmp.begin(); k != vtmp.end(); ++k) {
         id = static_cast<unsigned int>(id + static_cast<unsigned long long>(*k) * m);
         m  = static_cast<unsigned int>(static_cast<unsigned long long>(m) * 100);
       }
@@ -489,10 +485,9 @@ namespace OpenBabel {
                                            unsigned int &count)
   {
     count = 1;
-    vector<pair<OBAtom*,unsigned int> >::iterator k;
 
     sort(vp.begin(), vp.end(), ComparePairSecond);
-    k = vp.begin();
+    auto k = vp.begin();
     if (k != vp.end()) {
       unsigned int id = k->second;
       if (id) {
@@ -607,7 +602,7 @@ namespace OpenBabel {
 
     // Store the symmetry classes in an OBPairData
     stringstream temp;
-    vector<unsigned int>::iterator sym_iter = atom_sym_classes.begin();
+    auto sym_iter = atom_sym_classes.begin();
     if (sym_iter != atom_sym_classes.end())
       temp << (*sym_iter++);
     for (; sym_iter != atom_sym_classes.end(); ++sym_iter)
@@ -641,7 +636,7 @@ namespace OpenBabel {
       // Now find the number of unique elements
       vector<unsigned int> copy_sym = symmetry_classes;
       sort(copy_sym.begin(), copy_sym.end());
-      vector<unsigned int>::iterator end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
+      auto end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
       nclasses = end_pos - copy_sym.begin();
     }
 
