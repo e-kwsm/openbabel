@@ -84,7 +84,7 @@ namespace OpenBabel
 
     string ff = "MMFF94";
     double epsilon = 1.0;
-    OpMap::const_iterator iter = pmap->find("ff");
+    auto iter = pmap->find("ff");
     if(iter!=pmap->end())
       ff = iter->second;
     OBForceField* pFF = OBForceField::FindForceField(ff);
@@ -181,7 +181,7 @@ namespace OpenBabel
     bool log = false;
 
     string ff = "MMFF94";
-    OpMap::const_iterator iter = pmap->find("ff");
+    auto iter = pmap->find("ff");
     if(iter!=pmap->end())
       ff = iter->second;
     OBForceField* pFF = OBForceField::FindForceField(ff);
