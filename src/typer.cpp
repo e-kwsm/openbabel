@@ -115,15 +115,13 @@ namespace OpenBabel
 
   OBAtomTyper::~OBAtomTyper()
   {
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-    for (i = _vinthyb.begin();i != _vinthyb.end();++i)
+    for (auto i = _vinthyb.begin(); i != _vinthyb.end(); ++i)
       {
         delete i->first;
         i->first = NULL;
       }
 
-    vector<pair<OBSmartsPattern*,string> >::iterator j;
-    for (j = _vexttyp.begin();j != _vexttyp.end();++j)
+    for (auto j = _vexttyp.begin(); j != _vexttyp.end(); ++j)
       {
         delete j->first;
         j->first = NULL;
@@ -141,14 +139,11 @@ namespace OpenBabel
 
     mol.SetAtomTypesPerceived();
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-
-    for (i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
+    for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
+        for (auto j = mlist.begin(); j != mlist.end(); ++j)
           mol.GetAtom((*j)[0])->SetType(i->second);
       }
     }
@@ -192,14 +187,11 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
       atom->SetHyb(0);
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-
-    for (i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
+    for (auto i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
+        for (auto j = mlist.begin(); j != mlist.end(); ++j)
           mol.GetAtom((*j)[0])->SetHyb(i->second);
       }
     }
@@ -275,8 +267,7 @@ namespace OpenBabel
 
   OBRingTyper::~OBRingTyper()
   {
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-    for (i = _ringtyp.begin();i != _ringtyp.end();++i) {
+    for (auto i = _ringtyp.begin(); i != _ringtyp.end(); ++i) {
       delete i->first;
       i->first = NULL;
     }
