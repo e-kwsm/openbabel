@@ -277,7 +277,7 @@ namespace OpenBabel {
     // use some STL to work out the number of unique classes
     nbrClassesCopy = nbrClasses; // keep copy for count below
     std::sort(nbrClasses.begin(), nbrClasses.end());
-    std::vector<unsigned int>::iterator endLoc = std::unique(nbrClasses.begin(), nbrClasses.end());
+    auto endLoc = std::unique(nbrClasses.begin(), nbrClasses.end());
     std::copy(nbrClasses.begin(), endLoc, std::back_inserter(uniqueClasses));
 
     switch (uniqueClasses.size()) {
@@ -470,7 +470,7 @@ namespace OpenBabel {
     OBMol *mol = currentPara.insideNbrs[0]->GetParent();
     assert(mol->GetAtom(currentPara.outIdx));
     OBBitVec ligand = getFragment(currentPara.outsideNbrs[0], mol->GetAtom(currentPara.outIdx));
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+    for (auto u2 = units.cbegin(); u2 != units.cend(); ++u2) {
       if (isUnitInFragment(mol, *u2, ligand)) {
         //cout << "OK: " << __LINE__ << endl;
         return true;
@@ -734,8 +734,7 @@ namespace OpenBabel {
       std::vector<OBBond*>::iterator j;
       for (OBAtom *nbr = atom->BeginNbrAtom(j); nbr; nbr = atom->NextNbrAtom(j)) {
         // check if we already have a neighbor with this symmetry class
-        std::vector<unsigned int>::iterator k;
-        for (k = tlist.begin(); k != tlist.end(); ++k)
+        for (auto k = tlist.begin(); k != tlist.end(); ++k)
           if (symClasses[nbr->GetIndex()] == *k) {
             ischiral = false;
             // if so, might still be a para-stereocenter
@@ -983,11 +982,11 @@ namespace OpenBabel {
      *   - 2 true-stereocenters
      *   - 2 separate assemblies of para-stereocenters
      */
-    for (std::vector<unsigned int>::iterator idx = paraAtoms.begin(); idx != paraAtoms.end(); ++idx) {
+    for (auto idx = paraAtoms.begin(); idx != paraAtoms.end(); ++idx) {
       OBAtom *atom = mol->GetAtom(*idx);
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+      for (auto u2 = units.begin(); u2 != units.end(); ++u2) {
         if ((*u2).type == OBStereo::Tetrahedral)
           if (atom->GetId() == (*u2).id) {
             alreadyAdded = true;
@@ -1050,12 +1049,12 @@ namespace OpenBabel {
      * - 1 or 2 pair identical ligands (on begin and end atom)
      * - each pair contains at least 1 true-stereocenter or 2 para-stereocenters (from rule1)
      */
-    for (std::vector<unsigned int>::iterator idx = paraBonds.begin(); idx != paraBonds.end(); ++idx) {
+    for (auto idx = paraBonds.begin(); idx != paraBonds.end(); ++idx) {
       OBBond *bond = mol->GetBond(*idx);
 
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+      for (auto u2 = units.begin(); u2 != units.end(); ++u2) {
         if ((*u2).type == OBStereo::CisTrans)
           if (bond->GetId() == (*u2).id) {
             alreadyAdded = true;
@@ -1085,7 +1084,7 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, begin);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+            for (auto u2 = units.begin(); u2 != units.end(); ++u2) {
               if ((*u2).type == OBStereo::Tetrahedral) {
                 if (ligand.BitIsSet((*u2).id))
                   beginValid = true;
@@ -1122,7 +1121,7 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, end);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+            for (auto u2 = units.begin(); u2 != units.end(); ++u2) {
               if ((*u2).type == OBStereo::Tetrahedral) {
                 if (ligand.BitIsSet((*u2).id))
                   endValid = true;
@@ -1143,7 +1142,7 @@ namespace OpenBabel {
     }
 
     if (DEBUG) {
-      for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
+      for (auto unit = units.begin(); unit != units.end(); ++unit) {
         if (unit->type == OBStereo::Tetrahedral)
           cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
         if (unit->type == OBStereo::CisTrans)
@@ -1502,7 +1501,7 @@ namespace OpenBabel {
     OBMol *mol = skip->GetParent();
     // create the fragment bitvec
     OBBitVec ligand = getFragment(ligandAtom, skip);
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+    for (auto u2 = units.cbegin(); u2 != units.cend(); ++u2) {
       if (isUnitInFragment(mol, *u2, ligand))
         return true;
     }
@@ -1526,7 +1525,7 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     bool foundTrueStereoCenter = false;
     int paraStereoCenterCount = 0;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+    for (auto u2 = units.cbegin(); u2 != units.cend(); ++u2) {
       if (isUnitInFragment(mol, *u2, ligand)) {
         if ((*u2).para) {
           paraStereoCenterCount++;
@@ -1560,7 +1559,7 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     int trueStereoCenterCount = 0;
     std::vector<unsigned int> ringIndices;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
+    for (auto u2 = units.cbegin(); u2 != units.cend(); ++u2) {
       if ((*u2).type == OBStereo::Tetrahedral) {
         if (ligand.BitIsSet((*u2).id)) {
           if ((*u2).para) {
