@@ -120,13 +120,11 @@ int main(int argc,char **argv)
             OBAtomMap< boost::default_color_type >(mol) );
 
         std::cout << "\nBACK EDGES\n";
-        for ( std::vector< boost::graph_traits<OpenBabel::OBMol>::edge_descriptor >::iterator 
-              beg = bv.begin(), end = bv.end();
-              beg != end; ++beg )
+        for (auto& beg : bv)
         {
-            std::cout << '(' << (*beg)->GetBeginAtom()->GetIdx() << ")--";
-            std::cout << (*beg)->GetIdx() << "--(";
-            std::cout << (*beg)->GetEndAtom()->GetIdx() << ")\n";
+            std::cout << '(' << beg->GetBeginAtom()->GetIdx() << ")--";
+            std::cout << beg->GetIdx() << "--(";
+            std::cout << beg->GetEndAtom()->GetIdx() << ")\n";
         }
 
         // Examples using depth first search
