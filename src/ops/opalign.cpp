@@ -169,8 +169,8 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
       if(!ats.empty())
       {
         // Make a vector of the matching atom coordinates...
-        for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter)
-          _refvec.push_back((pmol->GetAtom(*iter))->GetVector());        
+        for(const auto& iter : ats)
+          _refvec.push_back((pmol->GetAtom(iter))->GetVector());
         // ...and use a vector reference
         _align.SetRef(_refvec);
       }
@@ -212,8 +212,8 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
     // Make a vector of their coordinates and get the centroid
     vector<vector3> vec;
     vector3 centroid;
-    for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter) {
-      vector3 v = pmol->GetAtom(*iter)->GetVector();
+    for(const auto& iter : ats) {
+      vector3 v = pmol->GetAtom(iter)->GetVector();
       centroid += v;
       vec.push_back(v);
     }
@@ -226,8 +226,8 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
 
     // Get the centroid of the reference atoms
     vector3 ref_centroid;
-    for(vector<vector3>::iterator iter=_refvec.begin(); iter!=_refvec.end(); ++iter)
-      ref_centroid += *iter;
+    for(const auto& iter : _refvec)
+      ref_centroid += iter;
     ref_centroid /= _refvec.size();
 
     //subtract the centroid, rotate the target molecule, then add the centroid
