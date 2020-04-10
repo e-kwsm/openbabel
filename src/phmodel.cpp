@@ -56,13 +56,11 @@ namespace OpenBabel
 
   OBPhModel::~OBPhModel()
   {
-    vector<OBChemTsfm*>::iterator k;
-    for (k = _vtsfm.begin();k != _vtsfm.end();++k)
-      delete *k;
+    for (auto& k : _vtsfm)
+      delete k;
 
-    vector<pair<OBSmartsPattern*,vector<double> > >::iterator m;
-    for (m = _vschrg.begin();m != _vschrg.end();++m)
-      delete m->first;
+    for (auto& m : _vschrg)
+      delete m.first;
   }
 
   void OBPhModel::ParseLine(const char *buffer)
@@ -130,17 +128,13 @@ namespace OpenBabel
     if (!mol.AutomaticPartialCharge())
       return;
 
-    vector<pair<OBSmartsPattern*,vector<double> > >::iterator i;
-    for (i = _vschrg.begin(); i != _vschrg.end(); ++i) {
+    for (const auto& i : _vschrg) {
       std::vector<std::vector<int> > mlist;
-      if (i->first->Match(mol, mlist, OBSmartsPattern::AllUnique))
+      if (i.first->Match(mol, mlist, OBSmartsPattern::AllUnique))
       {
-        unsigned int k;
-        vector<vector<int> >::iterator j;
-
-        for (j = mlist.begin(); j != mlist.end(); ++j)
-          for (k = 0; k < j->size(); ++k)
-            mol.GetAtom((*j)[k])->SetPartialCharge(i->second[k]);
+        for (const auto& j : mlist)
+          for (unsigned k = 0; k < j.size(); ++k)
+            mol.GetAtom(j[k])->SetPartialCharge(i.second[k]);
       }
     }
   }
@@ -316,19 +310,18 @@ namespace OpenBabel
 
     if (!_vchrg.empty()) //modify charges
       {
-        vector<vector<int> >::iterator i;
-        vector<pair<int,int> >::iterator j;
-
-        for (i = mlist.begin();i != mlist.end();++i)
-          for (j = _vchrg.begin();j != _vchrg.end();++j)
-            if (j->first < (signed)i->size()) { //goof proofing
-              OBAtom *atom = mol.GetAtom((*i)[j->first]);
+        for (const auto& i : mlist) {
+          for (const auto& j : _vchrg) {
+            if (j.first < (signed)i.size()) { //goof proofing
+              OBAtom *atom = mol.GetAtom(i[j.first]);
               int old_charge = atom->GetFormalCharge();
-              if(j->second != old_charge) {
-                atom->SetFormalCharge(j->second);
+              if(j.second != old_charge) {
+                atom->SetFormalCharge(j.second);
                 OBAtomAssignTypicalImplicitHydrogens(atom); //update with new charge info
               }
             }
+          }
+        }
       }
 
     if (!_vbond.empty()) //modify bond orders
