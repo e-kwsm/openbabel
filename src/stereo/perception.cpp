@@ -2412,14 +2412,14 @@ namespace OpenBabel {
 
     // find all tetrahedral centers
     std::vector<unsigned long> centers;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::Tetrahedral)
-        centers.push_back((*u).id);
+    for (const auto& u : stereoUnits) {
+      if (u.type == OBStereo::Tetrahedral)
+        centers.push_back(u.id);
+    }
 
 
-    std::vector<unsigned long>::iterator i;
-    for (i = centers.begin(); i != centers.end(); ++i) {
-      OBAtom *center = mol->GetAtomById(*i);
+    for (auto i : centers) {
+      OBAtom *center = mol->GetAtomById(i);
 
       // make sure we have at least 3 heavy atom neighbors
       if (center->GetHvyDegree() < 3) {
@@ -2431,7 +2431,7 @@ namespace OpenBabel {
       }
 
       OBTetrahedralStereo::Config config;
-      config.center = *i;
+      config.center = i;
 
       // We assume the 'tip-only' convention. That is, wedge or hash bonds only
       // determine the stereochemistry at their thin end (the BeginAtom)
@@ -2674,13 +2674,13 @@ namespace OpenBabel {
 
     // find all cis/trans bonds
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto& u : stereoUnits) {
+      if (u.type == OBStereo::CisTrans)
+        bonds.push_back(u.id);
+    }
 
-    std::vector<unsigned long>::iterator i;
-    for (i = bonds.begin(); i != bonds.end(); ++i) {
-      OBBond *bond = mol->GetBondById(*i);
+    for (auto i : bonds) {
+      OBBond *bond = mol->GetBondById(i);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
 
@@ -2778,12 +2778,13 @@ namespace OpenBabel {
     // Store the tetcenters for the second loop (below)
     std::set <unsigned long> tetcenters;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (const auto& data : vdata) {
+      if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
         tetcenters.insert(cfg.center);
       }
+    }
 
     // This loop sets one bond of each tet stereo to up or to down (2D only)
     std::set <OBBond *> alreadyset;
