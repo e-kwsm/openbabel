@@ -1502,8 +1502,8 @@ namespace OpenBabel {
     OBMol *mol = skip->GetParent();
     // create the fragment bitvec
     OBBitVec ligand = getFragment(ligandAtom, skip);
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand))
+    for (const auto& u2 : units) {
+      if (isUnitInFragment(mol, u2, ligand))
         return true;
     }
     return false;
@@ -1526,9 +1526,9 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     bool foundTrueStereoCenter = false;
     int paraStereoCenterCount = 0;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand)) {
-        if ((*u2).para) {
+    for (const auto& u2 : units) {
+      if (isUnitInFragment(mol, u2, ligand)) {
+        if (u2.para) {
           paraStereoCenterCount++;
         } else {
           foundTrueStereoCenter = true;
@@ -1560,11 +1560,11 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     int trueStereoCenterCount = 0;
     std::vector<unsigned int> ringIndices;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if ((*u2).type == OBStereo::Tetrahedral) {
-        if (ligand.BitIsSet((*u2).id)) {
-          if ((*u2).para) {
-            OBAtom *paraAtom = mol->GetAtomById((*u2).id);
+    for (const auto& u2 : units) {
+      if (u2.type == OBStereo::Tetrahedral) {
+        if (ligand.BitIsSet(u2.id)) {
+          if (u2.para) {
+            OBAtom *paraAtom = mol->GetAtomById(u2.id);
             for (std::size_t ringIdx = 0; ringIdx < mergedRings.size(); ++ringIdx) {
               if (mergedRings.at(ringIdx).BitIsSet(paraAtom->GetIdx()))
                 if (std::find(ringIndices.begin(), ringIndices.end(), ringIdx) == ringIndices.end())
@@ -1573,12 +1573,12 @@ namespace OpenBabel {
           } else
             trueStereoCenterCount++;
         }
-      } else if((*u2).type == OBStereo::CisTrans) {
-        OBBond *bond = mol->GetBondById((*u2).id);
+      } else if(u2.type == OBStereo::CisTrans) {
+        OBBond *bond = mol->GetBondById(u2.id);
         OBAtom *begin = bond->GetBeginAtom();
         OBAtom *end = bond->GetEndAtom();
         if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId())) {
-          if ((*u2).para) {
+          if (u2.para) {
             for (std::size_t ringIdx = 0; ringIdx < mergedRings.size(); ++ringIdx) {
               if (mergedRings.at(ringIdx).BitIsSet(begin->GetIdx()) || mergedRings.at(ringIdx).BitIsSet(end->GetIdx())) {
                 if (std::find(ringIndices.begin(), ringIndices.end(), ringIdx) == ringIndices.end()) {
@@ -1809,13 +1809,13 @@ namespace OpenBabel {
     }
 
     if (DEBUG) {
-      for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
-        if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+      for (const auto& unit : units) {
+        if (unit.type == OBStereo::Tetrahedral)
+          cout << "Tetrahedral(center = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::CisTrans)
+          cout << "CisTrans(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::SquarePlanar)
+          cout << "SquarePlanar(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
       }
     }
 
@@ -1872,27 +1872,25 @@ namespace OpenBabel {
     std::map<unsigned long, OBTetrahedralStereo*> existingMap;
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
-        unsigned long center = ts->GetConfig().center;
-        // check if the center is really stereogenic
-        bool isStereogenic = false;
-        OBStereoUnitSet::const_iterator u;
-        for (u = stereoUnits.begin(); u != stereoUnits.end(); ++u) {
-          if ((*u).type == OBStereo::Tetrahedral)
-            if ((*u).id == center)
-              isStereogenic = true;
-        }
+    for (const auto& data : stereoData) {
+      if (static_cast<OBStereoBase*>(data)->GetType() != OBStereo::Tetrahedral)
+          continue;
+      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
+      unsigned long center = ts->GetConfig().center;
+      // check if the center is really stereogenic
+      bool isStereogenic = false;
+      for (const auto& u : stereoUnits) {
+        if (u.type == OBStereo::Tetrahedral && u.id == center)
+          isStereogenic = true;
+      }
 
-        if (isStereogenic) {
-          existingMap[center] = ts;
-          configs.push_back(ts);
-        } else {
-          // According to OpenBabel, this is not a tetrahedral stereo
-          obErrorLog.ThrowError(__FUNCTION__, "Removed spurious TetrahedralStereo object", obAuditMsg);
-          mol->DeleteData(ts);
-        }
+      if (isStereogenic) {
+        existingMap[center] = ts;
+        configs.push_back(ts);
+      } else {
+        // According to OpenBabel, this is not a tetrahedral stereo
+        obErrorLog.ThrowError(__FUNCTION__, "Removed spurious TetrahedralStereo object", obAuditMsg);
+        mol->DeleteData(ts);
       }
     }
 
