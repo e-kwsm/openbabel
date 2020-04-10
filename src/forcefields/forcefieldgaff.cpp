@@ -65,7 +65,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Bond()
   {
-    vector<OBFFBondCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -75,19 +74,19 @@ namespace OpenBabel
       OBFFLog("------------------------------------------------------------------------\n");
     }
 
-    for (i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
+    for (auto& i : _bondcalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).rab, (*i).r0, (*i).kr, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.rab, i.r0, i.kr, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -134,7 +133,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Angle()
   {
-    vector<OBFFAngleCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -144,20 +142,20 @@ namespace OpenBabel
       OBFFLog("-----------------------------------------------------------------------------\n");
     }
 
-    for (i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
+    for (auto& i : _anglecalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).c->GetType(), (*i).theta, (*i).theta0, (*i).kth, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.c->GetType(), i.theta, i.theta0, i.kth, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -206,7 +204,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Torsion()
   {
-    vector<OBFFTorsionCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -216,21 +213,21 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
+    for (auto& i : _torsioncalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
-        AddGradient((*i).force_d, (*i).idx_d);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
+        AddGradient(i.force_d, i.idx_d);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).c->GetType(), (*i).d->GetType(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.c->GetType(), i.d->GetType(), i.vn_half, i.gamma, i.tor, i.n, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -308,7 +305,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_OOP()
   {
-    vector<OBFFOOPCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -318,21 +314,21 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (i = _oopcalculations.begin(); i != _oopcalculations.end(); ++i) {
+    for (auto& i : _oopcalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
-        AddGradient((*i).force_d, (*i).idx_d);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
+        AddGradient(i.force_d, i.idx_d);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).c->GetType(), (*i).d->GetType(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.c->GetType(), i.d->GetType(), i.vn_half, i.gamma, i.tor, i.n, i.energy);
         OBFFLog(_logbuf);
       }
     }
