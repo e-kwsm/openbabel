@@ -191,12 +191,11 @@ namespace OpenBabel
   std::vector<std::string> OBMessageHandler::GetMessagesOfLevel(const obMessageLevel level)
   {
     vector<string> results;
-    deque<OBError>::iterator i;
     OBError error;
 
-    for (i = _messageList.begin(); i != _messageList.end(); ++i)
+    for (const auto& i : _messageList)
       {
-        error = (*i);
+        error = i;
         if (error.GetLevel() == level)
           results.push_back( error.message() );
       }
