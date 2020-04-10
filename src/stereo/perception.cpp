@@ -1938,43 +1938,43 @@ namespace OpenBabel {
     obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::CisTransFrom0D", obAuditMsg);
 
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto& u : stereoUnits) {
+      if (u.type == OBStereo::CisTrans)
+        bonds.push_back(u.id);
+    }
 
     // Delete any existing stereo objects that are not a member of 'bonds'
     // and make a map of the remaining ones
     std::map<unsigned long, OBCisTransStereo*> existingMap;
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
-        OBCisTransStereo::Config config = ct->GetConfig();
-        // find the bond id from begin & end atom ids
-        unsigned long id = OBStereo::NoRef;
-        OBAtom *a = mol->GetAtomById(config.begin);
-        if (!a)
-          continue;
-        FOR_BONDS_OF_ATOM (bond, a) {
-          unsigned long beginId = bond->GetBeginAtom()->GetId();
-          unsigned long endId = bond->GetEndAtom()->GetId();
-          if ((beginId == config.begin && endId == config.end) ||
-              (beginId == config.end && endId == config.begin)) {
-            id = bond->GetId();
-            break;
-          }
+    for (const auto& data : stereoData) {
+      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
+        continue;
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
+      OBCisTransStereo::Config config = ct->GetConfig();
+      // find the bond id from begin & end atom ids
+      unsigned long id = OBStereo::NoRef;
+      OBAtom *a = mol->GetAtomById(config.begin);
+      if (!a)
+        continue;
+      FOR_BONDS_OF_ATOM (bond, a) {
+        unsigned long beginId = bond->GetBeginAtom()->GetId();
+        unsigned long endId = bond->GetEndAtom()->GetId();
+        if ((beginId == config.begin && endId == config.end) ||
+            (beginId == config.end && endId == config.begin)) {
+          id = bond->GetId();
+          break;
         }
+      }
 
-        if (std::find(bonds.begin(), bonds.end(), id) == bonds.end()) {
-          // According to OpenBabel, this is not a cis trans stereo
-          obErrorLog.ThrowError(__FUNCTION__, "Removed spurious CisTransStereo object", obAuditMsg);
-          mol->DeleteData(ct);
-        }
-        else {
-          existingMap[id] = ct;
-          configs.push_back(ct);
-        }
+      if (std::find(bonds.begin(), bonds.end(), id) == bonds.end()) {
+        // According to OpenBabel, this is not a cis trans stereo
+        obErrorLog.ThrowError(__FUNCTION__, "Removed spurious CisTransStereo object", obAuditMsg);
+        mol->DeleteData(ct);
+      } else {
+        existingMap[id] = ct;
+        configs.push_back(ct);
       }
     }
 
