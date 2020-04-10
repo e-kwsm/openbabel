@@ -230,11 +230,12 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (auto i : cfg.refs) {
+      if (i != OBStereo::ImplicitRef)
+        out << i << " ";
       else
         out << "H ";
+    }
 
     if (!cfg.specified)
       out << ", unspecified)";
@@ -262,11 +263,12 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (auto i : cfg.refs) {
+      if (i != OBStereo::ImplicitRef)
+        out << i << " ";
       else
         out << "H ";
+    }
 
     if (!cfg.specified)
       out << ", unspecified)";
