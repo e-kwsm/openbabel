@@ -201,7 +201,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
           }
         }
         if(!foundDuplicate){
-          vector3 transformed = pUC->FractionalToCartesian(atom->second[i]);
+          vector3 transformed = pUC->FractionalToCartesian(atom.second[i]);
           // let's make sure there isn't some *other* atom that's in this spot
           bool foundCartesianDuplicate = false;
           FOR_ATOMS_OF_MOL(a, *pmol) {
