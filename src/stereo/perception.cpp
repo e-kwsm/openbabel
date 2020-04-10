@@ -1894,21 +1894,20 @@ namespace OpenBabel {
       }
     }
 
-    OBStereoUnitSet::const_iterator u;
-    for (u = stereoUnits.begin(); u != stereoUnits.end(); ++u) {
+    for (const auto& u : stereoUnits) {
       // skip non-tetrahedral units
-      if ((*u).type != OBStereo::Tetrahedral)
+      if (u.type != OBStereo::Tetrahedral)
         continue;
       // if there already exists a OBTetrahedralStereo object for this
       // center, continue
-      if (existingMap.find((*u).id) != existingMap.end())
+      if (existingMap.find(u.id) != existingMap.end())
         continue;
 
-      OBAtom *center = mol->GetAtomById((*u).id);
+      OBAtom *center = mol->GetAtomById(u.id);
 
       OBTetrahedralStereo::Config config;
       config.specified = false;
-      config.center = (*u).id;
+      config.center = u.id;
       FOR_NBORS_OF_ATOM(nbr, center) {
         if (config.from == OBStereo::NoRef)
           config.from = nbr->GetId();
