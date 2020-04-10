@@ -256,7 +256,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
       {
       }
 
-    vector3 GetGradient(int a)
+    vector3 GetGradient(int a) const
     {
       if (a == ia)
         return grada;
@@ -294,7 +294,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Get the constraint energy
     double GetConstraintEnergy();
     //! Get the constraint gradient for atom with index a
-    vector3 GetGradient(int a);
+    vector3 GetGradient(int a) const;
     //! Get the constrain gradient for the atom
     OBFFConstraints& operator=(const OBFFConstraints &ai)
       {
@@ -882,7 +882,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     /*! Get the pointer to the gradients
      */
-    virtual vector3 GetGradient(OBAtom *a, int /*terms*/ = OBFF_ENERGY)
+    virtual vector3 GetGradient(OBAtom *a, int /*terms*/ = OBFF_ENERGY) const
     {
       const int coordIdx = (a->GetIdx() - 1) * 3;
       return _gradientPtr + coordIdx;
