@@ -104,10 +104,9 @@ public:
 
     // Iterate through _text and make instances of the plugins.
     // They will be deleted in the destructor.
-    vector<vector<string> >::iterator iter;
-    for(iter=_text.begin();iter!=_text.end();++iter) {
-      OBPlugin* pdef = FindDef((*iter)[0].c_str());
-      _instances.push_back(pdef->MakeInstance(*iter));
+    for(const auto& iter : _text) {
+      OBPlugin* pdef = FindDef(iter[0].c_str());
+      _instances.push_back(pdef->MakeInstance(iter));
     }
 
     // return the locale to the original one
@@ -117,9 +116,8 @@ public:
 
   virtual ~OBDefine()
   {
-    std::vector<OBPlugin*>::iterator iter;
-    for(iter=_instances.begin();iter!=_instances.end();++iter)
-      delete *iter;
+    for(auto& iter : _instances)
+      delete iter;
   }
 
   virtual const char* Description(){ return "Makes plugin classes from a datafile"; }
@@ -182,13 +180,12 @@ OBDefine placeholderOBDefine;
 
 OBPlugin* OBDefine::FindDef(const char* ID)
 {
-  PluginIterator typeiter, iter;
-  for(typeiter=PluginMap().begin(); typeiter!=PluginMap().end();++typeiter)
+  for(const auto& typeiter : PluginMap())
   {
-    PluginMapType map = typeiter->second->GetMap();
-    for(iter=map.begin();iter!=map.end();++iter)
+    PluginMapType map = typeiter.second->GetMap();
+    for(const auto& iter : map)
     {
-      const char* pdescr = iter->second->Description();
+      const char* pdescr = iter.second->Description();
       if(!pdescr)
         continue;
       string descr(pdescr);
@@ -200,7 +197,7 @@ OBPlugin* OBDefine::FindDef(const char* ID)
         continue;
       pos2 = descr.rfind('\n', pos);
       if(pos2!=string::npos && descr.substr(pos2, pos-pos2).find(ID)!=string::npos)
-        return iter->second;
+        return iter.second;
     }
   }
   return nullptr;
