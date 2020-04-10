@@ -56,9 +56,12 @@ namespace OpenBabel {
           // for each ref in otherConfig
           for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
             bool found = false;
-            for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
-              if (otherConfig.refs.at(i) == *j)
+            for (const auto& j : thisConfig.refs) {
+              if (otherConfig.refs.at(i) == j) {
                 found = true;
+                break;
+              }
+            }
 
             if (!found) {
               // the ref from otherConfig is not found in this config
@@ -79,14 +82,18 @@ namespace OpenBabel {
             for (unsigned int i = 0; i < thisConfig.refs.size(); ++i) {
               bool found = false;
               // for each refs in otherConfig
-              for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-                if (thisConfig.refs.at(i) == *j)
+              for (const auto& j = otherConfig.refs) {
+                if (thisConfig.refs.at(i) == j) {
                   found = true;
+                  break;
+                }
+              }
 
               if (!found) {
-                for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-                  if (*j == OBStereo::ImplicitRef)
-                    *j = thisConfig.refs.at(i);
+                for (auto& j : otherConfig.refs) {
+                  if (j == OBStereo::ImplicitRef)
+                    j = thisConfig.refs.at(i);
+                }
                 break;
               }
             }
@@ -138,11 +145,12 @@ namespace OpenBabel {
       OBCisTransStereo::Config u1, u2;
       if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
         // find a ref that occurs in both
-        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
-          if (OBStereo::ContainsRef(other.refs, *i)) {
-            u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
-            u2 = OBTetraPlanarStereo::ToConfig(Convert(other), *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
+        for (auto i : refs) {
+          if (OBStereo::ContainsRef(other.refs, i)) {
+            u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
+            u2 = OBTetraPlanarStereo::ToConfig(Convert(other), i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
           }
+        }
 
         // check if they actualy share an id...
         if (u1.refs.empty())
