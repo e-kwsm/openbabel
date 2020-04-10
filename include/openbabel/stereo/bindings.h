@@ -211,11 +211,12 @@ namespace OpenBabel {
       OBSquarePlanarStereo::Config u1, u2;
       if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
         // find a ref that occurs in both
-        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
-          if (OBStereo::ContainsRef(other.refs, *i)) {
-            u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
-            u2 = OBTetraPlanarStereo::ToConfig(Convert(other), *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
+        for (const auto& i : refs) {
+          if (OBStereo::ContainsRef(other.refs, i)) {
+            u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
+            u2 = OBTetraPlanarStereo::ToConfig(Convert(other), i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
           }
+        }
 
         // check if they actualy share an id...
         if (u1.refs.empty())
