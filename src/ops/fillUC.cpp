@@ -214,7 +214,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
 
           if (!foundCartesianDuplicate) {
             OBAtom *newAtom = pmol->NewAtom();
-            newAtom->Duplicate(atom->first);
+            newAtom->Duplicate(atom.first);
             newAtom->SetVector( transformed );
           }
         }
