@@ -72,7 +72,7 @@ namespace OpenBabel
     //! Set the ring type (see OBRingTyper for more)
     void SetType(char *type);
     //! Set the ring type (see OBRingTyper for more)
-    void SetType(std::string &type);
+    void SetType(const std::string &type);
     //! \return the ring type
     char *GetType();
     //! \return the index for the root atom. O for furan, S for thiazole, N for pyrrole.
