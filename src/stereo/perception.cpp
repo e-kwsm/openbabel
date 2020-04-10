@@ -1949,7 +1949,7 @@ namespace OpenBabel {
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
     for (const auto& data : stereoData) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
+      if (static_cast<OBStereoBase*>(data)->GetType() != OBStereo::CisTrans)
         continue;
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       OBCisTransStereo::Config config = ct->GetConfig();
