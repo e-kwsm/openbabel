@@ -4306,16 +4306,13 @@ namespace OpenBabel
     vector<OBRing*> vr;
     vr = _mol.GetSSSR();
 
-    vector<OBRing*>::iterator i;
-    vector<int>::iterator j;
-
-    for (i = vr.begin();i != vr.end();++i) {
+    for (const auto& i : vr) {
       a_in = false;
       b_in = false;
-      for(j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
-        if ((unsigned)(*j) == a->GetIdx())
+      for(auto j : i->_path) {
+        if ((unsigned)j == a->GetIdx())
           a_in = true;
-        if ((unsigned)(*j) == b->GetIdx())
+        if ((unsigned)j == b->GetIdx())
           b_in = true;
       }
 
