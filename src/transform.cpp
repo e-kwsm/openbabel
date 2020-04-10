@@ -125,23 +125,22 @@ namespace OpenBabel
         string txt(itr->second);
 
         vector<string> vec;
-        vector<string>::iterator it;
         tokenize(vec, txt,";");
-        for(it=vec.begin();it!=vec.end();++it) {
+        for (auto& it : vec) {
           string attr, val;
-          string::size_type pos = it->find('=');
+          string::size_type pos = it.find('=');
           if(pos==string::npos) {
             //form with space
-            pos = it->find(' ');
+            pos = it.find(' ');
             if(pos==string::npos) {
                 obErrorLog.ThrowError(__FUNCTION__, "Missing property value", obError);
                 ret=false;
                 break;
             }
           }
-          val  = it->substr(pos+1);
+          val  = it.substr(pos+1);
           Trim(val);
-          attr = it->erase(pos);
+          attr = it.erase(pos);
           Trim(attr);
 
           //Update value if it already exists
