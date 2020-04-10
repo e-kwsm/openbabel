@@ -69,9 +69,9 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
   std::string smiles, stored_smiles;
   OBMol* stored_pmol=nullptr;
   std::vector<OBBase*>::iterator iter;
-  for(iter= vec.begin();iter!=vec.end();++iter)
+  for (auto& iter : vec)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(*iter);
+    OBMol* pmol = dynamic_cast<OBMol*>(iter);
     if(!pmol)
       continue;
     smiles = smconv.WriteString(pmol);
@@ -84,7 +84,12 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
       memcpy((char*)confCoord,(char*)pmol->GetCoordinates(),sizeof(double)*3*pmol->NumAtoms());
       stored_pmol->AddConformer(confCoord);
       delete pmol;
-      *iter = nullptr;
+      iter = nullptr;
+    }
+    else
+    {
+      stored_pmol = pmol;
+      stored_smiles = smiles;
     }
     else
     {
