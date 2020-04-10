@@ -458,16 +458,14 @@ namespace OpenBabel
 
   OBRotorList::~OBRotorList()
   {
-    vector<OBRotor*>::iterator i;
-    for (i = _rotor.begin();i != _rotor.end();++i)
-      delete *i;
+    for (auto& i : _rotor)
+      delete i;
   }
 
   void OBRotorList::Clear()
   {
-    vector<OBRotor*>::iterator i;
-    for (i = _rotor.begin();i != _rotor.end();++i)
-      delete *i;
+    for (auto& i : _rotor)
+      delete i;
     _rotor.clear();
     _ringRotors = false;
     //_fix.Clear();
@@ -494,7 +492,6 @@ namespace OpenBabel
       return; // nothing to do
 
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = _bond->GetParent();
 
@@ -502,9 +499,9 @@ namespace OpenBabel
       return; // nothing to do
 
     rlist = mol->GetSSSR();
-    for (i = rlist.begin();i != rlist.end();++i) {
-      if ((*i)->IsMember(_bond))
-        _rings.push_back(*i);
+    for (const auto& i : rlist) {
+      if (i->IsMember(_bond))
+        _rings.push_back(i);
     }
   }
 
@@ -661,22 +658,19 @@ namespace OpenBabel
   void OBRotor::Precalc(vector<double*> &cv)
   {
     double *c,ang;
-    vector<double*>::iterator i;
-    vector<double>::iterator j;
     vector<double> cs,sn,t;
-    for (i = cv.begin();i != cv.end();++i)
+    for (const auto& c : cv) {
       {
-        c = *i;
         cs.clear();
         sn.clear();
         t.clear();
         ang = CalcTorsion(c);
 
-        for (j = _torsionAngles.begin();j != _torsionAngles.end();++j)
+        for (const auto& j : _torsionAngles)
           {
-            cs.push_back(cos(*j-ang));
-            sn.push_back(sin(*j-ang));
-            t.push_back(1 - cos(*j-ang));
+            cs.push_back(cos(j - ang));
+            sn.push_back(sin(j - ang));
+            t.push_back(1 - cos(j - ang));
           }
 
         _cs.push_back(cs);
