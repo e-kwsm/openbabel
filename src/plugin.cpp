@@ -120,7 +120,7 @@ OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
   }
 
   //When Type==NULL, search all types for matching ID and stop when found
-  for(const auto& m : PluginMap()) {
+  for(const auto& m : PluginMap())
   {
     OBPlugin* result = BaseFindType(m.second->GetMap(), ID);
     if(result)
