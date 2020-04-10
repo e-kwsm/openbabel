@@ -126,11 +126,11 @@ namespace OpenBabel
     //! Sort ring sizes from smallest to largest
     void    SortRings()
     {
-      std::vector<OBRing*>::iterator j;
-      int ring_id; // for each ring, assign a unique id to ensure a stable sort
-      
-      for (j = _rlist.begin(), ring_id = 0; j != _rlist.end(); ++j, ++ring_id)
-        (*j)->ring_id = ring_id;
+      int ring_id = 0; // for each ring, assign a unique id to ensure a stable sort
+      for (auto& j : _rlist) {
+        j->ring_id = ring_id;
+        ring_id++;
+      }
       std::sort(_rlist.begin(),_rlist.end(),CompareRingSize);
     }
     //! Starting with a full ring set - reduce to SSSR set
