@@ -130,10 +130,9 @@ namespace OpenBabel
 
     // create rotors for the bonds
     int count = 0;
-    vector<pair<OBBond*,int> >::iterator j;
-    for (j = vtmp.begin(); j != vtmp.end(); ++j, ++count) {
+    for (const auto& j : vtmp) {
       OBRotor *rotor = new OBRotor;
-      rotor->SetBond((*j).first);
+      rotor->SetBond(j.first);
       rotor->SetIdx(count);
       rotor->SetNumCoords(mol.NumAtoms()*3);
       _rotor.push_back(rotor);
@@ -341,9 +340,7 @@ namespace OpenBabel
 
   bool OBRotorList::AssignTorVals(OBMol &mol)
   {
-    vector<OBRotor*>::iterator i;
-    for (i = _rotor.begin(); i != _rotor.end(); ++i) {
-      OBRotor *rotor = *i;
+    for (const auto& rotor : _rotor) {
       OBBond *bond = rotor->GetBond();
 
       // query the rotor database
@@ -359,7 +356,6 @@ namespace OpenBabel
       // larger than half of the number of atoms, the other set is smaller and the
       // rotor atom indexes are inverted (.i.e. a-b-c-d -> d-c-b-a).
       vector<int> atoms;
-      vector<int>::iterator j;
       // find all atoms for which there is a path to ref[2] without goinf through ref[1]
       mol.FindChildren(atoms, ref[1], ref[2]);
       if (atoms.size() + 1 > mol.NumAtoms() / 2) {
@@ -372,8 +368,8 @@ namespace OpenBabel
       }
 
       // translate the rotate atom indexes to coordinate indexes (i.e. from 0, multiplied by 3)
-      for (j = atoms.begin(); j != atoms.end(); ++j)
-        *j = ((*j) - 1) * 3;
+      for (auto& j : atoms)
+        j = (j - 1) * 3;
       // set the rotate atoms and dihedral atom indexes
       rotor->SetRotAtoms(atoms);
       rotor->SetDihedralAtoms(ref);
@@ -389,7 +385,6 @@ namespace OpenBabel
     vector<OBRotor*>::iterator i;
 
     int ref[4];
-    vector<int>::iterator j;
     for (rotor = BeginRotor(i);rotor;rotor = NextRotor(i))
       {
         rotor->GetDihedralAtoms(ref);
@@ -403,8 +398,8 @@ namespace OpenBabel
             swap(ref[1],ref[2]);
           }
 
-        for (j = rotatoms.begin();j != rotatoms.end();++j)
-          *j = ((*j)-1)*3;
+        for (auto& j : rotatoms)
+          j = (j - 1) * 3;
         rotor->SetRotAtoms(rotatoms);
         rotor->SetDihedralAtoms(ref);
       }
@@ -417,7 +412,6 @@ namespace OpenBabel
     int ref[4];
     OBRotor *rotor;
     vector<int> rotatoms;
-    vector<int>::iterator j;
     vector<OBRotor*>::iterator i;
 
     GetDFFVector(mol,_dffv,_fixedatoms);
@@ -434,8 +428,8 @@ namespace OpenBabel
                 swap(ref[0],ref[3]);
                 swap(ref[1],ref[2]);
                 mol.FindChildren(rotatoms,ref[1],ref[2]);
-                for (j = rotatoms.begin();j != rotatoms.end();++j)
-                  *j = ((*j)-1)*3;
+                for (auto& j : rotatoms)
+                  j = (j - 1) * 3;
                 rotor->SetRotAtoms(rotatoms);
                 rotor->SetDihedralAtoms(ref);
               }
@@ -446,8 +440,8 @@ namespace OpenBabel
               swap(ref[0],ref[3]);
               swap(ref[1],ref[2]);
               mol.FindChildren(rotatoms,ref[1],ref[2]);
-              for (j = rotatoms.begin();j != rotatoms.end();++j)
-                *j = ((*j)-1)*3;
+              for (auto& j : rotatoms)
+                j = (j - 1) * 3;
               rotor->SetRotAtoms(rotatoms);
               rotor->SetDihedralAtoms(ref);
             }
