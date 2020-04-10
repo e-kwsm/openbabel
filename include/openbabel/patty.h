@@ -61,9 +61,8 @@ public :
 
     ~patty()
     {
-        std::vector<OBSmartsPattern*>::iterator i;
-        for (i = _sp.begin();i != _sp.end();++i)
-            delete *i;
+        for (auto& i : _sp)
+            delete i;
     }
     void debug_on()
     {
