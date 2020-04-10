@@ -124,10 +124,9 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
 
-            for (i = cbonds.begin();i != cbonds.end();++i)
-              rs.AddRingFromClosure(*this,(OBBond*)*i);
+            for (const auto& i : cbonds)
+              rs.AddRingFromClosure(*this,(OBBond*)i);
 
             rs.SortRings();
             rs.RemoveRedundant(frj);
@@ -271,10 +270,9 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
 
-            for (i = cbonds.begin();i != cbonds.end();++i)
-              rs.AddRingFromClosure(*this,(OBBond*)*i);
+            for (const auto& i : cbonds)
+              rs.AddRingFromClosure(*this,(OBBond*)i);
 
             rs.SortRings();
             rs.RemoveRedundant(-1); // -1 means LSSR
@@ -611,32 +609,31 @@ namespace OpenBabel
 
   unsigned int OBRing::GetRootAtom()
   {
-    vector<int>::iterator i;
     OBMol *mol = (OBMol*)GetParent();
 
     //if (!IsAromatic())
     //  return 0;
 
     if (Size() == 6)
-      for (i = _path.begin();i != _path.end();++i)
-        if (mol->GetAtom(*i)->GetAtomicNum() != OBElements::Carbon)
-	        return (*i);
+      for (auto i : _path)
+        if (mol->GetAtom(i)->GetAtomicNum() != OBElements::Carbon)
+          return i;
 
     if (Size() == 5)
-      for (i = _path.begin();i != _path.end();++i) {
-        OBAtom *atom = mol->GetAtom(*i);
+      for (auto i : _path) {
+        OBAtom *atom = mol->GetAtom(i);
         switch (atom->GetAtomicNum()) {
         case OBElements::Sulfur:
           if (atom->GetExplicitDegree() == 2)
-            return (*i);
+            return i;
           break;
         case OBElements::Oxygen:
           if (atom->GetExplicitDegree() == 2)
-            return (*i);
+            return i;
           break;
         case OBElements::Nitrogen:
           if (atom->GetExplicitValence() == atom->GetExplicitDegree())
-            return (*i);
+            return i;
           break;
         }
       }
