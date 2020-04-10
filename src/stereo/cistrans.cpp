@@ -384,11 +384,12 @@ namespace std {
     out << ", end = " << cfg.end;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OpenBabel::OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (auto i : cfg.refs) {
+      if (i != OpenBabel::OBStereo::ImplicitRef)
+        out << i << " ";
       else
         out << "H ";
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:
