@@ -423,13 +423,11 @@ namespace OpenBabel
 
   void OBFFConstraints::Setup(OBMol& mol)
   {
-    vector<OBFFConstraint>::iterator i;
-
-    for (i = _constraints.begin(); i != _constraints.end(); ++i) {
-      i->a = mol.GetAtom(i->ia);
-      i->b = mol.GetAtom(i->ib);
-      i->c = mol.GetAtom(i->ic);
-      i->d = mol.GetAtom(i->id);
+    for (auto& i : _constraints) {
+      i.a = mol.GetAtom(i.ia);
+      i.b = mol.GetAtom(i.ib);
+      i.c = mol.GetAtom(i.ic);
+      i.d = mol.GetAtom(i.id);
     }
   }
 
