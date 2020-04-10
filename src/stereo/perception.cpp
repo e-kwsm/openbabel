@@ -1122,12 +1122,12 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, end);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-              if ((*u2).type == OBStereo::Tetrahedral) {
-                if (ligand.BitIsSet((*u2).id))
+            for (const auto& u2 : units) {
+              if (u2.type == OBStereo::Tetrahedral) {
+                if (ligand.BitIsSet(u2.id))
                   endValid = true;
-              } else if((*u2).type == OBStereo::CisTrans) {
-                OBBond *bond = mol->GetBondById((*u2).id);
+              } else if (u2.type == OBStereo::CisTrans) {
+                OBBond *bond = mol->GetBondById(u2.id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
@@ -1143,13 +1143,13 @@ namespace OpenBabel {
     }
 
     if (DEBUG) {
-      for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
-        if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+      for (const auto& unit : units) {
+        if (unit.type == OBStereo::Tetrahedral)
+          cout << "Tetrahedral(center = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::CisTrans)
+          cout << "CisTrans(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::SquarePlanar)
+          cout << "SquarePlanar(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
       }
     }
 
