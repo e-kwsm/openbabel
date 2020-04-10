@@ -431,7 +431,7 @@ namespace OpenBabel
     }
   }
 
-  vector3 OBFFConstraints::GetGradient(int a)
+  vector3 OBFFConstraints::GetGradient(int a) const
   {
     vector<OBFFConstraint>::iterator i;
 
