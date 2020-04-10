@@ -297,7 +297,7 @@ namespace OpenBabel
     transform3d* candidate = new transform3d (m, v);
     bool transform_exists = false;
 
-    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i!= iend; i++)
+    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i != iend; i++)
     {
       if (candidate->DescribeAsString() == (*i)->DescribeAsString())
       {
@@ -316,7 +316,7 @@ namespace OpenBabel
   {
     static double prec = 2e-5;
     list<vector3> res;
-    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i!= iend; i++)
+    for (auto i = m_transforms.begin(), iend = m_transforms.end(); i != iend; i++)
       {
         vector3 t;
         t = *(*i) * v;
