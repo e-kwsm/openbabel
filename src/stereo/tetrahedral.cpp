@@ -68,9 +68,12 @@ namespace OpenBabel {
         // for each ref in otherConfig
         for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
           bool found = false;
-          for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
-            if (otherConfig.refs.at(i) == *j)
+          for (auto j : thisConfig.refs) {
+            if (otherConfig.refs.at(i) == j) {
               found = true;
+              break;
+            }
+          }
 
           if (!found) {
             // the ref from otherConfig is not found in this config
@@ -91,9 +94,12 @@ namespace OpenBabel {
         for (unsigned int i = 0; i < thisConfig.refs.size(); ++i) {
           bool found = false;
           // for each refs in otherConfig
-          for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-            if (thisConfig.refs.at(i) == *j)
+          for (auto j : otherConfig.refs) {
+            if (thisConfig.refs.at(i) == j) {
               found = true;
+              break;
+            }
+          }
 
           if (!found) {
             for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
