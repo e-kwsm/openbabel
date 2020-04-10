@@ -760,7 +760,7 @@ namespace OpenBabel
         // routine in graphsym.cpp for details.
         id = i->second;
         m = 100;
-        for (auto k = vtmp.begin();k != vtmp.end();++k)
+        for (auto k = vtmp.begin(); k != vtmp.end(); ++k)
           {
             id = static_cast<unsigned int>(id + static_cast<unsigned long long>(*k) * m);
             m  = static_cast<unsigned int>(static_cast<unsigned long long>(m) * 100);
