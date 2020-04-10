@@ -63,9 +63,8 @@ void OBPlugin::LoadAllPlugins()
     return;
   }
 
-  vector<string>::iterator itr;
-  for(itr=files.begin();itr!=files.end();++itr) {
-    if(DLHandler::openLib(*itr))
+  for(const auto& f : files) {
+    if(DLHandler::openLib(f))
       count++;
   }
   if(!count) {
@@ -121,10 +120,9 @@ OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
   }
 
   //When Type==NULL, search all types for matching ID and stop when found
-  PluginMapType::iterator itr;
-  for(itr=PluginMap().begin();itr!= PluginMap().end();++itr)
+  for(const auto& m : PluginMap()) {
   {
-    OBPlugin* result = BaseFindType(itr->second->GetMap(), ID);
+    OBPlugin* result = BaseFindType(m.second->GetMap(), ID);
     if(result)
       return result;
   }
