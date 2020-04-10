@@ -116,15 +116,13 @@ namespace OpenBabel
 
   OBAtomTyper::~OBAtomTyper()
   {
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-    for (i = _vinthyb.begin();i != _vinthyb.end();++i)
+    for (auto& i : _vinthyb)
       {
         delete i->first;
         i->first = nullptr;
       }
 
-    vector<pair<OBSmartsPattern*,string> >::iterator j;
-    for (j = _vexttyp.begin();j != _vexttyp.end();++j)
+    for (auto& j : _vexttyp)
       {
         delete j->first;
         j->first = nullptr;
@@ -142,15 +140,12 @@ namespace OpenBabel
 
     mol.SetAtomTypesPerceived();
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-
-    for (i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
+    for (const auto& i : _vexttyp) {
       std::vector<std::vector<int> > mlist;
-      if (i->first->Match(mol, mlist))
+      if (i.first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
-          mol.GetAtom((*j)[0])->SetType(i->second);
+        for (const auto& j : mlist)
+          mol.GetAtom(j[0])->SetType(i.second);
       }
     }
 
@@ -193,15 +188,12 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
       atom->SetHyb(0);
 
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,int> >::iterator i;
-
-    for (i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
+    for (const auto& i : _vinthyb) {
       std::vector<std::vector<int> > mlist;
-      if (i->first->Match(mol, mlist))
+      if (i.first->Match(mol, mlist))
       {
-        for (j = mlist.begin(); j != mlist.end(); ++j)
-          mol.GetAtom((*j)[0])->SetHyb(i->second);
+        for (const auto& j : mlist)
+          mol.GetAtom(j[0])->SetHyb(i.second);
       }
     }
 
@@ -276,10 +268,9 @@ namespace OpenBabel
 
   OBRingTyper::~OBRingTyper()
   {
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
-    for (i = _ringtyp.begin();i != _ringtyp.end();++i) {
-      delete i->first;
-      i->first = nullptr;
+    for (auto& i : _ringtyp) {
+      delete i.first;
+      i.first = nullptr;
     }
   }
 
