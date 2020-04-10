@@ -166,7 +166,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
     }
   }
   //List the plugin types
-  for (auto itr = PluginMap().begin(); itr!= PluginMap().end(); ++itr)
+  for (auto itr = PluginMap().begin(); itr != PluginMap().end(); ++itr)
     vlist.push_back(itr->first);
   return ret;
 }
