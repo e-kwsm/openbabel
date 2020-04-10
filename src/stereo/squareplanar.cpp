@@ -20,11 +20,12 @@ namespace OpenBabel {
     Config u1, u2;
     if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
       // find a ref that occurs in both
-      for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
-        if (OBStereo::ContainsRef(other.refs, *i)) {
-          u1 = OBTetraPlanarStereo::ToConfig(*this, *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
-          u2 = OBTetraPlanarStereo::ToConfig(other, *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
+      for (auto i : refs) {
+        if (OBStereo::ContainsRef(other.refs, i)) {
+          u1 = OBTetraPlanarStereo::ToConfig(*this, i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
+          u2 = OBTetraPlanarStereo::ToConfig(other, i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
         }
+      }
 
       // check if they actualy share an id...
       if (u1.refs.empty())
@@ -232,11 +233,12 @@ namespace std {
     out << "OBSquarePlanarStereo(center = " << cfg.center;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OpenBabel::OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (auto i : cfg.refs) {
+      if (i != OpenBabel::OBStereo::ImplicitRef)
+        out << i << " ";
       else
         out << "H ";
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:
@@ -258,11 +260,12 @@ namespace std {
     out << "OBSquarePlanarStereo::Config(center = " << cfg.center;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OpenBabel::OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (auto i : cfg.refs) {
+      if (i != OpenBabel::OBStereo::ImplicitRef)
+        out << i << " ";
       else
         out << "H ";
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:
