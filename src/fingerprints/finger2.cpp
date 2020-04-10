@@ -125,16 +125,15 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
 	DoRings();
 	DoReverses();
 
-	SetItr itr;
   _ss.str("");
-	for(itr=fragset.begin();itr!=fragset.end();++itr)
-	{
-		//Use hash of fragment to set a bit in the fingerprint
-		int hash = CalcHash(*itr);
-		SetBit(fp,hash);
-		if(!(Flags() & FPT_NOINFO))
-      PrintFpt(*itr,hash);
-	}
+        for(auto& f : fragset)
+        {
+            //Use hash of fragment to set a bit in the fingerprint
+            int hash = CalcHash(f);
+            SetBit(fp,hash);
+            if(!(Flags() & FPT_NOINFO))
+                PrintFpt(f,hash);
+        }
 	if(nbits)
 		Fold(fp, nbits);
 
