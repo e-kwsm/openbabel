@@ -734,14 +734,13 @@ namespace OpenBabel
   //! Remove all torsions angles between 0 and 360/fold
   void OBRotor::RemoveSymTorsionValues(int fold)
   {
-    vector<double>::iterator i;
     vector<double> tv;
     if (_torsionAngles.size() == 1)
       return;
 
-    for (i = _torsionAngles.begin();i != _torsionAngles.end();++i)
-      if (*i >= 0.0 && *i < 2.0*M_PI / fold)
-            tv.push_back(*i);
+    for (const auto& i : _torsionAngles)
+      if (i >= 0.0 && i < 2.0*M_PI / fold)
+        tv.push_back(i);
 
     if (tv.empty())
       return;
@@ -804,7 +803,6 @@ namespace OpenBabel
     double delta;
     vector<double> vals;
     vector<string> vs;
-    vector<string>::iterator j;
     char temp_buffer[BUFF_SIZE];
 
     if (buffer[0] == '#')
@@ -817,8 +815,8 @@ namespace OpenBabel
       {
         _sp3sp3.clear();
         //        assert (vs.size() > 1);
-        for (j = vs.begin(),++j;j != vs.end();++j)
-          _sp3sp3.push_back(DEG_TO_RAD*atof(j->c_str()));
+        for (const auto& j : vs)
+          _sp3sp3.push_back(DEG_TO_RAD * atof(j.c_str()));
         return;
       }
 
@@ -826,8 +824,8 @@ namespace OpenBabel
       {
         _sp3sp2.clear();
         //        assert(vs.size() > 1);
-        for (j = vs.begin(),++j;j != vs.end();++j)
-          _sp3sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
+        for (const auto& j : vs)
+          _sp3sp2.push_back(DEG_TO_RAD * atof(j.c_str()));
         return;
       }
 
@@ -835,8 +833,8 @@ namespace OpenBabel
       {
         _sp2sp2.clear();
         //        assert(vs.size() > 1);
-        for (j = vs.begin(),++j;j != vs.end();++j)
-          _sp2sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
+        for (const auto& j : vs)
+          _sp2sp2.push_back(DEG_TO_RAD * atof(j.c_str()));
         return;
       }
 
@@ -893,10 +891,10 @@ namespace OpenBabel
     OBSmartsPattern *sp;
     vector<vector<int> > map;
     vector<OBRotorRule*>::iterator i;
-    for (i = _vr.begin();i != _vr.end();++i)
+    for (const auto& i : _vr)
       {
-        sp = (*i)->GetSmartsPattern();
-        (*i)->GetReferenceAtoms(ref);
+        sp = i->GetSmartsPattern();
+        i->GetReferenceAtoms(ref);
         vpr[0].first = ref[1];
         vpr[1].first = ref[2];
 
@@ -910,8 +908,8 @@ namespace OpenBabel
         map = sp->GetMapList();
         for (j = 0;j < 4;++j)
           ref[j] = map[0][ref[j]];
-        vals = (*i)->GetTorsionVals();
-        delta = (*i)->GetDelta();
+        vals = i->GetTorsionVals();
+        delta = i->GetDelta();
 
         OBAtom *a1,*a2,*a3,*a4,*r;
         a1 = mol.GetAtom(ref[0]);
@@ -948,14 +946,13 @@ namespace OpenBabel
               diff += 360.0;
             diff *= DEG_TO_RAD;
 
-            vector<double>::iterator m;
-            for (m = vals.begin();m != vals.end();++m)
+            for (auto& m : vals)
               {
-                *m += diff;
-                if (*m < M_PI)
-                  *m += 2.0*M_PI;
-                if (*m > M_PI)
-                  *m -= 2.0*M_PI;
+                m += diff;
+                if (m < M_PI)
+                  m += 2.0 * M_PI;
+                if (m > M_PI)
+                  m -= 2.0 * M_PI;
               }
 
             if (swapped)
@@ -976,7 +973,7 @@ namespace OpenBabel
           {
             snprintf(buffer,BUFF_SIZE,"%3d%3d%3d%3d %s",
                      ref[0],ref[1],ref[2],ref[3],
-                     ((*i)->GetSmartsString()).c_str());
+                     (i->GetSmartsString()).c_str());
             obErrorLog.ThrowError(__FUNCTION__, buffer, obDebug);
           }
         return;
@@ -1041,9 +1038,8 @@ namespace OpenBabel
 
   OBRotorRules::~OBRotorRules()
   {
-    vector<OBRotorRule*>::iterator i;
-    for (i = _vr.begin();i != _vr.end();++i)
-      delete (*i);
+    for (auto& i : _vr)
+      delete i;
   }
 
 #undef OB_DEFAULT_DELTA
