@@ -812,7 +812,6 @@ namespace OpenBabel
   bool OBAtom::IsInRingSize(int size) const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (!mol->HasSSSRPerceived())
@@ -822,8 +821,8 @@ namespace OpenBabel
       return(false);
 
     rlist = mol->GetSSSR();
-    for (i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()) && static_cast<int>((*i)->PathSize()) == size)
+    for (const auto& i : rlist)
+      if (i->IsInRing(GetIdx()) && static_cast<int>(i->PathSize()) == size)
         return(true);
 
     return(false);
@@ -832,7 +831,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingCount() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
     unsigned int count=0;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
@@ -845,8 +843,8 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()))
+    for (const auto& i : rlist)
+      if (i->IsInRing(GetIdx()))
         count++;
 
     return((unsigned int)count);
@@ -855,7 +853,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingSize() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
 
@@ -867,9 +864,9 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()))
-        return((*i)->Size());
+    for (const auto& i : rlist)
+      if (i->IsInRing(GetIdx()))
+        return(i->Size());
 
     return(0);
   }
@@ -1065,15 +1062,14 @@ namespace OpenBabel
   {
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     vector<vector<int> > mlist;
-    vector<vector<int> >::iterator l;
 
     OBSmartsPattern test;
     test.Init(pattern);
     if (test.Match(*mol))
       {
         mlist = test.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
-          if (GetIdx() == mol->GetAtom((*l)[0])->GetIdx())
+        for (const auto& l : mlist)
+          if (GetIdx() == mol->GetAtom(l[0])->GetIdx())
             return true;
       }
     return false;
@@ -1233,14 +1229,13 @@ namespace OpenBabel
     children.push_back(a2->GetIdx());
 
     vector3 v;
-    vector<int>::iterator i;
-    for (i = children.begin();i != children.end();++i)
+    for (auto i : children)
       {
-        v = mol.GetAtom(*i)->GetVector();
+        v = mol.GetAtom(i)->GetVector();
         v -= a1->GetVector();
         v *= m;
         v += a1->GetVector();
-        mol.GetAtom(*i)->SetVector(v);
+        mol.GetAtom(i)->SetVector(v);
       }
 
   }
@@ -1276,9 +1271,8 @@ namespace OpenBabel
 
     //delete attached hydrogens
     mol->IncrementMod();
-    vector<OBAtom*>::iterator j;
-    for (j = delatm.begin();j != delatm.end();++j)
-      mol->DeleteAtom(*j);
+    for (const auto& j : delatm)
+      mol->DeleteAtom(j);
     mol->DecrementMod();
 
     double targetAngle;
