@@ -470,8 +470,8 @@ namespace OpenBabel {
     OBMol *mol = currentPara.insideNbrs[0]->GetParent();
     assert(mol->GetAtom(currentPara.outIdx));
     OBBitVec ligand = getFragment(currentPara.outsideNbrs[0], mol->GetAtom(currentPara.outIdx));
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand)) {
+    for (const auto& u2 : units) {
+      if (isUnitInFragment(mol, u2, ligand)) {
         //cout << "OK: " << __LINE__ << endl;
         return true;
       }
@@ -734,13 +734,13 @@ namespace OpenBabel {
       std::vector<OBBond*>::iterator j;
       for (OBAtom *nbr = atom->BeginNbrAtom(j); nbr; nbr = atom->NextNbrAtom(j)) {
         // check if we already have a neighbor with this symmetry class
-        std::vector<unsigned int>::iterator k;
-        for (k = tlist.begin(); k != tlist.end(); ++k)
-          if (symClasses[nbr->GetIndex()] == *k) {
+        for (auto k : tlist) {
+          if (symClasses[nbr->GetIndex()] == k) {
             ischiral = false;
             // if so, might still be a para-stereocenter
             paraAtoms.push_back(atom->GetIdx());
           }
+        }
 
         if (ischiral)
           // keep track of all neighbors, so we can detect duplicates
@@ -983,15 +983,15 @@ namespace OpenBabel {
      *   - 2 true-stereocenters
      *   - 2 separate assemblies of para-stereocenters
      */
-    for (std::vector<unsigned int>::iterator idx = paraAtoms.begin(); idx != paraAtoms.end(); ++idx) {
-      OBAtom *atom = mol->GetAtom(*idx);
+    for (auto idx : paraAtoms) {
+      OBAtom *atom = mol->GetAtom(idx);
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-        if ((*u2).type == OBStereo::Tetrahedral)
-          if (atom->GetId() == (*u2).id) {
-            alreadyAdded = true;
-          }
+      for (const auto& u2 : units) {
+        if (u2.type == OBStereo::Tetrahedral && atom->GetId() == u2.id) {
+          alreadyAdded = true;
+          break;
+        }
       }
       if (alreadyAdded)
         continue;
@@ -1050,16 +1050,16 @@ namespace OpenBabel {
      * - 1 or 2 pair identical ligands (on begin and end atom)
      * - each pair contains at least 1 true-stereocenter or 2 para-stereocenters (from rule1)
      */
-    for (std::vector<unsigned int>::iterator idx = paraBonds.begin(); idx != paraBonds.end(); ++idx) {
-      OBBond *bond = mol->GetBond(*idx);
+    for (auto idx : paraBonds) {
+      OBBond *bond = mol->GetBond(idx);
 
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-        if ((*u2).type == OBStereo::CisTrans)
-          if (bond->GetId() == (*u2).id) {
-            alreadyAdded = true;
-          }
+      for (const auto& u2 : units) {
+        if (u2.type == OBStereo::CisTrans && bond->GetId() == u2.id) {
+          alreadyAdded = true;
+          break;
+        }
       }
       if (alreadyAdded)
         continue;
@@ -1085,12 +1085,12 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, begin);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-              if ((*u2).type == OBStereo::Tetrahedral) {
-                if (ligand.BitIsSet((*u2).id))
+            for (const auto& u2 : units) {
+              if (u2.type == OBStereo::Tetrahedral) {
+                if (ligand.BitIsSet(u2.id))
                   beginValid = true;
-              } else if((*u2).type == OBStereo::CisTrans) {
-                OBBond *bond = mol->GetBondById((*u2).id);
+              } else if (u2.type == OBStereo::CisTrans) {
+                OBBond *bond = mol->GetBondById(u2.id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
