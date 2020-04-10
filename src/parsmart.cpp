@@ -1796,21 +1796,22 @@ namespace OpenBabel
         OBBitVec bv;
         std::vector<OBBitVec> vbv;
         std::vector<std::vector<int> > ulist;
-        std::vector<std::vector<int> >::iterator i;
-        std::vector<OBBitVec>::iterator j;
 
-        for (i = mlist.begin();i != mlist.end();++i)
+        for (const auto& i : mlist)
           {
             ok = true;
             bv.Clear();
-            bv.FromVecInt(*i);
-            for (j = vbv.begin();j != vbv.end() && ok;++j)
-              if ((*j) == bv)
+            bv.FromVecInt(i);
+            for (auto& j : vbv) {
+              if (j == bv) {
                 ok = false;
+                break;
+              }
+            }
 
             if (ok)
               {
-                ulist.push_back(*i);
+                ulist.push_back(i);
                 vbv.push_back(bv);
               }
           }
@@ -1827,8 +1828,6 @@ namespace OpenBabel
   {
     bool ok;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
-    std::vector<std::pair<int,int> >::iterator j;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1836,15 +1835,15 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (const auto& i : mlist)
       {
         ok = true;
-        for (j = pr.begin();j != pr.end() && ok;++j)
-          if ((*i)[j->first] != j->second)
+        for (const auto& j : pr)
+          if (i[j.first] != j.second)
             ok = false;
 
         if (ok)
-          _mlist.push_back(*i);
+          _mlist.push_back(i);
         if (single && !_mlist.empty())
           return(true);
       }
@@ -1855,9 +1854,7 @@ namespace OpenBabel
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
   {
     bool ok;
-    std::vector<int>::iterator j;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1866,19 +1863,20 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (auto& i : mlist)
       {
         ok = true;
-        for (j = i->begin();j != i->end();++j)
-          if (!vres[*j])
+        for (auto& j : i) {
+          if (!vres[j])
             {
               ok = false;
               break;
             }
+        }
         if (!ok)
           continue;
 
-        _mlist.push_back(*i);
+        _mlist.push_back(i);
         if (single && !_mlist.empty())
           return(true);
       }
