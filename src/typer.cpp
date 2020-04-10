@@ -870,9 +870,8 @@ namespace OpenBabel
                   {
                     // try to find another root atom
                     // only loop over rings which contain rootAtom
-                    for(k = ringAtoms[rootAtom].begin() ; k != ringAtoms[rootAtom].end(); ++k)
+                    for (const auto& ring : ringAtoms[rootAtom])
                       {
-                        ring = (*k);
                         tmp = ring->_path;
 
                         bool checkThisRing = false;
