@@ -410,10 +410,9 @@ namespace OpenBabel
   bool OBMoleculeFormat::DeleteDeferredMols()
   {
     //Empties IMols, deteting the OBMol objects whose pointers are stored there
-    std::map<std::string, OBMol*>::iterator itr;
-    for(itr=IMols.begin();itr!=IMols.end();++itr)
+    for(auto& itr : IMols)
       {
-        delete itr->second; //usually NULL
+        delete itr.second; //usually NULL
       }
     IMols.clear();
     return false;
@@ -499,8 +498,6 @@ namespace OpenBabel
       size_t size;
     } header;
 
-    NameIndexType::iterator itr;
-
     ifstream indexstream;
     OpenDatafile(indexstream, datafilename + ".obindx");
     if(!indexstream)
@@ -538,20 +535,20 @@ namespace OpenBabel
         header.size = index.size();
         dofs.write((const char*)&header, sizeof(headertype));
 
-        for(itr=index.begin();itr!=index.end();++itr)
+        for(const auto& itr : index)
           {
             //#chars; chars;  ofset(4bytes).
-            const char n = static_cast<char> (itr->first.size());
+            const char n = static_cast<char>(itr.first.size());
             dofs.put(n);
-            dofs.write(itr->first.c_str(),n);
-            dofs.write((const char*)&itr->second,sizeof(unsigned));
+            dofs.write(itr.first.c_str(), n);
+            dofs.write((const char*)&itr.second, sizeof(unsigned));
           }
       }
     else
       {
         //Read index data from file and put into hash_map
         indexstream.read((char*)&header,sizeof(headertype));
-        itr=index.begin(); // for hint
+        auto itr = index.begin(); // for hint
         for(unsigned int i=0;i<header.size;++i)
           {
             char len;
