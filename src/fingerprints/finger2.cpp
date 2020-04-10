@@ -230,11 +230,10 @@ void fingerprint2::DoRings()
 {
 	//For each complete ring fragment, find its largest chemically identical representation
 	//by rotating and reversing, and insert into the main set of fragments
-	SetItr itr;
-	for(itr=ringset.begin();itr!=ringset.end();++itr)
+	for (const auto& r : ringset)
 	{
-		vector<int> t1(*itr); //temporary copy
-		vector<int> maxring(*itr); //the current largest vector
+		vector<int> t1(r); //temporary copy
+		vector<int> maxring(r); //the current largest vector
 		unsigned int i;
 		for(i=0;i<t1.size()/2;++i)
 		{
