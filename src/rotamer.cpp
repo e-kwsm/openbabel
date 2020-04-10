@@ -182,14 +182,13 @@ namespace OpenBabel
 
   void OBRotamerList::GetReferenceArray(unsigned char *ref)const
   {
-    int j;
-		vector<pair<OBAtom**,vector<int> > >::const_iterator i;
-    for (j=0,i = _vrotor.begin();i != _vrotor.end();++i)
+    int j = 0;
+    for (const auto& i : _vrotor)
       {
-        ref[j++] = (unsigned char)(i->first[0])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[1])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[2])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[3])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[0])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[1])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[2])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[3])->GetIdx();
       }
   }
 
@@ -197,14 +196,12 @@ namespace OpenBabel
   {
     //clear the old stuff out if necessary
     _vres.clear();
-    vector<unsigned char*>::iterator j;
-    for (j = _vrotamer.begin();j != _vrotamer.end();++j)
-      delete [] *j;
+    for (auto& j : _vrotamer)
+      delete [] j;
     _vrotamer.clear();
 
-    vector<pair<OBAtom**,vector<int> > >::iterator k;
-    for (k = _vrotor.begin();k != _vrotor.end();++k)
-      delete [] k->first;
+    for (auto& k : _vrotor)
+      delete [] k.first;
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();
@@ -280,25 +277,21 @@ namespace OpenBabel
       } // finished with the rings
     } // if (ring rotors)
 
-    vector<double>::iterator n;
-    vector<vector<double> >::iterator m;
-    for (m = _vres.begin();m != _vres.end();++m)
-      for (n = m->begin();n != m->end();++n)
-        *n *= RAD_TO_DEG;
+    for (auto& m : _vres)
+      for (auto& n : m)
+        n *= RAD_TO_DEG;
   }
 
   void OBRotamerList::Setup(OBMol &mol,unsigned char *ref,int nrotors)
   {
     //clear the old stuff out if necessary
     _vres.clear();
-    vector<unsigned char*>::iterator j;
-    for (j = _vrotamer.begin();j != _vrotamer.end();++j)
-      delete [] *j;
+    for (auto& j : _vrotamer)
+      delete [] j;
     _vrotamer.clear();
 
-    vector<pair<OBAtom**,vector<int> > >::iterator k;
-    for (k = _vrotor.begin();k != _vrotor.end();++k)
-      delete [] k->first;
+    for (auto& k : _vrotor)
+      delete [] k.first;
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();
@@ -329,23 +322,23 @@ namespace OpenBabel
   void OBRotamerList::AddRotamer(double *c)
   {
     // TODO: consider implementing periodic boundary conditions
-    int idx,size;
+    int idx;
     double angle,res=255.0/360.0;
     vector3 v1,v2,v3,v4;
 
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (char) 0;
 
-    vector<pair<OBAtom**,vector<int> > >::iterator i;
-    for (size=1,i = _vrotor.begin();i != _vrotor.end();++i,++size)
+    int size = 1;
+    for (const auto& i : _vrotor)
       {
-        idx = (i->first[0])->GetCoordinateIdx();
+        idx = (i.first[0])->GetCoordinateIdx();
         v1.Set(c[idx],c[idx+1],c[idx+2]);
-        idx = (i->first[1])->GetCoordinateIdx();
+        idx = (i.first[1])->GetCoordinateIdx();
         v2.Set(c[idx],c[idx+1],c[idx+2]);
-        idx = (i->first[2])->GetCoordinateIdx();
+        idx = (i.first[2])->GetCoordinateIdx();
         v3.Set(c[idx],c[idx+1],c[idx+2]);
-        idx = (i->first[3])->GetCoordinateIdx();
+        idx = (i.first[3])->GetCoordinateIdx();
         v4.Set(c[idx],c[idx+1],c[idx+2]);
 
         angle = CalcTorsionAngle(v1,v2,v3,v4);
@@ -477,9 +470,8 @@ namespace OpenBabel
     vector<double*> tmpclist = CreateConformerList(mol);
 
     //transfer the conf list
-    vector<double*>::iterator k;
-    for (k = clist.begin();k != clist.end();++k)
-      delete [] *k;
+    for (auto& k : clist)
+      delete [] k;
     clist = tmpclist;
   }
 
@@ -488,13 +480,10 @@ namespace OpenBabel
   {
     unsigned int j;
     double angle,invres=360.0/255.0;
-    unsigned char *conf;
     vector<double*> tmpclist;
-    vector<unsigned char*>::iterator i;
 
-    for (i = _vrotamer.begin();i != _vrotamer.end();++i)
+    for (auto& conf : _vrotamer)
       {
-        conf = *i;
         double *c = new double [mol.NumAtoms()*3];
         memcpy(c,_c[(int)conf[0]],sizeof(double)*mol.NumAtoms()*3);
 
@@ -670,10 +659,9 @@ namespace OpenBabel
     //now the matrix is set - time to rotate the atoms
     //
     tx = c[tor[1]];ty = c[tor[1]+1];tz = c[tor[1]+2];
-    vector<int>::iterator i;int j;
-    for (i = atoms.begin();i != atoms.end();++i)
+    for (auto i : atoms)
       {
-        j = ((*i)-1)*3;
+        int j = (i - 1) * 3;
         c[j] -= tx;c[j+1] -= ty;c[j+2]-= tz;
         x = c[j]*m[0] + c[j+1]*m[1] + c[j+2]*m[2];
         y = c[j]*m[3] + c[j+1]*m[4] + c[j+2]*m[5];
