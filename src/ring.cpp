@@ -388,56 +388,54 @@ namespace OpenBabel
     deque<int> p1,p2;
     vector<OBAtom*> path1,path2;
     vector<OBAtom*>::iterator m,n;
-    vector<OBRTree*>::iterator i;
 
-    for (i = t1.begin();i != t1.end();++i)
-      if (*i)
+    for (const auto& i : t1) {
+      if (!i) continue;
+      path1.clear();
+      i->PathToRoot(path1);
+
+      if (t2[i->GetAtomIdx()])
         {
-          path1.clear();
-          (*i)->PathToRoot(path1);
+          pathok = true;
+          path2.clear();
+          t2[i->GetAtomIdx()]->PathToRoot(path2);
 
-          if (t2[(*i)->GetAtomIdx()])
+          p1.clear();
+          m = path1.begin();
+          if (m != path1.end())
+            p1.push_back((*m)->GetIdx());
+          for (m = path1.begin(),++m;m != path1.end();++m)
             {
-              pathok = true;
-              path2.clear();
-              t2[(*i)->GetAtomIdx()]->PathToRoot(path2);
-
-              p1.clear();
-              m = path1.begin();
-              if (m != path1.end())
-                p1.push_back((*m)->GetIdx());
-              for (m = path1.begin(),++m;m != path1.end();++m)
+              p1.push_back((*m)->GetIdx());
+              p2.clear();
+              for (n = path2.begin(),++n;n != path2.end();++n)
                 {
-                  p1.push_back((*m)->GetIdx());
-                  p2.clear();
-                  for (n = path2.begin(),++n;n != path2.end();++n)
+                  p2.push_front((*n)->GetIdx());
+                  if (*n == *m)//don't traverse across identical atoms
                     {
-                      p2.push_front((*n)->GetIdx());
-                      if (*n == *m)//don't traverse across identical atoms
-                        {
-                          p2.pop_front();
-                          if (p1.size()+p2.size() > 2)
-                            SaveUniqueRing(p1,p2);
-                          pathok = false;
-                          break;
-                        }
-                      if ((*n)->IsConnected(*m) && p1.size()+p2.size() > 2)
+                      p2.pop_front();
+                      if (p1.size()+p2.size() > 2)
                         SaveUniqueRing(p1,p2);
+                      pathok = false;
+                      break;
                     }
-                  if (!pathok)
-                    break;
+                  if ((*n)->IsConnected(*m) && p1.size()+p2.size() > 2)
+                    SaveUniqueRing(p1,p2);
                 }
+              if (!pathok)
+                break;
             }
         }
+    }
 
     //clean up OBRTree vectors
-    for (i = t1.begin();i != t1.end();++i)
-      if (*i)
-        delete *i;
+    for (auto& i : t1)
+      if (i)
+        delete i;
 
-    for (i = t2.begin();i != t2.end();++i)
-      if (*i)
-        delete *i;
+    for (auto& i : t2)
+      if (i)
+        delete i;
 
     // set parent for all rings
     for (unsigned int j = 0; j < _rlist.size(); ++j)
