@@ -241,13 +241,9 @@ class OBConversion; //used only as pointer
     public:
       virtual ~OBBase()
         {
-          if (!_vdata.empty())
-            {
-              std::vector<OBGenericData*>::iterator m;
-              for (m = _vdata.begin();m != _vdata.end();m++)
-                delete *m;
-              _vdata.clear();
-            }
+          for (auto& m : _vdata)
+            delete m;
+          _vdata.clear();
         }
 
       //! \brief Clear any and all data associated with this object
