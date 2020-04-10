@@ -137,25 +137,24 @@ namespace OpenBabel {
 
     std::vector<OBGenericData *> stereoData = m_mol->GetAllData(OBGenericDataType::StereoData);
 
-    std::vector<OBGenericData*>::iterator data;
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
+    for (const auto& data : stereoData) {
+      OBStereo::Type type = ((OBStereoBase*)data)->GetType();
       if (type == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config config = ts->GetConfig();
         if (config.center == OBStereo::NoRef)
           continue;
         m_tetrahedralMap[config.center] = ts;
       } else
       if (type == OBStereo::SquarePlanar) {
-        OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+        OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(data);
         OBSquarePlanarStereo::Config config = sp->GetConfig();
         if (config.center == OBStereo::NoRef)
           continue;
         m_squarePlanarMap[config.center] = sp;
       } else
       if (type == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         OBCisTransStereo::Config config = ct->GetConfig();
         // find the bond id from begin & end atom ids
         unsigned long id = OBStereo::NoRef;
