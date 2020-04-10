@@ -821,21 +821,20 @@ namespace OpenBabel
       {
         //for every atom fill vector with ring pointer it's associated with
         ringAtoms.resize(mol.NumAtoms()+1);
-        for (k = sssRings.begin();k != sssRings.end();++k)
+        for (const auto& k : sssRings)
           {
-            tmp = (*k)->_path;
+            tmp = k->_path;
             for (unsigned int j (0),j_end(tmp.size()); j < j_end; ++j)
               {
-                ringAtoms[tmp[j]].push_back(*k);
+                ringAtoms[tmp[j]].push_back(k);
               }
           }
       }
 
 
     //loop over closure bonds
-    for(OBBondIterator bd(cbonds.begin()),bd_end(cbonds.end());bd!=bd_end;++bd)
+    for(const auto& bond : cbonds)
       {
-        bond = *bd;
 
         // BASIC APPROACH
         // pick beginning atom at closure bond
