@@ -102,9 +102,10 @@ namespace OpenBabel {
           }
 
           if (!found) {
-            for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-              if (*j == OBStereo::ImplicitRef)
-                *j = thisConfig.refs.at(i);
+            for (auto& j : otherConfig.refs) {
+              if (j == OBStereo::ImplicitRef)
+                j = thisConfig.refs.at(i);
+            }
             break;
           }
         }
