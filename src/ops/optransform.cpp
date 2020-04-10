@@ -117,9 +117,8 @@ bool OpTransform::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
     if(!Initialize())
       return false;
 
-  vector<OBChemTsfm>::iterator itr;
-  for(itr=_transforms.begin(); itr!=_transforms.end();++itr)
-    itr->Apply(*pmol);
+  for(auto& itr : _transforms)
+    itr.Apply(*pmol);
   return true;
 }
 //Dummy instance so that OpTransform will be recognized by define plugin
