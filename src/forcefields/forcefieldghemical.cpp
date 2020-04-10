@@ -987,7 +987,7 @@ namespace OpenBabel
     for (const auto& i : _vexttyp) {
       if (i.first->Match(_mol)) {
         _mlist = i.first->GetMapList();
-        for (const auto& j : _mlist)
+        for (const auto& j : _mlist) {
           _mol.GetAtom(j[0])->SetType(i.second);
         }
       }
