@@ -433,12 +433,10 @@ namespace OpenBabel
 
   vector3 OBFFConstraints::GetGradient(int a) const
   {
-    vector<OBFFConstraint>::iterator i;
-
     vector3 grad(0.0, 0.0, 0.0);
 
-    for (i = _constraints.begin(); i != _constraints.end(); ++i)
-      grad += i->GetGradient(a);
+    for (const auto& i : _constraints)
+      grad += i.GetGradient(a);
 
     return grad;
   }
