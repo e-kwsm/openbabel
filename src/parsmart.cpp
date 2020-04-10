@@ -2011,12 +2011,11 @@ namespace OpenBabel
     }
 
     if (pat->ischiral) {
-      std::vector<std::vector<int> >::iterator m;
       std::vector<std::vector<int> > tmpmlist;
 
       tmpmlist.clear();
       // iterate over the atom mappings
-      for (m = mlist.begin();m != mlist.end();++m) {
+      for (auto& m : mlist) {
 
         bool allStereoCentersMatch = true;
 
@@ -2030,7 +2029,7 @@ namespace OpenBabel
             continue;
 
           // use the mapping the get the chiral atom in the molecule being queried
-          OBAtom *center = mol.GetAtom((*m)[j]);
+          OBAtom *center = mol.GetAtom(m[j]);
 
           // get the OBTetrahedralStereo::Config from the molecule
           OBStereoFacade stereo(&mol);
@@ -2058,14 +2057,14 @@ namespace OpenBabel
           if (nbrs.at(0) == SmartsImplicitRef)
             smartsConfig.from = OBStereo::ImplicitRef;
           else
-            smartsConfig.from = mol.GetAtom( (*m)[nbrs.at(0)] )->GetId();
+            smartsConfig.from = mol.GetAtom(m[nbrs.at(0)])->GetId();
           OBStereo::Ref firstref;
           if (nbrs.at(1) == SmartsImplicitRef)
             firstref = OBStereo::ImplicitRef;
           else
-            firstref = mol.GetAtom( (*m)[nbrs.at(1)] )->GetId();
-          OBAtom *ra2 = mol.GetAtom( (*m)[nbrs.at(2)] );
-          OBAtom *ra3 = mol.GetAtom( (*m)[nbrs.at(3)] );
+            firstref = mol.GetAtom(m[nbrs.at(1)])->GetId();
+          OBAtom *ra2 = mol.GetAtom(m[nbrs.at(2)]);
+          OBAtom *ra3 = mol.GetAtom(m[nbrs.at(3)]);
           smartsConfig.refs = OBStereo::MakeRefs(firstref, ra2->GetId(), ra3->GetId());
 
           smartsConfig.view = OBStereo::ViewFrom;
@@ -2096,7 +2095,7 @@ namespace OpenBabel
         // if all the atoms in the molecule match the stereochemistry specified
         // in the smarts pattern, save this mapping as a match
         if (allStereoCentersMatch)
-          tmpmlist.push_back(*m);
+          tmpmlist.push_back(m);
       }
 
       mlist = tmpmlist;
