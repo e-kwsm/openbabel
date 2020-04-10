@@ -3026,7 +3026,7 @@ namespace OpenBabel {
         }
       }
       else if (datatype == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.center == centerId) {
           if (ts_cfg.from == OBStereo::ImplicitRef) ts_cfg.from = newId;
