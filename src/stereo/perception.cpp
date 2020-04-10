@@ -1978,19 +1978,18 @@ namespace OpenBabel {
       }
     }
 
-    std::vector<unsigned long>::iterator i;
-    for (i = bonds.begin(); i != bonds.end(); ++i) {
+    for (auto i : bonds) {
       // If there already exists a OBCisTransStereo object for this
       // bond, leave it alone unless it's in a ring of small size
 
-      bool alreadyExists = (existingMap.find(*i) != existingMap.end());
-      OBBond *bond = mol->GetBondById(*i);
+      bool alreadyExists = (existingMap.find(i) != existingMap.end());
+      OBBond *bond = mol->GetBondById(i);
 
       OBCisTransStereo *ct;
       OBCisTransStereo::Config config;
       if (alreadyExists)
       {
-        ct = existingMap[*i];
+        ct = existingMap[i];
         config = ct->GetConfig();
       }
       else
@@ -2101,13 +2100,13 @@ namespace OpenBabel {
 
     // find all tetrahedral centers
     std::vector<unsigned long> centers;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::Tetrahedral)
-        centers.push_back((*u).id);
+    for (const auto& u : stereoUnits) {
+      if (u.type == OBStereo::Tetrahedral)
+        centers.push_back(u.id);
+    }
 
-    std::vector<unsigned long>::iterator i;
-    for (i = centers.begin(); i != centers.end(); ++i) {
-      OBAtom *center = mol->GetAtomById(*i);
+    for (auto i : centers) {
+      OBAtom *center = mol->GetAtomById(i);
 
       // make sure we have at least 3 heavy atom neighbors
       // timvdm 28 Jun 2009: This is already checked in FindStereogenicUnits
@@ -2120,7 +2119,7 @@ namespace OpenBabel {
       }
 
       OBTetrahedralStereo::Config config;
-      config.center = *i;
+      config.center = i;
       FOR_NBORS_OF_ATOM(nbr, center) {
         if (config.from == OBStereo::NoRef)
           config.from = nbr->GetId();
@@ -2144,8 +2143,8 @@ namespace OpenBabel {
         nbrCoords.push_back(uc->UnwrapCartesianNear(from->GetVector(), center_coord));
       else
         nbrCoords.push_back(from->GetVector());
-      for (OBStereo::RefIter id = config.refs.begin(); id != config.refs.end(); ++id) {
-        OBAtom *nbr = mol->GetAtomById(*id);
+      for (auto id : config.refs) {
+        OBAtom *nbr = mol->GetAtomById(id);
         if (uc)
           nbrCoords.push_back(uc->UnwrapCartesianNear(nbr->GetVector(), center_coord));
         else
@@ -2203,13 +2202,13 @@ namespace OpenBabel {
 
     // find all cis/trans bonds
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto& u : stereoUnits) {
+      if (u.type == OBStereo::CisTrans)
+        bonds.push_back(u.id);
+    }
 
-    std::vector<unsigned long>::iterator i;
-    for (i = bonds.begin(); i != bonds.end(); ++i) {
-      OBBond *bond = mol->GetBondById(*i);
+    for (auto i : bonds) {
+      OBBond *bond = mol->GetBondById(i);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
 
