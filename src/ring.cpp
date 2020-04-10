@@ -446,23 +446,21 @@ namespace OpenBabel
   {
     vector<int> path;
     OBBitVec bv;
-    deque<int>::iterator i;
 
-    for (i = d1.begin();i != d1.end();++i)
+    for (auto i : d1)
       {
-        bv.SetBitOn(*i);
-        path.push_back(*i);
+        bv.SetBitOn(i);
+        path.push_back(i);
       }
 
-    for (i = d2.begin();i != d2.end();++i)
+    for (auto i : d2)
       {
-        bv.SetBitOn(*i);
-        path.push_back(*i);
+        bv.SetBitOn(i);
+        path.push_back(i);
       }
 
-    vector<OBRing*>::iterator j;
-    for (j = _rlist.begin();j != _rlist.end();++j)
-      if (bv == (*j)->_pathset)
+    for (const auto& j : _rlist)
+      if (bv == j->_pathset)
         return(false);
 
     OBRing *ring = new OBRing(path, bv);
@@ -474,9 +472,8 @@ namespace OpenBabel
   //! Destructor -- free all rings created from this search
   OBRingSearch::~OBRingSearch()
   {
-    vector<OBRing*>::iterator i;
-    for (i = _rlist.begin();i != _rlist.end();++i)
-      delete *i;
+    for (auto& i : _rlist)
+      delete i;
   }
 
   bool CompareRingSize(const OBRing *a,const OBRing *b)
@@ -486,10 +483,8 @@ namespace OpenBabel
 
   void OBRingSearch::WriteRings()
   {
-    vector<OBRing*>::iterator i;
-
-    for (i = _rlist.begin();i != _rlist.end();++i)
-      cout << (*i)->_pathset << endl;
+    for (const auto& i : _rlist)
+      cout << i->_pathset << endl;
   }
 
   /* A recursive O(N) traversal of the molecule */
@@ -576,9 +571,8 @@ namespace OpenBabel
   bool OBRing::IsAromatic()
   {
     OBMol *mol = _parent;
-    vector<int>::iterator i;
-    for (i = _path.begin();i != _path.end();++i)
-      if (!(mol->GetAtom(*i))->IsAromatic())
+    for (auto i : _path)
+      if (!(mol->GetAtom(i))->IsAromatic())
         return(false);
 
     return(true);
