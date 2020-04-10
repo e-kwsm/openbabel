@@ -1213,8 +1213,6 @@ namespace OpenBabel
   {
     vector<vector<int> > _mlist; //!< match list for atom typing
     vector<pair<OBSmartsPattern*,string> > _vexttyp; //!< external atom type rules
-    vector<vector<int> >::iterator j;
-    vector<pair<OBSmartsPattern*,string> >::iterator i;
     OBSmartsPattern *sp;
     vector<string> vs;
     char buffer[150];
@@ -1251,11 +1249,11 @@ namespace OpenBabel
       }
     }
 
-    for (i = _vexttyp.begin();i != _vexttyp.end();++i) {
-      if (i->first->Match(_mol)) {
-        _mlist = i->first->GetMapList();
-        for (j = _mlist.begin();j != _mlist.end();++j) {
-          _mol.GetAtom((*j)[0])->SetType(i->second);
+    for (const auto& i : _vexttyp) {
+      if (i.first->Match(_mol)) {
+        _mlist = i.first->GetMapList();
+        for (const auto& j : _mlist) {
+          _mol.GetAtom(j[0])->SetType(i.second);
         }
       }
     }
