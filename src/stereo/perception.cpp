@@ -3031,4 +3031,3 @@ namespace OpenBabel {
     }
   }
 
-}
