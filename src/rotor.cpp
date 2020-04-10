@@ -657,9 +657,9 @@ namespace OpenBabel
   // used in combination with Set
   void OBRotor::Precalc(vector<double*> &cv)
   {
-    double *c,ang;
+    double ang;
     vector<double> cs,sn,t;
-    for (const auto& c : cv) {
+    for (const auto& c : cv)
       {
         cs.clear();
         sn.clear();
