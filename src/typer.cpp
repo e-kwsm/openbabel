@@ -292,22 +292,22 @@ namespace OpenBabel
     vector<OBRing*> rlist = mol.GetSSSR();
 
     unsigned int member_count;
-    for (i2 = _ringtyp.begin();i2 != _ringtyp.end();++i2) { // for each ring type
+    for (const auto& i2 : _ringtyp) { // for each ring type
       std::vector<std::vector<int> > mlist;
-      if (i2->first->Match(mol, mlist)) {
-        for (j2 = mlist.begin();j2 != mlist.end();++j2) { // for each found match
+      if (!i2.first->Match(mol, mlist))
+        continue;
+      for (const auto& j2 : mlist) { // for each found match
 
-          for (i = rlist.begin();i != rlist.end();++i) { // for each ring
-            member_count = 0;
+        for (auto& i : rlist) { // for each ring
+          member_count = 0;
 
-            for(j = j2->begin(); j != j2->end(); ++j) { // for each atom in the match
-              if ((*i)->IsMember(mol.GetAtom(*j)))
-                member_count++;
-            }
-
-            if ((*i)->Size() == member_count)
-              (*i)->SetType(i2->second);
+          for(auto j : j2) { // for each atom in the match
+            if (i->IsMember(mol.GetAtom(j)))
+              member_count++;
           }
+
+          if (i->Size() == member_count)
+            i->SetType(i2.second);
         }
       }
     }
