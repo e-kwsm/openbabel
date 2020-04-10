@@ -166,7 +166,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
       if(!ats.empty())
       {
         // Make a vector of the matching atom coordinates...
-        for (auto iter = ats.begin(); iter!=ats.end(); ++iter)
+        for (auto iter = ats.begin(); iter != ats.end(); ++iter)
           _refvec.push_back((pmol->GetAtom(*iter))->GetVector());        
         // ...and use a vector reference
         _align.SetRef(_refvec);
