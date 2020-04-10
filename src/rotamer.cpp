@@ -154,11 +154,10 @@ namespace OpenBabel
     unsigned char *rotamers = new unsigned char [(NumRotors()+1)*NumRotamers()];
     if (rotamers)
       {
-        vector<unsigned char*>::const_iterator kk;
         unsigned int idx=0;
-        for (kk = _vrotamer.begin();kk != _vrotamer.end();++kk)
+        for (const auto& kk : _vrotamer)
           {
-            memcpy(&rotamers[idx],(const unsigned char*)*kk,sizeof(unsigned char)*(NumRotors()+1));
+            memcpy(&rotamers[idx],(const unsigned char*)kk,sizeof(unsigned char)*(NumRotors()+1));
             idx += sizeof(unsigned char)*(NumRotors()+1);
           }
         new_rml->AddRotamers(rotamers,NumRotamers());
@@ -169,13 +168,11 @@ namespace OpenBabel
 
   OBRotamerList::~OBRotamerList()
   {
-    vector<unsigned char*>::iterator i;
-    for (i = _vrotamer.begin();i != _vrotamer.end();++i)
-      delete [] *i;
+    for (auto& i : _vrotamer)
+      delete [] i;
 
-    vector<pair<OBAtom**,vector<int> > >::iterator j;
-    for (j = _vrotor.begin();j != _vrotor.end();++j)
-      delete [] j->first;
+    for (auto& j : _vrotor)
+      delete [] j.first;
 
     //Delete the interal base coordinate list
     unsigned int k;
