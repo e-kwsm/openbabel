@@ -1433,8 +1433,8 @@ namespace OpenBabel
     OBRotorIterator ri;
     OBRotor *rotor;
 
-    OBRandom generator;
-    generator.TimeSeed();
+    if (!prng)
+      prng.reset(new OBRandom{});
     _origLogLevel = _loglvl;
 
     if (_mol.GetCoordinates() == nullptr)
@@ -1479,7 +1479,7 @@ namespace OpenBabel
       rotor = rl.BeginRotor(ri);
       for (unsigned int i = 1; i < rl.Size() + 1; ++i, rotor = rl.NextRotor(ri)) {
         // foreach rotor
-        rotorKey[i] = generator.NextInt() % rotor->GetResolution().size();
+        rotorKey[i] = prng->UniformInt(0, rotor->GetResolution().size() - 1u);
       }
       rotamers.AddRotamer(rotorKey);
     }
@@ -1603,8 +1603,8 @@ namespace OpenBabel
     OBRotorIterator ri;
     OBRotor *rotor;
 
-    OBRandom generator;
-    generator.TimeSeed();
+    if (!prng)
+      prng.reset(new OBRandom{});
     int origLogLevel = _loglvl;
 
     if (_mol.GetCoordinates() == nullptr)
@@ -1728,7 +1728,9 @@ namespace OpenBabel
 
     int best_conformer=-1;
     //    double penalty; // for poor performance
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
     double randFloat; // generated random number -- used to pick a rotor
+#endif
     double total; // used to calculate the total probability
 
     // Start with the current coordinates
@@ -1752,19 +1754,31 @@ namespace OpenBabel
       for (unsigned int i = 1; i < rl.Size() + 1; ++i, rotor = rl.NextRotor(ri)) {
         // foreach rotor
         rotorKey[i] = -1; // default = don't change dihedral
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         randFloat = generator.NextFloat();
         if (randFloat < defaultRotor) // should we just leave this rotor with default setting?
+#else
+        if (prng->Bernoulli(defaultRotor))  // should we just leave this rotor with default setting?
+#endif
           continue;
 
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         randFloat = generator.NextFloat();
+#else
+        double p = prng->UniformReal();
+#endif
         total = 0.0;
         for (unsigned int j = 0; j < rotor->GetResolution().size(); j++) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
           if (randFloat > total && randFloat < (total+ rotorWeights[i][j])) {
+#else
+          if (p > total && p < total + rotorWeights[i][j]) {
+#endif
             rotorKey[i] = j;
             break;
-          }
-          else
+          } else {
             total += rotorWeights[i][j];
+          }
         }
       }
 
@@ -3416,8 +3430,8 @@ namespace OpenBabel
   void OBForceField::GenerateVelocities()
   {
     cout << "OBForceField::GenerateVelocities()" << endl;
-    OBRandom generator;
-    generator.TimeSeed();
+    if (!prng)
+      prng.reset(new OBRandom{});
     _ncoords = _mol.NumAtoms() * 3;
     int velocityIdx;
     double velocity;
@@ -3432,29 +3446,44 @@ namespace OpenBabel
         // add twelve random numbers between 0.0 and 1.0,
         // subtract 6.0 from their sum, multiply with sqrt(kT/m)
         if (!_constraints.IsXFixed(a->GetIdx())) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
           velocity = 0.0;
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
           velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+#else
+          double sigma = sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity = prng->Normal(0.0, sigma);
+#endif
           _velocityPtr[velocityIdx] = velocity; // x10: gromacs uses nm instead of A
         }
 
         if (!_constraints.IsYFixed(a->GetIdx())) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
           velocity = 0.0;
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
           velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+#else
+          double sigma = sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity = prng->Normal(0.0, sigma);
+#endif
           _velocityPtr[velocityIdx+1] = velocity; // idem
         }
 
         if (!_constraints.IsZFixed(a->GetIdx())) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
           velocity = 0.0;
           for (int i=0; i < 12; ++i)
             velocity += generator.NextFloat();
           velocity -= 6.0;
           velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+#else
+          double sigma = sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          velocity = prng->Normal(0.0, sigma);
+#endif
           _velocityPtr[velocityIdx+2] = velocity; // idem
         }
       }

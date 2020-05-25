@@ -310,11 +310,7 @@ namespace OpenBabel {
     p_crossover = 0.7;
     niche_mating = 0.7;
     local_opt_rate = 3;
-    // For the moment 'd' is an opaque pointer to an instance of OBRandom*.
-    // In future, it could be a pointer to a structure storing all of the
-    // private variables.
-    d = (void*)new OBRandom();
-    ((OBRandom*)d)->TimeSeed();
+    prng.reset(new OBRandom{});
     m_logstream = &std::cout; 	// Default logging send to standard output
     // m_logstream = NULL;
     m_printrotors = false;  // By default, do not print rotors but perform the conformer search
@@ -323,7 +319,6 @@ namespace OpenBabel {
 
   OBConformerSearch::~OBConformerSearch()
   {
-    delete (OBRandom*)d;
   }
 
 
@@ -389,9 +384,6 @@ namespace OpenBabel {
     }
 
     // create initial population
-    OBRandom generator;
-    generator.TimeSeed();
-
     RotorKey rotorKey(m_rotorList.Size() + 1, 0); // indexed from 1
     if (IsGood(rotorKey))
       m_rotorKeys.push_back(rotorKey);
@@ -407,8 +399,14 @@ namespace OpenBabel {
       OBRotorIterator ri;
       OBRotor *rotor = m_rotorList.BeginRotor(ri);
       for (unsigned int i = 1; i < m_rotorList.Size() + 1; ++i, rotor = m_rotorList.NextRotor(ri)) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         if (generator.NextInt() % m_mutability == 0)
           rotorKey[i] = generator.NextInt() % rotor->GetResolution().size();
+#else
+        if (prng->Bernoulli(1.0 / m_mutability)) {
+          rotorKey[i] = prng->UniformInt(0, rotor->GetResolution().size() - 1u);
+        }
+#endif
       }
       // duplicates are always rejected
       if (!IsUniqueKey(m_rotorKeys, rotorKey))
@@ -452,12 +450,14 @@ namespace OpenBabel {
     return true;
   }
 
+  void OBConformerSearch::Seed(uint_fast64_t seed)
+  {
+    prng->Seed(seed);
+  }
+
   void OBConformerSearch::NextGeneration()
   {
     // create next generation population
-    OBRandom generator;
-    generator.TimeSeed();
-
     // generate the children
     int numConformers = m_rotorKeys.size();
     for (int c = 0; c < numConformers; ++c) {
@@ -473,8 +473,14 @@ namespace OpenBabel {
           OBRotorIterator ri;
           OBRotor *rotor = m_rotorList.BeginRotor(ri);
           for (unsigned int i = 1; i < m_rotorList.Size() + 1; ++i, rotor = m_rotorList.NextRotor(ri)) {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
             if (generator.NextInt() % m_mutability == 0)
               rotorKey[i] = generator.NextInt() % rotor->GetResolution().size(); // permutate gene
+#else
+            if (prng->Bernoulli(1.0 / m_mutability)) {
+              rotorKey[i] = prng->UniformInt(0, rotor->GetResolution().size() - 1u);  // permutate gene
+            }
+#endif
           }
           // duplicates are always rejected
           if (!IsUniqueKey(m_rotorKeys, rotorKey))
@@ -792,9 +798,15 @@ namespace OpenBabel {
     for (i = 1; i <= m_rotorList.Size(); ++i, rotor = m_rotorList.NextRotor(ri))
       {
         neighbor = best;
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         new_val = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
         while (new_val == best[i])
           new_val = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
+#else
+        do {
+          new_val = prng->UniformInt(0, rotor->GetResolution().size() - 1u);
+        } while (new_val == best[i]);
+#endif
         neighbor[i] = new_val;
         if (IsUniqueKey(backup_population, neighbor) && IsGood(neighbor))
           m_rotorKeys.push_back (neighbor);
@@ -838,7 +850,9 @@ namespace OpenBabel {
     unsigned int i = 0, iniche = 0, j = 0, pop_size = vscores.size ();
     unsigned int rnd1 = 0, rnd2 = 0, parent1 = 0, parent2 = 0, nsize = 0;
     int ret_code = 0;
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
     bool flag_crossover = false;
+#endif
     OBRotorIterator ri;
     OBRotor *rotor = nullptr;
 
@@ -846,30 +860,53 @@ namespace OpenBabel {
       return 0;
 
     // Make a 2-tournament selection to choose first parent
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
     i = ((OBRandom*)d)->NextInt() % pop_size;
     j = ((OBRandom*)d)->NextInt() % pop_size;
+#else
+    i = prng->UniformInt(0, pop_size - 1u);
+    j = prng->UniformInt(0, pop_size - 1u);
+#endif
     parent1 = vshared_fitnes[i] > vshared_fitnes[j] ? i : j;
     iniche = niche_map[parent1];
     if (iniche > -1)
       nsize = dynamic_niches[iniche].size (); // Belongs to a specific niche
 
     // Do we apply crossover here?
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
     flag_crossover = (((OBRandom*)d)->NextFloat () <= p_crossover);
     if (flag_crossover && (((OBRandom*)d)->NextFloat () <= niche_mating)  &&  nsize > 1)
+#else
+    const bool flag_crossover = prng->Bernoulli(p_crossover);
+    if (flag_crossover && prng->Bernoulli(niche_mating) && nsize > 1)
+#endif
       {
         // Apply niche mating: draw second parent in the same niche, if its has
         // at least 2 members. Make a 2-tournament selection whithin this niche
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         rnd1 = ((OBRandom*)d)->NextInt() % nsize;
+#else
+        rnd1 = prng->UniformInt(0, nsize - 1u);
+#endif
         i =  dynamic_niches[iniche][rnd1];
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         rnd2 = ((OBRandom*)d)->NextInt() % nsize;
+#else
+        rnd2 = prng->UniformInt(0, nsize - 1u);
+#endif
         j = dynamic_niches[iniche][rnd2];
         parent2 = vshared_fitnes[i] > vshared_fitnes[j] ? i : j;
       }
     else
       {
         // Draw second in the whole population
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         i = ((OBRandom*)d)->NextInt() % pop_size;
         j = ((OBRandom*)d)->NextInt() % pop_size;
+#else
+        i = prng->UniformInt(0, pop_size - 1u);
+        j = prng->UniformInt(0, pop_size - 1u);
+#endif
         parent2 = vshared_fitnes[i] > vshared_fitnes[j] ? i : j;
       }
 
@@ -878,7 +915,11 @@ namespace OpenBabel {
         // Cross the 2 vectors: toss a coin for each position (i.e. uniform crossover)
         for (i = 1; i < key1.size(); i++)
           {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
             if (((OBRandom*)d)->NextInt() % 2)
+#else
+            if (prng->Bernoulli())
+#endif
               { // Copy parent1 to offspring 1
                 key1[i] = m_rotorKeys[parent1][i];
                 key2[i] = m_rotorKeys[parent2][i];
@@ -900,10 +941,17 @@ namespace OpenBabel {
     rotor = m_rotorList.BeginRotor(ri);
     for (i = 1; i <= m_rotorList.Size(); ++i, rotor = m_rotorList.NextRotor(ri))
       {
+#if OB_VERSION < OB_VERSION_CHECK(4, 0, 0)
         if (((OBRandom*)d)->NextInt() % m_mutability == 0)
           key1[i] = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
         if (((OBRandom*)d)->NextInt() % m_mutability == 0)
           key2[i] = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
+#else
+        if (prng->Bernoulli(1.0 / m_mutability))
+          key1[i] = prng->UniformInt(0, rotor->GetResolution().size() - 1u);
+        if (prng->Bernoulli(1.0 / m_mutability))
+          key2[i] = prng->UniformInt(0, rotor->GetResolution().size() - 1u);
+#endif
       }
     if (IsUniqueKey(m_rotorKeys, key1) && IsGood(key1))
       ret_code += 1;
