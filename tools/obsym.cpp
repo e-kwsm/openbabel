@@ -22,7 +22,6 @@ GNU General Public License for more details.
 #ifdef WIN32
 #define USING_OBDLL
 #endif
-#include <cstdlib>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -35,59 +34,48 @@ GNU General Public License for more details.
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc,char **argv)
-{
+int main(int argc, char **argv) {
   char *program_name= argv[0];
-  int c;
-  char *FileIn = nullptr;
 
   if (argc != 2) {
     cerr << " Usage: " << program_name << " <input file>\n";
-    exit(-1);
+    return 1;
   }
-  else {
-      FileIn  = argv[1];
-  }
+  const auto input_file = argv[1];
 
   // Find Input filetype
-  OBConversion conv(&cin, &cout);
-  OBFormat *inFormat = conv.FormatFromExt(FileIn);
+  OBConversion conv{&cin, &cout};
+  const auto inFormat = conv.FormatFromExt(input_file);
 
   if (!inFormat || !conv.SetInFormat(inFormat)) {
-    cerr << program_name << ": cannot read input format!" << endl;
-    exit (-1);
+    cerr << program_name << ": cannot read input format!\n";
+    return 1;
   }
   // If we can't also use this for an output format, use XYZ
   if (!conv.SetOutFormat(inFormat))
     conv.SetOutFormat(conv.FindFormat("xyz"));
 
-  ifstream ifs;
-
   // Read the file
-  ifs.open(FileIn);
+  ifstream ifs{input_file};
   if (!ifs) {
-    cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    cerr << program_name << ": cannot read input file!\n";
+    return 1;
   }
 
-  OBMol mol;
-  OBPointGroup pg;
+  while (true) {
+    OBMol mol;
+    conv.Read(&mol, &ifs);
+    if (mol.Empty())
+      break;
 
-  for (c = 1;; ++c)
-    {
-      mol.Clear();
-      conv.Read(&mol, &ifs);
-      if (mol.Empty())
-        break;
+    // not needed by OBPointGroup, but useful for external programs
+    OBPointGroup pg;
+    pg.Setup(&mol);
+    cerr << "Point Group: " << pg.IdentifyPointGroup() << endl;
+    pg.Symmetrize(&mol);
 
-      // not needed by OBPointGroup, but useful for external programs
-      pg.Setup(&mol);
-      cerr << "Point Group: " << pg.IdentifyPointGroup() << endl;
-      pg.Symmetrize(&mol);
-
-      conv.Write(&mol, &cout);
-
-    } // end for loop
+    conv.Write(&mol, &cout);
+  }
 
   return(0);
 }
