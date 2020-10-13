@@ -128,33 +128,33 @@ namespace OpenBabel
   //! \return the value given an attribute name
   OBGenericData *OBBase::GetData(const string &s)
   {
-    OBDataIterator i;
-
-    for (i = _vdata.begin();i != _vdata.end();++i)
+    for (auto i = _vdata.begin();i != _vdata.end();++i)
       if ((*i)->GetAttribute() == s)
         return *i;
-
     return nullptr;
   }
 
-  //! \return the value given an attribute name
-  OBGenericData *OBBase::GetData(const char *s)
+  const OBGenericData *OBBase::GetData(const string &s) const
   {
-    OBDataIterator i;
-
-    for (i = _vdata.begin(); i != _vdata.end(); ++i)
-      if (strcmp((*i)->GetAttribute().c_str(), s)==0)
+    for (auto i = _vdata.cbegin(); i != _vdata.cend(); ++i)
+      if ((*i)->GetAttribute() == s)
         return *i;
-
     return nullptr;
   }
 
-  OBGenericData *OBBase::GetData(const unsigned int dt)
+  OBGenericData *OBBase::GetData(unsigned int dt)
   {
-    OBDataIterator i;
-    for (i = _vdata.begin();i != _vdata.end();++i)
+    for (auto i = _vdata.begin(); i != _vdata.end(); ++i)
       if ((*i)->GetDataType() == dt)
-        return(*i);
+        return *i;
+    return nullptr;
+  }
+
+  const OBGenericData *OBBase::GetData(unsigned int dt) const
+  {
+    for (auto i = _vdata.cbegin(); i != _vdata.cend(); ++i)
+      if ((*i)->GetDataType() == dt)
+        return *i;
     return nullptr;
   }
 
