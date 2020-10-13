@@ -198,65 +198,58 @@ namespace OpenBabel
       }
   }
 
-  bool OBAtom::IsConnected(OBAtom *a1)
+  bool OBAtom::IsConnected(const OBAtom *const a1) const
   {
-    OBBondIterator i;
-    OBBond *bond;
+    OBBondConstIterator i;
 
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
       if (bond->GetBeginAtom() == a1 || bond->GetEndAtom() == a1)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsOneThree(OBAtom *a1)
+  bool OBAtom::IsOneThree(const OBAtom *const a1) const
   {
-    OBAtom *atom1,*atom2;
-    OBBond *bond1,*bond2;
-    OBBondIterator i,j;
-    atom1 = this;
-    atom2 = a1;
+    const auto atom1 = this;
+    const auto atom2 = a1;
 
-    for (bond1 = atom1->BeginBond(i);bond1;bond1 = atom1->NextBond(i))
-      for (bond2 = atom2->BeginBond(j);bond2;bond2 = atom2->NextBond(j))
+    OBBondConstIterator i, j;
+    for (auto bond1 = atom1->BeginBond(i); bond1; bond1 = atom1->NextBond(i))
+      for (auto bond2 = atom2->BeginBond(j); bond2; bond2 = atom2->NextBond(j))
         if (bond1->GetNbrAtom(atom1) == bond2->GetNbrAtom(atom2))
-          return(true);
+          return true;
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsOneFour(OBAtom *a1)
+  bool OBAtom::IsOneFour(const OBAtom *const a1) const
   {
-    OBAtom *atom1,*atom2;
-    OBBond *bond1,*bond2;
-    OBBondIterator i,j;
-    atom1 = this;
-    atom2 = a1;
+    const auto atom1 = this;
+    const auto atom2 = a1;
 
-    for (bond1 = atom1->BeginBond(i);bond1;bond1 = atom1->NextBond(i))
-      for (bond2 = atom2->BeginBond(j);bond2;bond2 = atom2->NextBond(j))
-        if ((bond1->GetNbrAtom(atom1))->IsConnected(bond2->GetNbrAtom(atom2)))
-          return(true);
+    OBBondConstIterator i, j;
+    for (auto bond1 = atom1->BeginBond(i); bond1; bond1 = atom1->NextBond(i))
+      for (auto bond2 = atom2->BeginBond(j); bond2; bond2 = atom2->NextBond(j))
+        if (bond1->GetNbrAtom(atom1)->IsConnected(bond2->GetNbrAtom(atom2)))
+          return true;
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsAxial()
+  bool OBAtom::IsAxial() const
   {
-    double tor;
-    OBAtom *a,*b,*c;
-    OBBondIterator i,j,k;
+    OBBondConstIterator i, j, k;
 
-    for (a = BeginNbrAtom(i);a;a = NextNbrAtom(i))
+    for (auto a = BeginNbrAtom(i); a; a = NextNbrAtom(i))
       if (a->GetHyb() == 3 && a->IsInRing() && !(*i)->IsInRing())
-        for (b = a->BeginNbrAtom(j);b;b = a->NextNbrAtom(j))
+        for (auto b = a->BeginNbrAtom(j); b; b = a->NextNbrAtom(j))
           if (b != this && b->IsInRing() && b->GetHyb() == 3)
-            for (c = b->BeginNbrAtom(k);c;c = b->NextNbrAtom(k))
+            for (auto c = b->BeginNbrAtom(k); c; c = b->NextNbrAtom(k))
               if (c != a && c->IsInRing())
                 {
-                  tor = fabs(((OBMol*)GetParent())->GetTorsion(this,a,b,c));
-                  return(tor > 55.0 && tor < 75.0);
+                  double tor = fabs(GetParent()->GetTorsion(this, a, b, c));
+                  return tor > 55.0 && tor < 75.0;
                 }
 
     return(false);
@@ -331,46 +324,37 @@ namespace OpenBabel
     return(false);
   }
 
-  bool OBAtom::IsPolarHydrogen()
+  bool OBAtom::IsPolarHydrogen() const
   {
     if (GetAtomicNum() != OBElements::Hydrogen)
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
       {
-        atom = bond->GetNbrAtom(this);
-        if (atom->GetAtomicNum() == 7)
-          return(true);
-        if (atom->GetAtomicNum() == 8)
-          return(true);
-        if (atom->GetAtomicNum() == 15)
-          return(true);
-        if (atom->GetAtomicNum() == 16)
-          return(true);
+        const auto atom = bond->GetNbrAtom(this);
+        const auto z = atom->GetAtomicNum();
+        if (z == 7 || z == 8 || z == 15 || z == 16)
+          return true;
       }
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsNonPolarHydrogen()
+  bool OBAtom::IsNonPolarHydrogen() const
   {
     if (GetAtomicNum() != OBElements::Hydrogen)
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
       {
-        atom = bond->GetNbrAtom(this);
+        const auto atom = bond->GetNbrAtom(this);
         if (atom->GetAtomicNum() == 6)
-          return(true);
+          return true;
       }
 
-    return(false);
+    return false;
   }
 
   vector3 &OBAtom::GetVector()
@@ -553,126 +537,113 @@ namespace OpenBabel
   }
 
   //! Returns true if nitrogen is part of an amide
-  bool OBAtom::IsAmideNitrogen()
+  bool OBAtom::IsAmideNitrogen() const
   {
     if (GetAtomicNum() != OBElements::Nitrogen)
-      return(false);
+      return false;
 
-    OBAtom *nbratom,*atom;
-    OBBond *abbond,*bond;
-
-    OBBondIterator i,j;
-    atom = this;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
+    const auto atom = this;
+    OBBondConstIterator i,j;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
       {
-        nbratom = bond->GetNbrAtom(atom);
-        for (abbond = nbratom->BeginBond(j);abbond;abbond = nbratom->NextBond(j))
+        const auto nbratom = bond->GetNbrAtom(atom);
+        for (auto abbond = nbratom->BeginBond(j); abbond; abbond = nbratom->NextBond(j))
           if (abbond->GetBondOrder() == 2 &&
               (((abbond->GetNbrAtom(nbratom))->GetAtomicNum() == 8) ||
                ((abbond->GetNbrAtom(nbratom))->GetAtomicNum() == 16)))
-            return(true);
+            return true;
       }
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsAromaticNOxide()
+  bool OBAtom::IsAromaticNOxide() const
   {
     if (GetAtomicNum() != OBElements::Nitrogen || !IsAromatic())
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBondIterator i;
-
-    for (atom = BeginNbrAtom(i);atom;atom = NextNbrAtom(i))
+    OBBondConstIterator i;
+    for (auto atom = BeginNbrAtom(i); atom; atom = NextNbrAtom(i))
       if (atom->GetAtomicNum() == OBElements::Oxygen && !(*i)->IsInRing() && (*i)->GetBondOrder() == 2)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsCarboxylOxygen()
+  bool OBAtom::IsCarboxylOxygen() const
   {
     if (GetAtomicNum() != OBElements::Oxygen)
-      return(false);
+      return false;
     if (GetHvyDegree() != 1)
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
-
-    atom = nullptr;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
-      if ((bond->GetNbrAtom(this))->GetAtomicNum() == OBElements::Carbon)
+    const OBAtom *atom = nullptr;
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
+      if (bond->GetNbrAtom(this)->GetAtomicNum() == OBElements::Carbon)
         {
           atom = bond->GetNbrAtom(this);
           break;
         }
     if (!atom)
-      return(false);
+      return false;
     if (!(atom->CountFreeOxygens() == 2)
       && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
-      return(false);
+      return false;
 
     //atom is connected to a carbon that has a total
     //of 2 attached free oxygens or 1 free oxygen and 1 free sulfur
-    return(true);
+    return true;
   }
 
-  bool OBAtom::IsPhosphateOxygen()
+  bool OBAtom::IsPhosphateOxygen() const
   {
     if (GetAtomicNum() != OBElements::Oxygen)
-      return(false);
+      return false;
     if (GetHvyDegree() != 1)
-      return(false);
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
+      return false;
 
-    atom = nullptr;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
-      if ((bond->GetNbrAtom(this))->GetAtomicNum() == OBElements::Phosphorus)
+    const OBAtom *atom = nullptr;
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
+      if (bond->GetNbrAtom(this)->GetAtomicNum() == OBElements::Phosphorus)
         {
           atom = bond->GetNbrAtom(this);
           break;
         }
     if (!atom)
-      return(false);
+      return false;
     if (atom->CountFreeOxygens() > 2)
-      return(true);
+      return true;
 
     //atom is connected to a carbon that has a total
     //of 2 attached free oxygens
-    return(false);
+    return false;
   }
 
-  bool OBAtom::IsSulfateOxygen()
+  bool OBAtom::IsSulfateOxygen() const
   {
     if (GetAtomicNum() != OBElements::Oxygen)
-      return(false);
+      return false;
     if (GetHvyDegree() != 1)
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
-
-    atom = nullptr;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
-      if ((bond->GetNbrAtom(this))->GetAtomicNum() == OBElements::Sulfur)
+    const OBAtom *atom = nullptr;
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
+      if (bond->GetNbrAtom(this)->GetAtomicNum() == OBElements::Sulfur)
         {
           atom = bond->GetNbrAtom(this);
           break;
         }
     if (!atom)
-      return(false);
+      return false;
     if (atom->CountFreeOxygens() < 3)
-      return(false);
+      return false;
 
     //atom is connected to a carbon that has a total
     //of 2 attached free oxygens
-    return(true);
+    return true;
   }
 
   // Helper function for IsHBondAcceptor
@@ -724,35 +695,32 @@ namespace OpenBabel
 
 
 
-  bool OBAtom::IsNitroOxygen()
+  bool OBAtom::IsNitroOxygen() const
   {
     if (GetAtomicNum() != OBElements::Oxygen)
-      return(false);
+      return false;
     if (GetHvyDegree() != 1)
-      return(false);
+      return false;
 
-    OBAtom *atom;
-    OBBond *bond;
-    OBBondIterator i;
-
-    atom = nullptr;
-    for (bond = BeginBond(i);bond;bond = NextBond(i))
-      if ((bond->GetNbrAtom(this))->GetAtomicNum() == OBElements::Nitrogen)
+    const OBAtom *atom = nullptr;
+    OBBondConstIterator i;
+    for (auto bond = BeginBond(i); bond; bond = NextBond(i))
+      if (bond->GetNbrAtom(this)->GetAtomicNum() == OBElements::Nitrogen)
         {
           atom = bond->GetNbrAtom(this);
           break;
         }
     if (!atom)
-      return(false);
+      return false;
     if (atom->CountFreeOxygens() != 2)
-      return(false);
+      return false;
 
     //atom is connected to a nitrogen that has a total
     //of 2 attached free oxygens
-    return(true);
+    return true;
   }
 
-  bool OBAtom::IsHeteroatom()
+  bool OBAtom::IsHeteroatom() const
   {
     switch(GetAtomicNum())
       {
@@ -766,9 +734,9 @@ namespace OpenBabel
       case 52:
       case 83:
       case 84:
-        return(true);
+        return true;
       }
-    return(false);
+    return false;
   }
 
   bool OBAtom::IsAromatic() const
@@ -1151,31 +1119,29 @@ namespace OpenBabel
     return(( this->GetVector() - *v ).length());
   }
 
-  double OBAtom::GetAngle(OBAtom *b, OBAtom *c)
+  double OBAtom::GetAngle(const OBAtom *const b, const OBAtom *const c) const
   {
-    vector3 v1,v2;
-
-    v1 = this->GetVector() - b->GetVector();
-    v2 = c->GetVector() - b->GetVector();
+    auto v1 = this->GetVector() - b->GetVector();
+    auto v2 = c->GetVector() - b->GetVector();
     if (IsPeriodic())
       {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
+        auto box = dynamic_cast<const OBUnitCell*>(GetParent()->GetData(OBGenericDataType::UnitCell));
         v1 = box->MinimumImageCartesian(v1);
         v2 = box->MinimumImageCartesian(v2);
       }
 
     if (IsNearZero(v1.length(), 1.0e-3)
       || IsNearZero(v2.length(), 1.0e-3)) {
-        return(0.0);
+        return 0.0;
     }
 
-    return(vectorAngle(v1, v2));
+    return vectorAngle(v1, v2);
   }
 
-  double OBAtom::GetAngle(int b, int c)
+  double OBAtom::GetAngle(int b, int c) const
   {
-    OBMol *mol = (OBMol*)GetParent();
-    return(this->GetAngle(mol->GetAtom(b), mol->GetAtom(c)));
+    const auto mol = GetParent();
+    return this->GetAngle(mol->GetAtom(b), mol->GetAtom(c));
   }
 
   bool OBAtom::GetNewBondVector(vector3 &v,double length)
