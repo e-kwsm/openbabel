@@ -1082,25 +1082,49 @@ namespace OpenBabel
   OBBond *OBAtom::BeginBond(OBBondIterator &i)
   {
     i = _vbond.begin();
-    return i == _vbond.end() ? nullptr : (OBBond*)*i;
+    return i == _vbond.end() ? nullptr : *i;
+  }
+
+  const OBBond *OBAtom::BeginBond(OBBondConstIterator &i) const
+  {
+    i = _vbond.cbegin();
+    return i == _vbond.cend() ? nullptr : *i;
   }
 
   OBBond *OBAtom::NextBond(OBBondIterator &i)
   {
     i++;
-    return i == _vbond.end() ? nullptr : (OBBond*)*i;
+    return i == _vbond.end() ? nullptr : *i;
+  }
+
+  const OBBond *OBAtom::NextBond(OBBondConstIterator &i) const
+  {
+    i++;
+    return i == _vbond.cend() ? nullptr : *i;
   }
 
   OBAtom *OBAtom::BeginNbrAtom(OBBondIterator &i)
   {
     i = _vbond.begin();
-    return i != _vbond.end() ? ((OBBond*) *i)->GetNbrAtom(this) : nullptr;
+    return i != _vbond.end() ? (*i)->GetNbrAtom(this) : nullptr;
+  }
+
+  const OBAtom *OBAtom::BeginNbrAtom(OBBondConstIterator &i) const
+  {
+    i = _vbond.cbegin();
+    return i != _vbond.cend() ? (*i)->GetNbrAtom(this) : nullptr;
   }
 
   OBAtom *OBAtom::NextNbrAtom(OBBondIterator &i)
   {
     i++;
-    return i != _vbond.end() ? ((OBBond*) *i)->GetNbrAtom(this) : nullptr;
+    return i != _vbond.end() ? (*i)->GetNbrAtom(this) : nullptr;
+  }
+
+  const OBAtom *OBAtom::NextNbrAtom(OBBondConstIterator &i) const
+  {
+    i++;
+    return i != _vbond.cend() ? (*i)->GetNbrAtom(this) : nullptr;
   }
 
   double OBAtom::GetDistance(OBAtom *b)
