@@ -296,15 +296,16 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
      *  WARNING: SetTorsion takes an angle in radians while GetTorsion returns it
      *  in degrees
      */
-    double       GetTorsion(int,int,int,int);
+    double GetTorsion(int, int, int, int) const;
     /*! \return the dihedral angle (in degrees) between the four atoms @p a, @p b, @p c, and @p d)
      *  WARNING: SetTorsion takes an angle in radians while GetTorsion returns it
      *  in degrees
      */
-    double       GetTorsion(OBAtom* a,OBAtom* b,OBAtom* c,OBAtom* d);
+    double GetTorsion(const OBAtom *const a, const OBAtom *const b,
+                      const OBAtom *const c, const OBAtom *const d) const;
     //! \return the angle (in degrees) between the three atoms @p a, @p b and @p c
     //!  (where  a-> b (vertex) -> c )
-    double GetAngle(OBAtom* a, OBAtom* b, OBAtom* c);
+    double GetAngle(const OBAtom* const a, const OBAtom* const b, const OBAtom* const c) const;
     //! \return the size of the smallest ring if a and b are in the same ring, 0 otherwise
     //! \since version 2.4
     int AreInSameRing(OBAtom *a, OBAtom *b);
