@@ -955,29 +955,27 @@ namespace OpenBabel
     return(rd->GetData());
   }
 
-  double OBMol::GetMolWt(bool implicitH)
+  double OBMol::GetMolWt(bool implicitH) const
   {
-    double molwt=0.0;
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
+    double molwt = 0.0;
+    vector<OBAtom*>::const_iterator i;
 
-    double hmass = OBElements::GetMass(1);
-    for (atom = BeginAtom(i);atom;atom = NextAtom(i)) {
+    const double hmass = OBElements::GetMass(1);
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i)) {
       molwt += atom->GetAtomicMass();
       if (implicitH)
         molwt += atom->GetImplicitHCount() * hmass;
     }
-    return(molwt);
+    return molwt;
   }
 
-  double OBMol::GetExactMass(bool implicitH)
+  double OBMol::GetExactMass(bool implicitH) const
   {
-    double mass=0.0;
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
+    double mass = 0.0;
+    vector<OBAtom*>::const_iterator i;
 
     double hmass = OBElements::GetExactMass(1, 1);
-    for (atom = BeginAtom(i); atom; atom = NextAtom(i)) {
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i)) {
       mass += atom->GetExactMass();
       if (implicitH)
         mass += atom->GetImplicitHCount() * hmass;
@@ -1148,24 +1146,20 @@ namespace OpenBabel
   //!  (This may or may not be correct!)
   //!  If you set atomic charges with OBAtom::SetFormalCharge()
   //!   you really should set the molecular charge with OBMol::SetTotalCharge()
-  int OBMol::GetTotalCharge()
+  int OBMol::GetTotalCharge() const
   {
-    if(HasFlag(OB_TCHARGE_MOL))
-      return(_totalCharge);
-    else // calculate from atomic formal charges (seems the best default)
-      {
-        obErrorLog.ThrowError(__FUNCTION__,
-                              "Ran OpenBabel::GetTotalCharge -- calculated from formal charges",
-                              obAuditMsg);
+    if (HasFlag(OB_TCHARGE_MOL))
+      return _totalCharge;
+    // calculate from atomic formal charges (seems the best default)
+    obErrorLog.ThrowError(__FUNCTION__,
+                          "Ran OpenBabel::GetTotalCharge -- calculated from formal charges",
+                          obAuditMsg);
 
-        OBAtom *atom;
-        vector<OBAtom*>::iterator i;
-        int chg = 0;
-
-        for (atom = BeginAtom(i);atom;atom = NextAtom(i))
-          chg += atom->GetFormalCharge();
-        return (chg);
-      }
+    vector<OBAtom*>::const_iterator i;
+    int chg = 0;
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i))
+      chg += atom->GetFormalCharge();
+    return chg;
   }
 
   void   OBMol::SetTotalSpinMultiplicity(unsigned int spin)
@@ -1198,31 +1192,28 @@ namespace OpenBabel
   //!  electrons assuming no further pairing of spins.
   //!  if it fails (gives singlet for odd number of electronic systems),
   //!  then assign wrt parity of the total electrons.
-  unsigned int OBMol::GetTotalSpinMultiplicity()
+  unsigned int OBMol::GetTotalSpinMultiplicity() const
   {
     if (HasFlag(OB_TSPIN_MOL))
-      return(_totalSpin);
-    else // calculate from atomic spin information (assuming high-spin case)
-      {
-        obErrorLog.ThrowError(__FUNCTION__,
-                              "Ran OpenBabel::GetTotalSpinMultiplicity -- calculating from atomic spins assuming high spin case",
-                              obAuditMsg);
+      return _totalSpin;
+    // calculate from atomic spin information (assuming high-spin case)
+    obErrorLog.ThrowError(__FUNCTION__,
+                          "Ran OpenBabel::GetTotalSpinMultiplicity -- calculating from atomic spins assuming high spin case",
+                          obAuditMsg);
 
-        OBAtom *atom;
-        vector<OBAtom*>::iterator i;
-        unsigned int unpaired_electrons = 0;
-        int chg = GetTotalCharge();
-        for (atom = BeginAtom(i);atom;atom = NextAtom(i))
-          {
-            if (atom->GetSpinMultiplicity() > 1)
-              unpaired_electrons += (atom->GetSpinMultiplicity() - 1);
-           chg += atom->GetAtomicNum();
-          }
-        if (chg % 2 != unpaired_electrons %2)
-          return ((abs(chg) % 2) + 1);
-        else
-          return (unpaired_electrons + 1);
+    vector<OBAtom*>::const_iterator i;
+    unsigned int unpaired_electrons = 0;
+    int chg = GetTotalCharge();
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i))
+      {
+        if (atom->GetSpinMultiplicity() > 1)
+          unpaired_electrons += (atom->GetSpinMultiplicity() - 1);
+       chg += atom->GetAtomicNum();
       }
+    if (chg % 2 != unpaired_electrons % 2)
+      return ((abs(chg) % 2) + 1);
+    else
+      return (unpaired_electrons + 1);
   }
 
   OBMol &OBMol::operator=(const OBMol &source)
@@ -2777,49 +2768,44 @@ namespace OpenBabel
     _vconf.clear();
   }
 
-  bool OBMol::HasNonZeroCoords()
+  bool OBMol::HasNonZeroCoords() const
   {
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
+    vector<OBAtom*>::const_iterator i;
 
-    for (atom = BeginAtom(i);atom;atom = NextAtom(i))
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i))
       if (atom->GetVector() != VZero)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
-  bool OBMol::Has2D(bool Not3D)
+  bool OBMol::Has2D(bool Not3D) const
   {
-    bool hasX,hasY;
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
+    bool hasX = false, hasY = false;
+    vector<OBAtom*>::const_iterator i;
 
-    hasX = hasY = false;
-    for (atom = BeginAtom(i);atom;atom = NextAtom(i))
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i))
       {
         if (!hasX && !IsNearZero(atom->x()))
           hasX = true;
         if (!hasY && !IsNearZero(atom->y()))
           hasY = true;
-        if(Not3D && atom->z())
+        if (Not3D && atom->z())
           return false;
       }
     if (hasX || hasY) //was && but this excluded vertically or horizontally aligned linear mols
-      return(true);
-    return(false);
+      return true;
+    return false;
   }
 
-  bool OBMol::Has3D()
+  bool OBMol::Has3D() const
   {
-    bool hasX,hasY,hasZ;
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
+    bool hasX = false, hasY = false, hasZ = false;
+    vector<OBAtom*>::const_iterator i;
 
-    hasX = hasY = hasZ = false;
     //    if (this->_c == NULL) **Test removed** Prevented function use during molecule construction
     //      return(false);
-    for (atom = BeginAtom(i);atom;atom = NextAtom(i))
+    for (auto atom = BeginAtom(i); atom; atom = NextAtom(i))
       {
         if (!hasX && !IsNearZero(atom->x()))
           hasX = true;
@@ -2829,9 +2815,9 @@ namespace OpenBabel
           hasZ = true;
 
         if (hasX && hasY && hasZ)
-          return(true);
+          return true;
       }
-    return(false);
+    return false;
   }
 
   void OBMol::SetCoordinates(double *newCoords)
@@ -3948,7 +3934,13 @@ namespace OpenBabel
   OBAtom *OBMol::BeginAtom(OBAtomIterator &i)
   {
     i = _vatom.begin();
-    return i == _vatom.end() ? nullptr : (OBAtom*)*i;
+    return i == _vatom.end() ? nullptr : *i;
+  }
+
+  const OBAtom *OBMol::BeginAtom(OBAtomConstIterator &i) const
+  {
+    i = _vatom.cbegin();
+    return i == _vatom.cend() ? nullptr : *i;
   }
 
   const OBAtom* OBMol::BeginAtom(OBAtomConstIterator &i) const
@@ -3960,7 +3952,13 @@ namespace OpenBabel
   OBAtom *OBMol::NextAtom(OBAtomIterator &i)
   {
     ++i;
-    return i == _vatom.end() ? nullptr : (OBAtom*)*i;
+    return i == _vatom.end() ? nullptr : *i;
+  }
+
+  const OBAtom *OBMol::NextAtom(OBAtomConstIterator &i) const
+  {
+    ++i;
+    return i == _vatom.cend() ? nullptr : *i;
   }
 
   const OBAtom* OBMol::NextAtom(OBAtomConstIterator &i) const
