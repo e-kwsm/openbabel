@@ -290,12 +290,12 @@ namespace OpenBabel
       //@}
 
       //! \return the distance to the atom defined by OBMol::GetAtom()
-      double GetDistance(int index);
+      double GetDistance(int index) const;
       //! \return the distance to the supplied OBAtom
-      double GetDistance(OBAtom*);
+      double GetDistance(const OBAtom* const) const;
       //! \return the distance to the coordinates of the supplied vector3
       //! \since version 2.4
-      double GetDistance(vector3* v);
+      double GetDistance(const vector3* const v) const;
       //! \return the angle defined by this atom -> b (vertex) -> c
       double GetAngle(int b, int c) const;
       //! \return the angle defined by this atom -> b (vertex) -> c
