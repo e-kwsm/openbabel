@@ -297,9 +297,9 @@ namespace OpenBabel
       //! \since version 2.4
       double GetDistance(vector3* v);
       //! \return the angle defined by this atom -> b (vertex) -> c
-      double GetAngle(int b, int c);
+      double GetAngle(int b, int c) const;
       //! \return the angle defined by this atom -> b (vertex) -> c
-      double GetAngle(OBAtom *b, OBAtom *c);
+      double GetAngle(const OBAtom *const b, const OBAtom *const c) const;
 
       //! \name Addition of residue/bond info. for an atom
       //@{
@@ -390,40 +390,40 @@ namespace OpenBabel
       bool IsInRingSize(int) const;
       //! \return Is this atom an element in the 15th or 16th main groups
       //!  (i.e., N, O, P, S ...) ?
-      bool IsHeteroatom();
+      bool IsHeteroatom() const;
       //! \return Is this atom directly connected to the supplied OBAtom?
-      bool IsConnected(OBAtom*);
+      bool IsConnected(const OBAtom *const) const;
       //! \return Is this atom related to the supplied OBAtom in
       //!  a 1,3 bonding pattern?
-      bool IsOneThree(OBAtom*);
+      bool IsOneThree(const OBAtom *const) const;
       //! \return Is this atom related to the supplied OBAtom in
       //!  a 1,4 bonding pattern?
-      bool IsOneFour(OBAtom*);
+      bool IsOneFour(const OBAtom *const ) const;
       //! \return Is this atom an oxygen in a carboxyl (-CO2 or CO2H) group?
-      bool IsCarboxylOxygen();
+      bool IsCarboxylOxygen() const;
       //! \return Is this atom an oxygen in a phosphate (R-PO3) group?
-      bool IsPhosphateOxygen();
+      bool IsPhosphateOxygen() const;
       //! \return Is this atom an oxygen in a sulfate (-SO3) group?
-      bool IsSulfateOxygen();
+      bool IsSulfateOxygen() const;
       //! \return Is this atom an oxygen in a nitro (-NO2) group?
-      bool IsNitroOxygen();
+      bool IsNitroOxygen() const;
       //! \return Is this atom a nitrogen in an amide (-C(=O)NR2) group?
-      bool IsAmideNitrogen();
+      bool IsAmideNitrogen() const;
       //! \return Is this atom a hydrogen connected to a polar atom
       //!  (i.e., N, O, P, S)
-      bool IsPolarHydrogen();
+      bool IsPolarHydrogen() const;
       //! \return Is this atom a hydrogen connected to a non-polar atom
       //!  (i.e., C)
-      bool IsNonPolarHydrogen();
+      bool IsNonPolarHydrogen() const;
       //! \return Is this atom an aromatic nitrogen with at least one
       //!  double bond to an oxygen atom
-      bool IsAromaticNOxide();
+      bool IsAromaticNOxide() const;
       //! \return Is this atom chiral?
       bool IsChiral();
       //! \return Is the atom part of a periodic unit cell?
       bool IsPeriodic() const;
       //! \return Is this atom an axial atom in a ring
-      bool IsAxial();
+      bool IsAxial() const;
       //! \return Is this atom a hydrogen-bond acceptor  (considering also atom surrounding)
       bool IsHbondAcceptor();
       //! \return Is this atom a hydrogen-bond acceptor (old function)?
