@@ -1095,28 +1095,25 @@ namespace OpenBabel
     return i != _vbond.cend() ? (*i)->GetNbrAtom(this) : nullptr;
   }
 
-  double OBAtom::GetDistance(OBAtom *b)
+  double OBAtom::GetDistance(const OBAtom *const b) const
   {
-    if (!IsPeriodic())
-      {
-        return(( this->GetVector() - b->GetVector() ).length());
-      }
-    else
-      {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
-        return (box->MinimumImageCartesian(this->GetVector() - b->GetVector())).length();
-      }
+    if (!IsPeriodic()) {
+      return (this->GetVector() - b->GetVector()).length();
+    } else {
+      auto box = dynamic_cast<const OBUnitCell*>(GetParent()->GetData(OBGenericDataType::UnitCell));
+      return (box->MinimumImageCartesian(this->GetVector() - b->GetVector())).length();
+    }
   }
 
-  double OBAtom::GetDistance(int b)
+  double OBAtom::GetDistance(int b) const
   {
-    OBMol *mol = (OBMol*)GetParent();
-    return( this->GetDistance(mol->GetAtom(b)) );
+    const auto mol = GetParent();
+    return this->GetDistance(mol->GetAtom(b));
   }
 
-  double OBAtom::GetDistance(vector3 *v)
+  double OBAtom::GetDistance(const vector3 *const v) const
   {
-    return(( this->GetVector() - *v ).length());
+    return (this->GetVector() - *v).length();
   }
 
   double OBAtom::GetAngle(const OBAtom *const b, const OBAtom *const c) const
