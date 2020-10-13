@@ -369,7 +369,7 @@ namespace OpenBabel
        */
       std::pair<int, int> LewisAcidBaseCounts() const;
       //! \return Is there any residue information?
-      bool HasResidue()    { return(_residue != nullptr);    }
+      bool HasResidue() const { return _residue != nullptr; }
       //! \return Is this a HETATM in a residue (returns false if not in a residue)
       //! \since version 2.4
       bool IsHetAtom() {
