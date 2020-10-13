@@ -206,17 +206,14 @@ namespace OpenBabel
     return (a.second < b.second);
   }
 
-  double OBMol::GetAngle( OBAtom* a, OBAtom* b, OBAtom* c)
+  double OBMol::GetAngle(const OBAtom* const a, const OBAtom* const b, const OBAtom* const c) const
   {
-    return a->GetAngle( b, c );
+    return a->GetAngle(b, c);
   }
 
-  double OBMol::GetTorsion(int a,int b,int c,int d)
+  double OBMol::GetTorsion(int a, int b, int c, int d) const
   {
-    return(GetTorsion((OBAtom*)_vatom[a-1],
-                      (OBAtom*)_vatom[b-1],
-                      (OBAtom*)_vatom[c-1],
-                      (OBAtom*)_vatom[d-1]));
+    return GetTorsion(_vatom[a - 1], _vatom[b - 1], _vatom[c - 1], _vatom[d - 1]);
   }
 
   void OBMol::SetTorsion(OBAtom *a,OBAtom *b,OBAtom *c, OBAtom *d, double ang)
@@ -305,33 +302,26 @@ namespace OpenBabel
       }
   }
 
-
-  double OBMol::GetTorsion(OBAtom *a,OBAtom *b,OBAtom *c,OBAtom *d)
-  {
+  double OBMol::GetTorsion(const OBAtom *const a, const OBAtom *const b,
+                           const OBAtom *const c, const OBAtom *const d) const {
     if (!IsPeriodic())
-      {
-        return(CalcTorsionAngle(a->GetVector(),
-                                b->GetVector(),
-                                c->GetVector(),
-                                d->GetVector()));
-      }
-    else
-      {
-        vector3 v1, v2, v3, v4;
-        // Wrap the atomic positions in a continuous chain that makes sense based on the unit cell
-        // Start by extracting the absolute Cartesian coordinates
-        v1 = a->GetVector();
-        v2 = b->GetVector();
-        v3 = c->GetVector();
-        v4 = d->GetVector();
-        // Then redefine the positions based on proximity to the previous atom
-        // to build a continuous chain of expanded Cartesian coordinates
-        OBUnitCell *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
-        v2 = unitCell->UnwrapCartesianNear(v2, v1);
-        v3 = unitCell->UnwrapCartesianNear(v3, v2);
-        v4 = unitCell->UnwrapCartesianNear(v4, v3);
-        return(CalcTorsionAngle(v1, v2, v3, v4));
-      }
+      return CalcTorsionAngle(a->GetVector(),
+                              b->GetVector(),
+                              c->GetVector(),
+                              d->GetVector());
+    // Wrap the atomic positions in a continuous chain that makes sense based on the unit cell
+    // Start by extracting the absolute Cartesian coordinates
+    auto v1 = a->GetVector();
+    auto v2 = b->GetVector();
+    auto v3 = c->GetVector();
+    auto v4 = d->GetVector();
+    // Then redefine the positions based on proximity to the previous atom
+    // to build a continuous chain of expanded Cartesian coordinates
+    auto unitCell = dynamic_cast<const OBUnitCell*>(GetData(OBGenericDataType::UnitCell));
+    v2 = unitCell->UnwrapCartesianNear(v2, v1);
+    v3 = unitCell->UnwrapCartesianNear(v3, v2);
+    v4 = unitCell->UnwrapCartesianNear(v4, v3);
+    return CalcTorsionAngle(v1, v2, v3, v4);
   }
 
   void OBMol::ContigFragList(std::vector<std::vector<int> >&cfl)
