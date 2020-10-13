@@ -93,13 +93,13 @@ namespace OpenBabel
       unsigned long                 _id;        //!< unique id
 
       //! \return All flags
-      int  GetFlag() const    {  return(_flags);  }
+      int  GetFlag() const { return _flags; }
       //! Sets the bitwise @p flag
       void SetFlag(int flag)  { _flags |= flag;   }
       //! Unsets the bitwise @p flag
       void UnsetFlag(int flag) { _flags &= (~(flag)); }
       //! \return True of the atom has the @p flag
-      bool HasFlag(int flag)  {  return((_flags & flag) ? true : false); }
+      bool HasFlag(int flag) const { return _flags & flag; }
 
     public:
       enum StereoFlag {
@@ -252,7 +252,8 @@ namespace OpenBabel
       //! \return the residue which contains this atom, or NULL if none exists
       OBResidue *GetResidue();
       //! \return the molecule which contains this atom, or NULL if none exists
-      OBMol     *GetParent()        {return((OBMol*)_parent);}
+      OBMol *GetParent() { return _parent; }
+      const OBMol *GetParent() const { return _parent; }
       //! Create a vector for a new bond from this atom, with length given by the supplied parameter
       //! \return success or failure
       bool       GetNewBondVector(vector3 &v,double length);
