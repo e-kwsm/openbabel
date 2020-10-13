@@ -773,7 +773,7 @@ namespace OpenBabel
 
   bool OBAtom::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    const auto mol = this->GetParent();
     return mol->IsPeriodic();
   }
 
