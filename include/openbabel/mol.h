@@ -606,7 +606,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \name Multiple conformer member functions
     //@{
     //! \return the number of conformers in this molecule
-    int     NumConformers()    { return((_vconf.empty())?0:static_cast<int> (_vconf.size())); }
+    int     NumConformers() const { return _vconf.size(); }
     //! Set the entire set of conformers for this molecule to @p v
     void    SetConformers(std::vector<double*> &v);
     //! Add a new set of coordinates @p f as a new conformer
