@@ -44,6 +44,7 @@ namespace OpenBabel
   typedef OBAtom OBNodeBase;
   //! A standard iterator over a vector of bonds
   typedef std::vector<OBBond*>::iterator OBBondIterator;
+  typedef std::vector<OBBond*>::const_iterator OBBondConstIterator;
   //! A standard iterator over a vector of atoms
   typedef std::vector<OBAtom*>::iterator OBAtomIterator;
 
@@ -273,15 +274,19 @@ namespace OpenBabel
       //! Set the iterator @p i to the beginning of the bonds
       //! \return The first bond to this atom (or NULL if none exist)
       OBBond *BeginBond(OBBondIterator &i);
+      const OBBond *BeginBond(OBBondConstIterator &i) const;
       //! Increment the iterator @p i
       //! \return The next bond to this atom (or NULL if none exist)
       OBBond *NextBond(OBBondIterator &i);
+      const OBBond *NextBond(OBBondConstIterator &i) const;
       //! Set the iterator @p i to the beginning of the bonds
       //! \return The first neighboring atom (or NULL if none exist)
       OBAtom *BeginNbrAtom(OBBondIterator &i);
+      const OBAtom *BeginNbrAtom(OBBondConstIterator &i) const;
       //! Increment the iterator @p i
       //! \return The next neighboring atom (or NULL if none exist)
       OBAtom *NextNbrAtom(OBBondIterator &i);
+      const OBAtom *NextNbrAtom(OBBondConstIterator &i) const;
       //@}
 
       //! \return the distance to the atom defined by OBMol::GetAtom()
