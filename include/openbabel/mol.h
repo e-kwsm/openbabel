@@ -265,7 +265,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the number of non-hydrogen atoms
     unsigned int NumHvyAtoms() const;
     //! \return the number of residues (i.e. OBResidue substituents)
-    unsigned int NumResidues() const      { return(static_cast<unsigned int> (_residue.size())); }
+    unsigned int NumResidues() const      { return _residue.size(); }
     //! \return the number of rotatable bonds. If sampleRingBonds is true, will include rotors within rings (see OBBond::IsRotor() for details)
     unsigned int NumRotors(bool sampleRingBonds=false);
 
@@ -315,13 +315,13 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the heat of formation for this molecule (in kcal/mol)
     double       GetEnergy() const { return _energy; }
     //! \return the standard molar mass given by IUPAC atomic masses (amu)
-    double       GetMolWt(bool implicitH = true);
+    double       GetMolWt(bool implicitH = true) const;
     //! \return the mass given by isotopes (or most abundant isotope, if not specified)
-    double	 GetExactMass(bool implicitH = true);
+    double       GetExactMass(bool implicitH = true) const;
     //! \return the total charge on this molecule (i.e., 0 = neutral, +1, -1...)
-    int		 GetTotalCharge();
+    int          GetTotalCharge() const;
     //! \return the total spin on this molecule (i.e., 1 = singlet, 2 = doublet...)
-    unsigned int GetTotalSpinMultiplicity();
+    unsigned int GetTotalSpinMultiplicity() const;
     //! \return the dimensionality of coordinates (i.e., 0 = unknown or no coord, 2=2D, 3=3D)
     unsigned short int GetDimension() const { return _dimension; }
     //! \return the set of all atomic coordinates. See OBAtom::GetCoordPtr for more
@@ -331,9 +331,9 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the Largest Set of Smallest Rings has been run (see OBRing class)
     std::vector<OBRing*> &GetLSSR();
     //! Get the current flag for whether formal charges are set with pH correction
-    bool AutomaticFormalCharge()   { return(_autoFormalCharge);  }
+    bool AutomaticFormalCharge() const { return _autoFormalCharge; }
     //! Get the current flag for whether partial charges are auto-determined
-    bool AutomaticPartialCharge()  { return(_autoPartialCharge); }
+    bool AutomaticPartialCharge() const { return _autoPartialCharge; }
     //@}
 
 
@@ -400,7 +400,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Mark that distance calculations, etc., should apply periodic boundary conditions through the minimimum image convention.
     //! Does not automatically recalculate bonding.
     void   SetPeriodicMol(bool value = true){ SET_OR_UNSET_FLAG(OB_PERIODIC_MOL); }
-    bool   HasFlag(int flag)   { return (_flags & flag) ? true : false; }
+    bool   HasFlag(int flag) const { return _flags & flag; }
     void   SetFlag(int flag)   { _flags |= flag; }
     void   UnsetFlag(int flag) { _flags &= (~(flag)); }
     void   SetFlags(int flags) { _flags = flags; }
@@ -560,46 +560,46 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \name Methods to check for existence of properties
     //@{
     //! Are there non-zero coordinates in two dimensions (i.e. X and Y)- and, if Not3D is true, no Z coordinates?
-    bool Has2D(bool Not3D=false);
+    bool Has2D(bool Not3D = false) const;
     //! Are there non-zero coordinates in all three dimensions (i.e. X, Y, Z)?
-    bool Has3D();
+    bool Has3D() const;
     //! Are there any non-zero coordinates?
-    bool HasNonZeroCoords();
+    bool HasNonZeroCoords() const;
     //! Has aromatic perception been performed?
-    bool HasAromaticPerceived()     { return(HasFlag(OB_AROMATIC_MOL)); }
+    bool HasAromaticPerceived() const { return HasFlag(OB_AROMATIC_MOL); }
     //! Has the smallest set of smallest rings (FindSSSR) been performed?
-    bool HasSSSRPerceived()         { return(HasFlag(OB_SSSR_MOL));     }
+    bool HasSSSRPerceived() const { return HasFlag(OB_SSSR_MOL); }
     //! Has the largest set of smallest rings (FindLSSR) been performed?
-    bool HasLSSRPerceived()         { return(HasFlag(OB_LSSR_MOL));     }
+    bool HasLSSRPerceived() const { return HasFlag(OB_LSSR_MOL); }
     //! Have ring atoms and bonds been assigned?
-    bool HasRingAtomsAndBondsPerceived(){return(HasFlag(OB_RINGFLAGS_MOL));}
+    bool HasRingAtomsAndBondsPerceived() const {return HasFlag(OB_RINGFLAGS_MOL); }
     //! Have atom types been assigned by OBAtomTyper?
-    bool HasAtomTypesPerceived()    { return(HasFlag(OB_ATOMTYPES_MOL));}
+    bool HasAtomTypesPerceived() const { return HasFlag(OB_ATOMTYPES_MOL); }
     //! Have ring types been assigned by OBRingTyper?
-    bool HasRingTypesPerceived()    { return(HasFlag(OB_RINGTYPES_MOL));}
+    bool HasRingTypesPerceived() const { return HasFlag(OB_RINGTYPES_MOL); }
     //! Has atom chirality been assigned?
-    bool HasChiralityPerceived()    { return(HasFlag(OB_CHIRALITY_MOL));}
+    bool HasChiralityPerceived() const { return HasFlag(OB_CHIRALITY_MOL); }
     //! Have atomic Gasteiger partial charges been assigned by OBGastChrg?
-    bool HasPartialChargesPerceived() { return(HasFlag(OB_PCHARGE_MOL));}
+    bool HasPartialChargesPerceived() const { return HasFlag(OB_PCHARGE_MOL); }
     //! Has atomic hybridization been assigned by OBAtomTyper?
-    bool HasHybridizationPerceived() { return(HasFlag(OB_HYBRID_MOL));  }
+    bool HasHybridizationPerceived() const { return HasFlag(OB_HYBRID_MOL); }
     //! Have ring "closure" bonds been assigned? (e.g., OBBond::IsClosure())
-    bool HasClosureBondsPerceived() { return(HasFlag(OB_CLOSURE_MOL));  }
+    bool HasClosureBondsPerceived() const { return HasFlag(OB_CLOSURE_MOL); }
     //! Have biomolecule chains and residues been assigned by OBChainsParser?
-    bool HasChainsPerceived() { return(HasFlag(OB_CHAINS_MOL));         }
+    bool HasChainsPerceived() const { return HasFlag(OB_CHAINS_MOL); }
     //! Have hydrogens been added to the molecule?
-    bool HasHydrogensAdded() { return(HasFlag(OB_H_ADDED_MOL));         }
+    bool HasHydrogensAdded() const { return HasFlag(OB_H_ADDED_MOL); }
     //! Has the molecule been corrected for pH by CorrectForPH?
-    bool IsCorrectedForPH() { return(HasFlag(OB_PH_CORRECTED_MOL));     }
+    bool IsCorrectedForPH() const { return HasFlag(OB_PH_CORRECTED_MOL); }
     //! Has total spin multiplicity been assigned?
-    bool HasSpinMultiplicityAssigned() { return(HasFlag(OB_ATOMSPIN_MOL)); }
+    bool HasSpinMultiplicityAssigned() const { return HasFlag(OB_ATOMSPIN_MOL); }
     //! Does this OBMol represent a reaction?
-    bool IsReaction()                  { return HasFlag(OB_REACTION_MOL); }
+    bool IsReaction() const { return HasFlag(OB_REACTION_MOL); }
     //! Is this molecule periodic? Should periodic boundary conditions be applied?
-    bool IsPeriodic() { return(HasFlag(OB_PERIODIC_MOL)); }
+    bool IsPeriodic() const { return HasFlag(OB_PERIODIC_MOL); }
 
     //! Are there any atoms in this molecule?
-    bool Empty()                       { return(_natoms == 0);          }
+    bool Empty() const { return _natoms == 0; }
     //@}
 
     //! \name Multiple conformer member functions
