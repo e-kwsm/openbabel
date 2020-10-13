@@ -315,11 +315,11 @@ class OBConversion; //used only as pointer
         { return(_vdata.size()); }
       //! \return the first matching data for a given type from OBGenericDataType
       //!    or NULL if nothing matches
-      OBGenericData                    *GetData(const unsigned int type);
+      OBGenericData                    *GetData(unsigned int type);
+      const OBGenericData              *GetData(unsigned int type) const;
       //! \return any data matching the given attribute name or NULL if nothing matches
       OBGenericData                    *GetData(const std::string&);
-      //! \return any data matching the given attribute name or NULL if nothing matches
-      OBGenericData                    *GetData(const char *);
+      const OBGenericData              *GetData(const std::string&) const;
       //! \return the all matching data for a given type from OBGenericDataType
       //!    or an empty vector if nothing matches
       //! \since version 2.2
