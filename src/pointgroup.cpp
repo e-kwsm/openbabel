@@ -67,7 +67,7 @@ namespace OpenBabel {
   typedef struct {
     const char *  group_name ;        /* Canonical group name                        */
     const char *  symmetry_code ;     /* Group symmetry code                         */
-    int     (*check)( void ) ;        /* Additional verification routine, not used  */
+    int     (*check)() ;              /* Additional verification routine, not used  */
   } POINT_GROUP ;
 
   /*
@@ -364,7 +364,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    alloc_symmetry_element( void )
+    alloc_symmetry_element()
     {
       SYMMETRY_ELEMENT * elem = (SYMMETRY_ELEMENT *)calloc( 1, sizeof( SYMMETRY_ELEMENT ) ) ;
       unsigned int i;
@@ -730,7 +730,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    init_ultimate_plane( void )
+    init_ultimate_plane()
     {
       SYMMETRY_ELEMENT * plane = alloc_symmetry_element() ;
       double             d0[ DIMENSION ], d1[ DIMENSION ], d2[ DIMENSION ] ;
@@ -826,7 +826,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    init_inversion_center( void )
+    init_inversion_center()
     {
       SYMMETRY_ELEMENT * center = alloc_symmetry_element() ;
       int                k ;
@@ -905,7 +905,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    init_ultimate_axis(void)
+    init_ultimate_axis()
     {
       SYMMETRY_ELEMENT * axis = alloc_symmetry_element() ;
       double             dir[ DIMENSION ], rel[ DIMENSION ] ;
@@ -1299,7 +1299,7 @@ namespace OpenBabel {
      */
 
     void
-    find_center_of_something( void )
+    find_center_of_something()
     {
       unsigned int       i, j;
       double             coord_sum[ DIMENSION ] ;
@@ -1333,7 +1333,7 @@ namespace OpenBabel {
     }
 
     void
-    find_planes(void)
+    find_planes()
     {
       unsigned int i, j;
       SYMMETRY_ELEMENT * plane ;
@@ -1367,7 +1367,7 @@ namespace OpenBabel {
     }
 
     void
-    find_inversion_centers(void)
+    find_inversion_centers()
     {
       SYMMETRY_ELEMENT * center ;
 
@@ -1379,7 +1379,7 @@ namespace OpenBabel {
     }
 
     void
-    find_infinity_axis(void)
+    find_infinity_axis()
     {
       SYMMETRY_ELEMENT * axis ;
 
@@ -1395,7 +1395,7 @@ namespace OpenBabel {
     }
 
     void
-    find_c2_axes(void)
+    find_c2_axes()
     {
       unsigned int       i, j, k, l;
       double             center[ DIMENSION ] ;
@@ -1496,7 +1496,7 @@ namespace OpenBabel {
     }
 
     void
-    find_higher_axes(void)
+    find_higher_axes()
     {
       unsigned int i, j, k;
       SYMMETRY_ELEMENT * axis ;
@@ -1528,7 +1528,7 @@ namespace OpenBabel {
     }
 
     void
-    find_improper_axes(void)
+    find_improper_axes()
     {
       unsigned int i, j, k;
       SYMMETRY_ELEMENT * axis ;
@@ -1551,7 +1551,7 @@ namespace OpenBabel {
     }
 
     void
-    report_planes( void )
+    report_planes()
     {
       int           i ;
 
@@ -1571,7 +1571,7 @@ namespace OpenBabel {
     }
 
     void
-    report_inversion_centers( void )
+    report_inversion_centers()
     {
       if( InversionCentersCount == 0 )
         printf( "There is no inversion center in the molecule\n" ) ;
@@ -1587,7 +1587,7 @@ namespace OpenBabel {
     }
 
     void
-    report_axes( void )
+    report_axes()
     {
       int           i ;
 
@@ -1614,7 +1614,7 @@ namespace OpenBabel {
     }
 
     void
-    report_improper_axes( void )
+    report_improper_axes()
     {
       int           i ;
 
@@ -1644,7 +1644,7 @@ namespace OpenBabel {
      *  General symmetry handling
      */
     void
-    report_and_reset_counters( void )
+    report_and_reset_counters()
     {
       if (verbose > -1)
         printf( "  %10ld candidates examined\n"
@@ -1659,7 +1659,7 @@ namespace OpenBabel {
     }
 
     void
-    find_symmetry_elements( void )
+    find_symmetry_elements()
     {
       find_center_of_something() ;
       if( verbose > -1 ){
@@ -1712,7 +1712,7 @@ namespace OpenBabel {
     }
 
     void
-    sort_symmetry_elements( void )
+    sort_symmetry_elements()
     {
       if( PlanesCount > 1 ){
         qsort( Planes, PlanesCount, sizeof( SYMMETRY_ELEMENT * ), compare_axes ) ;
@@ -1726,7 +1726,7 @@ namespace OpenBabel {
     }
 
     void
-    report_symmetry_elements_verbose( void )
+    report_symmetry_elements_verbose()
     {
       report_inversion_centers() ;
       report_axes() ;
@@ -1735,7 +1735,7 @@ namespace OpenBabel {
     }
 
     void
-    summarize_symmetry_elements( void )
+    summarize_symmetry_elements()
     {
       int          i ;
 
@@ -1748,7 +1748,7 @@ namespace OpenBabel {
     }
 
     void
-    report_symmetry_elements_brief( void )
+    report_symmetry_elements_brief()
     {
       int          i ;
       char *       symmetry_code = (char*)calloc( 1, 10*(PlanesCount+NormalAxesCount+ImproperAxesCount+InversionCentersCount+2) ) ;
@@ -1787,7 +1787,7 @@ namespace OpenBabel {
       SymmetryCode = symmetry_code ;
     }
 
-    const char *identify_point_group( void )
+    const char *identify_point_group()
     {
       unsigned int   i;
       int            last_matching = -1;
