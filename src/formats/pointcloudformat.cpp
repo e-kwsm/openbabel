@@ -130,7 +130,7 @@ namespace OpenBabel
 
   //==============================================================================
 
-  double rv( void ){
+  double rv() {
     return ((double)std::rand()) / RAND_MAX; // C++11 provides a better <random> but I think this will do here
   }
 
