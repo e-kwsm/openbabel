@@ -496,7 +496,7 @@ namespace OpenBabel
       }
   }
 
-  static void FatalMemoryError(void)
+  static void FatalMemoryError()
   {
     obErrorLog.ThrowError(__FUNCTION__, "Unable to allocate memory for biomolecule residue / chain perception.", obError);
   }
@@ -760,7 +760,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////////////////////////
 
   // validated
-  OBChainsParser::OBChainsParser(void)
+  OBChainsParser::OBChainsParser()
   {
     int i, res = RESIDMIN;
 
@@ -783,7 +783,7 @@ namespace OpenBabel
       }
   }
 
-  OBChainsParser::~OBChainsParser(void)
+  OBChainsParser::~OBChainsParser()
   {
     DeleteByteCode((ByteCode*)PDecisionTree);
     DeleteByteCode((ByteCode*)NDecisionTree);
@@ -821,7 +821,7 @@ namespace OpenBabel
 
   //! Clean up any molecular data left in memory -- frees all memory afterwards
   //! Used by OBChainsParser::SetupMol()
-  void OBChainsParser::CleanupMol(void)
+  void OBChainsParser::CleanupMol()
   {
     bitmasks.clear();
     visits.clear();

@@ -1012,7 +1012,7 @@ namespace OpenBabel {
       return false;
   }
 
-  bool OBDistanceGeometry::generateInitialCoords(void) {
+  bool OBDistanceGeometry::generateInitialCoords() {
     // place atoms randomly
     unsigned int N = _mol.NumAtoms();
     // random distance matrix
@@ -1094,7 +1094,7 @@ namespace OpenBabel {
     return true;
   }
 
-  bool OBDistanceGeometry::firstMinimization(void) {
+  bool OBDistanceGeometry::firstMinimization() {
     unsigned int N = _mol.NumAtoms();
     for(size_t i=0; i<N; ++i) {
       vector3 v(_coord(i*dim), _coord(i*dim+1), _coord(i*dim+2));
@@ -1141,7 +1141,7 @@ namespace OpenBabel {
     return true;
   }
 
-  bool OBDistanceGeometry::minimizeFourthDimension(void) {
+  bool OBDistanceGeometry::minimizeFourthDimension() {
     unsigned int N = _mol.NumAtoms();
     for(size_t i=0; i<N; ++i) {
       vector3 v(_coord(i*dim), _coord(i*dim+1), _coord(i*dim+2));
