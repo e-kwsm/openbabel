@@ -152,7 +152,7 @@ namespace OpenBabel
 
     public:
       /** \brief Constructor */
-      OBAtomicHeatOfFormationTable(void);
+      OBAtomicHeatOfFormationTable();
       /** \brief Destructor */
       ~OBAtomicHeatOfFormationTable() {}
 
@@ -193,7 +193,7 @@ namespace OpenBabel
 
     public:
 
-      OBTypeTable(void);
+      OBTypeTable();
       ~OBTypeTable() {}
 
       void ParseLine(const char*) override;

@@ -108,21 +108,21 @@ public:
                             int memory_level,
                             size_t buffer_size);
 
-    ~basic_zip_streambuf(void);
+    ~basic_zip_streambuf();
 
-    int               sync        (void);
+    int               sync        ();
     int_type          overflow    (int_type c);
-    std::streamsize   flush       (void);
+    std::streamsize   flush       ();
     inline
-    ostream_reference get_ostream (void) const;
+    ostream_reference get_ostream () const;
     inline
-    int               get_zerr    (void) const;
+    int               get_zerr    () const;
     inline
-    unsigned long     get_crc     (void) const;
+    unsigned long     get_crc     () const;
     inline
-    unsigned long     get_in_size (void) const;
+    unsigned long     get_in_size () const;
     inline
-    long              get_out_size(void) const;
+    long              get_out_size() const;
 
 private:
 
@@ -168,11 +168,11 @@ public:
                           size_t read_buffer_size,
                           size_t input_buffer_size);
 
-    ~basic_unzip_streambuf(void);
+    ~basic_unzip_streambuf();
 
     void initialize(int window_size);
 
-    int_type underflow(void);
+    int_type underflow();
 
     std::streampos seekoff(std::streamoff off, std::ios_base::seekdir way,
                            std::ios_base::openmode which = std::ios_base::in | std::ios_base::out);
@@ -180,29 +180,29 @@ public:
                            std::ios_base::openmode which = std::ios_base::in | std::ios_base::out);
     /// returns the compressed input istream
     inline
-    istream_reference get_istream              (void);
+    istream_reference get_istream              ();
     inline
-    z_stream&         get_zip_stream           (void);
+    z_stream&         get_zip_stream           ();
     inline
-    int               get_zerr                 (void) const;
+    int               get_zerr                 () const;
     inline
-    unsigned long     get_crc                  (void) const;
+    unsigned long     get_crc                  () const;
     inline
-    long              get_out_size             (void) const;
+    long              get_out_size             () const;
     inline
-    long              get_in_size              (void) const;
-    int               check_header      (void);
+    long              get_in_size              () const;
+    int               check_header      ();
     bool              _is_gzip;
 
 private:
 
-    void              put_back_from_zip_stream (void);
+    void              put_back_from_zip_stream ();
 
     std::streamsize   unzip_from_stream        (char_type* buffer,
                                                 std::streamsize buffer_size);
 
-    size_t            fill_input_buffer        (void);
-    std::streampos    currentpos               (void);
+    size_t            fill_input_buffer        ();
+    std::streampos    currentpos               ();
 
     istream_reference   _istream;
     z_stream            _zip_stream;
@@ -238,21 +238,21 @@ public:
                                int memory_level = 8,
                                size_t buffer_size = zstream_default_buffer_size);
 
-    ~basic_zip_ostream(void);
+    ~basic_zip_ostream();
 
     inline
-    bool                              is_gzip   (void) const;
+    bool                              is_gzip   () const;
     inline
-    basic_zip_ostream<charT, traits>& zflush    (void);
-    void                              finished  (void);
+    basic_zip_ostream<charT, traits>& zflush    ();
+    void                              finished  ();
 
     void                              make_gzip()
        { add_header(); _is_gzip = true; }
 
 private:
 
-    basic_zip_ostream<charT,traits>&  add_header(void);
-    basic_zip_ostream<charT,traits>&  add_footer(void);
+    basic_zip_ostream<charT,traits>&  add_header();
+    basic_zip_ostream<charT,traits>&  add_footer();
 
     bool _is_gzip;
     bool _added_footer;
@@ -278,18 +278,18 @@ public:
                                size_t input_buffer_size = zstream_default_buffer_size);
 
     inline
-    bool     is_gzip           (void) const;
+    bool     is_gzip           () const;
     inline
-    bool     check_crc         (void);
+    bool     check_crc         ();
     inline
-    bool     check_data_size   (void) const;
+    bool     check_data_size   () const;
     inline
-    long     get_gzip_crc      (void) const;
+    long     get_gzip_crc      () const;
     inline
-    long     get_gzip_data_size(void) const;
+    long     get_gzip_data_size() const;
 
 protected:
-    void     read_footer       (void);
+    void     read_footer       ();
 
     long _gzip_crc;
     long _gzip_data_size;

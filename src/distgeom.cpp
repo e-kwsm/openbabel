@@ -1047,7 +1047,7 @@ namespace OpenBabel {
       return false;
   }
 
-  bool OBDistanceGeometry::generateInitialCoords(void) {
+  bool OBDistanceGeometry::generateInitialCoords() {
     // place atoms randomly
     unsigned int N = _mol.NumAtoms();
     // random distance matrix
@@ -1100,7 +1100,7 @@ namespace OpenBabel {
     return true;
   }
 
-  bool OBDistanceGeometry::firstMinimization(void) {
+  bool OBDistanceGeometry::firstMinimization() {
     unsigned int N = _mol.NumAtoms();
     LBFGSpp::LBFGSParam<double> param;
     param.epsilon = 1e-6;

@@ -334,7 +334,7 @@ Spectrophores&tm; are recommended.
          //@{
          /** Default constructor to create an OBSpectrophore object.
          */
-         OBSpectrophore(void);
+         OBSpectrophore();
 
          /** Copy constructor to create an OBSpectrophore object by taking
          a copy from another OBSpectrophore object.
@@ -345,7 +345,7 @@ Spectrophores&tm; are recommended.
 
          /** Default destructor object
          */
-         virtual ~OBSpectrophore(void);
+         virtual ~OBSpectrophore();
          //@}
 
          /** \name Overloaded operators */
@@ -463,13 +463,13 @@ Spectrophores&tm; are recommended.
                   OBSpectrophore::SetAccuracy(const OBSpectrophore::AccuracyOption)
                   method.
          */
-         AccuracyOption GetAccuracy(void) const;
+         AccuracyOption GetAccuracy() const;
 
          /** Returns the resolution at which Spectrophores&tm; will be calculated.
 
          \return  The resolution in &Aring; units
          */
-         double GetResolution(void) const;
+         double GetResolution() const;
 
          /** Returns the stereoselectivity setting at which Spectrophores&tm;
          will be calculated.
@@ -481,7 +481,7 @@ Spectrophores&tm; are recommended.
                   OBSpectrophore::SetStereo(const OBSpectrophore::StereoOption)
                   method.
          */
-         StereoOption GetStereo(void) const;
+         StereoOption GetStereo() const;
 
          /** Returns the normalization settings at which Spectrophores&tm; will
          be calculated.
@@ -493,7 +493,7 @@ Spectrophores&tm; are recommended.
                   OBSpectrophore::SetNormalization(const OBSpectrophore::NormalizationOption)
                   method.
          */
-         NormalizationOption GetNormalization(void) const;
+         NormalizationOption GetNormalization() const;
 
          /** Calling this method starts the calculation of the Spectrophore&tm;.
          After successful calculation, the Spectrophore&tm; is returned as a
@@ -578,9 +578,9 @@ while (obconversion.Read(&mol, &ifs))
 
          //@{
          void _getMoleculeData(OpenBabel::OBMol*);
-         void _orient(void);
+         void _orient();
          void _getBox(double**);
-         void _setBox(void);
+         void _setBox();
          void _getEnergies(double**, double*);
          void _initiateSpectrophore(double*, double*);
          void _rotateX(double**, double**, const double, const double);

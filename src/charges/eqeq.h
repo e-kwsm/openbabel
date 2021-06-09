@@ -48,7 +48,7 @@ namespace OpenBabel
 class EQEqCharges : public OBChargeModel
 {
 public:
-  EQEqCharges(void) : OBChargeModel("fake ID", false){};
+  EQEqCharges() : OBChargeModel("fake ID", false){};
   EQEqCharges(const char* ID) : OBChargeModel(ID, false){};
   const char* Description() override { return "Assign EQEq (charge equilibration) partial charges."; }
 

@@ -46,7 +46,7 @@ namespace OpenBabel
 class QEqCharges : public OBChargeModel
 {
 public:
-  QEqCharges(void) : OBChargeModel("fake ID", false){};
+  QEqCharges() : OBChargeModel("fake ID", false){};
   QEqCharges(const char* ID) : OBChargeModel(ID, false){};
   const char* Description() override { return "Assign QEq (charge equilibration) partial charges (Rappe and Goddard, 1991)"; }
 

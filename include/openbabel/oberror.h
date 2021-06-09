@@ -62,7 +62,7 @@ namespace OpenBabel
                const obMessageLevel = obDebug );
 
       //! \return A formatted message string, including optional explanations, etc.
-      std::string message(void) const;
+      std::string message() const;
 
       //! Output a formatted message string
       friend std::ostream& operator<< ( std::ostream &os, const OBError &er )
