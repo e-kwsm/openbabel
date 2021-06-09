@@ -2992,7 +2992,7 @@ namespace OpenBabel
     It implements blue-obelisk:rebondFrom3DCoordinates.
 
   */
-  void OBMol::ConnectTheDots(void)
+  void OBMol::ConnectTheDots()
   {
     if (Empty())
       return;
