@@ -244,7 +244,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Call when making many modifications -- clears conformer/rotomer data.
     //! The method "turns off" perception routines, improving performance.
     //! Changes in molecular structure will be re-considered after modifications.
-    virtual void BeginModify(void);
+    virtual void BeginModify();
     //! Call when done with modificaions -- re-perceive data as needed.
     //! This method "turns on" perception routines and re-evaluates molecular
     //! structure.

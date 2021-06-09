@@ -31,7 +31,7 @@ namespace OpenBabel
 {
 
 
-OBSpectrophore::OBSpectrophore(void)
+OBSpectrophore::OBSpectrophore()
 :  _resolution(3.0)
 ,  _property(nullptr)
 ,  _radii(nullptr)
@@ -86,7 +86,7 @@ OBSpectrophore::operator=(const OBSpectrophore& s)
 
 
 
-OBSpectrophore::~OBSpectrophore(void)
+OBSpectrophore::~OBSpectrophore()
 {
    _property = nullptr;
    _radii = nullptr;
@@ -105,7 +105,7 @@ OBSpectrophore::SetNormalization(const OBSpectrophore::NormalizationOption n)
 
 
 OBSpectrophore::NormalizationOption
-OBSpectrophore::GetNormalization(void) const
+OBSpectrophore::GetNormalization() const
 {
     return _normalization;
 }
@@ -128,7 +128,7 @@ OBSpectrophore::SetResolution(const double r)
 
 
 double
-OBSpectrophore::GetResolution(void) const
+OBSpectrophore::GetResolution() const
 {
     return _resolution;
 }
@@ -195,7 +195,7 @@ OBSpectrophore::SetAccuracy(const OBSpectrophore::AccuracyOption a)
 
 
 OBSpectrophore::AccuracyOption
-OBSpectrophore::GetAccuracy(void) const
+OBSpectrophore::GetAccuracy() const
 {
     return _accuracy;
 }
@@ -212,7 +212,7 @@ OBSpectrophore::SetStereo(const OBSpectrophore::StereoOption stereo)
 
 
 OBSpectrophore::StereoOption
-OBSpectrophore::GetStereo(void) const
+OBSpectrophore::GetStereo() const
 {
    return _stereoFlag;
 }
@@ -682,7 +682,7 @@ OBSpectrophore::_rotateZ(double** oc, double** nc, const double c, const double 
 
 
 void
-OBSpectrophore::_orient(void)
+OBSpectrophore::_orient()
 {
     // Center molecule around its COG
     double COG[3] = {0.0, 0.0, 0.0};
@@ -769,7 +769,7 @@ OBSpectrophore::_orient(void)
 
 
 void
-OBSpectrophore::_setBox(void)
+OBSpectrophore::_setBox()
 {
    // Define boundaries
    switch (_stereoFlag)
