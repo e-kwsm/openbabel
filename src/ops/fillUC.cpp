@@ -88,7 +88,7 @@ vector3 fuzzyWrapFractionalCoordinate (vector3 coord)
 // Whether two points (given in fractional coordinates) are close enough
 // to be considered duplicates.
 // This function is duplicate from generic.cpp, these should be merged
-bool areDuplicateAtoms2(vector3 v1, vector3 v2)
+bool areDuplicateAtoms2(const vector3& v1, const vector3& v2)
 {
   vector3 dr = fuzzyWrapFractionalCoordinate(v2)
     - fuzzyWrapFractionalCoordinate(v1);

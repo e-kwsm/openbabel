@@ -1122,7 +1122,7 @@ namespace OpenBabel
     return sformula;
   }
 
-  void OBMol::SetFormula(string molFormula)
+  void OBMol::SetFormula(const string& molFormula)
   {
     string attr = "Formula";
     OBPairData *dp = (OBPairData *) GetData(attr);

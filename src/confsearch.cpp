@@ -94,7 +94,7 @@ namespace OpenBabel
         delete palign; // Allocated with 'new'
       }
       bool AddPose(double* coords, double energy);
-      bool AddPose(std::vector<vector3> coords, double energy);
+      bool AddPose(const std::vector<vector3>& coords, double energy);
       typedef std::pair<std::vector<vector3>, double> PosePair;
       typedef tree<PosePair> Tree;
       Tree* GetTree() { return &poses; }
@@ -152,7 +152,7 @@ namespace OpenBabel
     return AddPose(vcoords, energy);
   }
 
-  bool OBDiversePoses::AddPose(std::vector<vector3> vcoords, double energy) {
+  bool OBDiversePoses::AddPose(const std::vector<vector3>& vcoords, double energy) {
     Tree_it node = poses.begin();
     int level = 0;
     bool first_time = true;

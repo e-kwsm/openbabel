@@ -342,17 +342,17 @@ namespace OpenBabel
     **\param v3 The z-vector
     **\see OBUnitCell::GetCellVectors
     */
-    void SetData(const vector3 v1, const vector3 v2, const vector3 v3);
+    void SetData(const vector3& v1, const vector3& v2, const vector3& v3);
 
     /*!
     **\brief Sets the unit cell matrix
     **\param m The unit cell matrix (row vectors)
     **\see OBUnitCell::GetCellMatrix
     */
-    void SetData(const matrix3x3 m);
+    void SetData(const matrix3x3& m);
 
     //! Set the offset to the origin to @p v1
-    void SetOffset(const vector3 v1);
+    void SetOffset(const vector3& v1);
 
     //! Set the space group for this unit cell.
     //! Does not create an OBSymmetryData entry
@@ -466,7 +466,7 @@ namespace OpenBabel
     //! \param frac Vector of fractional coordinates
     //! \return Cartesian coordinates
     vector3 FractionalToCartesian(vector3 frac);
-    vector3 FractionalToCartesian(vector3 frac) const;
+    vector3 FractionalToCartesian(const vector3& frac) const;
     //! Convenience function to convert cartesian coordinates to
     //! fractional coordinates. Returns
     //!
@@ -474,13 +474,13 @@ namespace OpenBabel
     //! \param cart Vector of cartesian coordinates
     //! \return Fractional coordinates
     vector3 CartesianToFractional(vector3 cart);
-    vector3 CartesianToFractional(vector3 cart) const;
+    vector3 CartesianToFractional(const vector3& cart) const;
 
     //! Wraps cartesian coordinate to fall within the unit cell.
     //! \param cart Vector of cartesian coordinates
     //! \return Cartesian coordinates within cell boundaries.
     vector3 WrapCartesianCoordinate(vector3 cart);
-    vector3 WrapCartesianCoordinate(vector3 cart) const;
+    vector3 WrapCartesianCoordinate(const vector3& cart) const;
     //! Wraps fractional coordinate to fall within the unit cell.
     //! \param frac Vector of fractional coordinates
     //! \return Fractional coordinates within cell boundaries (between 0 and 1).
@@ -492,19 +492,19 @@ namespace OpenBabel
     //! \param ref_loc Cartesian coordinates of the reference location
     //! \return Unwrapped coordinates of new_loc near ref_loc
     vector3 UnwrapCartesianNear(vector3 new_loc, vector3 ref_loc);
-    vector3 UnwrapCartesianNear(vector3 new_loc, vector3 ref_loc) const;
+    vector3 UnwrapCartesianNear(const vector3& new_loc, const vector3& ref_loc) const;
     //! Unwraps fractional coordinates near a reference location.
     //! \param new_loc Fractional coordinates of target
     //! \param ref_loc Fractional coordinates of the reference location
     //! \return Unwrapped coordinates of new_loc near ref_loc
     //! \todo Add a simple test case/example, like unwrapNear(<0.9, 0.2, 0.2>, <0.3, 0.9, 0.2>) -> <-0.1, 1.2, 0.2>
     vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc);
-    vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc) const;
+    vector3 UnwrapFractionalNear(const vector3& new_loc, const vector3& ref_loc) const;
     //! Applies the minimum image convention to a Cartesian displacement vector
     //! \param cart Displacement vector between two atoms in Cartesian coordinates
     //! \return Cartesian difference, wrapped within half the unit cell
     vector3 MinimumImageCartesian(vector3 cart);
-    vector3 MinimumImageCartesian(vector3 cart) const;
+    vector3 MinimumImageCartesian(const vector3& cart) const;
     //! Applies the minimum image convention to a fractional displacement vector
     //! \param cart Displacement vector between two atoms in fractional coordinates
     //! \return Fractional difference, wrapped within half the unit cell (-0.5 to 0.5)

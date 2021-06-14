@@ -114,7 +114,7 @@ namespace OpenBabel
       ~OBMessageHandler();
 
       //! Throw an error with an already-formatted OBError object
-      void ThrowError(OBError err, errorQualifier qqualifier = always);
+      void ThrowError(const OBError& err, errorQualifier qqualifier = always);
       //! Throw an error in the specified method with an appropriate level
       void ThrowError(const std::string &method, const std::string &errorMsg,
                       obMessageLevel level = obDebug, errorQualifier qualifier = always);

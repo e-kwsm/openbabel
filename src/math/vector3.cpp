@@ -305,7 +305,7 @@ namespace OpenBabel
   const vector3 VZ    ( 0.0, 0.0, 1.0 ) ;
 
   /* Calculate the signed distance of point a to the plane determined by b,c,d */
-  double Point2PlaneSigned(vector3 a, vector3 b, vector3 c, vector3 d)
+  double Point2PlaneSigned(const vector3& a, const vector3& b, const vector3& c, const vector3& d)
   {
     vector3 v_ba = a-b;
     vector3 v_normal = cross(c-b, d-b);
@@ -313,13 +313,13 @@ namespace OpenBabel
   }
 
   /* Calculate the distance of point a to the plane determined by b,c,d */
-  double Point2Plane(vector3 a, vector3 b, vector3 c, vector3 d)
+  double Point2Plane(const vector3& a, const vector3& b, const vector3& c, const vector3& d)
   {
     return fabs( Point2PlaneSigned(a, b, c, d) );
   }
 
   /* Calculate the angle between point a and the plane determined by b,c,d */
-  double Point2PlaneAngle(const vector3 a, const vector3 b, const vector3 c, const vector3 d)
+  double Point2PlaneAngle(const vector3& a, const vector3& b, const vector3& c, const vector3& d)
   {
     vector3 ac, bc, cd, normal;
     double angle;

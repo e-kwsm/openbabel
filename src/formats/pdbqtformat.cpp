@@ -128,7 +128,7 @@ namespace OpenBabel
   static void ConstructTree (map <unsigned int, branch >& tree, vector <vector <int> > rigid_fragments, unsigned int root_piece, const OBMol& mol, bool flexible);
   static bool DeleteHydrogens(OBMol & mol);
   static bool Separate_preserve_charges(OBMol & mol, vector<OBMol> & result);
-  static unsigned int FindFragments(OBMol mol, vector <vector <int> >& rigid_fragments);
+  static unsigned int FindFragments(const OBMol& mol, vector<vector<int>>& rigid_fragments);
   static unsigned int RotBond_count(OBMol & mol);
 
   /////////////////////////////////////////////////////////////////
@@ -425,7 +425,7 @@ namespace OpenBabel
   }
 
 
-  unsigned int FindFragments(OBMol mol, vector <vector <int> >& rigid_fragments)
+  unsigned int FindFragments(const OBMol& mol, vector<vector<int>>& rigid_fragments)
   {
     unsigned int best_root_atom=1;
     unsigned int shortest_maximal_remaining_subgraph=mol.NumAtoms();

@@ -112,7 +112,7 @@ virtual const char* Description() //required
 
   private:
     bool ObtainTarget(OBConversion* pConv, std::vector<OBMol>& patternMols, const std::string& indexname);
-    void AddPattern(vector<OBMol>& patternMols, OBMol patternMol, int idx);
+    void AddPattern(vector<OBMol>& patternMols, const OBMol& patternMol, int idx);
 
   private:
     ///big data structure which will remain in memory after it is loaded
@@ -680,7 +680,7 @@ virtual const char* Description() //required
     return true;
   }
 
-  void FastSearchFormat::AddPattern(vector<OBMol>& patternMols, OBMol patternMol, int idx)
+  void FastSearchFormat::AddPattern(vector<OBMol>& patternMols, const OBMol& patternMol, int idx)
   {
     //Recursive function to generate all combinations of aromatic/single bonds for each tilde bond
     //Copying an OBMol, which happens when adding it to a vector, kekulizes it,

@@ -125,14 +125,14 @@ private:
   string constring(int conntab [MAXBONDS][4], char * tstr);
   string intToStr(int k);
   string getMCDL(OBMol* pmol, bool includeCoordinates);
-  void restoreFullMCDL(string value, OBMol* pmol);
-  void setMCDL(const string lineToParse, OBMol* pmol, string & sout);
-  void assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
-    const std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
+  void restoreFullMCDL(const string& value, OBMol* pmol);
+  void setMCDL(const string& lineToParse, OBMol* pmol, string & sout);
+  void assignCharges(const std::vector<int>& aPosition, const std::vector<int>& iA1,
+    const std::vector<int>& iA2, std::vector<int>& aCharges, std::vector<int>& charges,
     std::vector <int>& bondOrder, int aPos, int nPrev, int nt, int acount, int bcount);
-  int indexOf(const string instring, const string substring, int fromPos=0);
-  int lastIndexOf(const string instring, const string substring);
-  bool parseFormula(const string formulaString, std::vector <int>& enumber);
+  int indexOf(const string& instring, const string& substring, int fromPos = 0);
+  int lastIndexOf(const string& instring, const string& substring);
+  bool parseFormula(const string& formulaString, std::vector<int>& enumber);
   string getMolTitle(string & line);
 
 };
@@ -947,11 +947,11 @@ private:
     return data;
   };
 
-  void MCDLFormat::restoreFullMCDL(string value, OBMol* pmol) {
+  void MCDLFormat::restoreFullMCDL(const string& value, OBMol* pmol) {
 
   };
 
-  void MCDLFormat::setMCDL(const string lineToParse, OBMol* pmol, string & sout) {
+  void MCDLFormat::setMCDL(const string& lineToParse, OBMol* pmol, string& sout) {
 
   std::vector <int> nH(MAXFRAGS);
   std::vector <int> nF(MAXFRAGS);
@@ -1353,8 +1353,8 @@ private:
   };
 };
 
-  void MCDLFormat::assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
-  const std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
+  void MCDLFormat::assignCharges(const std::vector<int>& aPosition, const std::vector<int>& iA1,
+  const std::vector<int>& iA2, std::vector<int>& aCharges, std::vector<int>& charges,
   std::vector <int>& bondOrder, int aPos, int nPrev, int nt, int acount, int bcount){
   //set negative charges
     int k,j,n;
@@ -1380,14 +1380,14 @@ private:
   };
 
 
-  int MCDLFormat::indexOf(const string instring, const string substring, int fromPos) {
+  int MCDLFormat::indexOf(const string& instring, const string& substring, int fromPos) {
     int result=instring.find(substring,fromPos);
     if (result == string::npos) result=-1;
     if (result >= instring.length()) result=-1;
       return result;
   };
 
-  int MCDLFormat::lastIndexOf(const string instring, const string substring) {
+  int MCDLFormat::lastIndexOf(const string& instring, const string& substring) {
     int result,n;
   bool test;
 
@@ -1408,7 +1408,7 @@ private:
     return result;
   };
 
-bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enumber) {
+bool MCDLFormat::parseFormula(const string& formulaString, std::vector<int>& enumber) {
   //vector<string> items;
   unsigned int i, n, k, n1, n2;//,j,nStart;
   string s;
