@@ -159,14 +159,14 @@ namespace OpenBabel
   private:
     string model_type;
     bool sky, sphere, trans_texture, checkerboard;
-    void OutputHeader(ostream &ofs, OBMol &mol, string prefix);
+    void OutputHeader(ostream &ofs, OBMol &mol, const string& prefix);
 
   };
 
   //Make an instance of the format class
   PovrayFormat thePovrayFormat;
 
-  void PovrayFormat::OutputHeader(ostream &ofs, OBMol &mol, string prefix)
+  void PovrayFormat::OutputHeader(ostream &ofs, OBMol &mol, const string& prefix)
   {
     time_t akttime;                              /* Systemtime                        */
     char timestr[TIME_STR_SIZE + 1] = "";        /* Timestring                        */
@@ -339,7 +339,7 @@ namespace OpenBabel
 
   }
 
-  void OutputAtoms(ostream &ofs, OBMol &mol, string prefix)
+  void OutputAtoms(ostream &ofs, OBMol &mol, const string& prefix)
   {
     /* ---- Write all coordinates ---- */
     ofs << "//Coodinates of atoms 1 - " << mol.NumAtoms() << endl;
@@ -381,7 +381,7 @@ namespace OpenBabel
   }
 
 
-  void OutputBASBonds(ostream &ofs, OBMol &mol, string prefix)
+  void OutputBASBonds(ostream &ofs, OBMol &mol, const string& prefix)
   {
     /* ---- Write povray-description of all bonds---- */
     for(unsigned int i = 0; i < mol.NumBonds(); ++i)
@@ -476,7 +476,7 @@ namespace OpenBabel
 
   }
 
-  void OutputCSTBonds(ostream &ofs, OBMol &mol, string prefix)
+  void OutputCSTBonds(ostream &ofs, OBMol &mol, const string& prefix)
   {
     string bond_type;
 
@@ -648,7 +648,7 @@ namespace OpenBabel
 
   }
 
-  void OutputUnions(ostream &ofs, OBMol &mol, string prefix)
+  void OutputUnions(ostream &ofs, OBMol &mol, const string &prefix)
   {
     /* ---- Build union of all atoms ---- */
     ofs << endl << "//All atoms of molecule " << prefix << endl;
@@ -694,7 +694,7 @@ namespace OpenBabel
   }
 
   void OutputMoleculeBonds(ostream &ofs,
-                           string prefix,
+                           const string &prefix,
                            double min_x, double max_x,
                            double min_y, double max_y,
                            double min_z, double max_z
@@ -751,7 +751,7 @@ namespace OpenBabel
 
   }
 
-  void OutputMoleculeNoBonds(ostream &ofs, string prefix)
+  void OutputMoleculeNoBonds(ostream &ofs, const string &prefix)
   {
     /* ---- Print description of molecule without bonds ---- */
     ofs << endl << "//Definition of Molecule " << prefix << " (no bonds)" << endl;
@@ -760,7 +760,7 @@ namespace OpenBabel
   }
 
   void OutputCenterComment(ostream &ofs,
-                           string prefix,
+                           const string &prefix,
                            double min_x, double max_x,
                            double min_y, double max_y,
                            double min_z, double max_z

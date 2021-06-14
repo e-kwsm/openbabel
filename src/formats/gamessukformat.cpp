@@ -50,11 +50,11 @@ namespace OpenBabel
 
   public:
     bool ReadGeometry(OBMol &mol, vector<string> &geomList);
-    bool ReadVariables(istream &ifs, double factor, string stopstr);
+    bool ReadVariables(istream &ifs, double factor, const string& stopstr);
     bool ReadLineCartesian(OBAtom *atom, vector<string> &tokens, double factor);
     bool ReadLineZmatrix(OBMol &mol, OBAtom *atom, vector<string> &tokens, double factor, int *zmatLineCount);
-    double Rescale(string text);
-    bool IsUnits(string text);
+    double Rescale(const string& text);
+    bool IsUnits(const string& text);
     /**
      * Converts a string to a numerical type
      * This purloined from: http://www.codeguru.com/forum/showthread.php?t=231054
@@ -76,7 +76,7 @@ namespace OpenBabel
   private:
     map<string, double> variables; // map from variable name to value
     vector<OBInternalCoord*> vic; // Holds lists of internal coordinates
-    int LabelToAtomicNumber(string label);
+    int LabelToAtomicNumber(const string& label);
   };
 
 
@@ -204,7 +204,7 @@ namespace OpenBabel
     return true;
   } // End Read Geometry
 
-  bool GAMESSUKFormat::IsUnits(string text)
+  bool GAMESSUKFormat::IsUnits(const string& text)
   {
     /* See if the supplied string specifies a unit */
 
@@ -218,7 +218,7 @@ namespace OpenBabel
     }
   }
 
-  double GAMESSUKFormat::Rescale(string text)
+  double GAMESSUKFormat::Rescale(const string& text)
   {
     /* Return the correct scale factor given a string identifying the units */
 
@@ -238,7 +238,7 @@ namespace OpenBabel
     }
   }
 
-  int GAMESSUKFormat::LabelToAtomicNumber(string label)
+  int GAMESSUKFormat::LabelToAtomicNumber(const string& label)
   {
     /*
      * Given a string with the label for an atom return the atomic number
@@ -424,7 +424,7 @@ namespace OpenBabel
     return true;
   }
 
-  bool GAMESSUKFormat::ReadVariables(istream &ifs, double factor, string stopstr)
+  bool GAMESSUKFormat::ReadVariables(istream &ifs, double factor, const string &stopstr)
   {
     /*
      * This takes an input stream that is positioned where the list of variables

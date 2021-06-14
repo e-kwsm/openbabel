@@ -219,7 +219,7 @@ namespace OpenBabel
   }
 
   //! Calculates a lumped charge coefficient that incorporates neighboring unit cells
-  double EQEqCharges::GetPeriodicEwaldJij(double J_i, double J_j, vector3 dx, bool isSameAtom, matrix3x3 unitcell, matrix3x3 fourier, double cellVolume, int numNeighbors[])
+  double EQEqCharges::GetPeriodicEwaldJij(double J_i, double J_j, const vector3& dx, bool isSameAtom, const matrix3x3& unitcell, const matrix3x3& fourier, double cellVolume, int numNeighbors[])
   {
     int u, v, w;
     double R_ij, a_ij, h_2, orbital = 0.0, alpha = 0.0, beta = 0.0;

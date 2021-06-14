@@ -272,7 +272,7 @@ namespace OpenBabel
   }
 
   static void add_unique_pairdata_to_mol(OpenBabel::OBMol *mol,
-                                         string attribute,
+                                         const string& attribute,
                                          string buffer,int start)
   {
     int i;
@@ -305,7 +305,7 @@ namespace OpenBabel
         }
   }
 
-  static int extract_thermo(OpenBabel::OBMol *mol,string method,double temperature,
+  static int extract_thermo(OpenBabel::OBMol *mol, const string& method, double temperature,
                             double ezpe,double Hcorr,double Gcorr,double E0,double CV,
                             int RotSymNum,std::vector<double> Scomponents)
   {

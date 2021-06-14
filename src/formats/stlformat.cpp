@@ -123,7 +123,7 @@ namespace OpenBabel
   struct Triangle {
     vector3 a, b, c;
     uint16_t col;
-    Triangle(vector3 x, vector3 y, vector3 z, uint16_t colour ) {
+    Triangle(const vector3& x, const vector3& y, const vector3& z, uint16_t colour) {
       a=x;
       b=y;
       c=z;
@@ -131,7 +131,7 @@ namespace OpenBabel
     }
   };
 
-  void map_sphere ( vector<Triangle> &triangles, vector3 origin, double r, uint16_t col )
+  void map_sphere(vector<Triangle> &triangles, const vector3 &origin, double r, uint16_t col)
   {
     vector<vector3> points;
 

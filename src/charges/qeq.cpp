@@ -306,7 +306,7 @@ namespace OpenBabel
   //! Wrapper around the Eigen linear solver routines
   // First attempts to solve using Gaussian elimination
   // if that fails, tries again using singular value decomposition (SVD)
-  bool QEqCharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold)
+  bool QEqCharges::solver(const Eigen::MatrixXd& A, const Eigen::VectorXd& b, Eigen::VectorXd &x, const double NormThreshold)
   {
     // using a LU factorization
 #ifdef HAVE_EIGEN3

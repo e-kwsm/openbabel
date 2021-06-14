@@ -63,7 +63,7 @@ namespace OpenBabel {
       /// @name Construction
       //@{
       OBConversion(std::istream* is=nullptr, std::ostream* os=nullptr);
-      OBConversion(std::string inFilename, std::string outFilename="");
+      OBConversion(const std::string& inFilename, const std::string& outFilename = "");
       /// @brief Copy constructor.  Stream *ownership* is not copied. Source remains responsible for the memory.
       OBConversion(const OBConversion& o);
       /// @brief Assignment.  Stream *ownership* is not copied.  Source remains responsible for the memory.
@@ -79,14 +79,14 @@ namespace OpenBabel {
       static OBFormat*	FindFormat(const char* ID);
       /// @brief Searches registered formats
       /// \since version 2.3
-      static OBFormat*  FindFormat(const std::string ID);
+      static OBFormat*  FindFormat(const std::string& ID);
       /// @brief Searches registered formats for an ID the same as the file extension
       static OBFormat*	FormatFromExt(const char* filename);
       static OBFormat*	FormatFromExt(const char* filename, bool& isgzip);
       /// @brief Searches registered formats for an ID the same as the file extension
       /// \since version 2.3
-      static OBFormat*	FormatFromExt(const std::string filename);
-      static OBFormat*	FormatFromExt(const std::string filename, bool& isgzip);
+      static OBFormat*	FormatFromExt(const std::string& filename);
+      static OBFormat*	FormatFromExt(const std::string& filename, bool& isgzip);
       /// @brief Searches registered formats for a MIME the same as the chemical MIME type passed
       static OBFormat*        FormatFromMIME(const char* MIME);
 
@@ -199,11 +199,11 @@ namespace OpenBabel {
       void SetOptions(const char* options, Option_type opttyp);
 
       ///@brief For example -h takes 0 parameters; -f takes 1. Call in a format constructor.
-      static void RegisterOptionParam(std::string name, OBFormat* pFormat,
+      static void RegisterOptionParam(const std::string& name, OBFormat* pFormat,
                                       int numberParams=0, Option_type typ=OUTOPTIONS);
 
       /// \return the number of parameters registered for the option, or 0 if not found
-      static int GetOptionParams(std::string name, Option_type typ);
+      static int GetOptionParams(const std::string& name, Option_type typ);
       //@}
 
       ///@brief Copies the options (by default of all types) from one OBConversion Object to another.
@@ -274,7 +274,7 @@ namespace OpenBabel {
       /// The output stream is changed to the supplied file and the change is retained in the
       /// OBConversion instance.
       /// This method is primarily intended for scripting languages without "stream" classes
-      bool                            WriteFile(OBBase* pOb, std::string filePath);
+      bool                            WriteFile(OBBase* pOb, const std::string& filePath);
 
       /// @brief Manually closes and deletes the output stream
       /// The file is closed anyway when in the OBConversion destructor or when WriteFile
@@ -300,7 +300,7 @@ namespace OpenBabel {
       /// \return false and pOb=NULL on error
       /// This method is primarily intended for scripting languages without "stream" classes
       /// Any existing input stream will be replaced by stringstream.
-      bool	ReadString(OBBase* pOb, std::string input);
+      bool	ReadString(OBBase* pOb, const std::string& input);
 
       /// @brief Reads an object of a class derived from OBBase into pOb from the file specified
 
@@ -310,7 +310,7 @@ namespace OpenBabel {
       /// can be read by repeatedly calling the Read() method.
       /// \return false and pOb=NULL on error
       /// This method is primarily intended for scripting languages without "stream" classes
-      bool	ReadFile(OBBase* pOb, std::string filePath);
+      bool	ReadFile(OBBase* pOb, const std::string& filePath);
 
       /// Part of the "Convert" interface.
       /// Open the files and update the streams in the OBConversion object.
@@ -319,7 +319,7 @@ namespace OpenBabel {
       /// Will set format from file extension if format has not already been set.
       /// Files will be opened even if format cannot be determined, but not if file path is empty.
       /// \return false if unsuccessful.
-      bool OpenInAndOutFiles(std::string infilepath, std::string outfilepath);
+      bool OpenInAndOutFiles(const std::string& infilepath, const std::string& outfilepath);
 
       /// @brief Sends a message like "2 molecules converted" to clog
       /// The type of object is taken from the TargetClassDescription

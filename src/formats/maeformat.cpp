@@ -213,14 +213,14 @@ bool MAEFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     return true;
 }
 
-static void addIntProp(string name, vector<int> values,
+static void addIntProp(const string& name, vector<int> values,
         shared_ptr<IndexedBlock>& block)
 {
     auto prop = make_shared<IndexedProperty<int> >(values);
     block->setIntProperty(name, prop);
 }
 
-static void addRealProp(string name, vector<double> values,
+static void addRealProp(const string& name, vector<double> values,
         shared_ptr<IndexedBlock>& block)
 {
     auto prop = make_shared<IndexedProperty<double> >(values);

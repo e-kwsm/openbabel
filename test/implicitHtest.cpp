@@ -6,7 +6,7 @@ using namespace OpenBabel;
 
 typedef vector<vector3> vv3;
 
-void testLossOfHydrogen(string filename)
+void testLossOfHydrogen(const string& filename)
 {
   string testfile = OBTestUtil::GetFilename(filename);
   ifstream ifs(testfile.c_str());

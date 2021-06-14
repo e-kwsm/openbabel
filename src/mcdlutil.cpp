@@ -28,6 +28,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/stereo.h>
 #include <openbabel/stereo/cistrans.h>
 
+#include <utility>
 #ifndef WIN32
 #include <cmath>
 #endif
@@ -748,12 +749,12 @@ namespace OpenBabel {
                     int & nPrev, std::vector<int> & curBond, std::vector<int> & curAtom);
     void vaweBond(int bondN, neighbourlist * bk, int & ringSize, std::vector<int> & bondList);
     void allAboutCycles();
-    void redraw(const std::vector<int>listAtomClean, const std::vector<int>listBondClean,
+    void redraw(const std::vector<int>& listAtomClean, const std::vector<int>& listBondClean,
                 int atomClean, int & bondClean, int spn, int sCHA1, int sCHB1, bool iOPT7);
     void clear();
     void readOBMol(OBMol * pmol);
-    void readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, int nAtoms, int nBonds);
-    void readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, const std::vector<double>rx, const std::vector<double>ry, int nAtoms, int nBonds);
+    void readConnectionMatrix(const std::vector<int>& iA1, const std::vector<int>& iA2, int nAtoms, int nBonds);
+    void readConnectionMatrix(const std::vector<int>& iA1, const std::vector<int>& iA2, const std::vector<double>& rx, const std::vector<double>& ry, int nAtoms, int nBonds);
     void redrawMolecule();
     void getMolfile(std::ostream & data);
     bool checkOverlapped();
@@ -772,7 +773,7 @@ namespace OpenBabel {
     void addAtom(int na, int charge, double rx, double ry);
     void addBond(TSingleBond * sb);
     void addBond(int tb, int at1, int at2);
-    void setCoordinatesString(string value);
+    void setCoordinatesString(const string& value);
     void unitVector(int aN, double& xV, double& yV);
     void bondUnitVector(int bn, double& xv, double& yv);
     double bondLength(int index);
@@ -781,21 +782,21 @@ namespace OpenBabel {
     int getNH(int atomNo);
     bool correctDblBondStereo();
   private:
-    bool aromatic(int cycleSize, const std::vector<int> bondList, std::vector<int>& arom);
-    void twoAtomUnitVector(int na1, int na2, double & xv, double & yv, const std::vector<int>atomDefine);
+    bool aromatic(int cycleSize, const std::vector<int>& bondList, std::vector<int>& arom);
+    void twoAtomUnitVector(int na1, int na2, double& xv, double& yv, const std::vector<int>& atomDefine);
     void defC(int& currNumDef, int baseCycle, int atomClean, std::vector<int>& cycleDefine,
                  std::vector<int>& atomDefine, std::vector<std::vector<int> >& atomCycle, std::vector<int>& dsATN,
                  std::vector<int>& dsTP,
                  std::vector<int>& dsSC, std::vector<int>& dsNA1, std::vector<int>& dsNA2);
-    void defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int> listAtomClean,
+    void defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int>& listAtomClean,
               std::vector<int>& cycleDefine, std::vector<std::vector<int> >& atomCycle,
               std::vector<int>& dsATN, std::vector<int>& dsTP, std::vector<int>& dsNA1, std::vector<int>& dsNA2);
     void canonizeCycle(int ringSize, std::vector<int> & bondList);
     //Chain rotate members
     double atomDistanceMetric(int an);
     bool bondsOverlapped(int bN1, int bN2, double delta);
-    int fragmentSecond(int sphere, int att, int secAt, const std::vector<int> a,
-                       const std::vector<int> b, const neighbourlist *bk, std::vector<int>& wSphere);
+    int fragmentSecond(int sphere, int att, int secAt, const std::vector<int>& a,
+                       const std::vector<int>& b, const neighbourlist *bk, std::vector<int>& wSphere);
     bool threeBondResolve(int an, int bondExcluded, double& xv, double& yv, neighbourlist* bkExt);
     bool unitVectorCoincident(int aN, double xV, double yV);
     int setupRotorSearch(const vector<int> &rotBondList, vector<int>& inner_bonds, vector<int>& remainder);
@@ -1271,7 +1272,7 @@ namespace OpenBabel {
     fBond.clear();
   };
 
-  void TSimpleMolecule::setCoordinatesString(string value){
+  void TSimpleMolecule::setCoordinatesString(const string& value) {
     //set back above prcedure
     TSingleAtom * sa;
     TSingleBond * sb;
@@ -1479,7 +1480,7 @@ namespace OpenBabel {
     return test;
   }
 
-  void TSimpleMolecule::readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, int nAtoms, int nBonds) {
+  void TSimpleMolecule::readConnectionMatrix(const std::vector<int>& iA1, const std::vector<int>& iA2, int nAtoms, int nBonds) {
     TSingleAtom * sa;
     TSingleBond * sb;
     int i;
@@ -1506,7 +1507,7 @@ namespace OpenBabel {
     allAboutCycles();
   };
 
-  void TSimpleMolecule::readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, const std::vector<double>rx, const std::vector<double>ry, int nAtoms, int nBonds) {
+  void TSimpleMolecule::readConnectionMatrix(const std::vector<int>& iA1, const std::vector<int>& iA2, const std::vector<double>& rx, const std::vector<double>& ry, int nAtoms, int nBonds) {
     readConnectionMatrix(iA1,iA2,nAtoms,nBonds);
     for (int i=0; i<nAtoms; i++) {
       getAtom(i)->rx=rx[i];
@@ -1770,7 +1771,7 @@ namespace OpenBabel {
 
 
   //This method must be called ONLY from AllAboutCycles
-  bool TSimpleMolecule::aromatic(int cycleSize, const std::vector<int> bondList,
+  bool TSimpleMolecule::aromatic(int cycleSize, const std::vector<int>& bondList,
                                  std::vector<int>& arom) {
 
     /*for a cycle with the dimension of CYCLESIZE determines, whether or not the
@@ -1943,7 +1944,7 @@ namespace OpenBabel {
   };
 
 
-  void TSimpleMolecule::twoAtomUnitVector(int na1, int na2, double & xv, double & yv, const std::vector<int>atomDefine) {
+  void TSimpleMolecule::twoAtomUnitVector(int na1, int na2, double& xv, double& yv, const std::vector<int>& atomDefine) {
     /*Using atom's numbers NA1 and NA2 in the array ATOMS calculates the direction
       for bond between NA1 and NA2 (XV,YV on output). At this direction new
       substitutor may be added with optimal place.*/
@@ -2068,7 +2069,7 @@ namespace OpenBabel {
     };
   };
 
-  void TSimpleMolecule::defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int> listAtomClean,
+  void TSimpleMolecule::defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int>& listAtomClean,
                              std::vector<int>& cycleDefine, std::vector<std::vector<int> >& atomCycle,
                              std::vector<int>& dsATN, std::vector<int>& dsTP, std::vector<int>& dsNA1, std::vector<int>& dsNA2) {
 
@@ -2162,7 +2163,7 @@ namespace OpenBabel {
     for (i=0; i<ringSize; i++)bondList[i]=newBondList[i];
   };
 
-  void TSimpleMolecule::redraw(const std::vector<int>listAtomClean, const std::vector<int>listBondClean,
+  void TSimpleMolecule::redraw(const std::vector<int>& listAtomClean, const std::vector<int>& listBondClean,
                                int atomClean, int & bondClean, int spn, int sCHA1, int sCHB1, bool iOPT7) {
     /*
       the arrays are the priority list for clean. Minimal element of record has
@@ -3118,7 +3119,7 @@ namespace OpenBabel {
     return result;
   }
 
-  bool compareAtoms(int a1, int a2, const std::vector<std::vector<int> *> aeqList) {
+  bool compareAtoms(int a1, int a2, const std::vector<std::vector<int>*>& aeqList) {
     std::vector<int> * l1;
     std::vector<int> * l2;
     unsigned int i;
@@ -3137,8 +3138,8 @@ namespace OpenBabel {
     return result;
   };
 
-  int TSimpleMolecule::fragmentSecond(int sphere, int att, int secAt, const std::vector<int> a,
-                                      const std::vector<int> b, const neighbourlist *bk, std::vector<int>& wSphere) {
+  int TSimpleMolecule::fragmentSecond(int sphere, int att, int secAt, const std::vector<int>& a,
+                                      const std::vector<int>& b, const neighbourlist *bk, std::vector<int>& wSphere) {
 
     /*Generate a longinteger number, which is characterize fragment with atom
       CHA in center. Up to second neigbour's sphere are took into account. Array
@@ -3315,7 +3316,7 @@ namespace OpenBabel {
   // Iterates through all of the possibilities 1000..., 0100..., 1100..., 0010...
   // (in the case where maxValues is [1111...]). Returns false when all possibilities
   // have been generated (true otherwise).
-  bool incrementValues(std::vector<int>& currentValues, const std::vector<int> maxValues) {
+  bool incrementValues(std::vector<int>& currentValues, const std::vector<int>& maxValues) {
     unsigned int i, l;
     bool result=false;
 
@@ -3557,8 +3558,8 @@ namespace OpenBabel {
     return result;
   };
 
-  static int findAlternateSinglets(const std::vector<int>iA1, const std::vector<int>iA2, const std::vector<int> nH,
-                                   const std::vector<int> hydrogenValency, std::vector<int>& bondOrder, int nAtoms, int nBonds) {
+  static int findAlternateSinglets(const std::vector<int>& iA1, const std::vector<int>& iA2, const std::vector<int>& nH,
+                                   const std::vector<int>& hydrogenValency, std::vector<int>& bondOrder, int nAtoms, int nBonds) {
     //return values: 0 - no singlet found, 1 - found and assigned singlet, 2 - assigned singlet only with special
 
     std::vector<int>nUnassigned(nAtoms);
@@ -3610,8 +3611,8 @@ namespace OpenBabel {
     return result;
   };
 
-  static void makeAssignment(const std::vector<int> iA1, const std::vector<int> iA2, const std::vector<int> nH,
-                             const std::vector<int> hydrogenValency,	const std::vector<int> bondAssignment, const std::vector<int> specialFlag,
+  static void makeAssignment(const std::vector<int>& iA1, const std::vector<int>& iA2, const std::vector<int>& nH,
+                             const std::vector<int>& hydrogenValency, const std::vector<int>& bondAssignment, const std::vector<int>& specialFlag,
                              std::vector<int>& bondOrder, int nAtoms, int nBonds, int & nAss) {
 
     int i,k;
@@ -3627,9 +3628,9 @@ namespace OpenBabel {
       };
   };
 
-  static bool analyzeOK(const std::vector<int> iA1,const std::vector<int> iA2, const std::vector<int> nH,
-                        const std::vector<int> hydrogenValency,	const std::vector<int> maxValency, const std::vector<int> bondOrder,
-                        const std::vector<int> atomCheckFlag, int nAtoms, int nBonds, int & nGtMax, int & nNEH, int & nOddEven,
+  static bool analyzeOK(const std::vector<int>& iA1, const std::vector<int>& iA2, const std::vector<int>& nH,
+                        const std::vector<int>& hydrogenValency, const std::vector<int>& maxValency, const std::vector<int>& bondOrder,
+                        const std::vector<int>& atomCheckFlag, int nAtoms, int nBonds, int& nGtMax, int& nNEH, int& nOddEven,
                         bool testExceedHydrogen, bool oddEvenCheck) {
 
     std::vector<int>nBondsValency(nAtoms);  //dynamically allocation
@@ -3675,8 +3676,8 @@ namespace OpenBabel {
     return result;
   };
 
-  static int determineBondsOrder(const std::vector<int> iA1, const std::vector<int> iA2,
-                                 const std::vector<int> nH, const std::vector<int> maxValency,std::vector<int>& bondOrder,
+  static int determineBondsOrder(const std::vector<int>& iA1, const std::vector<int>& iA2,
+                                 const std::vector<int>& nH, const std::vector<int>& maxValency, std::vector<int>& bondOrder,
                                  std::vector<int>& hydrogenValency, int nAtoms, int nBonds, bool oddEvenViolate) {
     //On input BortOrder has to be initialized. Real bond orders have to be putted. 0 means this order should be determined
     //MaxValency and HydrogenValency and NH are required only for those atoms, which are included in BondOrder=0
@@ -3799,9 +3800,9 @@ namespace OpenBabel {
     return result;
   };
 
-  int alternate(const std::vector<int> aPosition,const std::vector<int> aCharge,
-                const std::vector<int> aRad,const std::vector<int> nHydr, const std::vector<int> iA1,
-                const std::vector<int> iA2, std::vector<int> & bondOrders, int nAtoms, int nBonds) {
+  int alternate(const std::vector<int>& aPosition, const std::vector<int>& aCharge,
+                const std::vector<int>& aRad, const std::vector<int>& nHydr, const std::vector<int>& iA1,
+                const std::vector<int>& iA2, std::vector<int>& bondOrders, int nAtoms, int nBonds) {
 
     std::vector<int> hVal(nAtoms);
     std::vector<int> maxVal(nAtoms);
@@ -3823,7 +3824,7 @@ namespace OpenBabel {
     return result;
   };
 
-  int alternate(OBMol * pmol, const std::vector<int> nH, std::vector<int>& bondOrders) {
+  int alternate(OBMol* pmol, const std::vector<int>& nH, std::vector<int>& bondOrders) {
     //This overloaded method does not work. By unknown reason I cannot extract
     //connection matrix from pmol
 
@@ -3899,8 +3900,8 @@ namespace OpenBabel {
     void directBondAss(int& bnq, bool& test, bool& test1, bool const* const* beq,
                        bool const* const* aeq, std::vector<int>& bqcounter, std::vector<int>& aqtested,
                        std::vector<int>& bstested, std::vector<int>& bqtested, std::vector<int>& astested,
-                       const std::vector<int> ager, const neighbourlist *bsconn, TSimpleMolecule * smol);
-    bool allQueryPresent(const std::vector<int> qA, const std::vector<int> qB,
+                       const std::vector<int>& ager, const neighbourlist *bsconn, TSimpleMolecule *smol);
+    bool allQueryPresent(const std::vector<int>& qA, const std::vector<int>& qB,
                          int nA, int nB);
   public:
     static int const NOOTHER_MASK=1;
@@ -4733,7 +4734,7 @@ namespace OpenBabel {
   void TEditedMolecule::directBondAss(int& bnq, bool& test, bool& test1, bool const* const* beq,
                                       bool const* const* aeq, std::vector<int>& bqcounter, std::vector<int>& aqtested,
                                       std::vector<int>& bstested, std::vector<int>& bqtested, std::vector<int>& astested,
-                                      const std::vector<int> ager, const neighbourlist *bsconn, TSimpleMolecule * smol) {
+                                      const std::vector<int>& ager, const neighbourlist *bsconn, TSimpleMolecule *smol) {
     //Assign a structure atom to query atom. Variables:
     //BNQ-query bond's number, which needs to be assigned
     //BEQ,AEQ-boolean matrix, contains list of equivalent bonds
@@ -4803,7 +4804,7 @@ namespace OpenBabel {
     test1=(bs==bsconn[as1].nb); //test, if SCONN for atom given is exausted}
   };
 
-  bool TEditedMolecule::allQueryPresent(const std::vector<int> qA, const std::vector<int> qB,
+  bool TEditedMolecule::allQueryPresent(const std::vector<int>& qA, const std::vector<int>& qB,
                                         int nA, int nB) {
     //the function returns TRUE if for all query atoms and bonds the equivalent
     //structure atom (bond) can be found, FALSE otherwise. QA-for each query atom
@@ -5077,7 +5078,7 @@ namespace OpenBabel {
     //  virtual ~TemplateRedraw() {
     //    clear();
     //  };
-    bool isOverlapped(const std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested);
+    bool isOverlapped(const std::vector<PartFragmentDefinition*>& list, int fragNo, double xSuggested, double ySuggested);
     void arrangeFragments(std::vector<PartFragmentDefinition *>& list, int fragNo, double aspOptimal);
     void redrawFine(TSimpleMolecule& smIn);
     int  coordinatesPrepare(TEditedMolecule& sm, int kk, int anTemplateNo);
@@ -5085,7 +5086,7 @@ namespace OpenBabel {
     static std::vector<TEditedMolecule *> queryData;
     void clear();
     bool internalBondsPresent(TEditedMolecule * mQuery, TSimpleMolecule * mStructure);
-    void rotateBondVertically(TSimpleMolecule * sm, const std::vector<int>bondList, int bondNo,
+    void rotateBondVertically(TSimpleMolecule* sm, const std::vector<int>& bondList, int bondNo,
                               double xuValue, double yuValue, double& c1, double& s1, double& xSize, double& ySize,
                               double& xCenter, double& yCenter, int& nVert);
     void selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList);
@@ -5210,7 +5211,7 @@ namespace OpenBabel {
     return result;
   };
 
-  void TemplateRedraw::rotateBondVertically(TSimpleMolecule * sm, const std::vector<int>bondList, int bondNo, double xuValue, double yuValue, double& c1, double& s1, double& xSize, double& ySize, double& xCenter, double& yCenter, int& nVert) {
+  void TemplateRedraw::rotateBondVertically(TSimpleMolecule* sm, const std::vector<int>& bondList, int bondNo, double xuValue, double yuValue, double& c1, double& s1, double& xSize, double& ySize, double& xCenter, double& yCenter, int& nVert) {
     //Dummy rotation of molecule
     //Two solution - when c2,s2 are used - are determined for cases of rotaition when Up and Down are counterchnged. Single solution would be enough
     std::vector<bool> atomList(sm->nAtoms(), false);
@@ -5441,7 +5442,7 @@ namespace OpenBabel {
   }
 
 
-  bool TemplateRedraw::isOverlapped(const std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested) {
+  bool TemplateRedraw::isOverlapped(const std::vector<PartFragmentDefinition*>& list, int fragNo, double xSuggested, double ySuggested) {
     //  !!! Zero-based fragno !!!
     //checking if recteangles are overlapped from different fagments.
     Rect rect;
@@ -6082,7 +6083,7 @@ namespace OpenBabel {
     };
   };
 
-  void generateDiagram(const std::vector<int> iA1, const std::vector<int> iA2,
+  void generateDiagram(const std::vector<int>& iA1, const std::vector<int>& iA2,
                        std::vector<double>& rx, std::vector<double>& ry, int nAtoms, int nBonds) {
 
     TEditedMolecule sm;
@@ -6119,9 +6120,9 @@ namespace OpenBabel {
     return result;
   };
 
-  bool fragmentSearch(const std::vector<int> aPositionQuery, const std::vector<int> iA1Query,
-                      const std::vector<int> iA2Query,  const std::vector<int> bondTypesQuery, const std::vector<int> aPositionStructure, const std::vector<int> iA1Structure,
-                      const std::vector<int> iA2Structure,  const std::vector<int> bondTypesStructure, int nAtomsQuery, int nBondsQuery, int nAtomsStructure, int nBondsStructure) {
+  bool fragmentSearch(const std::vector<int>& aPositionQuery, const std::vector<int>& iA1Query,
+                      const std::vector<int>& iA2Query, const std::vector<int>& bondTypesQuery, const std::vector<int>& aPositionStructure, const std::vector<int>& iA1Structure,
+                      const std::vector<int>& iA2Structure, const std::vector<int>& bondTypesStructure, int nAtomsQuery, int nBondsQuery, int nAtomsStructure, int nBondsStructure) {
 
     TEditedMolecule sm;
     TEditedMolecule em;
@@ -6160,9 +6161,9 @@ namespace OpenBabel {
   };
 
 
-  void equivalenceList(const std::vector<int> aPosition,const std::vector<int> aCharge,
-                       const std::vector<int> aRad, const std::vector<int> iA1, const std::vector<int> iA2,
-                       const std::vector<int> bondTypes,  std::vector<int>& eqList, int nAtoms, int nBonds) {
+  void equivalenceList(const std::vector<int>& aPosition, const std::vector<int>& aCharge,
+                       const std::vector<int>& aRad, const std::vector<int>& iA1, const std::vector<int>& iA2,
+                       const std::vector<int>& bondTypes, std::vector<int>& eqList, int nAtoms, int nBonds) {
 
     TEditedMolecule sm;
     TSingleAtom * sa;
@@ -6302,7 +6303,7 @@ namespace OpenBabel {
   }
 
 
-  std::string getAtomSymbol(TSimpleMolecule & sm, int atAtom, int atEx, int priority, string ndData) {
+  std::string getAtomSymbol(TSimpleMolecule & sm, int atAtom, int atEx, int priority, const string& ndData) {
     //!  nepravil'no
     //For given atom AtAtom returns atom symbol with given prioritate. AtEx-do not take part into calculations
     string result="";
@@ -6353,7 +6354,7 @@ namespace OpenBabel {
     return result;
   };
 
-  int indexOf(const string instring, const string substring, int fromPos=0) {
+  int indexOf(const string& instring, const string& substring, int fromPos = 0) {
     int result=instring.find(substring,fromPos);
     if (result == string::npos) result=-1;
     if (result >= instring.length()) result=-1;
@@ -6361,7 +6362,7 @@ namespace OpenBabel {
   };
 
   std::string removeZeroeth(std::string instring) {
-    string result=instring;
+    string result = std::move(instring);
     int n;
 
     n=indexOf(result,",0");
@@ -6517,7 +6518,7 @@ namespace OpenBabel {
     return result;
   };
 
-  std::string getAtomMCDL(OBMol * pmol, int ntatoms, const std::vector<int> ix, const std::vector<int> aNumber, const std::vector<int> atomStereoList, const std::vector<int> eqList) {
+  std::string getAtomMCDL(OBMol* pmol, int ntatoms, const std::vector<int>& ix, const std::vector<int>& aNumber, const std::vector<int>& atomStereoList, const std::vector<int>& eqList) {
 
     TEditedMolecule sm;
     int i,j,k,n,atn,n1,m;
@@ -6658,7 +6659,7 @@ namespace OpenBabel {
     return result;
   };
 
-  bool bondEquivalent(int bn1, int bn2, const std::vector<int> eqList, TSimpleMolecule & sm) {
+  bool bondEquivalent(int bn1, int bn2, const std::vector<int>& eqList, TSimpleMolecule& sm) {
     bool result=false;
     int n1,n2,n3,n4;
 
@@ -6673,7 +6674,7 @@ namespace OpenBabel {
   };
 
 
-  std::string getBondMCDL(OBMol * pmol, int nbStore, int ntatoms, const std::vector<int> ix, const std::vector<int> aNumber, int bonds[MAXBONDS][4], const std::vector<int> bondStereoList, const std::vector<int> eqList) {
+  std::string getBondMCDL(OBMol* pmol, int nbStore, int ntatoms, const std::vector<int>& ix, const std::vector<int>& aNumber, int bonds[MAXBONDS][4], const std::vector<int>& bondStereoList, const std::vector<int>& eqList) {
     TSimpleMolecule sm;
     std::vector<int> anumStereo(0);
     std::vector<string> v(0);
@@ -6903,8 +6904,8 @@ namespace OpenBabel {
     return result;
   };
 
-  std::string addZeroeth(std::string instring, std::string stringAdd) {
-    string result=instring;
+  std::string addZeroeth(std::string instring, const std::string& stringAdd) {
+    string result = std::move(instring);
     int n;
 
     n=indexOf(result,",,");
@@ -6939,7 +6940,7 @@ namespace OpenBabel {
   };
 
 
-  void implementAtomStereo(std::vector<int>& iA1, std::vector<int>& iA2, std::vector<int>& stereoBonds, const std::vector<double>rx, const std::vector<double> ry, int acount, int bcount, std::string astereo) {
+  void implementAtomStereo(std::vector<int>& iA1, std::vector<int>& iA2, std::vector<int>& stereoBonds, const std::vector<double>& rx, const std::vector<double>& ry, int acount, int bcount, std::string astereo) {
     //onInput stereoBonds contains only those bonds, which might be stereo
     TSimpleMolecule sm;
 
@@ -7006,7 +7007,7 @@ namespace OpenBabel {
   };
 
   // The following function is used by MCDLformat.cpp
-  void implementBondStereo(const std::vector<int> iA1, const std::vector<int> iA2, std::vector<double>& rx, std::vector<double>& ry, int acount, int bcount, std::string bstereo) {
+  void implementBondStereo(const std::vector<int>& iA1, const std::vector<int>& iA2, std::vector<double>& rx, std::vector<double>& ry, int acount, int bcount, std::string bstereo) {
     TEditedMolecule sm;
     string ss,s,sF,sa1,sa2,temp;
     int i,n1,n2,k,bn;
@@ -7184,7 +7185,7 @@ namespace OpenBabel {
   //****************************************************************************
   //assept a lot of structures on input and remove duplicates and non-connected
   //****************************************************************************
-  bool parseFormula(const std::string formulaString, std::vector <int>& enumber, int & valency) {
+  bool parseFormula(const std::string& formulaString, std::vector<int>& enumber, int& valency) {
     //vector<string> items;
     int i,n,k,n1,n2;//,j,nStart;
     string s;
@@ -7260,7 +7261,7 @@ namespace OpenBabel {
   };
 
 
-  int canonizeMCDL(const std::string atomBlock, std::vector<std::string> & structureList) {
+  int canonizeMCDL(const std::string& atomBlock, std::vector<std::string>& structureList) {
     return 0;
   };
 

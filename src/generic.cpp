@@ -163,7 +163,7 @@ namespace OpenBabel
   //member functions for OBGenericData class
   //
 
-  OBGenericData::OBGenericData(const std::string attr, const unsigned int type,
+  OBGenericData::OBGenericData(const std::string& attr, const unsigned int type,
                                const DataOrigin  source):
     _attr(attr), _type(type), _source(source)
   { }
@@ -297,7 +297,7 @@ namespace OpenBabel
   }
 
   //! Implements <a href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#calculateOrthogonalisationMatrix">blue-obelisk:calculateOrthogonalisationMatrix</a>
-  void OBUnitCell::SetData(const vector3 v1, const vector3 v2, const vector3 v3)
+  void OBUnitCell::SetData(const vector3& v1, const vector3& v2, const vector3& v3)
   {
     matrix3x3 m (v1, v2, v3);
     _mOrtho.FillOrth(vectorAngle(v2,v3), // alpha
@@ -313,12 +313,12 @@ namespace OpenBabel
   }
 
   //! Implements <a href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#calculateOrthogonalisationMatrix">blue-obelisk:calculateOrthogonalisationMatrix</a>
-  void OBUnitCell::SetData(const matrix3x3 m)
+  void OBUnitCell::SetData(const matrix3x3& m)
   {
     SetData(m.GetRow(0), m.GetRow(1), m.GetRow(2));
   }
 
-  void OBUnitCell::SetOffset(const vector3 v1)
+  void OBUnitCell::SetOffset(const vector3& v1)
   {
     _offset = v1;
   }
@@ -358,17 +358,17 @@ namespace OpenBabel
     return _mOrtho.inverse();
   }
 
-  vector3 OBUnitCell::FractionalToCartesian(vector3 frac) const
+  vector3 OBUnitCell::FractionalToCartesian(const vector3& frac) const
   {
     return _mOrient * _mOrtho * frac + _offset;
   }
 
-  vector3 OBUnitCell::CartesianToFractional(vector3 cart) const
+  vector3 OBUnitCell::CartesianToFractional(const vector3& cart) const
   {
     return _mOrtho.inverse() * _mOrient.inverse() * (cart - _offset);
   }
 
-  vector3 OBUnitCell::WrapCartesianCoordinate(vector3 cart) const
+  vector3 OBUnitCell::WrapCartesianCoordinate(const vector3& cart) const
   {
     vector3 v = CartesianToFractional(cart);
     v = WrapFractionalCoordinate(v);
@@ -406,19 +406,19 @@ namespace OpenBabel
     return vector3(x, y, z);
   }
 
-  vector3 OBUnitCell::UnwrapCartesianNear(vector3 new_loc, vector3 ref_loc) const
+  vector3 OBUnitCell::UnwrapCartesianNear(const vector3& new_loc, const vector3& ref_loc) const
   {
     vector3 bond_dir = MinimumImageCartesian(new_loc - ref_loc);
     return ref_loc + bond_dir;
   }
 
-  vector3 OBUnitCell::UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc) const
+  vector3 OBUnitCell::UnwrapFractionalNear(const vector3& new_loc, const vector3& ref_loc) const
   {
     vector3 bond_dir = MinimumImageFractional(new_loc - ref_loc);
     return ref_loc + bond_dir;
   }
 
-  vector3 OBUnitCell::MinimumImageCartesian(vector3 cart) const
+  vector3 OBUnitCell::MinimumImageCartesian(const vector3& cart) const
   {
     vector3 frac = CartesianToFractional(cart);
     frac = MinimumImageFractional(frac);
@@ -588,7 +588,7 @@ namespace OpenBabel
 
   // Whether two points (given in fractional coordinates) are close enough
   // to be considered duplicates.
-  bool areDuplicateAtoms (vector3 v1, vector3 v2)
+  bool areDuplicateAtoms(const vector3& v1, const vector3& v2)
   {
     vector3 dr = v2 - v1;
     if (dr.x() < -0.5)
