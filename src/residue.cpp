@@ -922,7 +922,7 @@ namespace OpenBabel
       }
   }
 
-  bool OBResidue::Clear(void)
+  bool OBResidue::Clear()
   {
     for (unsigned int i = 0 ; i < _atoms.size() ; ++i)
       _atoms[i]->SetResidue(nullptr);
@@ -1002,7 +1002,7 @@ namespace OpenBabel
         _sernum[i] = sernum;
   }
 
-  vector<OBAtom*> OBResidue::GetAtoms(void) const
+  vector<OBAtom*> OBResidue::GetAtoms() const
   {
     return _atoms;
   }
@@ -1040,27 +1040,27 @@ namespace OpenBabel
     return bonds;
   }
 
-  string OBResidue::GetName(void) const
+  string OBResidue::GetName() const
   {
     return _resname;
   }
 
-  string OBResidue::GetSegName(void) const
+  string OBResidue::GetSegName() const
   {
     return _segname;
   }
 
-  std::string OBResidue::GetNumString(void)
+  std::string OBResidue::GetNumString()
   {
     return _resnum;
   }
 
-  int OBResidue::GetNum(void)
+  int OBResidue::GetNum()
   {
     return atoi(_resnum.c_str());
   }
 
-  unsigned int OBResidue::GetNumAtoms(void) const
+  unsigned int OBResidue::GetNumAtoms() const
   {
     return (unsigned int)_atoms.size();
   }
@@ -1085,7 +1085,7 @@ namespace OpenBabel
     return _chain;
   }
 
-  unsigned int OBResidue::GetChainNum(void) const
+  unsigned int OBResidue::GetChainNum() const
   {
     if (isdigit(_chain))
       return (_chain - '0');
@@ -1093,17 +1093,17 @@ namespace OpenBabel
       return (_chain - 'A' + 1);
   }
 
-  unsigned int OBResidue::GetIdx(void) const
+  unsigned int OBResidue::GetIdx() const
   {
     return(_idx);
   }
 
-  unsigned int OBResidue::GetResKey(void) const
+  unsigned int OBResidue::GetResKey() const
   {
     return(_reskey);
   }
 
-  char OBResidue::GetInsertionCode(void) const
+  char OBResidue::GetInsertionCode() const
   {
     return(_insertioncode);
   }
