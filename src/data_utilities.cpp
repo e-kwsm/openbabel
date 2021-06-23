@@ -49,10 +49,10 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
                              double *ZPVE)
 {
     enum kkTYPE {kkDH, kkDG, kkDS, kkS0, kkCV, kkSt, kkSr, kkSv, kkZP};
-    typedef struct {
+    struct energy_unit {
         std::string term;
         kkTYPE kk;
-    } energy_unit;
+    };
     double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
     double Rgas      = 1.9872041; 
     int    RotSymNum = 1;
