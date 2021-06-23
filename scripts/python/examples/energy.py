@@ -11,7 +11,7 @@ import sys
 # Make sure we have a filename
 try:
   filename = sys.argv[1]
-except:
+except Exception:
   print("Usage: python energy.py filename")
   sys.exit(1)
 
