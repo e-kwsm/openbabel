@@ -131,7 +131,7 @@ class TestRingBondCisTransSym(TestSym):
                 self.cansmi,
                 r"I/C=C\1/NC1",
                 r"I/C=C1NC/1",
-                 "I/C=C/1/NC/1",
+                "I/C=C/1/NC/1",
                 ]
 
 class TestConversions(BaseTest):
