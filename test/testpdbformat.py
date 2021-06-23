@@ -17,7 +17,7 @@ and so you can quickly develop the tests and try them out.
 
 import unittest
 
-from testbabel import run_exec, executable, BaseTest
+from testbabel import run_exec, BaseTest
 from testbindings import pybel
 
 class TestPDBFormat(BaseTest):
