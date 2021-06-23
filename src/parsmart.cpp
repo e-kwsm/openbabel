@@ -408,7 +408,7 @@ namespace OpenBabel
     return result;
   }
 
-  static BondExpr *GenerateDefaultBond( void )
+  static BondExpr *GenerateDefaultBond()
   {
     return BuildBondLeaf(BE_DEFAULT);
   }
@@ -417,7 +417,7 @@ namespace OpenBabel
   /*  SMARTS Pattern Manipulation  */
   /*===============================*/
 
-  static Pattern *AllocPattern( void )
+  static Pattern *AllocPattern()
   {
     Pattern *ptr;
 
@@ -576,7 +576,7 @@ namespace OpenBabel
     return nullptr;
   }
 
-  AtomExpr *OBSmartsPattern::ParseSimpleAtomPrimitive( void )
+  AtomExpr *OBSmartsPattern::ParseSimpleAtomPrimitive()
   {
     switch( *LexPtr++ )
       {
@@ -637,7 +637,7 @@ namespace OpenBabel
     return nullptr;
   }
 
-  AtomExpr *OBSmartsPattern::ParseComplexAtomPrimitive( void )
+  AtomExpr *OBSmartsPattern::ParseComplexAtomPrimitive()
   {
     Pattern *pat;
     int index;
@@ -1232,7 +1232,7 @@ namespace OpenBabel
     return nullptr;
   }
 
-  BondExpr *OBSmartsPattern::ParseBondPrimitive( void )
+  BondExpr *OBSmartsPattern::ParseBondPrimitive()
   {
     char bsym = *LexPtr++;
 
@@ -1644,7 +1644,7 @@ namespace OpenBabel
   }
 
 
-  Pattern *OBSmartsPattern::ParseSMARTSPattern( void )
+  Pattern *OBSmartsPattern::ParseSMARTSPattern()
   {
     Pattern *result;
     result = AllocPattern();
