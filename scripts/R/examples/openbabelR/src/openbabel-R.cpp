@@ -46774,7 +46774,7 @@ SWIG_InitializeModule(void *clientdata) {
 * SWIG_TypeClientData(type, clientdata) a second time.
 */
 SWIGRUNTIME void
-SWIG_PropagateClientData(void) {
+SWIG_PropagateClientData() {
   size_t i;
   swig_cast_info *equiv;
   static int init_run = 0;
@@ -46804,7 +46804,7 @@ SWIG_PropagateClientData(void) {
 #endif
 
 
-SWIGEXPORT void SWIG_init(void) {
+SWIGEXPORT void SWIG_init() {
 
 }
 #ifdef __cplusplus
