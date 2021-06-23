@@ -289,11 +289,11 @@ namespace OpenBabel
 
   //! Definition of side chains, associating overall residue name with
   //!  the pseudo-SMILES pattern
-  typedef struct
+  struct ResidType
   {
     const char *name; //!< Residue name, standardized by PDB
     const char *data; //!< pseudo-SMILES definition of side-chain
-  }    ResidType;
+  };
 
   /**
    * Side chains for recognized amino acids using a pseudo-SMARTS syntax
