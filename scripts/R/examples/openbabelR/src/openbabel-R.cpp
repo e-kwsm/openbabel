@@ -1104,11 +1104,11 @@ SWIGRUNTIME void
 SWIG_SetModule(void *v, swig_module_info *swig_module) {
 }
 
-typedef struct {
+struct RSwigPacked {
   void *pack;
   swig_type_info *ty;
   size_t size;
-} RSwigPacked;
+};
 
 /* Create a new packed object */
 
