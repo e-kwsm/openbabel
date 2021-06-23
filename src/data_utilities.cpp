@@ -54,7 +54,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
         kkTYPE kk;
     };
     double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
-    double Rgas      = 1.9872041; 
+    const double Rgas      = 1.9872041;
     int    RotSymNum = 1;
     OpenBabel::OBRotationData* rd;
     
