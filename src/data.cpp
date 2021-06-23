@@ -48,7 +48,7 @@ namespace OpenBabel
   OBTypeTable ttab;
   OBResidueData resdat;
 
-  OBAtomicHeatOfFormationTable::OBAtomicHeatOfFormationTable(void)
+  OBAtomicHeatOfFormationTable::OBAtomicHeatOfFormationTable()
   {
     _init = false;
     _dir = BABEL_DATADIR;

@@ -88,7 +88,7 @@ public:
 
     //atoms and bonds might have no content, so EndElement is not always called
     // that's why we need to ensure that atoms and bonds are really added.
-    void EnsureEndElement(void);
+    void EnsureEndElement();
 
 private:
   Boundary CalculateMoleculeBoundary(OBMol* pMol);
@@ -303,7 +303,7 @@ bool ChemDrawXMLFormat::EndElement(const string& name)
   return true;
 }
 
-void ChemDrawXMLFormat::EnsureEndElement(void)
+void ChemDrawXMLFormat::EnsureEndElement()
 {
   if (_tempAtom.GetAtomicNum() != 0)
   {
