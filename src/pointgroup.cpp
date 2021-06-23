@@ -64,11 +64,11 @@ namespace OpenBabel {
    *
    */
 
-  typedef struct {
+  struct POINT_GROUP {
     const char *  group_name ;        /* Canonical group name                        */
     const char *  symmetry_code ;     /* Group symmetry code                         */
     int     (*check)( void ) ;        /* Additional verification routine, not used  */
-  } POINT_GROUP ;
+  } ;
 
   /*
    *    Point groups I know about
