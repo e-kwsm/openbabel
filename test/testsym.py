@@ -140,20 +140,20 @@ class TestConversions(BaseTest):
     def setUp(self):
         self.canFindExecutable("obabel")
         self.data = [
-('ClC=CF', 'FC=CCl',       'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H'),
-('ClC=CF', 'FC=CCl',       'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H'),
-('Cl/C=C/F', 'F/C=C/Cl',   'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H/b2-1+'),
-(r"Cl/C=C\F", r"F/C=C\Cl", 'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H/b2-1-'),
-('Cl[C@@](Br)(F)I', 'F[C@](I)(Br)Cl', 'InChI=1S/CBrClFI/c2-1(3,4)5/t1-/m0/s1'),
-('Cl[C@](Br)(F)I', 'F[C@@](I)(Br)Cl',   'InChI=1S/CBrClFI/c2-1(3,4)5/t1-/m1/s1'),
-('ClC(Br)(F)I', 'FC(I)(Br)Cl',         'InChI=1S/CBrClFI/c2-1(3,4)5'),
-('O=[S@@](Cl)I', "Cl[S@](=O)I", "InChI=1S/ClIOS/c1-4(2)3/t4-/m0/s1"),
-('O=[S@](Cl)I', "Cl[S@@](=O)I", "InChI=1S/ClIOS/c1-4(2)3/t4-/m1/s1"),
-('O=S(Cl)I', "ClS(=O)I", "InChI=1S/ClIOS/c1-4(2)3"),
-(r"IC=C1NC1", r"IC=C1CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2"),
-(r"I/C=C\1/NC1", r"I/C=C/1\CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2/b3-1+"),
-(r"I/C=C/1\NC1", r"I/C=C\1/CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2/b3-1-"),
-]
+            ('ClC=CF', 'FC=CCl',       'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H'),
+            ('ClC=CF', 'FC=CCl',       'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H'),
+            ('Cl/C=C/F', 'F/C=C/Cl',   'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H/b2-1+'),
+            (r"Cl/C=C\F", r"F/C=C\Cl", 'InChI=1S/C2H2ClF/c3-1-2-4/h1-2H/b2-1-'),
+            ('Cl[C@@](Br)(F)I', 'F[C@](I)(Br)Cl', 'InChI=1S/CBrClFI/c2-1(3,4)5/t1-/m0/s1'),
+            ('Cl[C@](Br)(F)I', 'F[C@@](I)(Br)Cl',   'InChI=1S/CBrClFI/c2-1(3,4)5/t1-/m1/s1'),
+            ('ClC(Br)(F)I', 'FC(I)(Br)Cl',         'InChI=1S/CBrClFI/c2-1(3,4)5'),
+            ('O=[S@@](Cl)I', "Cl[S@](=O)I", "InChI=1S/ClIOS/c1-4(2)3/t4-/m0/s1"),
+            ('O=[S@](Cl)I', "Cl[S@@](=O)I", "InChI=1S/ClIOS/c1-4(2)3/t4-/m1/s1"),
+            ('O=S(Cl)I', "ClS(=O)I", "InChI=1S/ClIOS/c1-4(2)3"),
+            (r"IC=C1NC1", r"IC=C1CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2"),
+            (r"I/C=C\1/NC1", r"I/C=C/1\CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2/b3-1+"),
+            (r"I/C=C/1\NC1", r"I/C=C\1/CN1", "InChI=1S/C3H4IN/c4-1-3-2-5-3/h1,5H,2H2/b3-1-"),
+        ]
 
     def testSMILEStoInChI(self):
         # Tests interconversions between the SMILES on the left versus
@@ -190,21 +190,21 @@ class TestConversions(BaseTest):
     def testSMILESto3DMDL(self):
         """Test interconversion between SMILES and 3D MDL"""
         data = [
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C/F'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C\\F'
-# The bond parities are irrelevant/meaningless for the next two
-([0, 0, 0, 0, 1], []), # 'Cl[C@@](Br)(F)I'
-([0, 0, 0, 0, 2], []), # 'Cl[C@](Br)(F)I'
-([0, 0, 0, 0, 3], [0, 0, 0, 0]), # 'ClC(Br)(F)I'
-([0, 0, 0, 1], []), # 'O=[S@@](Cl)I),
-([0, 0, 0, 2], []), # 'O=[S@](Cl)I),
-([0, 0, 0, 3], []), # 'O=S(Cl)I),
-([0]*9, [0]*8 + [3]), #  "IC=C1NC1"
-([0]*9, [0]*9), # r"I/C=C\1/NC1"
-([0]*9, [0]*9), # r"I/C=C/1\NC1"
-]
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C/F'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C\\F'
+            # The bond parities are irrelevant/meaningless for the next two
+            ([0, 0, 0, 0, 1], []), # 'Cl[C@@](Br)(F)I'
+            ([0, 0, 0, 0, 2], []), # 'Cl[C@](Br)(F)I'
+            ([0, 0, 0, 0, 3], [0, 0, 0, 0]), # 'ClC(Br)(F)I'
+            ([0, 0, 0, 1], []), # 'O=[S@@](Cl)I),
+            ([0, 0, 0, 2], []), # 'O=[S@](Cl)I),
+            ([0, 0, 0, 3], []), # 'O=S(Cl)I),
+            ([0]*9, [0]*8 + [3]), #  "IC=C1NC1"
+            ([0]*9, [0]*9), # r"I/C=C\1/NC1"
+            ([0]*9, [0]*9), # r"I/C=C/1\NC1"
+        ]
         for i, (atompar, bondstereo) in enumerate(data):
             smiles, can = self.data[i][0:2]
             output, error = run_exec(smiles, "obabel -ismi -osdf --gen3d")
@@ -226,21 +226,21 @@ class TestConversions(BaseTest):
         # this test makes sure that the SMILES and 3D MDL formats
         # perceive stereo themselves.
         data = [
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C/F'
-([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C\\F'
-# The bond parities are irrelevant/meaningless for the next two
-([0, 0, 0, 0, 1], []), # 'Cl[C@@](Br)(F)I'
-([0, 0, 0, 0, 2], []), # 'Cl[C@](Br)(F)I'
-([0, 0, 0, 0, 3], [0, 0, 0, 4]), # 'ClC(Br)(F)I'
-([0, 0, 0, 1], []), # 'O=[S@@](Cl)I),
-([0, 0, 0, 2], []), # 'O=[S@](Cl)I),
-([0, 0, 0, 3], []), # 'O=S(Cl)I),
-([0]*9, [0]*8 + [3]), #  "IC=C1NC1"
-([0]*9, [0]*9), # r"I/C=C\1/NC1"
-([0]*9, [0]*9), # r"I/C=C/1\NC1"
-]
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 3]), # 'ClC=CF'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C/F'
+            ([0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0]), # 'Cl/C=C\\F'
+            # The bond parities are irrelevant/meaningless for the next two
+            ([0, 0, 0, 0, 1], []), # 'Cl[C@@](Br)(F)I'
+            ([0, 0, 0, 0, 2], []), # 'Cl[C@](Br)(F)I'
+            ([0, 0, 0, 0, 3], [0, 0, 0, 4]), # 'ClC(Br)(F)I'
+            ([0, 0, 0, 1], []), # 'O=[S@@](Cl)I),
+            ([0, 0, 0, 2], []), # 'O=[S@](Cl)I),
+            ([0, 0, 0, 3], []), # 'O=S(Cl)I),
+            ([0]*9, [0]*8 + [3]), #  "IC=C1NC1"
+            ([0]*9, [0]*9), # r"I/C=C\1/NC1"
+            ([0]*9, [0]*9), # r"I/C=C/1\NC1"
+        ]
         for i, (atompar, bondstereo) in enumerate(data):
             if i in [0, 1, 6, 10]: continue # ambiguous stereo is lost in XYZ
             if i in [7, 8, 9]: continue # perception of S=O from XYZ fails
@@ -307,11 +307,11 @@ class TestConversions(BaseTest):
     def testSMILESto0DMDL(self):
         """Test interconversion between SMILES and 0D MDL"""
         data = [
-([0, 0, 0, 0, 1], [0, 0, 0, 0]), # 'Cl[C@@](Br)(F)I'
-([0, 0, 0, 0, 2], [0, 0, 0, 0]), # 'Cl[C@](Br)(F)I'
-([0, 0, 0, 0, 0], [0, 0, 0, 0]), # 'ClC(Br)(F)I'
-([0, 0, 0, 0, 3], [0, 0, 0, 0])  # 'ClC(Br)(F)I' option 'S' when reading
-]
+            ([0, 0, 0, 0, 1], [0, 0, 0, 0]), # 'Cl[C@@](Br)(F)I'
+            ([0, 0, 0, 0, 2], [0, 0, 0, 0]), # 'Cl[C@](Br)(F)I'
+            ([0, 0, 0, 0, 0], [0, 0, 0, 0]), # 'ClC(Br)(F)I'
+            ([0, 0, 0, 0, 3], [0, 0, 0, 0])  # 'ClC(Br)(F)I' option 'S' when reading
+        ]
         for i, (atompar, bondstereo) in enumerate(data):
             if i == 3:
                 smiles, can = self.data[6][0:2]
