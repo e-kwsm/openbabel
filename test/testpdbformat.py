@@ -17,7 +17,7 @@ and so you can quickly develop the tests and try them out.
 
 import unittest
 
-from testbabel import run_exec, executable, BaseTest
+from testbabel import run_exec, BaseTest
 
 class TestPDBFormat(BaseTest):
     """A series of tests relating to PDB"""
