@@ -152,7 +152,7 @@ namespace OpenBabel
     _pcharge = 0.0;
     _vbond.clear();
     _vbond.reserve(4);
-    _residue = nullptr;
+    _residue.reset();
     _id = NoId;
 
     return(OBBase::Clear());
@@ -185,7 +185,7 @@ namespace OpenBabel
     _pcharge = src->_pcharge;
     _v = src->GetVector();
     _flags = src->_flags;
-    _residue = nullptr;
+    _residue.reset();
     _id = src->_id;
 
     _vdata.clear();
@@ -449,7 +449,7 @@ namespace OpenBabel
     if (!mol->HasChainsPerceived())
       chainsparser.PerceiveChains(*mol);
 
-    return _residue;
+    return _residue.get();
   }
 
   double OBAtom::GetAtomicMass() const
