@@ -240,13 +240,15 @@ TORSDOF 5
         os.environ["BABEL_LIBDIR"] = ""
 
         obabel = executable("obabel")
-        with self.assertRaises(CalledProcessError) as cm:
-            check_output('%s -:C -osmi' % obabel, shell=True, stderr=STDOUT, universal_newlines=True)
-        msg = cm.exception.output
-        if libdir:
-            os.environ["BABEL_LIBDIR"] = libdir
-        else:
-            os.environ.pop("BABEL_LIBDIR")
+        try:
+            with self.assertRaises(CalledProcessError) as cm:
+                check_output('%s -:C -osmi' % obabel, stderr=STDOUT, shell=True, universal_newlines=True)
+            msg = cm.exception.output
+        finally:
+            if libdir:
+                os.environ["BABEL_LIBDIR"] = libdir
+            else:
+                os.environ.pop("BABEL_LIBDIR")
 
         self.assertIn('BABEL_LIBDIR', msg)
 
