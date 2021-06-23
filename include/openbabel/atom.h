@@ -27,6 +27,7 @@ GNU General Public License for more details.
 #  define OB_EXTERN extern
 #endif
 
+#include <memory>
 #include <vector>
 #include <string>
 
@@ -88,7 +89,7 @@ namespace OpenBabel
       double                        _pcharge;   //!< partial charge
       double                      **_c;         //!< coordinate array in double*
       mutable vector3               _v;         //!< coordinate vector
-      OBResidue                    *_residue;   //!< parent residue (if applicable)
+      std::shared_ptr<OBResidue>    _residue;   //!< parent residue (if applicable)
 
       unsigned long                 _id;        //!< unique id
 
@@ -157,7 +158,7 @@ namespace OpenBabel
       //! Set the position of this atom based on the internal pointer array (i.e. from SetCoordPtr() )
       void SetVector();
       //! Attach an OBResidue @p res as containing this atom
-      void SetResidue(OBResidue *res)     { _residue=res; }
+      void SetResidue(OBResidue *res)     { _residue = std::shared_ptr<OBResidue>{res}; }
       //! Attach an OBMol @p ptr as the parent container for this atom
       void SetParent(OBMol *ptr)          { _parent=ptr; }
       //! Mark atom as being aromatic
@@ -302,16 +303,13 @@ namespace OpenBabel
       void NewResidue()
         {
           if (!_residue)
-            _residue = new OBResidue;
+            _residue = std::shared_ptr<OBResidue>{new OBResidue{}};
         }
       //! Add (set) the residue for this atom
       void AddResidue(OBResidue *res) { SetResidue(res); }
       //! Delete any residue associated with this atom
       void DeleteResidue(){
-        if (_residue) {
-          delete _residue;
-          _residue = nullptr; // Make sure to clear that a residue existed
-        }
+        _residue.reset();
       }
       //! Add a bond to the internal list. Does not update the bond.
       void AddBond(OBBond *bond) { _vbond.push_back(bond); }
@@ -363,11 +361,23 @@ namespace OpenBabel
        */
       std::pair<int, int> LewisAcidBaseCounts() const;
       //! \return Is there any residue information?
+<<<<<<< HEAD
       bool HasResidue()    { return(_residue != nullptr);    }
+||||||| parent of 78f1e201b574 (include/openbabel/atom.h)
+      bool HasResidue()    { return(_residue != NULL);    }
+=======
+      bool HasResidue()    { return _residue != nullptr; }
+>>>>>>> 78f1e201b574 (include/openbabel/atom.h)
       //! \return Is this a HETATM in a residue (returns false if not in a residue)
       //! \since version 2.4
       bool IsHetAtom() {
+<<<<<<< HEAD
         if (_residue == nullptr)
+||||||| parent of 78f1e201b574 (include/openbabel/atom.h)
+        if (_residue == NULL)
+=======
+        if (!_residue)
+>>>>>>> 78f1e201b574 (include/openbabel/atom.h)
           return false;
         else
           return _residue->IsHetAtom(this);
