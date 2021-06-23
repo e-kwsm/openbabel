@@ -47,13 +47,11 @@ def run_exec(*args):
     # Note that bufsize = -1 means default buffering
     # Without this, it's unbuffered and it takes 10x longer on MacOSX
     if text:
-        p = Popen([exe] + broken[1:],
-                  stdin=PIPE, stdout=PIPE, stderr=PIPE, bufsize=1)
-        stdout, stderr = p.communicate(text.encode())
+        with Popen([exe] + broken[1:], stdin=PIPE, stdout=PIPE, stderr=PIPE, bufsize=1) as p:
+            stdout, stderr = p.communicate(text.encode())
     else:
-        p = Popen([exe] + broken[1:],
-                  stdout=PIPE, stderr=PIPE, bufsize=-1)
-        stdout, stderr = p.communicate()
+        with Popen([exe] + broken[1:], stdout=PIPE, stderr=PIPE, bufsize=-1) as p:
+            stdout, stderr = p.communicate()
 
     if p.returncode and len(stderr) == 0:
         #should never exit with an error without an error message
