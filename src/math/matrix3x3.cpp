@@ -289,7 +289,7 @@ namespace OpenBabel
     discouraged, unless you are certain that the determinant is in a
     reasonable range, away from 0.0 (Stefan Kebekus)
   */
-  matrix3x3 matrix3x3::inverse(void) const
+  matrix3x3 matrix3x3::inverse() const
 #ifdef OB_OLD_MATH_CHECKS
   throw(OBError)
 #endif
@@ -299,7 +299,7 @@ namespace OpenBabel
 #ifdef OB_OLD_MATH_CHECKS
     if (fabs(det) <= 1e-6)
       {
-        OBError er("matrix3x3::invert(void)",
+        OBError er("matrix3x3::invert()",
                    "The method was called on a matrix with |determinant| <= 1e-6.",
                    "This is a runtime or a programming error in your application.");
         throw er;
@@ -324,7 +324,7 @@ namespace OpenBabel
 
   /* This method returns the transpose of a matrix. The original
      matrix remains unchanged. */
-  matrix3x3 matrix3x3::transpose(void) const
+  matrix3x3 matrix3x3::transpose() const
   {
     matrix3x3 returnValue;
 
@@ -335,7 +335,7 @@ namespace OpenBabel
     return(returnValue);
   }
 
-  double matrix3x3::determinant(void) const
+  double matrix3x3::determinant() const
   {
     return( ele[0][0] * (ele[1][1] * ele[2][2] - ele[1][2] * ele[2][1])
           + ele[0][1] * (ele[1][2] * ele[2][0] - ele[1][0] * ele[2][2])
@@ -345,7 +345,7 @@ namespace OpenBabel
   /*! \return False if there are indices i,j such that
     fabs(*this[i][j]-*this[j][i]) > 1e-6. Otherwise, it returns
     true. */
-  bool matrix3x3::isSymmetric(void) const
+  bool matrix3x3::isSymmetric() const
   {
     return( IsApprox( ele[0][1], ele[1][0], 1e-6 )
          && IsApprox( ele[0][2], ele[2][0], 1e-6 )
@@ -355,7 +355,7 @@ namespace OpenBabel
   /*! This method returns true if and only if the matrix is
    * (approximately) a diagonal matrix. The precision used
    * by this function is 1e-6. */
-  bool matrix3x3::isDiagonal(void) const
+  bool matrix3x3::isDiagonal() const
   {
     return( IsNegligible( ele[1][0], ele[0][0], 1e-6 )
          && IsNegligible( ele[2][0], ele[0][0], 1e-6 )
@@ -368,7 +368,7 @@ namespace OpenBabel
   /*! This method returns true if and only if the matrix is
    * (approximately) equal to the identity matrix. The precision used
    * by this function is 1e-6. */
-  bool matrix3x3::isUnitMatrix(void) const
+  bool matrix3x3::isUnitMatrix() const
   {
     return ( isDiagonal()
           && IsApprox( ele[0][0], 1.0, 1e-6 )
