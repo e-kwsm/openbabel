@@ -20,6 +20,8 @@ GNU General Public License for more details.
 #ifndef OB_ROTOR_H
 #define OB_ROTOR_H
 
+#include <memory>
+
 #include <openbabel/parsmart.h>
 #include <openbabel/typer.h>
 #include <openbabel/bitvec.h>
@@ -53,25 +55,20 @@ namespace OpenBabel
     int                 _ref[4]; //!< Reference atoms specifying the dihedral angle (as integers), numbered from 1 inside the SMARTS pattern
     double              _delta;  //!< (optional) the resolution of a dihedral step in degrees
     std::string         _s;      //!< Text of the SMARTS pattern
-    OBSmartsPattern*    _sp;     //!< The SMARTS pattern for the rotation rule
+    std::shared_ptr<OBSmartsPattern> _sp; //!< The SMARTS pattern for the rotation rule
     std::vector<double> _vals;   //!< At least one torsion angle (in radians) to evaluate
   public:
 
   OBRotorRule(char *buffer,int ref[4],std::vector<double> &vals,double d):
     _delta(d), _s(buffer), _vals(vals)
     {
-      _sp = new OBSmartsPattern;
+      _sp = std::shared_ptr<OBSmartsPattern>{new OBSmartsPattern{}};
       _sp->Init(buffer);
       memcpy(_ref,ref,sizeof(int)*4);
     }
 
     ~OBRotorRule()
       {
-        if (_sp)
-          {
-            delete _sp;
-            _sp = nullptr;
-          }
       }
 
     //! \return whether this rotor rule is valid (i.e., is the SMARTS pattern valid)
@@ -89,7 +86,7 @@ namespace OpenBabel
     //! \return the text of the SMARTS pattern for this rule
     std::string  &GetSmartsString(){      return(_s);           }
     //! \return the exact OBSmartsPattern object for this rule
-    OBSmartsPattern *GetSmartsPattern() {  return(_sp);         }
+    OBSmartsPattern *GetSmartsPattern() { return(_sp.get()); }
   };
 
   //! \class OBRotorRules rotor.h <openbabel/rotor.h>
