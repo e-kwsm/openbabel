@@ -328,7 +328,7 @@ int main()
         continue;
       }
 
-      ifs.open(vs[1].c_str());
+      ifs.open(vs[1]);
       if (!ifs) {
         cout << "could not open '" << vs[1] << "'." <<endl;
         continue;
@@ -375,7 +375,7 @@ int main()
         continue;
       }
 
-      ofs.open(vs[1].c_str());
+      ofs.open(vs[1]);
       if (!ofs) {
         cout << "could not open '" << vs[1] << "'." <<endl;
         continue;

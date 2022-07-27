@@ -1343,7 +1343,7 @@ namespace OpenBabel {
                   }
                 if(itr==FileList.end())
                   {
-                    os.open(OutputFileName.c_str(),omode);
+                    os.open(OutputFileName,omode);
                     if(!os)
                       {
                         obErrorLog.ThrowError(__FUNCTION__,"Cannot write to " + OutputFileName, obError);
@@ -1426,7 +1426,7 @@ namespace OpenBabel {
                           return Count;
 
                         if(ofs.is_open()) ofs.close();
-                        ofs.open(batchfile.c_str(), omode);
+                        ofs.open(batchfile, omode);
                         if(!ofs)
                           {
                             obErrorLog.ThrowError(__FUNCTION__,"Cannot open " + batchfile, obError);
@@ -1447,7 +1447,7 @@ namespace OpenBabel {
                 if(!os.is_open() && !OutputFileName.empty() && !HasMultipleOutputFiles)
                   {
                     //Output was written to temporary string stream. Output it to the file
-                    os.open(OutputFileName.c_str(),omode);
+                    os.open(OutputFileName,omode);
                     if(!os)
                       {
                         obErrorLog.ThrowError(__FUNCTION__,"Cannot write to " + OutputFileName, obError);
@@ -1497,7 +1497,7 @@ namespace OpenBabel {
 
                         if(ofs.is_open()) ofs.close();
                         string incrfile = IncrementedFileName(OutputFileName,Indx++);
-                        ofs.open(incrfile.c_str(), omode);
+                        ofs.open(incrfile, omode);
                         if(!ofs)
                           {
                             obErrorLog.ThrowError(__FUNCTION__,"Cannot write to " + incrfile, obError);
@@ -1522,7 +1522,7 @@ namespace OpenBabel {
         if(os && !os.is_open() && !OutputFileName.empty())
           {
             //Output was written to temporary string stream. Output it to the file
-            os.open(OutputFileName.c_str(),omode);
+            os.open(OutputFileName,omode);
             if(!os)
               {
                 obErrorLog.ThrowError(__FUNCTION__,"Cannot write to " + OutputFileName, obError);

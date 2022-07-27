@@ -9,7 +9,7 @@ typedef vector<vector3> vv3;
 void testLossOfHydrogen(string filename)
 {
   string testfile = OBTestUtil::GetFilename(filename);
-  ifstream ifs(testfile.c_str());
+  ifstream ifs(testfile);
 
   OBConversion conv(&ifs);
   OB_REQUIRE(conv.SetInFormat("sdf"));
