@@ -1053,7 +1053,7 @@ namespace OpenBabel {
     }
 
     ios_base::openmode omode = ios_base::out|ios_base::binary;
-    ofstream *ofs = new ofstream(filePath.c_str(),omode);
+    ofstream *ofs = new ofstream(filePath,omode);
     if(!ofs || !ofs->good())
       {
         delete ofs;
@@ -1098,7 +1098,7 @@ namespace OpenBabel {
     // save the filename
     InFilename = filePath;
     ios_base::openmode imode = ios_base::in|ios_base::binary; //now always binary because may be gzipped
-    ifstream *ifs = new ifstream(filePath.c_str(),imode);
+    ifstream *ifs = new ifstream(filePath,imode);
     if(!ifs || !ifs->good())
     {
         delete ifs;
@@ -1126,7 +1126,7 @@ namespace OpenBabel {
       //attempt to auto-detect file format from extension
       pInFormat = FormatFromExt(infilepath.c_str(), inFormatGzip);
     }
-    ifstream *ifs = new ifstream(infilepath.c_str(),ios_base::in|ios_base::binary);  //always open in binary mode
+    ifstream *ifs = new ifstream(infilepath,ios_base::in|ios_base::binary);  //always open in binary mode
     if(!ifs || !ifs->good())
     {
       delete ifs;
@@ -1144,7 +1144,7 @@ namespace OpenBabel {
       //attempt to autodetect format
       pOutFormat = FormatFromExt(outfilepath.c_str(), outFormatGzip);
     }
-    ofstream *ofs = new ofstream(outfilepath.c_str(),ios_base::out|ios_base::binary);//always open in binary mode
+    ofstream *ofs = new ofstream(outfilepath,ios_base::out|ios_base::binary);//always open in binary mode
     if(!ofs || !ofs->good())
     {
       delete ofs;
@@ -1369,7 +1369,7 @@ namespace OpenBabel {
             vector<string>::iterator itr;
             for(itr=FileList.begin();itr!=FileList.end();++itr)
               {
-                ifstream ifs((*itr).c_str());
+                ifstream ifs(*itr);
                 if(!ifs)
                   {
                     obErrorLog.ThrowError(__FUNCTION__,"Cannot open " + *itr, obError);
@@ -1575,7 +1575,7 @@ namespace OpenBabel {
       }
 
     ios_base::openmode imode = ios_base::in|ios_base::binary;
-    is->open(InFilename.c_str(), imode);
+    is->open(InFilename, imode);
     if(!is->good())
       {
         obErrorLog.ThrowError(__FUNCTION__, "Cannot open " + InFilename, obError);
