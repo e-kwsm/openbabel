@@ -874,8 +874,8 @@ namespace OpenBabel
         parameter.clear();
         parameter._a = vs[1];
         parameter._b = vs[2];
-        parameter._dpar.push_back(atof(vs[4].c_str())); // length
-        parameter._dpar.push_back(atof(vs[5].c_str())); // force cte
+        parameter._dpar.push_back(stod(vs[4])); // length
+        parameter._dpar.push_back(stod(vs[5])); // force cte
         parameter._ipar.resize(1);
         if (EQn(vs[3].c_str(), "S", 1))
           parameter._ipar[0] = 1;
@@ -892,8 +892,8 @@ namespace OpenBabel
         parameter._a = vs[1];
         parameter._b = vs[2];
         parameter._c = vs[3];
-        parameter._dpar.push_back(atof(vs[5].c_str())); // angle
-        parameter._dpar.push_back(atof(vs[6].c_str())); // force cte
+        parameter._dpar.push_back(stod(vs[5])); // angle
+        parameter._dpar.push_back(stod(vs[6])); // force cte
         _ffangleparams.push_back(parameter);
       }
       if (EQn(buffer, "torsion", 7)) {
@@ -903,8 +903,8 @@ namespace OpenBabel
         parameter._c = vs[3];
         parameter._d = vs[4];
         parameter._dpar.resize(3);
-        parameter._dpar[0] = atof(vs[6].c_str()); // force cte
-        parameter._dpar[2] = atof(vs[8].c_str()); // n
+        parameter._dpar[0] = stod(vs[6]); // force cte
+        parameter._dpar[2] = stod(vs[8]); // n
         if (EQn(vs[7].c_str(), "+", 1))
           parameter._dpar[1] = +1; // s
         else if (EQn(vs[7].c_str(), "-", 1))
@@ -924,8 +924,8 @@ namespace OpenBabel
       if (EQn(buffer, "vdw", 3)) {
         parameter.clear();
         parameter._a = vs[1];
-        parameter._dpar.push_back(atof(vs[2].c_str())); // r
-        parameter._dpar.push_back(atof(vs[3].c_str())); // force cte
+        parameter._dpar.push_back(stod(vs[2])); // r
+        parameter._dpar.push_back(stod(vs[3])); // force cte
         _ffvdwparams.push_back(parameter);
       }
       if (EQn(buffer, "charge", 6)) {
@@ -937,7 +937,7 @@ namespace OpenBabel
           parameter._ipar[0] = 1;
         else if (EQn(vs[3].c_str(), "D", 1))
           parameter._ipar[0] = 2;
-        parameter._dpar.push_back(atof(vs[4].c_str())); // charge
+        parameter._dpar.push_back(stod(vs[4])); // charge
         _ffchargeparams.push_back(parameter);
       }
     }
