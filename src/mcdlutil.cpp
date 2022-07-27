@@ -1282,7 +1282,7 @@ namespace OpenBabel {
     n=0;
     s=value.substr(n,2); //2 symbols - number of atoms
     n=n+2;
-    kk=strtol(s.c_str(),nullptr,10);
+    kk=stol(s);
     for (i=0; i<kk; i++) {
       sa=new TSingleAtom();
       s=value.substr(n,1);
