@@ -131,7 +131,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
     
     _nmols=1;
     if(vec.size()>1)
-      _nmols = atoi(vec[0].c_str());
+      _nmols = stoi(vec[0]);
     if(_nmols==0)
       _nmols=1;
  

@@ -78,13 +78,13 @@ int main(int argc,char **argv)
       
       if ((option == "-s") && (argc > (i+1))) {
         string stepstr = argv[i+1];
-        step = atof(stepstr.c_str());
+        step = stod(stepstr);
         ifile += 2;
       }
 
       if ((option == "-p") && (argc > (i+1))) {
         string paddingstr = argv[i+1];
-        padding = atof(paddingstr.c_str());
+        padding = stod(paddingstr);
         ifile += 2;
       }
     }

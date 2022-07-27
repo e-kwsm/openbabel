@@ -96,7 +96,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
       vcvs[i].mult = true;
       str = str.substr(1);
     }
-    vcvs[i].value = atof(str.c_str());
+    vcvs[i].value = stod(str);
     if(  vcvs[i].value == 0 )
     {  
       obErrorLog.ThrowError(__FUNCTION__, "Wrong value \"" + str +"\"" , obWarning);

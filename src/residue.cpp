@@ -1054,7 +1054,7 @@ namespace OpenBabel
 
   int OBResidue::GetNum(void)
   {
-    return atoi(_resnum.c_str());
+    return stoi(_resnum);
   }
 
   unsigned int OBResidue::GetNumAtoms(void) const

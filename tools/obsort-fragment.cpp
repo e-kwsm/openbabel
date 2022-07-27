@@ -47,12 +47,12 @@ bool CompareSMILES(const string &a, const string &b)
   tokenize(vb, b.c_str());
 
   // Sort based on the number of atoms, then the number of bonds, then the length
-  if (atoi(va[1].c_str()) > atoi(vb[1].c_str()))
+  if (stoi(va[1].c_str()) > atoi(vb[1]))
     return true;
-  else if (atoi(va[1].c_str()) == atoi(vb[1].c_str())) {
-    if (atoi(va[2].c_str()) > atoi(vb[2].c_str()))
+  else if (stoi(va[1].c_str()) == atoi(vb[1])) {
+    if (stoi(va[2].c_str()) > atoi(vb[2]))
       return true;
-    else if (atoi(va[2].c_str()) == atoi(vb[2].c_str()))
+    else if (stoi(va[2].c_str()) == atoi(vb[2]))
       return a.length() > b.length();
   }
   else

@@ -208,7 +208,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
         vec[1].erase(0,1);
       else
         comparechar = '\0';
-      nmatches = atoi(vec[1].c_str());
+      nmatches = stoi(vec[1]);
       if(nmatches) //remove this parameter to still allow coloring
         vec.erase(vec.begin()+1);
     }

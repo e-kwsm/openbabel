@@ -92,7 +92,7 @@ namespace OpenBabel
           }
 
         _vtsfm.push_back(tsfm);
-        _vpKa.push_back(atof(vs[4].c_str()));
+        _vpKa.push_back(stod(vs[4]));
       }
     else if (EQn(buffer,"SEEDCHARGE",10))
       {
