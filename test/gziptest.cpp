@@ -118,7 +118,7 @@ int gziptest(int argc, char* argv[])
     putenv(env);
   #endif
 
-  ifstream ifs(gzipin.c_str());
+  ifstream ifs(gzipin);
   if (!ifs)
     {
       cout << "Bail out! Cannot read gzip.in!" << endl;

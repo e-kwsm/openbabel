@@ -101,7 +101,7 @@ int aromatest(int argc, char* argv[])
     putenv(env);
   #endif
 
-  ifstream ifs(filename.c_str());
+  ifstream ifs(filename);
   if (!ifs)
     {
       cout << "Bail out! Cannot read input file!" << endl;

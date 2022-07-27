@@ -95,7 +95,7 @@ bool doShuffleTestMultiFile(const std::string &filename)
   OB_REQUIRE( conv.SetInFormat(format) );
 
   std::ifstream ifs;
-  ifs.open(file.c_str());
+  ifs.open(file);
   OB_REQUIRE( ifs );
  
   bool result = true;
@@ -151,7 +151,7 @@ bool verifyLSSR(const std::string &filename, const LSSR &ref)
   OB_REQUIRE( conv.SetInFormat(format) );
 
   std::ifstream ifs;
-  ifs.open(file.c_str());
+  ifs.open(file);
   OB_REQUIRE( ifs );
   OB_REQUIRE( conv.Read(&mol, &ifs) );
 

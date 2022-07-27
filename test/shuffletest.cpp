@@ -200,7 +200,7 @@ bool doShuffleTestOnMultiFile(const std::string &filename)
 
 
   std::ifstream ifs;
-  ifs.open(file.c_str());
+  ifs.open(file);
   OB_REQUIRE( ifs );
 
   bool result = true;
