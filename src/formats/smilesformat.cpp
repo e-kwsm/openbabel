@@ -3731,7 +3731,7 @@ namespace OpenBabel {
           if (it->size()==1)
             mult = 1;
           else
-            mult = atoi(it->substr(0, it->size()-1).c_str());
+            mult = stoi(it->substr(0, it->size()-1));
           new_canonical_labels.insert(new_canonical_labels.end(),
             canonical_labels.begin()+total, canonical_labels.begin()+total+mult);
           total += mult;
@@ -4217,7 +4217,7 @@ namespace OpenBabel {
         buffer += '\t';
         char tmp[15];
         for (unsigned int i = 0; i < vs.size(); i++) {
-          int idx = atoi(vs[i].c_str());
+          int idx = stoi(vs[i]);
           OBAtom *atom = pmol->GetAtom(idx);
           if (i > 0)
             buffer += ',';
@@ -4325,7 +4325,7 @@ namespace OpenBabel {
         mol.SetConformer(j);
         for (unsigned int index = 0; index < canonical_order.size();
              ++index) {
-          atomIdx = atoi(canonical_order[index].c_str());
+          atomIdx = stoi(canonical_order[index]);
           atom = mol.GetAtom(atomIdx);
           snprintf(coords, 100, "%9.3f %9.3f %9.3f", atom->GetX(), atom->GetY(), atom->GetZ());
           ofs << coords << endl;

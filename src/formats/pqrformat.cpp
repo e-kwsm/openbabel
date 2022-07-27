@@ -207,9 +207,9 @@ namespace OpenBabel
     OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
     if (vs.size() == 11)//add element, Zhixiong Zhao
-      return atof(vs[8].c_str());
+      return stod(vs[8]);
     else if (vs.size() == 12)
-      return atof(vs[9].c_str());
+      return stod(vs[9]);
 
     return 0.0;
   }
@@ -222,9 +222,9 @@ namespace OpenBabel
     OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
     if (vs.size() == 11)
-      return atof(vs[9].c_str());
+      return stod(vs[9]);
     else if (vs.size() == 12)
-      return atof(vs[10].c_str());
+      return stod(vs[10]);
 
     return 0.0;
   }
@@ -387,7 +387,7 @@ namespace OpenBabel
     string xstr = sbuf.substr(24,8);
     string ystr = sbuf.substr(32,8);
     string zstr = sbuf.substr(40,8);
-    vector3 v(atof(xstr.c_str()),atof(ystr.c_str()),atof(zstr.c_str()));
+    vector3 v(stod(xstr),stod(ystr),stod(zstr));
     atom.SetVector(v);
 
     // useful for debugging unknown atom types (e.g., PR#1577238)
@@ -423,7 +423,7 @@ namespace OpenBabel
         OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
         res->AddAtom(atom);
-        res->SetSerialNum(atom, atoi(serno.c_str()));
+        res->SetSerialNum(atom, stoi(serno));
         res->SetAtomID(atom, sbuf.substr(6,4));
         res->SetHetAtom(atom, hetatm);
 
@@ -559,7 +559,7 @@ namespace OpenBabel
                  atom->GetZ(),
                  atom->GetPartialCharge(),
                  atom->HasData("Radius")//use atom radius data,Zhixiong Zhao
-				 	?atof(atom->GetData("Radius")->GetValue().c_str())
+				 	?stod(atom->GetData("Radius")->GetValue())
 					:OBElements::GetVdwRad(atom->GetAtomicNum()),
                  element_name);
         ofs << buffer;

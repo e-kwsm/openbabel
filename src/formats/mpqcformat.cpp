@@ -139,15 +139,15 @@ namespace OpenBabel
               {
                 if (bohr)
                   {
-                    x = atof((char*)vs[3].c_str()) * BOHR_TO_ANGSTROM;
-                    y = atof((char*)vs[4].c_str()) * BOHR_TO_ANGSTROM;
-                    z = atof((char*)vs[5].c_str()) * BOHR_TO_ANGSTROM;
+                    x = stod(vs[3]) * BOHR_TO_ANGSTROM;
+                    y = stod(vs[4]) * BOHR_TO_ANGSTROM;
+                    z = stod(vs[5]) * BOHR_TO_ANGSTROM;
                   }
                 else
                   {
-                    x = atof((char*)vs[3].c_str());
-                    y = atof((char*)vs[4].c_str());
-                    z = atof((char*)vs[5].c_str());
+                    x = stod(vs[3]);
+                    y = stod(vs[4]);
+                    z = stod(vs[5]);
                   }
                 atom = mol.NewAtom();
                 atom->SetVector(x,y,z);

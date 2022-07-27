@@ -107,7 +107,7 @@ bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         str = atom->GetType();
         ttab.Translate(str1,str);
 
-        type_name = atoi((char*) str1.c_str());
+        type_name = stoi(str1);
         switch (type_name)
         {
         case 1:

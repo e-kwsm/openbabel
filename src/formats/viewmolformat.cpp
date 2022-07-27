@@ -102,7 +102,7 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         {
             tokenize(vs,buffer);
             if (vs.size() == 2)
-                factor = atof((char*)vs[1].c_str()); // conversion to angstrom
+                factor = stod(vs[1]); // conversion to angstrom
             while (ifs.getline(buffer,BUFF_SIZE))
             {
 
@@ -112,9 +112,9 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
                 if (vs.size() != 4)
 		  break;
                 atom = mol.NewAtom();
-                x = atof((char*)vs[0].c_str()) * factor;
-                y = atof((char*)vs[1].c_str()) * factor;
-                z = atof((char*)vs[2].c_str()) * factor;
+                x = stod(vs[0]) * factor;
+                y = stod(vs[1]) * factor;
+                z = stod(vs[2]) * factor;
                 atom->SetVector(x,y,z); //set coordinates
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
             }

@@ -99,12 +99,12 @@ namespace OpenBabel
       return(false);
 
     //parse cell values
-    A = atof((char*)vs[2].c_str());
-    B = atof((char*)vs[3].c_str());
-    C = atof((char*)vs[4].c_str());
-    Alpha = atof((char*)vs[5].c_str());
-    Beta  = atof((char*)vs[6].c_str());
-    Gamma = atof((char*)vs[7].c_str());
+    A = stod(vs[2]);
+    B = stod(vs[3]);
+    C = stod(vs[4]);
+    Alpha = stod(vs[5]);
+    Beta  = stod(vs[6]);
+    Gamma = stod(vs[7]);
     OBUnitCell *uc = new OBUnitCell;
     uc->SetOrigin(fileformatInput);
     uc->SetData(A, B, C, Alpha, Beta, Gamma);
@@ -132,9 +132,9 @@ namespace OpenBabel
           continue;
         atom = mol.NewAtom();
 
-        x = atof((char*)vs[2].c_str());
-        y = atof((char*)vs[3].c_str());
-        z = atof((char*)vs[4].c_str());
+        x = stod(vs[2]);
+        y = stod(vs[3]);
+        z = stod(vs[4]);
         v.Set(x,y,z);
         v = uc->FractionalToCartesian(v);
 
