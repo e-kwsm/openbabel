@@ -111,12 +111,12 @@ namespace OpenBabel
         if (vs.size() >= 8)
           {
               oba = new OBAtomHOF(vs[0],
-                                  atoi(vs[1].c_str()),
+                                  stoi(vs[1]),
                                   vs[2],
                                   vs[3],
-                                  atof(vs[4].c_str()),
-                                  atof(vs[5].c_str()),
-                                  atoi(vs[6].c_str()),
+                                  stod(vs[4]),
+                                  stod(vs[5]),
+                                  stoi(vs[6]),
                                   vs[7]);
             _atomhof.push_back(*oba);
           }
@@ -573,7 +573,7 @@ namespace OpenBabel
           {
             s = (vs[1] < vs[2]) ? vs[1] + " " + vs[2] :
               vs[2] + " " + vs[1];
-            bo = atoi(vs[3].c_str());
+            bo = stoi(vs[3]);
             _vtmp.push_back(pair<string,int> (s,bo));
           }
 
@@ -658,7 +658,7 @@ namespace OpenBabel
           ++i;
           type = *i;
           ++i;
-          hyb = atoi((*i).c_str());
+          hyb = stoi(*i);
           return(true);
         }
 
