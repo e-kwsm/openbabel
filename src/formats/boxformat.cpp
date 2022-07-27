@@ -90,7 +90,7 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             string x = sbuf.substr(24,8);
             string y = sbuf.substr(32,8);
             string z = sbuf.substr(40,8);
-            vector3 v(atof(x.c_str()),atof(y.c_str()),atof(z.c_str()));
+            vector3 v(stod(x),stod(y),stod(z));
             atom.SetVector(v);
             if (!mol.AddAtom(atom))
                 return(false);
@@ -101,7 +101,7 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             tokenize(vs,buffer);
             if (!vs.empty() && vs.size() > 2)
                 for (i = vs.begin(),i+=2;i != vs.end();++i)
-                    mol.AddBond(atoi(vs[1].c_str()),atoi((*i).c_str()),1);
+                    mol.AddBond(stoi(vs[1]),stoi(*i),1);
         }
     }
 
