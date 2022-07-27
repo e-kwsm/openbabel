@@ -378,7 +378,7 @@ namespace OpenBabel
           return false;
         vs.erase(vs.begin()); // remove "CONECT"
 
-        startAtomSerialNumber = atoi(vs[0].c_str());
+        startAtomSerialNumber = stoi(vs[0]);
       }
     else
       {
@@ -421,10 +421,10 @@ namespace OpenBabel
 
     if (mol.NumAtoms() < 9999)
       {
-        if (vs.size() > 1) boundedAtomsSerialNumbers[0] = atoi(vs[1].c_str());
-        if (vs.size() > 2) boundedAtomsSerialNumbers[1] = atoi(vs[2].c_str());
-        if (vs.size() > 3) boundedAtomsSerialNumbers[2] = atoi(vs[3].c_str());
-        if (vs.size() > 4) boundedAtomsSerialNumbers[3] = atoi(vs[4].c_str());
+        if (vs.size() > 1) boundedAtomsSerialNumbers[0] = stoi(vs[1]);
+        if (vs.size() > 2) boundedAtomsSerialNumbers[1] = stoi(vs[2]);
+        if (vs.size() > 3) boundedAtomsSerialNumbers[2] = stoi(vs[3]);
+        if (vs.size() > 4) boundedAtomsSerialNumbers[3] = stoi(vs[4]);
 
         unsigned int limit = 4;
         if (vs.size() <= 4)
@@ -1087,10 +1087,10 @@ namespace OpenBabel
     string xstr = sbuf.substr(24,8);
     string ystr = sbuf.substr(32,8);
     string zstr = sbuf.substr(40,8);
-    vector3 v(atof(xstr.c_str()),atof(ystr.c_str()),atof(zstr.c_str()));
+    vector3 v(stod(xstr),stod(ystr),stod(zstr));
     atom.SetVector(v);
 
-    double occupancy = atof(sbuf.substr(48, 6).c_str());
+    double occupancy = stod(sbuf.substr(48, 6));
     OBPairFloatingPoint* occup = new OBPairFloatingPoint;
     occup->SetAttribute("_atom_site_occupancy");
     if (occupancy <= 0.0 || occupancy > 1.0){
@@ -1173,7 +1173,7 @@ namespace OpenBabel
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
       res->AddAtom(atom);
-      res->SetSerialNum(atom, atoi(serno.c_str()));
+      res->SetSerialNum(atom, stoi(serno));
       res->SetAtomID(atom, sbuf.substr(6,4));
       res->SetHetAtom(atom, hetatm);
 
