@@ -104,7 +104,7 @@ bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     {
       OBAtom atom;
       atom.SetAtomicNum(OBElements::GetAtomicNum(toks[i].c_str()));
-      elnum = atoi(toks[i+1].c_str());
+      elnum = stoi(toks[i+1]);
       for(;elnum>0;--elnum)
         pmol->AddAtom(atom);
     }
@@ -179,7 +179,7 @@ bool ThermoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   //Check that atom numbers are less than 999
   bool toobig=toks.size()>8;
   for(i=0;i<toks.size() && !toobig ;i+=2)
-    if(atoi(toks[i+1].c_str())>999)
+    if(stoi(toks[i+1])>999)
       toobig =true;
   if(toobig)
     //Reaction Design extension

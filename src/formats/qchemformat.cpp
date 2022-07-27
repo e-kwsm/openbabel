@@ -149,9 +149,9 @@ namespace OpenBabel
               {
                 atom = mol.NewAtom();
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
-                x = atof((char*)vs[2].c_str());
-                y = atof((char*)vs[3].c_str());
-                z = atof((char*)vs[4].c_str());
+                x = stod(vs[2]);
+                y = stod(vs[3]);
+                z = stod(vs[4]);
                 atom->SetVector(x,y,z);
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
@@ -165,9 +165,9 @@ namespace OpenBabel
             tokenize(vs,buffer);
             if (vs.size() >= 6)
               {
-                x = atof(vs[1].c_str());
-                y = atof(vs[3].c_str());
-                z = atof(vs[5].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[3]);
+                z = stod(vs[5]);
                 dipoleMoment.Set(x, y, z);
               }
             if (!ifs.getline(buffer,BUFF_SIZE)) break;
@@ -183,10 +183,10 @@ namespace OpenBabel
             int nbAtomRead = 0;
             while (vs.size() >= 3)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 ++nbAtomRead;
                 if (atom)
-                  atom->SetPartialCharge(atof(vs[2].c_str()));
+                  atom->SetPartialCharge(stod(vs[2]));
                 if (!ifs.getline(buffer,BUFF_SIZE))
                   break;
                 tokenize(vs,buffer);
@@ -206,13 +206,13 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (vs.size() >= 5)
               {
-                atom = mol.GetAtom(atoi(vs[2].c_str()));
+                atom = mol.GetAtom(stoi(vs[2]));
                 OBPairData *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 
                 // We want to round this to 2 decimals
                 // So convert to a float and print it as a new string
-                float shift = static_cast<float> (atof(vs[3].c_str()));
+                float shift = stof(vs[3]);
                 snprintf(tag, BUFF_SIZE, "%7.2f", shift);
 
                 nmrShift->SetValue(tag);
@@ -230,7 +230,7 @@ namespace OpenBabel
             // (e.g., 2 or 3 across)
             tokenize(vs,buffer);
             for(unsigned int i=1; i < vs.size(); ++i)
-              frequencies.push_back(atof(vs[i].c_str()));
+              frequencies.push_back(stod(vs[i]));
 
             ifs.getline(buffer,BUFF_SIZE); // IR active or force constant
             if (strstr(buffer, "Force Cnst:") != nullptr) {
@@ -240,7 +240,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer); // Remember: "IR Intens" is two tokens
             for(unsigned int i=2; i < vs.size(); ++i)
-              intensities.push_back(atof(vs[i].c_str()));
+              intensities.push_back(stod(vs[i]));
 
             ifs.getline(buffer,BUFF_SIZE);	// Raman active
             ifs.getline(buffer,BUFF_SIZE);	// column headings
@@ -253,9 +253,9 @@ namespace OpenBabel
                 break;
               }
               for (unsigned int i = 1; i+2 < vs.size(); i += 3) {
-                x = atof(vs[i].c_str());
-                y = atof(vs[i+1].c_str());
-                z = atof(vs[i+2].c_str());
+                x = stod(vs[i]);
+                y = stod(vs[i+1]);
+                z = stod(vs[i+2]);
 
                 if (i == 1)
                   vib1.push_back(vector3(x, y, z));
@@ -291,8 +291,8 @@ namespace OpenBabel
             tokenize(vs, buffer, ", \t\n");
             if (vs.size() == 2)
               {
-                charge = atoi(vs[0].c_str());
-                spin = atoi(vs[1].c_str());
+                charge = stoi(vs[0]);
+                spin = stoi(vs[1]);
               }
           } // end (OPTIMIZATION CONVERGED)
       } // end while
