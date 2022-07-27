@@ -74,14 +74,14 @@ int formalcharge(int argc, char* argv[])
   cout << "# Testing molecular formal charges..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, fsmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, fsmilestypes_file))
     {
       cout << "Bail out! Cannot read file " << fsmilestypes_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, fresults_file.c_str()))
+  if (!SafeOpen(rifs, fresults_file))
     {
       cout << "Bail out! Cannot read file " << fresults_file << endl;
       return -1; // test failed
@@ -127,11 +127,11 @@ int formalcharge(int argc, char* argv[])
 void GenerateFormalChargeReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, fsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs, fsmilestypes_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, fresults_file.c_str()))
+  if (!SafeOpen(ofs, fresults_file))
     return;
 
   OBMol mol;

@@ -85,17 +85,17 @@ int formula(int argc, char* argv[])
     filename = gsmilestypes_file;
   }
 
-  if (!SafeOpen(mifs, filename.c_str()))
+  if (!SafeOpen(mifs, filename))
     {
       cout << "Bail out! Cannot read file " << filename << endl;
       return -1; // test failed
     }
 
-  OBFormat *format = conv.FormatFromExt(filename.c_str());
+  OBFormat *format = conv.FormatFromExt(filename);
 
   std::ifstream rifs;
   if (check) {
-    if (!SafeOpen(rifs, gresults_file.c_str()))
+    if (!SafeOpen(rifs, gresults_file))
       {
         cout << "Bail out! Cannot read file " << gresults_file << endl;
         return -1; // test failed
@@ -214,11 +214,11 @@ int formula(int argc, char* argv[])
 void GenerateFormulaReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, gsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs, gsmilestypes_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, gresults_file.c_str()))
+  if (!SafeOpen(ofs, gresults_file))
     return;
 
   OBMol mol;

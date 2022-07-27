@@ -75,14 +75,14 @@ int ffgaff(int argc, char* argv[])
   cout << "# Testing GAFF Force Field..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, cmolecules_file.c_str()))
+  if (!SafeOpen(mifs, cmolecules_file))
     {
       cout << "Bail out! Cannot read file " << cmolecules_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, cresults_file.c_str()))
+  if (!SafeOpen(rifs, cresults_file))
     {
       cout << "Bail out! Cannot read file " << cresults_file << endl;
       return -1; // test failed
@@ -160,11 +160,11 @@ int ffgaff(int argc, char* argv[])
 void NGenerateEnergies()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, cmolecules_file.c_str()))
+  if (!SafeOpen(ifs, cmolecules_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, cresults_file.c_str()))
+  if (!SafeOpen(ofs, cresults_file))
     return;
 
   OBMol mol;
