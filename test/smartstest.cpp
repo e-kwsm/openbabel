@@ -76,7 +76,7 @@ int smartstest(int argc, char* argv[])
   cout << endl << "# Testing SMARTS...  \n";
 
   std::ifstream ifs;
-  if (!SafeOpen(ifs, msmarts_file.c_str()))
+  if (!SafeOpen(ifs, msmarts_file))
     {
       cout << "Bail out! Cannot read " << msmarts_file << endl;
       return -1; // test failed
@@ -100,7 +100,7 @@ int smartstest(int argc, char* argv[])
   ifs.close();
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, mresults_file.c_str()))
+  if (!SafeOpen(rifs, mresults_file))
     {
       cout << "Bail out! Cannot read in results file " << mresults_file << endl;
       return -1; // test failed
@@ -119,7 +119,7 @@ int smartstest(int argc, char* argv[])
     }
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, msmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, msmilestypes_file))
     {
       cout << "Bail out! Cannot read atom types " << msmilestypes_file << endl;
       return -1; // test failed
@@ -220,7 +220,7 @@ int smartstest(int argc, char* argv[])
 void GenerateSmartsReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs,msmarts_file.c_str()))
+  if (!SafeOpen(ifs,msmarts_file))
     return;
 
   char buffer[BUFF_SIZE];
@@ -239,12 +239,12 @@ void GenerateSmartsReference()
     }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, mresults_file.c_str()))
+  if (!SafeOpen(ofs, mresults_file))
     return;
 
   ofs << vsp.size() << " patterns" << endl;
   std::ifstream mifs;
-  if (!SafeOpen(mifs, msmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, msmilestypes_file))
     return;
 
   vector<int> vm;

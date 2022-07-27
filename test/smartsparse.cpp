@@ -60,7 +60,7 @@ int smartsparse(int argc, char* argv[])
   cout << "# Testing SMARTS Parsing...  \n";
 
   std::ifstream ifs;
-  if (!SafeOpen(ifs, nsmarts_file.c_str()))
+  if (!SafeOpen(ifs, nsmarts_file))
     {
       cout << "Bail out! Cannot read " << nsmarts_file << endl;
       return -1; // test failed
