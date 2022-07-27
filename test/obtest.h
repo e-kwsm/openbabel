@@ -71,7 +71,7 @@ struct OBTestUtil
   {
     std::string fn = GetFilename(filename);
 
-    std::ifstream ifs(fn.c_str());
+    std::ifstream ifs(fn);
     std::stringstream buffer;
     buffer << ifs.rdbuf();
     std::string content = buffer.str();
