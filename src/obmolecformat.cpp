@@ -524,7 +524,7 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__,
                               "Prepared an index for " + datafilepath, obAuditMsg);
         //Save index to file
-        ofstream dofs((datafilepath + ".obindx").c_str(), ios_base::out|ios_base::binary);
+        ofstream dofs(datafilepath + ".obindx", ios_base::out|ios_base::binary);
         if(!dofs) return false;
 
         strncpy(header.filename,datafilename.c_str(), sizeof(header.filename));
