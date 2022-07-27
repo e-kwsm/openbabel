@@ -56,21 +56,21 @@ int charge_mmff94(int argc, char* argv[])
   cout << "# Testing MMFF94 Charge Model..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, molecules_file.c_str()))
+  if (!SafeOpen(mifs, molecules_file))
     {
       cout << "Bail out! Cannot read file " << molecules_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, results_file.c_str()))
+  if (!SafeOpen(rifs, results_file))
     {
       cout << "Bail out! Cannot read file " << results_file << endl;
       return -1; // test failed
     }
 
   std::ifstream difs;
-  if (!SafeOpen(difs, dipole_file.c_str()))
+  if (!SafeOpen(difs, dipole_file))
     {
       cout << "Bail out! Cannot read file " << dipole_file << endl;
       return -1; // test failed
@@ -175,15 +175,15 @@ int charge_mmff94(int argc, char* argv[])
 void GenerateMMFF94Charges()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, molecules_file.c_str()))
+  if (!SafeOpen(ifs, molecules_file))
     return;
 
   std::ofstream rofs;
-  if (!SafeOpen(rofs, results_file.c_str()))
+  if (!SafeOpen(rofs, results_file))
     return;
 
   std::ofstream dofs;
-  if (!SafeOpen(dofs, dipole_file.c_str()))
+  if (!SafeOpen(dofs, dipole_file))
     return;
 
   OBMol mol;
