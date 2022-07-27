@@ -159,7 +159,7 @@ namespace OpenBabel {
         ifs_struct_out.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         for (size_t j = 0; j < 3; j++) {
-          cellMatrix(i,j) = atof(vs.at(j).c_str());
+          cellMatrix(i,j) = stod(vs.at(j));
         }
       }
 
@@ -173,7 +173,7 @@ namespace OpenBabel {
       // Get number of atoms
       ifs_struct_out.getline(buffer, BUFF_SIZE);
       tokenize(vs, buffer);
-      numAtoms = atoi(vs.at(0).c_str());
+      numAtoms = stoi(vs.at(0));
 
       // Clear old atoms from pmol in case they were set for some reason
       vector<OBAtom*> toDelete;
@@ -190,11 +190,11 @@ namespace OpenBabel {
         tokenize(vs, buffer);
 
         // save atomic number
-        atomicNum = atoi(vs.at(1).c_str());
+        atomicNum = stoi(vs.at(1));
 
-        x = atof(vs.at(2).c_str());
-        y = atof(vs.at(3).c_str());
-        z = atof(vs.at(4).c_str());
+        x = stod(vs.at(2));
+        y = stod(vs.at(3));
+        z = stod(vs.at(4));
 
         // Add atom
         OBAtom *atom = pmol->NewAtom();
@@ -219,12 +219,12 @@ namespace OpenBabel {
       // These are currently unused, but may be used in the future...
       if(strstr(buffer, "NumberOfSpecies")) {
         tokenize(vs, buffer);
-        numSpecies = atoi(vs.at(1).c_str());
+        numSpecies = stoi(vs.at(1));
       }
 
       if (strstr(buffer, "NumberOfAtoms")) {
         tokenize(vs, buffer);
-        numAtoms = atoi(vs.at(1).c_str());
+        numAtoms = stoi(vs.at(1));
       }
 */
       // ChemicalSpeciesLabels are stored in atomTypeLabels
@@ -232,7 +232,7 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         while (!strstr(buffer, "%endblock ChemicalSpeciesLabel")) {
-          atomTypeLabels[atoi(vs.at(0).c_str())] = vs.at(2).c_str();
+          atomTypeLabels[stoi(vs.at(0))] = vs.at(2).c_str();
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
         }
@@ -262,7 +262,7 @@ namespace OpenBabel {
         while (!strstr(buffer, "%endblock AtomicCoordinatesAndAtomicSpecies")) {
           // Find the correct atomic number
           std::map<int, string>::iterator it;
-          it = atomTypeLabels.find(atoi(vs.at(3).c_str()));
+          it = atomTypeLabels.find(stoi(vs.at(3)));
           // Just a basic find() error check
           if(it == atomTypeLabels.end()) {
              delete cell;
@@ -274,9 +274,9 @@ namespace OpenBabel {
 
           atomicNum = OBElements::GetAtomicNum(it->second.c_str());
 
-          x = atof(vs.at(0).c_str());
-          y = atof(vs.at(1).c_str());
-          z = atof(vs.at(2).c_str());
+          x = stod(vs.at(0));
+          y = stod(vs.at(1));
+          z = stod(vs.at(2));
 
           // Add atom
           OBAtom *atom = pmol->NewAtom();
@@ -315,9 +315,9 @@ namespace OpenBabel {
         while (size == 6) {
           atomicNum = OBElements::GetAtomicNum(vs.at(5).c_str());
 
-          x = atof(vs.at(0).c_str());
-          y = atof(vs.at(1).c_str());
-          z = atof(vs.at(2).c_str());
+          x = stod(vs.at(0));
+          y = stod(vs.at(1));
+          z = stod(vs.at(2));
 
           // Add atom
           OBAtom *atom = pmol->NewAtom();
@@ -335,7 +335,7 @@ namespace OpenBabel {
       // Lattice constant for the input lattice parameters
       if (strstr(buffer, "LatticeConstant") && !struct_out_found) {
         tokenize(vs, buffer);
-        latticeConstant = atof(vs.at(1).c_str());
+        latticeConstant = stod(vs.at(1));
 
         // TODO: Maybe check for other length units in the future?
         if (strstr(buffer, "Ang")) coordsAreAngstrom = true;
@@ -347,13 +347,13 @@ namespace OpenBabel {
       if (strstr(buffer, "%block LatticeParameters") && !struct_out_found) {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
-        a = atof(vs.at(0).c_str()) * latticeConstant;
-        b = atof(vs.at(1).c_str()) * latticeConstant;
-        c = atof(vs.at(2).c_str()) * latticeConstant;
+        a = stod(vs.at(0)) * latticeConstant;
+        b = stod(vs.at(1)) * latticeConstant;
+        c = stod(vs.at(2)) * latticeConstant;
 
-        alpha = atof(vs.at(3).c_str());
-        beta  = atof(vs.at(4).c_str());
-        gamma = atof(vs.at(5).c_str());
+        alpha = stod(vs.at(3));
+        beta  = stod(vs.at(4));
+        gamma = stod(vs.at(5));
         cell->SetData(a, b, c, alpha, beta, gamma);
         cellDataWasSet = true;
       }
@@ -369,7 +369,7 @@ namespace OpenBabel {
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
           for (size_t j = 0; j < 3; j++) {
-            cellMatrix(i,j) = atof(vs.at(j).c_str());
+            cellMatrix(i,j) = stod(vs.at(j));
           }
         }
 
@@ -384,7 +384,7 @@ namespace OpenBabel {
         // We may need to add more energies to record in the future...
         while (!strstr(buffer, "Total")) ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(stod(vs[3]) * EV_TO_KCAL_PER_MOL);
       }
 
       // We've reached the end!
