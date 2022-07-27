@@ -55,21 +55,21 @@ int charge_gasteiger(int argc, char* argv[])
   cout << "# Testing GASTEIGER Charge Model..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, amolecules_file.c_str()))
+  if (!SafeOpen(mifs, amolecules_file))
     {
       cout << "Bail out! Cannot read file " << amolecules_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, aresults_file.c_str()))
+  if (!SafeOpen(rifs, aresults_file))
     {
       cout << "Bail out! Cannot read file " << aresults_file << endl;
       return -1; // test failed
     }
 
   std::ifstream difs;
-  if (!SafeOpen(difs, adipole_file.c_str()))
+  if (!SafeOpen(difs, adipole_file))
     {
       cout << "Bail out! Cannot read file " << adipole_file << endl;
       return -1; // test failed
@@ -171,15 +171,15 @@ int charge_gasteiger(int argc, char* argv[])
 void GenerateGasteigerCharges()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, amolecules_file.c_str()))
+  if (!SafeOpen(ifs, amolecules_file))
     return;
 
   std::ofstream rofs;
-  if (!SafeOpen(rofs, aresults_file.c_str()))
+  if (!SafeOpen(rofs, aresults_file))
     return;
 
   std::ofstream dofs;
-  if (!SafeOpen(dofs, adipole_file.c_str()))
+  if (!SafeOpen(dofs, adipole_file))
     return;
 
   OBMol mol;
