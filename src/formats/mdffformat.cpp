@@ -161,23 +161,23 @@ namespace OpenBabel {
 
     ifs_posff.getline(buffer,BUFF_SIZE); // X_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str());
-    y = atof(vs.at(1).c_str());
-    z = atof(vs.at(2).c_str());
+    x = stod(vs.at(0));
+    y = stod(vs.at(1));
+    z = stod(vs.at(2));
     vector3 x_vec (x,y,z);
 
     ifs_posff.getline(buffer,BUFF_SIZE); // Y_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str());
-    y = atof(vs.at(1).c_str());
-    z = atof(vs.at(2).c_str());
+    x = stod(vs.at(0));
+    y = stod(vs.at(1));
+    z = stod(vs.at(2));
     vector3 y_vec (x,y,z);
 
     ifs_posff.getline(buffer,BUFF_SIZE); // Z_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str());
-    y = atof(vs.at(1).c_str());
-    z = atof(vs.at(2).c_str());
+    x = stod(vs.at(0));
+    y = stod(vs.at(1));
+    z = stod(vs.at(2));
     vector3 z_vec (x,y,z);
 
     // Build unit cell
@@ -222,7 +222,7 @@ namespace OpenBabel {
     totalAtoms = 0;
     for (size_t i = 0; i < atom_t_prop.size(); ++i) 
     {  
-      int currentCount = atoi(vs.at(i).c_str());
+      int currentCount = stoi(vs.at(i));
       atom_t_prop[i].num_of_atoms =  currentCount;
       totalAtoms += currentCount;
     }
@@ -249,7 +249,7 @@ namespace OpenBabel {
             {
               string tk = vs[i + 1];
               string str = tk.substr(tk.length() - 2) == "d0" ? tk.substr(0, tk.length() - 2) : tk;
-              atom_t_prop[i].atom_charge = atof(tk.c_str());
+              atom_t_prop[i].atom_charge = stod(tk);
             }  
         } 
       }
@@ -278,9 +278,9 @@ namespace OpenBabel {
         if (err_break)
           break;
 
-        x = atof(vs[1].c_str());
-        y = atof(vs[2].c_str());
-        z = atof(vs[3].c_str());
+        x = stod(vs[1]);
+        y = stod(vs[2]);
+        z = stod(vs[3]);
         vector3 coords (x,y,z);
         if (!cartesian)
           coords = cell->FractionalToCartesian( coords );
