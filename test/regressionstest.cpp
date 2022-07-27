@@ -72,7 +72,7 @@ void test_ChemDraw_Basic()
   for (int i = 0; i < size; ++i)
   {
     std::string fname = OBTestUtil::GetFilename(cdxData[i].fname);
-    std::ifstream ifs(fname.c_str(), imode);
+    std::ifstream ifs(fname, imode);
     OB_REQUIRE(ifs.good());
     conv.SetInStream(&ifs);
     outs.str("");
@@ -104,7 +104,7 @@ void test_ChemDraw_XML_Basic()
   for (int i = 0; i < size; ++i)
   {
     std::string fname = OBTestUtil::GetFilename(cdxmlData[i].fname);
-    std::ifstream ifs(fname.c_str(), imode);
+    std::ifstream ifs(fname, imode);
     OB_REQUIRE(ifs.good());
     conv.SetInStream(&ifs);
     outs.str("");
@@ -564,7 +564,7 @@ void test_github_issue_2428_data_in_png()
   conv.SetOutStream(&outs);
 
   std::string fname = OBTestUtil::GetFilename("pyridine.png");
-  std::ifstream ifs(fname.c_str(), imode);
+  std::ifstream ifs(fname, imode);
   OB_REQUIRE(ifs.good());
   conv.SetInStream(&ifs);
   outs.str("");
