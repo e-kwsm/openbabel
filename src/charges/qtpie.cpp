@@ -142,8 +142,8 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
       //   Electronegativity (V) ->  Electronegativity (a.u.)
       //   Hardness (V/e)        ->  Hardness (a.u.)
       //   radius (Angstrom)     ->  Gaussian exponent (bohr^-2)
-      radius = atof(vs[3].c_str())*Angstrom;
-      P << atof(vs[1].c_str())*eV, atof(vs[2].c_str())*eV, 1.0/(radius*radius);
+      radius = stod(vs[3])*Angstrom;
+      P << stod(vs[1])*eV, stod(vs[2])*eV, 1.0/(radius*radius);
       _parameters.push_back(P);
     }
   }

@@ -85,7 +85,7 @@ namespace OpenBabel
           {
             for (unsigned int i = 1; i < vs.size() ; ++i)
               {
-                bovector.push_back( atoi((char *)vs[i].c_str()) );
+                bovector.push_back( stoi(vs[i]) );
               }
             _fgbonds.push_back(pair<OBSmartsPattern*,vector<int> >
                                (sp, bovector));
