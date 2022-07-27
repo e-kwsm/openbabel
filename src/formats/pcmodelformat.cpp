@@ -121,9 +121,9 @@ namespace OpenBabel
             ttab.Translate(temp2, temp);
             atom->SetAtomicNum(atoi(temp2.c_str()));
             if (vs.size() > 5) {
-              x = atof(vs[3].c_str());
-              y = atof(vs[4].c_str());
-              z = atof(vs[5].c_str());
+              x = stod(vs[3]);
+              y = stod(vs[4]);
+              z = stod(vs[5]);
               atom->SetVector(x,y,z); //set coordinates
             }
 
@@ -144,14 +144,14 @@ namespace OpenBabel
                         token++;
                         temp = vs[token];
                       }
-                    atom->SetPartialCharge(atof(temp.c_str()));
+                    atom->SetPartialCharge(stod(temp));
                   }
 
                 else if (parsingBonds && token < vs.size() - 1 &&
                          isdigit(vs[token][0]))
                   {
-                    bondNbr = atoi(vs[token++].c_str()); // advance to bond order
-                    bondOrder = atoi(vs[token].c_str());
+                    bondNbr = stoi(vs[token++]); // advance to bond order
+                    bondOrder = stoi(vs[token]);
                     if (bondOrder == 9)
                       bondOrder = 1;
                     mol.AddBond(atom->GetIdx(), bondNbr, bondOrder, 0);
