@@ -106,7 +106,7 @@ int mol(int argc, char* argv[])
     cout << "not ok 7\n";
   }
 
-  ifstream ifs1(kd3file.c_str());
+  ifstream ifs1(kd3file);
   if (!ifs1)
     {
       cout << "Bail out! Cannot read input file!" << endl;

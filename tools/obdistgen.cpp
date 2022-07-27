@@ -71,7 +71,7 @@ int main(int argc,char **argv)
   ofstream ofs;
 
   // Read the file
-  ifs.open(filename.c_str());
+  ifs.open(filename);
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
     exit (-1);

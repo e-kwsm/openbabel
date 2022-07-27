@@ -154,7 +154,7 @@ const char* Description() override  // required
     ifstream ifs;
     stringstream errorMsg;
     if(!indexname.empty())
-      ifs.open(indexname.c_str(),ios::binary);
+      ifs.open(indexname,ios::binary);
     if(!ifs)
       {
         errorMsg << "Couldn't open " << indexname << endl;
@@ -186,7 +186,7 @@ const char* Description() override  // required
     else
       path = indexname.substr(0,pos+1) + datafilename;
 
-    ifstream datastream(path.c_str());
+    ifstream datastream(path);
     if(!datastream)
       {
         errorMsg << "Difficulty opening " << path << endl;
@@ -400,7 +400,7 @@ const char* Description() override  // required
 
                 //Read in existing index
                 idxok=false;
-                ifstream ifs(indexname.c_str(),ifstream::binary);
+                ifstream ifs(indexname,ifstream::binary);
                 if(ifs.good())
                   {
                     pidx = new FptIndex;
@@ -408,7 +408,7 @@ const char* Description() override  // required
                   }
               }//ifs closed here
 
-            pOs = new ofstream(indexname.c_str(),ofstream::binary);
+            pOs = new ofstream(indexname,ofstream::binary);
 
             if(!pOs->good() || !idxok)
               {

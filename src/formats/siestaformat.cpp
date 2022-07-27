@@ -135,7 +135,7 @@ namespace OpenBabel {
     directories.push_back("work");
     for (size_t i = 0; i < directories.size(); i++) {
       struct_name = path + directories.at(i) + "/" + fileName + ".STRUCT_OUT";
-      ifs_struct_out.open(struct_name.c_str());
+      ifs_struct_out.open(struct_name);
       if (ifs_struct_out) break;
       else ifs_struct_out.close();
     }

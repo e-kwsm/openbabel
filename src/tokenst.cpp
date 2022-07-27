@@ -199,7 +199,7 @@ namespace OpenBabel
     // check the current directory
     ifs.close();
     ifs.clear();
-    ifs.open(filename.c_str(),imode);
+    ifs.open(filename,imode);
     if(ifs)
       return filename;
 
@@ -215,7 +215,7 @@ namespace OpenBabel
     file += FILE_SEP_CHAR + filename;
 
     ifs.clear();
-    ifs.open(file.c_str(),imode);
+    ifs.open(file,imode);
     if(ifs)
       return file;
 
@@ -225,7 +225,7 @@ namespace OpenBabel
     file += filename;
 
     ifs.clear();
-    ifs.open(file.c_str(),imode);
+    ifs.open(file,imode);
 
     if (ifs)
       return file;

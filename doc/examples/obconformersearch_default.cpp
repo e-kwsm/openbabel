@@ -22,7 +22,7 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
   }
 
   // Open the file.
-  std::ifstream ifs(filename.c_str());
+  std::ifstream ifs(filename);
   if (!ifs) {
     std::cout << "Could not open " << filename << " for reading." << std::endl;
     return mol;

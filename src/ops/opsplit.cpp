@@ -166,7 +166,7 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBCon
   {
     filename << name << '.' << _outExt;
     std::string fname(filename.str()); //DEBUG
-    ofs.open(fname.c_str());
+    ofs.open(fname);
   }
   if(!filenameok || !ofs)
   {
@@ -178,7 +178,7 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBCon
     ofs.clear();
     if(ofs.is_open())
       ofs.close();
-    ofs.open(ss.str().c_str());
+    ofs.open(ss.str());
     if(!ofs)
     {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open file " + ss.str(), obError);
