@@ -1096,8 +1096,8 @@ namespace OpenBabel
         tokenize(vs, buffer," -\n\t");
         parameter.clear();
         parameter._a = vs[0]; //KNDSYM
-        parameter._dpar.push_back(atof(vs[1].c_str())); // AMASS
-        parameter._dpar.push_back(atof(vs[2].c_str())); // ATPOL [A^3]
+        parameter._dpar.push_back(stod(vs[1])); // AMASS
+        parameter._dpar.push_back(stod(vs[2])); // ATPOL [A^3]
         _ffpropparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1109,8 +1109,8 @@ namespace OpenBabel
         parameter.clear();
         parameter._a = vs[0]; // IBT
         parameter._b = vs[1]; // JBT
-        parameter._dpar.push_back(atof(vs[2].c_str())); // RK [kcal/mol/(A^2)]
-        parameter._dpar.push_back(atof(vs[3].c_str())); // REQ [A]
+        parameter._dpar.push_back(stod(vs[2])); // RK [kcal/mol/(A^2)]
+        parameter._dpar.push_back(stod(vs[3])); // REQ [A]
         _ffbondparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1122,8 +1122,8 @@ namespace OpenBabel
         parameter._a = vs[0]; //ITT
         parameter._b = vs[1]; //JTT
         parameter._c = vs[2]; //KTT
-        parameter._dpar.push_back(atof(vs[3].c_str())); // TK [kcal/mol/(rad**2)]
-        parameter._dpar.push_back(atof(vs[4].c_str())); // TEQ [degrees]
+        parameter._dpar.push_back(stod(vs[3])); // TK [kcal/mol/(rad**2)]
+        parameter._dpar.push_back(stod(vs[4])); // TEQ [degrees]
         _ffangleparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1138,10 +1138,10 @@ namespace OpenBabel
         parameter._b = vs[1]; //JPT
         parameter._c = vs[2]; //KPT
         parameter._d = vs[3]; //LPT
-        parameter._ipar.push_back(atoi(vs[4].c_str())); // IDIVF
-        parameter._dpar.push_back(atof(vs[5].c_str())); // PK
-        parameter._dpar.push_back(atof(vs[6].c_str())); // GAMMA [degrees]
-        parameter._dpar.push_back(atof(vs[7].c_str())); // PN
+        parameter._ipar.push_back(stoi(vs[4])); // IDIVF
+        parameter._dpar.push_back(stod(vs[5])); // PK
+        parameter._dpar.push_back(stod(vs[6])); // GAMMA [degrees]
+        parameter._dpar.push_back(stod(vs[7])); // PN
         _fftorsionparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1166,9 +1166,9 @@ namespace OpenBabel
         parameter._b = vs[1]; //JPT
         parameter._c = vs[2]; //KPT
         parameter._d = vs[3]; //LPT
-        parameter._dpar.push_back(atof(vs[4].c_str())); // PK
-        parameter._dpar.push_back(atof(vs[5].c_str())); // GAMMA
-        parameter._dpar.push_back(atof(vs[6].c_str())); // PN
+        parameter._dpar.push_back(stod(vs[4])); // PK
+        parameter._dpar.push_back(stod(vs[5])); // GAMMA
+        parameter._dpar.push_back(stod(vs[6])); // PN
         _ffoopparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1179,8 +1179,8 @@ namespace OpenBabel
         parameter.clear();
         parameter._a = vs[0]; // KT1
         parameter._b = vs[1]; // KT2
-        parameter._dpar.push_back(atof(vs[2].c_str())); // A
-        parameter._dpar.push_back(atof(vs[3].c_str())); // B
+        parameter._dpar.push_back(stod(vs[2])); // A
+        parameter._dpar.push_back(stod(vs[3])); // B
         _ffhbondparams.push_back(parameter);
 	    ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1198,8 +1198,8 @@ namespace OpenBabel
         tokenize(vs, buffer," -\n\t");
         parameter.clear();
         parameter._a = vs[0]; // IBT
-        parameter._dpar.push_back(atof(vs[1].c_str())); // R
-        parameter._dpar.push_back(atof(vs[2].c_str())); // EDEP (kcal/mol)
+        parameter._dpar.push_back(stod(vs[1])); // R
+        parameter._dpar.push_back(stod(vs[2])); // EDEP (kcal/mol)
         _ffvdwparams.push_back(parameter);
 	    ifs.getline(buffer, BUFF_SIZE);
       }
