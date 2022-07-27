@@ -106,12 +106,12 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
     for(std::vector<OpenBabel::OBGenericData*>::iterator j = obdata.begin(); (j<obdata.end()); ++j)
     {
         std::string term  = (*j)->GetAttribute();
-        double value = atof((*j)->GetValue().c_str());
+        double value = stod((*j)->GetValue());
         double T     = 0;
         {
             size_t lh = term.find("(");
             size_t rh = term.find("K)");
-            double TT = atof(term.substr(lh+1,rh-lh-1).c_str());
+            double TT = stod(term.substr(lh+1,rh-lh-1));
             if (0 != TT)
             {
                 if (0 == T)
