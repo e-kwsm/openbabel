@@ -183,7 +183,7 @@ namespace OpenBabel
                 if (checkNAtoms.find("Number of atoms") != notFound) {
                     tokenize(vs,buffer);
                     if (vs.size() > 4)
-                        nAtoms = atoi((char*)vs[4].c_str());
+                        nAtoms = stoi(vs[4]);
                     // CVE-2022-46289/46290: clamp to a sane range so a malformed
                     // header cannot drive the confCoords allocation/write below
                     // out of bounds.
@@ -210,9 +210,9 @@ namespace OpenBabel
             int i=0;
             while (vs.size() == 4) {
 
-                x = atof((char*)vs[1].c_str());
-                y = atof((char*)vs[2].c_str());
-                z = atof((char*)vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
 
                 if (newMol){
                     atom = mol.NewAtom();
@@ -277,9 +277,9 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (strstr(buffer, "---------") == nullptr && vs.size() !=0) {
                 if (vs.size() != 4) break;
-                occ.push_back(atof(vs[1].c_str()));
-                energyEh.push_back(atof(vs[2].c_str()));
-                energyeV.push_back(atof(vs[3].c_str()));
+                occ.push_back(stod(vs[1]));
+                energyEh.push_back(stod(vs[2]));
+                energyeV.push_back(stod(vs[3]));
                 ifs.getline(buffer,BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -294,9 +294,9 @@ namespace OpenBabel
                 tokenize(vs,buffer);
                 while (strstr(buffer, "---------") == nullptr && vs.size() >0) {
                     if (vs.size() != 4) break;
-                    occB.push_back(atof(vs[1].c_str()));
-                    energyBEh.push_back(atof(vs[2].c_str()));
-                    energyBeV.push_back(atof(vs[3].c_str()));
+                    occB.push_back(stod(vs[1]));
+                    energyBEh.push_back(stod(vs[2]));
+                    energyBeV.push_back(stod(vs[3]));
                     ifs.getline(buffer,BUFF_SIZE);
                     tokenize(vs,buffer);
                 }
@@ -308,7 +308,7 @@ namespace OpenBabel
 
             tokenize(vs,buffer);
             if (vs.size() == 5) {
-                mol.SetTotalCharge (atoi(vs[4].c_str()));
+                mol.SetTotalCharge (stoi(vs[4]));
             }
 
             // get Multiplicity
@@ -316,7 +316,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
             if (vs.size() == 4) {
-                mol.SetTotalSpinMultiplicity(atoi(vs[3].c_str()));
+                mol.SetTotalSpinMultiplicity(stoi(vs[3]));
             }
         }
         if (checkKeywords.find("MULLIKEN ATOMIC CHARGES") != notFound) {
@@ -329,8 +329,8 @@ namespace OpenBabel
             while (vs.size() == 4)
             { // atom number, atomic symbol,:,  charge
 
-                atom = mol.GetAtom(atoi(vs[0].c_str())+1);  // Numbering starts from 0 in Orca
-                atom->SetPartialCharge(atof(vs[3].c_str()));
+                atom = mol.GetAtom(stoi(vs[0])+1);  // Numbering starts from 0 in Orca
+                atom->SetPartialCharge(stod(vs[3]));
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
                     break;
@@ -339,7 +339,7 @@ namespace OpenBabel
         }
         if (checkKeywords.find("FINAL SINGLE POINT ENERGY") != notFound) {
             tokenize(vs,buffer);
-            if (vs.size() == 5) mol.SetEnergy(atof(vs[4].c_str()));
+            if (vs.size() == 5) mol.SetEnergy(stod(vs[4]));
         }
 
         if (checkKeywords.find("VIBRATIONAL FREQUENCIES") != notFound) {
