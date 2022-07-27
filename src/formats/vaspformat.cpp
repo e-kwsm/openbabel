@@ -190,10 +190,10 @@ namespace OpenBabel {
     string outcar_filename = path + "/OUTCAR";
     string doscar_filename = path + "/DOSCAR";
     string contcar_filename = pConv->GetInFilename(); // POSCAR _OR_ CONTCAR
-    ifstream ifs_pot (potcar_filename.c_str());
-    ifstream ifs_out (outcar_filename.c_str());
-    ifstream ifs_dos (doscar_filename.c_str());
-    ifstream ifs_cont (contcar_filename.c_str());
+    ifstream ifs_pot (potcar_filename);
+    ifstream ifs_out (outcar_filename);
+    ifstream ifs_dos (doscar_filename);
+    ifstream ifs_cont (contcar_filename);
     if (!ifs_pot) {
       needSymbolsInGeometryFile = true;
     }
