@@ -74,14 +74,14 @@ int ffghemical(int argc, char* argv[])
   cout << "# Testing Ghemical Force Field..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, emolecules_file.c_str()))
+  if (!SafeOpen(mifs, emolecules_file))
     {
       cout << "Bail out! Cannot read file " << emolecules_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, eresults_file.c_str()))
+  if (!SafeOpen(rifs, eresults_file))
     {
       cout << "Bail out! Cannot read file " << eresults_file << endl;
       return -1; // test failed
@@ -159,11 +159,11 @@ int ffghemical(int argc, char* argv[])
 void PGenerateEnergies()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, emolecules_file.c_str()))
+  if (!SafeOpen(ifs, emolecules_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, eresults_file.c_str()))
+  if (!SafeOpen(ofs, eresults_file))
     return;
 
   OBMol mol;

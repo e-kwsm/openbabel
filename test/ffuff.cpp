@@ -74,14 +74,14 @@ int ffuff(int argc, char* argv[])
   cout << "# Testing UFF Force Field..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, dmolecules_file.c_str()))
+  if (!SafeOpen(mifs, dmolecules_file))
     {
       cout << "Bail out! Cannot read file " << dmolecules_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, dresults_file.c_str()))
+  if (!SafeOpen(rifs, dresults_file))
     {
       cout << "Bail out! Cannot read file " << dresults_file << endl;
       return -1; // test failed
@@ -159,11 +159,11 @@ int ffuff(int argc, char* argv[])
 void GenerateEnergies()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, dmolecules_file.c_str()))
+  if (!SafeOpen(ifs, dmolecules_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, dresults_file.c_str()))
+  if (!SafeOpen(ofs, dresults_file))
     return;
 
   OBMol mol;
