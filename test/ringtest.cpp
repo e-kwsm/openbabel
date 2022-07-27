@@ -76,14 +76,14 @@ int ringtest(int argc, char* argv[])
   cout << "# Testing ring perception..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, lsmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, lsmilestypes_file))
     {
       cout << "Bail out! Cannot read file " << lsmilestypes_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, lresults_file.c_str()))
+  if (!SafeOpen(rifs, lresults_file))
     {
       cout << "Bail out! Cannot read file " << lresults_file << endl;
       return -1; // test failed
@@ -209,11 +209,11 @@ void GenerateRingReference()
 {
   std::ifstream ifs;
 
-  if (!SafeOpen(ifs,lsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs,lsmilestypes_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs,lresults_file.c_str()))
+  if (!SafeOpen(ofs,lresults_file))
     return;
 
   int count;
