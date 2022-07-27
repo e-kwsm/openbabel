@@ -75,10 +75,10 @@ namespace OpenBabel
 
       // Reads in a line of parameters. The format is:
       //   Atomic Number    Element    Ion Charge    Affinity    Ionizations (x8)
-      atomicNumber = atoi(vs[0].c_str());
-      _chargeCenter[atomicNumber] = atoi(vs[2].c_str());
+      atomicNumber = stoi(vs[0]);
+      _chargeCenter[atomicNumber] = stoi(vs[2]);
       for (i = 0; i < 9; i ++)
-        _ionizations[atomicNumber][i] = atof(vs[i + 3].c_str());
+        _ionizations[atomicNumber][i] = stod(vs[i + 3]);
 
       // The electron affinity of hydrogen is a custom-fit parameter
       _ionizations[1][0] = hi_0;
