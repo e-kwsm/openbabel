@@ -111,15 +111,15 @@ namespace OpenBabel
         if (vs.size() < 5)
           return(false);
         atom = mol.NewAtom();
-        x = atof((char*)vs[2].c_str());
-        y = atof((char*)vs[3].c_str());
-        z = atof((char*)vs[4].c_str());
+        x = stod(vs[2]);
+        y = stod(vs[3]);
+        z = stod(vs[4]);
         atom->SetVector(x,y,z); //set coordinates
 
         //set atomic number
         ttab.SetToType("ATN");
         ttab.Translate(str,vs[1]);
-        atom->SetAtomicNum(atoi(str.c_str()));
+        atom->SetAtomicNum(stoi(str));
         //set type
         ttab.SetToType("INT");
         ttab.Translate(str,vs[1]);
