@@ -350,7 +350,7 @@ namespace OpenBabel
         else if ( tokens[i] == "]" )
           break;
 
-        int bit = atoi(tokens[i].c_str());
+        int bit = stoi(tokens[i]);
 
         if (bit >= 0)
           SetBitOn(bit);
@@ -617,7 +617,7 @@ namespace OpenBabel
         else if ( tokens[i] == "]" )
           break;
 
-        int bit = atoi(tokens[i].c_str());
+        int bit = stoi(tokens[i]);
 
         if (bit >= 0)
           bv.SetBitOn(bit);
