@@ -69,7 +69,7 @@ int invalidsmarts(int argc, char* argv[])
   string pattern, buffer;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, hinvalid_file.c_str()))
+  if (!SafeOpen(mifs, hinvalid_file))
     {
       cout << "Bail out! Cannot read file " << hinvalid_file << endl;
       return -1; // test failed
@@ -90,7 +90,7 @@ int invalidsmarts(int argc, char* argv[])
   mifs.clear();
 
   // random file#1
-  if (!SafeOpen(mifs, hrandom1_file.c_str()))
+  if (!SafeOpen(mifs, hrandom1_file))
     {
       cout << "Bail out! Cannot read file " << hrandom1_file << endl;
       return -1; // test failed
@@ -111,7 +111,7 @@ int invalidsmarts(int argc, char* argv[])
   mifs.clear();
 
   // random2
-  if (!SafeOpen(mifs, hrandom2_file.c_str()))
+  if (!SafeOpen(mifs, hrandom2_file))
     {
       cout << "Bail out! Cannot read file " << hrandom2_file << endl;
       return -1; // test failed
@@ -131,7 +131,7 @@ int invalidsmarts(int argc, char* argv[])
   mifs.clear();
 
   // random3
-  if (!SafeOpen(mifs, hrandom3_file.c_str()))
+  if (!SafeOpen(mifs, hrandom3_file))
     {
       cout << "Bail out! Cannot read file " << hrandom3_file << endl;
       return -1; // test failed
