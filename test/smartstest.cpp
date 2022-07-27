@@ -182,7 +182,7 @@ int smartstest(int argc, char* argv[])
             {
               for (k = 0;k < vs.size();k++)
                 {
-                  if (atoi(vs[k].c_str()) != mlist[k][0])
+                  if (stoi(vs[k]) != mlist[k][0])
                     {
                       cout << "not ok " << currentMol
                            << "# matching atom numbers different than reference\n";

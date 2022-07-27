@@ -118,7 +118,7 @@ int main(int argc,char *argv[])
         }
 
       if (mol.StripSalts(2)) {
-        if (atoi(vs[0].c_str()) != mol.NumAtoms() || atoi(vs[1].c_str()) != mol.NumBonds())
+        if (stoi(vs[0]) != mol.NumAtoms() || stoi(vs[1]) != mol.NumBonds())
         {
           cout << "not ok " << ++currentTest << " # molecular strip incorrect "
                << " for molecule " << mol.GetTitle() << "\n";
