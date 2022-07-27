@@ -148,10 +148,10 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     _tempAtom.SetAtomicNum(6); // default is carbon
     buf = _pxmlConv->GetAttribute("id");
     if (buf.length())
-      _tempAtom.SetIdx(atoi(buf.c_str()));
+      _tempAtom.SetIdx(stoi(buf));
     buf = _pxmlConv->GetAttribute("Element");
     if (buf.length())
-      _tempAtom.SetAtomicNum(atoi(buf.c_str()));
+      _tempAtom.SetAtomicNum(stoi(buf));
 
     buf = _pxmlConv->GetAttribute("p"); // coords
     if (buf.length())
@@ -162,14 +162,14 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     }
     buf = _pxmlConv->GetAttribute("Charge");
     if (buf.length())
-      _tempAtom.SetFormalCharge(atoi(buf.c_str()));
+      _tempAtom.SetFormalCharge(stoi(buf));
     buf = _pxmlConv->GetAttribute("Isotope");
     if (buf.length())
-      _tempAtom.SetIsotope(atoi(buf.c_str()));
+      _tempAtom.SetIsotope(stoi(buf));
     buf = _pxmlConv->GetAttribute("NumHydrogens");
     if (buf.length())
     {
-      _tempAtom.SetImplicitHCount(atoi(buf.c_str()));
+      _tempAtom.SetImplicitHCount(stoi(buf));
     }
     else
       _handleImplicitHydrogens.push_back(_tempAtom.GetIdx());
@@ -181,7 +181,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
 	  Begin = End = Flag = 0;
     buf = _pxmlConv->GetAttribute("Order");
     if (buf.length())
-      Order = atoi(buf.c_str());
+      Order = stoi(buf);
     else
       Order = 1; //default value
     buf = _pxmlConv->GetAttribute("Display");
@@ -210,17 +210,17 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     if (buf.length())
     {
       if (invert_ends)
-        End = atoms[atoi(buf.c_str())];
+        End = atoms[stoi(buf)];
       else
-        Begin = atoms[atoi(buf.c_str())];
+        Begin = atoms[stoi(buf)];
     }
     buf = _pxmlConv->GetAttribute("E");
     if (buf.length())
     {
       if (invert_ends)
-        Begin = atoms[atoi(buf.c_str())];
+        Begin = atoms[stoi(buf)];
       else
-        End = atoms[atoi(buf.c_str())];
+        End = atoms[stoi(buf)];
     }
   }
   /*

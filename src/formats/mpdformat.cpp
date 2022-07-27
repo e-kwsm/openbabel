@@ -258,7 +258,7 @@ namespace OpenBabel
         src = atom->GetType();
         ttab.Translate(str,src);
         // if (idx_true==true){
-        otyp = atoi(str.c_str());
+        otyp = stoi(str);
         //}
         //  else {otyp=MyType(str);}
         orig = atom->GetIdx();
@@ -271,7 +271,7 @@ namespace OpenBabel
             src = nbr->GetType();
             ttab.Translate(str,src);
             // if (idx_true==true){
-            otyp = atoi(str.c_str());
+            otyp = stoi(str);
             //}
             //  else {otyp=MyType(str);}
             if (otyp < LAYER_SIZE)
@@ -284,7 +284,7 @@ namespace OpenBabel
                 src = nbr2->GetType();
                 ttab.Translate(str,src);
                 // if (idx_true==true){
-                otyp = atoi(str.c_str());
+                otyp = stoi(str);
                 //}
                 //  else {otyp=MyType(str);}
                 if (otyp < LAYER_SIZE)

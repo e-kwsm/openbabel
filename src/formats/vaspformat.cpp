@@ -211,23 +211,23 @@ namespace OpenBabel {
 
     ifs_cont.getline(buffer,BUFF_SIZE); // X_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str()) * scale;
-    y = atof(vs.at(1).c_str()) * scale;
-    z = atof(vs.at(2).c_str()) * scale;
+    x = stod(vs.at(0)) * scale;
+    y = stod(vs.at(1)) * scale;
+    z = stod(vs.at(2)) * scale;
     vector3 x_vec (x,y,z);
 
     ifs_cont.getline(buffer,BUFF_SIZE); // Y_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str()) * scale;
-    y = atof(vs.at(1).c_str()) * scale;
-    z = atof(vs.at(2).c_str()) * scale;
+    x = stod(vs.at(0)) * scale;
+    y = stod(vs.at(1)) * scale;
+    z = stod(vs.at(2)) * scale;
     vector3 y_vec (x,y,z);
 
     ifs_cont.getline(buffer,BUFF_SIZE); // Z_Vec vector
     tokenize(vs, buffer);
-    x = atof(vs.at(0).c_str()) * scale;
-    y = atof(vs.at(1).c_str()) * scale;
-    z = atof(vs.at(2).c_str()) * scale;
+    x = stod(vs.at(0)) * scale;
+    y = stod(vs.at(1)) * scale;
+    z = stod(vs.at(2)) * scale;
     vector3 z_vec (x,y,z);
 
     // Build unit cell
@@ -295,7 +295,7 @@ namespace OpenBabel {
     // coordinates
     totalAtoms = 0;
     for (unsigned int i = 0; i < vs.size(); i++) {
-      int currentCount = atoi(vs.at(i).c_str());
+      int currentCount = stoi(vs.at(i));
       if (currentCount < 0 || currentCount >= 100000000) {
         pmol->EndModify();
         return false;
@@ -357,9 +357,9 @@ namespace OpenBabel {
       if (vs.size() < 3) break;
       atom = pmol->NewAtom();
       atom->SetAtomicNum(atomTypes.at(atomIndex));
-      x = atof((char*)vs[0].c_str());
-      y = atof((char*)vs[1].c_str());
-      z = atof((char*)vs[2].c_str());
+      x = stod(vs[0]);
+      y = stod(vs[1]);
+      z = stod(vs[2]);
       vector3 coords (x,y,z);
       if (!cartesian)
         coords = cell->FractionalToCartesian( coords );
@@ -404,7 +404,7 @@ namespace OpenBabel {
       if (ifs_dos.getline(buffer,BUFF_SIZE)) { // startE endE res fermi ???
         tokenize(vs, buffer);
         if (vs.size() > 3) {
-          fermi = atof(vs[3].c_str());
+          fermi = stod(vs[3]);
         }
       }
 
@@ -415,9 +415,9 @@ namespace OpenBabel {
       while (ifs_dos.getline(buffer,BUFF_SIZE)) {
         tokenize(vs, buffer);
         if (vs.size() < 3) break;
-        energies.push_back(atof(vs[0].c_str()));
-        densities.push_back(atof(vs[1].c_str()));
-        integration.push_back(atof(vs[2].c_str()));
+        energies.push_back(stod(vs[0]));
+        densities.push_back(stod(vs[1]));
+        integration.push_back(stod(vs[2]));
       }
 
       if (energies.size() != 0) {
@@ -442,8 +442,8 @@ namespace OpenBabel {
           hasEnthalpy = true;
           tokenize(vs, buffer);
           if (vs.size() > 8) {
-            enthalpy_eV = atof(vs[4].c_str());
-            pv_eV = atof(vs[8].c_str());
+            enthalpy_eV = stod(vs[4]);
+            pv_eV = stod(vs[8]);
           }
         }
 
@@ -451,7 +451,7 @@ namespace OpenBabel {
         if (strstr(buffer, "free  energy")) {
           tokenize(vs, buffer);
           if (vs.size() > 4) {
-            pmol->SetEnergy(atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL);
+            pmol->SetEnergy(stod(vs[4]) * EV_TO_KCAL_PER_MOL);
           }
         }
 
@@ -467,13 +467,13 @@ namespace OpenBabel {
             vector<vector3> vib;
             tokenize(vs, buffer);
             if (vs.size() < 8) break;
-            int freqnum = atoi(vs[0].c_str());
+            int freqnum = stoi(vs[0]);
             if (vs[1].size() == 1 && vs[1].compare("f") == 0) {
               // Real frequency
-              Frequencies.push_back(atof(vs[7].c_str()));
+              Frequencies.push_back(stod(vs[7]));
             } else if (strstr(vs[1].c_str(), "f/i=")) {
               // Imaginary frequency
-              Frequencies.push_back(-atof(vs[6].c_str()));
+              Frequencies.push_back(-stod(vs[6]));
             } else {
               // No more frequencies
               break;
@@ -483,9 +483,9 @@ namespace OpenBabel {
             tokenize(vs, buffer);
             // normal modes
             while (vs.size() == 6) {
-              x = atof(vs[3].c_str());
-              y = atof(vs[4].c_str());
-              z = atof(vs[5].c_str());
+              x = stod(vs[3]);
+              y = stod(vs[4]);
+              z = stod(vs[5]);
               vib.push_back(vector3(x, y, z));
               ifs_out.getline(buffer,BUFF_SIZE);  // next displacement line
               tokenize(vs, buffer);
@@ -498,9 +498,9 @@ namespace OpenBabel {
         if (strstr(buffer, "dipolmoment")) {
           tokenize(vs, buffer);
           if (vs.size() > 3) {
-            x = atof(vs[1].c_str());
-            y = atof(vs[2].c_str());
-            z = atof(vs[3].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[2]);
+            z = stod(vs[3]);
             currDm.Set(x, y, z);
           }
         }
@@ -510,9 +510,9 @@ namespace OpenBabel {
           ifs_out.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
           while (vs.size() == 6) {
-            x = atof(vs[0].c_str());
-            y = atof(vs[1].c_str());
-            z = atof(vs[2].c_str());
+            x = stod(vs[0]);
+            y = stod(vs[1]);
+            z = stod(vs[2]);
             currXyz.push_back(vector3(x, y, z));
             ifs_out.getline(buffer, BUFF_SIZE);  // next line
             tokenize(vs, buffer);
@@ -530,9 +530,9 @@ namespace OpenBabel {
               ifs_out.getline(buffer, BUFF_SIZE);
               tokenize(vs, buffer);
               if (vs.size() < 4) break;
-              x = atof(vs[1].c_str());
-              y = atof(vs[2].c_str());
-              z = atof(vs[3].c_str());
+              x = stod(vs[1]);
+              y = stod(vs[2]);
+              z = stod(vs[3]);
               dmudq.SetRow(row, vector3(x, y, z));
             }
             dipGrad.push_back(dmudq);
