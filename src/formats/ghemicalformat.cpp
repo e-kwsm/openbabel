@@ -120,7 +120,7 @@ namespace OpenBabel
       if (vs.size() < 2)
         return(false);
       atom = mol.NewAtom();
-      atom->SetAtomicNum(atoi(vs[1].c_str()));
+      atom->SetAtomicNum(stoi(vs[1]));
     }
 
     // Get !Bonds line with number
@@ -154,9 +154,9 @@ namespace OpenBabel
       if (vs.size() != 4)
         return(false);
       atom = mol.GetAtom(i);
-      x = 10.0*atof((char*)vs[1].c_str());
-      y = 10.0*atof((char*)vs[2].c_str());
-      z = 10.0*atof((char*)vs[3].c_str());
+      x = 10.0*stod(vs[1]);
+      y = 10.0*stod(vs[2]);
+      z = 10.0*stod(vs[3]);
       atom->SetVector(x,y,z); //set coordinates
     }
 
@@ -172,7 +172,7 @@ namespace OpenBabel
         if (vs.size() != 2)
           return(false);
         atom = mol.GetAtom(i);
-        atom->SetPartialCharge(atof((char*)vs[1].c_str()));
+        atom->SetPartialCharge(stod(vs[1]));
       }
     }
 

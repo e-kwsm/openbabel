@@ -444,9 +444,9 @@ namespace OpenBabel
         OBAtom* patom = mol.NewAtom();
 
         // coordinates
-        x = atof(line.substr(0, 10).c_str());
-        y = atof(line.substr(10, 10).c_str());
-        z = atof(line.substr(20, 10).c_str());
+        x = stod(line.substr(0, 10));
+        y = stod(line.substr(10, 10));
+        z = stod(line.substr(20, 10));
         patom->SetVector(x, y, z);
         // symbol & isotope
         symbol = line.substr(31, 3);
@@ -1009,7 +1009,7 @@ namespace OpenBabel
     OBGenericData*  gd = mol.GetData("MOL Chiral Flag");
     if (gd)
     {
-      int iflag = atoi(((OBPairData*)gd)->GetValue().c_str());
+      int iflag = stoi(((OBPairData*)gd)->GetValue());
       if (iflag == 0)
        return false;
       else if (iflag == 1)
@@ -1493,10 +1493,10 @@ namespace OpenBabel
         if(vs[2]=="END") break;
 
         indexmap[ReadUIntField(vs[2].c_str())] = obindex;
-        atom.SetVector(atof(vs[4].c_str()), atof(vs[5].c_str()), atof(vs[6].c_str()));
-        //      if(abs(atof(vs[6].c_str()))>0)is3D=true;
-        //      if(abs(atof(vs[4].c_str()))>0)is2D=true;
-        //      if(abs(atof(vs[5].c_str()))>0)is2D=true;
+        atom.SetVector(stod(vs[4]), stod(vs[5]), stod(vs[6]));
+        //      if(abs(stod(vs[6]))>0)is3D=true;
+        //      if(abs(stod(vs[4]))>0)is2D=true;
+        //      if(abs(stod(vs[5]))>0)is2D=true;
         char type[5];
         strncpy(type,vs[3].c_str(),5);
         type[4] = '\0'; // ensure it's always null-terminated

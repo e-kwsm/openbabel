@@ -105,27 +105,27 @@ namespace OpenBabel {
 
         ifs.getline(buffer,BUFF_SIZE); // a
         tokenize(vs, buffer);
-        a = atof(vs.at(1).c_str());
+        a = stod(vs.at(1));
 
         ifs.getline(buffer,BUFF_SIZE); // b
         tokenize(vs, buffer);
-        b = atof(vs.at(1).c_str());
+        b = stod(vs.at(1));
 
         ifs.getline(buffer,BUFF_SIZE); // c
         tokenize(vs, buffer);
-        c = atof(vs.at(1).c_str());
+        c = stod(vs.at(1));
 
         ifs.getline(buffer,BUFF_SIZE); // alpha
         tokenize(vs, buffer);
-        alpha = atof(vs.at(1).c_str());
+        alpha = stod(vs.at(1));
 
         ifs.getline(buffer,BUFF_SIZE); // beta
         tokenize(vs, buffer);
-        beta = atof(vs.at(1).c_str());
+        beta = stod(vs.at(1));
 
         ifs.getline(buffer,BUFF_SIZE); // gamma
         tokenize(vs, buffer);
-        gamma = atof(vs.at(1).c_str());
+        gamma = stod(vs.at(1));
 
         // Build unit cell
         cell->SetData(a, b, c, alpha, beta, gamma);
@@ -137,18 +137,18 @@ namespace OpenBabel {
 
         ifs.getline(buffer,BUFF_SIZE); // a
         tokenize(vs, buffer);
-        a = atof(vs.at(2).c_str());
-        alpha = atof(vs.at(5).c_str());
+        a = stod(vs.at(2));
+        alpha = stod(vs.at(5));
 
         ifs.getline(buffer,BUFF_SIZE); // b
         tokenize(vs, buffer);
-        b = atof(vs.at(2).c_str());
-        beta = atof(vs.at(5).c_str());
+        b = stod(vs.at(2));
+        beta = stod(vs.at(5));
 
         ifs.getline(buffer,BUFF_SIZE); // c
         tokenize(vs, buffer);
-        c = atof(vs.at(2).c_str());
-        gamma = atof(vs.at(5).c_str());
+        c = stod(vs.at(2));
+        gamma = stod(vs.at(5));
 
         // Build unit cell
         cell->SetData(a, b, c, alpha, beta, gamma);
@@ -196,15 +196,15 @@ namespace OpenBabel {
             // convert all at the end of the run.
             switch (set) {
             case 0:
-              x = atof((char*)vs[i].c_str());
+              x = stod(vs[i]);
               set++;
               break;
             case 1:
-              y = atof((char*)vs[i].c_str());
+              y = stod(vs[i]);
               set++;
               break;
             case 2:
-              z = atof((char*)vs[i].c_str());
+              z = stod(vs[i]);
               set++;
               break;
             default:
@@ -265,15 +265,15 @@ namespace OpenBabel {
             // convert all at the end of the run.
             switch (set) {
             case 0:
-              x = atof((char*)vs[i].c_str());
+              x = stod(vs[i]);
               set++;
               break;
             case 1:
-              y = atof((char*)vs[i].c_str());
+              y = stod(vs[i]);
               set++;
               break;
             case 2:
-              z = atof((char*)vs[i].c_str());
+              z = stod(vs[i]);
               set++;
               break;
             default:
@@ -296,20 +296,20 @@ namespace OpenBabel {
       // Single point energy
       if (strstr(buffer, "Total lattice energy") && strstr(buffer, "eV") ) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(stod(vs[4]) * EV_TO_KCAL_PER_MOL);
       }
 
       // Final energy
       if (strstr(buffer, "Final energy")) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(stod(vs[3]) * EV_TO_KCAL_PER_MOL);
       }
 
       // Enthalpy (molecular)
       if (strstr(buffer, "Final enthalpy")) {
         hasEnthalpy = true;
         tokenize(vs, buffer);
-        enthalpy_eV = atof(vs[3].c_str());
+        enthalpy_eV = stod(vs[3]);
         pv_eV = 0.0;
       }
 
@@ -323,13 +323,13 @@ namespace OpenBabel {
         while (strstr(buffer, "kJ/(mole unit cells)") == nullptr) {
           if (strstr(buffer, "Pressure*volume")) {
             tokenize(vs, buffer);
-            pv_eV = atof(vs[2].c_str());
+            pv_eV = stod(vs[2]);
             hasPV = true;
           }
 
           if (strstr(buffer, "Total lattice enthalpy")) {
             tokenize(vs, buffer);
-            enthalpy_eV = atof(vs[4].c_str());
+            enthalpy_eV = stod(vs[4]);
           }
 
           ifs.getline(buffer,BUFF_SIZE);

@@ -120,9 +120,9 @@ namespace OpenBabel
               {
                 atom = mol.NewAtom();
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
-                x = atof((char*)vs[2].c_str());
-                y = atof((char*)vs[3].c_str());
-                z = atof((char*)vs[4].c_str());
+                x = stod(vs[2]);
+                y = stod(vs[3]);
+                z = stod(vs[4]);
                 atom->SetVector(x,y,z);
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
@@ -143,9 +143,9 @@ namespace OpenBabel
                   {
                     atom = mol.NewAtom();
                     atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
-                    x = atof((char*)vs[2].c_str());
-                    y = atof((char*)vs[4].c_str());
-                    z = atof((char*)vs[6].c_str());
+                    x = stod(vs[2]);
+                    y = stod(vs[4]);
+                    z = stod(vs[6]);
                     atom->SetVector(x,y,z);
                   }
 
@@ -163,9 +163,9 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (vs.size() == 5)
               {
-                x = atof((char*)vs[2].c_str());
-                y = atof((char*)vs[3].c_str());
-                z = atof((char*)vs[4].c_str());
+                x = stod(vs[2]);
+                y = stod(vs[3]);
+                z = stod(vs[4]);
 
                 translationVectors[numTranslationVectors++].Set(x, y, z);
                 if (!ifs.getline(buffer,BUFF_SIZE))
@@ -193,7 +193,7 @@ namespace OpenBabel
                     continue;
                   }
                 const char coord = vs[4].at(0);
-                double val = atof(vs[5].c_str());
+                double val = stod(vs[5]);
                 bool isZ = false;
                 switch (coord) {
                 case 'X':
@@ -237,14 +237,14 @@ namespace OpenBabel
               atom = mol.NewAtom();
 
               OBInternalCoord *coord = new OBInternalCoord;
-              coord->_dst = atof(vs[2].c_str());
-              coord->_ang = atof(vs[4].c_str());
-              coord->_tor = atof(vs[6].c_str());
+              coord->_dst = stod(vs[2]);
+              coord->_ang = stod(vs[4]);
+              coord->_tor = stod(vs[6]);
               vic.push_back(coord);
 
-              indices.push_back(atoi(vs[8].c_str()));
-              indices.push_back(atoi(vs[9].c_str()));
-              indices.push_back(atoi(vs[10].c_str()));
+              indices.push_back(stoi(vs[8]));
+              indices.push_back(stoi(vs[9]));
+              indices.push_back(stoi(vs[10]));
 
               // symbol in column 1
               atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
@@ -279,7 +279,7 @@ namespace OpenBabel
             tokenize(vs, buffer);
             if (vs.size() < 9)
               continue;
-            alphaHOMO = atoi(vs[8].c_str());
+            alphaHOMO = stoi(vs[8]);
           }
         else if (strstr(buffer, "EIGENVALUES") != nullptr)
           {
@@ -288,7 +288,7 @@ namespace OpenBabel
             while(vs.size() > 0) { // ends with a blank line
               for (unsigned int orbital = 0; orbital < vs.size(); ++orbital) {
                 // orbitals are listed in eV already, no conversion needed
-                orbitalEnergies.push_back(atof(vs[orbital].c_str()));
+                orbitalEnergies.push_back(stod(vs[orbital]));
               }
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs, buffer);
@@ -311,10 +311,10 @@ namespace OpenBabel
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (atom != nullptr)
-                  atom->SetPartialCharge(atof(vs[2].c_str()));
-                charges.push_back(atof(vs[2].c_str()));
+                  atom->SetPartialCharge(stod(vs[2]));
+                charges.push_back(stod(vs[2]));
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
                   break;
@@ -333,10 +333,10 @@ namespace OpenBabel
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (atom != nullptr)
-                  atom->SetPartialCharge(atof(vs[2].c_str()));
-                charges.push_back(atof(vs[2].c_str()));
+                  atom->SetPartialCharge(stod(vs[2]));
+                charges.push_back(stod(vs[2]));
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
                   break;
@@ -356,9 +356,9 @@ namespace OpenBabel
 
               dipoleMoment = new OBVectorData;
               double x, y, z;
-              x = atof(vs[1].c_str());
-              y = atof(vs[2].c_str());
-              z = atof(vs[3].c_str());
+              x = stod(vs[1]);
+              y = stod(vs[2]);
+              z = stod(vs[3]);
               dipoleMoment->SetData(x, y, z);
               dipoleMoment->SetAttribute("Dipole Moment");
               dipoleMoment->SetOrigin(fileformatInput);
@@ -381,7 +381,7 @@ namespace OpenBabel
             ifs.getline(buffer, BUFF_SIZE); // frequencies
             tokenize(vs, buffer);
             for (unsigned int i = 0; i < vs.size(); ++i) {
-              frequencies.push_back(atof(vs[i].c_str()));
+              frequencies.push_back(stod(vs[i]));
             }
             ifs.getline(buffer, BUFF_SIZE); // blank
 
@@ -400,20 +400,20 @@ namespace OpenBabel
             while(modeCount > 1) {
               x.clear();
               for (unsigned int i = 1; i < modeCount; ++i) {
-                x.push_back(atof(vs[i].c_str()));
+                x.push_back(stod(vs[i]));
               }
               y.clear();
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs, buffer);
               for (unsigned int i = 1; i < modeCount; ++i) {
-                y.push_back(atof(vs[i].c_str()));
+                y.push_back(stod(vs[i]));
               }
 
               z.clear();
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs, buffer);
               for (unsigned int i = 1; i < modeCount; ++i) {
-                z.push_back(atof(vs[i].c_str()));
+                z.push_back(stod(vs[i]));
               }
 
               // OK, now we have x, y, z for all new modes for one atom
@@ -436,7 +436,7 @@ namespace OpenBabel
             if (vs.size() < 2)
               break;
 
-            double transDipole = atof(vs[1].c_str());
+            double transDipole = stod(vs[1]);
             intensities.push_back(frequencies[currentIntensity] * transDipole * transDipole);
           }
       }
@@ -711,17 +711,17 @@ namespace OpenBabel
             if (elementSymbol == "")
               elementSymbol = vs[0];
             else
-              isotopeMass = atof((char*)vs[0].c_str());
+              isotopeMass = stod(vs[0]);
 
-            x = atof((char*)vs[1].c_str());
-            y = atof((char*)vs[3].c_str());
-            z = atof((char*)vs[5].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[3]);
+            z = stod(vs[5]);
           }
         else //vs.size() == 6
           {
-            x = atof((char*)vs[0].c_str());
-            y = atof((char*)vs[2].c_str());
-            z = atof((char*)vs[4].c_str());
+            x = stod(vs[0]);
+            y = stod(vs[2]);
+            z = stod(vs[4]);
           }
 
         if (elementSymbol == "Tv") //MOPAC translation vector
@@ -898,17 +898,17 @@ namespace OpenBabel
       atom = mol.NewAtom();
 
       OBInternalCoord *coord = new OBInternalCoord;
-      //vic[atom->GetIdx()]->_dst = atof(vs[1].c_str());
-      //vic[atom->GetIdx()]->_ang = atof(vs[3].c_str());
-      //vic[atom->GetIdx()]->_tor = atof(vs[5].c_str());
-      coord->_dst = atof(vs[1].c_str());
-      coord->_ang = atof(vs[3].c_str());
-      coord->_tor = atof(vs[5].c_str());
+      //vic[atom->GetIdx()]->_dst = stod(vs[1]);
+      //vic[atom->GetIdx()]->_ang = stod(vs[3]);
+      //vic[atom->GetIdx()]->_tor = stod(vs[5]);
+      coord->_dst = stod(vs[1]);
+      coord->_ang = stod(vs[3]);
+      coord->_tor = stod(vs[5]);
       vic.push_back(coord);
 
-      indices.push_back(atoi(vs[7].c_str()));
-      indices.push_back(atoi(vs[8].c_str()));
-      indices.push_back(atoi(vs[9].c_str()));
+      indices.push_back(stoi(vs[7]));
+      indices.push_back(stoi(vs[8]));
+      indices.push_back(stoi(vs[9]));
 
       atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
     }

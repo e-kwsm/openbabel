@@ -109,13 +109,13 @@ namespace OpenBabel
 
         atom = mol.NewAtom();
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
-        atom->SetPartialCharge(atof(vs[6].c_str()));
-        x = atof((char*)vs[7].c_str());
-        y = atof((char*)vs[8].c_str());
-        z = atof((char*)vs[9].c_str());
+        atom->SetPartialCharge(stod(vs[6]));
+        x = stod(vs[7]);
+        y = stod(vs[8]);
+        z = stod(vs[9]);
         atom->SetVector(x,y,z);
 
-        max = 11 + 2 * atoi((char *)vs[10].c_str());
+        max = 11 + 2 * stoi(vs[10]);
         for (i = 11; i < max; i+=2)
           {
             switch(((char*)vs[i+1].c_str())[0]) // First char in next token
@@ -136,7 +136,7 @@ namespace OpenBabel
                 bo = 1;
                 break;
               }
-            mol.AddBond(mol.NumAtoms(), atoi((char *)vs[i].c_str()), bo);
+            mol.AddBond(mol.NumAtoms(), stoi(vs[i]), bo);
           }
         ifs.getline(buffer, BUFF_SIZE);
       }

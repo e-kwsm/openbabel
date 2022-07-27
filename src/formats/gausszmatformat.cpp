@@ -284,8 +284,8 @@ namespace OpenBabel
     tokenize(vs, buffer, " \t\n");
     if (vs.size() == 2)
       {
-        charge = atoi(vs[0].c_str());
-        spin = atoi(vs[1].c_str());
+        charge = stoi(vs[0]);
+        spin = stoi(vs[1]);
       }
 
 		// We read through atom lines and cache them (into atomLines)
@@ -307,7 +307,7 @@ namespace OpenBabel
 			if (readVariables) {
 			  tokenize(vs, buffer, "= \t\n");
 			  if (vs.size() >= 2) {
-          variables[vs[0]] = atof(vs[1].c_str());
+          variables[vs[0]] = stod(vs[1]);
           foundVariables = true;
           //          cerr << "var: " << vs[0] << " " << vs[1] << endl;
         }
@@ -334,7 +334,7 @@ namespace OpenBabel
 
         if (j >= 2) {
           if (vs.size() < 3) {return false;}
-          vic[j]->_a = mol.GetAtom(atoi(vs[1].c_str()));
+          vic[j]->_a = mol.GetAtom(stoi(vs[1]));
 
           temp = strtod((char*)vs[2].c_str(), &endptr);
           if (endptr != (char*)vs[2].c_str())
@@ -345,7 +345,7 @@ namespace OpenBabel
 
         if (j >= 3) {
           if (vs.size() < 5) {return false;}
-          vic[j]->_b = mol.GetAtom(atoi(vs[3].c_str()));
+          vic[j]->_b = mol.GetAtom(stoi(vs[3]));
 
           temp = strtod((char*)vs[4].c_str(), &endptr);
           if (endptr != (char*)vs[4].c_str())
@@ -356,7 +356,7 @@ namespace OpenBabel
 
         if (j >= 4) {
           if (vs.size() < 7) {return false;}
-          vic[j]->_c = mol.GetAtom(atoi(vs[5].c_str()));
+          vic[j]->_c = mol.GetAtom(stoi(vs[5]));
 
           temp = strtod((char*)vs[6].c_str(), &endptr);
           if (endptr != (char*)vs[6].c_str()) {

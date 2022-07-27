@@ -143,9 +143,9 @@ namespace OpenBabel
                     str[i] = '\0';
 
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
-                x = atof((char*)vs[1].c_str());
-                y = atof((char*)vs[2].c_str());
-                z = atof((char*)vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
                 atom->SetVector(x,y,z);
 
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;
@@ -165,7 +165,7 @@ namespace OpenBabel
                 for (vector<string>::size_type icount=1;icount<vs.size();++icount)
                   {
                     chgcount=chgcount+1;
-                    mol.GetAtom(chgcount)->SetPartialCharge(atof((char*)vs[icount].c_str()));
+                    mol.GetAtom(chgcount)->SetPartialCharge(stod(vs[icount]));
                   }
               }
           }
@@ -178,9 +178,9 @@ namespace OpenBabel
                 OBVectorData *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
                 double x, y, z;
-                x = atof(vs[1].c_str());
-                y = atof(vs[3].c_str());
-                z = atof(vs[5].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[3]);
+                z = stod(vs[5]);
                 dipoleMoment->SetData(x, y, z);
                 dipoleMoment->SetOrigin(fileformatInput);
                 mol.SetData(dipoleMoment);
@@ -270,9 +270,9 @@ namespace OpenBabel
                     str[i] = '\0';
 
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
-                x = atof((char*)vs[1].c_str());
-                y = atof((char*)vs[2].c_str());
-                z = atof((char*)vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
                 atom->SetVector(x,y,z);
 
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;

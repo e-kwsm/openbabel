@@ -233,7 +233,7 @@ namespace OpenBabel
             tokenize(vstr,buffer);
             if (!vstr.empty() && vstr.size() == 3)
               if (vstr[0] == "Energy")
-                mol.SetEnergy(atof(vstr[2].c_str()));
+                mol.SetEnergy(stod(vstr[2]));
           }
         else if (lcount == 5) //comment
           {
@@ -310,7 +310,7 @@ namespace OpenBabel
 
         ttab.SetToType("ATN");
         ttab.Translate(str1,str);
-        elemno = atoi(str1.c_str());
+        elemno = stoi(str1);
         ttab.SetToType("IDX");
 
         // We might have missed some SI or FE type things above, so here's
@@ -321,7 +321,7 @@ namespace OpenBabel
             str = temp_type;
             ttab.SetToType("ATN");
             ttab.Translate(str1,str);
-            elemno = atoi(str1.c_str());
+            elemno = stoi(str1);
             ttab.SetToType("IDX");
           }
         // One last check if there isn't a period in the type,
@@ -453,7 +453,7 @@ namespace OpenBabel
         else if (str == "AM" || str == "am" || str == "Am")
           order = 1;
         else
-          order = atoi(str.c_str());
+          order = stoi(str);
 
         mol.AddBond(start, end, order, flags);
       }

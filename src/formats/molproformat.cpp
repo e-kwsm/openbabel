@@ -147,9 +147,9 @@ namespace OpenBabel
             while (vs.size() == 6)
               {
                 atom = mol.NewAtom();
-                x = atof((char*)vs[3].c_str())*BOHR_TO_ANGSTROM;
-                y = atof((char*)vs[4].c_str())*BOHR_TO_ANGSTROM;
-                z = atof((char*)vs[5].c_str())*BOHR_TO_ANGSTROM;
+                x = stod(vs[3])*BOHR_TO_ANGSTROM;
+                y = stod(vs[4])*BOHR_TO_ANGSTROM;
+                z = stod(vs[5])*BOHR_TO_ANGSTROM;
                 atom->SetVector(x,y,z); //set coordinates
 
                 //set atomic number
@@ -194,16 +194,16 @@ namespace OpenBabel
             for(unsigned int i=2; i<vs.size(); ++i) {
                 if (vibration_state == 2) {
                   // imaginary frequency
-                  freq.push_back(-atof(vs[i].c_str()));
+                  freq.push_back(-stod(vs[i]));
                 } else {
-                  freq.push_back(atof(vs[i].c_str()));
+                  freq.push_back(stod(vs[i]));
                 }
 	    }
 
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
             for(unsigned int i=2; i<vs.size(); ++i) {
-                intens.push_back(atof(vs[i].c_str()));
+                intens.push_back(stod(vs[i]));
 	    }
             ifs.getline(buffer,BUFF_SIZE); // relative intensities
             ifs.getline(buffer,BUFF_SIZE);
@@ -211,15 +211,15 @@ namespace OpenBabel
 	    while(vs.size() > 1) {
               vector<double> x, y, z;
               for (unsigned int i = 1; i < vs.size(); i++)
-                x.push_back(atof(vs[i].c_str()));
+                x.push_back(stod(vs[i]));
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);
               for (unsigned int i = 1; i < vs.size(); i++)
-                y.push_back(atof(vs[i].c_str()));
+                y.push_back(stod(vs[i]));
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);
               for (unsigned int i = 1; i < vs.size(); i++)
-                z.push_back(atof(vs[i].c_str()));
+                z.push_back(stod(vs[i]));
               for (unsigned int i = 0; i < freq.size(); i++) {
                 vib.push_back(vector<vector3>());
                 vib[i].push_back(vector3(x[i], y[i], z[i]));
@@ -240,9 +240,9 @@ namespace OpenBabel
               OBVectorData *dipoleMoment = new OBVectorData;
               dipoleMoment->SetAttribute("Dipole Moment");
               double x, y, z;
-              x = atof(vs[5].c_str());
-              y = atof(vs[6].c_str());
-              z = atof(vs[7].c_str());
+              x = stod(vs[5]);
+              y = stod(vs[6]);
+              z = stod(vs[7]);
               dipoleMoment->SetData(x, y, z);
               dipoleMoment->SetOrigin(fileformatInput);
               mol.SetData(dipoleMoment);
