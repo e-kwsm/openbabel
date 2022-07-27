@@ -190,7 +190,7 @@ namespace OpenBabel
       {
         if (vs.empty())
           return(false);
-        natoms = atoi((char*)vs[0].c_str());
+        natoms = stoi(vs[0]);
         if (vs.size() == 2)
           mol.SetTitle(vs[1]);
       }
@@ -256,7 +256,7 @@ namespace OpenBabel
         atom->SetAtomicNum(OBElements::GetAtomicNum(atomic_type));
 
         for (k = 6;k < vs.size(); k++)
-          mol.AddBond(atom->GetIdx(),atoi((char*)vs[k].c_str()),1);
+          mol.AddBond(atom->GetIdx(),stoi(vs[k]),1);
       }
 
     // clean out remaining blank lines
