@@ -30,17 +30,11 @@ void test_Fix1912_PDBReading()
   OB_COMPARE(res->GetChain(), 'A');
 }
 
-std::string remove_slashr(const char *smi)
+std::string remove_slashr(const std::string& smi)
 {
   // Remove \r if present to normalise across platforms
   std::string ans;
-  const char *p = smi;
-  while (*p)
-  {
-    if (*p != '\r')
-      ans += *p;
-    p++;
-  }
+  std::remove_copy(smi.cbegin(), smi.cend(), std::back_inserter(ans), '\r');
   return ans;
 }
 
@@ -78,7 +72,7 @@ void test_ChemDraw_Basic()
     outs.str("");
     conv.Convert();
     std::string out = outs.str();
-    OB_COMPARE(remove_slashr(out.c_str()), cdxData[i].smi);
+    OB_COMPARE(remove_slashr(out), cdxData[i].smi);
   }
 }
 
@@ -110,7 +104,7 @@ void test_ChemDraw_XML_Basic()
     outs.str("");
     conv.Convert();
     std::string out = outs.str();
-    OB_COMPARE(remove_slashr(out.c_str()), cdxmlData[i].smi);
+    OB_COMPARE(remove_slashr(out), cdxmlData[i].smi);
   }
 }
 
@@ -570,7 +564,7 @@ void test_github_issue_2428_data_in_png()
   outs.str("");
   conv.Convert();
   std::string out = outs.str();
-  OB_COMPARE(remove_slashr(out.c_str()), "c1cccnc1\t\n");
+  OB_COMPARE(remove_slashr(out), "c1cccnc1\t\n");
 }
 
 void test_bad_bondorders() // make sure N in aromatic rings get right bond orders
