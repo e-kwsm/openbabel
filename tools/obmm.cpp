@@ -213,9 +213,9 @@ int main(int argc,char **argv)
         if (vs.size() < 3)
           break;
 
-        double x = atof(vs[0].c_str());
-        double y = atof(vs[1].c_str());
-        double z = atof(vs[2].c_str());
+        double x = stod(vs[0]);
+        double y = stod(vs[1]);
+        double z = stod(vs[2]);
         mol.GetAtom(i+1)->SetVector(x, y, z);
 
         cin.getline(commandline, BUFF_SIZE - 1);
@@ -398,7 +398,7 @@ int main(int argc,char **argv)
         continue;
       }
 
-      pFF->SteepestDescent(atoi(vs[1].c_str()), OBFF_ANALYTICAL_GRADIENT);
+      pFF->SteepestDescent(stoi(vs[1]), OBFF_ANALYTICAL_GRADIENT);
       pFF->UpdateCoordinates(mol);
 
       continue;
@@ -411,7 +411,7 @@ int main(int argc,char **argv)
         continue;
       }
 
-      pFF->ConjugateGradients(atoi(vs[1].c_str()), OBFF_ANALYTICAL_GRADIENT);
+      pFF->ConjugateGradients(stoi(vs[1]), OBFF_ANALYTICAL_GRADIENT);
       pFF->UpdateCoordinates(mol);
 
       continue;
