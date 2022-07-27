@@ -1043,12 +1043,12 @@ private:
         //total charge processing
         if (s.at(s.length()-1) == '+') netcharge=1; else netcharge=-1;
         s=s.substr(0,s.length()-1);
-        n1=atoi(s.c_str());
+        n1=stoi(s);
         netcharge=netcharge*n1;
       } else if (s.at(s.length()-1) == '*') {
         //radical processing
         s=s.substr(0,s.length()-1);
-        n1=atoi(s.c_str());
+        n1=stoi(s);
         netradical=n1;
       };
       value=value.substr(n+1,value.length());
@@ -1191,7 +1191,7 @@ private:
       n2=1;
       if (indexOf(s,"-") > 0) n2=-1;
       s=s.substr(0,s.length()-1);
-      n1=atoi(s.c_str());
+      n1=stoi(s);
       n1=n1*n2;
       n2=stoi(sa1);
       charges[n2-1]=n1;
@@ -1317,7 +1317,7 @@ private:
         s=mf;
         mf="";
       };
-      n1=atoi(s.c_str());
+      n1=stoi(s);
       bcount++;
       bondOrders[bcount-1]=0;
       iA1[bcount-1]=nt-1;
@@ -1434,7 +1434,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
             if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
             s=value.substr(n1,n2+1);
-            k=atoi(s.c_str());
+            k=stoi(s);
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
           };
           enumber[i]=enumber[i]+k;
@@ -1457,7 +1457,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
             if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
             s=value.substr(n1,n2+1);
-      k=atoi(s.c_str());
+      k=stoi(s);
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
           };
           enumber[i]=enumber[i]+k;
