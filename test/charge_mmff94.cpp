@@ -124,9 +124,9 @@ int charge_mmff94(int argc, char* argv[])
         if (vs.size() < 3)
           return -1;
 
-        dipoleMoment.SetX(atof(vs[0].c_str()));
-        dipoleMoment.SetY(atof(vs[1].c_str()));
-        dipoleMoment.SetZ(atof(vs[2].c_str()));
+        dipoleMoment.SetX(stod(vs[0]));
+        dipoleMoment.SetY(stod(vs[1]));
+        dipoleMoment.SetZ(stod(vs[2]));
         result = pCM->GetDipoleMoment(mol) - dipoleMoment;
                           
         if ( fabs(result.length_2()) > 1.0e-4)
