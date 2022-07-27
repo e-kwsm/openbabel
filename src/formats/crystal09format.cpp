@@ -125,7 +125,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       vector<string> vs;
       tokenize(vs,line);
       int numTokens = vs.size();
-      checkAtoms = atoi(vs[(numTokens-1)].c_str());
+      checkAtoms = stoi(vs[(numTokens-1)]);
     }
     // IF statement to input cartesian coordinates of primitive cell
     if ( line.find("CARTESIAN COORDINATES - PRIMITIVE CELL") != string::npos &&
@@ -155,7 +155,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         }
         else {
           OBAtom * atom = pmol->NewAtom();
-          atom->SetAtomicNum(atoi(vs[1].c_str()));
+          atom->SetAtomicNum(stoi(vs[1]));
           x = strtod ((char*)vs[3].c_str(), nullptr);
           y = strtod ((char*)vs[4].c_str(), nullptr);
           z = strtod ((char*)vs[5].c_str(), nullptr);

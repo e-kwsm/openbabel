@@ -142,9 +142,9 @@ namespace OpenBabel
         if (vs.size() != 4) return(false);
         atom = mol.NewAtom();
 
-        x = atof((char*)vs[0].c_str());
-        y = atof((char*)vs[1].c_str());
-        z = atof((char*)vs[2].c_str());
+        x = stod(vs[0]);
+        y = stod(vs[1]);
+        z = stod(vs[2]);
 
         atom->SetVector(x,y,z); //set coordinates
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));

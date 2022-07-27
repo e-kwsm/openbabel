@@ -98,9 +98,9 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if (vs.size() < 5)
           continue; // invalid line
         atom = mol.NewAtom();
-        x = atof((char*)vs[1].c_str());
-        y = atof((char*)vs[2].c_str());
-        z = atof((char*)vs[3].c_str());
+        x = stod(vs[1]);
+        y = stod(vs[2]);
+        z = stod(vs[3]);
         atom->SetVector(x,y,z); //set coordinates
 
         //set atomic number
@@ -113,9 +113,9 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if (vs.size() < 4)
           continue;
 
-        x = atof((char*)vs[1].c_str());
-        y = atof((char*)vs[2].c_str());
-        z = atof((char*)vs[3].c_str());
+        x = stod(vs[1]);
+        y = stod(vs[2]);
+        z = stod(vs[3]);
         lattice.push_back(vector3(x, y, z));
       }
     }

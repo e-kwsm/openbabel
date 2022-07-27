@@ -259,12 +259,12 @@ namespace OpenBabel {
 
       if (strstr(buffer, "ICHARG=")) {
         tokenize(vs, (strstr(buffer, "ICHARG=")));
-        charge=atoi(vs[1].c_str());
+        charge=stoi(vs[1]);
       }
 
       if (strstr(buffer, "MULT ")) {
         tokenize(vs, (strstr(buffer, "MULT ")));
-        mult=atoi(vs[2].c_str());
+        mult=stoi(vs[2]);
       }
 
       if (strstr(buffer, "ATOMIC                      COORDINATES (BOHR)") != nullptr) {
@@ -273,10 +273,10 @@ namespace OpenBabel {
        tokenize(vs, buffer);
        while (vs.size() == 5) {
          // Parse the current one
-         int atomicNum = atoi(vs[1].c_str());
-         x = atof((char*) vs[2].c_str()) * BOHR_TO_ANGSTROM;
-         y = atof((char*) vs[3].c_str()) * BOHR_TO_ANGSTROM;
-         z = atof((char*) vs[4].c_str()) * BOHR_TO_ANGSTROM;
+         int atomicNum = stoi(vs[1]);
+         x = stod(vs[2]) * BOHR_TO_ANGSTROM;
+         y = stod(vs[3]) * BOHR_TO_ANGSTROM;
+         z = stod(vs[4]) * BOHR_TO_ANGSTROM;
          // First time reading the molecule, create each atom
          if (natoms == 0) {
            atom = mol.NewAtom();
@@ -317,24 +317,24 @@ namespace OpenBabel {
            * the atom name may start with "Z"
            * or have a non-zero nuclear charge
            */
-          if (atof((char*) vs[5].c_str()) > 0.0) {
+          if (stod(vs[5]) > 0.0) {
             atomicNum = OBElements::GetAtomicNum(vs[0].substr(0, 1).c_str());
             // First time reading the molecule, create each atom
             if (natoms == 0) {
               atom = mol.NewAtom();
               atom->SetAtomicNum(atomicNum);
             }
-            x = atof((char*) vs[1].c_str())* BOHR_TO_ANGSTROM;
-            y = atof((char*) vs[2].c_str())* BOHR_TO_ANGSTROM;
-            z = atof((char*) vs[3].c_str())* BOHR_TO_ANGSTROM;
+            x = stod(vs[1])* BOHR_TO_ANGSTROM;
+            y = stod(vs[2])* BOHR_TO_ANGSTROM;
+            z = stod(vs[3])* BOHR_TO_ANGSTROM;
             coordinates.push_back(x);
             coordinates.push_back(y);
             coordinates.push_back(z);
           } else if (vs[0].substr(0, 1) == "Z") {
             atomicNum = OBElements::GetAtomicNum(vs[0].substr(1, 1).c_str());
-            x = atof((char*) vs[1].c_str())* BOHR_TO_ANGSTROM;
-            y = atof((char*) vs[2].c_str())* BOHR_TO_ANGSTROM;
-            z = atof((char*) vs[3].c_str())* BOHR_TO_ANGSTROM;
+            x = stod(vs[1])* BOHR_TO_ANGSTROM;
+            y = stod(vs[2])* BOHR_TO_ANGSTROM;
+            z = stod(vs[3])* BOHR_TO_ANGSTROM;
             coordinates.push_back(x);
             coordinates.push_back(y);
             coordinates.push_back(z);
@@ -357,10 +357,10 @@ namespace OpenBabel {
         tokenize(vs, buffer);
         while (vs.size() == 5) {
           // Parse the current one
-          int atomicNum = atoi(vs[1].c_str());
-          x = atof((char*) vs[2].c_str());
-          y = atof((char*) vs[3].c_str());
-          z = atof((char*) vs[4].c_str());
+          int atomicNum = stoi(vs[1]);
+          x = stod(vs[2]);
+          y = stod(vs[3]);
+          z = stod(vs[4]);
           // First time reading the molecule, create each atom
           if (natoms == 0) {
             atom = mol.NewAtom();
@@ -400,9 +400,9 @@ namespace OpenBabel {
                 atom = mol.NewAtom();
                 atom->SetAtomicNum(atomicNum);
               }
-              x = atof((char*) vs[1].c_str());
-              y = atof((char*) vs[2].c_str());
-              z = atof((char*) vs[3].c_str());
+              x = stod(vs[1]);
+              y = stod(vs[2]);
+              z = stod(vs[3]);
               coordinates.push_back(x);
               coordinates.push_back(y);
               coordinates.push_back(z);
@@ -450,9 +450,9 @@ namespace OpenBabel {
           OBVectorData* dipoleMoment = new OBVectorData;
           dipoleMoment->SetAttribute("Dipole Moment");
           double x, y, z;
-          x = atof(vs[0].c_str());
-          y = atof(vs[1].c_str());
-          z = atof(vs[2].c_str());
+          x = stod(vs[0]);
+          y = stod(vs[1]);
+          z = stod(vs[2]);
           dipoleMoment->SetData(x, y, z);
           dipoleMoment->SetOrigin(fileformatInput);
           mol.SetData(dipoleMoment);
@@ -465,8 +465,8 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         while (vs.size() == 4) {
-          atom = mol.GetAtom(atoi(vs[0].c_str()));
-          atom->SetPartialCharge(atof(vs[2].c_str()));
+          atom = mol.GetAtom(stoi(vs[0]));
+          atom->SetPartialCharge(stod(vs[2]));
 
           if (!ifs.getline(buffer, BUFF_SIZE))
             break;
@@ -480,11 +480,11 @@ namespace OpenBabel {
         tokenize(vs, buffer);
         // atom number, atomic symbol, mulliken pop, charge
         while (vs.size() >= 4) {
-          int atomNb = atoi(vs[0].c_str());
+          int atomNb = stoi(vs[0]);
           if (!atomNb)
             break;
           atom = mol.GetAtom(atomNb);
-          atom->SetPartialCharge(atof(vs[3].c_str()));
+          atom->SetPartialCharge(stod(vs[3]));
 
           if (!ifs.getline(buffer, BUFF_SIZE))
             break;
@@ -494,21 +494,21 @@ namespace OpenBabel {
       } else if (strstr(buffer, "NUMBER OF OCCUPIED ORBITALS") != nullptr) {
         tokenize(vs, buffer);
         if (vs.size() == 7)      // alpha
-          aHOMO = atoi(vs[6].c_str());
+          aHOMO = stoi(vs[6]);
         else if (vs.size() == 8) // beta
-          bHOMO = atoi(vs[7].c_str());
+          bHOMO = stoi(vs[7]);
 
       } else if (strstr(buffer, "TAKEN AS ROTATIONS AND TRANSLATIONS") != nullptr) {
         tokenize(vs, buffer);
         if (vs.size() < 4)
           break;
-        lowFreqModesBegin = atoi(vs[1].c_str());
-        lowFreqModesEnd   = atoi(vs[3].c_str());
+        lowFreqModesBegin = stoi(vs[1]);
+        lowFreqModesEnd   = stoi(vs[3]);
 
       } else if (strstr(buffer, "TOTAL ENERGY      =") != nullptr) {
         tokenize(vs, buffer);
         if (vs.size() == 4)
-          mol.SetEnergy(atof(vs[3].c_str()));
+          mol.SetEnergy(stod(vs[3]));
 
       } else if (strstr(buffer, "FREQUENCY:") != nullptr) {
         tokenize(vs, buffer);
@@ -517,9 +517,9 @@ namespace OpenBabel {
             continue;
           ++numFreq;
           if (numFreq < lowFreqModesBegin) // imaginary frequency
-            frequencies.push_back(-atof(vs[i].c_str()));
+            frequencies.push_back(-stod(vs[i]));
           if (numFreq > lowFreqModesEnd)
-            frequencies.push_back(atof(vs[i].c_str()));
+            frequencies.push_back(stod(vs[i]));
         }
         ifs.getline(buffer, BUFF_SIZE); // possibly symmetry or red. mass
         if (strstr(buffer, "SYMMETRY:") != nullptr) {
@@ -531,14 +531,14 @@ namespace OpenBabel {
         for (unsigned int i=2; i < vs.size(); ++i) {
           ++numIntens;
           if (numIntens < lowFreqModesBegin || numIntens > lowFreqModesEnd)
-            intensities.push_back(atof(vs[i].c_str()) * 42.255); // conver to km/mol
+            intensities.push_back(stod(vs[i]) * 42.255); // conver to km/mol
         }
         ifs.getline(buffer, BUFF_SIZE); // blank or Raman activitie
         if (strstr(buffer, "RAMAN") != nullptr) {
           tokenize(vs, buffer);
           for (unsigned int i=2; i < vs.size(); ++i) {
             if (numIntens < lowFreqModesBegin || numIntens > lowFreqModesEnd)
-              raman_intensities.push_back(atof(vs[i].c_str()));
+              raman_intensities.push_back(stod(vs[i]));
           }
           ifs.getline(buffer, BUFF_SIZE); // DEPOLARIZATION
           ifs.getline(buffer, BUFF_SIZE); // blank
@@ -559,26 +559,26 @@ namespace OpenBabel {
         vector<double> x, y, z;
         while (modeCount >= 1) {
           // 1/sqrt(atomic mass)
-          atom = mol.GetAtom(atoi(vs[0].c_str()));
+          atom = mol.GetAtom(stoi(vs[0]));
           massNormalization = 1 / sqrt( atom->GetAtomicMass() );
 
           x.clear();
           // Not a typo -- e.g., atom number, atom label, x, then data
           for (unsigned int i=3; i < vs.size(); ++i) {
-            x.push_back(massNormalization * atof(vs[i].c_str()));
+            x.push_back(massNormalization * stod(vs[i]));
           }
           y.clear();
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
           for (unsigned int i=1; i < vs.size(); ++i) {
-            y.push_back(massNormalization * atof(vs[i].c_str()));
+            y.push_back(massNormalization * stod(vs[i]));
           }
 
           z.clear();
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
           for (unsigned int i=1; i < vs.size(); ++i) {
-            z.push_back(massNormalization * atof(vs[i].c_str()));
+            z.push_back(massNormalization * stod(vs[i]));
           }
 
           // OK, now we have x, y, z for all new modes for one atom
@@ -612,7 +612,7 @@ namespace OpenBabel {
           ifs.getline(buffer, BUFF_SIZE); // energies in hartree
           tokenize(vs, buffer);
           for (unsigned int i=0; i < vs.size(); ++i)
-            orbitals.push_back(27.21 * atof(vs[i].c_str()));
+            orbitals.push_back(27.21 * stod(vs[i]));
 
           ifs.getline(buffer, BUFF_SIZE); // symmetries
           tokenize(vs, buffer);
@@ -893,10 +893,10 @@ namespace OpenBabel {
           if (vs.size() == 5) {
             atom = mol.NewAtom();
             // Parse the current one
-            atom->SetAtomicNum(atoi(vs[1].c_str()));
-            x = atof((char*) vs[2].c_str());
-            y = atof((char*) vs[3].c_str());
-            z = atof((char*) vs[4].c_str());
+            atom->SetAtomicNum(stoi(vs[1]));
+            x = stod(vs[2]);
+            y = stod(vs[3]);
+            z = stod(vs[4]);
             atom->SetVector(x, y, z);
           }
 
@@ -910,10 +910,10 @@ namespace OpenBabel {
           tokenize(vs, buffer);
           if (vs.size() == 5) {
             atom = mol.NewAtom();
-            atom->SetAtomicNum(atoi(vs[1].c_str()));
-            x = atof((char*) vs[2].c_str());
-            y = atof((char*) vs[3].c_str());
-            z = atof((char*) vs[4].c_str());
+            atom->SetAtomicNum(stoi(vs[1]));
+            x = stod(vs[2]);
+            y = stod(vs[3]);
+            z = stod(vs[4]);
             atom->SetVector(x, y, z);
           }
           if (!ifs.getline(buffer, BUFF_SIZE))
@@ -943,9 +943,9 @@ namespace OpenBabel {
               atomicNum = OBElements::GetAtomicNum(vs[0].substr(0, 1).c_str());
             }
             atom->SetAtomicNum(atomicNum);
-            x = atof((char*) vs[1].c_str());
-            y = atof((char*) vs[2].c_str());
-            z = atof((char*) vs[3].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[2]);
+            z = stod(vs[3]);
             atom->SetVector(x, y, z);
 
             // Tag these atoms as part of a specific EFP fragment

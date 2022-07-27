@@ -119,12 +119,12 @@ namespace OpenBabel
                   {
                     //parse cell values
                     double A,B,C,Alpha,Beta,Gamma;
-                    A = atof((char*)vs[1].c_str());
-                    B = atof((char*)vs[2].c_str());
-                    C = atof((char*)vs[3].c_str());
-                    Alpha = atof((char*)vs[4].c_str());
-                    Beta  = atof((char*)vs[5].c_str());
-                    Gamma = atof((char*)vs[6].c_str());
+                    A = stod(vs[1]);
+                    B = stod(vs[2]);
+                    C = stod(vs[3]);
+                    Alpha = stod(vs[4]);
+                    Beta  = stod(vs[5]);
+                    Gamma = stod(vs[6]);
                     OBUnitCell *uc = new OBUnitCell;
                     uc->SetOrigin(fileformatInput);
                     uc->SetData(A, B, C, Alpha, Beta, Gamma);
@@ -165,9 +165,9 @@ namespace OpenBabel
         atom = mol.NewAtom();
 
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[7].c_str()));
-        x = atof((char*)vs[1].c_str());
-        y = atof((char*)vs[2].c_str());
-        z = atof((char*)vs[3].c_str());
+        x = stod(vs[1]);
+        y = stod(vs[2]);
+        z = stod(vs[3]);
         atom->SetVector(x,y,z);
 
         // vs[0] contains atom label
@@ -177,7 +177,7 @@ namespace OpenBabel
 
         if (vs.size() == 9)
           {
-            atom->SetPartialCharge(atof((char*)vs[8].c_str()));
+            atom->SetPartialCharge(stod(vs[8]));
             hasPartialCharges = true;
           }
       }

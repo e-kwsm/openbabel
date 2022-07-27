@@ -224,7 +224,7 @@ namespace OpenBabel
           // Sometimes people call this an XYZ file, but it's actually Unichem
           // i.e., the first column is the atomic number, not a symbol
           // so we'll first check if we can convert this to an element number
-          atomicNum = atoi(vs[0].c_str());
+          atomicNum = stoi(vs[0]);
         }
 
         atom->SetAtomicNum(atomicNum);

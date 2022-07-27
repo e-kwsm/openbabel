@@ -105,18 +105,18 @@ namespace OpenBabel {
       if (strstr(buffer, "Lattice parameters(A)       Cell Angles")) {
         ifs.getline(buffer,BUFF_SIZE); // a, alpha
         tokenize(vs, buffer);
-        a = atof(vs.at(2).c_str());
-        alpha = atof(vs.at(5).c_str());
+        a = stod(vs.at(2));
+        alpha = stod(vs.at(5));
 
         ifs.getline(buffer,BUFF_SIZE); // b, beta
         tokenize(vs, buffer);
-        b = atof(vs.at(2).c_str());
-        beta = atof(vs.at(5).c_str());
+        b = stod(vs.at(2));
+        beta = stod(vs.at(5));
 
         ifs.getline(buffer,BUFF_SIZE); // c, gamma
         tokenize(vs, buffer);
-        c = atof(vs.at(2).c_str());
-        gamma = atof(vs.at(5).c_str());
+        c = stod(vs.at(2));
+        gamma = stod(vs.at(5));
 
         // Build unit cell
         cell->SetData(a, b, c, alpha, beta, gamma);
@@ -141,9 +141,9 @@ namespace OpenBabel {
         int size = vs.size();
         while (size == 7) {
           atomicNum = OBElements::GetAtomicNum(vs[1].c_str());
-          x = atof((char*)vs[3].c_str());
-          y = atof((char*)vs[4].c_str());
-          z = atof((char*)vs[5].c_str());
+          x = stod(vs[3]);
+          y = stod(vs[4]);
+          z = stod(vs[5]);
 
           // Add atom
           OBAtom *atom = pmol->NewAtom();
@@ -162,21 +162,21 @@ namespace OpenBabel {
       if (strstr(buffer, "Final Enthalpy")) {
         hasEnthalpyData = true;
         tokenize(vs, buffer);
-        enthalpy = atof(vs[4].c_str()) * EV_TO_KCAL_PER_MOL;
+        enthalpy = stod(vs[4]) * EV_TO_KCAL_PER_MOL;
       }
 
       // volume
       if (strstr(buffer, "Current cell volume =")) {
         hasVolumeData = true;
         tokenize(vs, buffer);
-        volume = atof(vs[4].c_str());
+        volume = stod(vs[4]);
       }
 
       // pressure
       if (strstr(buffer, " *  Pressure:")) {
         hasPressureData = true;
         tokenize(vs, buffer);
-        pressure = atof(vs[2].c_str());
+        pressure = stod(vs[2]);
       }
     }
 

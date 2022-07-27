@@ -180,7 +180,7 @@ namespace OpenBabel
       if (strstr(buffer, "AtomTypes") != nullptr)
       {
         tokenize(vs,(strstr(buffer,"AtomTypes=")), " \t\n=");
-        atomtypes = atoi(vs[1].c_str());
+        atomtypes = stoi(vs[1]);
       }
       else
       {
@@ -198,7 +198,7 @@ namespace OpenBabel
       if (strstr(buffer, "Charge") != nullptr)
       {
         tokenize(vs,(strstr(buffer,"Charge=")), " \t\n=");
-        molcharge = atoi(vs[1].c_str());
+        molcharge = stoi(vs[1]);
       }
 
       // if input is in bohr, convert to angstrom
@@ -210,9 +210,9 @@ namespace OpenBabel
         if (strstr(buffer, "Atoms") != nullptr && strstr(buffer, "Charge") != nullptr)
         {
            tokenize(vs,(strstr(buffer,"Atoms=")), " \t\n=");
-           atomcount = atoi(vs[1].c_str());
+           atomcount = stoi(vs[1]);
            tokenize(vs,(strstr(buffer,"Charge=")), " \t\n=");
-           atomcharge = atoi(vs[1].c_str());
+           atomcharge = stoi(vs[1]);
            atomtypes--;
            continue;
         }
@@ -226,9 +226,9 @@ namespace OpenBabel
         {
           atom = mol.NewAtom();
           atom->SetAtomicNum(atomcharge);
-          x = atof((char*)vs[1].c_str()) * factor;
-          y = atof((char*)vs[2].c_str()) * factor;
-          z = atof((char*)vs[3].c_str()) * factor;
+          x = stod(vs[1]) * factor;
+          y = stod(vs[2]) * factor;
+          z = stod(vs[3]) * factor;
           atom->SetVector(x,y,z);
         }
       }
@@ -378,7 +378,7 @@ namespace OpenBabel
         ifs.getline(buffer,BUFF_SIZE); // whitespace
         ifs.getline(buffer,BUFF_SIZE); // number of coordinates
         tokenize(vs,buffer);
-        atomcount = atoi(vs[4].c_str()) / 3; // number of atoms to read
+        atomcount = stoi(vs[4]) / 3; // number of atoms to read
         while(atomcount > 0)
         {
           atomcount --;
@@ -389,9 +389,9 @@ namespace OpenBabel
           {
             atom = mol.NewAtom();
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
-            x = atof((char*)vs[4].c_str()) * BOHR_TO_ANGSTROM;
-            y = atof((char*)vs[7].c_str()) * BOHR_TO_ANGSTROM;
-            z = atof((char*)vs[10].c_str()) * BOHR_TO_ANGSTROM;
+            x = stod(vs[4]) * BOHR_TO_ANGSTROM;
+            y = stod(vs[7]) * BOHR_TO_ANGSTROM;
+            z = stod(vs[10]) * BOHR_TO_ANGSTROM;
             atom->SetVector(x,y,z);
           }
         }

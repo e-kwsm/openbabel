@@ -157,12 +157,12 @@ namespace OpenBabel
     double A, B, C, Alpha, Beta, Gamma;
     string temp; // used to trim ending (xx) data from strings
 
-    A = atof(vs[0].c_str());
-    B = atof(vs[1].c_str());
-    C = atof(vs[2].c_str());
-    Alpha = atof(vs[3].c_str());
-    Beta  = atof(vs[4].c_str());
-    Gamma = atof(vs[5].c_str());
+    A = stod(vs[0]);
+    B = stod(vs[1]);
+    C = stod(vs[2]);
+    Alpha = stod(vs[3]);
+    Beta  = stod(vs[4]);
+    Gamma = stod(vs[5]);
     OBUnitCell *uc = new OBUnitCell;
     uc->SetOrigin(fileformatInput);
     uc->SetData(A, B, C, Alpha, Beta, Gamma);
@@ -193,16 +193,16 @@ namespace OpenBabel
         atomicNum = OBElements::GetAtomicNum(vs[0].c_str());
         if (atomicNum == 0 && (isdigit(vs[0][0]) || ispunct(vs[0][0])))
           {
-            x = atof(vs[0].c_str());
-            y = atof(vs[1].c_str());
-            z = atof(vs[2].c_str());
+            x = stod(vs[0]);
+            y = stod(vs[1]);
+            z = stod(vs[2]);
             atomicNum = OBElements::GetAtomicNum(vs[3].c_str());
           }
         else
           {
-            x = atof(vs[1].c_str());
-            y = atof(vs[2].c_str());
-            z = atof(vs[3].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[2]);
+            z = stod(vs[3]);
           }
         v.Set(x, y, z);
         v = uc->FractionalToCartesian(v);

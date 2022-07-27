@@ -251,9 +251,9 @@ const char* Description() override  // required
             double MaxTani = 1.1;
             size_t pos = txt.find(',');
             if( pos != string::npos ) {
-              MaxTani = atof( txt.substr( pos + 1 ).c_str() );
+              MaxTani = stod( txt.substr( pos + 1 ) );
             }
-            double MinTani = atof( txt.substr( 0, pos ).c_str() );
+            double MinTani = stod( txt.substr( 0, pos ) );
             fs.FindSimilar(&patternMols[0], SeekposMap, MinTani, MaxTani);
           }
 
@@ -600,7 +600,7 @@ const char* Description() override  // required
             break;
           pos2 = txt.find(']');
           int atno;
-          if(pos2!=string::npos &&  (atno = atoi(txt.substr(pos1+2, pos2-pos1-2).c_str())) && atno>0)
+          if(pos2!=string::npos &&  (atno = stoi(txt.substr(pos1+2, pos2-pos1-2))) && atno>0)
             txt.replace(pos1, pos2-pos1+1, OBElements::GetSymbol(atno));
           else
           {

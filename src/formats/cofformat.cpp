@@ -92,7 +92,7 @@ namespace OpenBabel
       obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. First line incorrectly formatted.", obWarning);
       return(false);
     }
-    int version = atoi(vs[1].c_str());
+    int version = stoi(vs[1]);
 
     //-Extract the molecule name
     bool bFoundKey = false;
@@ -172,8 +172,8 @@ namespace OpenBabel
 
         if(version > 7)
         {
-          iniatom = atoi(vs[1].c_str());
-          finatom = atoi(vs[2].c_str());
+          iniatom = stoi(vs[1]);
+          finatom = stoi(vs[2]);
         }
         else
         {
@@ -226,8 +226,8 @@ namespace OpenBabel
               "Unable to read Culgi Object File. Formal charge line appears truncated", obWarning);
           return(false);
         }
-        int iAtom = atoi(vs[1].c_str());
-        int iFormalCharge = atoi(vs[2].c_str());
+        int iAtom = stoi(vs[1]);
+        int iFormalCharge = stoi(vs[2]);
         pmol->GetAtom(iAtom+1)->SetFormalCharge(iFormalCharge);
       }
     }
