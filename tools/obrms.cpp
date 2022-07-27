@@ -316,7 +316,7 @@ int main(int argc, char **argv)
 	std::ofstream out;
 	if(fileOut.size() > 0)
 	{
-		out.open(fileOut.c_str());
+		out.open(fileOut);
 	}
 
 

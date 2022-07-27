@@ -23,7 +23,7 @@ int canonstabletest(int argc, char *argv[])
     putenv(env);
 #endif  
 
-  std::ifstream ifs(OBTestUtil::GetFilename("canonstable.can").c_str());
+  std::ifstream ifs(OBTestUtil::GetFilename("canonstable.can"));
   OB_REQUIRE( ifs );
 
 

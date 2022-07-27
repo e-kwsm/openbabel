@@ -25,7 +25,7 @@ int main(int argc, char **argv)
  
   std::string filename(argv[1]);
   std::ifstream ifs;
-  ifs.open(filename.c_str());
+  ifs.open(filename);
   if (!ifs) {
     std::cerr << "Could not open " << filename << std::endl;
     return -1;
@@ -45,7 +45,7 @@ int main(int argc, char **argv)
     }
     std::stringstream ss;
     ss << filename << count << ".svg";
-    ofstream ofs(ss.str().c_str());
+    ofstream ofs(ss.str());
     if(ofs)
     {
       SVGPainter painter(ofs);     

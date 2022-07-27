@@ -81,7 +81,7 @@ namespace OpenBabel
     string patty_dir;
     OBSmartsPattern *sp;
 
-    ifs.open(infile.c_str());
+    ifs.open(infile);
     ifsP= &ifs;
     if (!ifs)
       {
@@ -97,7 +97,7 @@ namespace OpenBabel
           patty_dir = getenv("BABEL_DATADIR");
         patty_dir += FILE_SEP_CHAR;
         patty_dir += infile;
-        ifs1.open(patty_dir.c_str());
+        ifs1.open(patty_dir);
         ifsP= &ifs1;
         //     if (!ifs1)
         //    {

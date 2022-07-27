@@ -61,7 +61,7 @@ bool doMultiMoleculeFile(const std::string &filename)
 
   std::string file = OBTestUtil::GetFilename(filename);
   std::ifstream ifs;
-  ifs.open(file.c_str());
+  ifs.open(file);
   OB_REQUIRE( ifs );
 
   OBMol mol;

@@ -166,7 +166,7 @@ int main(int argc,char **argv)
 	}
 	obconversion.SetInFormat(format);
 	std::ifstream ifs;
-	ifs.open(ifile.c_str());
+	ifs.open(ifile);
 	obconversion.SetInStream(&ifs);
 	
 	// Start calculations

@@ -53,7 +53,7 @@ struct OBTestUtil
     std::string file = GetFilename(filename);
 
     std::ifstream ifs;
-    ifs.open(file.c_str());
+    ifs.open(file);
     OB_REQUIRE( ifs );
 
     OpenBabel::OBConversion conv;

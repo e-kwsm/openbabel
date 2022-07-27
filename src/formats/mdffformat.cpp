@@ -147,7 +147,7 @@ namespace OpenBabel {
     ifstream ifs_ions;
     if( process_ions )
     {  
-      ifs_ions.open(ionspot_filename.c_str());
+      ifs_ions.open(ionspot_filename);
       process_ions = ifs_ions.is_open();
     }  
     
@@ -485,7 +485,7 @@ namespace OpenBabel {
     path = (found == string::npos) ? "" : path.substr(0, found);
     string ionspot_filename = (path == "") ? "IONS.POT" : path + "/IONS.POT";
     ofstream ofs_ions;
-    ofs_ions.open(ionspot_filename.c_str(), fstream::out);
+    ofs_ions.open(ionspot_filename, fstream::out);
     
     for(int i = 0; i < 4; i++)
     {  

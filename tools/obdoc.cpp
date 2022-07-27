@@ -88,7 +88,7 @@ int main(int argc,char **argv)
       name = description.substr(0,description.find('\n'));
       code = extensionList[i][0] + "-data.html";
 
-      ofs.open(code.c_str());
+      ofs.open(code);
 
       ofs << "{{Format|" << endl;
       ofs << "|extensions=";
