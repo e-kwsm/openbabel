@@ -91,7 +91,7 @@ namespace OpenBabel
     OBForceField* pFF = OBForceField::FindForceField(ff);
     iter = pmap->find("epsilon");
     if (iter!=pmap->end())
-      epsilon = atof(iter->second.c_str());
+      epsilon = stod(iter->second);
 
     iter = pmap->find("log");
     if(iter!=pmap->end())
@@ -213,27 +213,27 @@ namespace OpenBabel
 
     iter = pmap->find("crit");
     if(iter!=pmap->end())
-      crit = atof(iter->second.c_str());
+      crit = stod(iter->second);
 
     iter = pmap->find("steps");
     if(iter!=pmap->end())
-      steps = atoi(iter->second.c_str());
+      steps = stoi(iter->second);
 
     iter = pmap->find("epsilon");
     if(iter!=pmap->end())
-      epsilon = atof(iter->second.c_str());
+      epsilon = stod(iter->second);
 
     iter = pmap->find("rvdw");
     if(iter!=pmap->end())
-      rvdw = atof(iter->second.c_str());
+      rvdw = stod(iter->second);
 
     iter = pmap->find("rele");
     if(iter!=pmap->end())
-      rele = atof(iter->second.c_str());
+      rele = stod(iter->second);
 
     iter = pmap->find("pf");
     if(iter!=pmap->end()) {
-      freq = atoi(iter->second.c_str());
+      freq = stoi(iter->second);
       if (freq < 1)
         freq = 10; // don't divide by zero
     }

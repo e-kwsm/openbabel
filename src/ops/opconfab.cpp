@@ -106,13 +106,13 @@ namespace OpenBabel
       OpMap::const_iterator iter;
       iter = pmap->find("rcutoff");
       if(iter!=pmap->end())
-        rmsd_cutoff = atof(iter->second.c_str());
+        rmsd_cutoff = stod(iter->second);
       iter = pmap->find("ecutoff");
       if(iter!=pmap->end())
-        energy_cutoff = atof(iter->second.c_str());
+        energy_cutoff = stod(iter->second);
       iter = pmap->find("conf");
       if(iter!=pmap->end())
-        conf_cutoff = atoi(iter->second.c_str());
+        conf_cutoff = stoi(iter->second);
       iter = pmap->find("verbose");
       if(iter!=pmap->end())
         verbose = true;
