@@ -70,7 +70,7 @@ int multicmltest(int argc, char* argv[])
     putenv(env);
   #endif
 
-  ifstream ifs(infile.c_str());
+  ifstream ifs(infile);
   if (!ifs)
     {
       cout << "Bail out! Cannot read c3.cml!" << endl;
