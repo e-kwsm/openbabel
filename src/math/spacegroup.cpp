@@ -165,7 +165,7 @@ namespace OpenBabel
           {
             m_OriginAlternative = HEXAGONAL_ORIGIN;
           } else {
-            m_OriginAlternative = atoi (origin.c_str());
+            m_OriginAlternative = stoi(origin);
           }
       }
     m_HM = name;

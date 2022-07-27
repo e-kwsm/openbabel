@@ -212,7 +212,7 @@ namespace OpenBabel
           //number of atoms in the pattern (passed as a string in the option text)
           //has to be the same as in the molecule.
           itr2 = pOptions->find("exactmatch");
-          if(itr2!=pOptions->end() && (int)NumHvyAtoms()!=atoi(itr2->second.c_str()))
+          if(itr2!=pOptions->end() && (int)NumHvyAtoms()!=stoi(itr2->second))
             fmatch=false;
           else
             {
