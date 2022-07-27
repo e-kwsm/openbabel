@@ -92,14 +92,14 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             atom = mol.NewAtom();
             coord = new OBInternalCoord();
             if (mol.NumAtoms() > 1)
-                coord->_a = mol.GetAtom(atoi(vs[4].c_str()));
+                coord->_a = mol.GetAtom(stoi(vs[4]));
             if (mol.NumAtoms() > 2)
-                coord->_b = mol.GetAtom(atoi(vs[5].c_str()));
+                coord->_b = mol.GetAtom(stoi(vs[5]));
             if (mol.NumAtoms() > 3)
-                coord->_c = mol.GetAtom(atoi(vs[6].c_str()));
-            coord->_dst = atof(vs[7].c_str());
-            coord->_ang = atof(vs[8].c_str());
-            coord->_tor = atof(vs[9].c_str());
+                coord->_c = mol.GetAtom(stoi(vs[6]));
+            coord->_dst = stod(vs[7]);
+            coord->_ang = stod(vs[8]);
+            coord->_tor = stod(vs[9]);
             internals.push_back(coord);
 
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));

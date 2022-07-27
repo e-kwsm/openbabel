@@ -91,12 +91,12 @@ namespace OpenBabel
           continue; // something strange
 
         double A, B, C, Alpha, Beta, Gamma;
-        A = atof(vs[1].c_str());
-        B = atof(vs[2].c_str());
-        C = atof(vs[3].c_str());
-        Alpha = atof(vs[4].c_str());
-        Beta  = atof(vs[5].c_str());
-        Gamma = atof(vs[6].c_str());
+        A = stod(vs[1]);
+        B = stod(vs[2]);
+        C = stod(vs[3]);
+        Alpha = stod(vs[4]);
+        Beta  = stod(vs[5]);
+        Gamma = stod(vs[6]);
         OBUnitCell *uc = new OBUnitCell;
         uc->SetOrigin(fileformatInput);
         uc->SetData(A, B, C, Alpha, Beta, Gamma);
@@ -168,12 +168,12 @@ namespace OpenBabel
             // to a huge value and is caught by the same bound. The former
             // "bgn < 1" test wrongly rejected bgn == 0, silently discarding
             // the CONECT record of the *first* atom.
-            bgn = atoi((char*)vs[1].c_str()) - 1;
+            bgn = stoi(vs[1]) - 1;
             if (bgn >= mol.NumAtoms())
               continue;
             for (i = 2;i < vs.size();i++)
               {
-                vcon[bgn].push_back(atoi((char*)vs[i].c_str()));
+                vcon[bgn].push_back(stoi(vs[i]));
                 vord[bgn].push_back(1);
               }
           }
@@ -181,13 +181,13 @@ namespace OpenBabel
           if (EQn(buffer,"ORDER",5))
             {
               // See the CONECT branch above regarding this bound.
-              bgn = atoi((char*)vs[1].c_str()) - 1;
+              bgn = stoi(vs[1]) - 1;
               if (bgn >= mol.NumAtoms())
                 continue;
               if (vs.size() > vord[bgn].size()+2)
                 continue;
               for (i = 2;i < vs.size();i++)
-                vord[bgn][i-2] = atoi((char*)vs[i].c_str());
+                vord[bgn][i-2] = stoi(vs[i]);
             }
       }
 

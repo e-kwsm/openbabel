@@ -135,9 +135,9 @@ namespace OpenBabel {
                 atom = mol.NewAtom();
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str())); // atom number, then symbol
                 // columns 2, 3, 4 = coordinates in bohr
-                x = atof((char*)vs[5].c_str());
-                y = atof((char*)vs[6].c_str());
-                z = atof((char*)vs[7].c_str());
+                x = stod(vs[5]);
+                y = stod(vs[6]);
+                z = stod(vs[7]);
                 atom->SetVector(x,y,z);
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
@@ -156,9 +156,9 @@ namespace OpenBabel {
                 OBVectorData *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
                 double x, y, z;
-                x = atof(vs[2].c_str());
-                y = atof(vs[3].c_str());
-                z = atof(vs[4].c_str());
+                x = stod(vs[2]);
+                y = stod(vs[3]);
+                z = stod(vs[4]);
                 dipoleMoment->SetData(x, y, z);
                 dipoleMoment->SetOrigin(fileformatInput);
                 mol.SetData(dipoleMoment);
@@ -181,9 +181,9 @@ namespace OpenBabel {
               tokenize(vs,buffer);
               while (vs.size() >= 3)
                 {
-                  atom = mol.GetAtom(atoi(vs[0].c_str()));
+                  atom = mol.GetAtom(stoi(vs[0]));
                   if (atom) {
-                    atom->SetPartialCharge(atof(vs[2].c_str()));
+                    atom->SetPartialCharge(stod(vs[2]));
                     hasPartialCharges = true;
                   }
 
@@ -197,7 +197,7 @@ namespace OpenBabel {
             tokenize(vs, buffer);
             if (vs.size() > 3) // Net Charge: ##
               {
-                charge = atoi(vs[2].c_str());
+                charge = stoi(vs[2]);
               }
           }
         else if (strstr(buffer, "Bond Energy") != nullptr)
@@ -215,7 +215,7 @@ namespace OpenBabel {
                 // just try to convert tokens 1 thru vs.size() to
                 // double and keep the last one that works.
                 for (unsigned int i = 1; i < vs.size(); i++) {
-                  if (double d = atof(vs.at(i).c_str())) {
+                  if (double d = stod(vs.at(i))) {
                     energy = d;
                   }
                 }
@@ -437,9 +437,9 @@ namespace OpenBabel {
 
           OBAtom* atom = mol.NewAtom();
           atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
-          double x = atof(vs[1].c_str()) * lengthConversion;
-          double y = atof(vs[2].c_str()) * lengthConversion;
-          double z = atof(vs[3].c_str()) * lengthConversion;
+          double x = stod(vs[1]) * lengthConversion;
+          double y = stod(vs[2]) * lengthConversion;
+          double z = stod(vs[3]) * lengthConversion;
           atom->SetVector(x, y, z);
         }
       }
@@ -454,9 +454,9 @@ namespace OpenBabel {
             break;
 
           // These are in Bohrs
-          double x = atof(vs[1].c_str()) * BOHR_TO_ANGSTROM;
-          double y = atof(vs[2].c_str()) * BOHR_TO_ANGSTROM;
-          double z = atof(vs[3].c_str()) * BOHR_TO_ANGSTROM;
+          double x = stod(vs[1]) * BOHR_TO_ANGSTROM;
+          double y = stod(vs[2]) * BOHR_TO_ANGSTROM;
+          double z = stod(vs[3]) * BOHR_TO_ANGSTROM;
           vectors.push_back(vector3(x, y, z));
         }
 
@@ -481,7 +481,7 @@ namespace OpenBabel {
               break;
 
             // Units of the final column should be in kcal/mol
-            mol.SetEnergy(atof(vs[6].c_str()));
+            mol.SetEnergy(stod(vs[6]));
             break;
           }
         }
@@ -574,9 +574,9 @@ namespace OpenBabel {
 
             OBAtom* atom = mol.NewAtom();
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
-            double x = atof(vs[2].c_str()) * lengthConversion;
-            double y = atof(vs[3].c_str()) * lengthConversion;
-            double z = atof(vs[4].c_str()) * lengthConversion;
+            double x = stod(vs[2]) * lengthConversion;
+            double y = stod(vs[3]) * lengthConversion;
+            double z = stod(vs[4]) * lengthConversion;
             atom->SetVector(x, y, z);
           }
         }
@@ -596,9 +596,9 @@ namespace OpenBabel {
             if (vs.size() != 4)
               break;
 
-            double x = atof(vs[1].c_str()) * lengthConversion;
-            double y = atof(vs[2].c_str()) * lengthConversion;
-            double z = atof(vs[3].c_str()) * lengthConversion;
+            double x = stod(vs[1]) * lengthConversion;
+            double y = stod(vs[2]) * lengthConversion;
+            double z = stod(vs[3]) * lengthConversion;
             vectors.push_back(vector3(x, y, z));
           }
 
@@ -624,7 +624,7 @@ namespace OpenBabel {
             if (vs.size() != 4)
               break;
 
-            mol.SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
+            mol.SetEnergy(stod(vs[3]) * EV_TO_KCAL_PER_MOL);
             break;
           }
         }
