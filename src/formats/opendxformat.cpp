@@ -133,9 +133,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       tokenize(vs, buffer);
       if (vs.size() != 4)
         return false;
-      x = atof(vs[1].c_str());
-      y = atof(vs[2].c_str());
-      z = atof(vs[3].c_str());
+      x = stod(vs[1]);
+      y = stod(vs[2]);
+      z = stod(vs[3]);
     }
     vector3 origin(x, y, z);
 
@@ -148,9 +148,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         tokenize(vs, buffer);
         if (vs.size() != 4)
           return false;
-        x = atof(vs[1].c_str());
-        y = atof(vs[2].c_str());
-        z = atof(vs[3].c_str());
+        x = stod(vs[1]);
+        y = stod(vs[2]);
+        z = stod(vs[3]);
         axes.push_back(vector3(x, y, z));
       }
     }
