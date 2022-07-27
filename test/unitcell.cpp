@@ -66,12 +66,12 @@ int unitcell(int argc, char* argv[])
     vector<string> vs;
     unsigned int currTest = 1;
 
-    if (!SafeOpen(ifs, punitcell_file.c_str()))
+    if (!SafeOpen(ifs, punitcell_file))
       {
 	cout << "Bail out! Couldn't open test file 'unitcell.txt'" << endl;
         return(-1);
       }
-    if (!SafeOpen(results, presults_file.c_str()))
+    if (!SafeOpen(results, presults_file))
       {
 	cout << "Bail out! Couldn't open test file 'unitcell_results.txt'" << endl;
         return(-1);

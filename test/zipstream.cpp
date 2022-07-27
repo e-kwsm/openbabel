@@ -59,7 +59,7 @@ int main(int argc,char *argv[])
   
   std::istream* pIn;
   std::ifstream mifs;
-  if (!SafeOpen(mifs, smilestypes_file.c_str()))
+  if (!SafeOpen(mifs, smilestypes_file))
     {
       cout << "Bail out! Cannot read test data " << smilestypes_file << endl;
       return -1; // test failed

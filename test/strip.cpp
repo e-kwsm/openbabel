@@ -71,14 +71,14 @@ int main(int argc,char *argv[])
   cout << "# Testing molecular stripping/splitting..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, smilestypes_file.c_str()))
+  if (!SafeOpen(mifs, smilestypes_file))
     {
       cout << "Bail out! Cannot read file " << smilestypes_file << endl;
       return -1; // test failed
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, results_file.c_str()))
+  if (!SafeOpen(rifs, results_file))
     {
       cout << "Bail out! Cannot read file " << results_file << endl;
       return -1; // test failed
@@ -139,11 +139,11 @@ int main(int argc,char *argv[])
 void GenerateReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, smilestypes_file.c_str()))
+  if (!SafeOpen(ifs, smilestypes_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, results_file.c_str()))
+  if (!SafeOpen(ofs, results_file))
     return;
 
   OBMol mol;
