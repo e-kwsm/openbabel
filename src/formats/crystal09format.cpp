@@ -156,9 +156,9 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         else {
           OBAtom * atom = pmol->NewAtom();
           atom->SetAtomicNum(stoi(vs[1]));
-          x = strtod ((char*)vs[3].c_str(), nullptr);
-          y = strtod ((char*)vs[4].c_str(), nullptr);
-          z = strtod ((char*)vs[5].c_str(), nullptr);
+          x = stod(vs[3]);
+          y = stod(vs[4]);
+          z = stod(vs[5]);
           atom->SetVector(x,y,z);
           numAtoms++;
         }
