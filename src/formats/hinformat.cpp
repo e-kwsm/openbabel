@@ -109,16 +109,16 @@ namespace OpenBabel
 
         atom = mol.NewAtom();
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
-        atom->SetPartialCharge(atof(vs[6].c_str()));
-        x = atof((char*)vs[7].c_str());
-        y = atof((char*)vs[8].c_str());
-        z = atof((char*)vs[9].c_str());
+        atom->SetPartialCharge(stod(vs[6]));
+        x = stod(vs[7]);
+        y = stod(vs[8]);
+        z = stod(vs[9]);
         atom->SetVector(x,y,z);
 
         // Bond count comes straight from the file; clamp it to what the
         // line actually holds so a huge or negative value can't overflow
         // "max" or send the loop below reading past the end of vs[].
-        int numbonds = atoi((char *)vs[10].c_str());
+        int numbonds = stoi(vs[10]);
         if (numbonds < 0)
           numbonds = 0;
         if (numbonds > ((int)vs.size() - 11) / 2)
@@ -144,7 +144,7 @@ namespace OpenBabel
                 bo = 1;
                 break;
               }
-            mol.AddBond(mol.NumAtoms(), atoi((char *)vs[i].c_str()), bo);
+            mol.AddBond(mol.NumAtoms(), stoi(vs[i]), bo);
           }
         ifs.getline(buffer, BUFF_SIZE);
       }

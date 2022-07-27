@@ -170,7 +170,7 @@ namespace OpenBabel
         string str = temp_type,str1;
         ttab.SetToType("ATN");
         ttab.Translate(str1,str);
-        atom.SetAtomicNum(atoi(str1.c_str()));
+        atom.SetAtomicNum(stoi(str1));
         ttab.SetToType("INT");
         ttab.Translate(str1,str);
         atom.SetType(str1);
@@ -261,7 +261,7 @@ namespace OpenBabel
         } else {
             from = atom->GetType();
             ttab.Translate(to,from);
-            type = atoi((char*)to.c_str());
+            type = stoi(to);
         }
         snprintf(buffer, BUFF_SIZE, "%4d",type);
         ofs << buffer;
