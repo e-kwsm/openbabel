@@ -65,7 +65,7 @@ int smilesmatch(int argc, char* argv[])
   cout << endl << "# Testing SMILES self-matching using SMARTS...  \n";
   
   std::ifstream mifs;
-  if (!SafeOpen(mifs, osmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, osmilestypes_file))
     {
       cout << "Bail out! Cannot read test data " << osmilestypes_file << endl;
       return -1; // test failed
