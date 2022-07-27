@@ -104,23 +104,23 @@ namespace OpenBabel
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer); // we really need to check that it's 3 entries only
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = stod(vs[0]) * BOHR_TO_ANGSTROM;
+        y = stod(vs[1]) * BOHR_TO_ANGSTROM;
+        z = stod(vs[2]) * BOHR_TO_ANGSTROM;
         v1.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = stod(vs[0]) * BOHR_TO_ANGSTROM;
+        y = stod(vs[1]) * BOHR_TO_ANGSTROM;
+        z = stod(vs[2]) * BOHR_TO_ANGSTROM;
         v2.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
 	if (vs.size() < 3) return false; // timvdm 18/06/2008
-        x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
+        x = stod(vs[0]) * BOHR_TO_ANGSTROM;
+        y = stod(vs[1]) * BOHR_TO_ANGSTROM;
+        z = stod(vs[2]) * BOHR_TO_ANGSTROM;
         v3.Set(x,y,z);
 
         OBUnitCell *uc = new OBUnitCell;
@@ -143,9 +143,9 @@ namespace OpenBabel
         atom = mol.NewAtom();
         //set atomic number
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
-        x = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
-        y = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
-        z = atof((char*)vs[3].c_str()) * BOHR_TO_ANGSTROM;
+        x = stod(vs[1]) * BOHR_TO_ANGSTROM;
+        y = stod(vs[2]) * BOHR_TO_ANGSTROM;
+        z = stod(vs[3]) * BOHR_TO_ANGSTROM;
         atom->SetVector(x,y,z); //set coordinates
       }
 

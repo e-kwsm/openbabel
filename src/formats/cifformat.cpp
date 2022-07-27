@@ -1467,7 +1467,7 @@ namespace OpenBabel
                   int sign=0;
                   for(unsigned int i=nbc;i<tmpSymbol.size();++i)
                     {// Use first number found as formal charge
-                      if(isdigit(tmpSymbol[i]) && (charge==0)) charge=atoi(tmpSymbol.substr(i,1).c_str());
+                      if(isdigit(tmpSymbol[i]) && (charge==0)) charge=stoi(tmpSymbol.substr(i,1));
                       if('-'==tmpSymbol[i]) sign-=1;
                       if('+'==tmpSymbol[i]) sign+=1;
                     }
