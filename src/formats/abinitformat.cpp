@@ -119,7 +119,7 @@ namespace OpenBabel
 
           // acell=  7.6967369631E+00  7.6967369631E+00  7.6967369631E+00
           for (int i = 0; i < 3; ++i) {
-            acell[i] = atof(vs[i+1].c_str());
+            acell[i] = stod(vs[i+1]);
           }
         }
         else if (strstr(buffer, " xcart ")) {
@@ -131,18 +131,18 @@ namespace OpenBabel
           tokenize(vs, buffer);
 
           // first line, rprim takes up a token
-          x = atof((char*)vs[1].c_str()) * unit;
-          y = atof((char*)vs[2].c_str()) * unit;
-	  z = atof((char*)vs[3].c_str()) * unit;
+          x = stod(vs[1]) * unit;
+          y = stod(vs[2]) * unit;
+	  z = stod(vs[3]) * unit;
 	  atomPositions.push_back(vector3(x, y, z));
 	  // get next line
 	  ifs.getline(buffer,BUFF_SIZE);
 	  tokenize(vs, buffer);
 	  //rest of lines
 	  while(vs.size() == 3) {
-	    x = atof(vs[0].c_str()) * unit;
-	    y = atof(vs[1].c_str()) * unit;
-	    z = atof(vs[2].c_str()) * unit;
+	    x = stod(vs[0]) * unit;
+	    y = stod(vs[1]) * unit;
+	    z = stod(vs[2]) * unit;
             atomPositions.push_back(vector3(x, y, z));
             // get next line
             ifs.getline(buffer,BUFF_SIZE);
@@ -153,7 +153,7 @@ namespace OpenBabel
           tokenize(vs, buffer);
           if (vs.size() != 2)
             continue;
-          natom = atoi(vs[1].c_str());
+          natom = stoi(vs[1]);
         }
         else if (strstr(buffer, "rprim")) {
           numTranslationVectors = 0;
@@ -170,9 +170,9 @@ namespace OpenBabel
             //else
               column = 0;
 
-            x = atof((char*)vs[column].c_str()) * BOHR_TO_ANGSTROM;
-            y = atof((char*)vs[column+1].c_str()) * BOHR_TO_ANGSTROM;
-            z = atof((char*)vs[column+2].c_str()) * BOHR_TO_ANGSTROM;
+            x = stod(vs[column]) * BOHR_TO_ANGSTROM;
+            y = stod(vs[column+1]) * BOHR_TO_ANGSTROM;
+            z = stod(vs[column+2]) * BOHR_TO_ANGSTROM;
             translationVectors[numTranslationVectors++].Set(x, y,z);
             ifs.getline(buffer,BUFF_SIZE);
           }
@@ -180,7 +180,7 @@ namespace OpenBabel
         else if (strstr(buffer, "Symmetries")) {
           tokenize(vs, buffer, "()");
           // Should be something like (#160)
-          symmetryCode = atoi(vs[1].substr(1).c_str());
+          symmetryCode = stoi(vs[1].substr(1));
         }
         else if (strstr(buffer, "typat")) {
           atomTypes.clear();
@@ -188,7 +188,7 @@ namespace OpenBabel
 	    while( n<=natom){
 	      tokenize(vs, buffer);
 	      for (unsigned int i = 1; i < vs.size(); ++i) {
-		atomTypes.push_back(atoi(vs[i].c_str()));
+		atomTypes.push_back(stoi(vs[i]));
 	      }
 	      n+=vs.size();
 	      ifs.getline(buffer,BUFF_SIZE);
@@ -203,7 +203,7 @@ namespace OpenBabel
           atomicNumbers.clear();
           atomicNumbers.push_back(0); // abinit starts typat with 1
           for (unsigned int i = 1; i < vs.size(); ++i)
-            atomicNumbers.push_back(int(atof(vs[i].c_str())));
+            atomicNumbers.push_back(int(stod(vs[i])));
         }
         // xangst
         // forces

@@ -1632,17 +1632,17 @@ namespace OpenBabel {
         // set up all parameters from this
         parameter.clear();
         parameter._a = vs[1]; // atom type
-        parameter._dpar.push_back(atof(vs[2].c_str())); // r1
-        parameter._dpar.push_back(atof(vs[3].c_str())); // theta0
-        parameter._dpar.push_back(atof(vs[4].c_str())); // x1
-        parameter._dpar.push_back(atof(vs[5].c_str())); // D1
-        parameter._dpar.push_back(atof(vs[6].c_str())); // zeta
-        parameter._dpar.push_back(atof(vs[7].c_str())); // Z1
-        parameter._dpar.push_back(atof(vs[8].c_str())); // Vi
-        parameter._dpar.push_back(atof(vs[9].c_str())); // Uj
-        parameter._dpar.push_back(atof(vs[10].c_str())); // Xi
-        parameter._dpar.push_back(atof(vs[11].c_str())); // Hard
-        parameter._dpar.push_back(atof(vs[12].c_str())); // Radius
+        parameter._dpar.push_back(stod(vs[2])); // r1
+        parameter._dpar.push_back(stod(vs[3])); // theta0
+        parameter._dpar.push_back(stod(vs[4])); // x1
+        parameter._dpar.push_back(stod(vs[5])); // D1
+        parameter._dpar.push_back(stod(vs[6])); // zeta
+        parameter._dpar.push_back(stod(vs[7])); // Z1
+        parameter._dpar.push_back(stod(vs[8])); // Vi
+        parameter._dpar.push_back(stod(vs[9])); // Uj
+        parameter._dpar.push_back(stod(vs[10])); // Xi
+        parameter._dpar.push_back(stod(vs[11])); // Hard
+        parameter._dpar.push_back(stod(vs[12])); // Radius
 
         parameter.b = 0; // used for tracking number of angles in 5-coordinate
         parameter.c = 0;

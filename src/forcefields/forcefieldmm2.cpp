@@ -536,47 +536,47 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       if (EQn(buffer, "bondunit", 8)) {
-        bondunit = atof(vs[1].c_str());
+        bondunit = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "bond-cubic", 10)) {
-        bond_cubic = atof(vs[1].c_str());
+        bond_cubic = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "bond-quartic", 12)) {
-        bond_quartic = atof(vs[1].c_str());
+        bond_quartic = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "angleunit", 9)) {
-        angleunit = atof(vs[1].c_str());
+        angleunit = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "angle-sextic", 12)) {
-        angle_sextic = atof(vs[1].c_str());
+        angle_sextic = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "strbndunit", 10)) {
-        stretchbendunit = atof(vs[1].c_str());
+        stretchbendunit = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "torsionunit", 11)) {
-        torsionunit = atof(vs[1].c_str());
+        torsionunit = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "opbendunit", 10)) {
-        outplanebendunit = atof(vs[1].c_str());
+        outplanebendunit = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "a-expterm", 9)) {
-        a_expterm = atof(vs[1].c_str());
+        a_expterm = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "b-expterm", 9)) {
-        b_expterm = atof(vs[1].c_str());
+        b_expterm = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "c-expterm", 9)) {
-        c_expterm = atof(vs[1].c_str());
+        c_expterm = stod(vs[1]);
         continue;
       }
       if (EQn(buffer, "vdwtype", 7))
@@ -584,7 +584,7 @@ namespace OpenBabel
       if (EQn(buffer, "vdw-14-scale", 12))
         continue;
       if (EQn(buffer, "dielectric", 10)) {
-        dielectric = atof(vs[1].c_str());
+        dielectric = stod(vs[1]);
         continue;
       }
 
@@ -595,10 +595,10 @@ namespace OpenBabel
       if (EQn(buffer, "bond4", 5))
         continue;
       if (EQn(buffer, "bond", 4)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter._dpar.push_back(atof(vs[4].c_str()));
-        parameter._dpar.push_back(atof(vs[3].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter._dpar.push_back(stod(vs[4]));
+        parameter._dpar.push_back(stod(vs[3]));
 
         _ffbondparams.push_back(parameter);
         continue;
@@ -608,60 +608,60 @@ namespace OpenBabel
       if (EQn(buffer, "angle4", 6))
         continue;
       if (EQn(buffer, "angle", 5)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter.c = atoi(vs[3].c_str());
-        parameter._dpar.push_back(atof(vs[5].c_str()));
-        parameter._dpar.push_back(atof(vs[4].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter.c = stoi(vs[3]);
+        parameter._dpar.push_back(stod(vs[5]));
+        parameter._dpar.push_back(stod(vs[4]));
         _ffangleparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "strbnd", 6)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter._dpar.push_back(atof(vs[2].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter._dpar.push_back(stod(vs[2]));
         _ffstretchbendparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "torsion4", 8))
         continue;
       if (EQn(buffer, "torsion", 7)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter.c = atoi(vs[3].c_str());
-        parameter.d = atoi(vs[4].c_str());
-        parameter._dpar.push_back(atof(vs[5].c_str()));
-        parameter._dpar.push_back(atof(vs[8].c_str()));
-        parameter._dpar.push_back(atof(vs[11].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter.c = stoi(vs[3]);
+        parameter.d = stoi(vs[4]);
+        parameter._dpar.push_back(stod(vs[5]));
+        parameter._dpar.push_back(stod(vs[8]));
+        parameter._dpar.push_back(stod(vs[11]));
         _fftorsionparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "opbend", 6)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter._dpar.push_back(atof(vs[3].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter._dpar.push_back(stod(vs[3]));
         _ffoutplanebendparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "vdwpr", 5)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter._dpar.push_back(atof(vs[3].c_str()));
-        parameter._dpar.push_back(atof(vs[4].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter._dpar.push_back(stod(vs[3]));
+        parameter._dpar.push_back(stod(vs[4]));
         _ffvdwprparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "vdw", 3)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter._dpar.push_back(atof(vs[2].c_str()));
-        parameter._dpar.push_back(atof(vs[3].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter._dpar.push_back(stod(vs[2]));
+        parameter._dpar.push_back(stod(vs[3]));
         _ffvdwparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "dipole", 6)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter._dpar.push_back(atof(vs[3].c_str()));
-        parameter._dpar.push_back(atof(vs[4].c_str()));
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter._dpar.push_back(stod(vs[3]));
+        parameter._dpar.push_back(stod(vs[4]));
         _ffdipoleparams.push_back(parameter);
         continue;
       }

@@ -136,9 +136,9 @@ namespace OpenBabel
       if (atom_input) {
 	if (vs.size() < 9) return false; // timvdm 18/06/2008
         type = vs[1];
-        X = atof((char*)vs[6].c_str())/scale;
-        Y = atof((char*)vs[7].c_str())/scale;
-        Z = atof((char*)vs[8].c_str())/scale;
+        X = stod(vs[6])/scale;
+        Y = stod(vs[7])/scale;
+        Z = stod(vs[8])/scale;
 
         OBAtom* a = pmol->NewAtom();
         if (*(type.c_str()) != '*')
@@ -148,7 +148,7 @@ namespace OpenBabel
       } else if (bond_input) {
 	if (vs.size() < 2) return false; // timvdm 18/06/2008
         // add to pmol
-        if (!pmol->AddBond(atoi((char*)vs[0].c_str()) + 1, atoi((char*)vs[1].c_str()) + 1,
+        if (!pmol->AddBond(stoi(vs[0]) + 1, stoi(vs[1]) + 1,
                            1 /* bond order not specified in Carine, use PerceiveBondOrder later */))
           {
             obErrorLog.ThrowError(__FUNCTION__, "addition of bond between " + vs[0] + " and " + vs[1] + " failed", obError);

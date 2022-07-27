@@ -68,14 +68,14 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       while (std::getline(ifs, line) && line.length()) {
         tokenize(vs, line);
         OBAtom *atom = mol.NewAtom();
-        vector3 coords(atof(vs[0].c_str()),
-                       atof(vs[1].c_str()),
-                       atof(vs[2].c_str()));
+        vector3 coords(stod(vs[0]),
+                       stod(vs[1]),
+                       stod(vs[2]));
         coords *= 0.529177249;  // Bohr to Angstrom
         atom->SetVector(coords);
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
-        atom->SetPartialCharge(atof(vs[5].c_str()));
-        atom->SetIsotope(atoi(vs[7].c_str()));
+        atom->SetPartialCharge(stod(vs[5]));
+        atom->SetIsotope(stoi(vs[7]));
       }
     } else if (line.find("   mode   ") != std::string::npos) {
       // Normal modes and vibrational frequencies

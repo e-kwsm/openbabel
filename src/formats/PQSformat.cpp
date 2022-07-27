@@ -145,18 +145,18 @@ namespace OpenBabel
               {
                 if (vs.size() < 4) return false; // timvdm 18/06/2008
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
-                x=atof((char*) vs[1].c_str())*bohr_to_angstrom;
-                y=atof((char*) vs[2].c_str())*bohr_to_angstrom;
-                z=atof((char*) vs[3].c_str())*bohr_to_angstrom;
+                x=stod(vs[1])*bohr_to_angstrom;
+                y=stod(vs[2])*bohr_to_angstrom;
+                z=stod(vs[3])*bohr_to_angstrom;
               }
             else
               {
                 if (vs.size() < 5) return false; // timvdm 18/06/2008
                 str.replace (0,2,"");
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
-                x=atof((char*) vs[2].c_str())*bohr_to_angstrom;
-                y=atof((char*) vs[3].c_str())*bohr_to_angstrom;
-                z=atof((char*) vs[4].c_str())*bohr_to_angstrom;
+                x=stod(vs[2])*bohr_to_angstrom;
+                y=stod(vs[3])*bohr_to_angstrom;
+                z=stod(vs[4])*bohr_to_angstrom;
               }
             atom->SetVector(x, y, z);
             atom_count++;

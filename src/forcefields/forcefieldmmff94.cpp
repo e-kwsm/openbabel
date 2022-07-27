@@ -942,11 +942,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // kb
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // r0
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter._dpar.push_back(stod(vs[3]));  // kb
+      parameter._dpar.push_back(stod(vs[4]));  // r0
       _ffbondparams.push_back(parameter);
     }
 
@@ -977,10 +977,10 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
-      parameter._dpar.push_back(atof(vs[2].c_str()));  // r0-ref
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // kb-ref
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
+      parameter._dpar.push_back(stod(vs[2]));  // r0-ref
+      parameter._dpar.push_back(stod(vs[3]));  // kb-ref
       _ffbndkparams.push_back(parameter);
     }
 
@@ -1011,12 +1011,12 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // ka
-      parameter._dpar.push_back(atof(vs[5].c_str()));  // theta0
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
+      parameter._dpar.push_back(stod(vs[4]));  // ka
+      parameter._dpar.push_back(stod(vs[5]));  // theta0
       _ffangleparams.push_back(parameter);
     }
 
@@ -1047,12 +1047,12 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // kbaIJK
-      parameter._dpar.push_back(atof(vs[5].c_str()));  // kbaKJI
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
+      parameter._dpar.push_back(stod(vs[4]));  // kbaIJK
+      parameter._dpar.push_back(stod(vs[5]));  // kbaKJI
       _ffstrbndparams.push_back(parameter);
     }
 
@@ -1083,11 +1083,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
-      parameter.c = atoi(vs[2].c_str());
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // kbaIJK
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // kbaKJI
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
+      parameter.c = stoi(vs[2]);
+      parameter._dpar.push_back(stod(vs[3]));  // kbaIJK
+      parameter._dpar.push_back(stod(vs[4]));  // kbaKJI
       _ffdfsbparams.push_back(parameter);
     }
 
@@ -1118,11 +1118,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
-      parameter.c = atoi(vs[2].c_str());
-      parameter.d = atoi(vs[3].c_str());
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // koop
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
+      parameter.c = stoi(vs[2]);
+      parameter.d = stoi(vs[3]);
+      parameter._dpar.push_back(stod(vs[4]));  // koop
       _ffoopparams.push_back(parameter);
     }
 
@@ -1153,14 +1153,14 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
-      parameter.d = atoi(vs[4].c_str());
-      parameter._dpar.push_back(atof(vs[5].c_str()));  // v1
-      parameter._dpar.push_back(atof(vs[6].c_str()));  // v2
-      parameter._dpar.push_back(atof(vs[7].c_str()));  // v3
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
+      parameter.d = stoi(vs[4]);
+      parameter._dpar.push_back(stod(vs[5]));  // v1
+      parameter._dpar.push_back(stod(vs[6]));  // v2
+      parameter._dpar.push_back(stod(vs[7]));  // v3
       _fftorsionparams.push_back(parameter);
     }
 
@@ -1191,11 +1191,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter._dpar.push_back(atof(vs[1].c_str()));  // alpha-i
-      parameter._dpar.push_back(atof(vs[2].c_str()));  // N-i
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // A-i
-      parameter._dpar.push_back(atof(vs[4].c_str()));  // G-i
+      parameter.a = stoi(vs[0]);
+      parameter._dpar.push_back(stod(vs[1]));  // alpha-i
+      parameter._dpar.push_back(stod(vs[2]));  // N-i
+      parameter._dpar.push_back(stod(vs[3]));  // A-i
+      parameter._dpar.push_back(stod(vs[4]));  // G-i
       if (EQn(vs[5].c_str(), "-", 1))
         parameter._ipar.push_back(0);
       else if (EQn(vs[5].c_str(), "D", 1))
@@ -1232,10 +1232,10 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // bci
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter._dpar.push_back(stod(vs[3]));  // bci
       _ffchgparams.push_back(parameter);
     }
 
@@ -1266,9 +1266,9 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[1].c_str());
-      parameter._dpar.push_back(atof(vs[2].c_str()));  // pbci
-      parameter._dpar.push_back(atof(vs[3].c_str()));  // fcadj
+      parameter.a = stoi(vs[1]);
+      parameter._dpar.push_back(stod(vs[2]));  // pbci
+      parameter._dpar.push_back(stod(vs[3]));  // fcadj
       _ffpbciparams.push_back(parameter);
     }
 
@@ -1299,15 +1299,15 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str()); // atom type
-      parameter._ipar.push_back(atoi(vs[1].c_str()));  // at.no
-      parameter._ipar.push_back(atoi(vs[2].c_str()));  // crd
-      parameter._ipar.push_back(atoi(vs[3].c_str()));  // val
-      parameter._ipar.push_back(atoi(vs[4].c_str()));  // pilp
-      parameter._ipar.push_back(atoi(vs[5].c_str()));  // mltb
-      parameter._ipar.push_back(atoi(vs[6].c_str()));  // arom
-      parameter._ipar.push_back(atoi(vs[7].c_str()));  // linh
-      parameter._ipar.push_back(atoi(vs[8].c_str()));  // sbmb
+      parameter.a = stoi(vs[0]); // atom type
+      parameter._ipar.push_back(stoi(vs[1]));  // at.no
+      parameter._ipar.push_back(stoi(vs[2]));  // crd
+      parameter._ipar.push_back(stoi(vs[3]));  // val
+      parameter._ipar.push_back(stoi(vs[4]));  // pilp
+      parameter._ipar.push_back(stoi(vs[5]));  // mltb
+      parameter._ipar.push_back(stoi(vs[6]));  // arom
+      parameter._ipar.push_back(stoi(vs[7]));  // linh
+      parameter._ipar.push_back(stoi(vs[8]));  // sbmb
 
       if (parameter._ipar[3])
         _ffpropPilp.SetBitOn(parameter.a);
@@ -1348,11 +1348,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[1].c_str()));  // level 1
-      parameter._ipar.push_back(atoi(vs[2].c_str()));  // level 2
-      parameter._ipar.push_back(atoi(vs[3].c_str()));  // level 3
-      parameter._ipar.push_back(atoi(vs[4].c_str()));  // level 4
-      parameter._ipar.push_back(atoi(vs[5].c_str()));  // level 5
+      parameter._ipar.push_back(stoi(vs[1]));  // level 1
+      parameter._ipar.push_back(stoi(vs[2]));  // level 2
+      parameter._ipar.push_back(stoi(vs[3]));  // level 3
+      parameter._ipar.push_back(stoi(vs[4]));  // level 4
+      parameter._ipar.push_back(stoi(vs[5]));  // level 5
       _ffdefparams.push_back(parameter);
     }
 
@@ -4078,17 +4078,17 @@ namespace OpenBabel
 
         if (atomfound) {
           if (n) {
-            types.push_back(atoi(vs[2].c_str()));
-            types.push_back(atoi(vs[5].c_str()));
-            types.push_back(atoi(vs[8].c_str()));
-            types.push_back(atoi(vs[11].c_str()));
+            types.push_back(stoi(vs[2]));
+            types.push_back(stoi(vs[5]));
+            types.push_back(stoi(vs[8]));
+            types.push_back(stoi(vs[11]));
           } else {
             if (vs.size() > 2)
-              types.push_back(atoi(vs[2].c_str()));
+              types.push_back(stoi(vs[2]));
             if (vs.size() > 5)
-              types.push_back(atoi(vs[5].c_str()));
+              types.push_back(stoi(vs[5]));
             if (vs.size() > 8)
-              types.push_back(atoi(vs[8].c_str()));
+              types.push_back(stoi(vs[8]));
 
             atomfound = false;
           }
@@ -4097,17 +4097,17 @@ namespace OpenBabel
 
         if (fchgfound) {
           if (n) {
-            fcharges.push_back(atof(vs[2].c_str()));
-            fcharges.push_back(atof(vs[5].c_str()));
-            fcharges.push_back(atof(vs[8].c_str()));
-            fcharges.push_back(atof(vs[11].c_str()));
+            fcharges.push_back(stod(vs[2]));
+            fcharges.push_back(stod(vs[5]));
+            fcharges.push_back(stod(vs[8]));
+            fcharges.push_back(stod(vs[11]));
           } else {
             if (vs.size() > 2)
-              fcharges.push_back(atof(vs[2].c_str()));
+              fcharges.push_back(stod(vs[2]));
             if (vs.size() > 5)
-              fcharges.push_back(atof(vs[5].c_str()));
+              fcharges.push_back(stod(vs[5]));
             if (vs.size() > 8)
-              fcharges.push_back(atof(vs[8].c_str()));
+              fcharges.push_back(stod(vs[8]));
 
             fchgfound = false;
           }
@@ -4116,17 +4116,17 @@ namespace OpenBabel
 
         if (pchgfound) {
           if (n) {
-            pcharges.push_back(atof(vs[2].c_str()));
-            pcharges.push_back(atof(vs[5].c_str()));
-            pcharges.push_back(atof(vs[8].c_str()));
-            pcharges.push_back(atof(vs[11].c_str()));
+            pcharges.push_back(stod(vs[2]));
+            pcharges.push_back(stod(vs[5]));
+            pcharges.push_back(stod(vs[8]));
+            pcharges.push_back(stod(vs[11]));
           } else {
             if (vs.size() > 2)
-              pcharges.push_back(atof(vs[2].c_str()));
+              pcharges.push_back(stod(vs[2]));
             if (vs.size() > 5)
-              pcharges.push_back(atof(vs[5].c_str()));
+              pcharges.push_back(stod(vs[5]));
             if (vs.size() > 8)
-              pcharges.push_back(atof(vs[8].c_str()));
+              pcharges.push_back(stod(vs[8]));
 
             pchgfound = false;
           }
@@ -4147,25 +4147,25 @@ namespace OpenBabel
         }
 
         if (bondfound)
-          bond_lengths.push_back(atof(vs[7].c_str()));
+          bond_lengths.push_back(stod(vs[7]));
 
         if (molfound) {
           if (EQn(buffer, " Total ENERGY", 13))
-            etot = atof(vs[3].c_str());
+            etot = stod(vs[3]);
           if (EQn(buffer, " Bond Stretching", 16))
-            ebond = atof(vs[2].c_str());
+            ebond = stod(vs[2]);
           if (EQn(buffer, " Angle Bending", 14))
-            eangle = atof(vs[2].c_str());
+            eangle = stod(vs[2]);
           if (EQn(buffer, " Out-of-Plane Bending", 21))
-            eoop = atof(vs[2].c_str());
+            eoop = stod(vs[2]);
           if (EQn(buffer, " Stretch-Bend", 13))
-            estbn = atof(vs[1].c_str());
+            estbn = stod(vs[1]);
           if (EQn(buffer, "     Total Torsion", 18))
-            etor = atof(vs[2].c_str());
+            etor = stod(vs[2]);
           if (EQn(buffer, "     Net vdW", 12))
-            evdw = atof(vs[2].c_str());
+            evdw = stod(vs[2]);
           if (EQn(buffer, " Electrostatic", 14))
-            eeq = atof(vs[1].c_str());
+            eeq = stod(vs[1]);
           if (EQn(buffer, " ---------------------", 22) && (termcount == 0)) {
             termcount++;
             bondfound = true;

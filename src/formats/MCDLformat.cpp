@@ -1134,7 +1134,7 @@ private:
         mf=mf.substr(1,mf.length());
         test=(mf.at(0)>='0') && (mf.at(0)<='9');
       };
-      n1=atoi(temp.c_str());
+      n1=stoi(temp);
     };
     //do not change n1==nFrag!!!
     nt=nt+n1;
@@ -1143,7 +1143,7 @@ private:
     while (n2>0) {
       if (n2<(mf.length()-2)) {
         ss=mf.substr(mf.length()-1,mf.length());
-        k=atoi(ss.c_str())+1;//Integer.parseInt(ss)+1;
+        k=stoi(ss)+1;//Integer.parseInt(ss)+1;
       } else k=2;
       mf=mf.substr(0,n2+1)+intToStr(k);
       n2=lastIndexOf(mf,"HH");
@@ -1158,7 +1158,7 @@ private:
       } else temp="1";
       mf=mf.substr(0,n2);
     };
-    n2=atoi(temp.c_str());//Integer.parseInt(temp);
+    n2=stoi(temp);//Integer.parseInt(temp);
     //do not change n2 - number of hydrogens...
 
     nH[nelements]=n2;
@@ -1193,7 +1193,7 @@ private:
       s=s.substr(0,s.length()-1);
       n1=atoi(s.c_str());
       n1=n1*n2;
-      n2=atoi(sa1.c_str());
+      n2=stoi(sa1);
       charges[n2-1]=n1;
     };
   };
@@ -1214,7 +1214,7 @@ private:
       n2=1;
       if (indexOf(s,"-") > 0) n2=-1;
       s=s.substr(0,s.length()-1);
-      n2=atoi(sa1.c_str());
+      n2=stoi(sa1);
       radicals[n2-1]=1;
     };
   };

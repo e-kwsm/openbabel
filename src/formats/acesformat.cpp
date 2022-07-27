@@ -150,18 +150,18 @@ namespace OpenBabel
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
 
 		if (vs.size() == 6 ) {
-                	x = atof((char*)vs[5].c_str());
+                	x = stod(vs[5]);
 		} else {
-                	x = atof((char*)vs[4].c_str());
+                	x = stod(vs[4]);
 		}
 
             	ifs.getline(buffer,BUFF_SIZE);
             	tokenize(vs,buffer);
-                y = atof((char*)vs[2].c_str());
+                y = stod(vs[2]);
 
 		ifs.getline(buffer,BUFF_SIZE);
 		tokenize(vs,buffer);
-                z = atof((char*)vs[2].c_str());
+                z = stod(vs[2]);
 
                 atom->SetVector(x,y,z); //set coordinates
 
@@ -186,9 +186,9 @@ namespace OpenBabel
                 for(unsigned int i = 0; i < vs.size(); i++) {
 		    if (vs[i].find("i") != string::npos) {
 		      // imaginary frequency
-	              Frequencies.push_back(-atof(vs[i].c_str()));
+	              Frequencies.push_back(-stod(vs[i]));
 		    } else {
-	              Frequencies.push_back(atof(vs[i].c_str()));
+	              Frequencies.push_back(stod(vs[i]));
 		    }
 	        }		
                 ifs.getline(buffer,BUFF_SIZE);     // VIBRATION
@@ -198,9 +198,9 @@ namespace OpenBabel
 	        while(vs.size() > 2) {
                   for (unsigned int i = 1; i < vs.size(); i += 3) {
 	            double x, y, z;
-                    x = atof(vs[i+0].c_str());
-                    y = atof(vs[i+1].c_str());
-                    z = atof(vs[i+2].c_str());
+                    x = stod(vs[i+0]);
+                    y = stod(vs[i+1]);
+                    z = stod(vs[i+2]);
                     if (i == 1)
                       vib1.push_back(vector3(x, y, z));
                     else if (i == 4)
@@ -229,7 +229,7 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (vs.size() == 4) {
               if (strstr(buffer, "VIBRATION") != nullptr) {
-                 Intensities.push_back(atof(vs[2].c_str()));
+                 Intensities.push_back(stod(vs[2]));
 	      }	
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);
