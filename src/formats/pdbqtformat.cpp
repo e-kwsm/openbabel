@@ -1156,7 +1156,7 @@ namespace OpenBabel
     string xstr = sbuf.substr(24,8);
     string ystr = sbuf.substr(32,8);
     string zstr = sbuf.substr(40,8);
-    vector3 v(atof(xstr.c_str()),atof(ystr.c_str()),atof(zstr.c_str()));
+    vector3 v(stod(xstr),stod(ystr),stod(zstr));
     atom.SetVector(v);
 
     // useful for debugging unknown atom types (e.g., PR#1577238)
@@ -1225,7 +1225,7 @@ namespace OpenBabel
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
       res->AddAtom(atom);
-      res->SetSerialNum(atom, atoi(serno.c_str()));
+      res->SetSerialNum(atom, stoi(serno));
       res->SetAtomID(atom, sbuf.substr(6,4));
       res->SetHetAtom(atom, hetatm);
       return(true);

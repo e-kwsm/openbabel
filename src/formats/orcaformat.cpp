@@ -330,7 +330,7 @@ namespace OpenBabel
             tokenize(vs, buffer);
             while (vs.size() > 1)
             {
-                FrequenciesAll.push_back(atof(vs[1].c_str()));
+                FrequenciesAll.push_back(stod(vs[1]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs, buffer);
             }
@@ -357,12 +357,12 @@ namespace OpenBabel
                 while(vs.size() == nColumn+1) {
                     vector<double> x, y, z;
                     for (unsigned int i = 1; i < vs.size(); i++)
-                        x.push_back(atof(vs[i].c_str()));
+                        x.push_back(stod(vs[i]));
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);
                     for (unsigned int i = 1; i < vs.size(); i++)
-                        y.push_back(atof(vs[i].c_str()));
+                        y.push_back(stod(vs[i]));
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);

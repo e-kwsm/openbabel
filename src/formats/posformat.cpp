@@ -134,7 +134,7 @@ namespace OpenBabel
       if (nonNumber != string::npos)
         spaceGroupNumber.erase(nonNumber);
       // Finally get the space group from the file
-      spaceGroup = atoi(spaceGroupNumber.c_str());
+      spaceGroup = stoi(spaceGroupNumber);
     }
 
     location = readTitle.find_first_not_of(" \t\n\r");
@@ -161,17 +161,17 @@ namespace OpenBabel
         tokenize(vs,buffer);
         if (vs.size() != 5)
           continue;
-        v1.SetX(atof(vs[2].c_str()));
-        v1.SetY(atof(vs[3].c_str()));
-        v1.SetZ(atof(vs[4].c_str()));
+        v1.SetX(stod(vs[2]));
+        v1.SetY(stod(vs[3]));
+        v1.SetZ(stod(vs[4]));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
         if (vs.size() != 5)
           continue;
-        v2.SetX(atof(vs[2].c_str()));
-        v2.SetY(atof(vs[3].c_str()));
-        v2.SetZ(atof(vs[4].c_str()));
+        v2.SetX(stod(vs[2]));
+        v2.SetY(stod(vs[3]));
+        v2.SetZ(stod(vs[4]));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
