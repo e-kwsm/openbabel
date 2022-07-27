@@ -79,7 +79,7 @@ int invalidsmiles(int argc, char* argv[])
   obErrorLog.StopLogging();
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, iinvalid_file.c_str()))
+  if (!SafeOpen(mifs, iinvalid_file))
     {
       cout << "Bail out! Cannot read file " << iinvalid_file << endl;
       return -1; // test failed
@@ -110,7 +110,7 @@ int invalidsmiles(int argc, char* argv[])
   // A known bug in 2.1.1 -- we hang on random SMILES garbage. This will be
   // fixed in the next release. PR#1730132
 //   // random file#1
-//   if (!SafeOpen(mifs, random1_file.c_str()))
+//   if (!SafeOpen(mifs, random1_file))
 //     {
 //       cout << "Bail out! Cannot read file " << random1_file << endl;
 //       return -1; // test failed
@@ -127,7 +127,7 @@ int invalidsmiles(int argc, char* argv[])
 //   mifs.clear();
 
 //   // random2
-//   if (!SafeOpen(mifs, random2_file.c_str()))
+//   if (!SafeOpen(mifs, random2_file))
 //     {
 //       cout << "Bail out! Cannot read file " << random2_file << endl;
 //       return -1; // test failed
@@ -144,7 +144,7 @@ int invalidsmiles(int argc, char* argv[])
 //   mifs.clear();
 
 //   // random3
-//   if (!SafeOpen(mifs, random3_file.c_str()))
+//   if (!SafeOpen(mifs, random3_file))
 //     {
 //       cout << "Bail out! Cannot read file " << random3_file << endl;
 //       return -1; // test failed
