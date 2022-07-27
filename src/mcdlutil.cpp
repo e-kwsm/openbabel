@@ -1297,27 +1297,27 @@ namespace OpenBabel {
       n=n+1;
       s=value.substr(n,4);
       n=n+4;
-      k=strtol(s.c_str(),nullptr,10);
+      k=stol(s);
       sa->rx=(double)k/10000.0;
       s=value.substr(n,4);
       n=n+4;
-      k=strtol(s.c_str(),nullptr,10);
+      k=stol(s);
       sa->ry=(double)k/10000.0;
       addAtom(sa);
     };
     s=value.substr(n,2);  //2 symbols - number of bonds
     n=n+2;
-    kk=strtol(s.c_str(),nullptr,10);
+    kk=stol(s);
     for (i=0; i<kk; i++) {
       sb=new TSingleBond();
       sb->tb=ANY_BOND;  //any bond
       s=value.substr(n,2);
       n=n+2;
-      k=strtol(s.c_str(),nullptr,10);
+      k=stol(s);
       sb->at[0]=k-1;
       s=value.substr(n,2);
       n=n+2;
-      k=strtol(s.c_str(),nullptr,10);
+      k=stol(s);
       sb->at[1]=k-1;
       addBond(sb);
     };
@@ -7212,7 +7212,7 @@ namespace OpenBabel {
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
                 if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
                 s=value.substr(n1,n2+1);
-                k=atoi(s.c_str());
+                k=stoi(s);
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
               };
             enumber[i]=enumber[i]+k;
@@ -7236,7 +7236,7 @@ namespace OpenBabel {
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
                 if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
                 s=value.substr(n1,n2+1);
-                k=atoi(s.c_str());
+                k=stoi(s);
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
               };
             enumber[i]=enumber[i]+k;
