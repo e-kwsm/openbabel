@@ -427,7 +427,7 @@ namespace OpenBabel
          token.type = CIFLexer::ValueToken;
          break;
          }
-       // drop through to the default case
+       OB_FALLTHROUGH;
      default: // reading an un-quoted text string
        do // read text to the next whitespace
          {
@@ -649,6 +649,7 @@ namespace OpenBabel
                // and drop through to _atom_site_type_symbol
                if(string::npos != token.as_text.find_first_of("0123456789"))
                  {token.as_text.erase(token.as_text.find_first_of("0123456789"), token.as_text.size());}
+               OB_FALLTHROUGH;
              case CIFTagID::_atom_site_type_symbol:
                // Problem: posat->mSymbol is not guaranteed to actually be a
                // symbol see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
