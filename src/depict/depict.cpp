@@ -566,7 +566,7 @@ namespace OpenBabel
       switch (alignment) {
         case Right:
           rightAligned = true;
-          /* no break */
+	  OB_FALLTHROUGH;
         default:
           break;
       }
