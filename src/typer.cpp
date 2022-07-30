@@ -484,6 +484,7 @@ namespace OpenBabel
         if (val == 2 && deg == 2) {
           min = 2; max = 2; return true;
         }
+        OB_FALLTHROUGH;
       case 1:
         if (val == 3 && deg == 2) {
           min = 1; max = 1; return true;

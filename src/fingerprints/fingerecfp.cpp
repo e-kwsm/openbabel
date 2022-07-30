@@ -113,15 +113,25 @@ static unsigned int ECFPHash(unsigned char *ptr, unsigned int length)
   c += length;
   switch (len) {
   case 11: c += ((unsigned int)ptr[10]<<24);
+    OB_FALLTHROUGH;
   case 10: c += ((unsigned int)ptr[9]<<16);
+    OB_FALLTHROUGH;
   case  9: c += ((unsigned int)ptr[8]<<8);
+    OB_FALLTHROUGH;
   case  8: b += ((unsigned int)ptr[7]<<24);
+    OB_FALLTHROUGH;
   case  7: b += ((unsigned int)ptr[6]<<16);
+    OB_FALLTHROUGH;
   case  6: b += ((unsigned int)ptr[5]<<8);
+    OB_FALLTHROUGH;
   case  5: b += ptr[4];
+    OB_FALLTHROUGH;
   case  4: a += ((unsigned int)ptr[3]<<24);
+    OB_FALLTHROUGH;
   case  3: a += ((unsigned int)ptr[2]<<16);
+    OB_FALLTHROUGH;
   case  2: a += ((unsigned int)ptr[1]<<8);
+    OB_FALLTHROUGH;
   case  1: a += ptr[0];
   }
   mix32(a,b,c);
@@ -147,6 +157,7 @@ static unsigned int ECFPHash(std::vector<unsigned int> &v)
   c += len;
   switch (len - i) {
   case 2:  b += v[i+1];
+    OB_FALLTHROUGH;
   case 1:  a += v[i];
   }
   mix32(a,b,c);

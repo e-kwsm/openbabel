@@ -738,7 +738,7 @@ bool CMLReactFormat::WriteRateData(OBReaction* pReact, xmlChar* altprefix)
     xmlTextWriterWriteFormatString(writer(),"%g %g %g %g",
       pRD->GetTroeParam(0),pRD->GetTroeParam(1),pRD->GetTroeParam(2),pRD->GetTroeParam(3));
     xmlTextWriterEndElement(writer());
-    //fallthrough
+    OB_FALLTHROUGH;
   case OBRateData::LINDERMANN:
     xmlTextWriterStartElementNS(writer(), altprefix, C_LOA, nullptr);
     xmlTextWriterWriteFormatString(writer(),"%.3e", pRD->GetLoRate(OBRateData::A));
@@ -751,7 +751,7 @@ bool CMLReactFormat::WriteRateData(OBReaction* pReact, xmlChar* altprefix)
     xmlTextWriterStartElementNS(writer(), altprefix, C_LOE, nullptr);
     xmlTextWriterWriteFormatString(writer(),"%g", pRD->GetLoRate(OBRateData::E));
     xmlTextWriterEndElement(writer());//loE
-  //fallthrough
+    OB_FALLTHROUGH;
   case OBRateData::THREEBODY:
     string id;
     double Eff;

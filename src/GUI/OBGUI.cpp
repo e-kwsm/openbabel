@@ -1167,6 +1167,7 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
   case 313:
   case WXK_PAGEDOWN: //why is code not correct?
     delta=-1;
+    OB_FALLTHROUGH;
   case 312:
   case WXK_PAGEUP:
     ToNextFile(delta);

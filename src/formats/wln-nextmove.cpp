@@ -975,6 +975,7 @@ struct WLNParser {
                     done = true;
                     ptr +=ptr_it+1;
                     break;}
+                break;
             default:
                 break;
         }
@@ -1305,7 +1306,7 @@ struct WLNParser {
             switch (*ptr) {
                 case '\t':
                     mol->SetTitle(ptr+1);
-                    /* fall through */
+                    OB_FALLTHROUGH;
                 case '\0':
                     if (state == 0)
                         return error();
@@ -2333,6 +2334,7 @@ struct WLNParser {
                         case '&':
                             spiro = true;
                             ptr++;
+                            OB_FALLTHROUGH;
                         case ' ':
                             if (ptr[2]>='A' && ptr[2]<='Z' &&
                                 (ptr[3]=='L' || ptr[3]=='T')) {  // "- [A-Z][LT]" e.g. "- AL"
