@@ -177,7 +177,7 @@ public:
       case 13: //CR or CRLF
         if(src.peek() == 10)
           src.get(); //CRLF
-        //fall through
+	OB_FALLTHROUGH;
       case 10: //LF
         return '\n';
         break;

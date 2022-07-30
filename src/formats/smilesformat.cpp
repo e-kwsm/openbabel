@@ -1692,7 +1692,7 @@ namespace OpenBabel {
           _ptr += 3;
           break;
         }
-        /* fall through to default */
+        OB_FALLTHROUGH;
 
       default:
         {

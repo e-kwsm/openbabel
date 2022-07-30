@@ -45,6 +45,16 @@
   #define OB_DEPRECATED_MSG(msg)
 #endif
 
+// fallthtough attribute (C++17)
+#if defined(__has_cpp_attribute)
+  #if __has_cpp_attribute(fallthrough)
+    #define OB_FALLTHROUGH [[fallthrough]]
+  #endif
+#endif
+#ifndef OB_FALLTHROUGH
+  #define OB_FALLTHROUGH
+#endif
+
 /* Used to export symbols for DLL / shared library builds */
 #if defined(MAKE_OBDLL) // e.g. in src/main.cpp
  #ifndef OB_EXTERN

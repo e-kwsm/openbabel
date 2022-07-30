@@ -567,6 +567,7 @@ namespace OpenBabel
               case 3:
                 // double bond: either cis or trans
                 flag |= OBBond::CisOrTrans;
+                OB_FALLTHROUGH;
               case 4:
                 // single bond: either wedge or hash (unspecified)
                 flag |= OBBond::WedgeOrHash;

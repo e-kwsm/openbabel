@@ -995,12 +995,12 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
       if(pRD->GetTroeParam(3))
         ss << ' ' <<pRD->GetTroeParam(3);
       ss << '/' << endl;
-      //fallthrough
+      OB_FALLTHROUGH;
     case OBRateData::LINDERMANN:
       ss << "\tLOW / " << scientific << setprecision(3) << pRD->GetLoRate(OBRateData::A) << ' '
         << fixed << pRD->GetLoRate(OBRateData::n) << ' '
         << setprecision(1) << pRD->GetLoRate(OBRateData::E) << '/' << endl;
-      //fallthrough
+      OB_FALLTHROUGH;
     case OBRateData::THREEBODY:
       string id;
       double eff;

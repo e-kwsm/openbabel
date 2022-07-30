@@ -4557,6 +4557,7 @@ namespace OpenBabel
           return 1;
         }
       }
+      OB_FALLTHROUGH;
 
     case 2:
       return 3;
@@ -4582,6 +4583,7 @@ namespace OpenBabel
           return 6;
         }
       }
+      OB_FALLTHROUGH;
 
     case 6:
       return 8;
@@ -4601,6 +4603,7 @@ namespace OpenBabel
           return 9;
         }
       }
+      OB_FALLTHROUGH;
 
     case 8:
       return 11;

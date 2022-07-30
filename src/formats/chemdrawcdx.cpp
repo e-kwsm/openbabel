@@ -598,6 +598,7 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
           {
           case 0xFFFF: // undefined, keep 1 for now
             order = 1;
+            OB_FALLTHROUGH;
           case 0x0001:
           case 0x0002:
             break;
@@ -659,6 +660,7 @@ string ChemDrawBinaryXFormat::DoText(CDXReader& cdxr)
       READ_INT16(ss,nStyleRuns);
       ss.ignore(nStyleRuns*10);
       ss >> text;
+      OB_FALLTHROUGH;
     default:
       if(tag & kCDXTag_Object) //unhandled object
         while(cdxr.ReadNext());      
