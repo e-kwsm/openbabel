@@ -2,7 +2,7 @@ Sample POV-Ray Rendering
 
 First convert dioxin.mol2 to the dioxin.inc file:
 
-babel -imol2 dioxin.mol2 -opov dioxin.inc
+obabel -imol2 dioxin.mol2 -opov dioxin.inc
 
 Then type 
 
