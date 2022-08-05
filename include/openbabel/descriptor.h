@@ -53,7 +53,7 @@ public:
 
   ///Write information on a plugin class to the string txt.
   ///If the parameter is a descriptor ID, displays the verbose description for that descriptor only
-  /// e.g. babel -L descriptors HBA1
+  /// e.g. obabel -L descriptors HBA1
   bool Display(std::string& txt, const char* param, const char* ID=nullptr) override;
 
   /// Comparison of the values of the descriptor. Used in sorting.

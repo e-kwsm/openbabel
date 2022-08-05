@@ -1,4 +1,4 @@
-This file describes the extensions made for generating pictures with babel 
+This file describes the extensions made for generating pictures with obabel 
 and povray. This extensions are copyrighted by 
 
 Oliver Weichold (weichold@sas.upenn.edu)
@@ -34,7 +34,7 @@ Sorry: We did not test it for DOS/Windows, because we do _not_ use it.
 
     for a hint.
 
-(c) Compile babel
+(c) Compile obabel
 
 (d) Do _NOT_ forget: READ.ME files are not IGNORE.ME files :-(
     But, as you are here, you seem to like readme files.
@@ -46,10 +46,10 @@ The usage is quite simple. Supposing you have a mol2 file (probably generated
 by Sybyl). You can convert this description of a molecule to a 
 povray file by typing:
 
-  babel -imol2 meer.mol2 -opov meer.inc
+  obabel -imol2 meer.mol2 -opov meer.inc
 
 (The output-type 'pov' creates povray files. Of course, you can use any type 
-of file supported by babel as input.)
+of file supported by obabel as input.)
 
 The generated file for povray contains a povray object, representing
 your molecule. The name of the object is simply the name of the 
@@ -98,7 +98,7 @@ Go to directory 'doc'. (These may have been moved if you are using a
 binary package, like an RPM or .deb.) Here you find a file
 'dioxin.mol2'. Convert it by typing:
 
- babel -imol2 dioxin.mol2 -opov dioxin.inc
+ obabel -imol2 dioxin.mol2 -opov dioxin.inc
 
 Now have a look at the file 'dioxin.inc'
 
