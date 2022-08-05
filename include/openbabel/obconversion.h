@@ -161,9 +161,9 @@ namespace OpenBabel {
        In the commandline interface, options with single character ids are are indicated
        like -s, and those with multiple character ids like --gen3D. An option may have
        one or more parameters which appear, space separated, in the option's text string.
-       With babel, unless the option is at the end of the command, it is necessary for
+       With obabel, unless the option is at the end of the command, it is necessary for
        the number of its parameters to be exactly that specified in RegisterOptionParam().
-       The default is 0, but if it is more, and babel is likely to be used, this function
+       The default is 0, but if it is more, and obabel is likely to be used, this function
        should be called in the constructor of a format or op.
        With obabel (or the GUI), it is not necessary to call RegisterOptionParam().
 
