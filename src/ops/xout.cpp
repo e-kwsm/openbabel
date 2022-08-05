@@ -98,7 +98,7 @@ private:
   * This op is mainly intended to be used to generate svg files for display
   * from the GUI. But it also can be used to generate two output files with
   * different formats:
-  *   babel infile.xxx outfile.yyy --xout extra.zzz
+  *   obabel infile.xxx outfile.yyy --xout extra.zzz
  **/
  /*
   This and other ops doing simple things are rather more complicated and

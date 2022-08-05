@@ -111,7 +111,7 @@ const char* OpNewS::Description()
 {
   return "Isomorphism filter(-s, -v options replacement)(not displayed in GUI)\n"
     "This enhanced version can take a SMARTS parameter, for example:\n"
-    "      babel in.smi -s \"c1ccccc1[#6] green\" out.cml \n"
+    "      obabel in.smi -s \"c1ccccc1[#6] green\" out.cml \n"
     "With -s, only molecules matching the SMARTS are converted.\n"
     "With -v, only molecules NOT matching the SMARTS are converted.\n"
     "The optional second parameter causes the matched substructure to be\n"
@@ -149,7 +149,7 @@ const char* OpNewS::Description()
     "In the GUI (or on the commandline as an alternative to using -v) the test\n"
     "can be negated with a ~ before the SMARTS string or file name.\n \n"
 
-    "With the ``babel`` commandline interface, unless the option is at the end\n"
+    "With the ``obabel`` commandline interface, unless the option is at the end\n"
     "of a line, it is necessary to enclose all the parameters together in quotes,\n"
     "as in the first example above, because the -s and -v options are\n"
     "expecting a single parameter. With obabel and the GUI this is not necessary.\n"
