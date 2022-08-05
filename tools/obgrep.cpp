@@ -313,7 +313,7 @@ int main(int argc,char **argv)
 *     of heavy atoms is also equal to the number of atoms in the 
 *     SMARTS pattern \n\n
 * \b -i \<format\>:
-*     Specifies input and output format, see "babel" for available formats \n\n
+*     Specifies input and output format, see "obabel" for available formats \n\n
 * \b -n:
 *     Only print the name of the molecules\n\n
 * \b -t \<NUM\>:
