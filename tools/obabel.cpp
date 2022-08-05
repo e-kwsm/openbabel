@@ -165,8 +165,8 @@ int main(int argc,char *argv[])
                       param = argv[arg+2];
 
                     // First assume first arg is a plugin type and
-                    // param is a subtype, like babel -L ops gen3D
-                    // or first arg is a plugin ID, like babel -L cml
+                    // param is a subtype, like obabel -L ops gen3D
+                    // or first arg is a plugin ID, like obabel -L cml
                     OBPlugin* plugin;
                     if ((OBPlugin::GetPlugin("plugins", argv[arg+1]) &&
                          (plugin = OBPlugin::GetPlugin(argv[arg+1], param))) ||
@@ -178,7 +178,7 @@ int main(int argc,char *argv[])
                       cout << "One of the " << plugin->TypeID() << '\n' << txt << endl;
                       return 0;
                     }
-                    //...otherwise assume it is a plugin type, like babel -L forcefields
+                    //...otherwise assume it is a plugin type, like obabel -L forcefields
                     //Output list of subtypes
                     OBPlugin::List(argv[arg+1], param);
                     return 0;
@@ -394,7 +394,7 @@ int main(int argc,char *argv[])
 void DoOption(const char* p, OBConversion& Conv,
           OBConversion::Option_type typ, int& arg, int argc, char *argv[])
 {
-  //Unlike babel, cannot have multiple concatenated single char options
+  //Unlike obabel, cannot have multiple concatenated single char options
   //accepts: -sCCC -s CCC -s"CCC" -s CCC red -sCCC red
   char ch[2]="?";
   *ch = *p++;
@@ -479,12 +479,12 @@ void help()
 }
 
 /* OpenBabel man page*/
-/** \page babel a converter for chemistry and molecular modeling data files
+/** \page obabel a converter for chemistry and molecular modeling data files
 *
 * \n
 * \par SYNOPSIS
 *
-* \b babel [-H<help-options>] [-V] [-m] [-d] [-h] [-p] [-s<SMARTS-pattern>] [-v<SMARTS-pattern>] [-f<#> -l<#>] [-c] [-x<format-options>] [-i<input-type>] \<infile\> [-o<output-type>] -O\<outfile\>
+* \b obabel [-H<help-options>] [-V] [-m] [-d] [-h] [-p] [-s<SMARTS-pattern>] [-v<SMARTS-pattern>] [-f<#> -l<#>] [-c] [-x<format-options>] [-i<input-type>] \<infile\> [-o<output-type>] -O\<outfile\>
 *
 * \par DESCRIPTION
 *
@@ -617,11 +617,11 @@ void help()
 *
 * \par EXAMPLES
 *  - Standard conversion \n
-*     babel -ixyz ethanol.xyz -opdb ethanol.pdb \n
+*     obabel -ixyz ethanol.xyz -opdb ethanol.pdb \n
 *  - Conversion from a SMI file in STDIN to a Mol2 file written to STDOUT \n
-*     babel -ismi -omol2 \n
+*     obabel -ismi -omol2 \n
 *  - Split a multi-molecule file into new1.smi, new2.smi, etc. \n
-*     babel infile.mol new.smi -m \n
+*     obabel infile.mol new.smi -m \n
 *
 * \par AUTHORS
 *
