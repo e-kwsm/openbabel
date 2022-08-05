@@ -9,7 +9,7 @@ int main(int argc,char **argv)
   if(argc==2)
   {
     //Make a fingerprint of type FP2(the default)
-    //Equivalent to babel filename.xxx -ofpt -xo
+    //Equivalent to obabel filename.xxx -ofpt -xo
 
     const char* filename = argv[1];
     OBConversion conv;

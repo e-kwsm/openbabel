@@ -77,7 +77,7 @@ public:
     " U output only unique molecules and sort them\n"
     " e compare first molecule to others\n"
     "    This can also be done with :ref:`InChICompare format <Compare_molecules_using_InChI>`::\n \n"
-    "      babel first.smi second.mol third.cml -ok\n \n"
+    "      obabel first.smi second.mol third.cml -ok\n \n"
     " T <param> truncate InChI according to various parameters\n"
     "    See below for possible truncation parameters.\n"
     
@@ -205,7 +205,7 @@ public:
       "A utility format that allows you to compare molecules using their InChIs\n"
       "The first molecule is compared with the rest, e.g.::\n\n"
 
-      "  babel first.smi second.mol third.cml -ok\n\n"
+      "  obabel first.smi second.mol third.cml -ok\n\n"
 
       "This is the same as using ``-oinchi -xet`` and can take the same options as InChI format\n"
       "(see :ref:`InChI_format`).\n";
