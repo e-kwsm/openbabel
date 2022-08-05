@@ -384,7 +384,7 @@ bool AliasData::AddAliases(OBMol* pmol)
 }
 
 //OpGenAlias is a wrapper for AddAliases. Use like:
-//babel infile.xxx outfile.yyy --genalias
+//obabel infile.xxx outfile.yyy --genalias
 class OpGenAlias : public OBOp
 {
 public:

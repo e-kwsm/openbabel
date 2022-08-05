@@ -1410,7 +1410,7 @@ namespace OpenBabel {
                         //Batch conversion
                         string batchfile = BatchFileName(OutputFileName,*itr);
 
-                        //With inputs like babel test.xxx -oyyy -m
+                        //With inputs like obabel test.xxx -oyyy -m
                         //the user may have wanted to do a splitting operation
                         //Issue a message and abort if xxx==yyy which would overwrite input file
                         if(FileList.size()==1 && !CheckForUnintendedBatch(batchfile, InFilename))

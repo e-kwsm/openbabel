@@ -539,7 +539,7 @@ On the command line, using the option --filter filter-string converts only
 those molecules which meet the criteria specified in the filter-string. This
 is useful to select particular molecules from a set.
 It is used like:
-babel dataset.sdf outfile.smi --filter "MW>200 SMARTS!=c1ccccc1 PUBCHEM_CACTVS_ROTATABLE_BOND<5"
+obabel dataset.sdf outfile.smi --filter "MW>200 SMARTS!=c1ccccc1 PUBCHEM_CACTVS_ROTATABLE_BOND<5"
 
 The identifier , "PUBCHEM_CACTVS_ROTATABLE_BOND" is the name of an attribute
 of an OBPairData which has probably been imported from a property in a SDF
@@ -557,7 +557,7 @@ for classes that wrap molecular properties, descriptors or features. In the exam
 classes, like fingerprints, forcefields and formats, so that new molecular features
 can be added or old ones removed (to prevent code bloat) without altering old code.
 A list of available descriptors is available from the commandline:
-babel -L descriptors
+obabel -L descriptors
 or from the functions OBPlugin::List, OBPlugin::ListAsString and OBPlugin::ListAsVector.
 
 The filter-string is interpreted by a static function of OBDescriptor,
