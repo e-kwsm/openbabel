@@ -138,6 +138,19 @@ namespace OpenBabel
     //! Access function to x: [0], y: [1], and z[2]
     double operator[] ( unsigned int i) const;
 
+#ifdef __cpp_if_constexpr
+    //! Access function for structure binding
+    template <size_t n> double get() const noexcept {
+      if constexpr (n == 0u) {
+        return _vx;
+      } else if constexpr (n == 1u) {
+        return _vy;
+      } else if constexpr (n == 2u) {
+        return _vz;
+      }
+    }
+#endif
+
     //! Assignment
     vector3& operator= ( const vector3& v)
       {
