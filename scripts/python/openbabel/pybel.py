@@ -145,16 +145,17 @@ def readfile(format=None, filename=None, opt=None):
     >>> atomtotal = 0
     >>> for mol in readfile("sdf", "head.sdf"):
     ...     atomtotal += len(mol.atoms)
-    ...
-    >>> print atomtotal
+    >>> atomtotal
     43
 
+    >>> import subprocess
+    >>> _ = subprocess.run(["tar", "-cf", "head.sdf.tgz", "head.sdf"])
     >>> atomtotal = 0
     >>> for mol in readfile(filename="head.sdf.tgz"):
     ...     atomtotal += len(mol.atoms)
-    ...
-    >>> print atomtotal
+    >>> atomtotal
     43
+    >>> _ = subprocess.run(["rm", "-f", "head.sdf.tgz"])
     """
     # To be compitable with testing work inside `python/examples/testpybel.py`,
     # "format" has to be checked first, ValueError should be raised, if it does
@@ -976,7 +977,7 @@ class Smarts(object):
     Example:
     >>> mol = readstring("smi","CCN(CC)CC") # triethylamine
     >>> smarts = Smarts("[#6][#6]") # Matches an ethyl group
-    >>> print smarts.findall(mol)
+    >>> smarts.findall(mol)
     [(1, 2), (4, 5), (6, 7)]
 
     The numbers returned are the indices (starting from 1) of the atoms
@@ -1014,23 +1015,25 @@ class MoleculeData(object):
     that the data is retrieved on-the-fly from the underlying OBMol.
 
     Example:
-    >>> mol = readfile("sdf", 'head.sdf').next() # Python 2
-    >>> # mol = next(readfile("sdf", 'head.sdf')) # Python 3
+    >>> import sys
+    >>> mol = next(readfile("sdf", 'head.sdf')) if sys.version_info[0] >= 3 else readfile("sdf", 'head.sdf').next()
     >>> data = mol.data
-    >>> print data
-    {'Comment': 'CORINA 2.61 0041  25.10.2001', 'NSC': '1'}
-    >>> print len(data), data.keys(), data.has_key("NSC")
-    2 ['Comment', 'NSC'] True
-    >>> print data['Comment']
+    >>> data
+    {'MOL Chiral Flag': '0', 'Comment': 'CORINA 2.61 0041  25.10.2001', 'NSC': '1', 'OpenBabel Symmetry Classes': '4 5 10 12 8 11 9 7 13 1 2 3 6 6 6'}
+    >>> print(len(data), data.keys(), data.has_key("NSC"))
+    4 ['MOL Chiral Flag', 'Comment', 'NSC', 'OpenBabel Symmetry Classes'] True
+    >>> print(data['Comment'])
     CORINA 2.61 0041  25.10.2001
     >>> data['Comment'] = 'This is a new comment'
-    >>> for k,v in data.items():
-    ...    print k, "-->", v
+    >>> for k, v in data.items():
+    ...    print(k, "-->", v)
+    MOL Chiral Flag --> 0
     Comment --> This is a new comment
     NSC --> 1
+    OpenBabel Symmetry Classes --> 4 5 10 12 8 11 9 7 13 1 2 3 6 6 6
     >>> del data['NSC']
-    >>> print len(data), data.keys(), data.has_key("NSC")
-    1 ['Comment'] False
+    >>> print(len(data), data.keys(), data.has_key("NSC"))
+    3 ['MOL Chiral Flag', 'Comment', 'OpenBabel Symmetry Classes'] False
     """
 
     def __init__(self, obmol):
