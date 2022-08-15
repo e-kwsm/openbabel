@@ -527,6 +527,12 @@ Conversion from a SMI file in STDIN to a Mol2 file written to STDOUT:
 .Dl "obabel \-ismi \-omol2"
 Split a multi-molecule file into new1.smi, new2.smi, etc.:
 .Dl "obabel infile.mol -Onew.smi \-m"
+\" TODO comment in if OB 4.0.0 is released
+\".Sh ENVIRONMENT
+\".Bl -tag -width flag
+\".It Ev OB_RANDOM_SEED
+\"Seed for pseudo random number generator.  If not specified, random seed is used.
+\".El
 .Sh SEE ALSO
 .Xr obenergy 1 ,
 .Xr obfit 1 ,
