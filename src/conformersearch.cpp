@@ -310,7 +310,8 @@ namespace OpenBabel {
     p_crossover = 0.7;
     niche_mating = 0.7;
     local_opt_rate = 3;
-    prng.reset(new OBRandom{});
+    d.reset(new OBRandom());
+    d->Reset();
     m_logstream = &std::cout; 	// Default logging send to standard output
     // m_logstream = NULL;
     m_printrotors = false;  // By default, do not print rotors but perform the conformer search
