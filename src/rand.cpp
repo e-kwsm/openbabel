@@ -521,6 +521,19 @@ namespace OpenBabel
 #endif
   }
 
+  double OBRandom::Normal(double mu, double sigma) {
+    const int n = 12;
+    double z = -0.5 * n;
+    for (int _ = 0; _ < n; _++) {
+      z += NextFloat();
+    }
+    return mu + z * sigma;
+  }
+
+  bool OBRandom::Bernoulli(double p) {
+    return UniformReal(0.0, 1.0) <= p;
+  }
+
   uint_fast64_t OBRandomMT::randomSeed() const {
     auto ob_random_seed = std::getenv("OB_RANDOM_SEED");
     if (ob_random_seed && ob_random_seed[0] != '\0') {
