@@ -344,11 +344,7 @@ namespace OpenBabel {
     return data;
   }
 
-} // namespace OpenBabel
-
-namespace std {
-
-  ostream& operator<<(ostream &out, const OpenBabel::OBCisTransStereo &ct)
+  std::ostream& operator<<(std::ostream &out, const OBCisTransStereo &ct)
   {
     OpenBabel::OBCisTransStereo::Config cfg = ct.GetConfig();
     out << "OBCisTransStereo(begin = " << cfg.begin;
@@ -376,7 +372,7 @@ namespace std {
     return out;
   }
 
-  ostream& operator<<(ostream &out, const OpenBabel::OBCisTransStereo::Config &cfg)
+  std::ostream& operator<<(std::ostream &out, const OBCisTransStereo::Config &cfg)
   {
     out << "OBCisTransStereo::Config(begin = " << cfg.begin;
     out << ", end = " << cfg.end;
@@ -403,5 +399,4 @@ namespace std {
     return out;
   }
 
-} // namespace std
-
+} // namespace OpenBabel
