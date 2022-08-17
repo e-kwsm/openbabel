@@ -110,8 +110,10 @@ namespace OpenBabel
   // flags 24-32 unspecified
 
 #define SET_OR_UNSET_FLAG(X) \
-  if (value) SetFlag(X); \
-  else     UnsetFlag(X);
+  do { \
+    if (value) SetFlag(X); \
+    else     UnsetFlag(X); \
+  } while (0)
 
 #define OB_CURRENT_CONFORMER	 -1
 
