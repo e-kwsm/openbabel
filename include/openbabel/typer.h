@@ -44,7 +44,7 @@ class OBAPI OBAtomTyper : public OBGlobalDataBase
 public:
     OBAtomTyper();
     OBAtomTyper(const OBAtomTyper& rhs) {abort();}
-    ~OBAtomTyper();
+    ~OBAtomTyper() override;
 
     //swig is requiring these, but I can't figure out how to make it not, so definte with abort
     const OBAtomTyper& operator=(const OBAtomTyper& rhs) {abort();}
@@ -90,7 +90,7 @@ class OBAPI OBRingTyper : public OBGlobalDataBase
 
 public:
     OBRingTyper();
-    ~OBRingTyper();
+    ~OBRingTyper() override;
 
     void ParseLine(const char*) override;
     //! \return the number of SMARTS patterns

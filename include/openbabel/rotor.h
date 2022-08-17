@@ -107,7 +107,7 @@ namespace OpenBabel
     std::vector<double>        _sp2sp2; //!< Default dihedral angles to check for generic sp2 - sp2 hybridized rotatable bonds (in radians)
   public:
     OBRotorRules();
-    ~OBRotorRules();
+    ~OBRotorRules() override;
 
     void ParseLine(const char*) override;
     //! \return the number of rotor rules

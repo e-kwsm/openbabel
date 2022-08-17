@@ -10,24 +10,24 @@ namespace OpenBabel
   {
     public:
       CairoPainter();
-      ~CairoPainter();
+      ~CairoPainter() override;
       //! @name OBPainter methods
       //@{
-      void NewCanvas(double width, double height);
-      bool IsGood() const;
-      void SetFontFamily(const std::string &fontFamily) {} // FIXME
-      void SetFontSize(int pointSize);
-      void SetFillColor(const OBColor &color);
-      void SetFillRadial(const OBColor &start, const OBColor &end);
-      void SetPenColor(const OBColor &color);
-      void SetPenWidth(double width);
-      double GetPenWidth();
-      void DrawLine(double x1, double y1, double x2, double y2, const std::vector<double> & dashes=std::vector<double>());
-      void DrawPolygon(const std::vector<std::pair<double,double> > &points);
-      void DrawCircle(double x, double y, double r);
-      void DrawBall(double x, double y, double r, double opacity);
-      void DrawText(double x, double y, const std::string &text);
-      OBFontMetrics GetFontMetrics(const std::string &text);
+      void NewCanvas(double width, double height) override;
+      bool IsGood() const override;
+      void SetFontFamily(const std::string &fontFamily) override {} // FIXME
+      void SetFontSize(int pointSize) override;
+      void SetFillColor(const OBColor &color) override;
+      void SetFillRadial(const OBColor &start, const OBColor &end) override;
+      void SetPenColor(const OBColor &color) override;
+      void SetPenWidth(double width) override;
+      double GetPenWidth() override;
+      void DrawLine(double x1, double y1, double x2, double y2, const std::vector<double> & dashes=std::vector<double>()) override;
+      void DrawPolygon(const std::vector<std::pair<double,double> > &points) override;
+      void DrawCircle(double x, double y, double r) override;
+      void DrawBall(double x, double y, double r, double opacity) override;
+      void DrawText(double x, double y, const std::string &text) override;
+      OBFontMetrics GetFontMetrics(const std::string &text) override;
       //@}
 
       //! @name CairoPainter specific

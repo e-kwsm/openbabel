@@ -104,13 +104,13 @@ namespace OpenBabel {
   class OBAPI UniqueTautomerFunctor : public TautomerFunctor
   {
     public:
-      virtual ~UniqueTautomerFunctor() {}
+      ~UniqueTautomerFunctor() override {}
       /**
        * This function is called every time a tautomer is discovered.
        *
        * @param mol The tautomer.
        */
-      void operator()(OBMol *mol);
+      void operator()(OBMol *mol) override;
       /**
        * This function is called every time a unique tautomer is discovered.
        *

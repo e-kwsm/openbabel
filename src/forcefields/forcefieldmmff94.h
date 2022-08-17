@@ -251,7 +251,7 @@ namespace OpenBabel
       }
 
       //! Destructor
-      virtual ~OBForceFieldMMFF94();
+      ~OBForceFieldMMFF94() override;
 
       //! Assignment
       OBForceFieldMMFF94 &operator = (OBForceFieldMMFF94 &);

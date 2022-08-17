@@ -33,7 +33,7 @@ class OBAPI OBBondTyper : public OBGlobalDataBase
     std::vector<std::pair<OBSmartsPattern*, std::vector<int> > >	_fgbonds;
 public:
     OBBondTyper();
-    ~OBBondTyper();
+    ~OBBondTyper() override;
 
     //! \name OBBondTyper Database Utilities
     //@{

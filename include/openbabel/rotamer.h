@@ -59,7 +59,7 @@ namespace OpenBabel
       }
     OBGenericData* Clone(OBBase* parent) const override;
 
-    ~OBRotamerList();
+    ~OBRotamerList() override;
     //! Set up a rotamer list based on an already created OBRotorList
     void Setup(OBMol&,OBRotorList&);
     //! Set up a rotamer list based on the supplied reference atoms and the number of rotors

@@ -57,7 +57,7 @@ namespace OpenBabel
       XMLConversion(OBConversion* pConv);
 
       ///Frees reader and writer if necessary
-      ~XMLConversion();
+      ~XMLConversion() override;
 
       bool SetupReader();///< opens libxml2 reader
       bool SetupWriter();///< opens libxml2 writer
@@ -159,7 +159,7 @@ namespace OpenBabel
       int _embedlevel;
 
     public:
-      ~XMLBaseFormat(){}
+      ~XMLBaseFormat() override {}
       virtual const char* NamespaceURI()const=0;
       virtual bool DoElement(const std::string& ElName){return false;};
       virtual bool EndElement(const std::string& ElName){return false;};
@@ -184,7 +184,7 @@ namespace OpenBabel
 
       ///Skip past first n objects in input stream (or current one with n=0)
       /// Returns 1 on success, -1 on error and 0 if not implemented
-      virtual int SkipObjects(int n, OBConversion* pConv)
+      int SkipObjects(int n, OBConversion* pConv) override
         {
           //don't implement on base class
           if(*EndTag()=='>')
@@ -218,18 +218,18 @@ namespace OpenBabel
       OBMol* _pmol;
 
     public:
-      ~XMLMoleculeFormat(){}
-      virtual bool ReadChemObject(OBConversion* pConv)
+      ~XMLMoleculeFormat() override {}
+      bool ReadChemObject(OBConversion* pConv) override
         {
           return OBMoleculeFormat::ReadChemObjectImpl(pConv, this);
         };
 
-      virtual bool WriteChemObject(OBConversion* pConv)
+      bool WriteChemObject(OBConversion* pConv) override
         {
           return OBMoleculeFormat::WriteChemObjectImpl(pConv, this);
         };
 
-      virtual bool ReadMolecule(OBBase* pOb, OBConversion* pConv)
+      bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override
         {
           _pmol = dynamic_cast<OBMol*>(pOb);
           if(!_pmol)
@@ -241,7 +241,7 @@ namespace OpenBabel
           return _pxmlConv->ReadXML(this,pOb);
         };
 
-      const std::type_info& GetType()
+      const std::type_info& GetType() override
         {
           return typeid(OBMol*);
         };

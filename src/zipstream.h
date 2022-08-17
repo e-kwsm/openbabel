@@ -108,10 +108,10 @@ public:
                             int memory_level,
                             size_t buffer_size);
 
-    ~basic_zip_streambuf(void);
+    ~basic_zip_streambuf(void) override;
 
-    int               sync        (void);
-    int_type          overflow    (int_type c);
+    int               sync        (void) override;
+    int_type          overflow    (int_type c) override;
     std::streamsize   flush       (void);
     inline
     ostream_reference get_ostream (void) const;
@@ -168,16 +168,16 @@ public:
                           size_t read_buffer_size,
                           size_t input_buffer_size);
 
-    ~basic_unzip_streambuf(void);
+    ~basic_unzip_streambuf(void) override;
 
     void initialize(int window_size);
 
-    int_type underflow(void);
+    int_type underflow(void) override;
 
     std::streampos seekoff(std::streamoff off, std::ios_base::seekdir way,
-                           std::ios_base::openmode which = std::ios_base::in | std::ios_base::out);
+                           std::ios_base::openmode which = std::ios_base::in | std::ios_base::out) override;
     std::streampos seekpos(std::streampos sp,
-                           std::ios_base::openmode which = std::ios_base::in | std::ios_base::out);
+                           std::ios_base::openmode which = std::ios_base::in | std::ios_base::out) override;
     /// returns the compressed input istream
     inline
     istream_reference get_istream              (void);
@@ -238,7 +238,7 @@ public:
                                int memory_level = 8,
                                size_t buffer_size = zstream_default_buffer_size);
 
-    ~basic_zip_ostream(void);
+    ~basic_zip_ostream(void) override;
 
     inline
     bool                              is_gzip   (void) const;

@@ -61,17 +61,17 @@ namespace OpenBabel
   public:
     FilteringInputStreambuf(
       std::istream*        source = nullptr) ;
-    virtual                 ~FilteringInputStreambuf()
+    ~FilteringInputStreambuf() override
     {
       //sync(); comment out so can be deleted in OBConversion destructor
     };
-    virtual int              overflow( int ) {return EOF;};
-    virtual int              underflow() ;
-    virtual int              sync() ;
+    int              overflow( int ) override {return EOF;};
+    int              underflow() override;
+    int              sync() override;
 
     //Pass the random acess functions to the source rdbuf and synchronize
-    virtual std::streampos   seekoff(std::streamoff off, std::ios_base::seekdir way,
-      std::ios_base::openmode which = std::ios_base::in | std::ios_base::out )
+    std::streampos   seekoff(std::streamoff off, std::ios_base::seekdir way,
+      std::ios_base::openmode which = std::ios_base::in | std::ios_base::out ) override
     {
       setg(  &myBuffer , &myBuffer , &myBuffer  ) ; //ensure next character is from new position
       mySource->seekg(off, way);
@@ -80,8 +80,8 @@ namespace OpenBabel
       return ret;
     };
 
-    virtual std::streampos   seekpos(std::streampos sp,
-      std::ios_base::openmode which = std::ios_base::in | std::ios_base::out )
+    std::streampos   seekpos(std::streampos sp,
+      std::ios_base::openmode which = std::ios_base::in | std::ios_base::out ) override
     {
       setg(  &myBuffer , &myBuffer , &myBuffer  ) ;
       //slight hack - if mySource has read past the end, won't let us seek
@@ -202,7 +202,7 @@ public:
 
     explicit FilteringInputStream(istream_reference istream):
         FilteringInputStreambuf<Extractor>(&istream),std::istream(this) {}
-    virtual ~FilteringInputStream() {}
+    ~FilteringInputStream() override {}
 
 };
 
