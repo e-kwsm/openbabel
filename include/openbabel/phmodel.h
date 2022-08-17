@@ -111,7 +111,7 @@ class OBAPI OBPhModel : public OBGlobalDataBase
     std::vector<std::pair<OBSmartsPattern*,std::vector<double> > > _vschrg;
 public:
     OBPhModel();
-    ~OBPhModel();
+    ~OBPhModel() override;
 
     void ParseLine(const char*) override;
     //! \return the number of chemical transformations

@@ -335,7 +335,7 @@ namespace OpenBabel {
       /**
        * Destructor.
        */
-      virtual ~OBStereoBase() { m_mol = nullptr; }
+      ~OBStereoBase() override { m_mol = nullptr; }
 
       ///@name Geniric (for all OBStereo::Type) stereochemistry
       //@{

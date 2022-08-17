@@ -133,7 +133,7 @@ namespace OpenBabel
       }
 
       //! Destructor
-      virtual ~OBForceFieldGaff();
+      ~OBForceFieldGaff() override;
 
       //! Assignment
       OBForceFieldGaff &operator = (OBForceFieldGaff &);

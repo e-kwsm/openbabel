@@ -177,7 +177,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Pointer to atom forces
     double force_c[3];
     //! Destructor
-    virtual ~OBFFCalculation3()
+    ~OBFFCalculation3() override
     {
     }
     //! \return Setup pointers to atom positions and forces (To be called
@@ -208,12 +208,12 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Pointer to atom forces
     double force_d[3];
     //! Destructor
-    virtual ~OBFFCalculation4()
+    ~OBFFCalculation4() override
     {
     }
     //! \return Setup pointers to atom positions and forces (To be called
     //!  while setting up calculations). Sets optimized to true.
-    void SetupPointers()
+    void SetupPointers() override
     {
       if (!a || !b || !c || !d) return;
       pos_a = a->GetCoordinate();
@@ -585,7 +585,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     //! Destructor (defined in forcefield.cpp because _lbfgsState's pimpl
     //! type LBFGSState is incomplete in this header).
-    virtual ~OBForceField();
+    ~OBForceField() override;
 
     //! \return Plugin type ("forcefields")
     const char* TypeID() override

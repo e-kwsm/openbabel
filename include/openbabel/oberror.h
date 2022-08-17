@@ -202,11 +202,11 @@ namespace OpenBabel
     {
     public:
       //! Close the output buffer, flush, and call OBMessageHandler::ThrowError()
-      virtual ~obLogBuf() { sync(); }
+      ~obLogBuf() override { sync(); }
 
     protected:
       //! Call OBMessageHandler::ThrowError() and flush the buffer
-      int sync()
+      int sync() override
         {
           obErrorLog.ThrowError("", str(), obInfo);
           str(std::string()); // clear the buffer

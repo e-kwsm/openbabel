@@ -58,7 +58,7 @@ namespace OpenBabel {
     //! Copy constructor
     OBResidue(const OBResidue &);
     //! Destructor
-    virtual ~OBResidue(void);
+    ~OBResidue(void) override;
 
     OBResidue &operator=(const OBResidue &);
 
@@ -72,7 +72,7 @@ namespace OpenBabel {
     //!  included in the residue, as well as calling OBBase::Clear() for any
     //!  generic data.
     //! \return Whether the call was successful.
-    bool    Clear();
+    bool    Clear() override;
 
     //! \brief Set the name of this residue (e.g., "ALA"). Use 3-char PDB standard names.
     //! http://www.rcsb.org/pdb/file_formats/pdb/pdbguide2.2/part_79.html
