@@ -326,10 +326,7 @@ class OBAPI OBCisTransStereo : public OBTetraPlanarStereo
 };
 ///@}
 
-} // namespace OpenBabel
-
 #ifndef SWIG
-namespace std {
 
 ///@addtogroup stereo Stereochemistry
 ///@{
@@ -350,7 +347,7 @@ namespace std {
  * OBCisTransStereo(begin = 0, end = 1, refs = 2 3 4 5, shape = U)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBCisTransStereo &ct);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBCisTransStereo &ct);
 /**
  * @code
  * OBCisTransStereo::Config cfg;
@@ -365,12 +362,13 @@ OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBCisTransStereo &ct);
  * OBCisTransStereo::Config(begin = 0, end = 1, refs = 2 3 4 5, shape = U)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBCisTransStereo::Config &cfg);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBCisTransStereo::Config &cfg);
 
 ///@}
 
-} // namespace std
 #endif // Not SWIG
+
+} // namespace OpenBabel
 
 #endif
 
