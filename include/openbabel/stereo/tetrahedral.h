@@ -247,10 +247,7 @@ class OBAPI OBTetrahedralStereo : public OBTetraNonPlanarStereo
 ///@}
 // end addtogroup doxygen
 
-} // namespace OpenBabel
-
 #ifndef SWIG
-namespace std {
 
 ///@addtogroup stereo Stereochemistry
 ///@{
@@ -272,7 +269,7 @@ namespace std {
  * OBTetrahedralStereo(center = 0, viewTowards = 4, refs = 1 2 3, anti-clockwise)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBTetrahedralStereo &ts);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBTetrahedralStereo &ts);
 /**
  * @code
  * OBTetrahedralStereo::Config cfg;
@@ -288,12 +285,13 @@ OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBTetrahedralStereo &ts
  * OBTetrahedralStereo::Config(center = 0, viewTowards = 4, refs = 1 2 3, anti-clockwise)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBTetrahedralStereo::Config &cfg);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBTetrahedralStereo::Config &cfg);
 
 ///@}
 
-} // namespace std
 #endif // SWIG
+
+} // namespace OpenBabel
 
 #endif
 

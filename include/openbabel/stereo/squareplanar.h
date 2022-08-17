@@ -265,10 +265,7 @@ class OBAPI OBSquarePlanarStereo : public OBTetraPlanarStereo
 ///@}
 // end addtogroup doxygen
 
-} // namespace OpenBabel
-
 #ifndef SWIG
-namespace std {
 
 ///@addtogroup stereo Stereochemistry
 ///@{
@@ -288,7 +285,7 @@ namespace std {
  * OBSquarePlanarStereo(center = 0, refs = 1 2 3 4, shape = U)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBSquarePlanarStereo &ct);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBSquarePlanarStereo &ct);
 /**
  * @code
  * OBSquarePlanarStereo::Config cfg;
@@ -302,12 +299,13 @@ OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBSquarePlanarStereo &c
  * OBSquarePlanarStereo::Config(center = 0, refs = 1 2 3 4, shape = U)
  * @endcode
  */
-OBAPI ostream& operator<<(ostream &out, const OpenBabel::OBSquarePlanarStereo::Config &cfg);
+OBAPI std::ostream& operator<<(std::ostream &out, const OBSquarePlanarStereo::Config &cfg);
 
 ///@}
 
-} // namespace std
 #endif // Not SWIG
+
+} // namespace OpenBabel
 
 #endif
 
