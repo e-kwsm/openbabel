@@ -211,7 +211,7 @@ class OBAPI OBCisTransStereo : public OBTetraPlanarStereo
     /**
      * Destructor.
      */
-    virtual ~OBCisTransStereo();
+    ~OBCisTransStereo() override;
 
     ///@name Cis/Trans stereochemistry
     ///@{
@@ -219,7 +219,7 @@ class OBAPI OBCisTransStereo : public OBTetraPlanarStereo
      * Get the OBStereo::Type for this object.
      * @return OBStereo::CisTrans
      */
-    OBStereo::Type GetType() const { return OBStereo::CisTrans; }
+    OBStereo::Type GetType() const override { return OBStereo::CisTrans; }
     /**
      * @return True if this object is valid. This object is valid if all these
      * conditions are met:
@@ -266,7 +266,7 @@ class OBAPI OBCisTransStereo : public OBTetraPlanarStereo
     /*
      * Implement OBGenericData::Clone().
      */
-    OBGenericData* Clone(OBBase *mol) const;
+    OBGenericData* Clone(OBBase *mol) const override;
 
 
     //! @name Query methods to compare stereochemistry.

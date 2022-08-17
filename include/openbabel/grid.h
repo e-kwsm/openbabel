@@ -113,7 +113,7 @@ namespace OpenBabel
   public:
 
     OBFloatGrid() : _ival(nullptr), _halfSpace(0.0) {}
-    ~OBFloatGrid()
+    ~OBFloatGrid() override
     {
       if (_ival) delete [] _ival;
     }
@@ -316,7 +316,7 @@ namespace OpenBabel
       {
         _gridtype=gridtype;
       }
-    ~OBProxGrid()
+    ~OBProxGrid() override
       {}
     void Setup(OBMol &mol,OBMol &box, double cutoff,double resolution = 0.5);
     void Setup(OBMol &mol,OBMol &box, double cutoff,

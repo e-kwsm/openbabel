@@ -50,7 +50,7 @@ const char* TypeID() override
 	//Rest of OBFingerprints declarations
 public:
 
-  virtual ~OBFingerprint(){}
+  ~OBFingerprint() override {}
 
   /// Sets the nth bit
   void SetBit(std::vector<unsigned int>& vec, const unsigned int n);

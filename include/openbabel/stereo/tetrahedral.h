@@ -188,7 +188,7 @@ class OBAPI OBTetrahedralStereo : public OBTetraNonPlanarStereo
     /**
      * Destructor.
      */
-    virtual ~OBTetrahedralStereo();
+    ~OBTetrahedralStereo() override;
 
     ///@name Tetrahedral stereochemistry
     ///@{
@@ -196,7 +196,7 @@ class OBAPI OBTetrahedralStereo : public OBTetraNonPlanarStereo
      * Get the OBStereo::Type for this object.
      * @return OBStereo::Tetrahedral
      */
-    OBStereo::Type GetType() const { return OBStereo::Tetrahedral; }
+    OBStereo::Type GetType() const override { return OBStereo::Tetrahedral; }
     /**
      * @return True if this object is valid. This object is valid if all (center, from
      * and ref) atom ids are set.
@@ -240,7 +240,7 @@ class OBAPI OBTetrahedralStereo : public OBTetraNonPlanarStereo
     /*
      * Implement OBGenericData::Clone().
      */
-    OBGenericData* Clone(OBBase *mol) const;
+    OBGenericData* Clone(OBBase *mol) const override;
   private:
     Config m_cfg; //!< internal configuration
 };

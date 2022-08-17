@@ -37,7 +37,7 @@ public:
     // this one is called on application startup and is a good place for the app
     // initialization (doing it here and not in the ctor allows one to have an error
     // return: if OnInit() returns false, the application terminates)
-    virtual bool OnInit();
+    bool OnInit() override;
     wxString HelpFile;
 };
 
@@ -175,7 +175,7 @@ class DnD : public wxFileDropTarget
 {
 public:
   DnD(OBGUIFrame* parent) : m_pParent(parent){};
-  virtual bool OnDropFiles(wxCoord, wxCoord, const wxArrayString& filenames)
+  bool OnDropFiles(wxCoord, wxCoord, const wxArrayString& filenames) override
   {
     m_pParent->DisplayInputFiles(filenames);
     return true;

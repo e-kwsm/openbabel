@@ -182,7 +182,7 @@ class OBAPI OBSquarePlanarStereo : public OBTetraPlanarStereo
     /**
      * Destructor.
      */
-    virtual ~OBSquarePlanarStereo();
+    ~OBSquarePlanarStereo() override;
 
     ///@name SquarePlanar stereochemistry
     ///@{
@@ -190,7 +190,7 @@ class OBAPI OBSquarePlanarStereo : public OBTetraPlanarStereo
      * Get the OBStereo::Type for this object.
      * @return OBStereo::SquarePlanar
      */
-    OBStereo::Type GetType() const { return OBStereo::SquarePlanar; }
+    OBStereo::Type GetType() const override { return OBStereo::SquarePlanar; }
     /**
      * @return True if this object is valid. This object is valid if all (center and
      * and 4 reference) atom ids are set.
@@ -234,7 +234,7 @@ class OBAPI OBSquarePlanarStereo : public OBTetraPlanarStereo
     /*
      * Implement OBGenericData::Clone().
      */
-    OBGenericData* Clone(OBBase *mol) const;
+    OBGenericData* Clone(OBBase *mol) const override;
 
     //! @name Query methods to compare stereochemistry.
     //@{

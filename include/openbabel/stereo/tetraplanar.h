@@ -84,7 +84,7 @@ namespace OpenBabel {
   {
     public:
       OBTetraPlanarStereo(OBMol *mol);
-      virtual ~OBTetraPlanarStereo();
+      ~OBTetraPlanarStereo() override;
 
       template <typename ConfigType>
       static ConfigType ToConfig(const ConfigType &cfg, unsigned long start,

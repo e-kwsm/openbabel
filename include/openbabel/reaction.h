@@ -109,7 +109,7 @@ public:
     return " reactions\n";
   }
 
-  bool Clear()
+  bool Clear() override
   {
     _reactants.clear();
     _products.clear();

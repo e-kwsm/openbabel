@@ -60,7 +60,7 @@ public:
 
   AliasData(): OBGenericData("Alias", AliasDataType){ }
 
-  virtual OBGenericData* Clone(OBBase* /*parent*/) const{return new AliasData(*this);}
+  OBGenericData* Clone(OBBase* /*parent*/) const override {return new AliasData(*this);}
 
   ///Add an alias
   void SetAlias(const std::string& alias) {_alias = alias;}
