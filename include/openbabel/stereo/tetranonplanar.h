@@ -99,7 +99,7 @@ namespace OpenBabel {
       /**
        * Destructor.
        */
-      virtual ~OBTetraNonPlanarStereo();
+      ~OBTetraNonPlanarStereo() override;
 
       /**
        * Convert a @p ConfigType struct from any View/Winding to the

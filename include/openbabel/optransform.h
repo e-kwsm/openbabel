@@ -35,7 +35,7 @@ public:
   OpTransform(const char* ID, const char* filename, const char* descr)
     : OBOp(ID, false), _filename(filename), _descr(descr), _dataLoaded(false){}
 
-  ~OpTransform(){}
+  ~OpTransform() override {}
 
   const char* Description() override;
 

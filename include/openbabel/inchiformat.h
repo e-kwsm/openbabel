@@ -199,7 +199,7 @@ public:
   {
       OBConversion::RegisterFormat("k",this);
   }
-  virtual const char* Description() //required
+  const char* Description() override //required
   {
     return
       "Compare molecules using InChI\n"
@@ -211,8 +211,8 @@ public:
       "This is the same as using ``-oinchi -xet`` and can take the same options as InChI format\n"
       "(see :ref:`InChI_format`).\n";
   }
-  virtual bool WriteMolecule(OBBase* pOb, OBConversion* pConv);
-  virtual unsigned int Flags() { return NOTREADABLE;};
+  bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  unsigned int Flags() override { return NOTREADABLE;};
 };
 
 //*****************************************************
@@ -223,7 +223,7 @@ public:
   {
       OBConversion::RegisterFormat("inchikey",this);
   }
-  virtual const char* Description() //required
+  const char* Description() override //required
   {
     return
       "InChIKey\n"
@@ -255,8 +255,8 @@ public:
       "same InChIKey, the reverse is not true; there may exist more than one\n"
       "molecule which have different InChIs but yield the same InChIKey.\n";
   }
-  virtual bool WriteMolecule(OBBase* pOb, OBConversion* pConv);
-  virtual unsigned int Flags() { return NOTREADABLE;};
+  bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  unsigned int Flags() override { return NOTREADABLE;};
 };
 
 }//namespace OpenBabel
