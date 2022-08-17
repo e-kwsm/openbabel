@@ -169,7 +169,7 @@ namespace OpenBabel
       //! Constructor
       OBAtom();
       //! Destructor
-      virtual ~OBAtom();
+      ~OBAtom() override;
       //! Assignment
       OBAtom &operator = (OBAtom &);
       //! Equivalence
@@ -179,7 +179,7 @@ namespace OpenBabel
       void Duplicate(OBAtom *);
       //! Clear all data. Calls OBBase::Clear() to handle any generic data.
       //! \return True if successful.
-      bool Clear();
+      bool Clear() override;
 
       //! \name Methods to set atomic information
       //@{

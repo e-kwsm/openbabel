@@ -265,7 +265,7 @@ namespace OpenBabel
     // more than one RingData causes problems as one of them can become invalid
     // and cause segfaults.
     OBGenericData* Clone(OBBase* /*parent*/) const override { return nullptr; }
-    ~OBRingData();
+    ~OBRingData() override;
 
     OBRingData &operator=(const OBRingData &);
 
@@ -320,7 +320,7 @@ namespace OpenBabel
     OBUnitCell(const OBUnitCell &);
     OBGenericData* Clone(OBBase* /*parent*/) const override
     {return new OBUnitCell(*this);}
-    ~OBUnitCell()    {}
+    ~OBUnitCell() override {}
 
     OBUnitCell &operator=(const OBUnitCell &);
 
@@ -544,7 +544,7 @@ namespace OpenBabel
     OBConformerData();
     OBConformerData(const OBConformerData &);
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBConformerData(*this); }
-    ~OBConformerData()    {}
+    ~OBConformerData() override {}
 
     OBConformerData &operator=(const OBConformerData &);
 
@@ -581,7 +581,7 @@ namespace OpenBabel
     OBSymmetryData();
     OBSymmetryData(const OBSymmetryData &);
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBSymmetryData(*this); }
-    ~OBSymmetryData()    {}
+    ~OBSymmetryData() override {}
 
     OBSymmetryData &operator=(const OBSymmetryData &);
 
@@ -828,7 +828,7 @@ namespace OpenBabel
 
   public:
     OBVibrationData(): OBGenericData("VibrationData", OBGenericDataType::VibrationData){};
-    virtual ~OBVibrationData() {}
+    ~OBVibrationData() override {}
     OBGenericData* Clone(OBBase*) const override
          {return new OBVibrationData(*this);}
 
@@ -873,7 +873,7 @@ namespace OpenBabel
 
   public:
     OBDOSData(): OBGenericData("DOSData", OBGenericDataType::DOSData){};
-    virtual ~OBDOSData() {}
+    ~OBDOSData() override {}
     OBGenericData* Clone(OBBase*) const override
          {return new OBDOSData(*this);}
 
@@ -920,7 +920,7 @@ namespace OpenBabel
   public:
     OBOrbitalData(): OBGenericData("OrbitalData", OBGenericDataType::ElectronicData),
       _alphaHOMO(0), _betaHOMO(0), _openShell(false) {};
-    virtual ~OBOrbitalData() {}
+    ~OBOrbitalData() override {}
     OBGenericData* Clone(OBBase*) const override
          {return new OBOrbitalData(*this);}
 
@@ -980,7 +980,7 @@ namespace OpenBabel
 
   public:
     OBElectronicTransitionData(): OBGenericData("ElectronicTransitionData", OBGenericDataType::ElectronicTransitionData) {}
-    virtual ~OBElectronicTransitionData() {}
+    ~OBElectronicTransitionData() override {}
     OBGenericData* Clone(OBBase*) const override
          {return new OBElectronicTransitionData(*this);}
 
@@ -1012,7 +1012,7 @@ namespace OpenBabel
  public:
    enum RType{UNKNOWN, ASYMMETRIC, SYMMETRIC, LINEAR};
    OBRotationData(): OBGenericData("RotationData", OBGenericDataType::RotationData){}
-   virtual ~OBRotationData(){};
+   ~OBRotationData() override {};
    OBGenericData* Clone(OBBase*) const override
          {return new OBRotationData(*this);}
    void SetData(RType RotorType, std::vector<double> RotationalConstants, int SymmetryNumber)
@@ -1041,7 +1041,7 @@ namespace OpenBabel
  {
  public:
    OBVectorData(): OBGenericData("VectorData", OBGenericDataType::VectorData){}
-   virtual ~OBVectorData(){};
+   ~OBVectorData() override {};
    OBGenericData* Clone(OBBase*) const override
          {return new OBVectorData(*this);}
    void SetData(double x, double y, double z)
@@ -1062,7 +1062,7 @@ namespace OpenBabel
   {
   public:
     OBMatrixData(): OBGenericData("MatrixData", OBGenericDataType::MatrixData){}
-    virtual ~OBMatrixData(){};
+    ~OBMatrixData() override {};
     OBGenericData* Clone(OBBase*) const override
           {return new OBMatrixData(*this);}
     void SetData(matrix3x3 data)
@@ -1112,7 +1112,7 @@ namespace OpenBabel
     {
     }
     
-    ~OBFreeGrid() 
+    ~OBFreeGrid() override
     {
       //delete _points;
     }
@@ -1159,7 +1159,7 @@ namespace OpenBabel
     std::vector<double> _PartialCharge;
   public:
     OBPcharge(){};
-    ~OBPcharge(){};
+    ~OBPcharge() override {};
 
     int NumPartialCharges() 
     { 

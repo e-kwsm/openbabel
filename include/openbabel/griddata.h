@@ -43,7 +43,7 @@ namespace OpenBabel {
     OBGridData();
 
     /// Destructor
-    ~OBGridData();
+    ~OBGridData() override;
 
     /// Unit of measure for grid spacings.
     typedef enum { BOHR, ANGSTROM, OTHER } Unit;

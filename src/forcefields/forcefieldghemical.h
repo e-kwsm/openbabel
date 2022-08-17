@@ -124,7 +124,7 @@ namespace OpenBabel
       }
 
       //! Destructor
-      virtual ~OBForceFieldGhemical();
+      ~OBForceFieldGhemical() override;
 
       //! Assignment
       OBForceFieldGhemical &operator = (OBForceFieldGhemical &);

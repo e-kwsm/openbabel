@@ -68,7 +68,7 @@ namespace OpenBabel {
        * @return True if the conformer passes the filter.
        */
       virtual bool IsGood(const OBMol &mol, const RotorKey &key, double *coords) = 0;
-      virtual ~OBConformerFilter() = 0;
+      virtual ~OBConformerFilter();
   };
 
   /**
@@ -171,7 +171,7 @@ namespace OpenBabel {
        */
       virtual double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
           const std::vector<double*> &conformers) = 0;
-      virtual ~OBConformerScore() = 0;
+      virtual ~OBConformerScore();
   };
 
   /**
@@ -185,10 +185,10 @@ namespace OpenBabel {
   class OBAPI OBRMSDConformerScore : public OBConformerScore
   {
     public:
-      Preferred GetPreferred() { return HighScore; }
-      Convergence GetConvergence() { return Average; }
+      Preferred GetPreferred() override { return HighScore; }
+      Convergence GetConvergence() override { return Average; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
-          const std::vector<double*> &conformers);
+          const std::vector<double*> &conformers) override;
   };
 
   /**
@@ -206,10 +206,10 @@ namespace OpenBabel {
       }
       long unsigned int GetNbEnergyCompute () {return energy_ncompute;}
       long unsigned int GetNbEnergyRequest () {return energy_nrequest;}
-      Preferred GetPreferred() { return LowScore; }
-      Convergence GetConvergence() { return Lowest; }
+      Preferred GetPreferred() override { return LowScore; }
+      Convergence GetConvergence() override { return Lowest; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
-          const std::vector<double*> &conformers);
+          const std::vector<double*> &conformers) override;
     private:
       mapRotorEnergy energy_map;
       long unsigned int energy_ncompute;
@@ -231,10 +231,10 @@ namespace OpenBabel {
       }
       long unsigned int GetNbEnergyCompute () {return energy_ncompute;}
       long unsigned int GetNbEnergyRequest () {return energy_nrequest;}
-      Preferred GetPreferred() { return LowScore; }
-      Convergence GetConvergence() { return Lowest; }
+      Preferred GetPreferred() override { return LowScore; }
+      Convergence GetConvergence() override { return Lowest; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
-          const std::vector<double*> &conformers);
+          const std::vector<double*> &conformers) override;
     private:
       mapRotorEnergy energy_map;
       long unsigned int energy_ncompute;
@@ -253,10 +253,10 @@ namespace OpenBabel {
   class OBAPI OBMinimizingRMSDConformerScore : public OBConformerScore
   {
     public:
-      Preferred GetPreferred() { return HighScore; }
-      Convergence GetConvergence() { return Average; }
+      Preferred GetPreferred() override { return HighScore; }
+      Convergence GetConvergence() override { return Average; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
-          const std::vector<double*> &conformers);
+          const std::vector<double*> &conformers) override;
   };
 
   //////////////////////////////////////////////////////////
