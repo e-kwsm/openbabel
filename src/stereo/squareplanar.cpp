@@ -222,11 +222,7 @@ namespace OpenBabel {
     return data;
   }
 
-} // namespace OpenBabel
-
-namespace std {
-
-  ostream& operator<<(ostream &out, const OpenBabel::OBSquarePlanarStereo &ct)
+  std::ostream& operator<<(std::ostream &out, const OBSquarePlanarStereo &ct)
   {
     OpenBabel::OBSquarePlanarStereo::Config cfg = ct.GetConfig();
     out << "OBSquarePlanarStereo(center = " << cfg.center;
@@ -253,7 +249,7 @@ namespace std {
     return out;
   }
 
-  ostream& operator<<(ostream &out, const OpenBabel::OBSquarePlanarStereo::Config &cfg)
+  std::ostream& operator<<(std::ostream &out, const OBSquarePlanarStereo::Config &cfg)
   {
     out << "OBSquarePlanarStereo::Config(center = " << cfg.center;
 
@@ -279,5 +275,4 @@ namespace std {
     return out;
   }
 
-} // namespace std
-
+} // namespace OpenBabel

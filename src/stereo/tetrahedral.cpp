@@ -202,13 +202,7 @@ namespace OpenBabel {
     return data;
   }
 
-} // namespace OpenBabel
-
-namespace std {
-
-  using namespace OpenBabel;
-
-  ostream& operator<<(ostream &out, const OBTetrahedralStereo &ts)
+  std::ostream& operator<<(std::ostream &out, const OBTetrahedralStereo &ts)
   {
     OBTetrahedralStereo::Config cfg = ts.GetConfig();
     out << "OBTetrahedralStereo(center = " << cfg.center;
@@ -241,7 +235,7 @@ namespace std {
     return out;
   }
 
-  ostream& operator<<(ostream &out, const OBTetrahedralStereo::Config &cfg)
+  std::ostream& operator<<(std::ostream &out, const OBTetrahedralStereo::Config &cfg)
   {
     out << "OBTetrahedralStereo::Config(center = " << cfg.center;
     if (cfg.view == OBStereo::ViewFrom)
@@ -273,5 +267,4 @@ namespace std {
     return out;
   }
 
-} // namespace std
-
+} // namespace OpenBabel
