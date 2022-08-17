@@ -100,7 +100,7 @@ namespace OpenBabel
       //! Constructor
       OBBond();
       //! Destructor
-      virtual ~OBBond();
+      ~OBBond() override;
 
       //! \name Bond modification methods
       //@{

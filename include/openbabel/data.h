@@ -154,7 +154,7 @@ namespace OpenBabel
       /** \brief Constructor */
       OBAtomicHeatOfFormationTable(void);
       /** \brief Destructor */
-      ~OBAtomicHeatOfFormationTable() {}
+      ~OBAtomicHeatOfFormationTable() override {}
 
       //! \return the number of elements in the Atomic Heat Of Formation table
       size_t GetSize() override { return _atomhof.size(); }
@@ -194,7 +194,7 @@ namespace OpenBabel
     public:
 
       OBTypeTable(void);
-      ~OBTypeTable() {}
+      ~OBTypeTable() override {}
 
       void ParseLine(const char*) override;
 

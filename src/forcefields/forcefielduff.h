@@ -134,7 +134,7 @@ namespace OpenBabel
     }
 
     //! Destructor
-    virtual ~OBForceFieldUFF();
+    ~OBForceFieldUFF() override;
 
      //!Clone the current instance. May be desirable in multithreaded environments
      OBForceFieldUFF* MakeNewInstance() override

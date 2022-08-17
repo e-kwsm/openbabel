@@ -158,7 +158,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Copy constructor, copies atoms,bonds and OBGenericData
     OBMol(const OBMol &);
     //! Destructor
-    virtual ~OBMol();
+    ~OBMol() override;
     //! Assignment, copies atoms,bonds and OBGenericData
     OBMol &operator=(const OBMol &mol);
     //! Copies atoms and bonds but not OBGenericData
@@ -265,7 +265,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     int          GetFlags() const         { return(_flags); }
     //! \return the title of this molecule (often the filename)
     //! \param replaceNewlines whether to replace any newline characters with spaces
-    const char  *GetTitle(bool replaceNewlines = true) const;
+    const char  *GetTitle(bool replaceNewlines = true) const override;
     //! \return the number of atoms (i.e. OBAtom children)
     unsigned int NumAtoms() const         {  return(_natoms); }
     //! \return the number of bonds (i.e. OBBond children)
@@ -349,7 +349,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \name Data modification methods
     //@{
     //! Set the title of this molecule to @p title
-    void   SetTitle(const char *title);
+    void   SetTitle(const char *title) override;
     //! Set the title of this molecule to @p title
     void   SetTitle(std::string &title);
     //! Set the stochiometric formula for this molecule
@@ -419,11 +419,11 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \name Molecule modification methods
     //@{
     // Description in transform.cpp (command-line transformations to this molecule)
-    virtual OBBase*    DoTransformations(const std::map<std::string,std::string>* pOptions,OBConversion* pConv);
+    OBBase*    DoTransformations(const std::map<std::string,std::string>* pOptions,OBConversion* pConv) override;
     // Ditto (documentation on transformation options)
     static const char* ClassDescription();
     //! Clear all information from a molecule except OB_PATTERN_STRUCTURE left unchanged
-    bool Clear();
+    bool Clear() override;
     //! Renumber the atoms of this molecule according to the order in the supplied vector
     void RenumberAtoms(std::vector<OBAtom*>&);
     //! Renumber the atoms of this molecule using the initial indexes in the supplied vector
