@@ -1709,19 +1709,19 @@ namespace OpenBabel
             }
 
           std::string bond_type;
-          int bond_order = bond->GetBondOrder();
+          BondOrder bond_order = bond->GetBondOrder();
           switch (bond_order)
           {
-            case 1:
+            case SINGLE:
               bond_type = "S";
               break;
-            case 2:
+            case DOUBLE:
               bond_type = "D";
               break;
-            case 3:
+            case TRIPLE:
               bond_type = "T";
               break;
-            case 5:  // FIXME: this will be different in upstream code
+            case AROMATIC:  // FIXME: this will be different in upstream code
               bond_type = "A";  // aromatic, per OBBond::_order
               break;
             default:

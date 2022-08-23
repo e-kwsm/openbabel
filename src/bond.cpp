@@ -63,7 +63,7 @@ namespace OpenBabel
   OBBond::OBBond() /*: d(new OBBondPrivate)*/
   {
     _idx=0;
-    _order=0;
+    _order=UNSPECIFIED;
     _flags=0;
     _bgn=nullptr;
     _end=nullptr;
@@ -95,6 +95,11 @@ namespace OpenBabel
   void OBBond::SetBondOrder(int order)
   {
     _order = (char)order;
+  }
+
+  void OBBond::SetBondOrder(BondOrder order)
+  {
+    _order = order;
   }
 
   // TODO: Figure out how to consider periodicity, etc.
@@ -585,12 +590,13 @@ namespace OpenBabel
       return length * 0.93;
     
     switch (_order) {
-    case 3:
+    case TRIPLE:
       return length * 0.87;
-    case 2:
+    case DOUBLE:
       return length * 0.91;
+    default:
+      return length;
     }
-    return length;
   }
 
   double OBBond::GetLength() const

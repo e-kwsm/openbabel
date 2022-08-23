@@ -55,6 +55,7 @@ namespace OpenBabel
   else     UnsetFlag(X);
 
   enum BondOrder: char {
+    UNSPECIFIED = 0,
     SINGLE = 1,
     DOUBLE = 2,
     TRIPLE = 3,
@@ -117,6 +118,7 @@ namespace OpenBabel
       void SetId(unsigned long id) { _id = id; }
       //! Set the bond order to @p order (i.e., 1 = single, 2 = double, 5 = aromatic)
       void SetBondOrder(int order);
+      void SetBondOrder(BondOrder order);
       //! Set the beginning atom of this bond to @p begin. Does not update @p begin.
       void SetBegin(OBAtom *begin){          _bgn = begin;      }
       //! Set the ending atom of this bond to @p end. Does not update @p end.
@@ -161,7 +163,7 @@ namespace OpenBabel
       unsigned int     GetIdx()           const { return(_idx);  }
       unsigned long GetId()           const { return _id; }
       //! \return The bond order for the bond
-      unsigned int     GetBondOrder()     const { return(_order); }
+      BondOrder        GetBondOrder()     const { return(_order); }
       //! \return The set of property flags defined for this bond.
       unsigned int     GetFlags()         const { return(_flags);      }
       //! \return The atom index for the end atom in this bond (from OBAtom::GetIdx()
