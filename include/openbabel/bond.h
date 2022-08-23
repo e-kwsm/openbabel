@@ -54,6 +54,12 @@ namespace OpenBabel
   if (value) SetFlag(X); \
   else     UnsetFlag(X);
 
+  enum BondOrder: char {
+    SINGLE = 1,
+    DOUBLE = 2,
+    TRIPLE = 3,
+    AROMATIC = 5,
+  };
 
   class OBAPI OBBond: public OBBase
   {
@@ -62,7 +68,7 @@ namespace OpenBabel
       OBMol                      *_parent;//!< The molecule which contains me (if any)
       OBAtom                     *_bgn;   //!< I connect one node
       OBAtom                     *_end;   //!< to another node
-      char                        _order; //!< Bond order (1, 2, 3, 5=aromatic)
+      BondOrder                   _order; //!< Bond order
       unsigned short int          _flags; //!< Any flags for this bond
       unsigned long                 _id;        //!< unique id
       //OBBondPrivate * const d;
