@@ -354,14 +354,14 @@ namespace OpenBabel
 
     double score;
 
-    OBScoreGrid(void)                 {  verbose = false;      }
-    virtual ~OBScoreGrid(void) {}
+    OBScoreGrid()                     {  verbose = false;      }
+    virtual ~OBScoreGrid() {}
 
     void    SetVerbose(bool v)        {      verbose = v;      }
     void    SetType(score_t type)     {      gridtype = type;  }
-    score_t GetType(void)             {    return gridtype;    }
+    score_t GetType()                 {    return gridtype;    }
 
-    virtual void   Clear(void)        { }
+    virtual void   Clear()            { }
     virtual double  Eval(double *)    {       return -1;       }
     virtual double  Eval(OBMol &mol){return Eval(mol.GetCoordinates());}
     virtual void   Init(OBMol &, OBMol &, std::string &, double){}

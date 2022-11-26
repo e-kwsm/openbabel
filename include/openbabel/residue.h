@@ -54,11 +54,11 @@ namespace OpenBabel {
   public:
 
     //! Constructor
-    OBResidue(void);
+    OBResidue();
     //! Copy constructor
     OBResidue(const OBResidue &);
     //! Destructor
-    virtual ~OBResidue(void);
+    virtual ~OBResidue();
 
     OBResidue &operator=(const OBResidue &);
 
@@ -105,27 +105,27 @@ namespace OpenBabel {
     void    SetSerialNum(OBAtom *atom, unsigned int sernum);
 
     //! \return The residue name
-    std::string    GetName(void)                  const;
+    std::string    GetName()                  const;
     //! \return The residue segment name
-    std::string    GetSegName(void)               const;    
+    std::string    GetSegName()               const;    
     //! \return The residue number (in the sequence)
-    int    GetNum(void);
-    std::string     GetNumString(void);
+    int    GetNum();
+    std::string     GetNumString();
     //! \return The number of atoms in this residue
     unsigned int   GetNumAtoms()                  const;
     //! \return The number of heavy atoms in this residue
     unsigned int   GetNumHvyAtoms()               const;
     //! \return The ID of the chain which includes this residue
-    char           GetChain(void)                 const;
+    char           GetChain()                     const;
     //! \return The number of the chain which includes this residue
-    unsigned int   GetChainNum(void)              const;
+    unsigned int   GetChainNum()                  const;
     //! \return The internal index of this residue in the parent OBMol
-    unsigned int   GetIdx(void)                   const;
+    unsigned int   GetIdx()                       const;
     //! \return The residue key (i.e., an entry in the OBResidueIndex namespace)
-    unsigned int   GetResKey(void)                const;
+    unsigned int   GetResKey()                    const;
 
     //! \return a vector of all atoms in this residue
-    std::vector<OBAtom*> GetAtoms(void)           const;
+    std::vector<OBAtom*> GetAtoms()               const;
     //! \return all bonds in this residue. @p exterior includes bonds to atoms
     //!  outside this residue (default is true)
     std::vector<OBBond*> GetBonds(bool exterior= true)const;
@@ -137,7 +137,7 @@ namespace OpenBabel {
     unsigned       GetSerialNum(OBAtom *atom)     const;
     //! \return The Insertion Code (i.e., an extra position motivated by a
     //! multiple sequence alignment against a template with defined numbers)
-    char           GetInsertionCode(void)	  const;
+    char           GetInsertionCode()	          const;
 
     //! \return Whether this residue has the supplied amino acid property
     //!  defined from the OBAminoAcidProperty namespace
