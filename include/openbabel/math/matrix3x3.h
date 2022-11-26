@@ -123,20 +123,20 @@ namespace OpenBabel
       }
 
       //! Calculates the inverse of a matrix.
-      matrix3x3 inverse(void) const
+      matrix3x3 inverse() const
 #ifdef OB_OLD_MATH_CHECKS
   throw(OBError)
 #endif
       ;
 
       //! Calculates the transpose of a matrix.
-      matrix3x3 transpose(void) const;
+      matrix3x3 transpose() const;
 
       //! \return The determinant of the matrix
       double determinant() const;
 
       //! Checks if a matrix is symmetric
-      bool isSymmetric(void) const;
+      bool isSymmetric() const;
 
       //! Checks if a matrix is orthogonal
       /*! This method checks if a matrix is orthogonal, i.e.
@@ -153,16 +153,16 @@ namespace OpenBabel
         \endcode
         is a unit matrix. The criterion is therefore numerically quite
         tight. */
-      bool isOrthogonal(void) const
+      bool isOrthogonal() const
         {
           return (*this * transpose()).isUnitMatrix();
         };
 
       //! \return if a matrix is diagonal
-      bool isDiagonal(void) const;
+      bool isDiagonal() const;
 
       //! \return if a matrix is the unit matrix
-      bool isUnitMatrix(void) const;
+      bool isUnitMatrix() const;
 
       //! Access function
       /*! \warning row or column are not in the range 0..2, zero is returned
