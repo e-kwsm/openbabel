@@ -164,14 +164,14 @@ namespace OpenBabel
     char *LexPtr;
     char *MainPtr;
 
-    Pattern *ParseSMARTSPattern( void );
+    Pattern *ParseSMARTSPattern();
     Pattern *ParseSMARTSPart( Pattern*, int );
     Pattern *SMARTSError( Pattern *pat );
     Pattern *ParseSMARTSError( Pattern *pat, BondExpr *expr );
-    AtomExpr *ParseSimpleAtomPrimitive( void );
-    AtomExpr *ParseComplexAtomPrimitive( void );
+    AtomExpr *ParseSimpleAtomPrimitive();
+    AtomExpr *ParseComplexAtomPrimitive();
     AtomExpr *ParseAtomExpr( int level );
-    BondExpr *ParseBondPrimitive( void );
+    BondExpr *ParseBondPrimitive();
     BondExpr *ParseBondExpr( int level );
     Pattern *ParseSMARTSString( char *ptr );
     Pattern *ParseSMARTSRecord( char *ptr );
