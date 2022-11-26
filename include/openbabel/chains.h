@@ -50,8 +50,8 @@ namespace OpenBabel
   {
     public:
 
-      OBChainsParser(void);
-      ~OBChainsParser(void);
+      OBChainsParser();
+      ~OBChainsParser();
 
       /**
        * Perceive macromolecular (peptide and nucleotide) residues and chains

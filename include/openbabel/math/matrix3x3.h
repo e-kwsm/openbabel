@@ -48,7 +48,7 @@ namespace OpenBabel
 
     public:
       //! Constructs the zero-matrix
-      matrix3x3(void)
+      matrix3x3()
         {
           // Loops are typically unrolled and/or vectorized
           for (unsigned int i = 0; i < 3; ++i)
