@@ -127,7 +127,7 @@ namespace OpenBabel
     unsigned int _nAtoms = mol.NumAtoms();
     unsigned int dim(_nAtoms + 1);
     std::vector<double> CHI(dim);
-    double** ETA = new double*[dim];
+    auto** ETA = new double*[dim];
     for (unsigned int i = 0; i < dim; ++i)
       {
         ETA[i] = new double[dim];

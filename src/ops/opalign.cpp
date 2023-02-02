@@ -90,7 +90,7 @@ OpAlign theSecondOpAlign("align");
 /////////////////////////////////////////////////////////////////
 bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
     
@@ -169,7 +169,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
       if(!ats.empty())
       {
         // Make a vector of the matching atom coordinates...
-        for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter)
+        for (auto iter = ats.begin(); iter != ats.end(); ++iter)
           _refvec.push_back((pmol->GetAtom(*iter))->GetVector());        
         // ...and use a vector reference
         _align.SetRef(_refvec);
@@ -212,7 +212,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     // Make a vector of their coordinates and get the centroid
     vector<vector3> vec;
     vector3 centroid;
-    for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter) {
+    for (auto iter = ats.begin(); iter != ats.end(); ++iter) {
       vector3 v = pmol->GetAtom(*iter)->GetVector();
       centroid += v;
       vec.push_back(v);
@@ -226,7 +226,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
 
     // Get the centroid of the reference atoms
     vector3 ref_centroid;
-    for(vector<vector3>::iterator iter=_refvec.begin(); iter!=_refvec.end(); ++iter)
+    for (auto iter = _refvec.begin(); iter != _refvec.end(); ++iter)
       ref_centroid += *iter;
     ref_centroid /= _refvec.size();
 
@@ -250,7 +250,7 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   }
 
   //Save rmsd as a property
-  OBPairData* dp = new OBPairData;
+  auto* dp = new OBPairData;
   dp->SetAttribute("rmsd");
   double val = _align.GetRMSD();
   if(val<1e-12)
