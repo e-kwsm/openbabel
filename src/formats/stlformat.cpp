@@ -218,7 +218,7 @@ namespace OpenBabel
     tok2 = triangles.size();
     os.write( (const char*) &tok2, sizeof(uint32_t) );
 
-    for(vector<Triangle>::iterator i = triangles.begin(); i != triangles.end(); ++i) { // go through all triangles
+    for (auto i = triangles.begin(); i != triangles.end(); ++i) { // go through all triangles
       float nx,ny,nz;
       //		nx= (i->a.x + i->b.x + i->c.x) / 3.;
       //		ny= (i->a.y + i->b.y + i->c.y) / 3.;
@@ -271,7 +271,7 @@ namespace OpenBabel
 
   bool STLFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
   {
-    OBMol* pmol = dynamic_cast< OBMol* >(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) return false;
 
     ostream& os = *pConv->GetOutStream();

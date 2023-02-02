@@ -83,7 +83,7 @@ namespace OpenBabel
 
   bool TinkerFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
         return false;
 
@@ -158,7 +158,7 @@ namespace OpenBabel
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
 
         // set atom class number
-        OBPairInteger *pac = new OBPairInteger();
+        auto *pac = new OBPairInteger();
         pac->SetAttribute("Atom Class");
         pac->SetValue(stoi(vs[5]));
         pac->SetOrigin(fileformatInput);
@@ -190,7 +190,7 @@ namespace OpenBabel
 
   bool TinkerFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -237,7 +237,7 @@ namespace OpenBabel
       }
       if (mmffTypes) {
         // Override the MM2 typing
-        OBPairData *type = (OpenBabel::OBPairData*)atom->GetData("FFAtomType");
+        auto *type = (OpenBabel::OBPairData*)atom->GetData("FFAtomType");
         if (type) {
           str1 = type->GetValue();
           atomType = stoi(str1);
@@ -251,7 +251,7 @@ namespace OpenBabel
         // Atom classes are set by the user, so use those
         OBGenericData *data = atom->GetData("Atom Class");
         if (data) {
-          OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
+          auto* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
           if (acdata) {
             int ac = acdata->GetGenericValue();
             if (ac >= 0)
