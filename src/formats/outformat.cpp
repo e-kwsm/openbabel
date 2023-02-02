@@ -190,7 +190,7 @@ namespace OpenBabel
       // Tag the molecule with the format (e.g., if a program wants to know the kind of "out" or "log" file)
       // We have to do this *after* ReadMolecule returns, or the data might be cleared
       if (pOb) {
-        OBPairData *dp = new OBPairData;
+        auto *dp = new OBPairData;
         dp->SetAttribute("File Format");
         dp->SetValue(formatName);
         dp->SetOrigin(fileformatInput);
