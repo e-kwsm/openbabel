@@ -101,7 +101,7 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     _realOutFormat = pConv->GetOutFormat();
 
     // If there is an output file specified, delete the file,close and invalidate the outstream so OBConversion is not confused.
-    std::ofstream* oldfs = dynamic_cast<std::ofstream*>(pConv->GetOutStream());
+    auto* oldfs = dynamic_cast<std::ofstream*>(pConv->GetOutStream());
     if(oldfs && oldfs->is_open())
     {
       oldfs->close();

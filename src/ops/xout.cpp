@@ -43,7 +43,7 @@ public:
     {
       //Need to copy pOb. But currently OBBase does not have a virtual Clone() function.
       //So do it just for OBMol.
-      OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+      auto* pmol = dynamic_cast<OBMol*>(pOb);
       if(pmol)
       {
         pMolCopy = new OBMol(*pmol);
@@ -148,7 +148,7 @@ bool OpExtraOut::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
   {
     std::string sOptionText(OptionText);
     Trim(sOptionText);
-    OBConversion* pExtraConv = new OBConversion(*pConv); //copy ensures OBConversion::Index>-1
+    auto* pExtraConv = new OBConversion(*pConv); //copy ensures OBConversion::Index>-1
     std::ofstream* ofs;
     if( (ofs = new std::ofstream(OptionText)) ) // extra parens to indicate truth value
       pExtraConv->SetOutStream(ofs);
@@ -157,7 +157,7 @@ bool OpExtraOut::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
       obErrorLog.ThrowError(__FUNCTION__, "Error setting up extra output file", obError);
       return true;
     }
-    OBConversion* pOrigConv = new OBConversion(*pConv);
+    auto* pOrigConv = new OBConversion(*pConv);
     pOrigConv->SetInStream(nullptr); //not used; avoids complications in AddChemObject()
     pExtraConv->SetInStream(nullptr);
 

@@ -43,7 +43,7 @@ bool AddDataToSubstruct(OBMol* pmol,
     OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
     if(!pAtom)
       continue;
-    OBPairData* dp = new OBPairData;
+    auto* dp = new OBPairData;
     dp->SetAttribute(attribute);
     dp->SetValue(value);
     pAtom->SetData(dp);
@@ -57,7 +57,7 @@ bool AddDataToSubstruct(OBMol* pmol,
     if(count(atomIdxs.begin(), atomIdxs.end(), pBond->GetBeginAtomIdx())
         && count(atomIdxs.begin(), atomIdxs.end(), pBond->GetEndAtomIdx()))
     {
-      OBPairData* dp = new OBPairData;
+      auto* dp = new OBPairData;
       dp->SetAttribute(attribute);
       dp->SetValue(value);
       pBond->SetData(dp);
@@ -164,7 +164,7 @@ OpNewS theOpNewV("v");
 //////////////////////////////////////////////////////////////////
 bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
 
@@ -193,7 +193,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
     //Do not filter out any molecules if there is a parameter "showall";
     //allows -s option to be used for highlighting substructures (--highlight also does this)
-    vector<string>::iterator it = std::remove(vec.begin(), vec.end(),"showall");
+    auto it = std::remove(vec.begin(), vec.end(), "showall");
     showAll = it != vec.end();
     if(showAll)
       vec.erase(it);
