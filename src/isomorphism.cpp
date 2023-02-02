@@ -412,7 +412,7 @@ namespace OpenBabel {
               bool isUnique = true;
               for (unsigned int k = 0; k < m_maps.size(); ++k) {
                 std::vector<unsigned int> kValues;
-                for (OBIsomorphismMapper::Mapping::iterator it = m_maps[k].begin(); it != m_maps[k].end(); ++it)
+                for (auto it = m_maps[k].begin(); it != m_maps[k].end(); ++it)
                   kValues.push_back(it->second);
                 std::sort(kValues.begin(), kValues.end());
 
@@ -437,7 +437,7 @@ namespace OpenBabel {
         if (DEBUG)
           for (unsigned int i =0; i < maps.size(); ++i) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
+            for (auto it = maps[i].begin(); it != maps[i].end(); ++it)
               cout << "    " << it->first << " -> " << it->second << endl;
           }
       }
@@ -459,7 +459,7 @@ namespace OpenBabel {
         if (DEBUG)
           for (unsigned int i =0; i < maps.size(); ++i) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
+            for (auto it = maps[i].begin(); it != maps[i].end(); ++it)
               cout << "    " << it->first << " -> " << it->second << endl;
           }
 
@@ -547,7 +547,7 @@ namespace OpenBabel {
 
   OBQuery* CompileAutomorphismQuery(OBMol *mol, const OBBitVec &mask, const std::vector<unsigned int> &symClasses)
   {
-    OBQuery *query = new OBQuery;
+    auto *query = new OBQuery;
     unsigned int offset = 0;
     std::vector<unsigned int> indexes;
     FOR_ATOMS_OF_MOL (obatom, mol) {
@@ -619,7 +619,7 @@ namespace OpenBabel {
         bool operator()(Automorphism &map) override
         {
           // convert the continuous mapping map to a mapping with gaps (considering key values)
-          for (Automorphism::iterator it = map.begin(); it != map.end(); ++it)
+          for (auto it = map.begin(); it != map.end(); ++it)
             it->first = m_indexes[it->first];
           return m_functor(map);
         }
