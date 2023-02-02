@@ -69,7 +69,7 @@ namespace OpenBabel
   bool BGFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -97,7 +97,7 @@ namespace OpenBabel
         Alpha = atof(vs[4].c_str());
         Beta  = atof(vs[5].c_str());
         Gamma = atof(vs[6].c_str());
-        OBUnitCell *uc = new OBUnitCell;
+        auto *uc = new OBUnitCell;
         uc->SetOrigin(fileformatInput);
         uc->SetData(A, B, C, Alpha, Beta, Gamma);
         mol.SetData(uc);
@@ -194,7 +194,7 @@ namespace OpenBabel
 
   bool BGFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -217,7 +217,7 @@ namespace OpenBabel
     // write unit cell if available
     if (mol.HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         // e.g. CRYSTX    49.30287   49.23010   25.45631   90.00008   89.99995   57.10041
         snprintf(buffer, BUFF_SIZE,
                  "CRYSTX%12.5f%12.5f%12.5f%12.5f%12.5f%12.5f",

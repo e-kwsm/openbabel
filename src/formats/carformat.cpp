@@ -69,7 +69,7 @@ namespace OpenBabel
   bool CARFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -125,7 +125,7 @@ namespace OpenBabel
                     Alpha = atof((char*)vs[4].c_str());
                     Beta  = atof((char*)vs[5].c_str());
                     Gamma = atof((char*)vs[6].c_str());
-                    OBUnitCell *uc = new OBUnitCell;
+                    auto *uc = new OBUnitCell;
                     uc->SetOrigin(fileformatInput);
                     uc->SetData(A, B, C, Alpha, Beta, Gamma);
                     if(vs.size() > 7) 
