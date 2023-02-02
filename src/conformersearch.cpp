@@ -759,8 +759,8 @@ namespace OpenBabel {
   {
     int dist = 0;
     //    assert(key1.size() > 1 && key1.size()== key2.size());
-    auto it1 = key1.begin();
-    auto it2 = key2.begin();
+    auto it1 = key1.cbegin();
+    auto it2 = key2.cbegin();
     // Skip first values, since  meaningfull valaues are starting at index 1 (Fortran translation inside ;-))
     for (++it1, ++it2; it1 != key1.end ();++it1, ++it2)
       if (*it1 != *it2)
