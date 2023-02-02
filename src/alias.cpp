@@ -90,7 +90,7 @@ namespace OpenBabel
       else
         n = atoi(_alias.c_str()+1);
 
-      OBPairInteger *atomclass = new OBPairInteger();
+      auto *atomclass = new OBPairInteger();
       atomclass->SetAttribute("Atom Class");
       atomclass->SetValue(n);
       mol.GetAtom(atomindex)->SetData(atomclass);
@@ -123,7 +123,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
     return false;
   }
 */
-  SuperAtomTable::iterator pos = table().find(_alias);
+  auto pos = table().find(_alias);
   if(pos==table().end())
     return false;
 
@@ -349,7 +349,7 @@ bool AliasData::AddAliases(OBMol* pmol)
       vector<std::vector<int> > mlist = (*iter).second->GetUMapList();
       for(unsigned imatch=0;imatch<mlist.size();++imatch) //each match
       {
-        AliasData* ad  = new AliasData;
+        auto* ad = new AliasData;
         ad->SetAlias((*iter).first);
         //iatom==0 is the * that was added to the front of the SMILES, so start at 1
         for(unsigned iatom=1; iatom<mlist[imatch].size();++iatom)//each atom in match
@@ -405,7 +405,7 @@ bool OpGenAlias::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
   MARK_UNUSED(OptionText);
   MARK_UNUSED(pmap);
 
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
   return AliasData::AddAliases(pmol);
