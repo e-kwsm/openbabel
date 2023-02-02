@@ -80,7 +80,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool POSFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -206,7 +206,7 @@ namespace OpenBabel
     }
 
     if (setCellVectors) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
       uc->SetData(v1, v2, v3);
       uc->SetOrigin(fileformatInput);
       mol.SetData(uc);
