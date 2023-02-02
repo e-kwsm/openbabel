@@ -159,7 +159,7 @@ namespace OpenBabel
         case Smiley::Clockwise:
           switch (chiralNbrs.size()) {
             case 4:
-              OBTetrahedralStereo *stereo = new OBTetrahedralStereo(mol);
+              auto *stereo = new OBTetrahedralStereo(mol);
               stereo->SetConfig(OBTetrahedralStereo::Config(center, from, refs));
               mol->SetData(stereo);
               break;
@@ -168,7 +168,7 @@ namespace OpenBabel
         case Smiley::AntiClockwise:
           switch (chiralNbrs.size()) {
             case 4:
-              OBTetrahedralStereo *stereo = new OBTetrahedralStereo(mol);
+              auto *stereo = new OBTetrahedralStereo(mol);
               stereo->SetConfig(OBTetrahedralStereo::Config(center, from, refs, OBStereo::AntiClockwise));
               mol->SetData(stereo);
               break;
@@ -334,7 +334,7 @@ namespace OpenBabel
 
   bool SmileyFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (!pmol)
       return false;
 
@@ -496,7 +496,7 @@ namespace OpenBabel
 
       //std::cout << "refs: " << aboveSource << " " << aboveTarget << " " << belowTarget << " " << belowSource << std::endl;
 
-      OBCisTransStereo *stereo = new OBCisTransStereo(mol);
+      auto *stereo = new OBCisTransStereo(mol);
       stereo->SetConfig(OBCisTransStereo::Config(source->GetId(), target->GetId(),
             OBStereo::MakeRefs(aboveSource, belowSource, belowTarget, aboveTarget),
             OBStereo::ShapeU));
