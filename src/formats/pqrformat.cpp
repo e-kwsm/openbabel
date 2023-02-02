@@ -95,7 +95,7 @@ namespace OpenBabel
   bool PQRFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -169,7 +169,7 @@ namespace OpenBabel
       if (!a->HasData("Radius")) {
         std::ostringstream s;
         s << radii[ a->GetIdx()-1 ];
-        OBPairData *p = new OBPairData;
+        auto *p = new OBPairData;
         p->SetAttribute("Radius");
         p->SetValue( s.str() );
         a->SetData(p);
@@ -433,7 +433,7 @@ namespace OpenBabel
 
   bool PQRFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
