@@ -745,7 +745,7 @@ namespace OpenBabel
 
   bool IsIn(const vector<int>& vec, const int num) //checks whether a vector of int contains a specific int
   {
-    for (auto itv = vec.begin(); itv != vec.end(); ++itv)
+    for (auto itv = vec.cbegin(); itv != vec.cend(); ++itv)
     {
       if ((*itv) == num ) {return true;}
     }
