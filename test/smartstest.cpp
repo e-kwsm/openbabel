@@ -90,7 +90,7 @@ int smartstest(int argc, char* argv[])
       if (buffer[0] == '#') // skip comment line
         continue;
 
-      OBSmartsPattern *sp = new OBSmartsPattern;
+      auto *sp = new OBSmartsPattern;
 
       if (sp->Init(buffer))
         vsp.push_back(sp);
@@ -230,7 +230,7 @@ void GenerateSmartsReference()
       if (buffer[0] == '#') // skip comment line
         continue;
 
-      OBSmartsPattern *sp = new OBSmartsPattern;
+      auto *sp = new OBSmartsPattern;
 
       if (sp->Init(buffer))
         vsp.push_back(sp);
