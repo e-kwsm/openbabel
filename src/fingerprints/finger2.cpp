@@ -102,7 +102,7 @@ algorithm, but re-written using STL which makes it shorter.
 
 bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbits)
 {
-	OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+	auto* pmol = dynamic_cast<OBMol*>(pOb);
 	if(!pmol) return false;
 	fp.resize(1024/Getbitsperint());
 	fragset.clear();//needed because now only one instance of fp class
@@ -210,7 +210,7 @@ void fingerprint2::DoReverses()
 	for(itr=fragset.begin();itr!=fragset.end();)
 	{
 		//Reverse the order of the atoms, add the smallest fragment and remove the larger
-		SetItr titr = itr++; //Ensure have valid next iterator in case current one is erased
+		auto titr = itr++; //Ensure have valid next iterator in case current one is erased
 		vector<int> t1(*titr); //temporary copy
 		reverse(t1.begin()+1, t1.end()); //(leave 0 at front alone)
 		if(t1!=*titr)
