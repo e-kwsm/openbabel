@@ -334,8 +334,7 @@ namespace OpenBabel
         if(mvItem.find("_cell_length_a"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_b"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_c"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-            loop!=mvLoop.end();++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) empty_iucrjournal_block=false;
             if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) empty_iucrjournal_block=false;
@@ -632,8 +631,7 @@ namespace OpenBabel
           found = true;
         }
       else {
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-            loop!=mvLoop.end();++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             map<ci_string,vector<string> >::const_iterator pos;
             unsigned i, nb;
@@ -743,8 +741,7 @@ namespace OpenBabel
   void CIFData::ExtractAtomicPositions()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-        loop!=mvLoop.end();++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
       {
         if(mvAtom.size()>0) break;// only extract ONE list of atoms, preferably fractional coordinates
         map<ci_string,vector<string> >::const_iterator posx,posy,posz,poslabel,possymbol,posoccup;
@@ -846,7 +843,7 @@ namespace OpenBabel
   void CIFData::ExtractBonds()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin(); loop!=mvLoop.end();++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
       {
         //if(mvBond.size()>0) break;// Only allow one bond list
         map<ci_string,vector<string> >::const_iterator poslabel1,poslabel2,posdist;
@@ -876,7 +873,7 @@ namespace OpenBabel
     map<ci_string,string>::const_iterator positem;
 
     map<std::string, double> lbl2ox;
-    for(map<set<ci_string>, map<ci_string, vector<string> > >::const_iterator loop=mvLoop.begin(); loop!=mvLoop.end(); ++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
     {
       //if(mvBond.size()>0) break;// Only allow one bond list
       map<ci_string,vector<string> >::const_iterator pos_symbol, pos_ox_number, posdist;
@@ -1442,7 +1439,7 @@ namespace OpenBabel
 
           const unsigned int nbatoms=pos->second.mvAtom.size();
           pmol->ReserveAtoms(nbatoms);
-          for(vector<CIFData::CIFAtom>::const_iterator posat=pos->second.mvAtom.begin();posat!=pos->second.mvAtom.end();++posat)
+          for (auto posat = pos->second.mvAtom.cbegin(); posat != pos->second.mvAtom.cend(); ++posat)
             {
               // Problem: posat->mSymbol is not guaranteed to actually be a symbol
               // see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
@@ -1521,7 +1518,7 @@ namespace OpenBabel
             pmol->ConnectTheDots();
           if (pConv->IsOption("B",OBConversion::INOPTIONS))
             {
-              for(vector<CIFData::CIFBond>::const_iterator posbond=pos->second.mvBond.begin();posbond!=pos->second.mvBond.end();++posbond)
+              for (auto posbond = pos->second.mvBond.cbegin(); posbond!=pos->second.mvBond.cend(); ++posbond)
                 {// Add bonds present in the cif and not detected by ConnectTheDots()
                   std::map<std::string,OBAtom *>::iterator posat1,posat2;
                   posat1=vLabelOBatom.find(posbond->mLabel1);
