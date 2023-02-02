@@ -326,7 +326,7 @@ namespace OpenBabel
         v4 = d->GetVector();
         // Then redefine the positions based on proximity to the previous atom
         // to build a continuous chain of expanded Cartesian coordinates
-        OBUnitCell *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
+        auto *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
         v2 = unitCell->UnwrapCartesianNear(v2, v1);
         v3 = unitCell->UnwrapCartesianNear(v3, v2);
         v4 = unitCell->UnwrapCartesianNear(v4, v3);
@@ -393,7 +393,7 @@ namespace OpenBabel
       return;
 
     //get new data and attach it to molecule
-    OBAngleData *angles = new OBAngleData;
+    auto *angles = new OBAngleData;
     angles->SetOrigin(perceived);
     SetData(angles);
 
@@ -436,7 +436,7 @@ namespace OpenBabel
       return;
 
     //get new data and attach it to molecule
-    OBTorsionData *torsions = new OBTorsionData;
+    auto *torsions = new OBTorsionData;
     torsions->SetOrigin(perceived);
     SetData(torsions);
 
@@ -1103,7 +1103,7 @@ namespace OpenBabel
   string OBMol::GetFormula()
   {
     string attr = "Formula";
-    OBPairData *dp = (OBPairData *) GetData(attr);
+    auto *dp = (OBPairData *) GetData(attr);
 
     if (dp != nullptr) // we already set the formula (or it was read from a file)
       return dp->GetValue();
@@ -1125,7 +1125,7 @@ namespace OpenBabel
   void OBMol::SetFormula(string molFormula)
   {
     string attr = "Formula";
-    OBPairData *dp = (OBPairData *) GetData(attr);
+    auto *dp = (OBPairData *) GetData(attr);
     if (dp == nullptr)
       {
         dp = new OBPairData;
@@ -1176,7 +1176,7 @@ namespace OpenBabel
 
   void OBMol::SetInternalCoord(std::vector<OBInternalCoord*> int_coord) {
     if (int_coord[0] != nullptr) {
-      std::vector<OBInternalCoord*>::iterator it = int_coord.begin();
+      auto it = int_coord.begin();
       int_coord.insert(it, nullptr);
     }
 
@@ -1236,7 +1236,7 @@ namespace OpenBabel
     if (this == &source)
       return *this;
 
-    OBMol &src = (OBMol &)source;
+    auto &src = (OBMol &)source;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
     OBAtom *atom;
@@ -1348,7 +1348,7 @@ namespace OpenBabel
 
   OBMol &OBMol::operator+=(const OBMol &source)
   {
-    OBMol &src = (OBMol &)source;
+    auto &src = (OBMol &)source;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
     vector<OBResidue*>::iterator k;
@@ -1396,26 +1396,26 @@ namespace OpenBabel
 
     // Copy the stereo
     std::vector<OBGenericData*> vdata = src.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
       if (datatype == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
-        OBCisTransStereo *nct = new OBCisTransStereo(this);
+        auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        auto *nct = new OBCisTransStereo(this);
         OBCisTransStereo::Config ct_cfg = ct->GetConfig();
         ct_cfg.begin = correspondingId[ct_cfg.begin];
         ct_cfg.end = correspondingId[ct_cfg.end];
-        for(OBStereo::RefIter ri = ct_cfg.refs.begin(); ri != ct_cfg.refs.end(); ++ri)
+        for(auto ri = ct_cfg.refs.begin(); ri != ct_cfg.refs.end(); ++ri)
           *ri = correspondingId[*ri];
         nct->SetConfig(ct_cfg);
         SetData(nct);
       }
       else if (datatype == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
-        OBTetrahedralStereo *nts = new OBTetrahedralStereo(this);
+        auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *nts = new OBTetrahedralStereo(this);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         ts_cfg.center = correspondingId[ts_cfg.center];
         ts_cfg.from = correspondingId[ts_cfg.from];
-        for(OBStereo::RefIter ri = ts_cfg.refs.begin(); ri != ts_cfg.refs.end(); ++ri)
+        for (auto ri = ts_cfg.refs.begin(); ri != ts_cfg.refs.end(); ++ri)
           *ri = correspondingId[*ri];
         nts->SetConfig(ts_cfg);
         SetData(nts);
@@ -1536,7 +1536,7 @@ namespace OpenBabel
       return;
 
     //if atoms present convert coords into array
-    double *c = new double [NumAtoms()*3];
+    auto *c = new double [NumAtoms()*3];
     _c = c;
 
     unsigned int idx;
@@ -1607,7 +1607,7 @@ namespace OpenBabel
     if (_atomIds.at(id))
       return nullptr;
 
-    OBAtom *obatom = new OBAtom;
+    auto *obatom = new OBAtom;
     obatom->SetIdx(_natoms+1);
     obatom->SetParent(this);
 
@@ -1660,7 +1660,7 @@ namespace OpenBabel
 
   OBResidue *OBMol::NewResidue()
   {
-    OBResidue *obresidue = new OBResidue;
+    auto *obresidue = new OBResidue;
     obresidue->SetIdx(_residue.size());
     _residue.push_back(obresidue);
     return(obresidue);
@@ -1688,7 +1688,7 @@ namespace OpenBabel
     if (_bondIds.at(id))
       return nullptr;
 
-    OBBond *pBond = new OBBond;
+    auto *pBond = new OBBond;
     pBond->SetParent(this);
     pBond->SetIdx(_nbonds);
 
@@ -1728,7 +1728,7 @@ namespace OpenBabel
         id = _atomIds.size();
     }
 
-    OBAtom *obatom = new OBAtom;
+    auto *obatom = new OBAtom;
     *obatom = atom;
     obatom->SetIdx(_natoms+1);
     obatom->SetParent(this);
@@ -1800,7 +1800,7 @@ namespace OpenBabel
   {
     BeginModify();
 
-    OBResidue *obresidue = new OBResidue;
+    auto *obresidue = new OBResidue;
     *obresidue = residue;
 
     obresidue->SetIdx(_residue.size());
@@ -2398,7 +2398,7 @@ namespace OpenBabel
   static void DeleteStereoOnAtom(OBMol& mol, OBStereo::Ref atomId)
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
@@ -2408,14 +2408,14 @@ namespace OpenBabel
       }
 
       if (datatype == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo::Config ct_cfg = ct->GetConfig();
         if (ct_cfg.begin == atomId || ct_cfg.end == atomId ||
             std::find(ct_cfg.refs.begin(), ct_cfg.refs.end(), atomId) != ct_cfg.refs.end())
           mol.DeleteData(ct);
       }
       else if (datatype == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.from == atomId ||
             std::find(ts_cfg.refs.begin(), ts_cfg.refs.end(), atomId) != ts_cfg.refs.end())
@@ -2521,7 +2521,7 @@ namespace OpenBabel
     if ((unsigned)first <= NumAtoms() && (unsigned)second <= NumAtoms())
       //atoms exist and bond doesn't
       {
-        OBBond *bond = new OBBond;
+        auto *bond = new OBBond;
         if (!bond)
           {
             //EndModify();
@@ -2905,7 +2905,7 @@ namespace OpenBabel
 
     int j,k;
     double *c;
-    double *ctmp = new double [NumAtoms()*3];
+    auto *ctmp = new double [NumAtoms()*3];
 
     for (j = 0;j < NumConformers();++j)
       {
@@ -2985,7 +2985,7 @@ namespace OpenBabel
     vector<int> zsorted;
     vector<int> bondCount; // existing bonds (e.g., from residues in PDB)
 
-    double *c = new double [NumAtoms()*3];
+    auto *c = new double [NumAtoms()*3];
     rad.resize(_natoms);
 
     for (j = 0, atom = BeginAtom(i) ; atom ; atom = NextAtom(i), ++j)
@@ -3033,7 +3033,7 @@ namespace OpenBabel
               {
                 atom1 = vector3(c[idx1*3], c[idx1*3+1], c[idx1*3+2]);
                 atom2 = vector3(c[idx2*3], c[idx2*3+1], c[idx2*3+2]);
-                OBUnitCell *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
+                auto *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
                 wrapped_coords = unitCell->MinimumImageCartesian(atom1 - atom2);
                 d2 = wrapped_coords.length_2();
               }
@@ -3671,7 +3671,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    auto *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
     cd->SetEnergies(energies);
   }
 
@@ -3679,7 +3679,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    auto *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
     vector<double> energies = cd->GetEnergies();
 
     return energies;
@@ -3689,7 +3689,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    auto *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
     vector<double> energies = cd->GetEnergies();
 
     if (((unsigned int)ci >= energies.size()) || (ci < 0))
@@ -3870,7 +3870,7 @@ namespace OpenBabel
     vector<vector<int> > cfl;
     ContigFragList(cfl);
     // Iterate over contiguous fragments
-    for (vector< vector<int> >::iterator i = cfl.begin(); i != cfl.end(); ++i) {
+    for (auto i = cfl.begin(); i != cfl.end(); ++i) {
       // Get all zero-order bonds in contiguous fragment
       vector<OBBond*> bonds;
       for(vector<int>::const_iterator j = i->begin(); j != i->end(); ++j) {
@@ -4118,7 +4118,7 @@ namespace OpenBabel
 
     // If the parent is set to periodic, then also apply boundary conditions to the fragments
     if (IsPeriodic()) {
-      OBUnitCell* parent_uc = (OBUnitCell*)GetData(OBGenericDataType::UnitCell);
+      auto* parent_uc = (OBUnitCell*)GetData(OBGenericDataType::UnitCell);
       newmol.SetData(parent_uc->Clone(nullptr));
       newmol.SetPeriodicMol();
     }
@@ -4148,7 +4148,7 @@ namespace OpenBabel
         OBAtom* atom = this->GetAtom(bit);
         OBResidue* res = atom->GetResidue();
         if (!res) continue;
-        map<OBResidue*, OBResidue*>::iterator mit = ResidueMap.find(res);
+        auto mit = ResidueMap.find(res);
         OBResidue *newres;
         if (mit == ResidueMap.end()) {
           newres = newmol.NewResidue();
@@ -4170,7 +4170,7 @@ namespace OpenBabel
     std::vector<OBGenericData*> stereoData = GetAllData(OBGenericDataType::StereoData);
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
       if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
 
         // Check that the entirety of this cistrans cfg occurs in this substructure
         OBCisTransStereo::Config cfg = ct->GetConfig();
@@ -4199,7 +4199,7 @@ namespace OpenBabel
           if (skip_cfg)
             continue;
         }
-        for (OBStereo::RefIter ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
+        for (auto ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
           if (*ri != OBStereo::ImplicitRef && AtomMap.find(GetAtomById(*ri)) == AtomMap.end()) {
             skip_cfg = true;
             break;
@@ -4213,23 +4213,23 @@ namespace OpenBabel
         newcfg.begin = cfg.begin == OBStereo::ImplicitRef ? OBStereo::ImplicitRef : AtomMap[GetAtomById(cfg.begin)]->GetId();
         newcfg.end = cfg.end == OBStereo::ImplicitRef ? OBStereo::ImplicitRef : AtomMap[GetAtomById(cfg.end)]->GetId();
         OBStereo::Refs refs;
-        for (OBStereo::RefIter ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
+        for (auto ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
           OBStereo::Ref ref = *ri == OBStereo::ImplicitRef ? OBStereo::ImplicitRef : AtomMap[GetAtomById(*ri)]->GetId();
           refs.push_back(ref);
         }
         newcfg.refs = refs;
 
-        OBCisTransStereo *newct = new OBCisTransStereo(this);
+        auto *newct = new OBCisTransStereo(this);
         newct->SetConfig(newcfg);
         newmol.SetData(newct);
       }
       else if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *tet = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *tet = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config cfg = tet->GetConfig();
 
         // Check that the entirety of this tet cfg occurs in this substructure
         OBAtom *center = GetAtomById(cfg.center);
-        std::map<OBAtom*, OBAtom*>::iterator centerit = AtomMap.find(center);
+        auto centerit = AtomMap.find(center);
         if (centerit == AtomMap.end())
           continue;
         if (cfg.from != OBStereo::ImplicitRef && AtomMap.find(GetAtomById(cfg.from)) == AtomMap.end())
@@ -4245,7 +4245,7 @@ namespace OpenBabel
           if (skip_cfg)
             continue;
         }
-        for (OBStereo::RefIter ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
+        for (auto ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
           if (*ri != OBStereo::ImplicitRef && AtomMap.find(GetAtomById(*ri)) == AtomMap.end()) {
             skip_cfg = true;
             break;
@@ -4259,13 +4259,13 @@ namespace OpenBabel
         newcfg.center = centerit->second->GetId();
         newcfg.from = cfg.from == OBStereo::ImplicitRef ? OBStereo::ImplicitRef : AtomMap[GetAtomById(cfg.from)]->GetId();
         OBStereo::Refs refs;
-        for (OBStereo::RefIter ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
+        for (auto ri = cfg.refs.begin(); ri != cfg.refs.end(); ++ri) {
           OBStereo::Ref ref = *ri == OBStereo::ImplicitRef ? OBStereo::ImplicitRef : AtomMap[GetAtomById(*ri)]->GetId();
           refs.push_back(ref);
         }
         newcfg.refs = refs;
 
-        OBTetrahedralStereo *newtet = new OBTetrahedralStereo(this);
+        auto *newtet = new OBTetrahedralStereo(this);
         newtet->SetConfig(newcfg);
         newmol.SetData(newtet);
       }
@@ -4277,8 +4277,8 @@ namespace OpenBabel
     // 3. As 1. but asterisks are added to replace them
     FOR_BONDS_OF_MOL(bond, this) {
       bool skipping_bond = bonds_specified && excludebonds->BitIsSet(bond->GetIdx());
-      map<OBAtom*, OBAtom*>::iterator posB = AtomMap.find(bond->GetBeginAtom());
-      map<OBAtom*, OBAtom*>::iterator posE = AtomMap.find(bond->GetEndAtom());
+      auto posB = AtomMap.find(bond->GetBeginAtom());
+      auto posE = AtomMap.find(bond->GetEndAtom());
       if (posB == AtomMap.end() && posE == AtomMap.end())
         continue;
 

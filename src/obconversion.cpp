@@ -351,7 +351,7 @@ namespace OpenBabel {
   #ifdef HAVE_LIBZ
           if(IsOption("zin", GENOPTIONS) || inFormatGzip)
           {
-            zlib_stream::zip_istream *zIn = new zlib_stream::zip_istream(*pInput);
+            auto *zIn = new zlib_stream::zip_istream(*pInput);
             ownedInStreams.push_back(zIn);
             pInput = zIn;
           }
@@ -360,7 +360,7 @@ namespace OpenBabel {
           if(pInFormat && !(pInFormat->Flags() & (READBINARY | READXML)) &&
               pIn != &std::cin) //avoid filtering stdin as well
           {
-            LEInStream *leIn = new LEInStream(*pInput);
+            auto *leIn = new LEInStream(*pInput);
             ownedInStreams.push_back(leIn);
             pInput = leIn;
           }
@@ -392,7 +392,7 @@ namespace OpenBabel {
 
       if (IsOption("z", GENOPTIONS) || outFormatGzip)
       {
-        zlib_stream::zip_ostream *zOut = new zlib_stream::zip_ostream(*pOutput, true);
+        auto *zOut = new zlib_stream::zip_ostream(*pOutput, true);
         //we need to delete the zstream _before_ the underlying stream so it can add the footer
         ownedOutStreams.insert(ownedOutStreams.begin(),zOut);
         pOutput = zOut;
@@ -877,7 +877,7 @@ namespace OpenBabel {
 
     // If we failed to read, plus the stream is over, then check if this is a stream from ReadFile
     if (!success && !pInput->good() && ownedInStreams.size() > 0) {
-      ifstream *inFstream = dynamic_cast<ifstream*>(ownedInStreams[0]);
+      auto *inFstream = dynamic_cast<ifstream*>(ownedInStreams[0]);
       if (inFstream != nullptr)
         inFstream->close(); // We will free the stream later, but close the file now
     }
@@ -943,7 +943,7 @@ namespace OpenBabel {
 
     for(unsigned i = 0, n = conv.ownedInStreams.size(); i < n; i++)
     {
-      std::istream *s = dynamic_cast<std::istream*>(conv.ownedInStreams[i]);
+      auto *s = dynamic_cast<std::istream*>(conv.ownedInStreams[i]);
       assert(s);
       conv.ownedInStreams.push_back(s);
     }
@@ -974,7 +974,7 @@ namespace OpenBabel {
 
     for(unsigned i = 0, n = conv.ownedOutStreams.size(); i < n; i++)
     {
-      std::ostream *s = dynamic_cast<std::ostream*>(conv.ownedOutStreams[i]);
+      auto *s = dynamic_cast<std::ostream*>(conv.ownedOutStreams[i]);
       assert(s);
       conv.ownedOutStreams.push_back(s);
     }
@@ -1044,7 +1044,7 @@ namespace OpenBabel {
     }
 
     ios_base::openmode omode = ios_base::out|ios_base::binary;
-    ofstream *ofs = new ofstream(filePath.c_str(),omode);
+    auto *ofs = new ofstream(filePath.c_str(),omode);
     if(!ofs || !ofs->good())
       {
         delete ofs;
@@ -1089,7 +1089,7 @@ namespace OpenBabel {
     // save the filename
     InFilename = filePath;
     ios_base::openmode imode = ios_base::in|ios_base::binary; //now always binary because may be gzipped
-    ifstream *ifs = new ifstream(filePath.c_str(),imode);
+    auto *ifs = new ifstream(filePath.c_str(),imode);
     if(!ifs || !ifs->good())
     {
         delete ifs;
@@ -1117,7 +1117,7 @@ namespace OpenBabel {
       //attempt to auto-detect file format from extension
       pInFormat = FormatFromExt(infilepath.c_str(), inFormatGzip);
     }
-    ifstream *ifs = new ifstream(infilepath.c_str(),ios_base::in|ios_base::binary);  //always open in binary mode
+    auto *ifs = new ifstream(infilepath.c_str(),ios_base::in|ios_base::binary);  //always open in binary mode
     if(!ifs || !ifs->good())
     {
       delete ifs;
@@ -1135,7 +1135,7 @@ namespace OpenBabel {
       //attempt to autodetect format
       pOutFormat = FormatFromExt(outfilepath.c_str(), outFormatGzip);
     }
-    ofstream *ofs = new ofstream(outfilepath.c_str(),ios_base::out|ios_base::binary);//always open in binary mode
+    auto *ofs = new ofstream(outfilepath.c_str(),ios_base::out|ios_base::binary);//always open in binary mode
     if(!ofs || !ofs->good())
     {
       delete ofs;
