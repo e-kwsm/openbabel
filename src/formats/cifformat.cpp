@@ -622,7 +622,7 @@ namespace OpenBabel
       mSpaceGroup = SpaceGroup::GetSpaceGroup(mSpacegroupNumberIT);
     }
     if (mSpaceGroup == nullptr) {
-      SpaceGroup *sg = new SpaceGroup();
+      auto *sg = new SpaceGroup();
       positem=mvItem.find("_space_group_symop_operation_xyz");
       if(positem==mvItem.end())
         positem=mvItem.find("_symmetry_equiv_pos_as_xyz");
@@ -895,7 +895,7 @@ namespace OpenBabel
       }
     }
 
-    for (std::vector<CIFAtom>::iterator it = mvAtom.begin() ; it != mvAtom.end(); ++it)
+    for (auto it = mvAtom.begin(); it != mvAtom.end(); ++it)
     {
       string label = (*it).mLabel;
 
@@ -1006,7 +1006,7 @@ namespace OpenBabel
   void CIFData::Cartesian2FractionalCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for (auto pos = mvAtom.begin(); pos != mvAtom.end(); ++pos)
       {
         pos->mCoordFrac.resize(3);
         pos->mCoordFrac[0]=pos->mCoordCart.at(0);
@@ -1019,7 +1019,7 @@ namespace OpenBabel
   void CIFData::Fractional2CartesianCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for (auto pos = mvAtom.begin(); pos != mvAtom.end(); ++pos)
       {
         pos->mCoordCart.resize(3);
         pos->mCoordCart[0]=pos->mCoordFrac.at(0);
@@ -1042,7 +1042,7 @@ namespace OpenBabel
       this->Parse(is);
       // Extract structure from 1 block
       if(interpret)
-        for(map<string,CIFData>::iterator posd=mvData.begin();posd!=mvData.end();++posd)
+        for (auto posd = mvData.begin(); posd != mvData.end(); ++posd)
         {
           posd->second.ExtractAll();
           if(posd->second.mvAtom.size()>0) found_atoms=true;
@@ -1402,13 +1402,13 @@ namespace OpenBabel
     if (obformat) { return obformat->ReadMolecule(pOb, pConv); }
     obErrorLog.ThrowError(__FUNCTION__, "mmCIF parser not found. Using CIF parser.", obDebug);
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
     CIF cif(*pConv->GetInStream(),true);
     // Loop on all data blocks until we find one structure :@todo: handle multiple structures
-    for(map<string,CIFData>::iterator pos=cif.mvData.begin();pos!=cif.mvData.end();++pos)
+    for (auto pos = cif.mvData.begin(); pos != cif.mvData.end(); ++pos)
       if(pos->second.mvAtom.size()>0)
         {
           pmol->BeginModify();
@@ -1418,7 +1418,7 @@ namespace OpenBabel
               if(spg=="") spg=pos->second.mSpacegroupHermannMauguin;
               if(spg=="") spg=pos->second.mSpacegroupNumberIT;
               if(spg=="") spg="P1";
-              OBUnitCell *pCell=new OBUnitCell;
+              auto *pCell=new OBUnitCell;
               pCell->SetOrigin(fileformatInput);
               pCell->SetData(pos->second.mvLatticePar[0],
                              pos->second.mvLatticePar[1],
@@ -1495,14 +1495,14 @@ namespace OpenBabel
               atom->SetVector(posat->mCoordCart[0],posat->mCoordCart[1],posat->mCoordCart[2]);
               if(posat->mLabel.size()>0)
               {
-                OBPairData *label = new OBPairData;
+                auto *label = new OBPairData;
                 label->SetAttribute("_atom_site_label");
                 label->SetValue(posat->mLabel);
                 label->SetOrigin(fileformatInput);
                 atom->SetData(label);
               }
 
-              OBPairFloatingPoint *occup_data = new OBPairFloatingPoint;
+              auto *occup_data = new OBPairFloatingPoint;
               occup_data->SetAttribute("_atom_site_occupancy");
               occup_data->SetValue(posat->mOccupancy);
               occup_data->SetOrigin(fileformatInput);
@@ -1510,7 +1510,7 @@ namespace OpenBabel
 
               if( posat->mCharge != NOCHARGE )
               {
-                OBPairFloatingPoint *charge_data = new OBPairFloatingPoint;
+                auto *charge_data = new OBPairFloatingPoint;
                 charge_data->SetAttribute("input_charge");
                 charge_data->SetValue(posat->mCharge);
                 charge_data->SetOrigin(fileformatInput);
@@ -1561,7 +1561,7 @@ namespace OpenBabel
 
   bool CIFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
     ostream &ofs = *pConv->GetOutStream();
@@ -1642,7 +1642,7 @@ namespace OpenBabel
 
          if (atom->HasData("_atom_site_label"))
            {
-             OBPairData *label = dynamic_cast<OBPairData *> (atom->GetData("_atom_site_label"));
+             auto *label = dynamic_cast<OBPairData*>(atom->GetData("_atom_site_label"));
              label_str = label->GetValue().c_str();
            }
          else
@@ -1682,7 +1682,7 @@ namespace OpenBabel
           std::string sym_key;
           int symmetry_num = 555;
           if (bond->IsPeriodic()) {
-              OBUnitCell *box = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+              auto *box = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
               vector3 begin, end_orig, end_expected, uc_direction;
               // Use consistent coordinates with the X Y Z written in the _atom_site_* loop earlier
               begin = box->CartesianToFractional(bond->GetBeginAtom()->GetVector());
