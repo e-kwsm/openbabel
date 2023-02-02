@@ -108,7 +108,7 @@ namespace OpenBabel
   bool AcesOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -245,7 +245,7 @@ namespace OpenBabel
     //Attach vibrational data, if there is any, to molecule
     if(Frequencies.size()>0)
     {
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);
       mol.SetData(vd);
     }
@@ -264,7 +264,7 @@ namespace OpenBabel
 
   bool AcesInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

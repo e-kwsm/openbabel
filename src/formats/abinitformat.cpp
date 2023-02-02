@@ -73,7 +73,7 @@ namespace OpenBabel
   bool ABINITFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -222,7 +222,7 @@ namespace OpenBabel
 
     int numConformers = atomPositions.size() / natom;
     for (int i = 0; i < numConformers; ++i) {
-      double *coordinates = new double[natom * 3];
+      auto *coordinates = new double[natom * 3];
       for (int j = 0; j < natom; ++j) {
         vector3 currentPosition = atomPositions[i*natom + j];
         coordinates[j*3] = currentPosition.x();
@@ -243,7 +243,7 @@ namespace OpenBabel
 
     // Attach unit cell translation vectors if found
     if (numTranslationVectors > 0) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
 	    //      uc->SetData(acell[0] * translationVectors[0], acell[1] * translationVectors[1], acell[2] * translationVectors[2]);
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
