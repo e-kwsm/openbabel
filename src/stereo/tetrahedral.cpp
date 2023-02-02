@@ -68,7 +68,7 @@ namespace OpenBabel {
         // for each ref in otherConfig
         for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
           bool found = false;
-          for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
+          for (auto j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
             if (otherConfig.refs.at(i) == *j)
               found = true;
 
@@ -91,12 +91,12 @@ namespace OpenBabel {
         for (unsigned int i = 0; i < thisConfig.refs.size(); ++i) {
           bool found = false;
           // for each refs in otherConfig
-          for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
+          for (auto j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
             if (thisConfig.refs.at(i) == *j)
               found = true;
 
           if (!found) {
-            for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
+            for (auto j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
               if (*j == OBStereo::ImplicitRef)
                 *j = thisConfig.refs.at(i);
             break;
@@ -197,7 +197,7 @@ namespace OpenBabel {
 
   OBGenericData* OBTetrahedralStereo::Clone(OBBase *mol) const
   {
-    OBTetrahedralStereo *data = new OBTetrahedralStereo(static_cast<OBMol*>(mol));
+    auto *data = new OBTetrahedralStereo(static_cast<OBMol*>(mol));
     data->SetConfig(m_cfg);
     return data;
   }
@@ -223,7 +223,7 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OBStereo::ImplicitRef)
         out << *i << " ";
       else
@@ -255,7 +255,7 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OBStereo::ImplicitRef)
         out << *i << " ";
       else

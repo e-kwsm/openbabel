@@ -20,7 +20,7 @@ namespace OpenBabel {
     Config u1, u2;
     if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
       // find a ref that occurs in both
-      for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+      for (auto i = refs.begin(); i != refs.end(); ++i)
         if (OBStereo::ContainsRef(other.refs, *i)) {
           u1 = OBTetraPlanarStereo::ToConfig(*this, *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
           u2 = OBTetraPlanarStereo::ToConfig(other, *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
@@ -217,7 +217,7 @@ namespace OpenBabel {
 
   OBGenericData* OBSquarePlanarStereo::Clone(OBBase *mol) const
   {
-    OBSquarePlanarStereo *data = new OBSquarePlanarStereo(static_cast<OBMol*>(mol));
+    auto *data = new OBSquarePlanarStereo(static_cast<OBMol*>(mol));
     data->SetConfig(m_cfg);
     return data;
   }
@@ -232,7 +232,7 @@ namespace std {
     out << "OBSquarePlanarStereo(center = " << cfg.center;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OpenBabel::OBStereo::ImplicitRef)
         out << *i << " ";
       else
@@ -258,7 +258,7 @@ namespace std {
     out << "OBSquarePlanarStereo::Config(center = " << cfg.center;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
       if (*i != OpenBabel::OBStereo::ImplicitRef)
         out << *i << " ";
       else
