@@ -258,7 +258,7 @@ namespace std {
     out << "OBSquarePlanarStereo::Config(center = " << cfg.center;
 
     out << ", refs = ";
-    for (auto i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    for (auto i = cfg.refs.cbegin(); i != cfg.refs.cend(); ++i)
       if (*i != OpenBabel::OBStereo::ImplicitRef)
         out << *i << " ";
       else
