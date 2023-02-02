@@ -454,7 +454,7 @@ namespace OpenBabel
         size = (int)(pat->aalloc*sizeof(AtomSpec));
         if( pat->atom )
           {
-            AtomSpec *tmp = new AtomSpec[pat->aalloc];
+            auto *tmp = new AtomSpec[pat->aalloc];
             copy(pat->atom, pat->atom + pat->aalloc - ATOMPOOL, tmp);
             delete [] pat->atom;
             pat->atom = tmp;
@@ -486,7 +486,7 @@ namespace OpenBabel
         size = (int)(pat->balloc*sizeof(BondSpec));
         if( pat->bond )
           {
-            BondSpec *tmp = new BondSpec[pat->balloc];
+            auto *tmp = new BondSpec[pat->balloc];
             copy(pat->bond, pat->bond + pat->balloc - BONDPOOL, tmp);
             delete [] pat->bond;
             pat->bond = tmp;
