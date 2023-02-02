@@ -94,7 +94,7 @@ static bool ParseComponent(const char* t, unsigned int *ans)
 /////////////////////////////////////////////////////////////////
 bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -205,7 +205,7 @@ bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         }
         if (mol.NumAtoms() == 0) {
           OBAtom* dummy = mol.NewAtom(); // Treat the empty OBMol as having a single dummy atom
-          OBPairData *pd = new OBPairData();
+          auto *pd = new OBPairData();
           pd->SetAttribute("rxndummy");
           pd->SetValue("");
           pd->SetOrigin(fileformatInput);
@@ -278,7 +278,7 @@ static void WriteAgents(OBMol& mol, OBReactionFacade& rxnfacade, OBConversion* p
 /////////////////////////////////////////////////////////////////
 bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr || !pmol->IsReaction())
       return false;
 
