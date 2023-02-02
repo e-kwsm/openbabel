@@ -119,7 +119,7 @@ namespace OpenBabel
       m_ofs << " stroke=" << MakeRGB(m_Pencolor);
     m_ofs << " stroke-width=\"" << m_PenWidth << "\"";
     if (!dashes.empty()) {
-      std::vector<double>::const_iterator it = dashes.begin();
+      auto it = dashes.begin();
       m_ofs << " stroke-dasharray=\"" << *it;
       for (; it!=dashes.end() ; ++it)
         m_ofs << "," << *it;
@@ -195,7 +195,7 @@ namespace OpenBabel
   {
     if (!m_Gradients->empty()) {
       m_ofs << "<defs>\n";
-      for (std::set<ColorGradient>::iterator it=m_Gradients->begin(); it!=m_Gradients->end(); ++it) {
+      for (auto it = m_Gradients->begin(); it != m_Gradients->end(); ++it) {
         m_ofs << "<radialGradient id='radial";
         m_ofs << RGBcode(it->first)<< RGBcode(it->second) << "' ";
         m_ofs << "cx='50%' cy='50%' r='50%' fx='30%' fy='30%'>\n";

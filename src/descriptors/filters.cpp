@@ -33,7 +33,7 @@ public:
   MWFilter(const char *ID) : OBDescriptor(ID){};
   const char *Description() override { return "Molecular Weight filter"; }
   double Predict(OBBase *pOb, string *param = nullptr) override {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
       return 0;
     return pmol->GetMolWt();
@@ -47,7 +47,7 @@ public:
   RotatableBondsFilter(const char *ID) : OBDescriptor(ID){};
   const char *Description() override { return "Rotatable bonds filter"; }
   double Predict(OBBase *pOb, string *param = nullptr) override {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
       return 0;
     return pmol->NumRotors();
@@ -77,7 +77,7 @@ public:
  **/
 bool SmartsFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
                            std::string *) {
-  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  auto *pmol = dynamic_cast<OBMol *>(pOb);
   if (!pmol)
     return false;
 
@@ -117,7 +117,7 @@ public:
 
 bool TitleFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
                           std::string *) {
-  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  auto *pmol = dynamic_cast<OBMol *>(pOb);
   if (!pmol)
     return false;
 
@@ -127,15 +127,15 @@ bool TitleFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
 
 double TitleFilter::GetStringValue(OBBase *pOb, std::string &svalue,
                                    std::string *) {
-  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  auto *pmol = dynamic_cast<OBMol *>(pOb);
   if (pmol)
     svalue = pmol->GetTitle();
   return std::numeric_limits<double>::quiet_NaN();
 }
 
 bool TitleFilter::LessThan(OBBase *pOb1, OBBase *pOb2) {
-  OBMol *pmol1 = dynamic_cast<OBMol *>(pOb1);
-  OBMol *pmol2 = dynamic_cast<OBMol *>(pOb2);
+  auto *pmol1 = dynamic_cast<OBMol *>(pOb1);
+  auto *pmol2 = dynamic_cast<OBMol *>(pOb2);
   if (pmol1 == nullptr || pmol2 == nullptr)
     return false; // as a default to prevent dereferencing NULL pointers
 
@@ -153,7 +153,7 @@ public:
 
   double GetStringValue(OBBase *pOb, std::string &svalue,
                         std::string *param = nullptr) override {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (pmol)
       svalue = pmol->GetSpacedFormula(1, ""); // actually unspaced
     return std::numeric_limits<double>::quiet_NaN();
