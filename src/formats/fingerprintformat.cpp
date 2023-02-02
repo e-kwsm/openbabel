@@ -163,7 +163,7 @@ namespace OpenBabel
     if(pConv->IsOption("o"))
       return WriteHex(ofs, fptvec);
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(pmol)
       ofs << ">" << pmol->GetTitle();
 

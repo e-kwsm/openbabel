@@ -139,7 +139,7 @@ GROFormat theGROFormat;
 
 bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr)
       return false;
 
@@ -354,7 +354,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   const vector3 v2(v2x*10,v2y*10,v2z*10);
   const vector3 v3(v3x*10,v3y*10,v3z*10);
 
-  OBUnitCell* cell = new OBUnitCell();
+  auto* cell = new OBUnitCell();
   cell->SetData(v1, v2, v3);
   pmol->SetData(cell);
   }
@@ -386,7 +386,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
 bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if (pmol == nullptr)
       return false; // Stop converting
 
@@ -443,7 +443,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   // On the last line of the file goes periodic box specification
   if (pmol->HasData(OBGenericDataType::UnitCell)) {
-    OBUnitCell* cell = (OBUnitCell*) pmol->GetData(OBGenericDataType::UnitCell);
+    auto* cell = (OBUnitCell*) pmol->GetData(OBGenericDataType::UnitCell);
     matrix3x3 m = cell->GetCellMatrix();
     vector3 v1 = m.GetRow(0);
     vector3 v2 = m.GetRow(1);

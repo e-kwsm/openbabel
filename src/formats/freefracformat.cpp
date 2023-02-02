@@ -119,7 +119,7 @@ namespace OpenBabel
   bool FreeFormFractionalFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -163,7 +163,7 @@ namespace OpenBabel
     Alpha = atof(vs[3].c_str());
     Beta  = atof(vs[4].c_str());
     Gamma = atof(vs[5].c_str());
-    OBUnitCell *uc = new OBUnitCell;
+    auto *uc = new OBUnitCell;
     uc->SetOrigin(fileformatInput);
     uc->SetData(A, B, C, Alpha, Beta, Gamma);
     mol.SetData(uc);
@@ -235,7 +235,7 @@ namespace OpenBabel
 
   bool FreeFormFractionalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

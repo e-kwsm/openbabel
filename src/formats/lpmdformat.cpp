@@ -134,7 +134,7 @@ bool LpmdFormat::ReadHeader( std::istream &ifs, OBMol &mol )
 /////////////////////////////////////////////////////////////////
 bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
- OBMol* pmol = pOb->CastAndClear<OBMol>();
+ auto* pmol = pOb->CastAndClear<OBMol>();
  if (pmol == nullptr) return false;
 
  N=0;
@@ -178,7 +178,7 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
  vector3 vx = vector3(ax,ay,az);
  vector3 vy = vector3(bx,by,bz);
  vector3 vz = vector3(cx,cy,cz);
- OBUnitCell * unitcell = new OBUnitCell();
+ auto * unitcell = new OBUnitCell();
  unitcell->SetData( vx, vy, vz );
 
  //////////////////////////////////////////////////////
@@ -246,7 +246,7 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   veloci.push_back(vector3(VX,VY,VZ));
  }
 
- OBConformerData * conformer = new OBConformerData();
+ auto * conformer = new OBConformerData();
  std::vector< std::vector< vector3 > > forceslist;
  std::vector< std::vector< vector3 > > velocilist;
  forceslist.push_back( forces );
@@ -272,7 +272,7 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
 bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
- OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+ auto* pmol = dynamic_cast<OBMol*>(pOb);
  if (pmol == nullptr) return false;
 
  ostream& ofs = *pConv->GetOutStream();
@@ -353,7 +353,7 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  //Fill velocities and forces.
  if(mol.HasData(OBGenericDataType::ConformerData))
  {
-  OBConformerData * conformer = (OBConformerData*)mol.GetData(OBGenericDataType::ConformerData);
+  auto * conformer = (OBConformerData*)mol.GetData(OBGenericDataType::ConformerData);
   forceslist = conformer->GetForces();
   velocilist = conformer->GetVelocities();
  }

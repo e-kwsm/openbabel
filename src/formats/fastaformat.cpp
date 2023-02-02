@@ -415,7 +415,7 @@ namespace OpenBabel
         else
           {
             const char * idx = strchr(IUPAC_codes, (* sx)); // e.g. "01NACGURYKMSWBDHV"
-            size_t unit_code = (size_t)( idx ? (idx - IUPAC_codes) : IUPAC_Unknown );
+            auto unit_code = (size_t)( idx ? (idx - IUPAC_codes) : IUPAC_Unknown );
             ResidueRecord * res_rec = & Residues[unit_code];
             if (res_rec->IUPACcode)
               {
@@ -551,7 +551,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool FASTAFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
     pmol->BeginModify();
