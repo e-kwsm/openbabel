@@ -142,7 +142,7 @@ namespace OpenBabel
             //rs.WriteRings();
           }
 
-        OBRingData *rd = new OBRingData();
+        auto *rd = new OBRingData();
         rd->SetOrigin(perceived); // to separate from user or file input
         rd->SetAttribute("SSSR");
         rd->SetData(vr);
@@ -290,7 +290,7 @@ namespace OpenBabel
             //rs.WriteRings();
           }
 
-        OBRingData *rd = new OBRingData();
+        auto *rd = new OBRingData();
         rd->SetOrigin(perceived); // to separate from user or file input
         rd->SetAttribute("LSSR");
         rd->SetData(vr);
@@ -469,7 +469,7 @@ namespace OpenBabel
       if (bv == (*j)->_pathset)
         return(false);
 
-    OBRing *ring = new OBRing(path, bv);
+    auto *ring = new OBRing(path, bv);
     _rlist.push_back(ring);
 
     return(true);
@@ -547,11 +547,11 @@ namespace OpenBabel
     }
 
     unsigned int bsize = mol.NumBonds()+1;
-    unsigned char *bvisit = (unsigned char*)malloc(bsize);
+    auto *bvisit = (unsigned char*)malloc(bsize);
     memset(bvisit,0,bsize);
 
     unsigned int acount = mol.NumAtoms();
-    unsigned int asize = (unsigned int)((acount+1)*sizeof(int));
+    auto asize = (unsigned int)((acount+1)*sizeof(int));
     int *avisit = (int*)malloc(asize);
     memset(avisit,0,asize);
 
@@ -602,7 +602,7 @@ namespace OpenBabel
 
   char* OBRing::GetType()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
     if (mol && !mol->HasRingTypesPerceived())
       ringtyper.AssignTypes(*((OBMol*)GetParent()));
 
@@ -612,7 +612,7 @@ namespace OpenBabel
   unsigned int OBRing::GetRootAtom()
   {
     vector<int>::iterator i;
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
 
     //if (!IsAromatic())
     //  return 0;
@@ -702,7 +702,7 @@ namespace OpenBabel
 
     int i;
     OBAtom *nbr;
-    OBMol *mol = (OBMol*)atom->GetParent();
+    auto *mol = (OBMol*)atom->GetParent();
     OBBitVec curr,used,next;
     vector<OBBond*>::iterator j;
     curr |= atom->GetIdx();

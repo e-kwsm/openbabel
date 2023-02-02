@@ -236,8 +236,8 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    // Coordinate and property arrays
    _oricoor = new double*[_nAtoms];
    _coor = new double*[_nAtoms];
-   double** REF1 = new double*[_nAtoms];
-   double** REF2 = new double*[_nAtoms];
+   auto** REF1 = new double*[_nAtoms];
+   auto** REF2 = new double*[_nAtoms];
    _property = new double*[_nAtoms];
    for (unsigned int i = 0; i < _nAtoms; ++i)
    {
@@ -1481,8 +1481,8 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    // CHI and ETA
    unsigned int dim(_nAtoms + 1);
    std::vector<double> CHI(dim);
-   double** ETA = new double*[dim];
-   double** ETA2 = new double*[dim];      // A copy for the electrophilicity later on
+   auto** ETA = new double*[dim];
+   auto** ETA2 = new double*[dim];      // A copy for the electrophilicity later on
    for (unsigned int i = 0; i < dim; ++i)
    {
       ETA[i] = new double[dim];
