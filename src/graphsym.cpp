@@ -580,13 +580,13 @@ namespace OpenBabel {
 
     // Store the symmetry classes in an OBPairData
     stringstream temp;
-    vector<unsigned int>::iterator sym_iter = atom_sym_classes.begin();
+    auto sym_iter = atom_sym_classes.begin();
     if (sym_iter != atom_sym_classes.end())
       temp << (*sym_iter++);
     for (; sym_iter != atom_sym_classes.end(); ++sym_iter)
       temp << " " << (*sym_iter);
 
-    OBPairData *symData = new OBPairData;
+    auto *symData = new OBPairData;
     symData->SetAttribute("OpenBabel Symmetry Classes");
     symData->SetOrigin(local); //will not show as sdf or cml property
     symData->SetValue(temp.str());
@@ -600,7 +600,7 @@ namespace OpenBabel {
     ClearSymmetry(); // For the moment just recalculate the symmetry classes
 
     // Check to see whether we have already calculated the symmetry classes
-    OBPairData *pd = dynamic_cast<OBPairData*>(d->_pmol->GetData("OpenBabel Symmetry Classes"));
+    auto *pd = dynamic_cast<OBPairData*>(d->_pmol->GetData("OpenBabel Symmetry Classes"));
 
     int nclasses = 0;
     if (!pd) {
@@ -614,7 +614,7 @@ namespace OpenBabel {
       // Now find the number of unique elements
       vector<unsigned int> copy_sym = symmetry_classes;
       sort(copy_sym.begin(), copy_sym.end());
-      vector<unsigned int>::iterator end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
+      auto end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
       nclasses = end_pos - copy_sym.begin();
     }
 

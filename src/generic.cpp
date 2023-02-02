@@ -502,7 +502,7 @@ namespace OpenBabel
     if (IsApprox(gamma, 90.0, 1.0e-3)) rightAngles++;
 
     // recast cache member "_lattice" as mutable
-    OBUnitCell::LatticeType *lattice =
+    auto *lattice =
       const_cast<OBUnitCell::LatticeType*>(&_lattice);
 
     switch (rightAngles)
@@ -826,7 +826,7 @@ namespace OpenBabel
 
     for(ring = _vr.begin();ring != _vr.end();++ring)
       {
-        OBRing *newring = new OBRing;
+        auto *newring = new OBRing;
         (*newring) = (**ring);	//copy data to new object
         (*ring)    = newring;	//repoint new pointer to new copy of data
       }
@@ -873,7 +873,7 @@ namespace OpenBabel
           continue;
 
         //allocate and copy ring data
-        OBRing *newring = new OBRing;
+        auto *newring = new OBRing;
         (*newring) = (**ring);
         (*ring) = newring;	//redirect pointer
       }
