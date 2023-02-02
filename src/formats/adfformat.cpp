@@ -95,7 +95,7 @@ namespace OpenBabel {
   bool ADFOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -153,7 +153,7 @@ namespace OpenBabel {
             tokenize(vs,buffer);
             if (vs.size() >= 5)
               {
-                OBVectorData *dipoleMoment = new OBVectorData;
+                auto *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
                 double x, y, z;
                 x = atof(vs[2].c_str());
@@ -243,7 +243,7 @@ namespace OpenBabel {
     if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
       // Annotate that partial charges come from Q-Chem Mulliken
-      OBPairData *dp = new OBPairData;
+      auto *dp = new OBPairData;
       dp->SetAttribute("PartialCharges");
       dp->SetValue("Mulliken");
       dp->SetOrigin(perceived);
@@ -296,7 +296,7 @@ namespace OpenBabel {
 
   bool ADFInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -398,7 +398,7 @@ namespace OpenBabel {
   /////////////////////////////////////////////////////////////////
   bool ADFBandFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (!pmol)
       return false;
 
@@ -464,7 +464,7 @@ namespace OpenBabel {
           vectors.push_back(vector3(0.0, 0.0, 0.0));
 
         // Build unit cell
-        OBUnitCell* cell = new OBUnitCell;
+        auto* cell = new OBUnitCell;
         cell->SetData(vectors[0], vectors[1], vectors[2]);
         cell->SetSpaceGroup(1);
         pmol->SetData(cell);
@@ -534,7 +534,7 @@ namespace OpenBabel {
   /////////////////////////////////////////////////////////////////
   bool ADFDftbFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (!pmol)
       return false;
 
@@ -606,7 +606,7 @@ namespace OpenBabel {
             vectors.push_back(vector3(0.0, 0.0, 0.0));
 
           // Build unit cell
-          OBUnitCell* cell = new OBUnitCell;
+          auto* cell = new OBUnitCell;
           cell->SetData(vectors[0], vectors[1], vectors[2]);
           cell->SetSpaceGroup(1);
           pmol->SetData(cell);
@@ -790,7 +790,7 @@ OBT41Format t41Format__;
 
 OBGridData *OBT41Format::NewData(const T41GridData &gd)
 {
-        OBGridData *t41Data = new OBGridData;
+        auto *t41Data = new OBGridData;
   t41Data->SetNumberOfPoints( gd.numPoints[ 0 ], gd.numPoints[ 1 ], gd.numPoints[ 2 ] );
         t41Data->SetLimits( gd.startPoint, gd.xAxis, gd.yAxis, gd.zAxis );
   t41Data->SetUnrestricted( gd.unrestricted );
@@ -819,7 +819,7 @@ bool OBT41Format::ReadBinary( OBBase* pOb, OBConversion* pConv )
 
 bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
 {
-      OBMol* pmol = dynamic_cast< OBMol* >(pOb);
+      auto* pmol = dynamic_cast<OBMol*>(pOb);
       if (pmol == nullptr) return false;
 
       istream& ifs = *pConv->GetInStream();
