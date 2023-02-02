@@ -263,7 +263,7 @@ bool ChemDrawXMLFormat::EndElement(const string& name)
     EnsureEndElement();
     
     // Add implicit hydrogens on atoms without "hydrogens" property
-    for (vector<unsigned int>::iterator vit = _handleImplicitHydrogens.begin();
+    for (auto vit = _handleImplicitHydrogens.begin();
          vit != _handleImplicitHydrogens.end(); ++vit)
            OBAtomAssignTypicalImplicitHydrogens(_pmol->GetAtom(atoms[*vit]));
 
@@ -393,7 +393,7 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   if(!_pxmlConv)
     return false;
 
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if (pmol == nullptr)
 	return false;
   OBMol &mol = *pmol;

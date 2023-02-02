@@ -332,7 +332,7 @@ namespace OpenBabel
   int XMLConversion::ReadStream(void * context, char * buffer, int len)
   {
     //@todo worry about non-ascii coding
-    XMLConversion* pConv = static_cast<XMLConversion*>(context);
+    auto* pConv = static_cast<XMLConversion*>(context);
     istream* ifs = pConv->GetInStream();
 
     if(!ifs->good() || ifs->eof())
@@ -358,7 +358,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////
   int XMLConversion::WriteStream(void * context, const char * buffer, int len)
   {
-    XMLConversion* pxmlConv = static_cast<XMLConversion*>(context);
+    auto* pxmlConv = static_cast<XMLConversion*>(context);
     ostream* ofs = pxmlConv->GetOutStream();
     if(len>0)                //a call with len=0 coming from xmlFreeTextWriter
     {                        //called from destructor of XMLConversion was causing crash
