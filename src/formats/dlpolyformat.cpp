@@ -173,7 +173,7 @@ namespace OpenBabel
     vector3 vz = vector3( x, y, z );
 
     // Add the Unit Cell to the molecule
-    OBUnitCell * unitcell = new OBUnitCell();
+    auto * unitcell = new OBUnitCell();
     unitcell->SetData( vx, vy, vz );
     unitcell->SetSpaceGroup(1);
     //std::cout << "Set unit cell " << vx << vy << vz << std::endl;
@@ -299,7 +299,7 @@ namespace OpenBabel
     imcon=0;
     forces.clear();
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
     
@@ -322,7 +322,7 @@ namespace OpenBabel
     // Add forces as conformer data
     if ( levcfg > 1 && forces.size() )
       {
-        OBConformerData * conformer = new OBConformerData();
+        auto * conformer = new OBConformerData();
         std::vector< std::vector< vector3 > > conflist;
         conflist.push_back( forces );
         conformer->SetForces( conflist );
@@ -346,7 +346,7 @@ namespace OpenBabel
      * Write a DL-POLY CONFIG file. Ints are 10 chars wide, floats are formatted as 20.15f
      */
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
     
@@ -430,7 +430,7 @@ public:
     imcon=0;
     forces.clear();
   
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
     
@@ -494,7 +494,7 @@ public:
     // Add forces as conformer data
     if ( levcfg > 1 && forces.size() )
       {
-        OBConformerData * conformer = new OBConformerData();
+        auto * conformer = new OBConformerData();
         std::vector< std::vector< vector3 > > conflist;
         conflist.push_back( forces );
         conformer->SetForces( conflist );

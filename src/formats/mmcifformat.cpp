@@ -492,7 +492,7 @@ namespace OpenBabel
  }
  bool mmCIFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
  {
-   OBMol* pmol = pOb->CastAndClear<OBMol>();
+   auto* pmol = pOb->CastAndClear<OBMol>();
    if (pmol == nullptr)
      return false;
 
@@ -612,7 +612,7 @@ namespace OpenBabel
              }
            if (use_cartn)
              {
-             for (CIFColumnList::iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+             for (auto colx = columns.begin(), coly = columns.end(); colx != coly; ++colx)
                if ( (* colx) >= CIFTagID::_atom_site_fract_x && (* colx) <= CIFTagID::_atom_site_fract_z)
                  (* colx) = CIFTagID::unread_CIFDataName;
              use_fract = 0;
@@ -784,7 +784,7 @@ namespace OpenBabel
                break;
              case CIFTagID::_atom_site_occupancy: // The occupancy of the site.
                {
-                 OBPairFloatingPoint * occup = new OBPairFloatingPoint;
+                 auto * occup = new OBPairFloatingPoint;
                  occup->SetAttribute("_atom_site_occupancy");
                  double occupancy = std::max(0.0, std::min(1.0, token.as_number())); // clamp occupancy to [0.0, 1.0] bugfix  
                  occup->SetValue(occupancy);
@@ -960,7 +960,7 @@ namespace OpenBabel
        {
        if (use_cell >= 6)
          {
-         OBUnitCell * pCell = new OBUnitCell;  // No matching "delete" because it's saved in pmol->SetData
+         auto * pCell = new OBUnitCell;  // No matching "delete" because it's saved in pmol->SetData
          pCell->SetOrigin(fileformatInput);
          pCell->SetData(cell_a, cell_b, cell_c,
                         cell_alpha,
@@ -976,7 +976,7 @@ namespace OpenBabel
          pmol->SetData(pCell);
          if (use_fract)
            {
-           for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x)
+           for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x)
              {
              OBAtom * atom = (* atom_x);
              if (wrap_coords)
@@ -989,15 +989,15 @@ namespace OpenBabel
          if (pConv->IsOption("p",OBConversion::INOPTIONS))
            pmol->SetPeriodicMol();
          }
-       for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x )
+       for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x)
        {
          OBAtom * atom = (* atom_x);
-         OBPairData * pd = dynamic_cast<OBPairData *>( atom->GetData( "_atom_site_label" ) );
+         auto * pd = dynamic_cast<OBPairData *>( atom->GetData( "_atom_site_label" ) );
          if (pd != nullptr)
          {
            if( atomic_charges.count( pd->GetValue() ) > 0 )
            {
-               OBPairFloatingPoint * charge_obd = new OBPairFloatingPoint;
+               auto * charge_obd = new OBPairFloatingPoint;
                charge_obd->SetAttribute("input_charge");
                charge_obd->SetValue(atomic_charges[pd->GetValue()] );
                charge_obd->SetOrigin(fileformatInput);
@@ -1044,7 +1044,7 @@ namespace OpenBabel
 
  bool mmCIFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  {
-   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+   auto* pmol = dynamic_cast<OBMol*>(pOb);
    if (pmol == nullptr)
      return false;
 
@@ -1117,7 +1117,7 @@ namespace OpenBabel
    ofs << "_atom_site.Cartn_y" << endl;
    ofs << "_atom_site.Cartn_z" << endl;
    size_t site_id = 1;
-   for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x, ++ site_id)
+   for (auto atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x, ++site_id)
      {
      OBAtom * atom = (* atom_x);
      ofs << '\t' << site_id << '\t' << OBElements::GetSymbol(atom->GetAtomicNum());
@@ -1139,7 +1139,7 @@ namespace OpenBabel
    ofs << endl;
    if (pmol->HasData(OBGenericDataType::UnitCell))
      {
-     OBUnitCell * pCell = (OBUnitCell * )pmol->GetData(OBGenericDataType::UnitCell);
+     auto * pCell = (OBUnitCell * )pmol->GetData(OBGenericDataType::UnitCell);
      ofs << "##########" << endl;
      ofs << "## CELL ##" << endl;
      ofs << "##########" << endl;

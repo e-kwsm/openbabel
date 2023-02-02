@@ -109,7 +109,7 @@ namespace OpenBabel {
 
   bool MDFFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -181,7 +181,7 @@ namespace OpenBabel {
     vector3 z_vec (x,y,z);
 
     // Build unit cell
-    OBUnitCell *cell = new OBUnitCell;
+    auto *cell = new OBUnitCell;
     cell->SetData(x_vec, y_vec, z_vec);
     cell->SetSpaceGroup(1);
     pmol->SetData(cell);
@@ -345,7 +345,7 @@ namespace OpenBabel {
     //The atoms are ordered according to their atomic number so that the
     //output looks nice, this can be reversed by using command line flag "-xw".
     //
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) {
       return false;
     }
@@ -355,7 +355,7 @@ namespace OpenBabel {
     
     if(mol.HasData(OBGenericDataType::UnitCell))
     {
-      OBUnitCell *uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
+      auto *uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       uc->FillUnitCell(&mol);
     }            
 
