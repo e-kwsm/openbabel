@@ -279,7 +279,7 @@ namespace OpenBabel
   unsigned OBBitVec::CountBits() const
   {
     unsigned count = 0;
-    for (auto sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
+    for (auto sx = _set.cbegin(), sy = _set.cend(); sx != sy; ++ sx)
       {
       uint32_t word = *sx;
       while (word)
@@ -296,7 +296,7 @@ namespace OpenBabel
   */
   bool OBBitVec::IsEmpty() const
   {
-    for (auto sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
+    for (auto sx = _set.cbegin(), sy = _set.cend(); sx != sy; ++ sx)
       if (* sx)
         return(false);
 
@@ -308,7 +308,7 @@ namespace OpenBabel
   */
   void OBBitVec::FromVecInt(const std::vector<int> & bit_offsets)
   {
-    for (auto i = bit_offsets.begin(), j = bit_offsets.end(); i != j; ++i)
+    for (auto i = bit_offsets.cbegin(), j = bit_offsets.cend(); i != j; ++i)
       SetBitOn(* i);
   }
   /** Sets bits on, listed as a string of character-represented integers
