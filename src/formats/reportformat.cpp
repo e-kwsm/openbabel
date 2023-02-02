@@ -207,7 +207,7 @@ namespace OpenBabel
 
   bool ReportFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -252,7 +252,7 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::CommentData))
       {
         ofs << "\n" << "\n" << "COMMENTS" << "\n";
-        OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+        auto *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
         ofs << cd->GetData() << "\n";
       }
     ofs << "\n" << "\n";

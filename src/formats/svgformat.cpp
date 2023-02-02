@@ -264,7 +264,7 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
 ////////////////////////////////////////////////////////////////
 bool SVGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
   _objects.clear();
@@ -383,7 +383,7 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
   int indx = 0;
   for(iter=_objects.begin(); ret && iter!=_objects.end(); ++iter,++indx)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(*iter);
+    auto* pmol = dynamic_cast<OBMol*>(*iter);
 
     if (!pmol)
       continue;

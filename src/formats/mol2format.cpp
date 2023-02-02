@@ -155,7 +155,7 @@ namespace OpenBabel
   bool MOL2Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -184,7 +184,7 @@ namespace OpenBabel
           {
             char attr[32], val[32];
             sscanf(buffer, "########## %[^:]:%s", attr, val);
-            OBPairData *dd = new OBPairData;
+            auto *dd = new OBPairData;
             dd->SetAttribute(attr);
             dd->SetValue(val);
             dd->SetOrigin(fileformatInput);
@@ -219,7 +219,7 @@ namespace OpenBabel
         else if (lcount == 3) // charge descriptions
           {
             // Annotate origin of partial charges
-            OBPairData *dp = new OBPairData;
+            auto *dp = new OBPairData;
             dp->SetAttribute("PartialCharges");
             dp->SetValue(buffer);
             dp->SetOrigin(fileformatInput);
@@ -569,7 +569,7 @@ namespace OpenBabel
     //must add generic data after end modify - otherwise it will be blown away
     if (comment)
       {
-        OBCommentData *cd = new OBCommentData;
+        auto *cd = new OBCommentData;
         cd->SetData(comment);
         cd->SetOrigin(fileformatInput);
         mol.SetData(cd);
@@ -601,7 +601,7 @@ namespace OpenBabel
 
   bool MOL2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -643,7 +643,7 @@ namespace OpenBabel
     ofs << buffer << endl;
     ofs << "SMALL" << endl; // TODO: detect if we have protein, biopolymer, etc.
 
-    OBPairData *dp = (OBPairData*)mol.GetData("PartialCharges");
+    auto *dp = (OBPairData*)mol.GetData("PartialCharges");
     if (dp != nullptr) {
         // Tripos spec says:
         // NO_CHARGES, DEL_RE, GASTEIGER, GAST_HUCK, HUCKEL, PULLMAN,
@@ -669,7 +669,7 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::CommentData))
       {
         ofs << "****\n"; // comment line printed, so we need to add "no status bits set"
-        OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+        auto *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
         ofs << cd->GetData();
       }
 

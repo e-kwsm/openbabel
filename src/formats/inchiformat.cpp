@@ -61,7 +61,7 @@ static unsigned int GetInChIAtomicMass(unsigned int atomicnum)
 /////////////////////////////////////////////////////////////////
 bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr) return false;
   istream &ifs = *pConv->GetInStream();
 
@@ -183,7 +183,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     {
     case INCHI_StereoType_DoubleBond:
     {
-      OBCisTransStereo::Config *ct = new OBCisTransStereo::Config;
+      auto *ct = new OBCisTransStereo::Config;
 
       ct->begin = stereo.neighbor[1];
       ct->end = stereo.neighbor[2];
@@ -210,7 +210,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       else
         ct->specified = false;
 
-      OBCisTransStereo *obct = new OBCisTransStereo(pmol);
+      auto *obct = new OBCisTransStereo(pmol);
       obct->SetConfig(*ct);
       pmol->SetData(obct);
 
@@ -220,7 +220,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     }
     case INCHI_StereoType_Tetrahedral:
     {
-      OBTetrahedralStereo::Config *ts = new OBTetrahedralStereo::Config;
+      auto *ts = new OBTetrahedralStereo::Config;
       ts->center = stereo.central_atom;
       ts->from = stereo.neighbor[0];
       if (ts->from == ts->center) // Handle the case where there are only three neighbours
@@ -235,7 +235,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       else
         ts->specified = false;
 
-      OBTetrahedralStereo *obts = new OBTetrahedralStereo(pmol);
+      auto *obts = new OBTetrahedralStereo(pmol);
       obts->SetConfig(*ts);
       pmol->SetData(obts);
 
@@ -280,7 +280,7 @@ static AT_NUM  OBAtomIdToInChIAtomId(OBMol &mol, OBStereo::Ref atomid)
 bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   //Although the OBMol may be altered, it is restored before exit.
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if (pmol == nullptr) return false;
     OBMol& mol = *pmol;
 
@@ -420,7 +420,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       std::vector<OBGenericData*> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+          auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
 
           if(config.specified) {
@@ -461,7 +461,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       //Currently does not handle cumulenes
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-          OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(*data);
+          auto *ts = dynamic_cast<OBCisTransStereo*>(*data);
           OBCisTransStereo::Config config = ts->GetConfig();
 
           if(config.specified) {
@@ -835,7 +835,7 @@ void InChIFormat::RemoveLayer (std::string& inchi, const std::string& str, bool 
 
 void InChIFormat::SaveInchi(OBMol* pmol, const std::string& s)
 {
-  OBPairData* dp = new OBPairData;
+  auto* dp = new OBPairData;
   dp->SetAttribute("inchi");
   dp->SetValue(s);
   dp->SetOrigin(local);
