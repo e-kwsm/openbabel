@@ -1137,7 +1137,7 @@ namespace OpenBabel
       LoadFragments();
 
 
-    for(vector<OBMol>::iterator f = fragments.begin(); f != fragments.end(); ++f) {
+    for(auto f = fragments.begin(); f != fragments.end(); ++f) {
       std::string fragment_smiles = conv.WriteString(&*f, true);
       bool isMatchRigid = false;
       // if rigid fragment is in database
@@ -1487,7 +1487,7 @@ namespace OpenBabel
       workMol.GetAtom(*match_it)->SetVector( workMol.GetAtom(*match_it)->GetVector() + posp );
 
     // Create the bonds between the two fragments
-    for (vector<int>::iterator nbr_id=nbrs.begin(); nbr_id!=nbrs.end(); ++nbr_id)
+    for (auto nbr_id=nbrs.begin(); nbr_id!=nbrs.end(); ++nbr_id)
       workMol.AddBond(p->GetIdx(), *nbr_id, 1, mol.GetBond(p->GetIdx(), *nbr_id)->GetFlags());
 
     return;
@@ -1500,9 +1500,9 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref bond_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
           cistrans.push_back(ct);
           bond_id = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
@@ -1584,7 +1584,7 @@ namespace OpenBabel
     vector<int> children;
     mol.FindChildren(children, idx, nbrs[0]);
     int ringnbr = -1;
-    for (vector<int>::iterator nbr=nbrs.begin() + 1; nbr!=nbrs.end(); ++nbr)
+    for (auto nbr=nbrs.begin() + 1; nbr != nbrs.end(); ++nbr)
       if (find(children.begin(), children.end(), *nbr) != children.end()) {
         ringnbr = *nbr;
         break;
@@ -1635,9 +1635,9 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref atom_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *th = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *th = dynamic_cast<OBTetrahedralStereo*>(*data);
         if (th->GetConfig().specified) {
           tetra.push_back(th);
           atom_id = th->GetConfig().center;
@@ -1688,7 +1688,7 @@ namespace OpenBabel
         stringstream errorMsg;
         errorMsg << "Could not correct " << unfixed.size() << " stereocenter(s) in this molecule (" << mol.GetTitle() << ")";
         errorMsg << std::endl << "  with Atom Ids as follows:";
-        for (OBStereo::RefIter ref=unfixed.begin(); ref!=unfixed.end(); ++ref)
+        for (auto ref=unfixed.begin(); ref != unfixed.end(); ++ref)
           errorMsg << " " << *ref;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
 
@@ -1787,7 +1787,7 @@ namespace OpenBabel
             if (!b->IsInRing())
               reconnect.push_back(&*b);
 
-      for (std::vector<OBBond*>::iterator bi=reconnect.begin(); bi!=reconnect.end(); ++bi) {
+      for (auto bi=reconnect.begin(); bi != reconnect.end(); ++bi) {
         OBBond* b = *bi;
         int bo = b->GetBondOrder();
         int begin = b->GetBeginAtomIdx();
