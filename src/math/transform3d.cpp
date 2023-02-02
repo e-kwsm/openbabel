@@ -48,8 +48,8 @@ namespace OpenBabel
     {
       ostringstream r;
       int n, i, j;
-      const matrix3x3 *m = static_cast <const matrix3x3 *> (this);
-      const vector3 *v = static_cast <const vector3 *> (this);
+      const auto *m = static_cast<const matrix3x3 *>(this);
+      const auto *v = static_cast<const vector3 *>(this);
       bool neg, first;
       for (i = 0; i < 3; i++)
         {
@@ -114,8 +114,8 @@ namespace OpenBabel
   string transform3d::DescribeAsValues() const
     {
       ostringstream oss;
-      const matrix3x3 *m = static_cast <const matrix3x3 *> (this);
-      const vector3 *v = static_cast <const vector3 *> (this);
+      const auto *m = static_cast<const matrix3x3 *>(this);
+      const auto *v = static_cast<const vector3 *>(this);
       oss << (*m)(0,0) << " " << (*m)(0,1) << " " << (*m)(0,2) << " " << v->x() << " ";
       oss << (*m)(1,0) << " " << (*m)(1,1) << " " << (*m)(1,2) << " " << v->y() << " ";
       oss << (*m)(2,0) << " " << (*m)(2,1) << " " << (*m)(2,2) << " " << v->z();
@@ -126,7 +126,7 @@ namespace OpenBabel
   */
   void transform3d::Normalize()
 	{
-      vector3 *vv = static_cast<vector3*>(this);
+      auto *vv = static_cast<vector3*>(this);
       vv->x() -= floor (vv->x() + .01); /* .01 should work in all cases in
                                         this context */
       vv->y() -= floor (vv->y() + .01);

@@ -47,7 +47,7 @@ namespace OpenBabel
 
     double Predict(OBBase* pOb, string* param=nullptr) override
     {
-      OBMol* pmol = dynamic_cast<OBMol*> (pOb);
+      auto* pmol = dynamic_cast<OBMol*> (pOb);
       if(!pmol)
         return 0;
 

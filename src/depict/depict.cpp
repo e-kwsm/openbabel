@@ -267,7 +267,7 @@ namespace OpenBabel
 
   unsigned int GetAtomSymClass(OBAtom *atom)
   {
-    OBPairData *pd = dynamic_cast<OBPairData*>(atom->GetParent()->GetData("OpenBabel Symmetry Classes"));
+    auto *pd = dynamic_cast<OBPairData*>(atom->GetParent()->GetData("OpenBabel Symmetry Classes"));
     if (pd) {
 
       cout << "same? = " << pd->GetValue() << endl;
@@ -280,7 +280,7 @@ namespace OpenBabel
       // Now find the number of unique elements
       vector<unsigned int> copy_sym = symmetry_classes;
       sort(copy_sym.begin(), copy_sym.end());
-      vector<unsigned int>::iterator end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
+      auto end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
       int nclasses = end_pos - copy_sym.begin();
 
       cout << "sym_class[" << atom->GetIndex() << "] = " << symmetry_classes.at(atom->GetIndex()) << endl;
@@ -325,7 +325,7 @@ namespace OpenBabel
   {
     std::vector<int> indexes = ring->_path;
     vector3 center(VZero);
-    for (std::vector<int>::iterator l = indexes.begin(); l != indexes.end(); ++l) {
+    for (auto l = indexes.begin(); l != indexes.end(); ++l) {
       center += mol->GetAtom(*l)->GetVector();
     }
     center /= indexes.size();
@@ -477,7 +477,7 @@ namespace OpenBabel
     // - note that OBBond->IsInRing() includes bonds not included in the SSSR as the SSSR excludes very large rings
     std::vector<OBRing*> rings(mol->GetSSSR());
     OBBitVec ringBonds;
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
+    for (auto k = rings.begin(); k != rings.end(); ++k) {
       OBRing *ring = *k;
       std::vector<int> indexes = ring->_path;
       for (unsigned int l = 0; l < indexes.size(); ++l) {
@@ -531,13 +531,13 @@ namespace OpenBabel
     OBBitVec drawnBonds;
     // draw aromatic rings first, looks better since all double bonds will
     // be inside aromatic rings
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
+    for (auto k = rings.begin(); k != rings.end(); ++k) {
       OBRing *ring = *k;
       if (ring->IsAromatic())
         d->DrawAromaticRing(ring, drawnBonds);
     }
     // draw aliphatic rings
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
+    for (auto k = rings.begin(); k != rings.end(); ++k) {
       OBRing *ring = *k;
       if (!ring->IsAromatic())
         d->DrawRing(ring, drawnBonds);
@@ -648,7 +648,7 @@ namespace OpenBabel
         if (atom->GetAtomicNum()==0) {
           OBGenericData *data = atom->GetData("Atom Class");
           if (data) {
-            OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
+            auto* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
             if (acdata) {
               int ac = acdata->GetGenericValue();
               if (ac >= 0) {
@@ -1180,7 +1180,7 @@ OBBitVec& drawnBonds)
     const size_t ringSize = indexes.size();
     vector3 center(VZero);
     double maxdist =0.;
-    for (std::vector<int>::const_iterator l = indexes.begin(); l != indexes.end(); ++l) {
+    for (auto l = indexes.begin(); l != indexes.end(); ++l) {
       center += mol->GetAtom(*l)->GetVector();
       maxdist = max(maxdist, GetAtomRadius(mol->GetAtom(*l)));
     }
