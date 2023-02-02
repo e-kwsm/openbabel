@@ -83,7 +83,7 @@ public:
     {
       //When no length recorded, copy the whole input stream
       //Seem to need to treat stringstreams differently
-      stringstream* pss = dynamic_cast<stringstream*>(&ifs);
+      auto* pss = dynamic_cast<stringstream*>(&ifs);
       if(pss)
         ofs << pss->str() << flush;
       else

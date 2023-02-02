@@ -264,7 +264,7 @@ void test_Issue178_DeleteHydrogens()
   // Test atom class
   // Currently, the SMILES parser does not retain atom classes for hydrogens on reading so...
   conv.ReadString(&mol, "C[H]");
-  OBPairInteger *ac = new OBPairInteger();
+  auto *ac = new OBPairInteger();
   ac->SetAttribute("Atom Class");
   ac->SetValue(99);
   mol.GetAtom(2)->SetData(ac); // Assign the hydrogen (atom 2) a class of 99
@@ -398,7 +398,7 @@ void test_SMILES_Valence()
       {"c1c[nH]cc1", "", "", "c1(c(n(c(c1[H])[H])[H])[H])[H]", "c1cncc1"},
       {"F[I]F", "", "", "", "FIF"},
   };
-  unsigned int size = (unsigned int)(sizeof(smilesData) / sizeof(smilesData[0]));
+  auto size = (unsigned int)(sizeof(smilesData) / sizeof(smilesData[0]));
   for (unsigned int rep = 0; rep < 4; ++rep)
   {
     printf("Rep: %d\n", rep);
@@ -611,7 +611,7 @@ HETATM 1540  C6' MXA A 187      32.533  13.060   1.396  0.50 13.52           C  
   OBMol mol;
   conv.ReadString(&mol, pdb);
   // no nitrogens should have 4 bonds
-  for (OBAtomIterator it = mol.BeginAtoms(); it != mol.EndAtoms(); it++)
+  for (auto it = mol.BeginAtoms(); it != mol.EndAtoms(); it++)
   {
     OBAtom *a = *it;
     if (a->GetAtomicNum() == 7)

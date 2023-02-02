@@ -121,7 +121,7 @@ namespace OpenBabel
   bool PDBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -190,7 +190,7 @@ namespace OpenBabel
           Trim (group);
           fixRhombohedralSpaceGroupReader(group);
 
-          OBUnitCell *pCell=new OBUnitCell;
+          auto *pCell=new OBUnitCell;
           pCell->SetOrigin(fileformatInput);
           pCell->SetData(a,b,c,alpha,beta,gamma);
           pCell->SetSpaceGroup(group);
@@ -504,7 +504,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////////////////////////
   bool PDBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -536,8 +536,8 @@ namespace OpenBabel
     bool compndWritten = false;
     bool authorWritten = false;
     std::vector<OBGenericData*> pairData = mol.GetAllData(OBGenericDataType::PairData);
-    for (std::vector<OBGenericData*>::iterator data = pairData.begin(); data != pairData.end(); ++data) {
-      OBPairData *pd = static_cast<OBPairData*>(*data);
+    for (auto data = pairData.begin(); data != pairData.end(); ++data) {
+      auto *pd = static_cast<OBPairData*>(*data);
       string attr = pd->GetAttribute();
 
       // filter to make sure we are writing pdb fields only
@@ -597,7 +597,7 @@ namespace OpenBabel
     // and Z value (supposed to be 1)
     if (pmol->HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+        auto *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
         if(pUC->GetSpaceGroup()){
           string tmpHM=pUC->GetSpaceGroup()->GetHMName();
           fixRhombohedralSpaceGroupWriter(tmpHM);
@@ -745,7 +745,7 @@ namespace OpenBabel
         double occup = 1.0;
         if (atom->HasData("_atom_site_occupancy"))
         {
-         OBPairFloatingPoint *occup_fp = dynamic_cast<OBPairFloatingPoint*> (atom->GetData("_atom_site_occupancy"));
+         auto *occup_fp = dynamic_cast<OBPairFloatingPoint*>(atom->GetData("_atom_site_occupancy"));
          occup = occup_fp->GetGenericValue();
         }
 
@@ -1091,7 +1091,7 @@ namespace OpenBabel
     atom.SetVector(v);
 
     double occupancy = atof(sbuf.substr(48, 6).c_str());
-    OBPairFloatingPoint* occup = new OBPairFloatingPoint;
+    auto* occup = new OBPairFloatingPoint;
     occup->SetAttribute("_atom_site_occupancy");
     if (occupancy <= 0.0 || occupancy > 1.0){
       occupancy = 1.0;

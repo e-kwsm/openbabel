@@ -126,7 +126,7 @@ public:
 
   OBDefine* MakeInstance(const std::vector<std::string>& textlines) override
   {
-    OBDefine* pdef = new OBDefine(textlines[1].c_str(),textlines[2].c_str());
+    auto* pdef = new OBDefine(textlines[1].c_str(),textlines[2].c_str());
 
     //The following line links the new instance to its parent, and eventually
     //the dummy global instance. When the global instance is deleted at the end,

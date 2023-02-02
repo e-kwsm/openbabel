@@ -179,7 +179,7 @@ namespace OpenBabel
     //Some OpenBabel bookkeeping that I copied from the Gasteiger scheme
     mol.SetPartialChargesPerceived();
 
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("QEq");
     dp->SetOrigin(perceived);
@@ -219,7 +219,7 @@ namespace OpenBabel
       }
 
     //Read in total charge of molecule
-    double Z = (double)(mol.GetTotalCharge());
+    auto Z = (double)(mol.GetTotalCharge());
 
     ///////////////////////////////////////////////////////////////////////////////
     // Now populate integrals

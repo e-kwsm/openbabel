@@ -62,12 +62,12 @@ ThermoFormat theThermoFormat;
 
 bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if(!pmol)
     return false;
   bool stopOnEnd = pConv->IsOption("e", OBConversion::INOPTIONS) != nullptr;
   pmol->SetDimension(0);
-  OBNasaThermoData* pND = new OBNasaThermoData; //to store rate constant data
+  auto* pND = new OBNasaThermoData; //to store rate constant data
   pND->SetOrigin(fileformatInput);
   pmol->SetData(pND);
 
@@ -158,9 +158,9 @@ bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 ////////////////////////////////////////
 bool ThermoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   string title(pmol->GetTitle());
-  OBNasaThermoData* pND = static_cast<OBNasaThermoData*>(pmol->GetData(ThermoData));
+  auto* pND = static_cast<OBNasaThermoData*>(pmol->GetData(ThermoData));
   if(!pND)
   {
     obErrorLog.ThrowError(__FUNCTION__,"No thermo data in " + title, obWarning);

@@ -49,7 +49,7 @@ class AoforceFormat : public OBMoleculeFormat {
 AoforceFormat theAoforceFormat;
 
 bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr) return false;
 
   std::istream &ifs = *pConv->GetInStream();
@@ -132,8 +132,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
         if (Lx.size() < xs.size())
           continue;
         // for each new frequency
-        std::vector< std::vector<vector3> >::iterator
-        lxIter = Lx.end() - xs.size();
+        auto lxIter = Lx.end() - xs.size();
         std::vector<double>::const_iterator
         xIter = xs.begin(),
         yIter = ys.begin(),
@@ -146,7 +145,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       }
     }
   }
-  OBVibrationData *vd = new OBVibrationData;
+  auto *vd = new OBVibrationData;
   vd->SetData(Lx, Frequencies, Intensities);
   mol.SetData(vd);
   mol.EndModify();

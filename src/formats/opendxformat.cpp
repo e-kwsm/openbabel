@@ -88,7 +88,7 @@ namespace OpenBabel
 //------------------------------------------------------------------------------
 bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -168,7 +168,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     pmol->BeginModify();
     pmol->SetDimension(3);
 
-    OBGridData *gd = new OBGridData;
+    auto *gd = new OBGridData;
     gd->SetAttribute("OpenDX");
 
     // get all values as one vector<double>
@@ -241,7 +241,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 //------------------------------------------------------------------------------
   bool OBOpenDXCubeFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -252,7 +252,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     string str;
     stringstream errorMsg;
 
-    OBGridData *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
+    auto *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
     if (gd == nullptr) {
       errorMsg << "The molecule has no grid.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);

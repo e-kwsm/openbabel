@@ -82,7 +82,7 @@ namespace OpenBabel
             return;
           }
 
-        OBChemTsfm *tsfm = new OBChemTsfm;
+        auto *tsfm = new OBChemTsfm;
         if (!tsfm->Init(vs[1],vs[3]))
           {
             delete tsfm;

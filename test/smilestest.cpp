@@ -35,7 +35,7 @@ void testTetrahedralStereo1()
 
   // convert to tetrahedral data
   OB_REQUIRE( ((OBStereoBase*)stereoData[0])->GetType() == OBStereo::Tetrahedral );
-  OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(stereoData[0]);
+  auto *ts = dynamic_cast<OBTetrahedralStereo*>(stereoData[0]);
   OB_REQUIRE( ts );
 
   // print the configuration
@@ -81,10 +81,10 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   gs1.GetSymmetry(symclasses);
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
+  for (auto data = stereoData.begin(); data != stereoData.end(); ++data) {
     if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
       OB_ASSERT( ts->IsValid() );
       if (!ts->IsValid())
@@ -107,7 +107,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     } else
     if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
       OB_ASSERT( ct->IsValid() );
 
@@ -128,7 +128,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     } else
     if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
-      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+      auto *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
       OB_ASSERT( sp->IsValid() );
       if (!sp->IsValid())
@@ -172,10 +172,10 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   gs2.GetSymmetry(symclasses);
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
+  for (auto data = stereoData.begin(); data != stereoData.end(); ++data) {
     if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
       OB_ASSERT( ts->IsValid() );
 
@@ -196,7 +196,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     }
     if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
       OB_ASSERT( ct->IsValid() );
 
@@ -217,7 +217,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     } else
     if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
-      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+      auto *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
       OB_ASSERT( sp->IsValid() );
 

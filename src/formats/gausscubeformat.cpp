@@ -105,7 +105,7 @@ namespace OpenBabel
 //------------------------------------------------------------------------------
 bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -555,7 +555,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 //------------------------------------------------------------------------------
   bool OBGaussianCubeFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -575,7 +575,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     ofs << endl; // line 2
 
-    OBGridData *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
+    auto *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
     if (gd == nullptr) {
       errorMsg << "The molecule has no grid.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);

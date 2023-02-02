@@ -105,7 +105,7 @@ namespace OpenBabel
   bool MPQCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -181,7 +181,7 @@ namespace OpenBabel
 
   bool MPQCInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

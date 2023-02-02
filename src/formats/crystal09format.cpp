@@ -92,7 +92,7 @@ Crystal09Format theCrystal09Format;
 
 bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   istream& ifs = *pConv->GetInStream();
   pmol->BeginModify();
   pmol->SetDimension(3);
@@ -192,7 +192,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
       //Declare a pointer for the UnitCell Data. Set the Unit Cell for
       //OBUnitCell and OBMol
-      OBUnitCell *cell = new OBUnitCell;
+      auto *cell = new OBUnitCell;
       cell->SetData(xvec,yvec,zvec);
       pmol->SetData(cell);
 
@@ -300,7 +300,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         }
       }
 
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(displacements, freq, intensity);
       pmol->SetData(vd);
     }

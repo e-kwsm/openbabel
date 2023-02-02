@@ -243,13 +243,13 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* /*pOb*/, OBConversion* pConv)
   }
 
   //At the end, output molecules that have not been used in a reaction
-  map<CDXObjectID, OBMol*>::iterator mapiter = _molmap.begin();
+  auto mapiter = _molmap.begin();
   for(; mapiter!=_molmap.end(); ++mapiter)
   {
     pmol = mapiter->second;
     if(!(pmol->GetFlags() & usedFlag) && strcmp(pmol->GetTitle(),"justplus"))
     {
-      OBMol* ptmol = static_cast<OBMol*>(pmol->DoTransformations(
+      auto* ptmol = static_cast<OBMol*>(pmol->DoTransformations(
                     pConv->GetOptions(OBConversion::GENOPTIONS),pConv));
       if(!ptmol)
         delete pmol;
@@ -279,14 +279,14 @@ bool ChemDrawBinaryXFormat::TopLevelParse
 
     else if(tag==kCDXObj_Fragment)
     {
-      OBMol* pmol = new OBMol;
+      auto* pmol = new OBMol;
       //Save all molecules to the end
       _molmap[cdxr.CurrentID()] = pmol;
 
       if(ContainingGroup)
       {
         // Add the id of this mol to the group's entry in _groupmap 
-        GroupMapIterator gmapiter = _groupmap.find(ContainingGroup);
+        auto gmapiter = _groupmap.find(ContainingGroup);
         if(gmapiter!=_groupmap.end())
           gmapiter->second.push_back(cdxr.CurrentID());
       }
@@ -295,7 +295,7 @@ bool ChemDrawBinaryXFormat::TopLevelParse
 
     else if(tag == kCDXObj_ReactionStep && readReactions)
     {
-      OBMol* pReact = new OBMol;
+      auto* pReact = new OBMol;
       pReact->SetIsReaction();
       ok = DoReaction(cdxr, pReact);
       // Output OBReaction and continue 
@@ -450,15 +450,15 @@ bool ChemDrawBinaryXFormat::DoFragment(CDXReader& cdxr, OBMol* pmol)
   for(int idx=1; idx<=pmol->NumAtoms();++idx)
   {
     OBAtom* pAtom = pmol->GetAtom(idx);
-    AliasData* ad = dynamic_cast<AliasData*>(pAtom->GetData(AliasDataType));
+    auto* ad = dynamic_cast<AliasData*>(pAtom->GetData(AliasDataType));
     if(ad && !ad->IsExpanded())
       aliasatoms.push_back(pAtom);
   }
-  for(vector<OBAtom*>::iterator vit=aliasatoms.begin();
+  for (auto vit = aliasatoms.begin();
       vit!=aliasatoms.end(); ++vit)
   {
     int idx = (*vit)->GetIdx();
-    AliasData* ad = dynamic_cast<AliasData*>((*vit)->GetData(AliasDataType));
+    auto* ad = dynamic_cast<AliasData*>((*vit)->GetData(AliasDataType));
     if(ad && !ad->IsExpanded())
       ad->Expand(*pmol, idx); //Make chemically meaningful, if possible.
   }
@@ -555,7 +555,7 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
       {
         //Treat text as an alias 
         pAtom->SetAtomicNum(0);
-        AliasData* ad = new AliasData();
+        auto* ad = new AliasData();
         ad->SetAlias(aliastext);
         ad->SetOrigin(fileformatInput);
         pAtom->SetData(ad);
@@ -639,7 +639,7 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
   }
   // Handle 'implicit carbons' by adjusting their valence with
   // implicit hydrognes
-  for(vector<OBAtom*>::iterator vit=handleImplicitCarbons.begin();
+  for (auto vit = handleImplicitCarbons.begin();
       vit!=handleImplicitCarbons.end(); ++vit)
     OBAtomAssignTypicalImplicitHydrogens(*vit);
 
@@ -855,7 +855,7 @@ string CDXReader::TagName(map<CDXTag, string>& enummap, CDXTag tag)
   string tagname;
   if(!enummap.empty())
   {
-    map<CDXTag, std::string>::iterator iter = enummap.find(tag);
+    auto iter = enummap.find(tag);
     if(iter!=enummap.end())
     {
       tagname=iter->second;

@@ -182,7 +182,7 @@ namespace OpenBabel
 
     // Now we are done calculating, pass all this back to OpenBabel molecule
     mol.SetPartialChargesPerceived();
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("EQEq");
     dp->SetOrigin(perceived);

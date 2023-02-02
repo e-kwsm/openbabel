@@ -1114,7 +1114,7 @@ namespace OpenBabel
   OBMolAngleIter::OBMolAngleIter(OBMol *mol)
   {
     mol->FindAngles();
-    OBAngleData *ad = (OBAngleData *) mol->GetData(OBGenericDataType::AngleData);
+    auto *ad = (OBAngleData *) mol->GetData(OBGenericDataType::AngleData);
     ad->FillAngleArray(_vangle);
 
     _parent = mol;
@@ -1129,7 +1129,7 @@ namespace OpenBabel
   OBMolAngleIter::OBMolAngleIter(OBMol &mol)
   {
     mol.FindAngles();
-    OBAngleData *ad = (OBAngleData *) mol.GetData(OBGenericDataType::AngleData);
+    auto *ad = (OBAngleData *) mol.GetData(OBGenericDataType::AngleData);
     ad->FillAngleArray(_vangle);
 
     _parent = &mol;
@@ -1213,7 +1213,7 @@ namespace OpenBabel
   OBMolTorsionIter::OBMolTorsionIter(OBMol *mol)
   {
     mol->FindTorsions();
-    OBTorsionData *td = (OBTorsionData *) mol->GetData(OBGenericDataType::TorsionData);
+    auto *td = (OBTorsionData *) mol->GetData(OBGenericDataType::TorsionData);
     td->FillTorsionArray(_vtorsion);
 
     _parent = mol;
@@ -1228,7 +1228,7 @@ namespace OpenBabel
   OBMolTorsionIter::OBMolTorsionIter(OBMol &mol)
   {
     mol.FindTorsions();
-    OBTorsionData *td = (OBTorsionData *) mol.GetData(OBGenericDataType::TorsionData);
+    auto *td = (OBTorsionData *) mol.GetData(OBGenericDataType::TorsionData);
     td->FillTorsionArray(_vtorsion);
 
     _parent = &mol;

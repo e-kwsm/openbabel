@@ -366,7 +366,7 @@ namespace OpenBabel {
     SYMMETRY_ELEMENT *
     alloc_symmetry_element( void )
     {
-      SYMMETRY_ELEMENT * elem = (SYMMETRY_ELEMENT *)calloc( 1, sizeof( SYMMETRY_ELEMENT ) ) ;
+      auto * elem = (SYMMETRY_ELEMENT *)calloc( 1, sizeof( SYMMETRY_ELEMENT ) ) ;
       unsigned int i;
 
       if (elem == nullptr){
@@ -1399,7 +1399,7 @@ namespace OpenBabel {
     {
       unsigned int       i, j, k, l;
       double             center[ DIMENSION ] ;
-      double *           distances = (double*)calloc( _mol->NumAtoms(), sizeof( double ) ) ;
+      auto *             distances = (double*)calloc( _mol->NumAtoms(), sizeof( double ) ) ;
       double             r ;
       SYMMETRY_ELEMENT * axis ;
       OBAtom           *a1, *a2, *a3, *a4;

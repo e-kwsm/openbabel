@@ -172,7 +172,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     //Some OpenBabel bookkeeping that I copied from the Gasteiger scheme
     mol.SetPartialChargesPerceived();
 
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("QTPIE");
     dp->SetOrigin(perceived);
@@ -212,7 +212,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     }
 
     //Read in total charge of molecule
-    double Z = (double)(mol.GetTotalCharge());
+    auto Z = (double)(mol.GetTotalCharge());
 
     if (Z != 0.) obErrorLog.ThrowError(__FUNCTION__, "Warning, total charge on molecule is not zero. QTPIE routine may give nonsense.", obWarning);
 

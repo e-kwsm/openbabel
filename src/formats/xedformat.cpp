@@ -66,7 +66,7 @@ XEDFormat theXEDFormat;
 
 bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
         return false;
 
