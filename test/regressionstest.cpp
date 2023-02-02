@@ -264,7 +264,7 @@ void test_Issue178_DeleteHydrogens()
   // Test atom class
   // Currently, the SMILES parser does not retain atom classes for hydrogens on reading so...
   conv.ReadString(&mol, "C[H]");
-  OBPairInteger *ac = new OBPairInteger();
+  auto *ac = new OBPairInteger();
   ac->SetAttribute("Atom Class");
   ac->SetValue(99);
   mol.GetAtom(2)->SetData(ac); // Assign the hydrogen (atom 2) a class of 99
