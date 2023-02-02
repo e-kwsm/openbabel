@@ -37,7 +37,7 @@ public:
   bool ReadChemObject(OBConversion* pConv) override
   {
     //Makes a new OBText
-    OBText* pReact = new OBText;
+    auto* pReact = new OBText;
     bool ret=ReadMolecule(pReact,pConv); //call the "API" read function
 
     std::string auditMsg = "OpenBabel::Read text ";
@@ -58,7 +58,7 @@ public:
   bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override
   {
     //It's really text, not a molecule.
-    OBText* pText = dynamic_cast<OBText*>(pOb);
+    auto* pText = dynamic_cast<OBText*>(pOb);
     if (!pText)
       return false;
     string fileText(istreambuf_iterator<char>(*pConv->GetInStream()), istreambuf_iterator<char>());
@@ -70,7 +70,7 @@ public:
   {
     //Output an OBText object and delete any other type.
     OBBase* pOb = pConv->GetChemObject();
-    OBText* pText = dynamic_cast<OBText*>(pOb);
+    auto* pText = dynamic_cast<OBText*>(pOb);
     if(!pText)
     {
       delete pOb;

@@ -106,7 +106,7 @@ namespace OpenBabel
   bool QChemOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -207,12 +207,12 @@ namespace OpenBabel
             while (vs.size() >= 5)
               {
                 atom = mol.GetAtom(atoi(vs[2].c_str()));
-                OBPairData *nmrShift = new OBPairData();
+                auto *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 
                 // We want to round this to 2 decimals
                 // So convert to a float and print it as a new string
-                float shift = static_cast<float> (atof(vs[3].c_str()));
+                auto shift = static_cast<float>(atof(vs[3].c_str()));
                 snprintf(tag, BUFF_SIZE, "%7.2f", shift);
 
                 nmrShift->SetValue(tag);
@@ -312,21 +312,21 @@ namespace OpenBabel
     if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
       // Annotate that partial charges come from Q-Chem Mulliken
-      OBPairData *dp = new OBPairData;
+      auto *dp = new OBPairData;
       dp->SetAttribute("PartialCharges");
       dp->SetValue("Mulliken");
       dp->SetOrigin(fileformatInput);
       mol.SetData(dp);
     }
     if (hasDipoleMoment) {
-      OBVectorData *dmData = new OBVectorData;
+      auto *dmData = new OBVectorData;
       dmData->SetAttribute("Dipole Moment");
       dmData->SetData(dipoleMoment);
       dmData->SetOrigin(fileformatInput);
       mol.SetData(dmData);
     }
     if (hasVibData) {
-      OBVibrationData *vd = new OBVibrationData;
+      auto *vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities);
       mol.SetData(vd);
     }
@@ -341,7 +341,7 @@ namespace OpenBabel
 
   bool QChemInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

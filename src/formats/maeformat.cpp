@@ -157,7 +157,7 @@ void MAEFormat::checkEOF(OBConversion* pConv)
 
 bool MAEFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
         return false;
 
@@ -308,7 +308,7 @@ shared_ptr<IndexedBlock> MAEFormat::TranslateBondBlock(OBMol* pmol)
 
 bool MAEFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
         return false;
 

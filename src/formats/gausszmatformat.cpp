@@ -74,7 +74,7 @@ namespace OpenBabel
 
   bool GaussianZMatrixInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -97,7 +97,7 @@ namespace OpenBabel
       string basis;
       string method;
 
-      OBPairData *pd = (OBPairData *) pmol->GetData("model");
+      auto *pd = (OBPairData *) pmol->GetData("model");
       if(pd)
         model = pd->GetValue();
 
@@ -242,7 +242,7 @@ namespace OpenBabel
   // the openbabel-discuss@lists.sourceforge.net mailing list and/or post a bug
   bool GaussianZMatrixInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 

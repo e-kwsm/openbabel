@@ -78,7 +78,7 @@ namespace OpenBabel {
 
   bool GULPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -91,7 +91,7 @@ namespace OpenBabel {
     vector<string> vs;
     matrix3x3 ortho;
     int atomicNum;
-    OBUnitCell *cell = new OBUnitCell();
+    auto *cell = new OBUnitCell();
     bool hasEnthalpy=false;
     double enthalpy_eV, pv_eV;
 
@@ -348,10 +348,10 @@ namespace OpenBabel {
 
     // Set enthalpy
     if (hasEnthalpy) {
-      OBPairData *enthalpyPD = new OBPairData();
-      OBPairData *enthalpyPD_pv = new OBPairData();
-      OBPairData *enthalpyPD_eV = new OBPairData();
-      OBPairData *enthalpyPD_pv_eV = new OBPairData();
+      auto *enthalpyPD = new OBPairData();
+      auto *enthalpyPD_pv = new OBPairData();
+      auto *enthalpyPD_eV = new OBPairData();
+      auto *enthalpyPD_pv_eV = new OBPairData();
       enthalpyPD->SetAttribute("Enthalpy (kcal/mol)");
       enthalpyPD_pv->SetAttribute("Enthalpy PV term (kcal/mol)");
       enthalpyPD_eV->SetAttribute("Enthalpy (eV)");

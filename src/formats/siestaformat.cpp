@@ -78,7 +78,7 @@ namespace OpenBabel {
 
   bool SIESTAFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -101,7 +101,7 @@ namespace OpenBabel {
     map<int, string> atomTypeLabels;
     int atomicNum, numAtoms, numSpecies;
     matrix3x3 cellMatrix;
-    OBUnitCell *cell = new OBUnitCell();
+    auto *cell = new OBUnitCell();
     pmol->BeginModify();
 
     // We're gonna try to find "<name>.STRUCT_OUT"

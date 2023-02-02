@@ -128,7 +128,7 @@ namespace OpenBabel
 
   bool GaussianInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -154,7 +154,7 @@ namespace OpenBabel
         string basis;
         string method;
 
-        OBPairData *pd = (OBPairData *) pmol->GetData("model");
+        auto *pd = (OBPairData *) pmol->GetData("model");
         if(pd)
           model = pd->GetValue();
 
@@ -218,12 +218,12 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
     // Translation vectors
-    OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
     if (uc && writeUnitCell) {
       uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
       vector<vector3> cellVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = cellVectors.begin(); i != cellVectors.end(); ++i) {
+      for (auto i = cellVectors.begin(); i != cellVectors.end(); ++i) {
           snprintf(buffer, BUFF_SIZE, "TV       %10.5f      %10.5f      %10.5f",
                    i->x(),
                    i->y(),
@@ -310,7 +310,7 @@ namespace OpenBabel
                             int RotSymNum,std::vector<double> Scomponents)
   {
     // Initiate correction database
-    OpenBabel::OBAtomicHeatOfFormationTable *ahof = new OpenBabel::OBAtomicHeatOfFormationTable();
+    auto *ahof = new OpenBabel::OBAtomicHeatOfFormationTable();
     OpenBabel::OBAtomIterator OBai;
     OpenBabel::OBAtom *OBa;
     char valbuf[128];
@@ -425,7 +425,7 @@ namespace OpenBabel
   // the openbabel-discuss@lists.sourceforge.net mailing list and/or post a bug
   bool GaussianOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -467,7 +467,7 @@ namespace OpenBabel
 
     // OBConformerData stores information about multiple steps
     // we can change attribute later if needed (e.g., IRC)
-    OBConformerData *confData = new OBConformerData();
+    auto *confData = new OBConformerData();
     confData->SetOrigin(fileformatInput);
     std::vector<unsigned short> confDimensions = confData->GetDimension(); // to be fair, set these all to 3D
     std::vector<double>         confEnergies   = confData->GetEnergies();
@@ -557,7 +557,7 @@ namespace OpenBabel
                     NumEsp = 2;
                 }
                 comment += buffer;
-                OBCommentData *cd = new OBCommentData;
+                auto *cd = new OBCommentData;
                 cd->SetData(comment);
                 cd->SetOrigin(fileformatInput);
                 mol.SetData(cd);
@@ -635,7 +635,7 @@ namespace OpenBabel
             if(natoms==0)
               return false;
             // malloc / memcpy
-            double *tmpCoords = new double [(natoms)*3];
+            auto *tmpCoords = new double [(natoms)*3];
             memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
             vconf.push_back(tmpCoords);
             coordinates.clear();
@@ -647,7 +647,7 @@ namespace OpenBabel
               tokenize(vs,buffer);
               if (vs.size() >= 6)
                 {
-                  OBVectorData *dipoleMoment = new OBVectorData;
+                  auto *dipoleMoment = new OBVectorData;
                   dipoleMoment->SetAttribute("Dipole Moment");
                   double x, y, z;
                   x = atof(vs[1].c_str());
@@ -668,7 +668,7 @@ namespace OpenBabel
               if ((vs.size() >= 6) && (vs2.size() >= 6))
                 {
                   double Q[3][3];
-                  OpenBabel::OBMatrixData *quadrupoleMoment = new OpenBabel::OBMatrixData;
+                  auto *quadrupoleMoment = new OpenBabel::OBMatrixData;
 
                   Q[0][0] = atof(vs[1].c_str());
                   Q[1][1] = atof(vs[3].c_str());
@@ -695,7 +695,7 @@ namespace OpenBabel
                               &xx, &xy, &yy, &xz, &yz, &zz))
               {
                   double Q[3][3];
-                  OpenBabel::OBMatrixData *pol_tensor = new OpenBabel::OBMatrixData;
+                  auto *pol_tensor = new OpenBabel::OBMatrixData;
 
                   Q[0][0] = xx;
                   Q[1][1] = yy;
@@ -734,7 +734,7 @@ namespace OpenBabel
               {
                 mol.DeleteData("Mulliken charges");
               }
-            OBPcharge *Mulliken = new OpenBabel::OBPcharge();
+            auto *Mulliken = new OpenBabel::OBPcharge();
             std::vector<double> MPA_q;
 
             ifs.getline(buffer,BUFF_SIZE);	// column headings
@@ -781,8 +781,8 @@ namespace OpenBabel
               {
                 mol.DeleteData("CM5 charges");
               }
-            OBPcharge *Hirshfeld = new OpenBabel::OBPcharge();
-            OBPcharge *CM5       = new OpenBabel::OBPcharge();
+            auto *Hirshfeld = new OpenBabel::OBPcharge();
+            auto *CM5       = new OpenBabel::OBPcharge();
             std::vector<double> HPA_q;
             std::vector<double> CM5_q;
             ifs.getline(buffer,BUFF_SIZE);	// column headings
@@ -913,7 +913,7 @@ namespace OpenBabel
               {
                 mol.DeleteData("ESP charges");
               }
-            OBPcharge *ESP = new OpenBabel::OBPcharge();
+            auto *ESP = new OpenBabel::OBPcharge();
             std::vector<double> ESP_q;
             ifs.getline(buffer,BUFF_SIZE);	// Charge / dipole line
             ifs.getline(buffer,BUFF_SIZE); // column header
@@ -1160,7 +1160,7 @@ namespace OpenBabel
             if (vs.size() >= 4)
               {
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                OBPairData *nmrShift = new OBPairData();
+                auto *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 
                 string shift = vs[4].c_str();
@@ -1290,7 +1290,7 @@ namespace OpenBabel
     // Attach orbital data, if there is any
     if (orbitals.size() > 0)
       {
-        OBOrbitalData *od = new OBOrbitalData;
+        auto *od = new OBOrbitalData;
         if (aHOMO == bHOMO) {
           od->LoadClosedShellOrbitals(orbitals, symmetries, aHOMO);
         } else {
@@ -1351,14 +1351,14 @@ namespace OpenBabel
     //Attach rotational data, if there is any, to molecule
     if(RotConsts[0]!=0.0)
     {
-      OBRotationData* rd = new OBRotationData;
+      auto* rd = new OBRotationData;
       rd->SetData(RotorType, RotConsts, RotSymNum);
       rd->SetOrigin(fileformatInput);
       mol.SetData(rd);
     }
     // Attach unit cell translation vectors if found
     if (numTranslationVectors > 0) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
       mol.SetData(uc);
@@ -1366,7 +1366,7 @@ namespace OpenBabel
     //Attach electronic transition data, if there is any, to molecule
     if(Forces.size() > 0 && Forces.size() == Wavelengths.size())
     {
-      OBElectronicTransitionData* etd = new OBElectronicTransitionData;
+      auto* etd = new OBElectronicTransitionData;
       etd->SetData(Wavelengths, Forces);
       if (EDipole.size() == Forces.size())
         etd->SetEDipole(EDipole);
@@ -1404,7 +1404,7 @@ namespace OpenBabel
       mol.SetPartialChargesPerceived();
 
       // Annotate that partial charges come from Mulliken
-      OBPairData *dp = new OBPairData;
+      auto *dp = new OBPairData;
       dp->SetAttribute("PartialCharges");
       dp->SetValue(chargeModel); // Mulliken, ESP, etc.
       dp->SetOrigin(fileformatInput);

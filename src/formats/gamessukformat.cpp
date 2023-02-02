@@ -117,7 +117,7 @@ namespace OpenBabel
       }
     */
 
-    for (vector<string>::iterator i=geomList.begin(); i !=geomList.end(); ++i) {
+    for (auto i = geomList.begin(); i != geomList.end(); ++i) {
 
       // Alias the line
       line = *i;
@@ -553,7 +553,7 @@ namespace OpenBabel
      *
      */
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -651,7 +651,7 @@ namespace OpenBabel
 
   bool GAMESSUKInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -1051,7 +1051,7 @@ namespace OpenBabel
       
       if(frequencies.size()>0)
         {
-          OBVibrationData* vd = new OBVibrationData;
+          auto* vd = new OBVibrationData;
           vd->SetData(Lx, frequencies, intensities);
           vd->SetOrigin(fileformatInput);
           mol.SetData(vd);
@@ -1149,7 +1149,7 @@ namespace OpenBabel
 
       if(frequencies.size()>0)
         {
-          OBVibrationData* vd = new OBVibrationData;
+          auto* vd = new OBVibrationData;
           vd->SetData(Lx, frequencies, intensities);
           vd->SetOrigin(fileformatInput);
           mol.SetData(vd);
@@ -1197,7 +1197,7 @@ namespace OpenBabel
         Cartesians.
       */
 
-      OBMol *pmol = dynamic_cast<OBMol*>(pOb);
+      auto *pmol = dynamic_cast<OBMol*>(pOb);
       if (pmol == nullptr)
         return false;
 
