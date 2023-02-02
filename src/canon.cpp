@@ -1684,7 +1684,7 @@ namespace OpenBabel {
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
         OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
         if (type == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+          auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
           bool valid = true;
           if (!ts->IsValid())
@@ -1701,7 +1701,7 @@ namespace OpenBabel {
           }
         }
         if (type == OBStereo::CisTrans) {
-          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+          auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
           OBCisTransStereo::Config config = ct->GetConfig();
           bool valid = true;
           if (!ct->IsValid())
