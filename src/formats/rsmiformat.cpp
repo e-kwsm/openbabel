@@ -71,7 +71,7 @@ namespace OpenBabel
     bool ReadChemObject(OBConversion* pConv) override
     {
       //Makes a new OBReaction and new associated OBMols
-      OBReaction* pReact = new OBReaction;
+      auto* pReact = new OBReaction;
       bool ret=ReadMolecule(pReact,pConv); //call the "API" read function
 
       std::string auditMsg = "OpenBabel::Read reaction ";
@@ -96,7 +96,7 @@ namespace OpenBabel
     {
       //WriteChemObject() always deletes the object retrieved by GetChemObject
       OBBase* pOb = pConv->GetChemObject();
-      OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+      auto* pReact = dynamic_cast<OBReaction*>(pOb);
       if (pReact == nullptr)
         return false;
 
@@ -134,7 +134,7 @@ namespace OpenBabel
   {
     //It's really a reaction, not a molecule.
     //Doesn't make a new OBReaction object, but does make mew reactant and product OBMols
-    OBReaction* pReact = pOb->CastAndClear<OBReaction>();
+    auto* pReact = pOb->CastAndClear<OBReaction>();
 
     istream &ifs = *pConv->GetInStream();
     OBConversion sconv; //Copy
@@ -207,7 +207,7 @@ namespace OpenBabel
     //Extract agent (not split into separate molecules)
     if(pos2-pos>1)
     {
-      OBMol* pAgent = new OBMol;
+      auto* pAgent = new OBMol;
       s = rsmiles.substr(pos+1,pos2-pos-1);
       if(!sconv.ReadString(pAgent, s))
       {
@@ -240,7 +240,7 @@ namespace OpenBabel
   {
     //It's really a reaction, not a molecule.
     //Cast output object to the class type need, i.e. OBReaction
-    OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+    auto* pReact = dynamic_cast<OBReaction*>(pOb);
     if (pReact == nullptr)
       return false;
     ostream &ofs = *pConv->GetOutStream();

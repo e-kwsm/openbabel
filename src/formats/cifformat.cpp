@@ -607,7 +607,7 @@ namespace OpenBabel
     // Prefer Hall > HM == number, as Hall symbol is truly unique
     if (mSpacegroupSymbolHall.length() > 0) {
       //Make sure there are no leading spaces before Hall symbol (kludge)
-      for(std::string::iterator pos=mSpacegroupSymbolHall.begin();pos!=mSpacegroupSymbolHall.end();)
+      for (auto pos = mSpacegroupSymbolHall.begin(); pos != mSpacegroupSymbolHall.end();)
       {
         if((char)(*pos)==' ')  pos=mSpacegroupSymbolHall.erase(pos);
         else ++pos;
@@ -1138,7 +1138,7 @@ namespace OpenBabel
             string tag,value;
             in>>tag;
             // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
-            for (string::size_type pos = tag.find('.'); pos != string::npos; pos = tag.find('.', ++ pos))
+            for (auto pos = tag.find('.'); pos != string::npos; pos = tag.find('.', ++ pos))
               tag.replace(pos, 1, 1, '_');
             value=CIFReadValue(in,lastc);
             mvData[block].mvItem[ci_string(tag.c_str())]=value;
@@ -1192,7 +1192,7 @@ namespace OpenBabel
                   }
                 in>>tmp;
                 // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
-                for (string::size_type pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
+                for (auto pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
                   tmp.replace(pos, 1, 1, '_');
                 tit.push_back(ci_string(tmp.c_str()));
                 if(vv) obErrorLog.ThrowError(__FUNCTION__, " , "+tmp, obDebug);
