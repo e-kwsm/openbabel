@@ -76,7 +76,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////
   bool OpEnergy::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
       return false;
 
@@ -85,7 +85,7 @@ namespace OpenBabel
 
     string ff = "MMFF94";
     double epsilon = 1.0;
-    OpMap::const_iterator iter = pmap->find("ff");
+    auto iter = pmap->find("ff");
     if(iter!=pmap->end())
       ff = iter->second;
     OBForceField* pFF = OBForceField::FindForceField(ff);
@@ -115,7 +115,7 @@ namespace OpenBabel
     }
 
     //Put the energy in a OBPairData object
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("Energy");
     stringstream ss;
     ss << pFF->Energy(false);
@@ -173,7 +173,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////
   bool OpMinimize::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
       return false;
 
@@ -190,7 +190,7 @@ namespace OpenBabel
     bool log = false;
 
     string ff = "MMFF94";
-    OpMap::const_iterator iter = pmap->find("ff");
+    auto iter = pmap->find("ff");
     if(iter!=pmap->end())
       ff = iter->second;
     OBForceField* pFF = OBForceField::FindForceField(ff);
@@ -271,7 +271,7 @@ namespace OpenBabel
     pFF->GetCoordinates(*pmol);
 
     //Put the energy in a OBPairData object
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("Energy");
     stringstream ss;
     ss << pFF->Energy(false);

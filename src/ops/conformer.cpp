@@ -104,7 +104,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////
   bool OpConformer::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
       return false;
     pmol->AddHydrogens(false, false);

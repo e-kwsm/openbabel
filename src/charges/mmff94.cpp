@@ -50,7 +50,7 @@ MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
     mol.SetPartialChargesPerceived();
 
     // Annotate that partial charges come from MMFF94
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("MMFF94");
     dp->SetOrigin(perceived);
@@ -66,7 +66,7 @@ MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
     m_formalCharges.clear();
     m_formalCharges.reserve(mol.NumAtoms());
     FOR_ATOMS_OF_MOL(atom, mol) {
-      OBPairData *chg = (OpenBabel::OBPairData*) atom->GetData("FFPartialCharge");
+      auto *chg = (OpenBabel::OBPairData*) atom->GetData("FFPartialCharge");
       if (chg)
         atom->SetPartialCharge(atof(chg->GetValue().c_str()));
       m_partialCharges.push_back(atom->GetPartialCharge());
