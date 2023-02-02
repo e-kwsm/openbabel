@@ -33,12 +33,12 @@ void compareMolecules(OBMol *mol1, OBMol *mol2)
 
   std::vector<unsigned int> symclassesCopy1 = symclasses1;
   std::sort(symclassesCopy1.begin(), symclassesCopy1.end());
-  std::vector<unsigned int>::iterator end1 = std::unique(symclassesCopy1.begin(), symclassesCopy1.end());
+  auto end1 = std::unique(symclassesCopy1.begin(), symclassesCopy1.end());
   unsigned int unique1 = end1 - symclassesCopy1.begin();
 
   std::vector<unsigned int> symclassesCopy2 = symclasses2;
   std::sort(symclassesCopy2.begin(), symclassesCopy2.end());
-  std::vector<unsigned int>::iterator end2 = std::unique(symclassesCopy2.begin(), symclassesCopy2.end());
+  auto end2 = std::unique(symclassesCopy2.begin(), symclassesCopy2.end());
   unsigned int unique2 = end2 - symclassesCopy2.begin();
 
   OB_ASSERT( unique1 == unique2 );
