@@ -228,7 +228,7 @@ namespace OpenBabel
       // If we reach here, then a similar molecule was found
       int startlevel = level;
       std::vector<double>::const_iterator n_rmsd = min_nodes_rmsds.begin();
-      for (std::vector<Tree_it>::iterator n = min_nodes.begin(); n != min_nodes.end(); ++n, ++n_rmsd) {
+      for (auto n = min_nodes.begin(); n != min_nodes.end(); ++n, ++n_rmsd) {
         node = *n;
         rmsd = *n_rmsd;
         level = startlevel + 1;
@@ -246,9 +246,9 @@ namespace OpenBabel
 
 
     // If we get here, then the molecule has been accepted for addition to the tree
-    std::vector<PosePair>::iterator b = insert_data.begin();
-    std::vector<int>::iterator c = insert_level.begin();
-    for (std::vector<Tree_it>::iterator a = insert_pt.begin(); a != insert_pt.end(); ++a, ++b, ++c) {
+    auto b = insert_data.begin();
+    auto c = insert_level.begin();
+    for (auto a = insert_pt.begin(); a != insert_pt.end(); ++a, ++b, ++c) {
       node = *a;
       for (unsigned int k = *c; k < levels.size(); ++k) {
         node = poses.append_child(node, *b);
@@ -308,7 +308,7 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
   // Loop through the confs and filter using a tree
   newconfs.clear();
   OBDiversePoses newtree(*mol, cutoff, true);
-  for (vpp::iterator conf = confs.begin(); conf!=confs.end(); ++conf) {
+  for (auto conf = confs.begin(); conf != confs.end(); ++conf) {
     if (newtree.AddPose(conf->first, conf->second)) {
       newconfs.push_back(*conf);
     }
@@ -317,12 +317,12 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
     std::cout << "....new tree size = " << newtree.GetSize() <<  " confs = " << newconfs.size() << "\n";
 
   // Add confs to the molecule's conformer data and add the energies to molecules's energies
-  for (vpp::iterator chosen = newconfs.begin(); chosen!=newconfs.end(); ++chosen) {
+  for (auto chosen = newconfs.begin(); chosen != newconfs.end(); ++chosen) {
     energies.push_back(chosen->second);
 
     // To avoid making copies of vectors or vector3s, I am using pointers throughout
     std::vector<vector3> *tmp = &(chosen->first);
-    double *confCoord = new double [mol->NumAtoms() * 3];
+    auto *confCoord = new double [mol->NumAtoms() * 3];
     for(unsigned int a = 0; a<mol->NumAtoms(); ++a) {
       vector3* pv3 = &(*tmp)[a];
       confCoord[a*3] = pv3->x();
@@ -338,8 +338,8 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
     _energies.clear(); // Wipe any energies from previous conformer generators
 
     // Remove all conformers (e.g. from previous conformer generators) even the current conformer
-    double *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
-    double *store_initial = new double [_mol.NumAtoms() * 3]; // store the initial state
+    auto *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
+    auto *store_initial = new double [_mol.NumAtoms() * 3]; // store the initial state
     memcpy((char*)initialCoord,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     memcpy((char*)store_initial,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     std::vector<double *> newConfs(1, initialCoord);
