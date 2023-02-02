@@ -108,7 +108,7 @@ OBMSMSFormat msmsFormat__;
 //------------------------------------------------------------------------------
 bool OBMSMSFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
 {
-    OBMol* pmol = dynamic_cast< OBMol* >(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) return false;
 
     ostream& os = *pConv->GetOutStream();
