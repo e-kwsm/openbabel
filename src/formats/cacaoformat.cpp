@@ -70,7 +70,7 @@ namespace OpenBabel
   bool CacaoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -107,7 +107,7 @@ namespace OpenBabel
     Beta  = atof((char*)vs[5].c_str());
     Gamma = atof((char*)vs[6].c_str());
 
-    OBUnitCell *uc = new OBUnitCell;
+    auto *uc = new OBUnitCell;
     uc->SetData(A, B, C, Alpha, Beta, Gamma);
     uc->SetOrigin(fileformatInput);
     mol.SetData(uc);
@@ -161,7 +161,7 @@ namespace OpenBabel
 
   bool CacaoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -182,7 +182,7 @@ namespace OpenBabel
       ofs << "CELL 1.,1.,1.,90.,90.,90.\n";
     else
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         snprintf(buffer, BUFF_SIZE, "CELL %f,%f,%f,%f,%f,%f\n",
                  uc->GetA(), uc->GetB(), uc->GetC(),
                  uc->GetAlpha(), uc->GetBeta(), uc->GetGamma());
@@ -319,7 +319,7 @@ namespace OpenBabel
 
   bool CacaoInternalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
