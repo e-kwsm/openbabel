@@ -65,7 +65,7 @@ OpHighlight theOpHighlight("highlight"); //Global instance
 //////////////////////////////////////////////////////////////////
 bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
   std::vector<std::string> vec;
@@ -139,7 +139,7 @@ bool OpHighlight::AddDataToSubstruct(OBMol* pmol,
     OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
     if(!pAtom)
       continue;
-    OBPairData* dp = new OBPairData;
+    auto* dp = new OBPairData;
     dp->SetAttribute(attribute);
     dp->SetValue(value);
     pAtom->SetData(dp);
@@ -153,7 +153,7 @@ bool OpHighlight::AddDataToSubstruct(OBMol* pmol,
     if(count(atomIdxs.begin(), atomIdxs.end(), pBond->GetBeginAtomIdx())
         && count(atomIdxs.begin(), atomIdxs.end(), pBond->GetEndAtomIdx()))
     {
-      OBPairData* dp = new OBPairData;
+      auto* dp = new OBPairData;
       dp->SetAttribute(attribute);
       dp->SetValue(value);
       pBond->SetData(dp);

@@ -90,7 +90,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////
   bool OpConfab::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv=nullptr)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
       return false;
 

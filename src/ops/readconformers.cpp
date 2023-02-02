@@ -71,7 +71,7 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
   std::vector<OBBase*>::iterator iter;
   for(iter= vec.begin();iter!=vec.end();++iter)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(*iter);
+    auto* pmol = dynamic_cast<OBMol*>(*iter);
     if(!pmol)
       continue;
     smiles = smconv.WriteString(pmol);
@@ -80,7 +80,7 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
     if(stored_smiles==smiles)
     {
       //add the coordinates of the current mol to the stored one as a conformer, and delete current mol
-      double *confCoord = new double [pmol->NumAtoms() * 3];
+      auto *confCoord = new double [pmol->NumAtoms() * 3];
       memcpy((char*)confCoord,(char*)pmol->GetCoordinates(),sizeof(double)*3*pmol->NumAtoms());
       stored_pmol->AddConformer(confCoord);
       delete pmol;
