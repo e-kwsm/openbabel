@@ -346,7 +346,7 @@ namespace OpenBabel {
   */
   bool SMIBaseFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
 
     istream &ifs = *pConv->GetInStream();
     string ln, smiles, title;
@@ -451,7 +451,7 @@ namespace OpenBabel {
           // Handle all the reactant atoms
           // - the remaining atoms will be handled on-the-fly
           FOR_ATOMS_OF_MOL(atom, mol) {
-            OBPairInteger *pi = new OBPairInteger();
+            auto *pi = new OBPairInteger();
             pi->SetAttribute("rxnrole");
             pi->SetValue(1);
             atom->SetData(pi);
@@ -624,7 +624,7 @@ namespace OpenBabel {
           // a lone pair, think of C[S@](=X)(=Y)Cl.
 
           // We have remembered where to insert the lone pair in the _chiralLonePair map
-          map<unsigned int, char>::iterator m_it = _chiralLonePair.find(atom->GetIdx());
+          auto m_it = _chiralLonePair.find(atom->GetIdx());
           if (CanHaveLonePair(atom->GetAtomicNum()) && m_it != _chiralLonePair.end()) {
             ts->refs[2] = ts->refs[1]; ts->refs[1] = ts->refs[0];
             if (m_it->second == 0) { // Insert in the 'from' position
@@ -643,7 +643,7 @@ namespace OpenBabel {
         }
 
         // cout << "*ts = " << *ts << endl;
-        OBTetrahedralStereo *obts = new OBTetrahedralStereo(&mol);
+        auto *obts = new OBTetrahedralStereo(&mol);
         obts->SetConfig(*ts);
         mol.SetData(obts);
       }
@@ -663,7 +663,7 @@ namespace OpenBabel {
           continue;
 
         // cout << "*ts = " << *ts << endl;
-        OBSquarePlanarStereo *obsp = new OBSquarePlanarStereo(&mol);
+        auto *obsp = new OBSquarePlanarStereo(&mol);
         obsp->SetConfig(*sp);
         mol.SetData(obsp);
       }
@@ -805,7 +805,7 @@ namespace OpenBabel {
 
           bool found = true;
           bool stereo;
-          map<OBBond*, StereoRingBond>::iterator sb_it = _stereorbond.find(b);
+          auto sb_it = _stereorbond.find(b);
           if (sb_it == _stereorbond.end()) // Not a ring closure
             // True/False for "up/down if moved to before the double bond C"
             stereo = !(IsUp(b) ^ (b->GetNbrAtomIdx(dbl_bond_atoms[i]) < dbl_bond_atoms[i]->GetIdx())) ;
@@ -845,7 +845,7 @@ namespace OpenBabel {
       unsigned int fourth = (other_bond[1] == nullptr) ? OBStereo::ImplicitRef : other_bond[1]->GetNbrAtom(a2)->GetId();
 
 
-      OBCisTransStereo *ct = new OBCisTransStereo(&mol);
+      auto *ct = new OBCisTransStereo(&mol);
       OBCisTransStereo::Config cfg;
       cfg.begin = a1->GetId();
       cfg.end = a2->GetId();
@@ -1011,7 +1011,7 @@ namespace OpenBabel {
     atom->SetAtomicNum(element);
     if (_rxnrole > 1) { // Quick test for reaction
       // Set reaction role
-      OBPairInteger *pi = new OBPairInteger();
+      auto *pi = new OBPairInteger();
       pi->SetAttribute("rxnrole");
       pi->SetValue(_rxnrole);
       atom->SetData(pi);
@@ -1825,7 +1825,7 @@ namespace OpenBabel {
               clval = clval*10 + ((*_ptr++)-'0');
             --_ptr;
             { // a block is needed here to scope the OBPairInteger assignment
-              OBPairInteger *atomclass = new OBPairInteger();
+              auto *atomclass = new OBPairInteger();
               atomclass->SetAttribute("Atom Class");
               atomclass->SetValue(clval);
               atomclass->SetOrigin(fileformatInput);
@@ -1857,7 +1857,7 @@ namespace OpenBabel {
       atom->SetAromatic();
     if (_rxnrole > 1) { // Quick test for reaction
       // Set reaction role
-      OBPairInteger *pi = new OBPairInteger();
+      auto *pi = new OBPairInteger();
       pi->SetAttribute("rxnrole");
       pi->SetValue(_rxnrole);
       atom->SetData(pi);
@@ -2479,10 +2479,10 @@ namespace OpenBabel {
   void OBMol2Cansmi::CreateCisTrans(OBMol &mol)
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+    for (auto data = vdata.begin(); data != vdata.end(); ++data) {
       if (((OBStereoBase*)*data)->GetType() != OBStereo::CisTrans)
         continue;
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
       if (ct && ct->GetConfig().specified) {
         OBCisTransStereo::Config config = ct->GetConfig();
         OBBond* dbl_bond = mol.GetBond(mol.GetAtomById(config.begin), mol.GetAtomById(config.end));
@@ -2765,7 +2765,7 @@ namespace OpenBabel {
       // Atomic number zero - either '*' or an external atom
       else {
         bool external = false;
-        vector<pair<int,pair<OBAtom *,OBBond *> > > *externalBonds =
+        auto *externalBonds =
           (vector<pair<int,pair<OBAtom *,OBBond *> > > *)((OBMol*)atom->GetParent())->GetData("extBonds");
         vector<pair<int,pair<OBAtom *,OBBond *> > >::iterator externalBond;
 
@@ -2887,7 +2887,7 @@ namespace OpenBabel {
     if (options.showatomclass) {
       OBGenericData *data = atom->GetData("Atom Class");
       if (data) {
-        OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
+        auto* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
         if (acdata) {
           int ac = acdata->GetGenericValue();
           if (ac >= 0) { // Allow 0, why not?
@@ -3169,7 +3169,7 @@ namespace OpenBabel {
       MyFindChildren(mol, children, _uatoms, _endatom);
 
       vector<OBAtom*> front, end;
-      for (vector<OBAtom *>::iterator it=sort_nbrs.begin(); it!=sort_nbrs.end(); ++it)
+      for (auto it = sort_nbrs.begin(); it != sort_nbrs.end(); ++it)
         if (std::find(children.begin(), children.end(), *it) == children.end() && *it != _endatom)
           front.push_back(*it);
         else
@@ -3707,10 +3707,10 @@ namespace OpenBabel {
 
     tmp = split_aux.at(2).substr(2);
     tokenize(s_components, tmp, ";");
-    for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
+    for (auto it = s_components.begin(); it != s_components.end(); ++it) {
       tokenize(s_atoms, *it, ",");
       vector<int> atoms;
-      for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
+      for (auto itb = s_atoms.begin(); itb != s_atoms.end(); ++itb)
         atoms.push_back(atoi(itb->c_str()));
       canonical_labels.push_back(atoms);
     }
@@ -3723,7 +3723,7 @@ namespace OpenBabel {
       tokenize(s_components, split_aux.at(0), ";");
       vector<vector<int> > new_canonical_labels;
       int total = 0;
-      for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
+      for (auto it = s_components.begin(); it != s_components.end(); ++it) {
         // e.g. "1,2,3;2m" means replace the first component by "1,2,3"
         //                       but keep the next two unchanged
         if (*(it->rbegin()) == 'm') {
@@ -3739,7 +3739,7 @@ namespace OpenBabel {
         else {
           tokenize(s_atoms, *it, ",");
           vector<int> atoms;
-          for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
+          for (auto itb = s_atoms.begin(); itb != s_atoms.end(); ++itb)
             atoms.push_back(atoi(itb->c_str()));
           new_canonical_labels.push_back(atoms);
           total++;
@@ -3749,7 +3749,7 @@ namespace OpenBabel {
     }
 
     // Flatten the canonical_labels
-    for(vector<vector<int> >::iterator it=canonical_labels.begin(); it!=canonical_labels.end(); ++it) {
+    for (auto it = canonical_labels.begin(); it != canonical_labels.end(); ++it) {
       atom_order.insert(atom_order.end(), it->begin(), it->end());
     }
 
@@ -3958,7 +3958,7 @@ namespace OpenBabel {
         if ((_pconv->IsOption("I") || universal_smiles)
              && root_atom && root_atom->GetFormalCharge()==-1  && root_atom->GetExplicitDegree() == 1
              && root_atom->HasSingleBond() && (root_atom->GetAtomicNum() == OBElements::Oxygen || root_atom->GetAtomicNum() == OBElements::Sulfur)) {
-          OBBondIterator bi = root_atom->BeginBonds();
+          auto bi = root_atom->BeginBonds();
           OBAtom* central = root_atom->BeginNbrAtom(bi);
           FOR_NBORS_OF_ATOM(nbr, central) {
             if (root_atom == &*nbr) continue;
@@ -4005,7 +4005,7 @@ namespace OpenBabel {
 
   void OBMol2Cansmi::GetOutputOrder(std::string &outorder)
   {
-    std::vector<int>::iterator it = _atmorder.begin();
+    auto it = _atmorder.begin();
     if (it != _atmorder.end()) {
       char tmp[15];
       snprintf(tmp, 15, "%d", *it);
@@ -4145,7 +4145,7 @@ namespace OpenBabel {
   bool SMIBaseFormat::WriteMolecule(OBBase* pOb,OBConversion* pConv)
   {
     //cout << "SMIBaseFromat::WriteMolecule()" << endl;
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
 
     // Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -4181,7 +4181,7 @@ namespace OpenBabel {
 
     OBBitVec fragatoms(pmol->NumAtoms());
 
-    OBPairData *dp = (OBPairData *) pmol->GetData("SMILES_Fragment");
+    auto *dp = (OBPairData *) pmol->GetData("SMILES_Fragment");
     const char* ppF = pConv->IsOption("F");
     if (dp) {
       fragatoms.FromString(dp->GetValue(), pmol->NumAtoms());
@@ -4280,7 +4280,7 @@ namespace OpenBabel {
 
   bool FIXFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
