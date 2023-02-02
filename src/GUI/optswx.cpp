@@ -232,7 +232,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           if(!strpbrk(pdef,"([<{-;")) pdef++ ;
           *pdef='\0';
         }
-        wxStaticText* pEdCaption = new wxStaticText(parent,wxID_STATIC,wxString(pCaption, wxConvUTF8));
+        auto* pEdCaption = new wxStaticText(parent,wxID_STATIC,wxString(pCaption, wxConvUTF8));
         OptionMap.push_back(std::make_pair(wxString(),pEdCaption));//string is empty for a caption: not an option
 
         //Edit boxes for multicharacter options are larger
@@ -256,7 +256,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
         }
         else
         {
-          wxBoxSizer* pEdSizer = new wxBoxSizer(wxHORIZONTAL);
+          auto* pEdSizer = new wxBoxSizer(wxHORIZONTAL);
           if(ProvideExtraCheckbox)
           {
             wxControl* pChk = new wxCheckBox(parent,wxID_ANY,_T(" "));
@@ -316,7 +316,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
   }
   if(OptionsFound)
   {
-    wxStaticLine* pLine = new wxStaticLine(parent);
+    auto* pLine = new wxStaticLine(parent);
     sizer->Add(pLine,0,wxTOP|wxEXPAND,FOUR);
     OptionMap.push_back(std::make_pair(wxString(),pLine));//empty string
   }
@@ -339,7 +339,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     wxString oname = itr->first;
     wxString txt;
 
-    wxCheckBox* pChk = dynamic_cast<wxCheckBox*> (itr->second);
+    auto* pChk = dynamic_cast<wxCheckBox*> (itr->second);
     if(pChk)
     {
       if(!pChk->IsChecked())
@@ -352,7 +352,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     }
     else
     {
-      wxRadioButton* pRadio = dynamic_cast<wxRadioButton*> (itr->second);
+      auto* pRadio = dynamic_cast<wxRadioButton*> (itr->second);
       if(pRadio)
       {
         if(pRadio->GetValue())
@@ -360,7 +360,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
       }
       else
       {
-        wxTextCtrl* pText = dynamic_cast<wxTextCtrl*> (itr->second);
+        auto* pText = dynamic_cast<wxTextCtrl*> (itr->second);
         if(pText)
         {
           txt = pText->GetValue();
@@ -371,7 +371,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     }
 
     //Get the contents of subsequent editboxes
-    OMapType::iterator itr2 = itr;
+    auto itr2 = itr;
     while(++itr2!= OptionMap.end())
     {
       if((itr2->first).empty() || itr2->first[0]!=_T(' ')) //subsequent editboxes have the name preceded by a space

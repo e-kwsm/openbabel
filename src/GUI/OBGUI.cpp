@@ -111,7 +111,7 @@ bool OBGUIApp::OnInit()
   HelpFile = help.GetFullPath();
 
   // create the main application window
-  OBGUIFrame *frame = new OBGUIFrame(_T("OpenBabelGUI"), position, size);
+  auto *frame = new OBGUIFrame(_T("OpenBabelGUI"), position, size);
 
   // and show it (the frames, unlike simple controls, are not shown when
   // created initially)
@@ -126,7 +126,7 @@ bool OBGUIApp::OnInit()
   std::string splfile = OpenDatafile(fs, "splash.png");
   if(!splfile.empty() && bitmap.LoadFile(wxString(splfile.c_str(), wxConvUTF8), wxBITMAP_TYPE_PNG))
   {
-    wxSplashScreen* splash = new wxSplashScreen(bitmap,
+    auto* splash = new wxSplashScreen(bitmap,
       wxSPLASH_CENTRE_ON_PARENT|wxSPLASH_TIMEOUT,
       4000, nullptr, -1, wxDefaultPosition, wxDefaultSize,
       wxBORDER_SIMPLE|wxSTAY_ON_TOP);
@@ -212,7 +212,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
   viewMenu->Check(ID_RESTRICTFORMATS,chk);
 
   // now append the freshly created menu to the menu bar...
-  wxMenuBar *menuBar = new wxMenuBar();
+  auto *menuBar = new wxMenuBar();
   menuBar->Append(fileMenu, _T("&File"));
   menuBar->Append(viewMenu, _T("&View"));
   menuBar->Append(listMenu, _T("&Plugins"));
@@ -224,7 +224,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
 //******************************************************
 //**************** Controls (in tab order)**************
 
-  wxPanel* panel = new wxPanel(this, wxID_ANY);
+  auto* panel = new wxPanel(this, wxID_ANY);
   m_pOptsWindow =
     new wxScrolledWindow(panel, wxID_ANY,wxDefaultPosition,wxDefaultSize,wxVSCROLL | wxNO_BORDER);
   m_pOptsWindow->SetScrollRate(0,10);
@@ -294,11 +294,11 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
   OutSizer     = new wxBoxSizer(wxVERTICAL);
   CenterSizer  = new wxBoxSizer(wxVERTICAL);
   OptionsSizer = new wxBoxSizer(wxVERTICAL);
-  wxBoxSizer *InFilesSizer = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *OutFilesSizer = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *OutAuxSizer    = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *InFormatSizer = new wxBoxSizer(wxHORIZONTAL);
-  wxBoxSizer *OutFormatSizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *InFilesSizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *OutFilesSizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *OutAuxSizer    = new wxBoxSizer(wxHORIZONTAL);
+  auto *InFormatSizer = new wxBoxSizer(wxHORIZONTAL);
+  auto *OutFormatSizer = new wxBoxSizer(wxHORIZONTAL);
 
   InFormatSizer->Add(m_pInFormat,1,wxEXPAND);
   InFormatSizer->Add(m_pInInfo,0,wxLEFT,5);
@@ -317,7 +317,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
 
   OutFormatSizer->Add(m_pOutFormat,1,wxEXPAND);
   OutFormatSizer->Add(m_pOutInfo,0,wxLEFT,5);
-  wxStaticText* pStatic = new wxStaticText(panel,wxID_STATIC,wxT("        ---- INPUT FORMAT ----"));
+  auto* pStatic = new wxStaticText(panel,wxID_STATIC,wxT("        ---- INPUT FORMAT ----"));
   MakeBold(pStatic);
   InSizer->Add(pStatic);
   InSizer->Add(InFormatSizer,0, wxLEFT|wxTOP,5);
@@ -604,7 +604,7 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
   if((oSel)<0) return;
 
   OBFormat* pInFormat = nullptr;
-  OBFormat* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(oSel);
+  auto* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(oSel);
   if(m_pForceInFormat->IsChecked() || m_pInputHere->IsChecked())
     pInFormat = (OBFormat*)m_pInFormat->GetClientData(iSel);
   Conv.SetInAndOutFormats( pInFormat,pOutFormat);
@@ -710,7 +710,7 @@ void OBGUIFrame::OnInFormatInfo(wxCommandEvent& WXUNUSED(event))
 {
   int nSel=m_pInFormat->GetSelection();
   if(nSel<0) return;
-  OBFormat* pFormat = (OBFormat*)m_pInFormat->GetClientData(nSel);
+  auto* pFormat = (OBFormat*)m_pInFormat->GetClientData(nSel);
   wxString mes(pFormat->Description(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
   if(!url.IsEmpty())
@@ -723,7 +723,7 @@ void OBGUIFrame::OnOutFormatInfo(wxCommandEvent& WXUNUSED(event))
 {
   int nSel=m_pOutFormat->GetSelection();
   if(nSel<0) return;
-  OBFormat* pFormat = (OBFormat*)m_pOutFormat->GetClientData(nSel);
+  auto* pFormat = (OBFormat*)m_pOutFormat->GetClientData(nSel);
   wxString mes(pFormat->Description(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
   if(!url.IsEmpty())
@@ -839,8 +839,8 @@ void OBGUIFrame::OnChangeFormat(wxCommandEvent& WXUNUSED(event))
   if(viewMenu->IsChecked(ID_SHOWCONVOPTIONS))
     m_pConvOptsPanel->Construct(OBConversion::Description());
 
-  OBFormat* pInFormat = (OBFormat*)m_pInFormat->GetClientData(m_pInFormat->GetSelection());
-  OBFormat* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(m_pOutFormat->GetSelection());
+  auto* pInFormat = (OBFormat*)m_pInFormat->GetClientData(m_pInFormat->GetSelection());
+  auto* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(m_pOutFormat->GetSelection());
   if(!pInFormat || !pOutFormat)
     return;
   if(viewMenu->IsChecked(ID_SHOWOBJOPTIONS1)) //Single char
@@ -989,7 +989,7 @@ void OBGUIFrame::GetAvailableFormats()
     OBFormat::PluginIterator itr;
     for(itr=OBFormat::Begin("formats");itr!=OBFormat::End("formats");++itr)
     {
-      OBFormat* pFormat = static_cast<OBFormat*>(itr->second);
+      auto* pFormat = static_cast<OBFormat*>(itr->second);
       if((pFormat->Flags() & NOTWRITABLE) && (pFormat->Flags() & NOTREADABLE))
         continue;
 
@@ -1060,7 +1060,7 @@ END_EVENT_TABLE()
 void CFilenames::OnDblClick(wxMouseEvent& event)
 {
   //extract double-clicked filename
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  auto* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
   wxASSERT(frame);
   frame->DisplayInFile(SelectFilename());
 }
@@ -1100,7 +1100,7 @@ void OBGUIFrame::MakePluginsMenu()
   OBPlugin::ListAsVector(nullptr, nullptr, topvec);//get 'formats', 'fingerprints', etc
   for(int itop=0; itop < topvec.size(); ++itop)
   {
-    wxMenu* subMenu = new wxMenu();
+    auto* subMenu = new wxMenu();
     std::vector<std::string> subvec;
 //    std::vector<std::string> verbosevec;
     OBPlugin::ListAsVector(topvec[itop].c_str(), nullptr, subvec);//get each format, etc as single line
@@ -1161,7 +1161,7 @@ void OBGUIFrame::OnClickPlugin(wxCommandEvent& event)
 void CFilenames::OnKeyPress(wxKeyEvent& event)
 {
   int delta=1;
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  auto* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
   switch (event.GetKeyCode())
   {
   case 313:
@@ -1225,7 +1225,7 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
 int  CFilenames::Expand(std::vector<std::string>& filelist)
 {
   //Adds full path names of all input files to filelist, expanding wildcards they are present.
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  auto* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
   int namestart=0, count=0;
   wxString txt(GetValue());
   do //for each filename
@@ -1264,7 +1264,7 @@ bool CFilenames::ToNextFile(int delta)
   if(pos!=-1)
   {
     SetInsertionPoint(pos);
-    OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+    auto* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
     wxString nxtname = SelectFilename();
     if(nxtname.IsEmpty())
       return false;

@@ -88,8 +88,8 @@ class Matcher
 		bool operator()(OBIsomorphismMapper::Mapping &map) override
 		{
 			unsigned N = map.size();
-			double *refcoord = (double*)alloca(sizeof(double)*N * 3);
-			double *testcoord = (double*)alloca(sizeof(double)*N * 3);
+			auto *refcoord = (double*)alloca(sizeof(double)*N * 3);
+			auto *testcoord = (double*)alloca(sizeof(double)*N * 3);
 
 			for (unsigned i = 0; i < N; i++)
 			{
@@ -194,13 +194,13 @@ static void processMol(OBMol& mol)
 	//should be considered the same based solely on connectivity
 
 	mol.DeleteHydrogens(); //heavy atom rmsd
-	for (OBAtomIterator aitr = mol.BeginAtoms(); aitr != mol.EndAtoms(); aitr++)
+	for (auto aitr = mol.BeginAtoms(); aitr != mol.EndAtoms(); ++aitr)
 	{
 		OBAtom *a = *aitr;
 		a->SetAromatic(false);
 		a->SetInRing();
 	}
-	for (OBBondIterator bitr = mol.BeginBonds(); bitr != mol.EndBonds(); bitr++)
+	for (auto bitr = mol.BeginBonds(); bitr != mol.EndBonds(); ++bitr)
 	{
 		OBBond *b = *bitr;
 		b->SetAromatic(false);
