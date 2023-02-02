@@ -110,7 +110,7 @@ OBMoldenFormat moldenFormat__;
 //------------------------------------------------------------------------------
 bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
-    OBMol* pmol = dynamic_cast< OBMol* >(pOb);
+    auto* pmol = dynamic_cast< OBMol* >(pOb);
     if (pmol == nullptr) return false;
 
     istream& ifs = *pConv->GetInStream();
@@ -151,7 +151,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               atom->SetAtomicNum( atomicNumber );
               atom->SetVector( x * factor, y * factor, z * factor );
               if (atomicNumber-valenceCharge!=0){
-                OBPairData* ecpData = new OBPairData();
+                auto* ecpData = new OBPairData();
                 ecpData->SetAttribute("ecp");
                 std::ostringstream os;
                 os << atomicNumber-valenceCharge;
@@ -319,7 +319,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           i--;  // compensate for the vibration which just got cut out
         }
       }
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);
       pmol->SetData(vd);
     }
@@ -329,7 +329,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     if (conformers.size() > 0) {
       for (unsigned int i = 0; i < conformers.size(); ++i) {
-        double *confCoord = new double [3*pmol->NumAtoms()];
+        auto *confCoord = new double[3*pmol->NumAtoms()];
         vector<vector3> coordinates = conformers[i];
         if (coordinates.size() != pmol->NumAtoms())
           cerr << " Wrong number of coordinates! " << endl;
@@ -356,7 +356,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
 bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -382,7 +382,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         ofs << buffer;
       }
 
-    OBVibrationData *vib = (OBVibrationData *) mol.GetData(OBGenericDataType::VibrationData);
+    auto *vib = (OBVibrationData *) mol.GetData(OBGenericDataType::VibrationData);
     if (vib && vib->GetNumberOfFrequencies() > 0) {
       ofs << "[FREQ]" << endl;
       vector<double> frequencies = vib->GetFrequencies();
