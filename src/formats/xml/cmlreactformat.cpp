@@ -121,7 +121,7 @@ CMLReactFormat theCMLReactFormat;
 bool CMLReactFormat::ReadChemObject(OBConversion* pConv)
 {
   //Makes a new OBReaction and new associated OBMols
-  OBReaction* pReact = new OBReaction;
+  auto* pReact = new OBReaction;
 
   if(pConv->IsFirstInput())
   {
@@ -316,7 +316,7 @@ bool CMLReactFormat::WriteChemObject(OBConversion* pConv)
 {
   //WriteChemObject() always deletes the object retrieved by GetChemObject
   OBBase* pOb=pConv->GetChemObject();
-  OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+  auto* pReact = dynamic_cast<OBReaction*>(pOb);
   if (pReact == nullptr)
   {
     //If sent a molecule, add it to the list.
@@ -332,7 +332,7 @@ bool CMLReactFormat::WriteChemObject(OBConversion* pConv)
       OMols.clear();
     }
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol != nullptr)
     {
       std::shared_ptr<OBMol> sp(pmol);
@@ -365,7 +365,7 @@ bool CMLReactFormat::WriteChemObject(OBConversion* pConv)
     //If sent text as an OBText object, output the text up to the insertion point
     //and the rest of the text in _text. The content of _text is output at the end.
     {
-      OBText* ptext = dynamic_cast<OBText*>(pOb);
+      auto* ptext = dynamic_cast<OBText*>(pOb);
       if (ptext == nullptr)
         return false;
       string::size_type pos = 0;
@@ -412,7 +412,7 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     return false;
 
   //Cast output object to the class type need, i.e. OBReaction
-  OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+  auto* pReact = dynamic_cast<OBReaction*>(pOb);
   if (pReact == nullptr)
       return false;
 
@@ -443,7 +443,7 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   bool list = _pxmlConv->IsOption("l") == nullptr; //Output with molecules in a separate list
 
-  xmlChar* prefix = BAD_CAST _pxmlConv->IsOption("N");
+  auto* prefix = BAD_CAST _pxmlConv->IsOption("N");
   xmlChar* altprefix = _pxmlConv->IsOption("M") ? BAD_CAST "obr" : nullptr;
 
   xmlChar* uri=nullptr;
@@ -684,7 +684,7 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
 
 bool CMLReactFormat::WriteRateData(OBReaction* pReact, xmlChar* altprefix)
 {
-  OBRateData* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
+  auto* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
   if(!pRD || pRD->GetRate(OBRateData::A)==0)
     return false; //nothing written
 

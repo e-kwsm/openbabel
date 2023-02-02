@@ -386,7 +386,7 @@ namespace OpenBabel
             {
               if(pvalue && !attr.empty())
               {
-                OBPairData *dp = new OBPairData;
+                auto *dp = new OBPairData;
                 dp->SetAttribute(attr);
                 string val((const char*)pvalue);
                 dp->SetValue(Trim(val));
@@ -415,7 +415,7 @@ namespace OpenBabel
           for(unsigned i=0;i<items.size();++i)
             vFrequencies.push_back(atof(items[i].c_str()));
 
-          OBVibrationData* vd = new OBVibrationData;
+          auto* vd = new OBVibrationData;
           vd->SetData(vLx, vFrequencies, vIntensities);
           vd->SetOrigin(fileformatInput);
           _pmol->SetData(vd);
@@ -428,7 +428,7 @@ namespace OpenBabel
           for(unsigned i=0;i<items.size();++i)
             rotConsts.push_back(atof(items[i].c_str()) * WAVENUM_TO_GHZ);
 
-          OBRotationData* rd = new OBRotationData;
+          auto* rd = new OBRotationData;
           rd->SetData(OBRotationData::UNKNOWN, rotConsts, 1);//rotor type and symmetry number unknown
           rd->SetOrigin(fileformatInput);
           _pmol->SetData(rd);
@@ -643,7 +643,7 @@ namespace OpenBabel
                 //If the id ends with "_NUMBER", then NUMBER is taken as an atom class
                 const char* atomclass = FindStartOfAtomClass(value.c_str());
                 if (atomclass) {
-                  OBPairInteger *pi = new OBPairInteger();
+                  auto *pi = new OBPairInteger();
                   pi->SetAttribute("Atom Class");
                   pi->SetValue(atoi(atomclass));
                   pi->SetOrigin(fileformatInput);
@@ -739,7 +739,7 @@ namespace OpenBabel
 
             else if(attrname=="label")
               {
-                OBPairData *label = new OBPairData();
+                auto *label = new OBPairData();
                 label->SetAttribute("label");
                 label->SetValue(value.c_str());
                 pAtom->SetData(label);
@@ -747,7 +747,7 @@ namespace OpenBabel
 
             else if(attrname=="color")
               {
-                OBPairData *color = new OBPairData();
+                auto *color = new OBPairData();
                 color->SetAttribute("color");
                 color->SetValue(value.c_str());
                 pAtom->SetData(color);
@@ -755,7 +755,7 @@ namespace OpenBabel
 
             else if(attrname=="radius")
               {
-                OBPairData *radius = new OBPairData();
+                auto *radius = new OBPairData();
                 radius->SetAttribute("radius");
                 radius->SetValue(value.c_str());
                 pAtom->SetData(radius);
@@ -930,14 +930,14 @@ namespace OpenBabel
 
             if(!colour.empty())
               {
-                OBPairData *dp = new OBPairData();
+                auto *dp = new OBPairData();
                 dp->SetAttribute("color");
                 dp->SetValue(colour.c_str());
                 _pmol->GetBond(_pmol->NumBonds()-1)->SetData(dp);
               }
             if(!label.empty())
               {
-                OBPairData *dp = new OBPairData();
+                auto *dp = new OBPairData();
                 dp->SetAttribute("label");
                 dp->SetValue(label.c_str());
                 _pmol->GetBond(_pmol->NumBonds()-1)->SetData(dp);
@@ -1066,7 +1066,7 @@ namespace OpenBabel
 
                 OBTetrahedralStereo::Config cfg = OBTetrahedralStereo::Config(
                                                         center, from, refs, winding, OBStereo::ViewFrom);
-                OBTetrahedralStereo *th = new OBTetrahedralStereo(_pmol);
+                auto *th = new OBTetrahedralStereo(_pmol);
                 th->SetConfig(cfg);
                 _pmol->SetData(th);
               }
@@ -1145,7 +1145,7 @@ namespace OpenBabel
                 // Create the new stereo object
                 OBCisTransStereo::Config ct_cfg = OBCisTransStereo::Config(
                                                        begin, end, refs, OBStereo::ShapeU);
-                OBCisTransStereo *ct = new OBCisTransStereo(_pmol);
+                auto *ct = new OBCisTransStereo(_pmol);
                 ct->SetConfig(ct_cfg);
                 _pmol->SetData(ct);
               }
@@ -1253,7 +1253,7 @@ namespace OpenBabel
   void CMLFormat::ReadNasaThermo()
   {
     //Do all NasaThermo data here
-    OBNasaThermoData* pTD = new OBNasaThermoData;
+    auto* pTD = new OBNasaThermoData;
     pTD->SetOrigin(fileformatInput);
     _pmol->SetData(pTD);
     for(;;)
@@ -1305,7 +1305,7 @@ namespace OpenBabel
 
     if(mol.HasData(OBGenericDataType::CommentData))
     {
-      OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+      auto *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
       xmlTextWriterStartElement(writer(), C_METADATA);
       xmlTextWriterWriteAttribute(writer(), C_NAME, BAD_CAST "dc:description");
       xmlTextWriterWriteAttribute(writer(), C_CONTENT, BAD_CAST cd->GetData().c_str());
@@ -1451,10 +1451,10 @@ namespace OpenBabel
           }
       }
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(pmol==nullptr)
     {
-        OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+        auto* pReact = dynamic_cast<OBReaction*>(pOb);
         if(!pReact)
           return false;
         //Use CMLReact to convert OBReaction object
@@ -1535,9 +1535,9 @@ namespace OpenBabel
     std::map<unsigned int, OBTetrahedralStereo::Config >::const_iterator tetStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+          auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           // Always get the clockwise version (it's the default anyway) as this has
           // a positive signed volume (i.e. CML atomParity of 1)
           OBTetrahedralStereo::Config cfg = ts->GetConfig(OBStereo::Clockwise);
@@ -1671,7 +1671,7 @@ namespace OpenBabel
                               else
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.from)->GetIdx()]);
 
-                            for (OBStereo::RefIter ref = refs.begin(); ref!=refs.end(); ++ref) {
+                            for (auto ref = refs.begin(); ref != refs.end(); ++ref) {
                               if ( (OBStereo::Ref)*ref == OBStereo::ImplicitRef) // e.g. for Cl[S@@](Br)I
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.center)->GetIdx()]); // Add the central atom again
                               else
@@ -1821,9 +1821,9 @@ namespace OpenBabel
     std::map<unsigned int, OBCisTransStereo* >::const_iterator ctStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+          auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
           if(ct->GetConfig().specified) {
             unsigned int dblbond = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
                                                mol.GetAtomById(ct->GetConfig().end  ))->GetIdx();
@@ -2007,7 +2007,7 @@ namespace OpenBabel
       OBGenericData* pac = mol.GetAtom(idx)->GetData("Atom Class");
       if(pac)
       {
-        OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(pac);
+        auto* acdata = dynamic_cast<OBPairInteger*>(pac);
         if (acdata) {
           int ac = acdata->GetGenericValue();
           if (ac >= 0) { // Allow 0, why not?
@@ -2241,7 +2241,7 @@ namespace OpenBabel
     static const xmlChar C_DICTREF[]      = "dictRef";
     static const xmlChar C_SIZE[]         = "size";
 
-    OBNasaThermoData* pThermoData = static_cast<OBNasaThermoData*>(mol.GetData(ThermoData));
+    auto* pThermoData = static_cast<OBNasaThermoData*>(mol.GetData(ThermoData));
 
     if(!propertyListWritten)
       {
@@ -2317,7 +2317,7 @@ namespace OpenBabel
     static const xmlChar C_IDENTIFIER[] = "identifier";
     static const xmlChar C_CONVENTION[] = "convention";
     static const xmlChar C_VALUE[]      = "value";
-    OBPairData* pData = dynamic_cast<OBPairData*>(mol.GetData("InChI"));
+    auto* pData = dynamic_cast<OBPairData*>(mol.GetData("InChI"));
     if(pData)
     {
       xmlTextWriterStartElementNS(writer(), prefix, C_IDENTIFIER, nullptr);
@@ -2338,7 +2338,7 @@ namespace OpenBabel
     static const xmlChar C_UNITS[]        = "units";
     static const xmlChar C_TITLE[]        = "title";
 
-    OBVibrationData* vd = (OBVibrationData*)mol.GetData(OBGenericDataType::VibrationData);
+    auto* vd = (OBVibrationData*)mol.GetData(OBGenericDataType::VibrationData);
 
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s","Vibrational Frequencies");
@@ -2375,7 +2375,7 @@ namespace OpenBabel
     static const xmlChar C_UNITS[]        = "units";
     static const xmlChar C_TITLE[]        = "title";
 
-    OBRotationData* rd = (OBRotationData*)mol.GetData(OBGenericDataType::RotationData);
+    auto* rd = (OBRotationData*)mol.GetData(OBGenericDataType::RotationData);
 
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s","Rotational Constants");
