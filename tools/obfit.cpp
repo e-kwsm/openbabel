@@ -172,7 +172,7 @@ int main(int argc,char **argv)
   molref.Translate(-tvref);
 
   //get the coordinates of the SMART atoms
-  double *refcoor = new double[refatoms.size()*3];
+  auto *refcoor = new double[refatoms.size()*3];
 
   for(c=0; c<refatoms.size(); ++c)
     {
@@ -241,7 +241,7 @@ int main(int argc,char **argv)
                   exit(-1);
                 }
 
-              double *mvcoor = new double[size*3];
+              auto *mvcoor = new double[size*3];
 
               for(c=0; c < size; ++c)
                 {
@@ -297,7 +297,7 @@ int main(int argc,char **argv)
               exit(-1);
             }
 
-          double *mvcoor = new double[size*3];
+          auto *mvcoor = new double[size*3];
           for(c=0; c<size; ++c)
             {
               atom = molmv.GetAtom(mvatoms[c]);
@@ -325,7 +325,7 @@ int main(int argc,char **argv)
           char rmsd_string[80];
           sprintf(rmsd_string,"%f", best_rmsd);
   
-          OBPairData *dp = new OBPairData;
+          auto *dp = new OBPairData;
           string field_name = "RMSD";
 	    
           dp->SetAttribute(field_name);
