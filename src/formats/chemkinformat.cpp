@@ -119,7 +119,7 @@ private:
               auditMsg,
               obAuditMsg);
     //Makes a new OBReaction
-    OBReaction* pReact = new OBReaction;
+    auto* pReact = new OBReaction;
     bool ret=ReadMolecule(pReact,pConv); //call the "API" read function
 
     if(ret) //Do transformation and return molecule
@@ -132,7 +132,7 @@ private:
   bool WriteChemObject(OBConversion* pConv) override
   {
     OBBase* pOb=pConv->GetChemObject();
-    OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+    auto* pReact = dynamic_cast<OBReaction*>(pOb);
     bool ret=false;
     if (pReact != nullptr)
     {
@@ -185,7 +185,7 @@ bool ChemKinFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   Subsequent calls also read a single reaction. A return of false
   indicates there are no more reactions.
   */
-  OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+  auto* pReact = dynamic_cast<OBReaction*>(pOb);
   if(!pReact)
     return false;
 
@@ -348,7 +348,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
   2H + M => H2 + M 1e-16 comment: has A only
   Label A+B = C+D comment: has no rates
   */
-  OBRateData* pRD = new OBRateData; //to store rate constant data. Attach only if rate data found
+  auto* pRD = new OBRateData; //to store rate constant data. Attach only if rate data found
 
   int n=0;
   std::shared_ptr<OBMol> sp;
@@ -590,7 +590,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
 /////////////////////////////////////////////
 bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
 {
-  OBRateData* pRD = (OBRateData*)pReact->GetData("Rate data");
+  auto* pRD = (OBRateData*)pReact->GetData("Rate data");
 
   while(ifs)
   {
@@ -650,7 +650,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
 ///////////////////////////////////////////////////////////////
 std::shared_ptr<OBMol> ChemKinFormat::CheckSpecies(string& name, string& ln, bool MustBeKnown)
 {
-  MolMap::iterator mapitr = IMols.find(name);
+  auto mapitr = IMols.find(name);
   if(mapitr==IMols.end())
   {
     //unknown species
@@ -699,7 +699,7 @@ bool ChemKinFormat::ReadThermo(OBConversion* pConv)
     OBMol thmol;
     while(pConv->Read(&thmol))
     {
-      MolMap::iterator mapitr = IMols.find(thmol.GetTitle());
+      auto mapitr = IMols.find(thmol.GetTitle());
       if(mapitr!=IMols.end())
       {
         std::shared_ptr<OBMol> psnewmol(OBMoleculeFormat::MakeCombinedMolecule(mapitr->second.get(),&thmol));
@@ -742,7 +742,7 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
   {
     //Look up each molecules's name in index, move the the returned seek position,
     //read the molecule and combine it with the one in Imols
-    OBMoleculeFormat::NameIndexType::iterator itr = index.find(mapitr->first);
+    auto itr = index.find(mapitr->first);
     if(itr!=index.end())
     {
       OBMol thmol;
@@ -781,7 +781,7 @@ bool ChemKinFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   //It's really a reaction, not a molecule. Called separately for each reaction.
   //Cast output object to the class type need, i.e. OBReaction
-  OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
+  auto* pReact = dynamic_cast<OBReaction*>(pOb);
   if (pReact == nullptr)
       return false;
 
@@ -892,7 +892,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
 bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
 {
   //Get rate data so that we know what kind of reaction it is
-  OBRateData* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
+  auto* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
 
   //If -0 option set, omit reactions with zero rates. However, number of reactions converted remains the same.
   if(pConv->IsOption("0"))
