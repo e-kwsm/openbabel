@@ -825,7 +825,7 @@ namespace OpenBabel {
         }
 
         // OK, now we tag the central atom
-        OBPairData *label = new OBPairData;
+        auto *label = new OBPairData;
         label->SetAttribute("UFF_CENTRAL_ATOM");
         label->SetValue("True"); // doesn't really matter
         atom->SetData(label);
@@ -888,7 +888,7 @@ namespace OpenBabel {
         }
 
         // OK, now we tag the central atom
-        OBPairData *label = new OBPairData;
+        auto *label = new OBPairData;
         label->SetAttribute("UFF_CENTRAL_ATOM");
         label->SetValue("True"); // doesn't really matter
         atom->SetData(label);
