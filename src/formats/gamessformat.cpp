@@ -204,7 +204,7 @@ namespace OpenBabel {
   */
 
   bool GAMESSOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -233,7 +233,7 @@ namespace OpenBabel {
     int ndummyatoms = 0;
 
     // OBConformerData stores information about multiple steps
-    OBConformerData* confData = new OBConformerData();
+    auto* confData = new OBConformerData();
     confData->SetOrigin(fileformatInput);
     std::vector<unsigned short> confDimensions   = confData->GetDimension(); // to be fair, set these all to 3D
     std::vector<double>         confEnergies     = confData->GetEnergies();
@@ -249,7 +249,7 @@ namespace OpenBabel {
     int mult   = 1;
 
     // Must build generic data while we parse then add at the end.
-    OBSetData* gmsset = new OBSetData();
+    auto* gmsset = new OBSetData();
     gmsset->SetAttribute("gamess");
     gmsset->SetOrigin(fileformatInput);
 
@@ -293,7 +293,7 @@ namespace OpenBabel {
        // Done with reading atoms
        natoms = mol.NumAtoms();
        // malloc / memcpy
-       double* tmpCoords = new double [(natoms)*3];
+       auto* tmpCoords = new double[(natoms)*3];
        memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
        vconf.push_back(tmpCoords);
        coordinates.clear();
@@ -417,7 +417,7 @@ namespace OpenBabel {
         // Done with reading atoms
         natoms = mol.NumAtoms();
         // malloc / memcpy
-        double* tmpCoords = new double [(natoms)*3];
+        auto* tmpCoords = new double[(natoms)*3];
         memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
         vconf.push_back(tmpCoords);
         coordinates.clear();
@@ -447,7 +447,7 @@ namespace OpenBabel {
 
         tokenize(vs, buffer);
         if (vs.size() == 4) {
-          OBVectorData* dipoleMoment = new OBVectorData;
+          auto* dipoleMoment = new OBVectorData;
           dipoleMoment->SetAttribute("Dipole Moment");
           double x, y, z;
           x = atof(vs[0].c_str());
@@ -638,7 +638,7 @@ namespace OpenBabel {
           tokenize(vs, ptr);
 
           if (vs.size() > 2) {
-            OBSetData* curset = (OBSetData*) gmsset->GetData(vs[0]);
+            auto* curset = (OBSetData*) gmsset->GetData(vs[0]);
             if (!curset) {
               curset = new OBSetData();
               curset->SetAttribute(vs[0]);
@@ -648,7 +648,7 @@ namespace OpenBabel {
             for (unsigned int i=1; i < vs.size() && vs[i].substr(0, 4) != "$END"; i++) {
               string::size_type loc = vs[i].find("=", 0);
               if (loc != string::npos) {
-                OBPairData *data = new OBPairData();
+                auto *data = new OBPairData();
                 data->SetAttribute(vs[i].substr(0, loc));
                 data->SetValue(vs[i].substr(loc + 1));
                 data->SetOrigin(fileformatInput);
@@ -686,7 +686,7 @@ namespace OpenBabel {
 
     // Add OBOrbitalData
     if (orbitals.size() > 0) {
-      OBOrbitalData* od = new OBOrbitalData();
+      auto* od = new OBOrbitalData();
 
       if (aHOMO == bHOMO) {
         od->LoadClosedShellOrbitals(orbitals, symmetries, aHOMO);
@@ -702,8 +702,8 @@ namespace OpenBabel {
       pmol->SetData(gmsset);
 
       // If we have basis set data we should set our global pair data
-      OBSetData* cset = (OBSetData*) gmsset->GetData("CONTRL");
-      OBSetData* bset = (OBSetData*) gmsset->GetData("BASIS");
+      auto* cset = (OBSetData*) gmsset->GetData("CONTRL");
+      auto* bset = (OBSetData*) gmsset->GetData("BASIS");
 
       string model = "b3lyp";
       string basis;
@@ -752,8 +752,8 @@ namespace OpenBabel {
       }
 
       if (bset) {
-        OBPairData* gbasis = (OBPairData*) bset->GetData("GBASIS");
-        OBPairData* ngauss = (OBPairData*) bset->GetData("NGAUSS");
+        auto* gbasis = (OBPairData*) bset->GetData("GBASIS");
+        auto* ngauss = (OBPairData*) bset->GetData("NGAUSS");
 
         if (gbasis) {
           string value = gbasis->GetValue();
@@ -833,7 +833,7 @@ namespace OpenBabel {
       mol.SetPartialChargesPerceived();
 
       // Annotate that partial charges come from Mulliken
-      OBPairData* dp = new OBPairData;
+      auto* dp = new OBPairData;
       dp->SetAttribute("PartialCharges");
       dp->SetValue("Mulliken");
       dp->SetOrigin(fileformatInput);
@@ -842,7 +842,7 @@ namespace OpenBabel {
 
     // Found some vibrations
     if (frequencies.size() != 0) {
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities, raman_intensities);
       vd->SetOrigin(fileformatInput);
       mol.SetData(vd);
@@ -859,7 +859,7 @@ namespace OpenBabel {
 
   ////////////////////////////////////////////////////////////////
   bool GAMESSInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -949,7 +949,7 @@ namespace OpenBabel {
             atom->SetVector(x, y, z);
 
             // Tag these atoms as part of a specific EFP fragment
-            OBPairData* dp = new OBPairData;
+            auto* dp = new OBPairData;
             dp->SetAttribute("EFRAG");
             dp->SetValue(efragName);
             dp->SetOrigin(fileformatInput);
@@ -980,7 +980,7 @@ namespace OpenBabel {
 
 
   bool GAMESSInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv) {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -1014,18 +1014,18 @@ namespace OpenBabel {
       defaultKeywords = keywords;
 
     if (keywordsEnable) {
-      OBSetData* gmsset = (OBSetData*) pmol->GetData("gamess");
+      auto* gmsset = (OBSetData*) pmol->GetData("gamess");
 
       if (gmsset) {
         for (i=gmsset->GetBegin(); i != gmsset->GetEnd(); ++i) {
-          OBSetData* cset = (OBSetData*) (*i);
+          auto* cset = (OBSetData*) (*i);
 
           if (cset) {
             wrapped = false;
             a = 2 + cset->GetAttribute().length();
             ofs << " $" << cset->GetAttribute();
             for (j=cset->GetBegin(); j != cset->GetEnd(); ++j) {
-              OBPairData* pd = (OBPairData*) (*j);
+              auto* pd = (OBPairData*) (*j);
 
               if (pd) {
                 if (a + 2 + pd->GetAttribute().length() + pd->GetValue().length() > 72) {
