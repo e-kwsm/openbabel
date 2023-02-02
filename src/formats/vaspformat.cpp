@@ -147,7 +147,7 @@ namespace OpenBabel {
 
   bool VASPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -231,7 +231,7 @@ namespace OpenBabel {
     vector3 z_vec (x,y,z);
 
     // Build unit cell
-    OBUnitCell *cell = new OBUnitCell;
+    auto *cell = new OBUnitCell;
     cell->SetData(x_vec, y_vec, z_vec);
     cell->SetSpaceGroup(1);
     pmol->SetData(cell);
@@ -381,7 +381,7 @@ namespace OpenBabel {
     // Read density of states info from DOSCAR, if available
     if (ifs_dos) {
       // Create DOS object
-      OBDOSData *dos = new OBDOSData();
+      auto *dos = new OBDOSData();
 
       // skip header
       ifs_dos.getline(buffer,BUFF_SIZE); // Junk
@@ -547,10 +547,10 @@ namespace OpenBabel {
 
     // Set enthalpy
     if (hasEnthalpy) {
-      OBPairData *enthalpyPD = new OBPairData();
-      OBPairData *enthalpyPD_pv = new OBPairData();
-      OBPairData *enthalpyPD_eV = new OBPairData();
-      OBPairData *enthalpyPD_pv_eV = new OBPairData();
+      auto *enthalpyPD = new OBPairData();
+      auto *enthalpyPD_pv = new OBPairData();
+      auto *enthalpyPD_eV = new OBPairData();
+      auto *enthalpyPD_pv_eV = new OBPairData();
       enthalpyPD->SetAttribute("Enthalpy (kcal/mol)");
       enthalpyPD_pv->SetAttribute("Enthalpy PV term (kcal/mol)");
       enthalpyPD_eV->SetAttribute("Enthalpy (eV)");
@@ -592,7 +592,7 @@ namespace OpenBabel {
       } else {
         Intensities.clear();
       }
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);
       pmol->SetData(vd);
     }
@@ -620,7 +620,7 @@ namespace OpenBabel {
     //The atoms are ordered according to their atomic number so that the
     //output looks nice, this can be reversed by using command line flag "-xw".
     //
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) {
       return false;
     }
@@ -762,7 +762,7 @@ namespace OpenBabel {
       if (selective) {
         // if this guy has, write it out
         if ((*it)->HasData("move")) {
-          OBPairData *cp = (OBPairData*)(*it)->GetData("move");
+          auto *cp = (OBPairData*)(*it)->GetData("move");
           // seemingly ridiculous number of digits is written out
           // but sometimes you just don't want to change them
           ofs << " " << cp->GetValue().c_str();

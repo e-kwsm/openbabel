@@ -71,7 +71,7 @@ namespace OpenBabel
   bool XSFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -170,7 +170,7 @@ namespace OpenBabel
     int natom = mol.NumAtoms();
     int numConformers = atomPositions.size() / natom;
     for (int i = 0; i < numConformers; ++i) {
-      double *coordinates = new double[natom * 3];
+      auto *coordinates = new double[natom * 3];
       for (int j = 0; j < natom; ++j) {
         vector3 currentPosition = atomPositions[i*natom + j];
         coordinates[j*3] = currentPosition.x();
@@ -192,7 +192,7 @@ namespace OpenBabel
     // Add final properties
     mol.SetTitle(title);
     if (numTranslationVectors == 3) {
-      OBUnitCell *uc = new OBUnitCell;
+      auto *uc = new OBUnitCell;
       uc->SetOrigin(fileformatInput);
       uc->SetData(translationVectors[0],
                   translationVectors[1],
