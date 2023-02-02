@@ -65,7 +65,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
     return false;
   }  
 
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
   
@@ -138,7 +138,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
     alpha = 90.0; beta = 90.0; gamma = 90.0;
   }
   
-  OBUnitCell * new_cell = new OBUnitCell();
+  auto * new_cell = new OBUnitCell();
   new_cell->SetData( (vcvs[0].mult ? a : 1.0) * vcvs[0].value,  
                      (vcvs[1].mult ? b : 1.0) * vcvs[1].value, 
                      (vcvs[2].mult ? c : 1.0) * vcvs[2].value,
