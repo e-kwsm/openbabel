@@ -70,7 +70,7 @@ FHIaimsFormat theFHIaimsFormat;
 bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
         return false;
 
@@ -138,7 +138,7 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     mol.EndModify();
     // Check if there are lattice vectors and add them
     if (lattice.size() == 3) {
-      OBUnitCell *uc = new OBUnitCell;
+      auto *uc = new OBUnitCell;
       uc->SetOrigin(fileformatInput);
       uc->SetData(lattice[0], lattice[1], lattice[2]);
       mol.SetData(uc);
@@ -151,7 +151,7 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
 bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
         return false;
 
@@ -177,7 +177,7 @@ bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     }
 
     if (mol.HasData(OBGenericDataType::UnitCell)) {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         ofs << "#\n";
         ofs << "# unit cell\n";
         ofs << "#\n";

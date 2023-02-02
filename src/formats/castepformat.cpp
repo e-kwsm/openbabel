@@ -79,7 +79,7 @@ namespace OpenBabel {
 
   bool CASTEPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -97,7 +97,7 @@ namespace OpenBabel {
     vector<string> vs;
     matrix3x3 ortho;
     int atomicNum;
-    OBUnitCell *cell = new OBUnitCell();
+    auto *cell = new OBUnitCell();
     pmol->BeginModify();
 
     while (ifs.getline(buffer,BUFF_SIZE)) {
@@ -198,10 +198,10 @@ namespace OpenBabel {
         pv_ev = pv / EV_TO_KCAL_PER_MOL;
         enthalpy_ev = enthalpy / EV_TO_KCAL_PER_MOL;
 
-        OBPairData *opd_enthalpy = new OBPairData();
-        OBPairData *opd_enthalpy_pv = new OBPairData();
-        OBPairData *opd_enthalpy_ev = new OBPairData();
-        OBPairData *opd_enthalpy_pv_ev = new OBPairData();
+        auto *opd_enthalpy = new OBPairData();
+        auto *opd_enthalpy_pv = new OBPairData();
+        auto *opd_enthalpy_ev = new OBPairData();
+        auto *opd_enthalpy_pv_ev = new OBPairData();
 
         opd_enthalpy->SetAttribute("Enthalpy (kcal/mol)");
         opd_enthalpy_pv->SetAttribute("Enthalpy PV term (kcal/mol)");

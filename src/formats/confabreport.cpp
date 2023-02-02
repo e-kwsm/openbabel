@@ -114,7 +114,7 @@ void ConfabReport::WriteOutput(ostream& ofs)
 
     int bin_idx = 0;
     vector<int> bins(binvals.size());
-    for(vector<double>::iterator it=rmsd.begin(); it!=rmsd.end(); ++it) {
+    for (auto it = rmsd.begin(); it != rmsd.end(); ++it) {
       while (*it > binvals[bin_idx])
         bin_idx++;
       bins[bin_idx]++;
@@ -148,7 +148,7 @@ void ConfabReport::WriteOutput(ostream& ofs)
 
 bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if (pmol == nullptr)
       return false;
 
