@@ -976,10 +976,10 @@ namespace OpenBabel
       OBAtom *extAtom = mol.GetAtom(intAtom->GetIdx());
 
       if (extAtom->HasData("FFAtomType")) {
-        OBPairData *data = (OBPairData*) extAtom->GetData("FFAtomType");
+        auto *data = (OBPairData*) extAtom->GetData("FFAtomType");
         data->SetValue(intAtom->GetType());
       } else {
-        OBPairData *data = new OBPairData();
+        auto *data = new OBPairData();
        	data->SetAttribute("FFAtomType");
         data->SetValue(intAtom->GetType());
         extAtom->SetData(data);
@@ -1001,10 +1001,10 @@ namespace OpenBabel
       out.str("");
       out << intAtom->GetPartialCharge();
       if (extAtom->HasData("FFPartialCharge")) {
-        OBPairData *data = (OBPairData*) extAtom->GetData("FFPartialCharge");
+        auto *data = (OBPairData*) extAtom->GetData("FFPartialCharge");
         data->SetValue(out.str());
       } else {
-        OBPairData *data = new OBPairData();
+        auto *data = new OBPairData();
        	data->SetAttribute("FFPartialCharge");
         data->SetValue(out.str());
         extAtom->SetData(data);
@@ -1030,7 +1030,7 @@ namespace OpenBabel
 
     if (!mol.HasData(OBGenericDataType::ConformerData))
       mol.SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
+    auto *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
     cd->SetEnergies(_energies);
 
     vector<vector3> forces;
@@ -1076,7 +1076,7 @@ namespace OpenBabel
 
       if (!mol.HasData(OBGenericDataType::ConformerData))
         mol.SetData(new OBConformerData);
-      OBConformerData *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
+      auto *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
       cd->SetEnergies(_energies);
 
       //mol.SetEnergies(_energies);
@@ -1287,8 +1287,8 @@ namespace OpenBabel
     int origLogLevel = _loglvl;
 
     // Remove all conformers (e.g. from previous conformer generators) except for current conformer
-    double *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
-    double *store_initial = new double [_mol.NumAtoms() * 3]; // store the initial state
+    auto *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
+    auto *store_initial = new double [_mol.NumAtoms() * 3]; // store the initial state
     memcpy((char*)initialCoord,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     memcpy((char*)store_initial,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     std::vector<double *> newConfs(1, initialCoord);
@@ -1315,9 +1315,9 @@ namespace OpenBabel
     unsigned int j, minj;
     double currentE, minE, best_minE;
 
-    double *verybestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date
-    double *bestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date in the current permutation
-    double *minconf = new double [_mol.NumAtoms() * 3];  // store the best conformer for the current rotor
+    auto *verybestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date
+    auto *bestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date in the current permutation
+    auto *minconf = new double [_mol.NumAtoms() * 3];  // store the best conformer for the current rotor
     memcpy((char*)bestconf,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
 
     double energy_offset;
@@ -1610,7 +1610,7 @@ namespace OpenBabel
     if (_mol.GetCoordinates() == nullptr)
       return;
 
-    double *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
+    auto *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
     memcpy((double*)initialCoord,(double*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     vector<double *> newConfs(1, initialCoord);
     _mol.SetConformers(newConfs);
@@ -1779,7 +1779,7 @@ namespace OpenBabel
       _loglvl = origLogLevel;
       currentE = Energy(false);
       _energies.push_back(currentE);
-      double *confCoord = new double [_mol.NumAtoms() * 3]; // initial state
+      auto *confCoord = new double [_mol.NumAtoms() * 3]; // initial state
       memcpy((char*)confCoord,(char*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
       _mol.AddConformer(confCoord);
 
@@ -2399,7 +2399,7 @@ namespace OpenBabel
   double OBForceField::Newton2NumLineSearch(double *direction)
   {
     double e_n1, e_n2, e_n3;
-    double *origCoords = new double [_ncoords];
+    auto *origCoords = new double [_ncoords];
 
     double opt_step = 0.0;
     double opt_e = _e_n1; // get energy calculated by sd or cg
@@ -2502,7 +2502,7 @@ namespace OpenBabel
   {
     unsigned int numCoords = _mol.NumAtoms() * 3;
     double e_n1, e_n2, step, alpha, tempStep;
-    double *lastStep = new double [numCoords];
+    auto *lastStep = new double [numCoords];
 
     alpha = 0.0; // Scale factor along direction vector
     step = 0.2;
@@ -2628,7 +2628,7 @@ namespace OpenBabel
   //
   void OBForceField::ValidateSteepestDescent(int steps)
   {
-    OBAtom *atom = new OBAtom;
+    auto *atom = new OBAtom;
     vector3 grad;
     double e_n1, e_n2;
 
@@ -2671,7 +2671,7 @@ namespace OpenBabel
 
   void OBForceField::ValidateConjugateGradients(int steps)
   {
-    OBAtom *atom = new OBAtom;
+    auto *atom = new OBAtom;
     vector3 grad1, grad2, dir1, dir2;
     double e_n1, e_n2;
     double g2g2, g1g1, g2g1;
@@ -4365,7 +4365,7 @@ namespace OpenBabel
     double evdw, eele;
     double distance, minDistance;
 
-    OBGridData *grid = new OBGridData;
+    auto *grid = new OBGridData;
     vector3 xAxis, yAxis, zAxis;
     xAxis = vector3(step, 0.0, 0.0);
     yAxis = vector3(0.0, step, 0.0);
