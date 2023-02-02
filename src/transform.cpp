@@ -145,7 +145,7 @@ namespace OpenBabel
           Trim(attr);
 
           //Update value if it already exists
-          OBPairData* dp = dynamic_cast<OBPairData*>(GetData(attr));
+          auto* dp = dynamic_cast<OBPairData*>(GetData(attr));
           if(dp) {
             dp->SetValue(val);
             dp->SetOrigin(userInput);

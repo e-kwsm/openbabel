@@ -119,9 +119,9 @@ namespace OpenBabel
   {
     //Since the class contains OBAtom pointers, the new copy use
     //these from the new molecule, newparent
-    OBMol* newmol = static_cast<OBMol*>(newparent);
+    auto* newmol = static_cast<OBMol*>(newparent);
 
-    OBRotamerList *new_rml = new OBRotamerList;
+    auto *new_rml = new OBRotamerList;
     new_rml->_attr = _attr;
     new_rml->_type = _type;
 
@@ -142,7 +142,7 @@ namespace OpenBabel
 			new_rml->SetBaseCoordinateSets(bc,NumAtoms());
 
     //Set reference array
-    unsigned char *ref = new unsigned char [NumRotors()*4];
+    auto *ref = new unsigned char [NumRotors()*4];
     if (ref)
       {
         GetReferenceArray(ref);
@@ -151,7 +151,7 @@ namespace OpenBabel
       }
 
     //Set Rotamers
-    unsigned char *rotamers = new unsigned char [(NumRotors()+1)*NumRotamers()];
+    auto *rotamers = new unsigned char [(NumRotors()+1)*NumRotamers()];
     if (rotamers)
       {
         vector<unsigned char*>::const_iterator kk;
@@ -336,7 +336,7 @@ namespace OpenBabel
     double angle,res=255.0/360.0;
     vector3 v1,v2,v3,v4;
 
-    unsigned char *rot = new unsigned char [_vrotor.size()+1];
+    auto *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (char) 0;
 
     vector<pair<OBAtom**,vector<int> > >::iterator i;
@@ -367,7 +367,7 @@ namespace OpenBabel
     unsigned int i;
     double angle,res=255.0/360.0;
 
-    unsigned char *rot = new unsigned char [_vrotor.size()+1];
+    auto *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (unsigned char)arr[0];
 
     for (i = 0;i < _vrotor.size();++i)
@@ -426,7 +426,7 @@ namespace OpenBabel
       }
     }
 
-    unsigned char *rot = new unsigned char [_vrotor.size()+1];
+    auto *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (unsigned char)arr[0];
 
     for (i = 0;i < _vrotor.size();++i)
@@ -446,7 +446,7 @@ namespace OpenBabel
     unsigned int i;
     double angle,res=255.0/360.0;
 
-    unsigned char *rot = new unsigned char [_vrotor.size()+1];
+    auto *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (unsigned char)arr[0];
 
     for (i = 0;i < _vrotor.size();++i)
@@ -469,7 +469,7 @@ namespace OpenBabel
     size = (unsigned int)_vrotor.size()+1;
     for (i = 0;i < nrotamers;++i)
       {
-        unsigned char *rot = new unsigned char [size];
+        auto *rot = new unsigned char [size];
         memcpy(rot,&arr[i*size],sizeof(char)*size);
         _vrotamer.push_back(rot);
       }
@@ -498,7 +498,7 @@ namespace OpenBabel
     for (i = _vrotamer.begin();i != _vrotamer.end();++i)
       {
         conf = *i;
-        double *c = new double [mol.NumAtoms()*3];
+        auto *c = new double [mol.NumAtoms()*3];
         memcpy(c,_c[(int)conf[0]],sizeof(double)*mol.NumAtoms()*3);
 
         for (j = 0;j < _vrotor.size();++j)

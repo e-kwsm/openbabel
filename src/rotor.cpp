@@ -132,7 +132,7 @@ namespace OpenBabel
     int count = 0;
     vector<pair<OBBond*,int> >::iterator j;
     for (j = vtmp.begin(); j != vtmp.end(); ++j, ++count) {
-      OBRotor *rotor = new OBRotor;
+      auto *rotor = new OBRotor;
       rotor->SetBond((*j).first);
       rotor->SetIdx(count);
       rotor->SetNumCoords(mol.NumAtoms()*3);
@@ -879,7 +879,7 @@ namespace OpenBabel
             err += vs[0];
             obErrorLog.ThrowError(__FUNCTION__, err, obDebug);
           }
-        OBRotorRule *rr = new OBRotorRule (temp_buffer,ref,vals,delta);
+        auto *rr = new OBRotorRule (temp_buffer,ref,vals,delta);
         if (rr->IsValid())
           _vr.push_back(rr);
         else
