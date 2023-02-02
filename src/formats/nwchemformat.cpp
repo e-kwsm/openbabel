@@ -286,11 +286,11 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             if (blank_line)
             {
                 molecule->SetTotalCharge(charge);
-                OBVectorData* dipole_moment = new OBVectorData;
+                auto* dipole_moment = new OBVectorData;
                 dipole_moment->SetData(vector3(dipole));
                 dipole_moment->SetAttribute("Dipole Moment");
                 molecule->SetData(dipole_moment);
-                OBMatrixData* quadrupole_moment = new OBMatrixData;
+                auto* quadrupole_moment = new OBMatrixData;
                 quadrupole_moment->SetData(quadrupole);
                 quadrupole_moment->SetAttribute("Quadrupole Moment");
                 molecule->SetData(quadrupole_moment);
@@ -374,7 +374,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     }
     if (wavelengths.size() != oscilator_strengths.size())
         return;
-    OBElectronicTransitionData* et_data = new OBElectronicTransitionData;
+    auto* et_data = new OBElectronicTransitionData;
     et_data->SetData(wavelengths, oscilator_strengths);
     molecule->SetData(et_data);
   }
@@ -466,7 +466,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     vector<string> vs;
     char buffer[BUFF_SIZE];
     vector<OBOrbital> orbitals;
-    OBOrbitalData* orbital_data = new OBOrbitalData;
+    auto* orbital_data = new OBOrbitalData;
     ifs->getline(buffer, BUFF_SIZE); // ---------
     ifs->getline(buffer, BUFF_SIZE); // blank line
 
@@ -932,7 +932,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 if (atoi(buffer) != natoms)
                     break; // table contains geometry of different molecule
                 ifs->getline(buffer, BUFF_SIZE); // comment
-                double* bead = new double[natoms*3];
+                auto* bead = new double[natoms*3];
                 for(unsigned int i = 0; i<natoms; i++)
                 {
                     ifs->getline(buffer, BUFF_SIZE);
@@ -984,7 +984,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   bool NWChemOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -1073,7 +1073,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
 
   bool NWChemInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

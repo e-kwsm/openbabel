@@ -104,7 +104,7 @@ namespace OpenBabel
   bool JaguarOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr) return false;
 
     //Define some references so we can use the old parameter names
@@ -175,7 +175,7 @@ namespace OpenBabel
             tokenize(vs,buffer);
             if (vs.size() >= 8)
               {
-                OBVectorData *dipoleMoment = new OBVectorData;
+                auto *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
                 double x, y, z;
                 x = atof(vs[1].c_str());
@@ -203,7 +203,7 @@ namespace OpenBabel
   ////////////////////////////////////////////////////////////////
   bool JaguarInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) return false;
 
     //Define some references so we can use the old parameter names
@@ -238,7 +238,7 @@ namespace OpenBabel
   bool JaguarInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr) return false;
 
     //Define some references so we can use the old parameter names

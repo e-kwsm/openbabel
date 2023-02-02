@@ -272,11 +272,11 @@ bool PNGFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         else
         {
           //Needs to be uncompressed first
-          Bytef* pCompTxt = new Bytef[datalength];
+          auto* pCompTxt = new Bytef[datalength];
           ifs.read((char*)pCompTxt, datalength);
           --datalength; //for compression method byte
           uLongf uncompLen;
-          Bytef* pUncTxt = new Bytef[datalength*6];//guess uncompressed length. NASTY!
+          auto* pUncTxt = new Bytef[datalength*6];//guess uncompressed length. NASTY!
           if(*pCompTxt!=0 /*compression method*/
             || uncompress(pUncTxt, &uncompLen, pCompTxt+1, datalength)!=Z_OK)
           {

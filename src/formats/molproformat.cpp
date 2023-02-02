@@ -108,7 +108,7 @@ namespace OpenBabel
   bool MolproOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -237,7 +237,7 @@ namespace OpenBabel
           {
             tokenize(vs,buffer);
             if (vs.size() == 8) {
-              OBVectorData *dipoleMoment = new OBVectorData;
+              auto *dipoleMoment = new OBVectorData;
               dipoleMoment->SetAttribute("Dipole Moment");
               double x, y, z;
               x = atof(vs[5].c_str());
@@ -265,7 +265,7 @@ namespace OpenBabel
     //Attach vibrational data, if there is any, to molecule
     if(Frequencies.size()>0)
     {
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);
       mol.SetData(vd);
     }
@@ -284,7 +284,7 @@ namespace OpenBabel
 
   bool MolproInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

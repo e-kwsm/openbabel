@@ -67,7 +67,7 @@ namespace OpenBabel
   bool MOPACFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -236,7 +236,7 @@ namespace OpenBabel
 
               atom = mol.NewAtom();
 
-              OBInternalCoord *coord = new OBInternalCoord;
+              auto *coord = new OBInternalCoord;
               coord->_dst = atof(vs[2].c_str());
               coord->_ang = atof(vs[4].c_str());
               coord->_tor = atof(vs[6].c_str());
@@ -462,7 +462,7 @@ namespace OpenBabel
         }
 
         // Annotate that partial charges come from MOPAC Mulliken
-        OBPairData *dp = new OBPairData;
+        auto *dp = new OBPairData;
         dp->SetAttribute("PartialCharges");
         dp->SetValue("Mulliken");
         dp->SetOrigin(fileformatInput);
@@ -471,7 +471,7 @@ namespace OpenBabel
     if (dipoleMoment)
       mol.SetData(dipoleMoment);
     if (frequencies.size() != 0) { // we found some vibrations
-      OBVibrationData *vd = new OBVibrationData;
+      auto *vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities);
       vd->SetOrigin(fileformatInput);
       mol.SetData(vd);
@@ -479,7 +479,7 @@ namespace OpenBabel
 
     // Attach unit cell translation vectors if found
     if (numTranslationVectors == 3) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
       mol.SetData(uc);
@@ -487,7 +487,7 @@ namespace OpenBabel
 
     // Attach orbitals if found
     if (alphaHOMO > 0) {
-      OBOrbitalData *od = new OBOrbitalData();
+      auto *od = new OBOrbitalData();
       od->LoadClosedShellOrbitals(orbitalEnergies, orbitalSymmetries, alphaHOMO);
       od->SetOrigin(fileformatInput);
       mol.SetData(od);
@@ -635,7 +635,7 @@ namespace OpenBabel
   bool MOPACCARTFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -739,7 +739,7 @@ namespace OpenBabel
 
     // Attach unit cell translation vectors if found
     if (numTranslationVectors > 0) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
       mol.SetData(uc);
@@ -761,7 +761,7 @@ namespace OpenBabel
 
   bool MOPACCARTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -813,12 +813,12 @@ namespace OpenBabel
         ofs << buffer << "\n";
       }
 
-    OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
     if (uc && writeUnitCell) {
       //      uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
       vector<vector3> cellVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = cellVectors.begin(); i != cellVectors.end(); ++i) {
+      for (auto i = cellVectors.begin(); i != cellVectors.end(); ++i) {
         snprintf(buffer,BUFF_SIZE,"Tv %8.5f 1 %8.5f 1 %8.5f 1",
                  i->x(),
                  i->y(),
@@ -867,7 +867,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool MOPACINTFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -897,7 +897,7 @@ namespace OpenBabel
         return false;
       atom = mol.NewAtom();
 
-      OBInternalCoord *coord = new OBInternalCoord;
+      auto *coord = new OBInternalCoord;
       //vic[atom->GetIdx()]->_dst = atof(vs[1].c_str());
       //vic[atom->GetIdx()]->_ang = atof(vs[3].c_str());
       //vic[atom->GetIdx()]->_tor = atof(vs[5].c_str());
@@ -959,7 +959,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool MOPACINTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
