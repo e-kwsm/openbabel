@@ -395,7 +395,7 @@ namespace OpenBabel
     if (!match) {
       // Try another search, e.g. Fm-3m instead of Fm3m
       auto search = name;
-      bool hasMirror = (name.find('m') != string::npos || name.find('d') != string::npos || name.find('n') != string::npos || name.find('c') != string::npos);
+      const bool hasMirror = (name.find('m') != string::npos || name.find('d') != string::npos || name.find('n') != string::npos || name.find('c') != string::npos);
       if (name.find('4') != string::npos && hasMirror && name.find('-') == string::npos) {
         search.insert(name.find('4'), "-");
       } else if (name.find('3') != string::npos && hasMirror && name.find('-') == string::npos) {
@@ -435,7 +435,7 @@ namespace OpenBabel
             if (_SpaceGroups.sgbn[nm] == nullptr)
               _SpaceGroups.sgbn[nm] = this;
             // Also use the symbol stripped from whitespaces as key
-            std::string stripped_HM=RemoveWhiteSpaceUnderscore(nm);
+            auto stripped_HM = RemoveWhiteSpaceUnderscore(nm);
             if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[nm] == nullptr)
               _SpaceGroups.sgbn[nm] = this;
 		  }
@@ -443,7 +443,7 @@ namespace OpenBabel
           _SpaceGroups.sgbn[m_HM] = this;
 	  }
     // Also use the HM symbol stripped from whitespaces as key
-	  std::string stripped_HM=RemoveWhiteSpaceUnderscore(m_HM);
+	  auto stripped_HM = RemoveWhiteSpaceUnderscore(m_HM);
     if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[stripped_HM] == nullptr)
       _SpaceGroups.sgbn[stripped_HM] = this;
     if (m_Hall.length() > 0 && _SpaceGroups.sgbn[m_Hall] == nullptr)
@@ -555,7 +555,7 @@ namespace OpenBabel
       }
     // Identify from the HM symbol, after removing all whitespaces or underscore (which are valid separators in
     // old CIF files)
-    std::string stripped_hm=RemoveWhiteSpaceUnderscore(group->m_HM);
+    auto stripped_hm = RemoveWhiteSpaceUnderscore(group->m_HM);
     if (stripped_hm.length() > 0 &&
         _SpaceGroups.sgbn.find(stripped_hm)!=_SpaceGroups.sgbn.end() &&
         (found = _SpaceGroups.sgbn[stripped_hm]))
