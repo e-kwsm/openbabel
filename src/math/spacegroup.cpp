@@ -40,11 +40,10 @@ namespace OpenBabel
    * a new string
    */
   std::string RemoveWhiteSpaceUnderscore(const string &in){
-    std::string out=in;
-    for(std::string::iterator pos=out.begin();pos!=out.end();){
-      if( ((char)(*pos)==' ') ||((char)(*pos)=='_'))  pos=out.erase(pos);
-      else ++pos;
-    }
+    auto out = in;
+    out.erase(std::remove_if(out.begin(), out.end(),
+                             [](char c) -> bool { return c == ' ' || c == '_'; }),
+              out.end());
     return out;
   }
 
@@ -77,9 +76,8 @@ namespace OpenBabel
 
   SpaceGroups::~SpaceGroups()
   {
-    set<SpaceGroup*>::iterator i, end = sgs.end();
-    for (i = sgs.begin(); i != end; ++i)
-      delete (*i);
+    for (auto i : sgs)
+      delete i;
   }
 
   enum
@@ -108,14 +106,14 @@ namespace OpenBabel
         break;
       case SPACE_GROUP_HM:
         {
-          string linestr = std::string(line);
-          std::string::size_type idx = linestr.find(',');
+          auto linestr = std::string(line);
+          auto idx = linestr.find(',');
           if (idx != std::string::npos)
             {
-              std::string alt = linestr.substr(0, idx);
+              auto alt = linestr.substr(0, idx);
               if (alt.length() > 0 && _SpaceGroups.sgbn[alt] == nullptr)
                 _SpaceGroups.sgbn[alt] = group;
-              std::string stripped_HM=RemoveWhiteSpaceUnderscore(alt);
+              auto stripped_HM = RemoveWhiteSpaceUnderscore(alt);
               if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[stripped_HM] == nullptr)
                 _SpaceGroups.sgbn[stripped_HM] = group;
               group->SetHMName(linestr.substr(idx+1, std::string::npos).c_str());
@@ -149,9 +147,8 @@ namespace OpenBabel
 
   SpaceGroup::~SpaceGroup()
   {
-    list<transform3d*>::iterator i, end = m_transforms.end();
-    for (i = m_transforms.begin(); i != end; ++i)
-      delete *i;
+    for (auto i : m_transforms)
+      delete i;
   }
 
   void SpaceGroup::SetHMName(const char *name_in)
@@ -614,10 +611,9 @@ namespace OpenBabel
                                            +") with incomplete or wrong definition.", obWarning);
         return nullptr;
       }
-    set<SpaceGroup*>::iterator i, end = _SpaceGroups.sgs.end();
-    for (i = _SpaceGroups.sgs.begin(); i != end; ++i)
-      if (**i == *group)
-        return *i;
+    for (auto i : _SpaceGroups.sgs)
+      if (*i == *group)
+        return i;
     obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error, please file a bug report.", obWarning);
     return nullptr;
 	}
