@@ -56,7 +56,7 @@ namespace OpenBabel
 
     void ParseLine(const char*) override;
     size_t GetSize() override { return sgs.size(); }
-    bool Inited() { return _init;}
+    bool Inited() const { return _init;}
 
     map<string, const SpaceGroup*> sgbn;
     vector< list<const SpaceGroup*> > sgbi;
@@ -77,7 +77,7 @@ namespace OpenBabel
 
   SpaceGroups::~SpaceGroups()
   {
-    for (auto i : sgs)
+    for (auto& i : sgs)
       delete i;
   }
 
@@ -187,10 +187,10 @@ namespace OpenBabel
         istringstream iss(s1);
         iss.imbue(cLocale);
 
-        string row;
         double *t;
         for (int i = 0; i < 3; i++)
           {
+            string row;
             getline(iss, row, ',');
             size_t j = 0;
             bool neg = false;
@@ -298,13 +298,12 @@ namespace OpenBabel
 			v.z() -= 1.;
 
     // only push_back unique transformations
-    transform3dIterator i, iend = m_transforms.end();
     transform3d* candidate = new transform3d (m, v);
     bool transform_exists = false;
 
-    for (i = m_transforms.begin(); i!= iend; i++)
+    for (const auto& i : m_transforms)
     {
-      if (candidate->DescribeAsString() == (*i)->DescribeAsString())
+      if (candidate->DescribeAsString() == i->DescribeAsString())
       {
         transform_exists = true;
         break;
@@ -324,11 +323,10 @@ namespace OpenBabel
   {
     static double prec = 2e-5;
     list<vector3> res;
-    transform3dIterator i, iend = m_transforms.end();
-    for (i = m_transforms.begin(); i!= iend; i++)
+    for (auto i : m_transforms)
       {
         vector3 t;
-        t = *(*i) * v;
+        t = *i * v;
         if (t.x() < 0.)
           t.x() += 1.;
         if (t.x() >= 1.)
@@ -341,12 +339,11 @@ namespace OpenBabel
           t.z() += 1.;
         if (t.z() >= 1.)
           t.z() -= 1.;
-        list<vector3>::iterator j, jend = res.end();
         bool duplicate = false;
-        for (j = res.begin(); j != jend; ++j)
-          if (fabs(t.x() - (*j).x()) < prec &&
-              fabs(t.y() - (*j).y()) < prec &&
-              fabs(t.z() - (*j).z()) < prec)
+        for (const auto& j : res)
+          if (fabs(t.x() - j.x()) < prec &&
+              fabs(t.y() - j.y()) < prec &&
+              fabs(t.z() - j.z()) < prec)
             {
               duplicate = true;
               break;
@@ -392,12 +389,12 @@ namespace OpenBabel
     if (match) return match;
 
     // If a match wasn't found, remove the white space and try again
-    string name = RemoveWhiteSpaceUnderscore(name_in);
+    const auto name = RemoveWhiteSpaceUnderscore(name_in);
     match = _SpaceGroups.sgbn.find(name) != _SpaceGroups.sgbn.end() ? _SpaceGroups.sgbn[name] : nullptr;
 
     if (!match) {
       // Try another search, e.g. Fm-3m instead of Fm3m
-      string search = name;
+      auto search = name;
       bool hasMirror = (name.find('m') != string::npos || name.find('d') != string::npos || name.find('n') != string::npos || name.find('c') != string::npos);
       if (name.find('4') != string::npos && hasMirror && name.find('-') == string::npos) {
         search.insert(name.find('4'), "-");
