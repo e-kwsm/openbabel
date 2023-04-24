@@ -452,10 +452,9 @@ namespace OpenBabel
       return;
     va_list args;
     va_start(args, nb);
-    string name;
     for (int i = 0; i < nb; i++)
       {
-        name=va_arg(args, const char *);
+        string name = va_arg(args, const char *);
         if (name.length() > 0 && _SpaceGroups.sgbn[name] == nullptr)
           _SpaceGroups.sgbn[name] = this;
       }
@@ -469,18 +468,14 @@ namespace OpenBabel
     if (m_transforms.size() != sg.m_transforms.size())
       return false;
     set<string> s0, s1;
-    list<transform3d*>::const_iterator i, iend;
-    iend = m_transforms.end();
-    for (i = m_transforms.begin(); i != iend; ++i)
-      s0.insert((*i)->DescribeAsString());
-    iend = sg.m_transforms.end();
-    for (i = sg.m_transforms.begin(); i != iend; ++i)
-      s1.insert((*i)->DescribeAsString());
+    for (const auto& i : m_transforms)
+      s0.insert(i->DescribeAsString());
+    for (const auto& i : sg.m_transforms)
+      s1.insert(i->DescribeAsString());
     if (s0.size() != s1.size())
       return false;
-    set<string>::iterator j, jend = s0.end();
-    for (j = s0.begin(); j != jend; ++j)
-      if (s1.find(*j) == s1.end())
+    for (const auto& j : s0)
+      if (s1.find(j) == s1.end())
         return false;
     return true;
   }
@@ -491,16 +486,15 @@ namespace OpenBabel
   {
     if (!m_transforms.size())
       return false;
-    list<transform3d*>::const_iterator i, iend = m_transforms.end();
     map <string, transform3d*>T;
-    for (i = m_transforms.begin(); i != iend; ++i)
+    for (const auto& i : m_transforms)
       {
-        if (T.find((*i)->DescribeAsString()) != T.end())
+        if (T.find(i->DescribeAsString()) != T.end())
           {
-            cerr << "Duplicated transform: " << (*i)->DescribeAsString() << endl;
+            cerr << "Duplicated transform: " << i->DescribeAsString() << endl;
             return false;
           }
-        T[(*i)->DescribeAsString()] = *i;
+        T[i->DescribeAsString()] = i;
       }
 		// calculate all products and check if they are in the group
 		map <string, transform3d*>::iterator j, k, end = T.end();
