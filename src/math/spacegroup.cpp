@@ -148,7 +148,7 @@ namespace OpenBabel
 
   SpaceGroup::~SpaceGroup()
   {
-    for (auto i : m_transforms)
+    for (auto& i : m_transforms)
       delete i;
   }
 
@@ -183,20 +183,17 @@ namespace OpenBabel
 
     if (s.find(',') != string::npos)
       {
-        string s1 = RemoveWhiteSpaceUnderscore(s);
+        auto s1 = RemoveWhiteSpaceUnderscore(s);
         istringstream iss(s1);
         iss.imbue(cLocale);
 
         string row;
-        int i;
-        size_t j;
-        bool neg;
         double *t;
-        for (i = 0; i < 3; i++)
+        for (int i = 0; i < 3; i++)
           {
             getline(iss, row, ',');
-            j = 0;
-            neg = false;
+            size_t j = 0;
+            bool neg = false;
             while (j < row.length())
               {
                 switch (row[j])
@@ -220,7 +217,7 @@ namespace OpenBabel
                       *t = strtod(row.c_str() + j, &end);
                       j = end - row.c_str() - 1;
                       if (neg)
-                        *t = - *t;
+                        *t *= -1;
                       break;
                     }
                   case '1':
@@ -249,7 +246,7 @@ namespace OpenBabel
                           }
                         *t = ((double) (row[j] - '0')) / (row[j+2] - '0');
                         if (neg)
-                          *t = - *t;
+                          *t *= -1;
 
                         j +=2;
                       }
