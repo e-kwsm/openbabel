@@ -39,6 +39,7 @@ namespace OpenBabel
         ~SpaceGroup();
 
         void SetHMName(const char *name);
+        void SetHMName(const std::string& name);
         void SetHallName(const char *name)
           { m_Hall = name; }
         void SetId(unsigned n)

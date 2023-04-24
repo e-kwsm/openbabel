@@ -21,6 +21,7 @@ GNU General Public License for more details.
 #include <openbabel/math/spacegroup.h>
 #include <openbabel/data.h>
 #include <openbabel/obutil.h>
+#include <algorithm>
 #include <iostream>
 #include <map>
 #include <set>
@@ -151,13 +152,17 @@ namespace OpenBabel
       delete i;
   }
 
-  void SpaceGroup::SetHMName(const char *name_in)
+  void SpaceGroup::SetHMName(const char *name)
   {
-    string name = std::string(name_in);
-    std::string::size_type idx = name.find(':');
+    SetHMName(std::string{name});
+  }
+
+  void SpaceGroup::SetHMName(const std::string& name)
+  {
+    auto idx = name.find(':');
     if (idx != std::string::npos)
       {
-        std::string origin = name.substr(idx + 1, std::string::npos);
+        auto origin = name.substr(idx + 1, std::string::npos);
         if (origin == "H")
           {
             m_OriginAlternative = HEXAGONAL_ORIGIN;
