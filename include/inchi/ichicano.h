@@ -45,6 +45,10 @@
 
 #include "ichicant.h"
 
+#include "extr_ct.h"
+#include "ichicant.h"
+#include "ichitaut.h"
+
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
 extern "C" {
