@@ -59,10 +59,11 @@ void OBFingerprint::Fold(vector<unsigned int> &vec, unsigned int nbits) {
     vec.resize(nbits / Getbitsperint(), 0);
   } else {
     // normal folding to smaller vector sizes
-    while (vec.size() * Getbitsperint() / 2 >= nbits)
+    while (vec.size() * Getbitsperint() / 2 >= nbits) {
       vec.erase(transform(vec.begin(), vec.begin() + vec.size() / 2,
                           vec.begin() + vec.size() / 2, vec.begin(), bit_or()),
                 vec.end());
+    }
   }
 }
 
@@ -99,12 +100,14 @@ void OBFingerprint::Fold(vector<unsigned int> &vec, unsigned int nbits) {
 double OBFingerprint::Tanimoto(const vector<unsigned int> &vec1,
                                const vector<unsigned int> &vec2) {
   // Independent of sizeof(unsigned int)
-  if (vec1.size() != vec2.size())
+  if (vec1.size() != vec2.size()) {
     return -1; // different number of bits
-  int andbits = 0, orbits = 0;
+  }
+  int andbits = 0;
+  int orbits = 0;
   for (unsigned i = 0; i < vec1.size(); ++i) {
-    int andfp = vec1[i] & vec2[i];
-    int orfp = vec1[i] | vec2[i];
+    int const andfp = vec1[i] & vec2[i];
+    int const orfp = vec1[i] | vec2[i];
     // Count bits
     /* GCC 3.4 supports a "population count" builtin, which on many targets is
        implemented with a single instruction.  There is a fallback definition
@@ -122,8 +125,9 @@ double OBFingerprint::Tanimoto(const vector<unsigned int> &vec1,
         ++orbits;
 #endif
   }
-  if (orbits == 0)
+  if (orbits == 0) {
     return 0.0;
+  }
   return ((double)andbits / (double)orbits);
 }
 
@@ -145,13 +149,13 @@ bool FastSearch::Find(OBBase *pOb, vector<unsigned long> &SeekPositions,
   vector<unsigned int> candidates; // indices of matches from fingerprint screen
   candidates.reserve(MaxCandidates);
 
-  unsigned int dataSize = _index.header.nEntries;
+  unsigned int const dataSize = _index.header.nEntries;
   //	GetFingerprint(mol, vecwords, _index.header.words,
   //_index.header.fptype);
 
-  unsigned int words = _index.header.words;
-  unsigned int *nextp = &_index.fptdata[0];
-  unsigned int *ppat0 = &vecwords[0];
+  unsigned int const words = _index.header.words;
+  unsigned int *nextp = _index.fptdata.data();
+  unsigned int *ppat0 = vecwords.data();
   unsigned int *p;
   unsigned int *ppat;
   unsigned int i;
@@ -162,7 +166,7 @@ bool FastSearch::Find(OBBase *pOb, vector<unsigned long> &SeekPositions,
     ppat = ppat0;
     bool ppat_has_additional_bits = false;
     while (p < nextp) {
-      if ((*ppat & *p) ^ *ppat) { // any bits in ppat that are not in p?
+      if (((*ppat & *p) ^ *ppat) != 0U) { // any bits in ppat that are not in p?
         ppat_has_additional_bits = true;
         break;
       }
@@ -171,8 +175,9 @@ bool FastSearch::Find(OBBase *pOb, vector<unsigned long> &SeekPositions,
     }
     if (!ppat_has_additional_bits) {
       candidates.push_back(i);
-      if (candidates.size() >= MaxCandidates)
+      if (candidates.size() >= MaxCandidates) {
         break;
+      }
     }
   }
 
@@ -201,12 +206,12 @@ bool FastSearch::FindMatch(OBBase *pOb, vector<unsigned long> &SeekPositions,
 
   vector<unsigned int> candidates; // indices of matches from fingerprint screen
 
-  unsigned int dataSize = _index.header.nEntries;
-  unsigned int words = _index.header.words;
-  unsigned int *nextp = &_index.fptdata[0]; // start of next FP in index
-  unsigned int *ppat0 = &vecwords[0];       // start of target FP
-  unsigned int *p;                          // current position in index
-  unsigned int *ppat;                       // current position in target FP
+  unsigned int const dataSize = _index.header.nEntries;
+  unsigned int const words = _index.header.words;
+  unsigned int *nextp = _index.fptdata.data(); // start of next FP in index
+  unsigned int *ppat0 = vecwords.data();       // start of target FP
+  unsigned int *p;                             // current position in index
+  unsigned int *ppat;                          // current position in target FP
   unsigned int i;                // need address of this, can't be register
   for (i = 0; i < dataSize; ++i) // speed critical section
   {
@@ -214,13 +219,15 @@ bool FastSearch::FindMatch(OBBase *pOb, vector<unsigned long> &SeekPositions,
     nextp += words;
     ppat = ppat0;
 
-    while ((*p++ == *ppat++) && (p < nextp))
+    while ((*p++ == *ppat++) && (p < nextp)) {
       ;
+    }
 
     if (p == nextp) {
       candidates.push_back(i);
-      if (candidates.size() >= MaxCandidates)
+      if (candidates.size() >= MaxCandidates) {
         break;
+      }
     }
   }
 
@@ -239,19 +246,20 @@ bool FastSearch::FindSimilar(OBBase *pOb,
   _pFP->GetFingerprint(pOb, targetfp,
                        _index.header.words * OBFingerprint::Getbitsperint());
 
-  unsigned int words = _index.header.words;
-  unsigned int dataSize = _index.header.nEntries;
-  unsigned int *nextp = &_index.fptdata[0];
+  unsigned int const words = _index.header.words;
+  unsigned int const dataSize = _index.header.nEntries;
+  unsigned int *nextp = _index.fptdata.data();
   unsigned int *p;
   unsigned int i;
   for (i = 0; i < dataSize; ++i) // speed critical section
   {
     p = nextp;
     nextp += words;
-    double tani = OBFingerprint::Tanimoto(targetfp, p);
-    if (tani > MinTani && tani < MaxTani)
+    double const tani = OBFingerprint::Tanimoto(targetfp, p);
+    if (tani > MinTani && tani < MaxTani) {
       SeekposMap.insert(
           pair<const double, unsigned long>(tani, _index.seekdata[i]));
+    }
   }
   return true;
 }
@@ -262,29 +270,31 @@ bool FastSearch::FindSimilar(OBBase *pOb,
                              int nCandidates) {
   /// If nCandidates is zero or omitted the original size of the multimap is
   /// used
-  if (nCandidates) {
+  if (nCandidates != 0) {
     // initialise the multimap with nCandidate zero entries
     SeekposMap.clear();
     int i;
-    for (i = 0; i < nCandidates; ++i)
+    for (i = 0; i < nCandidates; ++i) {
       SeekposMap.insert(pair<const double, unsigned long>(0, 0));
-  } else if (SeekposMap.size() == 0)
+    }
+  } else if (SeekposMap.empty()) {
     return false;
+  }
 
   vector<unsigned int> targetfp;
   _pFP->GetFingerprint(pOb, targetfp,
                        _index.header.words * OBFingerprint::Getbitsperint());
 
-  unsigned int words = _index.header.words;
-  unsigned int dataSize = _index.header.nEntries;
-  unsigned int *nextp = &_index.fptdata[0];
+  unsigned int const words = _index.header.words;
+  unsigned int const dataSize = _index.header.nEntries;
+  unsigned int *nextp = _index.fptdata.data();
   unsigned int *p;
   unsigned int i;
   for (i = 0; i < dataSize; ++i) // speed critical section
   {
     p = nextp;
     nextp += words;
-    double tani = OBFingerprint::Tanimoto(targetfp, p);
+    double const tani = OBFingerprint::Tanimoto(targetfp, p);
     if (tani > SeekposMap.begin()->first) {
       SeekposMap.insert(
           pair<const double, unsigned long>(tani, _index.seekdata[i]));
@@ -300,21 +310,21 @@ string FastSearch::ReadIndex(istream *pIndexstream) {
   _index.Read(pIndexstream);
 
   _pFP = _index.CheckFP();
-  if (!_pFP)
+  if (_pFP == nullptr) {
     *(_index.header.datafilename) = '\0';
+  }
 
   return _index.header.datafilename; // will be empty on error
 }
 
 //////////////////////////////////////////////////////////
-string FastSearch::ReadIndexFile(string IndexFilename) {
+string FastSearch::ReadIndexFile(const string &IndexFilename) {
   ifstream ifs(IndexFilename.c_str(), ios::binary);
-  if (ifs)
+  if (ifs) {
     return ReadIndex(&ifs);
-  else {
-    string dum;
-    return dum;
   }
+  string dum;
+  return dum;
 }
 
 //////////////////////////////////////////////////////////
@@ -328,17 +338,17 @@ bool FptIndex::Read(istream *pIndexstream) {
     return false;
   }
 
-  unsigned long nwords = header.nEntries * header.words;
+  unsigned long const nwords = header.nEntries * header.words;
   fptdata.resize(nwords);
   seekdata.resize(header.nEntries);
 
-  pIndexstream->read((char *)&(fptdata[0]), sizeof(unsigned int) * nwords);
-  if (header.seek64) {
-    pIndexstream->read((char *)&(seekdata[0]),
+  pIndexstream->read((char *)fptdata.data(), sizeof(unsigned int) * nwords);
+  if (header.seek64 != 0) {
+    pIndexstream->read((char *)seekdata.data(),
                        sizeof(unsigned long) * header.nEntries);
   } else { // legacy format
     vector<unsigned int> tmp(header.nEntries);
-    pIndexstream->read((char *)&(tmp[0]),
+    pIndexstream->read((char *)tmp.data(),
                        sizeof(unsigned int) * header.nEntries);
     std::copy(tmp.begin(), tmp.end(), seekdata.begin());
   }
@@ -365,7 +375,7 @@ bool FptIndex::ReadHeader(istream *pIndexstream) {
 OBFingerprint *FptIndex::CheckFP() {
   // check that fingerprint type is available
   OBFingerprint *pFP = OBFingerprint::FindFingerprint(header.fpid);
-  if (!pFP) {
+  if (pFP == nullptr) {
     stringstream errorMsg;
     errorMsg << "Index has Fingerprints of type '" << header.fpid
              << " which is not currently loaded." << endl;
@@ -396,8 +406,9 @@ FastSearchIndexer::FastSearchIndexer(string &datafilename, ostream *os,
 
   // check that fingerprint type is available
   _pFP = _pindex->CheckFP();
-  if (fpid.empty()) // add id of default FP
+  if (fpid.empty()) { // add id of default FP
     strcpy(_pindex->header.fpid, _pFP->GetID());
+  }
 
   // Save a small amount of time by not generating info (FP2 currently)
   _pFP->SetFlags(_pFP->Flags() | OBFingerprint::FPT_NOINFO);
@@ -433,12 +444,13 @@ FastSearchIndexer::~FastSearchIndexer() {
   _indexstream->write((const char *)&hdr.datafilename,
                       sizeof(hdr.datafilename));
 
-  _indexstream->write((const char *)&_pindex->fptdata[0],
+  _indexstream->write((const char *)_pindex->fptdata.data(),
                       _pindex->fptdata.size() * sizeof(unsigned int));
-  _indexstream->write((const char *)&_pindex->seekdata[0],
+  _indexstream->write((const char *)_pindex->seekdata.data(),
                       _pindex->seekdata.size() * sizeof(unsigned long));
-  if (!_indexstream)
+  if (_indexstream == nullptr) {
     obErrorLog.ThrowError(__FUNCTION__, "Difficulty writing index", obWarning);
+  }
   delete _pindex;
 
   _pFP->SetFlags(_pFP->Flags() & ~OBFingerprint::FPT_NOINFO); // Clear
@@ -449,8 +461,9 @@ bool FastSearchIndexer::Add(OBBase *pOb, std::streampos seekpos) {
   /// Adds a fingerprint
 
   vector<unsigned int> vecwords;
-  if (!_pFP)
+  if (_pFP == nullptr) {
     return false;
+  }
   if (_pFP->GetFingerprint(pOb, vecwords, _nbits)) {
     _pindex->header.words =
         vecwords.size(); // Use size as returned from fingerprint
@@ -462,8 +475,9 @@ bool FastSearchIndexer::Add(OBBase *pOb, std::streampos seekpos) {
                                _pindex->header.words);
       _pindex->seekdata.reserve(_pindex->header.nEntries);
     }
-    for (unsigned int i = 0; i < _pindex->header.words; ++i)
+    for (unsigned int i = 0; i < _pindex->header.words; ++i) {
       _pindex->fptdata.push_back(vecwords[i]);
+    }
     _pindex->seekdata.push_back(seekpos);
     return true;
   }
