@@ -40,6 +40,7 @@
 #define __MODE_H__
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /*******************/
 /*                 */
@@ -610,13 +611,12 @@ extern "C" {
 #define EXTR_MASK                                                              \
   0 /*EXTR_TAUT_TREATMENT_CHARGES*/                     /*(EXTR_HAS_FEATURE)*/ \
       /*(EXTR_UNUSUAL_VALENCES | EXTR_HAS_METAL_ATOM)*/ /* 0 to disable */
-#define EXTR_FLAGS                                                             \
-  0 /*EXTR_TAUT_TREATMENT_CHARGES*/     /*(EXTR_HAS_FEATURE)*/                 \
-      /*(EXTR_HAS_PROTON_PN)*/          /*(EXTR_UNUSUAL_VALENCES)*/            \
-      /*(EXTR_CANON_NE_EQUITABLE)*/     /*(EXTR_TEST_TAUT3_SALTS_DONE)*/       \
-      /*(EXTR_HAS_METAL_ATOM)*/         /* (EXTR_NON_TRIVIAL_STEREO)*/         \
-                                        /*(EXTR_METAL_WAS_DISCONNECTED)*/      \
-      /* (EXTR_REMOVE_PARITY_WARNING)*/ /*(EXTR_HAS_ATOM_WITH_DEFINED_PARITY)  \
+#define EXTR_FLAGS                                                                             \
+  0 /*EXTR_TAUT_TREATMENT_CHARGES*/ /*(EXTR_HAS_FEATURE)*/                                     \
+      /*(EXTR_HAS_PROTON_PN)*/      /*(EXTR_UNUSUAL_VALENCES)*/                                \
+      /*(EXTR_CANON_NE_EQUITABLE)*/ /*(EXTR_TEST_TAUT3_SALTS_DONE)*/ /*(EXTR_HAS_METAL_ATOM)*/ \
+      /* (EXTR_NON_TRIVIAL_STEREO)*/    /*(EXTR_METAL_WAS_DISCONNECTED)*/                      \
+      /* (EXTR_REMOVE_PARITY_WARNING)*/ /*(EXTR_HAS_ATOM_WITH_DEFINED_PARITY)                  \
                                          */
 
 #define ENTITY_REFS_IN_XML_MESSAGES                                            \
@@ -859,8 +859,9 @@ extern "C" {
     /*      ADD_6MEMB_AROM_BOND_PARITY definition */
 
 #if (EXCL_ALL_AROM_BOND_PARITY == 0)
-#define ADD_6MEMB_AROM_BOND_PARITY 1 /* 1 => all arom bonds are stereo bonds   \
-                                      */
+#define ADD_6MEMB_AROM_BOND_PARITY                                             \
+  1 /* 1 => all arom bonds are stereo bonds                                    \
+     */
 /* 0 => only those arom bonds which do not belong to */
 /*      6-member arom rings are stereo bonds */
 #else

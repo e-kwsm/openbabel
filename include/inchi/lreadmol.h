@@ -38,7 +38,11 @@
 
 #pragma once
 
+#include "incomdef.h"
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* local prototypes */
@@ -85,7 +89,7 @@ static int RemoveNonPrintable(char *line);
 #endif
 
 /*************************************************************************/
-int AddMOLfileError(char *pStrErr, const char *szMsg) {
+inline int AddMOLfileError(char *pStrErr, const char *szMsg) {
   if (pStrErr && szMsg && szMsg[0]) {
     int lenStrErr = strlen(pStrErr);
     int lenMsg = strlen(szMsg);
@@ -396,7 +400,7 @@ int mol_read_counts_line(MOL_CTAB *ctab, FILE *inp, char *pStrErr) {
       ||
       0 > mol_read_datum(&ctab->nNumberOfAtomsLists, 3, MOL_SHORT_INT_DATA, &p)
 #else
-       || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
+      || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
 #endif
       || 0 > mol_read_datum(NULL, /*obsolete*/ 3, MOL_JUMP_TO_RIGHT, &p) ||
       0 > mol_read_datum(&ctab->cChiralFlag, 3, MOL_CHAR_INT_DATA, &p) ||
@@ -411,10 +415,10 @@ int mol_read_counts_line(MOL_CTAB *ctab, FILE *inp, char *pStrErr) {
       0 > mol_read_datum(&ctab->nNumberOfIntermediates, 3, MOL_SHORT_INT_DATA,
                          &p)
 #else
-       || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
-       0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
-       0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
-       0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
+      || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
+      0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
+      0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
+      0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
 #endif
       || 0 > mol_read_datum(&ctab->nNumberOfPropertyLines, 3,
                             MOL_SHORT_INT_DATA, &p)) {
@@ -485,8 +489,8 @@ int read_atom_block(MOL_CTAB *ctab, FILE *inp, int err, char *pStrErr) {
           || 0 > mol_read_datum(&ctab->MolAtom[i].cMassDifference, 2,
                                 MOL_SHORT_INT_DATA, &p)
 #else
-           || 0 > mol_read_datum(&ctab->MolAtom[i].cMassDifference, 2,
-                                 MOL_CHAR_INT_DATA, &p)
+          || 0 > mol_read_datum(&ctab->MolAtom[i].cMassDifference, 2,
+                                MOL_CHAR_INT_DATA, &p)
 #endif
           || 0 > mol_read_datum(&ctab->MolAtom[i].cCharge, 3, MOL_CHAR_INT_DATA,
                                 &p) ||
@@ -498,8 +502,8 @@ int read_atom_block(MOL_CTAB *ctab, FILE *inp, int err, char *pStrErr) {
           0 > mol_read_datum(&ctab->MolAtom[i].cStereoCare, 3,
                              MOL_CHAR_INT_DATA, &p)
 #else
-           || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
-           0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
+          || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p) ||
+          0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
 #endif
           || 0 > mol_read_datum(&ctab->MolAtom[i].cValence, 3,
                                 MOL_CHAR_INT_DATA, &p)) {
@@ -630,13 +634,13 @@ int read_bonds_block(MOL_CTAB *ctab, FILE *inp, int err, char *pStrErr) {
           || 0 > mol_read_datum(&ctab->MolBond[i].cBondTopology, 3,
                                 MOL_CHAR_INT_DATA, &p) /* ring/chain */
 #else
-           || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
+          || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
 #endif
 #if (MOL_REACT == MOL_PRESENT)
           || 0 > mol_read_datum(&ctab->MolBond[i].cReactingCenterStatus, 3,
                                 MOL_CHAR_INT_DATA, &p)
 #else
-           || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
+          || 0 > mol_read_datum(NULL, 3, MOL_JUMP_TO_RIGHT, &p)
 #endif
       ) {
         if (!err) {

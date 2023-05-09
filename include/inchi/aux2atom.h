@@ -41,7 +41,16 @@
 */
 
 #pragma once
+
+#include "ichi_io.h"
+#include "ichicomp.h"
+#include "ichierr.h"
+#include "inchi_api.h"
+#include "inpdef.h"
+#include "util.h"
+#include <ctype.h>
 #include <stddef.h>
+#include <string.h>
 
 /****************************************************************************/
 #define MIN_BOND_LENGTH (1.0e-6)
@@ -71,8 +80,9 @@
 #define SB_PARITY_FLAG 0x38 /* disconnected structure has undef. parity */
 #define SB_PARITY_SHFT 3
 #define SB_PARITY_MASK 0x07
-#define SB_PARITY_1(X) (X & SB_PARITY_MASK) /* refers to connected structure   \
-                                             */
+#define SB_PARITY_1(X)                                                         \
+  (X & SB_PARITY_MASK) /* refers to connected structure                        \
+                        */
 #define SB_PARITY_2(X)                                                         \
   (((X) >> SB_PARITY_SHFT) & SB_PARITY_MASK) /* refers to connected structure  \
                                               */

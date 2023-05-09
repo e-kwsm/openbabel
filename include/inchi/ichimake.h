@@ -39,6 +39,10 @@
 #ifndef __INCHIMAKE_H__
 #define __INCHIMAKE_H__
 
+#include "extr_ct.h"
+#include "ichi.h"
+#include "ichicant.h"
+
 /***********************************************************************/
 /* replace all ' ' delimiters with ',' */
 #define ITEM_DELIMETER ","

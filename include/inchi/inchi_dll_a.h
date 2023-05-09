@@ -42,6 +42,7 @@
 /*^^^ */
 
 #include "ichicant.h"
+#include "ichimain.h"
 
 typedef struct tagCOMPONENT_TREAT_INFO {
   int n1;
@@ -96,8 +97,8 @@ typedef struct tagINCHIGEN_CONTROL {
 
   /*^^^ For each member of pair disconnected/reconnected structures: */
   ORIG_ATOM_DATA
-      PrepInpData[INCHI_NUM]; /*^^^ INCHI_NUM=2;  0   disconnected/original
-                                                  1   reconnected         */
+  PrepInpData[INCHI_NUM]; /*^^^ INCHI_NUM=2;  0   disconnected/original
+                                              1   reconnected         */
   INP_ATOM_DATA *InpCurAtData[INCHI_NUM];
 
   INP_ATOM_DATA *InpNormAtData[INCHI_NUM];
