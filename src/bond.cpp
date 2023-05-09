@@ -33,11 +33,8 @@ namespace OpenBabel {
 
 class OBBondPrivate {
 public:
-  OBBondPrivate() {}
+  OBBondPrivate() = default;
 };
-
-extern THREAD_LOCAL OBAromaticTyper aromtyper;
-extern OBMessageHandler obErrorLog;
 
 /** \class OBBond bond.h <openbabel/bond.h>
     \brief Bond class
@@ -93,18 +90,23 @@ void OBBond::SetBondOrder(int order) { _order = (char)order; }
 // TODO: Figure out how to consider periodicity, etc.
 void OBBond::SetLength(OBAtom *fixed, double length) {
   unsigned int i;
-  OBMol *mol = (OBMol *)fixed->GetParent();
-  vector3 v1, v2, v3, v4, v5;
+  auto *mol = (OBMol *)fixed->GetParent();
+  vector3 v1;
+  vector3 v2;
+  vector3 v3;
+  vector3 v4;
+  vector3 const v5;
   vector<int> children;
 
   obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::SetBondLength",
                         obAuditMsg);
 
-  int a = fixed->GetIdx();
-  int b = GetNbrAtom(fixed)->GetIdx();
+  int const a = fixed->GetIdx();
+  int const b = GetNbrAtom(fixed)->GetIdx();
 
-  if (a == b)
+  if (a == b) {
     return; // this would be a problem...
+  }
 
   mol->FindChildren(children, a, b);
   children.push_back(b);
@@ -140,7 +142,7 @@ void OBBond::SetLength(double length) {
   OBAtom *atom2 = GetEndAtom();
 
   // split the length difference in half, and modify the bond twice
-  double firstLength = length + ((GetLength() - length) / 2);
+  double const firstLength = length + ((GetLength() - length) / 2);
 
   SetLength(atom1, firstLength);
   SetLength(atom2, length);
@@ -149,24 +151,29 @@ void OBBond::SetLength(double length) {
 bool OBBond::IsRotor(bool includeRingBonds) {
   // This could be one hellish conditional, but let's break it down
   // .. the bond is a single bond
-  if (_order != 1)
+  if (_order != 1) {
     return false;
+  }
 
   // not in a ring, or in a large ring
   // and if it's a ring, not sp2
   OBRing *ring = FindSmallestRing();
   if (ring != nullptr) {
-    if (!includeRingBonds)
+    if (!includeRingBonds) {
       return false;
-    if (ring->Size() <= 3)
+    }
+    if (ring->Size() <= 3) {
       return false;
-    if (_bgn->GetHyb() == 2 || _end->GetHyb() == 2)
+    }
+    if (_bgn->GetHyb() == 2 || _end->GetHyb() == 2) {
       return false;
+    }
   }
 
   // atoms are not sp hybrids
-  if (_bgn->GetHyb() == 1 || _end->GetHyb() == 1)
+  if (_bgn->GetHyb() == 1 || _end->GetHyb() == 1) {
     return false;
+  }
 
   // not just an -OH or -NH2, etc.
   // maybe we want to add this as an option
@@ -178,12 +185,13 @@ bool OBBond::IsRotor(bool includeRingBonds) {
 }
 
 bool OBBond::IsPeriodic() const {
-  OBMol *mol = (OBMol *)((OBBond *)this)->GetParent();
+  auto *mol = (OBMol *)((OBBond *)this)->GetParent();
   return mol->IsPeriodic();
 }
 
 bool OBBond::IsAmide() {
-  OBAtom *c, *n;
+  OBAtom *c;
+  OBAtom *n;
   c = n = nullptr;
 
   // Look for C-N bond
@@ -195,19 +203,23 @@ bool OBBond::IsAmide() {
     c = (OBAtom *)_end;
     n = (OBAtom *)_bgn;
   }
-  if (!c || !n)
+  if ((c == nullptr) || (n == nullptr)) {
     return (false);
-  if (GetBondOrder() != 1)
+  }
+  if (GetBondOrder() != 1) {
     return (false);
-  if (n->GetTotalDegree() != 3)
+  }
+  if (n->GetTotalDegree() != 3) {
     return false; // must be a degree 3 nitrogen
+  }
 
   // Make sure C is attached to =O
   OBBond *bond;
   vector<OBBond *>::iterator i;
-  for (bond = c->BeginBond(i); bond; bond = c->NextBond(i)) {
-    if (bond->IsCarbonyl())
+  for (bond = c->BeginBond(i); bond != nullptr; bond = c->NextBond(i)) {
+    if (bond->IsCarbonyl()) {
       return (true);
+    }
   }
 
   // Return
@@ -215,7 +227,8 @@ bool OBBond::IsAmide() {
 }
 
 bool OBBond::IsPrimaryAmide() {
-  OBAtom *c, *n;
+  OBAtom *c;
+  OBAtom *n;
   c = n = nullptr;
 
   // Look for C-N bond
@@ -227,30 +240,36 @@ bool OBBond::IsPrimaryAmide() {
     c = (OBAtom *)_end;
     n = (OBAtom *)_bgn;
   }
-  if (!c || !n)
+  if ((c == nullptr) || (n == nullptr)) {
     return (false);
-  if (GetBondOrder() != 1)
+  }
+  if (GetBondOrder() != 1) {
     return (false);
-  if (n->GetTotalDegree() != 3)
+  }
+  if (n->GetTotalDegree() != 3) {
     return false; // must be a degree 3 nitrogen
+  }
 
   // Make sure that N is connected to one non-H
-  if (n->GetHvyDegree() != 1)
+  if (n->GetHvyDegree() != 1) {
     return (false);
+  }
 
   // Make sure C is attached to =O
   OBBond *bond;
   vector<OBBond *>::iterator i;
-  for (bond = c->BeginBond(i); bond; bond = c->NextBond(i)) {
-    if (bond->IsCarbonyl())
+  for (bond = c->BeginBond(i); bond != nullptr; bond = c->NextBond(i)) {
+    if (bond->IsCarbonyl()) {
       return (true);
+    }
   }
 
   return (false);
 }
 
 bool OBBond::IsSecondaryAmide() {
-  OBAtom *c, *n;
+  OBAtom *c;
+  OBAtom *n;
   c = n = nullptr;
 
   // Look for C-N bond
@@ -262,30 +281,36 @@ bool OBBond::IsSecondaryAmide() {
     c = (OBAtom *)_end;
     n = (OBAtom *)_bgn;
   }
-  if (!c || !n)
+  if ((c == nullptr) || (n == nullptr)) {
     return (false);
-  if (GetBondOrder() != 1)
+  }
+  if (GetBondOrder() != 1) {
     return (false);
-  if (n->GetTotalDegree() != 3)
+  }
+  if (n->GetTotalDegree() != 3) {
     return false; // must be a degree 3 nitrogen
+  }
 
   // Make sure that N is connected to two non-H atoms
-  if (n->GetHvyDegree() != 2)
+  if (n->GetHvyDegree() != 2) {
     return (false);
+  }
 
   // Make sure C is attached to =O
   OBBond *bond;
   vector<OBBond *>::iterator i;
-  for (bond = c->BeginBond(i); bond; bond = c->NextBond(i)) {
-    if (bond->IsCarbonyl())
+  for (bond = c->BeginBond(i); bond != nullptr; bond = c->NextBond(i)) {
+    if (bond->IsCarbonyl()) {
       return (true);
+    }
   }
 
   return (false);
 }
 
 bool OBBond::IsTertiaryAmide() {
-  OBAtom *c, *n;
+  OBAtom *c;
+  OBAtom *n;
   c = n = nullptr;
 
   // Look for C-N bond
@@ -297,23 +322,28 @@ bool OBBond::IsTertiaryAmide() {
     c = (OBAtom *)_end;
     n = (OBAtom *)_bgn;
   }
-  if (!c || !n)
+  if ((c == nullptr) || (n == nullptr)) {
     return (false);
-  if (GetBondOrder() != 1)
+  }
+  if (GetBondOrder() != 1) {
     return (false);
-  if (n->GetTotalDegree() != 3)
+  }
+  if (n->GetTotalDegree() != 3) {
     return false; // must be a degree 3 nitrogen
+  }
 
   // Make sure that N is connected to three non-H atoms
-  if (n->GetHvyDegree() != 3)
+  if (n->GetHvyDegree() != 3) {
     return (false);
+  }
 
   // Make sure C is attached to =O
   OBBond *bond;
   vector<OBBond *>::iterator i;
-  for (bond = c->BeginBond(i); bond; bond = c->NextBond(i)) {
-    if (bond->IsCarbonyl())
+  for (bond = c->BeginBond(i); bond != nullptr; bond = c->NextBond(i)) {
+    if (bond->IsCarbonyl()) {
       return (true);
+    }
   }
 
   return (false);
@@ -417,7 +447,8 @@ bool OBBond::IsTertiaryAmide() {
 */
 
 bool OBBond::IsEster() {
-  OBAtom *a1, *a2;
+  OBAtom *a1;
+  OBAtom *a2;
   a1 = a2 = nullptr;
 
   if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8) {
@@ -430,38 +461,46 @@ bool OBBond::IsEster() {
     a2 = (OBAtom *)_bgn;
   }
 
-  if (!a1 || !a2)
+  if ((a1 == nullptr) || (a2 == nullptr)) {
     return (false);
-  if (GetBondOrder() != 1)
+  }
+  if (GetBondOrder() != 1) {
     return (false);
+  }
 
   OBBond *bond;
   vector<OBBond *>::iterator i;
-  for (bond = a1->BeginBond(i); bond; bond = a1->NextBond(i))
-    if (bond->IsCarbonyl())
+  for (bond = a1->BeginBond(i); bond != nullptr; bond = a1->NextBond(i)) {
+    if (bond->IsCarbonyl()) {
       return (true);
+    }
+  }
 
   return (false);
 }
 
 bool OBBond::IsCarbonyl() {
-  if (GetBondOrder() != 2)
+  if (GetBondOrder() != 2) {
     return (false);
+  }
 
   if ((_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8) ||
-      (_bgn->GetAtomicNum() == 8 && _end->GetAtomicNum() == 6))
+      (_bgn->GetAtomicNum() == 8 && _end->GetAtomicNum() == 6)) {
     return (true);
+  }
 
   return (false);
 }
 
 bool OBBond::IsAromatic() const {
   OBMol *mol = ((OBBond *)this)->GetParent();
-  if (!mol->HasAromaticPerceived())
+  if (!mol->HasAromaticPerceived()) {
     aromtyper.AssignAromaticFlags(*mol);
+  }
 
-  if (this->HasFlag(OB_AROMATIC_BOND))
+  if (this->HasFlag(OB_AROMATIC_BOND)) {
     return true;
+  }
 
   return false;
 }
@@ -471,19 +510,24 @@ bool OBBond::IsAromatic() const {
   and checking that they are close to 0 or 180 degrees */
 bool OBBond::IsDoubleBondGeometry() {
   double torsion;
-  OBAtom *nbrStart, *nbrEnd;
-  vector<OBBond *>::iterator i, j;
+  OBAtom *nbrStart;
+  OBAtom *nbrEnd;
+  vector<OBBond *>::iterator i;
+  vector<OBBond *>::iterator j;
   // We concentrate on sp2 atoms with valence up to 3 and ignore the rest (like
   // sp1 or S,P) As this is called from PerceiveBondOrders, GetHyb() may still
   // be undefined.
   if (_bgn->GetHyb() == 1 || _bgn->GetExplicitDegree() > 3 ||
-      _end->GetHyb() == 1 || _end->GetExplicitDegree() > 3)
+      _end->GetHyb() == 1 || _end->GetExplicitDegree() > 3) {
     return (true);
+  }
 
-  for (nbrStart = static_cast<OBAtom *>(_bgn)->BeginNbrAtom(i); nbrStart;
+  for (nbrStart = static_cast<OBAtom *>(_bgn)->BeginNbrAtom(i);
+       nbrStart != nullptr;
        nbrStart = static_cast<OBAtom *>(_bgn)->NextNbrAtom(i)) {
     if (nbrStart != _end) {
-      for (nbrEnd = static_cast<OBAtom *>(_end)->BeginNbrAtom(j); nbrEnd;
+      for (nbrEnd = static_cast<OBAtom *>(_end)->BeginNbrAtom(j);
+           nbrEnd != nullptr;
            nbrEnd = static_cast<OBAtom *>(_end)->NextNbrAtom(j)) {
         if (nbrEnd != _bgn) {
           torsion = fabs(_parent->GetTorsion(nbrStart, _bgn, _end, nbrEnd));
@@ -502,11 +546,13 @@ bool OBBond::IsDoubleBondGeometry() {
 
 bool OBBond::IsInRing() const {
   OBMol *mol = ((OBBond *)this)->GetParent();
-  if (!mol->HasRingAtomsAndBondsPerceived())
+  if (!mol->HasRingAtomsAndBondsPerceived()) {
     mol->FindRingAtomsAndBonds();
+  }
 
-  if (((OBBond *)this)->HasFlag(OB_RING_BOND))
+  if (((OBBond *)this)->HasFlag(OB_RING_BOND)) {
     return true;
+  }
 
   return false;
 }
@@ -516,7 +562,7 @@ OBRing *OBBond::FindSmallestRing() const {
   vector<OBRing *> rlist;
   vector<OBRing *>::iterator i;
 
-  OBMol *mol = (OBMol *)((OBBond *)this)->GetParent();
+  auto *mol = (OBMol *)((OBBond *)this)->GetParent();
 
   rlist = mol->GetSSSR();
   OBRing *result = nullptr;
@@ -531,18 +577,20 @@ OBRing *OBBond::FindSmallestRing() const {
 }
 
 bool OBBond::IsClosure() {
-  OBMol *mol = (OBMol *)GetParent();
-  if (!mol)
+  auto *mol = (OBMol *)GetParent();
+  if (mol == nullptr) {
     return false;
-  if (!mol->HasClosureBondsPerceived())
+  }
+  if (!mol->HasClosureBondsPerceived()) {
     mol->FindRingAtomsAndBonds();
+  }
   return HasFlag(OB_CLOSURE_BOND);
 }
 
 //! \return a "corrected" bonding radius based on the hybridization.
 //! Scales the covalent radius by 0.95 for sp2 and 0.90 for sp hybrids
 static double CorrectedBondRad(unsigned int elem, unsigned int hyb) {
-  double rad = OBElements::GetCovalentRad(elem);
+  double const rad = OBElements::GetCovalentRad(elem);
   switch (hyb) {
   case 2:
     return rad * 0.95;
@@ -554,15 +602,18 @@ static double CorrectedBondRad(unsigned int elem, unsigned int hyb) {
 }
 
 double OBBond::GetEquibLength() const {
-  const OBAtom *begin, *end;
+  const OBAtom *begin;
+  const OBAtom *end;
 
   begin = GetBeginAtom();
   end = GetEndAtom();
-  double length = CorrectedBondRad(begin->GetAtomicNum(), begin->GetHyb()) +
-                  CorrectedBondRad(end->GetAtomicNum(), end->GetHyb());
+  double const length =
+      CorrectedBondRad(begin->GetAtomicNum(), begin->GetHyb()) +
+      CorrectedBondRad(end->GetAtomicNum(), end->GetHyb());
 
-  if (IsAromatic())
+  if (IsAromatic()) {
     return length * 0.93;
+  }
 
   switch (_order) {
   case 3:
@@ -575,7 +626,8 @@ double OBBond::GetEquibLength() const {
 
 double OBBond::GetLength() const {
   double d2;
-  const OBAtom *begin, *end;
+  const OBAtom *begin;
+  const OBAtom *end;
   begin = GetBeginAtom();
   end = GetEndAtom();
 
@@ -584,12 +636,11 @@ double OBBond::GetLength() const {
     d2 += SQUARE(begin->GetY() - end->GetY());
     d2 += SQUARE(begin->GetZ() - end->GetZ());
     return (sqrt(d2));
-  } else {
-    OBMol *mol = (OBMol *)((OBBond *)this)->GetParent();
-    OBUnitCell *box = (OBUnitCell *)mol->GetData(OBGenericDataType::UnitCell);
-    return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector()))
-        .length();
   }
+  auto *mol = (OBMol *)((OBBond *)this)->GetParent();
+  auto *box = (OBUnitCell *)mol->GetData(OBGenericDataType::UnitCell);
+  return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector()))
+      .length();
 }
 
 /*Now in OBBase
