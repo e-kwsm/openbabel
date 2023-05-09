@@ -40,6 +40,7 @@
 #define __EXTR_CT_H__
 
 #include "ichisize.h"
+#include "inchi_api.h"
 #include "mode.h"
 
 struct AtData {

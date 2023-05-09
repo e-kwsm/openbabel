@@ -39,7 +39,10 @@
 #ifndef __INCHICANT_H__
 #define __INCHICANT_H__
 
+#include "extr_ct.h"
+#include "ichitaut.h"
 #include "incomdef.h"
+#include "mode.h"
 
 /******************************************************/
 /*                                                    */
