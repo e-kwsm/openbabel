@@ -36,7 +36,12 @@ GNU General Public License for more details.
   templates will be used
 */
 
+#pragma once
+#include <openbabel/babelconfig.h>
+#include <vector>
+
 namespace OpenBabel {
+class OBMol;
 
 // common constants
 static const int MAXBONDS = 300;
