@@ -25,10 +25,10 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
+#include <openbabel/distgeom.h>
+#include <openbabel/forcefield.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/forcefield.h>
-#include <openbabel/distgeom.h>
 
 using namespace std;
 using namespace OpenBabel;
@@ -38,9 +38,8 @@ using namespace OpenBabel;
 ///////////////////////////////////////////////////////////////////////////////
 //! \brief  Generate rough 3D coordinates for SMILES (or other 0D files).
 //
-int main(int argc,char **argv)
-{
-  char *program_name= argv[0];
+int main(int argc, char **argv) {
+  char *program_name = argv[0];
   int c;
   string basename, filename = "";
 
@@ -52,7 +51,7 @@ int main(int argc,char **argv)
     basename = filename = argv[1];
     size_t extPos = filename.rfind('.');
 
-    if (extPos!= string::npos) {
+    if (extPos != string::npos) {
       basename = filename.substr(0, extPos);
     }
   }
@@ -62,9 +61,10 @@ int main(int argc,char **argv)
   OBFormat *format_in = conv.FormatFromExt(filename.c_str());
   OBFormat *format_out = conv.FindFormat("sdf");
 
-  if (!format_in || !format_out || !conv.SetInAndOutFormats(format_in, format_out)) {
+  if (!format_in || !format_out ||
+      !conv.SetInAndOutFormats(format_in, format_out)) {
     cerr << program_name << ": cannot read input/output format!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   ifstream ifs;
@@ -74,51 +74,50 @@ int main(int argc,char **argv)
   ifs.open(filename.c_str());
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   OBMol mol;
-  OBForceField* pFF = OBForceField::FindForceField("mmff94");
+  OBForceField *pFF = OBForceField::FindForceField("mmff94");
 
-  for (c=1;;c++) {
-      mol.Clear();
-      if (!conv.Read(&mol, &ifs))
-        break;
-      if (mol.Empty())
-        break;
+  for (c = 1;; c++) {
+    mol.Clear();
+    if (!conv.Read(&mol, &ifs))
+      break;
+    if (mol.Empty())
+      break;
 
-      // hydrogens must be added before Setup(mol) is called
-      //  to ensure stereochemistry
-      mol.AddHydrogens();
+    // hydrogens must be added before Setup(mol) is called
+    //  to ensure stereochemistry
+    mol.AddHydrogens();
 
-      OBDistanceGeometry dg;
-      dg.Setup(mol);
+    OBDistanceGeometry dg;
+    dg.Setup(mol);
 
-      for (unsigned int i = 1; i < 2; ++i) {
-        //        cout << i << endl;
-        dg.AddConformer();
+    for (unsigned int i = 1; i < 2; ++i) {
+      //        cout << i << endl;
+      dg.AddConformer();
+    }
+    dg.GetConformers(mol);
+    //      cout << " Conformers: " << mol.NumConformers() << endl;
+    // Check the energies
+    pFF->Setup(mol);
+    // load through all the conformers
+    unsigned int minConf = 0;
+    double e, minE = 1.0e10;
+    for (unsigned int n = 0; n < mol.NumConformers(); ++n) {
+      mol.SetConformer(n);
+      pFF->SetCoordinates(mol);
+      e = pFF->Energy(false);
+      //          cout << " Conformer: " << n << " " << e << endl;
+      if (e < minE) {
+        minE = e;
+        minConf = n;
       }
-      dg.GetConformers(mol);
-      //      cout << " Conformers: " << mol.NumConformers() << endl;
-      // Check the energies
-      pFF->Setup(mol);
-      // load through all the conformers
-      unsigned int minConf = 0;
-      double e, minE = 1.0e10;
-      for (unsigned int n = 0; n < mol.NumConformers();++n)
-        {
-          mol.SetConformer(n);
-          pFF->SetCoordinates(mol);
-          e = pFF->Energy(false);
-          //          cout << " Conformer: " << n << " " << e << endl;
-          if (e < minE) {
-            minE = e;
-            minConf = n;
-          }
-        }
-      mol.SetConformer(minConf);
-      conv.Write(&mol, &cout);
+    }
+    mol.SetConformer(minConf);
+    conv.Write(&mol, &cout);
   } // end for loop
 
-  return(0);
+  return (0);
 }

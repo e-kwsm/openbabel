@@ -24,20 +24,19 @@ GNU General Public License for more details.
 #include <cstdlib>
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
+#include <openbabel/forcefield.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/forcefield.h>
 #include <openbabel/obutil.h>
 #ifndef _MSC_VER
-  #include <unistd.h>
+#include <unistd.h>
 #endif
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc,char **argv)
-{
-  char *program_name= argv[0];
+int main(int argc, char **argv) {
+  char *program_name = argv[0];
   int c;
   int steps = 2500;
   double crit = 1e-6;
@@ -72,15 +71,21 @@ int main(int argc,char **argv)
     cout << endl;
     cout << "  -h          add hydrogen atoms" << endl;
     cout << endl;
-    cout << "  -n steps    specify the maximum numer of steps (default=2500)" << endl;
+    cout << "  -n steps    specify the maximum numer of steps (default=2500)"
+         << endl;
     cout << endl;
     cout << "  -cut        use cut-off (default=don't use cut-off)" << endl;
     cout << endl;
-    cout << "  -rvdw rvdw  specify the VDW cut-off distance (default=6.0)" << endl;
+    cout << "  -rvdw rvdw  specify the VDW cut-off distance (default=6.0)"
+         << endl;
     cout << endl;
-    cout << "  -rele rele  specify the Electrostatic cut-off distance (default=10.0)" << endl;
+    cout << "  -rele rele  specify the Electrostatic cut-off distance "
+            "(default=10.0)"
+         << endl;
     cout << endl;
-    cout << "  -pf freq    specify the frequency to update the non-bonded pairs (default=10)" << endl;
+    cout << "  -pf freq    specify the frequency to update the non-bonded "
+            "pairs (default=10)"
+         << endl;
     cout << endl;
     cout << "available forcefields:" << endl;
     cout << endl;
@@ -92,23 +97,23 @@ int main(int argc,char **argv)
       option = argv[i];
 
       // steps
-      if ((option == "-n") && (argc > (i+1))) {
-        steps = atoi(argv[i+1]);
+      if ((option == "-n") && (argc > (i + 1))) {
+        steps = atoi(argv[i + 1]);
         ifile += 2;
       }
       // vdw cut-off
-      if ((option == "-rvdw") && (argc > (i+1))) {
-        rvdw = atof(argv[i+1]);
+      if ((option == "-rvdw") && (argc > (i + 1))) {
+        rvdw = atof(argv[i + 1]);
         ifile += 2;
       }
       // ele cut-off
-      if ((option == "-rele") && (argc > (i+1))) {
-        rele = atof(argv[i+1]);
+      if ((option == "-rele") && (argc > (i + 1))) {
+        rele = atof(argv[i + 1]);
         ifile += 2;
       }
       // pair update frequency
-      if ((option == "-pf") && (argc > (i+1))) {
-        freq = atoi(argv[i+1]);
+      if ((option == "-pf") && (argc > (i + 1))) {
+        freq = atoi(argv[i + 1]);
         ifile += 2;
       }
       // steepest descent
@@ -129,8 +134,8 @@ int main(int argc,char **argv)
 
       if (strncmp(option.c_str(), "-o", 2) == 0) {
         oext = argv[i] + 2;
-        if(!*oext) {
-          oext = argv[++i]; //space left after -o: use next argument
+        if (!*oext) {
+          oext = argv[++i]; // space left after -o: use next argument
           ifile++;
         }
 
@@ -148,13 +153,13 @@ int main(int argc,char **argv)
         ifile++;
       }
 
-      if ((option == "-c") && (argc > (i+1))) {
-        crit = atof(argv[i+1]);
+      if ((option == "-c") && (argc > (i + 1))) {
+        crit = atof(argv[i + 1]);
         ifile += 2;
       }
 
-      if ((option == "-ff") && (argc > (i+1))) {
-        ff = argv[i+1];
+      if ((option == "-ff") && (argc > (i + 1))) {
+        ff = argv[i + 1];
         ifile += 2;
       }
     }
@@ -162,7 +167,7 @@ int main(int argc,char **argv)
     basename = filename = argv[ifile];
     size_t extPos = filename.rfind('.');
 
-    if (extPos!= string::npos) {
+    if (extPos != string::npos) {
       basename = filename.substr(0, extPos);
     }
   }
@@ -170,9 +175,10 @@ int main(int argc,char **argv)
   // Find Input filetype
   OBFormat *format_in = conv.FormatFromExt(filename.c_str());
 
-  if (!format_in || !format_out || !conv.SetInAndOutFormats(format_in, format_out)) {
+  if (!format_in || !format_out ||
+      !conv.SetInAndOutFormats(format_in, format_out)) {
     cerr << program_name << ": cannot read input/output format!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   ifstream ifs;
@@ -182,13 +188,14 @@ int main(int argc,char **argv)
   ifs.open(filename.c_str());
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
-  OBForceField* pFF = OBForceField::FindForceField(ff);
+  OBForceField *pFF = OBForceField::FindForceField(ff);
   if (!pFF) {
-    cerr << program_name << ": could not find forcefield '" << ff << "'." <<endl;
-    exit (-1);
+    cerr << program_name << ": could not find forcefield '" << ff << "'."
+         << endl;
+    exit(-1);
   }
 
   // set some force field variables
@@ -203,7 +210,7 @@ int main(int argc,char **argv)
 
   OBMol mol;
 
-  for (c=1;;c++) {
+  for (c = 1;; c++) {
     mol.Clear();
     if (!conv.Read(&mol, &ifs))
       break;
@@ -215,7 +222,7 @@ int main(int argc,char **argv)
 
     if (!pFF->Setup(mol)) {
       cerr << program_name << ": could not setup force field." << endl;
-      exit (-1);
+      exit(-1);
     }
 
     bool done = true;
@@ -238,7 +245,7 @@ int main(int argc,char **argv)
       if (pFF->DetectExplosion()) {
         cerr << "explosion has occurred!" << endl;
         conv.Write(&mol, &cout);
-        return(1);
+        return (1);
       } else
         pFF->GetCoordinates(mol);
     }
@@ -247,10 +254,11 @@ int main(int argc,char **argv)
     pFF->GetCoordinates(mol);
 
     conv.Write(&mol, &cout);
-    cerr << "Time: " << timeElapsed << "seconds. Iterations per second: " <<  double(totalSteps) / timeElapsed << endl;
+    cerr << "Time: " << timeElapsed << "seconds. Iterations per second: "
+         << double(totalSteps) / timeElapsed << endl;
   } // end for loop
 
-  return(0);
+  return (0);
 }
 
 //
@@ -260,57 +268,58 @@ int main(int argc,char **argv)
 
 /* obminimize man page*/
 /** \page minimize the energy for a molecule
-*
-* \n
-* \par SYNOPSIS
-*
-* \b obminimize [options] \<filename\>
-*
-* \par DESCRIPTION
-*
-* The obminimize tool can be used to minimize the energy for molecules
-* inside (multi-)molecule files (e.g., MOL2, etc.)
-*
-* \par OPTIONS
-*
-* If no filename is given, obminimize will give all options including the
-* available forcefields.
-*
-* \b -n \<steps\>:
-*     Specify the maximum number of steps \n\n
-* \b -ff \<forcefield\>:
-*     Select the forcefield \n\n
-*
-* \par EXAMPLES
-*  - View the possible options, including available forcefields:
-*   obminimize
-*  - Minimize the energy for the molecule(s) in file test.mol2:
-*   obminimize test.mol2
-*  - Minimize the energy for the molecule(s) in file test.mol2 using the Ghemical forcefield:
-*   obminimize -ff Ghemical test.mol2
-*  - Minimize the energy for the molecule(s) in file test.mol2 and set the maximum numer of steps to 300:
-*    obenergy -n 300 test.mol2
-*
-* \par AUTHORS
-*
-* The obminimize program was contributed by \b Tim \b Vandermeersch.
-*
-* Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b Morley and \b Michael \b Banck.
-*
-* For more contributors to Open Babel, see http://openbabel.org/THANKS.shtml
-*
-* \par COPYRIGHT
-*  Copyright (C) 2007 by Tim Vandermeersch. \n \n
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation version 2 of the License.\n \n
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-* \par SEE ALSO
-*   The web pages for Open Babel can be found at: http://openbabel.org/ \n
-*   The web pages for Open Babel Molecular Mechanics can be found at:
-*   http://openbabel.org/wiki/Molecular_mechanics \n
-**/
+ *
+ * \n
+ * \par SYNOPSIS
+ *
+ * \b obminimize [options] \<filename\>
+ *
+ * \par DESCRIPTION
+ *
+ * The obminimize tool can be used to minimize the energy for molecules
+ * inside (multi-)molecule files (e.g., MOL2, etc.)
+ *
+ * \par OPTIONS
+ *
+ * If no filename is given, obminimize will give all options including the
+ * available forcefields.
+ *
+ * \b -n \<steps\>:
+ *     Specify the maximum number of steps \n\n
+ * \b -ff \<forcefield\>:
+ *     Select the forcefield \n\n
+ *
+ * \par EXAMPLES
+ *  - View the possible options, including available forcefields:
+ *   obminimize
+ *  - Minimize the energy for the molecule(s) in file test.mol2:
+ *   obminimize test.mol2
+ *  - Minimize the energy for the molecule(s) in file test.mol2 using the
+ *Ghemical forcefield: obminimize -ff Ghemical test.mol2
+ *  - Minimize the energy for the molecule(s) in file test.mol2 and set the
+ *maximum numer of steps to 300: obenergy -n 300 test.mol2
+ *
+ * \par AUTHORS
+ *
+ * The obminimize program was contributed by \b Tim \b Vandermeersch.
+ *
+ * Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b
+ *Morley and \b Michael \b Banck.
+ *
+ * For more contributors to Open Babel, see http://openbabel.org/THANKS.shtml
+ *
+ * \par COPYRIGHT
+ *  Copyright (C) 2007 by Tim Vandermeersch. \n \n
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation version 2 of the License.\n \n
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ * \par SEE ALSO
+ *   The web pages for Open Babel can be found at: http://openbabel.org/ \n
+ *   The web pages for Open Babel Molecular Mechanics can be found at:
+ *   http://openbabel.org/wiki/Molecular_mechanics \n
+ **/

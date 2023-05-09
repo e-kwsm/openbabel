@@ -25,13 +25,9 @@
 
 namespace OpenBabel {
 
-  OBTetraNonPlanarStereo::OBTetraNonPlanarStereo(OBMol *mol) : OBStereoBase(mol)
-  {
-  }
+OBTetraNonPlanarStereo::OBTetraNonPlanarStereo(OBMol *mol)
+    : OBStereoBase(mol) {}
 
-  OBTetraNonPlanarStereo::~OBTetraNonPlanarStereo()
-  {
-  }
+OBTetraNonPlanarStereo::~OBTetraNonPlanarStereo() {}
 
-}
-
+} // namespace OpenBabel

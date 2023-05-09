@@ -17,41 +17,37 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <openbabel/atom.h>
 #include <openbabel/babelconfig.h>
 #include <openbabel/chargemodel.h>
 #include <openbabel/mol.h>
 #include <openbabel/obiter.h>
-#include <openbabel/atom.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class NoCharges : public OBChargeModel
-{
+class NoCharges : public OBChargeModel {
 public:
-  NoCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Clear all partial charges"; }
+  NoCharges(const char *ID) : OBChargeModel(ID, false) {}
+  const char *Description() override { return "Clear all partial charges"; }
 
-  /// \return whether partial charges were successfully assigned to this molecule
+  /// \return whether partial charges were successfully assigned to this
+  /// molecule
   bool ComputeCharges(OBMol &mol) override;
 };
 
 /////////////////////////////////////////////////////////////////
-NoCharges theNoCharges("none"); //Global instance
+NoCharges theNoCharges("none"); // Global instance
 
 /////////////////////////////////////////////////////////////////
 
-  bool NoCharges::ComputeCharges(OBMol &mol)
-  {
-    mol.SetPartialChargesPerceived();
+bool NoCharges::ComputeCharges(OBMol &mol) {
+  mol.SetPartialChargesPerceived();
 
-    FOR_ATOMS_OF_MOL(atom, mol) {
-      atom->SetPartialCharge(0.0);
-    }
+  FOR_ATOMS_OF_MOL(atom, mol) { atom->SetPartialCharge(0.0); }
 
-    OBChargeModel::FillChargeVectors(mol);
+  OBChargeModel::FillChargeVectors(mol);
 
-    return true;
-  }
+  return true;
+}
 
-}//namespace
+} // namespace OpenBabel
