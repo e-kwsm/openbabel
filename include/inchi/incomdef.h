@@ -44,6 +44,7 @@ Renamed 06/12/07 to avoid occassional conflict with Microsoft's COMDEF.H
 #ifndef __INCOMDEF_H__
 #define __INCOMDEF_H__
 
+#include <stddef.h>
 #include "ichisize.h"
 
 /* SDF treatment */

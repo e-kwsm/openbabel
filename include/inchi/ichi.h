@@ -40,6 +40,7 @@
 #define __INCHI_H__
 
 #include "incomdef.h"
+#include "mode.h"
 
 #define REQ_MODE_BASIC 0x000001          /* B include Fixed-H layer */
 #define REQ_MODE_TAUT 0x000002           /* T include Mobile-H layer */
