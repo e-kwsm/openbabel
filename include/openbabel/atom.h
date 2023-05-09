@@ -412,7 +412,7 @@ public:
   bool IsInRingSize(int) const;
   //! \return Is this atom an element in the 15th or 16th main groups
   //!  (i.e., N, O, P, S ...) ?
-  bool IsHeteroatom();
+  bool IsHeteroatom() const;
   //! \return Is this atom directly connected to the supplied OBAtom?
   bool IsConnected(OBAtom *);
   //! \return Is this atom related to the supplied OBAtom in
@@ -450,14 +450,14 @@ public:
   //! surrounding)
   bool IsHbondAcceptor();
   //! \return Is this atom a hydrogen-bond acceptor (old function)?
-  bool IsHbondAcceptorSimple();
+  bool IsHbondAcceptorSimple() const;
   //! \return Is this atom a hydrogen-bond donor?
   bool IsHbondDonor();
   //! \return Is this a hydrogen atom attached to a hydrogen-bond donor?
   bool IsHbondDonorH();
   //! \return Is this atom a metal?
   //! \since version 2.4
-  bool IsMetal();
+  bool IsMetal() const;
   //! \return Whether a neighboring atom (alpha) has an unsaturated bond
   //!   to a third atom (beta).
   //! \param includePandS Whether to include phosphorus and sulfur neighbors
