@@ -163,7 +163,7 @@ bond.GetData("DisplayType"); if (display->GetValue() == "wireframe")
 // member functions for OBGenericData class
 //
 
-OBGenericData::OBGenericData(const std::string attr, const unsigned int type,
+OBGenericData::OBGenericData(const std::string &attr, const unsigned int type,
                              const DataOrigin source)
     : _attr(attr), _type(type), _source(source) {}
 
@@ -194,8 +194,7 @@ OBGenericData::OBGenericData(const std::string attr, const unsigned int type,
 OBCommentData::OBCommentData()
     : OBGenericData("Comment", OBGenericDataType::CommentData) {}
 
-OBCommentData::OBCommentData(const OBCommentData &src)
-    : OBGenericData(src), _data(src._data) {}
+OBCommentData::OBCommentData(const OBCommentData &src) = default;
 
 //
 // member functions for OBExternalBond class
@@ -203,8 +202,7 @@ OBCommentData::OBCommentData(const OBCommentData &src)
 OBExternalBond::OBExternalBond(OBAtom *atom, OBBond *bond, int idx)
     : _idx(idx), _atom(atom), _bond(bond) {}
 
-OBExternalBond::OBExternalBond(const OBExternalBond &src)
-    : _idx(src._idx), _atom(src._atom), _bond(src._bond) {}
+OBExternalBond::OBExternalBond(const OBExternalBond &src) = default;
 
 //
 // member functions for OBExternalBondData class
@@ -215,7 +213,7 @@ OBExternalBondData::OBExternalBondData()
                     perceived) {}
 
 void OBExternalBondData::SetData(OBAtom *atom, OBBond *bond, int idx) {
-  OBExternalBond xb(atom, bond, idx);
+  OBExternalBond const xb(atom, bond, idx);
   _vexbnd.push_back(xb);
 }
 
@@ -246,8 +244,7 @@ OBVirtualBond::OBVirtualBond(unsigned int bgn, unsigned int end,
 //
 OBUnitCell::OBUnitCell()
     : OBGenericData("UnitCell", OBGenericDataType::UnitCell),
-      _mOrtho(matrix3x3()), _mOrient(matrix3x3()), _offset(vector3()),
-      _spaceGroupName(""), _spaceGroup(nullptr), _lattice(Undefined) {}
+      _spaceGroup(nullptr), _lattice(Undefined) {}
 
 OBUnitCell::OBUnitCell(const OBUnitCell &src)
     : OBGenericData("UnitCell", OBGenericDataType::UnitCell),
@@ -256,8 +253,9 @@ OBUnitCell::OBUnitCell(const OBUnitCell &src)
       _lattice(src._lattice) {}
 
 OBUnitCell &OBUnitCell::operator=(const OBUnitCell &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _mOrtho = src._mOrtho;
   _mOrient = src._mOrient;
@@ -284,8 +282,9 @@ void OBUnitCell::SetData(const double a, const double b, const double c,
 
 //! Implements <a
 //! href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#calculateOrthogonalisationMatrix">blue-obelisk:calculateOrthogonalisationMatrix</a>
-void OBUnitCell::SetData(const vector3 v1, const vector3 v2, const vector3 v3) {
-  matrix3x3 m(v1, v2, v3);
+void OBUnitCell::SetData(const vector3 &v1, const vector3 &v2,
+                         const vector3 &v3) {
+  matrix3x3 const m(v1, v2, v3);
   _mOrtho.FillOrth(vectorAngle(v2, v3), // alpha
                    vectorAngle(v1, v3), // beta
                    vectorAngle(v1, v2), // gamma
@@ -300,11 +299,11 @@ void OBUnitCell::SetData(const vector3 v1, const vector3 v2, const vector3 v3) {
 
 //! Implements <a
 //! href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#calculateOrthogonalisationMatrix">blue-obelisk:calculateOrthogonalisationMatrix</a>
-void OBUnitCell::SetData(const matrix3x3 m) {
+void OBUnitCell::SetData(const matrix3x3 &m) {
   SetData(m.GetRow(0), m.GetRow(1), m.GetRow(2));
 }
 
-void OBUnitCell::SetOffset(const vector3 v1) { _offset = v1; }
+void OBUnitCell::SetOffset(const vector3 &v1) { _offset = v1; }
 
 //! Implements <a
 //! href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#convertNotionalIntoCartesianCoordinates">blue-obelisk:convertNotionalIntoCartesianCoordinates</a>
@@ -312,7 +311,7 @@ vector<vector3> OBUnitCell::GetCellVectors() const {
   vector<vector3> v;
   v.reserve(3);
 
-  matrix3x3 m = GetCellMatrix();
+  matrix3x3 const m = GetCellMatrix();
 
   v.push_back(m.GetRow(0));
   v.push_back(m.GetRow(1));
@@ -331,75 +330,84 @@ matrix3x3 OBUnitCell::GetOrientationMatrix() const { return _mOrient; }
 
 matrix3x3 OBUnitCell::GetFractionalMatrix() const { return _mOrtho.inverse(); }
 
-vector3 OBUnitCell::FractionalToCartesian(vector3 frac) const {
+vector3 OBUnitCell::FractionalToCartesian(const vector3 &frac) const {
   return _mOrient * _mOrtho * frac + _offset;
 }
 
-vector3 OBUnitCell::CartesianToFractional(vector3 cart) const {
+vector3 OBUnitCell::CartesianToFractional(const vector3 &cart) const {
   return _mOrtho.inverse() * _mOrient.inverse() * (cart - _offset);
 }
 
-vector3 OBUnitCell::WrapCartesianCoordinate(vector3 cart) const {
+vector3 OBUnitCell::WrapCartesianCoordinate(const vector3 &cart) const {
   vector3 v = CartesianToFractional(cart);
   v = WrapFractionalCoordinate(v);
   return FractionalToCartesian(v);
 }
 
-vector3 OBUnitCell::WrapFractionalCoordinate(vector3 frac) const {
+vector3 OBUnitCell::WrapFractionalCoordinate(vector3 frac) {
   double x = fmod(frac.x(), 1);
   double y = fmod(frac.y(), 1);
   double z = fmod(frac.z(), 1);
-  if (x < 0)
+  if (x < 0) {
     x += 1;
-  if (y < 0)
+  }
+  if (y < 0) {
     y += 1;
-  if (z < 0)
+  }
+  if (z < 0) {
     z += 1;
+  }
 
 #define LIMIT 0.999999
-  if (x > LIMIT)
+  if (x > LIMIT) {
     x -= 1;
-  if (y > LIMIT)
+  }
+  if (y > LIMIT) {
     y -= 1;
-  if (z > LIMIT)
+  }
+  if (z > LIMIT) {
     z -= 1;
+  }
 #undef LIMIT
 
-    // Fuzzy logic from Francois-Xavier
+  // Fuzzy logic from Francois-Xavier
 #define EPSILON 1.0e-6
-  if (x > 1 - EPSILON || x < EPSILON)
+  if (x > 1 - EPSILON || x < EPSILON) {
     x = 0.0;
-  if (y > 1 - EPSILON || y < EPSILON)
+  }
+  if (y > 1 - EPSILON || y < EPSILON) {
     y = 0.0;
-  if (z > 1 - EPSILON || z < EPSILON)
+  }
+  if (z > 1 - EPSILON || z < EPSILON) {
     z = 0.0;
+  }
 #undef EPSILON
 
   return vector3(x, y, z);
 }
 
-vector3 OBUnitCell::UnwrapCartesianNear(vector3 new_loc,
-                                        vector3 ref_loc) const {
-  vector3 bond_dir = MinimumImageCartesian(new_loc - ref_loc);
+vector3 OBUnitCell::UnwrapCartesianNear(const vector3 &new_loc,
+                                        const vector3 &ref_loc) const {
+  vector3 const bond_dir = MinimumImageCartesian(new_loc - ref_loc);
   return ref_loc + bond_dir;
 }
 
-vector3 OBUnitCell::UnwrapFractionalNear(vector3 new_loc,
-                                         vector3 ref_loc) const {
-  vector3 bond_dir = MinimumImageFractional(new_loc - ref_loc);
+vector3 OBUnitCell::UnwrapFractionalNear(const vector3 &new_loc,
+                                         const vector3 &ref_loc) const {
+  vector3 const bond_dir = MinimumImageFractional(new_loc - ref_loc);
   return ref_loc + bond_dir;
 }
 
-vector3 OBUnitCell::MinimumImageCartesian(vector3 cart) const {
+vector3 OBUnitCell::MinimumImageCartesian(const vector3 &cart) const {
   vector3 frac = CartesianToFractional(cart);
   frac = MinimumImageFractional(frac);
   return FractionalToCartesian(frac);
 }
 
-vector3 OBUnitCell::MinimumImageFractional(vector3 frac) const {
-  double x = frac.x() - round(frac.x());
-  double y = frac.y() - round(frac.y());
-  double z = frac.z() - round(frac.z());
+vector3 OBUnitCell::MinimumImageFractional(vector3 frac) {
+  double const x = frac.x() - round(frac.x());
+  double const y = frac.y() - round(frac.y());
+  double const z = frac.z() - round(frac.z());
   return vector3(x, y, z);
 }
 
@@ -412,13 +420,14 @@ OBUnitCell::LatticeType OBUnitCell::GetLatticeType(int spacegroup) const {
   //	168-194 Hexagonal
   //	195-230 Cubic
 
-  if (spacegroup == 0 && _spaceGroup)
+  if (spacegroup == 0 && (_spaceGroup != nullptr)) {
     spacegroup = _spaceGroup->GetId();
+  }
 
-  if (spacegroup <= 0)
+  if (spacegroup <= 0) {
     return OBUnitCell::Undefined;
-
-  else if (spacegroup == 1 || spacegroup == 2)
+  }
+  if (spacegroup == 1 || spacegroup == 2)
     return OBUnitCell::Triclinic;
 
   else if (spacegroup >= 3 && spacegroup <= 15)
@@ -445,52 +454,58 @@ OBUnitCell::LatticeType OBUnitCell::GetLatticeType(int spacegroup) const {
 }
 
 OBUnitCell::LatticeType OBUnitCell::GetLatticeType() const {
-  if (_lattice != Undefined)
+  if (_lattice != Undefined) {
     return _lattice;
-  else if (_spaceGroup != nullptr)
+  }
+  if (_spaceGroup != nullptr)
     return GetLatticeType(_spaceGroup->GetId());
 
-  double a = GetA();
-  double b = GetB();
-  double c = GetC();
-  double alpha = GetAlpha();
-  double beta = GetBeta();
-  double gamma = GetGamma();
+  double const a = GetA();
+  double const b = GetB();
+  double const c = GetC();
+  double const alpha = GetAlpha();
+  double const beta = GetBeta();
+  double const gamma = GetGamma();
 
   unsigned int rightAngles = 0;
-  if (IsApprox(alpha, 90.0, 1.0e-3))
+  if (IsApprox(alpha, 90.0, 1.0e-3)) {
     rightAngles++;
-  if (IsApprox(beta, 90.0, 1.0e-3))
+  }
+  if (IsApprox(beta, 90.0, 1.0e-3)) {
     rightAngles++;
-  if (IsApprox(gamma, 90.0, 1.0e-3))
+  }
+  if (IsApprox(gamma, 90.0, 1.0e-3)) {
     rightAngles++;
+  }
 
   // recast cache member "_lattice" as mutable
-  OBUnitCell::LatticeType *lattice =
-      const_cast<OBUnitCell::LatticeType *>(&_lattice);
+  auto *lattice = const_cast<OBUnitCell::LatticeType *>(&_lattice);
 
   switch (rightAngles) {
   case 3:
-    if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4))
+    if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4)) {
       *lattice = Cubic;
-    else if (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4))
+    } else if (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4)) {
       *lattice = Tetragonal;
-    else
+    } else {
       *lattice = Orthorhombic;
+    }
     break;
   case 2:
     if ((IsApprox(alpha, 120.0, 1.0e-3) || IsApprox(beta, 120.0, 1.0e-3) ||
-         IsApprox(gamma, 120.0f, 1.0e-3)) &&
-        (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4)))
+         IsApprox(gamma, 120.0F, 1.0e-3)) &&
+        (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4))) {
       *lattice = Hexagonal;
-    else
+    } else {
       *lattice = Monoclinic;
+    }
     break;
   default:
-    if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4))
+    if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4)) {
       *lattice = Rhombohedral;
-    else
+    } else {
       *lattice = Triclinic;
+    }
   }
 
   return *lattice;
@@ -729,10 +744,10 @@ int OBUnitCell::GetSpaceGroupNumber(std::string name) const {
                                             "Ia-3d"};
 
   if (name.length() == 0) {
-    if (_spaceGroup != nullptr)
+    if (_spaceGroup != nullptr) {
       return _spaceGroup->GetId();
-    else
-      name = _spaceGroupName;
+    }
+    name = _spaceGroupName;
   }
   static const int numStrings = sizeof(spacegroups) / sizeof(spacegroups[0]);
   for (int i = 0; i < numStrings; ++i) {
@@ -745,20 +760,26 @@ int OBUnitCell::GetSpaceGroupNumber(std::string name) const {
 
 // Whether two points (given in fractional coordinates) are close enough
 // to be considered duplicates.
-bool areDuplicateAtoms(vector3 v1, vector3 v2) {
+bool areDuplicateAtoms(const vector3 &v1, const vector3 &v2) {
   vector3 dr = v2 - v1;
-  if (dr.x() < -0.5)
+  if (dr.x() < -0.5) {
     dr.SetX(dr.x() + 1);
-  if (dr.x() > 0.5)
+  }
+  if (dr.x() > 0.5) {
     dr.SetX(dr.x() - 1);
-  if (dr.y() < -0.5)
+  }
+  if (dr.y() < -0.5) {
     dr.SetY(dr.y() + 1);
-  if (dr.y() > 0.5)
+  }
+  if (dr.y() > 0.5) {
     dr.SetY(dr.y() - 1);
-  if (dr.z() < -0.5)
+  }
+  if (dr.z() < -0.5) {
     dr.SetZ(dr.z() + 1);
-  if (dr.z() > 0.5)
+  }
+  if (dr.z() > 0.5) {
     dr.SetZ(dr.z() - 1);
+  }
 
   return (dr.length_2() < 1e-6);
 }
@@ -767,18 +788,23 @@ void OBUnitCell::FillUnitCell(OBMol *mol) {
   const SpaceGroup *sg = GetSpaceGroup(); // the actual space group and
                                           // transformations for this unit cell
 
-  if (sg == nullptr)
+  if (sg == nullptr) {
     return;
+  }
 
   // For each atom, we loop through: convert the coords back to inverse space,
   // apply the transformations and create new atoms
-  vector3 baseV, uniqueV, updatedCoordinate;
+  vector3 baseV;
+  vector3 uniqueV;
+  vector3 updatedCoordinate;
   list<vector3>
       transformedVectors; // list of symmetry-defined copies of the atom
   list<vector3>::iterator transformIter;
-  list<OBAtom *>::iterator deleteIter, atomIter;
+  list<OBAtom *>::iterator deleteIter;
+  list<OBAtom *>::iterator atomIter;
   OBAtom *newAtom;
-  list<OBAtom *> atoms, atomsToDelete;
+  list<OBAtom *> atoms;
+  list<OBAtom *> atomsToDelete;
   char hash[22];
   set<string> coordinateSet;
 
@@ -903,8 +929,9 @@ OBSymmetryData::OBSymmetryData(const OBSymmetryData &src)
       _spaceGroup(src._spaceGroup), _pointGroup(src._pointGroup) {}
 
 OBSymmetryData &OBSymmetryData::operator=(const OBSymmetryData &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _pointGroup = src._pointGroup;
   _spaceGroup = src._spaceGroup;
@@ -923,8 +950,9 @@ OBConformerData::OBConformerData(const OBConformerData &src)
       _vDisplace(src._vDisplace), _vData(src._vData) {}
 
 OBConformerData &OBConformerData::operator=(const OBConformerData &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _source = src._source;
 
@@ -961,7 +989,7 @@ OBRingData::OBRingData(const OBRingData &src)
   vector<OBRing *>::iterator ring;
 
   for (ring = _vr.begin(); ring != _vr.end(); ++ring) {
-    OBRing *newring = new OBRing;
+    auto *newring = new OBRing;
     (*newring) = (**ring); // copy data to new object
     (*ring) = newring;     // repoint new pointer to new copy of data
   }
@@ -981,8 +1009,9 @@ OBRingData::~OBRingData() {
 */
 OBRingData &OBRingData::operator=(const OBRingData &src) {
   // on identity, return
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   // chain to base class
   OBGenericData::operator=(src);
@@ -999,11 +1028,12 @@ OBRingData &OBRingData::operator=(const OBRingData &src) {
   _vr = src._vr; // copy vector properties
 
   for (ring = _vr.begin(); ring != _vr.end(); ++ring) {
-    if (*ring == 0)
+    if (*ring == 0) {
       continue;
+    }
 
     // allocate and copy ring data
-    OBRing *newring = new OBRing;
+    auto *newring = new OBRing;
     (*newring) = (**ring);
     (*ring) = newring; // redirect pointer
   }
@@ -1041,15 +1071,15 @@ OBAngle::OBAngle(OBAtom *vertex, OBAtom *a, OBAtom *b)
 /*!
 **\brief OBAngle copy constructor
 */
-OBAngle::OBAngle(const OBAngle &src)
-    : _vertex(src._vertex), _termini(src._termini), _radians(src._radians) {}
+OBAngle::OBAngle(const OBAngle &src) = default;
 
 /*!
 **\brief OBAngle assignment operator
 */
 OBAngle &OBAngle::operator=(const OBAngle &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _vertex = src._vertex;
   _termini.first = src._termini.first;
@@ -1067,7 +1097,6 @@ void OBAngle::Clear() {
   _termini.first = 0;
   _termini.second = 0;
   _radians = 0.0;
-  return;
 }
 
 /*!
@@ -1079,7 +1108,6 @@ void OBAngle::SetAtoms(OBAtom *vertex, OBAtom *a, OBAtom *b) {
   _termini.first = a;
   _termini.second = b;
   SortByIndex();
-  return;
 }
 
 /*!
@@ -1091,7 +1119,6 @@ void OBAngle::SetAtoms(triple<OBAtom *, OBAtom *, OBAtom *> &atoms) {
   _termini.first = atoms.second;
   _termini.second = atoms.third;
   SortByIndex();
-  return;
 }
 
 /*!
@@ -1142,15 +1169,15 @@ OBAngleData::OBAngleData()
 /*!
 **\brief OBAngleData copy constructor
 */
-OBAngleData::OBAngleData(const OBAngleData &src)
-    : OBGenericData(src), _angles(src._angles) {}
+OBAngleData::OBAngleData(const OBAngleData &src) = default;
 
 /*!
 **\brief OBAngleData assignment operator
 */
 OBAngleData &OBAngleData::operator=(const OBAngleData &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _source = src._source;
   _angles = src._angles;
@@ -1161,18 +1188,12 @@ OBAngleData &OBAngleData::operator=(const OBAngleData &src) {
 /*!
 **\brief sets OBAngleData to its original state
 */
-void OBAngleData::Clear() {
-  _angles.clear();
-  return;
-}
+void OBAngleData::Clear() { _angles.clear(); }
 
 /*!
 **\brief Adds a new angle to OBAngleData
 */
-void OBAngleData::SetData(OBAngle &angle) {
-  _angles.push_back(angle);
-  return;
-}
+void OBAngleData::SetData(OBAngle &angle) { _angles.push_back(angle); }
 
 /*!
 **\brief Fills an array with the indices of the atoms in the angle (vertex
@@ -1182,8 +1203,9 @@ void OBAngleData::SetData(OBAngle &angle) {
 */
 bool OBAngleData::FillAngleArray(
     std::vector<std::vector<unsigned int>> &angles) {
-  if (_angles.empty())
+  if (_angles.empty()) {
     return (false);
+  }
 
   vector<OBAngle>::iterator angle;
 
@@ -1234,7 +1256,7 @@ unsigned int OBAngleData::FillAngleArray(int **angles, unsigned int &size) {
 **\brief OBTorsion constructor
 */
 OBTorsion::OBTorsion(OBAtom *a, OBAtom *b, OBAtom *c, OBAtom *d) {
-  triple<OBAtom *, OBAtom *, double> ad(a, d, 0.0);
+  triple<OBAtom *, OBAtom *, double> const ad(a, d, 0.0);
   _ads.push_back(ad);
 
   _bc.first = b;
@@ -1244,7 +1266,7 @@ OBTorsion::OBTorsion(OBAtom *a, OBAtom *b, OBAtom *c, OBAtom *d) {
 /*!
 **\brief OBTorsion copy constructor
 */
-OBTorsion::OBTorsion(const OBTorsion &src) : _bc(src._bc), _ads(src._ads) {}
+OBTorsion::OBTorsion(const OBTorsion &src) = default;
 
 /*!
 **\brief Returns all the 4 atom sets in OBTorsion
@@ -1271,8 +1293,9 @@ vector<quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *>> OBTorsion::GetTorsions() {
 **\brief OBTorsion assignment operator
 */
 OBTorsion &OBTorsion::operator=(const OBTorsion &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   _bc = src._bc;
   _ads = src._ads;
@@ -1296,8 +1319,9 @@ void OBTorsion::Clear() {
 **\return boolean success
 */
 bool OBTorsion::SetAngle(double radians, unsigned int index) {
-  if (index >= _ads.size())
+  if (index >= _ads.size()) {
     return (false);
+  }
 
   _ads[index].third = radians;
 
@@ -1311,13 +1335,14 @@ bool OBTorsion::SetAngle(double radians, unsigned int index) {
 **\return boolean success
 */
 bool OBTorsion::GetAngle(double &radians, unsigned int index) {
-  if (index >= _ads.size())
+  if (index >= _ads.size()) {
     return false;
+  }
   radians = _ads[index].third;
   return true;
 }
 
-unsigned int OBTorsion::GetBondIdx() {
+unsigned int OBTorsion::GetBondIdx() const {
   return (_bc.first->GetBond(_bc.second)->GetIdx());
 }
 
@@ -1330,10 +1355,12 @@ bool OBTorsion::IsProtonRotor() {
   bool Dprotor = true;
   vector<triple<OBAtom *, OBAtom *, double>>::iterator ad;
   for (ad = _ads.begin(); ad != _ads.end() && (Aprotor || Dprotor); ++ad) {
-    if (ad->first->GetAtomicNum() != OBElements::Hydrogen)
+    if (ad->first->GetAtomicNum() != OBElements::Hydrogen) {
       Aprotor = false;
-    if (ad->second->GetAtomicNum() != OBElements::Hydrogen)
+    }
+    if (ad->second->GetAtomicNum() != OBElements::Hydrogen) {
       Dprotor = false;
+    }
   }
   return (Aprotor || Dprotor);
 }
@@ -1342,15 +1369,16 @@ bool OBTorsion::IsProtonRotor() {
 **\brief adds a new torsion to the OBTorsion object
 */
 bool OBTorsion::AddTorsion(OBAtom *a, OBAtom *b, OBAtom *c, OBAtom *d) {
-  if (!Empty() && (b != _bc.first || c != _bc.second))
+  if (!Empty() && (b != _bc.first || c != _bc.second)) {
     return (false);
+  }
 
   if (Empty()) {
     _bc.first = b;
     _bc.second = c;
   }
 
-  triple<OBAtom *, OBAtom *, double> ad(a, d, 0.0);
+  triple<OBAtom *, OBAtom *, double> const ad(a, d, 0.0);
   _ads.push_back(ad);
 
   return (true);
@@ -1361,15 +1389,16 @@ bool OBTorsion::AddTorsion(OBAtom *a, OBAtom *b, OBAtom *c, OBAtom *d) {
 */
 bool OBTorsion::AddTorsion(
     quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *> &atoms) {
-  if (!Empty() && (atoms.second != _bc.first || atoms.third != _bc.second))
+  if (!Empty() && (atoms.second != _bc.first || atoms.third != _bc.second)) {
     return (false);
+  }
 
   if (Empty()) {
     _bc.first = atoms.second;
     _bc.second = atoms.third;
   }
 
-  triple<OBAtom *, OBAtom *, double> ad(atoms.first, atoms.fourth, 0.0);
+  triple<OBAtom *, OBAtom *, double> const ad(atoms.first, atoms.fourth, 0.0);
   _ads.push_back(ad);
 
   return (true);
@@ -1382,12 +1411,12 @@ OBTorsionData::OBTorsionData()
 //
 // member functions for OBTorsionData class - stores OBTorsion set
 //
-OBTorsionData::OBTorsionData(const OBTorsionData &src)
-    : OBGenericData(src), _torsions(src._torsions) {}
+OBTorsionData::OBTorsionData(const OBTorsionData &src) = default;
 
 OBTorsionData &OBTorsionData::operator=(const OBTorsionData &src) {
-  if (this == &src)
+  if (this == &src) {
     return (*this);
+  }
 
   OBGenericData::operator=(src);
 
@@ -1410,18 +1439,21 @@ void OBTorsionData::SetData(OBTorsion &torsion) {
 */
 bool OBTorsionData::FillTorsionArray(
     std::vector<std::vector<unsigned int>> &torsions) {
-  if (_torsions.empty())
+  if (_torsions.empty()) {
     return (false);
+  }
 
-  vector<quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *>> tmpquads, quads;
+  vector<quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *>> tmpquads;
+  vector<quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *>> quads;
   vector<quad<OBAtom *, OBAtom *, OBAtom *, OBAtom *>>::iterator thisQuad;
   vector<OBTorsion>::iterator torsion;
 
   // generate set of all 4 atom abcd's from torsion structure
   for (torsion = _torsions.begin(); torsion != _torsions.end(); ++torsion) {
     tmpquads = torsion->GetTorsions();
-    for (thisQuad = tmpquads.begin(); thisQuad != tmpquads.end(); ++thisQuad)
+    for (thisQuad = tmpquads.begin(); thisQuad != tmpquads.end(); ++thisQuad) {
       quads.push_back(*thisQuad);
+    }
   }
 
   // fill array of torsion atoms
@@ -1467,13 +1499,16 @@ void OBDOSData::SetData(double fermi, const std::vector<double> &vEnergies,
 void OBOrbitalData::LoadClosedShellOrbitals(std::vector<double> energies,
                                             std::vector<std::string> symmetries,
                                             unsigned int alphaHOMO) {
-  if (energies.size() < symmetries.size())
+  if (energies.size() < symmetries.size()) {
     return; // something is very weird -- it's OK to pass no symmetries (we'll
             // assume "A")
-  if (energies.size() == 0)
+  }
+  if (energies.empty()) {
     return;
-  if (alphaHOMO > energies.size())
+  }
+  if (alphaHOMO > energies.size()) {
     return;
+  }
 
   _alphaHOMO = alphaHOMO;
   _alphaOrbitals.clear();
@@ -1481,16 +1516,19 @@ void OBOrbitalData::LoadClosedShellOrbitals(std::vector<double> energies,
   _betaOrbitals.clear();
   _openShell = false;
 
-  if (symmetries.size() < energies.size()) // pad with "A" symmetry
-    for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-      symmetries.push_back("A");
+  if (symmetries.size() < energies.size()) { // pad with "A" symmetry
+    for (unsigned int i = symmetries.size(); i < energies.size(); ++i) {
+      symmetries.emplace_back("A");
+    }
+  }
 
   OBOrbital currentOrbital;
   for (unsigned int i = 0; i < energies.size(); ++i) {
-    if (i < alphaHOMO)
+    if (i < alphaHOMO) {
       currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
-    else
+    } else {
       currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+    }
 
     _alphaOrbitals.push_back(currentOrbital);
   }
@@ -1499,28 +1537,34 @@ void OBOrbitalData::LoadClosedShellOrbitals(std::vector<double> energies,
 void OBOrbitalData::LoadAlphaOrbitals(std::vector<double> energies,
                                       std::vector<std::string> symmetries,
                                       unsigned int alphaHOMO) {
-  if (energies.size() < symmetries.size())
+  if (energies.size() < symmetries.size()) {
     return; // something is very weird -- it's OK to pass no symmetries (we'll
             // assume "A")
-  if (energies.size() == 0)
+  }
+  if (energies.empty()) {
     return;
-  if (alphaHOMO > energies.size())
+  }
+  if (alphaHOMO > energies.size()) {
     return;
+  }
 
   _alphaHOMO = alphaHOMO;
   _alphaOrbitals.clear();
   _openShell = true;
 
-  if (symmetries.size() < energies.size()) // pad with "A" symmetry
-    for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-      symmetries.push_back("A");
+  if (symmetries.size() < energies.size()) { // pad with "A" symmetry
+    for (unsigned int i = symmetries.size(); i < energies.size(); ++i) {
+      symmetries.emplace_back("A");
+    }
+  }
 
   OBOrbital currentOrbital;
   for (unsigned int i = 0; i < energies.size(); ++i) {
-    if (i < alphaHOMO)
+    if (i < alphaHOMO) {
       currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
-    else
+    } else {
       currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+    }
 
     _alphaOrbitals.push_back(currentOrbital);
   }
@@ -1529,28 +1573,34 @@ void OBOrbitalData::LoadAlphaOrbitals(std::vector<double> energies,
 void OBOrbitalData::LoadBetaOrbitals(std::vector<double> energies,
                                      std::vector<std::string> symmetries,
                                      unsigned int betaHOMO) {
-  if (energies.size() < symmetries.size())
+  if (energies.size() < symmetries.size()) {
     return; // something is very weird -- it's OK to pass no symmetries (we'll
             // assume "A")
-  if (energies.size() == 0)
+  }
+  if (energies.empty()) {
     return;
-  if (betaHOMO > energies.size())
+  }
+  if (betaHOMO > energies.size()) {
     return;
+  }
 
   _betaHOMO = betaHOMO;
   _betaOrbitals.clear();
   _openShell = true;
 
-  if (symmetries.size() < energies.size()) // pad with "A" symmetry
-    for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-      symmetries.push_back("A");
+  if (symmetries.size() < energies.size()) { // pad with "A" symmetry
+    for (unsigned int i = symmetries.size(); i < energies.size(); ++i) {
+      symmetries.emplace_back("A");
+    }
+  }
 
   OBOrbital currentOrbital;
   for (unsigned int i = 0; i < energies.size(); ++i) {
-    if (i < betaHOMO)
+    if (i < betaHOMO) {
       currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
-    else
+    } else {
       currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+    }
 
     _betaOrbitals.push_back(currentOrbital);
   }
