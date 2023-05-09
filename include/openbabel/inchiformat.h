@@ -33,6 +33,9 @@ GNU General Public License for more details.
 #include <vector>
 
 namespace OpenBabel {
+class OBAtom;
+class OBBond;
+
 extern std::string GetInChI(std::istream &is);
 
 class InChIFormat : public OBMoleculeFormat {
