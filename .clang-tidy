@@ -1,5 +1,5 @@
 ---
-Checks:          '-*,clang-diagnostic-*,clang-analyzer-*,bugprone-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readability-*,-readability-identifier-length'
+Checks:          '-*,clang-diagnostic-*,clang-analyzer-*,bugprone-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readability-*,-readability-convert-member-functions-to-static,-readability-identifier-length'
 WarningsAsErrors: ''
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
