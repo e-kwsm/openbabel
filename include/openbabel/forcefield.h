@@ -337,7 +337,7 @@ public:
   //! \name Methods to get information about set constraints
   //@{
   //! Get Constraint factor
-  double GetFactor() const;
+  double GetFactor();
   //! \returns the number of set constraints
   int Size() const;
   /*! The following constraint types are known: OBFF_CONST_IGNORE (ignore
@@ -447,16 +447,16 @@ protected:
 
   use: torsion parameters, ...
 */
-  static OBFFParameter *GetParameter(int a, int b, int c, int d,
-                                     std::vector<OBFFParameter> &parameter);
+  OBFFParameter *GetParameter(int a, int b, int c, int d,
+                              std::vector<OBFFParameter> &parameter);
   //! see GetParameter(int a, int b, int c, int d, std::vector<OBFFParameter>
   //! &parameter)
-  static OBFFParameter *GetParameter(const char *a, const char *b,
-                                     const char *c, const char *d,
-                                     std::vector<OBFFParameter> &parameter);
+  OBFFParameter *GetParameter(const char *a, const char *b, const char *c,
+                              const char *d,
+                              std::vector<OBFFParameter> &parameter);
   //! Get index for vector<OBFFParameter> ...
-  static int GetParameterIdx(int a, int b, int c, int d,
-                             std::vector<OBFFParameter> &parameter);
+  int GetParameterIdx(int a, int b, int c, int d,
+                      std::vector<OBFFParameter> &parameter);
 
   /*! Calculate the potential energy function derivative numerically with
    *  repect to the coordinates of atom with index a (this vector is the
@@ -1217,8 +1217,7 @@ public:
    *  \param direction The search direction.
    *  \param step The step to take.
    */
-  void LineSearchTakeStep(const double *origCoords, double *direction,
-                          double step);
+  void LineSearchTakeStep(double *origCoords, double *direction, double step);
   /*! Perform steepest descent optimalization for steps steps or until
    * convergence criteria is reached.
    *
@@ -1410,7 +1409,7 @@ public:
   /*! Get the current constraints.
    *  \return The current constrains stored in the force field.
    */
-  static OBFFConstraints &GetConstraints();
+  OBFFConstraints &GetConstraints();
   /*! Set the constraints.
    *  \param constraints The new constraints to be used.
    */
@@ -1422,11 +1421,11 @@ public:
    *  makes sure the selected atom follows the mouse cursur.
    *  \param index The index for the atom to fix.
    */
-  static void SetFixAtom(int index);
+  void SetFixAtom(int index);
   /*! Undo last SetFixAtom. This function will not remove the fix atom
    *  constraint for this atom if set by Setup() or SetConstraints().
    */
-  static void UnsetFixAtom();
+  void UnsetFixAtom();
   /*! Ignore the atom until UnsetIgnoreAtom() is called. This function
    *  can be used in programs that allow the user to interact with a molecule
    *  that is being minimized without having to check if the atom is already
@@ -1435,11 +1434,11 @@ public:
    *  created puching the other atoms away.
    *  \param index The index for the atom to ignore.
    */
-  static void SetIgnoreAtom(int index);
+  void SetIgnoreAtom(int index);
   /*! Undo last SetIgnoreAtom. This function will not remove the ignore atom
    *  constraint for this atom if set by Setup() or SetConstraints().
    */
-  static void UnsetIgnoreAtom();
+  void UnsetIgnoreAtom();
 
   //! internal function
   static bool IgnoreCalculation(int a, int b);
@@ -1458,7 +1457,7 @@ public:
   //! (debugging)
   bool DetectExplosion();
   //! (debugging)
-  static vector3 ValidateLineSearch(OBAtom *atom, vector3 &direction);
+  vector3 ValidateLineSearch(OBAtom *atom, vector3 &direction);
   //! (debugging)
   void ValidateSteepestDescent(int steps);
   //! (debugging)
@@ -1474,7 +1473,7 @@ public:
     Calculate the error of the analytical gradient (debugging)
     \return  error = fabs(numgrad - anagrad) / anagrad * 100%
   */
-  static vector3 ValidateGradientError(vector3 &numgrad, vector3 &anagrad);
+  vector3 ValidateGradientError(vector3 &numgrad, vector3 &anagrad);
   //@}
 
   /////////////////////////////////////////////////////////////////////////

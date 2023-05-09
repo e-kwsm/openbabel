@@ -38,7 +38,7 @@ void OBChargeModel::FillChargeVectors(OBMol &mol) {
   m_formalCharges.clear();
   m_formalCharges.reserve(mol.NumAtoms());
 
-  for (atom = mol.BeginAtom(itr); atom != nullptr; atom = mol.NextAtom(itr)) {
+  for (atom = mol.BeginAtom(itr); atom; atom = mol.NextAtom(itr)) {
     m_partialCharges.push_back(atom->GetPartialCharge());
     m_formalCharges.push_back((double)(atom->GetFormalCharge()));
   }

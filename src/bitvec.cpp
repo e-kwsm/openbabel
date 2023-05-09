@@ -128,32 +128,27 @@ void OBBitVec::SetRangeOn(unsigned lo_bit_offset, unsigned hi_bit_offset) {
   if (lo_bit_offset > hi_bit_offset) {
     return;
   }
-  if (lo_bit_offset == hi_bit_offset) {
+  if (lo_bit_offset == hi_bit_offset)
     SetBitOn(hi_bit_offset);
-  } else {
-    unsigned const lo_word_offset = lo_bit_offset >> WORDROLL;
-    unsigned const hi_word_offset = hi_bit_offset >> WORDROLL;
+  else {
+    unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
+    unsigned hi_word_offset = hi_bit_offset >> WORDROLL;
     lo_bit_offset &= WORDMASK;
     hi_bit_offset &= WORDMASK;
 
-    if (hi_word_offset >= GetSize()) {
+    if (hi_word_offset >= GetSize())
       ResizeWords(hi_word_offset + 1);
-    }
 
     if (lo_word_offset == hi_word_offset) {
-      for (unsigned i = lo_bit_offset; i <= hi_bit_offset; i++) {
+      for (unsigned i = lo_bit_offset; i <= hi_bit_offset; i++)
         _set[lo_word_offset] |= (1 << i);
-      }
     } else {
-      for (unsigned i = lo_bit_offset; i < SETWORD; ++i) {
+      for (unsigned i = lo_bit_offset; i < SETWORD; ++i)
         _set[lo_word_offset] |= (1 << i);
-      }
-      for (unsigned i = lo_word_offset + 1; i < hi_word_offset; ++i) {
+      for (unsigned i = lo_word_offset + 1; i < hi_word_offset; ++i)
         _set[i] = ~0;
-      }
-      for (unsigned i = 0; i <= hi_bit_offset; ++i) {
+      for (unsigned i = 0; i <= hi_bit_offset; ++i)
         _set[hi_word_offset] |= (1 << i);
-      }
     }
   }
 }
@@ -166,36 +161,31 @@ void OBBitVec::SetRangeOff(unsigned lo_bit_offset, unsigned hi_bit_offset) {
   if (lo_bit_offset > hi_bit_offset) {
     return;
   }
-  if (lo_bit_offset == hi_bit_offset) {
+  if (lo_bit_offset == hi_bit_offset)
     SetBitOff(hi_bit_offset);
-  } else {
-    unsigned const lo_word_offset = lo_bit_offset >> WORDROLL;
+  else {
+    unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
     unsigned hi_word_offset = hi_bit_offset >> WORDROLL;
     lo_bit_offset &= WORDMASK;
     hi_bit_offset &= WORDMASK;
 
-    if (lo_word_offset >= GetSize()) {
+    if (lo_word_offset >= GetSize())
       return;
-    }
     if (hi_word_offset >= GetSize()) {
       hi_word_offset = GetSize() - 1;
       hi_bit_offset = SETWORD - 1;
     }
 
     if (lo_word_offset == hi_word_offset) {
-      for (unsigned i = lo_bit_offset; i <= hi_bit_offset; ++i) {
+      for (unsigned i = lo_bit_offset; i <= hi_bit_offset; ++i)
         _set[lo_word_offset] &= (~(1 << i));
-      }
     } else {
-      for (unsigned i = lo_bit_offset; i < SETWORD; ++i) {
+      for (unsigned i = lo_bit_offset; i < SETWORD; ++i)
         _set[lo_word_offset] &= (~(1 << i));
-      }
-      for (unsigned i = lo_word_offset + 1; i < hi_word_offset; ++i) {
+      for (unsigned i = lo_word_offset + 1; i < hi_word_offset; ++i)
         _set[i] = 0x00000000;
-      }
-      for (unsigned i = 0; i <= hi_bit_offset; ++i) {
+      for (unsigned i = 0; i <= hi_bit_offset; ++i)
         _set[hi_word_offset] &= (~(1 << i));
-      }
     }
   }
 }
@@ -242,7 +232,7 @@ int OBBitVec::NextBit(int last_bit_offset) const {
 
   if (_set[wrdcnt] != 0) {
     s = _set[wrdcnt] & bitsoff[last_bit_offset & WORDMASK];
-    if (s != 0U) {
+    if (s != 0u) {
       LowBit(s, bit);
       if (bit != -1) {
         return (bit + (wrdcnt << WORDROLL));
@@ -290,7 +280,7 @@ const unsigned nibble_bit_count[0x10] = {
 unsigned OBBitVec::CountBits() const {
   unsigned count = 0;
   for (unsigned int word : _set) {
-    while (word != 0U) {
+    while (word != 0u) {
       count += nibble_bit_count[word & 0xF];
       word >>= 4;
     }
@@ -302,8 +292,8 @@ unsigned OBBitVec::CountBits() const {
 \return true for "is empty", false if not empty
 */
 bool OBBitVec::IsEmpty() const {
-  for (unsigned int const sx : _set) {
-    if (sx != 0U) {
+  for (unsigned int sx : _set) {
+    if (sx != 0u) {
       return (false);
     }
   }
@@ -315,7 +305,7 @@ bool OBBitVec::IsEmpty() const {
    \param[in] bit_offsets A list of bit offsets
 */
 void OBBitVec::FromVecInt(const std::vector<int> &bit_offsets) {
-  for (int const bit_offset : bit_offsets) {
+  for (int bit_offset : bit_offsets) {
     SetBitOn(bit_offset);
   }
 }
@@ -352,15 +342,14 @@ void OBBitVec::FromString(const std::string &line, int new_bit_size) {
     startpos = endpos + 1;
   }
 
-  for (auto &token : tokens) {
-    if (token == "[") {
+  for (unsigned int i = 0; i < tokens.size(); i++) {
+    if (tokens[i] == "[") {
       continue;
     }
-    if (token == "]") {
+    if (tokens[i] == "]")
       break;
-    }
 
-    int const bit = atoi(token.c_str());
+    int const bit = atoi(tokens[i].c_str());
 
     if (bit >= 0) {
       SetBitOn(bit);
@@ -609,15 +598,14 @@ std::istream &operator>>(std::istream &is, OBBitVec &bv) {
     startpos = endpos + 1;
   }
 
-  for (auto &token : tokens) {
-    if (token == "[") {
+  for (unsigned int i = 0; i < tokens.size(); i++) {
+    if (tokens[i] == "[") {
       continue;
     }
-    if (token == "]") {
+    if (tokens[i] == "]")
       break;
-    }
 
-    int const bit = atoi(token.c_str());
+    int const bit = atoi(tokens[i].c_str());
 
     if (bit >= 0) {
       bv.SetBitOn(bit);
@@ -643,7 +631,7 @@ std::ostream &operator<<(std::ostream &os, const OBBitVec &bv) {
 
   for (unsigned i = 0; i < bv._size; ++i) {
     for (unsigned j = 0; j < SETWORD; ++j) {
-      if ((bv._set[i] >> (j % SETWORD) & 1) != 0U) {
+      if ((bv._set[i] >> (j % SETWORD) & 1) != 0u) {
         os << (j + (i * SETWORD)) << ' ' << std::flush;
       }
     }

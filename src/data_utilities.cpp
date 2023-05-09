@@ -43,12 +43,8 @@ bool extract_thermochemistry(OpenBabel::OBMol &mol, bool bVerbose, int *Nsymm,
     std::string term;
     kkTYPE kk;
   } energy_unit;
-  double St = 0;
-  double Sr = 0;
-  double Sv = 0;
-  double Sconf = 0;
-  double Ssymm = 0;
-  double const Rgas = 1.9872041;
+  double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
+  double Rgas = 1.9872041;
   int RotSymNum = 1;
   OpenBabel::OBRotationData *rd;
 
@@ -74,21 +70,22 @@ bool extract_thermochemistry(OpenBabel::OBMol &mol, bool bVerbose, int *Nsymm,
   if (Nrotbonds > 0) {
     Sconf = Rgas * Nrotbonds * log(3.0);
   }
-  energy_unit const eu[] = {
+  energy_unit eu[] = {
       {"zpe", kkZP},        {"DeltaHform", kkDH}, {"DeltaGform", kkDG},
       {"DeltaSform", kkDS}, {"S0", kkS0},         {"cv", kkCV},
       {"Strans", kkSt},     {"Srot", kkSr},       {"Svib", kkSv}};
 #define NEU (sizeof(eu) / sizeof(eu[0]))
   int found = 0;
   std::vector<OpenBabel::OBGenericData *> obdata = mol.GetData();
-  for (auto j = obdata.begin(); (j < obdata.end()); ++j) {
-    std::string const term = (*j)->GetAttribute();
-    double const value = atof((*j)->GetValue().c_str());
+  for (std::vector<OpenBabel::OBGenericData *>::iterator j = obdata.begin();
+       (j < obdata.end()); ++j) {
+    std::string term = (*j)->GetAttribute();
+    double value = atof((*j)->GetValue().c_str());
     double T = 0;
     {
-      size_t const lh = term.find('(');
-      size_t const rh = term.find("K)");
-      double const TT = atof(term.substr(lh + 1, rh - lh - 1).c_str());
+      size_t lh = term.find("(");
+      size_t rh = term.find("K)");
+      double TT = atof(term.substr(lh + 1, rh - lh - 1).c_str());
       if (0 != TT) {
         if (0 == T) {
           T = TT;
@@ -149,7 +146,7 @@ bool extract_thermochemistry(OpenBabel::OBMol &mol, bool bVerbose, int *Nsymm,
       }
     }
   }
-  double const P = 16.605 / 4.184; // Convert pressure to kcal/mol
+  double P = 16.605 / 4.184; // Convert pressure to kcal/mol
   *CPT = *CVT + Rgas + (2 * P * dBdT + pow(P * dBdT, 2.0) / Rgas);
 
   Scomponents.push_back(St);

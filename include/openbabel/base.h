@@ -194,7 +194,7 @@ protected:
   unsigned int _type; //!< attribute type -- declared for each subclass
   DataOrigin _source; //!< source of data for accounting
 public:
-  OBGenericData(const std::string &attr = "undefined",
+  OBGenericData(const std::string attr = "undefined",
                 const unsigned int type = OBGenericDataType::UndefinedData,
                 const DataOrigin source = any);
   // Use default copy constructor and assignment operators

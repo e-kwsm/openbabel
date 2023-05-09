@@ -170,7 +170,7 @@ public:
    is known at temperature T. If 1 the values
    including all corrections are returned in the dhof variable.
   */
-  int GetHeatOfFormation(const std::string& elem, int charge, const std::string& method,
+  int GetHeatOfFormation(std::string elem, int charge, std::string method,
                          double T, double *dhof0, double *dhofT, double *S0T);
 };
 

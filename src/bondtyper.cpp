@@ -30,6 +30,7 @@ GNU General Public License for more details.
 using namespace std;
 
 namespace OpenBabel {
+extern OBMessageHandler obErrorLog;
 
 //! Global OBBondTyper for perception of bond order assignment.
 #if __cplusplus >= 201103L
@@ -62,10 +63,9 @@ void OBBondTyper::ParseLine(const char *buffer) {
     tokenize(vs, buffer);
     // Make sure we actually have a SMARTS pattern plus at least one triple
     // and make sure we have the correct number of integers
-    if (vs.size() < 4) {
+    if (vs.size() < 4)
       return; // just ignore empty (or short lines)
-    }
-    if (vs.size() >= 4 && (vs.size() % 3 != 1)) {
+    else if (vs.size() >= 4 && (vs.size() % 3 != 1)) {
       stringstream errorMsg;
       errorMsg << " Error in OBBondTyper. Pattern is incorrect, found "
                << vs.size() << " tokens." << endl;
@@ -79,7 +79,7 @@ void OBBondTyper::ParseLine(const char *buffer) {
       for (unsigned int i = 1; i < vs.size(); ++i) {
         bovector.push_back(atoi((char *)vs[i].c_str()));
       }
-      _fgbonds.emplace_back(sp, bovector);
+      _fgbonds.push_back(pair<OBSmartsPattern *, vector<int>>(sp, bovector));
     } else {
       delete sp;
       sp = nullptr;
@@ -96,23 +96,16 @@ OBBondTyper::~OBBondTyper() {
 }
 
 void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
-  if (!_init) {
+  if (!_init)
     Init();
-  }
 
   OBSmartsPattern *currentPattern;
-  OBBond *b1;
-  OBBond *b2;
-  OBAtom *a1;
-  OBAtom *a2;
-  OBAtom *a3;
-  double angle;
-  double dist1;
-  double dist2;
+  OBBond *b1, *b2;
+  OBAtom *a1, *a2, *a3;
+  double angle, dist1, dist2;
   vector<int> assignments;
   vector<vector<int>> mlist;
-  vector<vector<int>>::iterator matches;
-  vector<vector<int>>::iterator l;
+  vector<vector<int>>::iterator matches, l;
   vector<pair<OBSmartsPattern *, vector<int>>>::iterator i;
   unsigned int j;
 
@@ -121,7 +114,7 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
     currentPattern = i->first;
     assignments = i->second;
 
-    if ((currentPattern != nullptr) && currentPattern->Match(mol)) {
+    if (currentPattern && currentPattern->Match(mol)) {
       mlist = currentPattern->GetUMapList();
       for (matches = mlist.begin(); matches != mlist.end(); ++matches) {
         // Now loop through the bonds to assign from _fgbonds
@@ -129,15 +122,13 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
           // along the assignments vector: atomID1 atomID2 bondOrder
           a1 = mol.GetAtom((*matches)[assignments[j]]);
           a2 = mol.GetAtom((*matches)[assignments[j + 1]]);
-          if ((a1 == nullptr) || (a2 == nullptr)) {
+          if (!a1 || !a2)
             continue;
-          }
 
           b1 = a1->GetBond(a2);
 
-          if (b1 == nullptr) {
+          if (!b1)
             continue;
-          }
           b1->SetBondOrder(assignments[j + 2]);
         } // bond order assignments
       }   // each match
@@ -165,9 +156,8 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
         if (!a1->HasDoubleBond()) { // no double bond already assigned
           b1 = a1->GetBond(a2);
 
-          if (b1 == nullptr) {
+          if (!b1)
             continue;
-          }
           b1->SetBondOrder(2);
         }
       }
@@ -193,9 +183,8 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
         if (!a1->HasDoubleBond()) { // no double bond already assigned
           b1 = a1->GetBond(a2);
 
-          if (b1 == nullptr) {
+          if (!b1)
             continue;
-          }
           b1->SetBondOrder(2);
         }
       }
@@ -218,19 +207,17 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
       dist2 = a2->GetDistance(a3);
 
       // isocyanate geometry or Isothiocyanate geometry ?
-      if (a1->GetAtomicNum() == OBElements::Oxygen) {
+      if (a1->GetAtomicNum() == OBElements::Oxygen)
         dist1OK = dist1 < 1.28;
-      } else {
+      else
         dist1OK = dist1 < 1.72;
-      }
 
       if (angle > 150 && dist1OK && dist2 < 1.34) {
 
         b1 = a1->GetBond(a2);
         b2 = a2->GetBond(a3);
-        if ((b1 == nullptr) || (b2 == nullptr)) {
+        if (!b1 || !b2)
           continue;
-        }
         b1->SetBondOrder(2);
         b2->SetBondOrder(2);
       }
@@ -256,9 +243,8 @@ void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol) {
         if (!a1->HasDoubleBond()) { // no double bond already assigned
           b1 = a1->GetBond(a2);
 
-          if (b1 == nullptr) {
+          if (!b1)
             continue;
-          }
           b1->SetBondOrder(2);
         }
       }

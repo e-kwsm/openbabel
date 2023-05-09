@@ -29,12 +29,10 @@ PLUGIN_CPP_FILE(OBFormat)
 
 int OBFormat::RegisterFormat(const char *ID, const char *MIME) {
   GetMap()[ID] = this;
-  if (MIME != nullptr) {
+  if (MIME)
     FormatsMIMEMap()[MIME] = this;
-  }
-  if ((Flags() & DEFAULTFORMAT) != 0U) {
+  if (Flags() & DEFAULTFORMAT)
     Default() = this;
-  }
 
   // ensure "formats" is registered as a plugin
   PluginMap()[TypeID()] = this;
@@ -45,79 +43,70 @@ int OBFormat::RegisterFormat(const char *ID, const char *MIME) {
 //////////////////////////////////////////////////////////
 const char *OBFormat::TargetClassDescription() {
   // Provides class of default format unless overridden
-  if (OBFormat::FindType(nullptr) != nullptr) {
+  if (OBFormat::FindType(nullptr))
     return OBFormat::FindType(nullptr)->TargetClassDescription();
-  }
-  return "";
+  else
+    return "";
 }
 
 //////////////////////////////////////////////////////////
 const type_info &OBFormat::GetType() {
   // Provides info on class of default format unless overridden
-  if (OBFormat::FindType(nullptr) != nullptr) {
+  if (OBFormat::FindType(nullptr))
     return OBFormat::FindType(nullptr)->GetType();
-  }
-  return typeid(this); // rubbish return if DefaultFormat not set
+  else
+    return typeid(this); // rubbish return if DefaultFormat not set
 }
 
 //////////////////////////////////////////////////////////
 OBFormat *OBFormat::FormatFromMIME(const char *MIME) {
-  if (FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end()) {
+  if (FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end())
     return nullptr;
-  }
-  return static_cast<OBFormat *>(FormatsMIMEMap()[MIME]);
+  else
+    return static_cast<OBFormat *>(FormatsMIMEMap()[MIME]);
 }
 
 //////////////////////////////////////////////////////////
 bool OBFormat::Display(std::string &txt, const char *param, const char *ID) {
   // No output for formats which can't be written or read
-  if (((Flags() & NOTREADABLE) != 0U) && ((Flags() & NOTWRITABLE) != 0U)) {
+  if ((Flags() & NOTREADABLE) && (Flags() & NOTWRITABLE))
     return false;
-  }
 
-  bool justread = false;
-  bool justwrite = false;
+  bool justread = false, justwrite = false;
   // No output if formats is not readable or writable if this was requested
-  if (param != nullptr) {
-    if (((strncasecmp(param, "in", 2) == 0) ||
-         (strncasecmp(param, "read", 4) == 0))) {
+  if (param) {
+    if ((!strncasecmp(param, "in", 2) || !strncasecmp(param, "read", 4))) {
       justread = true;
-      if ((Flags() & NOTREADABLE) != 0U) {
+      if (Flags() & NOTREADABLE)
         return false;
-      }
     }
-    if (((strncasecmp(param, "out", 3) == 0) ||
-         (strncasecmp(param, "write", 5) == 0))) {
+    if ((!strncasecmp(param, "out", 3) || !strncasecmp(param, "write", 5))) {
       justwrite = true;
-      if ((Flags() & NOTWRITABLE) != 0U) {
+      if (Flags() & NOTWRITABLE)
         return false;
-      }
     }
   }
 
   // Use the provided ID if possible. If more than one ID has been registed
   // for the format, e.g. "smiles" and "smi", the contents of the member
   // variable _id, returned by GetID() is the last one.
-  if (ID != nullptr) {
+  if (ID)
     txt = ID;
-  } else {
+  else
     txt = GetID();
-  }
   txt += " -- ";
   txt += FirstLine(Description());
-  if (!justread && ((Flags() & NOTWRITABLE) != 0U)) {
+  if (!justread && (Flags() & NOTWRITABLE))
     txt += " [Read-only]";
-  }
-  if (!justwrite && ((Flags() & NOTREADABLE) != 0U)) {
+  if (!justwrite && (Flags() & NOTREADABLE))
     txt += " [Write-only]";
-  }
 
-  if ((param != nullptr) && (strstr(param, "verbose") != nullptr)) {
+  if (param && strstr(param, "verbose")) {
     const char *nl = strchr(Description(), '\n');
-    if (nl != nullptr) {
+    if (nl) {
       txt += '\n';
       txt += ++nl; // add rest of description
-      if (strlen(SpecificationURL()) != 0U) {
+      if (strlen(SpecificationURL())) {
         txt += "\nSpecification at: ";
         txt += SpecificationURL();
       }

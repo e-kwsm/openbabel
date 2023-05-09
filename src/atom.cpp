@@ -950,8 +950,8 @@ unsigned int OBAtom::CountRingBonds() const {
 double OBAtom::SmallestBondAngle() {
   OBAtom *b;
   OBAtom *c;
-  vector3 const v1;
-  vector3 const v2;
+  vector3 v1;
+  vector3 v2;
   double degrees;
   double minDegrees;
   //    vector<OBAtom*>::iterator i;
@@ -975,8 +975,8 @@ double OBAtom::SmallestBondAngle() {
 double OBAtom::AverageBondAngle() {
   OBAtom *b;
   OBAtom *c;
-  vector3 const v1;
-  vector3 const v2;
+  vector3 v1;
+  vector3 v2;
   double degrees;
   double avgDegrees;
   //    vector<OBAtom*>::iterator i;
@@ -1179,7 +1179,8 @@ double OBAtom::GetDistance(OBAtom *b) {
   if (!IsPeriodic()) {
     return ((this->GetVector() - b->GetVector()).length());
   }
-  auto *box = (OBUnitCell *)GetParent()->GetData(OBGenericDataType::UnitCell);
+  OBUnitCell *box =
+      (OBUnitCell *)GetParent()->GetData(OBGenericDataType::UnitCell);
   return (box->MinimumImageCartesian(this->GetVector() - b->GetVector()))
       .length();
 }
@@ -1876,9 +1877,8 @@ bool OBAtom::IsHbondAcceptor() {
           return (true);
         }
         bond = nbr->GetBond(this);
-        if ((bond->IsEster()) && (!(IsCarboxylOxygen()))) {
+        if ((bond->IsEster()) && (!(IsCarboxylOxygen())))
           return (false);
-        }
       }
     }
     return (true); // any other oxygen
@@ -1890,8 +1890,9 @@ bool OBAtom::IsHbondAcceptor() {
     for (OBAtom *nbr = BeginNbrAtom(i); nbr != nullptr; nbr = NextNbrAtom(i)) {
       if (nbr->GetAtomicNum() == 6) {
         return (false);
+      } else {
+        return (true);
       }
-      return (true);
     }
   };
   if (_ele == 7) {

@@ -208,42 +208,31 @@ atoms
 
 int OBForceField::GetParameterIdx(int a, int b, int c, int d,
                                   vector<OBFFParameter> &parameter) {
-  if (b == 0) {
-    for (unsigned int idx = 0; idx < parameter.size(); idx++) {
-      if (a == parameter[idx].a) {
+  if (!b)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
+      if (a == parameter[idx].a)
         return idx;
-      }
-    }
-  }
 
-  if (c == 0) {
-    for (unsigned int idx = 0; idx < parameter.size(); idx++) {
+  if (!c)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
       if (((a == parameter[idx].a) && (b == parameter[idx].b)) ||
-          ((a == parameter[idx].b) && (b == parameter[idx].a))) {
+          ((a == parameter[idx].b) && (b == parameter[idx].a)))
         return idx;
-      }
-    }
-  }
 
-  if (d == 0) {
-    for (unsigned int idx = 0; idx < parameter.size(); idx++) {
+  if (!d)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
       if (((a == parameter[idx].a) && (b == parameter[idx].b) &&
            (c == parameter[idx].c)) ||
           ((a == parameter[idx].c) && (b == parameter[idx].b) &&
-           (c == parameter[idx].a))) {
+           (c == parameter[idx].a)))
         return idx;
-      }
-    }
-  }
 
-  for (unsigned int idx = 0; idx < parameter.size(); idx++) {
+  for (unsigned int idx = 0; idx < parameter.size(); idx++)
     if (((a == parameter[idx].a) && (b == parameter[idx].b) &&
          (c == parameter[idx].c) && (d == parameter[idx].d)) ||
         ((a == parameter[idx].d) && (b == parameter[idx].c) &&
-         (c == parameter[idx].b) && (d == parameter[idx].a))) {
+         (c == parameter[idx].b) && (d == parameter[idx].a)))
       return idx;
-    }
-  }
 
   return -1;
 }
@@ -252,41 +241,39 @@ OBFFParameter *OBForceField::GetParameter(int a, int b, int c, int d,
                                           vector<OBFFParameter> &parameter) {
   OBFFParameter *par;
 
-  if (b == 0) {
-    for (auto &idx : parameter) {
-      if (a == idx.a) {
-        par = &idx;
+  if (!b)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
+      if (a == parameter[idx].a) {
+        par = &parameter[idx];
         return par;
       }
-    }
-  }
 
-  if (c == 0) {
-    for (auto &idx : parameter) {
-      if (((a == idx.a) && (b == idx.b)) || ((a == idx.b) && (b == idx.a))) {
-        par = &idx;
+  if (!c)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
+      if (((a == parameter[idx].a) && (b == parameter[idx].b)) ||
+          ((a == parameter[idx].b) && (b == parameter[idx].a))) {
+        par = &parameter[idx];
         return par;
       }
-    }
-  }
 
-  if (d == 0) {
-    for (auto &idx : parameter) {
-      if (((a == idx.a) && (b == idx.b) && (c == idx.c)) ||
-          ((a == idx.c) && (b == idx.b) && (c == idx.a))) {
-        par = &idx;
+  if (!d)
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
+      if (((a == parameter[idx].a) && (b == parameter[idx].b) &&
+           (c == parameter[idx].c)) ||
+          ((a == parameter[idx].c) && (b == parameter[idx].b) &&
+           (c == parameter[idx].a))) {
+        par = &parameter[idx];
         return par;
       }
-    }
-  }
 
-  for (auto &idx : parameter) {
-    if (((a == idx.a) && (b == idx.b) && (c == idx.c) && (d == idx.d)) ||
-        ((a == idx.d) && (b == idx.c) && (c == idx.b) && (d == idx.a))) {
-      par = &idx;
+  for (unsigned int idx = 0; idx < parameter.size(); idx++)
+    if (((a == parameter[idx].a) && (b == parameter[idx].b) &&
+         (c == parameter[idx].c) && (d == parameter[idx].d)) ||
+        ((a == parameter[idx].d) && (b == parameter[idx].c) &&
+         (c == parameter[idx].b) && (d == parameter[idx].a))) {
+      par = &parameter[idx];
       return par;
     }
-  }
 
   return nullptr;
 }
@@ -295,58 +282,57 @@ OBFFParameter *OBForceField::GetParameter(const char *a, const char *b,
                                           const char *c, const char *d,
                                           vector<OBFFParameter> &parameter) {
   OBFFParameter *par;
-  if (a == nullptr) {
+  if (a == nullptr)
     return nullptr;
-  }
 
   if (b == nullptr) {
-    string const _a(a);
-    for (auto &idx : parameter) {
-      if (_a == idx._a) {
-        par = &idx;
+    string _a(a);
+    for (unsigned int idx = 0; idx < parameter.size(); idx++)
+      if (_a == parameter[idx]._a) {
+        par = &parameter[idx];
         return par;
       }
-    }
     return nullptr;
   }
   if (c == nullptr) {
-    string const _a(a);
-    string const _b(b);
-    for (auto &idx : parameter) {
-      if (((_a == idx._a) && (_b == idx._b)) ||
-          ((_a == idx._b) && (_b == idx._a))) {
-        par = &idx;
+    string _a(a);
+    string _b(b);
+    for (unsigned int idx = 0; idx < parameter.size(); idx++) {
+      if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b)) ||
+          ((_a == parameter[idx]._b) && (_b == parameter[idx]._a))) {
+        par = &parameter[idx];
         return par;
       }
     }
     return nullptr;
   }
   if (d == nullptr) {
-    string const _a(a);
-    string const _b(b);
-    string const _c(c);
-    for (auto &idx : parameter) {
-      if (((_a == idx._a) && (_b == idx._b) && (_c == idx._c)) ||
-          ((_a == idx._c) && (_b == idx._b) && (_c == idx._a))) {
-        par = &idx;
+    string _a(a);
+    string _b(b);
+    string _c(c);
+    for (unsigned int idx = 0; idx < parameter.size(); idx++) {
+      if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
+           (_c == parameter[idx]._c)) ||
+          ((_a == parameter[idx]._c) && (_b == parameter[idx]._b) &&
+           (_c == parameter[idx]._a))) {
+        par = &parameter[idx];
         return par;
       }
     }
     return nullptr;
   }
-  string const _a(a);
-  string const _b(b);
-  string const _c(c);
-  string const _d(d);
-  for (auto &idx : parameter) {
-    if (((_a == idx._a) && (_b == idx._b) && (_c == idx._c) &&
-         (_d == idx._d)) ||
-        ((_a == idx._d) && (_b == idx._c) && (_c == idx._b) &&
-         (_d == idx._a))) {
-      par = &idx;
+  string _a(a);
+  string _b(b);
+  string _c(c);
+  string _d(d);
+  for (unsigned int idx = 0; idx < parameter.size(); idx++)
+    if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
+         (_c == parameter[idx]._c) && (_d == parameter[idx]._d)) ||
+        ((_a == parameter[idx]._d) && (_b == parameter[idx]._c) &&
+         (_c == parameter[idx]._b) && (_d == parameter[idx]._a))) {
+      par = &parameter[idx];
       return par;
     }
-  }
 
   return nullptr;
 }
@@ -389,38 +375,31 @@ void OBForceField::SetIgnoreAtom(int index) {
 void OBForceField::UnsetIgnoreAtom() { _ignoreAtom = 0; }
 
 bool OBForceField::IgnoreCalculation(int a, int b) {
-  if (_ignoreAtom == 0U) {
+  if (!_ignoreAtom)
     return false;
-  }
 
-  if (_ignoreAtom == a) {
+  if (_ignoreAtom == a)
     return true;
-  }
-  if (_ignoreAtom == b) {
+  if (_ignoreAtom == b)
     return true;
-  }
 
   return false;
 }
 
 bool OBForceField::IgnoreCalculation(int a, int b, int c) {
-  if (OBForceField::IgnoreCalculation(a, c)) {
+  if (OBForceField::IgnoreCalculation(a, c))
     return true;
-  }
-  if (_ignoreAtom == b) {
+  if (_ignoreAtom == b)
     return true;
-  }
 
   return false;
 }
 
 bool OBForceField::IgnoreCalculation(int a, int b, int c, int d) {
-  if (OBForceField::IgnoreCalculation(a, b, c)) {
+  if (OBForceField::IgnoreCalculation(a, b, c))
     return true;
-  }
-  if (_ignoreAtom == d) {
+  if (_ignoreAtom == d)
     return true;
-  }
 
   return false;
 }
@@ -443,9 +422,8 @@ vector3 OBFFConstraints::GetGradient(int a) {
 
   vector3 grad(0.0, 0.0, 0.0);
 
-  for (i = _constraints.begin(); i != _constraints.end(); ++i) {
+  for (i = _constraints.begin(); i != _constraints.end(); ++i)
     grad += i->GetGradient(a);
-  }
 
   return grad;
 }
@@ -465,24 +443,16 @@ double OBFFConstraints::GetConstraintEnergy() {
   vector<OBFFConstraint>::iterator i;
   double constraint_energy = 0.0;
 
-  for (i = _constraints.begin(); i != _constraints.end(); ++i) {
+  for (i = _constraints.begin(); i != _constraints.end(); ++i)
     if ((i->type == OBFF_CONST_DISTANCE) || (i->type == OBFF_CONST_ANGLE) ||
         (i->type == OBFF_CONST_TORSION)) {
-      vector3 da;
-      vector3 db;
-      vector3 dc;
-      vector3 dd;
-      double delta;
-      double delta2;
-      double rab;
-      double theta;
-      double dE;
+      vector3 da, db, dc, dd;
+      double delta, delta2, rab, theta, dE;
 
       switch (i->type) {
       case OBFF_CONST_DISTANCE:
-        if (i->a == nullptr || (i->b) == nullptr) {
+        if (i->a == nullptr || (i->b) == nullptr)
           break;
-        }
 
         da = (i->a)->GetVector();
         db = (i->b)->GetVector();
@@ -497,9 +467,8 @@ double OBFFConstraints::GetConstraintEnergy() {
         i->gradb = dE * db;
         break;
       case OBFF_CONST_ANGLE:
-        if (i->a == nullptr || i->b == nullptr || i->c == nullptr) {
+        if (i->a == nullptr || i->b == nullptr || i->c == nullptr)
           break;
-        }
 
         da = (i->a)->GetVector();
         db = (i->b)->GetVector();
@@ -517,9 +486,8 @@ double OBFFConstraints::GetConstraintEnergy() {
         break;
       case OBFF_CONST_TORSION:
         if (i->a == nullptr || i->b == nullptr || i->c == nullptr ||
-            i->d == nullptr) {
+            i->d == nullptr)
           break;
-        }
 
         da = (i->a)->GetVector();
         db = (i->b)->GetVector();
@@ -527,9 +495,8 @@ double OBFFConstraints::GetConstraintEnergy() {
         dd = (i->d)->GetVector();
 
         theta = OBForceField::VectorTorsionDerivative(da, db, dc, dd);
-        if (!isfinite(theta)) {
+        if (!isfinite(theta))
           theta = 1.0e-7;
-        }
 
         theta = DEG_TO_RAD * (theta + 180.0 - i->constraint_value);
         constraint_energy += 0.001 * i->factor * (1.0 + cos(theta));
@@ -544,7 +511,6 @@ double OBFFConstraints::GetConstraintEnergy() {
         break;
       }
     }
-  }
   return constraint_energy;
 }
 
@@ -554,21 +520,16 @@ void OBFFConstraints::DeleteConstraint(int index) {
 
   for (i = _constraints.begin(); i != _constraints.end(); ++n, ++i) {
     if (n == index) {
-      if (i->type == OBFF_CONST_IGNORE) {
+      if (i->type == OBFF_CONST_IGNORE)
         _ignored.SetBitOff(i->ia);
-      }
-      if (i->type == OBFF_CONST_ATOM) {
+      if (i->type == OBFF_CONST_ATOM)
         _fixed.SetBitOff(i->ia);
-      }
-      if (i->type == OBFF_CONST_ATOM_X) {
+      if (i->type == OBFF_CONST_ATOM_X)
         _Xfixed.SetBitOff(i->ia);
-      }
-      if (i->type == OBFF_CONST_ATOM_Y) {
+      if (i->type == OBFF_CONST_ATOM_Y)
         _Yfixed.SetBitOff(i->ia);
-      }
-      if (i->type == OBFF_CONST_ATOM_Z) {
+      if (i->type == OBFF_CONST_ATOM_Z)
         _Zfixed.SetBitOff(i->ia);
-      }
 
       _constraints.erase(i);
       break;
@@ -578,7 +539,7 @@ void OBFFConstraints::DeleteConstraint(int index) {
 
 void OBFFConstraints::SetFactor(double factor) { _factor = factor; }
 
-double OBFFConstraints::GetFactor() const { return _factor; }
+double OBFFConstraints::GetFactor() { return _factor; }
 
 void OBFFConstraints::AddIgnore(int a) {
   _ignored.SetBitOn(a);
@@ -664,49 +625,43 @@ void OBFFConstraints::AddTorsionConstraint(int a, int b, int c, int d,
 }
 
 int OBFFConstraints::GetConstraintType(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].type;
 }
 
 double OBFFConstraints::GetConstraintValue(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].constraint_value;
 }
 
 int OBFFConstraints::GetConstraintAtomA(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].ia;
 }
 
 int OBFFConstraints::GetConstraintAtomB(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].ib;
 }
 
 int OBFFConstraints::GetConstraintAtomC(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].ic;
 }
 
 int OBFFConstraints::GetConstraintAtomD(int index) const {
-  if (index >= _constraints.size()) {
+  if (index >= _constraints.size())
     return 0;
-  }
 
   return _constraints[index].id;
 }
@@ -781,11 +736,10 @@ void OBForceField::PrintVelocities() {
 }
 
 bool OBForceField::SetLogFile(ostream *pos) {
-  if (pos != nullptr) {
+  if (pos)
     _logos = pos;
-  } else {
+  else
     _logos = &cout;
-  }
 
   return true;
 }
@@ -815,9 +769,8 @@ bool OBForceField::Setup(OBMol &mol) {
     delete[] _gradientPtr;
     _gradientPtr = new double[_ncoords];
 
-    if ((_mol.NumAtoms() != 0U) && (_constraints.Size() != 0)) {
+    if (_mol.NumAtoms() && _constraints.Size())
       _constraints.Setup(_mol);
-    }
 
     _mol.SetSSSRPerceived(false);
     _mol.DeleteData(OBGenericDataType::TorsionData); // bug #1954233
@@ -842,8 +795,9 @@ bool OBForceField::Setup(OBMol &mol) {
       PrintPartialCharges();
       SetCoordinates(mol);
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   _validSetup = true;
@@ -869,9 +823,8 @@ bool OBForceField::Setup(OBMol &mol, OBFFConstraints &constraints) {
     _gradientPtr = new double[_ncoords];
 
     _constraints = constraints;
-    if ((_mol.NumAtoms() != 0U) && (_constraints.Size() != 0)) {
+    if (_mol.NumAtoms() && _constraints.Size())
       _constraints.Setup(_mol);
-    }
 
     _mol.SetSSSRPerceived(false);
     _mol.DeleteData(OBGenericDataType::TorsionData); // bug #1954233
@@ -905,8 +858,9 @@ bool OBForceField::Setup(OBMol &mol, OBFFConstraints &constraints) {
       _constraints.Setup(_mol);
       SetCoordinates(mol);
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   _validSetup = true;
@@ -922,56 +876,48 @@ bool OBForceField::SetLogLevel(int level) {
 // This function might need expanding, bu could really increase performance for
 // avogadro's AutoOpt tool
 bool OBForceField::IsSetupNeeded(OBMol &mol) {
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return true;
-  }
 
-  if (_mol.NumBonds() != mol.NumBonds()) {
+  if (_mol.NumBonds() != mol.NumBonds())
     return true;
-  }
 
   FOR_ATOMS_OF_MOL(atom, _mol) {
     // if we have Fe or Cu the atom type depends on the formal
     // charge, so a new setup must be forced anyway
-    if (atom->GetAtomicNum() == 26 || atom->GetAtomicNum() == 29) {
+    if (atom->GetAtomicNum() == 26 || atom->GetAtomicNum() == 29)
       return true;
-    }
-    if (atom->GetAtomicNum() != (mol.GetAtom(atom->GetIdx()))->GetAtomicNum()) {
+    if (atom->GetAtomicNum() != (mol.GetAtom(atom->GetIdx()))->GetAtomicNum())
       return true;
-    }
     if (atom->GetExplicitDegree() !=
-        (mol.GetAtom(atom->GetIdx()))->GetExplicitDegree()) {
+        (mol.GetAtom(atom->GetIdx()))->GetExplicitDegree())
       return true;
-    }
   }
   FOR_BONDS_OF_MOL(bond, _mol) {
-    if (bond->GetBondOrder() != (mol.GetBond(bond->GetIdx()))->GetBondOrder()) {
+    if (bond->GetBondOrder() != (mol.GetBond(bond->GetIdx()))->GetBondOrder())
       return true;
-    }
     if (bond->GetBeginAtom()->GetAtomicNum() !=
             (mol.GetBond(bond->GetIdx()))->GetBeginAtom()->GetAtomicNum() ||
         bond->GetEndAtom()->GetAtomicNum() !=
-            (mol.GetBond(bond->GetIdx()))->GetEndAtom()->GetAtomicNum()) {
+            (mol.GetBond(bond->GetIdx()))->GetEndAtom()->GetAtomicNum())
       return true;
-    }
   }
 
   return false;
 }
 
 bool OBForceField::GetAtomTypes(OBMol &mol) {
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   FOR_ATOMS_OF_MOL(intAtom, _mol) {
     OBAtom *extAtom = mol.GetAtom(intAtom->GetIdx());
 
     if (extAtom->HasData("FFAtomType")) {
-      auto *data = (OBPairData *)extAtom->GetData("FFAtomType");
+      OBPairData *data = (OBPairData *)extAtom->GetData("FFAtomType");
       data->SetValue(intAtom->GetType());
     } else {
-      auto *data = new OBPairData();
+      OBPairData *data = new OBPairData();
       data->SetAttribute("FFAtomType");
       data->SetValue(intAtom->GetType());
       extAtom->SetData(data);
@@ -982,9 +928,8 @@ bool OBForceField::GetAtomTypes(OBMol &mol) {
 }
 
 bool OBForceField::GetPartialCharges(OBMol &mol) {
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   ostringstream out;
   FOR_ATOMS_OF_MOL(intAtom, _mol) {
@@ -993,10 +938,10 @@ bool OBForceField::GetPartialCharges(OBMol &mol) {
     out.str("");
     out << intAtom->GetPartialCharge();
     if (extAtom->HasData("FFPartialCharge")) {
-      auto *data = (OBPairData *)extAtom->GetData("FFPartialCharge");
+      OBPairData *data = (OBPairData *)extAtom->GetData("FFPartialCharge");
       data->SetValue(out.str());
     } else {
-      auto *data = new OBPairData();
+      OBPairData *data = new OBPairData();
       data->SetAttribute("FFPartialCharge");
       data->SetValue(out.str());
       extAtom->SetData(data);
@@ -1009,9 +954,8 @@ bool OBForceField::GetPartialCharges(OBMol &mol) {
 bool OBForceField::GetCoordinates(OBMol &mol) {
   OBAtom *atom;
 
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   // Copy coordinates for current conformer only
   FOR_ATOMS_OF_MOL(a, _mol) {
@@ -1019,18 +963,18 @@ bool OBForceField::GetCoordinates(OBMol &mol) {
     atom->SetVector(a->GetVector());
   }
 
-  if (!mol.HasData(OBGenericDataType::ConformerData)) {
+  if (!mol.HasData(OBGenericDataType::ConformerData))
     mol.SetData(new OBConformerData);
-  }
-  auto *cd = (OBConformerData *)mol.GetData(OBGenericDataType::ConformerData);
+  OBConformerData *cd =
+      (OBConformerData *)mol.GetData(OBGenericDataType::ConformerData);
   cd->SetEnergies(_energies);
 
   vector<vector3> forces;
   vector<vector<vector3>> confForces;
   for (unsigned int i = 0; i < _mol.NumAtoms(); ++i) {
     const int coordIdx = i * 3;
-    forces.emplace_back(_gradientPtr[coordIdx], _gradientPtr[coordIdx + 1],
-                        _gradientPtr[coordIdx + 2]);
+    forces.push_back(vector3(_gradientPtr[coordIdx], _gradientPtr[coordIdx + 1],
+                             _gradientPtr[coordIdx + 2]));
   }
   confForces.push_back(forces);
   cd->SetForces(confForces);
@@ -1041,9 +985,8 @@ bool OBForceField::GetCoordinates(OBMol &mol) {
 bool OBForceField::GetConformers(OBMol &mol) {
   //    OBAtom *atom;
 
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   /*
     FOR_ATOMS_OF_MOL (a, _mol) {
@@ -1054,24 +997,22 @@ bool OBForceField::GetConformers(OBMol &mol) {
 
   // Copy conformer information
   if (_mol.NumConformers() > 0) {
-    int k;
-    int l;
+    int k, l;
     vector<double *> conf;
     double *xyz = nullptr;
     for (k = 0; k < _mol.NumConformers(); ++k) {
       xyz = new double[3 * _mol.NumAtoms()];
-      for (l = 0; l < (int)(3 * _mol.NumAtoms()); ++l) {
+      for (l = 0; l < (int)(3 * _mol.NumAtoms()); ++l)
         xyz[l] = _mol.GetConformer(k)[l];
-      }
       conf.push_back(xyz);
     }
     mol.SetConformers(conf);
     mol.SetConformer(_current_conformer);
 
-    if (!mol.HasData(OBGenericDataType::ConformerData)) {
+    if (!mol.HasData(OBGenericDataType::ConformerData))
       mol.SetData(new OBConformerData);
-    }
-    auto *cd = (OBConformerData *)mol.GetData(OBGenericDataType::ConformerData);
+    OBConformerData *cd =
+        (OBConformerData *)mol.GetData(OBGenericDataType::ConformerData);
     cd->SetEnergies(_energies);
 
     // mol.SetEnergies(_energies);
@@ -1083,9 +1024,8 @@ bool OBForceField::GetConformers(OBMol &mol) {
 bool OBForceField::SetCoordinates(OBMol &mol) {
   OBAtom *atom;
 
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   // Copy coordinates for current conformer only
   FOR_ATOMS_OF_MOL(a, mol) {
@@ -1099,9 +1039,8 @@ bool OBForceField::SetCoordinates(OBMol &mol) {
 bool OBForceField::SetConformers(OBMol &mol) {
   OBAtom *atom;
 
-  if (_mol.NumAtoms() != mol.NumAtoms()) {
+  if (_mol.NumAtoms() != mol.NumAtoms())
     return false;
-  }
 
   FOR_ATOMS_OF_MOL(a, mol) {
     atom = _mol.GetAtom(a->GetIdx());
@@ -1110,15 +1049,13 @@ bool OBForceField::SetConformers(OBMol &mol) {
 
   // Copy conformer information
   if (mol.NumConformers() > 1) {
-    int k;
-    int l;
+    int k, l;
     vector<double *> conf;
     double *xyz = nullptr;
     for (k = 0; k < mol.NumConformers(); ++k) {
       xyz = new double[3 * mol.NumAtoms()];
-      for (l = 0; l < (int)(3 * mol.NumAtoms()); ++l) {
+      for (l = 0; l < (int)(3 * mol.NumAtoms()); ++l)
         xyz[l] = mol.GetConformer(k)[l];
-      }
       conf.push_back(xyz);
     }
     _mol.SetConformers(conf);
@@ -1132,27 +1069,22 @@ bool OBForceField::SetConformers(OBMol &mol) {
 
 vector3 OBForceField::ValidateGradientError(vector3 &numgrad,
                                             vector3 &anagrad) {
-  double errx;
-  double erry;
-  double errz;
+  double errx, erry, errz;
 
-  if (fabs(numgrad.x()) < 1.0) {
+  if (fabs(numgrad.x()) < 1.0)
     errx = numgrad.x() * fabs(numgrad.x() - anagrad.x()) * 100;
-  } else {
+  else
     errx = fabs((numgrad.x() - anagrad.x()) / numgrad.x()) * 100;
-  }
 
-  if (fabs(numgrad.y()) < 1.0) {
+  if (fabs(numgrad.y()) < 1.0)
     erry = numgrad.y() * fabs(numgrad.y() - anagrad.y()) * 100;
-  } else {
+  else
     erry = fabs((numgrad.y() - anagrad.y()) / numgrad.y()) * 100;
-  }
 
-  if (fabs(numgrad.z()) < 1.0) {
+  if (fabs(numgrad.z()) < 1.0)
     errz = numgrad.z() * fabs(numgrad.z() - anagrad.z()) * 100;
-  } else {
+  else
     errz = fabs((numgrad.z() - anagrad.z()) / numgrad.z()) * 100;
-  }
 
   errx = fabs(errx);
   erry = fabs(erry);
@@ -1169,9 +1101,8 @@ vector3 OBForceField::ValidateGradientError(vector3 &numgrad,
 
 int OBForceField::SystematicRotorSearchInitialize(unsigned int geomSteps,
                                                   bool sampleRingBonds) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return 0;
-  }
 
   OBRotorList rl;
   OBRotamerList rotamers;
@@ -1193,8 +1124,7 @@ int OBForceField::SystematicRotorSearchInitialize(unsigned int geomSteps,
     OBFFLog(_logbuf);
 
     unsigned long int combinations = 1;
-    for (rotor = rl.BeginRotor(ri); rotor != nullptr;
-         rotor = rl.NextRotor(ri)) {
+    for (rotor = rl.BeginRotor(ri); rotor; rotor = rl.NextRotor(ri)) {
       combinations *= rotor->GetResolution().size();
     }
     snprintf(_logbuf, BUFF_SIZE, "  NUMBER OF POSSIBLE ROTAMERS: %lu\n",
@@ -1204,7 +1134,7 @@ int OBForceField::SystematicRotorSearchInitialize(unsigned int geomSteps,
 
   _current_conformer = 0;
 
-  if (rl.Size() == 0U) { // only one conformer
+  if (!rl.Size()) { // only one conformer
     IF_OBFF_LOGLVL_LOW
     OBFFLog("  GENERATED ONLY ONE CONFORMER\n\n");
 
@@ -1217,14 +1147,12 @@ int OBForceField::SystematicRotorSearchInitialize(unsigned int geomSteps,
   OBRotorKeys rotorKeys;
   rotor = rl.BeginRotor(ri);
   for (unsigned int i = 1; i < rl.Size() + 1;
-       ++i, rotor = rl.NextRotor(ri)) { // foreach rotor
+       ++i, rotor = rl.NextRotor(ri)) // foreach rotor
     rotorKeys.AddRotor(rotor->GetResolution().size());
-  }
 
   rotamers.AddRotamer(rotorKeys.GetKey());
-  while (rotorKeys.Next()) {
+  while (rotorKeys.Next())
     rotamers.AddRotamer(rotorKeys.GetKey());
-  }
 
   rotamers.ExpandConformerList(_mol, _mol.GetConformers());
 
@@ -1242,17 +1170,15 @@ int OBForceField::SystematicRotorSearchInitialize(unsigned int geomSteps,
 }
 
 bool OBForceField::SystematicRotorSearchNextConformer(unsigned int geomSteps) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return 0;
-  }
 
   if (_current_conformer >= _mol.NumConformers()) { // done
     // Select conformer with lowest energy
     int best_conformer = 0;
     for (int i = 0; i < _mol.NumConformers(); i++) {
-      if (_energies[i] < _energies[best_conformer]) {
+      if (_energies[i] < _energies[best_conformer])
         best_conformer = i;
-      }
     }
 
     IF_OBFF_LOGLVL_LOW {
@@ -1291,23 +1217,21 @@ bool OBForceField::SystematicRotorSearchNextConformer(unsigned int geomSteps) {
 
 void OBForceField::SystematicRotorSearch(unsigned int geomSteps,
                                          bool sampleRingBonds) {
-  if (SystematicRotorSearchInitialize(geomSteps, sampleRingBonds) != 0) {
+  if (SystematicRotorSearchInitialize(geomSteps, sampleRingBonds))
     while (SystematicRotorSearchNextConformer(geomSteps)) {
     }
-  }
 }
 
 int OBForceField::FastRotorSearch(bool permute) {
-  if (_mol.NumRotors() == 0) {
+  if (_mol.NumRotors() == 0)
     return 0;
-  }
 
-  int const origLogLevel = _loglvl;
+  int origLogLevel = _loglvl;
 
   // Remove all conformers (e.g. from previous conformer generators) except for
   // current conformer
-  auto *initialCoord = new double[_mol.NumAtoms() * 3]; // initial state
-  auto *store_initial =
+  double *initialCoord = new double[_mol.NumAtoms() * 3]; // initial state
+  double *store_initial =
       new double[_mol.NumAtoms() * 3]; // store the initial state
   memcpy((char *)initialCoord, (char *)_mol.GetCoordinates(),
          sizeof(double) * 3 * _mol.NumAtoms());
@@ -1331,21 +1255,18 @@ int OBForceField::FastRotorSearch(bool permute) {
 
   // Start with all of the rotors in their 0 position
   // (perhaps instead I should set them randomly?)
-  std::vector<int> const init_rotorKey(rl.Size() + 1, 0);
+  std::vector<int> init_rotorKey(rl.Size() + 1, 0);
   std::vector<int> rotorKey(init_rotorKey);
 
-  unsigned int j;
-  unsigned int minj;
-  double currentE;
-  double minE;
-  double best_minE;
+  unsigned int j, minj;
+  double currentE, minE, best_minE;
 
-  auto *verybestconf =
+  double *verybestconf =
       new double[_mol.NumAtoms() * 3]; // store the best conformer to date
-  auto *bestconf =
+  double *bestconf =
       new double[_mol.NumAtoms() * 3]; // store the best conformer to date in
                                        // the current permutation
-  auto *minconf =
+  double *minconf =
       new double[_mol.NumAtoms() *
                  3]; // store the best conformer for the current rotor
   memcpy((char *)bestconf, (char *)_mol.GetCoordinates(),
@@ -1362,9 +1283,8 @@ int OBForceField::FastRotorSearch(bool permute) {
   // central to the most peripheral (due to CompareRotors in rotor.cpp)
   std::vector<OBRotor *> vrotors;
   OBRotor *rotor;
-  for (rotor = rl.BeginRotor(ri); rotor != nullptr; rotor = rl.NextRotor(ri)) {
+  for (rotor = rl.BeginRotor(ri); rotor; rotor = rl.NextRotor(ri))
     vrotors.push_back(rotor);
-  }
 
   // The permutations are ordered so that the first 2 permutations cover the
   // combinations of 2, and the first 6 permutations cover the combinations of 3
@@ -1375,34 +1295,30 @@ int OBForceField::FastRotorSearch(bool permute) {
       3, 0, 1, 2, 3, 0, 2, 1, 3, 1, 0, 2, 3, 1, 2, 0, 3, 2, 0, 1, 3, 2, 1, 0};
   const char factorial[5] = {0, 1, 2, 6, 24};
 
-  char num_rotors_to_permute;
-  char num_permutations;
-  if (permute) {
+  char num_rotors_to_permute, num_permutations;
+  if (permute)
     num_rotors_to_permute = (char)std::min<size_t>(4, vrotors.size());
-  } else {
+  else
     num_rotors_to_permute = 1; // i.e. just use the original order
-  }
   num_permutations = factorial[num_rotors_to_permute];
 
   // Initialize reordered_rotors - the order in which to test rotors
   std::vector<unsigned int> reordered_rotors(vrotors.size());
-  for (int i = 0; i < vrotors.size(); ++i) {
+  for (int i = 0; i < vrotors.size(); ++i)
     reordered_rotors[i] = i;
-  }
 
   std::set<unsigned int> seen;
   best_minE = DBL_MAX;
   for (int N = 0; N < num_permutations; ++N) {
-    for (int i = 0; i < num_rotors_to_permute; ++i) {
+    for (int i = 0; i < num_rotors_to_permute; ++i)
       reordered_rotors.at(i) = *(permutations + N * 4 + i);
-    }
 
     rotorKey = init_rotorKey;
     _mol.SetCoordinates(store_initial);
     bool quit = false;
 
     for (int i = 0; i < reordered_rotors.size(); ++i) {
-      unsigned int const idx = reordered_rotors[i];
+      unsigned int idx = reordered_rotors[i];
       rotor = vrotors.at(idx);
 
       minE = DBL_MAX;
@@ -1433,13 +1349,12 @@ int OBForceField::FastRotorSearch(bool permute) {
       if (i == 4) { // Check whether this rotorKey has already been chosen
         // Create a hash of the rotorKeys (given that the max value of any
         // rotorKey is 11 from torlib.txt)
-        unsigned int const hash = rotorKey[1] + rotorKey[2] * 12 +
-                                  rotorKey[3] * 12 * 12 +
-                                  rotorKey[4] * 12 * 12 * 12;
+        unsigned int hash = rotorKey[1] + rotorKey[2] * 12 +
+                            rotorKey[3] * 12 * 12 + rotorKey[4] * 12 * 12 * 12;
 
-        if (seen.find(hash) == seen.end()) { // Not seen before
+        if (seen.find(hash) == seen.end()) // Not seen before
           seen.insert(hash);
-        } else { // Already seen - no point continuing
+        else { // Already seen - no point continuing
           quit = true;
           break;
         }
@@ -1466,15 +1381,14 @@ int OBForceField::FastRotorSearch(bool permute) {
   delete[] verybestconf;
   delete[] minconf;
 
-  return 1;
+  return true;
 }
 
 void OBForceField::RandomRotorSearchInitialize(unsigned int conformers,
                                                unsigned int geomSteps,
                                                bool sampleRingBonds) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return;
-  }
 
   OBRotorList rl;
   OBRotamerList rotamers;
@@ -1485,9 +1399,8 @@ void OBForceField::RandomRotorSearchInitialize(unsigned int conformers,
   generator.TimeSeed();
   _origLogLevel = _loglvl;
 
-  if (_mol.GetCoordinates() == nullptr) {
+  if (_mol.GetCoordinates() == nullptr)
     return;
-  }
 
   OBBitVec fixed = _constraints.GetFixedBitVec();
   rl.SetFixAtoms(fixed);
@@ -1502,8 +1415,7 @@ void OBForceField::RandomRotorSearchInitialize(unsigned int conformers,
     OBFFLog(_logbuf);
 
     unsigned long int combinations = 1;
-    for (rotor = rl.BeginRotor(ri); rotor != nullptr;
-         rotor = rl.NextRotor(ri)) {
+    for (rotor = rl.BeginRotor(ri); rotor; rotor = rl.NextRotor(ri)) {
       combinations *= rotor->GetResolution().size();
     }
     snprintf(_logbuf, BUFF_SIZE, "  NUMBER OF POSSIBLE ROTAMERS: %lu\n",
@@ -1513,7 +1425,7 @@ void OBForceField::RandomRotorSearchInitialize(unsigned int conformers,
 
   _current_conformer = 0;
 
-  if (rl.Size() == 0U) { // only one conformer
+  if (!rl.Size()) { // only one conformer
     IF_OBFF_LOGLVL_LOW
     OBFFLog("  GENERATED ONLY ONE CONFORMER\n\n");
 
@@ -1549,17 +1461,15 @@ void OBForceField::RandomRotorSearchInitialize(unsigned int conformers,
 }
 
 bool OBForceField::RandomRotorSearchNextConformer(unsigned int geomSteps) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return 0;
-  }
 
   if (_current_conformer >= _mol.NumConformers()) { // done
     // Select conformer with lowest energy
     int best_conformer = 0;
     for (int i = 0; i < _mol.NumConformers(); i++) {
-      if (_energies[i] < _energies[best_conformer]) {
+      if (_energies[i] < _energies[best_conformer])
         best_conformer = i;
-      }
     }
 
     IF_OBFF_LOGLVL_LOW {
@@ -1606,35 +1516,27 @@ void OBForceField::RandomRotorSearch(unsigned int conformers,
 
 void Reweight(std::vector<std::vector<double>> &rotorWeights,
               std::vector<int> rotorKey, double bonus) {
-  double fraction;
-  double minWeight;
-  double maxWeight;
-  bool const improve = (bonus > 0.0);
+  double fraction, minWeight, maxWeight;
+  bool improve = (bonus > 0.0);
 
   for (unsigned int i = 1; i < rotorWeights.size() - 1; ++i) {
-    if (rotorKey[i] == -1) {
+    if (rotorKey[i] == -1)
       continue; // don't rotate
-    }
 
-    if (improve && rotorWeights[i][rotorKey[i]] > 0.999 - bonus) {
+    if (improve && rotorWeights[i][rotorKey[i]] > 0.999 - bonus)
       continue;
-    }
-    if (!improve && rotorWeights[i][rotorKey[i]] < 0.001 - bonus) { // bonus < 0
+    if (!improve && rotorWeights[i][rotorKey[i]] < 0.001 - bonus) // bonus < 0
       continue;
-    }
 
     // Check to make sure we don't kill some poor weight
     minWeight = maxWeight = rotorWeights[i][0];
     for (unsigned int j = 1; j < rotorWeights[i].size(); ++j) {
-      if (j == rotorKey[i]) {
+      if (j == rotorKey[i])
         continue; // we already checked for problems with this entry
-      }
-      if (rotorWeights[i][j] < minWeight) {
+      if (rotorWeights[i][j] < minWeight)
         minWeight = rotorWeights[i][j];
-      }
-      if (rotorWeights[i][j] > maxWeight) {
+      if (rotorWeights[i][j] > maxWeight)
         maxWeight = rotorWeights[i][j];
-      }
     }
 
     fraction = bonus / (rotorWeights[i].size() - 1);
@@ -1648,11 +1550,10 @@ void Reweight(std::vector<std::vector<double>> &rotorWeights,
     }
 
     for (unsigned int j = 0; j < rotorWeights[i].size(); ++j) {
-      if (j == rotorKey[i]) {
+      if (j == rotorKey[i])
         rotorWeights[i][j] += bonus;
-      } else {
+      else
         rotorWeights[i][j] -= fraction;
-      }
     }
   }
 }
@@ -1660,9 +1561,8 @@ void Reweight(std::vector<std::vector<double>> &rotorWeights,
 void OBForceField::WeightedRotorSearch(unsigned int conformers,
                                        unsigned int geomSteps,
                                        bool sampleRingBonds) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return;
-  }
 
   OBRotorList rl;
   OBRotamerList rotamers;
@@ -1671,13 +1571,12 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
 
   OBRandom generator;
   generator.TimeSeed();
-  int const origLogLevel = _loglvl;
+  int origLogLevel = _loglvl;
 
-  if (_mol.GetCoordinates() == nullptr) {
+  if (_mol.GetCoordinates() == nullptr)
     return;
-  }
 
-  auto *initialCoord = new double[_mol.NumAtoms() * 3]; // initial state
+  double *initialCoord = new double[_mol.NumAtoms() * 3]; // initial state
   memcpy((double *)initialCoord, (double *)_mol.GetCoordinates(),
          sizeof(double) * 3 * _mol.NumAtoms());
   vector<double *> newConfs(1, initialCoord);
@@ -1699,8 +1598,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
     OBFFLog(_logbuf);
 
     unsigned long int combinations = 1;
-    for (rotor = rl.BeginRotor(ri); rotor != nullptr;
-         rotor = rl.NextRotor(ri)) {
+    for (rotor = rl.BeginRotor(ri); rotor; rotor = rl.NextRotor(ri)) {
       combinations *= rotor->GetResolution().size();
     }
     snprintf(_logbuf, BUFF_SIZE, "  NUMBER OF POSSIBLE ROTAMERS: %lu\n",
@@ -1710,7 +1608,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
 
   _energies.clear(); // Wipe any energies from previous conformer generators
 
-  if (rl.Size() == 0U) { // only one conformer
+  if (!rl.Size()) { // only one conformer
     IF_OBFF_LOGLVL_LOW
     OBFFLog("  GENERATED ONLY ONE CONFORMER\n\n");
 
@@ -1733,9 +1631,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
   rotorWeights.push_back(weightSet); // empty set for unused index 0
 
   double weight;
-  double bestE;
-  double worstE;
-  double currentE;
+  double bestE, worstE, currentE;
   std::vector<double> energies;
   // First off, we test out each rotor position. How good (or bad) is it?
   // This lets us pre-weight the search to a useful level
@@ -1766,14 +1662,13 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
       _loglvl = origLogLevel;
       currentE = Energy(false);
 
-      if (j == 0) {
+      if (j == 0)
         bestE = worstE = currentE;
-      } else {
-        if (currentE > worstE) {
+      else {
+        if (currentE > worstE)
           worstE = currentE;
-        } else if (currentE < bestE) {
+        else if (currentE < bestE)
           bestE = currentE;
-        }
       }
       energies.push_back(currentE);
     }
@@ -1792,11 +1687,10 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
     }
     // now set the weights
     for (unsigned int j = 0; j < rotor->GetResolution().size(); j++) {
-      if (IsNear(worstE, bestE, 1.0e-3)) {
+      if (IsNear(worstE, bestE, 1.0e-3))
         weight = 1 / rotor->GetResolution().size();
-      } else {
+      else
         weight = energies[j] / totalPop;
-      }
       weightSet.push_back(weight);
     }
     rotorWeights.push_back(weightSet);
@@ -1818,7 +1712,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
     OBFFLog("--------------------\n");
   }
 
-  double const defaultRotor = 1.0 / sqrt((double)rl.Size());
+  double defaultRotor = 1.0 / sqrt((double)rl.Size());
   unsigned c = 0;
   while (c < conformers) {
     _mol.SetCoordinates(initialCoord);
@@ -1829,10 +1723,9 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
       // foreach rotor
       rotorKey[i] = -1; // default = don't change dihedral
       randFloat = generator.NextFloat();
-      if (randFloat < defaultRotor) { // should we just leave this rotor with
-                                      // default setting?
+      if (randFloat <
+          defaultRotor) // should we just leave this rotor with default setting?
         continue;
-      }
 
       randFloat = generator.NextFloat();
       total = 0.0;
@@ -1840,8 +1733,8 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
         if (randFloat > total && randFloat < (total + rotorWeights[i][j])) {
           rotorKey[i] = j;
           break;
-        }
-        total += rotorWeights[i][j];
+        } else
+          total += rotorWeights[i][j];
       }
     }
 
@@ -1857,7 +1750,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
     _loglvl = origLogLevel;
     currentE = Energy(false);
     _energies.push_back(currentE);
-    auto *confCoord = new double[_mol.NumAtoms() * 3]; // initial state
+    double *confCoord = new double[_mol.NumAtoms() * 3]; // initial state
     memcpy((char *)confCoord, (char *)_mol.GetCoordinates(),
            sizeof(double) * 3 * _mol.NumAtoms());
     _mol.AddConformer(confCoord);
@@ -1867,9 +1760,8 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
       OBFFLog(_logbuf);
     }
 
-    if (!isfinite(currentE)) {
+    if (!isfinite(currentE))
       continue;
-    }
 
     if (currentE < bestE) {
       bestE = currentE;
@@ -1883,7 +1775,7 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
       // penalize this rotorKey
       Reweight(rotorWeights, rotorKey, -0.11);
     } else {
-      double const slope = -0.2 / (worstE - bestE);
+      double slope = -0.2 / (worstE - bestE);
       Reweight(rotorWeights, rotorKey, (currentE - bestE) * slope);
     }
   }
@@ -1899,8 +1791,8 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
     for (unsigned int i = 1; i < rotorWeights.size() - 1; ++i) {
       snprintf(_logbuf, BUFF_SIZE, " Weight: %d", i);
       OBFFLog(_logbuf);
-      for (double const j : rotorWeights[i]) {
-        snprintf(_logbuf, BUFF_SIZE, " %8.3f", j);
+      for (unsigned int j = 0; j < rotorWeights[i].size(); ++j) {
+        snprintf(_logbuf, BUFF_SIZE, " %8.3f", rotorWeights[i][j]);
         OBFFLog(_logbuf);
       }
       OBFFLog("\n");
@@ -1914,22 +1806,19 @@ void OBForceField::WeightedRotorSearch(unsigned int conformers,
 }
 
 void OBForceField::DistanceGeometry() {
-  if (!_validSetup) {
+  if (!_validSetup)
     return;
-  }
 
-  int const N = _mol.NumAtoms();
+  int N = _mol.NumAtoms();
   int i = 0;
   int j = 0;
   // double matrix[N][N], G[N][N];
   vector<vector<double>> matrix(N);
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < N; i++)
     matrix[i].reserve(N);
-  }
   vector<vector<double>> G(N);
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < N; i++)
     G[i].reserve(N);
-  }
 
   bool is15;
 
@@ -1989,12 +1878,11 @@ void OBForceField::DistanceGeometry() {
           FOR_NBORS_OF_ATOM(nbr3, &*nbr2) { // 1-4
             if (&*nbr3 == &*b) {
               is15 = false;
-              if (i > j) { // minimum distance (torsion angle = 0)
+              if (i > j) // minimum distance (torsion angle = 0)
                 matrix[i][j] = 1.3 + 1.3 * cos(DEG_TO_RAD * (180.0 - 120.0)) +
                                1.3 * cos(DEG_TO_RAD * (180.0 - 120.0));
-              } else { // maximum distance (torsion angle = 180)
-                double delta_x;
-                double delta_y;
+              else { // maximum distance (torsion angle = 180)
+                double delta_x, delta_y;
                 delta_x = 1.3 + 1.3 * cos(DEG_TO_RAD * (180.0 - 120.0)) +
                           1.3 * cos(DEG_TO_RAD * (180.0 - 120.0));
                 delta_y = 1.3 * sin(DEG_TO_RAD * (180.0 - 120.0)) +
@@ -2005,9 +1893,8 @@ void OBForceField::DistanceGeometry() {
             }
             if (i > j && is15) { // minimum distance (sum vdw radii)
               matrix[i][j] = 1.4 + 1.4;
-            } else if (is15) { // maximum distance (torsion angle = 180)
+            } else if (is15) // maximum distance (torsion angle = 180)
               matrix[i][j] = 99.0;
-            }
           }
         }
       }
@@ -2031,9 +1918,7 @@ void OBForceField::DistanceGeometry() {
 
   // Triangle smoothing
   // FOR_ANGLES_OF_MOL(angle, _mol) {
-  int a;
-  int b;
-  int c;
+  int a, b, c;
   bool self_consistent = false;
   while (!self_consistent) {
     self_consistent = true;
@@ -2041,22 +1926,16 @@ void OBForceField::DistanceGeometry() {
     FOR_ATOMS_OF_MOL(_a, _mol) {
       a = _a->GetIdx() - 1;
       FOR_ATOMS_OF_MOL(_b, _mol) {
-        if (&*_b == &*_a) {
+        if (&*_b == &*_a)
           continue;
-        }
         b = _b->GetIdx() - 1;
         FOR_ATOMS_OF_MOL(_c, _mol) {
-          if ((&*_c == &*_b) || (&*_c == &*_a)) {
+          if ((&*_c == &*_b) || (&*_c == &*_a))
             continue;
-          }
           c = _c->GetIdx() - 1;
 
-          double u_ab;
-          double u_bc;
-          double u_ac; // upper limits
-          double l_ab;
-          double l_bc;
-          double l_ac; // lower limits
+          double u_ab, u_bc, u_ac; // upper limits
+          double l_ab, l_bc, l_ac; // lower limits
 
           // get the upper and lower limits for ab, bc and ac
           if (b > a) {
@@ -2131,9 +2010,7 @@ void OBForceField::DistanceGeometry() {
       }
 
       srand(static_cast<unsigned int>(time(nullptr)));
-      double rand_ab;
-      double u_ab;
-      double l_ab;
+      double rand_ab, u_ab, l_ab;
       if (j > i) {
         u_ab = matrix[i][j];
         l_ab = matrix[j][i];
@@ -2193,9 +2070,8 @@ void OBForceField::DistanceGeometry() {
   vector<double> eigenvalues(N);
   // double eigenvectors[N][N];
   vector<vector<double>> eigenvectors(N);
-  for (int i = 0; i < N; i++) {
+  for (int i = 0; i < N; i++)
     eigenvectors[i].reserve(N);
-  }
 
   matrix3x3::jacobi(N, (double *)&G, (double *)&eigenvalues,
                     (double *)&eigenvectors);
@@ -2223,29 +2099,24 @@ void OBForceField::DistanceGeometry() {
   }
 
   // Assign coordinates
-  double xa;
-  double ya;
-  double za;
+  double xa, ya, za;
   FOR_ATOMS_OF_MOL(a, _mol) {
     i = a->GetIdx() - 1;
 
-    if (eigenvectors[i][N - 1] > 0) {
+    if (eigenvectors[i][N - 1] > 0)
       xa = sqrt(eigenvalues[N - 1] * eigenvectors[i][N - 1]);
-    } else {
+    else
       xa = -sqrt(eigenvalues[N - 1] * -eigenvectors[i][N - 1]);
-    }
 
-    if (eigenvectors[i][N - 2] > 0) {
+    if (eigenvectors[i][N - 2] > 0)
       ya = sqrt(eigenvalues[N - 2] * eigenvectors[i][N - 2]);
-    } else {
+    else
       ya = -sqrt(eigenvalues[N - 2] * -eigenvectors[i][N - 2]);
-    }
 
-    if (eigenvectors[i][N - 3] > 0) {
+    if (eigenvectors[i][N - 3] > 0)
       za = sqrt(eigenvalues[N - 3] * eigenvectors[i][N - 3]);
-    } else {
+    else
       za = -sqrt(eigenvalues[N - 3] * -eigenvectors[i][N - 3]);
-    }
 
     a->SetVector(xa, ya, za);
   }
@@ -2268,8 +2139,8 @@ void OBForceField::UpdatePairsSimple() {
 
   //! \todo set the criteria as squared values
   //  from what the user supplies
-  double const rvdwSquared = SQUARE(_rvdw);
-  double const releSquared = SQUARE(_rele);
+  double rvdwSquared = SQUARE(_rvdw);
+  double releSquared = SQUARE(_rele);
 
   unsigned int pairIndex = -1;
   FOR_PAIRS_OF_MOL(p, _mol) {
@@ -2281,21 +2152,22 @@ void OBForceField::UpdatePairsSimple() {
     // Check whether or not this interaction is included
     if (HasGroups()) {
       bool isIncludedPair = false;
-      for (auto &i : _interGroup) {
-        if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx())) {
+      for (size_t i = 0; i < _interGroup.size(); ++i) {
+        if (_interGroup[i].BitIsSet(a->GetIdx()) &&
+            _interGroup[i].BitIsSet(b->GetIdx())) {
           isIncludedPair = true;
           break;
         }
       }
       if (!isIncludedPair) {
-        for (auto &_interGroup : _interGroups) {
-          if (_interGroup.first.BitIsSet(a->GetIdx()) &&
-              _interGroup.second.BitIsSet(b->GetIdx())) {
+        for (size_t i = 0; i < _interGroups.size(); ++i) {
+          if (_interGroups[i].first.BitIsSet(a->GetIdx()) &&
+              _interGroups[i].second.BitIsSet(b->GetIdx())) {
             isIncludedPair = true;
             break;
           }
-          if (_interGroup.first.BitIsSet(b->GetIdx()) &&
-              _interGroup.second.BitIsSet(a->GetIdx())) {
+          if (_interGroups[i].first.BitIsSet(b->GetIdx()) &&
+              _interGroups[i].second.BitIsSet(a->GetIdx())) {
             isIncludedPair = true;
             break;
           }
@@ -2379,17 +2251,14 @@ void OBForceField::ClearGroups() {
 }
 
 bool OBForceField::HasGroups() {
-  if (!_intraGroup.empty()) {
+  if (!_intraGroup.empty())
     return true;
-  }
 
-  if (!_interGroup.empty()) {
+  if (!_interGroup.empty())
     return true;
-  }
 
-  if (!_interGroups.empty()) {
+  if (!_interGroups.empty())
     return true;
-  }
 
   return false;
 }
@@ -2423,13 +2292,8 @@ bool OBForceField::HasGroups() {
 //     end                             convergence criteria reached, stop
 // }
 vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction) {
-  double e_n1;
-  double e_n2;
-  double step;
-  vector3 old_xyz;
-  vector3 orig_xyz;
-  vector3 xyz_k;
-  vector3 dir(0.0, 0.0, 0.0);
+  double e_n1, e_n2, step;
+  vector3 old_xyz, orig_xyz, xyz_k, dir(0.0, 0.0, 0.0);
 
   // This needs several enhancements
   // 1) Switch to smarter line search method (e.g., Newton's method in 1D)
@@ -2457,9 +2321,8 @@ vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction) {
 
     // convergence criteria: A higher precision here
     // only takes longer with the same result.
-    if (IsNear(e_n2, e_n1, 1.0e-3)) {
+    if (IsNear(e_n2, e_n1, 1.0e-3))
       break;
-    }
 
     if (e_n2 > e_n1) { // decrease stepsize
       step *= 0.1;
@@ -2468,9 +2331,8 @@ vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction) {
     if (e_n2 < e_n1) { // increase stepsize
       e_n1 = e_n2;
       step *= 2.15;
-      if (step > 1.0) {
+      if (step > 1.0)
         step = 1.0;
-      }
     }
   }
 
@@ -2478,9 +2340,8 @@ vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction) {
   atom->SetVector(orig_xyz);
 
   // cutoff accuracy
-  if (dir.length() < 1.0e-8) {
+  if (dir.length() < 1.0e-8)
     return VZero;
-  }
 
   return dir;
 }
@@ -2495,10 +2356,8 @@ vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction) {
 //   This dramatically cuts down on the number of Energy() calls.
 //  (and is more correct anyway)
 double OBForceField::Newton2NumLineSearch(double *direction) {
-  double e_n1;
-  double e_n2;
-  double e_n3;
-  auto *origCoords = new double[_ncoords];
+  double e_n1, e_n2, e_n3;
+  double *origCoords = new double[_ncoords];
 
   double opt_step = 0.0;
   double opt_e = _e_n1;          // get energy calculated by sd or cg
@@ -2523,7 +2382,7 @@ double OBForceField::Newton2NumLineSearch(double *direction) {
   }
 
   double step = def_step / scale;
-  double const max_scl = max_step / scale;
+  double max_scl = max_step / scale;
 
   // Save the current position, before we take a step
   memcpy((char *)origCoords, (char *)_mol.GetCoordinates(),
@@ -2540,10 +2399,9 @@ double OBForceField::Newton2NumLineSearch(double *direction) {
       opt_e = e_n1;
     }
 
-    if (newton++ > 3) {
+    if (newton++ > 3)
       break;
-    }
-    double const delta = step * 0.001;
+    double delta = step * 0.001;
 
     // Take step X(n) + step + delta
     LineSearchTakeStep(origCoords, direction, step + delta);
@@ -2553,7 +2411,7 @@ double OBForceField::Newton2NumLineSearch(double *direction) {
     LineSearchTakeStep(origCoords, direction, step + delta * 2.0);
     e_n3 = Energy(false) + _constraints.GetConstraintEnergy();
 
-    double const denom = e_n3 - 2.0 * e_n2 + e_n1; // f'(x)
+    double denom = e_n3 - 2.0 * e_n2 + e_n1; // f'(x)
     if (denom != 0.0) {
       step = fabs(step - delta * (e_n2 - e_n1) / denom);
       if (step > max_scl) {
@@ -2591,8 +2449,8 @@ double OBForceField::Newton2NumLineSearch(double *direction) {
   return opt_step * scale;
 }
 
-void OBForceField::LineSearchTakeStep(const double *origCoords,
-                                      double *direction, double step) {
+void OBForceField::LineSearchTakeStep(double *origCoords, double *direction,
+                                      double step) {
   double *currentCoords = _mol.GetCoordinates();
 
   for (unsigned int c = 0; c < _ncoords; ++c) {
@@ -2603,17 +2461,13 @@ void OBForceField::LineSearchTakeStep(const double *origCoords,
 }
 
 double OBForceField::LineSearch(double *currentCoords, double *direction) {
-  unsigned int const numCoords = _mol.NumAtoms() * 3;
-  double e_n1;
-  double e_n2;
-  double step;
-  double alpha;
-  double tempStep;
-  auto *lastStep = new double[numCoords];
+  unsigned int numCoords = _mol.NumAtoms() * 3;
+  double e_n1, e_n2, step, alpha, tempStep;
+  double *lastStep = new double[numCoords];
 
   alpha = 0.0; // Scale factor along direction vector
   step = 0.2;
-  double const trustRadius = 0.75; // don't move too far at once
+  double trustRadius = 0.75; // don't move too far at once
 
   // The initial energy should be precomputed
   e_n1 = _e_n1; // Energy(false) + _constraints.GetConstraintEnergy();
@@ -2630,13 +2484,12 @@ double OBForceField::LineSearch(double *currentCoords, double *direction) {
         // make sure we don't have NaN or infinity
         tempStep = direction[c] * step;
 
-        if (tempStep > trustRadius) { // positive big step
+        if (tempStep > trustRadius) // positive big step
           currentCoords[c] += trustRadius;
-        } else if (tempStep < -trustRadius) { // negative big step
+        else if (tempStep < -trustRadius) // negative big step
           currentCoords[c] -= trustRadius;
-        } else {
+        else
           currentCoords[c] += tempStep;
-        }
       }
     }
 
@@ -2658,9 +2511,8 @@ double OBForceField::LineSearch(double *currentCoords, double *direction) {
       e_n1 = e_n2;
       alpha += step; // we've moved some distance
       step *= 2.15;
-      if (step > 1.0) {
+      if (step > 1.0)
         step = 1.0;
-      }
     }
   }
 
@@ -2671,34 +2523,25 @@ double OBForceField::LineSearch(double *currentCoords, double *direction) {
 
 bool OBForceField::DetectExplosion() {
   FOR_ATOMS_OF_MOL(atom, _mol) {
-    if (!isfinite(atom->GetX())) {
+    if (!isfinite(atom->GetX()))
       return true;
-    }
-    if (!isfinite(atom->GetY())) {
+    if (!isfinite(atom->GetY()))
       return true;
-    }
-    if (!isfinite(atom->GetZ())) {
+    if (!isfinite(atom->GetZ()))
       return true;
-    }
   }
 
   FOR_BONDS_OF_MOL(bond, _mol) {
-    if (bond->GetLength() > 30.0) {
+    if (bond->GetLength() > 30.0)
       return true;
-    }
   }
 
   return false;
 }
 
 vector3 OBForceField::ValidateLineSearch(OBAtom *atom, vector3 &direction) {
-  double e_n1;
-  double e_n2;
-  double step;
-  vector3 old_xyz;
-  vector3 orig_xyz;
-  vector3 xyz_k;
-  vector3 dir(0.0, 0.0, 0.0);
+  double e_n1, e_n2, step;
+  vector3 old_xyz, orig_xyz, xyz_k, dir(0.0, 0.0, 0.0);
 
   step = 0.2;
   direction.normalize();
@@ -2714,9 +2557,8 @@ vector3 OBForceField::ValidateLineSearch(OBAtom *atom, vector3 &direction) {
 
     e_n2 = atom->x() * atom->x() + 2 * (atom->y() * atom->y()); // e_k+1
 
-    if (e_n2 == e_n1) { // convergence criteria
+    if (e_n2 == e_n1) // convergence criteria
       break;
-    }
 
     if (e_n2 > e_n1) { // decrease stepsize
       step *= 0.5;
@@ -2725,9 +2567,8 @@ vector3 OBForceField::ValidateLineSearch(OBAtom *atom, vector3 &direction) {
     if (e_n2 < e_n1) { // increase stepsize
       e_n1 = e_n2;
       step *= 1.2;
-      if (step > 1.0) {
+      if (step > 1.0)
         step = 1.0;
-      }
     }
   }
 
@@ -2744,10 +2585,9 @@ vector3 OBForceField::ValidateLineSearch(OBAtom *atom, vector3 &direction) {
 // df/dy = 4y
 //
 void OBForceField::ValidateSteepestDescent(int steps) {
-  auto *atom = new OBAtom;
+  OBAtom *atom = new OBAtom;
   vector3 grad;
-  double e_n1;
-  double e_n2;
+  double e_n1, e_n2;
 
   atom->SetVector(9.0, 9.0, 0.0);
   e_n1 = atom->x() * atom->x() + 2 * (atom->y() * atom->y());
@@ -2787,16 +2627,10 @@ void OBForceField::ValidateSteepestDescent(int steps) {
 }
 
 void OBForceField::ValidateConjugateGradients(int steps) {
-  auto *atom = new OBAtom;
-  vector3 grad1;
-  vector3 grad2;
-  vector3 dir1;
-  vector3 dir2;
-  double e_n1;
-  double e_n2;
-  double g2g2;
-  double g1g1;
-  double g2g1;
+  OBAtom *atom = new OBAtom;
+  vector3 grad1, grad2, dir1, dir2;
+  double e_n1, e_n2;
+  double g2g2, g1g1, g2g1;
   bool firststep;
 
   firststep = true;
@@ -2860,19 +2694,17 @@ void OBForceField::ValidateConjugateGradients(int steps) {
 }
 
 void OBForceField::SteepestDescentInitialize(int steps, double econv,
-                                             int /*method*/) {
-  if (!_validSetup) {
+                                             int method) {
+  if (!_validSetup)
     return;
-  }
 
   _nsteps = steps;
   _cstep = 0;
   _econv = econv;
   _gconv = 1.0e-2; // gradient convergence (0.1) squared
 
-  if (_cutoff) {
+  if (_cutoff)
     UpdatePairsSimple(); // Update the non-bonded pairs (Cut-off)
-  }
 
   _e_n1 = Energy() + _constraints.GetConstraintEnergy();
 
@@ -2888,9 +2720,8 @@ void OBForceField::SteepestDescentInitialize(int steps, double econv,
 }
 
 bool OBForceField::SteepestDescentTakeNSteps(int n) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return 0;
-  }
 
   _ncoords = _mol.NumAtoms() * 3;
   double e_n2;
@@ -2902,8 +2733,8 @@ bool OBForceField::SteepestDescentTakeNSteps(int n) {
     maxgrad = 1.0e20;
 
     FOR_ATOMS_OF_MOL(a, _mol) {
-      unsigned int const idx = a->GetIdx();
-      unsigned int const coordIdx = (idx - 1) * 3;
+      unsigned int idx = a->GetIdx();
+      unsigned int coordIdx = (idx - 1) * 3;
 
       if (_constraints.IsFixed(idx) || (_fixAtom == idx) ||
           (_ignoreAtom == idx)) {
@@ -2921,27 +2752,23 @@ bool OBForceField::SteepestDescentTakeNSteps(int n) {
         }
 
         // check to see how large the gradients are
-        if (dir.length_2() < maxgrad) {
+        if (dir.length_2() < maxgrad)
           maxgrad = dir.length_2();
-        }
 
-        if (!_constraints.IsXFixed(idx)) {
+        if (!_constraints.IsXFixed(idx))
           _gradientPtr[coordIdx] = dir.x();
-        } else {
+        else
           _gradientPtr[coordIdx] = 0.0;
-        }
 
-        if (!_constraints.IsYFixed(idx)) {
+        if (!_constraints.IsYFixed(idx))
           _gradientPtr[coordIdx + 1] = dir.y();
-        } else {
+        else
           _gradientPtr[coordIdx + 1] = 0.0;
-        }
 
-        if (!_constraints.IsZFixed(idx)) {
+        if (!_constraints.IsZFixed(idx))
           _gradientPtr[coordIdx + 2] = dir.z();
-        } else {
+        else
           _gradientPtr[coordIdx + 2] = 0.0;
-        }
       }
     }
     // perform a linesearch
@@ -2956,9 +2783,8 @@ bool OBForceField::SteepestDescentTakeNSteps(int n) {
     }
     e_n2 = Energy() + _constraints.GetConstraintEnergy();
 
-    if ((_cstep % _pairfreq == 0) && _cutoff) {
+    if ((_cstep % _pairfreq == 0) && _cutoff)
       UpdatePairsSimple(); // Update the non-bonded pairs (Cut-off)
-    }
 
     IF_OBFF_LOGLVL_LOW {
       if (_cstep % 10 == 0) {
@@ -2993,10 +2819,9 @@ void OBForceField::SteepestDescent(int steps, double econv, int method) {
 }
 
 void OBForceField::ConjugateGradientsInitialize(int steps, double econv,
-                                                int /*method*/) {
-  if (!_validSetup || steps == 0) {
+                                                int method) {
+  if (!_validSetup || steps == 0)
     return;
-  }
 
   double e_n2;
   vector3 dir;
@@ -3007,9 +2832,8 @@ void OBForceField::ConjugateGradientsInitialize(int steps, double econv,
   _gconv = 1.0e-2; // gradient convergence (0.1) squared
   _ncoords = _mol.NumAtoms() * 3;
 
-  if (_cutoff) {
+  if (_cutoff)
     UpdatePairsSimple(); // Update the non-bonded pairs (Cut-off)
-  }
 
   _e_n1 = Energy() + _constraints.GetConstraintEnergy();
 
@@ -3028,8 +2852,8 @@ void OBForceField::ConjugateGradientsInitialize(int steps, double econv,
   // Take the first step (same as steepest descent because there is no
   // gradient from the previous step.
   FOR_ATOMS_OF_MOL(a, _mol) {
-    unsigned int const idx = a->GetIdx();
-    unsigned int const coordIdx = (idx - 1) * 3;
+    unsigned int idx = a->GetIdx();
+    unsigned int coordIdx = (idx - 1) * 3;
 
     if (_constraints.IsFixed(idx) || (_fixAtom == idx) ||
         (_ignoreAtom == idx)) {
@@ -3045,23 +2869,20 @@ void OBForceField::ConjugateGradientsInitialize(int steps, double econv,
         dir = GetGradient(&*a) + _constraints.GetGradient(a->GetIdx());
       }
 
-      if (!_constraints.IsXFixed(idx)) {
+      if (!_constraints.IsXFixed(idx))
         _gradientPtr[coordIdx] = dir.x();
-      } else {
+      else
         _gradientPtr[coordIdx] = 0.0;
-      }
 
-      if (!_constraints.IsYFixed(idx)) {
+      if (!_constraints.IsYFixed(idx))
         _gradientPtr[coordIdx + 1] = dir.y();
-      } else {
+      else
         _gradientPtr[coordIdx + 1] = 0.0;
-      }
 
-      if (!_constraints.IsZFixed(idx)) {
+      if (!_constraints.IsZFixed(idx))
         _gradientPtr[coordIdx + 2] = dir.z();
-      } else {
+      else
         _gradientPtr[coordIdx + 2] = 0.0;
-      }
     }
   }
   // perform a linesearch
@@ -3087,23 +2908,17 @@ void OBForceField::ConjugateGradientsInitialize(int steps, double econv,
 }
 
 bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
-  if (!_validSetup) {
+  if (!_validSetup)
     return 0;
-  }
 
   double e_n2;
-  double g2g2;
-  double g1g1;
-  double beta;
-  vector3 grad2;
-  vector3 const dir2;
-  vector3 grad1;
-  vector3 const dir1; // temporaries to perform dot product, etc.
-  double maxgrad;     // for convergence
+  double g2g2, g1g1, beta;
+  vector3 grad2, dir2;
+  vector3 grad1, dir1; // temporaries to perform dot product, etc.
+  double maxgrad;      // for convergence
 
-  if (_ncoords != _mol.NumAtoms() * 3) {
+  if (_ncoords != _mol.NumAtoms() * 3)
     return false;
-  }
 
   e_n2 = 0.0;
 
@@ -3112,8 +2927,8 @@ bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
     maxgrad = 1.0e20;
 
     FOR_ATOMS_OF_MOL(a, _mol) {
-      unsigned int const idx = a->GetIdx();
-      unsigned int const coordIdx = (a->GetIdx() - 1) * 3;
+      unsigned int idx = a->GetIdx();
+      unsigned int coordIdx = (a->GetIdx() - 1) * 3;
 
       if (_constraints.IsFixed(idx) || (_fixAtom == idx) ||
           (_ignoreAtom == idx)) {
@@ -3144,27 +2959,23 @@ bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
         }
 
         // check to see how large the gradients are
-        if (grad2.length_2() < maxgrad) {
+        if (grad2.length_2() < maxgrad)
           maxgrad = grad2.length_2();
-        }
 
-        if (!_constraints.IsXFixed(idx)) {
+        if (!_constraints.IsXFixed(idx))
           _grad1[coordIdx] = grad2.x();
-        } else {
+        else
           _grad1[coordIdx] = 0.0;
-        }
 
-        if (!_constraints.IsYFixed(idx)) {
+        if (!_constraints.IsYFixed(idx))
           _grad1[coordIdx + 1] = grad2.y();
-        } else {
+        else
           _grad1[coordIdx + 1] = 0.0;
-        }
 
-        if (!_constraints.IsZFixed(idx)) {
+        if (!_constraints.IsZFixed(idx))
           _grad1[coordIdx + 2] = grad2.z();
-        } else {
+        else
           _grad1[coordIdx + 2] = 0.0;
-        }
       }
     }
     // perform a linesearch
@@ -3182,9 +2993,8 @@ bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
 
     e_n2 = Energy() + _constraints.GetConstraintEnergy();
 
-    if ((_cstep % _pairfreq == 0) && _cutoff) {
+    if ((_cstep % _pairfreq == 0) && _cutoff)
       UpdatePairsSimple(); // Update the non-bonded pairs (Cut-off)
-    }
 
     if (IsNear(e_n2, _e_n1, _econv) &&
         (maxgrad < _gconv)) { // gradient criteria (0.1) squared
@@ -3205,9 +3015,8 @@ bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
       }
     }
 
-    if (_nsteps == _cstep) {
+    if (_nsteps == _cstep)
       return false;
-    }
 
     _e_n1 = e_n2;
   }
@@ -3217,9 +3026,8 @@ bool OBForceField::ConjugateGradientsTakeNSteps(int n) {
 
 void OBForceField::ConjugateGradients(int steps, double econv, int method) {
   ConjugateGradientsInitialize(steps, econv, method);
-  if (steps > 1) { // ConjugateGradientsInitialize takes the first step
+  if (steps > 1) // ConjugateGradientsInitialize takes the first step
     ConjugateGradientsTakeNSteps(steps);
-  }
 }
 
 //
@@ -3228,74 +3036,54 @@ void OBForceField::ConjugateGradients(int steps, double econv, int method) {
 //              h
 //
 vector3 OBForceField::NumericalDerivative(OBAtom *atom, int terms) {
-  vector3 va;
-  vector3 grad;
-  double e_orig;
-  double e_plus_delta;
-  double delta;
-  double dx;
-  double dy;
-  double dz;
+  vector3 va, grad;
+  double e_orig, e_plus_delta, delta, dx, dy, dz;
 
   delta = 1.0e-5;
 
   va = atom->GetVector();
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_orig = Energy(false);
-  } else {
+  else {
     e_orig = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_orig += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_orig += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_orig += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_orig += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_orig += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_orig += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_orig += E_Electrostatic(false);
-    }
   }
 
   // X direction
   atom->SetVector(va.x() + delta, va.y(), va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_plus_delta = Energy(false);
-  } else {
+  else {
     e_plus_delta = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_plus_delta += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_plus_delta += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_plus_delta += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_plus_delta += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_plus_delta += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_plus_delta += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_plus_delta += E_Electrostatic(false);
-    }
   }
 
   dx = (e_plus_delta - e_orig) / delta;
@@ -3303,31 +3091,24 @@ vector3 OBForceField::NumericalDerivative(OBAtom *atom, int terms) {
   // Y direction
   atom->SetVector(va.x(), va.y() + delta, va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_plus_delta = Energy(false);
-  } else {
+  else {
     e_plus_delta = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_plus_delta += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_plus_delta += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_plus_delta += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_plus_delta += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_plus_delta += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_plus_delta += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_plus_delta += E_Electrostatic(false);
-    }
   }
 
   dy = (e_plus_delta - e_orig) / delta;
@@ -3335,31 +3116,24 @@ vector3 OBForceField::NumericalDerivative(OBAtom *atom, int terms) {
   // Z direction
   atom->SetVector(va.x(), va.y(), va.z() + delta);
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_plus_delta = Energy(false);
-  } else {
+  else {
     e_plus_delta = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_plus_delta += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_plus_delta += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_plus_delta += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_plus_delta += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_plus_delta += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_plus_delta += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_plus_delta += E_Electrostatic(false);
-    }
   }
 
   dz = (e_plus_delta - e_orig) / delta;
@@ -3377,46 +3151,32 @@ vector3 OBForceField::NumericalDerivative(OBAtom *atom, int terms) {
 //                 h^2              f(1) = f(0+2h)
 //
 vector3 OBForceField::NumericalSecondDerivative(OBAtom *atom, int terms) {
-  vector3 va;
-  vector3 grad;
-  double e_0;
-  double e_1;
-  double e_2;
-  double delta;
-  double dx;
-  double dy;
-  double dz;
+  vector3 va, grad;
+  double e_0, e_1, e_2, delta, dx, dy, dz;
 
   delta = 1.0e-5;
 
   va = atom->GetVector();
 
   // calculate f(0)
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_0 = Energy(false);
-  } else {
+  else {
     e_0 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_0 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_0 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_0 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_0 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_0 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_0 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_0 += E_Electrostatic(false);
-    }
   }
 
   //
@@ -3426,61 +3186,47 @@ vector3 OBForceField::NumericalSecondDerivative(OBAtom *atom, int terms) {
   // calculate f(1)
   atom->SetVector(va.x() + delta, va.y(), va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_1 = Energy(false);
-  } else {
+  else {
     e_1 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_1 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_1 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_1 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_1 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_1 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_1 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_1 += E_Electrostatic(false);
-    }
   }
 
   // calculate f(2)
   atom->SetVector(va.x() + 2 * delta, va.y(), va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_2 = Energy(false);
-  } else {
+  else {
     e_2 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_2 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_2 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_2 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_2 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_2 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_2 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_2 += E_Electrostatic(false);
-    }
   }
 
   dx = (e_2 - 2 * e_1 + e_0) / (delta * delta);
@@ -3492,61 +3238,47 @@ vector3 OBForceField::NumericalSecondDerivative(OBAtom *atom, int terms) {
   // calculate f(1)
   atom->SetVector(va.x(), va.y() + delta, va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_1 = Energy(false);
-  } else {
+  else {
     e_1 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_1 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_1 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_1 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_1 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_1 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_1 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_1 += E_Electrostatic(false);
-    }
   }
 
   // calculate f(2)
   atom->SetVector(va.x(), va.y() + 2 * delta, va.z());
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_2 = Energy(false);
-  } else {
+  else {
     e_2 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_2 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_2 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_2 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_2 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_2 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_2 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_2 += E_Electrostatic(false);
-    }
   }
 
   dy = (e_2 - 2 * e_1 + e_0) / (delta * delta);
@@ -3558,61 +3290,47 @@ vector3 OBForceField::NumericalSecondDerivative(OBAtom *atom, int terms) {
   // calculate f(1)
   atom->SetVector(va.x(), va.y(), va.z() + delta);
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_1 = Energy(false);
-  } else {
+  else {
     e_1 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_1 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_1 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_1 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_1 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_1 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_1 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_1 += E_Electrostatic(false);
-    }
   }
 
   // calculate f(2)
   atom->SetVector(va.x(), va.y(), va.z() + 2 * delta);
 
-  if ((terms & OBFF_ENERGY) != 0) {
+  if (terms & OBFF_ENERGY)
     e_2 = Energy(false);
-  } else {
+  else {
     e_2 = 0.0;
-    if ((terms & OBFF_EBOND) != 0) {
+    if (terms & OBFF_EBOND)
       e_2 += E_Bond(false);
-    }
-    if ((terms & OBFF_EANGLE) != 0) {
+    if (terms & OBFF_EANGLE)
       e_2 += E_Angle(false);
-    }
-    if ((terms & OBFF_ESTRBND) != 0) {
+    if (terms & OBFF_ESTRBND)
       e_2 += E_StrBnd(false);
-    }
-    if ((terms & OBFF_ETORSION) != 0) {
+    if (terms & OBFF_ETORSION)
       e_2 += E_Torsion(false);
-    }
-    if ((terms & OBFF_EOOP) != 0) {
+    if (terms & OBFF_EOOP)
       e_2 += E_OOP(false);
-    }
-    if ((terms & OBFF_EVDW) != 0) {
+    if (terms & OBFF_EVDW)
       e_2 += E_VDW(false);
-    }
-    if ((terms & OBFF_EELECTROSTATIC) != 0) {
+    if (terms & OBFF_EELECTROSTATIC)
       e_2 += E_Electrostatic(false);
-    }
   }
 
   dz = (e_2 - 2 * e_1 + e_0) / (delta * delta);
@@ -3677,9 +3395,8 @@ void OBForceField::GenerateVelocities() {
       // subtract 6.0 from their sum, multiply with sqrt(kT/m)
       if (!_constraints.IsXFixed(a->GetIdx())) {
         velocity = 0.0;
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < 12; ++i)
           velocity += generator.NextFloat();
-        }
         velocity -= 6.0;
         velocity *= sqrt((GAS_CONSTANT * _temp) / (1000 * a->GetAtomicMass()));
         _velocityPtr[velocityIdx] =
@@ -3688,9 +3405,8 @@ void OBForceField::GenerateVelocities() {
 
       if (!_constraints.IsYFixed(a->GetIdx())) {
         velocity = 0.0;
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < 12; ++i)
           velocity += generator.NextFloat();
-        }
         velocity -= 6.0;
         velocity *= sqrt((GAS_CONSTANT * _temp) / (1000 * a->GetAtomicMass()));
         _velocityPtr[velocityIdx + 1] = velocity; // idem
@@ -3698,9 +3414,8 @@ void OBForceField::GenerateVelocities() {
 
       if (!_constraints.IsZFixed(a->GetIdx())) {
         velocity = 0.0;
-        for (int i = 0; i < 12; ++i) {
+        for (int i = 0; i < 12; ++i)
           velocity += generator.NextFloat();
-        }
         velocity -= 6.0;
         velocity *= sqrt((GAS_CONSTANT * _temp) / (1000 * a->GetAtomicMass()));
         _velocityPtr[velocityIdx + 2] = velocity; // idem
@@ -3714,10 +3429,7 @@ void OBForceField::GenerateVelocities() {
 void OBForceField::CorrectVelocities() {
   _ncoords = _mol.NumAtoms() * 3;
   int velocityIdx;
-  double velocity;
-  double E_kin;
-  double E_kin2;
-  double factor;
+  double velocity, E_kin, E_kin2, factor;
 
   // E_kin = 0.5 * Ndf * R * T
   E_kin = _ncoords * GAS_CONSTANT * _temp;
@@ -3762,36 +3474,31 @@ void OBForceField::CorrectVelocities() {
 }
 
 void OBForceField::MolecularDynamicsTakeNSteps(int n, double T, double timestep,
-                                               int /*method*/) {
-  if (!_validSetup) {
+                                               int method) {
+  if (!_validSetup)
     return;
-  }
 
   int coordIdx;
   double timestep2;
-  vector3 force;
-  vector3 pos;
-  vector3 accel;
+  vector3 force, pos, accel;
   _timestep = timestep;
   _temp = T;
 
   timestep2 = 0.5 * _timestep * _timestep;
 
-  if (_velocityPtr == nullptr) {
+  if (!_velocityPtr)
     GenerateVelocities();
-  }
   Energy(true); // compute gradients
 
   for (int i = 1; i <= n; i++) {
     FOR_ATOMS_OF_MOL(a, _mol) {
       if (!_constraints.IsFixed(a->GetIdx()) || (_fixAtom == a->GetIdx()) ||
           (_ignoreAtom == a->GetIdx())) {
-        if (HasAnalyticalGradients()) {
+        if (HasAnalyticalGradients())
           force = GetGradient(&*a) + _constraints.GetGradient(a->GetIdx());
-        } else {
+        else
           force =
               NumericalDerivative(&*a) + _constraints.GetGradient(a->GetIdx());
-        }
 
         pos = a->GetVector();
         coordIdx = (a->GetIdx() - 1) * 3;
@@ -3815,12 +3522,11 @@ void OBForceField::MolecularDynamicsTakeNSteps(int n, double T, double timestep,
 
         Energy(true); // compute gradients
 
-        if (HasAnalyticalGradients()) {
+        if (HasAnalyticalGradients())
           force = GetGradient(&*a) + _constraints.GetGradient(a->GetIdx());
-        } else {
+        else
           force =
               NumericalDerivative(&*a) + _constraints.GetGradient(a->GetIdx());
-        }
 
         // a(i+1) = F(i+1) / m
         accel = force / (1000 * a->GetAtomicMass());
@@ -3830,9 +3536,8 @@ void OBForceField::MolecularDynamicsTakeNSteps(int n, double T, double timestep,
         _velocityPtr[coordIdx + 2] += 0.5 * accel.z() * _timestep;
       }
     }
-    if (i % 10 == 0) {
+    if (i % 10 == 0)
       CorrectVelocities();
-    }
   }
 }
 
@@ -3843,8 +3548,7 @@ void OBForceField::MolecularDynamicsTakeNSteps(int n, double T, double timestep,
 //////////////////////////////////////////////////////////////////////////////////
 
 double OBForceField::VectorLengthDerivative(vector3 &a, vector3 &b) {
-  vector3 vab;
-  vector3 drab;
+  vector3 vab, drab;
   double rab;
 
   vab = a - b;
@@ -3899,18 +3603,16 @@ double OBForceField::VectorAngleDerivative(vector3 &i, vector3 &j, vector3 &k) {
   // http://scidok.sulb.uni-saarland.de/volltexte/2007/1325/pdf/Dissertation_1544_Moll_Andr_2007.pdf
   // Many thanks to Andreas Moll and the BALLView developers for this
 
-  vector3 v1;
-  vector3 v2;
-  vector3 const n1;
-  vector3 const n2;
+  vector3 v1, v2;
+  vector3 n1, n2;
 
   // Calculate the vector between atom1 and atom2,
   // test if the vector has length larger than 0 and normalize it
   v1 = i - j;
   v2 = k - j;
 
-  double const length1 = v1.length();
-  double const length2 = v2.length();
+  double length1 = v1.length();
+  double length2 = v2.length();
 
   // test if the vector has length larger than 0 and normalize it
   if (IsNearZero(length1) || IsNearZero(length2)) {
@@ -3921,15 +3623,15 @@ double OBForceField::VectorAngleDerivative(vector3 &i, vector3 &j, vector3 &k) {
   }
 
   // Calculate the normalized bond vectors
-  double const inverse_length_v1 = 1.0 / length1;
-  double const inverse_length_v2 = 1.0 / length2;
+  double inverse_length_v1 = 1.0 / length1;
+  double inverse_length_v2 = 1.0 / length2;
   v1 *= inverse_length_v1;
   v2 *= inverse_length_v2;
 
   // Calculate the cross product of v1 and v2, test if it has length unequal 0,
   // and normalize it.
   vector3 c1 = cross(v1, v2);
-  double const length = c1.length();
+  double length = c1.length();
   if (IsNearZero(length)) {
     i = VZero;
     j = VZero;
@@ -3972,14 +3674,12 @@ double OBForceField::VectorAngleDerivative(double *pos_i, double *pos_j,
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // Bond vectors of the three atoms
-  double ij[3];
-  double jk[3];
+  double ij[3], jk[3];
   VectorSubtract(pos_i, pos_j, ij);
   VectorSubtract(pos_k, pos_j, jk);
 
   // length of the two bonds
-  double l_ij;
-  double l_jk;
+  double l_ij, l_jk;
   l_ij = VectorLength(ij);
   l_jk = VectorLength(jk);
 
@@ -3998,7 +3698,7 @@ double OBForceField::VectorAngleDerivative(double *pos_i, double *pos_j,
   // and normalize it.
   double c1[3];
   VectorCross(ij, jk, c1);
-  double const length = VectorLength(c1);
+  double length = VectorLength(c1);
   if (IsNearZero(length)) {
     VectorClear(force_i);
     VectorClear(force_j);
@@ -4021,8 +3721,7 @@ double OBForceField::VectorAngleDerivative(double *pos_i, double *pos_j,
     angle_ijk = RAD_TO_DEG * acos(cos_ijk);
   }
 
-  double t1[3];
-  double t2[3];
+  double t1[3], t2[3];
 
   VectorCross(ij, c1, t1);
   VectorNormalize(t1);
@@ -4045,14 +3744,12 @@ double OBForceField::VectorAngle(double *pos_i, double *pos_j, double *pos_k) {
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // Bond vectors of the three atoms
-  double ij[3];
-  double jk[3];
+  double ij[3], jk[3];
   VectorSubtract(pos_i, pos_j, ij);
   VectorSubtract(pos_k, pos_j, jk);
 
   // length of the two bonds
-  double l_ij;
-  double l_jk;
+  double l_ij, l_jk;
   l_ij = VectorLength(ij);
   l_jk = VectorLength(jk);
 
@@ -4068,7 +3765,7 @@ double OBForceField::VectorAngle(double *pos_i, double *pos_j, double *pos_k) {
   // and normalize it.
   double c1[3];
   VectorCross(ij, jk, c1);
-  double const length = VectorLength(c1);
+  double length = VectorLength(c1);
   if (IsNearZero(length)) {
     return 0.0;
   }
@@ -4100,9 +3797,7 @@ double OBForceField::VectorOOPDerivative(vector3 &i, vector3 &j, vector3 &k,
   vector3 delta;
 
   // normal vectors of the three planes:
-  vector3 an;
-  vector3 bn;
-  vector3 cn;
+  vector3 an, bn, cn;
 
   // calculate normalized bond vectors from central atom to outer atoms:
   delta = i - j;
@@ -4215,13 +3910,9 @@ double OBForceField::VectorOOPDerivative(double *pos_i, double *pos_j,
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // vector lengths of the three bonds:
-  double ji[3];
-  double jk[3];
-  double jl[3];
+  double ji[3], jk[3], jl[3];
   // normal vectors of the three planes:
-  double an[3];
-  double bn[3];
-  double cn[3];
+  double an[3], bn[3], cn[3];
 
   // calculate normalized bond vectors from central atom to outer atoms:
   VectorSubtract(pos_i, pos_j, ji);
@@ -4340,13 +4031,9 @@ double OBForceField::VectorOOP(double *pos_i, double *pos_j, double *pos_k,
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // vector lengths of the three bonds:
-  double ji[3];
-  double jk[3];
-  double jl[3];
+  double ji[3], jk[3], jl[3];
   // normal vectors of the three planes:
-  double an[3];
-  double bn[3];
-  double cn[3];
+  double an[3], bn[3], cn[3];
 
   // calculate normalized bond vectors from central atom to outer atoms:
   VectorSubtract(pos_i, pos_j, ji);
@@ -4402,16 +4089,11 @@ double OBForceField::VectorTorsionDerivative(vector3 &i, vector3 &j, vector3 &k,
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // Bond vectors of the three atoms
-  vector3 ij;
-  vector3 jk;
-  vector3 kl;
+  vector3 ij, jk, kl;
   // length of the three bonds
-  double l_ij;
-  double l_jk;
-  double l_kl;
+  double l_ij, l_jk, l_kl;
   // angle between ijk and jkl:
-  double angle_ijk;
-  double angle_jkl;
+  double angle_ijk, angle_jkl;
 
   ij = j - i;
   jk = k - j;
@@ -4437,27 +4119,27 @@ double OBForceField::VectorTorsionDerivative(vector3 &i, vector3 &j, vector3 &k,
   jk /= l_jk;
   kl /= l_kl;
 
-  double const sin_j = sin(angle_ijk);
-  double const sin_k = sin(angle_jkl);
+  double sin_j = sin(angle_ijk);
+  double sin_k = sin(angle_jkl);
 
-  double const rsj = l_ij * sin_j;
-  double const rsk = l_kl * sin_k;
+  double rsj = l_ij * sin_j;
+  double rsk = l_kl * sin_k;
 
-  double const rs2j = 1. / (rsj * sin_j);
-  double const rs2k = 1. / (rsk * sin_k);
+  double rs2j = 1. / (rsj * sin_j);
+  double rs2k = 1. / (rsk * sin_k);
 
-  double const rrj = l_ij / l_jk;
-  double const rrk = l_kl / l_jk;
+  double rrj = l_ij / l_jk;
+  double rrk = l_kl / l_jk;
 
-  double const rrcj = rrj * (-cos(angle_ijk));
-  double const rrck = rrk * (-cos(angle_jkl));
+  double rrcj = rrj * (-cos(angle_ijk));
+  double rrck = rrk * (-cos(angle_jkl));
 
-  vector3 const a = cross(ij, jk);
-  vector3 const b = cross(jk, kl);
-  vector3 const c = cross(a, b);
-  double const d1 = dot(c, jk);
-  double const d2 = dot(a, b);
-  double const tor = RAD_TO_DEG * atan2(d1, d2);
+  vector3 a = cross(ij, jk);
+  vector3 b = cross(jk, kl);
+  vector3 c = cross(a, b);
+  double d1 = dot(c, jk);
+  double d2 = dot(a, b);
+  double tor = RAD_TO_DEG * atan2(d1, d2);
 
   i = -a * rs2j;
   l = b * rs2k;
@@ -4477,17 +4159,13 @@ double OBForceField::VectorTorsionDerivative(double *pos_i, double *pos_j,
   // Many thanks to Andreas Moll and the BALLView developers for this
 
   // Bond vectors of the three atoms
-  double ij[3];
-  double jk[3];
-  double kl[3];
+  double ij[3], jk[3], kl[3];
   VectorSubtract(pos_j, pos_i, ij);
   VectorSubtract(pos_k, pos_j, jk);
   VectorSubtract(pos_l, pos_k, kl);
 
   // length of the three bonds
-  double l_ij;
-  double l_jk;
-  double l_kl;
+  double l_ij, l_jk, l_kl;
   l_ij = VectorLength(ij);
   l_jk = VectorLength(jk);
   l_kl = VectorLength(kl);
@@ -4506,8 +4184,7 @@ double OBForceField::VectorTorsionDerivative(double *pos_i, double *pos_j,
   VectorDivide(kl, l_kl, kl);
 
   // angle between ijk and jkl:
-  double angle_ijk;
-  double angle_jkl;
+  double angle_ijk, angle_jkl;
 
   double cos_ijk = VectorDot(ij, jk);
   if (cos_ijk > 1.0) {
@@ -4531,20 +4208,20 @@ double OBForceField::VectorTorsionDerivative(double *pos_i, double *pos_j,
     angle_jkl = acos(cos_jkl);
   }
 
-  double const sin_j = sin(angle_ijk);
-  double const sin_k = sin(angle_jkl);
+  double sin_j = sin(angle_ijk);
+  double sin_k = sin(angle_jkl);
 
-  double const rsj = l_ij * sin_j;
-  double const rsk = l_kl * sin_k;
+  double rsj = l_ij * sin_j;
+  double rsk = l_kl * sin_k;
 
-  double const rs2j = 1. / (rsj * sin_j);
-  double const rs2k = 1. / (rsk * sin_k);
+  double rs2j = 1. / (rsj * sin_j);
+  double rs2k = 1. / (rsk * sin_k);
 
-  double const rrj = l_ij / l_jk;
-  double const rrk = l_kl / l_jk;
+  double rrj = l_ij / l_jk;
+  double rrk = l_kl / l_jk;
 
-  double const rrcj = rrj * (-cos(angle_ijk));
-  double const rrck = rrk * (-cos(angle_jkl));
+  double rrcj = rrj * (-cos(angle_ijk));
+  double rrck = rrk * (-cos(angle_jkl));
 
   double a[3];
   VectorCross(ij, jk, a);
@@ -4552,9 +4229,9 @@ double OBForceField::VectorTorsionDerivative(double *pos_i, double *pos_j,
   VectorCross(jk, kl, b);
   double c[3];
   VectorCross(a, b, c);
-  double const d1 = VectorDot(c, jk);
-  double const d2 = VectorDot(a, b);
-  double const tor = RAD_TO_DEG * atan2(d1, d2);
+  double d1 = VectorDot(c, jk);
+  double d2 = VectorDot(a, b);
+  double tor = RAD_TO_DEG * atan2(d1, d2);
 
   VectorMultiply(a, -rs2j, force_i);
   VectorMultiply(b, rs2k, force_l);
@@ -4573,9 +4250,7 @@ double OBForceField::VectorTorsionDerivative(double *pos_i, double *pos_j,
 double OBForceField::VectorTorsion(double *pos_i, double *pos_j, double *pos_k,
                                    double *pos_l) {
   // Bond vectors of the three atoms
-  double ij[3];
-  double jk[3];
-  double kl[3];
+  double ij[3], jk[3], kl[3];
   VectorSubtract(pos_j, pos_i, ij);
   VectorSubtract(pos_k, pos_j, jk);
   VectorSubtract(pos_l, pos_k, kl);
@@ -4600,16 +4275,15 @@ double OBForceField::VectorTorsion(double *pos_i, double *pos_j, double *pos_k,
   VectorCross(jk, kl, b);
   double c[3];
   VectorCross(a, b, c);
-  double const d1 = VectorDot(c, jk);
-  double const d2 = VectorDot(a, b);
-  double const tor = RAD_TO_DEG * atan2(d1, d2);
+  double d1 = VectorDot(c, jk);
+  double d2 = VectorDot(a, b);
+  double tor = RAD_TO_DEG * atan2(d1, d2);
 
   return tor;
 }
 
 bool OBForceField::IsInSameRing(OBAtom *a, OBAtom *b) {
-  bool a_in;
-  bool b_in;
+  bool a_in, b_in;
   vector<OBRing *> vr;
   vr = _mol.GetSSSR();
 
@@ -4620,17 +4294,14 @@ bool OBForceField::IsInSameRing(OBAtom *a, OBAtom *b) {
     a_in = false;
     b_in = false;
     for (j = (*i)->_path.begin(); j != (*i)->_path.end(); ++j) {
-      if ((unsigned)(*j) == a->GetIdx()) {
+      if ((unsigned)(*j) == a->GetIdx())
         a_in = true;
-      }
-      if ((unsigned)(*j) == b->GetIdx()) {
+      if ((unsigned)(*j) == b->GetIdx())
         b_in = true;
-      }
     }
 
-    if (a_in && b_in) {
+    if (a_in && b_in)
       return true;
-    }
   }
 
   return false;
@@ -4642,10 +4313,7 @@ OBGridData *OBForceField::GetGrid(double step, double padding, const char *type,
   OBFloatGrid fgrid;
   fgrid.Init(_mol, step, padding);
   vector3 min;
-  unsigned int xDim;
-  unsigned int yDim;
-  unsigned int zDim;
-  unsigned int xyzDim;
+  unsigned int xDim, yDim, zDim, xyzDim;
 
   min = fgrid.GetMin();
 
@@ -4660,7 +4328,7 @@ OBGridData *OBForceField::GetGrid(double step, double padding, const char *type,
   // Add the probe atom
   _mol.BeginModify();
   OBAtom *atom = _mol.NewAtom();
-  int const index = atom->GetIdx();
+  int index = atom->GetIdx();
   _mol.EndModify();
   SetTypes();
   atom->SetType(type);
@@ -4672,15 +4340,11 @@ OBGridData *OBForceField::GetGrid(double step, double padding, const char *type,
   double *pos = atom->GetCoordinate();
 
   vector3 coord;
-  double evdw;
-  double eele;
-  double distance;
-  double minDistance;
+  double evdw, eele;
+  double distance, minDistance;
 
-  auto *grid = new OBGridData;
-  vector3 xAxis;
-  vector3 yAxis;
-  vector3 zAxis;
+  OBGridData *grid = new OBGridData;
+  vector3 xAxis, yAxis, zAxis;
   xAxis = vector3(step, 0.0, 0.0);
   yAxis = vector3(0.0, step, 0.0);
   zAxis = vector3(0.0, 0.0, step);
@@ -4697,18 +4361,15 @@ OBGridData *OBForceField::GetGrid(double step, double padding, const char *type,
         coord.SetZ(min[2] + k * step);
         minDistance = 1.0E+10;
         FOR_ATOMS_OF_MOL(a, _mol) {
-          if (a->GetIdx() == atom->GetIdx()) {
+          if (a->GetIdx() == atom->GetIdx())
             continue;
-          }
-          if (a->GetAtomicNum() == OBElements::Hydrogen) {
+          if (a->GetAtomicNum() == OBElements::Hydrogen)
             continue;
-          }
 
           distance = sqrt(coord.distSq(a->GetVector()));
 
-          if (distance < minDistance) {
+          if (distance < minDistance)
             minDistance = distance;
-          }
         } // end checking atoms
         // negative = away from molecule, 0 = vdw surface, positive = inside
         if (minDistance > 1.0) {

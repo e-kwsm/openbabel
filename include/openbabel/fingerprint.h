@@ -47,15 +47,14 @@ public:
   virtual ~OBFingerprint() {}
 
   /// Sets the nth bit
-  static void SetBit(std::vector<unsigned int> &vec, const unsigned int n);
+  void SetBit(std::vector<unsigned int> &vec, const unsigned int n);
 
   /// return true if the nth bit is set;
-  static bool GetBit(const std::vector<unsigned int> &vec,
-                     const unsigned int n);
+  bool GetBit(const std::vector<unsigned int> &vec, const unsigned int n);
 
   /// Repeatedly ORs the top half with the bottom half until no smaller than
   /// nbits
-  static void Fold(std::vector<unsigned int> &vec, unsigned int nbits);
+  void Fold(std::vector<unsigned int> &vec, unsigned int nbits);
 
   /// \return fingerprint in vector, which may be resized, folded to nbits (if
   /// nbits!=0)
@@ -164,7 +163,7 @@ class OBFPRT FastSearch {
   // see end of cpp file for detailed documentation
 public:
   /// \brief Loads an index from a file and returns the name of the datafile
-  std::string ReadIndexFile(const std::string &IndexFilename);
+  std::string ReadIndexFile(std::string IndexFilename);
   std::string ReadIndex(std::istream *pIndexstream);
 
   virtual ~FastSearch(){};
