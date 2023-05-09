@@ -43,6 +43,10 @@
 
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
+#pragma once
+#include "mode.h"
+#include <stdio.h>
+
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
 extern "C" {

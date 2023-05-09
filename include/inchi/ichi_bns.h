@@ -39,6 +39,8 @@
 #ifndef __INCHI_BNS_H___
 #define __INCHI_BNS_H___
 
+#include "incomdef.h"
+
 #define BN_MAX_ALTP 16
 /*#define MAX_VERTEX 1024*/ /* including s; if vert[] has num_vert then
                                MAX_VERTEX has (2*num_vert+2+FIRST_INDX) elements

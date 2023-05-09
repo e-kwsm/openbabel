@@ -39,6 +39,8 @@
 #ifndef __INCHICANT_H__
 #define __INCHICANT_H__
 
+#include "incomdef.h"
+
 /******************************************************/
 /*                                                    */
 /*                 Canonicalization definitions       */
