@@ -20,48 +20,47 @@ GNU General Public License for more details.
 #ifndef OB_PHMODEL_H
 #define OB_PHMODEL_H
 
-#include <openbabel/parsmart.h>
 #include <openbabel/data.h>
+#include <openbabel/parsmart.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
 // class introduction in phmodel.cpp
-class OBAPI OBChemTsfm
-{
-    std::vector<int>                            _vadel;
-    std::vector<std::pair<int,int> >            _vele;
-    std::vector<std::pair<int,int> >            _vchrg;
-    std::vector<std::pair<int,int> >            _vbdel;
-    std::vector<std::pair<std::pair<int,int>,int> >  _vbond;
-    OBSmartsPattern _bgn,_end;
+class OBAPI OBChemTsfm {
+  std::vector<int> _vadel;
+  std::vector<std::pair<int, int>> _vele;
+  std::vector<std::pair<int, int>> _vchrg;
+  std::vector<std::pair<int, int>> _vbdel;
+  std::vector<std::pair<std::pair<int, int>, int>> _vbond;
+  OBSmartsPattern _bgn, _end;
+
 public:
-    OBChemTsfm()    {}
-    ~OBChemTsfm()   {}
-    //! Initialize this transformation with the supplied SMARTS patterns
-    bool Init(std::string&start, std::string &end);
-    //! Apply this transformation to all matches in the supplied OBMol
-    bool Apply(OBMol&);
-    /*! Is this transformation an acid dissociation?
-     *  \code
-     *      Ka
-     *  HA ----> A(-)         (the H(+) will be deleted)
-     *  \endcode
-     *
-     *  IsAcid() will check the charge in the end SMARTS pattern.
-     *  \return true if the charge is less than 0 (-1).
-     */
-    bool IsAcid();
-    /*! Is this a transformation to the conjugated acid from a base?
-     *  \code
-     *      Ka
-     *  HA ----> A(-)         (the H(+) will be deleted)
-     *  \endcode
-     *
-     *  IsBase() will check the charge in the end SMARTS pattern.
-     *  \return true if the charge is higher than 0 (+1).
-     */
-    bool IsBase();
+  OBChemTsfm() {}
+  ~OBChemTsfm() {}
+  //! Initialize this transformation with the supplied SMARTS patterns
+  bool Init(std::string &start, std::string &end);
+  //! Apply this transformation to all matches in the supplied OBMol
+  bool Apply(OBMol &);
+  /*! Is this transformation an acid dissociation?
+   *  \code
+   *      Ka
+   *  HA ----> A(-)         (the H(+) will be deleted)
+   *  \endcode
+   *
+   *  IsAcid() will check the charge in the end SMARTS pattern.
+   *  \return true if the charge is less than 0 (-1).
+   */
+  bool IsAcid();
+  /*! Is this a transformation to the conjugated acid from a base?
+   *  \code
+   *      Ka
+   *  HA ----> A(-)         (the H(+) will be deleted)
+   *  \endcode
+   *
+   *  IsBase() will check the charge in the end SMARTS pattern.
+   *  \return true if the charge is higher than 0 (+1).
+   */
+  bool IsBase();
 };
 
 /*! \brief Corrections for pH used by OBMol::CorrectForPH()
@@ -104,29 +103,26 @@ public:
  *  The transformations are all applied (if needed at the specified pH value) in
  *  the same order they are found in data/phmodel.txt.
  */
-class OBAPI OBPhModel : public OBGlobalDataBase
-{
-    std::vector<OBChemTsfm*>                            _vtsfm;
-    std::vector<double>                                 _vpKa;
-    std::vector<std::pair<OBSmartsPattern*,std::vector<double> > > _vschrg;
-public:
-    OBPhModel();
-    ~OBPhModel();
+class OBAPI OBPhModel : public OBGlobalDataBase {
+  std::vector<OBChemTsfm *> _vtsfm;
+  std::vector<double> _vpKa;
+  std::vector<std::pair<OBSmartsPattern *, std::vector<double>>> _vschrg;
 
-    void ParseLine(const char*) override;
-    //! \return the number of chemical transformations
-    size_t GetSize() override { return _vtsfm.size(); }
-    void AssignSeedPartialCharge(OBMol&);
-    //void CorrectForPH(OBMol&);
-    void CorrectForPH(OBMol&, double pH  = 7.4 );
+public:
+  OBPhModel();
+  ~OBPhModel();
+
+  void ParseLine(const char *) override;
+  //! \return the number of chemical transformations
+  size_t GetSize() override { return _vtsfm.size(); }
+  void AssignSeedPartialCharge(OBMol &);
+  // void CorrectForPH(OBMol&);
+  void CorrectForPH(OBMol &, double pH = 7.4);
 };
 
-
-
-} //namespace OpenBabel
+} // namespace OpenBabel
 
 #endif // OB_PHMODEL_H
 
 //! \file phmodel.h
 //! \brief Read pH rules and assign charges.
-

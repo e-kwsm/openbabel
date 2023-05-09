@@ -20,14 +20,12 @@ GNU General Public License for more details.
 #include <openbabel/op.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 #if defined(__CYGWIN__) || defined(__MINGW32__)
-  // macro to implement static OBPlugin::PluginMapType& Map()
-  PLUGIN_CPP_FILE(OBOp)
+// macro to implement static OBPlugin::PluginMapType& Map()
+PLUGIN_CPP_FILE(OBOp)
 #endif
-}
-
+} // namespace OpenBabel
 
 //! \file op.cpp
 //! \brief Base plugin class for operations on molecules

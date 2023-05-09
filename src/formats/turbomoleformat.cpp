@@ -15,177 +15,158 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
 #include <openbabel/bond.h>
-#include <openbabel/obiter.h>
 #include <openbabel/elements.h>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
+#include <openbabel/obmolecformat.h>
 
-
-const double AAU = 0.5291772108;  // �ngstr�m per bohr (CODATA 2002)
+const double AAU = 0.5291772108; // �ngstr�m per bohr (CODATA 2002)
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class TurbomoleFormat : public OBMoleculeFormat
-{
+class TurbomoleFormat : public OBMoleculeFormat {
 public:
-    //Register this format type ID
-    TurbomoleFormat()
-    {
-      OBConversion::RegisterFormat("tmol",this);
-      OBConversion::RegisterOptionParam("a", this, OBConversion::INOPTIONS);
-    }
-
-  const char* Description() override  // required
-  {
-    return
-      "TurboMole Coordinate format\n"
-      "Write options e.g.-xa\n"
-      " a  Output Angstroms\n\n"
-      "Read Options e.g. -as\n"
-      " s  Output single bonds only\n"
-      " b  Disable bonding entirely\n"
-      " a  Input in Angstroms\n\n" ;
+  // Register this format type ID
+  TurbomoleFormat() {
+    OBConversion::RegisterFormat("tmol", this);
+    OBConversion::RegisterOptionParam("a", this, OBConversion::INOPTIONS);
   }
 
-  const char* SpecificationURL() override
-  { return "http://www.cosmologic.de/QuantumChemistry/main_qChemistry.html"; }
+  const char *Description() override // required
+  {
+    return "TurboMole Coordinate format\n"
+           "Write options e.g.-xa\n"
+           " a  Output Angstroms\n\n"
+           "Read Options e.g. -as\n"
+           " s  Output single bonds only\n"
+           " b  Disable bonding entirely\n"
+           " a  Input in Angstroms\n\n";
+  }
 
-    //Flags() can return be any the following combined by | or be omitted if none apply
-    // NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
-    unsigned int Flags() override
-    {
-        return READONEONLY | WRITEONEONLY;
-    }
+  const char *SpecificationURL() override {
+    return "http://www.cosmologic.de/QuantumChemistry/main_qChemistry.html";
+  }
 
-    //*** This section identical for most OBMol conversions ***
-    ////////////////////////////////////////////////////
-    /// The "API" interface functions
-    bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
-    bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  // Flags() can return be any the following combined by | or be omitted if none
+  // apply
+  //  NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
+  unsigned int Flags() override { return READONEONLY | WRITEONEONLY; }
+
+  //*** This section identical for most OBMol conversions ***
+  ////////////////////////////////////////////////////
+  /// The "API" interface functions
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override;
+  bool WriteMolecule(OBBase *pOb, OBConversion *pConv) override;
 };
 //***
 
-//Make an instance of the format class
+// Make an instance of the format class
 TurbomoleFormat theTurbomoleFormat;
 
 /////////////////////////////////////////////////////////////////
-bool TurbomoleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
-{
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
-        return false;
+bool TurbomoleFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = pOb->CastAndClear<OBMol>();
+  if (pmol == nullptr)
+    return false;
 
-    //Define some references so we can use the old parameter names
-    istream &ifs = *pConv->GetInStream();
-    OBMol &mol = *pmol;
-    double UnitConv=AAU;
-    if(pConv->IsOption("a", OBConversion::INOPTIONS))
-      UnitConv=1;
+  // Define some references so we can use the old parameter names
+  istream &ifs = *pConv->GetInStream();
+  OBMol &mol = *pmol;
+  double UnitConv = AAU;
+  if (pConv->IsOption("a", OBConversion::INOPTIONS))
+    UnitConv = 1;
 
+  char buffer[BUFF_SIZE];
+  do {
+    ifs.getline(buffer, BUFF_SIZE);
+    if (ifs.peek() == EOF || !ifs.good())
+      return false;
+  } while (strncmp(buffer, "$coord", 6));
 
-    char buffer[BUFF_SIZE];
-    do
-    {
-        ifs.getline(buffer,BUFF_SIZE);
-	if (ifs.peek() == EOF || !ifs.good())
-	  return false;
-    }
-    while(strncmp(buffer,"$coord",6));
+  mol.BeginModify();
+  OBAtom atom;
+  while (!(!ifs)) {
+    ifs.getline(buffer, BUFF_SIZE);
+    if (*buffer == '$')
+      break;
+    if (*buffer == '#')
+      continue;
+    float x, y, z;
+    char atomtype[8];
+    if (sscanf(buffer, "%f %f %f %7s", &x, &y, &z, atomtype) != 4)
+      return false;
 
-    mol.BeginModify();
-    OBAtom atom;
-    while(!(!ifs))
-    {
-        ifs.getline(buffer,BUFF_SIZE);
-        if(*buffer=='$')
-            break;
-        if(*buffer=='#')
-            continue;
-        float x,y,z;
-        char atomtype[8];
-        if(sscanf(buffer,"%f %f %f %7s",&x,&y,&z,atomtype)!=4)
-            return false;
+    atom.SetVector(x * UnitConv, y * UnitConv, z * UnitConv);
+    atom.SetAtomicNum(OBElements::GetAtomicNum(atomtype));
+    atom.SetType(atomtype);
 
-        atom.SetVector(x*UnitConv, y*UnitConv, z*UnitConv);
-        atom.SetAtomicNum(OBElements::GetAtomicNum(atomtype));
-        atom.SetType(atomtype);
+    if (!mol.AddAtom(atom))
+      return false;
+    atom.Clear();
+  }
+  while (!(!ifs) && strncmp(buffer, "$end", 4))
+    ifs.getline(buffer, BUFF_SIZE);
 
-        if(!mol.AddAtom(atom))
-            return false;
-        atom.Clear();
-    }
-    while(!(!ifs) && strncmp(buffer,"$end",4))
-        ifs.getline(buffer,BUFF_SIZE);
+  if (!pConv->IsOption("b", OBConversion::INOPTIONS))
+    mol.ConnectTheDots();
+  if (!pConv->IsOption("s", OBConversion::INOPTIONS) &&
+      !pConv->IsOption("b", OBConversion::INOPTIONS))
+    mol.PerceiveBondOrders();
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
-      mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
-      mol.PerceiveBondOrders();
+  // clean out remaining blank lines
+  std::streampos ipos;
+  do {
+    ipos = ifs.tellg();
+    ifs.getline(buffer, BUFF_SIZE);
+  } while (strlen(buffer) == 0 && !ifs.eof());
+  ifs.seekg(ipos);
 
-    // clean out remaining blank lines
-    std::streampos ipos;
-    do
-    {
-      ipos = ifs.tellg();
-      ifs.getline(buffer,BUFF_SIZE);
-    }
-    while(strlen(buffer) == 0 && !ifs.eof() );
-    ifs.seekg(ipos);
-
-    mol.EndModify();
-    return true;
+  mol.EndModify();
+  return true;
 }
 
 ////////////////////////////////////////////////////////////////
 
-char *strlwr(char *s)
-{
-    if (s != nullptr)
-      {
-        char *p;
-        for (p = s; *p; ++p)
-            *p = tolower(*p);
-      }
-    return s;
+char *strlwr(char *s) {
+  if (s != nullptr) {
+    char *p;
+    for (p = s; *p; ++p)
+      *p = tolower(*p);
+  }
+  return s;
 }
 
+bool TurbomoleFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (pmol == nullptr)
+    return false;
 
-bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
-{
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
-        return false;
+  // Define some references so we can use the old parameter names
+  ostream &ofs = *pConv->GetOutStream();
+  OBMol &mol = *pmol;
+  double UnitConv = AAU;
+  if (pConv->IsOption("a"))
+    UnitConv = 1;
 
-    //Define some references so we can use the old parameter names
-    ostream &ofs = *pConv->GetOutStream();
-    OBMol &mol = *pmol;
-    double UnitConv=AAU;
-    if(pConv->IsOption("a"))
-      UnitConv=1;
+  ofs << "$coord" << endl;
 
-    ofs << "$coord" <<endl;
+  char buffer[BUFF_SIZE];
+  OBAtom *atom;
+  vector<OBAtom *>::iterator i;
+  for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i)) {
+    char symb[8];
+    strcpy(symb, OBElements::GetSymbol(atom->GetAtomicNum()));
+    snprintf(buffer, BUFF_SIZE, "%20.14f  %20.14f  %20.14f      %s",
+             atom->GetX() / UnitConv, atom->GetY() / UnitConv,
+             atom->GetZ() / UnitConv, strlwr(symb));
+    ofs << buffer << endl;
+  }
+  ofs << "$end" << endl;
 
-    char buffer[BUFF_SIZE];
-    OBAtom *atom;
-    vector<OBAtom*>::iterator i;
-    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
-    {
-      char symb[8];
-      strcpy(symb,OBElements::GetSymbol(atom->GetAtomicNum()));
-        snprintf(buffer, BUFF_SIZE, "%20.14f  %20.14f  %20.14f      %s",
-                atom->GetX()/UnitConv,
-                atom->GetY()/UnitConv,
-                atom->GetZ()/UnitConv,
-                strlwr(symb) );
-        ofs << buffer << endl;
-    }
-    ofs << "$end" << endl;
-
-    return true;
+  return true;
 }
 
-} //namespace OpenBabel
+} // namespace OpenBabel

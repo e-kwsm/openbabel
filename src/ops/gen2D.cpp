@@ -17,46 +17,47 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
-#include <openbabel/babelconfig.h>
 #include <iostream>
-#include<openbabel/op.h>
-#include<openbabel/mol.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/mcdlutil.h>
+#include <openbabel/mol.h>
+#include <openbabel/op.h>
 #include <openbabel/stereo/stereo.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpGen2D : public OBOp
-{
+class OpGen2D : public OBOp {
 public:
-  OpGen2D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
-    "Generate 2D coordinates\n"
-    "Trepalin, S. V.; Yarkov, A. V.; Pletnev, I. V.; Gakh, A.A."
-    "A Java Chemical Structure Editor Supporting the"
-    "Modular Chemical Descriptor Language (MCDL)."
-    "Molecules, 2006, 11, 219-231"; }
+  OpGen2D(const char *ID) : OBOp(ID, false){};
+  const char *Description() override {
+    return "Generate 2D coordinates\n"
+           "Trepalin, S. V.; Yarkov, A. V.; Pletnev, I. V.; Gakh, A.A."
+           "A Java Chemical Structure Editor Supporting the"
+           "Modular Chemical Descriptor Language (MCDL)."
+           "Molecules, 2006, 11, 219-231";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
-      OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpGen2D theOpGen2D("gen2D"); //Global instance
+OpGen2D theOpGen2D("gen2D"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpGen2D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool OpGen2D::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                 OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
-  // If we are coming from a 0D structure, then we need to perceive the cis/trans
-  // bonds *now*, before adding the coordinates, to mark unspecified cis/trans
-  // as such. Otherwise, when writing a MOL file it will be missing the '3', or
-  // similarly when depicting it would be presented as specified.
+  // If we are coming from a 0D structure, then we need to perceive the
+  // cis/trans bonds *now*, before adding the coordinates, to mark unspecified
+  // cis/trans as such. Otherwise, when writing a MOL file it will be missing
+  // the '3', or similarly when depicting it would be presented as specified.
   // Really, all we need to do is handle the cis/trans bond cases.
   // However, the current API requires us to also reperceive the tet stereo,
   // and to remove any stereo that is not real.
@@ -71,4 +72,4 @@ bool OpGen2D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
 
   return true;
 }
-}//namespace
+} // namespace OpenBabel

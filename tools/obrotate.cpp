@@ -28,30 +28,28 @@ GNU General Public License for more details.
   obrotate "[nH]ccccc[O,C][C,O]" test.sdf 1 6 7 8 180.0
 */
 
-
 // used to set import/export for Cygwin DLLs
 #ifdef WIN32
 #define USING_OBDLL
 #endif
 
+#include <openbabel/atom.h>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
-#include <openbabel/atom.h>
 #include <openbabel/parsmart.h>
 #include <openbabel/rotamer.h>
-//#include <unistd.h>
-#include <openbabel/obconversion.h>
+// #include <unistd.h>
 #include <cstdlib>
+#include <openbabel/obconversion.h>
 using namespace std;
 using namespace OpenBabel;
 
 ///////////////////////////////////////////////////////////////////////////////
 //! \brief Set a tortional bond to a given angle
-int main(int argc,char **argv)
-{
+int main(int argc, char **argv) {
   OBAtom *a1, *a2, *a3, *a4;
-  unsigned int smartor[4]= {0,0,0,0};// atoms of the tortional in the SMART
-  float angle =   0;      // tortional angle value to set in degree
+  unsigned int smartor[4] = {0, 0, 0, 0}; // atoms of the tortional in the SMART
+  float angle = 0; // tortional angle value to set in degree
   char *FileIn = nullptr, *Pattern = nullptr;
   unsigned int i, t, errflg = 0;
   int c;
@@ -78,16 +76,16 @@ int main(int argc,char **argv)
 
       // now let's shift values
       while (curArg < 8) {
-        argv[curArg] = argv[curArg+1];
+        argv[curArg] = argv[curArg + 1];
       }
     }
     FileIn = argv[2];
     Pattern = argv[1];
     // Read the atom position
-    for(i=3, t=0; i<7; ++i, ++t) {
+    for (i = 3, t = 0; i < 7; ++i, ++t) {
       c = sscanf(argv[i], "%u", &smartor[t]);
       if (c != 1) {
-        errflg++;  // error in arguments, quit and warn user
+        errflg++; // error in arguments, quit and warn user
         break;
       }
     }
@@ -104,7 +102,9 @@ int main(int argc,char **argv)
   }
 
   if (errflg) {
-    cerr << "Usage: obrotate \"PATTERN\" <filename> <atom1> <atom2> <atom3> <atom4> <angle> [-a]" << endl;
+    cerr << "Usage: obrotate \"PATTERN\" <filename> <atom1> <atom2> <atom3> "
+            "<atom4> <angle> [-a]"
+         << endl;
     exit(-1);
   }
 
@@ -112,46 +112,49 @@ int main(int argc,char **argv)
   OBSmartsPattern sp;
   sp.Init(Pattern);
   if (sp.NumAtoms() < 4) {
-    cerr << "obrotate: The number of atoms in the SMART pattern must be higher than 3." << endl;
+    cerr << "obrotate: The number of atoms in the SMART pattern must be higher "
+            "than 3."
+         << endl;
     exit(-1);
   }
 
-  for (i=0; i<4; ++i) {
-    if ( smartor[i] < 1 || smartor[i] > sp.NumAtoms()) {
+  for (i = 0; i < 4; ++i) {
+    if (smartor[i] < 1 || smartor[i] > sp.NumAtoms()) {
       cerr << "obrotate: The torsional atom values must be between 1 and "
-           <<  sp.NumAtoms()
+           << sp.NumAtoms()
            << ", which is the number of atoms in the SMART pattern." << endl;
       exit(-1);
     }
   }
 
-  OBConversion conv; //NF...
-  OBFormat* format = conv.FormatFromExt(FileIn);
-  if(!(format && conv.SetInAndOutFormats(format, format))) { //in and out formats same
+  OBConversion conv; // NF...
+  OBFormat *format = conv.FormatFromExt(FileIn);
+  if (!(format &&
+        conv.SetInAndOutFormats(format, format))) { // in and out formats same
     cerr << "obrotate: cannot read and/or write this file format!" << endl;
-    exit (-1);
+    exit(-1);
   } //...NF
 
-  //Open the molecule file
+  // Open the molecule file
   ifstream ifs;
 
   // Read the file
   ifs.open(FileIn);
   if (!ifs) {
     cerr << "obrotate: cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   OBMol mol;
-  vector< vector <int> > maplist;      // list of matched atoms
-  vector< vector <int> >::iterator m;  // and its iterators
+  vector<vector<int>> maplist;     // list of matched atoms
+  vector<vector<int>>::iterator m; // and its iterators
   //   int tindex;
 
   // Set the angles
   for (;;) {
     mol.Clear();
-    //NF      ifs >> mol;                   // Read molecule
-    conv.Read(&mol,&ifs); //NF
+    // NF      ifs >> mol;                   // Read molecule
+    conv.Read(&mol, &ifs); // NF
     if (mol.Empty())
       break;
 
@@ -160,20 +163,22 @@ int main(int argc,char **argv)
       maplist = sp.GetUMapList(); // get unique matches
 
       if (maplist.size() > 1)
-        cerr << "obrotate: Found " << maplist.size() << " matches. Only last one will be rotated." << endl;
+        cerr << "obrotate: Found " << maplist.size()
+             << " matches. Only last one will be rotated." << endl;
 
       // look at all the mapping atom but save only the last one.
       for (m = maplist.begin(); m != maplist.end(); ++m) {
-        a1 = mol.GetAtom( (*m)[ smartor[0] - 1] );
-        a2 = mol.GetAtom( (*m)[ smartor[1] - 1] );
-        a3 = mol.GetAtom( (*m)[ smartor[2] - 1] );
-        a4 = mol.GetAtom( (*m)[ smartor[3] - 1] );
+        a1 = mol.GetAtom((*m)[smartor[0] - 1]);
+        a2 = mol.GetAtom((*m)[smartor[1] - 1]);
+        a3 = mol.GetAtom((*m)[smartor[2] - 1]);
+        a4 = mol.GetAtom((*m)[smartor[3] - 1]);
         if (changeAll)
           mol.SetTorsion(a1, a2, a3, a4, angle * DEG_TO_RAD);
       }
 
-      if ( !a2->IsConnected(a3) ) {
-        cerr << "obrotate: The atoms of the rotating bond must be bonded." << endl;
+      if (!a2->IsConnected(a3)) {
+        cerr << "obrotate: The atoms of the rotating bond must be bonded."
+             << endl;
         exit(-1);
       }
 
@@ -183,13 +188,12 @@ int main(int argc,char **argv)
       cerr << "obrotate: Found 0 matches for the SMARTS pattern." << endl;
       exit(-1);
     }
-    //NF      cout << mol;
-    conv.Write(&mol,&cout); //NF
+    // NF      cout << mol;
+    conv.Write(&mol, &cout); // NF
   }
 
-  return(0);
+  return (0);
 }
-
 
 /* obrotate man page*/
 /** \page obrotate batch-rotate dihedral angles matching SMARTS patterns
@@ -197,7 +201,8 @@ int main(int argc,char **argv)
 * \n
 * \par SYNOPSIS
 *
-* \b obrotate '<SMARTS-pattern>' \<filename\> \<atom1\> \<atom2\> \<atom3\> \<atom4\> \<angle\>
+* \b obrotate '<SMARTS-pattern>' \<filename\> \<atom1\> \<atom2\> \<atom3\>
+\<atom4\> \<angle\>
 *
 * \par DESCRIPTION
 *
@@ -238,7 +243,8 @@ int main(int argc,char **argv)
 *
 * The obrotate program was contributed by \b Fabien \b Fontaine.
 *
-* Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b Morley and \b Michael \b Banck.
+* Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b
+Morley and \b Michael \b Banck.
 *
 * For more contributors to Open Babel, see http://openbabel.org/THANKS.shtml
 *
@@ -255,5 +261,6 @@ int main(int argc,char **argv)
 *
 * \par SEE ALSO
 *   The web pages for Open Babel can be found at: http://openbabel.org/ \n
-*   A guide for constructing SMARTS patterns can be found at: http://www.daylight.com/dayhtml/doc/theory/theory.smarts.html
+*   A guide for constructing SMARTS patterns can be found at:
+http://www.daylight.com/dayhtml/doc/theory/theory.smarts.html
 **/

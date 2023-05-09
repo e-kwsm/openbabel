@@ -22,53 +22,50 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
-#include <vector>
+#include <fstream>
 #include <sstream>
 #include <string>
-#include <fstream>
+#include <vector>
 
-namespace OpenBabel
-{
-  // Utility function prototypes
-  OBERROR bool tokenize(std::vector<std::string>&, const char *buf, const char *delimstr=" \t\n\r");
-  OBERROR bool tokenize(std::vector<std::string>&, std::string&, const char *delimstr=" \t\n\r", int limit=-1);
-  //! Remove leading and trailing whitespace from a string (docs in tokenst.cpp)
-  OBERROR std::string& Trim(std::string& txt);
+namespace OpenBabel {
+// Utility function prototypes
+OBERROR bool tokenize(std::vector<std::string> &, const char *buf,
+                      const char *delimstr = " \t\n\r");
+OBERROR bool tokenize(std::vector<std::string> &, std::string &,
+                      const char *delimstr = " \t\n\r", int limit = -1);
+//! Remove leading and trailing whitespace from a string (docs in tokenst.cpp)
+OBERROR std::string &Trim(std::string &txt);
 
-  // \return a string representation of a variable
-  template<typename T>
-  std::string toString(T val)
-  {
-    std::ostringstream s;
-    s << val;
-    return s.str();
-  }
+// \return a string representation of a variable
+template <typename T> std::string toString(T val) {
+  std::ostringstream s;
+  s << val;
+  return s.str();
+}
 
-  //!Functor for deleting containers of pointers. Scott Meyers, Effective STL, Item 7
-  struct DeleteObject
-  {
-    template<typename T>
-    void operator()(const T* ptr)const { delete ptr; }
-  };
+//! Functor for deleting containers of pointers. Scott Meyers, Effective STL,
+//! Item 7
+struct DeleteObject {
+  template <typename T> void operator()(const T *ptr) const { delete ptr; }
+};
 
-  //!Read and discard all characters from input stream up to, and including, a string
-  OBERROR std::istream& ignore(std::istream& ifs, const std::string& txt);
+//! Read and discard all characters from input stream up to, and including, a
+//! string
+OBERROR std::istream &ignore(std::istream &ifs, const std::string &txt);
 
-  //! Opens a datafile in a directory where OpenBabel expects to find it.
-  // full documentation in tokenst.cpp
-  OBERROR std::string OpenDatafile(std::ifstream& fs,
-                                 const std::string& filename,
-                                 const std::string& envvar = "BABEL_DATADIR");
+//! Opens a datafile in a directory where OpenBabel expects to find it.
+// full documentation in tokenst.cpp
+OBERROR std::string OpenDatafile(std::ifstream &fs, const std::string &filename,
+                                 const std::string &envvar = "BABEL_DATADIR");
 
-  // Used by other code for reading files
+// Used by other code for reading files
 #ifdef WIN32
-  #define FILE_SEP_CHAR "\\"
+#define FILE_SEP_CHAR "\\"
 #else
 #define FILE_SEP_CHAR "/"
 #endif
 
-
-}//namespace
+} // namespace OpenBabel
 #endif
 
 //! \file tokenst.h

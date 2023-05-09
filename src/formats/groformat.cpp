@@ -12,32 +12,28 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
+#include <openbabel/mol.h>
 #include <openbabel/obiter.h>
+#include <openbabel/obmolecformat.h>
 
-
-#include <sstream>
 #include <iomanip>
+#include <sstream>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class GROFormat : public OBMoleculeFormat
-{
+class GROFormat : public OBMoleculeFormat {
 public:
-  //Register this format type ID in the constructor
-  GROFormat()
-  {
+  // Register this format type ID in the constructor
+  GROFormat() {
     /* GRO is the file extension and is case insensitive. A MIME type can be
        added as an optional third parameter.
        Multiple file extensions can be registered by adding extra statements.*/
-    OBConversion::RegisterFormat("gro",this);
+    OBConversion::RegisterFormat("gro", this);
 
     /* If there are any format specific options they should be registered here
        so that the commandline interface works properly.
@@ -65,7 +61,6 @@ public:
     OBConversion::RegisterOptionParam("f", this, 1);
     OBConversion::RegisterOptionParam("n", this);
     OBConversion::RegisterOptionParam("s", this, 0, OBConversion::INOPTIONS);
-
   }
 
   /* The first line of the description should be a brief identifier, <40 chars,
@@ -82,43 +77,42 @@ public:
      Finish the options with a blank line as shown, if there are more than one
      group of options, or if there are further comments after them.
   */
-  const char* Description() override  // required
+  const char *Description() override // required
   {
-    return
-    "GRO format\n"
-    "This is GRO file format as used in Gromacs.\n"
-    "Right now there is only limited support for element perception. It works "
-    "for \nelements with one letter symbols if the atomtype starts with the "
-    "same letter.\n\n"
+    return "GRO format\n"
+           "This is GRO file format as used in Gromacs.\n"
+           "Right now there is only limited support for element perception. It "
+           "works "
+           "for \nelements with one letter symbols if the atomtype starts with "
+           "the "
+           "same letter.\n\n"
 
-    "Read Options e.g. -as\n"
-    " s  Consider single bonds only\n"
-    " b  Disable bonding entierly\n"
-    ;
+           "Read Options e.g. -as\n"
+           " s  Consider single bonds only\n"
+           " b  Disable bonding entierly\n";
   }
 
-  //Optional URL where the file format is specified
-  const char* SpecificationURL() override
-  {
-    return "http://manual.gromacs.org/documentation/current/reference-manual/file-formats.html#gro";
+  // Optional URL where the file format is specified
+  const char *SpecificationURL() override {
+    return "http://manual.gromacs.org/documentation/current/reference-manual/"
+           "file-formats.html#gro";
   }
 
   /* This optional function is for formats which can contain more than one
      molecule. It is used to quickly position the input stream after the nth
      molecule without requiring to convert and discard all the n molecules.
      See obconversion.cpp for details.*/
-  int SkipObjects(int n, OBConversion* pConv) override
-  {
+  int SkipObjects(int n, OBConversion *pConv) override {
     string line = "";
     int natoms = 0;
     int nlines = 0;
 
     if (n == 0)
       n++;
-    istream& ifs = *pConv->GetInStream();
+    istream &ifs = *pConv->GetInStream();
     getline(ifs, line);
     ifs >> natoms;
-    nlines = (natoms+3)*n;
+    nlines = (natoms + 3) * n;
     while (ifs && --nlines) {
       getline(ifs, line);
     }
@@ -128,22 +122,21 @@ public:
 
   ////////////////////////////////////////////////////
   /// Declarations for the "API" interface functions. Definitions are below
-  bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
-  bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override;
+  bool WriteMolecule(OBBase *pOb, OBConversion *pConv) override;
 };
-  ////////////////////////////////////////////////////
-//Make an instance of the format class
+////////////////////////////////////////////////////
+// Make an instance of the format class
 GROFormat theGROFormat;
 
 /////////////////////////////////////////////////////////////////
 
-bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
-{
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+bool GROFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr)
-      return false;
+    return false;
 
-  istream& ifs = *pConv->GetInStream();
+  istream &ifs = *pConv->GetInStream();
 
   pmol->BeginModify();
 
@@ -155,21 +148,21 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   int natoms = 0;
   string title = "";
-  long int resid = 0; // 5
-  string resname = ""; //5
-  string atomtype = ""; //5
-  //long int atomid = 0; //5
-  double x = 0.0; // 8.3
-  double y = 0.0; // 8.3
-  double z = 0.0; // 8.3
+  long int resid = 0;   // 5
+  string resname = "";  // 5
+  string atomtype = ""; // 5
+  // long int atomid = 0; //5
+  double x = 0.0;  // 8.3
+  double y = 0.0;  // 8.3
+  double z = 0.0;  // 8.3
   double vx = 0.0; // 8.4
   double vy = 0.0; // 8.4
   double vz = 0.0; // 8.4
   string tempstr = "";
   long int residx = 0;
-  OBAtom* atom;
-  OBResidue* res;
-  OBVectorData* velocity;
+  OBAtom *atom;
+  OBResidue *res;
+  OBVectorData *velocity;
 
   if (!ifs || ifs.peek() == EOF) {
     return false; // Trying to read past end of the file
@@ -210,12 +203,13 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   pmol->ReserveAtoms(natoms);
 
   // Read all atom records
-  for (int i=1; i<=natoms; i++) {
-    if (!ifs.getline(buffer,BUFF_SIZE)) {
+  for (int i = 1; i <= natoms; i++) {
+    if (!ifs.getline(buffer, BUFF_SIZE)) {
       errorMsg << "Problems reading a GRO file: "
-               << "Could not read line #" << i+2 << ", file error." << endl
+               << "Could not read line #" << i + 2 << ", file error." << endl
                << " According to the second line, there should be " << natoms
-               << " atoms, and therefore " << natoms+3 << " lines in the file.";
+               << " atoms, and therefore " << natoms + 3
+               << " lines in the file.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false;
     }
@@ -223,38 +217,38 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     line = buffer;
 
     // Get atom
-    atom  = pmol->NewAtom();
+    atom = pmol->NewAtom();
 
-    tempstr.assign(line,0,5);
+    tempstr.assign(line, 0, 5);
     stringstream(tempstr) >> resid;
 
-    resname.assign(line,5,5);
+    resname.assign(line, 5, 5);
     Trim(resname);
 
-    atomtype.assign(line,10,5);
+    atomtype.assign(line, 10, 5);
     Trim(atomtype);
 
     // Not used, OB assigns its own indizes
-    //tempstr.assign(line,15,5);
-    //stringstream(tempstr) >> atomid;
+    // tempstr.assign(line,15,5);
+    // stringstream(tempstr) >> atomid;
 
-    tempstr.assign(line,20,8);
+    tempstr.assign(line, 20, 8);
     stringstream(tempstr) >> x;
 
-    tempstr.assign(line,28,8);
+    tempstr.assign(line, 28, 8);
     stringstream(tempstr) >> y;
 
-    tempstr.assign(line,36,8);
+    tempstr.assign(line, 36, 8);
     stringstream(tempstr) >> z;
 
     if (line.size() > 44) {
-      tempstr.assign(line,44,8);
+      tempstr.assign(line, 44, 8);
       stringstream(tempstr) >> vx;
 
-      tempstr.assign(line,52,8);
+      tempstr.assign(line, 52, 8);
       stringstream(tempstr) >> vy;
 
-      tempstr.assign(line,60,8);
+      tempstr.assign(line, 60, 8);
       stringstream(tempstr) >> vz;
 
       velocity = new OBVectorData();
@@ -271,7 +265,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     // Set coordinates of the atom, multiply by 10 to convert from nm to
     // angstrom
-    atom->SetVector(x*10, y*10, z*10);
+    atom->SetVector(x * 10, y * 10, z * 10);
 
     if (resid == residx) {
       // Add atom to an existing residue
@@ -298,34 +292,34 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     // TODO: Make element perception optional and improve it
     string element = "";
     if (atomtype[0] == 'C') {
-      if (atomtype.find_first_of("aloru",1) == 1) {
-        element.assign(atomtype,0,2);
+      if (atomtype.find_first_of("aloru", 1) == 1) {
+        element.assign(atomtype, 0, 2);
       } else {
-        element.assign(atomtype,0,1);
+        element.assign(atomtype, 0, 1);
       }
     } else if (atomtype[0] == 'N') {
-      if (atomtype.find_first_of("abei",1) == 1) {
-        element.assign(atomtype,0,2);
+      if (atomtype.find_first_of("abei", 1) == 1) {
+        element.assign(atomtype, 0, 2);
       } else {
-        element.assign(atomtype,0,1);
+        element.assign(atomtype, 0, 1);
       }
     } else {
-      element.assign(atomtype,0,1);
+      element.assign(atomtype, 0, 1);
     }
     atom->SetAtomicNum(OBElements::GetAtomicNum(element.data()));
   }
 
   // Get periodic box
-  if (!ifs.getline(buffer,BUFF_SIZE)) {
+  if (!ifs.getline(buffer, BUFF_SIZE)) {
     errorMsg << "Problems reading a GRO file: "
              << "Could not read box vectors!" << endl;
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     return false;
   }
 
-  double v1x=0.0, v2y=0.0, v3z=0.0;
-  double v1y=0.0, v1z=0.0, v2x=0.0;
-  double v2z=0.0, v3x=0.0, v3y=0.0;
+  double v1x = 0.0, v2y = 0.0, v3z = 0.0;
+  double v1y = 0.0, v1z = 0.0, v2x = 0.0;
+  double v2z = 0.0, v3x = 0.0, v3y = 0.0;
 
   stringstream ss(buffer);
   if (!ss) {
@@ -341,17 +335,16 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     ss >> v2z >> v3x >> v3y;
   }
 
-  if (!(v1x == 0.0 && v2y == 0.0 && v3z == 0.0 &&
-        v1y == 0.0 && v1z == 0.0 && v2x == 0.0 &&
-        v2z == 0.0 && v3x == 0.0 && v3y == 0.0)) {
-  // Set box vectors and convert nm to angstroms
-  const vector3 v1(v1x*10,v1y*10,v1z*10);
-  const vector3 v2(v2x*10,v2y*10,v2z*10);
-  const vector3 v3(v3x*10,v3y*10,v3z*10);
+  if (!(v1x == 0.0 && v2y == 0.0 && v3z == 0.0 && v1y == 0.0 && v1z == 0.0 &&
+        v2x == 0.0 && v2z == 0.0 && v3x == 0.0 && v3y == 0.0)) {
+    // Set box vectors and convert nm to angstroms
+    const vector3 v1(v1x * 10, v1y * 10, v1z * 10);
+    const vector3 v2(v2x * 10, v2y * 10, v2z * 10);
+    const vector3 v3(v3x * 10, v3y * 10, v3z * 10);
 
-  OBUnitCell* cell = new OBUnitCell();
-  cell->SetData(v1, v2, v3);
-  pmol->SetData(cell);
+    OBUnitCell *cell = new OBUnitCell();
+    cell->SetData(v1, v2, v3);
+    pmol->SetData(cell);
   }
 
   pmol->EndModify();
@@ -379,19 +372,18 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
 ////////////////////////////////////////////////////////////////
 
-bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+bool GROFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   if (pmol == nullptr)
-      return false; // Stop converting
+    return false; // Stop converting
 
-  ostream& ofs = *pConv->GetOutStream();
+  ostream &ofs = *pConv->GetOutStream();
 
   /** Write the representation of the OBMol molecule to the output stream **/
 
-  OBVectorData* vector;
+  OBVectorData *vector;
   vector3 v;
-  OBResidue* res;
+  OBResidue *res;
   string tempstr = "";
   long int atIdx = 0;
   long int resIdx = 0;
@@ -405,40 +397,37 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     resIdx = res->GetNum();
     // Check if residue index excedes the field width and should be wrapped
     if (resIdx > 99999) {
-      ofs << setw(5) << resIdx - 100000*int(resIdx/100000);
+      ofs << setw(5) << resIdx - 100000 * int(resIdx / 100000);
     } else {
       ofs << setw(5) << res->GetNum();
     }
-    ofs << setw(5) << left  << res->GetName();
+    ofs << setw(5) << left << res->GetName();
     // Remove whitespace from AtomID left by other formats
     tempstr = res->GetAtomID(&(*atom));
     ofs << setw(5) << right << Trim(tempstr);
     atIdx = atom->GetIdx();
     // Check if atom index excedes the field width and should be wrapped
     if (atIdx > 99999) {
-      ofs << setw(5) << atIdx - 100000*int(atIdx/100000);
+      ofs << setw(5) << atIdx - 100000 * int(atIdx / 100000);
     } else {
       ofs << setw(5) << atIdx;
     }
     ofs.precision(3);
     // OpenBabel uses angstrom, so converting to nm by dividing by 10
-    ofs << setw(8) << atom->x()/10
-        << setw(8) << atom->y()/10
-        << setw(8) << atom->z()/10;
+    ofs << setw(8) << atom->x() / 10 << setw(8) << atom->y() / 10 << setw(8)
+        << atom->z() / 10;
     if (atom->GetData("Velocity")) {
-      vector = (OBVectorData*) atom->GetData("Velocity");
+      vector = (OBVectorData *)atom->GetData("Velocity");
       v = vector->GetData();
       ofs.precision(4);
-      ofs << setw(8) << v.x()
-          << setw(8) << v.y()
-          << setw(8) << v.z();
+      ofs << setw(8) << v.x() << setw(8) << v.y() << setw(8) << v.z();
     }
     ofs << endl;
   }
 
   // On the last line of the file goes periodic box specification
   if (pmol->HasData(OBGenericDataType::UnitCell)) {
-    OBUnitCell* cell = (OBUnitCell*) pmol->GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *cell = (OBUnitCell *)pmol->GetData(OBGenericDataType::UnitCell);
     matrix3x3 m = cell->GetCellMatrix();
     vector3 v1 = m.GetRow(0);
     vector3 v2 = m.GetRow(1);
@@ -446,21 +435,16 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     // Gromacs itself uses precision of 5, so it should be fine
     ofs.precision(5);
-    ofs << "   " << v1.x()/10
-        << "   " << v2.y()/10
-        << "   " << v3.z()/10;
+    ofs << "   " << v1.x() / 10 << "   " << v2.y() / 10 << "   " << v3.z() / 10;
 
     // If there is any non-zero value among others, then write them all
     const double TRESHOLD = 1.0e-8;
     if (fabs(v1.y()) > TRESHOLD || fabs(v1.z()) > TRESHOLD ||
         fabs(v2.x()) > TRESHOLD || fabs(v2.z()) > TRESHOLD ||
         fabs(v3.x()) > TRESHOLD || fabs(v3.y()) > TRESHOLD) {
-      ofs << "   " << v1.y()/10
-          << "   " << v1.z()/10
-          << "   " << v2.x()/10
-          << "   " << v2.z()/10
-          << "   " << v3.x()/10
-          << "   " << v3.y()/10;
+      ofs << "   " << v1.y() / 10 << "   " << v1.z() / 10 << "   "
+          << v2.x() / 10 << "   " << v2.z() / 10 << "   " << v3.x() / 10
+          << "   " << v3.y() / 10;
     }
   } else {
     // Set to zero if there is no box data in the molecule
@@ -471,5 +455,4 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   return true;
 }
 
-} //namespace OpenBabel
-
+} // namespace OpenBabel

@@ -23,55 +23,56 @@ GNU General Public License for more details.
 #ifndef OB_GROUPCONTRIB_H
 #define OB_GROUPCONTRIB_H
 
-#include <openbabel/parsmart.h>
 #include <openbabel/descriptor.h>
+#include <openbabel/parsmart.h>
 
 // This macro is used in DLL builds. If it has not
 // been set in babelconfig.h, define it as nothing.
 #ifndef OBDESC
-	#define OBDESC
+#define OBDESC
 #endif
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-  /** \class OBGroupContrib groupcontrib.h <openbabel/groupcontrib.h>
-      \brief Handle group contribution algorithms.
+/** \class OBGroupContrib groupcontrib.h <openbabel/groupcontrib.h>
+    \brief Handle group contribution algorithms.
 
-      This is the base class for calculations that use the JOELib2 contribution
-      algorithm.
-    */
-class OBDESC OBGroupContrib : public OBDescriptor
-{
+    This is the base class for calculations that use the JOELib2 contribution
+    algorithm.
+  */
+class OBDESC OBGroupContrib : public OBDescriptor {
 public:
-
   /*! Predict the logP, MR, TPSA (each instance of OBGroupContrib
    *  uses different parameters loaded from its own datafile) for
    *  molecule mol using the group contributions algorithm from JOELib2.
    */
 
   //! constructor. Each instance provides an ID and a datafile.
-  OBGroupContrib(const char* ID, const char* filename, const char* descr)
-    : OBDescriptor(ID, false), _filename(filename), _descr(descr), _debug(false){}
+  OBGroupContrib(const char *ID, const char *filename, const char *descr)
+      : OBDescriptor(ID, false), _filename(filename), _descr(descr),
+        _debug(false) {}
 
   virtual ~OBGroupContrib();
 
-  const char* Description() override;
+  const char *Description() override;
 
-  virtual OBGroupContrib* MakeInstance(const std::vector<std::string>& textlines) override
-  {
-    return new OBGroupContrib(textlines[1].c_str(),textlines[2].c_str(),textlines[3].c_str());
+  virtual OBGroupContrib *
+  MakeInstance(const std::vector<std::string> &textlines) override {
+    return new OBGroupContrib(textlines[1].c_str(), textlines[2].c_str(),
+                              textlines[3].c_str());
   }
 
-  double Predict(OBBase* pOb, std::string* param=nullptr) override;
+  double Predict(OBBase *pOb, std::string *param = nullptr) override;
 
- private:
+private:
   bool ParseFile();
 
-  const char* _filename;
-  const char* _descr;
-  std::vector<std::pair<OBSmartsPattern*, double> > _contribsHeavy; //! heavy atom contributions
-  std::vector<std::pair<OBSmartsPattern*, double> > _contribsHydrogen; //!  hydrogen contributions
+  const char *_filename;
+  const char *_descr;
+  std::vector<std::pair<OBSmartsPattern *, double>>
+      _contribsHeavy; //! heavy atom contributions
+  std::vector<std::pair<OBSmartsPattern *, double>>
+      _contribsHydrogen; //!  hydrogen contributions
   bool _debug;
 };
 

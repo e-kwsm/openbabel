@@ -1,5 +1,6 @@
 /**********************************************************************
-partialcharges.cpp - The option --partialcharges (type) adds charges using different models
+partialcharges.cpp - The option --partialcharges (type) adds charges using
+different models
 
 Copyright(C) 2010 by Geoffrey R. Hutchison
 
@@ -17,71 +18,71 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
-#include<openbabel/op.h>
-#include<openbabel/mol.h>
 #include <openbabel/atom.h>
-#include <openbabel/obiter.h>
-#include<openbabel/chargemodel.h>
+#include <openbabel/chargemodel.h>
+#include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
+#include <openbabel/obiter.h>
+#include <openbabel/op.h>
 
 #include <cstring>
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpPartialCharge : public OBOp
-{
+class OpPartialCharge : public OBOp {
 public:
-  OpPartialCharge(const char* ID) : OBOp(ID, false) {
+  OpPartialCharge(const char *ID) : OBOp(ID, false) {
     OBConversion::RegisterOptionParam(ID, nullptr, 1, OBConversion::GENOPTIONS);
   }
 
-  const char* Description() override { return "<method> Calculate partial charges by specified method"; }
+  const char *Description() override {
+    return "<method> Calculate partial charges by specified method";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
-      OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 
   OBChargeModel *_pChargeModel;
 };
 
 /////////////////////////////////////////////////////////////////
-OpPartialCharge theOpPartialCharge("partialcharge"); //Global instance
+OpPartialCharge theOpPartialCharge("partialcharge"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpPartialCharge::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
-{
+bool OpPartialCharge::Do(OBBase *pOb, const char *OptionText, OpMap *pmap,
+                         OBConversion *pConv) {
   char *arg = nullptr;
-  const char *tok1= nullptr;
-  const char *tok2= nullptr;
+  const char *tok1 = nullptr;
+  const char *tok2 = nullptr;
   OpMap::const_iterator iter;
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   bool print = false;
 
-  if(!pmol)
+  if (!pmol)
     return false;
 
   iter = pmap->find("print");
-  if(iter!=pmap->end())
-    print=true;
+  if (iter != pmap->end())
+    print = true;
 
-	if( OptionText ) {
-		arg = strdup( OptionText );
-		tok1 = strtok( arg, ":" );
-		tok2 = strtok( nullptr, "\0" );
-	}
-	else {
-		tok1 = OptionText;
-	}
+  if (OptionText) {
+    arg = strdup(OptionText);
+    tok1 = strtok(arg, ":");
+    tok2 = strtok(nullptr, "\0");
+  } else {
+    tok1 = OptionText;
+  }
 
   _pChargeModel = OBChargeModel::FindType(tok1);
 
-
-  if(!_pChargeModel)
-    {
-      obErrorLog.ThrowError(__FUNCTION__,
-                            std::string("Unknown charge model ") + tok1, obError, onceOnly);
-			return false;
-    }
+  if (!_pChargeModel) {
+    obErrorLog.ThrowError(__FUNCTION__,
+                          std::string("Unknown charge model ") + tok1, obError,
+                          onceOnly);
+    return false;
+  }
 
   bool success = _pChargeModel->ComputeCharges(*pmol, tok2);
 
@@ -95,4 +96,4 @@ bool OpPartialCharge::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBCon
 
   return success;
 }
-}//namespace
+} // namespace OpenBabel

@@ -2,14 +2,14 @@
 format.cpp - Unit tests for Open Babel OBFormat class
 
 Copyright (C) 2005-2006 Geoffrey R. Hutchison
- 
+
 This file is part of the Open Babel project.
 For more information, see <http://openbabel.org/>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation version 2 of the License.
- 
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -21,9 +21,9 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
+#include <cstdlib>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
-#include <cstdlib>
 #include <openbabel/obconversion.h>
 
 #include <cstdio>
@@ -32,25 +32,24 @@ GNU General Public License for more details.
 using namespace std;
 using namespace OpenBabel;
 
-int format(int argc, char* argv[])
-{
+int format(int argc, char *argv[]) {
   int defaultchoice = 1;
-  
+
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
   cout << "# Unit tests for OBFormat \n";
 
@@ -75,6 +74,5 @@ int format(int argc, char* argv[])
   else
     cout << "not ok 4\n";
 
-  return(0);
+  return (0);
 }
-

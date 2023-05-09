@@ -22,37 +22,34 @@ This code calls C++ routines in RDKit which are
 
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
 #include <RDKitConv.h>
+#include <openbabel/babelconfig.h>
 
 using OpenBabel::OBMolAtomIter;
 using OpenBabel::OBMolBondIter;
 
-RDKit::RWMol OBMolToRWMol(OpenBabel::OBMol* pOBMol);
+RDKit::RWMol OBMolToRWMol(OpenBabel::OBMol *pOBMol);
 
-RDKit::RWMol OBMolToRWMol(OpenBabel::OBMol* pOBMol)
-{
+RDKit::RWMol OBMolToRWMol(OpenBabel::OBMol *pOBMol) {
   RDKit::RWMol RDMol;
 
-  FOR_ATOMS_OF_MOL(a,pOBMol)
-  {
+  FOR_ATOMS_OF_MOL(a, pOBMol) {
     RDMol.addAtom();
-    RDKit::Atom* pRDAtom = RDMol.getActiveAtom();
+    RDKit::Atom *pRDAtom = RDMol.getActiveAtom();
     pRDAtom->setAtomicNum(a->GetAtomicNum());
     pRDAtom->setFormalCharge(a->GetFormalCharge());
   }
-  FOR_BONDS_OF_MOL(b,pOBMol)
-  {
-    //bond order >3 needs doing properly
-    //assume RDKit atom indices start at 0
-    RDMol.addBond(b->GetBeginAtomIdx()-1, b->GetEndAtomIdx()-1, (RDKit::Bond::BondType)b->GetBO());
+  FOR_BONDS_OF_MOL(b, pOBMol) {
+    // bond order >3 needs doing properly
+    // assume RDKit atom indices start at 0
+    RDMol.addBond(b->GetBeginAtomIdx() - 1, b->GetEndAtomIdx() - 1,
+                  (RDKit::Bond::BondType)b->GetBO());
   }
   std::string msg("RWMol made from ");
-  if(pOBMol->GetTitle())
+  if (pOBMol->GetTitle())
     msg += pOBMol->GetTitle();
   else
     msg += "OBMol";
   OpenBabel::obErrorLog.ThrowError(__FUNCTION__, msg, OpenBabel::obInfo);
   return RDMol;
 }
-

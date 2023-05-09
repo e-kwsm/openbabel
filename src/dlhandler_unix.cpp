@@ -18,51 +18,50 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #ifdef __MINGW32__
- #include <windows.h>
+#include <windows.h>
 #else
- #include <dlfcn.h>
+#include <dlfcn.h>
 #endif
 
-#include <openbabel/dlhandler.h>
 #include <openbabel/babelconfig.h>
+#include <openbabel/dlhandler.h>
 #include <openbabel/oberror.h>
 
-#include <unistd.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
 #include <dirent.h>
 #include <sys/stat.h>
-#include <cstring>
-#include <cstdlib>
-#include <cstdio>
+#include <unistd.h>
 
 #include <iostream>
 
 using namespace std;
 
 namespace OpenBabel {
-  OBAPI bool tokenize(vector<string> &, const char *, const char *);
+OBAPI bool tokenize(vector<string> &, const char *, const char *);
 }
 
 #ifndef BUFF_SIZE
 #define BUFF_SIZE 32768
 #endif
 
-//Globals for scandir()
+// Globals for scandir()
 
-int matchFiles (SCANDIR_CONST struct dirent *entry_p)
-{
-	string filename(entry_p->d_name);
-	string::size_type extPos = filename.rfind(DLHandler::getFormatFilePattern());
+int matchFiles(SCANDIR_CONST struct dirent *entry_p) {
+  string filename(entry_p->d_name);
+  string::size_type extPos = filename.rfind(DLHandler::getFormatFilePattern());
 
-	if(extPos!=string::npos && filename.substr(extPos) == DLHandler::getFormatFilePattern())
-		return true;
+  if (extPos != string::npos &&
+      filename.substr(extPos) == DLHandler::getFormatFilePattern())
+    return true;
 
-	return false;
+  return false;
 }
 
-bool DLHandler::getConvDirectory(string& convPath)
-{
-  //Need to provide the directory from which this shared library was loaded.
-  //This is the default directory for format shared library files.
+bool DLHandler::getConvDirectory(string &convPath) {
+  // Need to provide the directory from which this shared library was loaded.
+  // This is the default directory for format shared library files.
 
   string testPath;
   testPath += OB_MODULE_PATH; // defined in src/config.h.cmake -> babelconfig.h
@@ -71,34 +70,30 @@ bool DLHandler::getConvDirectory(string& convPath)
   return true;
 }
 
-int DLHandler::findFiles (std::vector <std::string>& file_list,
-                          const std::string& pattern,
-                          const std::string& path)
-{
+int DLHandler::findFiles(std::vector<std::string> &file_list,
+                         const std::string &pattern, const std::string &path) {
   vector<string> paths, vs;
   char buffer[BUFF_SIZE];
 
   if (!path.empty())
     paths.push_back(path);
 
-  if (getenv("BABEL_LIBDIR") != nullptr)
-    {
-      // environment variable should override built-in path
-      paths.clear();
+  if (getenv("BABEL_LIBDIR") != nullptr) {
+    // environment variable should override built-in path
+    paths.clear();
 
-      strncpy(buffer,getenv("BABEL_LIBDIR"), BUFF_SIZE - 1);
-      // add a trailing NULL just in case
-      buffer[BUFF_SIZE - 1] = '\0';
+    strncpy(buffer, getenv("BABEL_LIBDIR"), BUFF_SIZE - 1);
+    // add a trailing NULL just in case
+    buffer[BUFF_SIZE - 1] = '\0';
 
-      OpenBabel::tokenize(vs, buffer, "\r\n:");
+    OpenBabel::tokenize(vs, buffer, "\r\n:");
 
-      if (!vs.empty())
-        {
-          for (unsigned int i = 0; i < vs.size(); ++i) {
-            paths.push_back(vs[i]);
-          }
-        }
+    if (!vs.empty()) {
+      for (unsigned int i = 0; i < vs.size(); ++i) {
+        paths.push_back(vs[i]);
+      }
     }
+  }
 
   if (paths.empty())
     paths.push_back("./"); // defaults to current directory
@@ -111,77 +106,65 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
   struct dirent *entry;
 
   string currentPath;
-  for (unsigned int i = 0; i < paths.size(); ++i)
-    {
-      currentPath=paths[i];
+  for (unsigned int i = 0; i < paths.size(); ++i) {
+    currentPath = paths[i];
 
-      if ((dp = opendir(currentPath.c_str())) == nullptr)
-        continue; // no big deal, this path causes an error
-      else
-        {
-          while((entry = readdir(dp)) != nullptr)
-            {
-              if (matchFiles(entry) != 0)
-                file_list.push_back(currentPath + getSeparator() + (entry)->d_name);
-            }
-          closedir(dp); // calls free(dp) -- no memory leak
-        }
+    if ((dp = opendir(currentPath.c_str())) == nullptr)
+      continue; // no big deal, this path causes an error
+    else {
+      while ((entry = readdir(dp)) != nullptr) {
+        if (matchFiles(entry) != 0)
+          file_list.push_back(currentPath + getSeparator() + (entry)->d_name);
+      }
+      closedir(dp); // calls free(dp) -- no memory leak
     }
+  }
 
   if (file_list.empty())
     return 0; // error, didn't find any files at all
   return file_list.size();
 }
 
-int DLHandler::findFiles (std::vector<std::string>& file_list,
-                          const std::string &filename)
-{
-  if(filename.find_first_of("*?")==string::npos)
-    {
-      //no wildcard in filename
-      file_list.push_back(filename);
-      return -1;
-    }
+int DLHandler::findFiles(std::vector<std::string> &file_list,
+                         const std::string &filename) {
+  if (filename.find_first_of("*?") == string::npos) {
+    // no wildcard in filename
+    file_list.push_back(filename);
+    return -1;
+  }
   size_t pos = filename.find_last_of("\\/");
-  if(pos!=string::npos)
-    return findFiles(file_list,filename.substr(pos+1), filename.substr(0,pos+1));
+  if (pos != string::npos)
+    return findFiles(file_list, filename.substr(pos + 1),
+                     filename.substr(0, pos + 1));
   else
-    return findFiles(file_list,filename, "");
+    return findFiles(file_list, filename, "");
 }
 
 #ifdef __MINGW32__
-bool DLHandler :: openLib(const string& lib_name)
-{
+bool DLHandler ::openLib(const string &lib_name) {
 
-    if(LoadLibrary(lib_name.c_str()))
-        return true;
+  if (LoadLibrary(lib_name.c_str()))
+    return true;
 
-    unsigned long err = GetLastError();
-    return false;
+  unsigned long err = GetLastError();
+  return false;
 }
 #else
-bool DLHandler::openLib(const string& lib_name)
-{
+bool DLHandler::openLib(const string &lib_name) {
   bool success = (dlopen(lib_name.c_str(), RTLD_LAZY | RTLD_GLOBAL) != nullptr);
   if (!success) {
     char buffer[BUFF_SIZE];
-    sprintf(buffer, "%s did not load properly.\n Error: %s",
-              lib_name.c_str(), dlerror());
+    sprintf(buffer, "%s did not load properly.\n Error: %s", lib_name.c_str(),
+            dlerror());
     OpenBabel::obErrorLog.ThrowError(__FUNCTION__, buffer, OpenBabel::obError);
   }
   return success;
 }
 #endif
 
-const char* DLHandler::getFormatFilePattern()
-{
-  return MODULE_EXTENSION;
-}
+const char *DLHandler::getFormatFilePattern() { return MODULE_EXTENSION; }
 
-char DLHandler::getSeparator()
-{
-  return '/';
-}
+char DLHandler::getSeparator() { return '/'; }
 
 //! \file dlhandler_unix.cpp
 //! \brief Dynamic loader for UNIX (handles file format shared obj.)

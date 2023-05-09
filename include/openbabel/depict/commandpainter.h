@@ -20,42 +20,41 @@ GNU General Public License for more details.
 
 #include <openbabel/depict/painter.h>
 
-namespace OpenBabel
-{
-  class CommandPainter : public OBPainter
-  {
-    public:
-      CommandPainter(std::ostream& ofs);
-      ~CommandPainter();
-      //! @name OBPainter methods
-      //@{
-      void NewCanvas(double width, double height);
-      bool IsGood() const;
-      void SetFontFamily(const std::string &fontFamily) {} // FIXME
-      void SetFontSize(int pointSize);
-      void SetFillColor(const OBColor &color);
-      void SetFillRadial(const OBColor &start, const OBColor &end);
-      void SetPenColor(const OBColor &color);
-      void SetPenWidth(double width);
-      double GetPenWidth();
-      void DrawLine(double x1, double y1, double x2, double y2, const std::vector<double> & dashes=std::vector<double>());
-      void DrawPolygon(const std::vector<std::pair<double,double> > &points);
-      void DrawCircle(double x, double y, double r);
-      void DrawBall(double x, double y, double r, double opacity = 1.0);
-      void DrawText(double x, double y, const std::string &text);
-      OBFontMetrics GetFontMetrics(const std::string &text);
-      //@}
+namespace OpenBabel {
+class CommandPainter : public OBPainter {
+public:
+  CommandPainter(std::ostream &ofs);
+  ~CommandPainter();
+  //! @name OBPainter methods
+  //@{
+  void NewCanvas(double width, double height);
+  bool IsGood() const;
+  void SetFontFamily(const std::string &fontFamily) {} // FIXME
+  void SetFontSize(int pointSize);
+  void SetFillColor(const OBColor &color);
+  void SetFillRadial(const OBColor &start, const OBColor &end);
+  void SetPenColor(const OBColor &color);
+  void SetPenWidth(double width);
+  double GetPenWidth();
+  void DrawLine(double x1, double y1, double x2, double y2,
+                const std::vector<double> &dashes = std::vector<double>());
+  void DrawPolygon(const std::vector<std::pair<double, double>> &points);
+  void DrawCircle(double x, double y, double r);
+  void DrawBall(double x, double y, double r, double opacity = 1.0);
+  void DrawText(double x, double y, const std::string &text);
+  OBFontMetrics GetFontMetrics(const std::string &text);
+  //@}
 
-      //! @name CommandPainter specific
-      //@{
-      //@}
+  //! @name CommandPainter specific
+  //@{
+  //@}
 
-    private:
-      std::ostream& m_ofs;
-      std::streamsize m_oldprec;
-      double m_pen_width;
-  };
+private:
+  std::ostream &m_ofs;
+  std::streamsize m_oldprec;
+  double m_pen_width;
+};
 
-}
+} // namespace OpenBabel
 
 #endif

@@ -14,31 +14,30 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
 #include <fstream>
+#include <openbabel/babelconfig.h>
 #include <string>
 
 // This macro is used in DLL builds. If it has not
 // been set in babelconfig.h, define it as nothing.
 #ifndef OBCOMMON
-  #define OBCOMMON
+#define OBCOMMON
 #endif
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-///Returns true if character is not one used in an InChI.
-bool isnic(char ch)
-{
-  //This set of characters could be extended
+/// Returns true if character is not one used in an InChI.
+bool isnic(char ch) {
+  // This set of characters could be extended
   static std::string nic("\"\'\\@<>!$%&{}[]");
-  return ch<0 || nic.find(ch)!=std::string::npos;
+  return ch < 0 || nic.find(ch) != std::string::npos;
 };
 
-/// @brief Reads an InChI (possibly split) from an input stream and returns it as unsplit text.
-/// The input stream is left after the end of the extracted InChI ready to look for the next one.
-std::string GetInChI(std::istream& is);
+/// @brief Reads an InChI (possibly split) from an input stream and returns it
+/// as unsplit text. The input stream is left after the end of the extracted
+/// InChI ready to look for the next one.
+std::string GetInChI(std::istream &is);
 
 /*!
 This function recovers a normal InChI from an input stream which
@@ -50,29 +49,35 @@ When this file (getinchi.cpp) is read, 15 InChIs will be extracted, e.g.
  obabel -iinchi getinchi.cpp -osmi
 
 Inside an InChI string ignore anything between < and >
-This means that an InChI string can be split up by inserting any number of <br /> elements:
-InChI=1/C18H25NO6S/c1-14-9-11-15(12-10-14)26(22,23)19(17(21)25-18(2,3)4)13<br />-7-6-8-16(20)24-5/h6,8-12H,7,13H2,1-5H3/b8-6-
+This means that an InChI string can be split up by inserting any number of <br
+/> elements:
+InChI=1/C18H25NO6S/c1-14-9-11-15(12-10-14)26(22,23)19(17(21)25-18(2,3)4)13<br
+/>-7-6-8-16(20)24-5/h6,8-12H,7,13H2,1-5H3/b8-6-
 
-Any whitespace after the > is also ignored, so that newline characters can be added:
+Any whitespace after the > is also ignored, so that newline characters can be
+added:
 InChI=1/C29H33NO4Si/c1-5-32-28(31)26-25(34-27(30-26)22-15-9-6-10-16-22)<br />
 21-33-35(29(2,3)4,23-17-11-7-12-18-23)24-19-13-8-14-20-24<br />
 /h6-20,25-26H,5,21H2,1-4H3/t25-,26-/m0/s1
 
 A second consecutive <...> element ends an unquoted InChI string:
 <p>
-<small>InChI=1/C47H58N2O10SSi/c1-10-56-43(51)47(36(32-41(50)55-9)30-31-49(44(52)59-45<br />
-(3,4)5)60(53,54)37-28-26-34(2)27-29-37)40<br />
-(58-42(48-47)35-20-14-11-15-21-35)33-57-61(46(6,7)8,38-22-16-12-17-23-38)39-24-<br />
-18-13-19-25-39/h11-29,36,40H,10,30-33H2,1-9H3<br />
+<small>InChI=1/C47H58N2O10SSi/c1-10-56-43(51)47(36(32-41(50)55-9)30-31-49(44(52)59-45<br
+/> (3,4)5)60(53,54)37-28-26-34(2)27-29-37)40<br />
+(58-42(48-47)35-20-14-11-15-21-35)33-57-61(46(6,7)8,38-22-16-12-17-23-38)39-24-<br
+/> 18-13-19-25-39/h11-29,36,40H,10,30-33H2,1-9H3<br />
 /t36-,40-,47-/m0/s1</small>
 </p>
 
-  Dmitrii Tchekhovskoi made a proposal for "InChI hyphenation" or "quoted InChI".
+  Dmitrii Tchekhovskoi made a proposal for "InChI hyphenation" or "quoted
+InChI".
   http://sourceforge.net/mailarchive/forum.php?thread_id=10200459&forum_id=45166
-  This proposal has not been followed up probably because InChKey was introduced.
+  This proposal has not been followed up probably because InChKey was
+introduced.
 
   However this function GetInChI() parses quoted InChIs of this form.
-  It also extends this proposal, allowing a wider range of corrupted InChIs to be accepted.
+  It also extends this proposal, allowing a wider range of corrupted InChIs to
+be accepted.
 
 The original proposal was essentially:
 - When an InChI string is enclosed by " quote characters,
@@ -153,24 +158,19 @@ H
 '
 */
 
-string GetInChI(istream& is)
-{
+string GetInChI(istream &is) {
   string prefix("InChI=");
   string result;
-  enum statetype {before_inchi, match_inchi, unquoted, quoted};
+  enum statetype { before_inchi, match_inchi, unquoted, quoted };
   statetype state = before_inchi;
-  char ch, lastch=0, qch=0;
+  char ch, lastch = 0, qch = 0;
   size_t split_pos = 0;
-  bool inelement=false, afterelement=false;
+  bool inelement = false, afterelement = false;
 
-  while((ch=is.get())!=EOF)
-  {
-    if(state==before_inchi)
-    {
-      if(ch>=0 && !isspace(ch))
-      {
-        if(ch==prefix[0])
-        {
+  while ((ch = is.get()) != EOF) {
+    if (state == before_inchi) {
+      if (ch >= 0 && !isspace(ch)) {
+        if (ch == prefix[0]) {
           result += ch;
           state = match_inchi;
           qch = lastch;
@@ -179,62 +179,50 @@ string GetInChI(istream& is)
       lastch = ch;
     }
 
-    else if(ch=='<')
-    {
+    else if (ch == '<') {
       // Ignore the content of any <...> elements
       // But a second consecutive  <...> element terminates an unquoted InChI
-      if(afterelement && state==unquoted)
-          return result;
-      inelement=true;
-    }
-    else if(inelement)
-    {
-      if(afterelement)
-      {
-        //Now  reading after a <...> inserted in the InChI string
-        //Neglect whitespace, but any other character reverts to normal InChI parsing
-        if(ch<0 || !isspace(ch))
-        {
+      if (afterelement && state == unquoted)
+        return result;
+      inelement = true;
+    } else if (inelement) {
+      if (afterelement) {
+        // Now  reading after a <...> inserted in the InChI string
+        // Neglect whitespace, but any other character reverts to normal InChI
+        // parsing
+        if (ch < 0 || !isspace(ch)) {
           is.unget();
-          afterelement=false;
-          inelement=false;
+          afterelement = false;
+          inelement = false;
         }
-      }
-      else
-      {
-        if(ch=='>')
-          afterelement=true; //look for whitespace after end of element
+      } else {
+        if (ch == '>')
+          afterelement = true; // look for whitespace after end of element
       }
     }
 
-    else if(ch>=0 && isspace(ch))
-    {
-      if(state==unquoted)
+    else if (ch >= 0 && isspace(ch)) {
+      if (state == unquoted)
         return result;
     }
 
-    else if(isnic(ch))
-    {
-      if(ch==qch && state!=match_inchi)
+    else if (isnic(ch)) {
+      if (ch == qch && state != match_inchi)
         return result;
-      if(split_pos!=0)
+      if (split_pos != 0)
         result.erase(split_pos);
       split_pos = result.size();
     }
 
-    else
-    {
+    else {
       result += ch;
-      if(state==match_inchi)
-      {
-        if(prefix.compare(0,result.size(),result)==0) //true if correct
+      if (state == match_inchi) {
+        if (prefix.compare(0, result.size(), result) == 0) // true if correct
         {
-          if(result.size()==prefix.size())
-            state = isnic(qch)&& qch!='>' ? quoted : unquoted;
-        }
-        else
-        {
-          is.unget(); //It may be the start of a real "InChI="
+          if (result.size() == prefix.size())
+            state = isnic(qch) && qch != '>' ? quoted : unquoted;
+        } else {
+          is.unget(); // It may be the start of a real "InChI="
           result.erase();
           state = before_inchi;
         }
@@ -244,4 +232,4 @@ string GetInChI(istream& is)
   return result;
 }
 
-} //namespace
+} // namespace OpenBabel

@@ -26,7 +26,7 @@ GNU General Public License for more details.
 #include <iostream>
 
 #ifndef OBAPI
-  #define OBAPI
+#define OBAPI
 #endif
 
 #ifdef HAVE_EIGEN
@@ -36,140 +36,144 @@ GNU General Public License for more details.
 
 namespace OpenBabel {
 
-  class DistanceGeometryPrivate;
-  class OBCisTransStereo;
+class DistanceGeometryPrivate;
+class OBCisTransStereo;
 
-  class TetrahedralInfo {
-    int c;
-    std::vector<unsigned long> nbrs;
-    double lb, ub;
-    public:
-    TetrahedralInfo(int center, std::vector<unsigned long> neighbors,
-                    double lower_bound, double upper_bound) :
-                    c(center), nbrs(neighbors),
-                    lb(lower_bound), ub(upper_bound) {}
-    int GetCenter() {
-      return c;
-    }
-    std::vector<unsigned long> GetNeighbors() {
-      return nbrs;
-    }
-    double GetUpperBound() {
-      return ub;
-    }
-    double GetLowerBound() {
-      return lb;
-    }
-  };
+class TetrahedralInfo {
+  int c;
+  std::vector<unsigned long> nbrs;
+  double lb, ub;
 
-  class OBAPI OBDistanceGeometry {
-    friend class DistgeomFunc;
-  public:
-    OBDistanceGeometry();
-    OBDistanceGeometry(const OBMol &mol, bool useCurrentGeometry);
-    ~OBDistanceGeometry();
+public:
+  TetrahedralInfo(int center, std::vector<unsigned long> neighbors,
+                  double lower_bound, double upper_bound)
+      : c(center), nbrs(neighbors), lb(lower_bound), ub(upper_bound) {}
+  int GetCenter() { return c; }
+  std::vector<unsigned long> GetNeighbors() { return nbrs; }
+  double GetUpperBound() { return ub; }
+  double GetLowerBound() { return lb; }
+};
 
-    /**
-     * Setup this instance with the specified molecule.
-     *
-     * @param mol The molecule to use
-     * @param useCurrentGeom Whether to use the current bond distances and angles
-     * for the bounds matrix
-     *
-     * \return Success or failure
-     */
-    bool Setup(const OBMol &mol, bool useCurrentGeom = false);
+class OBAPI OBDistanceGeometry {
+  friend class DistgeomFunc;
 
-    void Generate();
-    void AddConformer();
-    void GetConformers(OBMol &mol);
+public:
+  OBDistanceGeometry();
+  OBDistanceGeometry(const OBMol &mol, bool useCurrentGeometry);
+  ~OBDistanceGeometry();
 
-    /**
-     * Check if last call to AddConformer was successful.
-     *
-     * \return Success or failure.
-     */
-    bool WasSuccessful() const;
+  /**
+   * Setup this instance with the specified molecule.
+   *
+   * @param mol The molecule to use
+   * @param useCurrentGeom Whether to use the current bond distances and angles
+   * for the bounds matrix
+   *
+   * \return Success or failure
+   */
+  bool Setup(const OBMol &mol, bool useCurrentGeom = false);
 
-    /**
-     * Convenience method to set up this molecule, generate a geometry and return it
-     *
-     * \return Success or failure
-     */
-    bool GetGeometry(OBMol &mol, bool useCurrentGeom = false);
+  void Generate();
+  void AddConformer();
+  void GetConformers(OBMol &mol);
 
-    //! \return The bounds matrix after setup (e.g., for debugging)
-    Eigen::MatrixXf GetBoundsMatrix();
-    /**
-     * \brief Set the bounds matrix explicitly
-     * \return Success or failure (e.g., bounds matrix does not match the number of atoms)
-     */
-    bool SetBoundsMatrix(const Eigen::MatrixXf bounds);
-    float GetUpperBounds(int i, int j);
-    float GetLowerBounds(int i, int j);
-    unsigned int GetDimension() {return dim;};
-    std::vector<TetrahedralInfo>  _stereo;       //!< Internal private data, including stereo info
-  private:
-    OBMol                     _mol;
-    std::vector<OBGenericData*> _vdata;
-    DistanceGeometryPrivate  *_d;    //!< Internal private data, including bounds matrix
-    Eigen::VectorXd _coord;          // one-dimensional vector containing coordinates of atoms
-    std::string input_smiles;
+  /**
+   * Check if last call to AddConformer was successful.
+   *
+   * \return Success or failure.
+   */
+  bool WasSuccessful() const;
 
-    unsigned int dim;
+  /**
+   * Convenience method to set up this molecule, generate a geometry and return
+   * it
+   *
+   * \return Success or failure
+   */
+  bool GetGeometry(OBMol &mol, bool useCurrentGeom = false);
 
-    bool generateInitialCoords();
-    bool firstMinimization();
-    bool minimizeFourthDimension();
-    
-    //! \brief Set the default upper bounds for the constraint matrix
-    //! Upper bounds = maximum length of the molecule, or 1/2 the body diagonal in a unit cell
-    void SetUpperBounds();
-    //! \brief Update the upper and lower bounds based on bonding distances
-    //! @param useCurrentGeom Whether to use the current bond distances and angles
-    void Set12Bounds(bool useCurrentGeom);
-    //! \brief Update the upper and lower bounds based on bonded angles
-    //! @param useCurrentGeom Whether to use the current bond distances and angles
-    void Set13Bounds(bool useCurrentGeom);
-    //! \brief Set the upper and lower bounds for aromatic ring cycles
-    void SetAromaticRingBounds();
-    //! \brief Update the upper and lower bounds based on bonded torsions
-    void Set14Bounds();
-    //! \brief Update the upper and lower bounds based on 1-5 connections
-    void Set15Bounds();
-    //! \returns 0 if not in the same ring, or the ring size otherwise
-    int AreInSameRing(OBAtom *a, OBAtom *b);
-    //! \brief Self-consistently smooth the bounds matrix using the triangle inequality
-    void TriangleSmooth();
-    //! \brief Set the lower bounds to retain VdW distances after all 1-X bounds are set
-    void SetLowerBounds();
+  //! \return The bounds matrix after setup (e.g., for debugging)
+  Eigen::MatrixXf GetBoundsMatrix();
+  /**
+   * \brief Set the bounds matrix explicitly
+   * \return Success or failure (e.g., bounds matrix does not match the number
+   * of atoms)
+   */
+  bool SetBoundsMatrix(const Eigen::MatrixXf bounds);
+  float GetUpperBounds(int i, int j);
+  float GetLowerBounds(int i, int j);
+  unsigned int GetDimension() { return dim; };
+  std::vector<TetrahedralInfo>
+      _stereo; //!< Internal private data, including stereo info
+private:
+  OBMol _mol;
+  std::vector<OBGenericData *> _vdata;
+  DistanceGeometryPrivate
+      *_d; //!< Internal private data, including bounds matrix
+  Eigen::VectorXd
+      _coord; // one-dimensional vector containing coordinates of atoms
+  std::string input_smiles;
 
-    //! \return The specified cis/trans stereo configuration for this bond. NULL if not specified
-    OBCisTransStereo *GetCisTransStereo(OBBond *bond);
+  unsigned int dim;
 
-    //! \brief Use OBBuilder to attempt to correct stereo constraints
-    void CorrectStereoConstraints(double scale = 1.0);
-    //! \brief Check that the double bond and atom stereo constraints are met
-    //! \return True if all constraints are valid
-    bool CheckStereoConstraints();
+  bool generateInitialCoords();
+  bool firstMinimization();
+  bool minimizeFourthDimension();
 
-    //! \return True if the bounds are met
-    bool CheckBounds();
-  };
-  class DistGeomFunc {
-    OBDistanceGeometry* const owner;
-    public:
-      DistGeomFunc(OBDistanceGeometry* owner) : owner(owner) {}
-      double operator() (const Eigen::VectorXd& x, Eigen::VectorXd& grad);
-  };
+  //! \brief Set the default upper bounds for the constraint matrix
+  //! Upper bounds = maximum length of the molecule, or 1/2 the body diagonal in
+  //! a unit cell
+  void SetUpperBounds();
+  //! \brief Update the upper and lower bounds based on bonding distances
+  //! @param useCurrentGeom Whether to use the current bond distances and angles
+  void Set12Bounds(bool useCurrentGeom);
+  //! \brief Update the upper and lower bounds based on bonded angles
+  //! @param useCurrentGeom Whether to use the current bond distances and angles
+  void Set13Bounds(bool useCurrentGeom);
+  //! \brief Set the upper and lower bounds for aromatic ring cycles
+  void SetAromaticRingBounds();
+  //! \brief Update the upper and lower bounds based on bonded torsions
+  void Set14Bounds();
+  //! \brief Update the upper and lower bounds based on 1-5 connections
+  void Set15Bounds();
+  //! \returns 0 if not in the same ring, or the ring size otherwise
+  int AreInSameRing(OBAtom *a, OBAtom *b);
+  //! \brief Self-consistently smooth the bounds matrix using the triangle
+  //! inequality
+  void TriangleSmooth();
+  //! \brief Set the lower bounds to retain VdW distances after all 1-X bounds
+  //! are set
+  void SetLowerBounds();
 
-  class DistGeomFunc4D {
-    OBDistanceGeometry* const owner;
-    public:
-      DistGeomFunc4D(OBDistanceGeometry* owner) : owner(owner) {}
-      double operator() (const Eigen::VectorXd& x, Eigen::VectorXd& grad);
-  };
-}
+  //! \return The specified cis/trans stereo configuration for this bond. NULL
+  //! if not specified
+  OBCisTransStereo *GetCisTransStereo(OBBond *bond);
+
+  //! \brief Use OBBuilder to attempt to correct stereo constraints
+  void CorrectStereoConstraints(double scale = 1.0);
+  //! \brief Check that the double bond and atom stereo constraints are met
+  //! \return True if all constraints are valid
+  bool CheckStereoConstraints();
+
+  //! \return True if the bounds are met
+  bool CheckBounds();
+};
+class DistGeomFunc {
+  OBDistanceGeometry *const owner;
+
+public:
+  DistGeomFunc(OBDistanceGeometry *owner) : owner(owner) {}
+  double operator()(const Eigen::VectorXd &x, Eigen::VectorXd &grad);
+};
+
+class DistGeomFunc4D {
+  OBDistanceGeometry *const owner;
+
+public:
+  DistGeomFunc4D(OBDistanceGeometry *owner) : owner(owner) {}
+  double operator()(const Eigen::VectorXd &x, Eigen::VectorXd &grad);
+};
+} // namespace OpenBabel
 
 #endif
 

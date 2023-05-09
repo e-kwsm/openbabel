@@ -18,8 +18,7 @@ GNU General Public License for more details.
 
 #include <openbabel/generic.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
 const unsigned RateData = 55555;
 const unsigned ThermoData = 55556;
@@ -32,85 +31,67 @@ const unsigned ThermoData = 55556;
    Used by chemkin format and cml reaction format
 **/
 
-
-class OBRateData : public OBGenericData
-{
+class OBRateData : public OBGenericData {
 protected:
   double Rates[3];
   double LoRates[3];
   double TroeParams[4];
-  std::map<std::string,double> Efficiencies;
+  std::map<std::string, double> Efficiencies;
+
 public:
-  OBGenericData* Clone(OBBase* parent) const override { return new OBRateData(*this); }
-  enum rate_type {A, n, E};
-  enum reaction_type {ARRHENIUS=55555, LINDERMANN, TROE, SRI, THREEBODY};
+  OBGenericData *Clone(OBBase *parent) const override {
+    return new OBRateData(*this);
+  }
+  enum rate_type { A, n, E };
+  enum reaction_type { ARRHENIUS = 55555, LINDERMANN, TROE, SRI, THREEBODY };
   reaction_type ReactionType;
-  OBRateData():OBGenericData("Rate data", RateData)
-  {
-    Rates[0]=Rates[1]=Rates[2]=0;
-    LoRates[0]=LoRates[1]=LoRates[2]=0;
-    TroeParams[0]=TroeParams[1]=TroeParams[2]=TroeParams[3]=0;
+  OBRateData() : OBGenericData("Rate data", RateData) {
+    Rates[0] = Rates[1] = Rates[2] = 0;
+    LoRates[0] = LoRates[1] = LoRates[2] = 0;
+    TroeParams[0] = TroeParams[1] = TroeParams[2] = TroeParams[3] = 0;
     ReactionType = ARRHENIUS;
   }
 
-  double GetRate(rate_type n) const
-  {
-    return Rates[n];
-  }
+  double GetRate(rate_type n) const { return Rates[n]; }
 
-  void SetRate(rate_type n, const double val)
-  {
-    if(n<3)
+  void SetRate(rate_type n, const double val) {
+    if (n < 3)
       Rates[n] = val;
   }
 
-  double GetLoRate(rate_type n) const
-  {
-    return LoRates[n];
-  }
+  double GetLoRate(rate_type n) const { return LoRates[n]; }
 
-  void SetLoRate(rate_type n, const double val)
-  {
-    if(n<3)
+  void SetLoRate(rate_type n, const double val) {
+    if (n < 3)
       LoRates[n] = val;
   }
 
-  double GetTroeParam(int n) const
-  {
-    return TroeParams[n];
-  }
+  double GetTroeParam(int n) const { return TroeParams[n]; }
 
-  void SetTroeParams(int n, const double val)
-  {
-    if(n<4)
+  void SetTroeParams(int n, const double val) {
+    if (n < 4)
       TroeParams[n] = val;
   }
 
-  void SetEfficiency(std::string id, double Eff)
-  {
-    Efficiencies[id] = Eff;
+  void SetEfficiency(std::string id, double Eff) { Efficiencies[id] = Eff; }
+
+  double GetEfficiency(std::string id) {
+    return Efficiencies[id]; // will be 0 if not found
   }
 
-  double GetEfficiency(std::string id)
-  {
-    return Efficiencies[id]; //will be 0 if not found
-  }
-
-  bool GetNextEff(std::string& id, double& Eff)
-  {
-    //Supply id empty to begin, then id is the*last* id
+  bool GetNextEff(std::string &id, double &Eff) {
+    // Supply id empty to begin, then id is the*last* id
     std::map<std::string, double>::iterator itr;
-    if(id.empty())
+    if (id.empty())
       itr = Efficiencies.begin();
-    else
-    {
+    else {
       itr = Efficiencies.find(id);
-      if(itr!=Efficiencies.end())
+      if (itr != Efficiencies.end())
         ++itr;
     }
-    if(itr==Efficiencies.end())
+    if (itr == Efficiencies.end())
       return false;
-    id    = itr->first;
+    id = itr->first;
     Eff = itr->second;
     return true;
   }
@@ -131,42 +112,42 @@ public:
    Note that there is a more modern NASA polynomial with more terms, which
    is not supported here.
 **/
-class OBNasaThermoData : public OBGenericData
-{
+class OBNasaThermoData : public OBGenericData {
 protected:
   double Coeffs[14];
   double LoT, MidT, HiT;
   char phase;
+
 public:
-  OBNasaThermoData(): LoT(300),MidT(1000),HiT(3000),phase('G')
-  {	_type = ThermoData;	_attr = "Nasa thermo data";}
-
-  OBGenericData* Clone(OBBase* parent) const override { return new OBNasaThermoData(*this); }
-
-  double GetCoeff(unsigned n) const
-  {
-    return Coeffs[n];
+  OBNasaThermoData() : LoT(300), MidT(1000), HiT(3000), phase('G') {
+    _type = ThermoData;
+    _attr = "Nasa thermo data";
   }
 
-  void SetCoeff(unsigned n, const double val)
-  {
-    if(n<14)
+  OBGenericData *Clone(OBBase *parent) const override {
+    return new OBNasaThermoData(*this);
+  }
+
+  double GetCoeff(unsigned n) const { return Coeffs[n]; }
+
+  void SetCoeff(unsigned n, const double val) {
+    if (n < 14)
       Coeffs[n] = val;
   }
-  double GetLoT() const {return LoT;}
-  double GetMidT() const {return MidT;}
-  double GetHiT() const {return HiT;}
-  void SetLoT(double val){LoT=val;}
-  void SetMidT(double val){MidT=val;}
-  void SetHiT(double val){HiT=val;}
+  double GetLoT() const { return LoT; }
+  double GetMidT() const { return MidT; }
+  double GetHiT() const { return HiT; }
+  void SetLoT(double val) { LoT = val; }
+  void SetMidT(double val) { MidT = val; }
+  void SetHiT(double val) { HiT = val; }
 
-  char GetPhase() const {return phase;}
-  void SetPhase(char ph){phase=ph;}
+  char GetPhase() const { return phase; }
+  void SetPhase(char ph) { phase = ph; }
 };
 
-} //namespace OpenBabel
+} // namespace OpenBabel
 
-#endif //OB_KINETICS_H
+#endif // OB_KINETICS_H
 
 //! \file kinetics.h
 //! \brief OBRateData and OBNasaThermoData classes
