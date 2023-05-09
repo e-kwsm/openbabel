@@ -44,18 +44,23 @@ PLUGIN_CPP_FILE(OBDescriptor)
 bool OBDescriptor::Compare(OBBase *pOb, istream &optionText, bool noEval,
                            string *param) {
   // Get comparison operator
-  char ch1 = 0, ch2 = 0;
-  while (optionText && !ispunctU(ch1))
+  char ch1 = 0;
+  char ch2 = 0;
+  while (optionText && !ispunctU(ch1)) {
     optionText >> ch1;
-  if (ispunctU(optionText.peek()))
+  }
+  if (ispunctU(optionText.peek())) {
     optionText >> ch2;
+  }
 
   // Get number
-  double filterval, val;
+  double filterval;
+  double val;
   optionText >> filterval;
   if (optionText) {
-    if (noEval)
+    if (noEval) {
       return false;
+    }
 
     val = Predict(pOb, param);
 
@@ -91,11 +96,14 @@ bool OBDescriptor::Compare(OBBase *pOb, istream &optionText, bool noEval,
 bool OBDescriptor::FilterCompare(OBBase *pOb, std::istream &optionText,
                                  bool noEval) {
   for (;;) {
-    bool negate = false, retFromCompare, ret = false;
+    bool negate = false;
+    bool retFromCompare;
+    bool ret = false;
     char ch = 0;
     optionText >> ch; // skips whitespace
-    if (!optionText)
+    if (!optionText) {
       return false;
+    }
 
     if (ch == '!') {
       negate = true;
@@ -114,16 +122,16 @@ bool OBDescriptor::FilterCompare(OBBase *pOb, std::istream &optionText,
       }
     } else // unbracketted expression
     {
-      if (!ispunctU(ch))
+      if (!ispunctU(ch)) {
         optionText.unget(); // must be start of ID
-      else {
-        string mes("Filter string has erroneous character : ");
+      } else {
+        string const mes("Filter string has erroneous character : ");
         obErrorLog.ThrowError(__FUNCTION__, mes + ch, obError, onceOnly);
         optionText.setstate(std::ios::badbit); // shows error
         return false;
       }
 
-      pair<string, string> spair = GetIdentifier(optionText);
+      pair<string, string> const spair = GetIdentifier(optionText);
       string descID = spair.first;
       string param = spair.second;
       if (descID.empty()) {
@@ -139,11 +147,12 @@ bool OBDescriptor::FilterCompare(OBBase *pOb, std::istream &optionText,
       } else {
         // if no existing data see if it is an OBDescriptor
         OBDescriptor *pDesc = OBDescriptor::FindType(descID.c_str());
-        if (pDesc && !noEval)
+        if ((pDesc != nullptr) && !noEval) {
           retFromCompare = pDesc->Compare(pOb, optionText, noEval, &param);
-        else {
+        } else {
           // just parse
-          char ch1, ch2 = 0;
+          char ch1;
+          char ch2 = 0;
           string svalue;
           ParsePredicate(optionText, ch1, ch2, svalue);
           // no existing data, not a descriptor result is false meaning "does
@@ -153,48 +162,54 @@ bool OBDescriptor::FilterCompare(OBBase *pOb, std::istream &optionText,
       }
     }
 
-    if (negate)
+    if (negate) {
       retFromCompare = !retFromCompare;
+    }
 
-    if (!noEval)
+    if (!noEval) {
       ret = retFromCompare;
+    }
 
     // Look for boolean operator
     ch = 0;
-    if (!(optionText >> ch))
+    if (!(optionText >> ch)) {
       return ret; // end of filterstring
+    }
 
     if (ch == ')') {
       optionText.unget();
       return ret;
     }
 
-    if (!ispunctU(ch))
-      optionText.unget();             // start of next ID or )
-    else if (optionText.peek() == ch) // treat && and || as & and |
+    if (!ispunctU(ch)) {
+      optionText.unget();                 // start of next ID or )
+    } else if (optionText.peek() == ch) { // treat && and || as & and |
       optionText.ignore();
+    }
 
     if (ch == '|') {
       retFromCompare = FilterCompare(pOb, optionText, ret || noEval);
       return !noEval &&
              (ret || retFromCompare); // always return false if noEval=true;
-    } else                            // includes & and , and ;
-      noEval = !ret; // if ret is false keep parsing but don't bother to
-                     // evaluate
-  }             // go for next conditional expression
-  return false; // never come here
+    }                                 // includes & and , and ;
+    noEval = !ret; // if ret is false keep parsing but don't bother to
+                   // evaluate
+  }                // go for next conditional expression
+  return false;    // never come here
 }
 
 //////////////////////////////////////////////////////////////
 pair<string, string> OBDescriptor::GetIdentifier(istream &optionText) {
-  string descID, param;
+  string descID;
+  string param;
   descID.clear();
   char ch;
   optionText >> ch; // ignore leading white space
   optionText.unsetf(ios::skipws);
   for (;;) {
-    if (!optionText || isspace(ch) || ch == ',')
+    if (!optionText || (isspace(ch) != 0) || ch == ',') {
       break;
+    }
     if (ch == '(') // the parameter is in parentheses
     {
       ch = optionText.peek();
@@ -203,8 +218,9 @@ pair<string, string> OBDescriptor::GetIdentifier(istream &optionText) {
         optionText.ignore(); // skip " or '
         getline(optionText, param, ch);
         optionText.ignore(numeric_limits<streamsize>::max(), ')');
-      } else
+      } else {
         getline(optionText, param, ')');
+      }
 
       if (!optionText) {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -216,8 +232,9 @@ pair<string, string> OBDescriptor::GetIdentifier(istream &optionText) {
     } else if (ispunctU(ch)) {
       optionText.unget(); // put back char after ID
       break;
-    } else
+    } else {
       descID.push_back(ch);
+    }
     optionText >> ch;
   }
   optionText.setf(ios::skipws);
@@ -234,24 +251,27 @@ double OBDescriptor::ParsePredicate(istream &optionText, char &ch1, char &ch2,
   ch1 = 0;
   // Get comparison operator
   optionText >> ch1;
-  if (!ch1 || isalnum(ch1) || ch1 == '&' || ch1 == '|' || ch1 == ')') {
+  if ((ch1 == 0) || (isalnum(ch1) != 0) || ch1 == '&' || ch1 == '|' ||
+      ch1 == ')') {
     // no comparison operator
     optionText.unget();
     optionText.clear(); // not an error to reach eof
     ch1 = 0;
     return val;
-  } else {
-    if (optionText.peek() == '=')
-      optionText >> ch2;
+  }
+  if (optionText.peek() == '=') {
+    optionText >> ch2;
   }
 
   // Try to read a double. Rewind and read as a string
-  streampos spos = optionText.tellg();
+  streampos const spos = optionText.tellg();
   optionText >> val;
   // only a number when the param has no additional text or only a closing
   // bracket
-  if (!optionText.eof() && (optionText.fail() || isalpha(optionText.peek())))
+  if (!optionText.eof() &&
+      (optionText.fail() || (isalpha(optionText.peek()) != 0))) {
     val = std::numeric_limits<double>::quiet_NaN();
+  }
   optionText.clear();
   optionText.seekg(spos);
   ReadStringFromFilter(optionText, svalue);
@@ -275,12 +295,15 @@ bool OBDescriptor::ReadStringFromFilter(istream &optionText, string &result) {
 
   if (optionText >> ch) {
     if (ch == '=' || ch == '!') {
-      if (optionText.get() != '=')
+      if (optionText.get() != '=') {
         optionText.unget();
-      if (ch == '!')
+      }
+      if (ch == '!') {
         ret = false; // to indicate negation
-    } else           // no operator
+      }
+    } else { // no operator
       optionText.unget();
+    }
 
     optionText >> ch;
     if (ch == '\"' || ch == '\'') {
@@ -292,7 +315,7 @@ bool OBDescriptor::ReadStringFromFilter(istream &optionText, string &result) {
       optionText >> ch; // ignore leading white space
       optionText.unsetf(ios::skipws);
       for (;;) {
-        if (!optionText || isspace(ch) || ch == ')') {
+        if (!optionText || (isspace(ch) != 0) || ch == ')') {
           optionText.unget();
           optionText.clear();
           break;
@@ -304,19 +327,20 @@ bool OBDescriptor::ReadStringFromFilter(istream &optionText, string &result) {
     }
   }
 
-  if (optionText.fail())
+  if (optionText.fail()) {
     obErrorLog.ThrowError(__FUNCTION__, "Error reading string from filter",
                           obError, onceOnly);
+  }
 
   return ret;
 }
 
 double OBDescriptor::PredictAndSave(OBBase *pOb, string *param) {
-  string attr = GetID();
+  string const attr = GetID();
   string svalue;
-  double val = GetStringValue(pOb, svalue, param);
+  double const val = GetStringValue(pOb, svalue, param);
 
-  OBPairData *dp = static_cast<OBPairData *>(pOb->GetData(attr));
+  auto *dp = static_cast<OBPairData *>(pOb->GetData(attr));
   bool PreviouslySet = true;
   if (dp == nullptr) {
     PreviouslySet = false;
@@ -325,15 +349,16 @@ double OBDescriptor::PredictAndSave(OBBase *pOb, string *param) {
   dp->SetAttribute(attr);
   dp->SetValue(svalue);
   dp->SetOrigin(perceived);
-  if (!PreviouslySet)
+  if (!PreviouslySet) {
     pOb->SetData(dp);
+  }
   return val;
 }
 
 /// This default version provides a string representation of the numeric value
 double OBDescriptor::GetStringValue(OBBase *pOb, string &svalue,
                                     string *param) {
-  double val = Predict(pOb, param);
+  double const val = Predict(pOb, param);
   stringstream ss;
   ss << val;
   svalue = ss.str();
@@ -341,8 +366,9 @@ double OBDescriptor::GetStringValue(OBBase *pOb, string &svalue,
 }
 
 bool OBDescriptor::CompareStringWithFilter(istream &optionText, string &sval,
-                                           bool, bool NoCompOK) {
-  char ch1 = 0, ch2 = 0;
+                                           bool /*unused*/, bool NoCompOK) {
+  char ch1 = 0;
+  char ch2 = 0;
   string sfilterval;
   double filterval = ParsePredicate(optionText, ch1, ch2, sfilterval);
   if (ch1 == 0 && NoCompOK) {
@@ -352,35 +378,38 @@ bool OBDescriptor::CompareStringWithFilter(istream &optionText, string &sval,
 
   stringstream ss(sval);
   double val;
-  if ((ss >> val) && !IsNan(filterval))
+  if ((ss >> val) && !IsNan(filterval)) {
     // Do a numerical comparison if both values are numbers
     return DoComparison(ch1, ch2, val, filterval);
-  else {
-    // Do a string comparison if either the filter or the OBPair value is not a
-    // number If sval is quoted remove quotes
-    if (sval[0] == '\"' || sval[0] == '\'')
-      sval.erase(0, 1);
-    if (sval[sval.size() - 1] == '\"' || sval[sval.size() - 1] == '\'')
-      sval.erase(sval.size() - 1);
-
-    bool leading = false, trailing = false;
-    if (sfilterval[0] == '*') {
-      leading = true;
-      sfilterval.erase(0, 1);
-    }
-    if (sfilterval[sfilterval.size() - 1] == '*') {
-      trailing = true;
-      sfilterval.erase(sfilterval.size() - 1);
-    }
-    string::size_type pos = sval.find(sfilterval);
-    if (pos != string::npos) {
-      if (trailing)                          // needs to be first
-        sval.erase(pos + sfilterval.size()); // erase aftermatch
-      if (leading)
-        sval.erase(0, pos); // erase before match
-    }
-    return DoComparison(ch1, ch2, sval, sfilterval);
+  } // Do a string comparison if either the filter or the OBPair value is not a
+  // number If sval is quoted remove quotes
+  if (sval[0] == '\"' || sval[0] == '\'') {
+    sval.erase(0, 1);
   }
+  if (sval[sval.size() - 1] == '\"' || sval[sval.size() - 1] == '\'') {
+    sval.erase(sval.size() - 1);
+  }
+
+  bool leading = false;
+  bool trailing = false;
+  if (sfilterval[0] == '*') {
+    leading = true;
+    sfilterval.erase(0, 1);
+  }
+  if (sfilterval[sfilterval.size() - 1] == '*') {
+    trailing = true;
+    sfilterval.erase(sfilterval.size() - 1);
+  }
+  string::size_type const pos = sval.find(sfilterval);
+  if (pos != string::npos) {
+    if (trailing) {                        // needs to be first
+      sval.erase(pos + sfilterval.size()); // erase aftermatch
+    }
+    if (leading) {
+      sval.erase(0, pos); // erase before match
+    }
+  }
+  return DoComparison(ch1, ch2, sval, sfilterval);
 }
 
 void OBDescriptor::AddProperties(OBBase *pOb, const string &DescrList) {
@@ -388,14 +417,15 @@ void OBDescriptor::AddProperties(OBBase *pOb, const string &DescrList) {
   OBDescriptor *pDescr;
   while (ss) {
     pair<string, string> spair = GetIdentifier(ss);
-    if ((pDescr = OBDescriptor::FindType(
-             spair.first.c_str()))) // extra parentheses to indicate assignment
-                                    // as truth value
+    if ((pDescr = OBDescriptor::FindType(spair.first.c_str())) !=
+        nullptr) { // extra parentheses to indicate assignment
+                   // as truth value
       pDescr->PredictAndSave(pOb, &spair.second);
-    else
+    } else {
       obErrorLog.ThrowError(__FUNCTION__,
                             spair.first + " not recognized as a descriptor",
                             obError, onceOnly);
+    }
   }
 }
 
@@ -404,8 +434,9 @@ void OBDescriptor::DeleteProperties(OBBase *pOb, const string &DescrList) {
   tokenize(vs, DescrList.c_str(), " \t\r\n,/-*&;:|%+");
   vector<string>::iterator itr;
   for (itr = vs.begin(); itr != vs.end(); ++itr) {
-    if (MatchPairData(pOb, *itr))
+    if (MatchPairData(pOb, *itr)) {
       pOb->DeleteData(*itr);
+    }
   }
 }
 
@@ -416,19 +447,20 @@ void OBDescriptor::DeleteProperties(OBBase *pOb, const string &DescrList) {
 string OBDescriptor::GetValues(OBBase *pOb, const std::string &DescrList) {
   stringstream ss(DescrList);
   char delim = DescrList[0];
-  if (isspace(delim) || ispunctU(delim)) {
+  if ((isspace(delim) != 0) || ispunctU(delim)) {
     ss.ignore(); // skip delim char
     // if list starts with "\t" delim is a tab; if "\\" or "\"is \ backslash
     if (delim == '\\') {
-      if (DescrList[1] == '\\')
+      if (DescrList[1] == '\\') {
         ss.ignore();
-      else if (DescrList[1] == 't') {
+      } else if (DescrList[1] == 't') {
         delim = '\t';
         ss.ignore();
       }
     }
-  } else
+  } else {
     delim = ' ';
+  }
 
   string values;
   OBDescriptor *pDescr;
@@ -437,14 +469,13 @@ string OBDescriptor::GetValues(OBBase *pOb, const std::string &DescrList) {
     pair<string, string> spair = GetIdentifier(ss);
 
     // If there is existing OBPairData use that
-    if (MatchPairData(pOb, spair.first))
+    if (MatchPairData(pOb, spair.first)) {
       thisvalue = pOb->GetData(spair.first)->GetValue();
-    else {
-      if ((pDescr = OBDescriptor::FindType(
-               spair.first
-                   .c_str()))) // extra parentheses to indicate truth value
+    } else {
+      if ((pDescr = OBDescriptor::FindType(spair.first.c_str())) !=
+          nullptr) { // extra parentheses to indicate truth value
         pDescr->GetStringValue(pOb, thisvalue, &spair.second);
-      else {
+      } else {
         obErrorLog.ThrowError(
             __FUNCTION__,
             spair.first + " not recognized as a property or a descriptor",
@@ -461,15 +492,18 @@ bool OBDescriptor::MatchPairData(OBBase *pOb, string &s) {
   // If s matches a PairData attribute return true
   // else if s with all '_' replaced by spaces matches return true and s is now
   // the form with spaces else return false.
-  if (pOb->HasData(s))
+  if (pOb->HasData(s)) {
     return true;
-  if (s.find('_') == string::npos)
+  }
+  if (s.find('_') == string::npos) {
     return false;
+  }
   string temp(s);
   string::size_type pos = string::npos;
   // replace all underscores by spaces
-  while ((pos = temp.find('_', ++pos)) != string::npos)
+  while ((pos = temp.find('_', ++pos)) != string::npos) {
     temp[pos] = ' ';
+  }
   if (pOb->HasData(temp)) {
     s = temp;
     return true;
@@ -483,9 +517,10 @@ bool OBDescriptor::Display(std::string &txt, const char *param,
   // For a parameter which is the matching descriptor set verbose.
   // No display for other descriptors.
   // Allows babel descriptors HBA1
-  if (param && FindType(param)) {
-    if (strcmp(ID, param))
+  if ((param != nullptr) && (FindType(param) != nullptr)) {
+    if (static_cast<int>(strcmp(ID, param) != 0) != 0) {
       return false;
+    }
     param = "verbose";
   }
   return OBPlugin::Display(txt, param, ID);
