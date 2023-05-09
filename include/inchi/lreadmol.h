@@ -36,6 +36,11 @@
  *
  */
 
+#pragma once
+
+#include <stdio.h>
+#include <string.h>
+
 /* local prototypes */
 int bypass_sdf_data_items(FILE *inp, long *cas_reg_no, char *comment,
                           int lcomment, char *name, int lname, int prev_err,
