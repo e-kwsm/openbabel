@@ -15,6 +15,7 @@ GNU General Public License for more details.
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/op.h>
+#include <openbabel/parsmart.h>
 #include <openbabel/query.h>
 #include <string>
 #include <vector>
