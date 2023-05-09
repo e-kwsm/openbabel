@@ -39,6 +39,10 @@
 #ifndef __INCHICANO_H__
 #define __INCHICANO_H__
 
+#include "extr_ct.h"
+#include "ichicant.h"
+#include "ichitaut.h"
+
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
 extern "C" {
