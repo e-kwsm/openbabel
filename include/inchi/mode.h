@@ -40,6 +40,7 @@
 #define __MODE_H__
 
 #include <stdio.h>
+#include <stdlib.h>
 
 /*******************/
 /*                 */

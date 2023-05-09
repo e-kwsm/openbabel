@@ -41,7 +41,16 @@
 */
 
 #pragma once
+
+#include "ichi_io.h"
+#include "ichicomp.h"
+#include "ichierr.h"
+#include "inchi_api.h"
+#include "inpdef.h"
+#include "util.h"
+#include <ctype.h>
 #include <stddef.h>
+#include <string.h>
 
 /****************************************************************************/
 #define MIN_BOND_LENGTH (1.0e-6)

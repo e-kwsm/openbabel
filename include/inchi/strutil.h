@@ -39,6 +39,9 @@
 #ifndef __STRUTIL_H__
 #define __STRUTIL_H__
 
+#include "ichi.h"
+#include "inpdef.h"
+
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
 extern "C" {

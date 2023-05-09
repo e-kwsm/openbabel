@@ -42,6 +42,7 @@
 /*^^^ */
 
 #include "ichicant.h"
+#include "ichimain.h"
 
 typedef struct tagCOMPONENT_TREAT_INFO {
   int n1;
