@@ -77,8 +77,9 @@ bool OBBase::Clear() {
   if (!_vdata.empty()) // clean up generic data
   {
     OBDataIterator m;
-    for (m = _vdata.begin(); m != _vdata.end(); ++m)
+    for (m = _vdata.begin(); m != _vdata.end(); ++m) {
       delete *m;
+    }
     _vdata.clear();
   }
 
@@ -88,34 +89,40 @@ bool OBBase::Clear() {
 bool OBBase::HasData(const string &s)
 // returns true if the generic attribute/value pair exists
 {
-  if (_vdata.empty())
+  if (_vdata.empty()) {
     return (false);
+  }
 
   OBDataIterator i;
 
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetAttribute() == s)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetAttribute() == s) {
       return (true);
+    }
+  }
 
   return (false);
 }
 
 bool OBBase::HasData(const char *s) {
-  string temp(s);
+  string const temp(s);
   return (HasData(temp));
 }
 
 bool OBBase::HasData(const unsigned int dt)
 // returns true if the generic attribute/value pair exists
 {
-  if (_vdata.empty())
+  if (_vdata.empty()) {
     return (false);
+  }
 
   OBDataIterator i;
 
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetDataType() == dt)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetDataType() == dt) {
       return (true);
+    }
+  }
 
   return (false);
 }
@@ -124,9 +131,11 @@ bool OBBase::HasData(const unsigned int dt)
 OBGenericData *OBBase::GetData(const string &s) {
   OBDataIterator i;
 
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetAttribute() == s)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetAttribute() == s) {
       return *i;
+    }
+  }
 
   return nullptr;
 }
@@ -135,18 +144,22 @@ OBGenericData *OBBase::GetData(const string &s) {
 OBGenericData *OBBase::GetData(const char *s) {
   OBDataIterator i;
 
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if (strcmp((*i)->GetAttribute().c_str(), s) == 0)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if (strcmp((*i)->GetAttribute().c_str(), s) == 0) {
       return *i;
+    }
+  }
 
   return nullptr;
 }
 
 OBGenericData *OBBase::GetData(const unsigned int dt) {
   OBDataIterator i;
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetDataType() == dt)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetDataType() == dt) {
       return (*i);
+    }
+  }
   return nullptr;
 }
 
@@ -155,9 +168,11 @@ std::vector<OBGenericData *> OBBase::GetAllData(const unsigned int dt) {
 
   // return all values matching this type
   OBDataIterator i;
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetDataType() == dt)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetDataType() == dt) {
       matches.push_back(*i);
+    }
+  }
 
   return (matches);
 }
@@ -166,65 +181,73 @@ std::vector<OBGenericData *> OBBase::GetData(DataOrigin source) {
   std::vector<OBGenericData *> filtered; // filtered data only from source
 
   OBDataIterator i;
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetOrigin() == source)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetOrigin() == source) {
       filtered.push_back((*i));
+    }
+  }
 
   return filtered;
 }
 
 void OBBase::CloneData(OBGenericData *d) {
-  if (!d)
+  if (d == nullptr) {
     return; // Nothing to do for NULL
+  }
 
   // Clone the data, relative to ourselves
   // This creates a new copy -- useable by scripting languages
   OBGenericData *clone = d->Clone(this);
-  if (clone)
+  if (clone != nullptr) {
     _vdata.push_back(clone);
-
-  return;
+  }
 }
 
 void OBBase::DeleteData(unsigned int dt) {
   vector<OBGenericData *> vdata;
   OBDataIterator i;
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
-    if ((*i)->GetDataType() == dt)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
+    if ((*i)->GetDataType() == dt) {
       delete *i;
-    else
+    } else {
       vdata.push_back(*i);
+    }
+  }
   _vdata = vdata;
 }
 
 void OBBase::DeleteData(vector<OBGenericData *> &vg) {
   vector<OBGenericData *> vdata;
-  OBDataIterator i, j;
+  OBDataIterator i;
+  OBDataIterator j;
 
   bool del;
   for (i = _vdata.begin(); i != _vdata.end(); ++i) {
     del = false;
-    for (j = vg.begin(); j != vg.end(); ++j)
+    for (j = vg.begin(); j != vg.end(); ++j) {
       if (*i == *j) {
         del = true;
         break;
       }
-    if (del)
+    }
+    if (del) {
       delete *i;
-    else
+    } else {
       vdata.push_back(*i);
+    }
   }
   _vdata = vdata;
 }
 
 void OBBase::DeleteData(OBGenericData *gd) {
   OBDataIterator i;
-  for (i = _vdata.begin(); i != _vdata.end(); ++i)
+  for (i = _vdata.begin(); i != _vdata.end(); ++i) {
     if (*i == gd) {
       delete *i;
       _vdata.erase(i);
       return; // Must stop since iterators invalidated by erase
     }
+  }
 }
 
 bool OBBase::DeleteData(const string &s) {
