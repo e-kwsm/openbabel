@@ -40,10 +40,12 @@
 #define __ICHIRVRS_H__
 
 #include "ichi_bns.h"
+#include "ichimain.h"
 #include "ichiring.h"
 #include "ichisize.h"
 #include "ichitaut.h"
 #include "mode.h"
+#include "strutil.h"
 
 #define ICHICONST const
 

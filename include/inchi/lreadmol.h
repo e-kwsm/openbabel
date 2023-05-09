@@ -38,7 +38,11 @@
 
 #pragma once
 
+#include "incomdef.h"
+#include <ctype.h>
+#include <limits.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 /* local prototypes */
@@ -85,7 +89,7 @@ static int RemoveNonPrintable(char *line);
 #endif
 
 /*************************************************************************/
-int AddMOLfileError(char *pStrErr, const char *szMsg) {
+inline int AddMOLfileError(char *pStrErr, const char *szMsg) {
   if (pStrErr && szMsg && szMsg[0]) {
     int lenStrErr = strlen(pStrErr);
     int lenMsg = strlen(szMsg);
