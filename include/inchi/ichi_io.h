@@ -44,8 +44,9 @@
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 #pragma once
-#include "mode.h"
+
 #include <stdio.h>
+#include "mode.h"
 
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
