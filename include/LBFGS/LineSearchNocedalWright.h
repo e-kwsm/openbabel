@@ -4,6 +4,7 @@
 #ifndef LINE_SEARCH_NOCEDAL_WRIGHT_H
 #define LINE_SEARCH_NOCEDAL_WRIGHT_H
 
+#include "Param.h"
 #include <Eigen/Core>
 #include <stdexcept>
 
