@@ -14,43 +14,43 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
+#include <cstdlib>
 #include <openbabel/atom.h>
 #include <openbabel/bond.h>
-#include <openbabel/obiter.h>
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
-#include <cstdlib>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
+#include <openbabel/obmolecformat.h>
 
 namespace OpenBabel {
 
 class AoforceFormat : public OBMoleculeFormat {
-  public:
-    // Register this format type ID
-    AoforceFormat() { OBConversion::RegisterFormat("aoforce", this); }
+public:
+  // Register this format type ID
+  AoforceFormat() { OBConversion::RegisterFormat("aoforce", this); }
 
-    const char* Description() override {  // required
-      return
-          "Turbomole AOFORCE output format\n"
-          "Read vibrational frequencies and intensities\n";
-    }
+  const char *Description() override { // required
+    return "Turbomole AOFORCE output format\n"
+           "Read vibrational frequencies and intensities\n";
+  }
 
-    const char* SpecificationURL() override {
-      return "http://www.turbomole-gmbh.com/manuals/";
-    }
+  const char *SpecificationURL() override {
+    return "http://www.turbomole-gmbh.com/manuals/";
+  }
 
-    unsigned int Flags() override { return READONEONLY | NOTWRITABLE; }
+  unsigned int Flags() override { return READONEONLY | NOTWRITABLE; }
 
-    bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override;
 };
 
 // Instantiate
 AoforceFormat theAoforceFormat;
 
-bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr) return false;
+bool AoforceFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = pOb->CastAndClear<OBMol>();
+  if (pmol == nullptr)
+    return false;
 
   std::istream &ifs = *pConv->GetInStream();
   std::string line;
@@ -58,7 +58,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
 
   std::vector<double> Frequencies;
   std::vector<double> Intensities;
-  std::vector< std::vector<vector3> > Lx;
+  std::vector<std::vector<vector3>> Lx;
   mol.BeginModify();
   while (std::getline(ifs, line)) {
     std::vector<std::string> vs;
@@ -68,10 +68,9 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       while (std::getline(ifs, line) && line.length()) {
         tokenize(vs, line);
         OBAtom *atom = mol.NewAtom();
-        vector3 coords(atof(vs[0].c_str()),
-                       atof(vs[1].c_str()),
+        vector3 coords(atof(vs[0].c_str()), atof(vs[1].c_str()),
                        atof(vs[2].c_str()));
-        coords *= 0.529177249;  // Bohr to Angstrom
+        coords *= 0.529177249; // Bohr to Angstrom
         atom->SetVector(coords);
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
         atom->SetPartialCharge(atof(vs[5].c_str()));
@@ -79,63 +78,63 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       }
     } else if (line.find("   mode   ") != std::string::npos) {
       // Normal modes and vibrational frequencies
-      std::getline(ifs, line);  // empty line
-      std::getline(ifs, line);  // frequency
+      std::getline(ifs, line); // empty line
+      std::getline(ifs, line); // frequency
       tokenize(vs, line);
       // for each frequency
-      for (std::vector<std::string>::const_iterator
-          iter = vs.begin() + 1; iter != vs.end(); ++iter) {
+      for (std::vector<std::string>::const_iterator iter = vs.begin() + 1;
+           iter != vs.end(); ++iter) {
         Frequencies.push_back(atof(iter->c_str()));
       }
-      std::getline(ifs, line);  // empty line
-      std::getline(ifs, line);  // symmetry
-      std::getline(ifs, line);  // empty line
-      std::getline(ifs, line);  // IR
-      std::getline(ifs, line);  // |dDIP/dQ|   (a.u.)
-      std::getline(ifs, line);  // intensity (km/mol)
+      std::getline(ifs, line); // empty line
+      std::getline(ifs, line); // symmetry
+      std::getline(ifs, line); // empty line
+      std::getline(ifs, line); // IR
+      std::getline(ifs, line); // |dDIP/dQ|   (a.u.)
+      std::getline(ifs, line); // intensity (km/mol)
       tokenize(vs, line);
       // for each intensity
-      for (std::vector<std::string>::const_iterator
-          iter = vs.begin() + 2; iter != vs.end(); ++iter) {
+      for (std::vector<std::string>::const_iterator iter = vs.begin() + 2;
+           iter != vs.end(); ++iter) {
         Intensities.push_back(atof(iter->c_str()));
       }
-      std::getline(ifs, line);  // intensity (%)
-      std::getline(ifs, line);  // empty line
-      std::getline(ifs, line);  // RAMAN
-      std::getline(ifs, line);  // empty line
+      std::getline(ifs, line); // intensity (%)
+      std::getline(ifs, line); // empty line
+      std::getline(ifs, line); // RAMAN
+      std::getline(ifs, line); // empty line
       Lx.resize(Frequencies.size());
       // normal modes for each atom
       for (unsigned int atom = 0; atom != mol.NumAtoms(); ++atom) {
         std::vector<double> xs;
-        std::getline(ifs, line);  // idx, element, "x", [list]
+        std::getline(ifs, line); // idx, element, "x", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
-            iter = vs.begin() + 3; iter != vs.end(); ++iter) {
+        for (std::vector<std::string>::const_iterator iter = vs.begin() + 3;
+             iter != vs.end(); ++iter) {
           xs.push_back(atof(iter->c_str()));
         }
         std::vector<double> ys;
-        std::getline(ifs, line);  // "y", [list]
+        std::getline(ifs, line); // "y", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
-            iter = vs.begin() + 1; iter != vs.end(); ++iter) {
+        for (std::vector<std::string>::const_iterator iter = vs.begin() + 1;
+             iter != vs.end(); ++iter) {
           ys.push_back(atof(iter->c_str()));
         }
         std::vector<double> zs;
-        std::getline(ifs, line);  // "z", [list]
+        std::getline(ifs, line); // "z", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
-            iter = vs.begin() + 1; iter != vs.end(); ++iter) {
+        for (std::vector<std::string>::const_iterator iter = vs.begin() + 1;
+             iter != vs.end(); ++iter) {
           zs.push_back(atof(iter->c_str()));
         }
         // for each new frequency
-        std::vector< std::vector<vector3> >::iterator
-        lxIter = Lx.end() - xs.size();
-        std::vector<double>::const_iterator
-        xIter = xs.begin(),
-        yIter = ys.begin(),
-        zIter = zs.begin();
-        for (; xIter != xs.end() && yIter != ys.end() && zIter != zs.end()
-            && lxIter != Lx.end(); ++xIter, ++yIter, ++zIter, ++lxIter) {
+        std::vector<std::vector<vector3>>::iterator lxIter =
+            Lx.end() - xs.size();
+        std::vector<double>::const_iterator xIter = xs.begin(),
+                                            yIter = ys.begin(),
+                                            zIter = zs.begin();
+        for (; xIter != xs.end() && yIter != ys.end() && zIter != zs.end() &&
+               lxIter != Lx.end();
+             ++xIter, ++yIter, ++zIter, ++lxIter) {
           // push normal modes
           lxIter->push_back(vector3(*xIter, *yIter, *zIter));
         }
@@ -150,4 +149,4 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
   mol.PerceiveBondOrders();
   return true;
 }
-}  // namespace OpenBabel
+} // namespace OpenBabel

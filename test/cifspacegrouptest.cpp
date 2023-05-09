@@ -19,59 +19,55 @@ GNU General Public License for more details.
 
 #include "obtest.h"
 #include <openbabel/babelconfig.h>
+#include <openbabel/generic.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/generic.h>
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 using namespace OpenBabel;
 
-std::string static GetFilename(const std::string &filename)
-{
+std::string static GetFilename(const std::string &filename) {
   string path = TESTDATADIR + filename;
   return path;
 }
 
-void testSpaceGroupUniqueTransformations()
-{
+void testSpaceGroupUniqueTransformations() {
   // See  https://github.com/openbabel/openbabel/pull/260
   // also https://github.com/openbabel/openbabel/pull/255
   OBConversion conv;
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test01.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  OBUnitCell *pUC = (OBUnitCell *)mol.GetData(OBGenericDataType::UnitCell);
 
-  const SpaceGroup* pSG = pUC->GetSpaceGroup();
+  const SpaceGroup *pSG = pUC->GetSpaceGroup();
 
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
-  OB_ASSERT( pSG->GetId() == 64 );
+  OB_ASSERT(pSG->GetId() == 64);
 }
 
-void testSpaceGroupClean()
-{
+void testSpaceGroupClean() {
   // See https://github.com/openbabel/openbabel/pull/254
   OBConversion conv;
   OBMol mol;
   conv.SetInFormat("cif");
   conv.SetOutFormat("pdb");
   conv.ReadFile(&mol, GetFilename("test02.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  const SpaceGroup* pSG = pUC->GetSpaceGroup();
+  OBUnitCell *pUC = (OBUnitCell *)mol.GetData(OBGenericDataType::UnitCell);
+  const SpaceGroup *pSG = pUC->GetSpaceGroup();
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
 
-  OB_ASSERT( pSG->GetId() == 166 );
+  OB_ASSERT(pSG->GetId() == 166);
 
   string pdb = conv.WriteString(&mol);
 
   OB_ASSERT(pdb.find("H -3 m") != string::npos);
 }
 
-void testSpaceGroupTransformations()
-{
+void testSpaceGroupTransformations() {
   // See https://github.com/openbabel/openbabel/pull/254
   SpaceGroup group;
   vector<string> trans;
@@ -124,52 +120,49 @@ void testSpaceGroupTransformations()
   // Loop over symmetry operators
   transform3dIterator ti;
   const transform3d *t = group.BeginTransform(ti);
-  while(t){
+  while (t) {
     trans_got.push_back(t->DescribeAsString());
-    //cout << t->DescribeAsString() << "\n";
+    // cout << t->DescribeAsString() << "\n";
     t = group.NextTransform(ti);
   }
 
-  OB_ASSERT( trans_exp.size() == trans_got.size() );
-  OB_ASSERT( equal(trans_exp.begin(), trans_exp.end(), trans_got.begin()) );
+  OB_ASSERT(trans_exp.size() == trans_got.size());
+  OB_ASSERT(equal(trans_exp.begin(), trans_exp.end(), trans_got.begin()));
 }
 
-void testDecayToP1()
-{
+void testDecayToP1() {
   // See https://github.com/openbabel/openbabel/pull/261
   OBConversion conv;
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test03.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  const SpaceGroup* pSG = pUC->GetSpaceGroup();
+  OBUnitCell *pUC = (OBUnitCell *)mol.GetData(OBGenericDataType::UnitCell);
+  const SpaceGroup *pSG = pUC->GetSpaceGroup();
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
 
   // Check also for errors and warnings
   string summary = obErrorLog.GetMessageSummary();
-  OB_ASSERT( summary.find("2 warnings") != string::npos);
+  OB_ASSERT(summary.find("2 warnings") != string::npos);
 
-  OB_ASSERT( pSG->GetId() == 1 );
+  OB_ASSERT(pSG->GetId() == 1);
 }
 
-void testAlternativeOrigin()
-{
+void testAlternativeOrigin() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test04.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  const SpaceGroup* pSG = pUC->GetSpaceGroup();
+  OBUnitCell *pUC = (OBUnitCell *)mol.GetData(OBGenericDataType::UnitCell);
+  const SpaceGroup *pSG = pUC->GetSpaceGroup();
 
   string summary = obErrorLog.GetMessageSummary();
-  OB_ASSERT( summary.find("warning") == string::npos);
+  OB_ASSERT(summary.find("warning") == string::npos);
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
-  OB_ASSERT( pSG->GetOriginAlternative() == 1);
+  OB_ASSERT(pSG->GetOriginAlternative() == 1);
 }
 
-void testPdbOutAlternativeOrigin()
-{
+void testPdbOutAlternativeOrigin() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -187,8 +180,7 @@ void testPdbOutAlternativeOrigin()
   OB_ASSERT(pdb.find("P 4/n b m:1") != string::npos);
 }
 
-void testPdbOutHexagonalAlternativeOrigin()
-{
+void testPdbOutHexagonalAlternativeOrigin() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -212,8 +204,7 @@ void testPdbOutHexagonalAlternativeOrigin()
   OB_ASSERT(pdb.find("H -3 m") != string::npos);
 }
 
-void testPdbOutAlternativeOriginSilicon()
-{
+void testPdbOutAlternativeOriginSilicon() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -228,8 +219,7 @@ void testPdbOutAlternativeOriginSilicon()
   OB_ASSERT(pdb.find("F d 3 m:1") != string::npos);
 }
 
-void testPdbOutHexagonalAlternativeOrigin2()
-{
+void testPdbOutHexagonalAlternativeOrigin2() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -244,8 +234,7 @@ void testPdbOutHexagonalAlternativeOrigin2()
   OB_ASSERT(pdb.find("H -3 m") != string::npos);
 }
 
-void testPdbRemSpacesHMName()
-{
+void testPdbRemSpacesHMName() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -260,8 +249,7 @@ void testPdbRemSpacesHMName()
   OB_ASSERT(pdb.find("I41/amd:2") != string::npos);
 }
 
-void testPdbOccupancies()
-{
+void testPdbOccupancies() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -273,21 +261,35 @@ void testPdbOccupancies()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
-  OB_ASSERT(pdb.find("HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") != string::npos);
+  OB_ASSERT(
+      pdb.find(
+          "HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") !=
+      string::npos);
+  OB_ASSERT(
+      pdb.find(
+          "HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") !=
+      string::npos);
 
   OBMol mol_pdb;
   conv.SetInFormat("pdb");
   conv.ReadFile(&mol_pdb, GetFilename("test09.pdb"));
 
   pdb = conv.WriteString(&mol_pdb);
-  OB_ASSERT(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
-  OB_ASSERT(pdb.find("HETATM    2 NA   UNL     1       0.002   8.956   1.393  0.10") != string::npos);
-  OB_ASSERT(pdb.find("HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") != string::npos);
+  OB_ASSERT(
+      pdb.find(
+          "HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") !=
+      string::npos);
+  OB_ASSERT(
+      pdb.find(
+          "HETATM    2 NA   UNL     1       0.002   8.956   1.393  0.10") !=
+      string::npos);
+  OB_ASSERT(
+      pdb.find(
+          "HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") !=
+      string::npos);
 }
 
-void testCIFMolecules()
-{
+void testCIFMolecules() {
   // See https://github.com/openbabel/openbabel/pull/1558
   OBConversion conv;
   OBMol mol;
@@ -300,8 +302,7 @@ void testCIFMolecules()
   OB_ASSERT(smi.find(".") == string::npos);
 }
 
-void testCIFOutputFormat()
-{
+void testCIFOutputFormat() {
   // See https://github.com/openbabel/openbabel/pull/2170
   OBConversion conv;
   OBMol mol;
@@ -315,27 +316,26 @@ void testCIFOutputFormat()
   OB_ASSERT(cif.find(ref) != string::npos);
 }
 
-int cifspacegrouptest(int argc, char* argv[])
-{
+int cifspacegrouptest(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
-  switch(choice) {
+  switch (choice) {
   case 1:
     testSpaceGroupUniqueTransformations();
     break;
@@ -365,20 +365,20 @@ int cifspacegrouptest(int argc, char* argv[])
     break;
   case 10:
     testPdbRemSpacesHMName();
-  break;
+    break;
   case 11:
     testPdbOccupancies();
-  break;
+    break;
   case 12:
     testCIFMolecules();
-  break;
+    break;
   case 13:
     testCIFOutputFormat();
-  break;
+    break;
   default:
     cout << "Test number " << choice << " does not exist!\n";
     return -1;
   }
 
-  return(0);
+  return (0);
 }

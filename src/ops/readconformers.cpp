@@ -15,90 +15,92 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
-#include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
-#include <openbabel/mol.h>
-#include <openbabel/obconversion.h>
 #include "deferred.h"
 #include <algorithm>
+#include <openbabel/babelconfig.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/op.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpReadConformers : public OBOp
-{
+class OpReadConformers : public OBOp {
 public:
-  OpReadConformers(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
-    "Adjacent conformers combined into a single molecule\n"
-    "If a molecule has the same structure as the preceding molecule, as determined\n"
-    "from its SMILES, it is not output but its coordinates are added to the\n"
-    "preceding molecule as an additional conformer. There can be multiple groups\n"
-    "of conformers, but the molecules in each group must be adjacent.\n"
-    ; }
+  OpReadConformers(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override {
+    return "Adjacent conformers combined into a single molecule\n"
+           "If a molecule has the same structure as the preceding molecule, as "
+           "determined\n"
+           "from its SMILES, it is not output but its coordinates are added to "
+           "the\n"
+           "preceding molecule as an additional conformer. There can be "
+           "multiple groups\n"
+           "of conformers, but the molecules in each group must be adjacent.\n";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr, OBConversion* pConv=nullptr) override;
-  bool ProcessVec(std::vector<OBBase*>& vec) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
+  bool ProcessVec(std::vector<OBBase *> &vec) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpReadConformers theOpReadConformers("readconformer"); //Global instance
+OpReadConformers theOpReadConformers("readconformer"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpReadConformers::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  //Make a deferred format and divert the output to it
-  if(pConv && pConv->IsFirstInput())
-    new DeferredFormat(pConv, this); //it will delete itself
+bool OpReadConformers::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                          OBConversion *pConv) {
+  // Make a deferred format and divert the output to it
+  if (pConv && pConv->IsFirstInput())
+    new DeferredFormat(pConv, this); // it will delete itself
 
   return true;
 }
 
-bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
-{
-  // DeferredFormat collects all the molecules, they are processed here, and Deferred Format outputs them
+bool OpReadConformers::ProcessVec(std::vector<OBBase *> &vec) {
+  // DeferredFormat collects all the molecules, they are processed here, and
+  // Deferred Format outputs them
   OBConversion smconv;
   smconv.AddOption("n");
-  if(!smconv.SetOutFormat("smi"))
-  {
-    obErrorLog.ThrowError(__FUNCTION__, "SmilesFormat is not loaded" , obError, onceOnly);
+  if (!smconv.SetOutFormat("smi")) {
+    obErrorLog.ThrowError(__FUNCTION__, "SmilesFormat is not loaded", obError,
+                          onceOnly);
     return false;
   }
 
   std::string smiles, stored_smiles;
-  OBMol* stored_pmol=nullptr;
-  std::vector<OBBase*>::iterator iter;
-  for(iter= vec.begin();iter!=vec.end();++iter)
-  {
-    OBMol* pmol = dynamic_cast<OBMol*>(*iter);
-    if(!pmol)
+  OBMol *stored_pmol = nullptr;
+  std::vector<OBBase *>::iterator iter;
+  for (iter = vec.begin(); iter != vec.end(); ++iter) {
+    OBMol *pmol = dynamic_cast<OBMol *>(*iter);
+    if (!pmol)
       continue;
     smiles = smconv.WriteString(pmol);
     Trim(smiles);
 
-    if(stored_smiles==smiles)
-    {
-      //add the coordinates of the current mol to the stored one as a conformer, and delete current mol
-      double *confCoord = new double [pmol->NumAtoms() * 3];
-      memcpy((char*)confCoord,(char*)pmol->GetCoordinates(),sizeof(double)*3*pmol->NumAtoms());
+    if (stored_smiles == smiles) {
+      // add the coordinates of the current mol to the stored one as a
+      // conformer, and delete current mol
+      double *confCoord = new double[pmol->NumAtoms() * 3];
+      memcpy((char *)confCoord, (char *)pmol->GetCoordinates(),
+             sizeof(double) * 3 * pmol->NumAtoms());
       stored_pmol->AddConformer(confCoord);
       delete pmol;
       *iter = nullptr;
-    }
-    else
-    {
+    } else {
       stored_pmol = pmol;
       stored_smiles = smiles;
     }
   }
 
-  //erase the NULLS
+  // erase the NULLS
   vec.erase(std::remove(vec.begin(), vec.end(), nullptr), vec.end());
   return true;
 }
 
-} //namespace
+} // namespace OpenBabel
 
 /*
     To use with OBConversion::Read(), etc.

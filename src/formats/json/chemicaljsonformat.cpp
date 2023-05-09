@@ -404,8 +404,9 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
       // get the space group
       if (uc->GetSpaceGroup() != nullptr) {
-        unitCell.AddMember("spaceGroup",
-                           rapidjson::StringRef(uc->GetSpaceGroupName().c_str()), al);
+        unitCell.AddMember(
+            "spaceGroup", rapidjson::StringRef(uc->GetSpaceGroupName().c_str()),
+            al);
       }
 
       doc.AddMember("unitCell", unitCell, al);
@@ -529,7 +530,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   // look for conformer energies
   if (pmol->HasData(OBGenericDataType::ConformerData)) {
     OBConformerData *cd =
-        (OBConformerData *) pmol->GetData(OBGenericDataType::ConformerData);
+        (OBConformerData *)pmol->GetData(OBGenericDataType::ConformerData);
     vector<double> energies = cd->GetEnergies();
     rapidjson::Value confEnergies(rapidjson::kArrayType);
     for (auto i = energies.begin(); i != energies.end(); ++i) {

@@ -21,51 +21,57 @@ GNU General Public License for more details.
 #define OB_CHARGEMODEL_H
 
 #include <openbabel/babelconfig.h>
-#include <openbabel/plugin.h>
 #include <openbabel/math/vector3.h>
+#include <openbabel/plugin.h>
 
-namespace OpenBabel
-{
-class OBMol; //Forward declaration; used only as pointer.
+namespace OpenBabel {
+class OBMol; // Forward declaration; used only as pointer.
 
 // Documentation is down below
-class OBAPI OBChargeModel : public OBPlugin
-{
+class OBAPI OBChargeModel : public OBPlugin {
   MAKE_PLUGIN(OBChargeModel)
 
-  public:
-    const char* TypeID() override { return "charges"; }
+public:
+  const char *TypeID() override { return "charges"; }
 
-    /// \return whether partial charges were successfully assigned to this molecule
-    /// \note The method should fill m_partialCharges and m_formalCharges as well
-    virtual bool ComputeCharges(OBMol &m ) { return false; };
-    virtual bool ComputeCharges(OBMol &m, const char *args) { return ComputeCharges( m ); } 
+  /// \return whether partial charges were successfully assigned to this
+  /// molecule \note The method should fill m_partialCharges and m_formalCharges
+  /// as well
+  virtual bool ComputeCharges(OBMol &m) { return false; };
+  virtual bool ComputeCharges(OBMol &m, const char *args) {
+    return ComputeCharges(m);
+  }
 
-    /// \return a vector of the formal charges on each atom, indexed from 0
-    /// This method returns floating point formal charges since some
-    /// charge models consider fractional charges (e.g., 0.5 for an
-    /// oxygen in a carboxylate CO2- group).
-    /// \note If ComputeCharges() has not been called, this will return an empty vector
-    const std::vector<double> & GetFormalCharges() const
-    { return m_formalCharges; }
+  /// \return a vector of the formal charges on each atom, indexed from 0
+  /// This method returns floating point formal charges since some
+  /// charge models consider fractional charges (e.g., 0.5 for an
+  /// oxygen in a carboxylate CO2- group).
+  /// \note If ComputeCharges() has not been called, this will return an empty
+  /// vector
+  const std::vector<double> &GetFormalCharges() const {
+    return m_formalCharges;
+  }
 
-    /// \return a vector of the partial charges on each atom, indexed from 0
-    /// \note If ComputeCharges() has not been called, this will return an empty vector
-    const std::vector<double> & GetPartialCharges() const
-    { return m_partialCharges; }
+  /// \return a vector of the partial charges on each atom, indexed from 0
+  /// \note If ComputeCharges() has not been called, this will return an empty
+  /// vector
+  const std::vector<double> &GetPartialCharges() const {
+    return m_partialCharges;
+  }
 
-    /// \return a vector of the dipole moment from this molecule
-    vector3 GetDipoleMoment(OBMol &);
+  /// \return a vector of the dipole moment from this molecule
+  vector3 GetDipoleMoment(OBMol &);
 
- protected:
-      std::vector<double> m_partialCharges;
-      std::vector<double> m_formalCharges;
+protected:
+  std::vector<double> m_partialCharges;
+  std::vector<double> m_formalCharges;
 
-      /// Fill the internal partial and formal charge vectors (convenience function)
-      void FillChargeVectors(OBMol &mol);
+  /// Fill the internal partial and formal charge vectors (convenience function)
+  void FillChargeVectors(OBMol &mol);
 
-      /// Provide a scaling factor for the dipole moment -- ideally calibrated from many molecules
-      virtual double DipoleScalingFactor() { return 1.0; }
+  /// Provide a scaling factor for the dipole moment -- ideally calibrated from
+  /// many molecules
+  virtual double DipoleScalingFactor() { return 1.0; }
 };
 
 /** \class OBChargeModel chargemodel.h <openbabel/chargemodel.h>
@@ -121,7 +127,7 @@ additional charge models, including the EEM method.
 
   */
 
-}//namespace
+} // namespace OpenBabel
 #endif
 
 //! \file chargemodel.h

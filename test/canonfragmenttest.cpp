@@ -1,29 +1,30 @@
 #include "obtest.h"
+#include <openbabel/generic.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/generic.h>
 
+#include <algorithm>
 #include <iostream>
 #include <vector>
-#include <algorithm>
 
 using std::cout;
 using std::endl;
 using namespace OpenBabel;
 
 /**
- * Check if writing the molecule from orig_smiles using frag_atoms results in ref_smiles.
+ * Check if writing the molecule from orig_smiles using frag_atoms results in
+ * ref_smiles.
  */
-void test_smiles_fragment(const std::string &orig_smiles, const std::string &frag_atoms,
-    const std::string &ref_smiles)
-{
+void test_smiles_fragment(const std::string &orig_smiles,
+                          const std::string &frag_atoms,
+                          const std::string &ref_smiles) {
   OBMol mol;
   OBConversion conv;
   conv.SetInFormat("smi");
   conv.SetOutFormat("can");
 
   mol.Clear();
-  OB_REQUIRE( conv.ReadString(&mol, orig_smiles) );
+  OB_REQUIRE(conv.ReadString(&mol, orig_smiles));
   OBPairData *pd = new OBPairData;
   pd->SetAttribute("SMILES_Fragment");
   pd->SetValue(frag_atoms);
@@ -32,14 +33,13 @@ void test_smiles_fragment(const std::string &orig_smiles, const std::string &fra
   OB_COMPARE(smiles, ref_smiles);
 }
 
-int canonfragmenttest(int argc, char *argv[])
-{
+int canonfragmenttest(int argc, char *argv[]) {
 
   // Define location of file formats for testing
 #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
 #endif
 
   test_smiles_fragment("c1ccccc1CC", "1 2 3 4 5 6", "c1ccccc1");
@@ -51,4 +51,3 @@ int canonfragmenttest(int argc, char *argv[])
 
   return 0;
 }
-

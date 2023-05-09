@@ -26,53 +26,53 @@ GNU General Public License for more details.
 #include <vector>
 
 #ifndef OB_EXTERN
-#  define OB_EXTERN extern
+#define OB_EXTERN extern
 #endif
 
 namespace OpenBabel {
 
-  class OBBitVec;
-  class OBMol;
-  class OBAtom;
-  class OBBond;
-  class OBMol;
-  class OBGraphSymPrivate;
+class OBBitVec;
+class OBMol;
+class OBAtom;
+class OBBond;
+class OBMol;
+class OBGraphSymPrivate;
+
+/**
+ * @class OBGraphSym graphsym.h <openbabel/graphsym.h>
+ * @brief Handle and perceive graph symmtery for canonical numbering .
+ * @since version 2.3
+ */
+class OBAPI OBGraphSym {
+
+public:
+  //! Constructor
+  OBGraphSym(OBMol *pmol, const OBBitVec *frag_atoms = nullptr);
+  //! Destructor
+  virtual ~OBGraphSym();
+
+  static const unsigned int NoSymmetryClass;
 
   /**
-   * @class OBGraphSym graphsym.h <openbabel/graphsym.h>
-   * @brief Handle and perceive graph symmtery for canonical numbering .
-   * @since version 2.3
+   * Calculate the symmetry classes for the molecule. The result will be
+   * stored in @p symmetry_classes.
+   *
+   * The results in @p symmetry_classes will be ordered by symmetry
+   * classes. Use the OBAtom* pointer in the std::pair to match the atoms
+   * with the right symmetry classes.
+   *
+   * @return The number of symmetry classes.
    */
-  class OBAPI OBGraphSym {
+  int GetSymmetry(std::vector<unsigned int> &symmetry_classes);
+  /**
+   * Clear the symmetry classes data stored in the molecule specified when
+   * construting the OBGraphSym object.
+   */
+  void ClearSymmetry();
 
-    public:
-      //! Constructor
-      OBGraphSym(OBMol* pmol, const OBBitVec* frag_atoms = nullptr);
-      //! Destructor
-      virtual ~OBGraphSym();
-
-      static const unsigned int NoSymmetryClass;
-
-      /**
-       * Calculate the symmetry classes for the molecule. The result will be
-       * stored in @p symmetry_classes.
-       *
-       * The results in @p symmetry_classes will be ordered by symmetry
-       * classes. Use the OBAtom* pointer in the std::pair to match the atoms
-       * with the right symmetry classes.
-       *
-       * @return The number of symmetry classes.
-       */
-      int GetSymmetry(std::vector<unsigned int> &symmetry_classes);
-      /**
-       * Clear the symmetry classes data stored in the molecule specified when
-       * construting the OBGraphSym object.
-       */
-      void ClearSymmetry();
-
-    private:
-      OBGraphSymPrivate * const d;
-  };
+private:
+  OBGraphSymPrivate *const d;
+};
 
 } // namespace OpenBabel
 

@@ -19,14 +19,13 @@ void compareJSON(OBMol &mol1, OBMol &mol2)
   for (std::size_t i = 0; i < mol1.NumAtoms(); ++i) {
     std::string json1 = mol1.GetAtom(i+1)->JSON();
     std::string json2 = mol2.GetAtom(i+1)->JSON();
-    OB_COMPARE(json1.substr(0, json1.find(", flags")) + " }", json2.substr(0, json2.find(", flags")) + " }");
+    OB_COMPARE(json1.substr(0, json1.find(", flags")) + " }", json2.substr(0,
+json2.find(", flags")) + " }");
   }
 }
 */
 
-
-void test_parser(const std::string &smiles)
-{
+void test_parser(const std::string &smiles) {
   std::cout << "Testing: " << smiles << std::endl;
   OBConversion obConv, smileyConv;
 
@@ -54,8 +53,7 @@ void test_parser(const std::string &smiles)
   OB_COMPARE(obCanSmiles, smileyCanSmiles);
 }
 
-int main()
-{
+int main() {
   // simple test...
   test_parser("CCC");
 
@@ -78,11 +76,11 @@ int main()
   test_parser("O=C1CCCC/C/1=N\\Nc1ccccc1");
 
   // mixed stereochemistry
-  test_parser("CC(C)CCC[C@@H](C)[C@H]1CCC2C3CC=C4CC(CC[C@@]4(C)C3CC[C@@]12C)OC(=O)/C=C/c1ccccc1");
+  test_parser("CC(C)CCC[C@@H](C)[C@H]1CCC2C3CC=C4CC(CC[C@@]4(C)C3CC[C@@]12C)OC("
+              "=O)/C=C/c1ccccc1");
 
   // OB's smiles parser assigns hybridization 2 to 2nd O???
   test_parser("O=Nc1ccc(O)cc1");
-
 
   test_parser("Cn1nccc1");
 
