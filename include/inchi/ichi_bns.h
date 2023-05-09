@@ -40,6 +40,7 @@
 #define __INCHI_BNS_H___
 
 #include "incomdef.h"
+#include "inpdef.h"
 
 #define BN_MAX_ALTP 16
 /*#define MAX_VERTEX 1024*/ /* including s; if vert[] has num_vert then
