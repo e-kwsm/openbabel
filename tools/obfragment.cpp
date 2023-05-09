@@ -21,36 +21,35 @@
 #define USING_OBDLL
 #endif
 
-#include <openbabel/babelconfig.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/bond.h>
+#include <openbabel/builder.h>
+#include <openbabel/data.h>
 #include <openbabel/generic.h>
+#include <openbabel/graphsym.h>
+#include <openbabel/math/align.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/graphsym.h>
-#include <openbabel/builder.h>
 #include <openbabel/parsmart.h>
-#include <openbabel/data.h>
-#include <openbabel/math/align.h>
 
 #if !HAVE_STRNCASECMP
 extern "C" int strncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 
-#include <cstdio>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <iterator>
 #include <algorithm>
-#include <queue>
+#include <cstdio>
+#include <fstream>
+#include <iostream>
+#include <iterator>
 #include <map>
+#include <queue>
+#include <sstream>
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc, char *argv[])
-{
+int main(int argc, char *argv[]) {
   // turn off slow sync with C-style output (we don't use it anyway).
   std::ios::sync_with_stdio(false);
 
@@ -62,45 +61,40 @@ int main(int argc, char *argv[])
   OBAtom *atom;
   OBBond *bond;
   char buffer[BUFF_SIZE];
-  map<std::string, vector<OBMol> > fragment_list;
+  map<std::string, vector<OBMol>> fragment_list;
   map<std::string, int> fragment_count;
-  vector<pair<int, std::string> > fragment_size;
+  vector<pair<int, std::string>> fragment_size;
 
   canFormat = conv.FindFormat("can"); // Canonical SMILES format
   conv.SetOutFormat(canFormat);
 
-  if (argc < 2)
-  {
+  if (argc < 2) {
     cerr << "Usage: obfragment <file>" << endl;
-    return(-1);
+    return (-1);
   }
 
   for (int i = 1; i < argc; ++i) {
     cerr << " Reading file " << argv[i] << endl;
 
     inFormat = conv.FormatFromExt(argv[i]);
-    if(inFormat==nullptr || !conv.SetInFormat(inFormat))
-    {
+    if (inFormat == nullptr || !conv.SetInFormat(inFormat)) {
       cerr << " Cannot read file format for " << argv[i] << endl;
       continue; // try next file
     }
 
     ifs.open(argv[i]);
 
-    if (!ifs)
-    {
+    if (!ifs) {
       cerr << "Cannot read input file: " << argv[i] << endl;
       continue;
     }
 
-
-    while(ifs.peek() != EOF && ifs.good())
-    {
+    while (ifs.peek() != EOF && ifs.good()) {
       conv.Read(&mol, &ifs);
       mol.DeleteHydrogens();
 
       unsigned int size = mol.NumAtoms();
-      OBBitVec atomsToCopy(size+1);
+      OBBitVec atomsToCopy(size + 1);
       for (unsigned int i = 1; i <= size; ++i) {
         atom = mol.GetAtom(i);
         atomsToCopy.SetBitOn(atom->GetIdx());
@@ -117,7 +111,9 @@ int main(int argc, char *argv[])
 
       OBMol mol_copy;
       mol.CopySubstructure(mol_copy, &atomsToCopy, &bondsToExclude);
-      vector<OBMol> fragments = mol_copy.Separate(); // Copies each disconnected fragment as a separate
+      vector<OBMol> fragments =
+          mol_copy
+              .Separate(); // Copies each disconnected fragment as a separate
       for (unsigned int i = 0; i < fragments.size(); ++i) {
         if (fragments[i].NumAtoms() < 5) // too small to care
           continue;
@@ -143,7 +139,7 @@ int main(int argc, char *argv[])
               break;
             }
           }
-          if(isDifferent)
+          if (isDifferent)
             fragment_list[smiles].push_back(fragments[i]);
         }
       }
@@ -153,16 +149,20 @@ int main(int argc, char *argv[])
   } // // while reading files
 
   // sort fragments by the number of molecules
-  for (map<std::string, vector<OBMol> >::iterator i = fragment_list.begin(); i != fragment_list.end(); ++i) {
+  for (map<std::string, vector<OBMol>>::iterator i = fragment_list.begin();
+       i != fragment_list.end(); ++i) {
     std::string smiles = i->first;
-    fragment_size.push_back(std::make_pair<int, std::string>(i->second[0].NumAtoms(), smiles.c_str()));
+    fragment_size.push_back(std::make_pair<int, std::string>(
+        i->second[0].NumAtoms(), smiles.c_str()));
   }
   sort(fragment_size.rbegin(), fragment_size.rend());
 
-  for (vector<pair<int, string> >::iterator i = fragment_size.begin(); i != fragment_size.end(); ++i) {
-    if (fragment_count[i->second] < 3) continue;
+  for (vector<pair<int, string>>::iterator i = fragment_size.begin();
+       i != fragment_size.end(); ++i) {
+    if (fragment_count[i->second] < 3)
+      continue;
     // OK, now retrieve the canonical SMILES ordering for the fragment
-    vector<OBMol>& fragments = fragment_list[i->second];
+    vector<OBMol> &fragments = fragment_list[i->second];
     vector<OBMol> t;
 
     for (size_t idx = 0; idx < fragments.size(); ++idx) {
@@ -170,13 +170,14 @@ int main(int argc, char *argv[])
         continue;
 
       t.push_back(fragments[idx]);
-      OBPairData *pd = dynamic_cast<OBPairData*>(fragments[idx].GetData("SMILES Atom Order"));
+      OBPairData *pd = dynamic_cast<OBPairData *>(
+          fragments[idx].GetData("SMILES Atom Order"));
       istringstream iss(pd->GetValue());
       vector<unsigned int> canonical_order;
       canonical_order.clear();
       copy(istream_iterator<unsigned int>(iss),
-          istream_iterator<unsigned int>(),
-          back_inserter<vector<unsigned int> >(canonical_order));
+           istream_iterator<unsigned int>(),
+           back_inserter<vector<unsigned int>>(canonical_order));
 
       // Write out an XYZ-style file with the CANSMI as the title
       cout << i->second << '\n'; // endl causes a flush
@@ -185,15 +186,15 @@ int main(int argc, char *argv[])
       OBAtom *atom;
 
       fragments[idx].Center(); // Translate to the center of all coordinates
-      fragments[idx].ToInertialFrame(); // Translate all conformers to the inertial frame-of-reference.
+      fragments[idx].ToInertialFrame(); // Translate all conformers to the
+                                        // inertial frame-of-reference.
 
       for (unsigned int index = 0; index < canonical_order.size(); ++index) {
         order = canonical_order[index];
         atom = fragments[idx].GetAtom(order);
 
         snprintf(buffer, BUFF_SIZE, "%d %9.3f %9.3f %9.3f\n",
-            atom->GetAtomicNum(),
-            atom->x(), atom->y(), atom->z());
+                 atom->GetAtomicNum(), atom->x(), atom->y(), atom->z());
         cout << buffer;
       }
     }

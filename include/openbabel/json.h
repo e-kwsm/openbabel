@@ -23,19 +23,18 @@ GNU General Public License for more details.
 #include <rapidjson/error/en.h>
 #include <rapidjson/istreamwrapper.h>
 #include <rapidjson/ostreamwrapper.h>
-#include <rapidjson/writer.h>
 #include <rapidjson/prettywriter.h>
-
+#include <rapidjson/writer.h>
 
 // These should already be defined by CMake
 #if defined(OPTIMIZE_NATIVE)
-  #if !defined(RAPIDJSON_SSE42) && defined(__SSE4_2__)
-    #define RAPIDJSON_SSE42
-  #elif !defined(RAPIDJSON_SSE2) && defined(__SSE2__)
-    #define RAPIDJSON_SSE2
-  #elif!defined(RAPIDJSON_NEON) &&  defined(__ARM_NEON)
-    #define RAPIDJSON_NEON
-  #endif
+#if !defined(RAPIDJSON_SSE42) && defined(__SSE4_2__)
+#define RAPIDJSON_SSE42
+#elif !defined(RAPIDJSON_SSE2) && defined(__SSE2__)
+#define RAPIDJSON_SSE2
+#elif !defined(RAPIDJSON_NEON) && defined(__ARM_NEON)
+#define RAPIDJSON_NEON
+#endif
 #endif
 
-#endif //OPENBABEL_JSON_H
+#endif // OPENBABEL_JSON_H

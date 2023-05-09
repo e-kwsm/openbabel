@@ -22,68 +22,66 @@ This code calls C++ routines in RDKit which are
 
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
-#include <iostream>
-#include<openbabel/op.h>
-#include<openbabel/mol.h>
-#include <RDKitConv.h>
-#include <GraphMol/Depictor/RDDepictor.h>
 #include <Geometry/point.h>
+#include <GraphMol/Depictor/RDDepictor.h>
 #include <GraphMol/conformer.h>
 #include <GraphMol/molops.h>
+#include <RDKitConv.h>
+#include <iostream>
+#include <openbabel/babelconfig.h>
+#include <openbabel/mol.h>
+#include <openbabel/op.h>
 
 #ifndef OBERROR
- #define OBERROR
+#define OBERROR
 #endif
 
-namespace OpenBabel
-{
-  class Op2D : public OBOp //was OBERROR when with OpenBabelDLL
+namespace OpenBabel {
+class Op2D : public OBOp // was OBERROR when with OpenBabelDLL
 {
 public:
-  Op2D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override
-  {
+  Op2D(const char *ID) : OBOp(ID, false){};
+  const char *Description() override {
     return "Generate 2D coordinates\n"
-      "Uses RDKit http://www.rdkit.org";
+           "Uses RDKit http://www.rdkit.org";
   }
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
 
-  bool Do(OBBase* pOb, OpMap*, const char* OptionText) override;
+  bool Do(OBBase *pOb, OpMap *, const char *OptionText) override;
 };
 
-Op2D theOp2D("2D"); //Global instance
+Op2D theOp2D("2D"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool Op2D::Do(OBBase* pOb, OpMap*, const char* OptionText)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool Op2D::Do(OBBase *pOb, OpMap *, const char *OptionText) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
-  //Do the conversion
-  try
-  {
+  // Do the conversion
+  try {
     RDKit::RWMol RDMol = OBMolToRWMol(pmol);
-    RDKit::MolOps::sanitizeMol(RDMol); //initializes various internl parameters
+    RDKit::MolOps::sanitizeMol(RDMol); // initializes various internl parameters
 
     unsigned int ConformerID = RDDepict::compute2DCoords(RDMol);
     RDKit::Conformer confmer = RDMol.getConformer(ConformerID);
-    for(int i=0; i<confmer.getNumAtoms(); ++i)
-    {
-      //transfer coordinates from the RDKit conformer to equivalent atoms in the OBMol
+    for (int i = 0; i < confmer.getNumAtoms(); ++i) {
+      // transfer coordinates from the RDKit conformer to equivalent atoms in
+      // the OBMol
       RDGeom::Point3D atompos = confmer.getAtomPos(i);
-      OBAtom* obat = pmol->GetAtom(i+1);
+      OBAtom *obat = pmol->GetAtom(i + 1);
       obat->SetVector(atompos.x, atompos.y, 0);
     }
-  }
-  catch(...)
-  {
-    obErrorLog.ThrowError(__FUNCTION__, "Op2D failed with an exception, probably in RDKit Code" , obError);
+  } catch (...) {
+    obErrorLog.ThrowError(
+        __FUNCTION__, "Op2D failed with an exception, probably in RDKit Code",
+        obError);
     return false;
   }
-  pmol->SetDimension(2); //No longer without coordinates!
+  pmol->SetDimension(2); // No longer without coordinates!
   return true;
 }
 
-}//namespace
+} // namespace OpenBabel

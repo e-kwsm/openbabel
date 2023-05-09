@@ -30,36 +30,36 @@
 
 namespace OpenBabel {
 
-  class OBMol;
+class OBMol;
 
+/**
+ * @brief Helper class for 3D coordinate generation.
+ *
+ * This class can be used to check stereochemistry when generating 3D
+ * coordinates. This class also keeps track of unspecified stereochemistry
+ * to ensure this information is not lost when calling StereoFrom3D().
+ */
+class OBAPI OBGen3DStereoHelper {
+public:
   /**
-   * @brief Helper class for 3D coordinate generation.
-   *
-   * This class can be used to check stereochemistry when generating 3D
-   * coordinates. This class also keeps track of unspecified stereochemistry
-   * to ensure this information is not lost when calling StereoFrom3D().
+   * @brief Store stereochemical information for later comparison.
    */
-  class OBAPI OBGen3DStereoHelper
-  {
-    public:
-      /**
-       * @brief Store stereochemical information for later comparison.
-       */
-      void Setup(OBMol *mol);
-      /**
-       * @brief Check the stereochemistry.
-       *
-       * This function will perceive stereochemistry from 3D and compare this
-       * with the stereochemistry that was stored when Setup() was called.
-       *
-       * @return True if the stereochemistry is correct.
-       */
-      bool Check(OBMol *mol);
-    private:
-      std::string m_inputSmiles;
-      std::vector<unsigned long> m_unspecifiedTetrahedral;
-      std::vector<unsigned long> m_unspecifiedCisTrans;
-  };
+  void Setup(OBMol *mol);
+  /**
+   * @brief Check the stereochemistry.
+   *
+   * This function will perceive stereochemistry from 3D and compare this
+   * with the stereochemistry that was stored when Setup() was called.
+   *
+   * @return True if the stereochemistry is correct.
+   */
+  bool Check(OBMol *mol);
+
+private:
+  std::string m_inputSmiles;
+  std::vector<unsigned long> m_unspecifiedTetrahedral;
+  std::vector<unsigned long> m_unspecifiedCisTrans;
+};
 
 } // namespace OpenBabel
 

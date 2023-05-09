@@ -21,31 +21,28 @@ GNU General Public License for more details.
 #include <typeinfo>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 #if defined(__CYGWIN__) || defined(__MINGW32__)
-  // macro to implement static OBPlugin::PluginMapType& Map()
-  PLUGIN_CPP_FILE(OBFormat)
+// macro to implement static OBPlugin::PluginMapType& Map()
+PLUGIN_CPP_FILE(OBFormat)
 #endif
 
-int OBFormat::RegisterFormat(const char* ID, const char* MIME)
-{
+int OBFormat::RegisterFormat(const char *ID, const char *MIME) {
   GetMap()[ID] = this;
   if (MIME)
     FormatsMIMEMap()[MIME] = this;
-  if(Flags() & DEFAULTFORMAT)
+  if (Flags() & DEFAULTFORMAT)
     Default() = this;
 
-  //ensure "formats" is registered as a plugin
-  PluginMap()[TypeID()] =this;
-  _id=ID;
+  // ensure "formats" is registered as a plugin
+  PluginMap()[TypeID()] = this;
+  _id = ID;
   return GetMap().size();
 }
 
 //////////////////////////////////////////////////////////
-const char* OBFormat::TargetClassDescription()
-{
-  //Provides class of default format unless overridden
+const char *OBFormat::TargetClassDescription() {
+  // Provides class of default format unless overridden
   if (OBFormat::FindType(nullptr))
     return OBFormat::FindType(nullptr)->TargetClassDescription();
   else
@@ -53,81 +50,72 @@ const char* OBFormat::TargetClassDescription()
 }
 
 //////////////////////////////////////////////////////////
-const type_info& OBFormat::GetType()
-{
-  //Provides info on class of default format unless overridden
+const type_info &OBFormat::GetType() {
+  // Provides info on class of default format unless overridden
   if (OBFormat::FindType(nullptr))
     return OBFormat::FindType(nullptr)->GetType();
   else
-    return typeid(this); //rubbish return if DefaultFormat not set
+    return typeid(this); // rubbish return if DefaultFormat not set
 }
 
 //////////////////////////////////////////////////////////
-OBFormat* OBFormat::FormatFromMIME(const char* MIME)
-{
-  if(FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end())
+OBFormat *OBFormat::FormatFromMIME(const char *MIME) {
+  if (FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end())
     return nullptr;
   else
-    return static_cast<OBFormat*>(FormatsMIMEMap()[MIME]);
+    return static_cast<OBFormat *>(FormatsMIMEMap()[MIME]);
 }
 
 //////////////////////////////////////////////////////////
-bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
-{
-  //No output for formats which can't be written or read
-  if((Flags() & NOTREADABLE) && (Flags() & NOTWRITABLE))
+bool OBFormat::Display(std::string &txt, const char *param, const char *ID) {
+  // No output for formats which can't be written or read
+  if ((Flags() & NOTREADABLE) && (Flags() & NOTWRITABLE))
     return false;
 
-  bool justread=false, justwrite=false;
-  //No output if formats is not readable or writable if this was requested
-  if(param)
-  {
-    if((!strncasecmp(param, "in", 2) || !strncasecmp(param, "read",4)))
-    {
-      justread=true;
-      if(Flags() & NOTREADABLE)
+  bool justread = false, justwrite = false;
+  // No output if formats is not readable or writable if this was requested
+  if (param) {
+    if ((!strncasecmp(param, "in", 2) || !strncasecmp(param, "read", 4))) {
+      justread = true;
+      if (Flags() & NOTREADABLE)
         return false;
     }
-    if((!strncasecmp(param, "out",3) || !strncasecmp(param, "write",5)))
-    {
-      justwrite=true;
-      if(Flags() & NOTWRITABLE)
+    if ((!strncasecmp(param, "out", 3) || !strncasecmp(param, "write", 5))) {
+      justwrite = true;
+      if (Flags() & NOTWRITABLE)
         return false;
     }
   }
 
-  //Use the provided ID if possible. If more than one ID has been registed
-  //for the format, e.g. "smiles" and "smi", the contents of the member
-  //variable _id, returned by GetID() is the last one.
-  if(ID)
+  // Use the provided ID if possible. If more than one ID has been registed
+  // for the format, e.g. "smiles" and "smi", the contents of the member
+  // variable _id, returned by GetID() is the last one.
+  if (ID)
     txt = ID;
   else
     txt = GetID();
   txt += " -- ";
   txt += FirstLine(Description());
-  if(!justread && (Flags() & NOTWRITABLE))
+  if (!justread && (Flags() & NOTWRITABLE))
     txt += " [Read-only]";
-  if(!justwrite && (Flags() & NOTREADABLE))
+  if (!justwrite && (Flags() & NOTREADABLE))
     txt += " [Write-only]";
 
-  if(param && strstr(param, "verbose"))
-  {
-    const char* nl = strchr(Description(), '\n');
-    if(nl)
-    {
+  if (param && strstr(param, "verbose")) {
+    const char *nl = strchr(Description(), '\n');
+    if (nl) {
       txt += '\n';
       txt += ++nl; // add rest of description
-      if(strlen(SpecificationURL()))
-      {
+      if (strlen(SpecificationURL())) {
         txt += "\nSpecification at: ";
         txt += SpecificationURL();
       }
       txt += "\n";
     }
   }
-  return true;//means txt has been updated
+  return true; // means txt has been updated
 }
-}//namespace
+} // namespace OpenBabel
 
 //! \file format.cpp
 //! \brief Base class OBFormat for file formats

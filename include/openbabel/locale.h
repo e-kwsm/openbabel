@@ -26,28 +26,26 @@ GNU General Public License for more details.
 #define OBERROR
 #endif
 
-namespace OpenBabel
-{
-  class OBLocalePrivate;
+namespace OpenBabel {
+class OBLocalePrivate;
 
-  // more detailed descriptions and documentation in locale.cpp
-  //! \brief Handle the locale for numeric data parsing
-  class OBERROR OBLocale {
-  public:
+// more detailed descriptions and documentation in locale.cpp
+//! \brief Handle the locale for numeric data parsing
+class OBERROR OBLocale {
+public:
+  OBLocale();
+  ~OBLocale();
 
-    OBLocale();
-    ~OBLocale();
+  void SetLocale();
+  void RestoreLocale();
 
-    void SetLocale();
-    void RestoreLocale();
+protected:
+  OBLocalePrivate *d;
+};
 
-  protected:
-    OBLocalePrivate* d;
-  };
-
-  //global definitions
-  //! Global OBLocale for setting and restoring locale information
-  OBERROR extern  OBLocale   obLocale;
+// global definitions
+//! Global OBLocale for setting and restoring locale information
+OBERROR extern OBLocale obLocale;
 
 } // namespace OpenBabel
 #endif // OB_LOCALE_H

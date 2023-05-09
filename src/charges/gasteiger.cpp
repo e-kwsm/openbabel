@@ -21,36 +21,38 @@ GNU General Public License for more details.
 #include <openbabel/mol.h>
 #include <openbabel/molchrg.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class GasteigerCharges : public OBChargeModel
-{
+class GasteigerCharges : public OBChargeModel {
 public:
-  GasteigerCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Assign Gasteiger-Marsili sigma partial charges"; }
+  GasteigerCharges(const char *ID) : OBChargeModel(ID, false){};
+  const char *Description() override {
+    return "Assign Gasteiger-Marsili sigma partial charges";
+  }
 
-  /// \return whether partial charges were successfully assigned to this molecule
+  /// \return whether partial charges were successfully assigned to this
+  /// molecule
   bool ComputeCharges(OBMol &mol) override;
 
-  double DipoleScalingFactor() override { return 3.4927; } // fit from regression
+  double DipoleScalingFactor() override {
+    return 3.4927;
+  } // fit from regression
 };
 
 /////////////////////////////////////////////////////////////////
-GasteigerCharges theGasteigerCharges("gasteiger"); //Global instance
+GasteigerCharges theGasteigerCharges("gasteiger"); // Global instance
 
 /////////////////////////////////////////////////////////////////
 
-  bool GasteigerCharges::ComputeCharges(OBMol &mol)
-  {
-    mol.SetPartialChargesPerceived();
+bool GasteigerCharges::ComputeCharges(OBMol &mol) {
+  mol.SetPartialChargesPerceived();
 
-    OBGastChrg gc;
-    bool returnValue = gc.AssignPartialCharges(mol);
+  OBGastChrg gc;
+  bool returnValue = gc.AssignPartialCharges(mol);
 
-    OBChargeModel::FillChargeVectors(mol);
+  OBChargeModel::FillChargeVectors(mol);
 
-    return returnValue;
-  }
+  return returnValue;
+}
 
-}//namespace
+} // namespace OpenBabel

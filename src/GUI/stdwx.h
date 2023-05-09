@@ -21,23 +21,23 @@ GNU General Public License for more details.
 // For compilers that support precompilation, includes "wx/wx.h".
 #include "wx/wxprec.h"
 
-#include "wx/tokenzr.h"
-#include "wx/config.h"
 #include "wx/clipbrd.h"
+#include "wx/config.h"
 #include "wx/filename.h"
 #include "wx/mimetype.h"
 #include "wx/splitter.h"
-#include "wx/valgen.h"
 #include "wx/statline.h"
+#include "wx/tokenzr.h"
+#include "wx/valgen.h"
 
 #ifdef __BORLANDC__
-    #pragma hdrstop
+#pragma hdrstop
 #endif
 
 // for all others, include the necessary headers (this file is usually all you
 // need because it includes almost all "standard" wxWidgets headers)
 #ifndef WX_PRECOMP
-    #include "wx/wx.h"
+#include "wx/wx.h"
 #endif
 
 // ----------------------------------------------------------------------------
@@ -47,6 +47,6 @@ GNU General Public License for more details.
 // the application icon (under Windows and OS/2 it is in resources and even
 // though we could still include the XPM here it would be unused)
 #if !defined(__WXMSW__) && !defined(__WXPM__)
-    #include "babel.xpm"
+#include "babel.xpm"
 #endif
 #endif

@@ -18,61 +18,63 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/chargemodel.h>
-#include <openbabel/mol.h>
 #include <openbabel/forcefield.h>
-#include <openbabel/obiter.h>
 #include <openbabel/generic.h>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
 
 #include <cstdlib>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class MMFF94Charges : public OBChargeModel
-{
+class MMFF94Charges : public OBChargeModel {
 public:
-  MMFF94Charges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "   Assign MMFF94 partial charges"; }
+  MMFF94Charges(const char *ID) : OBChargeModel(ID, false){};
+  const char *Description() override {
+    return "   Assign MMFF94 partial charges";
+  }
 
-  /// \return whether partial charges were successfully assigned to this molecule
+  /// \return whether partial charges were successfully assigned to this
+  /// molecule
   bool ComputeCharges(OBMol &mol) override;
 
-  double DipoleScalingFactor() override { return 3.8558; } // fit from regression across MMFF94 validation set
+  double DipoleScalingFactor() override {
+    return 3.8558;
+  } // fit from regression across MMFF94 validation set
 };
 
 /////////////////////////////////////////////////////////////////
-MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
+MMFF94Charges theMMFF94Charges("mmff94"); // Global instance
 
 /////////////////////////////////////////////////////////////////
 
-  bool MMFF94Charges::ComputeCharges(OBMol &mol)
-  {
-    mol.SetPartialChargesPerceived();
+bool MMFF94Charges::ComputeCharges(OBMol &mol) {
+  mol.SetPartialChargesPerceived();
 
-    // Annotate that partial charges come from MMFF94
-    OBPairData *dp = new OBPairData;
-    dp->SetAttribute("PartialCharges");
-    dp->SetValue("MMFF94");
-    dp->SetOrigin(perceived);
-    mol.SetData(dp);
+  // Annotate that partial charges come from MMFF94
+  OBPairData *dp = new OBPairData;
+  dp->SetAttribute("PartialCharges");
+  dp->SetValue("MMFF94");
+  dp->SetOrigin(perceived);
+  mol.SetData(dp);
 
-    OBForceField* pFF = OBForceField::FindForceField("MMFF94");
-    if (!pFF || !pFF->Setup(mol))
-      return false;
+  OBForceField *pFF = OBForceField::FindForceField("MMFF94");
+  if (!pFF || !pFF->Setup(mol))
+    return false;
 
-    pFF->GetPartialCharges(mol);
-    m_partialCharges.clear();
-    m_partialCharges.reserve(mol.NumAtoms());
-    m_formalCharges.clear();
-    m_formalCharges.reserve(mol.NumAtoms());
-    FOR_ATOMS_OF_MOL(atom, mol) {
-      OBPairData *chg = (OpenBabel::OBPairData*) atom->GetData("FFPartialCharge");
-      if (chg)
-        atom->SetPartialCharge(atof(chg->GetValue().c_str()));
-      m_partialCharges.push_back(atom->GetPartialCharge());
-      m_formalCharges.push_back(atom->GetFormalCharge());
-    }
-    return true;
+  pFF->GetPartialCharges(mol);
+  m_partialCharges.clear();
+  m_partialCharges.reserve(mol.NumAtoms());
+  m_formalCharges.clear();
+  m_formalCharges.reserve(mol.NumAtoms());
+  FOR_ATOMS_OF_MOL(atom, mol) {
+    OBPairData *chg = (OpenBabel::OBPairData *)atom->GetData("FFPartialCharge");
+    if (chg)
+      atom->SetPartialCharge(atof(chg->GetValue().c_str()));
+    m_partialCharges.push_back(atom->GetPartialCharge());
+    m_formalCharges.push_back(atom->GetFormalCharge());
   }
+  return true;
+}
 
-}//namespace
+} // namespace OpenBabel
