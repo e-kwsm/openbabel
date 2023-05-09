@@ -1,0 +1,7 @@
+---
+Checks:          '-*,clang-diagnostic-*,clang-analyzer-*,bugprone-*,misc-*,modernize-*,-modernize-use-trailing-return-type,performance-*,readability-*,-readability-identifier-length'
+WarningsAsErrors: ''
+HeaderFilterRegex: ''
+AnalyzeTemporaryDtors: false
+...
+
