@@ -19,7 +19,7 @@ namespace LBFGSpp {
 ///
 template <typename Scalar> class LineSearchNocedalWright {
 private:
-  typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
+  using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
 
 public:
   ///
@@ -42,13 +42,15 @@ public:
                          Scalar &step, const Vector &drt, const Vector &xp,
                          const LBFGSParam<Scalar> &param) {
     // Check the value of step
-    if (step <= Scalar(0))
+    if (step <= Scalar(0)) {
       throw std::invalid_argument("'step' must be positive");
+    }
 
-    if (param.linesearch != LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE)
+    if (param.linesearch != LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE) {
       throw std::invalid_argument("'param.linesearch' must be "
                                   "'LBFGS_LINESEARCH_BACKTRACKING_STRONG_WOLFE'"
                                   " for LineSearchNocedalWright");
+    }
 
     // To make this implementation more similar to the other line search
     // methods in LBFGSpp, the symbol names from the literature
@@ -68,12 +70,13 @@ public:
     // Projection of gradient on the search direction
     const Scalar dg_init = grad.dot(drt);
     // Make sure d points to a descent direction
-    if (dg_init > 0)
+    if (dg_init > 0) {
       throw std::logic_error(
           "the moving direction increases the objective function value");
+    }
 
-    const Scalar dg_test = param.ftol * dg_init,
-                 dg_wolfe = -param.wolfe * dg_init;
+    const Scalar dg_test = param.ftol * dg_init;
+    const Scalar dg_wolfe = -param.wolfe * dg_init;
 
     // ends of the line search range (step_lo > step_hi is allowed)
     Scalar step_hi, step_lo = 0, fx_hi, fx_lo = fx_init, dg_hi, dg_lo = dg_init;
