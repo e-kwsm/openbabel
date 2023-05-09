@@ -39,6 +39,12 @@
 #ifndef __ICHIRVRS_H__
 #define __ICHIRVRS_H__
 
+#include "ichi_bns.h"
+#include "ichiring.h"
+#include "ichisize.h"
+#include "ichitaut.h"
+#include "mode.h"
+
 #define ICHICONST const
 
 #define RI_ERR_ALLOC (-1)
@@ -131,8 +137,9 @@ typedef struct tagInpAtomAddParities {
 #define METAL_FREE_CHARGE_VAL                                                  \
   1 /* 1=> allow free changing charges/valences of metals; initial bond        \
        order=0 or 1 */
-#define ALLOW_METAL_BOND_ZERO 1 /* 1=> allow zero flow (bobd order) to metals  \
-                                 */
+#define ALLOW_METAL_BOND_ZERO                                                  \
+  1 /* 1=> allow zero flow (bobd order) to metals                              \
+     */
 
 #if (ALLOW_METAL_BOND_ZERO == 1)
 /* INIT_METAL_BOND_ZERO=1 => INIT_METAL_BOND_FLOW=0 */
@@ -397,8 +404,8 @@ typedef struct tagStructFromInChI {
                                         after Struct Restore and before
                                         Add/Remove Protons */
   int nNumRemovedProtonsByRevrs;      /* number of H(+) removed by the
-                                         reconstruction,      before Add/Remove Protons,
-                                         only from TAUT_YES */
+                                         reconstruction,      before Add/Remove
+                                         Protons,      only from TAUT_YES */
 
   int bExtract; /* for debugging */
 
@@ -409,7 +416,7 @@ typedef struct tagStructFromInChI {
   S_CHAR *pOne_fixed_H; /* !!! from normalized restored structure in case of
                            Fixed-H only */
   T_GROUP_INFO
-      One_ti; /* t-groups of normalized canonicalized restored structure */
+  One_ti; /* t-groups of normalized canonicalized restored structure */
   int nOneINChI_bMobileH; /* type of restored structure InChI */
   int nNumRemovedProtons; /* =0 for Fixed-H, = num. removed protons in case of
                              Mobile-H InChI */
@@ -558,9 +565,9 @@ typedef struct tagStructCmpTwoFixedH {
   S_CHAR nChargeFixHRevrs;
   S_CHAR nChargeMobHRevrs;
   S_CHAR
-      nChargeFixHRevrsNonMetal; /* charge does not include charges on metals */
+  nChargeFixHRevrsNonMetal; /* charge does not include charges on metals */
   S_CHAR
-      nChargeMobHRevrsNonMetal; /* charge does not include charges on metals */
+  nChargeMobHRevrsNonMetal; /* charge does not include charges on metals */
   char bFixedHLayerExistsRevrs;
   char bHasDifference;
   U_CHAR nNumDiffMobH;
