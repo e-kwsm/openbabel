@@ -2,14 +2,14 @@
 conversion.cpp - Unit tests for Open Babel OBConversion class
 
 Copyright (C) 2005-2006 Geoffrey R. Hutchison
- 
+
 This file is part of the Open Babel project.
 For more information, see <http://openbabel.org/>
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation version 2 of the License.
- 
+
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -26,31 +26,30 @@ GNU General Public License for more details.
 #include <openbabel/obconversion.h>
 
 #include <cstdio>
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
 using namespace std;
 using namespace OpenBabel;
 
-int conversion(int argc, char* argv[])
-{
+int conversion(int argc, char *argv[]) {
   int defaultchoice = 1;
-  
+
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
   cout << "# Unit tests for OBConversion \n";
 
@@ -80,7 +79,7 @@ int conversion(int argc, char* argv[])
     cout << "not ok 5\n";
   }
 
-  if ( (obConversion.WriteString(&obMol)).length() > 0)
+  if ((obConversion.WriteString(&obMol)).length() > 0)
     cout << "ok 6\n";
   else
     cout << "not ok 6\n";
@@ -101,24 +100,24 @@ int conversion(int argc, char* argv[])
   // aromatics.smi
   // attype.00.smi
 
-  //ReadFile()
-  //Read()
-  //WriteString()
-  // GetOutputIndex()
-  // IsLast
+  // ReadFile()
+  // Read()
+  // WriteString()
+  //  GetOutputIndex()
+  //  IsLast
 
-  //ReadString()
-  //IsFirstInput
-  //Read()
+  // ReadString()
+  // IsFirstInput
+  // Read()
 
   // splitting
-  
+
   // splitting using gzip-input
   // PR#1357705
-  
+
   // size 0 input
   // PR#1250900
-  
+
   // RegisterFormat
   // FindFormat
   // FormatFromExt
@@ -151,7 +150,5 @@ int conversion(int argc, char* argv[])
   obConversion.Read(&obMol);
   cout << "ok 8\n";
 
-  return(0);
+  return (0);
 }
-
-

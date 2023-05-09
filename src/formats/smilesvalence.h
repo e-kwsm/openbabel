@@ -16,17 +16,16 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-static bool IsOutsideOrganicSubset(unsigned int elem)
-{
+static bool IsOutsideOrganicSubset(unsigned int elem) {
   switch (elem) {
-  case  0: // *
-  case  5: // B
-  case  6: // C
-  case  7: // N
+  case 0:  // *
+  case 5:  // B
+  case 6:  // C
+  case 7:  // N
   case 15: // P
-  case  8: // O
+  case 8:  // O
   case 16: // S
-  case  9: // F
+  case 9:  // F
   case 17: // Cl
   case 35: // Br
   case 53: // I
@@ -37,18 +36,21 @@ static bool IsOutsideOrganicSubset(unsigned int elem)
 }
 
 /* Return the implicit Smiles valence for element "elem" with neutral charge
- * and "val" explicit nbrs. When writing SMILES, a return value of 0 indicates a hypervalent structure
+ * and "val" explicit nbrs. When writing SMILES, a return value of 0 indicates a
+ * hypervalent structure
  */
-static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool reading=true)
-{
+static unsigned int SmilesValence(unsigned int elem, unsigned int val,
+                                  bool reading = true) {
   switch (elem) {
-  case  5: // B
-    if (val <= 3) return 3;
+  case 5: // B
+    if (val <= 3)
+      return 3;
     break;
-  case  6: // C
-    if (val <= 4) return 4;
+  case 6: // C
+    if (val <= 4)
+      return 4;
     break;
-  case  7: // N
+  case 7:  // N
   case 15: // P
     switch (val) {
     case 0:
@@ -61,10 +63,11 @@ static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool read
       return 5;
     }
     break;
-  case  8: // O
-    if (val <= 2) return 2;
+  case 8: // O
+    if (val <= 2)
+      return 2;
     break;
-  case 16:  // S
+  case 16: // S
     switch (val) {
     case 0:
     case 1:
@@ -78,11 +81,12 @@ static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool read
       return 6;
     }
     break;
-  case  9:  // F
-  case 17:  // Cl
-  case 35:  // Br
-  case 53:  // I
-    if (val <= 1) return 1;
+  case 9:  // F
+  case 17: // Cl
+  case 35: // Br
+  case 53: // I
+    if (val <= 1)
+      return 1;
     break;
   }
   return reading ? val : 0;

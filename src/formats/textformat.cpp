@@ -15,81 +15,67 @@ GNU General Public License for more details.
 #include <openbabel/text.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class TextFormat : public OBFormat
-{
+class TextFormat : public OBFormat {
 public:
-  TextFormat()
+  TextFormat() { OBConversion::RegisterFormat("text", this); }
+
+  const char *Description() override // required
   {
-    OBConversion::RegisterFormat("text",this);
+    return "Read and write raw text\n"
+           "Facilitates the input of boilerplate text with obabel commandline";
   }
 
-  const char* Description() override  // required
-  {
-    return
-     "Read and write raw text\n"
-     "Facilitates the input of boilerplate text with obabel commandline" ;
-  }
-
-/////////////////////////////////////////////////////////////////
-  bool ReadChemObject(OBConversion* pConv) override
-  {
-    //Makes a new OBText
-    OBText* pReact = new OBText;
-    bool ret=ReadMolecule(pReact,pConv); //call the "API" read function
+  /////////////////////////////////////////////////////////////////
+  bool ReadChemObject(OBConversion *pConv) override {
+    // Makes a new OBText
+    OBText *pReact = new OBText;
+    bool ret = ReadMolecule(pReact, pConv); // call the "API" read function
 
     std::string auditMsg = "OpenBabel::Read text ";
     std::string description(Description());
-    auditMsg += description.substr(0,description.find('\n'));
-    obErrorLog.ThrowError(__FUNCTION__,
-              auditMsg,
-              obAuditMsg);
+    auditMsg += description.substr(0, description.find('\n'));
+    obErrorLog.ThrowError(__FUNCTION__, auditMsg, obAuditMsg);
 
-    if(ret) //Do transformation and return molecule
-      return pConv->AddChemObject(pReact->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv))!=0;
+    if (ret) // Do transformation and return molecule
+      return pConv->AddChemObject(pReact->DoTransformations(
+                 pConv->GetOptions(OBConversion::GENOPTIONS), pConv)) != 0;
     else
-        pConv->AddChemObject(nullptr);
+      pConv->AddChemObject(nullptr);
     return false;
   }
 
-///////////////////////////////////////////////////////////////////////
-  bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override
-  {
-    //It's really text, not a molecule.
-    OBText* pText = dynamic_cast<OBText*>(pOb);
+  ///////////////////////////////////////////////////////////////////////
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override {
+    // It's really text, not a molecule.
+    OBText *pText = dynamic_cast<OBText *>(pOb);
     if (!pText)
       return false;
-    string fileText(istreambuf_iterator<char>(*pConv->GetInStream()), istreambuf_iterator<char>());
+    string fileText(istreambuf_iterator<char>(*pConv->GetInStream()),
+                    istreambuf_iterator<char>());
     pText->SetText(fileText);
     return !fileText.empty();
   }
 
-  bool WriteChemObject(OBConversion* pConv) override
-  {
-    //Output an OBText object and delete any other type.
-    OBBase* pOb = pConv->GetChemObject();
-    OBText* pText = dynamic_cast<OBText*>(pOb);
-    if(!pText)
-    {
+  bool WriteChemObject(OBConversion *pConv) override {
+    // Output an OBText object and delete any other type.
+    OBBase *pOb = pConv->GetChemObject();
+    OBText *pText = dynamic_cast<OBText *>(pOb);
+    if (!pText) {
       delete pOb;
       return false;
-    }
-    else
-    {
-      ostream* ofs = pConv->GetOutStream();
-      if(ofs)
+    } else {
+      ostream *ofs = pConv->GetOutStream();
+      if (ofs)
         *ofs << pText->GetText();
       return (bool)*ofs;
     }
   }
 };
 
-  //*********************************************************************
-//Make an instance of the format class
+//*********************************************************************
+// Make an instance of the format class
 TextFormat theTextFormat;
 
-
-} //namespace OpenBabel
-
+} // namespace OpenBabel

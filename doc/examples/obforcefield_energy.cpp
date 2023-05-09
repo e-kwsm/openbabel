@@ -1,15 +1,14 @@
 #include <memory>
-#include <openbabel/obconversion.h>
-#include <openbabel/mol.h>
 #include <openbabel/forcefield.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
 
 #include <iostream>
 
 using namespace OpenBabel;
 
 // Helper function to read molecule from file
-std::shared_ptr<OBMol> GetMol(const std::string &filename)
-{
+std::shared_ptr<OBMol> GetMol(const std::string &filename) {
   // Create the OBMol object.
   std::shared_ptr<OBMol> mol(new OBMol);
 
@@ -17,7 +16,8 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(filename.c_str());
   if (!format || !conv.SetInFormat(format)) {
-    std::cout << "Could not find input format for file " << filename << std::endl;
+    std::cout << "Could not find input format for file " << filename
+              << std::endl;
     return mol;
   }
 
@@ -36,8 +36,7 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
   return mol;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   if (argc < 2) {
     std::cout << "Usage: " << argv[0] << " <filename>" << std::endl;
     return 1;

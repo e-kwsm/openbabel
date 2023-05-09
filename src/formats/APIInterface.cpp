@@ -19,42 +19,37 @@ GNU General Public License for more details.
 #include <openbabel/obconversion.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OBAPIInterface : public OBFormat
-{
+class OBAPIInterface : public OBFormat {
 public:
-  OBAPIInterface()
-	{
-		OBConversion::RegisterFormat("obapi",this);
-		OBConversion::RegisterOptionParam("-errorlevel", this, 1, OBConversion::GENOPTIONS);
-	}
-
-	const char* Description() override {
-    return
-    "Interface to OBAPI internals\n"
-    "API options, e.g. ---errorlevel 2\n"
-    " errorlevel # min warning level displayed\n\n";
+  OBAPIInterface() {
+    OBConversion::RegisterFormat("obapi", this);
+    OBConversion::RegisterOptionParam("-errorlevel", this, 1,
+                                      OBConversion::GENOPTIONS);
   }
 
-	unsigned int Flags() override { return (NOTWRITABLE | NOTREADABLE); }
+  const char *Description() override {
+    return "Interface to OBAPI internals\n"
+           "API options, e.g. ---errorlevel 2\n"
+           " errorlevel # min warning level displayed\n\n";
+  }
 
-	bool WriteMolecule(OBBase* , OBConversion* pConv) override
-	{
-		const char* txt = pConv->IsOption("errorlevel",OBConversion::GENOPTIONS);
-		if(txt)
-		{
-			stringstream ss(txt);
-			int ilevel=-1;
-			ss >> ilevel;
-			if(ilevel>=0)
-				obErrorLog.SetOutputLevel((obMessageLevel)ilevel);
-		}
-		return true;
-	}
+  unsigned int Flags() override { return (NOTWRITABLE | NOTREADABLE); }
+
+  bool WriteMolecule(OBBase *, OBConversion *pConv) override {
+    const char *txt = pConv->IsOption("errorlevel", OBConversion::GENOPTIONS);
+    if (txt) {
+      stringstream ss(txt);
+      int ilevel = -1;
+      ss >> ilevel;
+      if (ilevel >= 0)
+        obErrorLog.SetOutputLevel((obMessageLevel)ilevel);
+    }
+    return true;
+  }
 };
 
 OBAPIInterface theOBAPIInterface;
 
-} //namespace
+} // namespace OpenBabel

@@ -21,11 +21,11 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
+#include <cstdlib>
+#include <openbabel/atom.h>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/atom.h>
-#include <cstdlib>
 
 #include <cstdio>
 #include <iostream>
@@ -34,9 +34,7 @@ GNU General Public License for more details.
 using namespace std;
 using namespace OpenBabel;
 
-
-int pdbreadfile(int argc, char* argv[])
-{
+int pdbreadfile(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
@@ -44,13 +42,13 @@ int pdbreadfile(int argc, char* argv[])
   string pdbfile;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  switch(choice) {
+  switch (choice) {
   case 1:
     pdbfile = "00T_ideal.pdb";
     break;
@@ -68,19 +66,18 @@ int pdbreadfile(int argc, char* argv[])
     return -1;
   }
 
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
   cout << "# Unit tests for OBMol \n";
 
   cout << "ok 1\n"; // for loading tests
 
   OBConversion obconv;
-  if(!obconv.SetInFormat("PDB"))
-  {
+  if (!obconv.SetInFormat("PDB")) {
     cout << "Bail out! Fail format isn't loaded!" << endl;
     return -1;
   }
@@ -88,39 +85,39 @@ int pdbreadfile(int argc, char* argv[])
   // Test using ReadFile to read from PDB
   OpenBabel::OBMol obmol;
   if (obconv.ReadFile(&obmol, TESTDATADIR + pdbfile))
-          cout << "ok 2!" << endl;
+    cout << "ok 2!" << endl;
   else
-          cout << "not ok 2" << endl;
+    cout << "not ok 2" << endl;
 
-  if (obmol.NumAtoms()==22)
-          cout << "ok 3!" << endl;
+  if (obmol.NumAtoms() == 22)
+    cout << "ok 3!" << endl;
   else
-          cout << "not ok 3" << endl;
+    cout << "not ok 3" << endl;
 
   if (obmol.GetAtom(10)->GetAtomicNum() == OBElements::Chlorine)
-          cout << "ok 4!" << endl;
+    cout << "ok 4!" << endl;
   else
-          cout << "not ok 4" << endl;
+    cout << "not ok 4" << endl;
 
   if (obmol.GetAtom(6)->GetAtomicNum() == OBElements::Nitrogen)
-          cout << "ok 5!" << endl;
+    cout << "ok 5!" << endl;
   else
-          cout << "not ok 5" << endl;
+    cout << "not ok 5" << endl;
 
   if (obmol.GetAtom(12)->GetAtomicNum() == OBElements::Hydrogen)
-          cout << "ok 6!" << endl;
+    cout << "ok 6!" << endl;
   else
-          cout << "not ok 6" << endl;
+    cout << "not ok 6" << endl;
 
   if (obmol.GetAtom(13)->GetAtomicNum() == OBElements::Hydrogen)
-          cout << "ok 7!" << endl;
+    cout << "ok 7!" << endl;
   else
-          cout << "not ok 7" << endl;
+    cout << "not ok 7" << endl;
 
   if (obmol.GetAtom(14)->GetAtomicNum() == OBElements::Hydrogen)
-          cout << "ok 8!" << endl;
+    cout << "ok 8!" << endl;
   else
-          cout << "not ok 8" << endl;
+    cout << "not ok 8" << endl;
 
   // Test that there are no remaining molecules
   // (this test fails on Linux)

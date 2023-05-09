@@ -23,27 +23,27 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
-#include <openbabel/mol.h>
-#include <openbabel/obiter.h>
-#include <openbabel/obconversion.h>
 #include <openbabel/forcefield.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/obiter.h>
 #ifndef _MSC_VER
-  #include <unistd.h>
+#include <unistd.h>
 #endif
 #include <cstdlib>
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
 
   if (argc < 2) {
     cout << "Usage: obenergy [options] <filename>" << endl;
     cout << endl;
     cout << "options:      description:" << endl;
     cout << endl;
-    cout << "  -v          verbose: print out indivual energy interactions" << endl;
+    cout << "  -v          verbose: print out indivual energy interactions"
+         << endl;
     cout << endl;
     cout << "  -h          add hydrogens before calculating energy" << endl;
     cout << endl;
@@ -55,7 +55,7 @@ int main(int argc, char **argv)
     exit(-1);
   }
 
-  char *program_name= argv[0];
+  char *program_name = argv[0];
   int verbose = 0;
   bool hydrogens = false;
   string ff = "MMFF94";
@@ -104,7 +104,8 @@ int main(int argc, char **argv)
 
   OBForceField *pFF = OBForceField::FindForceField(ff);
   if (!pFF) {
-    cerr << program_name << ": could not find forcefield '" << ff << "'." <<endl;
+    cerr << program_name << ": could not find forcefield '" << ff << "'."
+         << endl;
     exit(-1);
   }
   pFF->SetLogFile(&cout);
@@ -133,68 +134,70 @@ int main(int argc, char **argv)
     if (!isfinite(energy)) {
       cerr << " Title: " << mol.GetTitle() << endl;
       FOR_ATOMS_OF_MOL(atom, mol) {
-        cerr << " x: " << atom->x() << " y: " << atom->y() << " z: " << atom->z() << endl;
+        cerr << " x: " << atom->x() << " y: " << atom->y()
+             << " z: " << atom->z() << endl;
       }
     }
 
-  }  // end for loop
+  } // end for loop
 
   return 0;
 }
 
 /* obenergy man page*/
 /** \page calculate the energy for a molecule
-*
-* \n
-* \par SYNOPSIS
-*
-* \b obenergy [options] \<filename\>
-*
-* \par DESCRIPTION
-*
-* The obenergy tool can be used to calculate the energy for molecules
-* inside (multi-)molecule files (e.g., MOL2, etc.)
-*
-* \par OPTIONS
-*
-* If no filename is given, obenergy will give all options including the
-* available forcefields.
-*
-* \b -v:
-*     Verbose: print out all individual energy interactions \n\n
-* \b -ff \<forcefield\>:
-*     Select the forcefield \n\n
-*
-* \par EXAMPLES
-*  - View the possible options, including available forcefields:
-*   obenergy
-*  - Calculate the energy for the molecule(s) in file test.mol2:
-*   obenergy test.mol2
-*  - Calculate the energy for the molecule(s) in file test.mol2 using the Ghemical forcefield:
-*   obenergy -ff Ghemical test.mol2
-*  - Calculate the energy for the molecule(s) in file test.mol2 and print out all individual energy interactions:
-*    obenergy -v test.mol2
-*
-* \par AUTHORS
-*
-* The obenergy program was contributed by \b Tim \b Vandermeersch.
-*
-* Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b Morley and \b Michael \b Banck.
-*
-* For more contributors to Open Babel, see http://openbabel.org/THANKS.shtml
-*
-* \par COPYRIGHT
-*  Copyright (C) 2007 by Tim Vandermeersch. \n \n
-*  This program is free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation version 2 of the License.\n \n
-*  This program is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-* \par SEE ALSO
-*   The web pages for Open Babel can be found at: http://openbabel.org/ \n
-*   The web pages for Open Babel Molecular Mechanics can be found at:
-*   http://openbabel.org/wiki/Molecular_mechanics \n
-**/
+ *
+ * \n
+ * \par SYNOPSIS
+ *
+ * \b obenergy [options] \<filename\>
+ *
+ * \par DESCRIPTION
+ *
+ * The obenergy tool can be used to calculate the energy for molecules
+ * inside (multi-)molecule files (e.g., MOL2, etc.)
+ *
+ * \par OPTIONS
+ *
+ * If no filename is given, obenergy will give all options including the
+ * available forcefields.
+ *
+ * \b -v:
+ *     Verbose: print out all individual energy interactions \n\n
+ * \b -ff \<forcefield\>:
+ *     Select the forcefield \n\n
+ *
+ * \par EXAMPLES
+ *  - View the possible options, including available forcefields:
+ *   obenergy
+ *  - Calculate the energy for the molecule(s) in file test.mol2:
+ *   obenergy test.mol2
+ *  - Calculate the energy for the molecule(s) in file test.mol2 using the
+ *Ghemical forcefield: obenergy -ff Ghemical test.mol2
+ *  - Calculate the energy for the molecule(s) in file test.mol2 and print out
+ *all individual energy interactions: obenergy -v test.mol2
+ *
+ * \par AUTHORS
+ *
+ * The obenergy program was contributed by \b Tim \b Vandermeersch.
+ *
+ * Open Babel is currently maintained by \b Geoff \b Hutchison, \b Chris \b
+ *Morley and \b Michael \b Banck.
+ *
+ * For more contributors to Open Babel, see http://openbabel.org/THANKS.shtml
+ *
+ * \par COPYRIGHT
+ *  Copyright (C) 2007 by Tim Vandermeersch. \n \n
+ *  This program is free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation version 2 of the License.\n \n
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ * \par SEE ALSO
+ *   The web pages for Open Babel can be found at: http://openbabel.org/ \n
+ *   The web pages for Open Babel Molecular Mechanics can be found at:
+ *   http://openbabel.org/wiki/Molecular_mechanics \n
+ **/
