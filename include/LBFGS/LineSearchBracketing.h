@@ -15,7 +15,7 @@ namespace LBFGSpp {
 ///
 template <typename Scalar> class LineSearchBracketing {
 private:
-  typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
+  using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
 
 public:
   ///
@@ -40,17 +40,19 @@ public:
                          Scalar &step, const Vector &drt, const Vector &xp,
                          const LBFGSParam<Scalar> &param) {
     // Check the value of step
-    if (step <= Scalar(0))
-      std::invalid_argument("'step' must be positive");
+    if (step <= Scalar(0)) {
+      throw std::invalid_argument("'step' must be positive");
+    }
 
     // Save the function value at the current x
     const Scalar fx_init = fx;
     // Projection of gradient on the search direction
     const Scalar dg_init = grad.dot(drt);
     // Make sure d points to a descent direction
-    if (dg_init > 0)
-      std::logic_error(
+    if (dg_init > 0) {
+      throw std::logic_error(
           "the moving direction increases the objective function value");
+    }
 
     const Scalar dg_test = param.ftol * dg_init;
 
@@ -67,16 +69,18 @@ public:
         step_hi = step;
       } else {
         // Armijo condition is met
-        if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
+        if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO) {
           break;
+        }
 
         const Scalar dg = grad.dot(drt);
         if (dg < param.wolfe * dg_init) {
           step_lo = step;
         } else {
           // Regular Wolfe condition is met
-          if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE)
+          if (param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE) {
             break;
+          }
 
           if (dg > -param.wolfe * dg_init) {
             step_hi = step;
@@ -89,17 +93,20 @@ public:
 
       assert(step_lo < step_hi);
 
-      if (iter >= param.max_linesearch)
+      if (iter >= param.max_linesearch) {
         throw std::runtime_error(
             "the line search routine reached the maximum number of iterations");
+      }
 
-      if (step < param.min_step)
+      if (step < param.min_step) {
         throw std::runtime_error("the line search step became smaller than the "
                                  "minimum value allowed");
+      }
 
-      if (step > param.max_step)
+      if (step > param.max_step) {
         throw std::runtime_error("the line search step became larger than the "
                                  "maximum value allowed");
+      }
 
       // continue search in mid of current search range
       step = std::isinf(step_hi) ? 2 * step : step_lo / 2 + step_hi / 2;
