@@ -39,6 +39,8 @@
 #ifndef __INCHICANT_H__
 #define __INCHICANT_H__
 
+#include "incomdef.h"
+
 /******************************************************/
 /*                                                    */
 /*                 Canonicalization definitions       */
@@ -302,7 +304,7 @@ typedef struct tagCanonStat {
   AT_RANK *nSymmRankTaut; /* t-group symmetry numbers in order of t-groups  */
 
   AT_RANK
-      *nCanonOrdStereo; /* atom numbers in order of increasing canon. ranks */
+  *nCanonOrdStereo; /* atom numbers in order of increasing canon. ranks */
   AT_RANK *
       nCanonOrdStereoInv; /* atom numbers in order of increasing canon. ranks */
   AT_RANK *nCanonOrdStereoTaut; /* t-group numbers in order of increasing canon.
@@ -310,7 +312,7 @@ typedef struct tagCanonStat {
 
   AT_RANK *nSymmRankIsotopic;
   AT_RANK
-      *nCanonOrdIsotopic; /* atom numbers in order of increasing canon. ranks */
+  *nCanonOrdIsotopic; /* atom numbers in order of increasing canon. ranks */
   AT_RANK *nSymmRankIsotopicTaut; /* !!! */
   AT_RANK *nCanonOrdIsotopicTaut; /*/ t-group numbers in order of increasing
                                      canon. ranks */

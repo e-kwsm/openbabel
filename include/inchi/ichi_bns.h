@@ -39,6 +39,8 @@
 #ifndef __INCHI_BNS_H___
 #define __INCHI_BNS_H___
 
+#include "incomdef.h"
+
 #define BN_MAX_ALTP 16
 /*#define MAX_VERTEX 1024*/ /* including s; if vert[] has num_vert then
                                MAX_VERTEX has (2*num_vert+2+FIRST_INDX) elements
@@ -97,8 +99,9 @@ typedef S_SHORT VertexFlow;
 
 /* InChI->Structure */
 
-#define BNS_VT_C_POS BNS_VERT_TYPE_C_GROUP /* positive charge group, heteroat  \
-                                            */
+#define BNS_VT_C_POS                                                           \
+  BNS_VERT_TYPE_C_GROUP /* positive charge group, heteroat                     \
+                         */
 #define BNS_VT_C_NEG                                                           \
   (BNS_VERT_TYPE_C_GROUP |                                                     \
    BNS_VERT_TYPE_C_NEGATIVE) /* negative charge group, heteroat */
@@ -252,7 +255,7 @@ typedef struct BnsVertex {
 
   BNS_ST_EDGE st_edge; /* 0,1 capacity and flow of the edge to s or t */
   AT_NUMB
-      type; /* 2, atom, t-group, or added atom: BNS_VERT_TYPE_TGROUP, etc. */
+  type; /* 2, atom, t-group, or added atom: BNS_VERT_TYPE_TGROUP, etc. */
   AT_NUMB num_adj_edges; /* 3, actual number of neighbors incl. t-groups, excl.
                             s or t */
   AT_NUMB max_adj_edges; /* 4, including reserved */

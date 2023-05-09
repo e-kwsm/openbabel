@@ -39,6 +39,9 @@
 #ifndef __INCHIDRP_H__
 #define __INCHIDRP_H__
 
+#include "ichisize.h"
+#include "incomdef.h"
+
 #ifndef COMPILE_ANSI_ONLY /* { */
 /********************************************
  * Parameters for the structure drawing

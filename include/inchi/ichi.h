@@ -40,6 +40,7 @@
 #define __INCHI_H__
 
 #include "incomdef.h"
+#include "mode.h"
 
 #define REQ_MODE_BASIC 0x000001          /* B include Fixed-H layer */
 #define REQ_MODE_TAUT 0x000002           /* T include Mobile-H layer */
@@ -144,14 +145,16 @@ typedef struct tagINChI_Stereo { /* [N] = allocated length */
   0x0008 /* embed reconnected INChI into disconnected INChI */
 #define INCHI_OUT_SDFILE_ONLY                                                  \
   0x0010 /* save input data in a Molfile instead of creating INChI */
-#define INCHI_OUT_XML 0x0020                 /* output xml INChI */
-#define INCHI_OUT_PLAIN_TEXT 0x0040          /* output plain text INChI */
-#define INCHI_OUT_PLAIN_TEXT_COMMENTS 0x0080 /* output plain text annotation   \
-                                              */
-#define INCHI_OUT_XML_TEXT_COMMENTS 0x0100   /* output xml text annotation */
-#define INCHI_OUT_WINCHI_WINDOW 0x0200 /* output into wINChI text window */
-#define INCHI_OUT_TABBED_OUTPUT 0x0400 /* tab-delimited (only for plain text)  \
-                                        */
+#define INCHI_OUT_XML 0x0020        /* output xml INChI */
+#define INCHI_OUT_PLAIN_TEXT 0x0040 /* output plain text INChI */
+#define INCHI_OUT_PLAIN_TEXT_COMMENTS                                          \
+  0x0080                                   /* output plain text annotation     \
+                                            */
+#define INCHI_OUT_XML_TEXT_COMMENTS 0x0100 /* output xml text annotation */
+#define INCHI_OUT_WINCHI_WINDOW 0x0200     /* output into wINChI text window */
+#define INCHI_OUT_TABBED_OUTPUT                                                \
+  0x0400 /* tab-delimited (only for plain text)                                \
+          */
 #define INCHI_OUT_SDFILE_ATOMS_DT                                              \
   0x0800                              /* SDfile output H isotopes as D and T */
 #define INCHI_OUT_SDFILE_SPLIT 0x1000 /* Split SDfile into components */
@@ -180,18 +183,18 @@ typedef struct tagINChI { /* [N] = allocated length */
 
   int nErrorCode; /* 0 = success */
   INCHI_MODE
-      nFlags; /* INCHI_FLAG_ACID_TAUT            tautomerism of dissociated acid
-                 invoked INCHI_FLAG_REL_STEREO           requested relative
-                 stereo INCHI_FLAG_RAC_STEREO           requested racemic stereo
-                 INCHI_FLAG_SC_IGN_ALL_UU        ignored all undefined/unknown
-                 stereocenters, non-isotopic INCHI_FLAG_SB_IGN_ALL_UU ignored
-                 all undefined/unknown stereocenters, non-isotopic
-                 INCHI_FLAG_SC_IGN_ALL_ISO_UU    ignored all undefined/unknown
-                 stereocenters, isotopic INCHI_FLAG_SB_IGN_ALL_ISO_UU    ignored
-                 all undefined/unknown stereocenters, isotopic
-                 INCHI_FLAG_HARD_ADD_REM_PROTON  in normalization a proton has
-                 been added or removed along alt path
-               */
+  nFlags; /* INCHI_FLAG_ACID_TAUT            tautomerism of dissociated acid
+             invoked INCHI_FLAG_REL_STEREO           requested relative
+             stereo INCHI_FLAG_RAC_STEREO           requested racemic stereo
+             INCHI_FLAG_SC_IGN_ALL_UU        ignored all undefined/unknown
+             stereocenters, non-isotopic INCHI_FLAG_SB_IGN_ALL_UU ignored
+             all undefined/unknown stereocenters, non-isotopic
+             INCHI_FLAG_SC_IGN_ALL_ISO_UU    ignored all undefined/unknown
+             stereocenters, isotopic INCHI_FLAG_SB_IGN_ALL_ISO_UU    ignored
+             all undefined/unknown stereocenters, isotopic
+             INCHI_FLAG_HARD_ADD_REM_PROTON  in normalization a proton has
+             been added or removed along alt path
+           */
   /* ---- basic & tautomer layer */
   int nTotalCharge;
   int nNumberOfAtoms;
@@ -206,8 +209,8 @@ typedef struct tagINChI { /* [N] = allocated length */
                        * = 2} - new Allocated length: [5*nNumberOfAtoms/2+1],
                        * see Alloc_INChI(...) */
   S_CHAR *nNum_H;     /* number of terminal hydrogen atoms on each atom; in
-                       * tautomeric     representation these H on tautomeric atoms are
-                       * not included [nNumberOfAtoms] */
+                       * tautomeric     representation these H on tautomeric atoms
+                       * are     not included [nNumberOfAtoms] */
   S_CHAR *nNum_H_fixed; /* number of terminal hydrogen atoms on tautomeric
                          * atoms, in non-atautomeric representation only
                          * [nNumberOfAtoms] */
