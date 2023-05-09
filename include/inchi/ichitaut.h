@@ -39,6 +39,7 @@
 #ifndef __INCHITAUT_H__
 #define __INCHITAUT_H__
 
+#include "extr_ct.h"
 #include "ichi_bns.h"
 #include "inpdef.h"
 

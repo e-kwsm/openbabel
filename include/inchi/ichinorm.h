@@ -40,6 +40,7 @@
 #define __INCHINORM_H__
 
 #include "ichi_bns.h"
+#include "ichitaut.h"
 #include "mode.h"
 
 #ifndef COMPILE_ALL_CPP
