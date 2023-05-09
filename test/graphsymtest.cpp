@@ -1,12 +1,12 @@
 #include "obtest.h"
 
+#include <openbabel/atom.h>
+#include <openbabel/graphsym.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/stereo/tetrahedral.h>
-#include <openbabel/stereo/cistrans.h>
-#include <openbabel/graphsym.h>
-#include <openbabel/atom.h>
 #include <openbabel/obiter.h>
+#include <openbabel/stereo/cistrans.h>
+#include <openbabel/stereo/tetrahedral.h>
 
 #include <openbabel/canon.h>
 
@@ -18,18 +18,16 @@ using namespace OpenBabel;
  * format uses them correctly.
  */
 
-void genericGraphSymTest(const std::string &smiles)
-{
+void genericGraphSymTest(const std::string &smiles) {
   cout << "Testing generic smiles <-> canonical smiles" << endl;
   // read a smiles string
   OBMol mol1, mol2;
   OBConversion conv;
-  OB_REQUIRE( conv.SetInFormat("smi") );
-  OB_REQUIRE( conv.SetOutFormat("can") );
+  OB_REQUIRE(conv.SetInFormat("smi"));
+  OB_REQUIRE(conv.SetOutFormat("can"));
   cout << "smiles: " << smiles << endl;
   // read a smiles string
-  OB_REQUIRE( conv.ReadString(&mol1, smiles) );
-
+  OB_REQUIRE(conv.ReadString(&mol1, smiles));
 
   std::vector<unsigned int> canlbls1, canlbls2;
   std::vector<unsigned int> symclasses1, symclasses2;
@@ -43,7 +41,7 @@ void genericGraphSymTest(const std::string &smiles)
   std::string canSmiles = conv.WriteString(&mol1);
   cout << "canSmiles: " << canSmiles;
   // read can smiles in again
-  OB_REQUIRE( conv.ReadString(&mol2, canSmiles) );
+  OB_REQUIRE(conv.ReadString(&mol2, canSmiles));
 
   OBGraphSym gs2(&mol2);
   gs2.GetSymmetry(symclasses2);
@@ -52,109 +50,117 @@ void genericGraphSymTest(const std::string &smiles)
 
   std::vector<unsigned int> symclassesCopy1 = symclasses1;
   std::sort(symclassesCopy1.begin(), symclassesCopy1.end());
-  std::vector<unsigned int>::iterator end1 = std::unique(symclassesCopy1.begin(), symclassesCopy1.end());
+  std::vector<unsigned int>::iterator end1 =
+      std::unique(symclassesCopy1.begin(), symclassesCopy1.end());
   unsigned int unique1 = end1 - symclassesCopy1.begin();
 
   std::vector<unsigned int> symclassesCopy2 = symclasses2;
   std::sort(symclassesCopy2.begin(), symclassesCopy2.end());
-  std::vector<unsigned int>::iterator end2 = std::unique(symclassesCopy2.begin(), symclassesCopy2.end());
+  std::vector<unsigned int>::iterator end2 =
+      std::unique(symclassesCopy2.begin(), symclassesCopy2.end());
   unsigned int unique2 = end2 - symclassesCopy2.begin();
 
-  OB_ASSERT( unique1 == unique2 );
+  OB_ASSERT(unique1 == unique2);
   if (unique1 != unique2)
     cout << unique1 << " == " << unique2 << endl;
 
-  FOR_ATOMS_OF_MOL (a1, mol1) {
+  FOR_ATOMS_OF_MOL(a1, mol1) {
     OBAtom *a2 = nullptr;
     unsigned int symClass1 = symclasses1.at(a1->GetIndex());
     for (unsigned int i = 0; i < symclasses2.size(); ++i)
       if (symclasses2.at(i) == symClass1) {
-        a2 = mol2.GetAtom(i+1);
+        a2 = mol2.GetAtom(i + 1);
         break;
       }
 
     if (!a2)
       continue;
 
-    OB_ASSERT( a1->GetAtomicNum() == a2->GetAtomicNum() );
-    OB_ASSERT( a1->GetExplicitDegree() == a2->GetExplicitDegree() );
-    OB_ASSERT( a1->GetHvyDegree() == a2->GetHvyDegree() );
-    OB_ASSERT( a1->GetHeteroDegree() == a2->GetHeteroDegree() );
-    OB_ASSERT( a1->GetImplicitHCount() == a2->GetImplicitHCount() );
+    OB_ASSERT(a1->GetAtomicNum() == a2->GetAtomicNum());
+    OB_ASSERT(a1->GetExplicitDegree() == a2->GetExplicitDegree());
+    OB_ASSERT(a1->GetHvyDegree() == a2->GetHvyDegree());
+    OB_ASSERT(a1->GetHeteroDegree() == a2->GetHeteroDegree());
+    OB_ASSERT(a1->GetImplicitHCount() == a2->GetImplicitHCount());
   }
 
   cout << "." << endl << endl;
 }
 
-void countGraphSymClassesTest(const std::string &filename, int numberOfClasses)
-{
+void countGraphSymClassesTest(const std::string &filename,
+                              int numberOfClasses) {
   cout << filename << endl;
   std::string file = OBTestUtil::GetFilename(filename);
   OBMol mol;
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( conv.SetInFormat(format) );
-  OB_REQUIRE( conv.ReadFile(&mol, file) );
+  OB_REQUIRE(format);
+  OB_REQUIRE(conv.SetInFormat(format));
+  OB_REQUIRE(conv.ReadFile(&mol, file));
 
   OBGraphSym graphSym(&mol);
   std::vector<unsigned int> symmetry_classes;
   graphSym.GetSymmetry(symmetry_classes);
   for (unsigned int i = 0; i < symmetry_classes.size(); ++i)
-    cout << i+1 << ": " << symmetry_classes[i] << endl;
+    cout << i + 1 << ": " << symmetry_classes[i] << endl;
 
   std::sort(symmetry_classes.begin(), symmetry_classes.end());
-  std::vector<unsigned int>::iterator end = std::unique(symmetry_classes.begin(), symmetry_classes.end());
+  std::vector<unsigned int>::iterator end =
+      std::unique(symmetry_classes.begin(), symmetry_classes.end());
   unsigned int n = end - symmetry_classes.begin();
 
-  OB_ASSERT( n == numberOfClasses);
+  OB_ASSERT(n == numberOfClasses);
   if (n != numberOfClasses) {
     cout << n << " == " << numberOfClasses << endl;
   }
 }
 
-int graphsymtest(int argc, char* argv[])
-{
+int graphsymtest(int argc, char *argv[]) {
   int defaultchoice = 1;
-  
+
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
-  switch(choice) {
+  switch (choice) {
   case 1:
     genericGraphSymTest("C[C@H](O)N");
     genericGraphSymTest("Cl[C@@](CCl)(I)Br");
     genericGraphSymTest("Cl/C=C/F");
     genericGraphSymTest("CCC[C@@H](O)CC\\C=C\\C=C\\C#CC#C\\C=C\\CO");
-    genericGraphSymTest("O1C=C[C@H]([C@H]1O2)c3c2cc(OC)c4c3OC(=O)C5=C4CCC(=O)5");
+    genericGraphSymTest(
+        "O1C=C[C@H]([C@H]1O2)c3c2cc(OC)c4c3OC(=O)C5=C4CCC(=O)5");
     genericGraphSymTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H](O)[C@@H](O)1");
-    genericGraphSymTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H]2[C@@H]1c3c(O)c(OC)c(O)cc3C(=O)O2");
+    genericGraphSymTest(
+        "OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H]2[C@@H]1c3c(O)c(OC)c(O)cc3C(=O)O2");
     genericGraphSymTest("CC(=O)OCCC(/C)=C\\C[C@H](C(C)=C)CCC=C");
     genericGraphSymTest("CC[C@H](O1)CC[C@@]12CCCO2");
     genericGraphSymTest("CN1CCC[C@H]1c2cccnc2");
-    genericGraphSymTest("C(CS[14CH2][14C@@H]1[14C@H]([14C@H]([14CH](O1)O)O)O)[C@@H](C(=O)O)N");
-    genericGraphSymTest("CCC[C@@H]1C[C@H](N(C1)C)C(=O)NC([C@@H]2[C@@H]([C@@H]([C@H]([C@H](O2)SC)OP(=O)(O)O)O)O)C(C)Cl");
-    genericGraphSymTest("CC(C)[C@H]1CC[C@]([C@@H]2[C@@H]1C=C(COC2=O)C(=O)O)(CCl)O");
+    genericGraphSymTest(
+        "C(CS[14CH2][14C@@H]1[14C@H]([14C@H]([14CH](O1)O)O)O)[C@@H](C(=O)O)N");
+    genericGraphSymTest("CCC[C@@H]1C[C@H](N(C1)C)C(=O)NC([C@@H]2[C@@H]([C@@H](["
+                        "C@H]([C@H](O2)SC)OP(=O)(O)O)O)O)C(C)Cl");
+    genericGraphSymTest(
+        "CC(C)[C@H]1CC[C@]([C@@H]2[C@@H]1C=C(COC2=O)C(=O)O)(CCl)O");
     genericGraphSymTest("CC(C)[C@@]12C[C@@H]1[C@@H](C)C(=O)C2");
     break;
 
   case 2:
     // ring gets converted to aromatic ring, adding H on n (i.e. N -> [nH])
-    //genericGraphSymTest("CC1=CN(C(=O)NC1=O)[C@H]2C[C@@H]([C@H](O2)CNCC3=CC=CC=C3)O");
+    // genericGraphSymTest("CC1=CN(C(=O)NC1=O)[C@H]2C[C@@H]([C@H](O2)CNCC3=CC=CC=C3)O");
     // This is the aromatic form -- GRH, it passes
-    genericGraphSymTest("Cc1cn(c(=O)[nH]c1=O)[C@H]1C[C@@H]([C@H](O1)CNCc1ccccc1)O");
+    genericGraphSymTest(
+        "Cc1cn(c(=O)[nH]c1=O)[C@H]1C[C@@H]([C@H](O1)CNCc1ccccc1)O");
     break;
 
   case 3:
@@ -217,22 +223,22 @@ int graphsymtest(int argc, char* argv[])
     countGraphSymClassesTest("stereo/razinger_fig7_50.mol", 5);
     countGraphSymClassesTest("stereo/razinger_fig7_51.mol", 7);
     countGraphSymClassesTest("stereo/razinger_fig7_52.mol", 4);
-    //countGraphSymClassesTest("stereo/razinger_fig7_53.mol", 3); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_54.mol", 5); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_55.mol", 9); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_56.mol", 9); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_57.mol", ); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_53.mol", 3); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_54.mol", 5); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_55.mol", 9); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_56.mol", 9); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_57.mol", ); // missing
     countGraphSymClassesTest("stereo/razinger_fig7_58.mol", 5);
     countGraphSymClassesTest("stereo/razinger_fig7_59.mol", 4);
     countGraphSymClassesTest("stereo/razinger_fig7_60.mol", 7);
-    //countGraphSymClassesTest("stereo/razinger_fig7_61.mol", ); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_62.mol", ); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_63.mol", ); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_61.mol", ); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_62.mol", ); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_63.mol", ); // missing
     countGraphSymClassesTest("stereo/razinger_fig7_64.mol", 8);
-    //countGraphSymClassesTest("stereo/razinger_fig7_65.mol", 2); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_66.mol", 2); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_67.mol", 3); // missing
-    //countGraphSymClassesTest("stereo/razinger_fig7_68.mol", 3); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_65.mol", 2); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_66.mol", 2); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_67.mol", 3); // missing
+    // countGraphSymClassesTest("stereo/razinger_fig7_68.mol", 3); // missing
     countGraphSymClassesTest("stereo/razinger_fig7_69.mol", 2);
     break;
   default:
@@ -241,5 +247,3 @@ int graphsymtest(int argc, char* argv[])
   }
   return 0;
 }
-
-

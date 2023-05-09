@@ -22,100 +22,98 @@ GNU General Public License for more details.
 #include <openbabel/babelconfig.h>
 #include <openbabel/math/vector3.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-  class OBMol;
-  class OBPainter;
-  class OBDepictPrivate;
+class OBMol;
+class OBPainter;
+class OBDepictPrivate;
 
-  #ifndef OBDEPICT
-    #define OBDEPICT
-  #endif
+#ifndef OBDEPICT
+#define OBDEPICT
+#endif
 
-  /**
-   * @class OBDepict depict.h <openbabel/depict/depict.h>
-   * @brief 2D depiction of molecules using OBPainter.
-   * @since version 2.3
-   */
-  class OBDEPICT OBDepict
-  {
-    public:
-      enum AtomLabelType {
-        AtomId = 1,
-        AtomIndex,
-        AtomSymmetryClass,
-        AtomValence,
-        AtomTetrahedralStereo
-      };
-
-      enum OptionType{
-        bwAtoms              = 0x0001,
-        internalColor        = 0x0002,
-        noMargin             = 0x0004,
-        drawTermC            = 0x0010,
-        drawAllC             = 0x0020,
-        noWedgeHashGen       = 0x0100,
-        asymmetricDoubleBond = 0x0200,
-        allExplicit          = 0x0400
-      };
-
-      /**
-       * Constructors.
-       */
-      OBDepict(OBPainter *painter);
-      OBDepict(OBPainter *painter, bool withBall, bool symbolOnBall=false);
-      /**
-       * Destructor.
-       */
-      ~OBDepict();
-      /**
-       * Draw @p mol using the painter previously stored in the constructor.
-       *
-       * @return True if successful.
-       */
-      bool DrawMolecule(OBMol *mol);
-      /**
-       * Draw atom labels of a specified @p type.
-       *
-       * @return True if successful.
-       */
-      bool AddAtomLabels(AtomLabelType type);
-
-      void SetBondLength(double length);
-      double GetBondLength() const;
-
-      void SetPenWidth(double length);
-      double GetPenWidth() const;
-
-      void SetBondSpacing(double spacing);
-      double GetBondSpacing() const;
-
-      void SetBondWidth(double width);
-      double GetBondWidth() const;
-
-      //void SetDrawingTerminalCarbon(bool enabled);
-      //bool GetDrawingTerminalCarbon() const;
-
-      void SetOption(unsigned opts); //extendable with binary compatibility
-      unsigned GetOptions() const;
-      void ClearOptions();
-
-      void SetFontFamily(const std::string &family);
-      const std::string& GetFontFamily() const;
-
-      void SetFontSize(int pointSize, bool subscript = false);
-      int GetFontSize(bool subscript = false) const;
-
-      void SetAliasMode(bool b=true);
-
-      void SetBondColor(const std::string& scolor);
-
-    private:
-      OBDepictPrivate * d;
+/**
+ * @class OBDepict depict.h <openbabel/depict/depict.h>
+ * @brief 2D depiction of molecules using OBPainter.
+ * @since version 2.3
+ */
+class OBDEPICT OBDepict {
+public:
+  enum AtomLabelType {
+    AtomId = 1,
+    AtomIndex,
+    AtomSymmetryClass,
+    AtomValence,
+    AtomTetrahedralStereo
   };
 
-}
+  enum OptionType {
+    bwAtoms = 0x0001,
+    internalColor = 0x0002,
+    noMargin = 0x0004,
+    drawTermC = 0x0010,
+    drawAllC = 0x0020,
+    noWedgeHashGen = 0x0100,
+    asymmetricDoubleBond = 0x0200,
+    allExplicit = 0x0400
+  };
+
+  /**
+   * Constructors.
+   */
+  OBDepict(OBPainter *painter);
+  OBDepict(OBPainter *painter, bool withBall, bool symbolOnBall = false);
+  /**
+   * Destructor.
+   */
+  ~OBDepict();
+  /**
+   * Draw @p mol using the painter previously stored in the constructor.
+   *
+   * @return True if successful.
+   */
+  bool DrawMolecule(OBMol *mol);
+  /**
+   * Draw atom labels of a specified @p type.
+   *
+   * @return True if successful.
+   */
+  bool AddAtomLabels(AtomLabelType type);
+
+  void SetBondLength(double length);
+  double GetBondLength() const;
+
+  void SetPenWidth(double length);
+  double GetPenWidth() const;
+
+  void SetBondSpacing(double spacing);
+  double GetBondSpacing() const;
+
+  void SetBondWidth(double width);
+  double GetBondWidth() const;
+
+  // void SetDrawingTerminalCarbon(bool enabled);
+  // bool GetDrawingTerminalCarbon() const;
+
+  void SetOption(unsigned opts); // extendable with binary compatibility
+  unsigned GetOptions() const;
+  void ClearOptions();
+
+  void SetFontFamily(const std::string &family);
+  const std::string &GetFontFamily() const;
+
+  void SetFontSize(int pointSize, bool subscript = false);
+  int GetFontSize(bool subscript = false) const;
+
+  void SetAliasMode(bool b = true);
+
+  void SetBondColor(const std::string &scolor);
+
+private:
+  OBDepictPrivate *d;
+};
+
+} // namespace OpenBabel
 
 #endif
 

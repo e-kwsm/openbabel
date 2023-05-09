@@ -13,121 +13,105 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/elements.h>
 #include <openbabel/internalcoord.h>
-
+#include <openbabel/mol.h>
+#include <openbabel/obmolecformat.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class FenskeZmatFormat : public OBMoleculeFormat
-{
+class FenskeZmatFormat : public OBMoleculeFormat {
 public:
-    //Register this format type ID
-    FenskeZmatFormat()
-    {
-        OBConversion::RegisterFormat("fh",this);
-    }
+  // Register this format type ID
+  FenskeZmatFormat() { OBConversion::RegisterFormat("fh", this); }
 
-    const char* Description() override  // required
-    {
-        return
-          "Fenske-Hall Z-Matrix format\n"
-          "No comments yet\n";
-    }
+  const char *Description() override // required
+  {
+    return "Fenske-Hall Z-Matrix format\n"
+           "No comments yet\n";
+  }
 
-    const char* SpecificationURL() override
-    { return ""; }  // optional
+  const char *SpecificationURL() override { return ""; } // optional
 
-    //Flags() can return be any the following combined by | or be omitted if none apply
-    // NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
-    unsigned int Flags() override
-    {
-        return NOTREADABLE | WRITEONEONLY;
-    }
+  // Flags() can return be any the following combined by | or be omitted if none
+  // apply
+  //  NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
+  unsigned int Flags() override { return NOTREADABLE | WRITEONEONLY; }
 
-    ////////////////////////////////////////////////////
-    /// The "API" interface functions
-    bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  ////////////////////////////////////////////////////
+  /// The "API" interface functions
+  bool WriteMolecule(OBBase *pOb, OBConversion *pConv) override;
 };
 
-//Make an instance of the format class
+// Make an instance of the format class
 FenskeZmatFormat theFenskeZmatFormat;
 
 /////////////////////////////////////////////////////////////////
 
-bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
-{
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
-        return false;
+bool FenskeZmatFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (pmol == nullptr)
+    return false;
 
-    //Define some references so we can use the old parameter names
-    ostream &ofs = *pConv->GetOutStream();
-    OBMol &mol = *pmol;
+  // Define some references so we can use the old parameter names
+  ostream &ofs = *pConv->GetOutStream();
+  OBMol &mol = *pmol;
 
-    OBAtom *atom,*a,*b,*c;
-    char type[16],buffer[BUFF_SIZE];
-    vector<OBAtom*>::iterator i;
+  OBAtom *atom, *a, *b, *c;
+  char type[16], buffer[BUFF_SIZE];
+  vector<OBAtom *>::iterator i;
 
-    vector<OBInternalCoord*> vic;
-    vic.push_back(nullptr);
-    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
-        vic.push_back(new OBInternalCoord);
+  vector<OBInternalCoord *> vic;
+  vic.push_back(nullptr);
+  for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
+    vic.push_back(new OBInternalCoord);
 
-    CartesianToInternal(vic,mol);
+  CartesianToInternal(vic, mol);
 
-    ofs << endl << mol.NumAtoms() << endl;
+  ofs << endl << mol.NumAtoms() << endl;
 
-    double r,w,t;
-    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
-    {
-        a = vic[atom->GetIdx()]->_a;
-        b = vic[atom->GetIdx()]->_b;
-        c = vic[atom->GetIdx()]->_c;
-        r = vic[atom->GetIdx()]->_dst;
-        w = vic[atom->GetIdx()]->_ang;
-        t = vic[atom->GetIdx()]->_tor;
-        //  16 = sizeof(type)
-        strncpy(type,OBElements::GetSymbol(atom->GetAtomicNum()), 16);
-        type[15] = '\0';
+  double r, w, t;
+  for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i)) {
+    a = vic[atom->GetIdx()]->_a;
+    b = vic[atom->GetIdx()]->_b;
+    c = vic[atom->GetIdx()]->_c;
+    r = vic[atom->GetIdx()]->_dst;
+    w = vic[atom->GetIdx()]->_ang;
+    t = vic[atom->GetIdx()]->_tor;
+    //  16 = sizeof(type)
+    strncpy(type, OBElements::GetSymbol(atom->GetAtomicNum()), 16);
+    type[15] = '\0';
 
-        if (atom->GetIdx() == 1)
-        {
-            snprintf(buffer, BUFF_SIZE, "%-2s  1\n",type);
-            ofs << buffer;
-            continue;
-        }
-
-        if (atom->GetIdx() == 2)
-        {
-            snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f\n",
-                    type, a->GetIdx(), r);
-            ofs << buffer;
-            continue;
-        }
-
-        if (atom->GetIdx() == 3)
-        {
-            snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f%3d%8.3f\n",
-                    type, a->GetIdx(), r, b->GetIdx(), w);
-            ofs << buffer;
-            continue;
-        }
-
-        if (t < 0)
-            t += 360;
-        snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f%3d%8.3f%3d%6.1f\n",
-                type, a->GetIdx(), r, b->GetIdx(), w, c->GetIdx(), t);
-        ofs << buffer;
+    if (atom->GetIdx() == 1) {
+      snprintf(buffer, BUFF_SIZE, "%-2s  1\n", type);
+      ofs << buffer;
+      continue;
     }
 
-    return(true);
+    if (atom->GetIdx() == 2) {
+      snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f\n", type, a->GetIdx(), r);
+      ofs << buffer;
+      continue;
+    }
+
+    if (atom->GetIdx() == 3) {
+      snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f%3d%8.3f\n", type, a->GetIdx(),
+               r, b->GetIdx(), w);
+      ofs << buffer;
+      continue;
+    }
+
+    if (t < 0)
+      t += 360;
+    snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f%3d%8.3f%3d%6.1f\n", type,
+             a->GetIdx(), r, b->GetIdx(), w, c->GetIdx(), t);
+    ofs << buffer;
+  }
+
+  return (true);
 }
 
-} //namespace OpenBabel
+} // namespace OpenBabel

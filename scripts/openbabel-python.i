@@ -107,27 +107,27 @@ if sys.platform.find("linux") != -1:
 namespace std {
 
 %define VVTEMPLATE_WRAP(name, T)
-%feature("ignore") vector< vector<T> >::append;
-%feature("ignore") vector< vector<T> >::assign;
-%feature("ignore") vector< vector<T> >::back;
-%feature("ignore") vector< vector<T> >::begin;
-%feature("ignore") vector< vector<T> >::capacity;
-%feature("ignore") vector< vector<T> >::empty;
-%feature("ignore") vector< vector<T> >::end;
-%feature("ignore") vector< vector<T> >::erase;
-%feature("ignore") vector< vector<T> >::front;
-%feature("ignore") vector< vector<T> >::get_allocator;
-%feature("ignore") vector< vector<T> >::insert;
-%feature("ignore") vector< vector<T> >::pop;
-%feature("ignore") vector< vector<T> >::pop_back;
-%feature("ignore") vector< vector<T> >::push_back;
-%feature("ignore") vector< vector<T> >::rbegin;
-%feature("ignore") vector< vector<T> >::rend;
-%feature("ignore") vector< vector<T> >::reserve;
-%feature("ignore") vector< vector<T> >::resize;
-%feature("ignore") vector< vector<T> >::size;
-%feature("ignore") vector< vector<T> >::swap;
-%template(vectorv ## name) vector< vector<T> >;
+%feature("ignore") vector<vector<T>>::append;
+%feature("ignore") vector<vector<T>>::assign;
+%feature("ignore") vector<vector<T>>::back;
+%feature("ignore") vector<vector<T>>::begin;
+%feature("ignore") vector<vector<T>>::capacity;
+%feature("ignore") vector<vector<T>>::empty;
+%feature("ignore") vector<vector<T>>::end;
+%feature("ignore") vector<vector<T>>::erase;
+%feature("ignore") vector<vector<T>>::front;
+%feature("ignore") vector<vector<T>>::get_allocator;
+%feature("ignore") vector<vector<T>>::insert;
+%feature("ignore") vector<vector<T>>::pop;
+%feature("ignore") vector<vector<T>>::pop_back;
+%feature("ignore") vector<vector<T>>::push_back;
+%feature("ignore") vector<vector<T>>::rbegin;
+%feature("ignore") vector<vector<T>>::rend;
+%feature("ignore") vector<vector<T>>::reserve;
+%feature("ignore") vector<vector<T>>::resize;
+%feature("ignore") vector<vector<T>>::size;
+%feature("ignore") vector<vector<T>>::swap;
+%template(vectorv ## name) vector<vector<T>>;
 %enddef
 
 %define VECTORTEMPLATE_WRAP(vectorname, T)
@@ -155,27 +155,27 @@ namespace std {
 %enddef
 
 %define VECTORPAIRTEMPLATE_WRAP(vectorname, T1, T2)
-%feature("ignore") vector< pair<T1, T2> >::append;
-%feature("ignore") vector< pair<T1, T2> >::assign;
-%feature("ignore") vector< pair<T1, T2> >::back;
-%feature("ignore") vector< pair<T1, T2> >::begin;
-%feature("ignore") vector< pair<T1, T2> >::capacity;
-%feature("ignore") vector< pair<T1, T2> >::empty;
-%feature("ignore") vector< pair<T1, T2> >::end;
-%feature("ignore") vector< pair<T1, T2> >::erase;
-%feature("ignore") vector< pair<T1, T2> >::front;
-%feature("ignore") vector< pair<T1, T2> >::get_allocator;
-%feature("ignore") vector< pair<T1, T2> >::insert;
-%feature("ignore") vector< pair<T1, T2> >::pop;
-%feature("ignore") vector< pair<T1, T2> >::pop_back;
-%feature("ignore") vector< pair<T1, T2> >::push_back;
-%feature("ignore") vector< pair<T1, T2> >::rbegin;
-%feature("ignore") vector< pair<T1, T2> >::rend;
-%feature("ignore") vector< pair<T1, T2> >::reserve;
-%feature("ignore") vector< pair<T1, T2> >::resize;
-%feature("ignore") vector< pair<T1, T2> >::size;
-%feature("ignore") vector< pair<T1, T2> >::swap;
-%template(vpair ## vectorname) vector< pair<T1, T2> >;
+%feature("ignore") vector<pair<T1, T2>>::append;
+%feature("ignore") vector<pair<T1, T2>>::assign;
+%feature("ignore") vector<pair<T1, T2>>::back;
+%feature("ignore") vector<pair<T1, T2>>::begin;
+%feature("ignore") vector<pair<T1, T2>>::capacity;
+%feature("ignore") vector<pair<T1, T2>>::empty;
+%feature("ignore") vector<pair<T1, T2>>::end;
+%feature("ignore") vector<pair<T1, T2>>::erase;
+%feature("ignore") vector<pair<T1, T2>>::front;
+%feature("ignore") vector<pair<T1, T2>>::get_allocator;
+%feature("ignore") vector<pair<T1, T2>>::insert;
+%feature("ignore") vector<pair<T1, T2>>::pop;
+%feature("ignore") vector<pair<T1, T2>>::pop_back;
+%feature("ignore") vector<pair<T1, T2>>::push_back;
+%feature("ignore") vector<pair<T1, T2>>::rbegin;
+%feature("ignore") vector<pair<T1, T2>>::rend;
+%feature("ignore") vector<pair<T1, T2>>::reserve;
+%feature("ignore") vector<pair<T1, T2>>::resize;
+%feature("ignore") vector<pair<T1, T2>>::size;
+%feature("ignore") vector<pair<T1, T2>>::swap;
+%template(vpair ## vectorname) vector<pair<T1, T2>>;
 %enddef
 
 VECTORTEMPLATE_WRAP(Int, int)
@@ -196,19 +196,19 @@ VECTORTEMPLATE_WRAP(pOBInternalCoord, OpenBabel::OBInternalCoord*)
 
 %template(pairUIntUInt) pair<unsigned int, unsigned int>;
 VECTORPAIRTEMPLATE_WRAP(UIntUInt, unsigned int, unsigned int);
-%template(vvpairUIntUInt) vector< vector< pair<unsigned int, unsigned int> > >;
+%template(vvpairUIntUInt) vector<vector<pair<unsigned int, unsigned int>>>;
 }
 
 %define CAST_GENERICDATA_TO(subclass)
 %inline %{
 OpenBabel::OB ## subclass *to ## subclass(OpenBabel::OBGenericData *data) {
-    return (OpenBabel::OB ## subclass *) data;
+  return (OpenBabel::OB ## subclass *) data;
 }
 %}
 %enddef
 %inline %{ /* can't use macro -- AliasData not OBAliasData */
 OpenBabel::AliasData *toAliasData(OpenBabel::OBGenericData *data) {
-    return (OpenBabel::AliasData*) data;
+  return (OpenBabel::AliasData *)data;
 }
 %}
 CAST_GENERICDATA_TO(AngleData)

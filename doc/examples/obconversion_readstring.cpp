@@ -1,10 +1,9 @@
-#include <openbabel/obconversion.h>
 #include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
 
 using namespace OpenBabel;
 
-int main()
-{
+int main() {
   // Create an OBConversion object.
   OBConversion conv;
   // Set the input format.

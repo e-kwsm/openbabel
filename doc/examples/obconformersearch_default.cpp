@@ -1,6 +1,6 @@
-#include <openbabel/obconversion.h>
-#include <openbabel/mol.h>
 #include <openbabel/conformersearch.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
 
 #include <iostream>
 #include <memory>
@@ -8,8 +8,7 @@
 using namespace OpenBabel;
 
 // Helper function to read molecule from file
-std::shared_ptr<OBMol> GetMol(const std::string &filename)
-{
+std::shared_ptr<OBMol> GetMol(const std::string &filename) {
   // Create the OBMol object.
   std::shared_ptr<OBMol> mol(new OBMol);
 
@@ -17,7 +16,8 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(filename.c_str());
   if (!format || !conv.SetInFormat(format)) {
-    std::cout << "Could not find input format for file " << filename << std::endl;
+    std::cout << "Could not find input format for file " << filename
+              << std::endl;
     return mol;
   }
 
@@ -36,8 +36,7 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
   return mol;
 }
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv) {
   if (argc < 2) {
     std::cout << "Usage: " << argv[0] << " <filename>" << std::endl;
     return 1;
@@ -48,17 +47,17 @@ int main(int argc, char **argv)
 
   // Create the OBConformerSearch object
   OBConformerSearch cs;
-  
-  // Setup 
+
+  // Setup
   std::cout << "Setting up conformer searching..." << std::endl
             << "   conformers:  30" << std::endl
             << "   children:    5" << std::endl
             << "   mutability:  5" << std::endl
             << "   convergence: 25" << std::endl;
   cs.Setup(*mol.get(),
-           30, // numConformers
-           5, // numChildren
-           5, // mutability
+           30,  // numConformers
+           5,   // numChildren
+           5,   // mutability
            25); // convergence
 
   // Perform searching
@@ -82,5 +81,4 @@ int main(int argc, char **argv)
     mol->SetConformer(c);
     conv.Write(mol.get(), &std::cerr);
   }
-
 }

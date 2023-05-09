@@ -23,70 +23,65 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
-#include <fstream>
 #include <cstdlib>
+#include <fstream>
 
+#include <openbabel/forcefield.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/forcefield.h>
 #include <openbabel/obutil.h>
 
 using namespace std;
 using namespace OpenBabel;
 
 #ifdef TESTDATADIR
-  string ctestdatadir = TESTDATADIR;
-  string cresults_file = ctestdatadir + "gaffresults.txt";
-  string cmolecules_file = ctestdatadir + "gaff.sdf";
+string ctestdatadir = TESTDATADIR;
+string cresults_file = ctestdatadir + "gaffresults.txt";
+string cmolecules_file = ctestdatadir + "gaff.sdf";
 #else
-  string cresults_file = "files/gaffresults.txt";
-  string cmolecules_file = "files/gaff.sdf";
+string cresults_file = "files/gaffresults.txt";
+string cmolecules_file = "files/gaff.sdf";
 #endif
 
 void NGenerateEnergies();
 
-int ffgaff(int argc, char* argv[])
-{
+int ffgaff(int argc, char *argv[]) {
   int defaultchoice = 1;
-  
+
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
-  if (choice == 99)
-    {
-      NGenerateEnergies();
-      return 0;
-    }
-
+  if (choice == 99) {
+    NGenerateEnergies();
+    return 0;
+  }
 
   cout << "# Testing GAFF Force Field..." << endl;
 
   std::ifstream mifs;
-  if (!SafeOpen(mifs, cmolecules_file.c_str()))
-    {
-      cout << "Bail out! Cannot read file " << cmolecules_file << endl;
-      return -1; // test failed
-    }
+  if (!SafeOpen(mifs, cmolecules_file.c_str())) {
+    cout << "Bail out! Cannot read file " << cmolecules_file << endl;
+    return -1; // test failed
+  }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, cresults_file.c_str()))
-    {
-      cout << "Bail out! Cannot read file " << cresults_file << endl;
-      return -1; // test failed
-    }
+  if (!SafeOpen(rifs, cresults_file.c_str())) {
+    cout << "Bail out! Cannot read file " << cresults_file << endl;
+    return -1; // test failed
+  }
 
   char buffer[BUFF_SIZE];
   vector<string> vs;
@@ -94,13 +89,12 @@ int ffgaff(int argc, char* argv[])
   OBConversion conv(&mifs, &cout);
   unsigned int currentTest = 0;
 
-  if(! conv.SetInAndOutFormats("SDF","SDF"))
-    {
-      cout << "Bail out! SDF format is not loaded" << endl;
-      return -1; // test failed
-    }
+  if (!conv.SetInAndOutFormats("SDF", "SDF")) {
+    cout << "Bail out! SDF format is not loaded" << endl;
+    return -1; // test failed
+  }
 
-  OBForceField* pFF = OBForceField::FindForceField("GAFF");
+  OBForceField *pFF = OBForceField::FindForceField("GAFF");
 
   if (pFF == nullptr) {
     cerr << "Bail out! Cannot load force field!" << endl;
@@ -111,44 +105,38 @@ int ffgaff(int argc, char* argv[])
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
   double energy;
-  while(mifs)
-    {
-      mol.Clear();
-      conv.Read(&mol);
-      if (mol.Empty())
-        continue;
-      if (!rifs.getline(buffer,BUFF_SIZE))
-        {
-          cout << "Bail out! error reading reference data" << endl;
-          return -1; // test failed
-        }
-
-      if (!pFF->Setup(mol)) {
-        cout << "Bail out! could not setup force field on " << mol.GetTitle() << endl;
-        return -1; // test failed
-      }
-
-      // compare the calculated energy to our reference data
-      energy = pFF->Energy(false);
-      if (fabs(atof(buffer) - energy) > 1.0e-3)
-        {
-          cout << "not ok " << ++currentTest << " # calculated energy incorrect "
-               << " for molecule " << mol.GetTitle() << "\n";
-          cout << "# Expected " << buffer << " found " <<
-            energy << "\n";
-        }
-      else
-        cout << "ok " << ++currentTest << " # energy \n";
-
-      // check that gradients validate too
-      if (!pFF->ValidateGradients())
-        {
-          cout << "not ok " << ++currentTest << " # gradients do not validate "
-               << " for molecule " << mol.GetTitle() << "\n";
-        }
-      else
-        cout << "ok " << ++currentTest << " # gradients \n";
+  while (mifs) {
+    mol.Clear();
+    conv.Read(&mol);
+    if (mol.Empty())
+      continue;
+    if (!rifs.getline(buffer, BUFF_SIZE)) {
+      cout << "Bail out! error reading reference data" << endl;
+      return -1; // test failed
     }
+
+    if (!pFF->Setup(mol)) {
+      cout << "Bail out! could not setup force field on " << mol.GetTitle()
+           << endl;
+      return -1; // test failed
+    }
+
+    // compare the calculated energy to our reference data
+    energy = pFF->Energy(false);
+    if (fabs(atof(buffer) - energy) > 1.0e-3) {
+      cout << "not ok " << ++currentTest << " # calculated energy incorrect "
+           << " for molecule " << mol.GetTitle() << "\n";
+      cout << "# Expected " << buffer << " found " << energy << "\n";
+    } else
+      cout << "ok " << ++currentTest << " # energy \n";
+
+    // check that gradients validate too
+    if (!pFF->ValidateGradients()) {
+      cout << "not ok " << ++currentTest << " # gradients do not validate "
+           << " for molecule " << mol.GetTitle() << "\n";
+    } else
+      cout << "ok " << ++currentTest << " # gradients \n";
+  }
 
   // return number of tests run
   cout << "1.." << currentTest << endl;
@@ -157,8 +145,7 @@ int ffgaff(int argc, char* argv[])
   return 0;
 }
 
-void NGenerateEnergies()
-{
+void NGenerateEnergies() {
   std::ifstream ifs;
   if (!SafeOpen(ifs, cmolecules_file.c_str()))
     return;
@@ -171,13 +158,12 @@ void NGenerateEnergies()
   OBConversion conv(&ifs, &cout);
   char buffer[BUFF_SIZE];
 
-  if(! conv.SetInAndOutFormats("SDF","SDF"))
-    {
-      cerr << "SDF format is not loaded" << endl;
-      return;
-    }
+  if (!conv.SetInAndOutFormats("SDF", "SDF")) {
+    cerr << "SDF format is not loaded" << endl;
+    return;
+  }
 
-  OBForceField* pFF = OBForceField::FindForceField("GAFF");
+  OBForceField *pFF = OBForceField::FindForceField("GAFF");
 
   if (pFF == nullptr) {
     cerr << "Cannot load force field!" << endl;
@@ -187,23 +173,23 @@ void NGenerateEnergies()
   pFF->SetLogFile(&cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
-  for (;ifs;)
-    {
-      mol.Clear();
-      conv.Read(&mol);
-      if (mol.Empty())
-        continue;
+  for (; ifs;) {
+    mol.Clear();
+    conv.Read(&mol);
+    if (mol.Empty())
+      continue;
 
-      if (!pFF->Setup(mol)) {
-        cerr << "Could not setup force field on molecule: " << mol.GetTitle() << endl;
-        return;
-      }
-
-      // Don't compute gradients
-      sprintf(buffer, "%15.5f\n", pFF->Energy(false));
-      ofs << buffer;
+    if (!pFF->Setup(mol)) {
+      cerr << "Could not setup force field on molecule: " << mol.GetTitle()
+           << endl;
+      return;
     }
 
-	cerr << " GAFF force field energies written successfully" << endl;
+    // Don't compute gradients
+    sprintf(buffer, "%15.5f\n", pFF->Energy(false));
+    ofs << buffer;
+  }
+
+  cerr << " GAFF force field energies written successfully" << endl;
   return;
 }

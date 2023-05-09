@@ -17,90 +17,89 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
-#include <openbabel/oberror.h>
-#include <openbabel/mol.h>
-#include <openbabel/obconversion.h>
 #include <openbabel/descriptor.h>
 #include <openbabel/inchiformat.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/oberror.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class InChIFilter : public OBDescriptor
-{
+class InChIFilter : public OBDescriptor {
 public:
-  InChIFilter(const char* ID, bool useKey=false) : OBDescriptor(ID), bKey(useKey) {};
-  const char* Description() override
-  {
+  InChIFilter(const char *ID, bool useKey = false)
+      : OBDescriptor(ID), bKey(useKey) {}
+  const char *Description() override {
     return bKey ? "InChIKey" : "IUPAC InChI identifier";
   }
-  bool Compare(OBBase* pOb, istream& optionText, bool noEval, std::string* param=nullptr) override;
-  double GetStringValue(OBBase* pOb, std::string& svalue, std::string* param=nullptr) override;
-  bool Order(std::string s1, std::string s2) override
-  {
+  bool Compare(OBBase *pOb, istream &optionText, bool noEval,
+               std::string *param = nullptr) override;
+  double GetStringValue(OBBase *pOb, std::string &svalue,
+                        std::string *param = nullptr) override;
+  bool Order(std::string s1, std::string s2) override {
     InChIFormat::InchiLess f;
     return f(s1, s2);
   }
+
 private:
   bool bKey;
 };
 
-double InChIFilter::GetStringValue(OBBase* pOb, std::string& svalue, std::string*)
-{
+double InChIFilter::GetStringValue(OBBase *pOb, std::string &svalue,
+                                   std::string *) {
   OBConversion conv;
-  conv.AddOption("w");//suppress trivial warnings
-  if(bKey)
+  conv.AddOption("w"); // suppress trivial warnings
+  if (bKey)
     conv.AddOption("K");
-  if(conv.SetOutFormat("inchi"))
+  if (conv.SetOutFormat("inchi"))
     svalue = conv.WriteString(pOb);
   else
-    obErrorLog.ThrowError(__FUNCTION__, "InChIFormat is not loaded" , obError);
+    obErrorLog.ThrowError(__FUNCTION__, "InChIFormat is not loaded", obError);
   Trim(svalue);
 
   return std::numeric_limits<double>::quiet_NaN();
 }
 
-bool InChIFilter::Compare(OBBase* pOb, istream& optionText, bool noEval, std::string*)
-{
+bool InChIFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
+                          std::string *) {
   string InchiFilterString, inchi;
-  string::size_type filterpos=0, inchipos, len;
+  string::size_type filterpos = 0, inchipos, len;
   bool ret;
   bool matchornegate = ReadStringFromFilter(optionText, InchiFilterString);
-  if(noEval)
+  if (noEval)
     return false;
   GetStringValue(pOb, inchi);
-  if(!bKey)
-  {
+  if (!bKey) {
     inchipos = inchi.find('/');
 
-    //See if filterstring starts with "InChI=1/"
-    if(InchiFilterString.find(inchi.substr(0,inchipos))==0)
-      filterpos=inchipos+1;
-    //If filterstring starts with a number, set filterpos after the next '/'(for pasted InChIs)
-    if(isdigit(InchiFilterString[0]))
-      filterpos=InchiFilterString.find('/')+1;
+    // See if filterstring starts with "InChI=1/"
+    if (InchiFilterString.find(inchi.substr(0, inchipos)) == 0)
+      filterpos = inchipos + 1;
+    // If filterstring starts with a number, set filterpos after the next
+    // '/'(for pasted InChIs)
+    if (isdigit(InchiFilterString[0]))
+      filterpos = InchiFilterString.find('/') + 1;
 
-    //Considering only the significant parts,
-    //compare InChI and filter string, only to length of filter string
+    // Considering only the significant parts,
+    // compare InChI and filter string, only to length of filter string
     len = InchiFilterString.size() - filterpos;
-    ret = inchi.compare(inchipos+1, len, InchiFilterString, filterpos, len)==0;
-  }
-  else
+    ret = inchi.compare(inchipos + 1, len, InchiFilterString, filterpos, len) ==
+          0;
+  } else
     // compare up to length of the provided filter string,
     // so can match ignoring stereo by providing only the first part of the key.
-    ret = (inchi.compare(0,InchiFilterString.size(),InchiFilterString)==0);
+    ret = (inchi.compare(0, InchiFilterString.size(), InchiFilterString) == 0);
 
-  if(!matchornegate)
+  if (!matchornegate)
     ret = !ret;
   return ret;
 }
 
 //**********************************************
-//Make global instances
+// Make global instances
 InChIFilter theInChIFilter("InChI");
-InChIFilter keyInChIFilter("InChIKey",true);
+InChIFilter keyInChIFilter("InChIKey", true);
 //**********************************************
 
-}//namespace
-
+} // namespace OpenBabel

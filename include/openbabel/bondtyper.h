@@ -19,37 +19,36 @@ GNU General Public License for more details.
 #ifndef OB_BONDTYPER_H
 #define OB_BONDTYPER_H
 
-#include <openbabel/parsmart.h>
 #include <openbabel/data.h>
+#include <openbabel/parsmart.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
 // class introduction in bondtyper.cpp
 // Used for "perceiving" bonds, e.g. in XYZ or QM files with no bond info.
-class OBAPI OBBondTyper : public OBGlobalDataBase
-{
-    //! SMARTS patterns for functional group typing
-    std::vector<std::pair<OBSmartsPattern*, std::vector<int> > >	_fgbonds;
+class OBAPI OBBondTyper : public OBGlobalDataBase {
+  //! SMARTS patterns for functional group typing
+  std::vector<std::pair<OBSmartsPattern *, std::vector<int>>> _fgbonds;
+
 public:
-    OBBondTyper();
-    ~OBBondTyper();
+  OBBondTyper();
+  ~OBBondTyper();
 
-    //! \name OBBondTyper Database Utilities
-    //@{
-    void ParseLine(const char*) override;
-    //! \return the size of the database (for error checking)
-    size_t GetSize() override { return _fgbonds.size(); }
-    //@}
+  //! \name OBBondTyper Database Utilities
+  //@{
+  void ParseLine(const char *) override;
+  //! \return the size of the database (for error checking)
+  size_t GetSize() override { return _fgbonds.size(); }
+  //@}
 
-    //! \name Bond Perception Routines
-    //@{
-    //! Assign bonds to functional groups based on the bond typer database
-    void AssignFunctionalGroupBonds(OBMol &mol);
-    //@}
+  //! \name Bond Perception Routines
+  //@{
+  //! Assign bonds to functional groups based on the bond typer database
+  void AssignFunctionalGroupBonds(OBMol &mol);
+  //@}
 };
 
-}
+} // namespace OpenBabel
 
 #endif // OB_BONDTYPER_H
 
