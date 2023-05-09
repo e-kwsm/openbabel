@@ -88,8 +88,9 @@ public:
       x.noalias() = xp + step * drt;
       fx = f(x, grad);
 
-      if (iter++ >= param.max_linesearch)
+      if (iter++ >= param.max_linesearch) {
         return;
+      }
 
       const Scalar dg = grad.dot(drt);
 
@@ -100,8 +101,9 @@ public:
         break;
       }
 
-      if (std::abs(dg) <= dg_wolfe)
+      if (std::abs(dg) <= dg_wolfe) {
         return;
+      }
 
       step_hi = step_lo;
       fx_hi = fx_lo;
@@ -110,8 +112,9 @@ public:
       fx_lo = fx;
       dg_lo = dg;
 
-      if (dg >= 0)
+      if (dg >= 0) {
         break;
+      }
 
       step *= expansion;
     }
@@ -137,28 +140,31 @@ public:
 
       // if interpolation fails, bisection is used
       if (step <= std::min(step_lo, step_hi) ||
-          step >= std::max(step_lo, step_hi))
+          step >= std::max(step_lo, step_hi)) {
         step = step_lo / 2 + step_hi / 2;
+      }
 
       x.noalias() = xp + step * drt;
       fx = f(x, grad);
 
-      if (iter++ >= param.max_linesearch)
+      if (iter++ >= param.max_linesearch) {
         return;
+      }
 
       const Scalar dg = grad.dot(drt);
 
       if (fx - fx_init > step * dg_test || fx >= fx_lo) {
-        if (step == step_hi)
+        if (step == step_hi) {
           throw std::runtime_error("the line search routine failed, possibly "
                                    "due to insufficient numeric precision");
-
+        }
         step_hi = step;
         fx_hi = fx;
         dg_hi = dg;
       } else {
-        if (std::abs(dg) <= dg_wolfe)
+        if (std::abs(dg) <= dg_wolfe) {
           return;
+        }
 
         if (dg * (step_hi - step_lo) >= 0) {
           step_hi = step_lo;
@@ -166,9 +172,10 @@ public:
           dg_hi = dg_lo;
         }
 
-        if (step == step_lo)
+        if (step == step_lo) {
           throw std::runtime_error("the line search routine failed, possibly "
                                    "due to insufficient numeric precision");
+        }
 
         step_lo = step;
         fx_lo = fx;
