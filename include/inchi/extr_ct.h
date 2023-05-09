@@ -40,6 +40,7 @@
 #define __EXTR_CT_H__
 
 #include "ichisize.h"
+#include "inchi_api.h"
 #include "mode.h"
 
 struct AtData {
@@ -83,8 +84,9 @@ typedef AT_NUMB AT_STEREO;
 #define BYTE_BITS 8 /* number of bits in one byte */
 
 #define BOND_MASK 0xf /* 4 bits */
-#define BOND_BITS 4 /* 3 or 4 does not matter; 2 is too small for BOND_TAUTOM  \
-                     */
+#define BOND_BITS                                                              \
+  4 /* 3 or 4 does not matter; 2 is too small for BOND_TAUTOM                  \
+     */
 #define BOND_ADD                                                               \
   (BOND_BITS == 2 ? -1 : 0) /* subtract 1 from bonds stored in CT */
 
@@ -109,10 +111,10 @@ typedef struct tagAtom {
   S_CHAR cFlags;
   S_CHAR iso_atw_diff; /* abs(iso_atw_diff) < 127 or 31 - ??? */
   AT_ISO_SORT_KEY
-      iso_sort_key; /* = num_1H + AT_ISO_SORT_KEY_MULT^1*num_D
-                                + AT_ISO_SORT_KEY_MULT^2*num_T
-                                + AT_ISO_SORT_KEY_MULT^3*iso_atw_diff
-                     */
+  iso_sort_key; /* = num_1H + AT_ISO_SORT_KEY_MULT^1*num_D
+                            + AT_ISO_SORT_KEY_MULT^2*num_T
+                            + AT_ISO_SORT_KEY_MULT^3*iso_atw_diff
+                 */
   S_CHAR charge;
   S_CHAR radical; /* 1=>doublet(.), 2=> triplet as singlet (:) ???? why are they
                      same ???? */
@@ -135,10 +137,10 @@ typedef struct tagAtom {
                                                           bond/neighbor in the
                                                           direction to the */
   S_CHAR
-      stereo_bond_ord2[MAX_NUM_STEREO_BONDS]; /* stereo bond opposite atom
-                                                 (important for cumulenes); */
+  stereo_bond_ord2[MAX_NUM_STEREO_BONDS]; /* stereo bond opposite atom
+                                             (important for cumulenes); */
   S_CHAR
-      stereo_bond_z_prod[MAX_NUM_STEREO_BONDS]; /* Relative  atom-neighbors */
+  stereo_bond_z_prod[MAX_NUM_STEREO_BONDS]; /* Relative  atom-neighbors */
   S_CHAR stereo_bond_z_prod2[MAX_NUM_STEREO_BONDS]; /* double bond planes
                                                        orientation; */
   S_CHAR stereo_bond_parity
@@ -152,8 +154,8 @@ typedef struct tagAtom {
                                                        3   = AB_PARITY_UNKN = geometry is unknown to the user
                                                        4   = AB_PARITY_UNDF = not enough geometry info to find the parity
                                                        6   = AB_PARITY_CALC = calculate later from the neighbor ranks; some ot
-                                                       them can be                                                   replaced with AB_PARITY_ODD/EVEN after equivalence ranks have
-                                                       been determined
+                                                       them can be                                                   replaced with
+                                                       AB_PARITY_ODD/EVEN after equivalence ranks have                                                   been determined
                                                   
                                                        length (Mask 0x38=MASK_CUMULENE_LEN,
                                                        length=stereo_bond_parity[i]/MULT_STEREOBOND):
@@ -179,8 +181,8 @@ typedef struct tagAtom {
    * AB_PARITY_IISO = 6 */
   /*           0x40 => KNOWN_PARITIES_EQL */
   S_CHAR
-      stereo_atom_parity; /* similar to stereo_bond_parity[]: known in advance
-                             AB_PARITY_* value + KNOWN_PARITIES_EQL bit */
+  stereo_atom_parity; /* similar to stereo_bond_parity[]: known in advance
+                         AB_PARITY_* value + KNOWN_PARITIES_EQL bit */
   S_CHAR stereo_atom_parity2;
   S_CHAR final_parity;  /* defined by equivalence ranks */
   S_CHAR final_parity2; /* defined by equivalence ranks, incl. due to terminal

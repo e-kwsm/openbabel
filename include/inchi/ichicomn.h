@@ -39,6 +39,7 @@
 #ifndef __INCHICOMN_H__
 #define __INCHICOMN_H__
 
+#include "ichicant.h"
 #include "ichierr.h"
 
 /********************************
