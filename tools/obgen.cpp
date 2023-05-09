@@ -23,15 +23,15 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
-#include <list>
 #include <algorithm>
+#include <list>
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
+#include <openbabel/builder.h>
+#include <openbabel/forcefield.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/forcefield.h>
-#include <openbabel/builder.h>
 
 using namespace std;
 using namespace OpenBabel;
@@ -41,13 +41,12 @@ using namespace OpenBabel;
 ///////////////////////////////////////////////////////////////////////////////
 //! \brief  Generate rough 3D coordinates for SMILES (or other 0D files).
 //
-int main(int argc,char **argv)
-{
-  char *program_name= argv[0];
+int main(int argc, char **argv) {
+  char *program_name = argv[0];
   int c;
   string basename, filename = "", option, option2, ff = "MMFF94";
 
-  list<string> argl(argv+1, argv+argc);
+  list<string> argl(argv + 1, argv + argc);
 
   list<string>::iterator optff = find(argl.begin(), argl.end(), "-ff");
   if (optff != argl.end()) {
@@ -57,7 +56,7 @@ int main(int argc,char **argv)
     if (optffarg != argl.end()) {
       ff = *optffarg;
 
-      argl.erase(optff,++optffarg);
+      argl.erase(optff, ++optffarg);
     } else {
       argl.erase(optff);
     }
@@ -77,7 +76,7 @@ int main(int argc,char **argv)
   basename = filename = *argl.begin();
   size_t extPos = filename.rfind('.');
 
-  if (extPos!= string::npos) {
+  if (extPos != string::npos) {
     basename = filename.substr(0, extPos);
   }
 
@@ -86,9 +85,10 @@ int main(int argc,char **argv)
   OBFormat *format_in = conv.FormatFromExt(filename.c_str());
   OBFormat *format_out = conv.FindFormat("sdf");
 
-  if (!format_in || !format_out || !conv.SetInAndOutFormats(format_in, format_out)) {
+  if (!format_in || !format_out ||
+      !conv.SetInAndOutFormats(format_in, format_out)) {
     cerr << program_name << ": cannot read input/output format!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   ifstream ifs;
@@ -98,56 +98,58 @@ int main(int argc,char **argv)
   ifs.open(filename.c_str());
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   OBMol mol;
 
-  for (c=1;;c++) {
-      mol.Clear();
-      if (!conv.Read(&mol, &ifs))
-        break;
-      if (mol.Empty())
-        break;
+  for (c = 1;; c++) {
+    mol.Clear();
+    if (!conv.Read(&mol, &ifs))
+      break;
+    if (mol.Empty())
+      break;
 
-      OBForceField* pFF = OBForceField::FindForceField(ff);
-      if (!pFF) {
-        cerr << program_name << ": could not find forcefield '" << ff << "'." <<endl;
-        exit (-1);
-      }
+    OBForceField *pFF = OBForceField::FindForceField(ff);
+    if (!pFF) {
+      cerr << program_name << ": could not find forcefield '" << ff << "'."
+           << endl;
+      exit(-1);
+    }
 
-      //mol.AddHydrogens(false, true); // hydrogens must be added before Setup(mol) is called
+    // mol.AddHydrogens(false, true); // hydrogens must be added before
+    // Setup(mol) is called
 
-      pFF->SetLogFile(&cerr);
-      pFF->SetLogLevel(OBFF_LOGLVL_LOW);
+    pFF->SetLogFile(&cerr);
+    pFF->SetLogLevel(OBFF_LOGLVL_LOW);
 
-      //pFF->GenerateCoordinates();
-      OBBuilder builder;
-      builder.Build(mol);
+    // pFF->GenerateCoordinates();
+    OBBuilder builder;
+    builder.Build(mol);
 
-      mol.AddHydrogens(false, true); // hydrogens must be added before Setup(mol) is called
-      if (!pFF->Setup(mol)) {
-        cerr << program_name << ": could not setup force field." << endl;
-        exit (-1);
-      }
+    mol.AddHydrogens(
+        false, true); // hydrogens must be added before Setup(mol) is called
+    if (!pFF->Setup(mol)) {
+      cerr << program_name << ": could not setup force field." << endl;
+      exit(-1);
+    }
 
-      pFF->SteepestDescent(500, 1.0e-4);
-      pFF->WeightedRotorSearch(250, 50);
-      pFF->SteepestDescent(500, 1.0e-6);
+    pFF->SteepestDescent(500, 1.0e-4);
+    pFF->WeightedRotorSearch(250, 50);
+    pFF->SteepestDescent(500, 1.0e-6);
 
-      pFF->UpdateCoordinates(mol);
-      //pFF->ValidateGradients();
-      //pFF->SetLogLevel(OBFF_LOGLVL_HIGH);
-      //pFF->Energy();
+    pFF->UpdateCoordinates(mol);
+    // pFF->ValidateGradients();
+    // pFF->SetLogLevel(OBFF_LOGLVL_HIGH);
+    // pFF->Energy();
 
-
-      //char FileOut[32];
-      //sprintf(FileOut, "%s_obgen.pdb", basename.c_str());
-      //ofs.open(FileOut);
-      //conv.Write(&mol, &ofs);
-      //ofs.close();
-      conv.Write(&mol, &cout);
+    // char FileOut[32];
+    // sprintf(FileOut, "%s_obgen.pdb", basename.c_str());
+    // ofs.open(FileOut);
+    // conv.Write(&mol, &ofs);
+    // ofs.close();
+    conv.Write(&mol, &cout);
   } // end for loop
 
-  return(0);
+  return (0);
 }

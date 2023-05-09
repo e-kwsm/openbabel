@@ -22,77 +22,63 @@
 // $Revision$
 //
 
-
+#include <openbabel/atom.h>
+#include <openbabel/elements.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
-#include <openbabel/atom.h>
-#include <openbabel/elements.h>
 
-
-#include <openbabel/obiter.h>
 #include <openbabel/data.h>
+#include <openbabel/obiter.h>
 
 #include <iostream>
 
 using namespace std;
 
-namespace OpenBabel
-{
-
+namespace OpenBabel {
 
 //==============================================================================
 /// Class to output a molecule in XYZR MSMS input format for further computation
 /// of Connolly surface.
 /// Michel Sanner page with info on MSMS:
 /// http://www.scripps.edu/~sanner/
-class OBMSMSFormat : public OpenBabel::OBMoleculeFormat
-{
+class OBMSMSFormat : public OpenBabel::OBMoleculeFormat {
 public:
-    /// Constructor: register 'msms' and "MSMS" format.
-    OBMSMSFormat()
-    {
-        OpenBabel::OBConversion::RegisterFormat( "msms", this );
-    }
+  /// Constructor: register 'msms' and "MSMS" format.
+  OBMSMSFormat() { OpenBabel::OBConversion::RegisterFormat("msms", this); }
 
-    /// Return description.
-    const char* Description() override  // required
-    {
-        return
-        "M.F. Sanner's MSMS input format\n"
-        "Generates input to the MSMS (Michael Sanner Molecular Surface) program to compute solvent surfaces.\n\n"
-        "Write Options, e.g. -xa\n"
-        "  a output atom names\n";
-    }
+  /// Return description.
+  const char *Description() override // required
+  {
+    return "M.F. Sanner's MSMS input format\n"
+           "Generates input to the MSMS (Michael Sanner Molecular Surface) "
+           "program to compute solvent surfaces.\n\n"
+           "Write Options, e.g. -xa\n"
+           "  a output atom names\n";
+  }
 
-    /// Return a specification url, not really a specification since
-    /// I couldn't find it but close enough.
-    const char* SpecificationURL() override
-    {
-        return "http://www.scripps.edu/~sanner";
-    }
+  /// Return a specification url, not really a specification since
+  /// I couldn't find it but close enough.
+  const char *SpecificationURL() override {
+    return "http://www.scripps.edu/~sanner";
+  }
 
-    /// Return MIME type, NULL in this case.
-    const char* GetMIMEType() override { return nullptr; }
+  /// Return MIME type, NULL in this case.
+  const char *GetMIMEType() override { return nullptr; }
 
-      /// Return read/write flag: read only.
-    unsigned int Flags() override
-    {
-        return WRITEONEONLY | NOTREADABLE;
-    }
+  /// Return read/write flag: read only.
+  unsigned int Flags() override { return WRITEONEONLY | NOTREADABLE; }
 
-    /// Skip to object: used for multi-object file formats.
-    int SkipObjects(int n, OpenBabel::OBConversion* pConv) override { return 0; }
+  /// Skip to object: used for multi-object file formats.
+  int SkipObjects(int n, OpenBabel::OBConversion *pConv) override { return 0; }
 
-    /// Read: always return false.
-    bool ReadMolecule(OpenBabel::OBBase*, OpenBabel::OBConversion*) override
-    {
-        return false;
-    }
+  /// Read: always return false.
+  bool ReadMolecule(OpenBabel::OBBase *, OpenBabel::OBConversion *) override {
+    return false;
+  }
 
-    /// Write.
-    bool WriteMolecule(OpenBabel::OBBase*, OpenBabel::OBConversion*) override;
+  /// Write.
+  bool WriteMolecule(OpenBabel::OBBase *, OpenBabel::OBConversion *) override;
 };
 
 //------------------------------------------------------------------------------
@@ -102,34 +88,34 @@ OBMSMSFormat msmsFormat__;
 
 //------------------------------------------------------------------------------
 
-
 //==============================================================================
 
 //------------------------------------------------------------------------------
-bool OBMSMSFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
-{
-    OBMol* pmol = dynamic_cast< OBMol* >(pOb);
-    if (pmol == nullptr) return false;
+bool OBMSMSFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (pmol == nullptr)
+    return false;
 
-    ostream& os = *pConv->GetOutStream();
+  ostream &os = *pConv->GetOutStream();
 
-    const bool atomNames = pConv->IsOption("a", OBConversion::OUTOPTIONS) != nullptr;
+  const bool atomNames =
+      pConv->IsOption("a", OBConversion::OUTOPTIONS) != nullptr;
 
-    // write header ?
+  // write header ?
 
-    // iterate through atoms and write <atom x> <atom y> <atom z> <atom radius>
-    // and optionally <atomic number> in case atomNames == true
+  // iterate through atoms and write <atom x> <atom y> <atom z> <atom radius>
+  // and optionally <atomic number> in case atomNames == true
 
-    FOR_ATOMS_OF_MOL( a, *pmol )
-    {
-        const double* c = a->GetCoordinate();
-        os << c[ 0 ] << '\t' << c[ 1 ] << '\t' << c[ 2 ] << '\t' <<
-        OBElements::GetVdwRad( a->GetAtomicNum() );
-        if( atomNames ) os << '\t' << a->GetAtomicNum();
-        os << '\n';
-    }
-    os.flush();
-    return true;
+  FOR_ATOMS_OF_MOL(a, *pmol) {
+    const double *c = a->GetCoordinate();
+    os << c[0] << '\t' << c[1] << '\t' << c[2] << '\t'
+       << OBElements::GetVdwRad(a->GetAtomicNum());
+    if (atomNames)
+      os << '\t' << a->GetAtomicNum();
+    os << '\n';
+  }
+  os.flush();
+  return true;
 }
 
-}
+} // namespace OpenBabel

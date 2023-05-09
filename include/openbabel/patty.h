@@ -22,63 +22,48 @@ GNU General Public License for more details.
 
 #include <openbabel/parsmart.h>
 
-namespace OpenBabel
-{
-#define PT_CATION      1
-#define PT_ANION       2
-#define PT_ACCEPTOR    3
-#define PT_POLAR       4
-#define PT_DONOR       5
+namespace OpenBabel {
+#define PT_CATION 1
+#define PT_ANION 2
+#define PT_ACCEPTOR 3
+#define PT_POLAR 4
+#define PT_DONOR 5
 #define PT_HYDROPHOBIC 6
-#define PT_OTHER       7
-#define PT_METAL	   8
+#define PT_OTHER 7
+#define PT_METAL 8
 
 // class introduction in patty.cpp
-class OBAPI OB_DEPRECATED patty
-{
-    std::vector<OBSmartsPattern*> _sp;
-    std::vector<std::string> smarts;
-    std::vector<std::string> typ;
-    bool debug;
+class OBAPI OB_DEPRECATED patty {
+  std::vector<OBSmartsPattern *> _sp;
+  std::vector<std::string> smarts;
+  std::vector<std::string> typ;
+  bool debug;
 
-public :
+public:
+  patty() { debug = false; }
+  patty(char *s) {
+    debug = false;
+    read_rules(std::string(s));
+  }
 
-    patty()
-    {
-        debug = false;
-    }
-    patty(char *s)
-    {
-        debug = false;
-        read_rules(std::string(s));
-    }
+  patty(const std::string &s) {
+    debug = false;
+    read_rules(s);
+  }
 
-    patty(const std::string &s)
-    {
-        debug = false;
-        read_rules(s);
-    }
-
-    ~patty()
-    {
-        std::vector<OBSmartsPattern*>::iterator i;
-        for (i = _sp.begin();i != _sp.end();++i)
-            delete *i;
-    }
-    void debug_on()
-    {
-        debug = true;
-    }
-    void debug_off()
-    {
-        debug = false;
-    }
-    void read_rules(const std::string &infile);
-    void assign_rules(std::vector<std::string> &rules);
-    void assign_types(OBMol &mol,std::vector<std::string> &atm_typ);
-    void assign_types(OBMol &mol,std::vector<int> &atm_typ);
-    int type_to_int(const std::string &type, bool failOnUndefined= false);
-    int Istype(const std::string &type);//!< return atom type index, 0 otherwise
+  ~patty() {
+    std::vector<OBSmartsPattern *>::iterator i;
+    for (i = _sp.begin(); i != _sp.end(); ++i)
+      delete *i;
+  }
+  void debug_on() { debug = true; }
+  void debug_off() { debug = false; }
+  void read_rules(const std::string &infile);
+  void assign_rules(std::vector<std::string> &rules);
+  void assign_types(OBMol &mol, std::vector<std::string> &atm_typ);
+  void assign_types(OBMol &mol, std::vector<int> &atm_typ);
+  int type_to_int(const std::string &type, bool failOnUndefined = false);
+  int Istype(const std::string &type); //!< return atom type index, 0 otherwise
 };
 
 } // end namespace OpenBabel

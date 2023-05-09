@@ -18,20 +18,19 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include "obtest.h"
-#include <openbabel/babelconfig.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/bond.h>
-#include <openbabel/mol.h>
-#include <openbabel/obiter.h>
 #include <openbabel/generic.h>
+#include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
+#include <openbabel/obiter.h>
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 using namespace OpenBabel;
-
 
 class PeriodicTester {
 public:
@@ -40,21 +39,20 @@ public:
   void TestAngles(double a, double b);
   void TestTorsion(double a);
   void MakePeriodic(double a = 10.0);
-  OBMol* GetMol() { return &tmol; }
+  OBMol *GetMol() { return &tmol; }
   bool near(double a, double b, double tol = 0.001) {
     return (fabs(a - b) < tol);
   }
 
 private:
   OBMol tmol;
-  std::vector<OBAtom*> atom_list;  // atoms in the consistent order
+  std::vector<OBAtom *> atom_list; // atoms in the consistent order
 };
-
 
 PeriodicTester::PeriodicTester() {
   // Builds a made-up test molecule that straddles periodic boundaries
-  OBAtom* a;
-  OBBond* b;
+  OBAtom *a;
+  OBBond *b;
 
   tmol.BeginModify();
   a = tmol.NewAtom();
@@ -74,10 +72,10 @@ PeriodicTester::PeriodicTester() {
   a->SetAtomicNum(35);
   atom_list.push_back(a);
 
-  for (int i=0; i<3; ++i) {
+  for (int i = 0; i < 3; ++i) {
     OBAtom *a1, *a2;
     a1 = atom_list[i];
-    a2 = atom_list[i+1];
+    a2 = atom_list[i + 1];
     b = tmol.NewBond();
     b->SetBegin(a1);
     b->SetEnd(a2);
@@ -88,42 +86,39 @@ PeriodicTester::PeriodicTester() {
   tmol.GetBond(atom_list[0], atom_list[1])->SetBondOrder(2);
 
   tmol.EndModify();
-  OB_COMPARE( tmol.NumAtoms(), 4);
-  OB_COMPARE( tmol.NumBonds(), 3);
+  OB_COMPARE(tmol.NumAtoms(), 4);
+  OB_COMPARE(tmol.NumBonds(), 3);
 }
-
 
 void PeriodicTester::TestLengths(double a, double b, double c) {
   std::vector<double> expected;
   expected.push_back(a);
   expected.push_back(b);
   expected.push_back(c);
-  for (int i=0; i<3; ++i) {
-    OBAtom* a1 = atom_list[i];
-    OBAtom* a2 = atom_list[i+1];
-    OB_ASSERT( near( a1->GetDistance(a2), expected[i] ) );
+  for (int i = 0; i < 3; ++i) {
+    OBAtom *a1 = atom_list[i];
+    OBAtom *a2 = atom_list[i + 1];
+    OB_ASSERT(near(a1->GetDistance(a2), expected[i]));
   }
 }
-
 
 void PeriodicTester::TestAngles(double a, double b) {
   std::vector<double> expected;
   expected.push_back(a);
   expected.push_back(b);
-  for (int i=0; i<2; ++i) {
-    OBAtom* a1 = atom_list[i];
-    OBAtom* a2 = atom_list[i+1];
-    OBAtom* a3 = atom_list[i+2];
-    OB_ASSERT( near( a1->GetAngle(a2, a3), expected[i] ) );
+  for (int i = 0; i < 2; ++i) {
+    OBAtom *a1 = atom_list[i];
+    OBAtom *a2 = atom_list[i + 1];
+    OBAtom *a3 = atom_list[i + 2];
+    OB_ASSERT(near(a1->GetAngle(a2, a3), expected[i]));
   }
 }
 
-
 void PeriodicTester::TestTorsion(double a) {
-  double torsion = tmol.GetTorsion(atom_list[0], atom_list[1], atom_list[2], atom_list[3]);
-  OB_ASSERT( near( torsion, a ) );
+  double torsion =
+      tmol.GetTorsion(atom_list[0], atom_list[1], atom_list[2], atom_list[3]);
+  OB_ASSERT(near(torsion, a));
 }
-
 
 void PeriodicTester::MakePeriodic(double a) {
   OBUnitCell *uc = new OBUnitCell;
@@ -139,16 +134,15 @@ void PeriodicTester::MakePeriodic(double a) {
   tmol.EndModify();
 }
 
-
-
 void testNonperiodicNegative() {
   // Base case to check that the base of the test is working, sans periodicity
   PeriodicTester testobj;
-  testobj.TestLengths(2.0*sqrt(2), 2.0, 2.0);  // diagonal hypotenuse, straight, straight
-  testobj.TestAngles(135.0, 90.0);  // diagonal within xy plane, then down in the z direction
-  testobj.TestTorsion(90.0);  // orthogonal planes
+  testobj.TestLengths(2.0 * sqrt(2), 2.0,
+                      2.0); // diagonal hypotenuse, straight, straight
+  testobj.TestAngles(
+      135.0, 90.0); // diagonal within xy plane, then down in the z direction
+  testobj.TestTorsion(90.0); // orthogonal planes
 }
-
 
 void testPeriodicFlag() {
   // Check that periodic code isn't activated unless specified
@@ -157,17 +151,16 @@ void testPeriodicFlag() {
 
   // With periodicity, the code should return the same values as above in
   // testNonPeriodicNegative(), even though the coordinates are now wrapped.
-  testobj.TestLengths(2.0*sqrt(2), 2.0, 2.0);
+  testobj.TestLengths(2.0 * sqrt(2), 2.0, 2.0);
   testobj.TestAngles(135.0, 90.0);
   testobj.TestTorsion(90.0);
 
   // If the flag is not activated, the wrapped coordinates behave as-is.
   testobj.GetMol()->UnsetFlag(OB_PERIODIC_MOL);
-  testobj.TestLengths(2.0*sqrt(2), 8.0, 8.0);
+  testobj.TestLengths(2.0 * sqrt(2), 8.0, 8.0);
   testobj.TestAngles(45.0, 90.0);
   testobj.TestTorsion(90.0);
 }
-
 
 void testPeriodicCIFWrite() {
   PeriodicTester testobj;
@@ -185,13 +178,12 @@ void testPeriodicCIFWrite() {
   while (std::getline(full_test_cif, line)) {
     if (found_bonds || line.find("bond") != std::string::npos) {
       bond_section.append(line);
-      bond_section.append("\n");  // This also adds a newline to the end
+      bond_section.append("\n"); // This also adds a newline to the end
       found_bonds = true;
     }
   }
 
-  const std::string expected_cif_bonds =
-"    _geom_bond_atom_site_label_1\n\
+  const std::string expected_cif_bonds = "    _geom_bond_atom_site_label_1\n\
     _geom_bond_atom_site_label_2\n\
     _geom_bond_distance\n\
     _geom_bond_site_symmetry_2\n\
@@ -204,12 +196,12 @@ void testPeriodicCIFWrite() {
   OB_COMPARE(expected_cif_bonds, bond_section);
 }
 
-
 void testPeriodicNoncubic() {
   PeriodicTester testobj;
   OBMol *mol = testobj.GetMol();
   OBUnitCell *uc = new OBUnitCell;
-  uc->SetData(15, 20, 11, 60.0, 78.8, 128.2);  // non-special triclinic parameters
+  uc->SetData(15, 20, 11, 60.0, 78.8,
+              128.2); // non-special triclinic parameters
   mol->SetData(uc);
   mol->SetPeriodicMol();
 
@@ -221,34 +213,31 @@ void testPeriodicNoncubic() {
 
   // When properly wrapped, the original coordinates should be invariant to
   // the selected unit cell, as long as it's large enough, etc.
-  testobj.TestLengths(2.0*sqrt(2), 2.0, 2.0);
+  testobj.TestLengths(2.0 * sqrt(2), 2.0, 2.0);
   testobj.TestAngles(135.0, 90.0);
   testobj.TestTorsion(90.0);
 }
 
-
-
-int periodictest(int argc, char* argv[])
-{
+int periodictest(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
-  switch(choice) {
+  switch (choice) {
   case 1:
     testNonperiodicNegative();
     break;
@@ -266,5 +255,5 @@ int periodictest(int argc, char* argv[])
     return -1;
   }
 
-  return(0);
+  return (0);
 }

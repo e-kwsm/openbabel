@@ -1,11 +1,11 @@
-#include <iostream>
 #include <cstdlib>
+#include <iostream>
 
-void report_error(const char* msg, const char* file, int line, const char* func_name, bool require)
-{
-    std::cout << file << ":" << line << ": " << msg << " (FAIL)" << std::endl;
-    if (require)
-      exit(-1);
+void report_error(const char *msg, const char *file, int line,
+                  const char *func_name, bool require) {
+  std::cout << file << ":" << line << ": " << msg << " (FAIL)" << std::endl;
+  if (require)
+    exit(-1);
 }
 
-const char* ob_expr(const char *expr) { return expr; }
+const char *ob_expr(const char *expr) { return expr; }

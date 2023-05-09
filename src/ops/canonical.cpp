@@ -16,39 +16,39 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
+#include <openbabel/canon.h>
+#include <openbabel/graphsym.h>
 #include <openbabel/mol.h>
 #include <openbabel/obiter.h>
-#include <openbabel/graphsym.h>
-#include <openbabel/canon.h>
+#include <openbabel/op.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpCanonical : public OBOp
-{
+class OpCanonical : public OBOp {
 public:
-  OpCanonical(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Canonicalize the atom order"; }
+  OpCanonical(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override { return "Canonicalize the atom order"; }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
-      OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpCanonical theOpCanonical("canonical"); //Global instance
+OpCanonical theOpCanonical("canonical"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpCanonical::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool OpCanonical::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                     OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
-  std::vector<OBAtom*> atoms;
-  FOR_ATOMS_OF_MOL (atom, pmol)
-    atoms.push_back(&*atom);
+  std::vector<OBAtom *> atoms;
+  FOR_ATOMS_OF_MOL(atom, pmol)
+  atoms.push_back(&*atom);
 
   std::vector<unsigned int> symmetry_classes;
   OBGraphSym gs(pmol);
@@ -57,12 +57,12 @@ bool OpCanonical::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
   std::vector<unsigned int> canon_labels;
   CanonicalLabels(pmol, symmetry_classes, canon_labels);
 
-  std::vector<OBAtom*> newatoms(atoms.size(), nullptr);
+  std::vector<OBAtom *> newatoms(atoms.size(), nullptr);
   for (std::size_t i = 0; i < canon_labels.size(); ++i)
-    newatoms[canon_labels[i]-1] = atoms[i];
+    newatoms[canon_labels[i] - 1] = atoms[i];
 
   pmol->RenumberAtoms(newatoms);
 
   return true;
 }
-}//namespace
+} // namespace OpenBabel

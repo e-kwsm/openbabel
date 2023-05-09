@@ -11,30 +11,28 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-#include <openbabel/obconversion.h>
 #include <openbabel/base.h>
+#include <openbabel/obconversion.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class NulFormat : public OBFormat
-{
+class NulFormat : public OBFormat {
 public:
-  NulFormat() { OBConversion::RegisterFormat("nul",this); }
+  NulFormat() { OBConversion::RegisterFormat("nul", this); }
 
-  const char* Description() override { return "Outputs nothing"; }
+  const char *Description() override { return "Outputs nothing"; }
 
   unsigned int Flags() override { return NOTREADABLE; }
 
-  bool WriteChemObject(OBConversion* pConv) override
-  {
+  bool WriteChemObject(OBConversion *pConv) override {
     delete pConv->GetChemObject();
     return true;
   }
-  bool WriteMolecule(OBBase* /*pOb*/, OBConversion* /*pConv*/) override { return false; }
+  bool WriteMolecule(OBBase * /*pOb*/, OBConversion * /*pConv*/) override {
+    return false;
+  }
 };
 
 NulFormat theNulFormat;
 
-} //namespace OpenBabel
-
+} // namespace OpenBabel

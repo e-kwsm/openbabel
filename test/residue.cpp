@@ -21,52 +21,46 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
-#include <openbabel/babelconfig.h>
-#include <openbabel/mol.h>
+#include <cstdio>
+#include <cstdlib>
+#include <iostream>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
+#include <openbabel/chains.h>
+#include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/obiter.h>
-#include <openbabel/chains.h>
 #include <openbabel/residue.h>
-#include <cstdlib>
-#include <cstdio>
-#include <iostream>
 
 using namespace std;
 using namespace OpenBabel;
 
 // helper functions for chains parsing
-void CheckValidResidue(OBConversion &conv,
-                         const string &test,
+void CheckValidResidue(OBConversion &conv, const string &test,
+                       unsigned int testCount);
+void CheckInvalidResidue(OBConversion &conv, const string &test,
                          unsigned int testCount);
-void CheckInvalidResidue(OBConversion &conv,
-                         const string &test,
-                         unsigned int testCount);
-void CheckValidDipeptide(OBConversion &conv,
-                         const string &test,
+void CheckValidDipeptide(OBConversion &conv, const string &test,
                          unsigned int testCount);
 
-int residue(int argc, char* argv[])
-{
+int residue(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
-
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
   cout << "# Unit tests for OBResidue \n";
 
@@ -79,7 +73,8 @@ int residue(int argc, char* argv[])
   // chains parser tests
 
   // PR#1515198
-  static const string loopTest1("C1(C(NC(C(N1C(C(NC(C=Cc1ccccc1)=O)C)=O)Cc1ccccc1)=O)Cc1ccccc1)=O");
+  static const string loopTest1(
+      "C1(C(NC(C(N1C(C(NC(C=Cc1ccccc1)=O)C)=O)Cc1ccccc1)=O)Cc1ccccc1)=O");
   OBConversion conv;
   OBMol mol;
   OBFormat *inFormat = conv.FindFormat("SMI");
@@ -170,19 +165,16 @@ int residue(int argc, char* argv[])
   testRes2.AddAtom(&C);
   testRes2.AddAtom(&C);
 
-  if(testRes2.GetNumAtoms() == 4){
+  if (testRes2.GetNumAtoms() == 4) {
     cout << "ok " << ++testCount << " # " << testRes2.GetNumAtoms() << endl;
-  }else{
+  } else {
     cout << "not ok " << ++testCount << " # expected 4 atoms, but found "
          << testRes2.GetNumAtoms() << '\n';
   }
 
-  if (testRes2.GetNumHvyAtoms() == 2)
-  {
+  if (testRes2.GetNumHvyAtoms() == 2) {
     cout << "ok " << ++testCount << " # " << testRes2.GetNumHvyAtoms() << endl;
-  }
-  else
-  {
+  } else {
     cout << "not ok " << ++testCount << " # expected 2 atom, but found "
          << testRes2.GetNumHvyAtoms() << '\n';
   }
@@ -190,39 +182,32 @@ int residue(int argc, char* argv[])
   // the number of tests for "prove"
   cout << "1.." << testCount << "\n";
 
-  return(0);
+  return (0);
 }
 
-void CheckValidResidue(OBConversion &conv,
-                       const string &test,
-                       unsigned int testCount)
-{
+void CheckValidResidue(OBConversion &conv, const string &test,
+                       unsigned int testCount) {
   OBMol mol;
 
   mol.Clear();
   conv.ReadString(&mol, test);
   chainsparser.PerceiveChains(mol);
-  if (mol.NumResidues() != 1)
-    {
-      cout << "not ok " << testCount << " # expected 1 residue, but found "
-           << mol.NumResidues() << '\n';
-      cout << "# ";
-      FOR_RESIDUES_OF_MOL(res, mol)
-        cout << res->GetName() << " ";
-      cout << endl;
-    }
-  else {
+  if (mol.NumResidues() != 1) {
+    cout << "not ok " << testCount << " # expected 1 residue, but found "
+         << mol.NumResidues() << '\n';
+    cout << "# ";
+    FOR_RESIDUES_OF_MOL(res, mol)
+    cout << res->GetName() << " ";
+    cout << endl;
+  } else {
     OBResidue *res;
     res = mol.GetResidue(0);
     cout << "ok " << testCount << " # " << res->GetName() << endl;
   }
 }
 
-
-void CheckInvalidResidue(OBConversion &conv,
-                         const string &test,
-                         unsigned int testCount)
-{
+void CheckInvalidResidue(OBConversion &conv, const string &test,
+                         unsigned int testCount) {
   OBMol mol;
 
   mol.Clear();
@@ -230,9 +215,10 @@ void CheckInvalidResidue(OBConversion &conv,
   chainsparser.PerceiveChains(mol);
   if (mol.NumResidues() != 0) {
     OBResidue *res = mol.GetResidue(0);
-    if (res->GetName() == "LIG" || res->GetName() == "UNL" ) { // ligand, not residue
-      cout << "ok " << testCount << " # found ligand, not residue "
-           << test << '\n';
+    if (res->GetName() == "LIG" ||
+        res->GetName() == "UNL") { // ligand, not residue
+      cout << "ok " << testCount << " # found ligand, not residue " << test
+           << '\n';
     } else {
       cout << "not ok " << testCount << " # expected 0 residues, found "
            << mol.NumResidues() << '\n';
@@ -242,10 +228,8 @@ void CheckInvalidResidue(OBConversion &conv,
     cout << "ok " << testCount << " # correctly rejected " << test << '\n';
 }
 
-void CheckValidDipeptide(OBConversion &conv,
-                         const string &test,
-                         unsigned int testCount)
-{
+void CheckValidDipeptide(OBConversion &conv, const string &test,
+                         unsigned int testCount) {
   OBMol mol;
 
   mol.Clear();
@@ -256,7 +240,7 @@ void CheckValidDipeptide(OBConversion &conv,
          << mol.NumResidues() << '\n';
     cout << "# ";
     FOR_RESIDUES_OF_MOL(res, mol)
-      cout << res->GetName() << " ";
+    cout << res->GetName() << " ";
     cout << endl;
   } else {
     OBResidue *res;

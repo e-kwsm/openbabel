@@ -35,7 +35,7 @@ GNU General Public License for more details.
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   if (argc != 4 && argc != 5) {
     cout << "Usage: obconformer NSteps GeomSteps <file> [forcefield]" << endl;
     return (-1);
@@ -51,7 +51,7 @@ int main(int argc, char* argv[]) {
   }
 
   OBConversion conv{&ifs, &cout};
-  OBFormat* pFormat = conv.FormatFromExt(argv[3]);
+  OBFormat *pFormat = conv.FormatFromExt(argv[3]);
 
   if (!pFormat) {
     cerr << "Error! Cannot read file format!" << endl;
@@ -65,12 +65,14 @@ int main(int argc, char* argv[]) {
 
   // use this if a user doesn't specify forcefield
   const string default_forcefield = "MMFF94";
-  // use this if a user doesn't specify forcefield and MMFF94 parameters are not found
+  // use this if a user doesn't specify forcefield and MMFF94 parameters are not
+  // found
   const string fallback_forcefield = "UFF";
 
   const bool is_forcefield_supplied = argc == 5;
-  const string forcefield = is_forcefield_supplied ? argv[4] : default_forcefield;
-  OBForceField* pFF = OBForceField::FindForceField(forcefield);
+  const string forcefield =
+      is_forcefield_supplied ? argv[4] : default_forcefield;
+  OBForceField *pFF = OBForceField::FindForceField(forcefield);
   if (!pFF) {
     cerr << "Error! Cannot find forcefield '" << forcefield << "'" << endl;
     return -1;
@@ -86,7 +88,7 @@ int main(int argc, char* argv[]) {
 
     if (pFF->Setup(mol)) {
       pFF->WeightedRotorSearch(weightSteps, geomSteps);
-      pFF->ConjugateGradients(geomSteps);  // final cleanup
+      pFF->ConjugateGradients(geomSteps); // final cleanup
       pFF->UpdateCoordinates(mol);
       conv.Write(&mol);
     } else {
@@ -96,18 +98,19 @@ int main(int argc, char* argv[]) {
       }
       pFF = OBForceField::FindForceField(fallback_forcefield);
       assert(pFF);
-      cerr << "Force field is switched to " << fallback_forcefield << '.' << endl;
+      cerr << "Force field is switched to " << fallback_forcefield << '.'
+           << endl;
       if (!pFF->Setup(mol)) {
         cerr << "Error! Cannot set up force field." << endl;
         return 1;
       }
       pFF->WeightedRotorSearch(weightSteps, geomSteps);
-      pFF->ConjugateGradients(geomSteps);  // final cleanup
+      pFF->ConjugateGradients(geomSteps); // final cleanup
       pFF->UpdateCoordinates(mol);
       conv.Write(&mol);
-      pFF = OBForceField::FindForceField(forcefield);  // switch back to MMFF94
+      pFF = OBForceField::FindForceField(forcefield); // switch back to MMFF94
     }
-  }  // while reading molecules
+  } // while reading molecules
 
   return 0;
 }

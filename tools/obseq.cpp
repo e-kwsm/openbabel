@@ -30,88 +30,79 @@ extern "C" int strncasecmp(const char *s1, const char *s2, size_t n);
 #endif
 
 #include <cstdio>
-#include <iostream>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc,char *argv[])
-{
+int main(int argc, char *argv[]) {
   // turn off slow sync with C-style output (we don't use it anyway).
   std::ios::sync_with_stdio(false);
 
-  if (argc != 2)
-    {
-      cout << "Usage: aromatest <file>" << endl;
-      cout << " Tests aromaticity perception -- all non-hydrogen atoms"
-           << "   are expected to be aromatic." << endl;
-      return(-1);
-    }
+  if (argc != 2) {
+    cout << "Usage: aromatest <file>" << endl;
+    cout << " Tests aromaticity perception -- all non-hydrogen atoms"
+         << "   are expected to be aromatic." << endl;
+    return (-1);
+  }
 
   cout << endl << "# Testing aromaticity perception...  " << endl;
 
   ifstream ifs(argv[1]);
-  if (!ifs)
-    {
-      cout << "Bail out! Cannot read input file!" << endl;
-      return(-1);
-    }
+  if (!ifs) {
+    cout << "Bail out! Cannot read input file!" << endl;
+    return (-1);
+  }
 
   OBConversion conv(&ifs, &cout);
-  OBFormat* pFormat;
+  OBFormat *pFormat;
 
   pFormat = conv.FormatFromExt(argv[1]);
-  if ( pFormat == nullptr )
-    {
-      cout << "Bail out! Cannot read file format!" << endl;
-      return(-1);
-    }
+  if (pFormat == nullptr) {
+    cout << "Bail out! Cannot read file format!" << endl;
+    return (-1);
+  }
 
   // Finally, we can do some work!
   OBMol mol;
 
   unsigned int testCount = 1;
 
-  if (! conv.SetInAndOutFormats(pFormat, pFormat))
-    {
-      cout << "Bail out! File format isn't loaded" << endl;
-      return (-1);
-    }
+  if (!conv.SetInAndOutFormats(pFormat, pFormat)) {
+    cout << "Bail out! File format isn't loaded" << endl;
+    return (-1);
+  }
 
   int molCount = 0;
-  while(ifs.peek() != EOF && ifs.good())
-    {
-      mol.Clear();
-      conv.Read(&mol);
-      molCount++;
+  while (ifs.peek() != EOF && ifs.good()) {
+    mol.Clear();
+    conv.Read(&mol);
+    molCount++;
 
-      vector<string> chains;
-      unsigned int currentChain = 0;
-      string residueList;
-      FOR_RESIDUES_OF_MOL(r, mol)
-        {
-          if (r->GetChainNum() != currentChain)
-            {
-              if (residueList.size() != 0)
-                {
-                  residueList.erase(residueList.size() - 1);
-                  chains.push_back(residueList);
-                  cout << residueList << endl;
-                }
-              currentChain = r->GetChainNum();
-              residueList.clear();
-            }
-          residueList += r->GetName();
-          residueList += "-";
+    vector<string> chains;
+    unsigned int currentChain = 0;
+    string residueList;
+    FOR_RESIDUES_OF_MOL(r, mol) {
+      if (r->GetChainNum() != currentChain) {
+        if (residueList.size() != 0) {
+          residueList.erase(residueList.size() - 1);
+          chains.push_back(residueList);
+          cout << residueList << endl;
         }
-      residueList.erase(residueList.size() - 1);
-      cout << residueList << endl;
+        currentChain = r->GetChainNum();
+        residueList.clear();
+      }
+      residueList += r->GetName();
+      residueList += "-";
+    }
+    residueList.erase(residueList.size() - 1);
+    cout << residueList << endl;
 
-    } // while reading molecules
+  } // while reading molecules
 
   // output the number of tests run
-  cout << "1.." << testCount-1 << endl;
+  cout << "1.." << testCount - 1 << endl;
 
-  return(0);
+  return (0);
 }

@@ -16,7 +16,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-
 // used to set import/export for Cygwin DLLs
 #ifdef WIN32
 #define USING_OBDLL
@@ -24,15 +23,14 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
-#include <openbabel/mol.h>
 #include <openbabel/math/matrix3x3.h>
+#include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc,char **argv)
-{
+int main(int argc, char **argv) {
   char c;
   int transX, transY, transZ, centerIdx;
   transX = transY = transZ = centerIdx = -1;
@@ -41,7 +39,7 @@ int main(int argc,char **argv)
   char *program_name = argv[0];
   //   char *iext;
 
-  OBConversion conv(&cin,&cout);
+  OBConversion conv(&cin, &cout);
   OBFormat *pFormat = conv.FindFormat("smi"); // default format is SMILES
 
   // Still need to add:
@@ -49,145 +47,126 @@ int main(int argc,char **argv)
   // translate X, Y, or Z by set amount
 
   // Parse options
-  while ((c = getopt(argc, argv, "x:y:z:c:")) != -1)
-    {
-      switch (c)
-        {
-        case 'c': /// atom to be centered
+  while ((c = getopt(argc, argv, "x:y:z:c:")) != -1) {
+    switch (c) {
+    case 'c': /// atom to be centered
 
-          c = sscanf(optarg, "%d", &centerIdx);
-          if (c != 1 )
-            {
-              cerr << program_name << ": unable to parse -c option" << endl;
-              exit (-1);
-            }
-          break;
+      c = sscanf(optarg, "%d", &centerIdx);
+      if (c != 1) {
+        cerr << program_name << ": unable to parse -c option" << endl;
+        exit(-1);
+      }
+      break;
 
-        case 'x': /// atom to be centered
+    case 'x': /// atom to be centered
 
-          c = sscanf(optarg, "%d", &transX);
-          if (c != 1 )
-            {
-              cerr << program_name << ": unable to parse -x option" << endl;
-              exit (-1);
-            }
-          break;
+      c = sscanf(optarg, "%d", &transX);
+      if (c != 1) {
+        cerr << program_name << ": unable to parse -x option" << endl;
+        exit(-1);
+      }
+      break;
 
-        case 'y': /// atom to y-axis
+    case 'y': /// atom to y-axis
 
-          c = sscanf(optarg, "%d", &transY);
-          if (c != 1 )
-            {
-              cerr << program_name << ": unable to parse -y option" << endl;
-              exit (-1);
-            }
-          break;
+      c = sscanf(optarg, "%d", &transY);
+      if (c != 1) {
+        cerr << program_name << ": unable to parse -y option" << endl;
+        exit(-1);
+      }
+      break;
 
-        case 'z': /// atom to z-axis
+    case 'z': /// atom to z-axis
 
-          c = sscanf(optarg, "%d", &transZ);
-          if (c != 1 )
-            {
-              cerr << program_name << ": unable to parse -z option" << endl;
-              exit (-1);
-            }
-          break;
-
-        }
+      c = sscanf(optarg, "%d", &transZ);
+      if (c != 1) {
+        cerr << program_name << ": unable to parse -z option" << endl;
+        exit(-1);
+      }
+      break;
     }
+  }
 
   ifstream ifs;
-  FileIn  = argv[optind];
-  if (FileIn != nullptr)
-    {
-      // Read the file
-      ifs.open(FileIn);
-      if (!ifs)
-        {
-          cerr << program_name << ": cannot read input file!" << endl;
-          exit (-1);
-        }
-      conv.SetInStream(&ifs);
-
-      // Find Input filetype
-      pFormat = conv.FormatFromExt(FileIn);
-      if (pFormat == nullptr)
-        {
-          cerr << program_name << ": cannot read input format!" << endl;
-          return (-1);
-        }
+  FileIn = argv[optind];
+  if (FileIn != nullptr) {
+    // Read the file
+    ifs.open(FileIn);
+    if (!ifs) {
+      cerr << program_name << ": cannot read input file!" << endl;
+      exit(-1);
     }
+    conv.SetInStream(&ifs);
 
-  if (! conv.SetInAndOutFormats(pFormat, pFormat))
-    {
-      cerr << program_name << ": cannot read or write to this file format" << endl;
+    // Find Input filetype
+    pFormat = conv.FormatFromExt(FileIn);
+    if (pFormat == nullptr) {
+      cerr << program_name << ": cannot read input format!" << endl;
       return (-1);
     }
+  }
+
+  if (!conv.SetInAndOutFormats(pFormat, pFormat)) {
+    cerr << program_name << ": cannot read or write to this file format"
+         << endl;
+    return (-1);
+  }
 
   OBMol mol;
   mol.Clear();
   conv.Read(&mol);
   if (mol.Empty())
-    return(1);
+    return (1);
 
   vector3 v;
-  if (centerIdx != -1)
-    {
-      v = (mol.GetAtom(centerIdx))->GetVector();
-      mol.Translate(-1.0f*v);
-    }
+  if (centerIdx != -1) {
+    v = (mol.GetAtom(centerIdx))->GetVector();
+    mol.Translate(-1.0f * v);
+  }
 
   double alpha, beta, gamma;
   alpha = beta = gamma = 0.0f;
-  if (transX != -1)
-    {
-      v = (mol.GetAtom(transX))->GetVector();
+  if (transX != -1) {
+    v = (mol.GetAtom(transX))->GetVector();
 
-      // angle to rotate vector into XZ plane
-      // (i.e., angle between x and y components)
-      gamma = M_PI/2.0 - atan(v.x() / v.y());
+    // angle to rotate vector into XZ plane
+    // (i.e., angle between x and y components)
+    gamma = M_PI / 2.0 - atan(v.x() / v.y());
 
-      // angle to rotate vector from XZ plane to X axis
-      // (by rotation along Y-axis)
-      beta = atan(v.z() / sqrt(v.y()*v.y() + v.x()*v.x()) );
-    }
-  else if (transY != -1)
-    {
-      v = (mol.GetAtom(transY))->GetVector();
+    // angle to rotate vector from XZ plane to X axis
+    // (by rotation along Y-axis)
+    beta = atan(v.z() / sqrt(v.y() * v.y() + v.x() * v.x()));
+  } else if (transY != -1) {
+    v = (mol.GetAtom(transY))->GetVector();
 
-      // angle to rotate vector into YZ plane
-      // (i.e., angle between x and y components)
-      gamma = -1.0 * atan(v.x() / v.y());
+    // angle to rotate vector into YZ plane
+    // (i.e., angle between x and y components)
+    gamma = -1.0 * atan(v.x() / v.y());
 
-      // angle to rotate vector from YZ plane to Y axis
-      // (by rotation along X-axis)
-      alpha = -1.0 * atan(v.z() / sqrt(v.y()*v.y() + v.x()*v.x()) );
-    }
-  else if (transZ != -1)
-    {
-      v = (mol.GetAtom(transZ))->GetVector();
+    // angle to rotate vector from YZ plane to Y axis
+    // (by rotation along X-axis)
+    alpha = -1.0 * atan(v.z() / sqrt(v.y() * v.y() + v.x() * v.x()));
+  } else if (transZ != -1) {
+    v = (mol.GetAtom(transZ))->GetVector();
 
-      // angle to rotate vector into YZ plane
-      // (i.e., angle between x and y components)
-      gamma = -1.0 * atan(v.x() / v.y());
+    // angle to rotate vector into YZ plane
+    // (i.e., angle between x and y components)
+    gamma = -1.0 * atan(v.x() / v.y());
 
-      // angle to rotate vector from YZ plane to Z axis
-      // (by rotation along X axis)
-      alpha = M_PI/2.0f - atan(v.z() / sqrt(v.y()*v.y() + v.x()*v.x()) );
-    }
+    // angle to rotate vector from YZ plane to Z axis
+    // (by rotation along X axis)
+    alpha = M_PI / 2.0f - atan(v.z() / sqrt(v.y() * v.y() + v.x() * v.x()));
+  }
 
-  if ( !IsNearZero(alpha) ||
-       !IsNearZero(beta)  ||
-       !IsNearZero(gamma) )
-    {
-      matrix3x3 mat;
-      mat.SetupRotMat(alpha*RAD_TO_DEG, beta*RAD_TO_DEG, gamma*RAD_TO_DEG);
-      double array[9];
-      mat.GetArray(array);
-      mol.Rotate(array);
-    }
+  if (!IsNearZero(alpha) || !IsNearZero(beta) || !IsNearZero(gamma)) {
+    matrix3x3 mat;
+    mat.SetupRotMat(alpha * RAD_TO_DEG, beta * RAD_TO_DEG, gamma * RAD_TO_DEG);
+    double array[9];
+    mat.GetArray(array);
+    mol.Rotate(array);
+  }
 
   conv.Write(&mol, &cout);
 
-  return(0);
+  return (0);
 }

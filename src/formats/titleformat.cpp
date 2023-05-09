@@ -16,65 +16,57 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-#include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
+#include <openbabel/obmolecformat.h>
 
 using namespace std;
 namespace OpenBabel {
 
-class TitleFormat : public OBMoleculeFormat
-{
+class TitleFormat : public OBMoleculeFormat {
 public:
-	TitleFormat()
-  {
-      OBConversion::RegisterFormat("txt",this);
-  }
+  TitleFormat() { OBConversion::RegisterFormat("txt", this); }
 
-  const char* Description() override  // required
+  const char *Description() override // required
   {
-    return
-      "Title format\n"
-      "Displays and reads molecule titles\n";
+    return "Title format\n"
+           "Displays and reads molecule titles\n";
   }
   unsigned int Flags() override { return ZEROATOMSOK; }
 
   /// The "API" interface functions
-  bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
-  bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override;
+  bool WriteMolecule(OBBase *pOb, OBConversion *pConv) override;
 };
 /////////////////////////////////////////////////////
 TitleFormat theTitleFormat;
 
 /////////////////////////////////////////////////////
-bool TitleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
-{
-	// Reads titles separated by spaces, tabs or newlines,
-	// If option -at set titles can contain spaces.
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
-	string title;
-	istream& ifs = *pConv->GetInStream();
-	if(pConv->IsOption("t",OBConversion::INOPTIONS))
-	{
-		while( ifs && (ifs.peek()!='\t') && (ifs.peek()!='\n') && (ifs.peek()!=EOF))
-			title += ifs.get();
-		ifs.get(); //delimiter
-	}
-	else
-		ifs >> title;
+bool TitleFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
+  // Reads titles separated by spaces, tabs or newlines,
+  // If option -at set titles can contain spaces.
+  OBMol *pmol = pOb->CastAndClear<OBMol>();
+  string title;
+  istream &ifs = *pConv->GetInStream();
+  if (pConv->IsOption("t", OBConversion::INOPTIONS)) {
+    while (ifs && (ifs.peek() != '\t') && (ifs.peek() != '\n') &&
+           (ifs.peek() != EOF))
+      title += ifs.get();
+    ifs.get(); // delimiter
+  } else
+    ifs >> title;
 
-	pmol->SetTitle(Trim(title));
-	return true;
+  pmol->SetTitle(Trim(title));
+  return true;
 }
 
-bool TitleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+bool TitleFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   if (pmol == nullptr)
-      return false;
+    return false;
 
   ostream &ofs = *pConv->GetOutStream();
-	ofs << pmol->GetTitle() << endl;
-	return true;
+  ofs << pmol->GetTitle() << endl;
+  return true;
 }
 
-}//namespace OpenBabel
+} // namespace OpenBabel

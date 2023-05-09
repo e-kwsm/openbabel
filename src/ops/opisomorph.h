@@ -12,15 +12,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
+#include <openbabel/op.h>
 #include <openbabel/query.h>
-#include <vector>
 #include <string>
+#include <vector>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 /**
 @since version 2.3
 Adds an OBPairData object to each atom and bond in a substructure.
@@ -29,44 +28,50 @@ vector of atom indx; the bonds are those in the molecule that join
 these atoms. The attribute and value of the OBPairObject (the same
 for all the added objects) are specified as parameters.
 **/
-extern bool AddDataToSubstruct(OBMol* pmol, const std::vector<int>& atomIdxs,
-        const std::string& attribute, const std::string& value);
+extern bool AddDataToSubstruct(OBMol *pmol, const std::vector<int> &atomIdxs,
+                               const std::string &attribute,
+                               const std::string &value);
 
 /**
 @since version 2.3
 Deletes all atoms except those in @p atomIndxs
 **/
-extern bool ExtractSubstruct(OBMol* pmol, const std::vector<int>& atomIdxs);
+extern bool ExtractSubstruct(OBMol *pmol, const std::vector<int> &atomIdxs);
 
-extern bool MakeQueriesFromMolInFile(std::vector<OBQuery*>& queries
-                         , const std::string& filename, int* pnAtoms, bool noH);
+extern bool MakeQueriesFromMolInFile(std::vector<OBQuery *> &queries,
+                                     const std::string &filename, int *pnAtoms,
+                                     bool noH);
 
 //*****************************************************
-class OpNewS : public OBOp
-{
+class OpNewS : public OBOp {
 public:
-  OpNewS(const char* ID) : OBOp(ID, false){}
-  const char* Description() override;
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*) override;
-  std::vector<int> GetMatchAtoms(){ return firstmatch; }
-  bool ProcessVec(std::vector<OBBase*>& vec) override; //Extra target mols
+  OpNewS(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText, OpMap *pmap,
+          OBConversion *) override;
+  std::vector<int> GetMatchAtoms() { return firstmatch; }
+  bool ProcessVec(std::vector<OBBase *> &vec) override; // Extra target mols
 
 private:
-  std::vector<std::string> vec; //parsed parameter text
-  std::vector<OBBase*> ExtraMols; //extra OBMols passed in via ProcessVec() (FastSearchFormat)
-  OBSmartsPattern sp;  //if SMARTS (and not a filename) supplied
-  std::string xsmarts; //extra SMARTS provided externally via ProcessVec()
-  bool addHydrogens;   //The SMARTS contained one or more #1 to explicitly find hydrogen
+  std::vector<std::string> vec; // parsed parameter text
+  std::vector<OBBase *>
+      ExtraMols; // extra OBMols passed in via ProcessVec() (FastSearchFormat)
+  OBSmartsPattern sp;  // if SMARTS (and not a filename) supplied
+  std::string xsmarts; // extra SMARTS provided externally via ProcessVec()
+  bool addHydrogens;   // The SMARTS contained one or more #1 to explicitly find
+                       // hydrogen
   bool inv;
-  int nPatternAtoms;   //non-zero for exact matches
-  std::vector<OBQuery*> queries; //populated if a filename was supplied
-  OBQuery* query;
-  std::vector<int> firstmatch; //Idxes of first match by SMARTS or OBIsomorphismMapper
+  int nPatternAtoms;              // non-zero for exact matches
+  std::vector<OBQuery *> queries; // populated if a filename was supplied
+  OBQuery *query;
+  std::vector<int>
+      firstmatch; // Idxes of first match by SMARTS or OBIsomorphismMapper
   bool showAll;
   int nmatches;
   char comparechar;
 };
 
-} //namespace
-
+} // namespace OpenBabel

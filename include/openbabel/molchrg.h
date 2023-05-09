@@ -23,59 +23,58 @@ GNU General Public License for more details.
 #include <openbabel/babelconfig.h>
 #include <vector>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-  // Foward declarations
-  class OBMol;
-  class OBAtom;
+// Foward declarations
+class OBMol;
+class OBAtom;
 
 //! \class GasteigerState molchrg.h <openbabel/molchrg.h>
-//! \brief Helper class for OBGastChrg which stores the Gasteiger states of a given atom
-class OBAPI GasteigerState
-{
+//! \brief Helper class for OBGastChrg which stores the Gasteiger states of a
+//! given atom
+class OBAPI GasteigerState {
 public:
-    GasteigerState();
-    ~GasteigerState() {}
+  GasteigerState();
+  ~GasteigerState() {}
 
-    void SetValues(double _a,double _b,double _c,double _q)
-    {
-        a = _a;
-        b = _b;
-        c = _c;
-        denom=a+b+c;
-        q = _q;
-    }
+  void SetValues(double _a, double _b, double _c, double _q) {
+    a = _a;
+    b = _b;
+    c = _c;
+    denom = a + b + c;
+    q = _q;
+  }
 
-    double a, b, c;
-    double denom;
-    double chi;
-    double q;
+  double a, b, c;
+  double denom;
+  double chi;
+  double q;
 };
 
 // class introduction in molchrg.cpp
-class OBAPI OBGastChrg
-{
-  std::vector <GasteigerState*> _gsv; //!< vector of internal GasteigerState (for each atom)
+class OBAPI OBGastChrg {
+  std::vector<GasteigerState *>
+      _gsv; //!< vector of internal GasteigerState (for each atom)
 
-    void InitialPartialCharges(OBMol &);
-    bool GasteigerSigmaChi(OBAtom *,double &,double &,double &);
+  void InitialPartialCharges(OBMol &);
+  bool GasteigerSigmaChi(OBAtom *, double &, double &, double &);
 
 public:
-    OBGastChrg()    {}
-    ~OBGastChrg();
+  OBGastChrg() {}
+  ~OBGastChrg();
 
-    //! Assign partial charges to this OBMol, setting each OBAtom partial charge
-    bool AssignPartialCharges(OBMol &);
-    //! Resize the internal GasteigerState vector to match the size of the molecule
-    void GSVResize(int);
+  //! Assign partial charges to this OBMol, setting each OBAtom partial charge
+  bool AssignPartialCharges(OBMol &);
+  //! Resize the internal GasteigerState vector to match the size of the
+  //! molecule
+  void GSVResize(int);
 };
 
-}
+} // namespace OpenBabel
 
-#define OB_GASTEIGER_DENOM  20.02
-#define OB_GASTEIGER_DAMP   0.5
-#define OB_GASTEIGER_ITERS  6
+#define OB_GASTEIGER_DENOM 20.02
+#define OB_GASTEIGER_DAMP 0.5
+#define OB_GASTEIGER_ITERS 6
 
 #endif // OB_MOLCHRG_H
 

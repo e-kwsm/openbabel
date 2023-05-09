@@ -18,18 +18,17 @@ GNU General Public License for more details.
 
 #include "obtest.h"
 #include <openbabel/babelconfig.h>
+#include <openbabel/generic.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/generic.h>
 
-#include <string>
 #include <algorithm>
+#include <string>
 
 using namespace std;
 using namespace OpenBabel;
 
-void testMaeReader()
-{
+void testMaeReader() {
   OBConversion conv;
   OBMol mol;
   conv.SetOutFormat("smi");
@@ -52,9 +51,7 @@ void testMaeReader()
   OB_COMPARE(mae_smi, known_smi);
 }
 
-
-void testMaeWriter()
-{
+void testMaeWriter() {
   OBConversion conv;
 
   OBMol mol;
@@ -76,31 +73,28 @@ void testMaeWriter()
   // Verify that reading from sequential strings works
   conv.ReadString(&mae_mol, mae_file_txt);
   OB_COMPARE(mae_mol.NumAtoms(), 9);
-
-
 }
 
-int maereadertest(int argc, char* argv[])
-{
+int maereadertest(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
 
   if (argc > 1) {
-    if(sscanf(argv[1], "%d", &choice) != 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
   }
 
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
-  switch(choice) {
+  switch (choice) {
   case 1:
     testMaeReader();
     break;
@@ -112,5 +106,5 @@ int maereadertest(int argc, char* argv[])
     return -1;
   }
 
-  return(0);
+  return (0);
 }

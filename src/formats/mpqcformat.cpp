@@ -13,199 +13,171 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
 #include <openbabel/elements.h>
+#include <openbabel/mol.h>
 #include <openbabel/obiter.h>
-
+#include <openbabel/obmolecformat.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
 #define BOHR_TO_ANGSTROM 0.529177249
 
-  class MPQCFormat : public OBMoleculeFormat
+class MPQCFormat : public OBMoleculeFormat {
+public:
+  // Register this format type ID
+  MPQCFormat() { OBConversion::RegisterFormat("mpqc", this); }
+
+  const char *Description() override // required
   {
-  public:
-    //Register this format type ID
-    MPQCFormat()
-    {
-      OBConversion::RegisterFormat("mpqc",this);
-    }
+    return "MPQC output format\n"
+           "Read Options e.g. -as\n"
+           " s  Output single bonds only\n"
+           " b  Disable bonding entirely\n\n";
+  }
 
-    const char* Description() override  // required
-    {
-      return
-        "MPQC output format\n"
-        "Read Options e.g. -as\n"
-        " s  Output single bonds only\n"
-        " b  Disable bonding entirely\n\n";
-    }
+  const char *SpecificationURL() override {
+    return "http://www.mpqc.org/mpqc-html/mpqcinp.html";
+  } // optional
 
-    const char* SpecificationURL() override
-    { return "http://www.mpqc.org/mpqc-html/mpqcinp.html"; }  // optional
+  // Flags() can return be any the following combined by | or be omitted if none
+  // apply
+  //  NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
+  unsigned int Flags() override { return NOTWRITABLE | READONEONLY; }
 
-    //Flags() can return be any the following combined by | or be omitted if none apply
-    // NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
-    unsigned int Flags() override
-    {
-      return NOTWRITABLE | READONEONLY;
-    }
+  ////////////////////////////////////////////////////
+  /// The "API" interface functions
+  bool ReadMolecule(OBBase *pOb, OBConversion *pConv) override;
+};
 
-    ////////////////////////////////////////////////////
-    /// The "API" interface functions
-    bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
-  };
+// Make an instance of the format class
+MPQCFormat theMPQCFormat;
 
-  //Make an instance of the format class
-  MPQCFormat theMPQCFormat;
+class MPQCInputFormat : public OBMoleculeFormat {
+public:
+  // Register this format type ID
+  MPQCInputFormat() { OBConversion::RegisterFormat("mpqcin", this); }
 
-
-
-  class MPQCInputFormat : public OBMoleculeFormat
+  const char *Description() override // required
   {
-  public:
-    //Register this format type ID
-    MPQCInputFormat()
-    {
-      OBConversion::RegisterFormat("mpqcin",this);
-    }
+    return "MPQC simplified input format\n"
+           "No comments yet\n";
+  }
 
-    const char* Description() override  // required
-    {
-      return
-        "MPQC simplified input format\n"
-        "No comments yet\n";
-    }
+  const char *SpecificationURL() override {
+    return "http://www.mpqc.org/mpqc-html/mpqcinp.html";
+  } // optional
 
-    const char* SpecificationURL() override
-    { return "http://www.mpqc.org/mpqc-html/mpqcinp.html"; }  // optional
+  // Flags() can return be any the following combined by | or be omitted if none
+  // apply
+  //  NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
+  unsigned int Flags() override { return NOTREADABLE | WRITEONEONLY; }
 
-    //Flags() can return be any the following combined by | or be omitted if none apply
-    // NOTREADABLE  READONEONLY  NOTWRITABLE  WRITEONEONLY
-    unsigned int Flags() override
-    {
-      return NOTREADABLE | WRITEONEONLY;
-    }
+  ////////////////////////////////////////////////////
+  /// The "API" interface functions
+  bool WriteMolecule(OBBase *pOb, OBConversion *pConv) override;
+};
 
-    ////////////////////////////////////////////////////
-    /// The "API" interface functions
-    bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
+// Make an instance of the format class
+MPQCInputFormat theMPQCInputFormat;
 
-  };
+/////////////////////////////////////////////////////////////////
+bool MPQCFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
 
-  //Make an instance of the format class
-  MPQCInputFormat theMPQCInputFormat;
+  OBMol *pmol = pOb->CastAndClear<OBMol>();
+  if (pmol == nullptr)
+    return false;
 
-  /////////////////////////////////////////////////////////////////
-  bool MPQCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
-  {
+  // Define some references so we can use the old parameter names
+  istream &ifs = *pConv->GetInStream();
+  OBMol &mol = *pmol;
+  const char *title = pConv->GetTitle();
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
-      return false;
+  char buffer[BUFF_SIZE];
+  string str, str1;
+  double x, y, z;
+  OBAtom *atom;
+  vector<string> vs;
+  bool bohr = true;
 
-    //Define some references so we can use the old parameter names
-    istream &ifs = *pConv->GetInStream();
-    OBMol &mol = *pmol;
-    const char* title = pConv->GetTitle();
-
-    char buffer[BUFF_SIZE];
-    string str,str1;
-    double x,y,z;
-    OBAtom *atom;
-    vector<string> vs;
-    bool bohr = true;
-
-    mol.BeginModify();
-    while	(ifs.getline(buffer,BUFF_SIZE))
-      {
-        if (strstr(buffer, "<Molecule>:") != nullptr)
-          {
-            // mol.EndModify();
-            mol.Clear();
-            while (strstr(buffer, "geometry") == nullptr)
-              {
-                if (strstr(buffer, "angstrom") != nullptr)
-                  bohr = false;
-                if (!ifs.getline(buffer,BUFF_SIZE))
-                  return(false);
-              }
-            ifs.getline(buffer,BUFF_SIZE); // Now we're on the atoms
-            tokenize(vs,buffer);
-            while (vs.size() == 6)
-              {
-                if (bohr)
-                  {
-                    x = atof((char*)vs[3].c_str()) * BOHR_TO_ANGSTROM;
-                    y = atof((char*)vs[4].c_str()) * BOHR_TO_ANGSTROM;
-                    z = atof((char*)vs[5].c_str()) * BOHR_TO_ANGSTROM;
-                  }
-                else
-                  {
-                    x = atof((char*)vs[3].c_str());
-                    y = atof((char*)vs[4].c_str());
-                    z = atof((char*)vs[5].c_str());
-                  }
-                atom = mol.NewAtom();
-                atom->SetVector(x,y,z);
-                atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
-
-                if (!ifs.getline(buffer,BUFF_SIZE))
-                  break;
-                tokenize(vs,buffer);
-              }
-          }
+  mol.BeginModify();
+  while (ifs.getline(buffer, BUFF_SIZE)) {
+    if (strstr(buffer, "<Molecule>:") != nullptr) {
+      // mol.EndModify();
+      mol.Clear();
+      while (strstr(buffer, "geometry") == nullptr) {
+        if (strstr(buffer, "angstrom") != nullptr)
+          bohr = false;
+        if (!ifs.getline(buffer, BUFF_SIZE))
+          return (false);
       }
+      ifs.getline(buffer, BUFF_SIZE); // Now we're on the atoms
+      tokenize(vs, buffer);
+      while (vs.size() == 6) {
+        if (bohr) {
+          x = atof((char *)vs[3].c_str()) * BOHR_TO_ANGSTROM;
+          y = atof((char *)vs[4].c_str()) * BOHR_TO_ANGSTROM;
+          z = atof((char *)vs[5].c_str()) * BOHR_TO_ANGSTROM;
+        } else {
+          x = atof((char *)vs[3].c_str());
+          y = atof((char *)vs[4].c_str());
+          z = atof((char *)vs[5].c_str());
+        }
+        atom = mol.NewAtom();
+        atom->SetVector(x, y, z);
+        atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
 
-    if (mol.NumAtoms() == 0) { // e.g., if we're at the end of a file PR#1737209
-      mol.EndModify();
-      return false;
+        if (!ifs.getline(buffer, BUFF_SIZE))
+          break;
+        tokenize(vs, buffer);
+      }
     }
+  }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
-      mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
-      mol.PerceiveBondOrders();
-
+  if (mol.NumAtoms() == 0) { // e.g., if we're at the end of a file PR#1737209
     mol.EndModify();
-
-    mol.SetTitle(title);
-
-    return(true);
+    return false;
   }
 
-  bool MPQCInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
-  {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
-      return false;
+  if (!pConv->IsOption("b", OBConversion::INOPTIONS))
+    mol.ConnectTheDots();
+  if (!pConv->IsOption("s", OBConversion::INOPTIONS) &&
+      !pConv->IsOption("b", OBConversion::INOPTIONS))
+    mol.PerceiveBondOrders();
 
-    //Define some references so we can use the old parameter names
-    ostream &ofs = *pConv->GetOutStream();
-    OBMol &mol = *pmol;
+  mol.EndModify();
 
-    //   unsigned int i;
-    char buffer[BUFF_SIZE];
+  mol.SetTitle(title);
 
-    ofs << "% " << mol.GetTitle() << "\n";
-    ofs << "\n"; // keywords/direction lines here
-    ofs << "molecule:\n";
+  return (true);
+}
 
-    FOR_ATOMS_OF_MOL(atom, mol)
-      {
-        snprintf(buffer, BUFF_SIZE, "%4s  %8.5f  %8.5f  %8.5f \n",
-                OBElements::GetSymbol(atom->GetAtomicNum()),
-                atom->GetX(),
-                atom->GetY(),
-                atom->GetZ());
-        ofs << buffer;
-      }
+bool MPQCInputFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (pmol == nullptr)
+    return false;
 
-    ofs << "\n\n\n";
-    return(true);
+  // Define some references so we can use the old parameter names
+  ostream &ofs = *pConv->GetOutStream();
+  OBMol &mol = *pmol;
+
+  //   unsigned int i;
+  char buffer[BUFF_SIZE];
+
+  ofs << "% " << mol.GetTitle() << "\n";
+  ofs << "\n"; // keywords/direction lines here
+  ofs << "molecule:\n";
+
+  FOR_ATOMS_OF_MOL(atom, mol) {
+    snprintf(buffer, BUFF_SIZE, "%4s  %8.5f  %8.5f  %8.5f \n",
+             OBElements::GetSymbol(atom->GetAtomicNum()), atom->GetX(),
+             atom->GetY(), atom->GetZ());
+    ofs << buffer;
   }
 
-} //namespace OpenBabel
+  ofs << "\n\n\n";
+  return (true);
+}
+
+} // namespace OpenBabel
