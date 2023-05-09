@@ -38,6 +38,11 @@
 
 #ifndef __INCHIRING_H__
 #define __INCHIRING_H__
+
+#include "ichisize.h"
+#include "incomdef.h"
+#include "inpdef.h"
+
 #define QUEUE_QINT 1
 typedef AT_RANK qInt; /* queue optimization: known type */
 

@@ -39,6 +39,12 @@
 #ifndef __ICHIRVRS_H__
 #define __ICHIRVRS_H__
 
+#include "ichi_bns.h"
+#include "ichiring.h"
+#include "ichisize.h"
+#include "ichitaut.h"
+#include "mode.h"
+
 #define ICHICONST const
 
 #define RI_ERR_ALLOC (-1)
