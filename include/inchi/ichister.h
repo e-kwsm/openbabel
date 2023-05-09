@@ -39,6 +39,8 @@
 #ifndef __INCHISTER_H__
 #define __INCHISTER_H__
 
+#include "incomdef.h"
+
 #ifndef COMPILE_ALL_CPP
 #ifdef __cplusplus
 extern "C" {

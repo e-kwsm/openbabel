@@ -40,6 +40,9 @@
  The code in this #include file reads InChI AuxInfo
 */
 
+#pragma once
+#include <stddef.h>
+
 /****************************************************************************/
 #define MIN_BOND_LENGTH (1.0e-6)
 #define INCHI_LINE_LEN 512 /*1024*/ /*256*/
