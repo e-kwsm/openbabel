@@ -36,6 +36,16 @@
  *
  */
 
+#pragma once
+
+#include "ichi.h"
+#include "ichidrp.h"
+#include "inpdef.h"
+#include "mode.h"
+#include <errno.h>
+#include <limits.h>
+#include <stdio.h>
+
 int DetectInputINChIFileType(FILE **inp_file, INPUT_PARMS *ip,
                              const char *fmode);
 void HelpCommandLineParmsReduced(INCHI_IOSTREAM *f);

@@ -39,6 +39,7 @@
 #ifndef __INCHITAUT_H__
 #define __INCHITAUT_H__
 
+#include "extr_ct.h"
 #include "ichi_bns.h"
 #include "inpdef.h"
 
@@ -120,7 +121,7 @@ typedef AT_ISO_SORT_KEY
 
 typedef struct tagIsotopicTautomerGroup {
   AT_NUMB
-      tgroup_num; /* ordering number of a tautomer group with isotopes > 0 */
+  tgroup_num; /* ordering number of a tautomer group with isotopes > 0 */
   /*
   union {
       struct {

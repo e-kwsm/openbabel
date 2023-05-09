@@ -39,6 +39,12 @@
 #ifndef __INCHIMAIN_H__
 #define __INCHIMAIN_H__
 
+#include "ichi.h"
+#include "ichidrp.h"
+#include "incomdef.h"
+#include "inpdef.h"
+#include "mode.h"
+
 #define ESC_KEY 27
 #define INCHI_SEGM_BUFLEN 64000
 
