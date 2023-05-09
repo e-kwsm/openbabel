@@ -17,7 +17,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-
 // used to set import/export for Cygwin DLLs
 #ifdef WIN32
 #define USING_OBDLL
@@ -29,24 +28,22 @@ GNU General Public License for more details.
 #include <openbabel/obconversion.h>
 #include <openbabel/pointgroup.h>
 #ifndef _MSC_VER
-  #include <unistd.h>
+#include <unistd.h>
 #endif
 
 using namespace std;
 using namespace OpenBabel;
 
-int main(int argc,char **argv)
-{
-  char *program_name= argv[0];
+int main(int argc, char **argv) {
+  char *program_name = argv[0];
   int c;
   char *FileIn = nullptr;
 
   if (argc != 2) {
     cerr << " Usage: " << program_name << " <input file>\n";
     exit(-1);
-  }
-  else {
-      FileIn  = argv[1];
+  } else {
+    FileIn = argv[1];
   }
 
   // Find Input filetype
@@ -55,7 +52,7 @@ int main(int argc,char **argv)
 
   if (!inFormat || !conv.SetInFormat(inFormat)) {
     cerr << program_name << ": cannot read input format!" << endl;
-    exit (-1);
+    exit(-1);
   }
   // If we can't also use this for an output format, use XYZ
   if (!conv.SetOutFormat(inFormat))
@@ -67,27 +64,26 @@ int main(int argc,char **argv)
   ifs.open(FileIn);
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   OBMol mol;
   OBPointGroup pg;
 
-  for (c = 1;; ++c)
-    {
-      mol.Clear();
-      conv.Read(&mol, &ifs);
-      if (mol.Empty())
-        break;
+  for (c = 1;; ++c) {
+    mol.Clear();
+    conv.Read(&mol, &ifs);
+    if (mol.Empty())
+      break;
 
-      // not needed by OBPointGroup, but useful for external programs
-      pg.Setup(&mol);
-      cerr << "Point Group: " << pg.IdentifyPointGroup() << endl;
-      pg.Symmetrize(&mol);
+    // not needed by OBPointGroup, but useful for external programs
+    pg.Setup(&mol);
+    cerr << "Point Group: " << pg.IdentifyPointGroup() << endl;
+    pg.Symmetrize(&mol);
 
-      conv.Write(&mol, &cout);
+    conv.Write(&mol, &cout);
 
-    } // end for loop
+  } // end for loop
 
-  return(0);
+  return (0);
 }

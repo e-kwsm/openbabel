@@ -6,8 +6,7 @@ using namespace OpenBabel;
 
 typedef vector<vector3> vv3;
 
-void testLossOfHydrogen(string filename)
-{
+void testLossOfHydrogen(string filename) {
   string testfile = OBTestUtil::GetFilename(filename);
   ifstream ifs(testfile.c_str());
 
@@ -22,25 +21,23 @@ void testLossOfHydrogen(string filename)
     mol.DeleteHydrogens();
     mol.AddHydrogens();
     unsigned int newNatoms = mol.NumAtoms();
-    cout << "Mol#" << i << ", Title " << mol.GetTitle() << ", Original atoms vs New atoms: ";
+    cout << "Mol#" << i << ", Title " << mol.GetTitle()
+         << ", Original atoms vs New atoms: ";
     cout << Natoms << " vs " << newNatoms << "\n";
-    OB_ASSERT( Natoms == newNatoms);
+    OB_ASSERT(Natoms == newNatoms);
     cout << "\n";
     success = conv.Read(&mol);
     i += 1;
   }
-
-  
 }
 
-int implicitHtest(int argc, char* argv[])
-{
-  // Define location of file formats for testing
-  #ifdef FORMATDIR
-    char env[BUFF_SIZE];
-    snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
-    putenv(env);
-  #endif  
+int implicitHtest(int argc, char *argv[]) {
+// Define location of file formats for testing
+#ifdef FORMATDIR
+  char env[BUFF_SIZE];
+  snprintf(env, BUFF_SIZE, "BABEL_LIBDIR=%s", FORMATDIR);
+  putenv(env);
+#endif
 
   testLossOfHydrogen("implicitH.sdf");
 

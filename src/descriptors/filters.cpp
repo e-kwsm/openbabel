@@ -30,7 +30,7 @@ namespace OpenBabel {
 
 class MWFilter : public OBDescriptor {
 public:
-  MWFilter(const char *ID) : OBDescriptor(ID){};
+  MWFilter(const char *ID) : OBDescriptor(ID) {}
   const char *Description() override { return "Molecular Weight filter"; }
   double Predict(OBBase *pOb, string *param = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
@@ -44,7 +44,7 @@ MWFilter theMWFilter("MW");
 
 class RotatableBondsFilter : public OBDescriptor {
 public:
-  RotatableBondsFilter(const char *ID) : OBDescriptor(ID){};
+  RotatableBondsFilter(const char *ID) : OBDescriptor(ID) {}
   const char *Description() override { return "Rotatable bonds filter"; }
   double Predict(OBBase *pOb, string *param = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
@@ -61,7 +61,7 @@ RotatableBondsFilter theRBFilter("rotors");
 /// Class to wrap SMARTS comparisons for use with --filter option
 class SmartsFilter : public OBDescriptor {
 public:
-  SmartsFilter(const char *ID) : OBDescriptor(ID){};
+  SmartsFilter(const char *ID) : OBDescriptor(ID) {}
   const char *Description() override { return "SMARTS filter"; }
   bool Compare(OBBase *pOb, istream &optionText, bool noEval,
                std::string *param = nullptr) override;
@@ -104,7 +104,7 @@ SmartsFilter secondSmartsFilter("s");
 /// Class to filter on molecule title
 class TitleFilter : public OBDescriptor {
 public:
-  TitleFilter(const char *ID) : OBDescriptor(ID){};
+  TitleFilter(const char *ID) : OBDescriptor(ID) {}
   const char *Description() override {
     return "For comparing a molecule's title";
   };
@@ -148,7 +148,7 @@ TitleFilter theTitleFilter("title");
 //**************************************************************
 class FormulaDescriptor : public OBDescriptor {
 public:
-  FormulaDescriptor(const char *ID) : OBDescriptor(ID){};
+  FormulaDescriptor(const char *ID) : OBDescriptor(ID) {}
   const char *Description() override { return "Chemical formula"; }
 
   double GetStringValue(OBBase *pOb, std::string &svalue,

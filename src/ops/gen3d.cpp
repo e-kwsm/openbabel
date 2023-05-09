@@ -16,39 +16,39 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include "../stereo/gen3dstereohelper.h"
 #include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
-#include <openbabel/mol.h>
 #include <openbabel/builder.h>
 #include <openbabel/distgeom.h>
 #include <openbabel/forcefield.h>
+#include <openbabel/mol.h>
 #include <openbabel/oberror.h>
-#include "../stereo/gen3dstereohelper.h"
+#include <openbabel/op.h>
 
 #include <cstdlib> // needed for strtol and gcc 4.8
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpGen3D : public OBOp
-{
+class OpGen3D : public OBOp {
 public:
-  OpGen3D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Generate 3D coordinates"; }
+  OpGen3D(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override { return "Generate 3D coordinates"; }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
-      OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpGen3D theOpGen3D("gen3D"); //Global instance
+OpGen3D theOpGen3D("gen3D"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool OpGen3D::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                 OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
   // As with gen2D, we need to perceive the stereo if coming from 0D.
@@ -74,7 +74,7 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   char *endptr;
   speed = strtol(OptionText, &endptr, 10);
   if (endptr == OptionText) { // not a number
-    speed = 3; // we'll default to balanced
+    speed = 3;                // we'll default to balanced
     // but let's also check if it's words like "fast" or "best"
     if (strncasecmp(OptionText, "fastest", 7) == 0)
       speed = 5;
@@ -82,14 +82,14 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
       speed = 4;
     else if (strncasecmp(OptionText, "med", 3) == 0) // or medium
       speed = 3;
-    else if ( (strncasecmp(OptionText, "slowest", 7) == 0)
-             || (strncasecmp(OptionText, "best", 4) == 0) )
+    else if ((strncasecmp(OptionText, "slowest", 7) == 0) ||
+             (strncasecmp(OptionText, "best", 4) == 0))
       speed = 1;
-    else if ( (strncasecmp(OptionText, "slow", 4) == 0)
-              || (strncasecmp(OptionText, "better", 6) == 0) )
+    else if ((strncasecmp(OptionText, "slow", 4) == 0) ||
+             (strncasecmp(OptionText, "better", 6) == 0))
       speed = 2;
-    else if ( (strncasecmp(OptionText, "dist", 4) == 0)
-               || (strncasecmp(OptionText, "dg", 2) == 0) ) {
+    else if ((strncasecmp(OptionText, "dist", 4) == 0) ||
+             (strncasecmp(OptionText, "dg", 2) == 0)) {
       useDistGeom = true;
       speed = 5;
     }
@@ -109,8 +109,10 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     // This is done for all speed levels (i.e., create the structure)
     OBBuilder builder;
     bool attemptBuild = !useDistGeom;
-    if (attemptBuild && !builder.Build(molCopy) ) {
-      std::cerr << "Warning: Stereochemistry is wrong, using the distance geometry method instead" << std::endl;
+    if (attemptBuild && !builder.Build(molCopy)) {
+      std::cerr << "Warning: Stereochemistry is wrong, using the distance "
+                   "geometry method instead"
+                << std::endl;
       useDistGeom = true;
     }
 
@@ -118,7 +120,8 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     OBDistanceGeometry dg;
     if (useDistGeom) {
       // use the bond lengths and angles if we ran the builder
-      if (!dg.GetGeometry(molCopy, attemptBuild)) // ensured to have correct stereo
+      if (!dg.GetGeometry(molCopy,
+                          attemptBuild)) // ensured to have correct stereo
         continue;
       speed = 3;
     }
@@ -126,22 +129,25 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
 
     // rule-based builder worked
     molCopy.SetDimension(3);
-    molCopy.AddHydrogens(false, false); // Add some hydrogens before running MMFF
+    molCopy.AddHydrogens(false,
+                         false); // Add some hydrogens before running MMFF
 
     if (speed == 5)
       return true; // done
 
     // All other speed levels do some FF cleanup
     // Try MMFF94 first and UFF if that doesn't work
-    OBForceField* pFF = OBForceField::FindForceField("MMFF94");
+    OBForceField *pFF = OBForceField::FindForceField("MMFF94");
     if (!pFF)
       return true;
     if (!pFF->Setup(molCopy)) {
       pFF = OBForceField::FindForceField("UFF");
-      if (!pFF || !pFF->Setup(molCopy)) return true; // can't use either MMFF94 or UFF
+      if (!pFF || !pFF->Setup(molCopy))
+        return true; // can't use either MMFF94 or UFF
     }
 
-    // Since we only want a rough geometry, use distance cutoffs for VDW, Electrostatics
+    // Since we only want a rough geometry, use distance cutoffs for VDW,
+    // Electrostatics
     pFF->EnableCutOff(true);
     pFF->SetVDWCutOff(10.0);
     pFF->SetElectrostaticCutOff(20.0);
@@ -170,7 +176,7 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
       return true; // no conformer searching
     }
 
-    switch(speed) {
+    switch (speed) {
     case 1:
       pFF->WeightedRotorSearch(250, 10); // maybe based on # of rotatable bonds?
       break;
@@ -195,9 +201,10 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   }
 
   if (!success) {
-    obErrorLog.ThrowError(__FUNCTION__, "3D coordinate generation failed", obError);
+    obErrorLog.ThrowError(__FUNCTION__, "3D coordinate generation failed",
+                          obError);
   }
 
   return true;
 }
-}//namespace
+} // namespace OpenBabel

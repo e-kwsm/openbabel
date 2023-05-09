@@ -15,37 +15,39 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
-#include <openbabel/babelconfig.h>
 #include <iostream>
-#include<openbabel/op.h>
-#include<openbabel/mol.h>
+#include <openbabel/babelconfig.h>
+#include <openbabel/mol.h>
+#include <openbabel/op.h>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpAddPolarH : public OBOp
-{
+class OpAddPolarH : public OBOp {
 public:
-  OpAddPolarH(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Adds hydrogen to polar atoms only"; }
+  OpAddPolarH(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override {
+    return "Adds hydrogen to polar atoms only";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
-      OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpAddPolarH theOpAddPolarH("AddPolarH"); //Global instance
+OpAddPolarH theOpAddPolarH("AddPolarH"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpAddPolarH::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool OpAddPolarH::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                     OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
   pmol->AddPolarHydrogens();
 
   return true;
 }
-}//namespace
+} // namespace OpenBabel

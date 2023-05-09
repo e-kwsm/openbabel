@@ -15,44 +15,45 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
-#include <string>
 #include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
-#include <openbabel/obconversion.h>
 #include <openbabel/base.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/op.h>
+#include <string>
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpAddFileName : public OBOp
-{
+class OpAddFileName : public OBOp {
 public:
-  OpAddFileName(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
-    "Append input filename to title\n"
-    "Any path is removed from the filename\n"
-    ; }
+  OpAddFileName(const char *ID) : OBOp(ID, false) {}
+  const char *Description() override {
+    return "Append input filename to title\n"
+           "Any path is removed from the filename\n";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return true; }  // all OBBase objects
-  bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr, OBConversion* pConv=nullptr) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return true;
+  } // all OBBase objects
+  bool Do(OBBase *pOb, const char *OptionText = nullptr,
+          OpMap *pOptions = nullptr, OBConversion *pConv = nullptr) override;
 };
 
 /////////////////////////////////////////////////////////////////
-OpAddFileName theOpAddFileName("addfilename"); //Global instance
+OpAddFileName theOpAddFileName("addfilename"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpAddFileName::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
-{
-  if(!pConv)
-    return true; //do not stop any conversion but do nothing
-  std::string  fname(pConv->GetInFilename());
+bool OpAddFileName::Do(OBBase *pOb, const char *OptionText, OpMap *pOptions,
+                       OBConversion *pConv) {
+  if (!pConv)
+    return true; // do not stop any conversion but do nothing
+  std::string fname(pConv->GetInFilename());
 
-  //remove path from the filename
+  // remove path from the filename
   std::string::size_type pos = fname.find_last_of("/\\:");
-  if(pos!=std::string::npos)
-    fname.erase(0, pos+1);
+  if (pos != std::string::npos)
+    fname.erase(0, pos + 1);
   fname = " " + fname;
   pOb->SetTitle((pOb->GetTitle() + fname).c_str());
   return true;
 }
-}//namespace
+} // namespace OpenBabel

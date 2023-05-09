@@ -1,5 +1,6 @@
 /**********************************************************************
-unique.cpp - A OBOp for eliminating chemically identical molecules during conversion.
+unique.cpp - A OBOp for eliminating chemically identical molecules during
+conversion.
 
 Copyright (C) 2009 by Chris Morley
 
@@ -16,132 +17,130 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
-#include <openbabel/op.h>
-#include <openbabel/mol.h>
-#include <openbabel/obconversion.h>
 #include <openbabel/descriptor.h>
 #include <openbabel/inchiformat.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/op.h>
 #include <unordered_map>
 
 using namespace std;
 
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-class OpUnique : public OBOp
-{
+class OpUnique : public OBOp {
 public:
-  OpUnique(const char* ID) : OBOp(ID, false){
-    OBConversion::RegisterOptionParam("unique", nullptr, 1, OBConversion::GENOPTIONS);
+  OpUnique(const char *ID) : OBOp(ID, false) {
+    OBConversion::RegisterOptionParam("unique", nullptr, 1,
+                                      OBConversion::GENOPTIONS);
   }
 
-  const char* Description() override { return
-    "[param] remove duplicates by descriptor;default inchi\n"
-    "param is a descriptor or property, or a truncation spec for InChI\n"
-    "(making the comparison less detailed, see below).\n"
-    "An OpenBabel warning message is output for each duplicate.\n"
-    "Examples: --unique   --unique cansmi   --unique /nostereo\n\n"
+  const char *Description() override {
+    return "[param] remove duplicates by descriptor;default inchi\n"
+           "param is a descriptor or property, or a truncation spec for InChI\n"
+           "(making the comparison less detailed, see below).\n"
+           "An OpenBabel warning message is output for each duplicate.\n"
+           "Examples: --unique   --unique cansmi   --unique /nostereo\n\n"
 
-    "The duplicates can be output instead by making the first character\n"
-    "in the parameter ~  e.g. --unique ~cansmi   --unique ~\n\n"
+           "The duplicates can be output instead by making the first "
+           "character\n"
+           "in the parameter ~  e.g. --unique ~cansmi   --unique ~\n\n"
 
-    "/formula  formula only\n"
-    "/connect  formula and connectivity only\n"
-    "/nostereo ignore E/Z and sp3 stereochemistry\n"
-    "/nosp3    ignore sp3 stereochemistry\n"
-    "/noEZ     ignore E/Z steroeochemistry\n"
-    "/nochg    ignore charge and protonation\n"
-    "/noiso    ignore isotopes\n\n"
-; }
+           "/formula  formula only\n"
+           "/connect  formula and connectivity only\n"
+           "/nostereo ignore E/Z and sp3 stereochemistry\n"
+           "/nosp3    ignore sp3 stereochemistry\n"
+           "/noEZ     ignore E/Z steroeochemistry\n"
+           "/nochg    ignore charge and protonation\n"
+           "/noiso    ignore isotopes\n\n";
+  }
 
-  bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
-  bool Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv) override;
+  bool WorksWith(OBBase *pOb) const override {
+    return dynamic_cast<OBMol *>(pOb) != nullptr;
+  }
+  bool Do(OBBase *pOb, const char *OptionText, OpMap *pmap,
+          OBConversion *pConv) override;
 
 private:
-
   bool _reportDup;
   std::string _trunc;
-  OBDescriptor* _pDesc;
+  OBDescriptor *_pDesc;
   unsigned _ndups;
   bool _inv;
 
   typedef unordered_map<std::string, std::string> UMap;
 
-  //key is descriptor text(usually inchi) value is molecule title
+  // key is descriptor text(usually inchi) value is molecule title
   UMap _inchimap;
 };
 
 /////////////////////////////////////////////////////////////////
-OpUnique theOpUnique("unique"); //Global instance
+OpUnique theOpUnique("unique"); // Global instance
 
 /////////////////////////////////////////////////////////////////
-bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
-{
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+bool OpUnique::Do(OBBase *pOb, const char *OptionText, OpMap *pmap,
+                  OBConversion *pConv) {
+  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  if (!pmol)
     return false;
 
-  if(pConv->IsFirstInput())
-  {
-    _ndups=0;
+  if (pConv->IsFirstInput()) {
+    _ndups = 0;
     string descID("inchi"); // the default
     _trunc.clear();
-    _inv = OptionText[0]=='~';   //has the parameter a leading ~ ?
-    if(_inv)
+    _inv = OptionText[0] == '~'; // has the parameter a leading ~ ?
+    if (_inv)
       clog << "The output has the duplicate structures" << endl;
 
-    if(OptionText[0+_inv]=='/')  //is parameter is /x?
-      _trunc = OptionText+_inv;
-    else if(OptionText[0+_inv]!='\0') // not empty?
-      descID = OptionText+_inv;
+    if (OptionText[0 + _inv] == '/') // is parameter is /x?
+      _trunc = OptionText + _inv;
+    else if (OptionText[0 + _inv] != '\0') // not empty?
+      descID = OptionText + _inv;
 
     _pDesc = OBDescriptor::FindType(descID.c_str());
-    if(!_pDesc)
-    {
-      obErrorLog.ThrowError(__FUNCTION__,
-              "Cannot find descriptor " + descID, obError, onceOnly);
+    if (!_pDesc) {
+      obErrorLog.ThrowError(__FUNCTION__, "Cannot find descriptor " + descID,
+                            obError, onceOnly);
       return false;
     }
     _pDesc->Init();
     _inchimap.clear();
 
-    _reportDup = !_inv; //do not report duplicates when they are the output
+    _reportDup = !_inv; // do not report duplicates when they are the output
   }
 
-  if(!_pDesc)
+  if (!_pDesc)
     return false;
   std::string s;
   _pDesc->GetStringValue(pmol, s);
 
-  if(!_trunc.empty())
+  if (!_trunc.empty())
     InChIFormat::EditInchi(s, _trunc);
-  std::pair<UMap::iterator, bool> result = _inchimap.insert(make_pair(s, pmol->GetTitle()));
+  std::pair<UMap::iterator, bool> result =
+      _inchimap.insert(make_pair(s, pmol->GetTitle()));
   bool ret = true;
-  if(!s.empty() && !result.second)
-  {
+  if (!s.empty() && !result.second) {
     // InChI is already present in set
     ++_ndups;
-    if(_reportDup)
-      clog << "Removed " << pmol->GetTitle() << " - a duplicate of " << result.first->second
-         << " (#" << _ndups << ")" << endl;
-    //delete pOb;
-    ret = false; //filtered out
+    if (_reportDup)
+      clog << "Removed " << pmol->GetTitle() << " - a duplicate of "
+           << result.first->second << " (#" << _ndups << ")" << endl;
+    // delete pOb;
+    ret = false; // filtered out
   }
-  if(_inv)
+  if (_inv)
     ret = !ret;
-  if(!ret)
+  if (!ret)
     delete pOb;
   return ret;
 }
 
-
-}//namespace
+} // namespace OpenBabel
 /*
 Usage: --unique param
-During conversion, this option eliminates molecules that are identical by some criterion.
-With current babel interface it needs to be last on the command line. With nbabel
-it can be anywhere.
-If param is missing the criterion is the InChI.
+During conversion, this option eliminates molecules that are identical by some
+criterion. With current babel interface it needs to be last on the command line.
+With nbabel it can be anywhere. If param is missing the criterion is the InChI.
 If param starts with / the criterion is a truncated InChI string, see below.
 Otherwise param is taken as a descriptor or property ID and the criterion is
 its string value. Descriptors which couldbe useful here are cansmi, cansmiNS

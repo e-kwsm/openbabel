@@ -16,7 +16,6 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-
 // used to set import/export for Cygwin DLLs
 #ifdef WIN32
 #define USING_OBDLL
@@ -31,19 +30,15 @@ using namespace std;
 /**
  * TautomerFunctor to print out smiles for each found tautomer.
  */
-class Functor : public OpenBabel::UniqueTautomerFunctor
-{
-  public:
-    void operator()(OpenBabel::OBMol *mol, const std::string &smiles) override
-    {
-      std::cout << smiles << std::endl;
-    }
+class Functor : public OpenBabel::UniqueTautomerFunctor {
+public:
+  void operator()(OpenBabel::OBMol *mol, const std::string &smiles) override {
+    std::cout << smiles << std::endl;
+  }
 };
 
-
-int main(int argc,char **argv)
-{
-  char *program_name= argv[0];
+int main(int argc, char **argv) {
+  char *program_name = argv[0];
   int c;
   char *FileIn = nullptr;
 
@@ -52,10 +47,10 @@ int main(int argc,char **argv)
     err += program_name;
     err += " [-c] <filename>\n";
     err += "-c: Canonical tautomer only\n";
-    cerr << err; //Why not do directly
+    cerr << err; // Why not do directly
     exit(-1);
   } else {
-    FileIn  = argv[argc-1];
+    FileIn = argv[argc - 1];
   }
 
   // Find Input filetype
@@ -64,12 +59,12 @@ int main(int argc,char **argv)
 
   if (!format || !conv.SetInFormat(format)) {
     cerr << program_name << ": cannot read input format!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   if (!conv.SetOutFormat("can")) {
     cerr << program_name << ": cannot find output format!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   ifstream ifs;
@@ -78,28 +73,26 @@ int main(int argc,char **argv)
   ifs.open(FileIn);
   if (!ifs) {
     cerr << program_name << ": cannot read input file!" << endl;
-    exit (-1);
+    exit(-1);
   }
 
   OpenBabel::OBMol mol;
 
-
   for (c = 1;; ++c) {
-      mol.Clear();
-      conv.Read(&mol, &ifs);
-      if (mol.Empty())
-        break;
+    mol.Clear();
+    conv.Read(&mol, &ifs);
+    if (mol.Empty())
+      break;
 
-      if (std::string(argv[1]) == "-c") {
-        CanonicalTautomer(&mol);
-        std::cout << conv.WriteString(&mol);
-      } else {
-        Functor f;
-        EnumerateTautomers(&mol, f);
-      }
+    if (std::string(argv[1]) == "-c") {
+      CanonicalTautomer(&mol);
+      std::cout << conv.WriteString(&mol);
+    } else {
+      Functor f;
+      EnumerateTautomers(&mol, f);
+    }
 
   } // end for loop
 
-  return(0);
+  return (0);
 }
-

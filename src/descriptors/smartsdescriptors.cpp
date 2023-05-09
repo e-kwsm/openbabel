@@ -17,70 +17,72 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <openbabel/babelconfig.h>
-#include <openbabel/oberror.h>
-#include <openbabel/mol.h>
 #include <openbabel/descriptor.h>
+#include <openbabel/mol.h>
+#include <openbabel/oberror.h>
 #include <openbabel/parsmart.h>
 
 using namespace std;
-namespace OpenBabel
-{
+namespace OpenBabel {
 
-  //**************************************************************
-  class SmartsDescriptor : public OBDescriptor
-  {
-  public:
-    //! constructor. Each instance provides an ID, a SMARTS pattern and a description.
-    SmartsDescriptor(const char* ID, const char* smarts, const char* descr)
-      : OBDescriptor(ID, false), _smarts(smarts), _descr(descr){}
+//**************************************************************
+class SmartsDescriptor : public OBDescriptor {
+public:
+  //! constructor. Each instance provides an ID, a SMARTS pattern and a
+  //! description.
+  SmartsDescriptor(const char *ID, const char *smarts, const char *descr)
+      : OBDescriptor(ID, false), _smarts(smarts), _descr(descr) {}
 
-    const char* Description() override
-    {
-      //Adds the SMARTS string to the description
-      static string txt;
-      txt =  _descr;
-      txt += "\n\t SMARTS: ";
-      txt += _smarts;
-      txt += "\nSmartsDescriptor is definable";
-      return txt.c_str();
-    }
+  const char *Description() override {
+    // Adds the SMARTS string to the description
+    static string txt;
+    txt = _descr;
+    txt += "\n\t SMARTS: ";
+    txt += _smarts;
+    txt += "\nSmartsDescriptor is definable";
+    return txt.c_str();
+  }
 
-    double Predict(OBBase* pOb, string* param=nullptr) override
-    {
-      OBMol* pmol = dynamic_cast<OBMol*> (pOb);
-      if(!pmol)
-        return 0;
+  double Predict(OBBase *pOb, string *param = nullptr) override {
+    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    if (!pmol)
+      return 0;
 
-      OBSmartsPattern sp;
-      if (sp.Init(_smarts) && sp.Match(*pmol))
-        return sp.GetUMapList().size();
-      else
-        return 0.0;
-    }
+    OBSmartsPattern sp;
+    if (sp.Init(_smarts) && sp.Match(*pmol))
+      return sp.GetUMapList().size();
+    else
+      return 0.0;
+  }
 
-    SmartsDescriptor* MakeInstance(const std::vector<std::string>& textlines) override
-    {
-      return new SmartsDescriptor(textlines[1].c_str(),textlines[2].c_str(),textlines[3].c_str());
-    }
+  SmartsDescriptor *
+  MakeInstance(const std::vector<std::string> &textlines) override {
+    return new SmartsDescriptor(textlines[1].c_str(), textlines[2].c_str(),
+                                textlines[3].c_str());
+  }
 
-  private:
-    const char* _smarts;
-    const char* _descr;
-  };
+private:
+  const char *_smarts;
+  const char *_descr;
+};
 
-  //Make global instances
+// Make global instances
 
-  SmartsDescriptor theHBD("HBD", "[!#6;!H0]","Number of Hydrogen Bond Donors (JoelLib)");
-  SmartsDescriptor theHBA1("HBA1", "[$([!#6;+0]);!$([F,Cl,Br,I]);!$([o,s,nX3]);!$([Nv5,Pv5,Sv4,Sv6])]",
-                           "Number of Hydrogen Bond Acceptors 1 (JoelLib)\n"
-                           "\t Identification of Biological Activity Profiles Using Substructural\n"
-                           "\t Analysis and Genetic Algorithms -- Gillet, Willett and Bradshaw,\n"
-                           "\t U. of Sheffield and Glaxo Wellcome.\n"
-                           "\t Presented at Random & Rational: Drug Discovery via Rational Design\n"
-                           "\t and Combinitorial Chemistry, Strategic Research Institute, Princeton\n"
-                           "\t NJ, Sept. 1995" );
-  SmartsDescriptor theHBA2("HBA2", "[$([$([#8,#16]);!$(*=N~O);!$(*~N=O);X1,X2]),$([#7;v3;!$([nH]);!$(*(-a)-a)])]",
-                           "Number of Hydrogen Bond Acceptors 2 (JoelLib)");
-  SmartsDescriptor thenF("nF", "F","Number of Fluorine Atoms");
+SmartsDescriptor theHBD("HBD", "[!#6;!H0]",
+                        "Number of Hydrogen Bond Donors (JoelLib)");
+SmartsDescriptor theHBA1(
+    "HBA1", "[$([!#6;+0]);!$([F,Cl,Br,I]);!$([o,s,nX3]);!$([Nv5,Pv5,Sv4,Sv6])]",
+    "Number of Hydrogen Bond Acceptors 1 (JoelLib)\n"
+    "\t Identification of Biological Activity Profiles Using Substructural\n"
+    "\t Analysis and Genetic Algorithms -- Gillet, Willett and Bradshaw,\n"
+    "\t U. of Sheffield and Glaxo Wellcome.\n"
+    "\t Presented at Random & Rational: Drug Discovery via Rational Design\n"
+    "\t and Combinitorial Chemistry, Strategic Research Institute, Princeton\n"
+    "\t NJ, Sept. 1995");
+SmartsDescriptor theHBA2("HBA2",
+                         "[$([$([#8,#16]);!$(*=N~O);!$(*~N=O);X1,X2]),$([#7;v3;"
+                         "!$([nH]);!$(*(-a)-a)])]",
+                         "Number of Hydrogen Bond Acceptors 2 (JoelLib)");
+SmartsDescriptor thenF("nF", "F", "Number of Fluorine Atoms");
 
-}//namespace
+} // namespace OpenBabel
