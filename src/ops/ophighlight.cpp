@@ -134,9 +134,9 @@ bool OpHighlight::AddDataToSubstruct(OBMol* pmol,
         const std::string& value)
 {
   //Add data to atoms
-  for(unsigned int j = 0; j < atomIdxs.size(); ++j)
+  for(int atomIdx : atomIdxs)
   {
-    OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
+    OBAtom* pAtom = pmol->GetAtom(atomIdx);
     if(!pAtom)
       continue;
     OBPairData* dp = new OBPairData;

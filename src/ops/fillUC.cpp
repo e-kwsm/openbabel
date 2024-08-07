@@ -228,8 +228,8 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
       obErrorLog.ThrowError(__FUNCTION__, "fillUC: lacking \"strict\n or \"keepconnect\" option, using strict" , obWarning);
     for(auto & vatom : vatoms){
       // Bring back within unit cell
-      for(unsigned int i=0;i<vatom.second.size();++i){
-        vatom.second[i]=fuzzyWrapFractionalCoordinate(vatom.second[i]);
+      for(auto & i : vatom.second){
+        i=fuzzyWrapFractionalCoordinate(i);
       }
       for(unsigned int i=1;i<vatom.second.size();++i){
         bool foundDuplicate = false;

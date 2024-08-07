@@ -38,9 +38,9 @@ bool AddDataToSubstruct(OBMol* pmol,
         const std::string& value)
 {
   //Add data to atoms
-  for(unsigned int j=0; j<atomIdxs.size(); ++j)
+  for(int atomIdx : atomIdxs)
   {
-    OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
+    OBAtom* pAtom = pmol->GetAtom(atomIdx);
     if(!pAtom)
       continue;
     OBPairData* dp = new OBPairData;
@@ -232,7 +232,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
       // to test for any of the targets.
       if(ExtraMols.size()>0)
       {
-        for(unsigned i=0;i<ExtraMols.size();++i)
+        for(auto & ExtraMol : ExtraMols)
         {
           OBConversion extraConv;
           extraConv.AddOption("h");
@@ -241,7 +241,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
           // Add option which avoids implicit H being added to the SMARTS.
           // The parameter must be present but can be anything.
           extraConv.AddOption("h",OBConversion::OUTOPTIONS, "X");
-          xsmarts += ",$(" + extraConv.WriteString(ExtraMols[i], true) + ")";
+          xsmarts += ",$(" + extraConv.WriteString(ExtraMol, true) + ")";
         }
       }
 
@@ -262,8 +262,8 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     else
     {
       // Target is in a file. Add extra targets if any supplied
-      for(unsigned i=0;i<ExtraMols.size();++i)
-        queries.push_back(CompileMoleculeQuery(static_cast<OBMol*>(ExtraMols[i])));
+      for(auto & ExtraMol : ExtraMols)
+        queries.push_back(CompileMoleculeQuery(static_cast<OBMol*>(ExtraMol)));
       ExtraMols.clear();
     }
 
