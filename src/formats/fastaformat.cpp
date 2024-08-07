@@ -482,9 +482,9 @@ namespace OpenBabel
           }
         else
           { // sequence data
-            for (std::string::size_type pos = 0, endpos = line.size(); pos < endpos; ++ pos)
+            for (char pos : line)
               {
-                char current = (char)toupper(line[pos]);
+                char current = (char)toupper(pos);
                 if (isupper((unsigned char)current) || strchr("*-", current))
                   {
                     sequence.append(1, current);

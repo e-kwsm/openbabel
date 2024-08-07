@@ -827,14 +827,14 @@ namespace OpenBabel
                 if(mvAtom[i].mCoordFrac.size()>0)
                   {
                     ss<<" , Fractional: ";
-                    for(unsigned int j=0;j<mvAtom[i].mCoordFrac.size();++j)
-                      ss<<mvAtom[i].mCoordFrac[j]<<" ";
+                    for(float j : mvAtom[i].mCoordFrac)
+                      ss<<j<<" ";
                   }
                 if(mvAtom[i].mCoordCart.size()>0)
                   {
                     ss<<" , Cartesian: ";
-                    for(unsigned int j=0;j<mvAtom[i].mCoordCart.size();++j)
-                      ss<<mvAtom[i].mCoordCart[j]<<" ";
+                    for(float j : mvAtom[i].mCoordCart)
+                      ss<<j<<" ";
                   }
                 ss<<" , Occupancy= "<<mvAtom[i].mOccupancy<<endl;
               }
@@ -895,15 +895,15 @@ namespace OpenBabel
       }
     }
 
-    for (std::vector<CIFAtom>::iterator it = mvAtom.begin() ; it != mvAtom.end(); ++it)
+    for (auto & it : mvAtom)
     {
-      string label = (*it).mLabel;
+      string label = it.mLabel;
 
       if( lbl2ox.count(label) > 0 )
-        (*it).mCharge = lbl2ox[label];
+        it.mCharge = lbl2ox[label];
       else
       {
-        (*it).mCharge = NOCHARGE;
+        it.mCharge = NOCHARGE;
         obErrorLog.ThrowError(__FUNCTION__, "Charge for label: "+label+" cannot be found.", obDebug);
       }
     }
@@ -1006,26 +1006,26 @@ namespace OpenBabel
   void CIFData::Cartesian2FractionalCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for(auto & pos : mvAtom)
       {
-        pos->mCoordFrac.resize(3);
-        pos->mCoordFrac[0]=pos->mCoordCart.at(0);
-        pos->mCoordFrac[1]=pos->mCoordCart.at(1);
-        pos->mCoordFrac[2]=pos->mCoordCart.at(2);
-        c2f(pos->mCoordFrac[0],pos->mCoordFrac[1],pos->mCoordFrac[2]);
+        pos.mCoordFrac.resize(3);
+        pos.mCoordFrac[0]=pos.mCoordCart.at(0);
+        pos.mCoordFrac[1]=pos.mCoordCart.at(1);
+        pos.mCoordFrac[2]=pos.mCoordCart.at(2);
+        c2f(pos.mCoordFrac[0],pos.mCoordFrac[1],pos.mCoordFrac[2]);
       }
   }
 
   void CIFData::Fractional2CartesianCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for(auto & pos : mvAtom)
       {
-        pos->mCoordCart.resize(3);
-        pos->mCoordCart[0]=pos->mCoordFrac.at(0);
-        pos->mCoordCart[1]=pos->mCoordFrac.at(1);
-        pos->mCoordCart[2]=pos->mCoordFrac.at(2);
-        f2c(pos->mCoordCart[0],pos->mCoordCart[1],pos->mCoordCart[2]);
+        pos.mCoordCart.resize(3);
+        pos.mCoordCart[0]=pos.mCoordFrac.at(0);
+        pos.mCoordCart[1]=pos.mCoordFrac.at(1);
+        pos.mCoordCart[2]=pos.mCoordFrac.at(2);
+        f2c(pos.mCoordCart[0],pos.mCoordCart[1],pos.mCoordCart[2]);
       }
   }
 
@@ -1042,10 +1042,10 @@ namespace OpenBabel
       this->Parse(is);
       // Extract structure from 1 block
       if(interpret)
-        for(map<string,CIFData>::iterator posd=mvData.begin();posd!=mvData.end();++posd)
+        for(auto & posd : mvData)
         {
-          posd->second.ExtractAll();
-          if(posd->second.mvAtom.size()>0) found_atoms=true;
+          posd.second.ExtractAll();
+          if(posd.second.mvAtom.size()>0) found_atoms=true;
         }
     }
   }
@@ -1252,7 +1252,7 @@ namespace OpenBabel
               }
             // The key to the mvLoop map is the set of column titles
             set<ci_string> stit;
-            for(unsigned int i=0;i<tit.size();++i) stit.insert(tit[i]);
+            for(const auto & i : tit) stit.insert(i);
             mvData[block].mvLoop[stit]=lp;
             continue;
           }
@@ -1408,41 +1408,41 @@ namespace OpenBabel
 
     CIF cif(*pConv->GetInStream(),true);
     // Loop on all data blocks until we find one structure :@todo: handle multiple structures
-    for(map<string,CIFData>::iterator pos=cif.mvData.begin();pos!=cif.mvData.end();++pos)
-      if(pos->second.mvAtom.size()>0)
+    for(auto & pos : cif.mvData)
+      if(pos.second.mvAtom.size()>0)
         {
           pmol->BeginModify();
-          if(pos->second.mvLatticePar.size()==6)
+          if(pos.second.mvLatticePar.size()==6)
             {// We have one unit cell
-              string spg=pos->second.mSpacegroupSymbolHall;
-              if(spg=="") spg=pos->second.mSpacegroupHermannMauguin;
-              if(spg=="") spg=pos->second.mSpacegroupNumberIT;
+              string spg=pos.second.mSpacegroupSymbolHall;
+              if(spg=="") spg=pos.second.mSpacegroupHermannMauguin;
+              if(spg=="") spg=pos.second.mSpacegroupNumberIT;
               if(spg=="") spg="P1";
               OBUnitCell *pCell=new OBUnitCell;
               pCell->SetOrigin(fileformatInput);
-              pCell->SetData(pos->second.mvLatticePar[0],
-                             pos->second.mvLatticePar[1],
-                             pos->second.mvLatticePar[2],
-                             pos->second.mvLatticePar[3]/DEG_TO_RAD,
-                             pos->second.mvLatticePar[4]/DEG_TO_RAD,
-                             pos->second.mvLatticePar[5]/DEG_TO_RAD);
+              pCell->SetData(pos.second.mvLatticePar[0],
+                             pos.second.mvLatticePar[1],
+                             pos.second.mvLatticePar[2],
+                             pos.second.mvLatticePar[3]/DEG_TO_RAD,
+                             pos.second.mvLatticePar[4]/DEG_TO_RAD,
+                             pos.second.mvLatticePar[5]/DEG_TO_RAD);
               pCell->SetSpaceGroup(spg);
-              pCell->SetSpaceGroup(pos->second.mSpaceGroup);
+              pCell->SetSpaceGroup(pos.second.mSpaceGroup);
               pmol->SetData(pCell);
             }
-          if(pos->second.mName!="") pmol->SetTitle(pos->second.mName);
+          if(pos.second.mName!="") pmol->SetTitle(pos.second.mName);
           else
-            if(pos->second.mFormula!="") pmol->SetTitle(pos->second.mFormula);
+            if(pos.second.mFormula!="") pmol->SetTitle(pos.second.mFormula);
             else pmol->SetTitle(pConv->GetTitle());
 
-          if(pos->second.mFormula!="") pmol->SetFormula(pos->second.mFormula);
+          if(pos.second.mFormula!="") pmol->SetFormula(pos.second.mFormula);
 
           // Keep a map linking the cif atom label to the obatom*, for bond interpretation later
           std::map<std::string,OBAtom *> vLabelOBatom;
 
-          const unsigned int nbatoms=pos->second.mvAtom.size();
+          const unsigned int nbatoms=pos.second.mvAtom.size();
           pmol->ReserveAtoms(nbatoms);
-          for(vector<CIFData::CIFAtom>::const_iterator posat=pos->second.mvAtom.begin();posat!=pos->second.mvAtom.end();++posat)
+          for(vector<CIFData::CIFAtom>::const_iterator posat=pos.second.mvAtom.begin();posat!=pos.second.mvAtom.end();++posat)
             {
               // Problem: posat->mSymbol is not guaranteed to actually be a symbol
               // see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
@@ -1521,7 +1521,7 @@ namespace OpenBabel
             pmol->ConnectTheDots();
           if (pConv->IsOption("B",OBConversion::INOPTIONS))
             {
-              for(vector<CIFData::CIFBond>::const_iterator posbond=pos->second.mvBond.begin();posbond!=pos->second.mvBond.end();++posbond)
+              for(vector<CIFData::CIFBond>::const_iterator posbond=pos.second.mvBond.begin();posbond!=pos.second.mvBond.end();++posbond)
                 {// Add bonds present in the cif and not detected by ConnectTheDots()
                   std::map<std::string,OBAtom *>::iterator posat1,posat2;
                   posat1=vLabelOBatom.find(posbond->mLabel1);
