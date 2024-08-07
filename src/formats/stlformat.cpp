@@ -218,7 +218,7 @@ namespace OpenBabel
     tok2 = triangles.size();
     os.write( (const char*) &tok2, sizeof(uint32_t) );
 
-    for(vector<Triangle>::iterator i = triangles.begin(); i != triangles.end(); ++i) { // go through all triangles
+    for(auto & triangle : triangles) { // go through all triangles
       float nx,ny,nz;
       //		nx= (i->a.x + i->b.x + i->c.x) / 3.;
       //		ny= (i->a.y + i->b.y + i->c.y) / 3.;
@@ -236,31 +236,31 @@ namespace OpenBabel
       os.write( (const char*) &ny, sizeof(float) );
       os.write( (const char*) &nz, sizeof(float) );
 
-      nx = i->a[0];
-      ny = i->a[1];
-      nz = i->a[2];
+      nx = triangle.a[0];
+      ny = triangle.a[1];
+      nz = triangle.a[2];
 
       os.write( (const char*) &nx, sizeof(float) );
       os.write( (const char*) &ny, sizeof(float) );
       os.write( (const char*) &nz, sizeof(float) );
 
-      nx = i->b[0];
-      ny = i->b[1];
-      nz = i->b[2];
+      nx = triangle.b[0];
+      ny = triangle.b[1];
+      nz = triangle.b[2];
 
       os.write( (const char*) &nx, sizeof(float) );
       os.write( (const char*) &ny, sizeof(float) );
       os.write( (const char*) &nz, sizeof(float) );
 
-      nx = i->c[0];
-      ny = i->c[1];
-      nz = i->c[2];
+      nx = triangle.c[0];
+      ny = triangle.c[1];
+      nz = triangle.c[2];
 
       os.write( (const char*) &nx, sizeof(float) );
       os.write( (const char*) &ny, sizeof(float) );
       os.write( (const char*) &nz, sizeof(float) );
 
-      os.write( (const char*) &(i->col), sizeof(uint16_t) );
+      os.write( (const char*) &(triangle.col), sizeof(uint16_t) );
     }
 
     os.flush();

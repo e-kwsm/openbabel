@@ -194,8 +194,8 @@ namespace OpenBabel
       return;
     vector<char> in;
     cairo_surface_write_to_png_stream(m_surface, writeFunction, &in);
-    for (unsigned int i = 0; i < in.size(); ++i)
-      ofs << in.at(i);
+    for (char i : in)
+      ofs << i;
   }
 
 }

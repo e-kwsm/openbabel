@@ -412,8 +412,8 @@ namespace OpenBabel
         {
           vector< vector< vector3 > > vLx;
           vector<double> vFrequencies, vIntensities;
-          for(unsigned i=0;i<items.size();++i)
-            vFrequencies.push_back(atof(items[i].c_str()));
+          for(const auto & item : items)
+            vFrequencies.push_back(atof(item.c_str()));
 
           OBVibrationData* vd = new OBVibrationData;
           vd->SetData(vLx, vFrequencies, vIntensities);
@@ -425,8 +425,8 @@ namespace OpenBabel
         {
           const double WAVENUM_TO_GHZ=30.0;
           vector<double> rotConsts;
-          for(unsigned i=0;i<items.size();++i)
-            rotConsts.push_back(atof(items[i].c_str()) * WAVENUM_TO_GHZ);
+          for(const auto & item : items)
+            rotConsts.push_back(atof(item.c_str()) * WAVENUM_TO_GHZ);
 
           OBRotationData* rd = new OBRotationData;
           rd->SetData(OBRotationData::UNKNOWN, rotConsts, 1);//rotor type and symmetry number unknown
@@ -1535,9 +1535,9 @@ namespace OpenBabel
     std::map<unsigned int, OBTetrahedralStereo::Config >::const_iterator tetStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      for (auto & data : vdata)
+        if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
           // Always get the clockwise version (it's the default anyway) as this has
           // a positive signed volume (i.e. CML atomParity of 1)
           OBTetrahedralStereo::Config cfg = ts->GetConfig(OBStereo::Clockwise);
@@ -1671,11 +1671,11 @@ namespace OpenBabel
                               else
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.from)->GetIdx()]);
 
-                            for (OBStereo::RefIter ref = refs.begin(); ref!=refs.end(); ++ref) {
-                              if ( (OBStereo::Ref)*ref == OBStereo::ImplicitRef) // e.g. for Cl[S@@](Br)I
+                            for (unsigned long & ref : refs) {
+                              if ( (OBStereo::Ref)ref == OBStereo::ImplicitRef) // e.g. for Cl[S@@](Br)I
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.center)->GetIdx()]); // Add the central atom again
                               else
-                                atomrefs.push_back(atomIds[mol.GetAtomById(*ref)->GetIdx()]);
+                                atomrefs.push_back(atomIds[mol.GetAtomById(ref)->GetIdx()]);
                             }
 
                             xmlTextWriterStartElementNS(writer(), prefix, C_ATOMPARITY, nullptr);
@@ -1821,9 +1821,9 @@ namespace OpenBabel
     std::map<unsigned int, OBCisTransStereo* >::const_iterator ctStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      for (auto & data : vdata)
+        if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
           if(ct->GetConfig().specified) {
             unsigned int dblbond = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
                                                mol.GetAtomById(ct->GetConfig().end  ))->GetIdx();
