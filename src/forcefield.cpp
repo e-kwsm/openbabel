@@ -242,34 +242,34 @@ namespace OpenBabel
     OBFFParameter *par;
 
     if (!b)
-      for (unsigned int idx=0; idx < parameter.size(); idx++)
-        if (a == parameter[idx].a) {
-          par = &parameter[idx];
+      for (auto & idx : parameter)
+        if (a == idx.a) {
+          par = &idx;
           return par;
         }
 
     if (!c)
-      for (unsigned int idx=0; idx < parameter.size(); idx++)
-        if (((a == parameter[idx].a) && (b == parameter[idx].b)) ||
-            ((a == parameter[idx].b) && (b == parameter[idx].a))) {
-          par = &parameter[idx];
+      for (auto & idx : parameter)
+        if (((a == idx.a) && (b == idx.b)) ||
+            ((a == idx.b) && (b == idx.a))) {
+          par = &idx;
           return par;
         }
 
     if (!d)
-      for (unsigned int idx=0; idx < parameter.size(); idx++)
-        if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c)) ||
-            ((a == parameter[idx].c) && (b == parameter[idx].b) && (c == parameter[idx].a))) {
-          par = &parameter[idx];
+      for (auto & idx : parameter)
+        if (((a == idx.a) && (b == idx.b) && (c == idx.c)) ||
+            ((a == idx.c) && (b == idx.b) && (c == idx.a))) {
+          par = &idx;
           return par;
         }
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b) &&
-           (c == parameter[idx].c) && (d == parameter[idx].d)) ||
-          ((a == parameter[idx].d) && (b == parameter[idx].c) &&
-           (c == parameter[idx].b) && (d == parameter[idx].a))) {
-        par = &parameter[idx];
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b) &&
+           (c == idx.c) && (d == idx.d)) ||
+          ((a == idx.d) && (b == idx.c) &&
+           (c == idx.b) && (d == idx.a))) {
+        par = &idx;
         return par;
       }
 
@@ -285,9 +285,9 @@ namespace OpenBabel
 
     if (b == nullptr) {
       string _a(a);
-      for (unsigned int idx=0; idx < parameter.size(); idx++)
-        if (_a == parameter[idx]._a) {
-          par = &parameter[idx];
+      for (auto & idx : parameter)
+        if (_a == idx._a) {
+          par = &idx;
           return par;
         }
       return nullptr;
@@ -295,10 +295,10 @@ namespace OpenBabel
     if (c == nullptr) {
       string _a(a);
       string _b(b);
-      for (unsigned int idx=0; idx < parameter.size(); idx++) {
-        if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b)) ||
-            ((_a == parameter[idx]._b) && (_b == parameter[idx]._a))) {
-          par = &parameter[idx];
+      for (auto & idx : parameter) {
+        if (((_a == idx._a) && (_b == idx._b)) ||
+            ((_a == idx._b) && (_b == idx._a))) {
+          par = &idx;
           return par;
         }
       }
@@ -308,10 +308,10 @@ namespace OpenBabel
       string _a(a);
       string _b(b);
       string _c(c);
-      for (unsigned int idx=0; idx < parameter.size(); idx++) {
-        if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b) && (_c == parameter[idx]._c)) ||
-            ((_a == parameter[idx]._c) && (_b == parameter[idx]._b) && (_c == parameter[idx]._a))) {
-          par = &parameter[idx];
+      for (auto & idx : parameter) {
+        if (((_a == idx._a) && (_b == idx._b) && (_c == idx._c)) ||
+            ((_a == idx._c) && (_b == idx._b) && (_c == idx._a))) {
+          par = &idx;
           return par;
         }
       }
@@ -321,12 +321,12 @@ namespace OpenBabel
     string _b(b);
     string _c(c);
     string _d(d);
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
-           (_c == parameter[idx]._c) && (_d == parameter[idx]._d)) ||
-          ((_a == parameter[idx]._d) && (_b == parameter[idx]._c) &&
-           (_c == parameter[idx]._b) && (_d == parameter[idx]._a))) {
-        par = &parameter[idx];
+    for (auto & idx : parameter)
+      if (((_a == idx._a) && (_b == idx._b) &&
+           (_c == idx._c) && (_d == idx._d)) ||
+          ((_a == idx._d) && (_b == idx._c) &&
+           (_c == idx._b) && (_d == idx._a))) {
+        par = &idx;
         return par;
       }
 
@@ -1820,8 +1820,8 @@ namespace OpenBabel
       for (unsigned int i = 1; i < rotorWeights.size() - 1; ++i) {
         snprintf(_logbuf, BUFF_SIZE, " Weight: %d", i);
         OBFFLog(_logbuf);
-        for (unsigned int j = 0; j < rotorWeights[i].size(); ++j) {
-          snprintf(_logbuf, BUFF_SIZE, " %8.3f", rotorWeights[i][j]);
+        for (double j : rotorWeights[i]) {
+          snprintf(_logbuf, BUFF_SIZE, " %8.3f", j);
           OBFFLog(_logbuf);
         }
         OBFFLog("\n");
@@ -2179,22 +2179,22 @@ namespace OpenBabel
       // Check whether or not this interaction is included
       if (HasGroups()) {
         bool isIncludedPair = false;
-        for (size_t i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) &&
-              _interGroup[i].BitIsSet(b->GetIdx())) {
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) &&
+              i.BitIsSet(b->GetIdx())) {
             isIncludedPair = true;
             break;
           }
         }
         if (!isIncludedPair) {
-          for (size_t i=0; i < _interGroups.size(); ++i) {
-            if (_interGroups[i].first.BitIsSet(a->GetIdx()) &&
-                _interGroups[i].second.BitIsSet(b->GetIdx())) {
+          for (auto & _interGroup : _interGroups) {
+            if (_interGroup.first.BitIsSet(a->GetIdx()) &&
+                _interGroup.second.BitIsSet(b->GetIdx())) {
               isIncludedPair = true;
               break;
             }
-            if (_interGroups[i].first.BitIsSet(b->GetIdx()) &&
-                _interGroups[i].second.BitIsSet(a->GetIdx())) {
+            if (_interGroup.first.BitIsSet(b->GetIdx()) &&
+                _interGroup.second.BitIsSet(a->GetIdx())) {
               isIncludedPair = true;
               break;
             }

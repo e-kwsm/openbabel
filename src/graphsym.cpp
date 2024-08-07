@@ -64,8 +64,8 @@ void print_vector(const std::string &label, const std::vector<T> &v)
 void print_sym_classes(const std::string &label, const std::vector<std::pair<OpenBabel::OBAtom*, unsigned int> > &atom_sym_classes)
 {
   cout << label << ": ";
-  for (unsigned int i = 0; i < atom_sym_classes.size(); i++)
-    cout << atom_sym_classes[i].second << " ";
+  for (const auto & atom_sym_classe : atom_sym_classes)
+    cout << atom_sym_classe.second << " ";
   cout << endl;
 }
 
@@ -574,8 +574,8 @@ namespace OpenBabel {
     // Atoms not in the fragment will have a value of OBGraphSym::NoSymmetryClass
     atom_sym_classes.clear();
     atom_sym_classes.resize(_pmol->NumAtoms(), OBGraphSym::NoSymmetryClass);
-    for (unsigned int i = 0; i < symmetry_classes.size(); ++i) {
-      atom_sym_classes[symmetry_classes.at(i).first->GetIndex()] = symmetry_classes.at(i).second;
+    for (auto & symmetry_classe : symmetry_classes) {
+      atom_sym_classes[symmetry_classe.first->GetIndex()] = symmetry_classe.second;
     }
 
     // Store the symmetry classes in an OBPairData
@@ -640,8 +640,8 @@ namespace OpenBabel {
     // Atoms not in the fragment will have a value of OBGraphSym::NoSymmetryClass
     symClasses.clear();
     symClasses.resize(_pmol->NumAtoms(), OBGraphSym::NoSymmetryClass);
-    for (unsigned int i = 0; i < symmetry_classes.size(); ++i) {
-      symClasses[symmetry_classes.at(i).first->GetIndex()] = symmetry_classes.at(i).second;
+    for (auto & symmetry_classe : symmetry_classes) {
+      symClasses[symmetry_classe.first->GetIndex()] = symmetry_classe.second;
     }
 
     return nclasses;
