@@ -413,8 +413,8 @@ namespace OpenBabel
 
     int j,size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
-    for (unsigned int num = 0; num < cell.size(); ++num)
-      cell[num].resize(0);
+    for (auto & num : cell)
+      num.resize(0);
 
     cutoff *= cutoff; //don't do sqrts
 

@@ -128,8 +128,7 @@ namespace OpenBabel {
       bool checkBonds(State &state, OBQueryAtom *queryAtom)
       {
         const std::vector<OBQueryBond*> &bonds = queryAtom->GetBonds();
-        for (unsigned int i = 0; i < bonds.size(); ++i) {
-          OBQueryBond *qbond = bonds[i];
+        for (auto qbond : bonds) {
           unsigned int beginIndex = qbond->GetBeginAtom()->GetIndex();
           unsigned int endIndex = qbond->GetEndAtom()->GetIndex();
 
@@ -192,8 +191,8 @@ namespace OpenBabel {
           state.queryDepths[queryAtom->GetIndex()] = state.queryPath.size();
 
         std::vector<OBQueryAtom*> queryNbrs = queryAtom->GetNbrs();
-        for (unsigned int i = 0; i < queryNbrs.size(); ++i) {
-          unsigned int index = queryNbrs[i]->GetIndex();
+        for (auto & queryNbr : queryNbrs) {
+          unsigned int index = queryNbr->GetIndex();
           if (!state.queryDepths[index])
             state.queryDepths[index] = state.queryPath.size();
         }
@@ -404,15 +403,15 @@ namespace OpenBabel {
             {
               // get the values from the map
               std::vector<unsigned int> values;
-              for (OBIsomorphismMapper::Mapping::const_iterator it = map.begin(); it != map.end(); ++it)
-                values.push_back(it->second);
+              for (const auto & it : map)
+                values.push_back(it.second);
               std::sort(values.begin(), values.end());
                // print_vector("values ", values);
 
               bool isUnique = true;
-              for (unsigned int k = 0; k < m_maps.size(); ++k) {
+              for (auto & m_map : m_maps) {
                 std::vector<unsigned int> kValues;
-                for (OBIsomorphismMapper::Mapping::iterator it = m_maps[k].begin(); it != m_maps[k].end(); ++it)
+                for (OBIsomorphismMapper::Mapping::iterator it = m_map.begin(); it != m_map.end(); ++it)
                   kValues.push_back(it->second);
                 std::sort(kValues.begin(), kValues.end());
 
@@ -435,9 +434,9 @@ namespace OpenBabel {
         MapGeneric(functor, queried, mask);
 
         if (DEBUG)
-          for (unsigned int i =0; i < maps.size(); ++i) {
+          for (auto & map : maps) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
+            for (Mapping::iterator it = map.begin(); it != map.end(); ++it)
               cout << "    " << it->first << " -> " << it->second << endl;
           }
       }
@@ -457,9 +456,9 @@ namespace OpenBabel {
         MapGeneric(functor, queried, mask);
 
         if (DEBUG)
-          for (unsigned int i =0; i < maps.size(); ++i) {
+          for (auto & map : maps) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
+            for (Mapping::iterator it = map.begin(); it != map.end(); ++it)
               cout << "    " << it->first << " -> " << it->second << endl;
           }
 
@@ -619,8 +618,8 @@ namespace OpenBabel {
         bool operator()(Automorphism &map) override
         {
           // convert the continuous mapping map to a mapping with gaps (considering key values)
-          for (Automorphism::iterator it = map.begin(); it != map.end(); ++it)
-            it->first = m_indexes[it->first];
+          for (auto & it : map)
+            it.first = m_indexes[it.first];
           return m_functor(map);
         }
     };
@@ -654,12 +653,12 @@ namespace OpenBabel {
       symClassCounts[symClass]++;
     }
 
-    for (std::size_t i = 0; i < fragments.size(); ++i) {
-      OBQuery *query = CompileAutomorphismQuery(mol, fragments[i], symClasses);
+    for (const auto & fragment : fragments) {
+      OBQuery *query = CompileAutomorphismQuery(mol, fragment, symClasses);
       OBIsomorphismMapper *mapper = OBIsomorphismMapper::GetInstance(query);
 
-      AutomorphismFunctor autFunctor(functor, fragments[i], mol->NumAtoms());
-      mapper->MapGeneric(autFunctor, mol, fragments[i]);
+      AutomorphismFunctor autFunctor(functor, fragment, mol->NumAtoms());
+      mapper->MapGeneric(autFunctor, mol, fragment);
       delete mapper;
       delete query;
     }
