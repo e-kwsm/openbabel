@@ -183,12 +183,12 @@ namespace OpenBabel
 	        vector<vector3> vib1, vib2, vib3;
                 ifs.getline(buffer,BUFF_SIZE);     // Frequencies
                 tokenize(vs,buffer);
-                for(unsigned int i = 0; i < vs.size(); i++) {
-		    if (vs[i].find("i") != string::npos) {
+                for(const auto & v : vs) {
+		    if (v.find("i") != string::npos) {
 		      // imaginary frequency
-	              Frequencies.push_back(-atof(vs[i].c_str()));
+	              Frequencies.push_back(-atof(v.c_str()));
 		    } else {
-	              Frequencies.push_back(atof(vs[i].c_str()));
+	              Frequencies.push_back(atof(v.c_str()));
 		    }
 	        }		
                 ifs.getline(buffer,BUFF_SIZE);     // VIBRATION

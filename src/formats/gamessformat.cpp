@@ -611,13 +611,13 @@ namespace OpenBabel {
           ifs.getline(buffer, BUFF_SIZE); // orbitals!
           ifs.getline(buffer, BUFF_SIZE); // energies in hartree
           tokenize(vs, buffer);
-          for (unsigned int i=0; i < vs.size(); ++i)
-            orbitals.push_back(27.21 * atof(vs[i].c_str()));
+          for (const auto & v : vs)
+            orbitals.push_back(27.21 * atof(v.c_str()));
 
           ifs.getline(buffer, BUFF_SIZE); // symmetries
           tokenize(vs, buffer);
-          for (unsigned int i=0; i < vs.size(); ++i)
-            symmetries.push_back(vs[i]);
+          for (const auto & v : vs)
+            symmetries.push_back(v);
 
           // Orbital coefficients
           while (ifs.getline(buffer, BUFF_SIZE)

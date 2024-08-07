@@ -1092,9 +1092,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
 inline bool IsNum( const string& s )
 {
     bool isnum = true;
-    for (unsigned int i = 0; i != s.size(); ++i)
+    for (char i : s)
     {
-        if( !isdigit( s[ i ] ) )
+        if( !isdigit( i ) )
         {
             isnum = false;
             break;

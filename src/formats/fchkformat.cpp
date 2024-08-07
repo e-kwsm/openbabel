@@ -748,15 +748,15 @@ namespace OpenBabel
           char * endptr;
           T num;
 
-          for (vector<string>::const_iterator it=vs.begin(); vs.end() != it; ++it)
+          for (const auto & it : vs)
             {
               if (typeid(double) == typeid(T))
-                num = static_cast<T>(strtod((*it).c_str(), &endptr));
+                num = static_cast<T>(strtod(it.c_str(), &endptr));
               else
-                num = static_cast<T>(strtol((*it).c_str(), &endptr, 10));
+                num = static_cast<T>(strtol(it.c_str(), &endptr, 10));
 
               /* quit if the value cannot be read */
-              if (endptr == (*it).c_str())
+              if (endptr == it.c_str())
                 return false;
 
               v.push_back(num);
