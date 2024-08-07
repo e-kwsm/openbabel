@@ -422,10 +422,10 @@ namespace OpenBabel
 
   void OutputGroup(OBMol& mol, ostream& ofs, const vector <int>& group, map <unsigned int, unsigned int> new_indexes, bool use_new_indexes)
   {
-    for (vector <int>::const_iterator it = group.begin(); it != group.end(); ++it)
+    for (int it : group)
     {
-      if (use_new_indexes) {OutputAtom(mol.GetAtom((*it)), ofs, new_indexes.find(*it)->second);}
-      else {OutputAtom(mol.GetAtom((*it)), ofs, (*it));}
+      if (use_new_indexes) {OutputAtom(mol.GetAtom(it), ofs, new_indexes.find(it)->second);}
+      else {OutputAtom(mol.GetAtom(it), ofs, it);}
     }
   }
 
@@ -444,9 +444,9 @@ namespace OpenBabel
       mol_pieces.DeleteAtom(atom_to_del, true);
       mol_pieces.ContigFragList(frag_list);
       unsigned int smrsi=0;
-      for (unsigned int j = 0; j < frag_list.size(); j++)
+      for (const auto & j : frag_list)
       {
-        smrsi= smrsi > frag_list.at(j).size() ? smrsi : frag_list.at(j).size();
+        smrsi= smrsi > j.size() ? smrsi : j.size();
       }
       if (smrsi < shortest_maximal_remaining_subgraph)
       {
@@ -464,9 +464,9 @@ namespace OpenBabel
         bonds_to_delete.push_back(*it);
       }
     }
-    for (vector<OBBond*>::iterator bit = bonds_to_delete.begin(); bit != bonds_to_delete.end(); ++bit)
+    for (auto & bit : bonds_to_delete)
     {
-      mol_pieces.DeleteBond(*bit, true);
+      mol_pieces.DeleteBond(bit, true);
     }
     mol_pieces.ContigFragList(rigid_fragments);
 
@@ -544,9 +544,9 @@ namespace OpenBabel
           for (set <unsigned int>::iterator it= (*tree.find(i)).second.rigid_with.begin() ; it != (*tree.find(i)).second.rigid_with.end(); ++it)
                                   {
             vector <int> atoms=(*tree.find(*it)).second.atoms;
-            for (unsigned int j=0; j < atoms.size(); j++)
+            for (int & atom : atoms)
             {
-              new_order.insert(pair<unsigned int, unsigned int> (atoms.at(j), current_atom_index));
+              new_order.insert(pair<unsigned int, unsigned int> (atom, current_atom_index));
               current_atom_index++;
             }
           }
@@ -745,9 +745,9 @@ namespace OpenBabel
 
   bool IsIn(const vector<int>& vec, const int num) //checks whether a vector of int contains a specific int
   {
-    for (vector<int>::const_iterator itv=vec.begin(); itv != vec.end(); ++itv)
+    for (int itv : vec)
     {
-      if ((*itv) == num ) {return true;}
+      if (itv == num ) {return true;}
     }
     return false;
   }
@@ -861,7 +861,7 @@ namespace OpenBabel
       Separate_preserve_charges(mol, all_pieces);
     }
 
-    for (unsigned int i = 0; i < all_pieces.size(); i++)
+    for (auto & all_piece : all_pieces)
     {
       bool residue=false;
       string res_name="";
@@ -877,10 +877,10 @@ namespace OpenBabel
         res_num=res->GetNum();
       }
 
-      all_pieces.at(i).SetAutomaticPartialCharge(false);
-      all_pieces.at(i).SetAromaticPerceived(); //retain aromatic flags in fragments
+      all_piece.SetAutomaticPartialCharge(false);
+      all_piece.SetAromaticPerceived(); //retain aromatic flags in fragments
       if (!(pConv->IsOption("h",OBConversion::OUTOPTIONS))) {
-        DeleteHydrogens(all_pieces.at(i));
+        DeleteHydrogens(all_piece);
       }
 
       int model_num = 0;
@@ -965,7 +965,7 @@ namespace OpenBabel
       // which will cause errors in the formatting
       double minX, minY, minZ;
       minX = minY = minZ = -999.0f;
-      FOR_ATOMS_OF_MOL(a, all_pieces.at(i))
+      FOR_ATOMS_OF_MOL(a, all_piece)
       {
         if (a->GetX() < minX)
           minX = a->GetX();
@@ -984,7 +984,7 @@ namespace OpenBabel
 
       // if minX, minY, or minZ was never changed, shift will be 0.0f
       // otherwise, move enough so that smallest coord is > -999.0f
-      all_pieces.at(i).Translate(transV);
+      all_piece.Translate(transV);
 
       bool flexible=!pConv->IsOption("r",OBConversion::OUTOPTIONS);
 
@@ -998,7 +998,7 @@ namespace OpenBabel
       if (flexible)
       {
 
-        best_root_atom=FindFragments(all_pieces.at(i), rigid_fragments); //the return value is the root atom index
+        best_root_atom=FindFragments(all_piece, rigid_fragments); //the return value is the root atom index
 
         if (residue) {best_root_atom=1;} //if this is a residue, uses the first atom as the root
 
@@ -1008,21 +1008,21 @@ namespace OpenBabel
         {
           if (IsIn((rigid_fragments.at(j)), best_root_atom)) {root_piece=j; break;} //this is the root rigid molecule fragment
         }
-        ConstructTree(tree, rigid_fragments, root_piece, all_pieces.at(i), true);
+        ConstructTree(tree, rigid_fragments, root_piece, all_piece, true);
         rotatable_bonds=torsdof;
       }
       else //if no rotatable bonds are selected, then won't construct a tree, instead get a whole branch directly from the OBMol
       {
         branch all_molecule_branch;
-        all_molecule_branch.all_atoms(all_pieces.at(i));
+        all_molecule_branch.all_atoms(all_piece);
         tree.insert(pair<unsigned int, branch> (0, all_molecule_branch));
-        torsdof=RotBond_count(all_pieces.at(i));
+        torsdof=RotBond_count(all_piece);
       }
 
       bool preserve_original_index = (pConv->IsOption("p",OBConversion::OUTOPTIONS));
       if (!flexible) {preserve_original_index=false;} //no need to relabel if we are preserving the original order anyway
 
-      if (!OutputTree(pConv, all_pieces.at(i), ofs, tree, rotatable_bonds, false, preserve_original_index) )
+      if (!OutputTree(pConv, all_piece, ofs, tree, rotatable_bonds, false, preserve_original_index) )
       {
         stringstream errorMsg;
         errorMsg << "WARNING: Problems writing a PDBQT file\n"
