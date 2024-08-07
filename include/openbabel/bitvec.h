@@ -173,8 +173,8 @@ namespace OpenBabel
 	  */
       void Negate()
         {
-		  for (word_vector::iterator wx = _set.begin(), wy = _set.end(); wx != wy; ++wx)
-		    * wx = ~(* wx);
+		  for (unsigned int & wx : _set)
+		    wx = ~wx;
         }
       /// Return a copy of the internal vector of words, at the end of \p vec
 	  /** Copy the internal word vector.
