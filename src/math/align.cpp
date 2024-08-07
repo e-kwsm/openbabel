@@ -332,9 +332,9 @@ namespace OpenBabel
         unsigned int i=0;
         for (unsigned int j=1; j<=_prefmol->NumAtoms(); ++j) {
           if (_frag_atoms.BitIsSet(j)) {
-            for (std::size_t l = 0; l < k.size(); ++l)
-              if (k[l].first == j - 1) {
-                mtarget.col(i) = _mtarget.col(_newidx[k[l].second]);
+            for (auto & l : k)
+              if (l.first == j - 1) {
+                mtarget.col(i) = _mtarget.col(_newidx[l.second]);
                 break;
               }
             i++;

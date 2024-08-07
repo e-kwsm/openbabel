@@ -331,10 +331,10 @@ namespace OpenBabel {
       for (auto & j : result) {
         std::vector<unsigned int> shared;
         // foreach ring atom
-        for (std::size_t k = 0; k < ring->_path.size(); ++k) {
+        for (int k : ring->_path) {
           // check if the ring atom is in the current result bitvec
-          if (j.BitIsSet(ring->_path[k])) {
-            shared.push_back(ring->_path[k]);
+          if (j.BitIsSet(k)) {
+            shared.push_back(k);
           }
         }
 
@@ -348,8 +348,8 @@ namespace OpenBabel {
 
         if (found) {
           // add bits for the atoms in the ring
-          for (std::size_t l = 0; l < ring->_path.size(); ++l)
-            j.SetBitOn(ring->_path[l]);
+          for (int l : ring->_path)
+            j.SetBitOn(l);
           break;
         }
       }
@@ -357,8 +357,8 @@ namespace OpenBabel {
       // add the ring as a new bitvec if it shares no atom with a previous ring
       if (!found) {
         OBBitVec r;
-        for (std::size_t l = 0; l < ring->_path.size(); ++l)
-          r.SetBitOn(ring->_path[l]);
+        for (int l : ring->_path)
+          r.SetBitOn(l);
         result.push_back(r);
       }
     }
