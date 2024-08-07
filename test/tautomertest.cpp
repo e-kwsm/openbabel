@@ -68,9 +68,9 @@ void testCanonicalTautomers(const std::string &smiles)
     return;
 
   std::vector<std::string> canonicalTautomers;
-  for (std::size_t i = 0; i < tautomers.size(); ++i) {
+  for (const auto & tautomer : tautomers) {
     OBMol mol2;
-    conv.ReadString(&mol2, tautomers[i]);
+    conv.ReadString(&mol2, tautomer);
     CanonicalTautomer(&mol2);
     canonicalTautomers.push_back(conv.WriteString(&mol2, true));
   }

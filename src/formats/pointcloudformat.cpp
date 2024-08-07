@@ -149,8 +149,8 @@ namespace OpenBabel
   bool conditional_add( vector<vector3> &list, vector3 point, double density_r ) {
 
     double density_r2 = density_r * density_r;
-    for( std::vector<vector3>::iterator it = list.begin(); it != list.end(); ++it ) {
-      vector3 r = *it - point;
+    for(auto & it : list) {
+      vector3 r = it - point;
       double r2 = dot(r,r);
       if( r2 < density_r2 ) {
         return false;
@@ -254,19 +254,19 @@ namespace OpenBabel
 
         // now cull any points on that surface that are within r_VDW * radius_multiplier
         // of any other atom
-        for( std::vector< vector3 >::iterator it = pt.begin(); it != pt.end(); ++it ) {
+        for(auto & it : pt) {
           bool exclude = false;
           FOR_ATOMS_OF_MOL( a, *pmol )
           {
             const double* c = a->GetCoordinate();
             double vdwrad   =  probe_radius + ( OBElements::GetVdwRad( a->GetAtomicNum() ) * radius_mult );
             vdwrad *= vdwrad;
-            vector3 r = *it - vector3( c[0], c[1], c[2] );
+            vector3 r = it - vector3( c[0], c[1], c[2] );
             double r2 = r[0]*r[0] + r[1]*r[1] + r[2] * r[2];
             if( r2 < vdwrad ) { exclude = true; break; }
           }
           if( !exclude ) {
-            filtered_points.push_back( *it );
+            filtered_points.push_back( it );
           }
         }
       }
@@ -277,11 +277,11 @@ namespace OpenBabel
       os << filtered_points.size() << "\n\n";
     }
 
-    for( std::vector<vector3>::iterator it2 = filtered_points.begin(); it2 != filtered_points.end(); ++it2 ) {
+    for(auto & filtered_point : filtered_points) {
       if( format_xyz ) {
         os << "Xx\t";
       }
-      os << (*it2)[0] << "\t" << (*it2)[1] << "\t" << (*it2)[2] << "\n";
+      os << filtered_point[0] << "\t" << filtered_point[1] << "\t" << filtered_point[2] << "\n";
     }
 
     os.flush();

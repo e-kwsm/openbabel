@@ -31,9 +31,9 @@ namespace OpenBabel {
       return false;
 
     unsigned int count = 0;
-    for (ConstRefIter i = refs1.begin(); i != refs1.end(); ++i)
-      for (ConstRefIter j = refs2.begin(); j != refs2.end(); ++j)
-        if (*i == *j) {
+    for (unsigned long i : refs1)
+      for (unsigned long j : refs2)
+        if (i == j) {
           count++;
           break;
         }
@@ -43,8 +43,8 @@ namespace OpenBabel {
 
   bool OBStereo::ContainsRef(const OBStereo::Refs &refs, unsigned long id)
   {
-    for (ConstRefIter i = refs.begin(); i != refs.end(); ++i)
-      if (*i == id)
+    for (unsigned long ref : refs)
+      if (ref == id)
         return true;
 
     return false;
@@ -66,8 +66,8 @@ namespace OpenBabel {
     }
 
     int sum = 0;
-    for (OBStereo::RefIter k = invVec.begin(); k != invVec.end(); ++k)
-      sum += *k;
+    for (unsigned long & k : invVec)
+      sum += k;
 
     return sum;
   }

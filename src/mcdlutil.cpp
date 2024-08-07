@@ -1267,9 +1267,9 @@ namespace OpenBabel {
   }
 
   void TSimpleMolecule::clear() {
-    for (unsigned int i=0; i<fAtom.size(); i++) delete(fAtom.at(i));
+    for (auto & i : fAtom) delete i;
     fAtom.clear();
-    for (unsigned int i=0; i<fBond.size(); i++) delete(fBond.at(i));
+    for (auto & i : fBond) delete i;
     fBond.clear();
   };
 
@@ -3313,7 +3313,7 @@ namespace OpenBabel {
       };
 
     //freeing resorces
-    for (int i=0; i<aeqList.size(); i++) delete(aeqList.at(i));
+    for (auto & i : aeqList) delete i;
     aeqList.clear();
     free(bk);
     delete(em);
@@ -7165,8 +7165,8 @@ namespace OpenBabel {
         };
       sm.redraw(atomList,bondList,atomList.size(),nb,3,atEx,bondN,false);
       //Setting OBMOL coordinates
-      for (int i=0; i<atomList.size(); i++) {
-        n=atomList[i];
+      for (int i : atomList) {
+        n=i;
         atom=pmol->GetAtom(n+1);  //1-based
         atom->SetVector(sm.getAtom(n)->rx,sm.getAtom(n)->ry,0.0);
       };
