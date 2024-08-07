@@ -394,11 +394,10 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
       // also write the cell vectors
       rapidjson::Value cellVectors(rapidjson::kArrayType);
       vector<vector3> obVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = obVectors.begin();
-           i != obVectors.end(); ++i) {
-        cellVectors.PushBack(i->x(), al);
-        cellVectors.PushBack(i->y(), al);
-        cellVectors.PushBack(i->z(), al);
+      for (auto & obVector : obVectors) {
+        cellVectors.PushBack(obVector.x(), al);
+        cellVectors.PushBack(obVector.y(), al);
+        cellVectors.PushBack(obVector.z(), al);
       }
       unitCell.AddMember("cellVectors", cellVectors, al);
 
@@ -452,10 +451,10 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
       for (unsigned int i = 0; i < modeCount; i++) {
         rapidjson::Value displacement(rapidjson::kArrayType);
         auto obDisp = lx[i]; // this is a vector<vector3>
-        for (auto j = obDisp.begin(); j != obDisp.end(); ++j) {
-          displacement.PushBack(j->x(), al);
-          displacement.PushBack(j->y(), al);
-          displacement.PushBack(j->z(), al);
+        for (auto & j : obDisp) {
+          displacement.PushBack(j.x(), al);
+          displacement.PushBack(j.y(), al);
+          displacement.PushBack(j.z(), al);
         }
 
         displacements.PushBack(displacement, al);
@@ -502,8 +501,8 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
           edata->GetRotatoryStrengthsLength();
       if (rotatoryStrengthsVec.size() > 0) {
         rapidjson::Value rotatoryStrengths(rapidjson::kArrayType);
-        for (unsigned int i = 0; i < rotatoryStrengthsVec.size(); i++) {
-          rotatoryStrengths.PushBack(rotatoryStrengthsVec[i], al);
+        for (double i : rotatoryStrengthsVec) {
+          rotatoryStrengths.PushBack(i, al);
         }
         electronic.AddMember("rotation", rotatoryStrengths, al);
       }
@@ -532,8 +531,8 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
         (OBConformerData *) pmol->GetData(OBGenericDataType::ConformerData);
     vector<double> energies = cd->GetEnergies();
     rapidjson::Value confEnergies(rapidjson::kArrayType);
-    for (auto i = energies.begin(); i != energies.end(); ++i) {
-      confEnergies.PushBack(*i, al);
+    for (double & energie : energies) {
+      confEnergies.PushBack(energie, al);
     }
     properties.AddMember("energies", confEnergies, al);
   }
