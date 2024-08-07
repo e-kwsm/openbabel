@@ -184,9 +184,9 @@ bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
         vector<vector3> v = uc->GetCellVectors();
 
-        for (unsigned int i = 0; i < v.size(); ++i) {
+        for (auto & i : v) {
           snprintf(buffer, BUFF_SIZE,
-                   "lattice_vector %15.5f%15.5f%15.5f\n", v[i].x(), v[i].y(), v[i].z());
+                   "lattice_vector %15.5f%15.5f%15.5f\n", i.x(), i.y(), i.z());
           ofs << buffer;
         }
     }
