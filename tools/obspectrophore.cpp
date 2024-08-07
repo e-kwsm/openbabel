@@ -191,9 +191,9 @@ int main(int argc,char **argv)
 		else
 		{
 			std::cout << mol.GetTitle() << "\t";
-			for (unsigned int i(0); i < result.size(); ++i)
+			for (double i : result)
 			{
-				std::cout << result[i] << "\t";
+				std::cout << i << "\t";
 			}
 			std::cout << std::endl;
 		}
