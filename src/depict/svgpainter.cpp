@@ -164,8 +164,8 @@ namespace OpenBabel
     metrics.descent  = m_fontPointSize * -0.23; // Offset from baseline of bottom of text
     metrics.height   = m_fontPointSize *  1.26; // Distance between successive lines of text
     metrics.width    = 0.0;
-    for(string::size_type i=0;i<text.size();++i)
-      metrics.width += m_fontPointSize * (isalpha(text[i]) ? 0.75 : 0.5);
+    for(char i : text)
+      metrics.width += m_fontPointSize * (isalpha(i) ? 0.75 : 0.5);
 
     return metrics;
   }
@@ -195,12 +195,12 @@ namespace OpenBabel
   {
     if (!m_Gradients->empty()) {
       m_ofs << "<defs>\n";
-      for (std::set<ColorGradient>::iterator it=m_Gradients->begin(); it!=m_Gradients->end(); ++it) {
+      for (const auto & m_Gradient : *m_Gradients) {
         m_ofs << "<radialGradient id='radial";
-        m_ofs << RGBcode(it->first)<< RGBcode(it->second) << "' ";
+        m_ofs << RGBcode(m_Gradient.first)<< RGBcode(m_Gradient.second) << "' ";
         m_ofs << "cx='50%' cy='50%' r='50%' fx='30%' fy='30%'>\n";
-        m_ofs << "  <stop offset=' 0%' stop-color=" << MakeRGB(it->first) << " stop-opacity='1.0'/>\n";
-        m_ofs << "  <stop offset='100%' stop-color=" << MakeRGB(it->second) << " stop-opacity ='1.0'/>\n";
+        m_ofs << "  <stop offset=' 0%' stop-color=" << MakeRGB(m_Gradient.first) << " stop-opacity='1.0'/>\n";
+        m_ofs << "  <stop offset='100%' stop-color=" << MakeRGB(m_Gradient.second) << " stop-opacity ='1.0'/>\n";
         m_ofs << "</radialGradient>\n";
       }
       m_ofs << "</defs>\n";

@@ -327,14 +327,14 @@ namespace OpenBabel
       OBIsomorphismMapper::Mappings::const_iterator cit;
       Eigen::MatrixXd mtarget(_mtarget.rows(), _mtarget.cols());
 
-      for (unsigned int k = 0; k < _aut.size(); ++k) {
+      for (auto & k : _aut) {
         // Rearrange columns of _mtarget for this permutation
         unsigned int i=0;
         for (unsigned int j=1; j<=_prefmol->NumAtoms(); ++j) {
           if (_frag_atoms.BitIsSet(j)) {
-            for (std::size_t l = 0; l < _aut[k].size(); ++l)
-              if (_aut[k][l].first == j - 1) {
-                mtarget.col(i) = _mtarget.col(_newidx[_aut[k][l].second]);
+            for (std::size_t l = 0; l < k.size(); ++l)
+              if (k[l].first == j - 1) {
+                mtarget.col(i) = _mtarget.col(_newidx[k[l].second]);
                 break;
               }
             i++;

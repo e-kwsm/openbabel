@@ -66,15 +66,15 @@ namespace OpenBabel {
         //          otherConfig = 234 --> 23H
 
         // for each ref in otherConfig
-        for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
+        for (unsigned long & ref : otherConfig.refs) {
           bool found = false;
-          for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
-            if (otherConfig.refs.at(i) == *j)
+          for (unsigned long & j : thisConfig.refs)
+            if (ref == j)
               found = true;
 
           if (!found) {
             // the ref from otherConfig is not found in this config
-            otherConfig.refs[i] = OBStereo::ImplicitRef;
+            ref = OBStereo::ImplicitRef;
             break;
           }
         }
@@ -88,17 +88,17 @@ namespace OpenBabel {
         //          otherConfig = 23H --> 234
 
         // for each ref in *this
-        for (unsigned int i = 0; i < thisConfig.refs.size(); ++i) {
+        for (unsigned long ref : thisConfig.refs) {
           bool found = false;
           // for each refs in otherConfig
-          for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-            if (thisConfig.refs.at(i) == *j)
+          for (unsigned long & j : otherConfig.refs)
+            if (ref == j)
               found = true;
 
           if (!found) {
-            for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-              if (*j == OBStereo::ImplicitRef)
-                *j = thisConfig.refs.at(i);
+            for (unsigned long & j : otherConfig.refs)
+              if (j == OBStereo::ImplicitRef)
+                j = ref;
             break;
           }
         }
@@ -223,9 +223,9 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (unsigned long & ref : cfg.refs)
+      if (ref != OBStereo::ImplicitRef)
+        out << ref << " ";
       else
         out << "H ";
 
@@ -255,9 +255,9 @@ namespace std {
       out << cfg.from;
 
     out << ", refs = ";
-    for (OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (unsigned long ref : cfg.refs)
+      if (ref != OBStereo::ImplicitRef)
+        out << ref << " ";
       else
         out << "H ";
 
