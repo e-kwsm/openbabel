@@ -51,18 +51,18 @@ namespace OpenBabel
       matrix3x3(void)
         {
           // Loops are typically unrolled and/or vectorized
-          for (unsigned int i = 0; i < 3; ++i)
-            for (unsigned int j = 0; j < 3; ++j)
-              ele[i][j] = 0.0;
+          for (auto & i : ele)
+            for (double & j : i)
+              j = 0.0;
         }
 
       //! Constructs s times the unit matrix
       matrix3x3(double s)
         {
           // Loops are typically unrolled and/or vectorized
-          for (unsigned int i = 0; i < 3; ++i)
-            for (unsigned int j = 0; j < 3; ++j)
-              ele[i][j] = 0.0;
+          for (auto & i : ele)
+            for (double & j : i)
+              j = 0.0;
 
           for (unsigned int i = 0; i < 3; ++i)
             ele[i][i] = s;
@@ -235,9 +235,9 @@ namespace OpenBabel
       //! Multiplies all entries of the matrix by a scalar c
       matrix3x3 &operator*=(const double &c)
       {
-        for( int i = 0; i < 3; i++ )
-          for( int j = 0; j < 3; j++ )
-            ele[i][j] *= c;
+        for(auto & i : ele)
+          for(double & j : i)
+            j *= c;
         return *this;
       }
 
