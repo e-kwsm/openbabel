@@ -526,12 +526,12 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
           targ[1] = "Charges were rearranged";
           targ[2] = "Proton(s) added/removed";
           targ[3] = "Metal was disconnected";
-          for(int i=0;i<4;++i)
+          for(const auto & i : targ)
           {
-            pos = mes.find(targ[i]);
+            pos = mes.find(i);
             if(pos!=string::npos)
             {
-              mes.erase(pos,targ[i].size());
+              mes.erase(pos,i.size());
               if(pos<mes.size() && mes[pos]==';')
                 mes[pos]=' ';
             }
@@ -770,8 +770,8 @@ char* InChIFormat::GetInChIOptions(OBConversion* pConv, bool Reading)
 #endif
 
   string sopts;
-  for (unsigned int i = 0; i < optsvec.size(); ++i)
-    sopts += ch + optsvec[i];
+  for (const auto & i : optsvec)
+    sopts += ch + i;
   opts = new char[strlen(sopts.c_str())+1]; //has to be char, not const char
   return strcpy(opts, sopts.c_str());
   opts = new char[1];

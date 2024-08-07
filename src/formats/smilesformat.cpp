@@ -2479,10 +2479,10 @@ namespace OpenBabel {
   void OBMol2Cansmi::CreateCisTrans(OBMol &mol)
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      if (((OBStereoBase*)*data)->GetType() != OBStereo::CisTrans)
+    for (auto & data : vdata) {
+      if (((OBStereoBase*)data)->GetType() != OBStereo::CisTrans)
         continue;
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       if (ct && ct->GetConfig().specified) {
         OBCisTransStereo::Config config = ct->GetConfig();
         OBBond* dbl_bond = mol.GetBond(mol.GetAtomById(config.begin), mol.GetAtomById(config.end));
@@ -3169,11 +3169,11 @@ namespace OpenBabel {
       MyFindChildren(mol, children, _uatoms, _endatom);
 
       vector<OBAtom*> front, end;
-      for (vector<OBAtom *>::iterator it=sort_nbrs.begin(); it!=sort_nbrs.end(); ++it)
-        if (std::find(children.begin(), children.end(), *it) == children.end() && *it != _endatom)
-          front.push_back(*it);
+      for (auto & sort_nbr : sort_nbrs)
+        if (std::find(children.begin(), children.end(), sort_nbr) == children.end() && sort_nbr != _endatom)
+          front.push_back(sort_nbr);
         else
-          end.push_back(*it);
+          end.push_back(sort_nbr);
       sort_nbrs = front;
       sort_nbrs.insert(sort_nbrs.end(), end.begin(), end.end());
     }
@@ -3707,11 +3707,11 @@ namespace OpenBabel {
 
     tmp = split_aux.at(2).substr(2);
     tokenize(s_components, tmp, ";");
-    for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
-      tokenize(s_atoms, *it, ",");
+    for(auto & s_component : s_components) {
+      tokenize(s_atoms, s_component, ",");
       vector<int> atoms;
-      for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
-        atoms.push_back(atoi(itb->c_str()));
+      for(auto & s_atom : s_atoms)
+        atoms.push_back(atoi(s_atom.c_str()));
       canonical_labels.push_back(atoms);
     }
 
@@ -3723,24 +3723,24 @@ namespace OpenBabel {
       tokenize(s_components, split_aux.at(0), ";");
       vector<vector<int> > new_canonical_labels;
       int total = 0;
-      for(vector<string>::iterator it=s_components.begin(); it!=s_components.end(); ++it) {
+      for(auto & s_component : s_components) {
         // e.g. "1,2,3;2m" means replace the first component by "1,2,3"
         //                       but keep the next two unchanged
-        if (*(it->rbegin()) == 'm') {
+        if (*(s_component.rbegin()) == 'm') {
           int mult;
-          if (it->size()==1)
+          if (s_component.size()==1)
             mult = 1;
           else
-            mult = atoi(it->substr(0, it->size()-1).c_str());
+            mult = atoi(s_component.substr(0, s_component.size()-1).c_str());
           new_canonical_labels.insert(new_canonical_labels.end(),
             canonical_labels.begin()+total, canonical_labels.begin()+total+mult);
           total += mult;
         }
         else {
-          tokenize(s_atoms, *it, ",");
+          tokenize(s_atoms, s_component, ",");
           vector<int> atoms;
-          for(vector<string>::iterator itb=s_atoms.begin(); itb!=s_atoms.end(); ++itb)
-            atoms.push_back(atoi(itb->c_str()));
+          for(auto & s_atom : s_atoms)
+            atoms.push_back(atoi(s_atom.c_str()));
           new_canonical_labels.push_back(atoms);
           total++;
         }
@@ -3749,8 +3749,8 @@ namespace OpenBabel {
     }
 
     // Flatten the canonical_labels
-    for(vector<vector<int> >::iterator it=canonical_labels.begin(); it!=canonical_labels.end(); ++it) {
-      atom_order.insert(atom_order.end(), it->begin(), it->end());
+    for(auto & canonical_label : canonical_labels) {
+      atom_order.insert(atom_order.end(), canonical_label.begin(), canonical_label.end());
     }
 
     return true;
@@ -3830,8 +3830,8 @@ namespace OpenBabel {
       if (s_atom_order.size() != mol.NumHvyAtoms())
         ppo = nullptr;
       else {
-        for (vector<string>::const_iterator cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
-          atom_order.push_back(atoi(cit->c_str()));
+        for (const auto & cit : s_atom_order)
+          atom_order.push_back(atoi(cit.c_str()));
         atom_idx = atom_order.at(0);
         if (atom_idx >= 1 && atom_idx <= mol.NumAtoms())
           _startatom = mol.GetAtom(atom_idx);
@@ -3861,13 +3861,13 @@ namespace OpenBabel {
 
       // Determine symmetry classes for each disconnected fragment separately
       symmetry_classes.resize(mol.NumAtoms());
-      for (std::size_t i = 0; i < fragments.size(); ++i) {
-        OBGraphSym gs(&mol, &(fragments[i]));
+      for (auto & fragment : fragments) {
+        OBGraphSym gs(&mol, &fragment);
         vector<unsigned int> tmp;
         gs.GetSymmetry(tmp);
 
         for (std::size_t j = 0; j < mol.NumAtoms(); ++j)
-          if (fragments[i].BitIsSet(j+1))
+          if (fragment.BitIsSet(j+1))
             symmetry_classes[j] = tmp[j];
       }
 
@@ -3896,10 +3896,10 @@ namespace OpenBabel {
         canonical_order.resize(mol.NumAtoms());
         symmetry_classes.resize(mol.NumAtoms());
         int idx = 3; // Start the labels at 3 (to leave space for special values 0, 1 and 2)
-        for (int i=0; i<atom_order.size(); ++i)
-          if (canonical_order[atom_order[i] - 1] == 0) { // Ignore ring closures (for "U")
-            canonical_order[atom_order[i] - 1] = idx;
-            symmetry_classes[atom_order[i] - 1] = idx;
+        for (int i : atom_order)
+          if (canonical_order[i - 1] == 0) { // Ignore ring closures (for "U")
+            canonical_order[i - 1] = idx;
+            symmetry_classes[i - 1] = idx;
             ++idx;
           }
         for (int i=0; i<canonical_order.size(); ++i)
@@ -4323,9 +4323,8 @@ namespace OpenBabel {
     for (j = 0;j < mol.NumConformers();j++)
       {
         mol.SetConformer(j);
-        for (unsigned int index = 0; index < canonical_order.size();
-             ++index) {
-          atomIdx = atoi(canonical_order[index].c_str());
+        for (const auto & index : canonical_order) {
+          atomIdx = atoi(index.c_str());
           atom = mol.GetAtom(atomIdx);
           snprintf(coords, 100, "%9.3f %9.3f %9.3f", atom->GetX(), atom->GetY(), atom->GetZ());
           ofs << coords << endl;

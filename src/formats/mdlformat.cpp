@@ -831,10 +831,10 @@ namespace OpenBabel
     mol.EndModify();
 
     //Expand aliases (implicit hydrogens already set on these as read from SMILES)
-    for (vector<pair<AliasData*, OBAtom*> >::iterator iter = aliases.begin(); iter != aliases.end(); ++iter)
+    for (auto & aliase : aliases)
     {
-      AliasData* ad = (*iter).first;
-      unsigned atomnum = (*iter).second->GetIdx();
+      AliasData* ad = aliase.first;
+      unsigned atomnum = aliase.second->GetIdx();
       ad->Expand(mol, atomnum); //Make chemically meaningful, if possible.
     }
 
@@ -1803,9 +1803,9 @@ namespace OpenBabel
   {
     // This loop sets the atom parity for each tet center
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
 
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
 
@@ -1821,9 +1821,9 @@ namespace OpenBabel
           if (cfg.from != OBStereo::ImplicitRef && mol.GetAtomById(cfg.from)->GetAtomicNum() == OBElements::Hydrogen)
             maxref = cfg.from;
           else
-            for (OBStereo::RefIter ref_it = refs.begin(); ref_it != refs.end(); ++ref_it)
-              if ((*ref_it) != OBStereo::ImplicitRef && mol.GetAtomById(*ref_it)->GetAtomicNum() == OBElements::Hydrogen)
-                maxref = *ref_it;
+            for (unsigned long & ref : refs)
+              if (ref != OBStereo::ImplicitRef && mol.GetAtomById(ref)->GetAtomicNum() == OBElements::Hydrogen)
+                maxref = ref;
           // ...otherwise, find the maximum ref (note that ImplicitRef will be max if present)
           if (maxref == OBStereo::NoRef)
             maxref = std::max(*(std::max_element(refs.begin(), refs.end())), cfg.from);
@@ -1846,9 +1846,9 @@ namespace OpenBabel
   {
     if (deleteExisting) { // Remove any existing tet stereo
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral)
-          mol.DeleteData(*data);
+      for (auto & data : vdata)
+        if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral)
+          mol.DeleteData(data);
     }
 
     for (unsigned long i=0;i<parity.size();i++) {
