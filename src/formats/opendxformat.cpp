@@ -194,9 +194,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         return false;
       }
 
-      for (unsigned int l = 0; l < vs.size(); ++l)
+      for (const auto & v : vs)
       {
-        values.push_back(strtod(static_cast<const char*>(vs[l].c_str()), &endptr));
+        values.push_back(strtod(static_cast<const char*>(v.c_str()), &endptr));
       }
     }
 
