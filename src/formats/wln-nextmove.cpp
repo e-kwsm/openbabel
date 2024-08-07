@@ -504,8 +504,7 @@ struct WLNParser {
             return error();
         }
 
-        for (unsigned int i=0; i<ring.size();i++){
-            OpenBabel::OBAtom* atom = ring.at(i);
+        for (auto atom : ring){
             unsigned int t_valence = atom->GetTotalValence();
             if (atom->GetAtomicNum() == 6 && t_valence < 3){
                 atom->SetImplicitHCount(atom->GetImplicitHCount() + 1);
@@ -571,8 +570,7 @@ struct WLNParser {
             return error();
         }
 
-        for (unsigned int i=0; i<ring.size();i++){
-            OpenBabel::OBAtom* atom = ring.at(i);
+        for (auto atom : ring){
             unsigned int t_valence = atom->GetTotalValence();
             if (atom->GetAtomicNum() == 6 && t_valence < 3){
                 atom->SetImplicitHCount(atom->GetImplicitHCount() + 1);
