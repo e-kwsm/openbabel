@@ -335,9 +335,9 @@ namespace OpenBabel {
   void OBConversion::SetInStream(std::istream* pIn, bool takeOwnership)
   {
       //clear and deallocate any existing streams
-      for(unsigned i = 0, n = ownedInStreams.size(); i < n; i++)
+      for(auto & ownedInStream : ownedInStreams)
       {
-        delete ownedInStreams[i];
+        delete ownedInStream;
       }
       ownedInStreams.clear();
       pInput = nullptr;
@@ -375,9 +375,9 @@ namespace OpenBabel {
   void OBConversion::SetOutStream(std::ostream* pOut, bool takeOwnership)
   {
     //clear and deallocate any existing streams
-    for (unsigned i = 0, n = ownedOutStreams.size(); i < n; i++)
+    for (auto & ownedOutStream : ownedOutStreams)
     {
-      delete ownedOutStreams[i];
+      delete ownedOutStream;
     }
     ownedOutStreams.clear();
     pOutput = nullptr;
