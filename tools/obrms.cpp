@@ -359,9 +359,9 @@ int main(int argc, char **argv)
       }
 
       vector<Matcher> matchers;
-      for(unsigned i = 0, n = refmols.size(); i < n; i++) {
-        processMol(refmols[i]);
-        Matcher matcher(refmols[i], timeout); // create the matcher
+      for(auto & refmol : refmols) {
+        processMol(refmol);
+        Matcher matcher(refmol, timeout); // create the matcher
         matchers.push_back(matcher);
       }
 
@@ -374,8 +374,8 @@ int main(int argc, char **argv)
         processMol(moltest);
 
         double bestRMSD = HUGE_VAL;
-        for(unsigned i = 0, n = matchers.size(); i < n; i++) {
-          double rmsd = matchers[i].computeRMSD(moltest, minimize);
+        for(auto & matcher : matchers) {
+          double rmsd = matcher.computeRMSD(moltest, minimize);
           if(rmsd < bestRMSD) bestRMSD = rmsd;
         }
 

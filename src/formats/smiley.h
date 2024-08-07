@@ -748,8 +748,8 @@ namespace Smiley {
                 << "    index: " << index << std::endl
                 << "    chirality: " << chirality << std::endl
                 << "    nbrs: ";
-      for (std::size_t i = 0; i < nbrs.size(); ++i)
-        std::cout << nbrs[i] << " ";
+      for (int nbr : nbrs)
+        std::cout << nbr << " ";
       std::cout << std::endl;
     }
 

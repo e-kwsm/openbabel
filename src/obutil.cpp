@@ -537,8 +537,8 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(a, mol)
       if (a->GetAtomicNum() == 0)
         for_deletion.push_back(&(*a));
-    for(vector<OBAtom*>::iterator a_it=for_deletion.begin(); a_it!=for_deletion.end(); ++a_it)
-      mol.DeleteAtom(*a_it);
+    for(auto & a_it : for_deletion)
+      mol.DeleteAtom(a_it);
 
   }
 

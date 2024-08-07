@@ -81,10 +81,10 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   gs1.GetSymmetry(symclasses);
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+  for (auto & data : stereoData) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
       OB_REQUIRE( ts );
       OB_ASSERT( ts->IsValid() );
       if (!ts->IsValid())
@@ -105,9 +105,9 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral1.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       OB_REQUIRE( ct );
       OB_ASSERT( ct->IsValid() );
 
@@ -126,9 +126,9 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       cistrans1.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
-      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(data);
       OB_REQUIRE( sp );
       OB_ASSERT( sp->IsValid() );
       if (!sp->IsValid())
@@ -172,10 +172,10 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   gs2.GetSymmetry(symclasses);
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+  for (auto & data : stereoData) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
       OB_REQUIRE( ts );
       OB_ASSERT( ts->IsValid() );
 
@@ -194,9 +194,9 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral2.push_back(config);
     }
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       OB_REQUIRE( ct );
       OB_ASSERT( ct->IsValid() );
 
@@ -215,9 +215,9 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       cistrans2.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
-      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+      OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(data);
       OB_REQUIRE( sp );
       OB_ASSERT( sp->IsValid() );
 
@@ -241,35 +241,35 @@ void genericSmilesCanonicalTest(const std::string &smiles)
 
   // compare the tetrahedral structs
   OB_ASSERT( tetrahedral1.size() == tetrahedral2.size() );
-  for (unsigned int i = 0; i < tetrahedral1.size(); ++i) {
-    for (unsigned int j = 0; j < tetrahedral2.size(); ++j) {
-      if (tetrahedral1[i].center == tetrahedral2[j].center)
-        OB_ASSERT( tetrahedral1[i] == tetrahedral2[j] );
-        if ( tetrahedral1[i] != tetrahedral2[j] ) {
-          cout << "1 = " << tetrahedral1[i] << endl;
-          cout << "2 = " << tetrahedral2[j] << endl;
+  for (auto & i : tetrahedral1) {
+    for (auto & j : tetrahedral2) {
+      if (i.center == j.center)
+        OB_ASSERT( i == j );
+        if ( i != j ) {
+          cout << "1 = " << i << endl;
+          cout << "2 = " << j << endl;
         }
     }
   }
   // compare the cistrans structs
   OB_ASSERT( cistrans1.size() == cistrans2.size() );
-  for (unsigned int i = 0; i < cistrans1.size(); ++i) {
-    for (unsigned int j = 0; j < cistrans2.size(); ++j) {
-      if ((cistrans1[i].begin == cistrans2[j].begin) && (cistrans1[i].end == cistrans2[j].end))
-        OB_ASSERT( cistrans1[i] == cistrans2[j] );
-      if ((cistrans1[i].begin == cistrans2[j].end) && (cistrans1[i].end == cistrans2[j].begin))
-        OB_ASSERT( cistrans1[i] == cistrans2[j] );
+  for (auto & i : cistrans1) {
+    for (auto & j : cistrans2) {
+      if ((i.begin == j.begin) && (i.end == j.end))
+        OB_ASSERT( i == j );
+      if ((i.begin == j.end) && (i.end == j.begin))
+        OB_ASSERT( i == j );
     }
   }
   // compare the square-planar structs
   OB_ASSERT( squareplanar1.size() == squareplanar2.size() );
-  for (unsigned int i = 0; i < squareplanar1.size(); ++i) {
-    for (unsigned int j = 0; j < squareplanar2.size(); ++j) {
-      if (squareplanar1[i].center == squareplanar2[j].center)
-        OB_ASSERT( squareplanar1[i] == squareplanar2[j] );
-        if ( squareplanar1[i] != squareplanar2[j] ) {
-          cout << "1 = " << squareplanar1[i] << endl;
-          cout << "2 = " << squareplanar2[j] << endl;
+  for (auto & i : squareplanar1) {
+    for (auto & j : squareplanar2) {
+      if (i.center == j.center)
+        OB_ASSERT( i == j );
+        if ( i != j ) {
+          cout << "1 = " << i << endl;
+          cout << "2 = " << j << endl;
         }
     }
   }

@@ -216,17 +216,17 @@ namespace OpenBabel {
         ~PropagationRAII()
         {
           // donors
-          for (std::size_t i = 0; i < m_donors.size(); ++i) {
-            m_atomTypes[m_donors[i]->GetIndex()] = Unassigned;
-            m_donors[i]->SetImplicitHCount(m_donors[i]->GetImplicitHCount() - 1);
+          for (auto & m_donor : m_donors) {
+            m_atomTypes[m_donor->GetIndex()] = Unassigned;
+            m_donor->SetImplicitHCount(m_donor->GetImplicitHCount() - 1);
           }
           m_hydrogenCounter += m_donors.size();
           // acceptors
-          for (std::size_t i = 0; i < m_acceptors.size(); ++i)
-            m_atomTypes[m_acceptors[i]->GetIndex()] = Unassigned;
+          for (auto & m_acceptor : m_acceptors)
+            m_atomTypes[m_acceptor->GetIndex()] = Unassigned;
           // bonds
-          for (std::size_t i = 0; i < m_bonds.size(); ++i)
-            m_bondTypes[m_bonds[i]->GetIdx()] = Unassigned;
+          for (auto & m_bond : m_bonds)
+            m_bondTypes[m_bond->GetIdx()] = Unassigned;
         }
 
         void assignDonor(OBAtom *atom)
@@ -448,8 +448,8 @@ namespace OpenBabel {
     bool IsLeafNode(const std::vector<Type> &atomTypes) const
     {
       // Check to see if we are at a leaf node (i.e. no unassigned atoms left)
-      for (std::size_t i = 0; i < atomTypes.size(); ++i)
-        if (atomTypes[i] == Unassigned)
+      for (auto atomType : atomTypes)
+        if (atomType == Unassigned)
           return false;
       return true;
     }
@@ -651,9 +651,9 @@ namespace OpenBabel {
     OBAtom *SelectNextAtom(const std::vector<Type> &atomTypes) const
     {
       // Select next lowest canonical unassigned atom
-      for (std::size_t i = 0; i < m_canonAtoms.size(); ++i)
-        if (atomTypes[m_canonAtoms[i]->GetIndex()] == Unassigned)
-          return m_canonAtoms[i];
+      for (auto m_canonAtom : m_canonAtoms)
+        if (atomTypes[m_canonAtom->GetIndex()] == Unassigned)
+          return m_canonAtom;
       return nullptr;
     }
 

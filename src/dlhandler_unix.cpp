@@ -94,8 +94,8 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
 
       if (!vs.empty())
         {
-          for (unsigned int i = 0; i < vs.size(); ++i) {
-            paths.push_back(vs[i]);
+          for (const auto & v : vs) {
+            paths.push_back(v);
           }
         }
     }
@@ -111,9 +111,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
   struct dirent *entry;
 
   string currentPath;
-  for (unsigned int i = 0; i < paths.size(); ++i)
+  for (const auto & path : paths)
     {
-      currentPath=paths[i];
+      currentPath=path;
 
       if ((dp = opendir(currentPath.c_str())) == nullptr)
         continue; // no big deal, this path causes an error

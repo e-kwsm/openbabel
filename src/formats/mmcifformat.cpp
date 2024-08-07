@@ -582,9 +582,9 @@ namespace OpenBabel
            int use_cartn = 0, use_residue = 0;
            use_fract = 0;
            CIFTagID::CIFDataName atom_type_tag = CIFTagID::unread_CIFDataName;
-           for (CIFColumnList::const_iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+           for (auto column : columns)
              {
-             switch (* colx)
+             switch (column)
                {
              case CIFTagID::_atom_site_Cartn_x:
              case CIFTagID::_atom_site_Cartn_y:
@@ -603,8 +603,8 @@ namespace OpenBabel
              case CIFTagID::_atom_site_type_symbol:
              case CIFTagID::_atom_site_label_atom_id:
              case CIFTagID::_atom_site_label:
-               if (atom_type_tag < (* colx))
-                 atom_type_tag = (* colx);
+               if (atom_type_tag < column)
+                 atom_type_tag = column;
                break;
              default:
                break;
@@ -612,9 +612,9 @@ namespace OpenBabel
              }
            if (use_cartn)
              {
-             for (CIFColumnList::iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
-               if ( (* colx) >= CIFTagID::_atom_site_fract_x && (* colx) <= CIFTagID::_atom_site_fract_z)
-                 (* colx) = CIFTagID::unread_CIFDataName;
+             for (auto & column : columns)
+               if ( column >= CIFTagID::_atom_site_fract_x && column <= CIFTagID::_atom_site_fract_z)
+                 column = CIFTagID::unread_CIFDataName;
              use_fract = 0;
              }
            size_t column_idx = 0;

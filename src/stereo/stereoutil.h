@@ -89,8 +89,7 @@ namespace OpenBabel {
   template<typename OBAtomOrOBBond>
   bool isInSet(OBAtomOrOBBond *atomOrBond, const OBStereoUnitSet &units)
   {
-    for (std::size_t i = 0; i < units.size(); ++i) {
-      const OBStereoUnit &unit = units[i];
+    for (const auto & unit : units) {
       if (unit.type != static_cast<OBStereo::Type>(OBStereoCenterTraits<OBAtomOrOBBond>::Type))
         continue;
       if (unit.id == atomOrBond->GetId())

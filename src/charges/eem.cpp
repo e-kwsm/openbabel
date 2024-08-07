@@ -143,13 +143,13 @@ namespace OpenBabel
 
       // Search for parameters for a particular atom type
       bool found = false;
-      for(unsigned int j = 0; j < _parameters.size(); j++) {
-        if((_parameters[j].Z == n && _parameters[j].bond_order == b) ||
-            (_parameters[j].Z == n && _parameters[j].bond_order == - 1) ||
-            (_parameters[j].Z == -1 && _parameters[j].bond_order == -1)) {
+      for(auto & _parameter : _parameters) {
+        if((_parameter.Z == n && _parameter.bond_order == b) ||
+            (_parameter.Z == n && _parameter.bond_order == - 1) ||
+            (_parameter.Z == -1 && _parameter.bond_order == -1)) {
 
-          electronegativity = _parameters[j].A;
-          hardness = _parameters[j].B;
+          electronegativity = _parameter.A;
+          hardness = _parameter.B;
           found = true;
           break;
         }
