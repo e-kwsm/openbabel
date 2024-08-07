@@ -117,10 +117,10 @@ namespace OpenBabel
       }
     */
 
-    for (vector<string>::iterator i=geomList.begin(); i !=geomList.end(); ++i) {
+    for (auto & i : geomList) {
 
       // Alias the line
-      line = *i;
+      line = i;
 
       //cerr << "ReadGeometry line is: " << line << endl;
 
@@ -978,9 +978,9 @@ namespace OpenBabel
             ifs.getline(buffer, BUFF_SIZE);
 
           tokenize(tokens,buffer," \t\n");
-          for( std::size_t si=0; si < tokens.size(); si++ )
+          for(const auto & token : tokens)
             {
-              ok = from_string<double>(dtmp, tokens.at(si), std::dec);
+              ok = from_string<double>(dtmp, token, std::dec);
               frequencies.push_back(dtmp);
               intensities.push_back( 0.0 ); // Add placeholder data
             }

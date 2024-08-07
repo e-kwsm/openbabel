@@ -264,8 +264,8 @@ namespace OpenBabel {
 
     if (symbolsInGeometryFile) {
       atomTypes.clear();
-      for (size_t i = 0; i < vs.size(); ++i) {
-        atomTypes.push_back(OpenBabel::OBElements::GetAtomicNum(vs.at(i).c_str()));
+      for (const auto & v : vs) {
+        atomTypes.push_back(OpenBabel::OBElements::GetAtomicNum(v.c_str()));
       }
       // Fetch next line to get stoichiometry
       ifs_cont.getline(buffer,BUFF_SIZE);
@@ -294,8 +294,8 @@ namespace OpenBabel {
     // Extract and sum the atom counts. The sum is used to parse the atomic
     // coordinates
     totalAtoms = 0;
-    for (unsigned int i = 0; i < vs.size(); i++) {
-      int currentCount = atoi(vs.at(i).c_str());
+    for (const auto & v : vs) {
+      int currentCount = atoi(v.c_str());
       numAtoms.push_back(currentCount);
       totalAtoms += currentCount;
     }
@@ -575,11 +575,10 @@ namespace OpenBabel {
     if (hasVibrations) {
       // compute dDip/dQ
       vector<double> Intensities;
-      for (vector<vector<vector3> >::const_iterator
-           lxIter = Lx.begin(); lxIter != Lx.end(); ++lxIter) {
+      for (const auto & lxIter : Lx) {
         vector3 intensity;
         for (size_t natom = 0; natom < dipGrad.size(); ++natom) {
-          intensity += dipGrad[natom].transpose() * lxIter->at(natom)
+          intensity += dipGrad[natom].transpose() * lxIter.at(natom)
               / sqrt(pmol->GetAtomById(natom)->GetAtomicMass());
         }
         Intensities.push_back(dot(intensity, intensity));
@@ -650,8 +649,8 @@ namespace OpenBabel {
     {
       vector<string> vs;
       tokenize(vs, sortAtomsCustom);
-      for(size_t i = 0; i < vs.size(); ++i)
-        custom_sort_nums.push_back(OBElements::GetAtomicNum(vs[i].c_str()));
+      for(const auto & v : vs)
+        custom_sort_nums.push_back(OBElements::GetAtomicNum(v.c_str()));
     }
 
     compare_sort_items csi(custom_sort_nums, sortAtomsNum != nullptr);
@@ -667,9 +666,9 @@ namespace OpenBabel {
     std::vector<std::pair<int, int> > atomicNums;    
     
     int prev_anum = -20; //not a periodic table number
-    for(int i = 0; i < atoms_sorted.size(); i++)
+    for(auto & i : atoms_sorted)
     {
-      const int anum = atoms_sorted[i]->GetAtomicNum();
+      const int anum = i->GetAtomicNum();
       
       if( prev_anum != anum )
       {
@@ -704,10 +703,9 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
-           i != cell.end(); ++i) {
+      for (const auto & i : cell) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
-                 i->x(), i->y(), i->z());
+                 i.x(), i.y(), i.z());
         ofs << buffer << endl;
       }
     }
@@ -716,20 +714,16 @@ namespace OpenBabel {
     // VASP 5 format
     const char *vasp4Format = pConv->IsOption("4", OBConversion::OUTOPTIONS);
     if (!vasp4Format) {
-      for (vector< std::pair<int, int> >::const_iterator
-           it = atomicNums.begin(),
-           it_end = atomicNums.end(); it != it_end; ++it) {
-        snprintf(buffer, BUFF_SIZE, "%-3s ", OBElements::GetSymbol(it->first));
+      for (const auto & atomicNum : atomicNums) {
+        snprintf(buffer, BUFF_SIZE, "%-3s ", OBElements::GetSymbol(atomicNum.first));
         ofs << buffer ;
       }
       ofs << endl;
     }
 
     // then do the same to write out the number of ions of each element
-    for (vector< std::pair<int, int> >::const_iterator
-           it = atomicNums.begin(),
-           it_end = atomicNums.end(); it != it_end; ++it) {
-      snprintf(buffer, BUFF_SIZE, "%-3u ", it->second);
+    for (const auto & atomicNum : atomicNums) {
+      snprintf(buffer, BUFF_SIZE, "%-3u ", atomicNum.second);
       ofs << buffer ;
     }
     ofs << endl;
@@ -750,19 +744,18 @@ namespace OpenBabel {
     // print the atomic coordinates in \AA
     ofs << "Cartesian" << endl;
 
-    for (std::vector<OBAtom *>::const_iterator it = atoms_sorted.begin();
-         it != atoms_sorted.end(); ++it) 
+    for (auto it : atoms_sorted) 
     {
       // Print coordinates
       snprintf(buffer,BUFF_SIZE, "%26.19f %26.19f %26.19f",
-               (*it)->GetX(), (*it)->GetY(), (*it)->GetZ());
+               it->GetX(), it->GetY(), it->GetZ());
       ofs << buffer;
 
       // if at least one atom has info about constraints
       if (selective) {
         // if this guy has, write it out
-        if ((*it)->HasData("move")) {
-          OBPairData *cp = (OBPairData*)(*it)->GetData("move");
+        if (it->HasData("move")) {
+          OBPairData *cp = (OBPairData*)it->GetData("move");
           // seemingly ridiculous number of digits is written out
           // but sometimes you just don't want to change them
           ofs << " " << cp->GetValue().c_str();
