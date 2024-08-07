@@ -136,14 +136,14 @@ namespace OpenBabel
       }
     }
     // Convert to vector so we have random access - note: these will be in sorted order
-    for (std::set<unsigned int>::iterator sit = reactant_components.begin(); sit != reactant_components.end(); ++sit)
-      _reactant_components.push_back(*sit);
-    for (std::set<unsigned int>::iterator sit = product_components.begin(); sit != product_components.end(); ++sit)
-      _product_components.push_back(*sit);
-    for (std::set<unsigned int>::iterator sit = agent_components.begin(); sit != agent_components.end(); ++sit)
-      _agent_components.push_back(*sit);
-    for (std::set<unsigned int>::iterator sit = unassigned_components.begin(); sit != unassigned_components.end(); ++sit)
-      _unassigned_components.push_back(*sit);
+    for (unsigned int reactant_component : reactant_components)
+      _reactant_components.push_back(reactant_component);
+    for (unsigned int product_component : product_components)
+      _product_components.push_back(product_component);
+    for (unsigned int agent_component : agent_components)
+      _agent_components.push_back(agent_component);
+    for (unsigned int unassigned_component : unassigned_components)
+      _unassigned_components.push_back(unassigned_component);
 
     _found_components = true;
   }

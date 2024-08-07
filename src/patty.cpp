@@ -182,15 +182,15 @@ namespace OpenBabel
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
               }
 
-            for (unsigned int j = 0; j < match.size(); ++j)
+            for (auto & j : match)
               {
                 if (debug)
                   {
                     stringstream errorMsg;
-                    errorMsg << match[j][0] << " ";
+                    errorMsg << j[0] << " ";
                     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
                   }
-                atm_typ[match[j][0]] = typ[i];
+                atm_typ[j[0]] = typ[i];
               }
           }
       }
@@ -217,15 +217,15 @@ namespace OpenBabel
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
               }
 
-            for (unsigned int j = 0; j < match.size(); ++j)
+            for (auto & j : match)
               {
                 if (debug)
                   {
                     stringstream errorMsg;
-                    errorMsg << match[j][0] << " ";
+                    errorMsg << j[0] << " ";
                     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
                   }
-                atm_typ[match[j][0]] = type_to_int(typ[i]);
+                atm_typ[j[0]] = type_to_int(typ[i]);
               }
           }
       }

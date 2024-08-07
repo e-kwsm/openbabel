@@ -1824,8 +1824,7 @@ namespace OpenBabel {
         return;
 
       OBAtom *a, *b, symmetric;
-      for (unsigned int idx = 0; idx < PairedAtoms.size(); ++idx) {
-          std::pair<int, int> atomPair = PairedAtoms[idx];
+      for (auto atomPair : PairedAtoms) {
           a = _mol->GetAtom(atomPair.first + 1); // ATOM INDEX ISSUE
           b = _mol->GetAtom(atomPair.second + 1);
           elem->transform_atom( elem, a, &symmetric ) ;   // ATOM INDEX ISSUE
