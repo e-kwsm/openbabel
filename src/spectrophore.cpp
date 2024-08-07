@@ -279,10 +279,8 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    double cos_phi;
    double sin_phi;
 
-   for (unsigned int i = 0; i < _rotationStepList.size(); ++i)
+   for (int rotationStep : _rotationStepList)
    {
-      int rotationStep(_rotationStepList[i]);
-
       for (int iTheta = 0; iTheta < 180; iTheta += rotationStep)
       {
          theta = 0.017453292519943 * iTheta;
@@ -415,26 +413,26 @@ OBSpectrophore::_getEnergies(double** c, double* e)
    double z2;
 
    // Distance between atom and each boxpoint
-   for (unsigned int boxPoint = 0; boxPoint < 12; ++boxPoint)
+   for (auto & boxPoint : _boxPoint)
    {
       // Reset value at box point
       for (unsigned int prop = 0; prop < N_PROPERTIES; ++prop)
       {
-         _boxPoint[boxPoint].v[prop] = 0.0;
+         boxPoint.v[prop] = 0.0;
       }
 
       // Calculate squared distances between atoms and boxpoints
       for (unsigned int atom = 0; atom < _nAtoms; ++atom)
       {
-         x2 = _boxPoint[boxPoint].x - c[atom][0];
-         y2 = _boxPoint[boxPoint].y - c[atom][1];
-         z2 = _boxPoint[boxPoint].z - c[atom][2];
+         x2 = boxPoint.x - c[atom][0];
+         y2 = boxPoint.y - c[atom][1];
+         z2 = boxPoint.z - c[atom][2];
          d = sqrt((x2 * x2) + (y2 * y2) + (z2 * z2));
 
          // Calculate the potential at each box point
          for (unsigned int prop = 0; prop < N_PROPERTIES; ++prop)
          {
-            _boxPoint[boxPoint].v[prop] += _property[atom][prop] / d;
+            boxPoint.v[prop] += _property[atom][prop] / d;
          }
       }
    }
@@ -693,9 +691,9 @@ OBSpectrophore::_orient(void)
             COG[j] += _oricoor[i][j];
         }
     }
-    for (unsigned int j = 0; j < 3; ++j)
+    for (double & j : COG)
     {
-        COG[j] /= _nAtoms;
+        j /= _nAtoms;
     }
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
@@ -753,9 +751,9 @@ OBSpectrophore::_orient(void)
             COG[j] += _oricoor[i][j];
         }
     }
-    for (unsigned int j = 0; j < 3; ++j)
+    for (double & j : COG)
     {
-        COG[j] /= _nAtoms;
+        j /= _nAtoms;
     }
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {

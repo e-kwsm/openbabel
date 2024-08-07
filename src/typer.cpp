@@ -833,18 +833,18 @@ namespace OpenBabel
         for (k = sssRings.begin();k != sssRings.end();++k)
           {
             tmp = (*k)->_path;
-            for (unsigned int j (0),j_end(tmp.size()); j < j_end; ++j)
+            for (int j : tmp)
               {
-                ringAtoms[tmp[j]].push_back(*k);
+                ringAtoms[j].push_back(*k);
               }
           }
       }
 
 
     //loop over closure bonds
-    for(OBBondIterator bd(cbonds.begin()),bd_end(cbonds.end());bd!=bd_end;++bd)
+    for(auto & cbond : cbonds)
       {
-        bond = *bd;
+        bond = cbond;
 
         // BASIC APPROACH
         // pick beginning atom at closure bond
@@ -889,9 +889,9 @@ namespace OpenBabel
                         int rootAtomNumber=0;
                         int idx=0;
                         // avoiding two root atoms in one ring !
-                        for (unsigned int j = 0; j < tmpRootAtoms.size(); ++j)
+                        for (int tmpRootAtom : tmpRootAtoms)
                           {
-                            idx= tmpRootAtoms[j];
+                            idx= tmpRootAtom;
                             if(ring->IsInRing(idx))
                               {
                                 rootAtomNumber++;
@@ -901,17 +901,17 @@ namespace OpenBabel
                           }
                         if(rootAtomNumber<2)
                           {
-                            for (unsigned int j = 0; j < tmp.size(); ++j)
+                            for (int j : tmp)
                               {
                                 // find critical ring
-                                if (tmp[j] == rootAtom)
+                                if (j == rootAtom)
                                   {
                                     checkThisRing = true;
                                   }
                                 else
                                   {
                                     // second root atom in this ring ?
-                                    if (_root[tmp[j]] == true)
+                                    if (_root[j] == true)
                                       {
                                         // when there is a second root
                                         // atom this ring can not be
@@ -930,11 +930,11 @@ namespace OpenBabel
                         if (checkThisRing)
                           {
                             // check if we can find another root atom
-                            for (unsigned int m = 0; m < tmp.size(); ++m)
+                            for (int m : tmp)
                               {
                                 ringNbrs = heavyNbrs = 0;
-                                for (nbr2 = (mol.GetAtom(tmp[m]))->BeginNbrAtom(nbr2Iter);
-                                     nbr2;nbr2 = (mol.GetAtom(tmp[m]))->NextNbrAtom(nbr2Iter))
+                                for (nbr2 = (mol.GetAtom(m))->BeginNbrAtom(nbr2Iter);
+                                     nbr2;nbr2 = (mol.GetAtom(m))->NextNbrAtom(nbr2Iter))
                                   {
                                     if (nbr2->GetAtomicNum() != OBElements::Hydrogen)
                                       {
@@ -948,9 +948,9 @@ namespace OpenBabel
                                 // if the number of neighboured heavy atoms is also
                                 // the number of neighboured ring atoms, the aromaticity
                                 // typer could be stuck in a local traversing trap
-                                if (ringNbrs <= 2 && ring->IsInRing((mol.GetAtom(tmp[m])->GetIdx())))
+                                if (ringNbrs <= 2 && ring->IsInRing((mol.GetAtom(m)->GetIdx())))
                                   {
-                                    newRoot = tmp[m];
+                                    newRoot = m;
                                   }
                               }
                           }
