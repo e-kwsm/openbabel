@@ -117,9 +117,9 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
       obErrorLog.ThrowError(__FUNCTION__, "Cannot keep fractional coordinates without unit cell!" , obWarning);
       return false;
     }
-    for(int i = 0; i < vcvs.size(); i++)
+    for(auto & vcv : vcvs)
     {
-      if( vcvs[i].mult )
+      if( vcv.mult )
       {
         obErrorLog.ThrowError(__FUNCTION__, "Cannot multiply sizes without unit cell!" , obWarning);
         return false;

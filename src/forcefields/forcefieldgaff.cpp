@@ -260,12 +260,12 @@ namespace OpenBabel
     string _b(b);
     string _c(c);
     string _d(d);
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
-	   (_c == parameter[idx]._c) && (_d == parameter[idx]._d)) ||
-	  ((_a == parameter[idx]._c) && (_b == parameter[idx]._b) &&
-	   (_c == parameter[idx]._a) && (_d == parameter[idx]._d))) {
-	par = &parameter[idx];
+    for (auto & idx : parameter)
+      if (((_a == idx._a) && (_b == idx._b) &&
+	   (_c == idx._c) && (_d == idx._d)) ||
+	  ((_a == idx._c) && (_b == idx._b) &&
+	   (_c == idx._a) && (_d == idx._d))) {
+	par = &idx;
 	return par;
       }
     return nullptr;
@@ -548,8 +548,8 @@ namespace OpenBabel
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
         bool validBond = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validBond = true;
         }
         if (!validBond)
@@ -609,9 +609,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the three angle atoms are in a single intraGroup
       if (HasGroups()) {
         bool validAngle = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx()))
             validAngle = true;
         }
         if (!validAngle)
@@ -677,9 +677,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the four torsion atoms are in a single intraGroup
       if (HasGroups()) {
         bool validTorsion = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx()) && i.BitIsSet(d->GetIdx()))
             validTorsion = true;
         }
         if (!validTorsion)
@@ -762,9 +762,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the four improper-dihedral atoms are in a single intraGroup
       if (HasGroups()) {
 	bool validOOP = false;
-	for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-	  if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-	      _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx()))
+	for (const auto & i : _intraGroup) {
+	  if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+	      i.BitIsSet(c->GetIdx()) && i.BitIsSet(d->GetIdx()))
 	    validOOP = true;
 	}
 	if (!validOOP)
@@ -923,14 +923,14 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validVDW = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validVDW = true;
         }
-        for (unsigned int i=0; i < _interGroups.size(); ++i) {
-          if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+        for (auto & _interGroup : _interGroups) {
+          if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx()))
             validVDW = true;
-          if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx()))
             validVDW = true;
         }
 
@@ -1025,14 +1025,14 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validEle = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validEle = true;
         }
-        for (unsigned int i=0; i < _interGroups.size(); ++i) {
-          if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+        for (auto & _interGroup : _interGroups) {
+          if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx()))
             validEle = true;
-          if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx()))
             validEle = true;
         }
 
@@ -1059,16 +1059,16 @@ namespace OpenBabel
 
   bool OBForceFieldGaff::SetupPointers()
   {
-    for (unsigned int i = 0; i < _bondcalculations.size(); ++i)
-      _bondcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _anglecalculations.size(); ++i)
-      _anglecalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _torsioncalculations.size(); ++i)
-      _torsioncalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _vdwcalculations.size(); ++i)
-      _vdwcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _electrostaticcalculations.size(); ++i)
-      _electrostaticcalculations[i].SetupPointers();
+    for (auto & _bondcalculation : _bondcalculations)
+      _bondcalculation.SetupPointers();
+    for (auto & _anglecalculation : _anglecalculations)
+      _anglecalculation.SetupPointers();
+    for (auto & _torsioncalculation : _torsioncalculations)
+      _torsioncalculation.SetupPointers();
+    for (auto & _vdwcalculation : _vdwcalculations)
+      _vdwcalculation.SetupPointers();
+    for (auto & _electrostaticcalculation : _electrostaticcalculations)
+      _electrostaticcalculation.SetupPointers();
 
     return true;
   }

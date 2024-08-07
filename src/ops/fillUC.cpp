@@ -165,16 +165,15 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   FOR_ATOMS_OF_MOL(atom, *pmol)
       vatoms[&(*atom)]=std::vector<vector3>();
 
-  for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-      atom!=vatoms.end();++atom){
-    vector3 orig = atom->first->GetVector();
+  for(auto & vatom : vatoms){
+    vector3 orig = vatom.first->GetVector();
     orig = pUC->CartesianToFractional(orig);// To fractional coordinates
 
     // Loop over symmetry operators
     transform3dIterator ti;
     const transform3d *t = pSG->BeginTransform(ti);
     while(t){
-      atom->second.push_back ( (transform3d)(*t) * orig);
+      vatom.second.push_back ( (transform3d)(*t) * orig);
       t = pSG->NextTransform(ti);
     }
   }
@@ -183,30 +182,27 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
     // First, bring back all symmetrical molecules back in the UC
     for(unsigned int i=0;i<vatoms.begin()->second.size();++i){
       vector3 ccoord(0,0,0);//geometrical center
-      for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
-        ccoord+=atom->second[i];
+      for(auto & vatom : vatoms){
+        ccoord+=vatom.second[i];
       }
       ccoord /=vatoms.size();
       ccoord=fuzzyWrapFractionalCoordinate(ccoord)-ccoord;
-      for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
-        atom->second[i]+=ccoord;
+      for(auto & vatom : vatoms){
+        vatom.second[i]+=ccoord;
       }
     }
     // Now add atoms that are not duplicates
-    for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
-      for(unsigned int i=1;i<atom->second.size();++i){
+    for(auto & vatom : vatoms){
+      for(unsigned int i=1;i<vatom.second.size();++i){
         bool foundDuplicate = false;
         for(unsigned int j=0;j<i;++j){
-          if(areDuplicateAtoms2(atom->second[i],atom->second[j])){
+          if(areDuplicateAtoms2(vatom.second[i],vatom.second[j])){
             foundDuplicate=true;
             break;
           }
         }
         if(!foundDuplicate){
-          vector3 transformed = pUC->FractionalToCartesian(atom->second[i]);
+          vector3 transformed = pUC->FractionalToCartesian(vatom.second[i]);
           // let's make sure there isn't some *other* atom that's in this spot
           bool foundCartesianDuplicate = false;
           FOR_ATOMS_OF_MOL(a, *pmol) {
@@ -219,7 +215,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
 
           if (!foundCartesianDuplicate) {
             OBAtom *newAtom = pmol->NewAtom();
-            newAtom->Duplicate(atom->first);
+            newAtom->Duplicate(vatom.first);
             newAtom->SetVector( transformed );
           }
         }
@@ -230,22 +226,21 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   else{
     if(0!=strncasecmp(OptionText, "strict", 6))
       obErrorLog.ThrowError(__FUNCTION__, "fillUC: lacking \"strict\n or \"keepconnect\" option, using strict" , obWarning);
-    for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
-        atom!=vatoms.end();++atom){
+    for(auto & vatom : vatoms){
       // Bring back within unit cell
-      for(unsigned int i=0;i<atom->second.size();++i){
-        atom->second[i]=fuzzyWrapFractionalCoordinate(atom->second[i]);
+      for(unsigned int i=0;i<vatom.second.size();++i){
+        vatom.second[i]=fuzzyWrapFractionalCoordinate(vatom.second[i]);
       }
-      for(unsigned int i=1;i<atom->second.size();++i){
+      for(unsigned int i=1;i<vatom.second.size();++i){
         bool foundDuplicate = false;
         for(unsigned int j=0;j<i;++j){
-          if(areDuplicateAtoms2(atom->second[i],atom->second[j])){
+          if(areDuplicateAtoms2(vatom.second[i],vatom.second[j])){
             foundDuplicate=true;
             break;
           }
         }
         if(!foundDuplicate){
-          vector3 transformed = pUC->FractionalToCartesian(atom->second[i]);
+          vector3 transformed = pUC->FractionalToCartesian(vatom.second[i]);
           // let's make sure there isn't some *other* atom that's in this spot
           bool foundCartesianDuplicate = false;
           FOR_ATOMS_OF_MOL(a, *pmol) {
@@ -258,7 +253,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
 
           if (!foundCartesianDuplicate) {
             OBAtom *newAtom = pmol->NewAtom();
-            newAtom->Duplicate(atom->first);
+            newAtom->Duplicate(vatom.first);
             newAtom->SetVector( transformed );
           }
         }
