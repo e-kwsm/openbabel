@@ -174,10 +174,10 @@ void test_AromaticTripleBond()
   OBConversion conv;
   conv.SetInFormat("smi");
 
-  for (int i = 0; i < 2; ++i)
+  for (auto & smi : smis)
   {
     OBMol mol;
-    conv.ReadString(&mol, smis[i]);
+    conv.ReadString(&mol, smi);
     bool hasTripleBond = false;
     FOR_BONDS_OF_MOL(bond, mol)
     {

@@ -325,8 +325,8 @@ namespace OpenBabel
   {
     std::vector<int> indexes = ring->_path;
     vector3 center(VZero);
-    for (std::vector<int>::iterator l = indexes.begin(); l != indexes.end(); ++l) {
-      center += mol->GetAtom(*l)->GetVector();
+    for (int & indexe : indexes) {
+      center += mol->GetAtom(indexe)->GetVector();
     }
     center /= indexes.size();
 
@@ -477,8 +477,7 @@ namespace OpenBabel
     // - note that OBBond->IsInRing() includes bonds not included in the SSSR as the SSSR excludes very large rings
     std::vector<OBRing*> rings(mol->GetSSSR());
     OBBitVec ringBonds;
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
-      OBRing *ring = *k;
+    for (auto ring : rings) {
       std::vector<int> indexes = ring->_path;
       for (unsigned int l = 0; l < indexes.size(); ++l) {
         OBAtom *begin = d->mol->GetAtom(indexes[l]);
@@ -531,14 +530,12 @@ namespace OpenBabel
     OBBitVec drawnBonds;
     // draw aromatic rings first, looks better since all double bonds will
     // be inside aromatic rings
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
-      OBRing *ring = *k;
+    for (auto ring : rings) {
       if (ring->IsAromatic())
         d->DrawAromaticRing(ring, drawnBonds);
     }
     // draw aliphatic rings
-    for (std::vector<OBRing*>::iterator k = rings.begin(); k != rings.end(); ++k) {
-      OBRing *ring = *k;
+    for (auto ring : rings) {
       if (!ring->IsAromatic())
         d->DrawRing(ring, drawnBonds);
     }
@@ -719,8 +716,7 @@ namespace OpenBabel
     oldx = begin.x();
     oldy = begin.y();
     int sign = 1;
-    for (int k = 0; k < 6; ++k) {
-      double w = lines[k];
+    for (double w : lines) {
       newx = begin.x() + vb.x() * w + sign * orthogonalLine.x() * w;
       newy = begin.y() + vb.y() * w + sign * orthogonalLine.y() * w;
       painter->DrawLine(oldx, oldy, newx, newy);
@@ -774,8 +770,7 @@ namespace OpenBabel
     double lines[6] = { 0.20, 0.36, 0.52, 0.68, 0.84, 1.0 };
     double oldwidth = painter->GetPenWidth();
     painter->SetPenWidth(1);
-    for (int k = 0; k < 6; ++k) {
-      double w = lines[k];
+    for (double w : lines) {
       painter->DrawLine(begin.x() + vb.x() * w + orthogonalLine.x() * w,
                         begin.y() + vb.y() * w + orthogonalLine.y() * w,
                         begin.x() + vb.x() * w - orthogonalLine.x() * w,
@@ -1142,8 +1137,7 @@ namespace OpenBabel
     const double lines[6] = { 0.20, 0.36, 0.52, 0.68, 0.84, 1.0 };
     const double oldwidth = painter->GetPenWidth();
     painter->SetPenWidth(1);
-    for (int k = 0; k < 6; ++k) {
-      const double w = lines[k];
+    for (double w : lines) {
       painter->DrawLine(begin.x() + vb.x() * w + orthogonalLine.x() * w,
                         begin.y() + vb.y() * w + orthogonalLine.y() * w,
                         begin.x() + vb.x() * w - orthogonalLine.x() * w,
@@ -1180,9 +1174,9 @@ OBBitVec& drawnBonds)
     const size_t ringSize = indexes.size();
     vector3 center(VZero);
     double maxdist =0.;
-    for (std::vector<int>::const_iterator l = indexes.begin(); l != indexes.end(); ++l) {
-      center += mol->GetAtom(*l)->GetVector();
-      maxdist = max(maxdist, GetAtomRadius(mol->GetAtom(*l)));
+    for (int indexe : indexes) {
+      center += mol->GetAtom(indexe)->GetVector();
+      maxdist = max(maxdist, GetAtomRadius(mol->GetAtom(indexe)));
     }
     center /= ringSize;
 

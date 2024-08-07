@@ -23,10 +23,10 @@ namespace OpenBabel {
     Config u1, u2;
     if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
       // find a ref that occurs in both
-      for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
-        if (OBStereo::ContainsRef(other.refs, *i)) {
-          u1 = OBTetraPlanarStereo::ToConfig(*this, *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
-          u2 = OBTetraPlanarStereo::ToConfig(other, *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
+      for (unsigned long ref : refs)
+        if (OBStereo::ContainsRef(other.refs, ref)) {
+          u1 = OBTetraPlanarStereo::ToConfig(*this, ref, OBStereo::ShapeU); // refs[0] = u1.refs[0]
+          u2 = OBTetraPlanarStereo::ToConfig(other, ref, OBStereo::ShapeU); // refs[0] = u2.refs[0]
         }
 
       // check if they actualy share an id...
@@ -355,9 +355,9 @@ namespace std {
     out << ", end = " << cfg.end;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OpenBabel::OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (unsigned long & ref : cfg.refs)
+      if (ref != OpenBabel::OBStereo::ImplicitRef)
+        out << ref << " ";
       else
         out << "H ";
 
@@ -382,9 +382,9 @@ namespace std {
     out << ", end = " << cfg.end;
 
     out << ", refs = ";
-    for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
-      if (*i != OpenBabel::OBStereo::ImplicitRef)
-        out << *i << " ";
+    for (unsigned long ref : cfg.refs)
+      if (ref != OpenBabel::OBStereo::ImplicitRef)
+        out << ref << " ";
       else
         out << "H ";
 

@@ -214,11 +214,11 @@ namespace OpenBabel {
         else
           nbrs.push_back(_mol.GetAtomById(config.from)->GetIdx()-1);
 
-        for(size_t i=0; i<config.refs.size(); i++) {
-          if (config.refs[i] == OBStereo::ImplicitRef)
+        for(unsigned long ref : config.refs) {
+          if (ref == OBStereo::ImplicitRef)
             nbrs.push_back(centerIdx);
           else
-            nbrs.push_back(_mol.GetAtomById(config.refs[i])->GetIdx()-1);
+            nbrs.push_back(_mol.GetAtomById(ref)->GetIdx()-1);
         }
 
         if(config.winding == OBStereo::Clockwise) {
@@ -538,9 +538,9 @@ namespace OpenBabel {
     // Get CisTransStereos and make a vector of corresponding OBStereoUnits
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         if (ct->GetConfig().specified) {
           // OK, get the central bond (bc) and check all the bonded atoms for proper stereo
           b = _mol.GetAtomById(ct->GetConfig().begin);
@@ -699,9 +699,9 @@ namespace OpenBabel {
 
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         if (ct->GetConfig().specified) {
           // OK, get the central bond (bc) and check all the bonded atoms for proper stereo
           b = _mol.GetAtomById(ct->GetConfig().begin);
@@ -1361,8 +1361,7 @@ namespace OpenBabel {
         }
     }
     // calculate distance error
-    for(size_t i = 0; i < owner->_stereo.size(); i++) {
-      TetrahedralInfo tetra = owner->_stereo[i];
+    for(auto tetra : owner->_stereo) {
       vector<unsigned long> nbrs = tetra.GetNeighbors();
       Eigen::Vector3d v1 = x.segment<3>(nbrs[0] * dim);
       Eigen::Vector3d v2 = x.segment<3>(nbrs[1] * dim);
@@ -1402,8 +1401,7 @@ namespace OpenBabel {
       }
     }
     // gradient for chiral error
-    for(size_t i = 0; i < owner->_stereo.size(); i++) {
-      TetrahedralInfo tetra = owner->_stereo[i];
+    for(auto tetra : owner->_stereo) {
       vector<unsigned long> nbrs = tetra.GetNeighbors();
       const auto idx1 = nbrs[0], idx2 = nbrs[1], idx3 = nbrs[2], idx4 = nbrs[3];
 
@@ -1457,8 +1455,7 @@ namespace OpenBabel {
         }
     }
     // calculate distance error
-    for(size_t i = 0; i < owner->_stereo.size(); i++) {
-      TetrahedralInfo tetra = owner->_stereo[i];
+    for(auto tetra : owner->_stereo) {
       vector<unsigned long> nbrs = tetra.GetNeighbors();
       Eigen::Vector3d v1 = x.segment<3>(nbrs[0] * dim);
       Eigen::Vector3d v2 = x.segment<3>(nbrs[1] * dim);
@@ -1498,8 +1495,7 @@ namespace OpenBabel {
       }
     }
     // gradient for chiral error
-    for(size_t i = 0; i < owner->_stereo.size(); i++) {
-      TetrahedralInfo tetra = owner->_stereo[i];
+    for(auto tetra : owner->_stereo) {
       vector<unsigned long> nbrs = tetra.GetNeighbors();
       const auto idx1 = nbrs[0], idx2 = nbrs[1], idx3 = nbrs[2], idx4 = nbrs[3];
 

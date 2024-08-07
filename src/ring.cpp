@@ -189,10 +189,10 @@ namespace OpenBabel
     // Remove larger rings that cover the same atoms as smaller rings.
     //
     mask.Clear();
-    for (unsigned int j = 0; j < rlist.size(); ++j)
+    for (auto & j : rlist)
       // Here we select only smaller rings.
-      if (rlist[j]->_path.size() < ring->_path.size())
-        mask |= rlist[j]->_pathset;
+      if (j->_path.size() < ring->_path.size())
+        mask |= j->_pathset;
 
     mask = mask & ring->_pathset;
 
@@ -201,18 +201,18 @@ namespace OpenBabel
     // Translate ring atom indexes to ring bond indexes.
     std::vector<unsigned int> bonds = atomRingToBondRing(mol, ring->_path);
     OBBitVec bondset;
-    for (unsigned int i = 0; i < bonds.size(); ++i)
-      bondset.SetBitOn(bonds[i]);
+    for (unsigned int bond : bonds)
+      bondset.SetBitOn(bond);
 
     //
     // Remove larger rings that cover the same bonds as smaller rings.
     //
     mask.Clear();
-    for (unsigned int j = 0; j < rlist.size(); ++j) {
-      std::vector<unsigned int> otherBonds = atomRingToBondRing(mol, rlist[j]->_path);
+    for (auto & j : rlist) {
+      std::vector<unsigned int> otherBonds = atomRingToBondRing(mol, j->_path);
       OBBitVec bs;
-      for (unsigned int i = 0; i < otherBonds.size(); ++i)
-        bs.SetBitOn(otherBonds[i]);
+      for (unsigned int otherBond : otherBonds)
+        bs.SetBitOn(otherBond);
 
       // Here we select only smaller rings.
       if (otherBonds.size() < bonds.size())
@@ -335,11 +335,11 @@ namespace OpenBabel
     if (frj < 0) {
       OBMol *mol = _rlist[0]->GetParent();
       std::vector<OBRing*> rlist, rignored;
-      for (unsigned int i = 0; i < _rlist.size(); ++i) {
-        visitRing(mol, _rlist[i], rlist, rignored);
+      for (auto & i : _rlist) {
+        visitRing(mol, i, rlist, rignored);
       }
-      for (unsigned int i = 0; i < rignored.size(); ++i)
-        delete rignored[i];
+      for (auto & i : rignored)
+        delete i;
       _rlist = rlist;
       return;
     }
@@ -442,8 +442,8 @@ namespace OpenBabel
         delete *i;
 
     // set parent for all rings
-    for (unsigned int j = 0; j < _rlist.size(); ++j)
-      _rlist[j]->SetParent(&mol);
+    for (auto & j : _rlist)
+      j->SetParent(&mol);
   }
 
   bool OBRingSearch::SaveUniqueRing(deque<int> &d1,deque<int> &d2)

@@ -296,9 +296,9 @@ void AliasData::DeleteExpandedAtoms(OBMol& mol)
 {
   //The atom that carries the AliasData object remains as an Xx atom with no charge;
   //the others are deleted. All the attached hydrogens are also deleted.
-  for(unsigned i=0;i<_expandedatoms.size();++i)
+  for(unsigned _expandedatom : _expandedatoms)
   {
-    OBAtom* at = mol.GetAtomById(_expandedatoms[i]);
+    OBAtom* at = mol.GetAtomById(_expandedatom);
     if(!at)
       continue;
     mol.DeleteHydrogens(at);
@@ -347,14 +347,14 @@ bool AliasData::AddAliases(OBMol* pmol)
     if((*iter).second->Match(*pmol))
     {
       vector<std::vector<int> > mlist = (*iter).second->GetUMapList();
-      for(unsigned imatch=0;imatch<mlist.size();++imatch) //each match
+      for(auto & imatch : mlist) //each match
       {
         AliasData* ad  = new AliasData;
         ad->SetAlias((*iter).first);
         //iatom==0 is the * that was added to the front of the SMILES, so start at 1
-        for(unsigned iatom=1; iatom<mlist[imatch].size();++iatom)//each atom in match
+        for(unsigned iatom=1; iatom<imatch.size();++iatom)//each atom in match
         {
-          int idx = mlist[imatch][iatom];
+          int idx = imatch[iatom];
 
           if(AllExAtoms.count(idx))
           {
@@ -376,7 +376,7 @@ bool AliasData::AddAliases(OBMol* pmol)
           }
         }
         if(ad)
-          pmol->GetAtom(mlist[imatch][1])->SetData(ad);//attach alias to first expanded atom
+          pmol->GetAtom(imatch[1])->SetData(ad);//attach alias to first expanded atom
       }
     }
   }

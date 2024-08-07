@@ -29,9 +29,9 @@ std::string test_singleTetrahedral(const std::string &file,
   OB_ASSERT( stereoData.size() == 1 );
 
   // compare the stereochemistry
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+  for (auto & data : stereoData) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
       OB_ASSERT( ts->GetConfig() == correct );
       if ( ts->GetConfig() != correct ) {
         cout << "found = " << ts->GetConfig() << endl;
@@ -84,9 +84,9 @@ std::string test_singleCisTrans(const std::string &file,
   OB_ASSERT( stereoData.size() == 1 );
 
   // compare the stereochemistry
-  for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+  for (auto & data : stereoData) {
+    if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       OB_ASSERT( ct->GetConfig() == correct );
       if ( ct->GetConfig() != correct ) {
         cout << "found = " << ct->GetConfig() << endl;

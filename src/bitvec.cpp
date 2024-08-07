@@ -279,9 +279,8 @@ namespace OpenBabel
   unsigned OBBitVec::CountBits() const
   {
     unsigned count = 0;
-    for (word_vector::const_iterator sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
+    for (unsigned int word : _set)
       {
-      uint32_t word = *sx;
       while (word)
         {
         count += nibble_bit_count[word & 0xF];
@@ -296,8 +295,8 @@ namespace OpenBabel
   */
   bool OBBitVec::IsEmpty() const
   {
-    for (word_vector::const_iterator sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
-      if (* sx)
+    for (unsigned int sx : _set)
+      if (sx)
         return(false);
 
     return(true);
@@ -308,8 +307,8 @@ namespace OpenBabel
   */
   void OBBitVec::FromVecInt(const std::vector<int> & bit_offsets)
   {
-    for (std::vector<int>::const_iterator i = bit_offsets.begin(), j = bit_offsets.end(); i != j; ++i)
-      SetBitOn(* i);
+    for (int bit_offset : bit_offsets)
+      SetBitOn(bit_offset);
   }
   /** Sets bits on, listed as a string of character-represented integers
       This bit vector is first cleared.
@@ -343,14 +342,14 @@ namespace OpenBabel
         startpos = endpos + 1;
       }
 
-    for (unsigned int i = 0 ; i < tokens.size() ; i++ )
+    for (const auto & token : tokens)
       {
-        if ( tokens[i] == "[" )
+        if ( token == "[" )
           continue;
-        else if ( tokens[i] == "]" )
+        else if ( token == "]" )
           break;
 
-        int bit = atoi(tokens[i].c_str());
+        int bit = atoi(token.c_str());
 
         if (bit >= 0)
           SetBitOn(bit);
@@ -380,8 +379,8 @@ namespace OpenBabel
   */
   void OBBitVec::Clear()
   {
-    for (word_vector::iterator wx = _set.begin(), wy = _set.end(); wx != wy; ++wx)
-      * wx = 0;
+    for (unsigned int & wx : _set)
+      wx = 0;
   }
 
   /** Assign this vector to be a copy of \p bv
@@ -610,14 +609,14 @@ namespace OpenBabel
         startpos = endpos + 1;
       }
 
-    for (unsigned int i = 0 ; i < tokens.size() ; i++ )
+    for (const auto & token : tokens)
       {
-        if ( tokens[i] == "[" )
+        if ( token == "[" )
           continue;
-        else if ( tokens[i] == "]" )
+        else if ( token == "]" )
           break;
 
-        int bit = atoi(tokens[i].c_str());
+        int bit = atoi(token.c_str());
 
         if (bit >= 0)
           bv.SetBitOn(bit);

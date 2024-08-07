@@ -263,18 +263,18 @@ namespace OpenBabel {
                   buffer[0] == 'K' || buffer[0] == 'k' );
 
     atomCount = 0;
-    for(unsigned int i = 0; i < atom_t_prop.size(); i++)
+    for(auto & i : atom_t_prop)
     {
       bool err_break = false;
-      for(unsigned int j = 0; j < atom_t_prop[i].num_of_atoms; j++)
+      for(unsigned int j = 0; j < i.num_of_atoms; j++)
       {
         ifs_posff.getline(buffer, BUFF_SIZE); // atom location
         // Parse the buffer now.
         tokenize(vs, buffer);
         atom = pmol->NewAtom();
-        atom->SetAtomicNum(atom_t_prop[i].atom_etab_num);
+        atom->SetAtomicNum(i.atom_etab_num);
         
-        err_break = ( vs.size() < 4 ) || ( vs[0] != atom_t_prop[i].atom_symbol );
+        err_break = ( vs.size() < 4 ) || ( vs[0] != i.atom_symbol );
         if (err_break)
           break;
 
@@ -285,7 +285,7 @@ namespace OpenBabel {
         if (!cartesian)
           coords = cell->FractionalToCartesian( coords );
         atom->SetVector(coords);
-        atom->SetFormalCharge(atom_t_prop[i].atom_charge);
+        atom->SetFormalCharge(i.atom_charge);
         atomCount++;
       }
       if (err_break)
@@ -325,11 +325,11 @@ namespace OpenBabel {
       vs.push_back(atom_index  - left.atom_index);
       
       bool less = false;
-      for(int i = 0; i < vs.size(); i++)      
+      for(int v : vs)      
       {
-        if( vs[i] != 0)
+        if( v != 0)
         {  
-          less = vs[i] < 0;
+          less = v < 0;
           break;
         }  
       }
@@ -429,26 +429,25 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
-           i != cell.end(); ++i) {
+      for (const auto & i : cell) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
-                 i->x(), i->y(), i->z());
+                 i.x(), i.y(), i.z());
         ofs << buffer << endl;
       }
     }
     //Print the number of atoms types
     ofs <<  atypes_def.size() << endl;
     
-    for (int i = 0; i < atypes_def.size(); i++)
+    for (auto & i : atypes_def)
     {
-      snprintf(buffer, BUFF_SIZE, "%-3s ", atypes_def[i].first.c_str());
+      snprintf(buffer, BUFF_SIZE, "%-3s ", i.first.c_str());
       ofs << buffer ;
     }
     ofs << endl;
     
-    for (int i = 0; i < atypes_def.size(); i++)
+    for (auto & i : atypes_def)
     {
-      snprintf(buffer, BUFF_SIZE, "%-3u ", atypes_def[i].second);
+      snprintf(buffer, BUFF_SIZE, "%-3u ", i.second);
       ofs << buffer ;
     }
     ofs << endl;
@@ -496,14 +495,14 @@ namespace OpenBabel {
       else if (i == 3)
         ofs_ions << " qch = " ;
         
-      for(int j = 0; j < atypes_def.size(); j++)
+      for(auto & j : atypes_def)
       {
         if( (i == 0) || (i == 2) )
-          ofs_ions << atypes_def[j].first << "  ";
+          ofs_ions << j.first << "  ";
         else if (i == 1)
-          ofs_ions << OBElements::GetMass(OBElements::GetAtomicNum(atypes_def[j].first.c_str())) << "d0 ";
+          ofs_ions << OBElements::GetMass(OBElements::GetAtomicNum(j.first.c_str())) << "d0 ";
         else if (i == 3)
-          ofs_ions << charge_smb[atypes_def[j].first] << "d0 ";
+          ofs_ions << charge_smb[j.first] << "d0 ";
       }
       ofs_ions << endl;
     }

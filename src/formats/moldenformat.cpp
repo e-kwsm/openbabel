@@ -328,9 +328,8 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       pmol->SetEnergies(energies);
 
     if (conformers.size() > 0) {
-      for (unsigned int i = 0; i < conformers.size(); ++i) {
+      for (auto coordinates : conformers) {
         double *confCoord = new double [3*pmol->NumAtoms()];
-        vector<vector3> coordinates = conformers[i];
         if (coordinates.size() != pmol->NumAtoms())
           cerr << " Wrong number of coordinates! " << endl;
         for (unsigned int a = 0; a < coordinates.size(); ++a) {

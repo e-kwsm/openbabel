@@ -448,8 +448,8 @@ namespace OpenBabel
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
         bool validBond = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validBond = true;
         }
         if (!validBond)
@@ -514,9 +514,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the three angle atoms are in a single intraGroup
       if (HasGroups()) {
         bool validAngle = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx()))
             validAngle = true;
         }
         if (!validAngle)
@@ -584,9 +584,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the four torsion atoms are in a single intraGroup
       if (HasGroups()) {
         bool validTorsion = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx()))
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx()) && i.BitIsSet(d->GetIdx()))
             validTorsion = true;
         }
         if (!validTorsion)
@@ -697,14 +697,14 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validVDW = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validVDW = true;
         }
-        for (unsigned int i=0; i < _interGroups.size(); ++i) {
-          if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+        for (auto & _interGroup : _interGroups) {
+          if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx()))
             validVDW = true;
-          if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx()))
             validVDW = true;
         }
 
@@ -800,14 +800,14 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validEle = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()))
             validEle = true;
         }
-        for (unsigned int i=0; i < _interGroups.size(); ++i) {
-          if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+        for (auto & _interGroup : _interGroups) {
+          if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx()))
             validEle = true;
-          if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx()))
             validEle = true;
         }
 
@@ -835,16 +835,16 @@ namespace OpenBabel
 
   bool OBForceFieldGhemical::SetupPointers()
   {
-    for (unsigned int i = 0; i < _bondcalculations.size(); ++i)
-      _bondcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _anglecalculations.size(); ++i)
-      _anglecalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _torsioncalculations.size(); ++i)
-      _torsioncalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _vdwcalculations.size(); ++i)
-      _vdwcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _electrostaticcalculations.size(); ++i)
-      _electrostaticcalculations[i].SetupPointers();
+    for (auto & _bondcalculation : _bondcalculations)
+      _bondcalculation.SetupPointers();
+    for (auto & _anglecalculation : _anglecalculations)
+      _anglecalculation.SetupPointers();
+    for (auto & _torsioncalculation : _torsioncalculations)
+      _torsioncalculation.SetupPointers();
+    for (auto & _vdwcalculation : _vdwcalculations)
+      _vdwcalculation.SetupPointers();
+    for (auto & _electrostaticcalculation : _electrostaticcalculations)
+      _electrostaticcalculation.SetupPointers();
 
     return true;
   }
@@ -1055,13 +1055,13 @@ namespace OpenBabel
       string _a(a->GetType());
       string _b(b->GetType());
 
-      for (unsigned int idx=0; idx < _ffchargeparams.size(); ++idx) {
-        if (((_a == _ffchargeparams[idx]._a) && (_b == _ffchargeparams[idx]._b)) && (bondtype == _ffchargeparams[idx]._ipar[0])) {
-          a->SetPartialCharge(a->GetPartialCharge() - _ffchargeparams[idx]._dpar[0]);
-          b->SetPartialCharge(b->GetPartialCharge() + _ffchargeparams[idx]._dpar[0]);
-        } else if (((_a == _ffchargeparams[idx]._b) && (_b == _ffchargeparams[idx]._a)) && (bondtype == _ffchargeparams[idx]._ipar[0])) {
-          a->SetPartialCharge(a->GetPartialCharge() + _ffchargeparams[idx]._dpar[0]);
-          b->SetPartialCharge(b->GetPartialCharge() - _ffchargeparams[idx]._dpar[0]);
+      for (auto & _ffchargeparam : _ffchargeparams) {
+        if (((_a == _ffchargeparam._a) && (_b == _ffchargeparam._b)) && (bondtype == _ffchargeparam._ipar[0])) {
+          a->SetPartialCharge(a->GetPartialCharge() - _ffchargeparam._dpar[0]);
+          b->SetPartialCharge(b->GetPartialCharge() + _ffchargeparam._dpar[0]);
+        } else if (((_a == _ffchargeparam._b) && (_b == _ffchargeparam._a)) && (bondtype == _ffchargeparam._ipar[0])) {
+          a->SetPartialCharge(a->GetPartialCharge() + _ffchargeparam._dpar[0]);
+          b->SetPartialCharge(b->GetPartialCharge() - _ffchargeparam._dpar[0]);
         }
       }
     }
@@ -1108,9 +1108,9 @@ namespace OpenBabel
 
     if (b == nullptr) {
       string _a(a);
-      for (unsigned int idx=0; idx < parameter.size(); ++idx)
-        if ((_a == parameter[idx]._a) && (type == parameter[idx]._ipar[0])) {
-          par = &parameter[idx];
+      for (auto & idx : parameter)
+        if ((_a == idx._a) && (type == idx._ipar[0])) {
+          par = &idx;
           return par;
         }
       return nullptr;
@@ -1118,12 +1118,12 @@ namespace OpenBabel
     if (c == nullptr) {
       string _a(a);
       string _b(b);
-      for (unsigned int idx=0; idx < parameter.size(); ++idx) {
-        if ( ((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
-              (type == parameter[idx]._ipar[0])) ||
-             (((_a == parameter[idx]._b) && (_b == parameter[idx]._a)) &&
-             (type == parameter[idx]._ipar[0])) ) {
-          par = &parameter[idx];
+      for (auto & idx : parameter) {
+        if ( ((_a == idx._a) && (_b == idx._b) &&
+              (type == idx._ipar[0])) ||
+             (((_a == idx._b) && (_b == idx._a)) &&
+             (type == idx._ipar[0])) ) {
+          par = &idx;
           return par;
         }
       }
@@ -1133,13 +1133,13 @@ namespace OpenBabel
       string _a(a);
       string _b(b);
       string _c(c);
-      for (unsigned int idx=0; idx < parameter.size(); ++idx) {
-        if ( ((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
-              (_c == parameter[idx]._c) &&
-              (type == parameter[idx]._ipar[0]))||
-             ((_a == parameter[idx]._c) && (_b == parameter[idx]._b) &&
-              (_c == parameter[idx]._a) && (type == parameter[idx]._ipar[0])) ) {
-          par = &parameter[idx];
+      for (auto & idx : parameter) {
+        if ( ((_a == idx._a) && (_b == idx._b) &&
+              (_c == idx._c) &&
+              (type == idx._ipar[0]))||
+             ((_a == idx._c) && (_b == idx._b) &&
+              (_c == idx._a) && (type == idx._ipar[0])) ) {
+          par = &idx;
           return par;
         }
       }
@@ -1150,14 +1150,14 @@ namespace OpenBabel
     string _c(c);
     string _d(d);
 
-    for (unsigned int idx=0; idx < parameter.size(); ++idx) {
-      if ( ((_a == parameter[idx]._a) && (_b == parameter[idx]._b) &&
-             (_c == parameter[idx]._c) && (_d == parameter[idx]._d) &&
-             (type == parameter[idx]._ipar[0])) ||
-            ((_a == parameter[idx]._d) && (_b == parameter[idx]._c) &&
-             (_c == parameter[idx]._b) && (_d == parameter[idx]._a) &&
-             (type == parameter[idx]._ipar[0])) ) {
-        par = &parameter[idx];
+    for (auto & idx : parameter) {
+      if ( ((_a == idx._a) && (_b == idx._b) &&
+             (_c == idx._c) && (_d == idx._d) &&
+             (type == idx._ipar[0])) ||
+            ((_a == idx._d) && (_b == idx._c) &&
+             (_c == idx._b) && (_d == idx._a) &&
+             (type == idx._ipar[0])) ) {
+        par = &idx;
         return par;
       }
     }
