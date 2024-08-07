@@ -848,8 +848,8 @@ namespace OpenBabel
     for (residue = mol.BeginResidue(r) ; residue ; residue = mol.NextResidue(r))
       residues.push_back(residue);
 
-    for ( unsigned int i = 0 ; i < residues.size() ; i++ )
-      mol.DeleteResidue(residues[i]);
+    for (auto & residue : residues)
+      mol.DeleteResidue(residue);
 
     residues.clear();
   }
@@ -995,9 +995,9 @@ namespace OpenBabel
 		changed = true;
 
 		bool addResidue = true;
-		for (unsigned int i = 0; i < invalidResidues.size(); ++i)
-		  if ( (invalidResidues[i].first == chains[idx2]) &&
-		       (invalidResidues[i].second == resnos[idx2]) )
+		for (auto & invalidResidue : invalidResidues)
+		  if ( (invalidResidue.first == chains[idx2]) &&
+		       (invalidResidue.second == resnos[idx2]) )
 		    addResidue = false;
 		if (addResidue)
 		  invalidResidues.push_back(pair<char,short>(chains[idx2], resnos[idx2]));
@@ -1008,11 +1008,11 @@ namespace OpenBabel
 
       }
     } while (changed);
-    for (unsigned int i = 0; i < invalidResidues.size(); ++i) {
+    for (auto & invalidResidue : invalidResidues) {
       FOR_ATOMS_OF_MOL (atom, mol) {
         idx = atom->GetIdx() - 1;
-        if ( (invalidResidues[i].first == chains[idx]) &&
-             (invalidResidues[i].second == resnos[idx]) ) {
+        if ( (invalidResidue.first == chains[idx]) &&
+             (invalidResidue.second == resnos[idx]) ) {
           hetflags[idx] = true;
           resids[idx] = 0; // UNK
           atomids[idx] = -1;
