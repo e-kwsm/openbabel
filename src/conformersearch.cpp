@@ -431,9 +431,9 @@ namespace OpenBabel {
       {
         (*m_logstream) << "Initial conformer count: " << m_rotorKeys.size() << std::endl;
         (*m_logstream) << tries << " attempts,  " << ndup << " duplicates, " << nbad << " failed filter." << std::endl;
-        for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
-          for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
-            (*m_logstream) << m_rotorKeys[i][j] << " ";
+        for (auto & m_rotorKey : m_rotorKeys) {
+          for (unsigned int j = 1; j < m_rotorKey.size(); ++j)
+            (*m_logstream) << m_rotorKey[j] << " ";
           (*m_logstream) << std::endl;
         }
       }
@@ -514,8 +514,8 @@ namespace OpenBabel {
     rotamers.Setup(m_mol, m_rotorList);
 
     // Add all (parent + children) rotor keys
-    for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
-      rotamers.AddRotamer(m_rotorKeys[i]);
+    for (const auto & m_rotorKey : m_rotorKeys) {
+      rotamers.AddRotamer(m_rotorKey);
     }
 
     // Get conformers for the rotor keys
@@ -530,8 +530,8 @@ namespace OpenBabel {
     }
 
     // delete the conformers
-    for (unsigned int i = 0; i < conformers.size(); ++i) {
-      delete [] conformers[i];
+    for (auto & conformer : conformers) {
+      delete [] conformer;
     }
 
     if (m_score->GetPreferred() == OBConformerScore::HighScore)
@@ -682,9 +682,9 @@ namespace OpenBabel {
 
     if (m_logstream != nullptr)
       {
-        for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
-          for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
-            (*m_logstream) << m_rotorKeys[i][j] << " ";
+        for (auto & m_rotorKey : m_rotorKeys) {
+          for (unsigned int j = 1; j < m_rotorKey.size(); ++j)
+            (*m_logstream) << m_rotorKey[j] << " ";
           (*m_logstream) << std::endl;
         }
       }
@@ -699,13 +699,13 @@ namespace OpenBabel {
     if (m_logstream != nullptr)
       (*m_logstream) << "GetConformers:" << std::endl;
     // Add all (parent + children) unique rotor keys
-    for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
-      rotamers.AddRotamer(m_rotorKeys[i]);
+    for (auto & m_rotorKey : m_rotorKeys) {
+      rotamers.AddRotamer(m_rotorKey);
 
       if (m_logstream != nullptr)
         {
-          for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
-            (*m_logstream) << m_rotorKeys[i][j] << " ";
+          for (unsigned int j = 1; j < m_rotorKey.size(); ++j)
+            (*m_logstream) << m_rotorKey[j] << " ";
           (*m_logstream) << std::endl;
         }
     }
@@ -719,8 +719,8 @@ namespace OpenBabel {
 
   bool OBConformerSearch::IsUniqueKey(const RotorKeys &keys, const RotorKey &key) const
   {
-    for (unsigned int i = 0; i < keys.size(); ++i)
-      if (keys[i] == key)
+    for (const auto & i : keys)
+      if (i == key)
         return false;
     return true;
   }

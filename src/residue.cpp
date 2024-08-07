@@ -921,8 +921,8 @@ namespace OpenBabel
 
   bool OBResidue::Clear(void)
   {
-    for (unsigned int i = 0 ; i < _atoms.size() ; ++i)
-      _atoms[i]->SetResidue(nullptr);
+    for (auto & _atom : _atoms)
+      _atom->SetResidue(nullptr);
 
     _chain   = 'A';
     _idx     = 0;

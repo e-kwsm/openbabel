@@ -308,20 +308,20 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
   // Loop through the confs and filter using a tree
   newconfs.clear();
   OBDiversePoses newtree(*mol, cutoff, true);
-  for (vpp::iterator conf = confs.begin(); conf!=confs.end(); ++conf) {
-    if (newtree.AddPose(conf->first, conf->second)) {
-      newconfs.push_back(*conf);
+  for (auto & conf : confs) {
+    if (newtree.AddPose(conf.first, conf.second)) {
+      newconfs.push_back(conf);
     }
   }
   if (verbose)
     std::cout << "....new tree size = " << newtree.GetSize() <<  " confs = " << newconfs.size() << "\n";
 
   // Add confs to the molecule's conformer data and add the energies to molecules's energies
-  for (vpp::iterator chosen = newconfs.begin(); chosen!=newconfs.end(); ++chosen) {
-    energies.push_back(chosen->second);
+  for (auto & newconf : newconfs) {
+    energies.push_back(newconf.second);
 
     // To avoid making copies of vectors or vector3s, I am using pointers throughout
-    std::vector<vector3> *tmp = &(chosen->first);
+    std::vector<vector3> *tmp = &(newconf.first);
     double *confCoord = new double [mol->NumAtoms() * 3];
     for(unsigned int a = 0; a<mol->NumAtoms(); ++a) {
       vector3* pv3 = &(*tmp)[a];
