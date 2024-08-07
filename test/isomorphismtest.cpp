@@ -194,9 +194,9 @@ void testAutomorphismMask() {
   mask.SetBitOff(6+1);
   FindAutomorphisms(&mol, maps, mask);
   cout << maps.size() << endl;
-  for (unsigned int i = 0; i < maps.size(); ++i) {
+  for (auto & map : maps) {
     OBIsomorphismMapper::Mapping::const_iterator j;
-    for (j = maps[i].begin(); j != maps[i].end(); ++j)
+    for (j = map.begin(); j != map.end(); ++j)
       cout << j->second << " ";
     cout << endl;
   }

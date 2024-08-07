@@ -22,11 +22,10 @@ std::vector< std::vector<unsigned long> > getIdRingPaths(OBMol &mol)
 
   std::vector< std::vector<unsigned long> > idPaths;
 
-  for (unsigned int i = 0; i < lssr.size(); ++i) {
-    OBRing *ring = lssr[i];
+  for (auto ring : lssr) {
     std::vector<unsigned long> idPath;
-    for (unsigned int j = 0; j < ring->_path.size(); ++j) {
-      idPath.push_back(mol.GetAtom(ring->_path[j])->GetId());
+    for (int j : ring->_path) {
+      idPath.push_back(mol.GetAtom(j)->GetId());
     }
 
     std::sort(idPath.begin(), idPath.end());  
@@ -67,10 +66,10 @@ bool doShuffleTestMolecule(OBMol &mol)
     std::vector< std::vector<unsigned long> > rings = getIdRingPaths(mol);
     OB_ASSERT( rings.size() == ref.size() );
     if (rings.size() == ref.size()) {
-      for (unsigned int j = 0; j < rings.size(); ++j) {
+      for (const auto & ring : rings) {
         bool found = false;
-        for (unsigned int k = 0; k < ref.size(); ++k) {
-          if (rings[j] == ref[k]) {
+        for (const auto & k : ref) {
+          if (ring == k) {
             found = true;
             break;
           }
@@ -158,8 +157,8 @@ bool verifyLSSR(const std::string &filename, const LSSR &ref)
   std::vector<int> ringSizeCount(20, 0); 
   std::vector<OBRing*> lssr = mol.GetLSSR();
 
-  for (unsigned int i = 0; i < lssr.size(); ++i) {
-    ringSizeCount[lssr[i]->_path.size()]++;
+  for (auto & i : lssr) {
+    ringSizeCount[i->_path.size()]++;
   }
 
   /*
@@ -171,8 +170,7 @@ bool verifyLSSR(const std::string &filename, const LSSR &ref)
   */
 
   bool fail = false;
-  for (unsigned int i = 0; i < ref.size_count.size(); ++i) {
-    const LSSR::Size_Count &size_count = ref.size_count[i];
+  for (auto size_count : ref.size_count) {
     OB_ASSERT( ringSizeCount[size_count.ringSize] == size_count.ringCount );
   }
 

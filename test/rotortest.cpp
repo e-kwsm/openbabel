@@ -84,8 +84,8 @@ void testOBRotorSetToAngle()
   std::vector<int> atoms;
   mol->FindChildren(atoms, 4, 5);
   // convert to coordinate indexes (start from 0, multiplied by 3)
-  for (unsigned int i = 0; i < atoms.size(); ++i)
-    atoms[i] = (atoms[i] - 1) * 3;
+  for (int & atom : atoms)
+    atom = (atom - 1) * 3;
   rotor.SetRotAtoms(atoms);
 
   OB_ASSERT(IsNear_mod(fabs(RAD_TO_DEG * rotor.CalcTorsion(mol->GetCoordinates())), 180.0, 360.0, 1.0));
@@ -116,8 +116,8 @@ void testOBRotorSetRotor()
   std::vector<int> atoms;
   mol->FindChildren(atoms, 4, 5);
   // convert to coordinate indexes (start from 0, multiplied by 3)
-  for (unsigned int i = 0; i < atoms.size(); ++i)
-    atoms[i] = (atoms[i] - 1) * 3;
+  for (int & atom : atoms)
+    atom = (atom - 1) * 3;
   rotor.SetRotAtoms(atoms);
 
   OB_ASSERT(IsNear_mod(fabs(RAD_TO_DEG * rotor.CalcTorsion(mol->GetCoordinates())), 180.0, 360.0, 1.0));
