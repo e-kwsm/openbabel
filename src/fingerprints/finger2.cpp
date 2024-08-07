@@ -261,8 +261,8 @@ unsigned int fingerprint2::CalcHash(const vector<int>& frag)
 	//Something like... whole of fragment treated as a binary number modulus 1021
 	const int MODINT = 108; //2^32 % 1021
 	unsigned int hash=0;
-	for(unsigned i=0;i<frag.size();++i)
-		hash= (hash*MODINT + (frag[i] % 1021)) % 1021;
+	for(int i : frag)
+		hash= (hash*MODINT + (i % 1021)) % 1021;
 	return hash;
 }
 

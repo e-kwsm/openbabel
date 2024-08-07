@@ -145,23 +145,23 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _bondcalculations.size(); ++i) {
-      _bondcalculations[i].template Compute<gradients>();
-      energy += _bondcalculations[i].energy;
+    for (auto & _bondcalculation : _bondcalculations) {
+      _bondcalculation.template Compute<gradients>();
+      energy += _bondcalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_bondcalculations[i].force_a, _bondcalculations[i].idx_a);
-        AddGradient(_bondcalculations[i].force_b, _bondcalculations[i].idx_b);
+        AddGradient(_bondcalculation.force_a, _bondcalculation.idx_a);
+        AddGradient(_bondcalculation.force_b, _bondcalculation.idx_b);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d      %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                atoi(_bondcalculations[i].a->GetType()), atoi(_bondcalculations[i].b->GetType()),
-                _bondcalculations[i].bt, _bondcalculations[i].rab, _bondcalculations[i].r0,
-                _bondcalculations[i].kb, _bondcalculations[i].delta,
-                143.9325 * 0.5 * _bondcalculations[i].energy);
+                atoi(_bondcalculation.a->GetType()), atoi(_bondcalculation.b->GetType()),
+                _bondcalculation.bt, _bondcalculation.rab, _bondcalculation.r0,
+                _bondcalculation.kb, _bondcalculation.delta,
+                143.9325 * 0.5 * _bondcalculation.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -260,26 +260,26 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _anglecalculations.size(); ++i) {
+    for (auto & _anglecalculation : _anglecalculations) {
 
-      _anglecalculations[i].template Compute<gradients>();
-      energy += _anglecalculations[i].energy;
+      _anglecalculation.template Compute<gradients>();
+      energy += _anglecalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_anglecalculations[i].force_a, _anglecalculations[i].idx_a);
-        AddGradient(_anglecalculations[i].force_b, _anglecalculations[i].idx_b);
-        AddGradient(_anglecalculations[i].force_c, _anglecalculations[i].idx_c);
+        AddGradient(_anglecalculation.force_a, _anglecalculation.idx_a);
+        AddGradient(_anglecalculation.force_b, _anglecalculation.idx_b);
+        AddGradient(_anglecalculation.force_c, _anglecalculation.idx_c);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d      %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                atoi(_anglecalculations[i].a->GetType()), atoi(_anglecalculations[i].b->GetType()),
-                atoi(_anglecalculations[i].c->GetType()), _anglecalculations[i].at,
-                _anglecalculations[i].theta, _anglecalculations[i].theta0,
-                _anglecalculations[i].ka, _anglecalculations[i].delta,
-                _anglecalculations[i].energy);
+                atoi(_anglecalculation.a->GetType()), atoi(_anglecalculation.b->GetType()),
+                atoi(_anglecalculation.c->GetType()), _anglecalculation.at,
+                _anglecalculation.theta, _anglecalculation.theta0,
+                _anglecalculation.ka, _anglecalculation.delta,
+                _anglecalculation.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -373,26 +373,26 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _strbndcalculations.size(); ++i) {
+    for (auto & _strbndcalculation : _strbndcalculations) {
 
-      _strbndcalculations[i].template Compute<gradients>();
-      energy += _strbndcalculations[i].energy;
+      _strbndcalculation.template Compute<gradients>();
+      energy += _strbndcalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_strbndcalculations[i].force_a, _strbndcalculations[i].idx_a);
-        AddGradient(_strbndcalculations[i].force_b, _strbndcalculations[i].idx_b);
-        AddGradient(_strbndcalculations[i].force_c, _strbndcalculations[i].idx_c);
+        AddGradient(_strbndcalculation.force_a, _strbndcalculation.idx_a);
+        AddGradient(_strbndcalculation.force_b, _strbndcalculation.idx_b);
+        AddGradient(_strbndcalculation.force_c, _strbndcalculation.idx_c);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d     %2d   %8.3f   %8.3f   %8.3f   %8.3f   %8.3f\n",
-                atoi(_strbndcalculations[i].a->GetType()), atoi(_strbndcalculations[i].b->GetType()),
-                atoi(_strbndcalculations[i].c->GetType()), _strbndcalculations[i].sbt,
-                _strbndcalculations[i].theta, _strbndcalculations[i].delta_theta,
-                _strbndcalculations[i].kbaABC, _strbndcalculations[i].kbaCBA,
-                2.51210 * _strbndcalculations[i].energy);
+                atoi(_strbndcalculation.a->GetType()), atoi(_strbndcalculation.b->GetType()),
+                atoi(_strbndcalculation.c->GetType()), _strbndcalculation.sbt,
+                _strbndcalculation.theta, _strbndcalculation.delta_theta,
+                _strbndcalculation.kbaABC, _strbndcalculation.kbaCBA,
+                2.51210 * _strbndcalculation.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -509,26 +509,26 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _torsioncalculations.size(); ++i) {
+    for (auto & _torsioncalculation : _torsioncalculations) {
 
-      _torsioncalculations[i].template Compute<gradients>();
-      energy += _torsioncalculations[i].energy;
+      _torsioncalculation.template Compute<gradients>();
+      energy += _torsioncalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_torsioncalculations[i].force_a, _torsioncalculations[i].idx_a);
-        AddGradient(_torsioncalculations[i].force_b, _torsioncalculations[i].idx_b);
-        AddGradient(_torsioncalculations[i].force_c, _torsioncalculations[i].idx_c);
-        AddGradient(_torsioncalculations[i].force_d, _torsioncalculations[i].idx_d);
+        AddGradient(_torsioncalculation.force_a, _torsioncalculation.idx_a);
+        AddGradient(_torsioncalculation.force_b, _torsioncalculation.idx_b);
+        AddGradient(_torsioncalculation.force_c, _torsioncalculation.idx_c);
+        AddGradient(_torsioncalculation.force_d, _torsioncalculation.idx_d);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d   %2d      %d   %8.3f   %6.3f   %6.3f   %6.3f   %8.3f\n",
-                atoi(_torsioncalculations[i].a->GetType()), atoi(_torsioncalculations[i].b->GetType()),
-                atoi(_torsioncalculations[i].c->GetType()), atoi(_torsioncalculations[i].d->GetType()),
-                _torsioncalculations[i].tt, _torsioncalculations[i].tor, _torsioncalculations[i].v1,
-                _torsioncalculations[i].v2, _torsioncalculations[i].v3, 0.5 * _torsioncalculations[i].energy);
+                atoi(_torsioncalculation.a->GetType()), atoi(_torsioncalculation.b->GetType()),
+                atoi(_torsioncalculation.c->GetType()), atoi(_torsioncalculation.d->GetType()),
+                _torsioncalculation.tt, _torsioncalculation.tor, _torsioncalculation.v1,
+                _torsioncalculation.v2, _torsioncalculation.v3, 0.5 * _torsioncalculation.energy);
         OBFFLog(_logbuf);
       }
 
@@ -607,26 +607,26 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _oopcalculations.size(); ++i) {
+    for (auto & _oopcalculation : _oopcalculations) {
 
-      _oopcalculations[i].template Compute<gradients>();
-      energy += _oopcalculations[i].energy;
+      _oopcalculation.template Compute<gradients>();
+      energy += _oopcalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_oopcalculations[i].force_a, _oopcalculations[i].idx_a);
-        AddGradient(_oopcalculations[i].force_b, _oopcalculations[i].idx_b);
-        AddGradient(_oopcalculations[i].force_c, _oopcalculations[i].idx_c);
-        AddGradient(_oopcalculations[i].force_d, _oopcalculations[i].idx_d);
+        AddGradient(_oopcalculation.force_a, _oopcalculation.idx_a);
+        AddGradient(_oopcalculation.force_b, _oopcalculation.idx_b);
+        AddGradient(_oopcalculation.force_c, _oopcalculation.idx_c);
+        AddGradient(_oopcalculation.force_d, _oopcalculation.idx_d);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d   %2d      0   %8.3f   %8.3f     %8.3f\n",
-                atoi(_oopcalculations[i].a->GetType()), atoi(_oopcalculations[i].b->GetType()),
-                atoi(_oopcalculations[i].c->GetType()), atoi(_oopcalculations[i].d->GetType()),
-                _oopcalculations[i].angle, _oopcalculations[i].koop,
-                0.043844 * 0.5 * _oopcalculations[i].energy);
+                atoi(_oopcalculation.a->GetType()), atoi(_oopcalculation.b->GetType()),
+                atoi(_oopcalculation.c->GetType()), atoi(_oopcalculation.d->GetType()),
+                _oopcalculation.angle, _oopcalculation.koop,
+                0.043844 * 0.5 * _oopcalculation.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -704,26 +704,26 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _vdwcalculations.size(); ++i) {
+    for (auto & _vdwcalculation : _vdwcalculations) {
       // Cut-off check
       if (_cutoff)
-        if (!_vdwpairs.BitIsSet(_vdwcalculations[i].pairIndex))
+        if (!_vdwpairs.BitIsSet(_vdwcalculation.pairIndex))
           continue;
 
-      _vdwcalculations[i].template Compute<gradients>();
-      energy += _vdwcalculations[i].energy;
+      _vdwcalculation.template Compute<gradients>();
+      energy += _vdwcalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_vdwcalculations[i].force_a, _vdwcalculations[i].idx_a);
-        AddGradient(_vdwcalculations[i].force_b, _vdwcalculations[i].idx_b);
+        AddGradient(_vdwcalculation.force_a, _vdwcalculation.idx_a);
+        AddGradient(_vdwcalculation.force_b, _vdwcalculation.idx_b);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d     %8.3f  %8.3f  %8.3f  %8.3f\n",
-                atoi(_vdwcalculations[i].a->GetType()), atoi(_vdwcalculations[i].b->GetType()),
-                _vdwcalculations[i].rab, _vdwcalculations[i].R_AB, _vdwcalculations[i].epsilon, _vdwcalculations[i].energy);
+                atoi(_vdwcalculation.a->GetType()), atoi(_vdwcalculation.b->GetType()),
+                _vdwcalculation.rab, _vdwcalculation.R_AB, _vdwcalculation.epsilon, _vdwcalculation.energy);
         OBFFLog(_logbuf);
       }
 
@@ -790,27 +790,27 @@ namespace OpenBabel
     #ifdef _OPENMP
     #pragma omp parallel for reduction(+:energy)
     #endif
-    for (int i = 0; i < _electrostaticcalculations.size(); ++i) {
+    for (auto & _electrostaticcalculation : _electrostaticcalculations) {
       // Cut-off check
       if (_cutoff)
-        if (!_elepairs.BitIsSet(_electrostaticcalculations[i].pairIndex))
+        if (!_elepairs.BitIsSet(_electrostaticcalculation.pairIndex))
           continue;
 
-      _electrostaticcalculations[i].template Compute<gradients>();
-      energy += _electrostaticcalculations[i].energy;
+      _electrostaticcalculation.template Compute<gradients>();
+      energy += _electrostaticcalculation.energy;
 
       #ifndef _OPENMP
       if (gradients) {
-        AddGradient(_electrostaticcalculations[i].force_a, _electrostaticcalculations[i].idx_a);
-        AddGradient(_electrostaticcalculations[i].force_b, _electrostaticcalculations[i].idx_b);
+        AddGradient(_electrostaticcalculation.force_a, _electrostaticcalculation.idx_a);
+        AddGradient(_electrostaticcalculation.force_b, _electrostaticcalculation.idx_b);
       }
       #endif
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %8.3f  %8.3f  %8.3f  %8.3f\n",
-                atoi(_electrostaticcalculations[i].a->GetType()), atoi(_electrostaticcalculations[i].b->GetType()),
-                _electrostaticcalculations[i].rab, _electrostaticcalculations[i].a->GetPartialCharge(),
-                _electrostaticcalculations[i].b->GetPartialCharge(), _electrostaticcalculations[i].energy);
+                atoi(_electrostaticcalculation.a->GetType()), atoi(_electrostaticcalculation.b->GetType()),
+                _electrostaticcalculation.rab, _electrostaticcalculation.a->GetPartialCharge(),
+                _electrostaticcalculation.b->GetPartialCharge(), _electrostaticcalculation.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -1532,39 +1532,39 @@ namespace OpenBabel
         if (IsAromatic) {
 
 
-          for (unsigned int i = 0; i < alphaPos.size(); i++) {
-            if (alphaPos[i]->GetAtomicNum() == OBElements::Sulfur) {
-              alphaAtoms.push_back(alphaPos[i]);
-            } else if (alphaPos[i]->GetAtomicNum() == OBElements::Oxygen) {
-              alphaAtoms.push_back(alphaPos[i]);
-            } else if (alphaPos[i]->GetAtomicNum() == OBElements::Nitrogen && (alphaPos[i]->GetExplicitDegree() == 3)) {
+          for (auto & alphaPo : alphaPos) {
+            if (alphaPo->GetAtomicNum() == OBElements::Sulfur) {
+              alphaAtoms.push_back(alphaPo);
+            } else if (alphaPo->GetAtomicNum() == OBElements::Oxygen) {
+              alphaAtoms.push_back(alphaPo);
+            } else if (alphaPo->GetAtomicNum() == OBElements::Nitrogen && (alphaPo->GetExplicitDegree() == 3)) {
               bool IsNOxide = false;
-              FOR_NBORS_OF_ATOM (nbr, alphaPos[i]) {
+              FOR_NBORS_OF_ATOM (nbr, alphaPo) {
                 if (nbr->GetAtomicNum() == OBElements::Oxygen && (nbr->GetExplicitDegree() == 1)) {
                   IsNOxide = true;
                 }
               }
 
               if (!IsNOxide) {
-                alphaAtoms.push_back(alphaPos[i]);
+                alphaAtoms.push_back(alphaPo);
               }
             }
           }
-          for (unsigned int i = 0; i < betaPos.size(); i++) {
-            if (betaPos[i]->GetAtomicNum() == OBElements::Sulfur) {
-              betaAtoms.push_back(betaPos[i]);
-            } else if (betaPos[i]->GetAtomicNum() == OBElements::Oxygen) {
-              betaAtoms.push_back(betaPos[i]);
-            } else if (betaPos[i]->GetAtomicNum() == OBElements::Nitrogen && (betaPos[i]->GetExplicitDegree() == 3)) {
+          for (auto & betaPo : betaPos) {
+            if (betaPo->GetAtomicNum() == OBElements::Sulfur) {
+              betaAtoms.push_back(betaPo);
+            } else if (betaPo->GetAtomicNum() == OBElements::Oxygen) {
+              betaAtoms.push_back(betaPo);
+            } else if (betaPo->GetAtomicNum() == OBElements::Nitrogen && (betaPo->GetExplicitDegree() == 3)) {
               bool IsNOxide = false;
-              FOR_NBORS_OF_ATOM (nbr, betaPos[i]) {
+              FOR_NBORS_OF_ATOM (nbr, betaPo) {
                 if (nbr->GetAtomicNum() == OBElements::Oxygen && (nbr->GetExplicitDegree() == 1)) {
                   IsNOxide = true;
                 }
               }
 
               if (!IsNOxide) {
-                betaAtoms.push_back(betaPos[i]);
+                betaAtoms.push_back(betaPo);
               }
             }
           }
@@ -1637,9 +1637,9 @@ namespace OpenBabel
             }
           }
           if (alphaAtoms.size() && betaAtoms.size()) {
-            for (unsigned int i = 0; i < alphaAtoms.size(); i++) {
-              for (unsigned int j = 0; j < betaAtoms.size(); j++) {
-                if (!IsInSameRing(alphaAtoms[i], betaAtoms[j])) {
+            for (auto & alphaAtom : alphaAtoms) {
+              for (auto & betaAtom : betaAtoms) {
+                if (!IsInSameRing(alphaAtom, betaAtom)) {
                   if (atom->GetAtomicNum() == OBElements::Carbon) {
                     return 78; // General carbon in 5-membered aromatic ring (C5)
                   } else if (atom->GetAtomicNum() == OBElements::Nitrogen) {
@@ -1648,8 +1648,8 @@ namespace OpenBabel
                 }
               }
             }
-            for (unsigned int i = 0; i < alphaAtoms.size(); i++) {
-              if (alphaAtoms[i]->GetAtomicNum() == OBElements::Sulfur || alphaAtoms[i]->GetAtomicNum() == OBElements::Oxygen) {
+            for (auto & alphaAtom : alphaAtoms) {
+              if (alphaAtom->GetAtomicNum() == OBElements::Sulfur || alphaAtom->GetAtomicNum() == OBElements::Oxygen) {
                 if (atom->GetAtomicNum() == OBElements::Carbon) {
                   return 63; // Aromatic 5-ring C, alpha to N:, O:, or S: (C5A)
                 } else if (atom->GetAtomicNum() == OBElements::Nitrogen) {
@@ -1657,8 +1657,8 @@ namespace OpenBabel
                 }
               }
             }
-            for (unsigned int i = 0; i < betaAtoms.size(); i++) {
-              if (betaAtoms[i]->GetAtomicNum() == OBElements::Sulfur || betaAtoms[i]->GetAtomicNum() == OBElements::Oxygen) {
+            for (auto & betaAtom : betaAtoms) {
+              if (betaAtom->GetAtomicNum() == OBElements::Sulfur || betaAtom->GetAtomicNum() == OBElements::Oxygen) {
                 if (atom->GetAtomicNum() == OBElements::Carbon) {
                   return 64; // Aromatic 5-ring C, beta to N:, O:, or S: (C5B)
                 } else if (atom->GetAtomicNum() == OBElements::Nitrogen) {
@@ -2720,8 +2720,8 @@ namespace OpenBabel
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
         bool validBond = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx())) {
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx())) {
             validBond = true;
             break;
           }
@@ -2816,9 +2816,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the three angle atoms are in a single intraGroup
       if (HasGroups()) {
         bool validAngle = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx())) {
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx())) {
             validAngle = true;
             break;
           }
@@ -3114,9 +3114,9 @@ namespace OpenBabel
       // if there are any groups specified, check if the four torsion atoms are in a single intraGroup
       if (HasGroups()) {
         bool validTorsion = false;
-        for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-              _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx())) {
+        for (const auto & i : _intraGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+              i.BitIsSet(c->GetIdx()) && i.BitIsSet(d->GetIdx())) {
             validTorsion = true;
             break;
           }
@@ -3367,8 +3367,8 @@ namespace OpenBabel
 
       type_b = atoi(b->GetType());
 
-      for (unsigned int idx=0; idx < _ffoopparams.size(); idx++) {
-        if (type_b == _ffoopparams[idx].b) {
+      for (auto & _ffoopparam : _ffoopparams) {
+        if (type_b == _ffoopparam.b) {
           a = nullptr;
           c = nullptr;
           d = nullptr;
@@ -3397,9 +3397,9 @@ namespace OpenBabel
           // if there are any groups specified, check if the four oop atoms are in a single intraGroup
           if (HasGroups()) {
             bool validOOP = false;
-            for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-              if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-                  _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx())) {
+            for (const auto & i : _intraGroup) {
+              if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx()) &&
+                  i.BitIsSet(c->GetIdx()) && i.BitIsSet(d->GetIdx())) {
                 validOOP = true;
                 break;
               }
@@ -3408,16 +3408,16 @@ namespace OpenBabel
               continue;
           }
 
-          if (((type_a == _ffoopparams[idx].a) && (type_c == _ffoopparams[idx].c) && (type_d == _ffoopparams[idx].d)) ||
-              ((type_c == _ffoopparams[idx].a) && (type_a == _ffoopparams[idx].c) && (type_d == _ffoopparams[idx].d)) ||
-              ((type_c == _ffoopparams[idx].a) && (type_d == _ffoopparams[idx].c) && (type_a == _ffoopparams[idx].d)) ||
-              ((type_d == _ffoopparams[idx].a) && (type_c == _ffoopparams[idx].c) && (type_a == _ffoopparams[idx].d)) ||
-              ((type_a == _ffoopparams[idx].a) && (type_d == _ffoopparams[idx].c) && (type_c == _ffoopparams[idx].d)) ||
-              ((type_d == _ffoopparams[idx].a) && (type_a == _ffoopparams[idx].c) && (type_c == _ffoopparams[idx].d)))
+          if (((type_a == _ffoopparam.a) && (type_c == _ffoopparam.c) && (type_d == _ffoopparam.d)) ||
+              ((type_c == _ffoopparam.a) && (type_a == _ffoopparam.c) && (type_d == _ffoopparam.d)) ||
+              ((type_c == _ffoopparam.a) && (type_d == _ffoopparam.c) && (type_a == _ffoopparam.d)) ||
+              ((type_d == _ffoopparam.a) && (type_c == _ffoopparam.c) && (type_a == _ffoopparam.d)) ||
+              ((type_a == _ffoopparam.a) && (type_d == _ffoopparam.c) && (type_c == _ffoopparam.d)) ||
+              ((type_d == _ffoopparam.a) && (type_a == _ffoopparam.c) && (type_c == _ffoopparam.d)))
             {
               found = true;
 
-              oopcalc.koop = _ffoopparams[idx]._dpar[0];
+              oopcalc.koop = _ffoopparam._dpar[0];
 
               // A-B-CD || C-B-AD  PLANE = ABC
               oopcalc.a = a;
@@ -3444,9 +3444,9 @@ namespace OpenBabel
               _oopcalculations.push_back(oopcalc);
             }
 
-          if ((_ffoopparams[idx].a == 0) && (_ffoopparams[idx].c == 0) && (_ffoopparams[idx].d == 0) && !found) // *-XX-*-*
+          if ((_ffoopparam.a == 0) && (_ffoopparam.c == 0) && (_ffoopparam.d == 0) && !found) // *-XX-*-*
             {
-              oopcalc.koop = _ffoopparams[idx]._dpar[0];
+              oopcalc.koop = _ffoopparam._dpar[0];
 
               // A-B-CD || C-B-AD  PLANE = ABC
               oopcalc.a = a;
@@ -3500,19 +3500,19 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validVDW = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx())) {
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx())) {
             validVDW = true;
             break;
           }
         }
         if (!validVDW) {
-          for (unsigned int i=0; i < _interGroups.size(); ++i) {
-            if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx())) {
+          for (auto & _interGroup : _interGroups) {
+            if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx())) {
               validVDW = true;
               break;
             }
-            if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx())) {
+            if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx())) {
               validVDW = true;
               break;
             }
@@ -3633,19 +3633,19 @@ namespace OpenBabel
       // two two atoms are in one of the _interGroups pairs.
       if (HasGroups()) {
         bool validEle = false;
-        for (unsigned int i=0; i < _interGroup.size(); ++i) {
-          if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx())) {
+        for (const auto & i : _interGroup) {
+          if (i.BitIsSet(a->GetIdx()) && i.BitIsSet(b->GetIdx())) {
             validEle = true;
             break;
           }
         }
         if (!validEle) {
-          for (unsigned int i=0; i < _interGroups.size(); ++i) {
-            if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx())) {
+          for (auto & _interGroup : _interGroups) {
+            if (_interGroup.first.BitIsSet(a->GetIdx()) && _interGroup.second.BitIsSet(b->GetIdx())) {
               validEle = true;
               break;
             }
-            if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx())) {
+            if (_interGroup.first.BitIsSet(b->GetIdx()) && _interGroup.second.BitIsSet(a->GetIdx())) {
               validEle = true;
               break;
             }
@@ -3677,20 +3677,20 @@ namespace OpenBabel
 
   bool OBForceFieldMMFF94::SetupPointers()
   {
-    for (unsigned int i = 0; i < _bondcalculations.size(); ++i)
-      _bondcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _anglecalculations.size(); ++i)
-      _anglecalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _strbndcalculations.size(); ++i)
-      _strbndcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _torsioncalculations.size(); ++i)
-      _torsioncalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _oopcalculations.size(); ++i)
-      _oopcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _vdwcalculations.size(); ++i)
-      _vdwcalculations[i].SetupPointers();
-    for (unsigned int i = 0; i < _electrostaticcalculations.size(); ++i)
-      _electrostaticcalculations[i].SetupPointers();
+    for (auto & _bondcalculation : _bondcalculations)
+      _bondcalculation.SetupPointers();
+    for (auto & _anglecalculation : _anglecalculations)
+      _anglecalculation.SetupPointers();
+    for (auto & _strbndcalculation : _strbndcalculations)
+      _strbndcalculation.SetupPointers();
+    for (auto & _torsioncalculation : _torsioncalculations)
+      _torsioncalculation.SetupPointers();
+    for (auto & _oopcalculation : _oopcalculations)
+      _oopcalculation.SetupPointers();
+    for (auto & _vdwcalculation : _vdwcalculations)
+      _vdwcalculation.SetupPointers();
+    for (auto & _electrostaticcalculation : _electrostaticcalculations)
+      _electrostaticcalculation.SetupPointers();
 
     return true;
   }
@@ -3945,23 +3945,23 @@ namespace OpenBabel
         q0b += nbr->GetPartialCharge();
 
         bool bci_found = false;
-        for (unsigned int idx=0; idx < _ffchgparams.size(); idx++)
-          if (GetBondType(&*atom, &*nbr) == _ffchgparams[idx]._ipar[0]) {
-            if ((type == _ffchgparams[idx].a) && (nbr_type == _ffchgparams[idx].b)) {
-              Wab += -_ffchgparams[idx]._dpar[0];
+        for (auto & _ffchgparam : _ffchgparams)
+          if (GetBondType(&*atom, &*nbr) == _ffchgparam._ipar[0]) {
+            if ((type == _ffchgparam.a) && (nbr_type == _ffchgparam.b)) {
+              Wab += -_ffchgparam._dpar[0];
               bci_found = true;
-            } else if  ((type == _ffchgparams[idx].b) && (nbr_type == _ffchgparams[idx].a)) {
-              Wab += _ffchgparams[idx]._dpar[0];
+            } else if  ((type == _ffchgparam.b) && (nbr_type == _ffchgparam.a)) {
+              Wab += _ffchgparam._dpar[0];
               bci_found = true;
             }
 	  }
 
         if (!bci_found) {
-          for (unsigned int idx=0; idx < _ffpbciparams.size(); idx++) {
-            if (type == _ffpbciparams[idx].a)
-              Pa = _ffpbciparams[idx]._dpar[0];
-            if (nbr_type == _ffpbciparams[idx].a)
-              Pb = _ffpbciparams[idx]._dpar[0];
+          for (auto & _ffpbciparam : _ffpbciparams) {
+            if (type == _ffpbciparam.a)
+              Pa = _ffpbciparam._dpar[0];
+            if (nbr_type == _ffpbciparam.a)
+              Pb = _ffpbciparam._dpar[0];
           }
           Wab += Pa - Pb;
         }
@@ -4795,9 +4795,9 @@ namespace OpenBabel
   // MMFF part I - TABLE IV
   int OBForceFieldMMFF94::EqLvl2(int type)
   {
-    for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
-      if (_ffdefparams[idx]._ipar[0] == type)
-        return _ffdefparams[idx]._ipar[1];
+    for (auto & _ffdefparam : _ffdefparams)
+      if (_ffdefparam._ipar[0] == type)
+        return _ffdefparam._ipar[1];
 
     return type;
   }
@@ -4805,9 +4805,9 @@ namespace OpenBabel
   // MMFF part I - TABLE IV
   int OBForceFieldMMFF94::EqLvl3(int type)
   {
-    for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
-      if (_ffdefparams[idx]._ipar[0] == type)
-        return _ffdefparams[idx]._ipar[2];
+    for (auto & _ffdefparam : _ffdefparams)
+      if (_ffdefparam._ipar[0] == type)
+        return _ffdefparam._ipar[2];
 
     return type;
   }
@@ -4815,9 +4815,9 @@ namespace OpenBabel
   // MMFF part I - TABLE IV
   int OBForceFieldMMFF94::EqLvl4(int type)
   {
-    for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
-      if (_ffdefparams[idx]._ipar[0] == type)
-        return _ffdefparams[idx]._ipar[3];
+    for (auto & _ffdefparam : _ffdefparams)
+      if (_ffdefparam._ipar[0] == type)
+        return _ffdefparam._ipar[3];
 
     return type;
   }
@@ -4825,9 +4825,9 @@ namespace OpenBabel
   // MMFF part I - TABLE IV
   int OBForceFieldMMFF94::EqLvl5(int type)
   {
-    for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
-      if (_ffdefparams[idx]._ipar[0] == type)
-        return _ffdefparams[idx]._ipar[4];
+    for (auto & _ffdefparam : _ffdefparams)
+      if (_ffdefparam._ipar[0] == type)
+        return _ffdefparam._ipar[4];
 
     return type;
   }
@@ -5097,9 +5097,9 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (a == parameter[idx].a) {
-        par = &parameter[idx];
+    for (auto & idx : parameter)
+      if (a == idx.a) {
+        par = &idx;
         return par;
       }
 
@@ -5110,11 +5110,11 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b)) ||
-          ((a == parameter[idx].b) && (b == parameter[idx].a)))
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b)) ||
+          ((a == idx.b) && (b == idx.a)))
         {
-          par = &parameter[idx];
+          par = &idx;
           return par;
         }
 
@@ -5125,11 +5125,11 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c)) ||
-          ((a == parameter[idx].c) && (b == parameter[idx].b) && (c == parameter[idx].a)))
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b) && (c == idx.c)) ||
+          ((a == idx.c) && (b == idx.b) && (c == idx.a)))
         {
-          par = &parameter[idx];
+          par = &idx;
           return par;
         }
 
@@ -5140,11 +5140,11 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b) && (ffclass == parameter[idx]._ipar[0])) ||
-          ((a == parameter[idx].b) && (b == parameter[idx].a) && (ffclass == parameter[idx]._ipar[0])))
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b) && (ffclass == idx._ipar[0])) ||
+          ((a == idx.b) && (b == idx.a) && (ffclass == idx._ipar[0])))
         {
-          par = &parameter[idx];
+          par = &idx;
           return par;
         }
 
@@ -5155,11 +5155,11 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c) && (ffclass == parameter[idx]._ipar[0])) ||
-          ((a == parameter[idx].c) && (b == parameter[idx].b) && (c == parameter[idx].a) && (ffclass == parameter[idx]._ipar[0])) )
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b) && (c == idx.c) && (ffclass == idx._ipar[0])) ||
+          ((a == idx.c) && (b == idx.b) && (c == idx.a) && (ffclass == idx._ipar[0])) )
         {
-          par = &parameter[idx];
+          par = &idx;
           return par;
         }
 
@@ -5170,13 +5170,13 @@ namespace OpenBabel
   {
     OBFFParameter *par;
 
-    for (unsigned int idx=0; idx < parameter.size(); idx++)
-      if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c) &&
-           (d == parameter[idx].d) && (ffclass == parameter[idx]._ipar[0]))
+    for (auto & idx : parameter)
+      if (((a == idx.a) && (b == idx.b) && (c == idx.c) &&
+           (d == idx.d) && (ffclass == idx._ipar[0]))
           /* || ((a == parameter[idx].d) && (b == parameter[idx].c) && (c == parameter[idx].b) &&
              (d == parameter[idx].a) && (ffclass == parameter[idx]._ipar[0])) */ )
         {
-          par = &parameter[idx];
+          par = &idx;
           return par;
         }
 
