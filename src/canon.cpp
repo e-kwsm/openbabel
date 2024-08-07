@@ -424,10 +424,10 @@ namespace OpenBabel {
 
     static void print_orbits(const Orbits &orbits)
     {
-      for (std::size_t j = 0; j < orbits.size(); ++j) {
+      for (const auto & orbit : orbits) {
         cout << "( ";
-        for (std::size_t k = 0; k < orbits[j].size(); ++k)
-          cout << orbits[j][k]->GetIndex() << " ";
+        for (std::size_t k = 0; k < orbit.size(); ++k)
+          cout << orbit[k]->GetIndex() << " ";
         cout << ") ";
       }
     }
@@ -584,17 +584,17 @@ namespace OpenBabel {
         if (nbrIndexes1.empty())
           return 2;
         std::vector<unsigned long> refs1, refs2;
-        for (std::size_t i = 0; i < nbrIndexes1.size(); ++i) {
-          if (nbrIndexes1[i] < labels.size())
-            refs1.push_back(labels[nbrIndexes1[i]]);
+        for (unsigned int i : nbrIndexes1) {
+          if (i < labels.size())
+            refs1.push_back(labels[i]);
           else
-            refs1.push_back(nbrIndexes1[i]);
+            refs1.push_back(i);
         }
-        for (std::size_t i = 0; i < nbrIndexes2.size(); ++i)
-          if (nbrIndexes2[i] < labels.size())
-            refs2.push_back(labels[nbrIndexes2[i]]);
+        for (unsigned int i : nbrIndexes2)
+          if (i < labels.size())
+            refs2.push_back(labels[i]);
           else
-            refs2.push_back(nbrIndexes2[i]);
+            refs2.push_back(i);
         if (indexes.size() == 2) {
           bool symOrder = symmetry_classes[indexes[0]] < symmetry_classes[indexes[1]];
           bool canOrder = labels[indexes[0]] < labels[indexes[1]];
@@ -780,12 +780,12 @@ namespace OpenBabel {
         // do the sorting: [1 3] < [1 4]
         std::sort(closures.begin(), closures.end(), CompareBondPairSecond);
 
-        for (std::size_t k = 0; k < closures.size(); ++k) {
+        for (auto & closure : closures) {
           // add the closure bond to the code
           fullcode.code.push_back(current_label);
-          fullcode.code.push_back(closures[k].second);
+          fullcode.code.push_back(closure.second);
           // add the bond to the list (needed for BOND-TYPES below)
-          code.add(closures[k].first);
+          code.add(closure.first);
           numClosures++;
         }
 
@@ -801,8 +801,7 @@ namespace OpenBabel {
       // the ATOM-TYPES list
       //
       OBStereoFacade facade(mol);
-      for (std::size_t j = 0; j < code.atoms.size(); ++j) {
-        OBAtom *atom = code.atoms[j];
+      for (auto atom : code.atoms) {
         if (atom->GetIsotope())
           hasIsotope = true;
         if (atom->GetFormalCharge())
@@ -823,21 +822,20 @@ namespace OpenBabel {
       // the (optional) ISOTOPES list
       //
       if (hasIsotope)
-        for (std::size_t j = 0; j < code.atoms.size(); ++j)
-          fullcode.code.push_back(code.atoms[j]->GetIsotope());
+        for (auto & atom : code.atoms)
+          fullcode.code.push_back(atom->GetIsotope());
 
       //
       // the (optional) CHARGES list
       //
       if (hasCharge)
-        for (std::size_t j = 0; j < code.atoms.size(); ++j)
-          fullcode.code.push_back(7 + code.atoms[j]->GetFormalCharge());
+        for (auto & atom : code.atoms)
+          fullcode.code.push_back(7 + atom->GetFormalCharge());
 
       //
       // the BOND-TYPES list
       //
-      for (std::size_t j = 0; j < code.bonds.size(); ++j) {
-        OBBond *bond = code.bonds[j];
+      for (auto bond : code.bonds) {
         if (bond->IsAromatic())
           fullcode.code.push_back(5);
         else
