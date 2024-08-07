@@ -3873,8 +3873,8 @@ namespace OpenBabel
     for (auto & i : cfl) {
       // Get all zero-order bonds in contiguous fragment
       vector<OBBond*> bonds;
-      for(vector<int>::const_iterator j = i.begin(); j != i.end(); ++j) {
-        FOR_BONDS_OF_ATOM(b, GetAtom(*j)) {
+      for(int j : i) {
+        FOR_BONDS_OF_ATOM(b, GetAtom(j)) {
           if (b->GetBondOrder() == 0 && !(find(bonds.begin(), bonds.end(), &*b) != bonds.end())) {
             bonds.push_back(&*b);
           }

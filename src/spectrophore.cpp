@@ -416,9 +416,9 @@ OBSpectrophore::_getEnergies(double** c, double* e)
    for (auto & boxPoint : _boxPoint)
    {
       // Reset value at box point
-      for (unsigned int prop = 0; prop < N_PROPERTIES; ++prop)
+      for (double & prop : boxPoint.v)
       {
-         boxPoint.v[prop] = 0.0;
+         prop = 0.0;
       }
 
       // Calculate squared distances between atoms and boxpoints
