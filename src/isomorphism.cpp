@@ -411,8 +411,8 @@ namespace OpenBabel {
               bool isUnique = true;
               for (auto & m_map : m_maps) {
                 std::vector<unsigned int> kValues;
-                for (OBIsomorphismMapper::Mapping::iterator it = m_map.begin(); it != m_map.end(); ++it)
-                  kValues.push_back(it->second);
+                for (auto & it : m_map)
+                  kValues.push_back(it.second);
                 std::sort(kValues.begin(), kValues.end());
 
               //  print_vector("kValues", kValues);
@@ -436,8 +436,8 @@ namespace OpenBabel {
         if (DEBUG)
           for (auto & map : maps) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = map.begin(); it != map.end(); ++it)
-              cout << "    " << it->first << " -> " << it->second << endl;
+            for (auto & it : map)
+              cout << "    " << it.first << " -> " << it.second << endl;
           }
       }
 
@@ -458,8 +458,8 @@ namespace OpenBabel {
         if (DEBUG)
           for (auto & map : maps) {
             cout << "mapping:" << endl;
-            for (Mapping::iterator it = map.begin(); it != map.end(); ++it)
-              cout << "    " << it->first << " -> " << it->second << endl;
+            for (auto & it : map)
+              cout << "    " << it.first << " -> " << it.second << endl;
           }
 
       }

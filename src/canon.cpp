@@ -1075,15 +1075,15 @@ namespace OpenBabel {
         bool merge = false;
         for (auto & orbit : orbits) {
 
-          for (std::size_t l = 0; l < newOrbit.size(); ++l) {
-            if (std::find(orbit.begin(), orbit.end(), newOrbit[l]) != orbit.end())
+          for (auto l : newOrbit) {
+            if (std::find(orbit.begin(), orbit.end(), l) != orbit.end())
               merge = true;
           }
 
           if (merge) {
-            for (std::size_t l = 0; l < newOrbit.size(); ++l)
-              if (std::find(orbit.begin(), orbit.end(), newOrbit[l]) == orbit.end())
-                orbit.push_back(newOrbit[l]);
+            for (auto l : newOrbit)
+              if (std::find(orbit.begin(), orbit.end(), l) == orbit.end())
+                orbit.push_back(l);
             break;
           }
         }
@@ -1378,8 +1378,8 @@ namespace OpenBabel {
         if (DEBUG) {
           cout << "allOrderedNbrs:" << endl;
           for (auto & allOrderedNbr : allOrderedNbrs) {
-            for (std::size_t j = 0; j < allOrderedNbr.size(); ++j) {
-              cout << allOrderedNbr[j]->GetIndex() << " ";
+            for (auto & j : allOrderedNbr) {
+              cout << j->GetIndex() << " ";
             }
             cout << endl;
           }
@@ -1388,21 +1388,21 @@ namespace OpenBabel {
         for (auto & allOrderedNbr : allOrderedNbrs) {
           // Convert the order stored in allOrderedNbrs to labels.
           unsigned int lbl = label;
-          for (std::size_t j = 0; j < allOrderedNbr.size(); ++j) {
+          for (auto & j : allOrderedNbr) {
             lbl++;
-            code.add(current, allOrderedNbr[j]);
-            code.labels[allOrderedNbr[j]->GetIndex()] = lbl;
+            code.add(current, j);
+            code.labels[j->GetIndex()] = lbl;
           }
 
           // Recurse...
           CanonicalLabelsRecursive(current, lbl, timeout, bestCode, state);
 
           // Backtrack...
-          for (std::size_t j = 0; j < allOrderedNbr.size(); ++j) {
+          for (auto & j : allOrderedNbr) {
             code.atoms.pop_back();
             code.bonds.pop_back();
             code.from.pop_back();
-            code.labels[allOrderedNbr[j]->GetIndex()] = 0;
+            code.labels[j->GetIndex()] = 0;
           }
 
           // Optimization
