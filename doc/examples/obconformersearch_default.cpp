@@ -66,9 +66,9 @@ int main(int argc, char **argv)
 
   // Print the rotor keys
   RotorKeys keys = cs.GetRotorKeys();
-  for (RotorKeys::iterator key = keys.begin(); key != keys.end(); ++key) {
-    for (unsigned int i = 1; i < key->size(); ++i)
-      std::cout << key->at(i) << " ";
+  for (auto & key : keys) {
+    for (unsigned int i = 1; i < key.size(); ++i)
+      std::cout << key.at(i) << " ";
     std::cout << std::endl;
   }
 
