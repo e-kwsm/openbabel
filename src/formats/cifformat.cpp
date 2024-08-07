@@ -1442,13 +1442,13 @@ namespace OpenBabel
 
           const unsigned int nbatoms=pos.second.mvAtom.size();
           pmol->ReserveAtoms(nbatoms);
-          for(vector<CIFData::CIFAtom>::const_iterator posat=pos.second.mvAtom.begin();posat!=pos.second.mvAtom.end();++posat)
+          for(const auto & posat : pos.second.mvAtom)
             {
               // Problem: posat->mSymbol is not guaranteed to actually be a symbol
               // see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
               // Try to strip the string to have a better chance to have a valid symbol
               // This is not guaranteed to work still, as the CIF standard allows about any string...
-              string tmpSymbol=posat->mSymbol;
+              string tmpSymbol=posat.mSymbol;
               unsigned int nbc=0;
               if((tmpSymbol.size()==1) && isalpha(tmpSymbol[0])) nbc=1;
               else if(tmpSymbol.size()>=2)
@@ -1459,7 +1459,7 @@ namespace OpenBabel
 
               OBAtom *atom  = pmol->NewAtom();
 
-              vLabelOBatom.insert(make_pair(posat->mLabel,atom));
+              vLabelOBatom.insert(make_pair(posat.mLabel,atom));
 
               if(tmpSymbol.size()>nbc)
                 {// Try to find a formal charge in the symbol
@@ -1492,27 +1492,27 @@ namespace OpenBabel
 
               atom->SetAtomicNum(atomicNum); //set atomic number, or '0' if the atom type is not recognized
               atom->SetType(tmpSymbol); //set atomic number, or '0' if the atom type is not recognized
-              atom->SetVector(posat->mCoordCart[0],posat->mCoordCart[1],posat->mCoordCart[2]);
-              if(posat->mLabel.size()>0)
+              atom->SetVector(posat.mCoordCart[0],posat.mCoordCart[1],posat.mCoordCart[2]);
+              if(posat.mLabel.size()>0)
               {
                 OBPairData *label = new OBPairData;
                 label->SetAttribute("_atom_site_label");
-                label->SetValue(posat->mLabel);
+                label->SetValue(posat.mLabel);
                 label->SetOrigin(fileformatInput);
                 atom->SetData(label);
               }
 
               OBPairFloatingPoint *occup_data = new OBPairFloatingPoint;
               occup_data->SetAttribute("_atom_site_occupancy");
-              occup_data->SetValue(posat->mOccupancy);
+              occup_data->SetValue(posat.mOccupancy);
               occup_data->SetOrigin(fileformatInput);
               atom->SetData(occup_data);
 
-              if( posat->mCharge != NOCHARGE )
+              if( posat.mCharge != NOCHARGE )
               {
                 OBPairFloatingPoint *charge_data = new OBPairFloatingPoint;
                 charge_data->SetAttribute("input_charge");
-                charge_data->SetValue(posat->mCharge);
+                charge_data->SetValue(posat.mCharge);
                 charge_data->SetOrigin(fileformatInput);
                 atom->SetData(charge_data);
               }
@@ -1521,11 +1521,11 @@ namespace OpenBabel
             pmol->ConnectTheDots();
           if (pConv->IsOption("B",OBConversion::INOPTIONS))
             {
-              for(vector<CIFData::CIFBond>::const_iterator posbond=pos.second.mvBond.begin();posbond!=pos.second.mvBond.end();++posbond)
+              for(const auto & posbond : pos.second.mvBond)
                 {// Add bonds present in the cif and not detected by ConnectTheDots()
                   std::map<std::string,OBAtom *>::iterator posat1,posat2;
-                  posat1=vLabelOBatom.find(posbond->mLabel1);
-                  posat2=vLabelOBatom.find(posbond->mLabel2);
+                  posat1=vLabelOBatom.find(posbond.mLabel1);
+                  posat2=vLabelOBatom.find(posbond.mLabel2);
                   if(posat1!=vLabelOBatom.end() && posat2!=vLabelOBatom.end())
                     {
                       stringstream ss;
@@ -1538,7 +1538,7 @@ namespace OpenBabel
                            bond->SetBegin(posat1->second);
                            bond->SetEnd(posat2->second);
                            bond->SetBondOrder(1);
-                           bond->SetLength(double(posbond->mDistance));
+                           bond->SetLength(double(posbond.mDistance));
                         }
                        else obErrorLog.ThrowError(__FUNCTION__, "  :Bond already present.. ", obDebug);
                     }
