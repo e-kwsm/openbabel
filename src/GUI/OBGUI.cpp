@@ -1098,22 +1098,22 @@ void OBGUIFrame::MakePluginsMenu()
   int n=0;
   std::vector<std::string> topvec;
   OBPlugin::ListAsVector(nullptr, nullptr, topvec);//get 'formats', 'fingerprints', etc
-  for(int itop=0; itop < topvec.size(); ++itop)
+  for(const auto & itop : topvec)
   {
     wxMenu* subMenu = new wxMenu();
     std::vector<std::string> subvec;
 //    std::vector<std::string> verbosevec;
-    OBPlugin::ListAsVector(topvec[itop].c_str(), nullptr, subvec);//get each format, etc as single line
+    OBPlugin::ListAsVector(itop.c_str(), nullptr, subvec);//get each format, etc as single line
 //    OBPlugin::ListAsVector(topvec[itop].c_str(), "verbose", verbosevec);//get full description of each format
     subMenu->Append(ID_HINT,_T("     (Click to see details and to copy ID to clipboard)"));
-    for(int isub=0; isub < subvec.size(); ++isub)
+    for(const auto & isub : subvec)
     {
 //      wxMenu* subsubMenu = new wxMenu();
 //      subsubMenu->Append(ID_PLUGINS+n++,wxString(verbosevec[isub].c_str()));
 //      subMenu->AppendSubMenu(subsubMenu, wxString(subvec[isub].c_str()));
-      subMenu->Append(ID_PLUGINS+n++,wxString(subvec[isub].c_str(), wxConvUTF8));
+      subMenu->Append(ID_PLUGINS+n++,wxString(isub.c_str(), wxConvUTF8));
     }
-    listMenu->AppendSubMenu(subMenu, wxString(topvec[itop].c_str(), wxConvUTF8),
+    listMenu->AppendSubMenu(subMenu, wxString(itop.c_str(), wxConvUTF8),
       _T("Plugin Classes"));
   }
 }
