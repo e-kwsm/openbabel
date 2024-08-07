@@ -78,10 +78,10 @@ namespace OpenBabel
   void OBBuilder::AddRingFragment(OBSmartsPattern *sp, const std::vector<vector3> &coords)
   {
     bool hasAllZeroCoords = true;
-    for (std::size_t i = 0; i < coords.size(); ++i) {
-      if (fabs(coords[i].x()) > 10e-8 ||
-          fabs(coords[i].y()) > 10e-8 ||
-          fabs(coords[i].z()) > 10e-8) {
+    for (const auto & coord : coords) {
+      if (fabs(coord.x()) > 10e-8 ||
+          fabs(coord.y()) > 10e-8 ||
+          fabs(coord.z()) > 10e-8) {
         hasAllZeroCoords = false;
         break;
       }
@@ -1137,8 +1137,8 @@ namespace OpenBabel
       LoadFragments();
 
 
-    for(vector<OBMol>::iterator f = fragments.begin(); f != fragments.end(); ++f) {
-      std::string fragment_smiles = conv.WriteString(&*f, true);
+    for(auto & fragment : fragments) {
+      std::string fragment_smiles = conv.WriteString(&fragment, true);
       bool isMatchRigid = false;
       // if rigid fragment is in database
       if (_rigid_fragments_index.count(fragment_smiles) > 0) {
@@ -1203,7 +1203,7 @@ namespace OpenBabel
         // the first (most complex) fragment.
         // Stop if there are no unassigned ring atoms (ratoms).
         for (; i != _ring_fragments.end() && ratoms; ++i) {
-          if (i->first != nullptr && i->first->Match(*f)) { // if match to fragment
+          if (i->first != nullptr && i->first->Match(fragment)) { // if match to fragment
             i->first->Match(mol);                        // match over mol
             mlist = i->first->GetUMapList();
             for (j = mlist.begin();j != mlist.end();++j) { // for all matches
@@ -1487,8 +1487,8 @@ namespace OpenBabel
       workMol.GetAtom(*match_it)->SetVector( workMol.GetAtom(*match_it)->GetVector() + posp );
 
     // Create the bonds between the two fragments
-    for (vector<int>::iterator nbr_id=nbrs.begin(); nbr_id!=nbrs.end(); ++nbr_id)
-      workMol.AddBond(p->GetIdx(), *nbr_id, 1, mol.GetBond(p->GetIdx(), *nbr_id)->GetFlags());
+    for (int & nbr : nbrs)
+      workMol.AddBond(p->GetIdx(), nbr, 1, mol.GetBond(p->GetIdx(), nbr)->GetFlags());
 
     return;
   }
@@ -1500,9 +1500,9 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref bond_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         if (ct->GetConfig().specified) {
           cistrans.push_back(ct);
           bond_id = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
@@ -1635,9 +1635,9 @@ namespace OpenBabel
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref atom_id;
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *th = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *th = dynamic_cast<OBTetrahedralStereo*>(data);
         if (th->GetConfig().specified) {
           tetra.push_back(th);
           atom_id = th->GetConfig().center;
@@ -1688,8 +1688,8 @@ namespace OpenBabel
         stringstream errorMsg;
         errorMsg << "Could not correct " << unfixed.size() << " stereocenter(s) in this molecule (" << mol.GetTitle() << ")";
         errorMsg << std::endl << "  with Atom Ids as follows:";
-        for (OBStereo::RefIter ref=unfixed.begin(); ref!=unfixed.end(); ++ref)
-          errorMsg << " " << *ref;
+        for (unsigned long & ref : unfixed)
+          errorMsg << " " << ref;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
 
         success = false; // uncorrected bond
@@ -1757,13 +1757,13 @@ namespace OpenBabel
       // Which ring stereos does this fragment contain, and
       // are the majority of them right or wrong?
       OBStereo::Refs wrong, right;
-      for (unsigned int i=0; i<atomIds.size(); ++i)
-        if (fragment.BitIsSet(atomIds[i].first)) {
-          if (atomIds[i].second)
-            right.push_back(atomIds[i].first);
+      for (auto & atomId : atomIds)
+        if (fragment.BitIsSet(atomId.first)) {
+          if (atomId.second)
+            right.push_back(atomId.first);
           else
-            wrong.push_back(atomIds[i].first);
-          seen.SetBitOn(atomIds[i].first);
+            wrong.push_back(atomId.first);
+          seen.SetBitOn(atomId.first);
         }
 
       if (right > wrong) { // Inverting would make things worse!
@@ -1787,8 +1787,7 @@ namespace OpenBabel
             if (!b->IsInRing())
               reconnect.push_back(&*b);
 
-      for (std::vector<OBBond*>::iterator bi=reconnect.begin(); bi!=reconnect.end(); ++bi) {
-        OBBond* b = *bi;
+      for (auto b : reconnect) {
         int bo = b->GetBondOrder();
         int begin = b->GetBeginAtomIdx();
         int end = b->GetEndAtomIdx();

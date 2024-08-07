@@ -821,8 +821,8 @@ namespace OpenBabel
         std::vector<int> rt;
         rt.clear();
         rt.push_back(0);
-        for(unsigned int i = 0; i < _vr.size(); i++){
-          rt.push_back(_vr[i].get_state());
+        for(auto & i : _vr){
+          rt.push_back(i.get_state());
         }
 
         return rt;
