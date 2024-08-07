@@ -215,15 +215,15 @@ const char* Description() override  // required
     // this ensures that both forms are found however they occur in the datafile or the taget.
     vector<OBBase*> extraSMARTSMols;
     vector<OBMol>extraUnchargedMols;
-    for(unsigned i=0;i<patternMols.size();++i)
+    for(auto & patternMol : patternMols)
     {
-      if(patternMols[i].ConvertDativeBonds())
-        extraSMARTSMols.push_back(&patternMols[i]);
+      if(patternMol.ConvertDativeBonds())
+        extraSMARTSMols.push_back(&patternMol);
       else 
       {
         // If target has uncharged dative bonds, still use it for fastsearching,
         // but add the charged form for -s filter.
-        extraUnchargedMols.push_back(patternMols[i]);
+        extraUnchargedMols.push_back(patternMol);
         if(extraUnchargedMols.back().MakeDativeBonds())
           extraSMARTSMols.push_back(&extraUnchargedMols.back());
       }

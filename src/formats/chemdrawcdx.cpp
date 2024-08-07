@@ -339,10 +339,10 @@ bool ChemDrawBinaryXFormat::DoReaction(CDXReader& cdxr, OBMol* pReact)
       {
         READ_INT32(ss,id);
         vector<OBMol*> molvec = LookupMol(id); //id could be a group with several mols
-        for(unsigned i=0;i<molvec.size();++i)
-          if(strcmp(molvec[i]->GetTitle(),"justplus"))
+        for(auto & i : molvec)
+          if(strcmp(i->GetTitle(),"justplus"))
           {
-            facade.AddComponent(molvec[i], REACTANT);
+            facade.AddComponent(i, REACTANT);
           }
       }
     }
@@ -353,10 +353,10 @@ bool ChemDrawBinaryXFormat::DoReaction(CDXReader& cdxr, OBMol* pReact)
       {
         READ_INT32(ss,id);
         vector<OBMol*> molvec = LookupMol(id); //id could be a group with several mols
-        for(unsigned i=0;i<molvec.size();++i)
-          if(strcmp(molvec[i]->GetTitle(),"justplus"))
+        for(auto & i : molvec)
+          if(strcmp(i->GetTitle(),"justplus"))
           {
-            facade.AddComponent(molvec[i], PRODUCT);
+            facade.AddComponent(i, PRODUCT);
             _lastProdId = id;
           }
       }
@@ -379,9 +379,9 @@ vector<OBMol*> ChemDrawBinaryXFormat::LookupMol(CDXObjectID id)
   gmapiter = _groupmap.find(id);
   if(gmapiter != _groupmap.end())
   {
-    for(unsigned i=0;i<gmapiter->second.size();++i)
+    for(int i : gmapiter->second)
     {
-      OBMol* pmmol = LookupInMolMap(gmapiter->second[i]);
+      OBMol* pmmol = LookupInMolMap(i);
       if(pmmol)
         molvec.push_back(pmmol);
     }
@@ -453,11 +453,10 @@ bool ChemDrawBinaryXFormat::DoFragment(CDXReader& cdxr, OBMol* pmol)
     if(ad && !ad->IsExpanded())
       aliasatoms.push_back(pAtom);
   }
-  for(vector<OBAtom*>::iterator vit=aliasatoms.begin();
-      vit!=aliasatoms.end(); ++vit)
+  for(auto & aliasatom : aliasatoms)
   {
-    int idx = (*vit)->GetIdx();
-    AliasData* ad = dynamic_cast<AliasData*>((*vit)->GetData(AliasDataType));
+    int idx = aliasatom->GetIdx();
+    AliasData* ad = dynamic_cast<AliasData*>(aliasatom->GetData(AliasDataType));
     if(ad && !ad->IsExpanded())
       ad->Expand(*pmol, idx); //Make chemically meaningful, if possible.
   }
@@ -638,9 +637,8 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
   }
   // Handle 'implicit carbons' by adjusting their valence with
   // implicit hydrognes
-  for(vector<OBAtom*>::iterator vit=handleImplicitCarbons.begin();
-      vit!=handleImplicitCarbons.end(); ++vit)
-    OBAtomAssignTypicalImplicitHydrogens(*vit);
+  for(auto & handleImplicitCarbon : handleImplicitCarbons)
+    OBAtomAssignTypicalImplicitHydrogens(handleImplicitCarbon);
 
   return true;
 }
