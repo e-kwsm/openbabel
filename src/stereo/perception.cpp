@@ -235,8 +235,7 @@ namespace OpenBabel {
    */
   bool isTetrahedral(OBAtom *atom, const OBStereoUnitSet &units)
   {
-    for (std::size_t i = 0; i < units.size(); ++i) {
-      const OBStereoUnit &unit = units[i];
+    for (const auto & unit : units) {
       if (unit.type != OBStereo::Tetrahedral)
         continue;
       if (unit.id == atom->GetId())
@@ -251,8 +250,7 @@ namespace OpenBabel {
    */
   bool isCisTrans(OBBond *bond, const OBStereoUnitSet &units)
   {
-    for (std::size_t i = 0; i < units.size(); ++i) {
-      const OBStereoUnit &unit = units[i];
+    for (const auto & unit : units) {
       if (unit.type != OBStereo::CisTrans)
         continue;
       if (unit.id == bond->GetId())
@@ -327,16 +325,16 @@ namespace OpenBabel {
     std::vector<OBRing*> rings = mol->GetSSSR();
 
     std::vector<OBBitVec> result;
-    for (std::size_t i = 0; i < rings.size(); ++i) {
+    for (auto & ring : rings) {
       // check if ring shares atom with previously found ring
       bool found = false;
-      for (std::size_t j = 0; j < result.size(); ++j) {
+      for (auto & j : result) {
         std::vector<unsigned int> shared;
         // foreach ring atom
-        for (std::size_t k = 0; k < rings[i]->_path.size(); ++k) {
+        for (std::size_t k = 0; k < ring->_path.size(); ++k) {
           // check if the ring atom is in the current result bitvec
-          if (result[j].BitIsSet(rings[i]->_path[k])) {
-            shared.push_back(rings[i]->_path[k]);
+          if (j.BitIsSet(ring->_path[k])) {
+            shared.push_back(ring->_path[k]);
           }
         }
 
@@ -350,8 +348,8 @@ namespace OpenBabel {
 
         if (found) {
           // add bits for the atoms in the ring
-          for (std::size_t l = 0; l < rings[i]->_path.size(); ++l)
-            result[j].SetBitOn(rings[i]->_path[l]);
+          for (std::size_t l = 0; l < ring->_path.size(); ++l)
+            j.SetBitOn(ring->_path[l]);
           break;
         }
       }
@@ -359,8 +357,8 @@ namespace OpenBabel {
       // add the ring as a new bitvec if it shares no atom with a previous ring
       if (!found) {
         OBBitVec r;
-        for (std::size_t l = 0; l < rings[i]->_path.size(); ++l)
-          r.SetBitOn(rings[i]->_path[l]);
+        for (std::size_t l = 0; l < ring->_path.size(); ++l)
+          r.SetBitOn(ring->_path[l]);
         result.push_back(r);
       }
     }
@@ -423,8 +421,8 @@ namespace OpenBabel {
       OBAtom* GetCenter(OBMol *mol) const { return mol->GetAtomById(id); }
       bool isInRing(const StereoRing &ring) const
       {
-        for (std::size_t i = 0; i < ring.paraAtoms.size(); ++i)
-          if (ring.paraAtoms[i].inIdx == inIdx)
+        for (const auto & paraAtom : ring.paraAtoms)
+          if (paraAtom.inIdx == inIdx)
             return true;
         return false;
       }
@@ -442,8 +440,8 @@ namespace OpenBabel {
       OBBond* GetCenter(OBMol *mol) const { return mol->GetBondById(id); }
       bool isInRing(const StereoRing &ring) const
       {
-        for (std::size_t i = 0; i < ring.paraBonds.size(); ++i)
-          if (ring.paraBonds[i].inIdx == inIdx)
+        for (const auto & paraBond : ring.paraBonds)
+          if (paraBond.inIdx == inIdx)
             return true;
         return false;
       }
@@ -470,8 +468,8 @@ namespace OpenBabel {
     OBMol *mol = currentPara.insideNbrs[0]->GetParent();
     assert(mol->GetAtom(currentPara.outIdx));
     OBBitVec ligand = getFragment(currentPara.outsideNbrs[0], mol->GetAtom(currentPara.outIdx));
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand)) {
+    for (const auto & unit : units) {
+      if (isUnitInFragment(mol, unit, ligand)) {
         //cout << "OK: " << __LINE__ << endl;
         return true;
       }
@@ -884,23 +882,23 @@ namespace OpenBabel {
     std::vector<StereoRing> rings;
 
     //cout << "=====================================================" << endl;
-    for (std::size_t i = 0; i < lssr.size(); ++i) {
+    for (auto & i : lssr) {
       rings.push_back(StereoRing());
       StereoRing &ring = rings.back();
 
 
-      for (std::size_t j = 0; j < stereoAtoms.size(); ++j)
-        if (lssr[i]->_pathset.BitIsSet(stereoAtoms[j]))
+      for (unsigned int stereoAtom : stereoAtoms)
+        if (i->_pathset.BitIsSet(stereoAtom))
           ring.trueCount++;
 
       //cout << "StereoRing: trueCount = " << ring.trueCount << endl;
-      for (std::size_t j = 0; j < paraAtoms.size(); ++j) {
-        if (lssr[i]->_pathset.BitIsSet(paraAtoms[j])) {
-          OBAtom *atom = mol->GetAtom(paraAtoms[j]);
-          ring.paraAtoms.push_back(StereoRing::ParaAtom(atom->GetId(), paraAtoms[j]));
+      for (unsigned int paraAtom : paraAtoms) {
+        if (i->_pathset.BitIsSet(paraAtom)) {
+          OBAtom *atom = mol->GetAtom(paraAtom);
+          ring.paraAtoms.push_back(StereoRing::ParaAtom(atom->GetId(), paraAtom));
 
-          FOR_NBORS_OF_ATOM (nbr, mol->GetAtom(paraAtoms[j])) {
-            if (lssr[i]->_pathset.BitIsSet(nbr->GetIdx()))
+          FOR_NBORS_OF_ATOM (nbr, mol->GetAtom(paraAtom)) {
+            if (i->_pathset.BitIsSet(nbr->GetIdx()))
               ring.paraAtoms.back().insideNbrs.push_back(&*nbr);
             else
               ring.paraAtoms.back().outsideNbrs.push_back(&*nbr);
@@ -912,12 +910,12 @@ namespace OpenBabel {
         }
       }
 
-      for (std::size_t j = 0; j < paraBonds.size(); ++j) {
-        OBBond *bond = mol->GetBond(paraBonds[j]);
+      for (unsigned int paraBond : paraBonds) {
+        OBBond *bond = mol->GetBond(paraBond);
         unsigned int beginIdx = bond->GetBeginAtomIdx();
         unsigned int endIdx = bond->GetEndAtomIdx();
 
-        if (lssr[i]->_pathset.BitIsSet(beginIdx)) {
+        if (i->_pathset.BitIsSet(beginIdx)) {
           ring.paraBonds.push_back(StereoRing::ParaBond(bond->GetId(), beginIdx, endIdx));
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetBeginAtom()) {
@@ -936,7 +934,7 @@ namespace OpenBabel {
             ring.paraBonds.pop_back();
         }
 
-        if (lssr[i]->_pathset.BitIsSet(endIdx)) {
+        if (i->_pathset.BitIsSet(endIdx)) {
           ring.paraBonds.push_back(StereoRing::ParaBond(bond->GetId(), endIdx, beginIdx));
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetEndAtom()) {
@@ -983,13 +981,13 @@ namespace OpenBabel {
      *   - 2 true-stereocenters
      *   - 2 separate assemblies of para-stereocenters
      */
-    for (std::vector<unsigned int>::iterator idx = paraAtoms.begin(); idx != paraAtoms.end(); ++idx) {
-      OBAtom *atom = mol->GetAtom(*idx);
+    for (unsigned int & paraAtom : paraAtoms) {
+      OBAtom *atom = mol->GetAtom(paraAtom);
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-        if ((*u2).type == OBStereo::Tetrahedral)
-          if (atom->GetId() == (*u2).id) {
+      for (auto & unit : units) {
+        if (unit.type == OBStereo::Tetrahedral)
+          if (atom->GetId() == unit.id) {
             alreadyAdded = true;
           }
       }
@@ -1050,14 +1048,14 @@ namespace OpenBabel {
      * - 1 or 2 pair identical ligands (on begin and end atom)
      * - each pair contains at least 1 true-stereocenter or 2 para-stereocenters (from rule1)
      */
-    for (std::vector<unsigned int>::iterator idx = paraBonds.begin(); idx != paraBonds.end(); ++idx) {
-      OBBond *bond = mol->GetBond(*idx);
+    for (unsigned int & paraBond : paraBonds) {
+      OBBond *bond = mol->GetBond(paraBond);
 
       // make sure we didn't add this atom already from rule 1
       bool alreadyAdded = false;
-      for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-        if ((*u2).type == OBStereo::CisTrans)
-          if (bond->GetId() == (*u2).id) {
+      for (auto & unit : units) {
+        if (unit.type == OBStereo::CisTrans)
+          if (bond->GetId() == unit.id) {
             alreadyAdded = true;
           }
       }
@@ -1085,12 +1083,12 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, begin);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-              if ((*u2).type == OBStereo::Tetrahedral) {
-                if (ligand.BitIsSet((*u2).id))
+            for (auto & unit : units) {
+              if (unit.type == OBStereo::Tetrahedral) {
+                if (ligand.BitIsSet(unit.id))
                   beginValid = true;
-              } else if((*u2).type == OBStereo::CisTrans) {
-                OBBond *bond = mol->GetBondById((*u2).id);
+              } else if(unit.type == OBStereo::CisTrans) {
+                OBBond *bond = mol->GetBondById(unit.id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
@@ -1122,12 +1120,12 @@ namespace OpenBabel {
             }
 
             OBBitVec ligand = getFragment(ligandAtom, end);
-            for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-              if ((*u2).type == OBStereo::Tetrahedral) {
-                if (ligand.BitIsSet((*u2).id))
+            for (auto & unit : units) {
+              if (unit.type == OBStereo::Tetrahedral) {
+                if (ligand.BitIsSet(unit.id))
                   endValid = true;
-              } else if((*u2).type == OBStereo::CisTrans) {
-                OBBond *bond = mol->GetBondById((*u2).id);
+              } else if(unit.type == OBStereo::CisTrans) {
+                OBBond *bond = mol->GetBondById(unit.id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
@@ -1143,13 +1141,13 @@ namespace OpenBabel {
     }
 
     if (DEBUG) {
-      for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
-        if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+      for (auto & unit : units) {
+        if (unit.type == OBStereo::Tetrahedral)
+          cout << "Tetrahedral(center = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::CisTrans)
+          cout << "CisTrans(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::SquarePlanar)
+          cout << "SquarePlanar(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
       }
     }
 
@@ -1287,9 +1285,7 @@ namespace OpenBabel {
       std::vector< std::vector<OBAtom*> > duplicatedAtoms;
 
       int permutated = 0;
-      for (std::size_t i = 0; i < duplicatedSymClasses.size(); ++i) {
-        unsigned int duplicatedSymClass = duplicatedSymClasses[i];
-
+      for (unsigned int duplicatedSymClass : duplicatedSymClasses) {
         duplicatedAtoms.resize(duplicatedAtoms.size()+1);
 
         // Store the ligand indexes for the atoms with the duplicated symmetry class
@@ -1307,9 +1303,9 @@ namespace OpenBabel {
 
         // Translate the sorted indexes using the automorphism
         std::vector<unsigned long> tlist2;
-        for (std::size_t j = 0; j < tlist1.size(); ++j) {
+        for (auto & j : tlist1) {
           unsigned int t;
-          if (MapsTo(p, tlist1[j].first, t))
+          if (MapsTo(p, j.first, t))
             tlist2.push_back(canon_labels[t]);
         }
 
@@ -1326,12 +1322,12 @@ namespace OpenBabel {
         assert( duplicatedAtoms.size() == 2 );
         assert( duplicatedAtoms[0].size() == 2 );
         assert( duplicatedAtoms[1].size() == 2 );
-        for (std::size_t i = 0; i < lssr.size(); ++i) {
-          if (lssr[i]->_pathset.BitIsSet(duplicatedAtoms[0][0]->GetIdx()) &&
-              lssr[i]->_pathset.BitIsSet(duplicatedAtoms[0][1]->GetIdx()))
+        for (auto & i : lssr) {
+          if (i->_pathset.BitIsSet(duplicatedAtoms[0][0]->GetIdx()) &&
+              i->_pathset.BitIsSet(duplicatedAtoms[0][1]->GetIdx()))
             return false;
-          if (lssr[i]->_pathset.BitIsSet(duplicatedAtoms[1][0]->GetIdx()) &&
-              lssr[i]->_pathset.BitIsSet(duplicatedAtoms[1][1]->GetIdx()))
+          if (i->_pathset.BitIsSet(duplicatedAtoms[1][0]->GetIdx()) &&
+              i->_pathset.BitIsSet(duplicatedAtoms[1][1]->GetIdx()))
             return false;
         }
         return true;
@@ -1358,9 +1354,9 @@ namespace OpenBabel {
 
       // Translate the sorted indexes using the automorphism
       std::vector<unsigned long> tlist2;
-      for (std::size_t j = 0; j < tlist1.size(); ++j) {
+      for (auto & j : tlist1) {
         unsigned int t;
-        if (MapsTo(p, tlist1[j].first, t))
+        if (MapsTo(p, j.first, t))
           tlist2.push_back(canon_labels[t]);
       }
 
@@ -1443,12 +1439,12 @@ namespace OpenBabel {
           }
           cout << endl;
           cout << "  invertedAtoms: ";
-          for (std::size_t l = 0; l < entry.invertedAtoms.size(); ++l)
-            cout << entry.invertedAtoms[l]->GetId() << " ";
+          for (auto & invertedAtom : entry.invertedAtoms)
+            cout << invertedAtom->GetId() << " ";
           cout << endl;
           cout << "  invertedBonds: ";
-          for (std::size_t l = 0; l < entry.invertedBonds.size(); ++l)
-            cout << entry.invertedBonds[l]->GetId() << " ";
+          for (auto & invertedBond : entry.invertedBonds)
+            cout << invertedBond->GetId() << " ";
           cout << endl;
         }
 
@@ -1502,8 +1498,8 @@ namespace OpenBabel {
     OBMol *mol = skip->GetParent();
     // create the fragment bitvec
     OBBitVec ligand = getFragment(ligandAtom, skip);
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand))
+    for (const auto & unit : units) {
+      if (isUnitInFragment(mol, unit, ligand))
         return true;
     }
     return false;
@@ -1526,9 +1522,9 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     bool foundTrueStereoCenter = false;
     int paraStereoCenterCount = 0;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if (isUnitInFragment(mol, *u2, ligand)) {
-        if ((*u2).para) {
+    for (const auto & unit : units) {
+      if (isUnitInFragment(mol, unit, ligand)) {
+        if (unit.para) {
           paraStereoCenterCount++;
         } else {
           foundTrueStereoCenter = true;
@@ -1560,11 +1556,11 @@ namespace OpenBabel {
     OBBitVec ligand = getFragment(ligandAtom, atom);
     int trueStereoCenterCount = 0;
     std::vector<unsigned int> ringIndices;
-    for (OBStereoUnitSet::const_iterator u2 = units.begin(); u2 != units.end(); ++u2) {
-      if ((*u2).type == OBStereo::Tetrahedral) {
-        if (ligand.BitIsSet((*u2).id)) {
-          if ((*u2).para) {
-            OBAtom *paraAtom = mol->GetAtomById((*u2).id);
+    for (const auto & unit : units) {
+      if (unit.type == OBStereo::Tetrahedral) {
+        if (ligand.BitIsSet(unit.id)) {
+          if (unit.para) {
+            OBAtom *paraAtom = mol->GetAtomById(unit.id);
             for (std::size_t ringIdx = 0; ringIdx < mergedRings.size(); ++ringIdx) {
               if (mergedRings.at(ringIdx).BitIsSet(paraAtom->GetIdx()))
                 if (std::find(ringIndices.begin(), ringIndices.end(), ringIdx) == ringIndices.end())
@@ -1573,12 +1569,12 @@ namespace OpenBabel {
           } else
             trueStereoCenterCount++;
         }
-      } else if((*u2).type == OBStereo::CisTrans) {
-        OBBond *bond = mol->GetBondById((*u2).id);
+      } else if(unit.type == OBStereo::CisTrans) {
+        OBBond *bond = mol->GetBondById(unit.id);
         OBAtom *begin = bond->GetBeginAtom();
         OBAtom *end = bond->GetEndAtom();
         if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId())) {
-          if ((*u2).para) {
+          if (unit.para) {
             for (std::size_t ringIdx = 0; ringIdx < mergedRings.size(); ++ringIdx) {
               if (mergedRings.at(ringIdx).BitIsSet(begin->GetIdx()) || mergedRings.at(ringIdx).BitIsSet(end->GetIdx())) {
                 if (std::find(ringIndices.begin(), ringIndices.end(), ringIdx) == ringIndices.end()) {
@@ -1637,11 +1633,11 @@ namespace OpenBabel {
         // permutation causing an inversion of the configuration of only the potential
         // stereogenic unit under consideration.
         bool foundPermutation = false; // invert __only__ configuration of atom
-        for (std::size_t i = 0; i < inverted.size(); ++i) {
-          const std::vector<OBAtom*> &atoms = inverted[i].invertedAtoms;
+        for (auto & i : inverted) {
+          const std::vector<OBAtom*> &atoms = i.invertedAtoms;
           if (atoms.size() != 1)
             continue;
-          const std::vector<OBBond*> &bonds = inverted[i].invertedBonds;
+          const std::vector<OBBond*> &bonds = i.invertedBonds;
           if (bonds.size())
             continue;
           if (atoms[0] == atom) {
@@ -1724,12 +1720,12 @@ namespace OpenBabel {
         // permutation causing an inversion of the configuration of only the potential
         // stereogenic unit under consideration.
         bool foundPermutation = false; // invert __only__ configuration of atom
-        for (std::size_t i = 0; i < inverted.size(); ++i) {
-          const std::vector<OBAtom*> &atoms = inverted[i].invertedAtoms;
+        for (auto & i : inverted) {
+          const std::vector<OBAtom*> &atoms = i.invertedAtoms;
           // if any atoms are inverted, the bond can't be the only inverted stereocenter
           if (atoms.size())
             continue;
-          const std::vector<OBBond*> &bonds = inverted[i].invertedBonds;
+          const std::vector<OBBond*> &bonds = i.invertedBonds;
           // the bond should be the only inverted stereocenter
           if (bonds.size() != 1)
             continue;
@@ -1809,13 +1805,13 @@ namespace OpenBabel {
     }
 
     if (DEBUG) {
-      for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
-        if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
-        if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+      for (auto & unit : units) {
+        if (unit.type == OBStereo::Tetrahedral)
+          cout << "Tetrahedral(center = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::CisTrans)
+          cout << "CisTrans(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
+        if (unit.type == OBStereo::SquarePlanar)
+          cout << "SquarePlanar(bond = " << unit.id << ", para = " << unit.para << ")" << endl;
       }
     }
 
@@ -1941,9 +1937,9 @@ namespace OpenBabel {
     obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::CisTransFrom0D", obAuditMsg);
 
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto & stereoUnit : stereoUnits)
+      if (stereoUnit.type == OBStereo::CisTrans)
+        bonds.push_back(stereoUnit.id);
 
     // Delete any existing stereo objects that are not a member of 'bonds'
     // and make a map of the remaining ones
@@ -2104,9 +2100,9 @@ namespace OpenBabel {
 
     // find all tetrahedral centers
     std::vector<unsigned long> centers;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::Tetrahedral)
-        centers.push_back((*u).id);
+    for (const auto & stereoUnit : stereoUnits)
+      if (stereoUnit.type == OBStereo::Tetrahedral)
+        centers.push_back(stereoUnit.id);
 
     std::vector<unsigned long>::iterator i;
     for (i = centers.begin(); i != centers.end(); ++i) {
@@ -2206,9 +2202,9 @@ namespace OpenBabel {
 
     // find all cis/trans bonds
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto & stereoUnit : stereoUnits)
+      if (stereoUnit.type == OBStereo::CisTrans)
+        bonds.push_back(stereoUnit.id);
 
     std::vector<unsigned long>::iterator i;
     for (i = bonds.begin(); i != bonds.end(); ++i) {
@@ -2416,9 +2412,9 @@ namespace OpenBabel {
 
     // find all tetrahedral centers
     std::vector<unsigned long> centers;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::Tetrahedral)
-        centers.push_back((*u).id);
+    for (const auto & stereoUnit : stereoUnits)
+      if (stereoUnit.type == OBStereo::Tetrahedral)
+        centers.push_back(stereoUnit.id);
 
 
     std::vector<unsigned long>::iterator i;
@@ -2678,9 +2674,9 @@ namespace OpenBabel {
 
     // find all cis/trans bonds
     std::vector<unsigned long> bonds;
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.begin(); u != stereoUnits.end(); ++u)
-      if ((*u).type == OBStereo::CisTrans)
-        bonds.push_back((*u).id);
+    for (const auto & stereoUnit : stereoUnits)
+      if (stereoUnit.type == OBStereo::CisTrans)
+        bonds.push_back(stereoUnit.id);
 
     std::vector<unsigned long>::iterator i;
     for (i = bonds.begin(); i != bonds.end(); ++i) {
@@ -2782,9 +2778,9 @@ namespace OpenBabel {
     // Store the tetcenters for the second loop (below)
     std::set <unsigned long> tetcenters;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
         tetcenters.insert(cfg.center);
       }
@@ -2792,9 +2788,9 @@ namespace OpenBabel {
     // This loop sets one bond of each tet stereo to up or to down (2D only)
     std::set <OBBond *> alreadyset;
     OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
 
         if (cfg.specified) {
@@ -2956,9 +2952,9 @@ namespace OpenBabel {
     // Get double bonds with unspecified CisTransStereo
     set<OBBond*> unspec_ctstereo;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto & data : vdata)
+      if (((OBStereoBase*)data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         OBCisTransStereo::Config cfg = ct->GetConfig();
         if (!cfg.specified) {
           OBBond* dbl_bond = mol.GetBond(mol.GetAtomById(cfg.begin), mol.GetAtomById(cfg.end));
@@ -2970,8 +2966,8 @@ namespace OpenBabel {
 
   void StereoRefToImplicit(OBMol& mol, OBStereo::Ref atomId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+    for (auto & data : vdata) {
+      OBStereo::Type datatype = ((OBStereoBase*)data)->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
         // Maybe I should just unset the stereochemistry if this happens?
@@ -2982,13 +2978,13 @@ namespace OpenBabel {
 
       // Replace any references to atomId with ImplicitRef
       if (datatype == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         OBCisTransStereo::Config ct_cfg = ct->GetConfig();
         replace(ct_cfg.refs.begin(), ct_cfg.refs.end(), atomId, (OBStereo::Ref) OBStereo::ImplicitRef);
         ct->SetConfig(ct_cfg);
       }
       else if (datatype == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.from == atomId) ts_cfg.from = OBStereo::ImplicitRef;
         replace(ts_cfg.refs.begin(), ts_cfg.refs.end(), atomId, (OBStereo::Ref) OBStereo::ImplicitRef);
@@ -2999,8 +2995,8 @@ namespace OpenBabel {
 
   void ImplicitRefToStereo(OBMol& mol, OBStereo::Ref centerId, OBStereo::Ref newId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+    for (auto & data : vdata) {
+      OBStereo::Type datatype = ((OBStereoBase*)data)->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
         // Maybe I should just unset the stereochemistry if this happens?
@@ -3011,7 +3007,7 @@ namespace OpenBabel {
 
       // Replace any references to ImplicitRef (attached to centerId) with newId
       if (datatype == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         OBCisTransStereo::Config ct_cfg = ct->GetConfig();
         if (ct_cfg.begin == centerId || ct_cfg.end == centerId) {
           // Assumption: the first two refs are on the begin atom, the last two on the end atom
@@ -3023,7 +3019,7 @@ namespace OpenBabel {
         }
       }
       else if (datatype == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.center == centerId) {
           if (ts_cfg.from == OBStereo::ImplicitRef) ts_cfg.from = newId;
