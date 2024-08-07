@@ -286,9 +286,9 @@ namespace OpenBabel
             ifs.getline(buffer, BUFF_SIZE); // real data
             tokenize(vs, buffer);
             while(vs.size() > 0) { // ends with a blank line
-              for (unsigned int orbital = 0; orbital < vs.size(); ++orbital) {
+              for (const auto & v : vs) {
                 // orbitals are listed in eV already, no conversion needed
-                orbitalEnergies.push_back(atof(vs[orbital].c_str()));
+                orbitalEnergies.push_back(atof(v.c_str()));
               }
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs, buffer);
@@ -380,8 +380,8 @@ namespace OpenBabel
             ifs.getline(buffer, BUFF_SIZE); // blank
             ifs.getline(buffer, BUFF_SIZE); // frequencies
             tokenize(vs, buffer);
-            for (unsigned int i = 0; i < vs.size(); ++i) {
-              frequencies.push_back(atof(vs[i].c_str()));
+            for (const auto & v : vs) {
+              frequencies.push_back(atof(v.c_str()));
             }
             ifs.getline(buffer, BUFF_SIZE); // blank
 
@@ -818,11 +818,11 @@ namespace OpenBabel
       //      uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
       vector<vector3> cellVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = cellVectors.begin(); i != cellVectors.end(); ++i) {
+      for (auto & cellVector : cellVectors) {
         snprintf(buffer,BUFF_SIZE,"Tv %8.5f 1 %8.5f 1 %8.5f 1",
-                 i->x(),
-                 i->y(),
-                 i->z());
+                 cellVector.x(),
+                 cellVector.y(),
+                 cellVector.z());
         ofs << buffer << "\n";
       }
     }

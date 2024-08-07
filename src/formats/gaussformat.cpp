@@ -223,11 +223,11 @@ namespace OpenBabel
       uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
       vector<vector3> cellVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = cellVectors.begin(); i != cellVectors.end(); ++i) {
+      for (auto & cellVector : cellVectors) {
           snprintf(buffer, BUFF_SIZE, "TV       %10.5f      %10.5f      %10.5f",
-                   i->x(),
-                   i->y(),
-                   i->z());
+                   cellVector.x(),
+                   cellVector.y(),
+                   cellVector.z());
         ofs << buffer << '\n';
       }
     }

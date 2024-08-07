@@ -133,8 +133,8 @@ namespace OpenBabel {
     // other common directories to find the .STRUCT_OUT file in.
     directories.push_back(".");
     directories.push_back("work");
-    for (size_t i = 0; i < directories.size(); i++) {
-      struct_name = path + directories.at(i) + "/" + fileName + ".STRUCT_OUT";
+    for (const auto & directorie : directories) {
+      struct_name = path + directorie + "/" + fileName + ".STRUCT_OUT";
       ifs_struct_out.open(struct_name.c_str());
       if (ifs_struct_out) break;
       else ifs_struct_out.close();
@@ -179,8 +179,8 @@ namespace OpenBabel {
       vector<OBAtom*> toDelete;
       FOR_ATOMS_OF_MOL(a, *pmol)
         toDelete.push_back(&*a);
-      for (size_t i = 0; i < toDelete.size(); i++)
-        pmol->DeleteAtom(toDelete.at(i));
+      for (auto & i : toDelete)
+        pmol->DeleteAtom(i);
 
       // Store atom info
       int atomsIterated = 0;
@@ -253,8 +253,8 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
-          pmol->DeleteAtom(toDelete.at(i));
+        for (auto & i : toDelete)
+          pmol->DeleteAtom(i);
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
@@ -305,8 +305,8 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
-          pmol->DeleteAtom(toDelete.at(i));
+        for (auto & i : toDelete)
+          pmol->DeleteAtom(i);
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);

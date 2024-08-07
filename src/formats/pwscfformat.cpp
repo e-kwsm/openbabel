@@ -198,8 +198,8 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
-          pmol->DeleteAtom(toDelete.at(i));
+        for (auto & i : toDelete)
+          pmol->DeleteAtom(i);
 
 
         // Discover units

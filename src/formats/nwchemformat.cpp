@@ -873,8 +873,8 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         }
     }
     cerr << "Failed to read NEB calculation!" << endl;
-    for(unsigned int i = 0; i < beads.size();i++)
-        delete beads[i];
+    for(auto & bead : beads)
+        delete bead;
   }
 
   /////////////////////////////////////////////////////////////////
@@ -976,8 +976,8 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         }
     }
     // Something went wrong. Do some cleanup and exit
-    for(unsigned int i = 0; i < beads.size();i++)
-        delete beads[i];
+    for(auto & bead : beads)
+        delete bead;
   }
 
   /////////////////////////////////////////////////////////////////
