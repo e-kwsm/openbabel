@@ -1328,7 +1328,7 @@ namespace OpenBabel
     //Attach vibrational data, if there is any, to molecule
     if(Frequencies.size()>0)
     {
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       if (RamanActivities.size() != 0) {
         // check to see if they're all zero
         bool allZero = true;

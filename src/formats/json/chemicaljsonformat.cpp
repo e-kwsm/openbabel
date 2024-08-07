@@ -62,7 +62,7 @@ private:
 ChemicalJSONFormat theChemicalJSONFormat;
 
 bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
-  OBMol *pmol = pOb->CastAndClear<OBMol>();
+  auto *pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr)
     return false;
   istream &ifs = *pConv->GetInStream();
@@ -218,7 +218,7 @@ bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
   // unit cell
   if (inRoot.HasMember("unitCell") && inRoot["unitCell"].IsObject()) {
     const rapidjson::Value &unitCell = inRoot["unitCell"];
-    OBUnitCell *uc = new OBUnitCell();
+    auto *uc = new OBUnitCell();
 
     // if spaceGroup is set use it
     if (unitCell.HasMember("spaceGroup") && unitCell["spaceGroup"].IsString()) {
@@ -270,7 +270,7 @@ bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
 }
 
 bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
-  OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+  auto *pmol = dynamic_cast<OBMol *>(pOb);
   if (pmol == nullptr)
     return false;
   ostream &ofs = *pConv->GetOutStream();
@@ -299,7 +299,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   rapidjson::Value nmrShifts(rapidjson::kArrayType);
 
   std::string chargeMethod = "Gasteiger"; // that's the default
-  OBPairData *dp = (OBPairData *)pmol->GetData("PartialCharges");
+  auto *dp = (OBPairData *)pmol->GetData("PartialCharges");
   if (dp != nullptr)
     chargeMethod = dp->GetValue();
 
@@ -381,7 +381,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
   // unit cells
   if (pmol->HasData(OBGenericDataType::UnitCell)) {
-    OBUnitCell *uc = (OBUnitCell *)pmol->GetData(OBGenericDataType::UnitCell);
+    auto *uc = (OBUnitCell *)pmol->GetData(OBGenericDataType::UnitCell);
     if (uc != nullptr) {
       rapidjson::Value unitCell(rapidjson::kObjectType);
       unitCell.AddMember("a", uc->GetA(), al);
@@ -394,7 +394,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
       // also write the cell vectors
       rapidjson::Value cellVectors(rapidjson::kArrayType);
       vector<vector3> obVectors = uc->GetCellVectors();
-      for (vector<vector3>::iterator i = obVectors.begin();
+      for (auto i = obVectors.begin();
            i != obVectors.end(); ++i) {
         cellVectors.PushBack(i->x(), al);
         cellVectors.PushBack(i->y(), al);
@@ -414,7 +414,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
   // vibrations
   if (pmol->HasData(OBGenericDataType::VibrationData)) {
-    OBVibrationData *vib =
+    auto *vib =
         (OBVibrationData *)pmol->GetData(OBGenericDataType::VibrationData);
     if (vib != nullptr) {
       rapidjson::Value vibrations(rapidjson::kObjectType);
@@ -477,7 +477,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
   // check for electronic spectra (UV/Vis, CD)
   if (pmol->HasData(OBGenericDataType::ElectronicData)) {
-    OBElectronicTransitionData *edata =
+    auto *edata =
         (OBElectronicTransitionData *)pmol->GetData(
             OBGenericDataType::ElectronicTransitionData);
 
@@ -528,7 +528,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   properties.AddMember("totalEnergy", pmol->GetEnergy(), al);
   // look for conformer energies
   if (pmol->HasData(OBGenericDataType::ConformerData)) {
-    OBConformerData *cd =
+    auto *cd =
         (OBConformerData *) pmol->GetData(OBGenericDataType::ConformerData);
     vector<double> energies = cd->GetEnergies();
     rapidjson::Value confEnergies(rapidjson::kArrayType);
