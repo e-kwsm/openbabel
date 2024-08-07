@@ -98,8 +98,8 @@ bool doStereoPerception(OBMol &mol, int numTetrahedral, int numCisTrans)
 
   int tetrahedralCount = 0;
   int cistransCount = 0;
-  for (unsigned int i = 0; i < units.size(); ++i) {
-    switch (units.at(i).type) {
+  for (auto & unit : units) {
+    switch (unit.type) {
       case OBStereo::Tetrahedral:
         tetrahedralCount++;
         break;
@@ -128,8 +128,8 @@ bool doStereoPerception2(OBMol &mol, int numTetrahedral, int numCisTrans)
 
   int tetrahedralCount = 0;
   int cistransCount = 0;
-  for (unsigned int i = 0; i < units.size(); ++i) {
-    switch (units.at(i).type) {
+  for (auto & unit : units) {
+    switch (unit.type) {
       case OBStereo::Tetrahedral:
         tetrahedralCount++;
         break;
@@ -199,11 +199,11 @@ bool doStereoPerception3(OBMol &mol, const OBStereoUnitSet &refUnits = OBStereoU
 
     OB_COMPARE(units.size(), refUnits.size());
 
-    for (unsigned int i = 0; i < units.size(); ++i) {
+    for (auto & unit : units) {
       bool foundUnit = false;
-      for (unsigned int j = 0; j < refUnits.size(); ++j) {
-        if (units[i].type == refUnits[j].type)
-          if (units[i].id == refUnits[j].id)
+      for (const auto & refUnit : refUnits) {
+        if (unit.type == refUnit.type)
+          if (unit.id == refUnit.id)
             foundUnit = true;
       }
       OB_ASSERT( foundUnit );
