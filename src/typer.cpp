@@ -84,7 +84,9 @@ namespace OpenBabel
 
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1]))
+        {
           _vinthyb.push_back(pair<OBSmartsPattern*,int> (sp,atoi((char*)vs[2].c_str())));
+        }
         else
           {
             delete sp;
@@ -103,7 +105,9 @@ namespace OpenBabel
           }
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1]))
+        {
           _vexttyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[2]));
+        }
         else
           {
             delete sp;
@@ -135,7 +139,9 @@ namespace OpenBabel
   void OBAtomTyper::AssignTypes(OBMol &mol)
   {
     if (!_init)
+    {
       Init();
+    }
 
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::AssignTypes", obAuditMsg);
@@ -150,7 +156,9 @@ namespace OpenBabel
       if (i->first->Match(mol, mlist))
       {
         for (j = mlist.begin(); j != mlist.end(); ++j)
+        {
           mol.GetAtom((*j)[0])->SetType(i->second);
+        }
       }
     }
 
@@ -167,10 +175,14 @@ namespace OpenBabel
           if (strncasecmp(nbr->GetType(),"Npl", 3) == 0 ||
               strncasecmp(nbr->GetType(),"N2", 2) == 0 ||
               strncasecmp(nbr->GetType(),"Ng+", 3) == 0)
+          {
             ++guanidineN;
+          }
         }
         if (guanidineN == 3)
+        {
           atom->SetType("C+");
+        }
 
       } // end C2 carbon for guanidinium
 
@@ -180,7 +192,9 @@ namespace OpenBabel
   void OBAtomTyper::AssignHyb(OBMol &mol)
   {
     if (!_init)
+    {
       Init();
+    }
 
     aromtyper.AssignAromaticFlags(mol);
 
@@ -191,7 +205,9 @@ namespace OpenBabel
     OBAtom *atom;
     vector<OBAtom*>::iterator k;
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
+    {
       atom->SetHyb(0);
+    }
 
     vector<vector<int> >::iterator j;
     vector<pair<OBSmartsPattern*,int> >::iterator i;
@@ -201,12 +217,15 @@ namespace OpenBabel
       if (i->first->Match(mol, mlist))
       {
         for (j = mlist.begin(); j != mlist.end(); ++j)
+        {
           mol.GetAtom((*j)[0])->SetHyb(i->second);
+        }
       }
     }
 
     // check all atoms to make sure *some* hybridization is assigned
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
+    {
       if (atom->GetHyb() == 0) {
         switch (atom->GetExplicitDegree()) {
           case 0:
@@ -224,6 +243,7 @@ namespace OpenBabel
             atom->SetHyb(atom->GetExplicitDegree());
         }
       }
+    }
   }
 
   /*! \class OBRingTyper typer.h <openbabel/typer.h>
@@ -264,7 +284,9 @@ namespace OpenBabel
       }
       sp = new OBSmartsPattern;
       if (sp->Init(vs[2]))
+      {
         _ringtyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[1]));
+      }
       else {
         delete sp;
         sp = nullptr;
@@ -286,7 +308,9 @@ namespace OpenBabel
   void OBRingTyper::AssignTypes(OBMol &mol)
   {
     if (!_init)
+    {
       Init();
+    }
 
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OBRing::AssignTypes", obAuditMsg);
@@ -311,11 +335,15 @@ namespace OpenBabel
 
             for(j = j2->begin(); j != j2->end(); ++j) { // for each atom in the match
               if ((*i)->IsMember(mol.GetAtom(*j)))
+              {
                 member_count++;
+              }
             }
 
             if ((*i)->Size() == member_count)
+            {
               (*i)->SetType(i2->second);
+            }
           }
         }
       }
@@ -347,7 +375,9 @@ namespace OpenBabel
       if (bond->GetBondOrder() == 1 && !bond->IsInRing()) {
         OBAtom* nbr = bond->GetNbrAtom(atm);
         if (nbr->GetAtomicNum() == OBElements::Oxygen && nbr->GetFormalCharge() == -1)
+        {
           return true;
+        }
       }
     }
     return false;
@@ -358,7 +388,9 @@ namespace OpenBabel
     FOR_BONDS_OF_ATOM(bond, atm) {
       if (bond->GetBondOrder() == 2 && !bond->IsInRing() &&
           bond->GetNbrAtom(atm)->GetAtomicNum() == OBElements::Oxygen)
+      {
         return true;
+      }
     }
     return false;
   }
@@ -618,9 +650,13 @@ namespace OpenBabel
 
     //unset all aromatic flags
     for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
+    {
       atom->SetAromatic(false);
+    }
     for (bond = mol.BeginBond(j); bond; bond = mol.NextBond(j))
+    {
       bond->SetAromatic(false);
+    }
 
     // New code using lookups instead of SMARTS patterns
     FOR_ATOMS_OF_MOL(atom, mol) {
@@ -630,8 +666,12 @@ namespace OpenBabel
 
     //propagate potentially aromatic atoms
     for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
+    {
       if (_vpa[atom->GetIdx()])
+      {
         PropagatePotentialAromatic(atom);
+      }
+    }
 
     //select root atoms
     SelectRootAtoms();
@@ -641,8 +681,12 @@ namespace OpenBabel
     //loop over root atoms and look for aromatic rings
 
     for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
+    {
       if (_root[atom->GetIdx()])
+      {
         CheckAromaticity(atom, 14);
+      }
+    }
 
     //for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
     //	  if (atom->IsAromatic())
@@ -670,7 +714,9 @@ namespace OpenBabel
   void OBAromaticTyper::AssignAromaticFlags(OBMol &mol)
   {
     if (mol.HasAromaticPerceived())
+    {
       return;
+    }
     mol.SetAromaticPerceived();
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::AssignAromaticFlags", obAuditMsg);
@@ -699,14 +745,20 @@ namespace OpenBabel
       {
         int i;
         for (i = er.first;i <= er.second;++i)
+        {
           if (i%4 == 2 && i > 2)
+          {
             return(true);
+          }
+        }
 
         return(false);
       }
 
     if (!depth || !_vpa[atom->GetIdx()] || _visit[atom->GetIdx()])
+    {
       return(false);
+    }
 
     bool result = false;
 
@@ -718,6 +770,7 @@ namespace OpenBabel
     OBAtom *nbr;
     vector<OBBond*>::iterator i;
     for (nbr = atom->BeginNbrAtom(i);nbr;nbr = atom->NextNbrAtom(i))
+    {
       if (*i != prev && (*i)->IsInRing() && _vpa[nbr->GetIdx()])
         {
           if (TraverseCycle(root,nbr,(OBBond*)(*i),er,depth))
@@ -726,10 +779,13 @@ namespace OpenBabel
               ((OBBond*) *i)->SetAromatic();
             }
         }
+    }
 
     _visit[atom->GetIdx()] = false;
     if (result)
+    {
       atom->SetAromatic();
+    }
 
     er.first  -= _velec[atom->GetIdx()].first;
     er.second -= _velec[atom->GetIdx()].second;
@@ -744,6 +800,7 @@ namespace OpenBabel
 
     pair<int,int> erange;
     for (nbr = atom->BeginNbrAtom(i);nbr;nbr = atom->NextNbrAtom(i))
+    {
       if ((*i)->IsInRing()) // check all rings, regardless of assumed aromaticity
         {
           erange = _velec[atom->GetIdx()];
@@ -754,6 +811,7 @@ namespace OpenBabel
               ((OBBond*) *i)->SetAromatic();
             }
         }
+    }
   }
 
   void OBAromaticTyperMolState::PropagatePotentialAromatic(OBAtom *atom)
