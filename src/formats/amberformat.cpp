@@ -110,7 +110,7 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         }
     }
 
-    if (internals.size() > 0)
+    if (!internals.empty())
       InternalToCartesian(internals,mol);
 
     if (!pConv->IsOption("b",OBConversion::INOPTIONS))
