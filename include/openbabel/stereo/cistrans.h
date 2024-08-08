@@ -26,6 +26,7 @@
 
 #include <openbabel/stereo/tetraplanar.h>
 #include <vector>
+#include <utility>
 
 namespace OpenBabel {
 
@@ -113,9 +114,9 @@ class OBAPI OBCisTransStereo : public OBTetraPlanarStereo
        * @param _refs The 4 reference ids.
        * @param _shape The shape for the 4 reference ids.
        */
-      Config(unsigned long _begin, unsigned long _end, const OBStereo::Refs &_refs,
+      Config(unsigned long _begin, unsigned long _end, OBStereo::Refs _refs,
           OBStereo::Shape _shape = OBStereo::ShapeU) : begin(_begin), end(_end),
-          refs(_refs), shape(_shape), specified(true)
+          refs(std::move(_refs)), shape(_shape), specified(true)
       {  }
       /**
        * Equal to operator. Comparing OBCisTransStereo::Config structs

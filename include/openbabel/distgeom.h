@@ -31,6 +31,7 @@ GNU General Public License for more details.
 
 #ifdef HAVE_EIGEN
 
+#include <utility>
 #include <Eigen/Core>
 #include <LBFGS.h>
 
@@ -46,7 +47,7 @@ namespace OpenBabel {
     public:
     TetrahedralInfo(int center, std::vector<unsigned long> neighbors,
                     double lower_bound, double upper_bound) :
-                    c(center), nbrs(neighbors),
+                    c(center), nbrs(std::move(neighbors)),
                     lb(lower_bound), ub(upper_bound) {}
     int GetCenter() {
       return c;
