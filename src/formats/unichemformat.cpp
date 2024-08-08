@@ -146,8 +146,8 @@ bool UniChemFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     unsigned int i;
     char buffer[BUFF_SIZE];
 
-    ofs << mol.GetTitle() << endl;
-    ofs << mol.NumAtoms() << endl;
+    ofs << mol.GetTitle() << '\n';
+    ofs << mol.NumAtoms() << '\n';
 
     OBAtom *atom;
     string str,str1;
@@ -160,7 +160,7 @@ bool UniChemFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
                 atom->GetX(),
                 atom->GetY(),
                 atom->GetZ());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
     }
 
     return(true);
