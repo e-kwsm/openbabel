@@ -82,7 +82,9 @@ namespace OpenBabel
 
     // Reduce the number of torsions to be checked through symmetry considerations
     if (_removesym)
+    {
       RemoveSymVals(mol);
+    }
 
     return(true);
   }
@@ -114,7 +116,9 @@ namespace OpenBabel
       if (bond->IsRotor(sampleRingBonds)) {
         // check if the bond is fixed (using deprecated fixed atoms or new fixed bonds)
         if ((HasFixedAtoms() || HasFixedBonds()) && IsFixedBond(bond))
+        {
           continue;
+        }
 
         if (bond->IsInRing()) {
           //otherwise mark that we have them and add it to the pile
@@ -147,7 +151,9 @@ namespace OpenBabel
   bool OBRotorList::IsFixedBond(OBBond *bond)
   {
     if (_fixedatoms.IsEmpty() && _fixedbonds.IsEmpty())
+    {
       return false;
+    }
 
     // new fixed bonds
     if (!_fixedbonds.IsEmpty()) {
@@ -155,7 +161,9 @@ namespace OpenBabel
     }
 
     if (_fixedatoms.IsEmpty())
+    {
       return false;
+    }
 
     // deprecated fixed atoms
     OBAtom *a1,*a2,*a3;

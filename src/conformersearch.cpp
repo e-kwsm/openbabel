@@ -539,10 +539,14 @@ namespace OpenBabel {
           }
           // duplicates are always rejected
           if (!IsUniqueKey(m_rotorKeys, rotorKey))
+          {
             continue;
+          }
           // execute the filter(s)
           if (!IsGood(rotorKey))
+          {
             continue;
+          }
           // add the key
           m_rotorKeys.push_back(rotorKey); // append child to population
           // set foundKey to generate the next child
@@ -596,9 +600,13 @@ namespace OpenBabel {
     }
 
     if (m_score->GetPreferred() == OBConformerScore::HighScore)
+    {
       std::sort(conformer_scores.begin(), conformer_scores.end(), CompareConformerHighScore());
+    }
     else
+    {
       std::sort(conformer_scores.begin(), conformer_scores.end(), CompareConformerLowScore());
+    }
 
     // Rmove the worst scored conformers until we have the disired number of conformers
     while (conformer_scores.size() > m_numConformers) {
@@ -674,7 +682,9 @@ namespace OpenBabel {
         (*m_logstream) << "Will stop after " << m_convergence << " generations without improvement." << std::endl << std::endl;
       }
     if (use_sharing)
+    {
       score_population ();
+    }
 
     for (int i = 0; i < 1000; i++) {
       // keep copy of rotor keys if next generation is less fit
@@ -683,7 +693,9 @@ namespace OpenBabel {
       if (use_sharing)
         {
           if (local_opt_rate && (i % local_opt_rate) == 0)
+          {
             local_opt ();		// Try to locally improve the best from times to times
+          }
           share_fitness ();
           score = sharing_generation ();
         }
@@ -699,7 +711,9 @@ namespace OpenBabel {
           return;
       }
       if (i == 0)
+      {
         last_score = score;
+      }
 
       if (IsNear(last_score, score)) {
         identicalGenerations++;
@@ -710,7 +724,9 @@ namespace OpenBabel {
             // Maximize score
             if (score < last_score) {
               if (!use_sharing)
+              {
                 m_rotorKeys = rotorKeys;
+              }
               identicalGenerations++;
             } else {
               last_score = score;
@@ -722,7 +738,9 @@ namespace OpenBabel {
             // Minimize score
             if (score > last_score) {
               if (!use_sharing)
+              {
                 m_rotorKeys = rotorKeys;
+              }
               identicalGenerations++;
             } else {
               last_score = score;

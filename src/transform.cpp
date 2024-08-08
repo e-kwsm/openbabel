@@ -50,7 +50,9 @@ namespace OpenBabel
 
     //Parse GeneralOptions
     if(pOptions->empty())
+    {
       return this;
+    }
 
     // DoOps calls Do() for each of the plugin options in the map
     // It normally returns true, even if there are no options but

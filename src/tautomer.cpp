@@ -134,7 +134,9 @@ namespace OpenBabel {
         void undo()
         {
           if (!m_atom)
+          {
             return;
+          }
 #ifdef DEBUG
           std::cout << "AssignDonorRAII::undo(" << m_atom->GetIndex() << ")" << std::endl;
 #endif
@@ -189,7 +191,9 @@ namespace OpenBabel {
         void undo()
         {
           if (!m_atom)
+          {
             return;
+          }
 #ifdef DEBUG
           std::cout << "AssignAcceptorRAII::undo(" << m_atom->GetIndex() << ")" << std::endl;
 #endif
@@ -223,10 +227,14 @@ namespace OpenBabel {
           m_hydrogenCounter += m_donors.size();
           // acceptors
           for (std::size_t i = 0; i < m_acceptors.size(); ++i)
+          {
             m_atomTypes[m_acceptors[i]->GetIndex()] = Unassigned;
+          }
           // bonds
           for (std::size_t i = 0; i < m_bonds.size(); ++i)
+          {
             m_bondTypes[m_bonds[i]->GetIdx()] = Unassigned;
+          }
         }
 
         void assignDonor(OBAtom *atom)
@@ -349,18 +357,28 @@ namespace OpenBabel {
         switch (atom->GetAtomicNum()) {
           case Carbon:
             if (atom->HasDoubleBond())
+            {
               types.push_back(Hybridized);
+            }
             else
+            {
               types.push_back(Other);
+            }
             break;
 
           case Nitrogen:
             if (atom->HasDoubleBond() && atom->GetTotalValence() == 3)
+            {
               types.push_back(Acceptor);
+            }
             else if (atom->GetImplicitHCount() && atom->GetTotalValence() == 3)
+            {
               types.push_back(Donor);
+            }
             else
+            {
               types.push_back(Other);
+            }
             break;
 
           case Oxygen:
@@ -368,11 +386,17 @@ namespace OpenBabel {
           case Selenium:
           case Tellurium:
             if (atom->HasDoubleBond() && atom->GetTotalValence() == 2)
+            {
               types.push_back(Acceptor);
+            }
             else if (atom->GetImplicitHCount() && atom->GetTotalValence() == 2)
+            {
               types.push_back(Donor);
+            }
             else
+            {
               types.push_back(Other);
+            }
             break;
 
           default:

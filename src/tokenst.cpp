@@ -38,7 +38,9 @@ namespace OpenBabel
   {
     vcr.clear();
     if (!buf || !delimstr)
+    {
       return false;
+    }
 
     string s(buf);
     s += delimstr[0]; //forces last token to be parsed
@@ -50,9 +52,13 @@ namespace OpenBabel
         endpos = s.find_first_of(delimstr,startpos);
 
         if (endpos <= s.size() && startpos <= s.size())
+        {
           vcr.push_back(s.substr(startpos,endpos-startpos));
+        }
         else
+        {
           break;
+        }
 
         startpos = endpos+1;
       }
@@ -64,13 +70,17 @@ namespace OpenBabel
   char *trim_spaces(char *string)
   {
     if (!string)
+    {
       return nullptr;
+    }
 
     size_t length;
 
     length = strlen(string);
     if (length == 0)
+    {
       return string;
+    }
 
     while ((length > 0) && (string[0] == ' '))
       {
@@ -122,7 +132,9 @@ namespace OpenBabel
         else
           {
             if (startpos < s_size)
+            {
               vcr.push_back(s.substr(startpos,s_size-startpos));
+            }
             break;
           }
 
