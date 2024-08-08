@@ -59,7 +59,7 @@ class OBCONV OBFormat : public OBPlugin
     /// Does not make a new object on the heap;
     /// can be used with a pointer to an chem object on the heap or the stack.
     virtual bool ReadMolecule(OBBase* /*pOb*/, OBConversion* /*pConv*/)
-      { std::cerr << "HIER" << std::endl;
+      { std::cerr << "HIER" << '\n';
 std::cerr << "Not a valid input format"; return false;}
 
     /// @brief The "Convert" interface Read function.

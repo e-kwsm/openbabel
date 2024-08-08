@@ -137,7 +137,7 @@ namespace OpenBabel
       if ( result != EOF )
       {
         if( result < 0 || result > UCHAR_MAX )
-          std::cerr << "FilteringInputStreambuf error" << std::endl;
+          std::cerr << "FilteringInputStreambuf error" << '\n';
         myBuffer = result ;
         setg( &myBuffer , &myBuffer , &myBuffer + 1 ) ;
       }

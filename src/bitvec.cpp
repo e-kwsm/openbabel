@@ -357,7 +357,7 @@ namespace OpenBabel
         else
           {
             std::stringstream errorMsg;
-            errorMsg << "Negative Bit: " << bit << std::endl;
+            errorMsg << "Negative Bit: " << bit << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
           }
       }
@@ -624,7 +624,7 @@ namespace OpenBabel
         else
           {
             std::stringstream errorMsg;
-            errorMsg << "Negative Bit: " << bit << std::endl;
+            errorMsg << "Negative Bit: " << bit << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obDebug);
           }
       }

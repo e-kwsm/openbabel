@@ -161,7 +161,7 @@ namespace OpenBabel
     */
   }
 
-  std::vector<vector3> OBBuilder::GetFragmentCoord(std::string smiles) {
+  std::vector<vector3> OBBuilder::GetFragmentCoord(const std::string& smiles) {
     if (_rigid_fragments_cache.count(smiles) > 0) {
       return _rigid_fragments_cache[smiles];
     }
@@ -1687,7 +1687,7 @@ namespace OpenBabel
       if (unfixed.size() > 0 && warn) {
         stringstream errorMsg;
         errorMsg << "Could not correct " << unfixed.size() << " stereocenter(s) in this molecule (" << mol.GetTitle() << ")";
-        errorMsg << std::endl << "  with Atom Ids as follows:";
+        errorMsg << '\n' << "  with Atom Ids as follows:";
         for (OBStereo::RefIter ref=unfixed.begin(); ref!=unfixed.end(); ++ref)
           errorMsg << " " << *ref;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);

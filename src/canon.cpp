@@ -56,7 +56,7 @@ void print_vector(const std::string &label, const std::vector<T> &v)
     else
       std::cout << v[i] << " ";
 
-  std::cout << endl;
+  std::cout << '\n';
 }
 
 
@@ -435,7 +435,7 @@ namespace OpenBabel {
     {
       cout << label << ": ";
       print_orbits(orbits);
-      cout << endl;
+      cout << '\n';
     }
 
 
@@ -1378,12 +1378,12 @@ namespace OpenBabel {
         } // while (!nbrs.empty())
 
         if (DEBUG) {
-          cout << "allOrderedNbrs:" << endl;
+          cout << "allOrderedNbrs:" << '\n';
           for (std::size_t i = 0; i < allOrderedNbrs.size(); ++i) {
             for (std::size_t j = 0; j < allOrderedNbrs[i].size(); ++j) {
               cout << allOrderedNbrs[i][j]->GetIndex() << " ";
             }
-            cout << endl;
+            cout << '\n';
           }
         }
 
