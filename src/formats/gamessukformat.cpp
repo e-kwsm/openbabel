@@ -87,7 +87,7 @@ namespace OpenBabel
      * to be in the variables map that should have been populated before this is called.
      */
 
-    if (geomList.size()==0){
+    if (geomList.empty()){
       obErrorLog.ThrowError(__FUNCTION__,
                             "Problems reading a GAMESS-UK Input file: ReadGeometry got empty list",
                             obWarning);
@@ -458,8 +458,8 @@ namespace OpenBabel
       Trim(line);
 
       // Check for end of variables
-      if (line.length()==0 && stopstr.length()==0) break;
-      if (stopstr.length()>0 && line.compare(0, stopstr.length(), stopstr)==0) break;
+      if (line.empty() && stopstr.empty()) break;
+      if (!stopstr.empty() && line.compare(0, stopstr.length(), stopstr)==0) break;
 
       // Check for commas & split with that as the separator if necessary
       if (line.find(',')!=string::npos) {
@@ -1049,7 +1049,7 @@ namespace OpenBabel
       //for (int i=0; i< frequencies.size(); i++ )
       //  std::cout << "Frequency: " << frequencies.at(i) << " : " << intensities.at(i) << std::endl;
       
-      if(frequencies.size()>0)
+      if(!frequencies.empty())
         {
           OBVibrationData* vd = new OBVibrationData;
           vd->SetData(Lx, frequencies, intensities);
@@ -1147,7 +1147,7 @@ namespace OpenBabel
       //for (int i=0; i< frequencies.size(); i++ )
       //  std::cout << "Frequency: " << frequencies.at(i) << " : " << intensities.at(i) << std::endl;
 
-      if(frequencies.size()>0)
+      if(!frequencies.empty())
         {
           OBVibrationData* vd = new OBVibrationData;
           vd->SetData(Lx, frequencies, intensities);

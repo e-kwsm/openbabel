@@ -247,7 +247,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE); // skip headline
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
-            while (strstr(buffer, "---------") == nullptr && vs.size() !=0) {
+            while (strstr(buffer, "---------") == nullptr && !vs.empty()) {
                 if (vs.size() != 4) break;
                 occ.push_back(atof(vs[1].c_str()));
                 energyEh.push_back(atof(vs[2].c_str()));
@@ -264,7 +264,7 @@ namespace OpenBabel
                 ifs.getline(buffer,BUFF_SIZE); // skip headline
                 ifs.getline(buffer,BUFF_SIZE);
                 tokenize(vs,buffer);
-                while (strstr(buffer, "---------") == nullptr && vs.size() >0) {
+                while (strstr(buffer, "---------") == nullptr && !vs.empty()) {
                     if (vs.size() != 4) break;
                     occB.push_back(atof(vs[1].c_str()));
                     energyBEh.push_back(atof(vs[2].c_str()));
@@ -348,7 +348,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);     // header line
             tokenize(vs,buffer);
             int iMode = 0;
-            while (vs.size() != 0) {
+            while (!vs.empty()) {
                 int nColumn = vs.size();
                 vector<vector<vector3> > vib;
                 ifs.getline(buffer,BUFF_SIZE);
@@ -571,7 +571,7 @@ namespace OpenBabel
 
     // Attach orbital data if any
 
-    if (energyEh.size() > 0){
+    if (!energyEh.empty()){
         OBOrbitalData *od = new OBOrbitalData();
 
         std::vector<OBOrbital> alphaOrbitals;
@@ -601,10 +601,10 @@ namespace OpenBabel
     }
 
     //Attach vibrational data, if there are any, to molecule
-    if(Frequencies.size()>0)
+    if(!Frequencies.empty())
     {
         OBVibrationData* vd = new OBVibrationData;
-        if (RamanActivities.size() != 0) {
+        if (!RamanActivities.empty()) {
             vd->SetData(Lx, Frequencies, Intensities, RamanActivities);
         } else {
             vd->SetData(Lx, Frequencies, Intensities);
@@ -614,11 +614,11 @@ namespace OpenBabel
 
     // Attach UV / CD spectra data if there are any
 
-    if(UVWavelength.size() > 0 || CDWavelength.size() > 0)
+    if(!UVWavelength.empty() || !CDWavelength.empty())
     {
         OBElectronicTransitionData* etd = new OBElectronicTransitionData;
 
-        if (UVWavelength.size() > 0) {
+        if (!UVWavelength.empty()) {
             // UV spectrum has been found
             etd->SetData(UVWavelength, UVForces);
             if (UVEDipole.size() == UVWavelength.size())
