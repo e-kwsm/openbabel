@@ -34,9 +34,9 @@ protected:
   class vc_val
   {
   public:  
-    bool mult;
-    double value;
-    vc_val(): mult(false), value(0.0) {};
+    bool mult{false};
+    double value{0.0};
+    vc_val() {};
   };
   
 public:
