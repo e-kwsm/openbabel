@@ -667,8 +667,8 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    ofs << "# ORCA input file" << endl;
-    ofs << "# " << mol.GetTitle() << endl;
+    ofs << "# ORCA input file" << '\n';
+    ofs << "# " << mol.GetTitle() << '\n';
 
     const char *keywords = pConv->IsOption("k",OBConversion::OUTOPTIONS);
     const char *keywordFile = pConv->IsOption("f",OBConversion::OUTOPTIONS);
@@ -685,13 +685,13 @@ namespace OpenBabel
         if (kfstream)
           {
             while (getline(kfstream, keyBuffer))
-              ofs << keyBuffer << endl;
+              ofs << keyBuffer << '\n';
           }
       }
     else
-      ofs << defaultKeywords << endl;
+      ofs << defaultKeywords << '\n';
 
-    ofs << "* xyz " << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << endl;
+    ofs << "* xyz " << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << '\n';
 
 
     FOR_ATOMS_OF_MOL(atom, mol)
@@ -700,10 +700,10 @@ namespace OpenBabel
             << OpenBabel::OBElements::GetSymbol(atom->GetAtomicNum())
             << setw(15) << setprecision(5) << fixed << showpoint
             << right << atom->GetX() << " " << setw(15) << atom->GetY() << " "
-            << setw(15) << atom->GetZ() << endl;
+            << setw(15) << atom->GetZ() << '\n';
     }
 
-    ofs << "*" << endl;
+    ofs << "*" << '\n';
 
     return(true);
   }

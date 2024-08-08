@@ -50,11 +50,11 @@ namespace OpenBabel
 
   public:
     bool ReadGeometry(OBMol &mol, vector<string> &geomList);
-    bool ReadVariables(istream &ifs, double factor, string stopstr);
+    bool ReadVariables(istream &ifs, double factor, const string& stopstr);
     bool ReadLineCartesian(OBAtom *atom, vector<string> &tokens, double factor);
     bool ReadLineZmatrix(OBMol &mol, OBAtom *atom, vector<string> &tokens, double factor, int *zmatLineCount);
-    double Rescale(string text);
-    bool IsUnits(string text);
+    double Rescale(const string& text);
+    bool IsUnits(const string& text);
     /**
      * Converts a string to a numerical type
      * This purloined from: http://www.codeguru.com/forum/showthread.php?t=231054
@@ -76,7 +76,7 @@ namespace OpenBabel
   private:
     map<string, double> variables; // map from variable name to value
     vector<OBInternalCoord*> vic; // Holds lists of internal coordinates
-    int LabelToAtomicNumber(string label);
+    int LabelToAtomicNumber(const string& label);
   };
 
 
@@ -204,7 +204,7 @@ namespace OpenBabel
     return true;
   } // End Read Geometry
 
-  bool GAMESSUKFormat::IsUnits(string text)
+  bool GAMESSUKFormat::IsUnits(const string& text)
   {
     /* See if the supplied string specifies a unit */
 
@@ -218,7 +218,7 @@ namespace OpenBabel
     }
   }
 
-  double GAMESSUKFormat::Rescale(string text)
+  double GAMESSUKFormat::Rescale(const string& text)
   {
     /* Return the correct scale factor given a string identifying the units */
 
@@ -238,7 +238,7 @@ namespace OpenBabel
     }
   }
 
-  int GAMESSUKFormat::LabelToAtomicNumber(string label)
+  int GAMESSUKFormat::LabelToAtomicNumber(const string& label)
   {
     /*
      * Given a string with the label for an atom return the atomic number
@@ -256,7 +256,7 @@ namespace OpenBabel
       if(  label.substr(0,1) != "x" && label.substr(0,1) != "X" )
         {
           // Houston...
-          errorMsg << "LabelToAtomicNumber got bad Label: " << label << std::endl;
+          errorMsg << "LabelToAtomicNumber got bad Label: " << label << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         }
     }
@@ -424,7 +424,7 @@ namespace OpenBabel
     return true;
   }
 
-  bool GAMESSUKFormat::ReadVariables(istream &ifs, double factor, string stopstr)
+  bool GAMESSUKFormat::ReadVariables(istream &ifs, double factor, const string& stopstr)
   {
     /*
      * This takes an input stream that is positioned where the list of variables
@@ -661,17 +661,17 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
 
-    ofs << "title" << endl;
-    ofs << mol.GetTitle() << endl << endl;
+    ofs << "title" << '\n';
+    ofs << mol.GetTitle() << '\n' << '\n';
 
-    ofs << "#" << endl;
-    ofs << "# NB: Class I directives (e.g. memory, multiplicity, charge etc) go here" << endl;
-    ofs << "#" << endl;
-    ofs << "# For more information see: http://www.cfs.dl.ac.uk/docs/index.shtml" << endl;
-    ofs << "#" << endl;
-    ofs << endl;
+    ofs << "#" << '\n';
+    ofs << "# NB: Class I directives (e.g. memory, multiplicity, charge etc) go here" << '\n';
+    ofs << "#" << '\n';
+    ofs << "# For more information see: http://www.cfs.dl.ac.uk/docs/index.shtml" << '\n';
+    ofs << "#" << '\n';
+    ofs << '\n';
 
-    ofs << "geometry angstrom" << endl;
+    ofs << "geometry angstrom" << '\n';
     FOR_ATOMS_OF_MOL(atom, mol)
       {
         snprintf(buffer, BUFF_SIZE, "%15.8f %15.8f %15.8f %3d %3s\n",
@@ -683,24 +683,24 @@ namespace OpenBabel
 		 );
 	ofs << buffer;
       }
-    ofs << "end" << endl << endl;
+    ofs << "end" << '\n' << '\n';
 
-    ofs << endl;
-    ofs << "basis 6-31G" << endl;
-    ofs << endl;
+    ofs << '\n';
+    ofs << "basis 6-31G" << '\n';
+    ofs << '\n';
 
-    ofs << "#" << endl;
-    ofs << "# NB: Class II directives go here" << endl;
-    ofs << "#" << endl;
-    ofs << "# To perform a dft calculation with b3lyp and medium quadrature uncomment the below" << endl;
-    ofs << "# dft b3lyp" << endl;
-    ofs << "# dft quadrature medium" << endl;
-    ofs << "#" << endl;
-    ofs << endl;
+    ofs << "#" << '\n';
+    ofs << "# NB: Class II directives go here" << '\n';
+    ofs << "#" << '\n';
+    ofs << "# To perform a dft calculation with b3lyp and medium quadrature uncomment the below" << '\n';
+    ofs << "# dft b3lyp" << '\n';
+    ofs << "# dft quadrature medium" << '\n';
+    ofs << "#" << '\n';
+    ofs << '\n';
 
-    ofs << "runtype scf" << endl;
-    ofs << endl;
-    ofs << "enter" << endl;
+    ofs << "runtype scf" << '\n';
+    ofs << '\n';
+    ofs << "enter" << '\n';
 
     return(true);
   } //End WriteMolecule
@@ -958,7 +958,8 @@ namespace OpenBabel
       for( int i=0; i<maxroot; i++ )
         {
           std::vector< vector3 > atoml;
-          for( int j=0; j < natoms; j++ )
+          atoml.reserve(natoms);
+for( int j=0; j < natoms; j++ )
             {
               atoml.push_back( vector3(0.0,0.0,0.0) );
             }
@@ -1078,7 +1079,8 @@ namespace OpenBabel
       for( int i=0; i<maxroot; i++ )
         {
           std::vector< vector3 > atoml;
-          for( int j=0; j < natoms; j++ )
+          atoml.reserve(natoms);
+for( int j=0; j < natoms; j++ )
             {
               atoml.push_back( vector3(0.0,0.0,0.0) );
             }
