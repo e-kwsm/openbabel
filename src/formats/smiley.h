@@ -28,6 +28,7 @@
 #define SMILEY_SMILEY_H
 
 #include <string>
+#include <utility>
 #include <vector>
 #include <map>
 #include <sstream>
@@ -457,8 +458,8 @@ namespace Smiley {
        * @param pos The position in the SMILES/SMARTS string.
        * @param length The length of the error in the SMILES/SMARTS string.
        */
-      Exception(Type type, ErrorCode errorCode, const std::string &what, std::size_t pos, std::size_t length = 1)
-          : m_type(type), m_errorCode(errorCode), m_what(what), m_pos(pos), m_length(length)
+      Exception(Type type, ErrorCode errorCode, std::string what, std::size_t pos, std::size_t length = 1)
+          : m_type(type), m_errorCode(errorCode), m_what(std::move(what)), m_pos(pos), m_length(length)
       {
       }
 
