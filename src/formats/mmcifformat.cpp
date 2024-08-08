@@ -1025,7 +1025,7 @@ namespace OpenBabel
          }
 
          OBOp* pOp = OBOp::FindType("fillUC");
-         if (pOp && transformations.length())
+         if (pOp && !transformations.empty())
          {
            map<string, string> m;
            m.insert(pair<string, string>("transformations", transformations));
