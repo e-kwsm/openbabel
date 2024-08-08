@@ -1741,7 +1741,7 @@ namespace OpenBabel {
 
         if (!foundPermutation) {
           // true-stereocenter found
-          bool isParaCenter = !((beginClassification == C12) && (endClassification == C12));
+          bool isParaCenter = (beginClassification != C12) || (endClassification != C12);
           units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), isParaCenter));
           doneBonds.push_back(bond->GetId());
         } else {
