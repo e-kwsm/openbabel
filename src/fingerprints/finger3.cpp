@@ -164,7 +164,7 @@ public:
 
     if (OpenDatafile(ifs, _patternsfile).length() == 0)
     {
-      errorMsg << "Cannot open " << _patternsfile << endl;
+      errorMsg << "Cannot open " << _patternsfile << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
@@ -269,7 +269,7 @@ public:
         n += ngrp;
       }
     }
-    ss << endl;
+    ss << '\n';
     return ss.str();
   }
 
