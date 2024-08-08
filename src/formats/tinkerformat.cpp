@@ -111,7 +111,7 @@ namespace OpenBabel
     string tempstr = buffer;
     tokenize(vs, tempstr, " \t", 1);
 
-    if (vs.size() < 1) {
+    if (vs.empty()) {
       errorMsg << "Problems reading a Tinker file: "
                << "The first line is empty!";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
