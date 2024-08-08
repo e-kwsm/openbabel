@@ -96,9 +96,7 @@ namespace OpenBabel
       case 0: case 1:
         continue;
       case 2:
-        if (IsSpecialCase(atom))
-          return true;
-        return false;
+        return IsSpecialCase(atom);
       default: // bond order > 2
         return false;
       }

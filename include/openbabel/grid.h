@@ -326,7 +326,7 @@ namespace OpenBabel
 
     bool LipoGrid()
     {
-      return((_gridtype&OBLipoGrid) ? true : false);
+      return((_gridtype&OBLipoGrid) != 0);
     }
     bool PolarGrid()
     {
