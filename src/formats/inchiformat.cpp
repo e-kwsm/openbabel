@@ -586,7 +586,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     {
       nSet::iterator itr;
       for(itr=allInchi.begin();itr!=allInchi.end();++itr)
-        ofs << *itr << endl;
+        ofs << *itr << '\n';
     }
     return true;
   }
@@ -598,13 +598,13 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       return true; //no output if already in set
   }
 
-  ofs << ostring << endl;
+  ofs << ostring << '\n';
 
   // Note that inout.szInChI will still be NULL if this is an InChI->InChIKey conversion
   // and so the following section will not apply.
   if (inout.szInChI != nullptr) {
     if (pConv->IsOption("a"))
-      ofs << inout.szAuxInfo << endl;
+      ofs << inout.szAuxInfo << '\n';
 
     if(pConv->IsOption("l"))
       //Display InChI log message. With multiple molecules, it appears only once
@@ -617,7 +617,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       else
       {
         ofs << "Molecules " << firstID << "and " << molID.str();
-        ofs << InChIErrorMessage(CompareInchi(firstInchi.c_str(), inout.szInChI)) << endl;
+        ofs << InChIErrorMessage(CompareInchi(firstInchi.c_str(), inout.szInChI)) << '\n';
       }
     }
     FreeStdINCHI(&inout);

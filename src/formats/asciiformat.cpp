@@ -150,7 +150,7 @@ bool ASCIIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   int height  = pp ? atoi(pp) : static_cast<int>(0.5 + width/aspect);
 
   if (pConv->IsOption("t")) {
-    ofs << "#" << pConv->GetOutputIndex() << " " << pmol->GetTitle() << endl;
+    ofs << "#" << pConv->GetOutputIndex() << " " << pmol->GetTitle() << '\n';
   }
 
   ASCIIPainter painter(width, height, aspect);

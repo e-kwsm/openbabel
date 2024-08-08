@@ -542,7 +542,7 @@ namespace OpenBabel
         std::string title = mol.GetTitle();
         if (!title.empty())
           errorMsg << " (title is " << title << ")";
-        errorMsg << endl;
+        errorMsg << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         // return false; Should we return false for a kekulization failure?
       }
@@ -620,28 +620,28 @@ namespace OpenBabel
     if (pConv->IsOption("c", OBConversion::OUTOPTIONS) != nullptr) {
         vector<OBGenericData*>::iterator k;
         vector<OBGenericData*> vdata = mol.GetData();
-        ofs << endl;
+        ofs << '\n';
         for (k = vdata.begin();k != vdata.end();++k) {
             if ((*k)->GetDataType() == OBGenericDataType::PairData
             && (*k)->GetOrigin()!=local //internal OBPairData is not written
             && (*k)->GetAttribute()!="PartialCharges")
             {
-                ofs << "##########\t" << (*k)->GetAttribute() << ":\t" << ((OBPairData*)(*k))->GetValue() << endl;
+                ofs << "##########\t" << (*k)->GetAttribute() << ":\t" << ((OBPairData*)(*k))->GetValue() << '\n';
             }
         }
-        ofs << endl;
+        ofs << '\n';
     }
 
-    ofs << "@<TRIPOS>MOLECULE" << endl;
+    ofs << "@<TRIPOS>MOLECULE" << '\n';
     str = mol.GetTitle();
     if (str.empty())
-      ofs << "*****" << endl;
+      ofs << "*****" << '\n';
     else
-      ofs << str << endl;
+      ofs << str << '\n';
 
     snprintf(buffer, BUFF_SIZE," %d %d 0 0 0", mol.NumAtoms(),mol.NumBonds());
-    ofs << buffer << endl;
-    ofs << "SMALL" << endl; // TODO: detect if we have protein, biopolymer, etc.
+    ofs << buffer << '\n';
+    ofs << "SMALL" << '\n'; // TODO: detect if we have protein, biopolymer, etc.
 
     OBPairData *dp = (OBPairData*)mol.GetData("PartialCharges");
     if (dp != nullptr) {
@@ -650,18 +650,18 @@ namespace OpenBabel
         // GAUSS80_CHARGES, AMPAC_CHARGES, MULLIKEN_CHARGES, DICT_ CHARGES,
         // MMFF94_CHARGES, USER_CHARGES
       if (strcasecmp(dp->GetValue().c_str(),"Mulliken") == 0)
-        ofs << "MULLIKEN_CHARGES" << endl;
+        ofs << "MULLIKEN_CHARGES" << '\n';
       else if (strcasecmp(dp->GetValue().c_str(),"MMFF94") == 0)
-        ofs << "MMFF94_CHARGES" << endl;
+        ofs << "MMFF94_CHARGES" << '\n';
       else if (strcasecmp(dp->GetValue().c_str(),"ESP") == 0)
-        ofs << "USER_CHARGES" << endl;
+        ofs << "USER_CHARGES" << '\n';
       else if (strcasecmp(dp->GetValue().c_str(),"Gasteiger") == 0)
-        ofs << "GASTEIGER" << endl;
+        ofs << "GASTEIGER" << '\n';
       else // ideally, code should pick from the Tripos types
-        ofs << "USER_CHARGES" << endl;
+        ofs << "USER_CHARGES" << '\n';
     }
     else { // No idea what these charges are... all our code sets "PartialCharges"
-        ofs << "GASTEIGER" << endl;
+        ofs << "GASTEIGER" << '\n';
     }
 
     //    ofs << "Energy = " << mol.GetEnergy() << endl;
@@ -673,8 +673,8 @@ namespace OpenBabel
         ofs << cd->GetData();
       }
 
-    ofs << endl;
-    ofs << "@<TRIPOS>ATOM" << endl;
+    ofs << '\n';
+    ofs << "@<TRIPOS>ATOM" << '\n';
 
     OBAtom *atom;
     OBResidue *res;
@@ -722,7 +722,7 @@ namespace OpenBabel
                  str1.c_str(),
                  rnum,rlabel,
                  atom->GetPartialCharge());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     //store formal charge info; put before bonds so we don't have
@@ -741,7 +741,7 @@ namespace OpenBabel
       }
     }
 
-    ofs << "@<TRIPOS>BOND" << endl;
+    ofs << "@<TRIPOS>BOND" << '\n';
     OBBond *bond;
     vector<OBBond*>::iterator j;
     string s1, s2;
@@ -759,7 +759,7 @@ namespace OpenBabel
         snprintf(buffer, BUFF_SIZE,"%6d %5d %5d   %2s",
                  bond->GetIdx()+1,bond->GetBeginAtomIdx(),bond->GetEndAtomIdx(),
                  label);
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     // NO trailing blank line (PR#1868929).
     //    ofs << endl;
