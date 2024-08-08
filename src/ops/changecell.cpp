@@ -36,7 +36,7 @@ protected:
   public:  
     bool mult{false};
     double value{0.0};
-    vc_val() {};
+    vc_val() {}
   };
   
 public:
