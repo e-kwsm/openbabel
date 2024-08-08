@@ -159,13 +159,13 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     vmid = vmin+vmax;
     vmid /= 2.0;
 
-    ofs << "HEADER    CORNERS OF BOX" << endl;
+    ofs << "HEADER    CORNERS OF BOX" << '\n';
     snprintf(buffer, BUFF_SIZE, "REMARK    CENTER (X Y Z)      %10.3f %10.3f %10.3f",
             vmid.x(),vmid.y(),vmid.z());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
     snprintf(buffer, BUFF_SIZE, "REMARK    DIMENSIONS (X Y Z)  %10.3f %10.3f %10.3f",
             vdim.x(),vdim.y(),vdim.z());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
     vdim /= 2.0;
 
     vector3 vtmp;
@@ -203,17 +203,17 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         }
         snprintf(buffer, BUFF_SIZE, "ATOM      %d  DUA BOX     1    %8.3f%8.3f%8.3f",
                 j,vtmp.x(),vtmp.y(),vtmp.z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
     }
 
-    ofs << "CONECT    1    2    4    5" << endl;
-    ofs << "CONECT    2    1    3    6" << endl;
-    ofs << "CONECT    3    2    4    7" << endl;
-    ofs << "CONECT    4    1    3    8" << endl;
-    ofs << "CONECT    5    1    6    8" << endl;
-    ofs << "CONECT    6    2    5    7" << endl;
-    ofs << "CONECT    7    3    6    8" << endl;
-    ofs << "CONECT    8    4    5    7" << endl;
+    ofs << "CONECT    1    2    4    5" << '\n';
+    ofs << "CONECT    2    1    3    6" << '\n';
+    ofs << "CONECT    3    2    4    7" << '\n';
+    ofs << "CONECT    4    1    3    8" << '\n';
+    ofs << "CONECT    5    1    6    8" << '\n';
+    ofs << "CONECT    6    2    5    7" << '\n';
+    ofs << "CONECT    7    3    6    8" << '\n';
+    ofs << "CONECT    8    4    5    7" << '\n';
 
     return(true);
 }

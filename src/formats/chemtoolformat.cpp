@@ -109,7 +109,7 @@ namespace OpenBabel
     OBAtom *atom, *atom1, *atom2;
     OBBond *bond;
 
-    ofs << "Chemtool Version 1.4" << endl;
+    ofs << "Chemtool Version 1.4" << '\n';
 
     // get the geometry
     w = 0;
@@ -126,10 +126,10 @@ namespace OpenBabel
         if (atom->GetAtomicNum() != 6)
           natoms++;
       }
-    ofs << "geometry " << w * 1.1 << " " << h * 1.1 << endl;
+    ofs << "geometry " << w * 1.1 << " " << h * 1.1 << '\n';
 
     // write out bonds
-    ofs << "bonds "<< mol.NumBonds() << endl;
+    ofs << "bonds "<< mol.NumBonds() << '\n';
     vector<OBBond*>::iterator j;
     for(bond = mol.BeginBond(j); bond; bond = mol.NextBond(j))
       {
@@ -147,11 +147,11 @@ namespace OpenBabel
                  chtClampToInt(floor(atom2->GetX() * conv_factor + 0.5)),
                  chtClampToInt(floor(atom2->GetY() * conv_factor + 0.5)),
                  bondtype);
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     // start over, write additional atoms
-    ofs << "atoms " << natoms << endl;
+    ofs << "atoms " << natoms << '\n';
     for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
       {
         // Carbon does not need to be treated
@@ -163,12 +163,12 @@ namespace OpenBabel
                      OBElements::GetSymbol(atom->GetAtomicNum()),
                      -1 // assume centered Text
                      );
-            ofs << buffer << endl;
+            ofs << buffer << '\n';
           }
       }
 
     // We don't have any splines to write
-    ofs << "splines 0" << endl;
+    ofs << "splines 0" << '\n';
 
     return true;
   }

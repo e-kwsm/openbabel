@@ -371,7 +371,7 @@ namespace OpenBabel
                  vit[i]->_dst,
                  vit[i]->_ang,
                  vit[i]->_tor);
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     vector<OBInternalCoord*>::iterator j;
