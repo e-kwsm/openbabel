@@ -167,7 +167,7 @@ class OBFPRT FastSearch
 //see end of cpp file for detailed documentation
 public:
   /// \brief Loads an index from a file and returns the name of the datafile
-  std::string ReadIndexFile(std::string IndexFilename);
+  std::string ReadIndexFile(const std::string& IndexFilename);
   std::string ReadIndex(std::istream* pIndexstream);
 
   virtual ~FastSearch(){};
