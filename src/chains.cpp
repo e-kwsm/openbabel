@@ -381,7 +381,7 @@ namespace OpenBabel
   };
 
   //! Chemical graph matching virtual machine
-  union ByteCode
+  union _ByteCode
   {
     int type;
     MonOpStruct eval;     //!< Eval - push current neighbors onto the stack
@@ -391,6 +391,7 @@ namespace OpenBabel
     BinOpStruct local;    //!< Local - test whether the atom has been visited
     AssignStruct assign;  //!< Assign - assign residue name, atom name and bond type to output
   };
+  using ByteCode = _ByteCode;
 
   struct StackType
   {
