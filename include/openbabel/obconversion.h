@@ -79,14 +79,14 @@ namespace OpenBabel {
       static OBFormat*	FindFormat(const char* ID);
       /// @brief Searches registered formats
       /// \since version 2.3
-      static OBFormat*  FindFormat(const std::string ID);
+      static OBFormat*  FindFormat(std::string ID);
       /// @brief Searches registered formats for an ID the same as the file extension
       static OBFormat*	FormatFromExt(const char* filename);
       static OBFormat*	FormatFromExt(const char* filename, bool& isgzip);
       /// @brief Searches registered formats for an ID the same as the file extension
       /// \since version 2.3
-      static OBFormat*	FormatFromExt(const std::string filename);
-      static OBFormat*	FormatFromExt(const std::string filename, bool& isgzip);
+      static OBFormat*	FormatFromExt(std::string filename);
+      static OBFormat*	FormatFromExt(std::string filename, bool& isgzip);
       /// @brief Searches registered formats for a MIME the same as the chemical MIME type passed
       static OBFormat*        FormatFromMIME(const char* MIME);
 
@@ -337,7 +337,7 @@ protected:
       ///Replaces * in BaseName by InFile without extension and path
       static std::string BatchFileName(std::string& BaseName, std::string& InFile);
       ///Replaces * in BaseName by Count
-      static std::string IncrementedFileName(std::string& BaseName, const int Count);
+      static std::string IncrementedFileName(std::string& BaseName, int Count);
       ///Checks for misunderstandings when using the -m option
       static bool CheckForUnintendedBatch(const std::string& infile, const std::string& outfile);
 

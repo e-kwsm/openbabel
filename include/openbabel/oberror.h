@@ -59,7 +59,7 @@ namespace OpenBabel
                const std::string &explanation = "",
                const std::string &possibleCause = "",
                const std::string &suggestedRemedy = "",
-               const obMessageLevel = obDebug );
+               obMessageLevel = obDebug );
 
       //! \return A formatted message string, including optional explanations, etc.
       std::string message(void) const;
@@ -120,7 +120,7 @@ namespace OpenBabel
                       obMessageLevel level = obDebug, errorQualifier qualifier = always);
 
       //! \return all messages matching a specified level
-      std::vector<std::string> GetMessagesOfLevel(const obMessageLevel);
+      std::vector<std::string> GetMessagesOfLevel(obMessageLevel);
 
       //! Start logging messages (default)
       void StartLogging() { _logging = true; }

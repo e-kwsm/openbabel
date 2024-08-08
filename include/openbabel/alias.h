@@ -82,7 +82,7 @@ public:
   static void RevertToAliasForm(OBMol& mol);
 
   ///Interprets the alias text and adds atoms as appropriate to mol.
-  bool Expand(OBMol& mol, const unsigned int atomindex);
+  bool Expand(OBMol& mol, unsigned int atomindex);
 
  ///Matches univalent fragments in the molecule and adds AliasData to provide an alternative representation.
   ///The molecule remains a respectable OBMol. Data in superatoms.txt decides what aliases are added.
@@ -90,7 +90,7 @@ public:
 
 private:
   /// Interpret the alias as a formula
-  bool FormulaParse(OBMol& mol, const unsigned atomindex);
+  bool FormulaParse(OBMol& mol, unsigned atomindex);
 
   /// Add one of the atoms that can replace the alias
   void AddExpandedAtom(int id);
@@ -114,7 +114,7 @@ private:
       LoadFile(t);
     return t;
   }
-  bool        FromNameLookup(OBMol& mol, const unsigned int atomindex);
+  bool        FromNameLookup(OBMol& mol, unsigned int atomindex);
   typedef std::vector< std::pair<std::string, std::shared_ptr<OBSmartsPattern> > > SmartsTable;
   static bool LoadFile(SmartsTable& smtable);
 };
