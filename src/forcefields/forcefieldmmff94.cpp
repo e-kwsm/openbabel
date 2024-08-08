@@ -4183,12 +4183,12 @@ namespace OpenBabel
       unsigned int ni;
       bool failed;
 
-      cout << "--------------------------------------------------------------------------------" << endl;
-      cout << "                                                                                " << endl;
-      cout << "  VALIDATE MOLECULE " << c << ": " << _mol.GetTitle() << endl;
-      cout << "                                                                                " << endl;
-      cout << "IDX  HYB  AROM  OB_TYPE  LOG_TYPE       RESULT                                  " << endl;
-      cout << "----------------------------------------------                                  " << endl;
+      cout << "--------------------------------------------------------------------------------" << '\n';
+      cout << "                                                                                " << '\n';
+      cout << "  VALIDATE MOLECULE " << c << ": " << _mol.GetTitle() << '\n';
+      cout << "                                                                                " << '\n';
+      cout << "IDX  HYB  AROM  OB_TYPE  LOG_TYPE       RESULT                                  " << '\n';
+      cout << "----------------------------------------------                                  " << '\n';
 
       ni = 1;
       failed = false;
@@ -4209,21 +4209,21 @@ namespace OpenBabel
           failed = true;
         }
 
-        cout << _logbuf << endl;
+        cout << _logbuf << '\n';
 
         ni++;
       }
 
       if (failed) {
-        cout << "Could not successfully assign atom types" << endl;
+        cout << "Could not successfully assign atom types" << '\n';
         return false;
         //continue;
       }
 
       SetFormalCharges();
-      cout << endl;
-      cout << "IDX  OB_FCARGE  LOG_FCHARGE       RESULT" << endl;
-      cout << "----------------------------------------" << endl;
+      cout << '\n';
+      cout << "IDX  OB_FCARGE  LOG_FCHARGE       RESULT" << '\n';
+      cout << "----------------------------------------" << '\n';
 
       ni = 1;
       for (di = fcharges.begin(); di != fcharges.end(); ++di) {
@@ -4241,21 +4241,21 @@ namespace OpenBabel
           failed = true;
         }
 
-        cout << _logbuf << endl;
+        cout << _logbuf << '\n';
 
         ni++;
       }
 
       if (failed) {
-        cout << "Could not successfully assign formal charges" << endl;
+        cout << "Could not successfully assign formal charges" << '\n';
         //return false;
         continue;
       }
 
       SetPartialCharges();
-      cout << endl;
-      cout << "IDX  OB_PCARGE  LOG_PCHARGE       RESULT" << endl;
-      cout << "----------------------------------------" << endl;
+      cout << '\n';
+      cout << "IDX  OB_PCARGE  LOG_PCHARGE       RESULT" << '\n';
+      cout << "----------------------------------------" << '\n';
 
       ni = 1;
       for (di = pcharges.begin(); di != pcharges.end(); ++di) {
@@ -4273,13 +4273,13 @@ namespace OpenBabel
           failed = true;
         }
 
-        cout << _logbuf << endl;
+        cout << _logbuf << '\n';
 
         ni++;
       }
 
       if (failed) {
-        cout << "Could not successfully assign partial charges" << endl;
+        cout << "Could not successfully assign partial charges" << '\n';
         //return false;
         continue;
       }
@@ -4287,48 +4287,48 @@ namespace OpenBabel
 
 
       if (!SetupCalculations()) {
-        cout << "Could not setup calculations (missing parameters...)" << endl;
+        cout << "Could not setup calculations (missing parameters...)" << '\n';
         return false;
         //continue;
       }
 
       double delta;
-      cout << endl;
-      cout << "TERM                     OB ENERGY     LOG ENERGY         DELTA" << endl;
-      cout << "---------------------------------------------------------------" << endl;
+      cout << '\n';
+      cout << "TERM                     OB ENERGY     LOG ENERGY         DELTA" << '\n';
+      cout << "---------------------------------------------------------------" << '\n';
 
       delta = (E_Bond() - ebond);
       snprintf(_logbuf, BUFF_SIZE, "Bond Stretching        %11.5f    %11.5f   %11.5f", E_Bond(), ebond, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_Angle() - eangle);
       snprintf(_logbuf, BUFF_SIZE, "Angle Bending          %11.5f    %11.5f   %11.5f", E_Angle(), eangle, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_StrBnd() - estbn);
       snprintf(_logbuf, BUFF_SIZE, "Stretch-Bending        %11.5f    %11.5f   %11.5f", E_StrBnd(), estbn, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_OOP() - eoop);
       snprintf(_logbuf, BUFF_SIZE, "Out-Of-Plane Bending   %11.5f    %11.5f   %11.5f", E_OOP(), eoop, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_Torsion() - etor);
       snprintf(_logbuf, BUFF_SIZE, "Torsional              %11.5f    %11.5f   %11.5f", E_Torsion(), etor, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_VDW() - evdw);
       snprintf(_logbuf, BUFF_SIZE, "Van der Waals          %11.5f    %11.5f   %11.5f", E_VDW(), evdw, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
       delta = (E_Electrostatic() - eeq);
       snprintf(_logbuf, BUFF_SIZE, "Electrostatic          %11.5f    %11.5f   %11.5f", E_Electrostatic(), eeq, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
-      cout << endl;
+      cout << '\n';
       delta = (Energy() - etot);
       snprintf(_logbuf, BUFF_SIZE, "Total ENERGY           %11.5f    %11.5f   %11.5f", Energy(), etot, delta);
-      cout << _logbuf << endl;
+      cout << _logbuf << '\n';
 
     } // for (unsigned int c;; c++ )
 
@@ -4347,13 +4347,13 @@ namespace OpenBabel
 
     bool passed = true; // set to false if any component fails
 
-    cout << "----------------------------------------------------------------------------------------" << endl;
-    cout << "                                                                                        " << endl;
-    cout << "  VALIDATE GRADIENTS : " << _mol.GetTitle() << endl;
-    cout << "                                                                                        " << endl;
-    cout << "                                                                                        " << endl;
-    cout << "ATOM IDX      NUMERICAL GRADIENT           ANALYTICAL GRADIENT        REL. ERROR (%)   " << endl;
-    cout << "----------------------------------------------------------------------------------------" << endl;
+    cout << "----------------------------------------------------------------------------------------" << '\n';
+    cout << "                                                                                        " << '\n';
+    cout << "  VALIDATE GRADIENTS : " << _mol.GetTitle() << '\n';
+    cout << "                                                                                        " << '\n';
+    cout << "                                                                                        " << '\n';
+    cout << "ATOM IDX      NUMERICAL GRADIENT           ANALYTICAL GRADIENT        REL. ERROR (%)   " << '\n';
+    cout << "----------------------------------------------------------------------------------------" << '\n';
     //     "XX       (000.000, 000.000, 000.000)  (000.000, 000.000, 000.000)  (00.00, 00.00, 00.00)"
 
     FOR_ATOMS_OF_MOL (a, _mol) {
