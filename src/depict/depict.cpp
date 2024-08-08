@@ -1206,7 +1206,7 @@ namespace OpenBabel
 
     for(from_cit=from.begin();from_cit!=from.end();++from_cit) {
       OBBond* pbond = from_cit->first;
-      if(updown[pbond]==OBStereo::UpBond)
+      if(updown[pbond]==OBStereo::UpBond) {
       if (updown[pbond] == OBStereo::UpBond)
       {
         pbond->SetHash();
@@ -1214,6 +1214,7 @@ namespace OpenBabel
       else if(updown[pbond]==OBStereo::DownBond)
       {
         pbond->SetWedge();
+      }
       }
     }
   }

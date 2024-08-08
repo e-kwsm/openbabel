@@ -200,7 +200,7 @@ static void ECFPPass(OpenBabel::OBMol &mol,
         case 3:  order = 3;  break;
         default: order = 1;
         }
-      } else order = 4;
+      } else { order = 4; }
 
       unsigned int nidx = nptr->GetIdx();
 
@@ -253,11 +253,13 @@ static void ECFPFirstPass(OpenBabel::OBMol &mol,
 bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbits)
 {
 	OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-	if(!pmol) return false;
+	if(!pmol) { return false; }
 	
 	// default fingeprint size
 	if (nbits <= 0)
+	{
 	  nbits = 4096;
+	}
 
   fp.resize(0); // clear without deallocating memory
   fp.resize(nbits/Getbitsperint());
@@ -267,7 +269,7 @@ bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int n
   unsigned int pass;
 
   unsigned int count = pmol->NumAtoms();
-  if (count == 0) return true;
+  if (count == 0) { return true; }
 
   // Access this using the Atom::Idx()
   AtomInfo *ainfo = new AtomInfo[count+1];

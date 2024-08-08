@@ -87,12 +87,16 @@ namespace OpenBabel
     bool heavy = false;
     string ln;
     while(getline(ifs,ln)){
-      if(ln[0]=='#') continue;
+      if(ln[0]=='#') { continue; }
       if(ln.find(";heavy")!=string::npos)
+      {
         heavy=true;
+      }
       if(ln.find(";debug")!=string::npos)
+      {
         _debug = true;
-      if(ln[0]==';') continue;
+      }
+      if(ln[0]==';') { continue; }
       tokenize(vs, ln);
 
       if (vs.size() < 2)
@@ -157,7 +161,7 @@ namespace OpenBabel
     tmpmol.ConvertDativeBonds();
 
     // atom contributions
-    if (_debug) debugMessage << "Heavy atom contributions:" << endl;
+    if (_debug) { debugMessage << "Heavy atom contributions:" << endl; }
     for (i = _contribsHeavy.begin();i != _contribsHeavy.end();++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
@@ -165,7 +169,9 @@ namespace OpenBabel
           atomValues[(*j)[0] - 1] = i->second;
           seenHeavy.SetBitOn((*j)[0]);
 	        if (_debug)
+	        {
             debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << endl;
+	        }
         }
       }
     }
@@ -173,7 +179,7 @@ namespace OpenBabel
     vector<double> hydrogenValues(tmpmol.NumAtoms(), 0.0);
 
     // Hydrogen contributions - note that matches to hydrogens themselves are ignored
-    if (_debug) debugMessage << "  Hydrogen contributions:" << endl;
+    if (_debug) { debugMessage << "  Hydrogen contributions:" << endl; }
     for (i = _contribsHydrogen.begin();i != _contribsHydrogen.end();++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
@@ -209,11 +215,11 @@ namespace OpenBabel
       total += hydrogenValues[index];
       if (_debug) {
         debugMessage << index+1 << " = " << atomValues[index] << " ";
-        if (!seenHeavy.BitIsSet(index + 1)) debugMessage << "un";
+        if (!seenHeavy.BitIsSet(index + 1)) { debugMessage << "un"; }
         debugMessage << "matched...";
         int Hcount = tmpmol.GetAtom(index + 1)->GetExplicitDegree() - tmpmol.GetAtom(index + 1)->GetHvyDegree();
         debugMessage << "   " << Hcount << " hydrogens = " << hydrogenValues[index] << " ";
-        if (!seenHydrogen.BitIsSet(index + 1)) debugMessage << "un";
+        if (!seenHydrogen.BitIsSet(index + 1)) { debugMessage << "un"; }
         debugMessage << "matched\n";
       }
     }

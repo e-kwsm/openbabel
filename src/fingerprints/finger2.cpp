@@ -103,7 +103,7 @@ algorithm, but re-written using STL which makes it shorter.
 bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbits)
 {
 	OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-	if(!pmol) return false;
+	if(!pmol) { return false; }
 	fp.resize(1024/Getbitsperint());
 	fragset.clear();//needed because now only one instance of fp class
 	ringset.clear();
@@ -113,7 +113,7 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
 	vector<OBNodeBase*>::iterator i;
 	for (patom = pmol->BeginAtom(i);patom;patom = pmol->NextAtom(i))
 	{
-		if(patom->GetAtomicNum() == OBElements::Hydrogen) continue;
+		if(patom->GetAtomicNum() == OBElements::Hydrogen) { continue; }
 		vector<int> curfrag;
 		vector<int> levels(pmol->NumAtoms());
 		getFragments(levels, curfrag, 1, patom, nullptr);
@@ -167,9 +167,10 @@ void fingerprint2::getFragments(vector<int> levels, vector<int> curfrag,
 //	PrintFpt(curfrag,(int)patom);
 	for (pnewbond = patom->BeginBond(itr);pnewbond;pnewbond = patom->NextBond(itr))
 	{
-		if(pnewbond==pbond) continue; //don't retrace steps
+		if(pnewbond==pbond) { continue; //don't retrace steps
+                }
 		OBAtom* pnxtat = pnewbond->GetNbrAtom(patom);
-		if(pnxtat->GetAtomicNum() == OBElements::Hydrogen) continue;
+		if(pnxtat->GetAtomicNum() == OBElements::Hydrogen) { continue; }
 
 		int atlevel = levels[pnxtat->GetIdx()-1];
 		if(atlevel) //ring
