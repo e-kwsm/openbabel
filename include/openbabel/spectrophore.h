@@ -551,19 +551,19 @@ while (obconversion.Read(&mol, &ifs))
       protected:
 
          //@{
-         double               _resolution;
+         double               _resolution{3.0};
          AccuracyOption       _accuracy;
          StereoOption         _stereoFlag;
          NormalizationOption  _normalization;
          std::vector<int>     _rotationStepList;
          unsigned int         _nAtoms;
-         double**             _property;
-         double*              _radii;
-         double**             _oricoor;
-         double**             _coor;
-         unsigned int         _beginProbe;
-         unsigned int         _endProbe;
-         unsigned int         _numberOfProbes;
+         double**             _property{nullptr};
+         double*              _radii{nullptr};
+         double**             _oricoor{nullptr};
+         double**             _coor{nullptr};
+         unsigned int         _beginProbe{0};
+         unsigned int         _endProbe{0};
+         unsigned int         _numberOfProbes{0};
          std::vector<double>  _spectro;
          struct
          {
