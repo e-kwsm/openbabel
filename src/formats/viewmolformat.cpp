@@ -171,9 +171,9 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     char buffer[BUFF_SIZE];
 
     if (strlen(mol.GetTitle()) > 0)
-        ofs << "$title" << endl << mol.GetTitle() << endl;
+        ofs << "$title" << '\n' << mol.GetTitle() << '\n';
 
-    ofs << "$coord 1.0" << endl;
+    ofs << "$coord 1.0" << '\n';
 
     OBAtom *atom;
     for(i = 1;i <= mol.NumAtoms(); i++)
@@ -184,10 +184,10 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
                 atom->GetY(),
                 atom->GetZ(),
                 OBElements::GetSymbol(atom->GetAtomicNum()));
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
     }
 
-    ofs << "$end" << endl;
+    ofs << "$end" << '\n';
 
     return(true);
 }

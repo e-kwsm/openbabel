@@ -169,7 +169,7 @@ namespace OpenBabel
         if (!ifs.getline(buffer,BUFF_SIZE))
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << ", file error." << endl
+                     << "Could not read line #" << i+2 << ", file error." << '\n'
                      << " According to line one, there should be " << natoms
                      << " atoms, and therefore " << natoms+2 << " lines in the file.";
 
@@ -180,9 +180,9 @@ namespace OpenBabel
         if (vs.size() < 4) // ignore extra columns which some applications add
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "However, OpenBabel found " << vs.size() << " items.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -217,9 +217,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[1].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -229,9 +229,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[2].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -241,9 +241,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[3].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
