@@ -65,8 +65,7 @@ namespace OpenBabel {
       debug = false;
       success = false;
     }
-    ~DistanceGeometryPrivate()
-    { }
+    ~DistanceGeometryPrivate() = default;
 
     // TODO: Check for overflow on i, j
     void SetLowerBounds(int i, int j, float value)

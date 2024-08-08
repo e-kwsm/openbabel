@@ -35,7 +35,7 @@ namespace OpenBabel
   class OBBondPrivate
   {
     public:
-      OBBondPrivate() {}
+      OBBondPrivate() = default;
   };
 
   extern THREAD_LOCAL OBAromaticTyper  aromtyper;

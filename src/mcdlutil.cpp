@@ -5054,8 +5054,7 @@ namespace OpenBabel {
     int fragmentCount;
     double fragWidth,fragHeight,fragTop,fragLeft;
 
-    PartFragmentDefinition(){
-    };
+    PartFragmentDefinition() = default;
     void assign(const PartFragmentDefinition source) {
       fragID1=source.fragID1;
       fragID2=source.fragID2;

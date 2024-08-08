@@ -316,7 +316,7 @@ namespace OpenBabel {
   public:
 
     OBSmilesParser(bool preserve_aromaticity=false): _preserve_aromaticity(preserve_aromaticity), _rxnrole(1) { }
-    ~OBSmilesParser() { }
+    ~OBSmilesParser() = default;
 
     bool SmiToMol(OBMol&,const string&);
     bool ParseSmiles(OBMol&, const string&);
@@ -2236,10 +2236,7 @@ namespace OpenBabel {
     is_open   = open;
   }
 
-  OBBondClosureInfo::~OBBondClosureInfo()
-  {
-  }
-
+  OBBondClosureInfo::~OBBondClosureInfo() = default;
 
   /*----------------------------------------------------------------------
    * CLASS: OBCanSmiNode: A Tree structure, each node of which is an atom in

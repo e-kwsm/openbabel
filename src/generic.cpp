@@ -196,9 +196,7 @@ namespace OpenBabel
     OBGenericData("Comment", OBGenericDataType::CommentData)
   { }
 
-  OBCommentData::OBCommentData(const OBCommentData &src) :
-    OBGenericData(src), _data(src._data)
-  {  }
+  OBCommentData::OBCommentData(const OBCommentData &src) = default;
 
   //
   //member functions for OBExternalBond class
@@ -207,9 +205,7 @@ namespace OpenBabel
     _idx(idx), _atom(atom), _bond(bond)
   {  }
 
-  OBExternalBond::OBExternalBond(const OBExternalBond &src):
-    _idx(src._idx), _atom(src._atom), _bond(src._bond)
-  { }
+  OBExternalBond::OBExternalBond(const OBExternalBond &src) = default;
 
   //
   //member functions for OBExternalBondData class
@@ -915,9 +911,7 @@ namespace OpenBabel
   /*!
   **\brief OBAngle copy constructor
   */
-  OBAngle::OBAngle(const OBAngle &src):
-    _vertex(src._vertex), _termini(src._termini), _radians(src._radians)
-  {  }
+  OBAngle::OBAngle(const OBAngle &src) = default;
 
   /*!
   **\brief OBAngle assignment operator
@@ -1026,9 +1020,7 @@ namespace OpenBabel
   /*!
   **\brief OBAngleData copy constructor
   */
-  OBAngleData::OBAngleData(const OBAngleData &src)
-    :	OBGenericData(src), _angles(src._angles)
-  {  }
+  OBAngleData::OBAngleData(const OBAngleData &src) = default;
 
   /*!
   **\brief OBAngleData assignment operator
@@ -1135,9 +1127,7 @@ namespace OpenBabel
   /*!
   **\brief OBTorsion copy constructor
   */
-  OBTorsion::OBTorsion(const OBTorsion &src)
-    :	_bc(src._bc), _ads(src._ads)
-  {}
+  OBTorsion::OBTorsion(const OBTorsion &src) = default;
 
   /*!
   **\brief Returns all the 4 atom sets in OBTorsion
@@ -1288,9 +1278,7 @@ namespace OpenBabel
   //
   //member functions for OBTorsionData class - stores OBTorsion set
   //
-  OBTorsionData::OBTorsionData(const OBTorsionData &src)
-    :	OBGenericData(src), _torsions(src._torsions)
-  {  }
+  OBTorsionData::OBTorsionData(const OBTorsionData &src) = default;
 
   OBTorsionData& OBTorsionData::operator =(const OBTorsionData &src)
   {

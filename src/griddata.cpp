@@ -36,7 +36,7 @@ namespace OpenBabel {
 
   class GridDataPrivate {
   public:
-    GridDataPrivate() {    }
+    GridDataPrivate() = default;
 
     OBFloatGrid  floatGrid;
     OBGridData::Unit _unit;

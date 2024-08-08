@@ -580,9 +580,7 @@ namespace OpenBabel {
   OBForceFieldUFF theForceFieldUFF("UFF", true);
   //***********************************************
 
-  OBForceFieldUFF::~OBForceFieldUFF()
-  {
-  }
+  OBForceFieldUFF::~OBForceFieldUFF() = default;
 
   OBForceFieldUFF &OBForceFieldUFF::operator=(OBForceFieldUFF &src)
   {

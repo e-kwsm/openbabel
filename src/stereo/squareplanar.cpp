@@ -79,9 +79,7 @@ namespace OpenBabel {
   {
   }
 
-  OBSquarePlanarStereo::~OBSquarePlanarStereo()
-  {
-  }
+  OBSquarePlanarStereo::~OBSquarePlanarStereo() = default;
 
   bool OBSquarePlanarStereo::IsValid() const
   {

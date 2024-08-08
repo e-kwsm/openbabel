@@ -396,9 +396,7 @@ namespace OpenBabel
   OBForceFieldGhemical theForceFieldGhemical("Ghemical", true);
   //***********************************************
 
-  OBForceFieldGhemical::~OBForceFieldGhemical()
-  {
-  }
+  OBForceFieldGhemical::~OBForceFieldGhemical() = default;
 
   OBForceFieldGhemical &OBForceFieldGhemical::operator=(OBForceFieldGhemical &src)
   {

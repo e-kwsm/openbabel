@@ -509,9 +509,7 @@ namespace OpenBabel {
   {
   }
 
-  OBIsomorphismMapper::~OBIsomorphismMapper()
-  {
-  }
+  OBIsomorphismMapper::~OBIsomorphismMapper() = default;
 
   OBIsomorphismMapper* OBIsomorphismMapper::GetInstance(OBQuery *query, const std::string &algorithm)
   {
