@@ -637,7 +637,7 @@ namespace OpenBabel
             }
             // malloc / memcpy
             double *tmpCoords = new double [(natoms)*3];
-            memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
+            memcpy(tmpCoords, coordinates.data(), sizeof(double)*natoms*3);
             vconf.push_back(tmpCoords);
             coordinates.clear();
             confDimensions.push_back(3); // always 3D -- OBConformerData allows mixing 2D and 3D structures
