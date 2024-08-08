@@ -180,7 +180,7 @@ void OBPlugin::List(const char* PluginID, const char* param, ostream* os)
 {
   vector<string> vlist;
   if(!ListAsVector(PluginID,param, vlist))
-    *os << PluginID << " is not a recognized plugin type. Those with instances of sub-types loaded are:" << endl;
+    *os << PluginID << " is not a recognized plugin type. Those with instances of sub-types loaded are:" << '\n';
   copy(vlist.begin(), vlist.end(), std::ostream_iterator<string>(*os, "\n"));
 }
 
