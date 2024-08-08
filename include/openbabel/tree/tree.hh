@@ -742,7 +742,7 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator tree<T, tree_node_al
 template <class T, class tree_node_allocator>
 typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_allocator>::begin(const iterator_base& pos) const
 	{
-	assert(pos.node!=0);
+	assert(pos.node!=nullptr);
 	if(pos.node->first_child==nullptr) {
 		return end(pos);
 		}
@@ -1908,7 +1908,7 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 	{
 	tree_node *tmp=it.node->first_child;
 	while(num--) {
-		assert(tmp!=0);
+		assert(tmp!=nullptr);
 		tmp=tmp->next_sibling;
 		}
 	return tmp;
@@ -2083,7 +2083,7 @@ tree<T, tree_node_allocator>::pre_order_iterator::pre_order_iterator(const sibli
 template <class T, class tree_node_allocator>
 typename tree<T, tree_node_allocator>::pre_order_iterator& tree<T, tree_node_allocator>::pre_order_iterator::operator++()
 	{
-	assert(this->node!=0);
+	assert(this->node!=nullptr);
 	if(!this->skip_current_children_ && this->node->first_child != nullptr) {
 		this->node=this->node->first_child;
 		}
@@ -2673,7 +2673,7 @@ tree<T, tree_node_allocator>::leaf_iterator::leaf_iterator(const sibling_iterato
 template <class T, class tree_node_allocator>
 typename tree<T, tree_node_allocator>::leaf_iterator& tree<T, tree_node_allocator>::leaf_iterator::operator++()
    {
-	assert(this->node!=0);
+	assert(this->node!=nullptr);
 	if(this->node->first_child!=nullptr) { // current node is no longer leaf (children got added)
 		 while(this->node->first_child)
 			  this->node=this->node->first_child;
