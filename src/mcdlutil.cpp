@@ -748,12 +748,12 @@ namespace OpenBabel {
                     int & nPrev, std::vector<int> & curBond, std::vector<int> & curAtom);
     void vaweBond(int bondN, neighbourlist * bk, int & ringSize, std::vector<int> & bondList);
     void allAboutCycles();
-    void redraw(const std::vector<int>listAtomClean, const std::vector<int>listBondClean,
+    void redraw(std::vector<int>listAtomClean, std::vector<int>listBondClean,
                 int atomClean, int & bondClean, int spn, int sCHA1, int sCHB1, bool iOPT7);
     void clear();
     void readOBMol(OBMol * pmol);
-    void readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, int nAtoms, int nBonds);
-    void readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, const std::vector<double>rx, const std::vector<double>ry, int nAtoms, int nBonds);
+    void readConnectionMatrix(std::vector<int>iA1, std::vector<int>iA2, int nAtoms, int nBonds);
+    void readConnectionMatrix(std::vector<int>iA1, std::vector<int>iA2, std::vector<double>rx, std::vector<double>ry, int nAtoms, int nBonds);
     void redrawMolecule();
     void getMolfile(std::ostream & data);
     bool checkOverlapped();
@@ -781,21 +781,21 @@ namespace OpenBabel {
     int getNH(int atomNo);
     bool correctDblBondStereo();
   private:
-    bool aromatic(int cycleSize, const std::vector<int> bondList, std::vector<int>& arom);
-    void twoAtomUnitVector(int na1, int na2, double & xv, double & yv, const std::vector<int>atomDefine);
+    bool aromatic(int cycleSize, std::vector<int> bondList, std::vector<int>& arom);
+    void twoAtomUnitVector(int na1, int na2, double & xv, double & yv, std::vector<int>atomDefine);
     void defC(int& currNumDef, int baseCycle, int atomClean, std::vector<int>& cycleDefine,
                  std::vector<int>& atomDefine, std::vector<std::vector<int> >& atomCycle, std::vector<int>& dsATN,
                  std::vector<int>& dsTP,
                  std::vector<int>& dsSC, std::vector<int>& dsNA1, std::vector<int>& dsNA2);
-    void defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int> listAtomClean,
+    void defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, std::vector<int> listAtomClean,
               std::vector<int>& cycleDefine, std::vector<std::vector<int> >& atomCycle,
               std::vector<int>& dsATN, std::vector<int>& dsTP, std::vector<int>& dsNA1, std::vector<int>& dsNA2);
     void canonizeCycle(int ringSize, std::vector<int> & bondList);
     //Chain rotate members
     double atomDistanceMetric(int an);
     bool bondsOverlapped(int bN1, int bN2, double delta);
-    int fragmentSecond(int sphere, int att, int secAt, const std::vector<int> a,
-                       const std::vector<int> b, const neighbourlist *bk, std::vector<int>& wSphere);
+    int fragmentSecond(int sphere, int att, int secAt, std::vector<int> a,
+                       std::vector<int> b, const neighbourlist *bk, std::vector<int>& wSphere);
     bool threeBondResolve(int an, int bondExcluded, double& xv, double& yv, neighbourlist* bkExt);
     bool unitVectorCoincident(int aN, double xV, double yV);
     int setupRotorSearch(const vector<int> &rotBondList, vector<int>& inner_bonds, vector<int>& remainder);
@@ -3899,8 +3899,8 @@ namespace OpenBabel {
     void directBondAss(int& bnq, bool& test, bool& test1, bool const* const* beq,
                        bool const* const* aeq, std::vector<int>& bqcounter, std::vector<int>& aqtested,
                        std::vector<int>& bstested, std::vector<int>& bqtested, std::vector<int>& astested,
-                       const std::vector<int> ager, const neighbourlist *bsconn, TSimpleMolecule * smol);
-    bool allQueryPresent(const std::vector<int> qA, const std::vector<int> qB,
+                       std::vector<int> ager, const neighbourlist *bsconn, TSimpleMolecule * smol);
+    bool allQueryPresent(std::vector<int> qA, std::vector<int> qB,
                          int nA, int nB);
   public:
     static int const NOOTHER_MASK=1;
@@ -5077,7 +5077,7 @@ namespace OpenBabel {
     //  virtual ~TemplateRedraw() {
     //    clear();
     //  };
-    bool isOverlapped(const std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested);
+    bool isOverlapped(std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested);
     void arrangeFragments(std::vector<PartFragmentDefinition *>& list, int fragNo, double aspOptimal);
     void redrawFine(TSimpleMolecule& smIn);
     int  coordinatesPrepare(TEditedMolecule& sm, int kk, int anTemplateNo);
@@ -5085,7 +5085,7 @@ namespace OpenBabel {
     static std::vector<TEditedMolecule *> queryData;
     void clear();
     bool internalBondsPresent(TEditedMolecule * mQuery, TSimpleMolecule * mStructure);
-    void rotateBondVertically(TSimpleMolecule * sm, const std::vector<int>bondList, int bondNo,
+    void rotateBondVertically(TSimpleMolecule * sm, std::vector<int>bondList, int bondNo,
                               double xuValue, double yuValue, double& c1, double& s1, double& xSize, double& ySize,
                               double& xCenter, double& yCenter, int& nVert);
     void selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList);
