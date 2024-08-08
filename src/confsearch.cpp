@@ -141,14 +141,20 @@ namespace OpenBabel
     // Remember the hydrogens
     hydrogens.Resize(natoms);
     for (unsigned int i=1; i<=natoms; i++)
+    {
       if (ref.GetAtom(i)->GetAtomicNum() == OBElements::Hydrogen)
+      {
         hydrogens.SetBitOn(i - 1);
+      }
+    }
   }
 
   bool OBDiversePoses::AddPose(double* coords, double energy) {
     std::vector<vector3> vcoords, vcoords_hvy;
     for (unsigned int a = 0; a < natoms; ++a)
+    {
       vcoords.push_back(vector3(coords[a*3], coords[a*3+1], coords[a*3+2]));
+    }
     return AddPose(vcoords, energy);
   }
 
@@ -192,7 +198,9 @@ namespace OpenBabel
       // Skip the first child after the first time through this loop
       // - it will already have been tested against at the end of the previous loop
       if (!first_time)
+      {
         ++sib;
+      }
       for (; sib != poses.end(node); ++sib) { // Iterate over children of node
         std::vector<vector3> tcoords = (*sib).first;
         std::vector<vector3> tcoords_hvy = GetHeavyAtomCoords(tcoords);
@@ -203,14 +211,17 @@ namespace OpenBabel
         n_rmsd++;
         if (rmsd < levels.at(level)) {
           if (rmsd < cutoff)
+          {
             return false;
+          }
 
           min_nodes.push_back(sib);
           min_nodes_rmsds.push_back(rmsd);
 
           if (!_percise) // Exit as soon as one is found
+          {
             break;
-
+          }
         }
       } // end of for loop
 
@@ -265,8 +276,12 @@ namespace OpenBabel
   std::vector<vector3> OBDiversePoses::GetHeavyAtomCoords(const std::vector<vector3> &all_coords) {
     std::vector<vector3> v_hvyatoms;
     for (unsigned int a = 0; a < natoms; ++a)
+    {
       if (!hydrogens.BitIsSet(a))
+      {
         v_hvyatoms.push_back(all_coords[a]);
+      }
+    }
     return v_hvyatoms;
   }
 
@@ -280,8 +295,12 @@ namespace OpenBabel
 std::vector<vector3> GetHeavyAtomCoords(const OBMol* mol, const std::vector<vector3> &all_coords) {
   std::vector<vector3> v_hvyatoms;
   for (unsigned int a = 1; a <= mol->NumAtoms(); ++a)
+  {
     if (mol->GetAtom(a)->GetAtomicNum() != OBElements::Hydrogen)
+    {
       v_hvyatoms.push_back(all_coords[a]);
+    }
+  }
   return v_hvyatoms;
 }
 
@@ -294,14 +313,20 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
 
   // The leaf iterator will (in effect) iterate over the nodes just at the loweset level
   for (OBDiversePoses::Tree::leaf_iterator node = poses->begin(); node != poses->end(); ++node)
+  {
     if (node->first.size() > 0) // Don't include the dummy head node
+    {
       confs.push_back(*node);
+    }
+  }
 
   // Sort the confs by energy (lowest first)
   sort(confs.begin(), confs.end(), sortpred_b);
 
   if(verbose)
+  {
     std::cout << "....tree size = " << divposes->GetSize() <<  " confs = " << confs.size() << "\n";
+  }
 
   typedef std::vector<OBDiversePoses::PosePair> vpp;
 
@@ -314,7 +339,9 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
     }
   }
   if (verbose)
+  {
     std::cout << "....new tree size = " << newtree.GetSize() <<  " confs = " << newconfs.size() << "\n";
+  }
 
   // Add confs to the molecule's conformer data and add the energies to molecules's energies
   for (vpp::iterator chosen = newconfs.begin(); chosen!=newconfs.end(); ++chosen) {
@@ -360,7 +387,9 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
     OBBitVec fixed = _constraints.GetFixedBitVec();
     rl.SetFixAtoms(fixed);
     if (_loglvl == 0)
+    {
       rl.SetQuiet(); // Don't print info on symmetry removal
+    }
     rl.Setup(_mol);
 
     OBRotorIterator ri;
@@ -392,10 +421,14 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
       combinations = UINT_MAX;
     }
     if (verbose)
+    {
       std::cout << "..tot conformations = " << combinations << "\n";
+    }
 
     if (nconfs == 0)
+    {
       nconfs = 1 << 20;
+    }
     unsigned int max_combinations = std::min<unsigned int>(nconfs , combinations);
     LFSR lfsr(max_combinations); // Systematic random number generator
     if (verbose && combinations > max_combinations) {
@@ -429,12 +462,16 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
         divposes.AddPose(_mol.GetCoordinates(), currentE);
         N_low_energy++;
         if (currentE < lowest_energy)
+        {
           lowest_energy = currentE;
+        }
       }
       counter++;
     } while (combination != 1 && counter < nconfs); // The LFSR always terminates with a 1
     if (verbose)
+    {
       std::cout << "..tot confs tested = " << counter << "\n..below energy threshold = " << N_low_energy << "\n";
+    }
 
     // Reset the coordinates to those of the initial structure
     _mol.SetCoordinates(store_initial);

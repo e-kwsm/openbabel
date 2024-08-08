@@ -59,7 +59,7 @@ void print_tree_bracketed(const tree<T>& t, std::ostream& str)
 template<class T>
 void print_subtree_bracketed(const tree<T>& t, typename tree<T>::iterator iRoot, std::ostream& str)
 	{
-	if(t.empty()) return;
+	if(t.empty()) { return; }
 	if (t.number_of_children(iRoot) == 0) {
 		str << *iRoot;
 		}

@@ -1698,7 +1698,9 @@ namespace OpenBabel {
     report_inversion_centers( void )
     {
       if( InversionCentersCount == 0 )
+      {
         printf( "There is no inversion center in the molecule\n" ) ;
+      }
       else {
         printf( "There in an inversion center in the molecule\n" ) ;
         printf( "     Residual                      Position\n" ) ;

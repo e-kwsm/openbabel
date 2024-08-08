@@ -598,19 +598,31 @@ namespace OpenBabel
     c1mag = SQUARE(c1x)+SQUARE(c1y)+SQUARE(c1z);
     c2mag = SQUARE(c2x)+SQUARE(c2y)+SQUARE(c2z);
     if (c1mag*c2mag < 0.01)
+    {
       costheta = 1.0; //avoid div by zero error
+    }
     else
+    {
       costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
+    }
 
     if (costheta < -0.9999999)
+    {
       costheta = -0.9999999;
+    }
     if (costheta >  0.9999999)
+    {
       costheta =  0.9999999;
+    }
 
     if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0)
+    {
       ang = -acos(costheta);
+    }
     else
+    {
       ang = acos(costheta);
+    }
 
     return(ang);
   }
@@ -632,9 +644,13 @@ namespace OpenBabel
     double ang,sn,cs,t,dx,dy,dz,mag;
 
     if (prev == -1)
+    {
       ang = _torsionAngles[idx] - CalcTorsion(c);
+    }
     else
+    {
       ang = _torsionAngles[idx] - _torsionAngles[prev];
+    }
 
     sn = sin(ang);
     cs = cos(ang);
@@ -801,25 +817,37 @@ namespace OpenBabel
     vector<double>::iterator i;
     vector<double> tv;
     if (_torsionAngles.size() == 1)
+    {
       return;
+    }
 
     for (i = _torsionAngles.begin();i != _torsionAngles.end();++i)
+    {
       if (*i >= 0.0 && *i < 2.0*M_PI / fold)
+      {
             tv.push_back(*i);
+      }
+    }
 
     if (tv.empty())
+    {
       return;
+    }
     _torsionAngles = tv;
   }
 
   void OBRotor::SetDihedralAtoms(std::vector<int> &ref)
   {
     if (ref.size() != 4)
+    {
       return;
+    }
     // copy indexes starting from 1
     _ref.resize(4);
     for (int i = 0;i < 4;++i)
+    {
       _ref[i] = ref[i];
+    }
     _torsion.resize(4);
     // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
     _torsion[0] = (ref[0]-1)*3;
@@ -833,7 +861,9 @@ namespace OpenBabel
     // copy indexes starting from 1
     _ref.resize(4);
     for (int i = 0;i < 4;++i)
+    {
       _ref[i] = ref[i];
+    }
     _torsion.resize(4);
     // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
     _torsion[0] = (ref[0]-1)*3;
@@ -872,17 +902,23 @@ namespace OpenBabel
     char temp_buffer[BUFF_SIZE];
 
     if (buffer[0] == '#')
+    {
       return;
+    }
     tokenize(vs,buffer);
     if (vs.empty())
+    {
       return;
+    }
 
     if (EQn(buffer,"SP3-SP3",7))
       {
         _sp3sp3.clear();
         //        assert (vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
+        {
           _sp3sp3.push_back(DEG_TO_RAD*atof(j->c_str()));
+        }
         return;
       }
 
@@ -891,7 +927,9 @@ namespace OpenBabel
         _sp3sp2.clear();
         //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
+        {
           _sp3sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
+        }
         return;
       }
 
@@ -900,7 +938,9 @@ namespace OpenBabel
         _sp2sp2.clear();
         //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
+        {
           _sp2sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
+        }
         return;
       }
 
@@ -910,7 +950,9 @@ namespace OpenBabel
         temp_buffer[sizeof(temp_buffer) - 1] = '\0';
         //reference atoms
         for (i = 0;i < 4;++i)
+        {
           ref[i] = atoi(vs[i+1].c_str())-1;
+        }
         //possible torsions
         vals.clear();
         delta = OB_DEFAULT_DELTA;
@@ -922,7 +964,9 @@ namespace OpenBabel
                 i += 2;
               }
             else
+            {
               vals.push_back(DEG_TO_RAD*atof(vs[i].c_str()));
+            }
           }
 
         if (vals.empty())
@@ -933,9 +977,13 @@ namespace OpenBabel
           }
         OBRotorRule *rr = new OBRotorRule (temp_buffer,ref,vals,delta);
         if (rr->IsValid())
+        {
           _vr.push_back(rr);
+        }
         else
+        {
           delete rr;
+        }
       }
 
   }
@@ -944,7 +992,9 @@ namespace OpenBabel
                                         int ref[4],vector<double> &vals,double &delta)
   {
     if (!_init)
+    {
       Init();
+    }
 
     vals.clear();
     vector<pair<int,int> > vpr;
@@ -968,12 +1018,16 @@ namespace OpenBabel
           {
             swap(vpr[0].first,vpr[1].first);
             if (!sp->RestrictedMatch(mol,vpr,true))
+            {
               continue;
+            }
           }
 
         map = sp->GetMapList();
         for (j = 0;j < 4;++j)
+        {
           ref[j] = map[0][ref[j]];
+        }
         vals = (*i)->GetTorsionVals();
         delta = (*i)->GetDelta();
 
@@ -981,7 +1035,9 @@ namespace OpenBabel
         a1 = mol.GetAtom(ref[0]);
         a4 = mol.GetAtom(ref[3]);
         if (a1->GetAtomicNum() == OBElements::Hydrogen && a4->GetAtomicNum() == OBElements::Hydrogen)
+        {
           continue; //don't allow hydrogens at both ends
+        }
         if (a1->GetAtomicNum() == OBElements::Hydrogen || a4->GetAtomicNum() == OBElements::Hydrogen) //need a heavy atom reference - can use hydrogen
           {
             bool swapped = false;
@@ -996,20 +1052,30 @@ namespace OpenBabel
 
             vector<OBBond*>::iterator k;
             for (r = a2->BeginNbrAtom(k);r;r = a2->NextNbrAtom(k))
+            {
               if (r->GetAtomicNum() != OBElements::Hydrogen && r != a3)
+              {
                 break;
+              }
+            }
 
             if (!r)
+            {
               continue; //unable to find reference heavy atom
+            }
             //			cerr << "r = " << r->GetIdx() << endl;
 
             double t1 = mol.GetTorsion(a1,a2,a3,a4);
             double t2 = mol.GetTorsion(r,a2,a3,a4);
             double diff = t2 - t1;
             if (diff > 180.0)
+            {
               diff -= 360.0;
+            }
             if (diff < -180.0)
+            {
               diff += 360.0;
+            }
             diff *= DEG_TO_RAD;
 
             vector<double>::iterator m;
@@ -1017,9 +1083,13 @@ namespace OpenBabel
               {
                 *m += diff;
                 if (*m < M_PI)
+                {
                   *m += 2.0*M_PI;
+                }
                 if (*m > M_PI)
+                {
                   *m -= 2.0*M_PI;
+                }
               }
 
             if (swapped)
@@ -1053,11 +1123,20 @@ namespace OpenBabel
     vector<OBBond*>::iterator k;
 
     for (a1 = a2->BeginNbrAtom(k);a1;a1 = a2->NextNbrAtom(k))
+    for (a1 = a2->BeginNbrAtom(k); a1; a1 = a2->NextNbrAtom(k))
+    {
       if (a1->GetAtomicNum() != OBElements::Hydrogen && a1 != a3)
+      {
         break;
+      }
+    }
     for (a4 = a3->BeginNbrAtom(k);a4;a4 = a3->NextNbrAtom(k))
+    {
       if (a4->GetAtomicNum() != OBElements::Hydrogen && a4 != a2)
+      {
         break;
+      }
+    }
 
     ref[0] = a1->GetIdx();
     ref[1] = a2->GetIdx();
@@ -1107,7 +1186,9 @@ namespace OpenBabel
   {
     vector<OBRotorRule*>::iterator i;
     for (i = _vr.begin();i != _vr.end();++i)
+    {
       delete (*i);
+    }
   }
 
 #undef OB_DEFAULT_DELTA

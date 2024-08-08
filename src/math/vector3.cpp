@@ -77,9 +77,13 @@ namespace OpenBabel
       }
 #endif
     if (i == 0)
+    {
       return _vx;
+    }
     if (i == 1)
+    {
       return _vy;
+    }
     else return _vz;
   }
 
@@ -199,10 +203,14 @@ namespace OpenBabel
 
 
     if (dp < -0.999999)
+    {
       dp = -0.9999999;
+    }
 
     if (dp > 0.9999999)
+    {
       dp = 0.9999999;
+    }
 
 
     return((RAD_TO_DEG * acos(dp)));

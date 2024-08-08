@@ -769,7 +769,9 @@ namespace OpenBabel {
       {
         for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
           for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
+          {
             (*m_logstream) << m_rotorKeys[i][j] << " ";
+          }
           (*m_logstream) << std::endl;
         }
       }

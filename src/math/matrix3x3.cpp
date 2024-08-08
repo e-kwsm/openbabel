@@ -331,8 +331,12 @@ namespace OpenBabel
     matrix3x3 returnValue;
 
     for(unsigned int i=0; i<3; i++)
+    {
       for(unsigned int j=0; j<3; j++)
+      {
         returnValue.ele[i][j] = ele[j][i];
+      }
+    }
 
     return(returnValue);
   }
@@ -562,7 +566,9 @@ namespace OpenBabel
     for (j = 0; j < static_cast<int>(n); j++)
       {
         for (i = 0; i < static_cast<int>(n); i++)
+        {
           v[n*i+j] = 0.0;
+        }
         v[n*j+j] = 1.0;
         d[j] = a[n*j+j];
       }
@@ -578,11 +584,15 @@ namespace OpenBabel
           {
             dnorm += (double)fabs(d[j]);
             for (i = 0; i < j; i++)
+            {
               onorm += (double)fabs(a[n*i+j]);
+            }
           }
         // Normal end point of this algorithm.
         if((onorm/dnorm) <= 1.0e-12)
+        {
           goto Exit_now;
+        }
 
         for (j = 1; j < static_cast<int>(n); j++)
           {
@@ -594,7 +604,9 @@ namespace OpenBabel
                   {
                     dma = d[j] - d[i];
                     if((fabs(dma) + fabs(b)) <=  fabs(dma))
+                    {
                       t = b / dma;
+                    }
                     else
                       {
                         q = 0.5 * dma / b;
@@ -654,11 +666,13 @@ namespace OpenBabel
         k = j;
         dtemp = d[k];
         for (i = j+1; i < static_cast<int>(n); i++)
+        {
           if(d[i] < dtemp)
             {
               k = i;
               dtemp = d[k];
             }
+        }
 
         if(k > j)
           {
