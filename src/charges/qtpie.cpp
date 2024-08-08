@@ -200,8 +200,8 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 	if (Parameters[0] == 0.)
         {
 		stringstream msg;
-		msg << "Some QTPIE Parameters not found!" << endl
-	            << "Parameters not found for atom no. " << i+1 << endl
+		msg << "Some QTPIE Parameters not found!" << '\n'
+	            << "Parameters not found for atom no. " << i+1 << '\n'
 		    << "Atom will be ignored in the charge computation.";
 		obErrorLog.ThrowError(__FUNCTION__, msg.str(), obError);
 	}
@@ -356,7 +356,7 @@ double QTPIECharges::OverlapInt(double a, double b, double R)
 }
 
 /// Here's a wrapper around the Eigen solver routine
-bool QTPIECharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold)
+bool QTPIECharges::solver(const Eigen::MatrixXd& A, const Eigen::VectorXd& b, Eigen::VectorXd &x, const double NormThreshold)
 {
     // using a LU factorization
 #ifdef HAVE_EIGEN3
@@ -372,12 +372,12 @@ bool QTPIECharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd 
     if (IsNan(resnorm) || resnorm > NormThreshold || !SolverOK)
       {
         stringstream msg;
-        msg << "Warning, LU solver failed." << endl;
-        if (!SolverOK) msg << "Solver returned error." << endl;
-        if (IsNan(resnorm)) msg << "NaNs were returned" << endl;
+        msg << "Warning, LU solver failed." << '\n';
+        if (!SolverOK) msg << "Solver returned error." << '\n';
+        if (IsNan(resnorm)) msg << "NaNs were returned" << '\n';
         if (resnorm > NormThreshold) msg << "Residual has norm " << resnorm
                                          << " which exceeds the recommended threshold of " << NormThreshold
-                                         << endl;
+                                         << '\n';
         msg << "Proceeding with singular value decomposition.";
 
         obErrorLog.ThrowError(__FUNCTION__, msg.str(), obWarning);
