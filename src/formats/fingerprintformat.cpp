@@ -144,7 +144,7 @@ namespace OpenBabel
     if(!pFP)
       {
         stringstream errorMsg;
-        errorMsg << "Fingerprint type '" << fpid << "' not available" << endl;
+        errorMsg << "Fingerprint type '" << fpid << "' not available" << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -212,12 +212,12 @@ namespace OpenBabel
         if(IsPossibleSubstructure(fptvec,firstfp))
           ofs << "\nPossible superstructure of " << firstname;
       }
-    ofs << endl;
+    ofs << '\n';
 
     if(hexoutput)
       {
         WriteHex(ofs, fptvec);
-        ofs << endl;
+        ofs << '\n';
       }
     return true;
   }
@@ -237,7 +237,7 @@ namespace OpenBabel
     {
       ofs << hex << setfill('0') << setw(8) << fptvec[i] << " " ;
       if((fptvec.size()-i)%6==0)
-        ofs <<endl;
+        ofs <<'\n';
     }
     ofs << dec << flush;
     return true;

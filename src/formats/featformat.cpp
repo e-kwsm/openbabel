@@ -140,8 +140,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
 
-    ofs << mol.NumAtoms() << endl;
-    ofs << mol.GetTitle() << endl;
+    ofs << mol.NumAtoms() << '\n';
+    ofs << mol.GetTitle() << '\n';
 
     OBAtom *atom;
     vector<OBAtom*>::iterator i;
@@ -152,7 +152,7 @@ namespace OpenBabel
                  atom->x(),
                  atom->y(),
                  atom->z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     return(true);

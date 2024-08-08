@@ -189,7 +189,7 @@ namespace OpenBabel
         if (!ifs.getline(buffer,BUFF_SIZE))
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << ", file error." << endl
+                     << "Could not read line #" << i+2 << ", file error." << '\n'
                      << " According to line one, there should be " << natoms
                      << " atoms, and therefore " << natoms+2 << " lines in the file.";
 
@@ -200,9 +200,9 @@ namespace OpenBabel
         if (vs.size() < 4) // ignore extra columns which some applications add
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "However, OpenBabel found " << vs.size() << " items.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -237,9 +237,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[1].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -249,9 +249,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[2].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -261,9 +261,9 @@ namespace OpenBabel
         if (endptr == (char*)vs[3].c_str())
           {
             errorMsg << "Problems reading an XYZ file: "
-                     << "Could not read line #" << i+2 << "." << endl
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "Could not read line #" << i+2 << "." << '\n'
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -283,7 +283,7 @@ namespace OpenBabel
       }
     if (!ifs.getline(buffer,BUFF_SIZE)) {           // skip empty line
         errorMsg << "Problems reading an EXYZ file: "
-                 << "Expecting unitcell information because of keyword %PBC " << endl
+                 << "Expecting unitcell information because of keyword %PBC " << '\n'
                  << " but nothing more found ";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
         return(false);
@@ -294,7 +294,7 @@ namespace OpenBabel
         for (unsigned int i = 1; i <= 3; i ++) {
             if (!ifs.getline(buffer,BUFF_SIZE)) {
                 errorMsg << "Problems reading an EXYZ file: "
-                         << "Expecting unitcell information because of keyword %PBC " << endl
+                         << "Expecting unitcell information because of keyword %PBC " << '\n'
                          << " but nothing found ";
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
                 return(false);
@@ -302,8 +302,8 @@ namespace OpenBabel
             tokenize(vs,buffer);
             if (vs.size() != 4) { // assume that unit cell vectors are given
                 errorMsg << "Problems reading an EXYZ file: "
-                         << "OpenBabel found the line '" << buffer << "'" << endl
-                         << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << endl
+                         << "OpenBabel found the line '" << buffer << "'" << '\n'
+                         << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << '\n'
                          << "However, OpenBabel found " << vs.size() << " items.";
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
                 return(false);
@@ -314,9 +314,9 @@ namespace OpenBabel
             if (endptr == (char*)vs[1].c_str())
             {
                 errorMsg << "Problems reading an EXYZ file: "
-                         << "Could not read line #" << i+2 << "." << endl
-                         << "OpenBabel found the line '" << buffer << "'" << endl
-                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                         << "Could not read line #" << i+2 << "." << '\n'
+                         << "OpenBabel found the line '" << buffer << "'" << '\n'
+                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                          << "OpenBabel could not interpret item #1 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -326,9 +326,9 @@ namespace OpenBabel
             if (endptr == (char*)vs[2].c_str())
             {
                 errorMsg << "Problems reading an EXYZ file: "
-                         << "Could not read line #" << i+2 << "." << endl
-                         << "OpenBabel found the line '" << buffer << "'" << endl
-                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                         << "Could not read line #" << i+2 << "." << '\n'
+                         << "OpenBabel found the line '" << buffer << "'" << '\n'
+                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                          << "OpenBabel could not interpret item #2 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -338,9 +338,9 @@ namespace OpenBabel
             if (endptr == (char*)vs[3].c_str())
             {
                 errorMsg << "Problems reading an EXYZ file: "
-                         << "Could not read line #" << i+2 << "." << endl
-                         << "OpenBabel found the line '" << buffer << "'" << endl
-                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                         << "Could not read line #" << i+2 << "." << '\n'
+                         << "OpenBabel found the line '" << buffer << "'" << '\n'
+                         << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                          << "OpenBabel could not interpret item #3 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -352,7 +352,7 @@ namespace OpenBabel
 
         if (!ifs.getline(buffer,BUFF_SIZE)) {
             errorMsg << "Problems reading an EXYZ file: "
-                     << "Expecting unitcell information because of keyword %PBC " << endl
+                     << "Expecting unitcell information because of keyword %PBC " << '\n'
                      << " looking for center information but nothing found ";
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
             return(false);
@@ -360,8 +360,8 @@ namespace OpenBabel
         tokenize(vs,buffer);
         if (vs.size() != 4) { // assume that unit cell vectors are given
             errorMsg << "Problems reading an EXYZ file: "
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << endl
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "However, OpenBabel found " << vs.size() << " items.";
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
             return(false);
@@ -372,8 +372,8 @@ namespace OpenBabel
         if (endptr == (char*)vs[1].c_str())
         {
             errorMsg << "Problems reading an EXYZ file: "
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -383,8 +383,8 @@ namespace OpenBabel
         if (endptr == (char*)vs[2].c_str())
         {
             errorMsg << "Problems reading an EXYZ file: "
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -394,8 +394,8 @@ namespace OpenBabel
         if (endptr == (char*)vs[3].c_str())
         {
             errorMsg << "Problems reading an EXYZ file: "
-                     << "OpenBabel found the line '" << buffer << "'" << endl
-                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << endl
+                     << "OpenBabel found the line '" << buffer << "'" << '\n'
+                     << "According to the specifications, this line should contain exactly 4 entries, separated by white space." << '\n'
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
@@ -442,11 +442,11 @@ namespace OpenBabel
 
     if (string(mol.GetTitle()).find("%PBC") != notFound) keyword = ""; // title contains already right keyword
 
-    ofs << mol.NumAtoms() << endl;
+    ofs << mol.NumAtoms() << '\n';
     if (fabs(mol.GetEnergy()) > 1.0e-3) // nonzero energy field
-        ofs << mol.GetTitle() << " " << mol.GetEnergy() << " "<<  keyword << endl;
+        ofs << mol.GetTitle() << " " << mol.GetEnergy() << " "<<  keyword << '\n';
     else
-        ofs << mol.GetTitle() << " " <<  keyword << endl;
+        ofs << mol.GetTitle() << " " <<  keyword << '\n';
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
@@ -454,22 +454,22 @@ namespace OpenBabel
             << OpenBabel::OBElements::GetSymbol(atom->GetAtomicNum())
             << setw(15) << setprecision(5) << fixed << showpoint
             << right << atom->GetX() << " " << setw(15) << atom->GetY() << " "
-            << setw(15) << atom->GetZ() << endl;
+            << setw(15) << atom->GetZ() << '\n';
     }
-    ofs << endl;
+    ofs << '\n';
     //
     // now write unitcell information
     //
     if (!mol.HasData(OBGenericDataType::UnitCell)){
         ofs << right << "Vector1"
             << setw(15) << setprecision(5) << fixed << showpoint
-            << right << 1. << " " << setw(15) << 0. << " "<< setw(15) << 0. << endl;
+            << right << 1. << " " << setw(15) << 0. << " "<< setw(15) << 0. << '\n';
         ofs << "Vector2" << setw(15)
-            << right << 0. << " " << setw(15) << 1. << " " << setw(15) << 0. << endl;
+            << right << 0. << " " << setw(15) << 1. << " " << setw(15) << 0. << '\n';
         ofs << "Vector3" << setw(15)
-            << right << 0. << " " << setw(15) << 0. << " "<< setw(15) << 1. << endl;
+            << right << 0. << " " << setw(15) << 0. << " "<< setw(15) << 1. << '\n';
         ofs << "Offset " << setw(15)
-            << right << 0. << " " << setw(15) << 0. << " " << setw(15) << 0. << endl;
+            << right << 0. << " " << setw(15) << 0. << " " << setw(15) << 0. << '\n';
     } else {
         OBUnitCell *uC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         matrix3x3 unitCellMatrix = uC->GetCellMatrix();
@@ -477,16 +477,16 @@ namespace OpenBabel
         ofs << right << "Vector1"
             << setw(15) << setprecision(5) << fixed << showpoint
             << right << unitCellMatrix.GetRow(0).GetX() << " " << setw(15) << unitCellMatrix.GetRow(0).GetY() << " "
-            << setw(15) << unitCellMatrix.GetRow(0).GetZ() << endl;
+            << setw(15) << unitCellMatrix.GetRow(0).GetZ() << '\n';
         ofs << "Vector2" << setw(15)
             << right << unitCellMatrix.GetRow(1).GetX() << " " << setw(15) << unitCellMatrix.GetRow(1).GetY() << " "
-            << setw(15) << unitCellMatrix.GetRow(1).GetZ() << endl;
+            << setw(15) << unitCellMatrix.GetRow(1).GetZ() << '\n';
         ofs << "Vector3" << setw(15)
             << right << unitCellMatrix.GetRow(2).GetX() << " " << setw(15) << unitCellMatrix.GetRow(2).GetY() << " "
-            << setw(15) << unitCellMatrix.GetRow(2).GetZ() << endl;
+            << setw(15) << unitCellMatrix.GetRow(2).GetZ() << '\n';
         ofs << "Offset " << setw(15)
             << right << offset.GetX() << " " << setw(15) << offset.GetY() << " "
-            << setw(15) << offset.GetZ() << endl;
+            << setw(15) << offset.GetZ() << '\n';
     }
     return(true);
   }

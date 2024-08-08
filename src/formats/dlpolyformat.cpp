@@ -53,7 +53,7 @@ namespace OpenBabel
       return !(iss >> f >> t).fail();
     }
     
-    int LabelToAtomicNumber(std::string label);
+    int LabelToAtomicNumber(const std::string& label);
     
     std::stringstream errorMsg;
 
@@ -70,7 +70,7 @@ namespace OpenBabel
 
   }; // End DlpolyInputReader
   
-  int DlpolyInputReader::LabelToAtomicNumber(std::string label)
+  int DlpolyInputReader::LabelToAtomicNumber(const std::string& label)
   {
     /*
      * Given a string with the label for an atom return the atomic number
@@ -89,7 +89,7 @@ namespace OpenBabel
     
     if (Z==0){
       // Houston...
-      errorMsg << "LabelToAtomicNumber got bad Label: " << label << std::endl;
+      errorMsg << "LabelToAtomicNumber got bad Label: " << label << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     }
 
@@ -362,16 +362,16 @@ namespace OpenBabel
     std::string title = mol.GetTitle();
 
     // 80 char title
-    ofs << title.substr(0,80) << std::endl;
+    ofs << title.substr(0,80) << '\n';
     
     // Set levcfg & imcon
-    ofs << std::setw(10) << levcfg << std::setw(10) << imcon << std::endl;
+    ofs << std::setw(10) << levcfg << std::setw(10) << imcon << '\n';
     
     // Now loop through molecule
     FOR_ATOMS_OF_MOL(atom, mol)
       {
         
-        ofs << std::setw(8) << OBElements::GetSymbol(atom->GetAtomicNum()) << std::setw(10) << ++idx << std::setw(10) << atom->GetAtomicNum() << std::endl;
+        ofs << std::setw(8) << OBElements::GetSymbol(atom->GetAtomicNum()) << std::setw(10) << ++idx << std::setw(10) << atom->GetAtomicNum() << '\n';
         snprintf(buffer, BUFF_SIZE, "%20.15f %20.15f %20.15f\n",
                  atom->GetX(),
                  atom->GetY(),

@@ -246,7 +246,7 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     OBUnitCell *uc = nullptr;
 
-    ofs << mol.GetTitle() << endl;
+    ofs << mol.GetTitle() << '\n';
 
     if (!mol.HasData(OBGenericDataType::UnitCell))
       ofs << "   1.00000   1.00000   1.00000  90.00000  90.00000  90.00000\n";
@@ -272,9 +272,9 @@ namespace OpenBabel
                  v.x(),
                  v.y(),
                  v.z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
-    ofs << endl; // add a blank line between molecules
+    ofs << '\n'; // add a blank line between molecules
     return(true);
   }
 
