@@ -128,7 +128,7 @@ bool CMLReactFormat::ReadChemObject(OBConversion* pConv)
     IMols.clear();
     //add special species
     std::shared_ptr<OBMol> sp(new OBMol);
-    sp.get()->SetTitle("M");
+    sp->SetTitle("M");
     IMols["M"] = sp;
   }
 
