@@ -552,7 +552,7 @@ namespace OpenBabel
             indexstream.get(len);
             string title(len, 0);
             unsigned pos;
-            indexstream.read(&title[0],len);
+            indexstream.read(title.data(), len);
             indexstream.read((char*)&pos,sizeof(unsigned));
             index.insert(itr, make_pair(title,pos));
           }

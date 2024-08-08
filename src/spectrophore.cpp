@@ -265,8 +265,8 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
 
    // Properties
    _getBox(_oricoor);
-   _getEnergies(_oricoor, &(ENERGY[0]));
-   _initiateSpectrophore(&(ENERGY[0]), &(SPHORE[0]));
+   _getEnergies(_oricoor, ENERGY.data());
+   _initiateSpectrophore(ENERGY.data(), SPHORE.data());
 
    // Rotate
    double psi;
@@ -306,8 +306,8 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
 
                // Calculate energies
                _getBox(_coor);
-               _getEnergies(_coor, &(ENERGY[0]));
-               _updateSpectrophore(&(ENERGY[0]), &(SPHORE[0]));
+               _getEnergies(_coor, ENERGY.data());
+               _updateSpectrophore(ENERGY.data(), SPHORE.data());
             }
          }
       }
@@ -1627,7 +1627,7 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    }
 
    // Solve the matrix equation
-   _solveMatrix(ETA, &(CHI[0]), dim);    // CHI will contain the values
+   _solveMatrix(ETA, CHI.data(), dim);   // CHI will contain the values
 
    // Add values to property matrix
    for (unsigned int i = 0; i < _nAtoms; ++i)
@@ -1781,7 +1781,7 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    ETA2[_nAtoms][_nAtoms] = -1.0;
 
    // Solve the matrix equation
-   _solveMatrix(ETA2, &(CHI[0]), dim);    // CHI will contain the values
+   _solveMatrix(ETA2, CHI.data(), dim);   // CHI will contain the values
 
    // Add values to property matrix
    for (unsigned int i = 0; i < _nAtoms; ++i)
