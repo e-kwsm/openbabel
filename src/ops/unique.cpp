@@ -90,7 +90,7 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConver
     _trunc.clear();
     _inv = OptionText[0]=='~';   //has the parameter a leading ~ ?
     if(_inv)
-      clog << "The output has the duplicate structures" << endl;
+      clog << "The output has the duplicate structures" << '\n';
 
     if(OptionText[0+_inv]=='/')  //is parameter is /x?
       _trunc = OptionText+_inv;
@@ -125,7 +125,7 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConver
     ++_ndups;
     if(_reportDup)
       clog << "Removed " << pmol->GetTitle() << " - a duplicate of " << result.first->second
-         << " (#" << _ndups << ")" << endl;
+         << " (#" << _ndups << ")" << '\n';
     //delete pOb;
     ret = false; //filtered out
   }

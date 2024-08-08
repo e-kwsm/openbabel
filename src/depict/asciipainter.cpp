@@ -141,7 +141,7 @@ namespace OpenBabel
       for(vc_it=vvc_it->begin();vc_it!=vvc_it->end();++vc_it) {
         ofs << *vc_it;
       }
-      ofs << endl;
+      ofs << '\n';
     }
   }
 
