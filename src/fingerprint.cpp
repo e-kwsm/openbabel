@@ -65,8 +65,10 @@ namespace OpenBabel
     else {
       // normal folding to smaller vector sizes
       while(vec.size()*Getbitsperint()/2 >= nbits)
+      {
         vec.erase(transform(vec.begin(),vec.begin()+vec.size()/2,
                             vec.begin()+vec.size()/2, vec.begin(), bit_or()), vec.end());
+      }
     }
   }
 
@@ -104,7 +106,9 @@ namespace OpenBabel
   {
     //Independent of sizeof(unsigned int)
     if(vec1.size()!=vec2.size())
+    {
       return -1; //different number of bits
+    }
     int andbits=0, orbits=0;
     for (unsigned i=0;i<vec1.size();++i)
       {
@@ -126,7 +130,9 @@ namespace OpenBabel
 #endif
       }
     if(orbits==0)
+    {
       return 0.0;
+    }
     return((double)andbits/(double)orbits);
   }
 
@@ -175,7 +181,9 @@ namespace OpenBabel
           {
             candidates.push_back(i);
             if(candidates.size()>=MaxCandidates)
+	    {
               break;
+            }
           }
       }
 
@@ -217,13 +225,15 @@ namespace OpenBabel
     nextp += words;
     ppat=ppat0;
 
-    while((*p++ == *ppat++ ) && (p<nextp));
+    while((*p++ == *ppat++ ) && (p<nextp)) {}
 
     if(p==nextp)
     {
       candidates.push_back(i);
       if(candidates.size()>=MaxCandidates)
+      {
         break;
+      }
     }
   }
 
@@ -253,7 +263,9 @@ namespace OpenBabel
         nextp += words;
         double tani = OBFingerprint::Tanimoto(targetfp,p);
         if(tani>MinTani && tani < MaxTani)
+	{
           SeekposMap.insert(pair<const double, unsigned long>(tani,_index.seekdata[i]));
+	}
       }
     return true;
   }
@@ -269,10 +281,14 @@ namespace OpenBabel
         SeekposMap.clear();
         int i;
         for(i=0;i<nCandidates;++i)
+	{
           SeekposMap.insert(pair<const double, unsigned long>(0,0));
+	}
       }
     else if(SeekposMap.size()==0)
+    {
       return false;
+    }
 
     vector<unsigned int> targetfp;
     _pFP->GetFingerprint(pOb,targetfp, _index.header.words * OBFingerprint::Getbitsperint());
@@ -304,7 +320,9 @@ namespace OpenBabel
 
     _pFP = _index.CheckFP();
     if(!_pFP)
+    {
       *(_index.header.datafilename) = '\0';
+    }
 
     return _index.header.datafilename; //will be empty on error
   }
@@ -314,7 +332,9 @@ namespace OpenBabel
   {
     ifstream ifs(IndexFilename.c_str(),ios::binary);
     if(ifs)
+    {
       return ReadIndex(&ifs);
+    }
     else
     {
       string dum;
@@ -406,7 +426,9 @@ namespace OpenBabel
     //check that fingerprint type is available
     _pFP = _pindex->CheckFP();
     if(fpid.empty()) // add id of default FP
+    {
       strcpy(_pindex->header.fpid, _pFP->GetID());
+    }
 
     //Save a small amount of time by not generating info (FP2 currently)
     _pFP->SetFlags(_pFP->Flags() | OBFingerprint::FPT_NOINFO);
@@ -445,8 +467,10 @@ namespace OpenBabel
     _indexstream->write((const char*)&_pindex->fptdata[0], _pindex->fptdata.size()*sizeof(unsigned int));
     _indexstream->write((const char*)&_pindex->seekdata[0], _pindex->seekdata.size()*sizeof(unsigned long));
     if(!_indexstream)
+    {
       obErrorLog.ThrowError(__FUNCTION__,
                             "Difficulty writing index", obWarning);
+    }
     delete _pindex;
 
     _pFP->SetFlags(_pFP->Flags() & ~OBFingerprint::FPT_NOINFO); //Clear
@@ -459,7 +483,9 @@ namespace OpenBabel
 
     vector<unsigned int> vecwords;
     if(!_pFP)
+    {
       return false;
+    }
     if(_pFP->GetFingerprint(pOb, vecwords, _nbits))
       {
         _pindex->header.words = vecwords.size(); //Use size as returned from fingerprint
@@ -471,7 +497,9 @@ namespace OpenBabel
           _pindex->seekdata.reserve(_pindex->header.nEntries);
         }
         for(unsigned int i=0;i<_pindex->header.words;++i)
+	{
           _pindex->fptdata.push_back(vecwords[i]);
+        }
         _pindex->seekdata.push_back(seekpos);
         return true;
       }
