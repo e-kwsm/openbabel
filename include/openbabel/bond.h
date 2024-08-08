@@ -267,7 +267,7 @@ namespace OpenBabel
   }
 
   //! A standard iterator over a vector of bonds
-  typedef std::vector<OBBond*>::iterator OBBondIterator;
+  using OBBondIterator = std::vector<OBBond *>::iterator;
 
 }// namespace OpenBabel
 

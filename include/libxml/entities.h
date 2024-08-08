@@ -21,14 +21,14 @@ extern "C" {
 /*
  * The different valid entity types.
  */
-typedef enum {
+enum xmlEntityType {
     XML_INTERNAL_GENERAL_ENTITY = 1,
     XML_EXTERNAL_GENERAL_PARSED_ENTITY = 2,
     XML_EXTERNAL_GENERAL_UNPARSED_ENTITY = 3,
     XML_INTERNAL_PARAMETER_ENTITY = 4,
     XML_EXTERNAL_PARAMETER_ENTITY = 5,
     XML_INTERNAL_PREDEFINED_ENTITY = 6
-} xmlEntityType;
+};
 
 /*
  * An unit of storage for an entity, contains the string, the value
@@ -63,8 +63,8 @@ struct _xmlEntity {
  * There is 2 separate hash tables for global and parameter entities.
  */
 
-typedef struct _xmlHashTable xmlEntitiesTable;
-typedef xmlEntitiesTable *xmlEntitiesTablePtr;
+using xmlEntitiesTable = struct _xmlHashTable;
+using xmlEntitiesTablePtr = xmlEntitiesTable *;
 
 /*
  * External functions:

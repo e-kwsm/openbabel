@@ -141,11 +141,11 @@ namespace OpenBabel
   };
 
   //! Store arbitrary key/value integer data like OBPairData
-  typedef OBPairTemplate<int>     OBPairInteger;
+  using OBPairInteger = OBPairTemplate<int>;
   //! Store arbitrary key/value floating point data like OBPairData
-  typedef OBPairTemplate<double>  OBPairFloatingPoint;
+  using OBPairFloatingPoint = OBPairTemplate<double>;
   //! Store arbitrary key/value boolean data like OBPairData
-  typedef OBPairTemplate<bool>    OBPairBool;
+  using OBPairBool = OBPairTemplate<bool>;
 
   //! \class OBSetData generic.h <openbabel/generic.h>
   //! \brief Used to store arbitrary attribute/set relationships.
@@ -1097,7 +1097,7 @@ namespace OpenBabel
   };
   
   //! A standard iterator over a vector of FreeGridPoints
-  typedef std::vector<OBFreeGridPoint*>::iterator OBFreeGridPointIterator;
+  using OBFreeGridPointIterator = std::vector<OBFreeGridPoint *>::iterator;
 
   //! \class OBFreeGrid generic.h <openbabel/generic.h>
   //! \brief Handle double precision floating point data with coordinates not on a grid
@@ -1178,7 +1178,7 @@ namespace OpenBabel
   };
 
  //! A standard iterator over vectors of OBGenericData (e.g., inherited from OBBase)
-  typedef std::vector<OBGenericData*>::iterator OBDataIterator;
+  using OBDataIterator = std::vector<OBGenericData *>::iterator;
 
 } //end namespace OpenBabel
 

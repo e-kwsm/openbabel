@@ -419,8 +419,8 @@ namespace OpenBabel {
 
   struct CanonicalLabelsImpl
   {
-    typedef std::vector<OBAtom*> Orbit;
-    typedef std::vector<Orbit> Orbits;
+    using Orbit = std::vector<OBAtom *>;
+    using Orbits = std::vector<Orbit>;
 
     static void print_orbits(const Orbits &orbits)
     {

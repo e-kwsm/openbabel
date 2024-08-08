@@ -459,7 +459,7 @@ namespace OpenBabel
 
 
   //! A standard iterator over a vector of rotors
-  typedef std::vector<OBRotor*>::iterator OBRotorIterator;
+  using OBRotorIterator = std::vector<OBRotor *>::iterator;
 
   /**
    * @class OBRotorList rotor.h <openbabel/rotor.h>
@@ -708,11 +708,7 @@ namespace OpenBabel
   private:
     unsigned int resolution_size;
     int state;
-#ifndef SWIG
-  } typedef rotor_digit;
-#else
-};
-#endif
+  };
   /// @endcond
 
   //! \class OBRotorKeys rotor.h <openbabel/rotor.h>

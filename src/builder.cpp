@@ -1653,7 +1653,7 @@ namespace OpenBabel
     //   atom must not be spiro
     OBAtom* center;
     bool existswrongstereo = false; // Is there at least one wrong ring stereo?
-    typedef std::pair<OBStereo::Ref, bool> IsThisStereoRight;
+    using IsThisStereoRight = std::pair<OBStereo::Ref, bool>;
     std::vector<IsThisStereoRight> ringstereo;
     std::vector<OBTetrahedralStereo*> nonringtetra, nonringnewtetra;
     std::vector<OBTetrahedralStereo*>::iterator origth, newth;

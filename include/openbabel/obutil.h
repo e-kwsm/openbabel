@@ -254,9 +254,9 @@ namespace OpenBabel
     struct triple
     {
       //type names for the values
-      typedef T1 first_type;
-      typedef T2 second_type;
-      typedef T3 third_type;
+      using first_type = T1;
+      using second_type = T2;
+      using third_type = T3;
 
       //member
       T1 first;
@@ -290,10 +290,10 @@ namespace OpenBabel
     struct quad
     {
       //type names for the values
-      typedef T1 first_type;
-      typedef T2 second_type;
-      typedef T3 third_type;
-      typedef T4 fourth_type;
+      using first_type = T1;
+      using second_type = T2;
+      using third_type = T3;
+      using fourth_type = T4;
 
       //member
       T1 first;

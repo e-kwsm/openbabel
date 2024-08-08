@@ -72,8 +72,8 @@ public:
   void SetFlags(unsigned int f) override { _flags=f; }
 
 private:
-	typedef std::set<std::vector<int> > Fset;
-	typedef std::set<std::vector<int> >::iterator SetItr;
+	using Fset = std::set<std::vector<int>>;
+	using SetItr = std::set<std::vector<int>>::iterator;
 
 	void getFragments(std::vector<int> levels, std::vector<int> curfrag,
 			int level, OBAtom* patom, OBBond* pbond);

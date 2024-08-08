@@ -158,7 +158,7 @@ namespace OpenBabel
     bool EndElement(const string& name) override;
     const char* EndTag() override { return "/molecule>"; }
   private:
-    typedef vector< vector< pair<string,string> > > cmlArray;
+    using cmlArray = vector< vector< pair<string,string> > >;
     bool TransferArray(cmlArray& arr);
     bool TransferElement(cmlArray& arr);
     bool DoAtoms();

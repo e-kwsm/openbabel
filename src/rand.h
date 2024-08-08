@@ -31,12 +31,11 @@ namespace OpenBabel
 
   //! \struct DoubleType rand.h <openbabel/rand.h>
   //! \brief Used for internal random number generation OBRandom (unless the system random generator is used)
-  typedef struct
+  struct DoubleType
   {
     unsigned int hi;
     unsigned int lo;
-  }
-  DoubleType;
+  };
 
   
   //! \class OBRandom rand.h <openbabel/rand.h>

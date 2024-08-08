@@ -116,7 +116,7 @@ namespace OpenBabel
     static const char* find( const char* s, int n, char a );
   };
 
-  typedef std::basic_string<char, ci_char_traits> ci_string;
+  using ci_string = std::basic_string<char, ci_char_traits>;
   int strnicmp(const char *s1, const char *s2, int len)
   {
     unsigned char c1, c2;

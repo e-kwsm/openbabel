@@ -44,12 +44,12 @@ namespace OpenBabel {
   // Forward declarations
   class TEditedMolecule;
 
-  typedef struct adjustedlist{
+  struct adjustedlist {
     int nb;
     int adjusted[CONNMAX];
-  } adjustedlist;
+  };
 
-  typedef adjustedlist neighbourlist;
+  using neighbourlist = adjustedlist;
 
 #define PI 3.141592653589793238462
 #define blDenominator 4.0   //Controls bond legth in bondEnlarge

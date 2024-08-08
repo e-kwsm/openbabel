@@ -91,8 +91,8 @@ private:
   bool              WriteReactionLine(OBReaction* pReact, OBConversion* pConv);
   bool              WriteHeader(OBConversion* pConv);
 private:
-  typedef map<string,std::shared_ptr<OBMol> > MolMap;
-  typedef set<std::shared_ptr<OBMol> > MolSet;
+  using MolMap = map<string, std::shared_ptr<OBMol>>;
+  using MolSet = set<std::shared_ptr<OBMol>>;
   //used on input
   MolMap IMols;
   string ln;

@@ -56,8 +56,8 @@ public:
   //Maps of thistype are used to store
   // (a)a list of the plugin types in OBPlugin, and
   // (b)a list of the sub-types in each type class derived from OBPlugin.
-  typedef std::map<const char*, OBPlugin*, CharPtrLess> PluginMapType;
-  typedef PluginMapType::const_iterator PluginIterator;
+  using PluginMapType = std::map<const char *, OBPlugin *, CharPtrLess>;
+  using PluginIterator = PluginMapType::const_iterator;
 
   ///Virtual destructor necessary for classes with virtual functions
   virtual ~OBPlugin(){};
