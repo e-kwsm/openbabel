@@ -968,7 +968,9 @@ namespace OpenBabel
   {
     vector<OBAtom*>::iterator a;
     for ( a = _atoms.begin() ; a != _atoms.end() ; ++a )
+    {
       (*a)->SetResidue(nullptr);
+    }
     _atoms.clear();
 
   }
@@ -1040,7 +1042,9 @@ namespace OpenBabel
   bool OBResidue::Clear(void)
   {
     for (unsigned int i = 0 ; i < _atoms.size() ; ++i)
+    {
       _atoms[i]->SetResidue(nullptr);
+    }
 
     _chain   = 'A';
     _idx     = 0;
@@ -1099,22 +1103,34 @@ namespace OpenBabel
   void OBResidue::SetAtomID(OBAtom *atom, const string &id)
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         _atomid[i] = id;
+      }
+    }
   }
 
   void OBResidue::SetHetAtom(OBAtom *atom, bool hetatm)
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         _hetatm[i] = hetatm;
+      }
+    }
   }
 
   void OBResidue::SetSerialNum(OBAtom *atom, unsigned int sernum)
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         _sernum[i] = sernum;
+      }
+    }
   }
 
   vector<OBAtom*> OBResidue::GetAtoms(void) const
@@ -1142,7 +1158,9 @@ namespace OpenBabel
                 if (!exterior)
                   {
                     if (bond->GetNbrAtom(atom)->GetResidue() == this)
+                    {
                       bonds.push_back(&(*bond));
+                    }
                   }
                 else
                   bonds.push_back(&(*bond));
@@ -1203,9 +1221,13 @@ namespace OpenBabel
   unsigned int OBResidue::GetChainNum(void) const
   {
     if (isdigit(_chain))
+    {
       return (_chain - '0');
+    }
     else
+    {
       return (_chain - 'A' + 1);
+    }
   }
 
   unsigned int OBResidue::GetIdx(void) const
@@ -1226,24 +1248,36 @@ namespace OpenBabel
   string OBResidue::GetAtomID(OBAtom *atom) const
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         return _atomid[i];
+      }
+    }
     return "";
   }
 
   unsigned int OBResidue::GetSerialNum(OBAtom *atom) const
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         return _sernum[i];
+      }
+    }
     return 0;
   }
 
   bool OBResidue::IsHetAtom(OBAtom *atom) const
   {
     for ( unsigned int i = 0 ; i < _atoms.size() ; ++i )
+    {
       if (_atoms[i] == atom)
+      {
         return _hetatm[i];
+      }
+    }
     return false;
   }
 

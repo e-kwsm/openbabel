@@ -679,7 +679,9 @@ typename tree<T, tree_node_allocator>::post_order_iterator tree<T, tree_node_all
 	tree_node *tmp=head->next_sibling;
 	if(tmp!=feet) {
 		while(tmp->first_child)
+		{
 			tmp=tmp->first_child;
+		}
 		}
 	return post_order_iterator(tmp);
 	}
@@ -704,7 +706,9 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator tree<T, tree_node_al
 				// try to walk up and then right again
 				do {
 					if(tmp==ret.top_node)
+					{
 					   throw std::range_error("tree: begin_fixed out of range");
+					}
 					tmp=tmp->parent;
                if(tmp==0)
 					   throw std::range_error("tree: begin_fixed out of range");
@@ -731,7 +735,9 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator tree<T, tree_node_al
 		while(tmp->first_child==0) {
 			tmp=tmp->next_sibling;
 			if(tmp==0)
+			{
 				throw std::range_error("tree: end_fixed out of range");
+			}
 			}
 		tmp=tmp->first_child;
 		++curdepth;
@@ -763,7 +769,9 @@ typename tree<T, tree_node_allocator>::leaf_iterator tree<T, tree_node_allocator
    tree_node *tmp=head->next_sibling;
    if(tmp!=feet) {
       while(tmp->first_child)
+      {
          tmp=tmp->first_child;
+      }
       }
    return leaf_iterator(tmp);
    }
@@ -779,7 +787,9 @@ typename tree<T, tree_node_allocator>::leaf_iterator tree<T, tree_node_allocator
    {
 	tree_node *tmp=top.node;
 	while(tmp->first_child)
+       {
 		 tmp=tmp->first_child;
+       }
    return leaf_iterator(tmp, top.node);
    }
 
@@ -1099,7 +1109,9 @@ iter tree<T, tree_node_allocator>::insert_after(iter position, const T& x)
 
 	if(tmp->next_sibling==0) {
 		if(tmp->parent) // when inserting nodes at the head, there is no parent
+		{
 			tmp->parent->last_child=tmp;
+		}
 		}
 	else {
 		tmp->next_sibling->prev_sibling=tmp;
@@ -1165,7 +1177,9 @@ iter tree<T, tree_node_allocator>::replace(iter position, const iterator_base& f
 	tmp->last_child=0;
 	if(current_to->prev_sibling==0) {
 		if(current_to->parent!=0)
+		{
 			current_to->parent->first_child=tmp;
+		}
 		}
 	else {
 		current_to->prev_sibling->next_sibling=tmp;

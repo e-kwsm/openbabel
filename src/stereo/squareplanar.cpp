@@ -13,22 +13,30 @@ namespace OpenBabel {
   bool OBSquarePlanarStereo::Config::operator==(const Config &other) const
   {
     if (center != other.center)
+    {
       return false;
+    }
     if ((refs.size() != 4) || (other.refs.size() != 4))
+    {
       return false;
+    }
 
     Config u1, u2;
     if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
       // find a ref that occurs in both
       for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+      {
         if (OBStereo::ContainsRef(other.refs, *i)) {
           u1 = OBTetraPlanarStereo::ToConfig(*this, *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
           u2 = OBTetraPlanarStereo::ToConfig(other, *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
         }
+      }
 
       // check if they actualy share an id...
       if (u1.refs.empty())
+      {
         return false;
+      }
     } else {
       // normalize the other Config struct
       u1 = OBTetraPlanarStereo::ToConfig(*this, refs.at(0), OBStereo::ShapeU); // refs[0] = u1.refs[0]
@@ -65,7 +73,9 @@ namespace OpenBabel {
         return (u1.refs[3] == u2.refs[3]); // 1 H H 4
       }
     } else
+    {
       return (u1.refs[2] == u2.refs[2]); // 1 2 3 4  &  1 H 3 4  &  1 2 3 H
+    }
 
     return false;
   }
@@ -86,9 +96,13 @@ namespace OpenBabel {
   bool OBSquarePlanarStereo::IsValid() const
   {
     if (m_cfg.center == OBStereo::NoRef)
+    {
       return false;
+    }
     if (m_cfg.refs.size() != 4)
+    {
       return false;
+    }
     return true;
   }
 
@@ -116,7 +130,9 @@ namespace OpenBabel {
   OBSquarePlanarStereo::Config OBSquarePlanarStereo::GetConfig(OBStereo::Shape shape) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     return OBTetraPlanarStereo::ToConfig(m_cfg, m_cfg.refs.at(0), shape);
   }
@@ -125,7 +141,9 @@ namespace OpenBabel {
       OBStereo::Shape shape) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     return OBTetraPlanarStereo::ToConfig(m_cfg, start, shape);
   }
@@ -133,7 +151,9 @@ namespace OpenBabel {
   bool OBSquarePlanarStereo::operator==(const OBSquarePlanarStereo &other) const
   {
     if (!IsValid() || !other.IsValid())
+    {
       return false;
+    }
 
     Config u = OBTetraPlanarStereo::ToConfig(other.GetConfig(),
         m_cfg.refs.at(0), OBStereo::ShapeU);
@@ -146,11 +166,19 @@ namespace OpenBabel {
     }
 
     if (b1 != OBStereo::ImplicitRef)
+    {
       if (a1 == GetTransRef(b1))
+      {
         return true;
+      }
+    }
     if (a1 != OBStereo::ImplicitRef)
+    {
       if (b1 == GetTransRef(a1))
+      {
         return true;
+      }
+    }
 
     return false;
   }
@@ -163,14 +191,20 @@ namespace OpenBabel {
   bool OBSquarePlanarStereo::IsCis(unsigned long id1, unsigned long id2) const
   {
     if (m_cfg.refs.size() != 4)
+    {
       return false;
+    }
 
     std::vector<unsigned long> cis = GetCisRefs(id1);
     if (cis.size() != 2)
+    {
       return false;
+    }
 
     if ((cis.at(0) == id2) || (cis.at(1) == id2))
+    {
       return true;
+    }
 
     return false;
   }
@@ -178,7 +212,9 @@ namespace OpenBabel {
   unsigned long OBSquarePlanarStereo::GetTransRef(unsigned long id) const
   {
     if (m_cfg.refs.size() != 4)
+    {
       return false;
+    }
 
     // find id1
     for (int i = 0; i < 4; ++i) {
@@ -197,7 +233,9 @@ namespace OpenBabel {
   {
     std::vector<unsigned long> refs;
     if (m_cfg.refs.size() != 4)
+    {
       return refs;
+    }
 
     // find id
     for (int i = 0; i < 4; ++i) {
@@ -233,10 +271,16 @@ namespace std {
 
     out << ", refs = ";
     for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OpenBabel::OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:
@@ -259,10 +303,16 @@ namespace std {
 
     out << ", refs = ";
     for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OpenBabel::OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:

@@ -676,7 +676,9 @@ namespace OpenBabel
             ss << '+';
           }
           else if (charge<-1) //use underscore for single negative charge and minus if multiple
+          {
             ss << '-';
+          }
           else
           {
             ss << '_';

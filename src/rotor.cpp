@@ -1093,9 +1093,13 @@ namespace OpenBabel
               }
 
             if (swapped)
+            {
               ref[3] = r->GetIdx();
+            }
             else
+            {
               ref[0] = r->GetIdx();
+            }
 
             /*
               mol.SetTorsion(r,a2,a3,a4,vals[0]);
