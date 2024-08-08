@@ -337,18 +337,18 @@ namespace OpenBabel
     std::string molname(tit);
     if(molname.empty())
       molname = pConv->GetTitle();
-    size_t nPos = molname.find_last_of(".");
+    size_t nPos = molname.find_last_of('.');
     if(nPos != std::string::npos)
       molname = molname.substr(0, nPos);
-    nPos = molname.find_last_of("\\");
+    nPos = molname.find_last_of('\\');
     if(nPos != std::string::npos)
       molname = molname.substr(nPos+1, molname.size());
-    nPos = molname.find_last_of("/");
+    nPos = molname.find_last_of('/');
     if(nPos != std::string::npos)
       molname = molname.substr(nPos+1, molname.size());
     if(molname.empty())
       molname = "mol";
-    ofs  << "molecule\t" << molname << "\t0" << endl;
+    ofs  << "molecule\t" << molname << "\t0" << '\n';
 
     int i = 0;
     vector<string> names;
@@ -404,7 +404,7 @@ namespace OpenBabel
         << "0.00000" << "\t"
         << "0" << "\t"
         << "0" << "\t"
-        << "0" << endl;
+        << "0" << '\n';
     }
 
     int nbonds = mol.NumBonds();
@@ -423,7 +423,7 @@ namespace OpenBabel
       else
         sstream << bond->GetBondOrder() << ".0";
       outlabel = sstream.str();
-      ofs << outlabel << endl;
+      ofs << outlabel << '\n';
     }
 
     int iAt = 0;
@@ -431,11 +431,11 @@ namespace OpenBabel
     {
       int iFormalCharge = atom->GetFormalCharge();
       if(iFormalCharge!=0)
-        ofs << "formalq\t" << iAt << "\t" << iFormalCharge << endl;
+        ofs << "formalq\t" << iAt << "\t" << iFormalCharge << '\n';
       iAt++;
     }
 
-    ofs << "end_molecule" << endl;
+    ofs << "end_molecule" << '\n';
     return true;
   }
 
