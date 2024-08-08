@@ -146,7 +146,7 @@ namespace OpenBabel
   }
 
   // Only add a point if it's more than densit_r away from all others
-  bool conditional_add( vector<vector3> &list, vector3 point, double density_r ) {
+  bool conditional_add( vector<vector3> &list, const vector3& point, double density_r ) {
 
     double density_r2 = density_r * density_r;
     for( std::vector<vector3>::iterator it = list.begin(); it != list.end(); ++it ) {
