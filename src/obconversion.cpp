@@ -311,7 +311,9 @@ namespace OpenBabel {
   OBConversion::~OBConversion()
   {
     if(pAuxConv!=this)
+    {
       delete pAuxConv;
+    }
     // Free any remaining streams from convenience functions
     SetInStream(nullptr);
     SetOutStream(nullptr);
@@ -345,7 +347,9 @@ namespace OpenBabel {
       if (pIn)
       {
           if(takeOwnership)
+          {
               ownedInStreams.push_back(pIn);
+          }
           pInput = pIn; //simplest case
 
   #ifdef HAVE_LIBZ
@@ -385,7 +389,9 @@ namespace OpenBabel {
     if (pOut)
     {
       if (takeOwnership)
+      {
         ownedOutStreams.push_back(pOut);
+      }
       pOutput = pOut;
 
 #ifdef HAVE_LIBZ
@@ -422,7 +428,9 @@ namespace OpenBabel {
   {
     inFormatGzip = gzip;
     if (pIn == nullptr)
+    {
       return true;
+    }
     pInFormat=pIn;
     return !(pInFormat->Flags() & NOTREADABLE);
   }
@@ -438,7 +446,9 @@ namespace OpenBabel {
   {
     inFormatGzip = gzip;
     if(inID)
+    {
       pInFormat = FindFormat(inID);
+    }
     return pInFormat && !(pInFormat->Flags() & NOTREADABLE);
   }
   //////////////////////////////////////////////////////
@@ -447,7 +457,9 @@ namespace OpenBabel {
   {
     outFormatGzip = gzip;
     if(outID)
+    {
       pOutFormat= FindFormat(outID);
+    }
     return pOutFormat && !(pOutFormat->Flags() & NOTWRITABLE);
   }
 
@@ -477,8 +489,8 @@ namespace OpenBabel {
 
     int count = Convert();
 
-    if(savedIn.isSet()) savedIn.popInput(*this);
-    if(savedOut.isSet()) savedOut.popOutput(*this);
+    if(savedIn.isSet()) { savedIn.popInput(*this); }
+    if(savedOut.isSet()) { savedOut.popOutput(*this); }
 
     return count;
   }
@@ -510,11 +522,13 @@ namespace OpenBabel {
         return 0;
       }
 
-    if(!pInFormat) return 0;
+    if(!pInFormat) { return 0; }
     Count=0;//number objects processed
 
     if(!SetStartAndEnd())
+    {
       return 0;
+    }
 
     ReadyToInput=true;
     m_IsLast=false;
@@ -522,7 +536,9 @@ namespace OpenBabel {
     wInlen=0;
 
     if(pInFormat->Flags() & READONEONLY)
+    {
       OneObjectOnly=true;
+    }
 
     //Input loop
     while(ReadyToInput && pInput->good()) //Possible to omit? && pInStream->peek() != EOF
@@ -530,10 +546,14 @@ namespace OpenBabel {
         if(pInput==&cin)
           {
             if(pInput->peek()==-1) //Cntl Z Was \n but interfered with piping
+            {
               break;
+            }
           }
         else
+        {
           rInpos = pInput->tellg();
+        }
         bool ret=false;
 #ifndef DONT_CATCH_EXCEPTIONS
        try
@@ -586,10 +606,14 @@ namespace OpenBabel {
             //error or termination request: terminate unless
             // -e option requested and successfully can skip past current object
             if(!IsOption("e", GENOPTIONS) || pInFormat->SkipObjects(0,this)!=1)
+            {
               break;
+            }
           }
         if(OneObjectOnly)
+        {
           break;
+        }
         // Objects supplied to AddChemObject() which may output them after a delay
         //ReadyToInput may be made false in AddChemObject()
         // by WriteMolecule() returning false  or by Count==EndNumber
@@ -601,8 +625,12 @@ namespace OpenBabel {
     //Output is always occurs at the end with the --OutputAtEnd option
     bool oae = IsOption("OutputAtEnd", GENOPTIONS) != nullptr;
     if(pOutFormat && (!oae || m_IsLast))
+    {
       if((oae || pOb1) && !pOutFormat->WriteChemObject(this))
+      {
         Index--;
+      }
+    }
 
     //Put AddChemObject() into non-queue mode
     Count= -1;
@@ -626,7 +654,9 @@ namespace OpenBabel {
             //Try to skip objects now
             int ret = pInFormat->SkipObjects(StartNumber-1,this);
             if(ret==-1) //error
+            {
               return false;
+            }
             if(ret==1) //success:objects skipped
               {
                 Count = StartNumber-1;
@@ -640,7 +670,9 @@ namespace OpenBabel {
       {
         EndNumber=atoi(p);
         if(TempStartNumber && EndNumber<TempStartNumber)
+        {
           EndNumber=TempStartNumber;
+        }
       }
 
     return true;
@@ -678,7 +710,9 @@ namespace OpenBabel {
     if(Count>=(int)StartNumber)//keeps reading objects but does nothing with them
       {
         if(Count==(int)EndNumber)
+        {
           ReadyToInput=false; //stops any more objects being read
+        }
 
         rInlen = pInput ? pInput->tellg() - rInpos : 0;
          // - (pLineEndBuf ? pLineEndBuf->getCorrection() : 0); //correction for CRLF
@@ -790,7 +824,9 @@ namespace OpenBabel {
             }
           }
         else
+        {
           return FindFormat( (file.substr(extPos + 1, file.size())).c_str() );
+        }
       }
 
     // Check the filename if no extension (e.g. VASP does not use extensions):
@@ -838,13 +874,13 @@ namespace OpenBabel {
     }
 
 
-    if(!pInFormat || !pInput) return false;
+    if(!pInFormat || !pInput) { return false; }
 
     //mysterious line to ensure backwards compatibility
     //previously, even an open istream would have the gzip check applied
     //this meant that a stream at the eof position would end up in an error state
     //code has come to depend on this behavior
-    if(pInput->eof()) pInput->get();
+    if(pInput->eof()) { pInput->get(); }
 
     // Set the locale for number parsing to avoid locale issues: PR#1785463
     obLocale.SetLocale();
@@ -879,7 +915,9 @@ namespace OpenBabel {
     if (!success && !pInput->good() && ownedInStreams.size() > 0) {
       ifstream *inFstream = dynamic_cast<ifstream*>(ownedInStreams[0]);
       if (inFstream != nullptr)
+      {
         inFstream->close(); // We will free the stream later, but close the file now
+      }
     }
 
     return success;
@@ -892,9 +930,9 @@ namespace OpenBabel {
   /// Returns true if successful.
   bool OBConversion::Write(OBBase* pOb, ostream* pos)
   {
-    if(pos) SetOutStream(pos, false);
+    if(pos) { SetOutStream(pos, false); }
 
-    if(!pOutFormat || !pOutput) return false;
+    if(!pOutFormat || !pOutput) { return false; }
 
     // Set the locale for number parsing to avoid locale issues: PR#1785463
     obLocale.SetLocale();
@@ -1040,7 +1078,9 @@ namespace OpenBabel {
       //attempt to autodetect format
       pOutFormat = FormatFromExt(filePath.c_str(), outFormatGzip);
       if(!pOutFormat)
+      {
         return false;
+      }
     }
 
     ios_base::openmode omode = ios_base::out|ios_base::binary;
@@ -1083,7 +1123,9 @@ namespace OpenBabel {
       //attempt to auto-detect file format from extension
       pInFormat = FormatFromExt(filePath.c_str(), inFormatGzip);
       if(!pInFormat)
+      {
         return false;
+      }
     }
 
     // save the filename
@@ -1128,7 +1170,9 @@ namespace OpenBabel {
     InFilename = infilepath;
 
     if(outfilepath.empty())//Don't open an outfile with an empty name.
+    {
       return true;
+    }
 
     if(!pOutFormat)
     {
@@ -1196,7 +1240,9 @@ namespace OpenBabel {
         //Replace * by input filename
         string::size_type posdot= InFile.rfind('.');
         if(posdot == string::npos)
+        {
           posdot = InFile.size();
+        }
         else {
 #ifdef HAVE_LIBZ
           if (InFile.substr(posdot) == ".gz")
@@ -1204,7 +1250,9 @@ namespace OpenBabel {
               InFile.erase(posdot);
               posdot = InFile.rfind('.');
               if (posdot == string::npos)
+              {
                 posdot = InFile.size();
+              }
             }
 #endif
         }
@@ -1239,16 +1287,24 @@ namespace OpenBabel {
     string::size_type pos;
     pos = infile.rfind('.');
     if(pos != string::npos)
+    {
       inname1 = infile.substr(0,pos);
+    }
     pos = outfile.rfind('.');
     if(pos != string::npos)
+    {
       inname2 = infile.substr(0,pos);
+    }
     if(inname1==inname2)
+    {
       obErrorLog.ThrowError(__FUNCTION__,
 "This was a batch operation. For splitting, use non-empty base name for the output files", obWarning);
+    }
 
     if(infile==outfile)
+    {
       return false;
+    }
     return true;
   }
   /**
@@ -1314,10 +1370,12 @@ namespace OpenBabel {
 
         //OUTPUT
         if(OutputFileName.empty())
+        {
           pOs = nullptr; //use existing stream
+        }
         else
           {
-            if(OutputFileName.find_first_of('*')!=string::npos) HasMultipleOutputFiles = true;
+            if(OutputFileName.find_first_of('*')!=string::npos) { HasMultipleOutputFiles = true; }
             if(!HasMultipleOutputFiles)
               {
                 //If the output file is the same as any of the input
@@ -1396,11 +1454,17 @@ namespace OpenBabel {
                     InFilename = *itr;
                     ifstream ifs;
                     if(!OpenAndSetFormat(CommonInFormat, &ifs, &ssIn))
+                    {
                       continue;
+                    }
                     if(ifs)
+                    {
                       pIs = &ifs;
+                    }
                     else
+                    {
                       pIs = &ssIn;
+                    }
 
                     //pIs = ifs ? &ifs : &ssIn;
 
@@ -1414,9 +1478,11 @@ namespace OpenBabel {
                         //the user may have wanted to do a splitting operation
                         //Issue a message and abort if xxx==yyy which would overwrite input file
                         if(FileList.size()==1 && !CheckForUnintendedBatch(batchfile, InFilename))
+                        {
                           return Count;
+                        }
 
-                        if(ofs.is_open()) ofs.close();
+                        if(ofs.is_open()) { ofs.close(); }
                         ofs.open(batchfile.c_str(), omode);
                         if(!ofs)
                           {
@@ -1430,7 +1496,7 @@ namespace OpenBabel {
                     else
                       {
                         //Aggregation
-                        if(itr!=tempitr) SetMoreFilesToCome();
+                        if(itr!=tempitr) { SetMoreFilesToCome(); }
                         Count = Convert(pIs,pOs);
                       }
                   }
@@ -1453,11 +1519,17 @@ namespace OpenBabel {
                 //Single input file
                 InFilename = FileList[0];
                 if(!OpenAndSetFormat(CommonInFormat, &is, &ssIn))
+                {
                   return 0;
+                }
                 if(is)
+                {
                   pIs =&is;
+                }
                 else
+                {
                   pIs = &ssIn;
+                }
 
                 if(HasMultipleOutputFiles)
                   {
@@ -1483,10 +1555,10 @@ namespace OpenBabel {
                         SetOneObjectOnly();
 
                         int ThisFileCount = Convert();
-                        if(ThisFileCount==0) break;
+                        if(ThisFileCount==0) { break; }
                         Count+=ThisFileCount;
 
-                        if(ofs.is_open()) ofs.close();
+                        if(ofs.is_open()) { ofs.close(); }
                         string incrfile = IncrementedFileName(OutputFileName,Indx++);
                         ofs.open(incrfile.c_str(), omode);
                         if(!ofs)
@@ -1558,7 +1630,9 @@ namespace OpenBabel {
             string::size_type pos = InFilename.rfind('.');
             string ext;
             if(pos!=string::npos)
+            {
               ext = InFilename.substr(pos);
+            }
             obErrorLog.ThrowError(__FUNCTION__, "Cannot read input format \""
                                   + ext + '\"' + " for file \"" + InFilename + "\"",obError);
             return false;
@@ -1608,9 +1682,13 @@ Additional options :
   {
     //Also updates an option
     if (txt == nullptr)
+    {
       OptionsArray[opttyp][opt]=string();
+    }
     else
+    {
       OptionsArray[opttyp][opt]=txt;
+    }
   }
 
   const char* OBConversion::IsOption(const char* opt, Option_type opttyp)
@@ -1619,7 +1697,9 @@ Additional options :
     map<string,string>::iterator pos;
     pos = OptionsArray[opttyp].find(opt);
     if(pos==OptionsArray[opttyp].end())
+    {
       return nullptr;
+    }
     return pos->second.c_str();
   }
 
@@ -1643,13 +1723,17 @@ Additional options :
             string txt = options+1;
             string::size_type pos = txt.find('\"');
             if(pos==string::npos)
+            {
               return; //options is illformed
+            }
             txt.erase(pos);
             OptionsArray[opttyp][ch]= txt;
             options += pos+2;
           }
         else
+        {
           OptionsArray[opttyp][ch] = string();
+        }
       }
   }
 
@@ -1671,7 +1755,9 @@ Additional options :
           {
             string description("API");
             if(pFormat)
+            {
               description=pFormat->Description();
+            }
             obErrorLog.ThrowError(__FUNCTION__,
                                   "The number of parameters needed by option \"" + name + "\" in "
                                   + description.substr(0,description.find('\n'))
@@ -1688,7 +1774,9 @@ Additional options :
     map<string,int>::iterator pos;
     pos =	OptionParamArray(typ).find(name);
     if(pos==OptionParamArray(typ).end())
+    {
       return 0;
+    }
     return pos->second;
   }
 
@@ -1718,26 +1806,38 @@ Additional options :
     //Get the last word on the first line of the description which should
     //be "molecules", "reactions", etc and remove the s if only one object converted
     if(!pFormat)
+    {
       pFormat = pOutFormat;
+    }
     string objectname(pFormat->TargetClassDescription());
     string::size_type pos = objectname.find('\n');
     if(pos==std::string::npos)
+    {
       pos=objectname.size();
-    if(count==1) --pos;
+    }
+    if(count==1) { --pos; }
     objectname.erase(pos);
     pos = objectname.rfind(' ');
     if(pos==std::string::npos)
+    {
       pos=0;
+    }
     std::clog << count << objectname.substr(pos) << " converted" << endl;
   }
 
   void OBConversion::CopyOptions(OBConversion* pSourceConv, Option_type typ)
   {
     if(typ==ALL)
+    {
     for(int i=0;i<3;++i)
+    {
      OptionsArray[i]=pSourceConv->OptionsArray[i];
+    }
+    }
     else
+    {
      OptionsArray[typ]=pSourceConv->OptionsArray[typ];
+    }
   }
 
   int OBConversion::NumInputObjects()
@@ -1747,7 +1847,9 @@ Additional options :
     //Save position of the input stream
     streampos pos = ifs.tellg();
     if(!ifs)
+    {
       return -1;
+    }
 
     //check that the input format supports SkipObjects()
     if(GetInFormat()->SkipObjects(0, this)==0)
@@ -1761,9 +1863,13 @@ Additional options :
     int nfirst=1, nlast=numeric_limits<int>::max();
     const char* p;
     if( (p=IsOption("f", GENOPTIONS)) ) // extra parens to indicate truth value
+    {
       nfirst=atoi(p);
+    }
     if( (p=IsOption("l", GENOPTIONS)) ) // extra parens to indicate truth value
+    {
       nlast=atoi(p);
+    }
 
     ifs.seekg(0); //rewind
     //Compressed files currently show an error here.***TAKE CHANCE: RESET ifs****
@@ -1773,7 +1879,9 @@ Additional options :
     int count=0;
     //skip each object but stop after nlast objects
     while(ifs && pFormat->SkipObjects(1, this)>0  && count<nlast)
+    {
       ++count;
+    }
 
     ifs.clear(); //clear eof
     ifs.seekg(pos); //restore old position
@@ -1797,9 +1905,13 @@ Additional options :
 
     pFormat = nullptr;
     if (str == nullptr)
+    {
       itr = OBPlugin::Begin("formats");
+    }
     else
+    {
       itr++;
+    }
     if(itr == OBPlugin::End("formats"))
       {
         str = nullptr; pFormat = nullptr;
@@ -1815,8 +1927,8 @@ Additional options :
         s += description.substr(0,description.find('\n'));
       }
 
-    if(pFormat->Flags() & NOTWRITABLE) s+=" [Read-only]";
-    if(pFormat->Flags() & NOTREADABLE) s+=" [Write-only]";
+    if(pFormat->Flags() & NOTWRITABLE) { s+=" [Read-only]"; }
+    if(pFormat->Flags() & NOTREADABLE) { s+=" [Write-only]"; }
 
     str = s.c_str();
     return true;
