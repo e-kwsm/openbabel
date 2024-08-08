@@ -609,7 +609,7 @@ namespace OpenBabel
           std::string title = mol.GetTitle();
           if (!title.empty())
             errorMsg << " (title is " << title << ")";
-          errorMsg << endl;
+          errorMsg << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           // return false; Should we return false for a kekulization failure?
         }
@@ -1086,10 +1086,10 @@ namespace OpenBabel
       AliasData::RevertToAliasForm(mol);
 
     // line 1: molecule name
-    ofs << mol.GetTitle() <<  endl;
+    ofs << mol.GetTitle() <<  '\n';
 
     // line 2: Program name, date/time, dimensions code
-    ofs << " OpenBabel" << GetTimeDate() <<  dimension << endl; //line2
+    ofs << " OpenBabel" << GetTimeDate() <<  dimension << '\n'; //line2
 
     // line 3: comment
     if (mol.HasData(OBGenericDataType::CommentData)) {
@@ -1099,7 +1099,7 @@ namespace OpenBabel
         comment.erase(80); //truncate to 80 chars
       ofs << comment;
     }
-    ofs << endl;
+    ofs << '\n';
 
     //
     // Atom Block
@@ -1114,10 +1114,10 @@ namespace OpenBabel
 
       if (mol.NumAtoms() > 999 || mol.NumBonds() > 999) { // Three digits!
         stringstream errorMsg;
-        errorMsg << "MDL Molfile conversion failed: Molecule is too large to convert." << endl;
-        errorMsg << "  File format (v2000) is limited to 999 atoms or bonds." << endl;
+        errorMsg << "MDL Molfile conversion failed: Molecule is too large to convert." << '\n';
+        errorMsg << "  File format (v2000) is limited to 999 atoms or bonds." << '\n';
         errorMsg << "  Molecule size: " << mol.NumAtoms() << " atoms ";
-        errorMsg << "and " << mol.NumBonds() << " bonds." << endl;
+        errorMsg << "and " << mol.NumBonds() << " bonds." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         return false;
       }
@@ -1206,7 +1206,7 @@ namespace OpenBabel
           atom->GetX(), atom->GetY(), atom->GetZ(),
           AtomSymbol(pmol, atom),
           0,charge,stereo,0,0,valence,0,0,0,aclass,0,0);
-        ofs << buff << endl;
+        ofs << buff << '\n';
       }
 
       OBAtom *nbr;
@@ -1245,7 +1245,7 @@ namespace OpenBabel
             ofs << setw(3) << nbr->GetIdx(); // end atom number
             ofs << setw(3) << bond->GetBondOrder(); // bond type
             ofs << setw(3) << stereo; // bond stereo
-            ofs << "  0  0  0" << endl;
+            ofs << "  0  0  0" << '\n';
 
             // Add position in bond list to zbos for zero-order bonds
             bondline++;
@@ -1292,7 +1292,7 @@ namespace OpenBabel
           if (atom->HasData(AliasDataType)) {
             AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
             if(!ad->IsExpanded()) //do nothing with an expanded alias
-              ofs << "A  " << setw(3) << right << atom->GetIdx() << '\n' << ad->GetAlias() << endl;
+              ofs << "A  " << setw(3) << right << atom->GetIdx() << '\n' << ad->GetAlias() << '\n';
           }
         }
         else {
@@ -1304,81 +1304,81 @@ namespace OpenBabel
         int counter = 0;
         for(itr=rads.begin();itr!=rads.end();++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  RAD" << setw(3) << min(static_cast<unsigned long int>(rads.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetSpinMultiplicity();
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(isos.size()) {
         int counter = 0;
         for(itr=isos.begin();itr!=isos.end();++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  ISO" << setw(3) << min(static_cast<unsigned long int>(isos.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetIsotope();
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(chgs.size()) {
         int counter = 0;
         for (itr=chgs.begin(); itr != chgs.end(); ++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  CHG" << setw(3) << min(static_cast<unsigned long int>(chgs.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetFormalCharge();
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(zchs.size()) {
         int counter = 0;
         for (zitr=zchs.begin(); zitr != zchs.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  ZCH" << setw(3) << min(static_cast<unsigned long int>(zchs.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(hyds.size()) {
         int counter = 0;
         for (zitr=hyds.begin(); zitr != hyds.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  HYD" << setw(3) << min(static_cast<unsigned long int>(hyds.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(zbos.size()) {
         int counter = 0;
         for(vector<int>::iterator it = zbos.begin(); it != zbos.end(); ++it, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  ZBO" << setw(3) << min(static_cast<unsigned long int>(zbos.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << *it << setw(4) << 0;
         }
-        ofs << endl;
+        ofs << '\n';
       }
       if(numberedRGroups.size()) {
         int counter = 0;
         for (zitr=numberedRGroups.begin(); zitr != numberedRGroups.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) ofs << '\n';
             ofs << "M  RGP" << setw(3) << min(static_cast<unsigned long int>(numberedRGroups.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
         }
-        ofs << endl;
+        ofs << '\n';
       }
     }
-    ofs << "M  END" << endl;
+    ofs << "M  END" << '\n';
 
     //For SD files only, write properties unless option m
     if(pConv->IsOption("sd") && !pConv->IsOption("m"))
@@ -1398,8 +1398,8 @@ namespace OpenBabel
           //in this format, don't need the annotation
           if((*k)->GetAttribute()!="PartialCharges")
           {
-            ofs << ">  <" << (*k)->GetAttribute() << ">" << endl;
-            ofs << ((OBPairData*)(*k))->GetValue() << endl << endl;
+            ofs << ">  <" << (*k)->GetAttribute() << ">" << '\n';
+            ofs << ((OBPairData*)(*k))->GetValue() << '\n' << '\n';
           }
         }
       }
@@ -1410,7 +1410,7 @@ namespace OpenBabel
     //or if the sd option is set.
     if(!pConv->IsOption("no$$$$"))
       if(!pConv->IsLast()  || HasProperties  || pConv->IsOption("sd"))
-        ofs << "$$$$" << endl;
+        ofs << "$$$$" << '\n';
 
     return(true);
   }
@@ -1637,12 +1637,12 @@ namespace OpenBabel
   {
     bool chiralFlag = GetChiralFlagFromGenericData(mol);
 
-    ofs << "  0  0  0     0  0            999 V3000" << endl; //line 4
-    ofs << "M  V30 BEGIN CTAB" <<endl;
+    ofs << "  0  0  0     0  0            999 V3000" << '\n'; //line 4
+    ofs << "M  V30 BEGIN CTAB" <<'\n';
     ofs << "M  V30 COUNTS " << mol.NumAtoms() << " " << mol.NumBonds()
-        << " 0 0 " << chiralFlag << endl;
+        << " 0 0 " << chiralFlag << '\n';
 
-    ofs << "M  V30 BEGIN ATOM" <<endl;
+    ofs << "M  V30 BEGIN ATOM" <<'\n';
     OBAtom *atom;
     int index=1;
     vector<OBAtom*>::iterator i;
@@ -1661,11 +1661,11 @@ namespace OpenBabel
           ofs << " RAD=" << atom->GetSpinMultiplicity();
         if(atom->GetIsotope()!=0)
           ofs << " MASS=" << atom->GetIsotope();
-        ofs << endl;
+        ofs << '\n';
       }
-    ofs << "M  V30 END ATOM" <<endl;
+    ofs << "M  V30 END ATOM" <<'\n';
 
-    ofs << "M  V30 BEGIN BOND" <<endl;
+    ofs << "M  V30 BEGIN BOND" <<'\n';
     //so the bonds come out sorted
     index=1;
     OBAtom *nbr;
@@ -1689,12 +1689,12 @@ namespace OpenBabel
                 if(bond->IsHash()) cfg=6;
                 if(bond->IsWedgeOrHash()) cfg=4;
                 if(cfg) ofs << " CFG=" << cfg;
-                ofs << endl;
+                ofs << '\n';
               }
           }
       }
-    ofs << "M  V30 END BOND" <<endl;
-    ofs << "M  V30 END CTAB" <<endl;
+    ofs << "M  V30 END BOND" <<'\n';
+    ofs << "M  V30 END CTAB" <<'\n';
     return true;
   }
 
@@ -1909,9 +1909,9 @@ namespace OpenBabel
       if (line.substr(0, 4) == "$RXN")
         return false; //Has read the first line of the next reaction in RXN format
 
-      if (line.find("<") != string::npos) {
-        size_t lt = line.find("<")+1;
-        size_t rt = line.find_last_of(">");
+      if (line.find('<') != string::npos) {
+        size_t lt = line.find('<')+1;
+        size_t rt = line.find_last_of('>');
         string attr = line.substr(lt, rt - lt);
 
         // sometimes we can hit more data than BUFF_SIZE, so we'll use a std::string

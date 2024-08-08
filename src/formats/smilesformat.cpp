@@ -463,7 +463,7 @@ namespace OpenBabel {
           std::string title = mol.GetTitle();
           if (!title.empty())
             errorMsg << " (title is " << title << ")";
-          errorMsg << endl;
+          errorMsg << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           return false;
         }
@@ -544,7 +544,7 @@ namespace OpenBabel {
 
       stringstream errorMsg;
       errorMsg << "Invalid SMILES string: " << _rclose.size() << " unmatched "
-               << "ring bonds." << endl;
+               << "ring bonds." << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       return false; // invalid SMILES since rings aren't properly closed
     }
@@ -600,7 +600,7 @@ namespace OpenBabel {
       std::string title = mol.GetTitle();
       if (!title.empty())
         errorMsg << " (title is " << title << ")";
-      errorMsg << endl;
+      errorMsg << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       // return false; // Should we return false for a kekulization failure?
     }
@@ -1845,7 +1845,7 @@ namespace OpenBabel {
       atom->SetFormalCharge(charge);
       if (abs(charge) > 10 || (element && charge > element)) { // if the charge is +/- 10 or more than the number of electrons
         errorMsg << "Atom " << atom->GetIdx() << " had an unrealistic charge of " << charge
-                 << "." << endl;
+                 << "." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
     }
@@ -4307,7 +4307,7 @@ namespace OpenBabel {
     if (mol.NumAtoms() > 0) {
       CreateCansmiString(mol, buffer, allbits, pConv);
     }
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     OBAtom *atom;
     vector<int>::iterator i;
@@ -4328,7 +4328,7 @@ namespace OpenBabel {
           atomIdx = atoi(canonical_order[index].c_str());
           atom = mol.GetAtom(atomIdx);
           snprintf(coords, 100, "%9.3f %9.3f %9.3f", atom->GetX(), atom->GetY(), atom->GetZ());
-          ofs << coords << endl;
+          ofs << coords << '\n';
         }
       }
     return(true);
