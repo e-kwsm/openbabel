@@ -34,8 +34,8 @@ namespace OpenBabel
   SVGPainter::SVGPainter(ostream& ofs, std::set<ColorGradient>* gradients, bool withViewBox,
     double width, double height)
     :  m_ofs(ofs), m_withViewBox(withViewBox), m_width(width), m_height(height),
-       m_Pencolor("black"), m_Fillcolor("white"), m_Gradientcolor(make_pair(OBColor("white"),OBColor("white"))), m_PenWidth(1),
-       m_fontPointSize(16), m_isFillcolor(true), m_Gradients(gradients)  {}
+       m_Pencolor("black"), m_Fillcolor("white"), m_Gradientcolor(make_pair(OBColor("white"),OBColor("white"))), m_Gradients(gradients),
+       m_isFillcolor(true), m_PenWidth(1), m_fontPointSize(16) {}
 
   SVGPainter::~SVGPainter()
   {
