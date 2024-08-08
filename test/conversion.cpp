@@ -80,7 +80,7 @@ int conversion(int argc, char* argv[])
     cout << "not ok 5\n";
   }
 
-  if ( (obConversion.WriteString(&obMol)).length() > 0)
+  if ( !obConversion.WriteString(&obMol).empty())
     cout << "ok 6\n";
   else
     cout << "not ok 6\n";

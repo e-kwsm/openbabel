@@ -727,7 +727,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr) // End of task
             break;
     }
-    if (Frequencies.size() == 0)
+    if (Frequencies.empty())
         return;
 
     vibration_data = new OBVibrationData;

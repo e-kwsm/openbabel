@@ -2472,7 +2472,7 @@ namespace Smiley {
 
           // check for closing branch ::= ')'*
           while (m_str[m_pos] == ')') {
-            if (m_branches.size()) {
+            if (!m_branches.empty()) {
               if (DEBUG)
                 std::cout << "    close branch: " << m_branches.back().index << " @pos " << m_pos << std::endl;
               m_prev = m_branches.back().index;
@@ -2697,7 +2697,7 @@ namespace Smiley {
 
         parseChain();
 
-        if (m_branches.size())
+        if (!m_branches.empty())
           throw Exception(Exception::SyntaxError, UnmatchedBranchOpening,
               "Unmatched branch opening", m_branches.back().pos, m_str.size() - m_branches.back().pos);
         if (m_ringBonds.size() && m_exceptions & UnmatchedRingBond)

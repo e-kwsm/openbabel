@@ -186,7 +186,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   // Get the title
   title.assign(buffer);
-  if (title.size() < 1) {
+  if (title.empty()) {
     title = pConv->GetTitle();
     pmol->SetTitle(title);
   } else {

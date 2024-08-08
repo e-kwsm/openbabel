@@ -102,7 +102,7 @@ int main(int argc,char **argv)
       }
     }
   }
-  if (filename.size() == 0) {
+  if (filename.empty()) {
     cerr << program_name << ": no filename specified" << endl;
     exit (-1);
   }

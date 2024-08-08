@@ -798,7 +798,7 @@ namespace OpenBabel {
             if (nbr->GetId() == end->GetId())
               continue;
             // do we already have an atom with this symmetry class?
-            if (tlist.size()) {
+            if (!tlist.empty()) {
               // compare second with first
               if (symClasses[nbr->GetIndex()] == tlist.at(0)) {
                 isCisTransBond = false;
@@ -831,7 +831,7 @@ namespace OpenBabel {
             if (nbr->GetId() == begin->GetId())
               continue;
             // do we already have an atom with this symmetry class?
-            if (tlist.size()) {
+            if (!tlist.empty()) {
               // compare second with first
               if (symClasses[nbr->GetIndex()] == tlist.at(0)) {
                 // if same, might still be a para-stereocenter
@@ -1642,7 +1642,7 @@ namespace OpenBabel {
           if (atoms.size() != 1)
             continue;
           const std::vector<OBBond*> &bonds = inverted[i].invertedBonds;
-          if (bonds.size())
+          if (!bonds.empty())
             continue;
           if (atoms[0] == atom) {
             foundPermutation = true;
@@ -1727,7 +1727,7 @@ namespace OpenBabel {
         for (std::size_t i = 0; i < inverted.size(); ++i) {
           const std::vector<OBAtom*> &atoms = inverted[i].invertedAtoms;
           // if any atoms are inverted, the bond can't be the only inverted stereocenter
-          if (atoms.size())
+          if (!atoms.empty())
             continue;
           const std::vector<OBBond*> &bonds = inverted[i].invertedBonds;
           // the bond should be the only inverted stereocenter
@@ -2524,7 +2524,7 @@ namespace OpenBabel {
             else {
               phash = &wedgeAtoms; pwedge = &hashAtoms;
             }
-            if (planeAtoms.size() == 0) { // Already has the hash bond
+            if (planeAtoms.empty()) { // Already has the hash bond
               planeAtoms.insert(planeAtoms.end(), pwedge->begin(), pwedge->end());
               pwedge->clear();
             }
@@ -2536,7 +2536,7 @@ namespace OpenBabel {
           }
 
           // Pick a stereobond on which to base the stereochemistry:
-          bool wedge = wedgeAtoms.size() > 0;
+          bool wedge = !wedgeAtoms.empty();
           order.push_back(wedge?wedgeAtoms[0]:hashAtoms[0]);
           vector<OBAtom*> nbrs;
           FOR_NBORS_OF_ATOM(nbr, center) {
@@ -2604,12 +2604,12 @@ namespace OpenBabel {
                 success = false;
           }
         } else // 3 explicit bonds from here on
-          if(hashAtoms.size() == 0 || wedgeAtoms.size() == 0) {
+          if(hashAtoms.empty() || wedgeAtoms.empty()) {
             // Composed of just wedge bonds and plane bonds, or just hash bonds and plane bonds
 
             // Pick a stereobond on which to base the stereochemistry:
             vector<OBAtom*> order;
-            bool wedge = wedgeAtoms.size() > 0;
+            bool wedge = !wedgeAtoms.empty();
             order.push_back(wedge?wedgeAtoms[0]:hashAtoms[0]);
             vector<OBAtom*> nbrs;
             FOR_NBORS_OF_ATOM(nbr, center) {

@@ -743,7 +743,7 @@ namespace OpenBabel
       vector<string>  vs;
       tokenize(vs, line);
 
-      if (0 < vs.size())
+      if (!vs.empty())
         {
           char * endptr;
           T num;

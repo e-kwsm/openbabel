@@ -230,7 +230,7 @@ namespace OpenBabel
 
             while (ifs.getline(buffer,BUFF_SIZE)) {
               tokenize(vs,buffer);
-              if (vs.size() == 0)
+              if (vs.empty())
                 break;
               else if (vs.size() < 11)
                 break;
@@ -286,7 +286,7 @@ namespace OpenBabel
           {
             ifs.getline(buffer, BUFF_SIZE); // real data
             tokenize(vs, buffer);
-            while(vs.size() > 0) { // ends with a blank line
+            while(!vs.empty()) { // ends with a blank line
               for (unsigned int orbital = 0; orbital < vs.size(); ++orbital) {
                 // orbitals are listed in eV already, no conversion needed
                 orbitalEnergies.push_back(atof(vs[orbital].c_str()));
@@ -308,8 +308,8 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);	// column headings
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
-            while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
+            if (vs.empty()) return false; // timvdm 18/06/2008
+            while (!vs.empty() && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
@@ -330,8 +330,8 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);	// column headings
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
-            while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
+            if (vs.empty()) return false; // timvdm 18/06/2008
+            while (!vs.empty() && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
@@ -345,7 +345,7 @@ namespace OpenBabel
               }
             // Now we should be at DIPOLE line. If missing, break out of block
             // and continue parsing file.
-            if (vs.size() == 0 || strstr(vs[0].c_str(), "DIPOLE") != nullptr)
+            if (vs.empty() || strstr(vs[0].c_str(), "DIPOLE") != nullptr)
               continue;
             if (!ifs.getline(buffer,BUFF_SIZE))	// POINT CHARGE
               continue; // let the outer loop handle this
@@ -471,7 +471,7 @@ namespace OpenBabel
       }
     if (dipoleMoment)
       mol.SetData(dipoleMoment);
-    if (frequencies.size() != 0) { // we found some vibrations
+    if (!frequencies.empty()) { // we found some vibrations
       OBVibrationData *vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities);
       vd->SetOrigin(fileformatInput);
@@ -693,7 +693,7 @@ namespace OpenBabel
         //2. There are 7 tokens and the first token is a string containing the element symbol
         //3. There are 6 tokens and the first token is a number specifying the Cartesian x coordinate
         tokenize(vs,buffer);
-        if (vs.size() == 0)
+        if (vs.empty())
           break;
         else if (vs.size() < 6)
           {
@@ -709,7 +709,7 @@ namespace OpenBabel
           }
         else if (vs.size() == 7)
           {
-            if (elementSymbol == "")
+            if (elementSymbol.empty())
               elementSymbol = vs[0];
             else
               isotopeMass = atof((char*)vs[0].c_str());
@@ -893,7 +893,7 @@ namespace OpenBabel
 
     while (ifs.getline(buffer,BUFF_SIZE)) {
       tokenize(vs,buffer);
-      if (vs.size() == 0)
+      if (vs.empty())
         break;
       else if (vs.size() < 10)
         return false;

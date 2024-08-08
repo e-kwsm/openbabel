@@ -2164,7 +2164,7 @@ namespace OpenBabel
 	  {
         //s = pUnitCell.GetSpaceGroupName();
         s = pUnitCell->GetSpaceGroupName();
-        if (s.length())
+        if (!s.empty())
 	      {
             xmlTextWriterStartElementNS(writer(), prefix, C_SYMMETRY, nullptr);
             xmlTextWriterWriteAttribute (writer(), C_SPACEGROUP, (const xmlChar*)s.c_str());

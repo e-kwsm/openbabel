@@ -425,7 +425,7 @@ namespace OpenBabel
 
     string nextrti;
     do { nextrti = read_until_rti(ifs); } 
-    while(nextrti != "@<TRIPOS>UNITY_ATOM_ATTR" && nextrti != "@<TRIPOS>BOND" && nextrti.length() > 0);
+    while(nextrti != "@<TRIPOS>UNITY_ATOM_ATTR" && nextrti != "@<TRIPOS>BOND" && !nextrti.empty());
 
     if(nextrti == "@<TRIPOS>UNITY_ATOM_ATTR")
     { //read in formal charge information, must be done before Kekulization
@@ -457,7 +457,7 @@ namespace OpenBabel
         }
     }
 
-    while(nextrti != "@<TRIPOS>BOND" && nextrti.length() > 0)
+    while(nextrti != "@<TRIPOS>BOND" && !nextrti.empty())
       nextrti = read_until_rti(ifs);
 
     if(nextrti != "@<TRIPOS>BOND")

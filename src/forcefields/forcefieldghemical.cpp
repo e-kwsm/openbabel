@@ -868,7 +868,7 @@ namespace OpenBabel
 
     // open data/ghemical.prm
     ifstream ifs;
-    if (OpenDatafile(ifs, "ghemical.prm").length() == 0) {
+    if (OpenDatafile(ifs, "ghemical.prm").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open ghemical.prm", obError);
       return false;
     }
@@ -972,7 +972,7 @@ namespace OpenBabel
 
     // open data/ghemical.prm
     ifstream ifs;
-    if (OpenDatafile(ifs, "ghemical.prm").length() == 0) {
+    if (OpenDatafile(ifs, "ghemical.prm").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open ghemical.prm", obError);
       return false;
     }

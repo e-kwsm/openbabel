@@ -343,12 +343,12 @@ namespace OpenBabel {
         if (DEBUG)
           cout << red << "backtrack... " << normal << state.queryPath.size()-1 << endl;
         // remove last atoms from the mapping
-        if (state.queryPath.size()) {
+        if (!state.queryPath.empty()) {
           state.mapping[state.queryPath.back()] = nullptr;
           state.queryPathBits.SetBitOff(state.queryPath.back());
           state.queryPath.pop_back();
         }
-        if (state.queriedPath.size()) {
+        if (!state.queriedPath.empty()) {
           state.queriedPathBits.SetBitOff(state.queriedPath.back());
           state.queriedPath.pop_back();
         }
@@ -594,7 +594,7 @@ namespace OpenBabel {
     maps.clear();
     MapAllFunctor functor(maps, maxMemory);
     FindAutomorphisms(functor, mol, symClasses, mask);
-    return maps.size();
+    return !maps.empty();
   }
 
   OBBitVec getFragment(OBAtom *atom, const OBBitVec &mask, const std::vector<OBBond*> &metalloceneBonds = std::vector<OBBond*>());
