@@ -968,7 +968,7 @@ namespace OpenBabel
           std::string title = _pmol->GetTitle();
           if (!title.empty())
             errorMsg << " (title is " << title << ")";
-          errorMsg << endl;
+          errorMsg << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           // return false; Should we return false for a kekulization failure?
         }
