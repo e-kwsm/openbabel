@@ -22,6 +22,7 @@ General Public License for more details.
 #include <iostream>
 #include <string>
 #include <algorithm>
+#include <utility>
 
 #include <openbabel/oberror.h>
 
@@ -32,14 +33,14 @@ namespace OpenBabel
   // Initialize the global obErrorLog declared in oberror.h
   OBMessageHandler obErrorLog;
 
-  OBError::OBError( const string &method,
-                    const string &errorMsg,
-                    const string &explanation,
-                    const string &possibleCause,
-                    const string &suggestedRemedy,
+  OBError::OBError( string method,
+                    string errorMsg,
+                    string explanation,
+                    string possibleCause,
+                    string suggestedRemedy,
                     const obMessageLevel level) :
-    _method(method), _errorMsg(errorMsg), _explanation(explanation),
-    _possibleCause(possibleCause), _suggestedRemedy(suggestedRemedy),
+    _method(std::move(method)), _errorMsg(std::move(errorMsg)), _explanation(std::move(explanation)),
+    _possibleCause(std::move(possibleCause)), _suggestedRemedy(std::move(suggestedRemedy)),
     _level(level)
   { }
 

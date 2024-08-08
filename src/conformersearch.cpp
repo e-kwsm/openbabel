@@ -24,6 +24,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 #include "rand.h"
 #include <algorithm>
+#include <utility>
 
 #if defined(_MSC_VER) && (_MSC_VER < 1800)
  #define OB_ISNAN _isnan
@@ -493,7 +494,7 @@ namespace OpenBabel {
 
   // Helper struct to sort conformers by score
   struct ConformerScore {
-    ConformerScore(const RotorKey &key, double _score) : rotorKey(key), score(_score) {}
+    ConformerScore(RotorKey key, double _score) : rotorKey(std::move(key)), score(_score) {}
     RotorKey rotorKey;
     double score;
   };
