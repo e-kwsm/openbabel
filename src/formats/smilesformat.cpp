@@ -812,7 +812,7 @@ namespace OpenBabel {
           else  {                                                               // Is a ring closure
             char bc_result = SetRingClosureStereo(sb_it->second, dbl_bond);
             if (bc_result)
-              stereo = bc_result == 1 ? true : false;
+              stereo = bc_result == 1;
             else
               found = false;
           }
