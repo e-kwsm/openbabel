@@ -492,13 +492,19 @@ namespace OpenBabel {
     // Setup some default values for dynamic niche sharing according to the molecule.
     nb_niches = (m_rotorKeys.size()) / 10;
     if (nb_niches < 3)
+    {
       nb_niches = 3;
+    }
     sigma_share = (double)nb_rotors / 3.0;
     if (sigma_share < 1.0)
+    {
       sigma_share = 1.0;
+    }
     niche_radius =  (double)nb_rotors / 4.0;
     if (niche_radius < 1.0)
+    {
       niche_radius = 1.0;
+    }
 
     return true;
   }
@@ -518,14 +524,18 @@ namespace OpenBabel {
         while (!foundKey) {
           tries++;
           if (tries > 1000)
+          {
             foundKey = true;
+          }
           RotorKey rotorKey = m_rotorKeys[c]; // copy parent gene
           // perform random mutation(s)
           OBRotorIterator ri;
           OBRotor *rotor = m_rotorList.BeginRotor(ri);
           for (unsigned int i = 1; i < m_rotorList.Size() + 1; ++i, rotor = m_rotorList.NextRotor(ri)) {
             if (generator.NextInt() % m_mutability == 0)
+            {
               rotorKey[i] = generator.NextInt() % rotor->GetResolution().size(); // permutate gene
+            }
           }
           // duplicates are always rejected
           if (!IsUniqueKey(m_rotorKeys, rotorKey))
