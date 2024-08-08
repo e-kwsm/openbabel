@@ -208,14 +208,10 @@ namespace OpenBabel
   {
     /* See if the supplied string specifies a unit */
 
-    if ( text.compare(0, 4, "angs")==0 ||
+    return text.compare(0, 4, "angs")==0 ||
          text.compare(0, 4, "bohr")==0 ||
          text.compare(0, 4, "a.u.")==0 ||
-         text.compare(0, 2, "au")==0) {
-      return true;
-    } else {
-      return false;
-    }
+         text.compare(0, 2, "au")==0;
   }
 
   double GAMESSUKFormat::Rescale(string text)

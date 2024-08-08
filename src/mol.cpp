@@ -1890,11 +1890,8 @@ namespace OpenBabel
   // Convenience function used by the DeleteHydrogens methods
   static bool IsSuppressibleHydrogen(OBAtom *atom)
   {
-    if (atom->GetIsotope() == 0 && atom->GetHvyDegree() == 1 && atom->GetFormalCharge() == 0
-        && !atom->GetData("Atom Class"))
-      return true;
-    else
-      return false;
+    return atom->GetIsotope() == 0 && atom->GetHvyDegree() == 1 && atom->GetFormalCharge() == 0
+        && !atom->GetData("Atom Class");
   }
 
   bool OBMol::DeletePolarHydrogens()
@@ -2984,10 +2981,7 @@ namespace OpenBabel
     if(a->GetExplicitValence() == 5 && a->GetAtomicNum() == 15)
     {
       //only allow octhedral bonding for F and Cl
-      if(n->GetAtomicNum() == 9 || n->GetAtomicNum() == 17)
-        return true;
-      else
-        return false;
+      return n->GetAtomicNum() == 9 || n->GetAtomicNum() == 17;
     }
     //other things to check?
     return true;

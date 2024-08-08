@@ -1181,7 +1181,7 @@ void writeAtomEntry(rapidjson::Value &arr,
     const int charge = atom->GetFormalCharge();
     if (charge != 0) obj.AddMember("charge", charge, al);
 
-    if (iso > 0 && !(anum == OBElements::Hydrogen && (iso == 2 || iso == 3)))
+    if (iso > 0 && (anum != OBElements::Hydrogen || (iso != 2 && iso != 3)))
         obj.AddMember("isotope", static_cast<int>(iso), al);
 
     const int radical = atom->GetSpinMultiplicity();

@@ -826,7 +826,7 @@ namespace OpenBabel {
           else  {                                                               // Is a ring closure
             char bc_result = SetRingClosureStereo(sb_it->second, dbl_bond);
             if (bc_result)
-              stereo = bc_result == 1 ? true : false;
+              stereo = bc_result == 1;
             else
               found = false;
           }
@@ -2879,7 +2879,7 @@ namespace OpenBabel {
     }
 
     // If chiral, append '@' or '@@'...unless we're creating a SMARTS ("s") and it's @H or @@H
-    if (stereo != nullptr && !(options.smarts && atom->GetImplicitHCount() > 0))
+    if (stereo != nullptr && (!options.smarts || atom->GetImplicitHCount() <= 0))
       buffer += stereo;
 
     // Add extra hydrogens.
@@ -3111,9 +3111,7 @@ namespace OpenBabel {
       return false;
     switch (bond->GetBondOrder()) {
     case 1:
-      if (bond->IsInRing() && bond->GetBeginAtom()->IsAromatic() && bond->GetEndAtom()->IsAromatic())
-        return true;
-      return false;
+      return bond->IsInRing() && bond->GetBeginAtom()->IsAromatic() && bond->GetEndAtom()->IsAromatic();
     default: // bond orders != 1
       return true;
     }

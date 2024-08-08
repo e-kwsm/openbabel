@@ -561,7 +561,7 @@ namespace OpenBabel
       default:
         break;
       }
-    return (pmol->NumAtoms() > 0 ? true : false);
+    return pmol->NumAtoms() > 0;
   }
 
   /////////////////////////////////////////////////////////////////
