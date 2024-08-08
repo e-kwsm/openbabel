@@ -36,8 +36,9 @@ OBPlugin::PluginMapType& OBPlugin::GetTypeMap(const char* PluginID)
   }
 
   itr = PluginMap().find(PluginID);
-  if(itr!=PluginMap().end())
+  if(itr!=PluginMap().end()) {
     return itr->second->GetMap();
+  }
   return PluginMap();//error: type not found; return plugins map
 }
 
@@ -65,8 +66,9 @@ void OBPlugin::LoadAllPlugins()
 
   vector<string>::iterator itr;
   for(itr=files.begin();itr!=files.end();++itr) {
-    if(DLHandler::openLib(*itr))
+    if(DLHandler::openLib(*itr)) {
       count++;
+    }
   }
   if(!count) {
     string error = "No valid OpenBabel plugs found in "+TargetDir;
@@ -101,19 +103,22 @@ OBPlugin* OBPlugin::BaseFindType(PluginMapType& Map, const char* ID)
     OBPlugin::LoadAllPlugins();
   }
 
-  if(!ID || !*ID)
+  if(!ID || !*ID) {
     return nullptr;
+  }
   PluginMapType::iterator itr = Map.find(ID);
-  if(itr==Map.end())
+  if(itr==Map.end()) {
     return nullptr;
-  else
+  } else {
     return itr->second;
+  }
 }
 
 OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
 {
-  if (Type != nullptr)
+  if (Type != nullptr) {
     return BaseFindType(GetTypeMap(Type), ID);
+  }
 
   // Make sure the plugins are loaded
   if (AllPluginsLoaded == 0) {
@@ -125,8 +130,9 @@ OBPlugin* OBPlugin::GetPlugin(const char* Type, const char* ID)
   for(itr=PluginMap().begin();itr!= PluginMap().end();++itr)
   {
     OBPlugin* result = BaseFindType(itr->second->GetMap(), ID);
-    if(result)
+    if(result) {
       return result;
+    }
   }
   return nullptr; //not found
 }
@@ -154,15 +160,18 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
         PluginMapType Map = itr->second->GetMap();
         for(itr=Map.begin(); itr!=Map.end(); ++itr)
         {
-          if(*(itr->first)=='_')//no listing when ID starts with '_'
+          if(*(itr->first)=='_') {//no listing when ID starts with '_'
             continue;
-          if(onlyIDs)
+          }
+          if(onlyIDs) {
             vlist.push_back(itr->first);
+          }
           else
           {
             string txt;
-            if((itr->second)->Display(txt, param, itr->first))
+            if((itr->second)->Display(txt, param, itr->first)) {
               vlist.push_back(txt);
+            }
           }
         }
         return true;
@@ -171,16 +180,18 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
     }
   }
   //List the plugin types
-  for(itr=PluginMap().begin();itr!= PluginMap().end();++itr)
+  for(itr=PluginMap().begin();itr!= PluginMap().end();++itr) {
     vlist.push_back(itr->first);
+  }
   return ret;
 }
 
 void OBPlugin::List(const char* PluginID, const char* param, ostream* os)
 {
   vector<string> vlist;
-  if(!ListAsVector(PluginID,param, vlist))
+  if(!ListAsVector(PluginID,param, vlist)) {
     *os << PluginID << " is not a recognized plugin type. Those with instances of sub-types loaded are:" << endl;
+  }
   copy(vlist.begin(), vlist.end(), std::ostream_iterator<string>(*os, "\n"));
 }
 
@@ -195,20 +206,22 @@ string OBPlugin::FirstLine(const char* txt)
 {
   string stxt(txt);
   string::size_type pos = stxt.find('\n');
-  if(pos==string::npos)
+  if(pos==string::npos) {
     return stxt;
-  else
+  } else {
     return stxt.substr(0,pos);
+  }
 }
 
 //Default version
 bool OBPlugin::Display(string& txt, const char* param, const char* ID)
 {
   //Use the provided ID if possible.
-  if(ID)
+  if(ID) {
     txt = ID;
-  else
+  } else {
     txt = GetID();
+  }
   txt += "    ";// was '\t'; but caused problems in GUI menu
   if(param && !strcasecmp(param, "verbose"))
   {
@@ -216,7 +229,9 @@ bool OBPlugin::Display(string& txt, const char* param, const char* ID)
     txt += '\n';
   }
   else
+  {
     txt += FirstLine(Description());
+  }
   return true;
 }
 
