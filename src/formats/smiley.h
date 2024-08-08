@@ -972,9 +972,9 @@ namespace Smiley {
         }
 
         RingBondInfo(int number_, int order_, bool isUp_, bool isDown_,
-            bool isExplicit_, std::size_t pos_) : number(number_),
+            bool isExplicit_, std::size_t pos_) : pos(pos_), number(number_),
             order(order_), isUp(isUp_), isDown(isDown_),
-            isExplicit(isExplicit_), pos(pos_)
+            isExplicit(isExplicit_)
         {
         }
 

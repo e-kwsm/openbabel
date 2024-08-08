@@ -315,7 +315,7 @@ namespace OpenBabel {
 
   public:
 
-    OBSmilesParser(bool preserve_aromaticity=false): _preserve_aromaticity(preserve_aromaticity), _rxnrole(1) { }
+    OBSmilesParser(bool preserve_aromaticity=false): _rxnrole(1), _preserve_aromaticity(preserve_aromaticity) { }
     ~OBSmilesParser() { }
 
     bool SmiToMol(OBMol&,const string&);
