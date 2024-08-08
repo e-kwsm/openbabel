@@ -57,7 +57,7 @@ void print_vector(const std::string &label, const std::vector<T> &v)
     else
       std::cout << v[i] << " ";
 
-  std::cout << endl;
+  std::cout << '\n';
 }
 
 // debug function
@@ -66,7 +66,7 @@ void print_sym_classes(const std::string &label, const std::vector<std::pair<Ope
   cout << label << ": ";
   for (unsigned int i = 0; i < atom_sym_classes.size(); i++)
     cout << atom_sym_classes[i].second << " ";
-  cout << endl;
+  cout << '\n';
 }
 
 namespace OpenBabel {

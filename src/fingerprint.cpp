@@ -182,7 +182,7 @@ namespace OpenBabel
     if(i<_index.header.nEntries) //premature end to search
       {
         stringstream errorMsg;
-        errorMsg << "Stopped looking after " << i << " molecules." << endl;
+        errorMsg << "Stopped looking after " << i << " molecules." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
 
@@ -310,7 +310,7 @@ namespace OpenBabel
   }
 
   //////////////////////////////////////////////////////////
-  string FastSearch::ReadIndexFile(string IndexFilename)
+  string FastSearch::ReadIndexFile(const string& IndexFilename)
   {
     ifstream ifs(IndexFilename.c_str(),ios::binary);
     if(ifs)
@@ -379,7 +379,7 @@ namespace OpenBabel
       {
         stringstream errorMsg;
         errorMsg << "Index has Fingerprints of type '" << header.fpid
-                 << " which is not currently loaded." << endl;
+                 << " which is not currently loaded." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       }
     return pFP; //NULL if not available

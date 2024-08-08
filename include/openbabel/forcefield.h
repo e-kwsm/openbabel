@@ -1019,7 +1019,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Print msg to the logfile.
      *  \param msg The message to print.
      */
-    void OBFFLog(std::string msg)
+    void OBFFLog(const std::string& msg)
     {
       if (!_logos)
         return;
@@ -1739,7 +1739,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     static void PrintVector(double *i)
     {
-      std::cout << "<" << i[0] << ", " << i[1] << ", " << i[2] << ">" << std::endl;
+      std::cout << "<" << i[0] << ", " << i[1] << ", " << i[2] << ">" << '\n';
     }
     //@}
 

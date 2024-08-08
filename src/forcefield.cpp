@@ -3415,7 +3415,7 @@ namespace OpenBabel
   // gromacs user manual page 17
   void OBForceField::GenerateVelocities()
   {
-    cout << "OBForceField::GenerateVelocities()" << endl;
+    cout << "OBForceField::GenerateVelocities()" << '\n';
     OBRandom generator;
     generator.TimeSeed();
     _ncoords = _mol.NumAtoms() * 3;
@@ -4332,7 +4332,7 @@ namespace OpenBabel
 
   OBGridData* OBForceField::GetGrid(double step, double padding, const char* type, double pchg)
   {
-    cout << "OBForceFieldMMFF94::GetGrid(" << step << ", " << type << ")" << endl;
+    cout << "OBForceFieldMMFF94::GetGrid(" << step << ", " << type << ")" << '\n';
     OBFloatGrid fgrid;
     fgrid.Init(_mol, step, padding);
     vector3 min;
@@ -4345,7 +4345,7 @@ namespace OpenBabel
     zDim = fgrid.GetZdim();
     xyzDim = xDim * yDim * zDim;
 
-    cout << "xDim = " << xDim << ", yDim = " << yDim << ", zDim = " << zDim << endl;
+    cout << "xDim = " << xDim << ", yDim = " << yDim << ", zDim = " << zDim << '\n';
 
     // Add the probe atom
     _mol.BeginModify();
@@ -4429,7 +4429,7 @@ namespace OpenBabel
       } // y-axis
     } // x-axis
 
-    cout << endl;
+    cout << '\n';
 
     _mol.BeginModify();
     _mol.DeleteAtom(atom);
