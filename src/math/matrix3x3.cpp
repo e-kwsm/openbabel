@@ -489,7 +489,7 @@ namespace OpenBabel
        << m.ele[0][1]
        << ", "
        << m.ele[0][2]
-       << " ]" << endl;
+       << " ]" << '\n';
 
     co << "[ "
        << m.ele[1][0]
@@ -497,7 +497,7 @@ namespace OpenBabel
        << m.ele[1][1]
        << ", "
        << m.ele[1][2]
-       << " ]" << endl;
+       << " ]" << '\n';
 
     co << "[ "
        << m.ele[2][0]
@@ -505,7 +505,7 @@ namespace OpenBabel
        << m.ele[2][1]
        << ", "
        << m.ele[2][2]
-       << " ]" << endl;
+       << " ]" << '\n';
 
     return co ;
   }
