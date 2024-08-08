@@ -224,7 +224,9 @@ namespace OpenBabel
       ang = setang - CalcTorsion(coordinates);
       // if the angle to rotate is too small, we're done
       if (fabs(ang) < 1e-5)
+      {
         return;
+      }
 
       // compute the bond length
       mag = CalcBondLength(coordinates);
@@ -362,7 +364,9 @@ namespace OpenBabel
     void GetDihedralAtoms(int ref[4])
     {
       for (int i = 0; i < 4; ++i)
+      {
         ref[i] = _ref[i];
+      }
     }
     /**
      * Get the dihedral atom indexes. These indexes start from 1.
@@ -701,7 +705,9 @@ namespace OpenBabel
         ++state;
         return false;
       } else
+      {
         state = 0;
+      }
 
       return true;
     }
@@ -782,7 +788,9 @@ namespace OpenBabel
         unsigned int numKeys = 0;
 
         while (Next())
+        {
           numKeys++;
+        }
 
         return numKeys;
       }
@@ -800,13 +808,17 @@ namespace OpenBabel
       bool Next()
       {
         if(_vr.size() == 0)
+        {
           return false;
+        }
 
         bool carry = _vr[0].next();
         unsigned int i = 1;
         while (carry) {
           if(i == _vr.size())
+          {
             return false;
+          }
 
           carry = _vr[i].next();
           i++;

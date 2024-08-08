@@ -95,9 +95,13 @@ namespace OpenBabel
     OBAtom* next()
     {
       if(_stack.empty())
+      {
         return nullptr; //end of a disconnected fragment
+      }
       else
+      {
         return _stack.top(); //the next atom
+      }
     }
   };
 

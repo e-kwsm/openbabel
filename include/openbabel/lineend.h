@@ -130,14 +130,18 @@ namespace OpenBabel
   {
     int result( EOF ) ;
     if( gptr() < egptr() )
+    {
       result = *gptr() ;
+    }
     else if ( mySource != nullptr )
     {
       result = myExtractor( *mySource ) ;
       if ( result != EOF )
       {
         if( result < 0 || result > UCHAR_MAX )
+        {
           std::cerr << "FilteringInputStreambuf error" << std::endl;
+        }
         myBuffer = result ;
         setg( &myBuffer , &myBuffer , &myBuffer + 1 ) ;
       }
@@ -176,7 +180,9 @@ public:
     {
       case 13: //CR or CRLF
         if(src.peek() == 10)
+        {
           src.get(); //CRLF
+        }
         //fall through
       case 10: //LF
         return '\n';

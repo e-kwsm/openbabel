@@ -61,7 +61,9 @@ public:
        //ignore ops with IDs that begin with '_' or have "not displayed in GUI" in their first line of description
       if(*(itr->first)=='_'
         || OBPlugin::FirstLine(pOp->Description()).find("not displayed in GUI")!=std::string::npos)
+      {
         continue;
+      }
       if(pOp && pOp->WorksWith(pOb))
       {
         s += "--";
@@ -86,8 +88,12 @@ public:
     {
       OBOp* pOp = FindType(itr->first.c_str());
       if(pOp)
+      {
         if(!pOp->Do(pOb, itr->second.c_str(), pOptions, pConv))
+        {
           return false; //Op has decided molecule should not be output
+        }
+      }
     }
     return true;
   }

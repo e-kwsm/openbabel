@@ -245,7 +245,9 @@ class OBConversion; //used only as pointer
             {
               std::vector<OBGenericData*>::iterator m;
               for (m = _vdata.begin();m != _vdata.end();m++)
+              {
                 delete *m;
+              }
               _vdata.clear();
             }
         }
@@ -276,7 +278,9 @@ class OBConversion; //used only as pointer
         {
           T* pOb = dynamic_cast<T*>(this);
           if(pOb && clear)// Clear only if this is of target class
+          {
             Clear();
+          }
           return pOb;
         }
 
@@ -305,7 +309,7 @@ class OBConversion; //used only as pointer
       //! Adds a data object; does nothing if d==NULL
       void                              SetData(OBGenericData *d)
         {
-          if(d) _vdata.push_back(d);
+          if(d) { _vdata.push_back(d); }
         }
       //! Adds a copy of a data object; does nothing if d == NULL
       //! \since version 2.2

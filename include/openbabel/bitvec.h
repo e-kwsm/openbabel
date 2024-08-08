@@ -137,7 +137,9 @@ namespace OpenBabel
 	  bool ResizeWords(unsigned size_in_words)
 	  	{
 		if (size_in_words <= _size)
+		{
 		  return false;
+		}
 		_set.resize(size_in_words, 0); // increase the vector with zeroed bits
 		_size = _set.size();
 		return true;
@@ -174,7 +176,9 @@ namespace OpenBabel
       void Negate()
         {
 		  for (word_vector::iterator wx = _set.begin(), wy = _set.end(); wx != wy; ++wx)
+		  {
 		    * wx = ~(* wx);
+		  }
         }
       /// Return a copy of the internal vector of words, at the end of \p vec
 	  /** Copy the internal word vector.

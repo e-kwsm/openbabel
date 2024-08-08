@@ -124,9 +124,13 @@ namespace OpenBabel
     double Sqrt(double d2) const
     {
       if (_tbl)
+      {
         return((d2 < _max) ? _tbl[static_cast<int>(d2*_incr)]:sqrt(d2));
+      }
       else
+      {
         return 0.0;
+      }
     }
     //! \brief Initialize the square root lookup table
     //! \param max The maximum square root stored in the lookup table (e.g., if you want the square root of 144, supply 12 for max)
@@ -143,7 +147,9 @@ namespace OpenBabel
       double r;
       _tbl = new double [static_cast<int>((_max/_incr)+10)];
       for (r = (_incr/2.0),i=0;r <= _max;r += _incr,++i)
+      {
         _tbl[i] = sqrt(r);
+      }
 
       _incr = 1/_incr;
     }

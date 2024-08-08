@@ -69,7 +69,9 @@ namespace OpenBabel
         // Make sure we actually have a SMARTS pattern plus at least one triple
         // and make sure we have the correct number of integers
         if (vs.size() < 4)
+        {
           return; // just ignore empty (or short lines)
+        }
         else if (vs.size() >= 4 && (vs.size() % 3 != 1))
           {
             stringstream errorMsg;
@@ -111,7 +113,9 @@ namespace OpenBabel
   void OBBondTyper::AssignFunctionalGroupBonds(OBMol &mol)
   {
     if (!_init)
+    {
       Init();
+    }
 
     OBSmartsPattern *currentPattern;
     OBBond *b1, *b2;
@@ -140,11 +144,11 @@ namespace OpenBabel
                     // along the assignments vector: atomID1 atomID2 bondOrder
                     a1 = mol.GetAtom((*matches)[ assignments[j] ]);
                     a2 = mol.GetAtom((*matches)[ assignments[j+1 ] ]);
-                    if (!a1 || !a2) continue;
+                    if (!a1 || !a2) { continue; }
 
                     b1 = a1->GetBond(a2);
 
-                    if (!b1) continue;
+                    if (!b1) { continue; }
                     b1->SetBondOrder(assignments[j+2]);
                   } // bond order assignments
               } // each match
@@ -173,7 +177,7 @@ namespace OpenBabel
               if ( !a1->HasDoubleBond() ) {// no double bond already assigned
                 b1 = a1->GetBond(a2);
 
-                if (!b1 ) continue;
+                if (!b1 ) { continue; }
                 b1->SetBondOrder(2);
               }
             }
@@ -200,7 +204,7 @@ namespace OpenBabel
               if ( !a1->HasDoubleBond() ) {// no double bond already assigned
                 b1 = a1->GetBond(a2);
 
-                if (!b1 ) continue;
+                if (!b1 ) { continue; }
                 b1->SetBondOrder(2);
               }
             }
@@ -225,15 +229,19 @@ namespace OpenBabel
 
             // isocyanate geometry or Isothiocyanate geometry ?
             if (a1->GetAtomicNum() == OBElements::Oxygen)
+            {
               dist1OK =  dist1 < 1.28;
+            }
             else
+            {
               dist1OK =  dist1 < 1.72;
+            }
 
             if (angle > 150 && dist1OK && dist2 < 1.34) {
 
               b1 = a1->GetBond(a2);
               b2 = a2->GetBond(a3);
-              if (!b1 || !b2) continue;
+              if (!b1 || !b2) { continue; }
               b1->SetBondOrder(2);
               b2->SetBondOrder(2);
 
@@ -262,7 +270,7 @@ namespace OpenBabel
               if ( !a1->HasDoubleBond() ) {// no double bond already assigned
                 b1 = a1->GetBond(a2);
 
-                if (!b1 ) continue;
+                if (!b1 ) { continue; }
                 b1->SetBondOrder(2);
               }
             }

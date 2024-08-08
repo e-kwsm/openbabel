@@ -183,10 +183,12 @@ namespace OpenBabel {
   {
     OBIsomorphismMapper::Mapping::const_iterator i;
     for (i = map.begin(); i != map.end(); ++i)
+    {
       if (i->first == queryIndex) {
         queriedIndex = i->second;
         return true;
       }
+    }
 
     return false;
   }

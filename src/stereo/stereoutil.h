@@ -92,9 +92,13 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < units.size(); ++i) {
       const OBStereoUnit &unit = units[i];
       if (unit.type != static_cast<OBStereo::Type>(OBStereoCenterTraits<OBAtomOrOBBond>::Type))
+      {
         continue;
+      }
       if (unit.id == atomOrBond->GetId())
+      {
         return true;
+      }
     }
     return false;
   }

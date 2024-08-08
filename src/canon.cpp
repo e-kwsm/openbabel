@@ -51,10 +51,16 @@ void print_vector(const std::string &label, const std::vector<T> &v)
 {
   std::cout << label << ": ";
   for (std::size_t i = 0; i < v.size(); ++i)
+  {
     if (v[i] < 10)
+    {
       std::cout << " " << v[i] << " ";
+    }
     else
+    {
       std::cout << v[i] << " ";
+    }
+  }
 
   std::cout << endl;
 }
@@ -79,14 +85,20 @@ namespace OpenBabel {
   {
     FOR_NBORS_OF_ATOM (nbr, atom) {
       if (!mask.BitIsSet(nbr->GetIdx()))
+      {
         continue;
+      }
       // skip visited atoms
       if (fragment.BitIsSet(nbr->GetIdx()))
+      {
         continue;
+      }
       // skip mettalocene bonds
       if (std::find(metalloceneBonds.begin(), metalloceneBonds.end(),
             atom->GetParent()->GetBond(atom, &*nbr)) != metalloceneBonds.end())
+      {
         continue;
+      }
       // add the neighbor atom to the fragment
       fragment.SetBitOn(nbr->GetIdx());
       // recurse...
@@ -117,12 +129,18 @@ namespace OpenBabel {
         FOR_NBORS_OF_ATOM (nbr, atom) {
           // don't pass through skip
           if (nbr->GetIdx() == skip->GetIdx())
+          {
             continue;
+          }
           // skip visited atoms
           if (fragment.BitIsSet(nbr->GetIdx()))
+          {
             continue;
+          }
           if (!mask.BitIsSet(nbr->GetIdx()))
+          {
             continue;
+          }
           // add the neighbor atom to the fragment
           fragment.SetBitOn(nbr->GetIdx());
           // recurse...
@@ -143,27 +161,41 @@ namespace OpenBabel {
   bool isFerroceneBond(OBBond *bond)
   {
     if (bond->GetBondOrder() != 1)
+    {
       return false;
+    }
 
     OBAtom *Fe = nullptr, *C = nullptr;
 
     OBAtom *begin = bond->GetBeginAtom();
     if (begin->GetAtomicNum() == 26)
+    {
       Fe = begin;
+    }
     if (begin->GetAtomicNum() == 6)
+    {
       C = begin;
+    }
 
     OBAtom *end = bond->GetEndAtom();
     if (end->GetAtomicNum() == 26)
+    {
       Fe = end;
+    }
     if (end->GetAtomicNum() == 6)
+    {
       C = end;
+    }
 
     if (!Fe || !C)
+    {
       return false;
+    }
 
     if (Fe->GetExplicitDegree() < 10)
+    {
       return false;
+    }
 
     return C->HasDoubleBond() && C->IsInRing();
   }
@@ -172,20 +204,28 @@ namespace OpenBabel {
   {
     FOR_ATOMS_OF_MOL (atom, mol) {
       if (!atom->IsInRingSize(3))
+      {
         continue;
+      }
       std::vector<unsigned int> nbrSymClasses;
       FOR_NBORS_OF_ATOM (nbr, &*atom) {
         if (nbr->IsInRingSize(3))
+        {
           nbrSymClasses.push_back(symmetry_classes[nbr->GetIndex()]);
+        }
       }
 
       if (nbrSymClasses.size() < 8)
+      {
         continue;
+      }
 
       std::sort(nbrSymClasses.begin(), nbrSymClasses.end());
       unsigned int numUnique = std::unique(nbrSymClasses.begin(), nbrSymClasses.end()) - nbrSymClasses.begin();
       if (numUnique > 1)
+      {
         continue;
+      }
 
       FOR_NBORS_OF_ATOM (nbr, &*atom)
         bonds.push_back(mol->GetBond(&*atom, &*nbr));
@@ -427,7 +467,9 @@ namespace OpenBabel {
       for (std::size_t j = 0; j < orbits.size(); ++j) {
         cout << "( ";
         for (std::size_t k = 0; k < orbits[j].size(); ++k)
+        {
           cout << orbits[j][k]->GetIndex() << " ";
+        }
         cout << ") ";
       }
     }
@@ -556,9 +598,13 @@ namespace OpenBabel {
         std::size_t numFrom = std::min(from.size(), other.code.size());
         for (std::size_t i = 0; i < numFrom; ++i) {
           if (from[i] > other.code[i])
+          {
             return false;
+          }
           if (from[i] < other.code[i])
+          {
             return true;
+          }
         }
 
         return false;
@@ -582,24 +628,38 @@ namespace OpenBabel {
       {
         // Unspecified stereo centers have their own descriptor.
         if (nbrIndexes1.empty())
+        {
           return 2;
+        }
         std::vector<unsigned long> refs1, refs2;
         for (std::size_t i = 0; i < nbrIndexes1.size(); ++i) {
           if (nbrIndexes1[i] < labels.size())
+          {
             refs1.push_back(labels[nbrIndexes1[i]]);
+          }
           else
+          {
             refs1.push_back(nbrIndexes1[i]);
+          }
         }
         for (std::size_t i = 0; i < nbrIndexes2.size(); ++i)
+        {
           if (nbrIndexes2[i] < labels.size())
+          {
             refs2.push_back(labels[nbrIndexes2[i]]);
+          }
           else
+          {
             refs2.push_back(nbrIndexes2[i]);
+          }
+        }
         if (indexes.size() == 2) {
           bool symOrder = symmetry_classes[indexes[0]] < symmetry_classes[indexes[1]];
           bool canOrder = labels[indexes[0]] < labels[indexes[1]];
           if (symOrder != canOrder && symmetry_classes[indexes[0]] != symmetry_classes[indexes[1]])
+          {
             std::swap(refs1[0], refs1[1]);
+          }
         }
         return ((OBStereo::NumInversions(refs1) % 2 + OBStereo::NumInversions(refs2) % 2) % 2);
       }
@@ -702,8 +762,12 @@ namespace OpenBabel {
       {
         mcr.Clear();
         if (mcr.IsEmpty())
+        {
           for (std::size_t i = 0; i < symmetry_classes.size(); ++i)
+          {
             mcr.SetBitOn(i+1);
+          }
+        }
       }
 
       const std::vector<unsigned int> &symmetry_classes;
@@ -770,7 +834,9 @@ namespace OpenBabel {
         FOR_BONDS_OF_ATOM (bond, atom) {
           // skip atoms not in the fragment
           if (!state.fragment.BitIsSet(bond->GetNbrAtom(atom)->GetIdx()))
+          {
             continue;
+          }
           // a closure bond is a bond not found while generating the FROM spanning tree.
           if (std::find(code.bonds.begin(), code.bonds.end(), &*bond) == code.bonds.end()) {
             closures.push_back(std::make_pair(&*bond, code.labels[bond->GetNbrAtom(atom)->GetIndex()]));
@@ -804,9 +870,13 @@ namespace OpenBabel {
       for (std::size_t j = 0; j < code.atoms.size(); ++j) {
         OBAtom *atom = code.atoms[j];
         if (atom->GetIsotope())
+        {
           hasIsotope = true;
+        }
         if (atom->GetFormalCharge())
+        {
           hasCharge = true;
+        }
 
 	      // Include all hydrogens
         int hydrogens_to_include = TotalHydrogenCount(atom);
@@ -823,15 +893,23 @@ namespace OpenBabel {
       // the (optional) ISOTOPES list
       //
       if (hasIsotope)
+      {
         for (std::size_t j = 0; j < code.atoms.size(); ++j)
+        {
           fullcode.code.push_back(code.atoms[j]->GetIsotope());
+        }
+      }
 
       //
       // the (optional) CHARGES list
       //
       if (hasCharge)
+      {
         for (std::size_t j = 0; j < code.atoms.size(); ++j)
+        {
           fullcode.code.push_back(7 + code.atoms[j]->GetFormalCharge());
+        }
+      }
 
       //
       // the BOND-TYPES list
@@ -839,9 +917,13 @@ namespace OpenBabel {
       for (std::size_t j = 0; j < code.bonds.size(); ++j) {
         OBBond *bond = code.bonds[j];
         if (bond->IsAromatic())
+        {
           fullcode.code.push_back(5);
+        }
         else
+        {
           fullcode.code.push_back(bond->GetBondOrder());
+        }
       }
 
       // the STEREO flag
@@ -852,17 +934,25 @@ namespace OpenBabel {
         for (std::size_t i = 0; i < state.stereoCenters.size(); ++i) {
           bool isInFragment = false;
           for (std::size_t j = 0; j < state.stereoCenters[i].indexes.size(); ++j)
+          {
             if (state.fragment.BitIsSet(state.stereoCenters[i].indexes[j]+1))
+            {
               isInFragment = true;
+            }
+          }
           // ignore stereo centers not in this fragment
           if (isInFragment)
+          {
             fullcode.code.push_back(state.stereoCenters[i].getDescriptor(state.symmetry_classes, code.labels));
+          }
         }
       }
 
       // backtrack
       for (unsigned int i = 0; i < numClosures; ++i)
+      {
         code.bonds.pop_back();
+      }
     }
 
     /**
@@ -882,7 +972,9 @@ namespace OpenBabel {
       for (std::size_t i = 0; i < nbrs.size(); ++i) {
         unsigned int symClass = state.symmetry_classes[nbrs[i]->GetIndex()];
         if (symClass != lastSymClass)
+        {
           numUnique++;
+        }
         lastSymClass = state.symmetry_classes[nbrs[i]->GetIndex()];
       }
 
@@ -909,15 +1001,23 @@ namespace OpenBabel {
             lbestCode.labels[nbrs[i]->GetIndex()] = 1;
             FOR_NBORS_OF_ATOM (nbr, nbrs[i]) {
               if (!state.fragment.BitIsSet(nbr->GetIdx()))
+              {
                 continue;
+              }
               if (code.labels[nbr->GetIndex()])
+              {
                 continue;
+              }
               lbestCode.code.push_back(nbr->GetAtomicNum()); // ATOM-TYPES 2
               OBBond *bond = mol->GetBond(nbrs[i], &*nbr);
               if (bond->IsAromatic())
+              {
                 lbestCode.code.push_back(5);
+              }
               else
+              {
                 lbestCode.code.push_back(bond->GetBondOrder()); // BOND-TYPES 1
+              }
               lbestCode.labels[nbr->GetIndex()] = 2;
             }
           } else {
@@ -966,23 +1066,31 @@ namespace OpenBabel {
         for (unsigned int lbl = 1; lbl < ligandSize; ++lbl) {
           for (std::size_t l = 0; l < lcodes.size(); ++l) {
             if (lbl >= ligandSizes[lcodes[l].first])
+            {
               continue;
+            }
 
             OBAtom *atom = nullptr;
             for (std::size_t i = 0; i < mol->NumAtoms(); ++i)
+            {
               if (lcodes[l].second.labels[i] == lbl) {
                 atom = mol->GetAtom(i+1);
                 break;
               }
+            }
 
             if (!atom)
+            {
               continue;
+            }
 
             std::vector<OBAtom*> atomNbrs;
             FOR_NBORS_OF_ATOM (nbr, atom) {
               if (lcodes[l].second.labels[nbr->GetIndex()] > lbl) {
                 if (std::find(atoms.begin(), atoms.end(), &*nbr) != atoms.end())
+                {
                   continue;
+                }
                 atomNbrs.push_back(&*nbr);
               }
             }
@@ -1043,10 +1151,14 @@ namespace OpenBabel {
       // Construct the orbits for automorphic permutation labels1 -> labels2
       for (std::size_t i = 0; i < labels1.size(); ++i) {
         if (visited[i])
+        {
           continue;
+        }
         unsigned int vi = labels1[i];
         if (vi == labels2[i])
+        {
           continue;
+        }
         //cout << "( ";
         std::size_t j = i;
         unsigned int vj = labels2[j];
@@ -1079,19 +1191,27 @@ namespace OpenBabel {
 
           for (std::size_t l = 0; l < newOrbits[j].size(); ++l) {
             if (std::find(orbits[k].begin(), orbits[k].end(), newOrbits[j][l]) != orbits[k].end())
+            {
               merge = true;
+            }
           }
 
           if (merge) {
             for (std::size_t l = 0; l < newOrbits[j].size(); ++l)
+            {
               if (std::find(orbits[k].begin(), orbits[k].end(), newOrbits[j][l]) == orbits[k].end())
+              {
                 orbits[k].push_back(newOrbits[j][l]);
+              }
+            }
             break;
           }
         }
 
         if (!merge)
+        {
           orbits.push_back(newOrbits[j]);
+        }
       }
 
 //      print_orbits("orbits", orbits);
@@ -1100,14 +1220,18 @@ namespace OpenBabel {
       std::vector<bool> vivisted(orbits.size(), false);
       for (std::size_t i = 0; i < orbits.size(); ++i) {
         if (visited[i])
+        {
           continue;
+        }
         visited[i] = true;
 
         Orbit newOrbit = orbits[i];
 
         for (std::size_t j = i; j < orbits.size(); ++j) {
           if (visited[j])
+          {
             continue;
+          }
 
           std::sort(newOrbit.begin(), newOrbit.end());
           std::sort(orbits[j].begin(), orbits[j].end());
@@ -1117,7 +1241,9 @@ namespace OpenBabel {
                                 orbits[j].begin(), orbits[j].end(),
                                 std::back_inserter(result));
           if (result.empty())
+          {
             continue;
+          }
 
           visited[j] = true;
           result.clear();
@@ -1142,14 +1268,20 @@ namespace OpenBabel {
       //print_orbits("UpdateMcr", orbits);
 
       for (std::size_t i = 0; i < bestLabels.size(); ++i)
+      {
         mcr.SetBitOn(i+1);
+      }
 
       for (std::size_t j = 0; j < orbits.size(); ++j) {
         std::sort(orbits[j].begin(), orbits[j].end(), SortAtomsAscending(bestLabels));
 
         for (std::size_t k = 0; k < orbits[j].size(); ++k)
+        {
           if (k)
+          {
             mcr.SetBitOff(orbits[j][k]->GetIdx());
+          }
+        }
       }
     }
 
@@ -1196,19 +1328,28 @@ namespace OpenBabel {
 
         // Check previously found codes to find redundant subtrees.
         for (std::size_t i = state.identityCodes.size(); i > 0; --i)
+        {
           if (fullcode.code == state.identityCodes[i-1].code) {
             //
             // An explicit automorphism has been found.
             //
             std::vector<unsigned int> v1(fullcode.labels.size(), 0);
             for (std::size_t j = 0; j < fullcode.labels.size(); ++j)
+            {
               if (fullcode.labels[j])
+              {
                 v1[fullcode.labels[j]-1] = j + 1;
+              }
+            }
 
             std::vector<unsigned int> v2(state.identityCodes[i-1].labels.size(), 0);
             for (std::size_t j = 0; j < state.identityCodes[i-1].labels.size(); ++j)
+            {
               if (state.identityCodes[i-1].labels[j])
+              {
                 v2[state.identityCodes[i-1].labels[j]-1] = j + 1;
+              }
+            }
 
             state.backtrackDepth = 0;
             for (std::size_t j = 0; j < v1.size(); ++j) {
@@ -1218,9 +1359,12 @@ namespace OpenBabel {
               }
 
               if (v1[j])
+              {
                 state.backtrackDepth++;
+              }
             }
           }
+        }
 
         if (fullcode.code == bestCode.code) {
           UpdateMcr(state.mcr, state.orbits, bestCode.labels);
@@ -1251,12 +1395,16 @@ namespace OpenBabel {
 
       // If there is a bestCode and only one labeling is required, return.
       if (state.onlyOne && !bestCode.code.empty())
+      {
         return;
+      }
 
       // Abort early if this will not lead to a greatest canonical code. The
       // code.from vector is compared with the elements in the bestCode.
       if (code < bestCode)
+      {
         return;
+      }
 
       // Find the neighbors of the current atom to assign the next label(s).
       std::vector<OBAtom*> nbrs;
@@ -1265,10 +1413,14 @@ namespace OpenBabel {
       FOR_NBORS_OF_ATOM (nbr, current) {
         // Skip atoms not in the fragment.
         if (!state.fragment.BitIsSet(nbr->GetIdx()))
+        {
           continue;
+        }
         // Skip already labeled atoms.
         if (code.labels[nbr->GetIndex()])
+        {
           continue;
+        }
 
         OBBond *bond = mol->GetBond(current, &*nbr);
         // Ugly, but it helps...                                        // <--- not documented! need better approach to handle this (not only ferrocene)...
@@ -1333,7 +1485,9 @@ namespace OpenBabel {
           std::vector<OBAtom*> finalNbrs;
           for (std::size_t i = 0; i < nbrs.size(); ++i) {
             if (nbrSymClasses[i] == maxSymClass)
+            {
               finalNbrs.push_back(nbrs[i]);
+            }
           }
 
           // Remove the selected atoms from nbrs and nbrSymClasses (this could be made more efficient)
@@ -1348,7 +1502,9 @@ namespace OpenBabel {
             // and select the next group of neighbor atoms with the same symmetry
             // class.
             for (std::size_t i = 0; i < allOrderedNbrs.size(); ++i)
+            {
               allOrderedNbrs[i].push_back(finalNbrs[0]);
+            }
           } else {
             // Sort the atoms lexicographically.
             std::sort(finalNbrs.begin(), finalNbrs.end());
@@ -1367,11 +1523,15 @@ namespace OpenBabel {
             // Add the other permutations.
             while (std::next_permutation(finalNbrs.begin(), finalNbrs.end())) {
               if (state.mcr.BitIsSet(finalNbrs[0]->GetIdx()))
+              {
                 for (std::size_t j = 0; j < allOrderedNbrsCopy.size(); ++j) {
                   allOrderedNbrs.push_back(allOrderedNbrsCopy[j]);
                   for (std::size_t i = 0; i < finalNbrs.size(); ++i)
+                  {
                     allOrderedNbrs.back().push_back(finalNbrs[i]);
+                  }
                 }
+              }
             }
 
           } // finalNbrs.size() != 1
@@ -1430,7 +1590,9 @@ namespace OpenBabel {
       std::vector<unsigned int> ranks;
       for (std::size_t i = 0; i < mol->NumAtoms(); ++i) {
         if (!fragment.BitIsSet(i+1))
+        {
           continue;
+        }
 
         OBAtom *atom = mol->GetAtom(i+1);
         unsigned int rank = 10000 * symmetry_classes[i]  +
@@ -1446,7 +1608,9 @@ namespace OpenBabel {
       std::vector<OBAtom*> result;
       for (std::size_t i = 0; i < mol->NumAtoms(); ++i) {
         if (!fragment.BitIsSet(i+1))
+        {
           continue;
+        }
 
         OBAtom *atom = mol->GetAtom(i+1);
         unsigned int rank = 10000 * symmetry_classes[i]  +
@@ -1455,7 +1619,9 @@ namespace OpenBabel {
                                     TotalHydrogenCount(atom);
 
         if (rank == lowestRank)
+        {
           result.push_back(atom);
+        }
       }
 
       return result;
@@ -1474,7 +1640,9 @@ namespace OpenBabel {
     {
       // Handle some special cases.
       if (!mol->NumAtoms())
+      {
         return;
+      }
       if (mol->NumAtoms() == 1) {
         canonical_labels.resize(1, 1);
         return;
@@ -1492,7 +1660,9 @@ namespace OpenBabel {
       std::vector<OBBitVec> fragments;
       for (std::size_t i = 0; i < mol->NumAtoms(); ++i) {
         if (!mask.BitIsSet(i+1) || visited.BitIsSet(i+1))
+        {
           continue;
+        }
         fragments.push_back(getFragment(mol->GetAtom(i+1), mask, metalloceneBonds));
         visited |= fragments.back();
       }
@@ -1506,57 +1676,83 @@ namespace OpenBabel {
           if (unit.type == OBStereo::Tetrahedral) {
             OBAtom *atom = mol->GetAtomById(unit.id);
             if (!atom)
+            {
               continue;
+            }
             // Add the StereoCenter indexes.
             stereoCenters.resize(stereoCenters.size()+1);
             stereoCenters.back().indexes.push_back(atom->GetIndex());
 
             if (!stereoFacade->HasTetrahedralStereo(unit.id))
+            {
               continue;
+            }
             OBTetrahedralStereo::Config config = stereoFacade->GetTetrahedralStereo(unit.id)->GetConfig();
             if (!config.specified)
+            {
               continue;
+            }
 
             // Add the neighbor atom indexes.
             OBAtom *from = mol->GetAtomById(config.from);
             if (from && from->GetAtomicNum() != OBElements::Hydrogen)
+            {
               stereoCenters.back().nbrIndexes1.push_back(from->GetIndex());
+            }
             else
+            {
               stereoCenters.back().nbrIndexes1.push_back(std::numeric_limits<unsigned int>::max());
+            }
             for (std::size_t j = 0; j < config.refs.size(); ++j) {
               OBAtom *ref = mol->GetAtomById(config.refs[j]);
               if (ref && ref->GetAtomicNum() != OBElements::Hydrogen)
+              {
                 stereoCenters.back().nbrIndexes1.push_back(ref->GetIndex());
+              }
               else
+              {
                 stereoCenters.back().nbrIndexes1.push_back(std::numeric_limits<unsigned int>::max());
+              }
             }
           } else if (unit.type == OBStereo::CisTrans) {
             OBBond *bond = mol->GetBondById(unit.id);
             if (!bond || bond->IsAromatic())
+            {
               continue;
+            }
             OBAtom *begin = bond->GetBeginAtom();
             OBAtom *end = bond->GetEndAtom();
             if (!begin || !end)
+            {
               continue;
+            }
             // Add the StereoCenter indexes.
             stereoCenters.resize(stereoCenters.size()+1);
             stereoCenters.back().indexes.push_back(begin->GetIndex());
             stereoCenters.back().indexes.push_back(end->GetIndex());
 
             if (!stereoFacade->HasCisTransStereo(unit.id))
+            {
               continue;
+            }
             OBCisTransStereo::Config config = stereoFacade->GetCisTransStereo(unit.id)->GetConfig();
             if (!config.specified)
+            {
               continue;
+            }
 
             // Add the neighbor atom indexes.
             for (std::size_t j = 0; j < config.refs.size(); ++j) {
               OBAtom *ref = mol->GetAtomById(config.refs[j]);
               unsigned int r = (ref && ref->GetAtomicNum() != OBElements::Hydrogen) ? ref->GetIndex() : std::numeric_limits<unsigned int>::max();
               if (stereoCenters.back().nbrIndexes1.size() < 2)
+              {
                 stereoCenters.back().nbrIndexes1.push_back(r);
+              }
               else
+              {
                 stereoCenters.back().nbrIndexes2.push_back(r);
+              }
             }
           }
         }
@@ -1607,7 +1803,9 @@ namespace OpenBabel {
         //print_vector("CODE", fcodes[f].code);
         //print_vector("code_labels", fcodes[f].labels);
         if (fcodes[f].labels.size() == 0)
+        {
           continue; // defensive programming
+        }
 
         unsigned int max_label = 0;
         for (std::size_t i = 0; i < mol->NumAtoms(); ++i) {
@@ -1636,8 +1834,10 @@ namespace OpenBabel {
     // make sure the mask is valid: no mask = all atoms
     OBBitVec maskCopy(mask);
     if (!maskCopy.CountBits())
+    {
       FOR_ATOMS_OF_MOL (atom, mol)
         maskCopy.SetBitOn(atom->GetIdx());
+    }
 
     if (onlyOne) {
       // Only one labeling requested. This results in canonical labels that do not
@@ -1653,7 +1853,9 @@ namespace OpenBabel {
       FOR_ATOMS_OF_MOL (atom, mol) {
         FOR_BONDS_OF_ATOM (bond, &*atom)
         if (std::find(metalloceneBonds.begin(), metalloceneBonds.end(), &*bond) != metalloceneBonds.end())
+        {
           continue;
+        }
         if (sf.HasTetrahedralStereo(atom->GetId())) {
           if (sf.GetTetrahedralStereo(atom->GetId())->GetConfig().specified) {
             hasAtLeastOneDefined = true;
@@ -1688,12 +1890,18 @@ namespace OpenBabel {
           OBTetrahedralStereo::Config config = ts->GetConfig();
           bool valid = true;
           if (!ts->IsValid())
+          {
             valid = false;
+          }
           OBAtom *center = mol->GetAtomById(config.center);
           if (!center)
+          {
             valid = false;
+          }
           else if (!isTetrahedral(center, stereoUnits))
+          {
             valid = false;
+          }
 
           if (!valid) {
             config.specified = false;
@@ -1705,17 +1913,25 @@ namespace OpenBabel {
           OBCisTransStereo::Config config = ct->GetConfig();
           bool valid = true;
           if (!ct->IsValid())
+          {
             valid = false;
+          }
           OBAtom *beginAtom = mol->GetAtomById(config.begin);
           OBAtom *endAtom = mol->GetAtomById(config.end);
           if (!beginAtom || !endAtom)
+          {
             valid = false;
+          }
           else {
             OBBond *bond = mol->GetBond(beginAtom, endAtom);
             if (!bond)
+            {
               valid = false;
+            }
             else if (!isCisTrans(bond, stereoUnits))
+            {
               valid = false;
+            }
           }
 
           if (!valid) {
@@ -1755,8 +1971,12 @@ namespace OpenBabel {
 
     // if the labeling failed, just return the identity labels to avoid craches
     if (canonical_labels.empty())
+    {
       for (std::size_t i = 0; i < symmetry_classes.size(); ++i)
+      {
         canonical_labels.push_back(i+1);
+      }
+    }
   }
 
 

@@ -192,9 +192,13 @@ namespace OpenBabel
       unsigned int     GetNbrAtomIdx(OBAtom *ptr)
         {
           if (ptr!=_bgn)
+          {
             return (_bgn ? _bgn->GetIdx() : 0);
+          }
           else
+          {
             return (_end ? _end->GetIdx() : 0);
+          }
         }
       //! Find the smallest ring containing this bond (returns a NULL pointer if none exists)
       OBRing* FindSmallestRing() const;

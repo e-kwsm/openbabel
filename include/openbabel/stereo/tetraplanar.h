@@ -111,7 +111,9 @@ namespace OpenBabel {
           std::rotate(result.refs.begin(), result.refs.begin() + 1, result.refs.end());
           // start at refs[0]?
           if (result.refs.at(0) == start)
+          {
             break;
+          }
         }
 
         // convert from U to desired U/Z/4

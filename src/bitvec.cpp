@@ -76,7 +76,7 @@ namespace OpenBabel
           if ((m = (set & 0x0f0f0f0f))!=0) {set = m; bit -= 4;}    \
           if ((m = (set & 0x33333333))!=0) {set = m; bit -= 2;}    \
           if ((m = (set & 0x55555555))!=0) {set = m; bit -= 1;}}}  \
-    else bit = -1;}
+    else { bit = -1; } }
 #endif
 
   /** Set the \p bit_offset 'th bit to 1
@@ -89,7 +89,9 @@ namespace OpenBabel
     bit_offset &= WORDMASK;
 
     if (word_offset >= GetSize())
+    {
       ResizeWords(word_offset + 1);
+    }
     _set[word_offset] |= (1<<bit_offset);
   }
 
@@ -102,7 +104,9 @@ namespace OpenBabel
     bit_offset &= WORDMASK;
 
     if (word_offset < GetSize())
+    {
       _set[word_offset] &= (~(1 << bit_offset));
+    }
   }
 
   /** Set the range of bits from \p lo_bit_offset to \p hi_bit_offset to 1
@@ -113,9 +117,13 @@ namespace OpenBabel
   void OBBitVec::SetRangeOn(unsigned lo_bit_offset, unsigned hi_bit_offset)
   {
     if (lo_bit_offset > hi_bit_offset)
+    {
       return;
+    }
     else if (lo_bit_offset == hi_bit_offset)
+    {
       SetBitOn(hi_bit_offset);
+    }
     else
       {
         unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
@@ -124,21 +132,31 @@ namespace OpenBabel
         hi_bit_offset &= WORDMASK;
 
         if (hi_word_offset >= GetSize())
+        {
           ResizeWords(hi_word_offset + 1);
+        }
 
         if (lo_word_offset == hi_word_offset)
           {
             for ( unsigned i = lo_bit_offset ; i <= hi_bit_offset ; i++ )
+            {
               _set[lo_word_offset] |= (1<<i);
+            }
           }
         else
           {
             for ( unsigned i = lo_bit_offset ; i < SETWORD ; ++ i )
+            {
               _set[lo_word_offset] |= (1<<i);
+            }
             for ( unsigned i = lo_word_offset + 1 ; i < hi_word_offset ; ++ i )
+            {
               _set[i] = ~0;
+            }
             for ( unsigned i = 0 ; i <= hi_bit_offset ; ++ i )
+            {
               _set[hi_word_offset] |= (1<<i);
+            }
           }
       }
   }
@@ -150,9 +168,13 @@ namespace OpenBabel
   void OBBitVec::SetRangeOff(unsigned lo_bit_offset, unsigned hi_bit_offset)
   {
     if (lo_bit_offset > hi_bit_offset)
+    {
       return;
+    }
     else if (lo_bit_offset == hi_bit_offset)
+    {
       SetBitOff(hi_bit_offset);
+    }
     else
       {
         unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
@@ -161,7 +183,9 @@ namespace OpenBabel
         hi_bit_offset &= WORDMASK;
 
         if (lo_word_offset >= GetSize())
+        {
           return;
+        }
         if (hi_word_offset >= GetSize())
           {
             hi_word_offset = GetSize() - 1;
@@ -171,16 +195,24 @@ namespace OpenBabel
         if (lo_word_offset == hi_word_offset)
           {
             for ( unsigned i = lo_bit_offset ; i <= hi_bit_offset ; ++ i )
+            {
               _set[lo_word_offset] &= (~(1<<i));
+            }
           }
         else
           {
             for ( unsigned i = lo_bit_offset ; i < SETWORD ; ++ i )
+            {
               _set[lo_word_offset] &= (~(1<<i));
+            }
             for ( unsigned i = lo_word_offset + 1 ; i < hi_word_offset ; ++ i )
+            {
               _set[i] = 0x00000000;
+            }
             for ( unsigned i = 0 ; i <= hi_bit_offset ; ++ i )
+            {
               _set[hi_word_offset] &= (~(1<<i));
+            }
           }
       }
   }
@@ -203,9 +235,13 @@ namespace OpenBabel
       {
         _set[i] |= _set[idx];
         if (i+1 < new_word_size)
+        {
           ++i;
+        }
         else
+        {
           i = 0;
+        }
       }
     ResizeWords(new_word_size);
   }
@@ -224,7 +260,9 @@ namespace OpenBabel
     wrdcnt = (unsigned)last_bit_offset >> WORDROLL;
 
     if (wrdcnt >= GetSize())
+    {
       return(-1);
+    }
 
     if (_set[wrdcnt] != 0)
       {
@@ -233,7 +271,9 @@ namespace OpenBabel
           {
             LowBit(s,bit);
             if (bit != -1)
+            {
               return(bit + (wrdcnt << WORDROLL));
+            }
           }
       }
     ++ wrdcnt;
@@ -246,7 +286,9 @@ namespace OpenBabel
             LowBit(s, bit);
 
             if (bit != -1)
+            {
               return(bit + (wrdcnt << WORDROLL));
+            }
           }
         ++ wrdcnt;
       }
@@ -297,8 +339,12 @@ namespace OpenBabel
   bool OBBitVec::IsEmpty() const
   {
     for (word_vector::const_iterator sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
+    {
       if (* sx)
+      {
         return(false);
+      }
+    }
 
     return(true);
   }
@@ -309,7 +355,9 @@ namespace OpenBabel
   void OBBitVec::FromVecInt(const std::vector<int> & bit_offsets)
   {
     for (std::vector<int>::const_iterator i = bit_offsets.begin(), j = bit_offsets.end(); i != j; ++i)
+    {
       SetBitOn(* i);
+    }
   }
   /** Sets bits on, listed as a string of character-represented integers
       This bit vector is first cleared.
@@ -333,12 +381,18 @@ namespace OpenBabel
         startpos = line.find_first_not_of(" \t\r\n",startpos);
         endpos   = line.find_first_of(" \t\r\n",startpos);
         if (endpos == std::string::npos)
+        {
           endpos = line.size();
+        }
 
         if (startpos <= line.size())
+        {
           tokens.push_back(line.substr(startpos,endpos-startpos));
+        }
         else
+        {
           break;
+        }
 
         startpos = endpos + 1;
       }
@@ -346,14 +400,20 @@ namespace OpenBabel
     for (unsigned int i = 0 ; i < tokens.size() ; i++ )
       {
         if ( tokens[i] == "[" )
+        {
           continue;
+        }
         else if ( tokens[i] == "]" )
+        {
           break;
+        }
 
         int bit = atoi(tokens[i].c_str());
 
         if (bit >= 0)
+        {
           SetBitOn(bit);
+        }
         else
           {
             std::stringstream errorMsg;
@@ -372,7 +432,9 @@ namespace OpenBabel
     bit_offsets.clear();
     bit_offsets.reserve(CountBits());
     for (int i = NextBit(-1);i != -1;i = NextBit(i))
+    {
       bit_offsets.push_back(i);
+    }
   }
 
   /** Set all the bits in this vector to zero
@@ -381,7 +443,9 @@ namespace OpenBabel
   void OBBitVec::Clear()
   {
     for (word_vector::iterator wx = _set.begin(), wy = _set.end(); wx != wy; ++wx)
+    {
       * wx = 0;
+    }
   }
 
   /** Assign this vector to be a copy of \p bv
@@ -405,9 +469,13 @@ namespace OpenBabel
     unsigned i;
 
     for (i = 0;i < min;++i)
+    {
       _set[i] &= bv._set[i];
+    }
     for (;i < _size;++i)
+    {
       _set[i] = 0;
+    }
 
     return(*this);
   }
@@ -419,10 +487,14 @@ namespace OpenBabel
   OBBitVec & OBBitVec::operator|= (const OBBitVec & bv)
   {
     if (_size < bv.GetSize())
+    {
       ResizeWords(bv.GetSize());
+    }
 
     for (unsigned i = 0;i < bv.GetSize(); ++i)
+    {
       _set[i] |= bv._set[i];
+    }
 
     return(*this);
   }
@@ -434,10 +506,14 @@ namespace OpenBabel
   OBBitVec & OBBitVec::operator^= (const OBBitVec & bv)
   {
     if (_size < bv.GetSize())
+    {
       ResizeWords(bv.GetSize());
+    }
 
     for (unsigned i = 0;i < bv.GetSize(); ++i)
+    {
       _set[i] ^= bv._set[i];
+    }
 
     return(*this);
   }
@@ -449,7 +525,9 @@ namespace OpenBabel
   OBBitVec & OBBitVec::operator-= (const OBBitVec & bv)
   {
     if (_size < bv.GetSize())
+    {
       ResizeWords(bv.GetSize());
+    }
 
     OBBitVec tmp(*this);
     tmp ^= bv;
@@ -528,21 +606,37 @@ namespace OpenBabel
       { // bv1 smaller than bv2
       unsigned i;
       for (i = 0; i < bv1.GetSize(); ++ i)
+      {
         if (bv1._set[i] != bv2._set[i])
+        {
           return false;
+        }
+      }
       for (; i < bv2.GetSize(); ++ i)
+      {
         if (bv2._set[i] != 0)
+        {
           return false;
+        }
+      }
       }
     else
       { // bv2 smaller or equal than bv1
       unsigned i;
       for (i = 0; i < bv2.GetSize(); ++ i)
+      {
         if (bv1._set[i] != bv2._set[i])
+        {
           return false;
+        }
+      }
       for (; i < bv1.GetSize(); ++ i)
+      {
         if (bv1._set[i] != 0)
+        {
           return false;
+        }
+      }
       }
     return true;
   }
@@ -563,13 +657,21 @@ namespace OpenBabel
       {
       should_continue = false;
       if (next_bit_1 == -1)
+      {
         rtn = (next_bit_2 == -1 ? false : true);
+      }
       else if (next_bit_2 == -1)
+      {
         rtn = false;
+      }
       else if (next_bit_2 < next_bit_1)
+      {
         rtn = true;
+      }
       else if (next_bit_1 < next_bit_2)
+      {
         rtn = false;
+      }
       else
         {
         next_bit_1 = bv1.NextBit(next_bit_1);
@@ -603,9 +705,13 @@ namespace OpenBabel
         endpos   = line.find_first_of(" \t\r\n",startpos);
 
         if (endpos < line.size() && startpos <= line.size())
+        {
           tokens.push_back(line.substr(startpos,endpos-startpos));
+        }
         else
+        {
           break;
+        }
 
         startpos = endpos + 1;
       }
@@ -613,14 +719,20 @@ namespace OpenBabel
     for (unsigned int i = 0 ; i < tokens.size() ; i++ )
       {
         if ( tokens[i] == "[" )
+        {
           continue;
+        }
         else if ( tokens[i] == "]" )
+        {
           break;
+        }
 
         int bit = atoi(tokens[i].c_str());
 
         if (bit >= 0)
+        {
           bv.SetBitOn(bit);
+        }
         else
           {
             std::stringstream errorMsg;
@@ -644,9 +756,15 @@ namespace OpenBabel
     os << "[ " << std::flush;
 
     for (unsigned i = 0;i < bv._size;++i)
+    {
       for (unsigned j = 0;j < SETWORD;++j)
+      {
         if (bv._set[i]>>(j%SETWORD)&1)
+        {
           os << (j+(i*SETWORD)) << ' ' << std::flush;
+        }
+      }
+    }
 
     os << "]" << std::flush;
     return(os);

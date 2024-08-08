@@ -111,7 +111,9 @@ private:
   {
     static SuperAtomTable t;
     if(t.empty())
+    {
       LoadFile(t);
+    }
     return t;
   }
   bool        FromNameLookup(OBMol& mol, const unsigned int atomindex);
