@@ -84,7 +84,7 @@ namespace OpenBabel
     {
       return _vy;
     }
-    else return _vz;
+    else { return _vz; }
   }
 
   /*! Replaces *this with a random unit vector, which is (supposed
@@ -139,7 +139,7 @@ namespace OpenBabel
    */
   bool vector3::CanBeNormalized () const
   {
-    if( _vx == 0.0 && _vy == 0.0 && _vz == 0.0 ) return false;
+    if( _vx == 0.0 && _vy == 0.0 && _vz == 0.0 ) { return false; }
     return( CanBeSquared(_vx)
          && CanBeSquared(_vy)
          && CanBeSquared(_vz) );

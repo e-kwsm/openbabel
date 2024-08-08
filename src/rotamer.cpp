@@ -646,7 +646,9 @@ namespace OpenBabel
 
     //Clear out old data
     for (i=0 ; i<_c.size() ; ++i)
+    {
       delete [] _c[i];
+    }
     _c.clear();
 
     //Copy new data
@@ -657,7 +659,9 @@ namespace OpenBabel
         c = new double [3*N];
         cc = bc[i];
         for (j=0 ; j<3*N ; ++j)
+        {
           c[j] = cc[j];
+        }
         _c.push_back(c);
       }
     _NBaseCoords = N;
@@ -719,7 +723,8 @@ namespace OpenBabel
     sn = sin(rotang); cs = cos(rotang);t = 1 - cs;
     //normalize the rotation vector
     mag = sqrt(v2x*v2x + v2y*v2y + v2z*v2z);
-    if (mag < 0.1) mag = 0.1; // avoid divide by zero error
+    if (mag < 0.1) { mag = 0.1; // avoid divide by zero error
+    }
     x = v2x/mag; y = v2y/mag; z = v2z/mag;
 
     //set up the rotation matrix

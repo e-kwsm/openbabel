@@ -14,24 +14,34 @@ namespace OpenBabel {
   bool OBCisTransStereo::Config::operator==(const Config &other) const
   {
     if ((begin != other.begin) && (begin != other.end))
+    {
       return false;
+    }
     if ((end != other.begin) && (end != other.end))
+    {
       return false;
+    }
     if ((refs.size() != 4) || (other.refs.size() != 4))
+    {
       return false;
+    }
 
     Config u1, u2;
     if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
       // find a ref that occurs in both
       for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+      {
         if (OBStereo::ContainsRef(other.refs, *i)) {
           u1 = OBTetraPlanarStereo::ToConfig(*this, *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
           u2 = OBTetraPlanarStereo::ToConfig(other, *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
         }
+      }
 
       // check if they actualy share an id...
       if (u1.refs.empty())
+      {
         return false;
+      }
     } else {
       // normalize the other Config struct
       u1 = OBTetraPlanarStereo::ToConfig(*this, refs.at(0), OBStereo::ShapeU); // refs[0] = u1.refs[0]
@@ -68,7 +78,9 @@ namespace OpenBabel {
         return (u1.refs[3] == u2.refs[3]); // 1 H H 4
       }
     } else
+    {
       return (u1.refs[2] == u2.refs[2]); // 1 2 3 4  &  1 H 3 4  &  1 2 3 H
+    }
 
     return false;
   }
@@ -88,9 +100,13 @@ namespace OpenBabel {
   bool OBCisTransStereo::IsValid() const
   {
     if ((m_cfg.begin == OBStereo::NoRef) || (m_cfg.end == OBStereo::NoRef))
+    {
       return false;
+    }
     if (m_cfg.refs.size() != 4)
+    {
       return false;
+    }
     return true;
   }
 
@@ -124,7 +140,9 @@ namespace OpenBabel {
   OBCisTransStereo::Config OBCisTransStereo::GetConfig(OBStereo::Shape shape) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     return OBTetraPlanarStereo::ToConfig(m_cfg, m_cfg.refs.at(0), shape);
   }
@@ -133,7 +151,9 @@ namespace OpenBabel {
       OBStereo::Shape shape) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     return OBTetraPlanarStereo::ToConfig(m_cfg, start, shape);
   }
@@ -151,7 +171,9 @@ namespace OpenBabel {
   bool OBCisTransStereo::operator==(const OBCisTransStereo &other) const
   {
     if (!IsValid() || !other.IsValid())
+    {
       return false;
+    }
 
     Config u = OBTetraPlanarStereo::ToConfig(other.GetConfig(),
         m_cfg.refs.at(0), OBStereo::ShapeU);
@@ -164,11 +186,19 @@ namespace OpenBabel {
     }
 
     if (b1 != OBStereo::ImplicitRef)
+    {
       if (a1 == GetTransRef(b1))
+      {
         return true;
+      }
+    }
     if (a1 != OBStereo::ImplicitRef)
+    {
       if (b1 == GetTransRef(a1))
+      {
         return true;
+      }
+    }
 
     return false;
   }
@@ -176,10 +206,14 @@ namespace OpenBabel {
   unsigned long OBCisTransStereo::GetCisOrTransRef(unsigned long id, bool getcisref) const
   {
     if (!IsValid())
+    {
       return OBStereo::NoRef;
+    }
 
     if (id == OBStereo::ImplicitRef)
+    {
       return OBStereo::NoRef;
+    }
 
     // find id
     for (int i = 0; i < 4; ++i) {
@@ -235,10 +269,14 @@ namespace OpenBabel {
     if (a && b) {
       // both on begin atom?
       if (a->IsConnected(begin) && b->IsConnected(begin))
+      {
           return true;
+      }
       // both on end atom?
       if (a->IsConnected(end) && b->IsConnected(end))
+      {
           return true;
+      }
       return false;
     } else {
       if (a) {
@@ -246,7 +284,9 @@ namespace OpenBabel {
         if (a->IsConnected(begin)) {
           // a is connected to begin. if this is the atom missing a hydrogen, return false
           if (begin->GetExplicitDegree() == 2)
+          {
             return true;
+          }
           // check if the end atom really is missing an atom
           if (end->GetExplicitDegree() != 2) {
             obErrorLog.ThrowError(__FUNCTION__,
@@ -259,7 +299,9 @@ namespace OpenBabel {
         } else if (a->IsConnected(end)) {
           // a is connected to end. again, if this is the atom missing a hydrogen, return false
           if (end->GetExplicitDegree() == 2)
+          {
             return true;
+          }
           // check if the begin atom really is missing an atom
           if (begin->GetExplicitDegree() != 2) {
             obErrorLog.ThrowError(__FUNCTION__,
@@ -280,7 +322,9 @@ namespace OpenBabel {
         if (b->IsConnected(begin)) {
           // b is connected to begin. if this is the atom missing a hydrogen, return false
           if (begin->GetExplicitDegree() == 2)
+          {
             return true;
+          }
           // check if the end atom really is missing an atom
           if (end->GetExplicitDegree() != 2) {
             obErrorLog.ThrowError(__FUNCTION__,
@@ -293,7 +337,9 @@ namespace OpenBabel {
         } else if (b->IsConnected(end)) {
           // a is connected to end. again, if this is the atom missing a hydrogen, return false
           if (end->GetExplicitDegree() == 2)
+          {
             return true;
+          }
           // check if the begin atom really is missing an atom
           if (begin->GetExplicitDegree() != 2) {
             obErrorLog.ThrowError(__FUNCTION__,
@@ -313,7 +359,9 @@ namespace OpenBabel {
         // no a & b, check the remaining ids which will reveal same info
         for (int i = 0; i < 4; ++i) {
           if ((m_cfg.refs.at(i) == id1) || (m_cfg.refs.at(i) == id2))
+          {
             continue;
+          }
           if (!c) {
             c = mol->GetAtomById(m_cfg.refs.at(i));
           } else {
@@ -356,10 +404,16 @@ namespace std {
 
     out << ", refs = ";
     for (OpenBabel::OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OpenBabel::OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:
@@ -383,10 +437,16 @@ namespace std {
 
     out << ", refs = ";
     for (OpenBabel::OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OpenBabel::OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     switch (cfg.shape) {
       case OpenBabel::OBStereo::ShapeU:

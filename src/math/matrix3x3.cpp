@@ -612,7 +612,9 @@ namespace OpenBabel
                         q = 0.5 * dma / b;
                         t = 1.0/((double)fabs(q) + (double)sqrt(1.0+q*q));
                         if (q < 0.0)
+                        {
                           t = -t;
+                        }
                       }
 
                     c = 1.0/(double)sqrt(t*t + 1.0);

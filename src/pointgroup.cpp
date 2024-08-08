@@ -1421,16 +1421,22 @@ namespace OpenBabel {
       OBAtom             *atom;
 
       for( j = 0 ; j < DIMENSION ; j++ )
+      {
         coord_sum[j] = 0 ;
+      }
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         atom = _mol->GetAtom(i+1);
         coord_sum[0] = atom->x() + atom->y() + atom->z();
       }
       for( j = 0 ; j < DIMENSION ; j++ )
+      {
         CenterOfSomething[j] = coord_sum[j]/_mol->NumAtoms() ;
+      }
       if( verbose > 0 )
+      {
         printf( "Center of something is at %15.10f, %15.10f, %15.10f\n",
                 CenterOfSomething[0], CenterOfSomething[1], CenterOfSomething[2] ) ;
+      }
       DistanceFromCenter = (double *) calloc( _mol->NumAtoms(), sizeof( double ) ) ;
       if (DistanceFromCenter == nullptr) {
         //        fprintf( stderr, "Unable to allocate array for the distances\n" ) ;
@@ -1773,6 +1779,7 @@ namespace OpenBabel {
     report_and_reset_counters( void )
     {
       if (verbose > -1)
+      {
         printf( "  %10ld candidates examined\n"
                 "  %10ld removed early\n"
                 "  %10ld removed during initial mating stage\n"
@@ -1781,6 +1788,7 @@ namespace OpenBabel {
                 "  %10ld removed after unsuccessful optimization\n"
                 "  %10ld accepted\n",
                 StatTotal, StatEarly, StatPairs, StatDups, StatOrder, StatOpt, StatAccept ) ;
+      }
       StatTotal = StatEarly = StatPairs = StatDups = StatOrder = StatOpt = StatAccept = 0 ;
     }
 
@@ -1868,9 +1876,13 @@ namespace OpenBabel {
       NormalAxesCounts   = (int*) calloc( MaxAxisOrder+1, sizeof( int ) ) ;
       ImproperAxesCounts = (int*) calloc( MaxAxisOrder+1, sizeof( int ) ) ;
       for( i = 0 ; i < NormalAxesCount ; i++ )
+      {
         NormalAxesCounts[ NormalAxes[i]->order ]++ ;
+      }
       for( i = 0 ; i < ImproperAxesCount ; i++ )
+      {
         ImproperAxesCounts[ ImproperAxes[i]->order ]++ ;
+      }
     }
 
     void
@@ -1893,7 +1905,9 @@ namespace OpenBabel {
         //        printf( "Molecule has the following symmetry elements: " ) ;
         if( InversionCentersCount > 0 ) strcat( symmetry_code, "(i) " ) ;
         if( NormalAxesCounts[0] == 1 )
+        {
           strcat( symmetry_code, "(Cinf) " ) ;
+        }
         if( NormalAxesCounts[0] >  1 ) {
           snprintf( buf, 100, "%d*(Cinf) ", NormalAxesCounts[0] ) ;
           strcat( symmetry_code, buf ) ;
@@ -1947,7 +1961,9 @@ namespace OpenBabel {
     void clean_paired_atoms(SYMMETRY_ELEMENT *elem)
     {
       if (PairedAtoms.size() == 0)
+      {
         return;
+      }
 
       OBAtom *a, *b, symmetric;
       for (unsigned int idx = 0; idx < PairedAtoms.size(); ++idx) {
@@ -1994,7 +2010,9 @@ namespace OpenBabel {
     // Don't duplicate work, use the more reliable fallback method
     Symbol pg = IdentifyPointGroupSymbol(tolerance);
     if (pg == Unknown)
+    {
       pg = C1; // no known symmetry
+    }
 
     return PointGroups[pg].group_name;
   }
@@ -2167,16 +2185,24 @@ namespace OpenBabel {
     } // end of dihedral group checks
 
     if (perceived != Unknown)
+    {
       return perceived;
+    }
 
     // OK, we'll try again with subgroups & low symmetry
     if (noAxes) { // low symmetry
       if (d->InversionCentersCount > 0)
+      {
         perceived = Ci;
+      }
       else if (d->PlanesCount > 0)
+      {
         perceived = Cs;
+      }
       else
+      {
         perceived = C1;
+      }
 
       // Don't look for higher symmetry
       return perceived;
