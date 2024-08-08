@@ -75,7 +75,7 @@ basic_zip_streambuf<charT, traits>::basic_zip_streambuf(ostream_reference ostrea
                       window_size, memory_level,
                       static_cast<int>(strategy));
 
-    this->setp( &(_buffer[0]), &(_buffer[_buffer.size()-1]));
+    this->setp( _buffer.data(), &(_buffer[_buffer.size()-1]));
 }
 
 /** Destructor
@@ -158,14 +158,14 @@ std::streamsize basic_zip_streambuf<charT, traits>::flush(void)
             written_byte_size = static_cast<std::streamsize>(_output_buffer.size()) - _zip_stream.avail_out;
             total_written_byte_size += written_byte_size;
             // output buffer is full, dumping to ostream
-            _ostream.write( (const char_type*) &(_output_buffer[0]),
+            _ostream.write( (const char_type*) _output_buffer.data(),
                             static_cast<std::streamsize>(written_byte_size/sizeof(char_type)*sizeof(char)));
 
             // checking if some bytes were not written.
             if((remainder = written_byte_size%sizeof(char_type)) != 0)
             {
                 // copy to the beginning of the stream
-                memcpy(&(_output_buffer[0]),
+                memcpy(_output_buffer.data(),
                        &(_output_buffer[written_byte_size-remainder]), remainder);
 
             }
@@ -244,7 +244,7 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
     _zip_stream.next_in = (byte_buffer_type) buffer;
     _zip_stream.avail_in = static_cast<uInt>(buffer_size * sizeof(char_type));
     _zip_stream.avail_out = static_cast<uInt>(_output_buffer.size());
-    _zip_stream.next_out = &_output_buffer[0];
+    _zip_stream.next_out = _output_buffer.data();
     size_t remainder = 0;
 
     // updating crc
@@ -262,14 +262,14 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
             total_written_byte_size += written_byte_size;
             // output buffer is full, dumping to ostream
 
-            _ostream.write((const char_type*) &_output_buffer[0],
+            _ostream.write((const char_type*) _output_buffer.data(),
                            static_cast<std::streamsize>(written_byte_size / sizeof(char_type)));
 
             // checking if some bytes were not written.
             if((remainder = written_byte_size % sizeof(char_type)) != 0)
             {
                 // copy to the beginning of the stream
-                memcpy(&_output_buffer[0],
+                memcpy(_output_buffer.data(),
                        &_output_buffer[written_byte_size-remainder],
                        remainder);
             }
@@ -329,9 +329,9 @@ void
 
   _err = inflateInit2(&_zip_stream, window_size);
 
-  this->setg(&_buffer[0] + 4,     // beginning of putback area
-             &_buffer[0] + 4,     // read position
-             &_buffer[0] + 4);    // end position
+  this->setg(_buffer.data() + 4,     // beginning of putback area
+             _buffer.data() + 4,     // read position
+             _buffer.data() + 4);    // end position
 }
 
 /**
@@ -358,12 +358,12 @@ basic_unzip_streambuf<charT, traits>::underflow(void)
     if(n_putback > 4)
         n_putback = 4;
 
-    memcpy(&_buffer[0] + (4 - n_putback),
+    memcpy(_buffer.data() + (4 - n_putback),
            this->gptr() - n_putback,
            n_putback * sizeof(char_type));
 
     int num =
-        unzip_from_stream(&_buffer[0] + 4,
+        unzip_from_stream(_buffer.data() + 4,
                           static_cast<std::streamsize>((_buffer.size() - 4) *
                                                        sizeof(char_type)));
 
@@ -371,9 +371,9 @@ basic_unzip_streambuf<charT, traits>::underflow(void)
         return EOF;
 
     // reset buffer pointers
-    this->setg(&_buffer[0] + (4 - n_putback),   // beginning of putback area
-               &_buffer[0] + 4,                 // read position
-               &_buffer[0] + 4 + num);          // end of buffer
+    this->setg(_buffer.data() + (4 - n_putback),   // beginning of putback area
+               _buffer.data() + 4,                 // read position
+               _buffer.data() + 4 + num);          // end of buffer
 
     // return next character
     return * reinterpret_cast<unsigned char *>(this->gptr());
@@ -592,8 +592,8 @@ template <class charT, class traits> inline
 size_t
 basic_unzip_streambuf<charT, traits>::fill_input_buffer(void)
 {
-    _zip_stream.next_in = &_input_buffer[0];
-    _istream.read((char_type*) &_input_buffer[0],
+    _zip_stream.next_in = _input_buffer.data();
+    _istream.read((char_type*) _input_buffer.data(),
                   static_cast<std::streamsize>(_input_buffer.size() /
                                                sizeof(char_type)));
 
