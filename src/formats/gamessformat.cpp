@@ -674,7 +674,7 @@ namespace OpenBabel {
               gmsset->AddData(curset);
             }
             for (unsigned int i=1; i < vs.size() && vs[i].substr(0, 4) != "$END"; i++) {
-              string::size_type loc = vs[i].find("=", 0);
+              string::size_type loc = vs[i].find('=', 0);
               if (loc != string::npos) {
                 OBPairData *data = new OBPairData();
                 data->SetAttribute(vs[i].substr(0, loc));
@@ -1098,7 +1098,7 @@ namespace OpenBabel {
                       for (rit=spacePositions.rbegin(); rit != spacePositions.rend(); ++rit) {
                         if (a + 1 + (*rit) <= 72) {
                           ofs << " " << s.substr(0, *rit)
-                              << endl << "   ";
+                              << '\n' << "   ";
                           a = 3;
                           s = s.substr(*rit);
                           wrapped = true;
@@ -1112,29 +1112,29 @@ namespace OpenBabel {
                         a = 4 + spacePositions.at(0);
                         if (a > 72) {
                           // It exceeds line length
-                          ofs << endl
+                          ofs << '\n'
                               << "! Unable to fit " << pd->GetAttribute()
-                              << " on the line!" << endl;
+                              << " on the line!" << '\n';
                           break;
                         }
                         a = 3;
-                        ofs << endl << "   ";
+                        ofs << '\n' << "   ";
                       }
                     } else {
                       // There are no spaces in the string
                       a = 4 + s.length();
                       if (a > 72) {
                         // It exceeds line length
-                        ofs << endl
+                        ofs << '\n'
                             << "! Unable to fit " << pd->GetAttribute()
-                            << " on the line!" << endl;
+                            << " on the line!" << '\n';
                         break;
                       }
 
                       if (wrapped) {
                         ofs << s;
                       } else {
-                        ofs << endl << "    " << s;
+                        ofs << '\n' << "    " << s;
                       }
                       s = "";
                     }
@@ -1146,13 +1146,13 @@ namespace OpenBabel {
                 }
               }
             }
-            ofs << " $END" << endl;
+            ofs << " $END" << '\n';
           }
         }
       } else {
-        ofs << "! Unable to translate keywords!" << endl;
-        ofs << "! Defining default control keywords." << endl;
-        ofs << defaultKeywords << endl;
+        ofs << "! Unable to translate keywords!" << '\n';
+        ofs << "! Defining default control keywords." << '\n';
+        ofs << defaultKeywords << '\n';
       }
 
     } else if (keywordFile) {
@@ -1160,22 +1160,22 @@ namespace OpenBabel {
       string keyBuffer;
       if (kfstream) {
         while (getline(kfstream, keyBuffer))
-          ofs << keyBuffer << endl;
+          ofs << keyBuffer << '\n';
       }
 
     } else {
-        ofs << defaultKeywords << endl;
+        ofs << defaultKeywords << '\n';
     }
 
-    ofs << endl << " $DATA" << endl;
-    ofs << mol.GetTitle() << endl;
+    ofs << '\n' << " $DATA" << '\n';
+    ofs << mol.GetTitle() << '\n';
     if (!mol.HasData(OBGenericDataType::SymmetryData))
-      ofs << "C1" << endl;
+      ofs << "C1" << '\n';
     else {
       // \todo needs to be updated for point group symmetry recognition
       //   particularly for output of the symmetry elements
       //   and any necessary rotation for frame of reference for GAMESS
-      ofs << "Put symmetry info here" << endl << endl;
+      ofs << "Put symmetry info here" << '\n' << '\n';
     }
 
     FOR_ATOMS_OF_MOL(atom, mol) {
@@ -1185,10 +1185,10 @@ namespace OpenBabel {
                atom->GetX(),
                atom->GetY(),
                atom->GetZ());
-      ofs << buffer << endl;
+      ofs << buffer << '\n';
     }
 
-    ofs << " $END" << endl << endl << endl;
+    ofs << " $END" << '\n' << '\n' << '\n';
 
     return(true);
   }
