@@ -1264,7 +1264,7 @@ namespace OpenBabel
                   {
                     tokenize(vs,buffer);
                     E0 = atof(vs[myindex[i]].c_str());
-                    E0_set = 1;
+                    E0_set = true;
                     thermo_method = mymeth[i];
                     break;
                   }

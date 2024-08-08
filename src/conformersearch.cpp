@@ -1238,7 +1238,7 @@ namespace OpenBabel {
 
     // Convergence energy values: average of niches best element
     sum = 0.0;
-    if (0) {
+    if (false) {
       for (iniche = 0; iniche <  dynamic_niches.size (); iniche++)
         {
           i = dynamic_niches[iniche][0];

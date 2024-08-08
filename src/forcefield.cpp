@@ -1233,7 +1233,7 @@ namespace OpenBabel
   bool OBForceField::SystematicRotorSearchNextConformer(unsigned int geomSteps)
   {
     if (!_validSetup)
-      return 0;
+      return false;
 
     if (_current_conformer >=  _mol.NumConformers()) { // done
       // Select conformer with lowest energy
@@ -1499,7 +1499,7 @@ namespace OpenBabel
   bool OBForceField::RandomRotorSearchNextConformer(unsigned int geomSteps)
   {
     if (!_validSetup)
-      return 0;
+      return false;
 
     if (_current_conformer >=  _mol.NumConformers()) { // done
       // Select conformer with lowest energy
@@ -2765,7 +2765,7 @@ namespace OpenBabel
   bool OBForceField::SteepestDescentTakeNSteps(int n)
   {
     if (!_validSetup)
-      return 0;
+      return false;
 
     _ncoords = _mol.NumAtoms() * 3;
     double e_n2;
@@ -2952,7 +2952,7 @@ namespace OpenBabel
   bool OBForceField::ConjugateGradientsTakeNSteps(int n)
   {
     if (!_validSetup)
-      return 0;
+      return false;
 
     double e_n2;
     double g2g2, g1g1, beta;
