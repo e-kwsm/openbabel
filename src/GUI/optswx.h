@@ -24,7 +24,7 @@ GNU General Public License for more details.
 class DynOptionswx
 {
 public:
-	typedef std::vector <std::pair<wxString, wxWindow*> > OMapType;
+	using OMapType = std::vector <std::pair<wxString, wxWindow*> >;
 
 	DynOptionswx(wxWindow* Par, wxSizer* pSizer)
 		: parent(Par), sizer(pSizer){}

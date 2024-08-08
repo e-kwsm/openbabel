@@ -46,7 +46,7 @@ namespace OpenBabel {
     ~OBGridData();
 
     /// Unit of measure for grid spacings.
-    typedef enum { BOHR, ANGSTROM, OTHER } Unit;
+    enum Unit { BOHR, ANGSTROM, OTHER };
 
     //! \name Property Methods
     //@{

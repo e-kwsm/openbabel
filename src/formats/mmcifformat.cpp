@@ -149,8 +149,8 @@ namespace OpenBabel
    char  tagname[76];
    CIFDataName tagid;
    };
- typedef vector<CIFTagID::CIFDataName> CIFColumnList;
- typedef map<string, CIFTagID::CIFDataName> CIFtagmap;
+ using CIFColumnList = vector<CIFTagID::CIFDataName>;
+ using CIFtagmap = map<string, CIFTagID::CIFDataName>;
  struct CIFResidueID
    {
    unsigned long ChainNum; // The number of the chain
@@ -174,7 +174,7 @@ namespace OpenBabel
      return ( ChainNum < other.ChainNum ? true : ( other.ChainNum < ChainNum ? false : ResNum < other.ResNum ) );
      }
    };
- typedef map<CIFResidueID, int> CIFResidueMap;
+ using CIFResidueMap = map<CIFResidueID, int>;
  CIFtagmap CIFtagLookupTable;
 
  CIFTagID CIFTagsRead[] =
@@ -499,7 +499,7 @@ namespace OpenBabel
    CIFLexer lexer(pConv->GetInStream());
    CIFLexer::Token token;
 
-   typedef map<string, unsigned> CIFasymmap;
+   using CIFasymmap = map<string, unsigned>;
    CIFasymmap asym_map;
    string last_asym_id = "";
    unsigned next_asym_no = 0;

@@ -52,7 +52,7 @@ extern "C" {
  * Note that the generic "UTF-16" is not a predefined value.  Instead, only
  * the specific UTF-16LE and UTF-16BE are present.
  */
-typedef enum {
+enum xmlCharEncoding {
     XML_CHAR_ENCODING_ERROR=   -1, /* No char encoding detected */
     XML_CHAR_ENCODING_NONE=	0, /* No char encoding detected */
     XML_CHAR_ENCODING_UTF8=	1, /* UTF-8 */
@@ -77,7 +77,7 @@ typedef enum {
     XML_CHAR_ENCODING_SHIFT_JIS=20,/* Shift_JIS */
     XML_CHAR_ENCODING_EUC_JP=   21,/* EUC-JP */
     XML_CHAR_ENCODING_ASCII=    22 /* pure ASCII */
-} xmlCharEncoding;
+};
 
 /**
  * xmlCharEncodingInputFunc:
@@ -95,8 +95,7 @@ typedef enum {
  *     if the return value is positive, else unpredictiable.
  * The value of @outlen after return is the number of octets consumed.
  */
-typedef int (* xmlCharEncodingInputFunc)(unsigned char *out, int *outlen,
-                                         const unsigned char *in, int *inlen);
+using xmlCharEncodingInputFunc = int (*)(unsigned char *, int *, const unsigned char *, int *);
 
 
 /**
@@ -117,8 +116,7 @@ typedef int (* xmlCharEncodingInputFunc)(unsigned char *out, int *outlen,
  *     if the return value is positive, else unpredictiable.
  * The value of @outlen after return is the number of octets produced.
  */
-typedef int (* xmlCharEncodingOutputFunc)(unsigned char *out, int *outlen,
-                                          const unsigned char *in, int *inlen);
+using xmlCharEncodingOutputFunc = int (*)(unsigned char *, int *, const unsigned char *, int *);
 
 
 /*
@@ -126,8 +124,8 @@ typedef int (* xmlCharEncodingOutputFunc)(unsigned char *out, int *outlen,
  * If iconv is supported, there are two extra fields.
  */
 
-typedef struct _xmlCharEncodingHandler xmlCharEncodingHandler;
-typedef xmlCharEncodingHandler *xmlCharEncodingHandlerPtr;
+using xmlCharEncodingHandler = struct _xmlCharEncodingHandler;
+using xmlCharEncodingHandlerPtr = xmlCharEncodingHandler *;
 struct _xmlCharEncodingHandler {
     char                       *name;
     xmlCharEncodingInputFunc   input;

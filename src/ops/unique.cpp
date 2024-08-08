@@ -65,7 +65,7 @@ private:
   unsigned _ndups;
   bool _inv;
 
-  typedef unordered_map<std::string, std::string> UMap;
+  using UMap = unordered_map<std::string, std::string>;
 
   //key is descriptor text(usually inchi) value is molecule title
   UMap _inchimap;

@@ -44,7 +44,7 @@ extern int _libiconv_version;       /* Likewise */
 /* Define iconv_t ourselves. */
 #undef iconv_t
 #define iconv_t libiconv_t
-typedef void* iconv_t;
+using libiconv_t = void *;
 
 /* Get size_t declaration. */
 #include <stddef.h>

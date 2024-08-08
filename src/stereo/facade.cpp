@@ -53,7 +53,7 @@ namespace OpenBabel {
   {
     EnsureInit();
 
-    typedef std::map<unsigned long, OBTetrahedralStereo*>::iterator Iter;
+    using Iter = std::map<unsigned long, OBTetrahedralStereo*>::iterator;
     std::vector<OBTetrahedralStereo*> result;
     for (Iter it = m_tetrahedralMap.begin(); it != m_tetrahedralMap.end(); ++it)
       result.push_back(it->second);
@@ -65,7 +65,7 @@ namespace OpenBabel {
   {
     EnsureInit();
 
-    typedef std::map<unsigned long, OBCisTransStereo*>::iterator Iter;
+    using Iter = std::map<unsigned long, OBCisTransStereo*>::iterator;
     std::vector<OBCisTransStereo*> result;
     for (Iter it = m_cistransMap.begin(); it != m_cistransMap.end(); ++it)
       result.push_back(it->second);
@@ -77,7 +77,7 @@ namespace OpenBabel {
   {
     EnsureInit();
 
-    typedef std::map<unsigned long, OBSquarePlanarStereo*>::iterator Iter;
+    using Iter = std::map<unsigned long, OBSquarePlanarStereo*>::iterator;
     std::vector<OBSquarePlanarStereo*> result;
     for (Iter it = m_squarePlanarMap.begin(); it != m_squarePlanarMap.end(); ++it)
       result.push_back(it->second);

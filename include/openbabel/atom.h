@@ -41,11 +41,11 @@ namespace OpenBabel
   class OBMol;
 
   //! OBNodeBase is declared for backwards-compatibility with 2.0 and earlier code
-  typedef OBAtom OBNodeBase;
+  using OBNodeBase = OBAtom;
   //! A standard iterator over a vector of bonds
-  typedef std::vector<OBBond*>::iterator OBBondIterator;
+  using OBBondIterator = std::vector<OBBond *>::iterator;
   //! A standard iterator over a vector of atoms
-  typedef std::vector<OBAtom*>::iterator OBAtomIterator;
+  using OBAtomIterator = std::vector<OBAtom *>::iterator;
 
   //ATOM Property Macros (flags)
   //! Atom is in a 4-membered ring

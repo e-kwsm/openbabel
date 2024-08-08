@@ -62,10 +62,10 @@ namespace OpenBabel
   class OBMolAtomDFSIter;
   class OBChainsParser;
 
-  typedef std::vector<OBAtom*>::iterator OBAtomIterator;
-  typedef std::vector<OBAtom*>::const_iterator OBAtomConstIterator;
-  typedef std::vector<OBBond*>::iterator OBBondIterator;
-  typedef std::vector<OBResidue*>::iterator OBResidueIterator;
+  using OBAtomIterator = std::vector<OBAtom *>::iterator;
+  using OBAtomConstIterator = std::vector<OBAtom *>::const_iterator;
+  using OBBondIterator = std::vector<OBBond *>::iterator;
+  using OBResidueIterator = std::vector<OBResidue *>::iterator;
 
   // Class OBMol
   //MOL Property Macros (flags) -- 32+ bits

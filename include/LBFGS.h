@@ -22,9 +22,9 @@ template < typename Scalar,
 class LBFGSSolver
 {
 private:
-    typedef Eigen::Matrix<Scalar, Eigen::Dynamic, 1> Vector;
-    typedef Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic> Matrix;
-    typedef Eigen::Map<Vector> MapVec;
+    using Vector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+    using Matrix = Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic>;
+    using MapVec = Eigen::Map<Vector>;
 
     const LBFGSParam<Scalar>& m_param;  // Parameters to control the LBFGS algorithm
     Matrix                    m_s;      // History of the s vectors

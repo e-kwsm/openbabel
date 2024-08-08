@@ -17,11 +17,11 @@
 extern "C" {
 #endif
 
-typedef struct _xmlLink xmlLink;
-typedef xmlLink *xmlLinkPtr;
+using xmlLink = struct _xmlLink;
+using xmlLinkPtr = xmlLink *;
 
-typedef struct _xmlList xmlList;
-typedef xmlList *xmlListPtr;
+using xmlList = struct _xmlList;
+using xmlListPtr = xmlList *;
 
 /**
  * xmlListDeallocator:
@@ -29,7 +29,7 @@ typedef xmlList *xmlListPtr;
  *
  * Callback function used to free data from a list.
  */
-typedef void (*xmlListDeallocator) (xmlLinkPtr lk);
+using xmlListDeallocator = void (*)(xmlLinkPtr lk);
 /**
  * xmlListDataCompare:
  * @data0: the first data
@@ -39,7 +39,7 @@ typedef void (*xmlListDeallocator) (xmlLinkPtr lk);
  *
  * Returns 0 is equality, -1 or 1 otherwise depending on the ordering.
  */
-typedef int  (*xmlListDataCompare) (const void *data0, const void *data1);
+using xmlListDataCompare = int (*)(const void *data0, const void *data1);
 /**
  * xmlListWalker:
  * @data: the data found in the list
@@ -49,7 +49,7 @@ typedef int  (*xmlListDataCompare) (const void *data0, const void *data1);
  *
  * Returns 0 to stop walking the list, 1 otherwise.
  */
-typedef int (*xmlListWalker) (const void *data, const void *user);
+using xmlListWalker = int (*)(const void *data, const void *user);
 
 /* Creation/Deletion */
 XMLPUBFUN xmlListPtr XMLCALL

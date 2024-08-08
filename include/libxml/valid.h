@@ -25,8 +25,8 @@ extern "C" {
 /*
  * Validation state added for non-determinist content model.
  */
-typedef struct _xmlValidState xmlValidState;
-typedef xmlValidState *xmlValidStatePtr;
+using xmlValidState = struct _xmlValidState;
+using xmlValidStatePtr = xmlValidState *;
 
 /**
  * xmlValidityErrorFunc:
@@ -39,7 +39,7 @@ typedef xmlValidState *xmlValidStatePtr;
  * Callback called when a validity error is found. This is a message
  * oriented function similar to an *printf function.
  */
-typedef void (*xmlValidityErrorFunc) (void *ctx,
+using xmlValidityErrorFunc = void (*)(void *ctx,
 			     const char *msg,
 			     ...);
 
@@ -54,7 +54,7 @@ typedef void (*xmlValidityErrorFunc) (void *ctx,
  * Callback called when a validity warning is found. This is a message
  * oriented function similar to an *printf function.
  */
-typedef void (*xmlValidityWarningFunc) (void *ctx,
+using xmlValidityWarningFunc = void (*)(void *ctx,
 			       const char *msg,
 			       ...);
 
@@ -77,8 +77,8 @@ typedef void (*xmlValidityWarningFunc) (void *ctx,
  * xmlValidCtxt:
  * An xmlValidCtxt is used for error reporting when validating.
  */
-typedef struct _xmlValidCtxt xmlValidCtxt;
-typedef xmlValidCtxt *xmlValidCtxtPtr;
+using xmlValidCtxt = struct _xmlValidCtxt;
+using xmlValidCtxtPtr = xmlValidCtxt *;
 struct _xmlValidCtxt {
     void *userData;			/* user specific data block */
     xmlValidityErrorFunc error;		/* the callback in case of errors */
@@ -114,40 +114,40 @@ struct _xmlValidCtxt {
  * There is one table per DTD.
  */
 
-typedef struct _xmlHashTable xmlNotationTable;
-typedef xmlNotationTable *xmlNotationTablePtr;
+using xmlNotationTable = struct _xmlHashTable;
+using xmlNotationTablePtr = xmlNotationTable *;
 
 /*
  * ALL element declarations are stored in a table.
  * There is one table per DTD.
  */
 
-typedef struct _xmlHashTable xmlElementTable;
-typedef xmlElementTable *xmlElementTablePtr;
+using xmlElementTable = struct _xmlHashTable;
+using xmlElementTablePtr = xmlElementTable *;
 
 /*
  * ALL attribute declarations are stored in a table.
  * There is one table per DTD.
  */
 
-typedef struct _xmlHashTable xmlAttributeTable;
-typedef xmlAttributeTable *xmlAttributeTablePtr;
+using xmlAttributeTable = struct _xmlHashTable;
+using xmlAttributeTablePtr = xmlAttributeTable *;
 
 /*
  * ALL IDs attributes are stored in a table.
  * There is one table per document.
  */
 
-typedef struct _xmlHashTable xmlIDTable;
-typedef xmlIDTable *xmlIDTablePtr;
+using xmlIDTable = struct _xmlHashTable;
+using xmlIDTablePtr = xmlIDTable *;
 
 /*
  * ALL Refs attributes are stored in a table.
  * There is one table per document.
  */
 
-typedef struct _xmlHashTable xmlRefTable;
-typedef xmlRefTable *xmlRefTablePtr;
+using xmlRefTable = struct _xmlHashTable;
+using xmlRefTablePtr = xmlRefTable *;
 
 /* Notation */
 XMLPUBFUN xmlNotationPtr XMLCALL	    

@@ -28,8 +28,8 @@ extern "C" {
 XMLPUBFUN void XMLCALL xmlInitGlobals(void);
 XMLPUBFUN void XMLCALL xmlCleanupGlobals(void);
 
-typedef xmlParserInputBufferPtr (*xmlParserInputBufferCreateFilenameFunc) (const char *URI, xmlCharEncoding enc);
-typedef xmlOutputBufferPtr (*xmlOutputBufferCreateFilenameFunc) (const char *URI, xmlCharEncodingHandlerPtr encoder, int compression);
+using xmlParserInputBufferCreateFilenameFunc = xmlParserInputBufferPtr (*)(const char *, xmlCharEncoding);
+using xmlOutputBufferCreateFilenameFunc = xmlOutputBufferPtr (*)(const char *, xmlCharEncodingHandlerPtr, int);
 XMLPUBFUN xmlParserInputBufferCreateFilenameFunc
 XMLCALL xmlParserInputBufferCreateFilenameDefault (xmlParserInputBufferCreateFilenameFunc func);
 XMLPUBFUN xmlOutputBufferCreateFilenameFunc
@@ -73,11 +73,11 @@ XMLCALL xmlOutputBufferCreateFilenameDefault (xmlOutputBufferCreateFilenameFunc 
 #undef  xmlParserInputBufferCreateFilenameValue
 #undef  xmlOutputBufferCreateFilenameValue
 
-typedef void (*xmlRegisterNodeFunc) (xmlNodePtr node);
-typedef void (*xmlDeregisterNodeFunc) (xmlNodePtr node);
+using xmlRegisterNodeFunc = void (*)(xmlNodePtr);
+using xmlDeregisterNodeFunc = void (*)(xmlNodePtr);
 
-typedef struct _xmlGlobalState xmlGlobalState;
-typedef xmlGlobalState *xmlGlobalStatePtr;
+using xmlGlobalState = struct _xmlGlobalState;
+using xmlGlobalStatePtr = xmlGlobalState *;
 struct _xmlGlobalState 
 {
 	const char *xmlParserVersion;

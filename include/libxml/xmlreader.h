@@ -28,14 +28,14 @@ extern "C" {
  *
  * Internal state values for the reader.
  */
-typedef enum {
+enum xmlTextReaderMode {
     XML_TEXTREADER_MODE_INITIAL = 0,
     XML_TEXTREADER_MODE_INTERACTIVE = 1,
     XML_TEXTREADER_MODE_ERROR = 2,
     XML_TEXTREADER_MODE_EOF =3,
     XML_TEXTREADER_MODE_CLOSED = 4,
     XML_TEXTREADER_MODE_READING = 5
-} xmlTextReaderMode;
+};
 
 /**
  * xmlParserProperties:

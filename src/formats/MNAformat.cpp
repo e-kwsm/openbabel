@@ -39,10 +39,10 @@ GNU General Public License for more details.
 using namespace std;
 
 
-typedef enum
+enum MNAZ
 {
 	MNAZ_ERROR, MNAZ_H, MNAZ_C, MNAZ_N, MNAZ_O, MNAZ_F, MNAZ_Si, MNAZ_P, MNAZ_S, MNAZ_Cl, MNAZ_Ca, MNAZ_As, MNAZ_Se, MNAZ_Br, MNAZ_Li, MNAZ_B, MNAZ_Mg, MNAZ_Sn, MNAZ_Te, MNAZ_I, MNAZ_Os, MNAZ_Sc, MNAZ_Fe, MNAZ_Co, MNAZ_Sr, MNAZ_Pd, MNAZ_Be, MNAZ_K, MNAZ_V, MNAZ_Ni, MNAZ_In, MNAZ_Al
-} MNAZ;
+};
 
 
 namespace OpenBabel
