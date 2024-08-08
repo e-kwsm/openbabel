@@ -29,6 +29,7 @@ GNU General Public License for more details.
 
 #include <vector>
 #include <string>
+#include <utility>
 
 #include <openbabel/base.h>
 #include <openbabel/residue.h>
@@ -79,7 +80,7 @@ namespace OpenBabel
       OBAtomAtomIterAdaptor() = default;
 
       OBAtomAtomIterAdaptor(Iter iter, const OBAtom *atom = nullptr)
-        : m_iter(iter), m_atom(atom)
+        : m_iter(std::move(iter)), m_atom(atom)
       {
       }
 
