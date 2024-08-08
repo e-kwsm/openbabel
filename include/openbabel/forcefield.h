@@ -155,7 +155,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //!  while setting up calculations). Sets optimized to true.
     virtual void SetupPointers()
     {
-      if (!a || !b) return;
+      if (!a || !b) { return; }
       pos_a = a->GetCoordinate();
       idx_a = a->GetIdx();
       pos_b = b->GetCoordinate();
@@ -184,7 +184,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //!  while setting up calculations). Sets optimized to true.
     void SetupPointers() override
     {
-      if (!a || !b || !c) return;
+      if (!a || !b || !c) { return; }
       pos_a = a->GetCoordinate();
       idx_a = a->GetIdx();
       pos_b = b->GetCoordinate();
@@ -215,7 +215,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //!  while setting up calculations). Sets optimized to true.
     void SetupPointers()
     {
-      if (!a || !b || !c || !d) return;
+      if (!a || !b || !c || !d) { return; }
       pos_a = a->GetCoordinate();
       idx_a = a->GetIdx();
       pos_b = b->GetCoordinate();
@@ -258,16 +258,17 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     vector3 GetGradient(int a)
     {
-      if (a == ia)
+      if (a == ia) {
         return grada;
-      else if (a == ib)
+      } else if (a == ib) {
         return gradb;
-      else if (a == ic)
+      } else if (a == ic) {
         return gradc;
-      else if (a == id)
+      } else if (a == id) {
         return gradd;
-      else
+      } else {
         return  VZero;
+      }
     }
   };
 
@@ -509,8 +510,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
       // We cannot use memset because IEEE floating point representations
       // are not guaranteed by C/C++ standard, but this loop can be
       // unrolled or vectorized by compilers
-      for (unsigned int i = 0; i < _ncoords; ++i)
+      for (unsigned int i = 0; i < _ncoords; ++i) {
         _gradientPtr[i] = 0.0;
+      }
       //      memset(_gradientPtr, '\0', sizeof(double)*_ncoords);
     }
 
@@ -1021,8 +1023,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     void OBFFLog(std::string msg)
     {
-      if (!_logos)
+      if (!_logos) {
         return;
+      }
 
       *_logos << msg;
     }
@@ -1031,8 +1034,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     void OBFFLog(const char *msg)
     {
-      if (!_logos)
+      if (!_logos) {
         return;
+      }
 
       *_logos << msg;
     }
@@ -1579,14 +1583,16 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorSubtract(double *i, double *j, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] - j[c];
+      }
     }
 
     static void VectorSubtract(const double* const i, const double* const j, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] - j[c];
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1596,8 +1602,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorAdd(double *i, double *j, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] + j[c];
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1607,8 +1614,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorDivide(double *i, double n, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] / n;
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1618,14 +1626,16 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorMultiply(double *i, double n, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] * n;
+      }
     }
 
     static void VectorMultiply(const double* const i, const double n, double *result)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result[c] = i[c] * n;
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1634,8 +1644,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorSelfMultiply(double *i, double n)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         i[c] *= n;
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1644,8 +1655,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     static void VectorNormalize(double *i)
     {
       double length = VectorLength(i);
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         i[c] /= length;
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1654,8 +1666,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorCopy(double *from, double *to)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         to[c] = from[c];
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1706,8 +1719,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     static void VectorClear(double *i)
     {
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         i[c] = 0.0;
+      }
     }
 
     /*! inline fuction to speed up minimization speed
@@ -1720,8 +1734,9 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
       double result = 0.0;
       // Written as a loop for vectorization
       // Loop will be unrolled by compiler otherwise
-      for (unsigned int c = 0; c < 3; ++c)
+      for (unsigned int c = 0; c < 3; ++c) {
         result += i[c]*j[c];
+      }
       return result;
     }
 

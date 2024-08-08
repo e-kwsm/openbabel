@@ -46,18 +46,21 @@ bool OBDescriptor::Compare(OBBase* pOb, istream& optionText, bool noEval, string
 {
   //Get comparison operator
   char ch1=0, ch2=0;
-  while (optionText && !ispunctU(ch1))
+  while (optionText && !ispunctU(ch1)) {
     optionText >> ch1;
-  if(ispunctU(optionText.peek()))
+  }
+  if(ispunctU(optionText.peek())) {
     optionText >> ch2;
+  }
 
   //Get number
   double filterval, val;
   optionText >> filterval;
   if (optionText)
   {
-    if(noEval)
+    if(noEval) {
       return false;
+    }
 
     val = Predict(pOb, param);
 
@@ -94,8 +97,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
     bool negate=false, retFromCompare, ret=false;
     char ch=0;
     optionText >> ch; //skips whitespace
-    if(!optionText)
+    if(!optionText) {
       return false;
+    }
 
     if(ch=='!')
     {
@@ -116,8 +120,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
     }
     else //unbracketted expression
     {
-      if(!ispunctU(ch))
+      if(!ispunctU(ch)) {
         optionText.unget(); //must be start of ID
+      }
       else
       {
         string mes("Filter string has erroneous character : ");
@@ -145,8 +150,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       {
         //if no existing data see if it is an OBDescriptor
         OBDescriptor* pDesc = OBDescriptor::FindType(descID.c_str());
-        if(pDesc && !noEval)
+        if(pDesc && !noEval) {
           retFromCompare = pDesc->Compare(pOb, optionText, noEval, &param);
+        }
         else
         {
           //just parse
@@ -159,16 +165,19 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       }
     }
 
-    if(negate)
+    if(negate) {
       retFromCompare=!retFromCompare;
+    }
 
-    if(!noEval)
+    if(!noEval) {
       ret = retFromCompare;
+    }
 
     //Look for boolean operator
     ch=0;
-    if(!(optionText >> ch))
+    if(!(optionText >> ch)) {
       return ret; //end of filterstring
+    }
 
     if(ch==')')
     {
@@ -176,11 +185,13 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       return ret;
     }
 
-    if(!ispunctU(ch))
+    if(!ispunctU(ch)) {
       optionText.unget(); //start of next ID or )
+    }
     else
-      if(optionText.peek()==ch) //treat && and || as & and |
+      if(optionText.peek()==ch) { //treat && and || as & and |
         optionText.ignore();
+      }
 
     if(ch=='|')
     {
@@ -188,7 +199,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       return !noEval && (ret || retFromCompare); //always return false if noEval=true;
     }
     else //includes & and , and ;
+    {
       noEval=!ret; //if ret is false keep parsing but don't bother to evaluate
+    }
   }//go for next conditional expression
   return false;//never come here
 }
@@ -203,8 +216,9 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
   optionText.unsetf(ios::skipws);
   for(;;)
   {
-    if(!optionText || isspace(ch) || ch==',')
+    if(!optionText || isspace(ch) || ch==',') {
       break;
+    }
     if(ch=='(') // the parameter is in parentheses
     {
       ch = optionText.peek();
@@ -216,7 +230,9 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
         optionText.ignore(numeric_limits<streamsize>::max(),')');
       }
       else
+      {
         getline(optionText, param, ')');
+      }
 
       if(!optionText)
       {
@@ -231,7 +247,9 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
       break;
     }
     else
+    {
       descID.push_back(ch);
+    }
     optionText >> ch;
   }
   optionText.setf(ios::skipws);
