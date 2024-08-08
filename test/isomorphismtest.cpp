@@ -230,7 +230,7 @@ void testAutomorphismMask2()
     if (a->GetAtomicNum() != OBElements::Hydrogen)
       _frag_atoms.SetBitOn(a->GetIdx());
   }
-  FindAutomorphisms((OBMol*)&mol, _aut, _frag_atoms);
+  FindAutomorphisms((&mol), _aut, _frag_atoms);
   OB_ASSERT( _aut.size() == 1 );
 
 }
@@ -244,7 +244,7 @@ void testAutomorphismPreMapping()
   conv.ReadString(&mol, "c1(C)c(C)c(C)c(C)c(C)c1");
 
   Automorphisms aut;
-  FindAutomorphisms((OBMol*)&mol, aut);
+  FindAutomorphisms((&mol), aut);
   cout << aut.size() << endl;
   OB_ASSERT( aut.size() == 2 );
 }
