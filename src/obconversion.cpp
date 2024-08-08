@@ -1790,7 +1790,7 @@ Additional options :
   //OBPlugin::List(), OBPlugin::OBPlugin::ListAsVector(),OBPlugin::OBPlugin::ListAsString(),
   //or (in extremis) OBPlugin::PluginIterator instead.
 
-  typedef OBPlugin::PluginIterator Formatpos;
+  using Formatpos = OBPlugin::PluginIterator;
 
   bool OBConversion::GetNextFormat(Formatpos& itr, const char*& str,OBFormat*& pFormat)
   {

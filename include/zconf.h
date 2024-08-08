@@ -258,26 +258,26 @@
 #endif
 
 #if !defined(__MACTYPES__)
-typedef unsigned char  Byte;  /* 8 bits */
+using Byte = unsigned char;  /* 8 bits */
 #endif
-typedef unsigned int   uInt;  /* 16 bits or more */
-typedef unsigned long  uLong; /* 32 bits or more */
+using uInt = unsigned int;  /* 16 bits or more */
+using uLong = unsigned long; /* 32 bits or more */
 
 #ifdef SMALL_MEDIUM
    /* Borland C/C++ and some old MSC versions ignore FAR inside typedef */
 #  define Bytef Byte FAR
 #else
-   typedef Byte  FAR Bytef;
+   using Bytef = Byte;
 #endif
-typedef char  FAR charf;
-typedef int   FAR intf;
-typedef uInt  FAR uIntf;
-typedef uLong FAR uLongf;
+using charf = char;
+using intf = int;
+using uIntf = uInt;
+using uLongf = uLong;
 
 #ifdef STDC
-   typedef void const *voidpc;
-   typedef void FAR   *voidpf;
-   typedef void       *voidp;
+   using voidpc = const void *;
+   using voidpf = void *;
+   using voidp = void *;
 #else
    typedef Byte const *voidpc;
    typedef Byte FAR   *voidpf;
