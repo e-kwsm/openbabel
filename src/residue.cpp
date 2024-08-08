@@ -656,7 +656,9 @@ namespace OpenBabel
             if( ch2 == 'I' )
               {
                 if( ch3 == 'S' )
+                {
                   return( 16 );
+                }
               }
             else if( ch2 == 'O' )
               {
