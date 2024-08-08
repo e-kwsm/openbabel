@@ -148,7 +148,7 @@ namespace OpenBabel {
       class Functor
       {
         public:
-          virtual ~Functor() {}
+          virtual ~Functor() = default;
           /**
            * This function is called every time an isomorphism is discovered.
            * Returing true, will abort the mapping process. The map is passed

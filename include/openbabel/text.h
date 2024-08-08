@@ -32,7 +32,7 @@ private:
   std::string txt;
 public:
   //Constructors
-  OBText(){}
+  OBText() = default;
   OBText(const std::string& text) :txt(text) {}
 
   ///\return all the text

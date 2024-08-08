@@ -65,7 +65,7 @@ namespace OpenBabel {
       OBQueryAtom(int atomicNum = 6, bool isInRing = false, bool isAromatic = false) :
         m_atomicNum(atomicNum), m_isInRing(isInRing), m_isAromatic(isAromatic) {}
 
-      virtual ~OBQueryAtom() {}
+      virtual ~OBQueryAtom() = default;
 
       /**
        * Get the index for this query atom. Atoms are indexed starting from 0.
@@ -149,7 +149,7 @@ namespace OpenBabel {
         m_end->m_nbrs.push_back(m_begin);
       }
 
-      virtual ~OBQueryBond() {}
+      virtual ~OBQueryBond() = default;
 
       /**
        * Get the index for this query bonds. Query bonds are indexed starting from 0.

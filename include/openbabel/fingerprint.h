@@ -50,7 +50,7 @@ const char* TypeID() override
 	//Rest of OBFingerprints declarations
 public:
 
-  virtual ~OBFingerprint(){}
+  virtual ~OBFingerprint() = default;
 
   /// Sets the nth bit
   void SetBit(std::vector<unsigned int>& vec, const unsigned int n);
@@ -170,7 +170,7 @@ public:
   std::string ReadIndexFile(std::string IndexFilename);
   std::string ReadIndex(std::istream* pIndexstream);
 
-  virtual ~FastSearch(){};
+  virtual ~FastSearch() = default;
 
   /// \brief Does substructure search and returns vector of the file positions of matches
   bool    Find(OBBase* pOb, std::vector<unsigned long>& SeekPositions, unsigned int MaxCandidates);

@@ -45,8 +45,7 @@ namespace OpenBabel
 #endif
     }
 
-    ~OBLocalePrivate()
-    {    }
+    ~OBLocalePrivate() = default;
   }; // class definition for OBLocalePrivate
 
   /** \class OBLocale locale.h <openbabel/locale.h>

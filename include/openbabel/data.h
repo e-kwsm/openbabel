@@ -59,7 +59,7 @@ namespace OpenBabel
       //! Constructor
       OBGlobalDataBase(): _init(false), _dataptr(nullptr) { }
       //! Destructor
-      virtual ~OBGlobalDataBase()                  {}
+      virtual ~OBGlobalDataBase() = default;
       //! Read in the data file, falling back as needed
       void  Init();
       //! \return the size of the database (for error checking)
@@ -116,7 +116,7 @@ namespace OpenBabel
       }
 
     /** \brief Destructor */
-    ~OBAtomHOF() {}
+    ~OBAtomHOF() = default;
     /** \brief Return the chemical element */
     std::string Element() { return _element; }
     /** \brief Return the formal charge */
@@ -154,7 +154,7 @@ namespace OpenBabel
       /** \brief Constructor */
       OBAtomicHeatOfFormationTable(void);
       /** \brief Destructor */
-      ~OBAtomicHeatOfFormationTable() {}
+      ~OBAtomicHeatOfFormationTable() = default;
 
       //! \return the number of elements in the Atomic Heat Of Formation table
       size_t GetSize() override { return _atomhof.size(); }
@@ -194,7 +194,7 @@ namespace OpenBabel
     public:
 
       OBTypeTable(void);
-      ~OBTypeTable() {}
+      ~OBTypeTable() = default;
 
       void ParseLine(const char*) override;
 

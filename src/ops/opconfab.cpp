@@ -42,7 +42,7 @@ namespace OpenBabel
   class Confab
   {
   public:
-    Confab() {};
+    Confab() = default;
 
   };
 

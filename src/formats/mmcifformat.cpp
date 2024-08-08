@@ -155,20 +155,12 @@ namespace OpenBabel
    {
    unsigned long ChainNum; // The number of the chain
    unsigned long ResNum;  // The number of the residue within the chain
-   CIFResidueID()
-     {}
+   CIFResidueID() = default;
    CIFResidueID(unsigned long c, unsigned long r)
    :ChainNum(c), ResNum(r)
      {}
-   CIFResidueID(const CIFResidueID & other)
-   :ChainNum(other.ChainNum), ResNum(other.ResNum)
-     {}
-   CIFResidueID & operator=(const CIFResidueID & other)
-     {
-     ChainNum = other.ChainNum;
-     ResNum = other.ResNum;
-     return (* this);
-     }
+   CIFResidueID(const CIFResidueID &other) = default;
+   CIFResidueID &operator=(const CIFResidueID &other) = default;
    bool operator< (const CIFResidueID & other) const
      {
      return ( ChainNum < other.ChainNum ? true : ( other.ChainNum < ChainNum ? false : ResNum < other.ResNum ) );

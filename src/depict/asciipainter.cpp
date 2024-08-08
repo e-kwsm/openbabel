@@ -35,9 +35,7 @@ namespace OpenBabel
     }
   }
 
-  ASCIIPainter::~ASCIIPainter()
-  {
-  }
+  ASCIIPainter::~ASCIIPainter() = default;
 
   void ASCIIPainter::NewCanvas(double width, double height)
   {

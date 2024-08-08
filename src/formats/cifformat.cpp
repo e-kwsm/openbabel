@@ -316,8 +316,7 @@ namespace OpenBabel
     mLabel(""),mSymbol(""),mOccupancy(1.0f)
   {}
 
-  CIFData::CIFData()
-  {}
+  CIFData::CIFData() = default;
 
   void CIFData::ExtractAll()
   {

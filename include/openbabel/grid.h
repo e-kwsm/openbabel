@@ -47,7 +47,7 @@ namespace OpenBabel
     double _xmin,_xmax,_ymin,_ymax,_zmin,_zmax; //!< the min/max axes in XYZ axes (i.e., the box)
 
   public:
-    OBGrid() {}
+    OBGrid() = default;
 
     //! \brief Initialize the grid based on a box around the molecule @p box
     //! Subclasses should overload this method -- this only tracks the
@@ -316,8 +316,7 @@ namespace OpenBabel
       {
         _gridtype=gridtype;
       }
-    ~OBProxGrid()
-      {}
+    ~OBProxGrid() = default;
     void Setup(OBMol &mol,OBMol &box, double cutoff,double resolution = 0.5);
     void Setup(OBMol &mol,OBMol &box, double cutoff,
                std::vector<bool> &use,double resolution = 0.5);
@@ -355,7 +354,7 @@ namespace OpenBabel
     double score;
 
     OBScoreGrid(void)                 {  verbose = false;      }
-    virtual ~OBScoreGrid(void) {}
+    virtual ~OBScoreGrid(void) = default;
 
     void    SetVerbose(bool v)        {      verbose = v;      }
     void    SetType(score_t type)     {      gridtype = type;  }

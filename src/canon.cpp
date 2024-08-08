@@ -492,9 +492,7 @@ namespace OpenBabel {
       /**
        * Default constructor, used to create initial empty bestCode object.
        */
-      FullCode()
-      {
-      }
+      FullCode() = default;
 
       /**
        * Constructor specifying both the @p labels and @p from (the FROM part
