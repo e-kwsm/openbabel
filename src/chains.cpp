@@ -154,7 +154,7 @@ namespace OpenBabel
   //////////////////////////////////////////////////////////////////////////////
 
   //! Structure template for atomic patterns in residues for OBChainsParser
-  typedef struct Template
+  struct Template
   {
     int flag;        //!< binary flag representing this atom type
     short elem;      //!< atomic number of this element
@@ -163,7 +163,7 @@ namespace OpenBabel
     int n2;          //!< mask 2 used by ConstrainBackbone() and MatchConstraint()
     int n3;          //!< mask 3 used by ConstrainBackbone() and MatchConstraint()
     int n4;          //!< mask 4 used by ConstrainBackbone() and MatchConstraint()
-  }    Template;
+  };
 
   /**
    * Generic template for peptide residue backbone. \n
@@ -289,11 +289,11 @@ namespace OpenBabel
 
   //! Definition of side chains, associating overall residue name with
   //!  the pseudo-SMILES pattern
-  typedef struct
+  struct ResidType
   {
     const char *name; //!< Residue name, standardized by PDB
     const char *data; //!< pseudo-SMILES definition of side-chain
-  }    ResidType;
+  };
 
   /**
    * Side chains for recognized amino acids using a pseudo-SMARTS syntax
@@ -343,45 +343,45 @@ namespace OpenBabel
   };
 
 
-  typedef struct
+  struct MonoAtomType
   {
     int atomid,elem;
     int bcount;
     int index;
-  } MonoAtomType;
+  };
 
-  typedef struct
+  struct MonoBondType
   {
     int src,dst;
     int index;
     int flag;
-  } MonoBondType;
+  };
 
-  typedef struct
+  struct MonOpStruct
   {
     int type;
     union _ByteCode *next;
-  } MonOpStruct;
+  };
 
-  typedef struct
+  struct BinOpStruct
   {
     int type;
     int value;
     union _ByteCode *tcond;
     union _ByteCode *fcond;
-  } BinOpStruct;
+  };
 
   //! Output array -- residue id, atom id, bond flags, etc.
-  typedef struct
+  struct AssignStruct
   {
     int type;
     int resid;
     int *atomid;
     int *bflags;
-  } AssignStruct;
+  };
 
   //! Chemical graph matching virtual machine
-  typedef union _ByteCode
+  union ByteCode
   {
     int type;
     MonOpStruct eval;     //!< Eval - push current neighbors onto the stack
@@ -390,13 +390,13 @@ namespace OpenBabel
     BinOpStruct ident;    //!< Ident - test the atom for backbone identity
     BinOpStruct local;    //!< Local - test whether the atom has been visited
     AssignStruct assign;  //!< Assign - assign residue name, atom name and bond type to output
-  } ByteCode;
+  };
 
-  typedef struct
+  struct StackType
   {
     int atom,bond;
     int prev;
-  } StackType;
+  };
 
   static MonoAtomType MonoAtom[MaxMonoAtom];
   static MonoBondType MonoBond[MaxMonoBond];
