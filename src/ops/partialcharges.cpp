@@ -90,7 +90,7 @@ bool OpPartialCharge::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBCon
     FOR_ATOMS_OF_MOL(atom, pmol) {
       std::cout << atom->GetPartialCharge() << '\n';
     }
-    std::cout << std::endl; // extra blank and flush the stream
+    std::cout << '\n'; // extra blank and flush the stream
   }
 
   return success;

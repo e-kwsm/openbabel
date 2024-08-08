@@ -124,7 +124,7 @@ namespace OpenBabel
       cout << "**To support, cite Journal of Cheminformatics, 2011, 3, 8.\n";
       pff = OpenBabel::OBForceField::FindType("mmff94");
       if (!pff) {
-        cout << "!!Cannot find forcefield!" << endl;
+        cout << "!!Cannot find forcefield!" << '\n';
         exit(-1);
       }
       DisplayConfig(pConv);
@@ -140,13 +140,13 @@ namespace OpenBabel
     OBMol mol = *pmol;
     
     N++;
-    cout << "**Molecule " << N << endl << "..title = " << mol.GetTitle() << endl;
-    cout << "..number of rotatable bonds = " << mol.NumRotors() << endl;
+    cout << "**Molecule " << N << '\n' << "..title = " << mol.GetTitle() << '\n';
+    cout << "..number of rotatable bonds = " << mol.NumRotors() << '\n';
     mol.AddHydrogens();
     bool success = pff->Setup(mol);
     if (!success) {
       cout << "!!Cannot set up forcefield for this molecule\n"
-           << "!!Skipping\n" << endl;
+           << "!!Skipping\n" << '\n';
       return;
     }
     pff->DiverseConfGen(rmsd_cutoff, conf_cutoff, energy_cutoff, verbose);
@@ -162,27 +162,27 @@ namespace OpenBabel
       c = 0;
     }
 
-    cout << "..generated " << nconfs << " conformers" << endl;
+    cout << "..generated " << nconfs << " conformers" << '\n';
 
     for (; c < mol.NumConformers(); ++c) {
       mol.SetConformer(c);
       if(!pConv->GetOutFormat()->WriteMolecule(&mol, pConv))
         break;
     }
-    cout << endl;
+    cout << '\n';
 
   }
 
   void OpConfab::DisplayConfig(OBConversion* pConv)
   {
-    cout << "..Input format = " << pConv->GetInFormat()->GetID() << endl;
-    cout << "..Output format = " << pConv->GetOutFormat()->GetID() << endl;
-    cout << "..RMSD cutoff = " << rmsd_cutoff << endl;
-    cout << "..Energy cutoff = " << energy_cutoff << endl;
-    cout << "..Conformer cutoff = " << conf_cutoff << endl;
-    cout << "..Write input conformation? " << (include_original ? "True" : "False") << endl;
-    cout << "..Verbose? " << (verbose ? "True" : "False") << endl;
-    cout << endl;
+    cout << "..Input format = " << pConv->GetInFormat()->GetID() << '\n';
+    cout << "..Output format = " << pConv->GetOutFormat()->GetID() << '\n';
+    cout << "..RMSD cutoff = " << rmsd_cutoff << '\n';
+    cout << "..Energy cutoff = " << energy_cutoff << '\n';
+    cout << "..Conformer cutoff = " << conf_cutoff << '\n';
+    cout << "..Write input conformation? " << (include_original ? "True" : "False") << '\n';
+    cout << "..Verbose? " << (verbose ? "True" : "False") << '\n';
+    cout << '\n';
   }
 
 }//namespace
