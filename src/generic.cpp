@@ -251,14 +251,12 @@ namespace OpenBabel
   //
   // member functions for OBUnitCell class
   //
-  OBUnitCell::OBUnitCell():
-    OBGenericData("UnitCell", OBGenericDataType::UnitCell),
-    _mOrtho(matrix3x3()),
-    _mOrient(matrix3x3()),
-    _offset(vector3()),
-    _spaceGroupName(""), _spaceGroup(nullptr),
-    _lattice(Undefined)
-  {  }
+  OBUnitCell::OBUnitCell()
+      : OBGenericData("UnitCell", OBGenericDataType::UnitCell),
+        _mOrtho(matrix3x3()), _mOrient(matrix3x3()), _offset(vector3()),
+        _spaceGroupName("")
+
+  {}
 
   OBUnitCell::OBUnitCell(const OBUnitCell &src) :
     OBGenericData("UnitCell", OBGenericDataType::UnitCell),

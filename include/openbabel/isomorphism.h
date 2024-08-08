@@ -176,7 +176,7 @@ namespace OpenBabel {
 
     protected:
       OBQuery *m_query; //!< The search query.
-      unsigned int m_timeout; //!< The timeout in seconds
+      unsigned int m_timeout{60}; //!< The timeout in seconds
   };
 
   inline bool MapsTo(const OBIsomorphismMapper::Mapping &map, unsigned int queryIndex, unsigned int &queriedIndex)

@@ -102,17 +102,16 @@ namespace OpenBabel
   {
   protected:
     std::vector<double> _values;   //!< floating point values
-    OB_DEPRECATED int   *_ival;    //!< for integer values \deprecated
+    OB_DEPRECATED int *_ival{nullptr}; //!< for integer values \deprecated
     double _midz,_midx,_midy; //!< center of grid in world coordinates
     int _ydim,_xdim,_zdim;    //!< grid dimensions
     double _spacing,_inv_spa; //!< spacing between grid points and its inverse
-    double _halfSpace;        //!< half of the grid spacing
+    double _halfSpace{0.0};   //!< half of the grid spacing
     //! Three axes (i.e., translation vectors like a unit cell)
     vector3 _xAxis, _yAxis, _zAxis;
 
   public:
-
-    OBFloatGrid() : _ival(nullptr), _halfSpace(0.0) {}
+    OBFloatGrid() {}
     ~OBFloatGrid()
     {
       if (_ival) delete [] _ival;

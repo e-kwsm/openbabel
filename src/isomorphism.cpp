@@ -37,12 +37,11 @@ namespace OpenBabel {
   {
     private:
       OBIsomorphismMapper::Mappings &m_maps;
-      std::size_t m_memory, m_maxMemory;
+      std::size_t m_memory{0}, m_maxMemory;
+
     public:
       MapAllFunctor(OBIsomorphismMapper::Mappings &maps, std::size_t maxMemory)
-        : m_maps(maps), m_memory(0), m_maxMemory(maxMemory)
-      {
-      }
+          : m_maps(maps), m_maxMemory(maxMemory) {}
       bool operator()(OBIsomorphismMapper::Mapping &map) override
       {
         m_maps.push_back(map);
@@ -505,9 +504,7 @@ namespace OpenBabel {
 
   };
 
-  OBIsomorphismMapper::OBIsomorphismMapper(OBQuery *query) : m_query(query), m_timeout(60)
-  {
-  }
+  OBIsomorphismMapper::OBIsomorphismMapper(OBQuery *query) : m_query(query) {}
 
   OBIsomorphismMapper::~OBIsomorphismMapper()
   {

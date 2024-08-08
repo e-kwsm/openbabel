@@ -312,8 +312,9 @@ namespace OpenBabel
     matrix3x3 _mOrient;// Orientation matrix
     vector3 _offset;
     std::string _spaceGroupName;
-    const SpaceGroup* _spaceGroup;
-    LatticeType _lattice;
+    const SpaceGroup *_spaceGroup{nullptr};
+    LatticeType _lattice{Undefined};
+
   public:
     //! public constructor
     OBUnitCell();

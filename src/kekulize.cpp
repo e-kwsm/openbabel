@@ -41,8 +41,7 @@ namespace OpenBabel
   class Kekulizer
   {
   public:
-    Kekulizer(OBMol* mol) : m_mol(mol), needs_dbl_bond(nullptr), doubleBonds(nullptr), kekule_system(nullptr)
-    {
+    Kekulizer(OBMol *mol) : m_mol(mol) {
       atomArraySize = GetMaxAtomIdx(m_mol) + 1;
       bondArraySize = GetMaxBondIdx(m_mol) + 1;
     }
@@ -57,9 +56,9 @@ namespace OpenBabel
   private:
     bool FindPath(unsigned int atomidx, bool isDoubleBond, OBBitVec &visited);
     OBMol* m_mol;
-    OBBitVec *needs_dbl_bond;
-    OBBitVec *doubleBonds;
-    OBBitVec *kekule_system;
+    OBBitVec *needs_dbl_bond{nullptr};
+    OBBitVec *doubleBonds{nullptr};
+    OBBitVec *kekule_system{nullptr};
     unsigned int atomArraySize;
     unsigned int bondArraySize;
     std::vector<unsigned int> m_path;
@@ -145,10 +144,8 @@ namespace OpenBabel
   class NodeIterator
   {
   public:
-    NodeIterator(unsigned int *&degrees, unsigned int atomArraySize) :
-      m_degrees(degrees), m_atomArraySize(atomArraySize),
-      m_counter(0), finishedDegTwo(false)
-    { }
+    NodeIterator(unsigned int *&degrees, unsigned int atomArraySize)
+        : m_degrees(degrees), m_atomArraySize(atomArraySize) {}
     unsigned int next()
     {
       m_counter++;
@@ -176,8 +173,8 @@ namespace OpenBabel
   private:
     unsigned int *&m_degrees; 
     unsigned int m_atomArraySize;
-    unsigned int m_counter;
-    bool finishedDegTwo;
+    unsigned int m_counter{0};
+    bool finishedDegTwo{false};
   };
 
   void Kekulizer::AssignDoubleBonds()
