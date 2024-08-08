@@ -54,11 +54,11 @@ namespace OpenBabel
     public:
 
       //! Constructor for an error message e.g. OBError(__FUNCTION__, " message ")
-      OBError( const std::string &method = "",
-               const std::string &errorMsg = "",
-               const std::string &explanation = "",
-               const std::string &possibleCause = "",
-               const std::string &suggestedRemedy = "",
+      OBError( std::string method = "",
+               std::string errorMsg = "",
+               std::string explanation = "",
+               std::string possibleCause = "",
+               std::string suggestedRemedy = "",
                const obMessageLevel = obDebug );
 
       //! \return A formatted message string, including optional explanations, etc.
