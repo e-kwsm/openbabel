@@ -973,7 +973,7 @@ namespace OpenBabel
     _resnum = temp.str();
   }
 
-  void OBResidue::SetNum(const string resnum)
+  void OBResidue::SetNum(const string& resnum)
   {
     _resnum = resnum;
   }
