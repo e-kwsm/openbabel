@@ -100,15 +100,21 @@ namespace OpenBabel
       tokenize(vs, ln);
 
       if (vs.size() < 2)
+      {
         continue;
+      }
 
       sp = new OBSmartsPattern;
       if (sp->Init(vs[0]))
       {
         if (heavy)
+        {
           _contribsHeavy.push_back(pair<OBSmartsPattern*, double> (sp, atof(vs[1].c_str())));
+        }
         else
+        {
           _contribsHydrogen.push_back(pair<OBSmartsPattern*, double> (sp, atof(vs[1].c_str())));
+        }
       }
       else
       {
