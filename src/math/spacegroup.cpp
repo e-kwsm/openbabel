@@ -113,10 +113,10 @@ namespace OpenBabel
           if (idx != std::string::npos)
             {
               std::string alt = linestr.substr(0, idx);
-              if (alt.length() > 0 && _SpaceGroups.sgbn[alt] == nullptr)
+              if (!alt.empty() && _SpaceGroups.sgbn[alt] == nullptr)
                 _SpaceGroups.sgbn[alt] = group;
               std::string stripped_HM=RemoveWhiteSpaceUnderscore(alt);
-              if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[stripped_HM] == nullptr)
+              if (!stripped_HM.empty() && _SpaceGroups.sgbn[stripped_HM] == nullptr)
                 _SpaceGroups.sgbn[stripped_HM] = group;
               group->SetHMName(linestr.substr(idx+1, std::string::npos).c_str());
             }
@@ -129,7 +129,7 @@ namespace OpenBabel
         if (strlen(line) == 0)
           {
             step = SPACE_GROUP_ID;
-            if (HMs.length() > 0)
+            if (!HMs.empty())
               group->RegisterSpaceGroup(1, HMs.c_str());
             else
               group->RegisterSpaceGroup();
@@ -430,7 +430,7 @@ namespace OpenBabel
     _SpaceGroups.sgs.insert(this);
     if (m_id > 0 && m_id <= 230)
       _SpaceGroups.sgbi[m_id - 1].push_back(this);
-    if (m_HM.length() > 0)
+    if (!m_HM.empty())
 	  {
         if (m_OriginAlternative != 0)
 		  {
@@ -440,7 +440,7 @@ namespace OpenBabel
               _SpaceGroups.sgbn[nm] = this;
             // Also use the symbol stripped from whitespaces as key
             std::string stripped_HM=RemoveWhiteSpaceUnderscore(nm);
-            if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[nm] == nullptr)
+            if (!stripped_HM.empty() && _SpaceGroups.sgbn[nm] == nullptr)
               _SpaceGroups.sgbn[nm] = this;
 		  }
         if ((m_OriginAlternative & 1) == 0 && _SpaceGroups.sgbn[m_HM] == nullptr)
@@ -448,9 +448,9 @@ namespace OpenBabel
 	  }
     // Also use the HM symbol stripped from whitespaces as key
 	  std::string stripped_HM=RemoveWhiteSpaceUnderscore(m_HM);
-    if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[stripped_HM] == nullptr)
+    if (!stripped_HM.empty() && _SpaceGroups.sgbn[stripped_HM] == nullptr)
       _SpaceGroups.sgbn[stripped_HM] = this;
-    if (m_Hall.length() > 0 && _SpaceGroups.sgbn[m_Hall] == nullptr)
+    if (!m_Hall.empty() && _SpaceGroups.sgbn[m_Hall] == nullptr)
       _SpaceGroups.sgbn[m_Hall] = this;
     if (nb == 0)
       return;
@@ -460,7 +460,7 @@ namespace OpenBabel
     for (int i = 0; i < nb; i++)
       {
         name=va_arg(args, const char *);
-        if (name.length() > 0 && _SpaceGroups.sgbn[name] == nullptr)
+        if (!name.empty() && _SpaceGroups.sgbn[name] == nullptr)
           _SpaceGroups.sgbn[name] = this;
       }
     va_end(args);
@@ -493,7 +493,7 @@ namespace OpenBabel
    */
   bool SpaceGroup::IsValid() const
   {
-    if (!m_transforms.size())
+    if (m_transforms.empty())
       return false;
     list<transform3d*>::const_iterator i, iend = m_transforms.end();
     map <string, transform3d*>T;
@@ -538,12 +538,12 @@ namespace OpenBabel
   const SpaceGroup * SpaceGroup::Find (SpaceGroup* group)
   {
     const SpaceGroup *found = nullptr;
-    if (group->m_Hall.length() > 0 && _SpaceGroups.sgbn.find(group->m_Hall)!=_SpaceGroups.sgbn.end())
+    if (!group->m_Hall.empty() && _SpaceGroups.sgbn.find(group->m_Hall)!=_SpaceGroups.sgbn.end())
       {
         found = _SpaceGroups.sgbn[group->m_Hall];
         if (!found)
           obErrorLog.ThrowError(__FUNCTION__, "Unknown space group (Hall symbol:"+group->m_Hall+") error, please file a bug report.", obError);
-        if (group->m_transforms.size() && *found  != *group)
+        if (!group->m_transforms.empty() && *found  != *group)
           {
             unsigned id = group->GetId();
             if (id != 3 && id != 68) // these groups have duplicates
@@ -560,7 +560,7 @@ namespace OpenBabel
     // Identify from the HM symbol, after removing all whitespaces or underscore (which are valid separators in
     // old CIF files)
     std::string stripped_hm=RemoveWhiteSpaceUnderscore(group->m_HM);
-    if (stripped_hm.length() > 0 &&
+    if (!stripped_hm.empty() &&
         _SpaceGroups.sgbn.find(stripped_hm)!=_SpaceGroups.sgbn.end() &&
         (found = _SpaceGroups.sgbn[stripped_hm]))
       {
@@ -568,7 +568,7 @@ namespace OpenBabel
           found = _SpaceGroups.sgbn[found->GetHallName()];
           return found;
         }
-        if (group->m_transforms.size())
+        if (!group->m_transforms.empty())
           {// If transforms (symmetry operations) are listed, make sure they match the tabulated ones
             list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[found->m_id - 1].end();
             for (i = _SpaceGroups.sgbi[found->m_id - 1].begin(); i!= end; ++i)
@@ -577,7 +577,7 @@ namespace OpenBabel
             obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error (H-M symbol:"+group->m_HM+"), cannot match the list of transforms, please file a bug report.", obError);
             return nullptr;
           }
-        else if (group->m_transforms.size() == 0)
+        else if (group->m_transforms.empty())
           {// No transforms (symmetry operations) are listed, warn if HM symbol can match several spacegroups
             int n = 0;
             list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[group->m_id].end();
@@ -593,14 +593,14 @@ namespace OpenBabel
       }
     else if (group->m_id > 0 && group->m_id <= 230)
       {
-        if (group->m_transforms.size())
+        if (!group->m_transforms.empty())
           {
             list<const SpaceGroup*>::const_iterator i, end = _SpaceGroups.sgbi[group->m_id - 1].end();
             for (i = _SpaceGroups.sgbi[group->m_id - 1].begin(); i!= end; ++i)
               if ((**i) == *group)
                 return *i;
           }
-        else if (group->m_transforms.size() == 0)
+        else if (group->m_transforms.empty())
           {
             if (_SpaceGroups.sgbi[group->m_id - 1].size() > 1)
               obErrorLog.ThrowError(__FUNCTION__, "Ambiguous space group: sg number corresponds to several space groups.", obWarning);
