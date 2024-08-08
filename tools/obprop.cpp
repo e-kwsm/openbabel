@@ -139,7 +139,7 @@ int main(int argc,char **argv)
       if (canSMIFormat) {
         conv.SetOutFormat(canSMIFormat);
         smilesString = conv.WriteString(&mol);
-        if ( smilesString.length() == 0 )
+        if ( smilesString.empty() )
         {
           smilesString = "-";
         }
@@ -150,7 +150,7 @@ int main(int argc,char **argv)
       if (inchiFormat) {
         conv.SetOutFormat(inchiFormat);
         inchiString = conv.WriteString(&mol);
-        if ( inchiString.length() == 0 )
+        if ( inchiString.empty() )
         {
           inchiString = "-";
         }
@@ -216,7 +216,7 @@ string sequence(OBMol &mol)
         continue;
       
       if (r->GetChainNum() != currentChain) {
-        if (residueSequence.size() != 0) { // remove the trailing "-"
+        if (!residueSequence.empty()) { // remove the trailing "-"
           residueSequence.erase(residueSequence.size() - 1);
           residueSequence += ", "; // separate different chains
         }
@@ -226,7 +226,7 @@ string sequence(OBMol &mol)
       residueSequence += r->GetName();
       residueSequence += "-";
     }
-  if (residueSequence.size() != 0) // remove the trailing "-"
+  if (!residueSequence.empty()) // remove the trailing "-"
     residueSequence.erase(residueSequence.size() - 1);
 
   return residueSequence; 
