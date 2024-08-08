@@ -193,10 +193,10 @@ namespace OpenBabel
 		ostream& ofs = *pConv->GetOutStream();
 
 		if (pConv->GetOutputIndex() == 1)
-			ofs << "# The contents of this file were derived from " << pConv->GetInFilename() << endl;
+			ofs << "# The contents of this file were derived from " << pConv->GetInFilename() << '\n';
 
 		if (!pConv->IsOption("n"))
-			ofs << "# Title = " << pmol->GetTitle() << endl;
+			ofs << "# Title = " << pmol->GetTitle() << '\n';
 
 		const char * const p = pConv->IsOption(levels_option);
 
@@ -213,20 +213,20 @@ namespace OpenBabel
 
 				if (levels > 10000)
 				{
-					error_msg << "Levels = " << levels << " will almost certainly crash and was probably a mistake." << endl;
+					error_msg << "Levels = " << levels << " will almost certainly crash and was probably a mistake." << '\n';
 					obErrorLog.ThrowError(__FUNCTION__, error_msg.str(), obError);
 					return false;
 				}
 				else
 					if (levels > 10)
 					{
-						error_msg << "Levels > 10 is probably not very useful.  (If it is, let me know!)" << endl;
+						error_msg << "Levels > 10 is probably not very useful.  (If it is, let me know!)" << '\n';
 						obErrorLog.ThrowError(__FUNCTION__, error_msg.str(), obWarning);
 					}
 			}
 			else
 			{
-				error_msg << "Error reading levels value: " << ss.str() << endl;
+				error_msg << "Error reading levels value: " << ss.str() << '\n';
 				obErrorLog.ThrowError(__FUNCTION__, error_msg.str(), obError);
 				return false;
 			}
@@ -238,17 +238,17 @@ namespace OpenBabel
 		{
 			if (pConv->GetOutputIndex() == 1)
 				obErrorLog.ThrowError(__FUNCTION__, "MNA includes hydrogens by definition, just be aware of that.", obInfo);
-			ofs << "# Hydrogens deleted explicitly." << endl;
+			ofs << "# Hydrogens deleted explicitly." << '\n';
 			mol.DeleteHydrogens();
 		}
 		else
 			mol.AddHydrogens();
 
 		FOR_ATOMS_OF_MOL(atom, mol)
-			ofs << MNAize(&*atom, levels) << endl;
+			ofs << MNAize(&*atom, levels) << '\n';
 
 		if (!pConv->IsLast())
-			ofs << "$$$$" << endl;
+			ofs << "$$$$" << '\n';
 
 		return true;
 	}
