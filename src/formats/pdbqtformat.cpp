@@ -119,7 +119,7 @@ namespace OpenBabel
   /// Utility functions
   static bool parseAtomRecord(char *buffer, OBMol & mol, int chainNum);
   static bool IsRotBond_PDBQT(OBBond * the_bond);
-  static bool IsIn(const vector<int>& vec, const int num);
+  static bool IsIn(const vector<int>& vec, int num);
   static void OutputAtom(OBAtom* atom, ostream& ofs, unsigned int index);
   static void OutputGroup(OBMol& mol, ostream& ofs, const vector <int>& group, map <unsigned int, unsigned int> new_indexes, bool use_new_indexes);
   static unsigned int AtomsSoFar(const map <unsigned int, branch >& tree, unsigned int depth);
