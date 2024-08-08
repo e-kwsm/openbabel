@@ -613,12 +613,12 @@ XMLPUBFUN int XMLCALL
 XMLPUBFUN void XMLCALL		
 		xmlBufferEmpty		(xmlBufferPtr buf);
 XMLPUBFUN const xmlChar* XMLCALL	
-		xmlBufferContent	(const xmlBufferPtr buf);
+		xmlBufferContent	(xmlBufferPtr buf);
 XMLPUBFUN void XMLCALL		
 		xmlBufferSetAllocationScheme(xmlBufferPtr buf,
 					 xmlBufferAllocationScheme scheme);
 XMLPUBFUN int XMLCALL		
-		xmlBufferLength		(const xmlBufferPtr buf);
+		xmlBufferLength		(xmlBufferPtr buf);
 
 /*
  * Creating/freeing new structures.
@@ -756,17 +756,17 @@ XMLPUBFUN xmlNodePtr XMLCALL
 		xmlNewReference		(xmlDocPtr doc,
 					 const xmlChar *name);
 XMLPUBFUN xmlNodePtr XMLCALL	
-		xmlCopyNode		(const xmlNodePtr node,
+		xmlCopyNode		(xmlNodePtr node,
 					 int recursive);
 XMLPUBFUN xmlNodePtr XMLCALL	
-		xmlDocCopyNode		(const xmlNodePtr node,
+		xmlDocCopyNode		(xmlNodePtr node,
 					 xmlDocPtr doc,
 					 int recursive);
 XMLPUBFUN xmlNodePtr XMLCALL	
 		xmlDocCopyNodeList	(xmlDocPtr doc,
-					 const xmlNodePtr node);
+					 xmlNodePtr node);
 XMLPUBFUN xmlNodePtr XMLCALL	
-		xmlCopyNodeList		(const xmlNodePtr node);
+		xmlCopyNodeList		(xmlNodePtr node);
 #ifdef LIBXML_TREE_ENABLED
 XMLPUBFUN xmlNodePtr XMLCALL	
 		xmlNewTextChild		(xmlNodePtr parent,
