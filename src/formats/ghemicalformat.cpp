@@ -289,7 +289,7 @@ namespace OpenBabel
     OBSetData *gmsset = dynamic_cast<OBSetData *>(pmol->GetData("gamess"));
     if(gmsset)
     {
-      ofs << "!GAMESS" << endl;
+      ofs << "!GAMESS" << '\n';
       std::vector<OBGenericData*>::iterator i,j;
 
       for(i = gmsset->GetBegin(); i != gmsset->GetEnd(); ++i)
@@ -303,7 +303,7 @@ namespace OpenBabel
             OBPairData *pd = dynamic_cast<OBPairData *>(*j);
             if(pd)
             {
-              ofs << section << " " << pd->GetAttribute() << " " << pd->GetValue() << endl;
+              ofs << section << " " << pd->GetAttribute() << " " << pd->GetValue() << '\n';
             }
           }
         }
