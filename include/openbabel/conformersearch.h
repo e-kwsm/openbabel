@@ -27,9 +27,9 @@ GNU General Public License for more details.
 
 namespace OpenBabel {
 
-  typedef std::vector<int> RotorKey;
-  typedef std::vector<RotorKey> RotorKeys;
-  typedef std::map<std::vector<int>,double> mapRotorEnergy;
+  using RotorKey = std::vector<int>;
+  using RotorKeys = std::vector<RotorKey>;
+  using mapRotorEnergy = std::map<std::vector<int>, double>;
 
   ///@addtogroup conformer Conformer Searching
   ///@{

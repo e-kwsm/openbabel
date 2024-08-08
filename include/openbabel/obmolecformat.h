@@ -127,7 +127,7 @@ public:
   static bool OutputMolsFromReaction
     (OBReaction* pReact, OBConversion* pConv, OBFormat* pFormat);
 
-  typedef std::unordered_map<std::string, unsigned> NameIndexType;
+  using NameIndexType = std::unordered_map<std::string, unsigned int>;
 
   // documentation in obmolecformat.cpp
   static bool   ReadNameIndex(NameIndexType& index, const std::string& datafilename,
