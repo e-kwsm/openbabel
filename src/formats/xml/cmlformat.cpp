@@ -1355,7 +1355,7 @@ namespace OpenBabel
     time_res = strftime(timestr,
                         TIME_STR_SIZE,
                         "%a %b %d %H:%M:%S %Z %Y",
-                        localtime((time_t *) &akttime)
+                        localtime(&akttime)
                         );
     return string(timestr);
   }

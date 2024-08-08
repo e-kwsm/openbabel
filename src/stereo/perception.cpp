@@ -2393,7 +2393,7 @@ namespace OpenBabel {
     v1 = a->GetVector() - b->GetVector();
     v2 = c->GetVector() - b->GetVector();
     if (a->IsPeriodic()) {  // Adapted from OBAtom.GetAngle
-      OBMol *mol = (OBMol*)a->GetParent();
+      OBMol *mol = a->GetParent();
       OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
       v1 = box->MinimumImageCartesian(v1);
       v2 = box->MinimumImageCartesian(v2);
@@ -3016,9 +3016,9 @@ namespace OpenBabel {
         if (ct_cfg.begin == centerId || ct_cfg.end == centerId) {
           // Assumption: the first two refs are on the begin atom, the last two on the end atom
           if (ct_cfg.begin == centerId)
-            replace(ct_cfg.refs.begin(), ct_cfg.refs.begin()+2, (OBStereo::Ref) OBStereo::ImplicitRef, (OBStereo::Ref) newId);
+            replace(ct_cfg.refs.begin(), ct_cfg.refs.begin()+2, (OBStereo::Ref) OBStereo::ImplicitRef, newId);
           if (ct_cfg.end == centerId)
-            replace(ct_cfg.refs.begin()+2, ct_cfg.refs.end(), (OBStereo::Ref) OBStereo::ImplicitRef, (OBStereo::Ref) newId);
+            replace(ct_cfg.refs.begin()+2, ct_cfg.refs.end(), (OBStereo::Ref) OBStereo::ImplicitRef, newId);
           ct->SetConfig(ct_cfg);
         }
       }
@@ -3027,7 +3027,7 @@ namespace OpenBabel {
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.center == centerId) {
           if (ts_cfg.from == OBStereo::ImplicitRef) ts_cfg.from = newId;
-          replace(ts_cfg.refs.begin(), ts_cfg.refs.end(), (OBStereo::Ref) OBStereo::ImplicitRef, (OBStereo::Ref) newId);
+          replace(ts_cfg.refs.begin(), ts_cfg.refs.end(), (OBStereo::Ref) OBStereo::ImplicitRef, newId);
           ts->SetConfig(ts_cfg);
         }
       }

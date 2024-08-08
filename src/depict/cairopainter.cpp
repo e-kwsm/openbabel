@@ -34,7 +34,7 @@ namespace OpenBabel
         else
           m_width = m_width * ratio;
       }
-      m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int> (m_width), static_cast<int> (m_height));
+      m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, m_width, m_height);
       m_cairo = cairo_create(m_surface);
       if(m_transparent)
         cairo_set_source_rgba (m_cairo, 0.0, 0.0, 0.0, 0.0);
@@ -58,8 +58,8 @@ namespace OpenBabel
     int col = m_index - ((row-1)*m_ncols);
 
     // Work out the scaling factor
-    double scale_x = cellwidth / (double) width;
-    double scale_y = (cellheight-titleheight) / (double) height; // Leave some extra space for the title if present
+    double scale_x = cellwidth / width;
+    double scale_y = (cellheight-titleheight) / height; // Leave some extra space for the title if present
     double scale = std::min(scale_x, scale_y);
 
     // Add the title

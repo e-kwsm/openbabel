@@ -447,7 +447,7 @@ namespace OpenBabel
     double angle,res=255.0/360.0;
 
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
-    rot[0] = (unsigned char)arr[0];
+    rot[0] = arr[0];
 
     for (i = 0;i < _vrotor.size();++i)
       {
