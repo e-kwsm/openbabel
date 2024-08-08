@@ -190,22 +190,22 @@ namespace OpenBabel
         vector<vector3> v = uc->GetCellVectors();
         vector3 v1;
 
-        ofs << "$cell vectors" << endl;
+        ofs << "$cell vectors" << '\n';
         v1 = v[0] * ANGSTROM_TO_BOHR;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
         v1 = v[1] * ANGSTROM_TO_BOHR;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
         v1 = v[2] * ANGSTROM_TO_BOHR;
         snprintf(buffer, BUFF_SIZE,
                  "%-3s% 27.14f% 20.14f% 20.14f","", v1.x(), v1.y(), v1.z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
-    ofs << "$coordinates" << endl;
+    ofs << "$coordinates" << '\n';
 
     OBAtom *atom;
     for(i = 1;i <= mol.NumAtoms(); i++)
@@ -216,10 +216,10 @@ namespace OpenBabel
                  atom->GetX() * ANGSTROM_TO_BOHR,
                  atom->GetY() * ANGSTROM_TO_BOHR,
                  atom->GetZ() * ANGSTROM_TO_BOHR);
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
-    ofs << "$end" << endl;
+    ofs << "$end" << '\n';
 
     return(true);
   }

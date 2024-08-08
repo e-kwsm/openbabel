@@ -173,12 +173,12 @@ namespace OpenBabel
 
         if(model != "" && basis != "" && method != "")
           {
-            ofs << model << "/" << basis << "," << method << endl;
+            ofs << model << "/" << basis << "," << method << '\n';
           }
         else
           {
-            ofs << "#Unable to translate keywords!" << endl;
-            ofs << defaultKeywords << endl;
+            ofs << "#Unable to translate keywords!" << '\n';
+            ofs << defaultKeywords << '\n';
           }
       }
     else if (keywordFile)
@@ -188,20 +188,20 @@ namespace OpenBabel
         if (kfstream)
           {
             while (getline(kfstream, keyBuffer))
-              ofs << keyBuffer << endl;
+              ofs << keyBuffer << '\n';
           }
       }
     else
       {
-        ofs << defaultKeywords << endl;
+        ofs << defaultKeywords << '\n';
       }
-    ofs << endl; // blank line after keywords
-    ofs << " " << mol.GetTitle() << endl << endl;
+    ofs << '\n'; // blank line after keywords
+    ofs << " " << mol.GetTitle() << '\n' << '\n';
 
     snprintf(buffer, BUFF_SIZE, "%d  %d",
              mol.GetTotalCharge(),
              mol.GetTotalSpinMultiplicity());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
@@ -215,7 +215,7 @@ namespace OpenBabel
                    atom->GetIsotope(),
                    atom->GetX(), atom->GetY(), atom->GetZ());
 
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     // Translation vectors
     OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
@@ -255,7 +255,7 @@ namespace OpenBabel
       // -GRH
       for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
         {
-          ofs << endl << atom->GetIdx() << " ";
+          ofs << '\n' << atom->GetIdx() << " ";
           for (bond = mol.BeginBond(j); bond; bond = mol.NextBond(j))
             {
               if (bond->GetBeginAtomIdx() == atom->GetIdx()) {
@@ -267,12 +267,12 @@ namespace OpenBabel
     } // end writing bonds
 
     // file should end with a blank line
-    ofs << endl;
+    ofs << '\n';
     return(true);
   }
 
   static void add_unique_pairdata_to_mol(OpenBabel::OBMol *mol,
-                                         string attribute,
+                                         const string& attribute,
                                          string buffer,int start)
   {
     int i;
@@ -305,7 +305,7 @@ namespace OpenBabel
         }
   }
 
-  static int extract_thermo(OpenBabel::OBMol *mol,string method,double temperature,
+  static int extract_thermo(OpenBabel::OBMol *mol,const string& method,double temperature,
                             double ezpe,double Hcorr,double Gcorr,double E0,double CV,
                             int RotSymNum,std::vector<double> Scomponents)
   {
@@ -1301,7 +1301,7 @@ namespace OpenBabel
           unsigned int symmSize = symmetries.size();
           if (initialSize != symmSize || betaStart == -1)
             {
-              cerr << "Inconsistency: orbitals have " << initialSize << " elements while symmetries have " << symmSize << endl;
+              cerr << "Inconsistency: orbitals have " << initialSize << " elements while symmetries have " << symmSize << '\n';
             }
           else
             {
