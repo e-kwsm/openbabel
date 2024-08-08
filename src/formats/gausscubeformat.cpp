@@ -439,7 +439,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                    << " of the file. More data was expected.\n"
                    << "Grid MO titles read in = " << vgd.size()
                    << " and expected number of values = "
-                   << nCubes << endl;
+                   << nCubes << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
           return false;
         }
@@ -487,7 +487,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                  << " of the file. More data was expected.\n"
                  << "Values read in = " << values.size()
                  << " and expected number of values = "
-                 << n*nCubes << endl;
+                 << n*nCubes << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -569,11 +569,11 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     // first two lines are comments
     str = mol.GetTitle();
     if (str.empty())
-      ofs << "*****" << endl;
+      ofs << "*****" << '\n';
     else
-      ofs << str << endl;
+      ofs << str << '\n';
 
-    ofs << endl; // line 2
+    ofs << '\n'; // line 2
 
     OBGridData *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
     if (gd == nullptr) {
@@ -591,22 +591,22 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     // line 3: number of atoms, origin x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", - static_cast<signed int> (mol.NumAtoms()),
         origin[0]*ANGSTROM_TO_BOHR, origin[1]*ANGSTROM_TO_BOHR, origin[2]*ANGSTROM_TO_BOHR);
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     // line 4: number of points x direction, axis x direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", nx,
         xAxis[0]*ANGSTROM_TO_BOHR, xAxis[1]*ANGSTROM_TO_BOHR, xAxis[2]*ANGSTROM_TO_BOHR);
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     // line 5: number of points y direction, axis y direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", ny,
         yAxis[0]*ANGSTROM_TO_BOHR, yAxis[1]*ANGSTROM_TO_BOHR, yAxis[2]*ANGSTROM_TO_BOHR);
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     // line 6: number of points z direction, axis z direction x y z
     snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f", nz,
         zAxis[0]*ANGSTROM_TO_BOHR, zAxis[1]*ANGSTROM_TO_BOHR, zAxis[2]*ANGSTROM_TO_BOHR);
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     // Atom lines: atomic number, ?, X, Y, Z
     FOR_ATOMS_OF_MOL (atom, mol) {
@@ -614,7 +614,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       snprintf(buffer, BUFF_SIZE,"%5d%12.6f%12.6f%12.6f%12.6f", atom->GetAtomicNum(),
           static_cast<double>(atom->GetAtomicNum()),
           coordPtr[0]*ANGSTROM_TO_BOHR, coordPtr[1]*ANGSTROM_TO_BOHR, coordPtr[2]*ANGSTROM_TO_BOHR);
-      ofs << buffer << endl;
+      ofs << buffer << '\n';
     }
 
     vector<OBGenericData*> grids = pmol->GetAllData(OBGenericDataType::GridData);
@@ -625,7 +625,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       snprintf(buffer, BUFF_SIZE," %3d", l);
       ofs << buffer << flush;
     }
-    ofs << endl;
+    ofs << '\n';
 
     for (unsigned int l = 0; l < grids.size(); ++l)
     {
@@ -657,7 +657,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             value = static_cast<OBGridData*>(grids[l])->GetValue(i, j, k);
             snprintf(buffer, BUFF_SIZE," %12.5E", value);
             if (count % 6 == 0)
-              ofs << buffer << endl;
+              ofs << buffer << '\n';
             else
               ofs << buffer;
             count++;

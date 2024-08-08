@@ -214,10 +214,10 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     OBAtom *atom;
 
-    ofs << mol.GetTitle() << endl << endl;
-    ofs << "&gen" << endl;
-    ofs << "&" << endl;
-    ofs << "&zmat" << endl;
+    ofs << mol.GetTitle() << '\n' << '\n';
+    ofs << "&gen" << '\n';
+    ofs << "&" << '\n';
+    ofs << "&zmat" << '\n';
 
     for (i = 1;i <= mol.NumAtoms(); i++)
       {
@@ -227,10 +227,10 @@ namespace OpenBabel
                  atom->GetX(),
                  atom->GetY(),
                  atom->GetZ());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
-    ofs << "&" << endl;
+    ofs << "&" << '\n';
     return(true);
   }
 

@@ -294,15 +294,15 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
 
-    ofs << "*** " << mol.GetTitle() << endl;
-    ofs << "!file,2,INSERT WAVEFUNCTION FILE LOCATION HERE" << endl;
-    ofs << "!memory,INSERT MEMORY HERE" << endl;
-    ofs << "!basis,INSERT BASIS SET HERE" << endl;
+    ofs << "*** " << mol.GetTitle() << '\n';
+    ofs << "!file,2,INSERT WAVEFUNCTION FILE LOCATION HERE" << '\n';
+    ofs << "!memory,INSERT MEMORY HERE" << '\n';
+    ofs << "!basis,INSERT BASIS SET HERE" << '\n';
     ofs << "\n";
-    ofs << "geomtyp=xyz" << endl;
-    ofs << "geometry={" << endl;
-    ofs << mol.NumAtoms() << endl;
-    ofs << "Geometry specification:" << endl;
+    ofs << "geomtyp=xyz" << '\n';
+    ofs << "geometry={" << '\n';
+    ofs << mol.NumAtoms() << '\n';
+    ofs << "Geometry specification:" << '\n';
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
@@ -316,9 +316,9 @@ namespace OpenBabel
 
     ofs << "}\n\n";
 
-    ofs << "!INSERT QM METHODS HERE" << endl;
-    ofs << "!hf" << endl;
-    ofs << "---" << endl;
+    ofs << "!INSERT QM METHODS HERE" << '\n';
+    ofs << "!hf" << '\n';
+    ofs << "---" << '\n';
     return(true);
   }
 

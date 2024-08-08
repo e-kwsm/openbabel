@@ -572,7 +572,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     {
         cerr << "Number of read energies (" << energies.size();
         cerr << ") does not match number of read conformers (";
-        cerr << molecule->NumConformers() << ")!" << endl;
+        cerr << molecule->NumConformers() << ")!" << '\n';
         return;
     }
     molecule->SetEnergies(energies);
@@ -818,7 +818,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 break;
             if (current_bead >= nbeads)
             {
-                cerr << "Current bead out of range: " << current_bead << " of " << nbeads << endl;
+                cerr << "Current bead out of range: " << current_bead << " of " << nbeads << '\n';
                 break;
             }
             energies[current_bead] = atof(vs[3].c_str());
@@ -841,7 +841,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     break;
                 if (current_bead >= nbeads)
                 {
-                    cerr << "Current bead out of range: " << current_bead << " of " << nbeads << endl;
+                    cerr << "Current bead out of range: " << current_bead << " of " << nbeads << '\n';
                     break;
                 }
                 beads[current_bead][i*3] = atof(vs[2].c_str())*AU_TO_ANGSTROM;
@@ -872,7 +872,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             return;
         }
     }
-    cerr << "Failed to read NEB calculation!" << endl;
+    cerr << "Failed to read NEB calculation!" << '\n';
     for(unsigned int i = 0; i < beads.size();i++)
         delete beads[i];
   }
@@ -1084,7 +1084,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     char buffer[BUFF_SIZE];
 
     ofs << "start molecule" << "\n\n";
-    ofs << "title " << endl << " " << mol.GetTitle() << "\n\n";
+    ofs << "title " << '\n' << " " << mol.GetTitle() << "\n\n";
 
     ofs << "geometry units angstroms print xyz autosym\n";
 

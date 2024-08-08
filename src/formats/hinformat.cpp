@@ -224,9 +224,9 @@ namespace OpenBabel
             snprintf(buffer,BUFF_SIZE, "%d %c ", (bond->GetNbrAtom(atom))->GetIdx(), bond_char);
             ofs << buffer;
           }
-        ofs << endl;
+        ofs << '\n';
       }
-    ofs << "endmol " << file_num << endl;
+    ofs << "endmol " << file_num << '\n';
     return(true);
   }
 

@@ -208,7 +208,7 @@ namespace OpenBabel
                   break;
                 default:
                   cerr << "Reading MOPAC Tv values: unknown coordinate '"
-                       << coord << "', value: " << val << endl;
+                       << coord << "', value: " << val << '\n';
                   break;
                 }
 
@@ -787,7 +787,7 @@ namespace OpenBabel
         if (kfstream)
           {
             while (getline(kfstream, keyBuffer))
-              ofs << keyBuffer << endl;
+              ofs << keyBuffer << '\n';
           }
       }
     else {
@@ -796,11 +796,11 @@ namespace OpenBabel
         ofs << " CHARGE=" << mol.GetTotalCharge();
       
       // should handle GetTotalSpinMultiplicity() too
-      ofs << endl;
+      ofs << '\n';
     }
 
-    ofs << mol.GetTitle() << endl;
-    ofs << endl; // comment
+    ofs << mol.GetTitle() << '\n';
+    ofs << '\n'; // comment
 
     string str,str1;
     FOR_ATOMS_OF_MOL(atom, mol)
@@ -993,14 +993,14 @@ namespace OpenBabel
         if (kfstream)
           {
             while (getline(kfstream, keyBuffer))
-              ofs << keyBuffer << endl;
+              ofs << keyBuffer << '\n';
           }
       }
     else
-      ofs << defaultKeywords << endl;
+      ofs << defaultKeywords << '\n';
 
-    ofs << mol.GetTitle() << endl;
-    ofs << endl; // comment
+    ofs << mol.GetTitle() << '\n';
+    ofs << '\n'; // comment
 
     double r,w,t;
     FOR_ATOMS_OF_MOL (atom, mol) {
