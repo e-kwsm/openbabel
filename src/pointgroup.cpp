@@ -975,13 +975,21 @@ namespace OpenBabel {
         s = rel[0]*dir[0] + rel[1]*dir[1] + rel[2]*dir[2];
 
         if( s >= 0 )
+        {
           for( k = 0 ; k < DIMENSION ; k++ )
+          {
             dir[k] += rel[k] ;
-        else for( k = 0 ; k < DIMENSION ; k++ )
+          }
+        }
+        else { for( k = 0 ; k < DIMENSION ; k++ ) {
                dir[k] -= rel[k] ;
+        }
+        }
       }
       for( k = 0, s = 0 ; k < DIMENSION ; k++ )
+      {
         s += SQUARE( dir[k] ) ;
+      }
       s = sqrt(s) ;
       if( s > 0 )
         for( k = 0 ; k < DIMENSION ; k++ )
@@ -1020,9 +1028,10 @@ namespace OpenBabel {
       double             ris, rjs ;
       double             r, center[ DIMENSION ] ;
 
-      if( verbose > 0 )
+      if( verbose > 0 ) {
         printf( "Trying c2 axis for the pair (%d,%d) with the support (%g,%g,%g)\n",
                 i, j, support[0], support[1], support[2] ) ;
+      }
       StatTotal++ ;
       /* First, do a quick sanity check */
 
@@ -1032,7 +1041,7 @@ namespace OpenBabel {
 
       if( fabs( ris - rjs ) > TolerancePrimary ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    Support can't actually define a rotation axis\n" ) ;
+        if( verbose > 0 ) { printf( "    Support can't actually define a rotation axis\n" ) ; }
         return nullptr;
       }
       axis                 = alloc_symmetry_element() ;
@@ -1040,16 +1049,22 @@ namespace OpenBabel {
       axis->order          = 2 ;
       axis->nparam         = 7 ;
       for( k = 0, r = 0 ; k < DIMENSION ; k++ )
+      {
         r += CenterOfSomething[k]*CenterOfSomething[k] ;
+      }
       r = sqrt(r) ;
       if( r > 0 ){
         for( k = 0 ; k < DIMENSION ; k++ )
+        {
           axis->normal[k] = CenterOfSomething[k]/r ;
+        }
       }
       else {
         axis->normal[0] = 1 ;
         for( k = 1 ; k < DIMENSION ; k++ )
+        {
           axis->normal[k] = 0 ;
+        }
       }
       axis->distance = r ;
 
@@ -1060,12 +1075,14 @@ namespace OpenBabel {
 
       if( r <= TolerancePrimary ){ /* c2 is underdefined, let's do something special */
         if (MolecularPlane != nullptr) {
-          if( verbose > 0 ) printf( "    c2 is underdefined, but there is a molecular plane\n" ) ;
+          if( verbose > 0 ) { printf( "    c2 is underdefined, but there is a molecular plane\n" ) ; }
           for( k = 0 ; k < DIMENSION ; k++ )
+          {
             axis->direction[k] = MolecularPlane->normal[k] ;
+          }
         }
         else {
-          if( verbose > 0 ) printf( "    c2 is underdefined, trying random direction\n" ) ;
+          if( verbose > 0 ) { printf( "    c2 is underdefined, trying random direction\n" ) ; }
 
           center[0] = _mol->GetAtom(i+1)->x() - _mol->GetAtom(j+1)->x();
           center[1] = _mol->GetAtom(i+1)->y() - _mol->GetAtom(j+1)->y();
@@ -1082,18 +1099,24 @@ namespace OpenBabel {
             axis->direction[2] =  center[0] ;
           }
           for( k = 0, r = 0 ; k < DIMENSION ; k++ )
+          {
             r += axis->direction[k] * axis->direction[k] ;
+          }
           r = sqrt(r) ;
           for( k = 0 ; k < DIMENSION ; k++ )
+          {
             axis->direction[k] /= r ;
+          }
         }
       }
       else { /* direction is Ok, renormalize it */
         for( k = 0 ; k < DIMENSION ; k++ )
+        {
           axis->direction[k] = center[k]/r ;
+        }
       }
       if( refine_symmetry_element( axis, 1 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the c2 axis\n" ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the c2 axis\n" ) ; }
         destroy_symmetry_element( axis ) ;
         return nullptr;
       }
@@ -1117,7 +1140,7 @@ namespace OpenBabel {
       ra = sqrt(ra) ; rb  = sqrt(rb) ; rc  = sqrt(rc) ;
       if( fabs( ra - rb ) > TolerancePrimary || fabs( ra - rc ) > TolerancePrimary || fabs( rb - rc ) > TolerancePrimary ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    points are not on a sphere\n" ) ;
+        if( verbose > 0 ) { printf( "    points are not on a sphere\n" ) ; }
         return nullptr;
       }
       for( i = 0 ; i < DIMENSION ; i++ ){
@@ -1130,42 +1153,48 @@ namespace OpenBabel {
       rbc = sqrt(rbc) ;
       if( fabs( rab - rbc ) > TolerancePrimary ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    points can't be rotation-equivalent\n" ) ;
+        if( verbose > 0 ) { printf( "    points can't be rotation-equivalent\n" ) ; }
         return nullptr;
       }
       if( rab <= ToleranceSame || rbc <= ToleranceSame || rac <= ToleranceSame ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    rotation is underdefined by these points: %8.3f %8.3f %8.3f\n", rab, rbc, rac ) ;
+        if( verbose > 0 ) { printf( "    rotation is underdefined by these points: %8.3f %8.3f %8.3f\n", rab, rbc, rac ) ; }
         return nullptr;
       }
       rab   = (rab+rbc)/2 ;
       angle = M_PI - 2*asin( rac/(2*rab) ) ;
-      if( verbose > 1 ) printf( "    rotation angle is %f\n", angle ) ;
+      if( verbose > 1 ) { printf( "    rotation angle is %f\n", angle ) ; }
       if( fabs(angle) <= M_PI/(MaxAxisOrder+1) ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    atoms are too close to a straight line\n" ) ;
+        if( verbose > 0 ) { printf( "    atoms are too close to a straight line\n" ) ; }
         return nullptr;
       }
       order = static_cast<int> (floor( (2*M_PI)/angle + 0.5 )) ;
       if( order <= 2 || order > MaxAxisOrder ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    rotation axis order (%d) is not from 3 to %d\n", order, MaxAxisOrder ) ;
+        if( verbose > 0 ) { printf( "    rotation axis order (%d) is not from 3 to %d\n", order, MaxAxisOrder ) ; }
         return nullptr;
       }
       axis = alloc_symmetry_element() ;
       axis->order          = order ;
       axis->nparam         = 7 ;
       for( i = 0, r = 0 ; i < DIMENSION ; i++ )
+      {
         r += CenterOfSomething[i]*CenterOfSomething[i] ;
+      }
       r = sqrt(r) ;
       if( r > 0 ){
         for( i = 0 ; i < DIMENSION ; i++ )
+        {
           axis->normal[i] = CenterOfSomething[i]/r ;
+        }
       }
       else {
         axis->normal[0] = 1 ;
         for( i = 1 ; i < DIMENSION ; i++ )
+        {
           axis->normal[i] = 0 ;
+        }
       }
       axis->distance = r ;
       axis->direction[0] = (b[1]-a[1])*(c[2]-b[2]) - (b[2]-a[2])*(c[1]-b[1]) ;
@@ -1190,13 +1219,21 @@ namespace OpenBabel {
         }
       }
       if( sign )
+      {
         for( i = 0 ; i < DIMENSION ; i++ )
+        {
           axis->direction[i] = -axis->direction[i] ;
+        }
+      }
       for( i = 0, r = 0 ; i < DIMENSION ; i++ )
+      {
         r += axis->direction[i]*axis->direction[i] ;
+      }
       r = sqrt(r) ;
       for( i = 0 ; i < DIMENSION ; i++ )
+      {
         axis->direction[i] /= r ;
+      }
       if( verbose > 1 ){
         printf( "    axis origin is at (%g,%g,%g)\n",
                 axis->normal[0]*axis->distance, axis->normal[1]*axis->distance, axis->normal[2]*axis->distance ) ;
@@ -1211,7 +1248,7 @@ namespace OpenBabel {
       SYMMETRY_ELEMENT * axis ;
       double             a[ DIMENSION ], b[ DIMENSION ], c[ DIMENSION ] ;
 
-      if( verbose > 0 ) printf( "Trying cn axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ;
+      if( verbose > 0 ) { printf( "Trying cn axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ; }
       StatTotal++ ;
       /* Do a quick check of geometry validity */
 
