@@ -697,10 +697,10 @@ namespace OpenBabel
     else if( count )
       {
         stringstream errorMsg;
-        errorMsg << "Maximum Monomer Fanout Exceeded!" << endl;
+        errorMsg << "Maximum Monomer Fanout Exceeded!" << '\n';
         errorMsg << "Residue " << ChainsResName[resid] << " atom "
-                 << curr << endl;
-        errorMsg << "Previous = " << prev << " Fanout = " << count << endl;
+                 << curr << '\n';
+        errorMsg << "Previous = " << prev << " Fanout = " << count << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
     else if( StackPtr )
@@ -737,7 +737,7 @@ namespace OpenBabel
             errorMsg << "Duplicated Monomer Specification!\n";
             errorMsg << "Residue " << ChainsResName[resid]
                      << " matches residue ";
-            errorMsg << ChainsResName[(*node)->assign.resid] << endl;
+            errorMsg << ChainsResName[(*node)->assign.resid] << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           }
       }
