@@ -236,14 +236,18 @@ namespace OpenBabel {
 
     bool equivalentAtoms(OBAtom &a1, OBAtom &a2)
     {
-      if (a1.GetAtomicNum() != a2.GetAtomicNum())
+      if (a1.GetAtomicNum() != a2.GetAtomicNum()) {
         return false;
-      if (a1.GetIsotope() != a2.GetIsotope())
+      }
+      if (a1.GetIsotope() != a2.GetIsotope()) {
         return false;
-      if (a1.GetFormalCharge() != a2.GetFormalCharge())
+      }
+      if (a1.GetFormalCharge() != a2.GetFormalCharge()) {
         return false;
-      if (a1.GetSpinMultiplicity() != a2.GetSpinMultiplicity())
+      }
+      if (a1.GetSpinMultiplicity() != a2.GetSpinMultiplicity()) {
         return false;
+      }
 
       return true;
     }
@@ -265,35 +269,38 @@ namespace OpenBabel {
       }
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         if( elem->transform[i] >= _mol->NumAtoms() ){ /* No symmetric atom yet          */
-          if( verbose > 2 ) printf( "        looking for a pair for %d\n", i ) ;
+          if( verbose > 2 ) { printf( "        looking for a pair for %d\n", i ) ; }
           elem->transform_atom( elem, _mol->GetAtom(i+1), &symmetric ) ;   // ATOM INDEX ISSUE
-          if( verbose > 2 ) printf( "        new coordinates are: (%g,%g,%g)\n",
+          if( verbose > 2 ) { printf( "        new coordinates are: (%g,%g,%g)\n",
                                     symmetric.x(), symmetric.y(), symmetric.z() ) ;
+          }
           best_j        = i ;
           best_distance = 2*TolerancePrimary ;/* Performance value we'll reject */
           for( j = 0 ; j < _mol->NumAtoms() ; j++ ){
 
             atom = _mol->GetAtom(j+1);
             // START here
-            if( atom_used[j] || !equivalentAtoms(*atom, symmetric) )
+            if( atom_used[j] || !equivalentAtoms(*atom, symmetric) ) {
               continue ;
+            }
 
             distance = symmetric.GetDistance(atom) ;
-            if( verbose > 2 ) printf( "        distance to %d is %g\n", j, distance ) ;
+            if( verbose > 2 ) { printf( "        distance to %d is %g\n", j, distance ) ; }
             if( distance < best_distance ){
               best_j        = j ;
               best_distance = distance ;
             }
           }
           if( best_distance > TolerancePrimary ){ /* Too bad, there is no symmetric atom */
-            if( verbose > 0 )
+            if( verbose > 0 ) {
               printf( "        no pair for atom %d - best was %d with err = %g\n", i, best_j, best_distance ) ;
+            }
             free( atom_used ) ;
             return -1 ;
           }
           elem->transform[i] = best_j ;
           atom_used[best_j]  = 1 ;
-          if( verbose > 1 ) printf( "        atom %d transforms to the atom %d, err = %g\n", i, best_j, best_distance ) ;
+          if( verbose > 1 ) { printf( "        atom %d transforms to the atom %d, err = %g\n", i, best_j, best_distance ) ; }
           std::pair<int, int> atomPair(i, best_j);
           PairedAtoms.push_back( atomPair );
         }
@@ -308,16 +315,18 @@ namespace OpenBabel {
       unsigned int i, j, k;
 
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
-        if( elem->transform[i] == i )   /* Identity transform is Ok for any order */
+        if( elem->transform[i] == i ) {   /* Identity transform is Ok for any order */
           continue ;
+        }
         if( elem->transform_atom == rotate_reflect_atom ){
           j = elem->transform[i] ;
-          if( elem->transform[j] == i )
+          if( elem->transform[j] == i ) {
             continue ; /* Second-order transform is Ok for improper axis */
+          }
         }
         for( j = elem->order - 1, k = elem->transform[i] ; j > 0 ; j--, k = elem->transform[k] ){
           if( k == i ){
-            if( verbose > 0 ) printf( "        transform looped %d steps too early from atom %d\n", j, i ) ;
+            if( verbose > 0 ) { printf( "        transform looped %d steps too early from atom %d\n", j, i ) ; }
             return -1 ;
           }
         }
@@ -325,13 +334,13 @@ namespace OpenBabel {
           /* For improper axes, the complete loop may also take twice the order */
           for( j = elem->order ; j > 0 ; j--, k = elem->transform[k] ){
             if( k == i ){
-              if( verbose > 0 ) printf( "        (improper) transform looped %d steps too early from atom %d\n", j, i ) ;
+              if( verbose > 0 ) { printf( "        (improper) transform looped %d steps too early from atom %d\n", j, i ) ; }
               return -1 ;
             }
           }
         }
         if( k != i ){
-          if( verbose > 0 ) printf( "        transform failed to loop after %d steps from atom %d\n", elem->order, i ) ;
+          if( verbose > 0 ) { printf( "        transform failed to loop after %d steps from atom %d\n", elem->order, i ) ; }
           return -1 ;
         }
       }
@@ -344,8 +353,9 @@ namespace OpenBabel {
       unsigned int      i, j;
       int               code;
 
-      if( ( a->order != b->order ) || ( a->nparam != b->nparam ) || ( a->transform_atom != b->transform_atom ) )
+      if( ( a->order != b->order ) || ( a->nparam != b->nparam ) || ( a->transform_atom != b->transform_atom ) ) {
         return 0 ;
+      }
       for( i = 0, code = 1 ; i < _mol->NumAtoms() ; i++ ){
         if( a->transform[i] != b->transform[i] ){
           code = 0 ;
@@ -355,8 +365,9 @@ namespace OpenBabel {
       if( code == 0 && a->order > 2 ){  /* b can also be a reverse transformation for a */
         for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
           j = a->transform[i] ;
-          if( b->transform[j] != i )
+          if( b->transform[j] != i ) {
             return 0 ;
+          }
         }
         return 1 ;
       }
@@ -389,8 +400,9 @@ namespace OpenBabel {
     destroy_symmetry_element( SYMMETRY_ELEMENT *elem )
     {
       if (elem != nullptr) {
-        if (elem->transform != nullptr)
+        if (elem->transform != nullptr) {
           free( elem->transform ) ;
+        }
         free( elem ) ;
       }
     }
@@ -408,10 +420,10 @@ namespace OpenBabel {
 
         r = symmetric.GetDistance(_mol->GetAtom(j+1));
         if( r > ToleranceFinal ){
-          if( verbose > 0 ) printf( "        distance to symmetric atom (%g) is too big for %d\n", r, i ) ;
+          if( verbose > 0 ) { printf( "        distance to symmetric atom (%g) is too big for %d\n", r, i ) ; }
           return -1 ;
         }
-        if( r > max_r ) max_r = r ;
+        if( r > max_r ) { max_r = r ; }
       }
       elem->maxdev = max_r ;
       return 0 ;
@@ -460,13 +472,14 @@ namespace OpenBabel {
         elem->transform_atom( elem, _mol->GetAtom(i+1), &symmetric ) ;
         j = elem->transform[i] ;
         r = symmetric.GetDistance(_mol->GetAtom(j+1));
-        if( r > maxr ) maxr = r ;
+        if( r > maxr ) { maxr = r ; }
         target += r ;
       }
       if (finish != nullptr) {
         *finish = 0 ;
-        if( maxr < ToleranceFinal )
+        if( maxr < ToleranceFinal ) {
           *finish = 1 ;
+        }
       }
       return target ;
     }
@@ -506,17 +519,17 @@ namespace OpenBabel {
         fold = f ;
         f    = eval_optimization_target_function( elem, &finish ) ;
         /* Evaluate function, gradient and diagonal force constants */
-        if( verbose > 1 ) printf( "            function value = %g\n", f ) ;
+        if( verbose > 1 ) { printf( "            function value = %g\n", f ) ; }
         if( finish ){
-          if( verbose > 1 ) printf( "        function value is small enough\n" ) ;
+          if( verbose > 1 ) { printf( "        function value is small enough\n" ) ; }
           break ;
         }
         if( cycle > 0 ){
-          if( fabs( f-fold ) > OptChangeThreshold )
+          if( fabs( f-fold ) > OptChangeThreshold ) {
             hits = 0 ;
-          else hits++ ;
+          } else { hits++ ; }
           if( hits >= OptChangeHits ){
-            if( verbose > 1 ) printf( "        no progress is made, stop optimization\n" ) ;
+            if( verbose > 1 ) { printf( "        no progress is made, stop optimization\n" ) ; }
             break ;
           }
         }
@@ -531,20 +544,21 @@ namespace OpenBabel {
           values[i] -= GradientStep ;
           grad[i]    = ( fup - fdn ) / ( 2 * GradientStep ) ;
           force[i]   = ( fup + fdn - 2*f ) / ( GradientStep * GradientStep ) ;
-          if( verbose > 1 ) printf( "        i = %d, grad = %12.6e, force = %12.6e\n", i, grad[i], force[i] ) ;
+          if( verbose > 1 ) { printf( "        i = %d, grad = %12.6e, force = %12.6e\n", i, grad[i], force[i] ) ; }
         }
         /* Do a quasi-Newton step */
         for( i = 0, snorm = 0 ; i < vars ; i++ ){
-          if( force[i] <  0   ) force[i] = -force[i] ;
-          if( force[i] < 1e-3 ) force[i] = 1e-3 ;
-          if( force[i] > 1e3  ) force[i] = 1e3 ;
+          if( force[i] <  0   ) { force[i] = -force[i] ; }
+          if( force[i] < 1e-3 ) { force[i] = 1e-3 ; }
+          if( force[i] > 1e3  ) { force[i] = 1e3 ; }
           step[i] = - grad[i]/force[i] ;
           snorm += step[i] * step[i] ;
         }
         snorm = sqrt( snorm ) ;
         if( snorm > MaxOptStep ){ /* Renormalize step */
-          for( i = 0 ; i < vars ; i++ )
+          for( i = 0 ; i < vars ; i++ ) {
             step[i] *= MaxOptStep/snorm ;
+          }
           snorm = MaxOptStep ;
         }
         do {
@@ -553,8 +567,9 @@ namespace OpenBabel {
           }
           set_params( elem, values ) ;
           fnew = eval_optimization_target_function(elem, nullptr);
-          if( fnew < f )
+          if( fnew < f ) {
             break ;
+          }
           for( i = 0 ; i < vars ; i++ ){
             values[i] -= step[i] ;
             step  [i] /= 2 ;
@@ -563,8 +578,9 @@ namespace OpenBabel {
           snorm /= 2 ;
         } while( snorm > MinOptStep ) ;
         if( (snorm > MinOptStep) && (snorm < MaxOptStep / 2) ){  /* try to do quadratic interpolation */
-          for( i = 0 ; i < vars ; i++ )
+          for( i = 0 ; i < vars ; i++ ) {
             values[i] += step[i] ;
+          }
           set_params( elem, values ) ;
           fnew2 = eval_optimization_target_function(elem, nullptr);
           if( verbose > 1 ) printf( "        interpolation base points: %g, %g, %g\n", f, fnew, fnew2 ) ;
@@ -612,46 +628,50 @@ namespace OpenBabel {
 
       if( build_table && (establish_pairs( elem ) < 0) ){
         StatPairs++ ;
-        if( verbose > 0 ) printf( "        no transformation correspondence table can be constructed\n" ) ;
+        if( verbose > 0 ) { printf( "        no transformation correspondence table can be constructed\n" ) ; }
         return -1 ;
       }
       for( i = 0 ; i < PlanesCount ; i++ ){
         if( same_transform( Planes[i], elem ) ){
           StatDups++ ;
-          if( verbose > 0 ) printf( "        transformation is identical to plane %d\n", i ) ;
+          if( verbose > 0 ) { printf( "        transformation is identical to plane %d\n", i ) ; }
           return -1 ;
         }
       }
       for( i = 0 ; i < InversionCentersCount ; i++ ){
         if( same_transform( InversionCenters[i], elem ) ){
           StatDups++ ;
-          if( verbose > 0 ) printf( "        transformation is identical to inversion center %d\n", i ) ;
+          if( verbose > 0 ) { printf( "        transformation is identical to inversion center %d\n", i ) ; }
           return -1 ;
         }
       }
       for( i = 0 ; i < NormalAxesCount ; i++ ){
         if( same_transform( NormalAxes[i], elem ) ){
           StatDups++ ;
-          if( verbose > 0 ) printf( "        transformation is identical to normal axis %d\n", i ) ;
+          if( verbose > 0 ) { printf( "        transformation is identical to normal axis %d\n", i ) ;
+          }
           return -1 ;
         }
       }
       for( i = 0 ; i < ImproperAxesCount ; i++ ){
         if( same_transform( ImproperAxes[i], elem ) ){
           StatDups++ ;
-          if( verbose > 0 ) printf( "        transformation is identical to improper axis %d\n", i ) ;
+          if( verbose > 0 ) { printf( "        transformation is identical to improper axis %d\n", i ) ;
+          }
           return -1 ;
         }
       }
       if( check_transform_order( elem ) < 0 ){
         StatOrder++ ;
-        if( verbose > 0 ) printf( "        incorrect transformation order\n" ) ;
+        if( verbose > 0 ) { printf( "        incorrect transformation order\n" ) ;
+        }
         return -1 ;
       }
       optimize_transformation_params( elem ) ;
       if( check_transform_quality( elem ) < 0 ){
         StatOpt++ ;
-        if( verbose > 0 ) printf( "        refined transformation does not pass the numeric threshold\n" ) ;
+        if( verbose > 0 ) { printf( "        refined transformation does not pass the numeric threshold\n" ) ;
+        }
         return -1 ;
       }
       StatAccept++ ;
@@ -688,7 +708,7 @@ namespace OpenBabel {
       double             dx[ DIMENSION ], midpoint[ DIMENSION ], rab, r ;
       int                k ;
 
-      if( verbose > 0 ) printf( "Trying mirror plane for atoms %d,%d\n", i, j ) ;
+      if( verbose > 0 ) { printf( "Trying mirror plane for atoms %d,%d\n", i, j ) ; }
       StatTotal++ ;
       plane->transform_atom = mirror_atom;
       plane->order          = 2 ;
@@ -720,9 +740,9 @@ namespace OpenBabel {
         }
       }
       plane->distance = r ;
-      if( verbose > 0 ) printf( "    initial plane is at %g from the origin\n", r ) ;
+      if( verbose > 0 ) { printf( "    initial plane is at %g from the origin\n", r ) ; }
       if( refine_symmetry_element( plane, 1 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the plane\n" ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the plane\n" ) ; }
         destroy_symmetry_element( plane ) ;
         return nullptr;
       }
@@ -739,13 +759,14 @@ namespace OpenBabel {
       double *           d ;
       unsigned int       i, j, k;
 
-      if( verbose > 0 ) printf( "Trying whole-molecule mirror plane\n" ) ;
+      if( verbose > 0 ) { printf( "Trying whole-molecule mirror plane\n" ) ; }
       StatTotal++ ;
       plane->transform_atom = mirror_atom ;
       plane->order          = 1 ;
       plane->nparam         = 4 ;
-      for( k = 0 ; k < DIMENSION ; k++ )
+      for( k = 0 ; k < DIMENSION ; k++ ) {
         d0[k] = d1[k] = d2[k] = 0 ;
+      }
       d0[0] = 1 ; d1[1] = 1 ; d2[2] = 1 ;
       for( i = 1 ; i < _mol->NumAtoms() ; i++ ){
         for( j = 0 ; j < i ; j++ ){
@@ -774,33 +795,38 @@ namespace OpenBabel {
         s2 += d2[k] ;
       }
       d = nullptr;
-      if( s0 >= s1 && s0 >= s2 ) d = d0 ;
-      if( s1 >= s0 && s1 >= s2 ) d = d1 ;
-      if( s2 >= s0 && s2 >= s1 ) d = d2 ;
+      if( s0 >= s1 && s0 >= s2 ) { d = d0 ; }
+      if( s1 >= s0 && s1 >= s2 ) { d = d1 ; }
+      if( s2 >= s0 && s2 >= s1 ) { d = d2 ; }
       if (d == nullptr) {
         fprintf( stderr, "Catastrophe in init_ultimate_plane(): %g, %g and %g have no ordering!\n", s0, s1, s2 ) ;
         destroy_symmetry_element(plane);
         return nullptr;
       }
-      for( k = 0, r = 0 ; k < DIMENSION ; k++ )
+      for( k = 0, r = 0 ; k < DIMENSION ; k++ ) {
         r += d[k]*d[k] ;
+      }
       r = sqrt(r) ;
       if( r > 0 ){
-        for( k = 0 ; k < DIMENSION ; k++ )
+        for( k = 0 ; k < DIMENSION ; k++ ) {
           plane->normal[k] = d[k]/r ;
+        }
       }
       else {
-        for( k = 1 ; k < DIMENSION ; k++ )
+        for( k = 1 ; k < DIMENSION ; k++ ) {
           plane->normal[k] = 0 ;
+        }
         plane->normal[0] = 1 ;
       }
-      for( k = 0, r = 0 ; k < DIMENSION ; k++ )
+      for( k = 0, r = 0 ; k < DIMENSION ; k++ ) {
         r += CenterOfSomething[k]*plane->normal[k] ;
+      }
       plane->distance = r ;
-      for( k = 0 ; k < _mol->NumAtoms() ; k++ )
+      for( k = 0 ; k < _mol->NumAtoms() ; k++ ) {
         plane->transform[k] = k ;
+      }
       if( refine_symmetry_element( plane, 0 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the plane\n" ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the plane\n" ) ; }
         destroy_symmetry_element( plane ) ;
         return nullptr;
       }
@@ -832,27 +858,30 @@ namespace OpenBabel {
       int                k ;
       double             r ;
 
-      if( verbose > 0 ) printf( "Trying inversion center at the center of something\n" ) ;
+      if( verbose > 0 ) { printf( "Trying inversion center at the center of something\n" ) ; }
       StatTotal++ ;
       center->transform_atom = invert_atom ;
       center->order          = 2 ;
       center->nparam         = 4 ;
-      for( k = 0, r = 0 ; k < DIMENSION ; k++ )
+      for( k = 0, r = 0 ; k < DIMENSION ; k++ ) {
         r += CenterOfSomething[k]*CenterOfSomething[k] ;
+      }
       r = sqrt(r) ;
       if( r > 0 ){
-        for( k = 0 ; k < DIMENSION ; k++ )
+        for( k = 0 ; k < DIMENSION ; k++ ) {
           center->normal[k] = CenterOfSomething[k]/r ;
+        }
       }
       else {
         center->normal[0] = 1 ;
-        for( k = 1 ; k < DIMENSION ; k++ )
+        for( k = 1 ; k < DIMENSION ; k++ ) {
           center->normal[k] = 0 ;
+        }
       }
       center->distance = r ;
-      if( verbose > 0 ) printf( "    initial inversion center is at %g from the origin\n", r ) ;
+      if( verbose > 0 ) { printf( "    initial inversion center is at %g from the origin\n", r ) ; }
       if( refine_symmetry_element( center, 1 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the inversion center\n" ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the inversion center\n" ) ; }
         destroy_symmetry_element( center ) ;
         return nullptr;
       }
@@ -881,17 +910,21 @@ namespace OpenBabel {
       x[1] = from->y() - axis->distance * axis->normal[1];
       x[2] = from->z() - axis->distance * axis->normal[2];
 
-      for( i = 0, dot = 0 ; i < 3 ; i++ )
+      for( i = 0, dot = 0 ; i < 3 ; i++ ) {
         dot += x[i] * axis->direction[i] ;
-      for( i = 0 ; i < 3 ; i++ )
+      }
+      for( i = 0 ; i < 3 ; i++ ) {
         a[i] = axis->direction[i] * dot ;
-      for( i = 0 ; i < 3 ; i++ )
+      }
+      for( i = 0 ; i < 3 ; i++ ) {
         b[i] = x[i] - a[i] ;
+      }
       c[0] = b[1]*axis->direction[2] - b[2]*axis->direction[1] ;
       c[1] = b[2]*axis->direction[0] - b[0]*axis->direction[2] ;
       c[2] = b[0]*axis->direction[1] - b[1]*axis->direction[0] ;
-      for( i = 0 ; i < 3 ; i++ )
+      for( i = 0 ; i < 3 ; i++ ) {
         y[i] = a[i] + b[i]*a_cos + c[i]*a_sin ;
+      }
 
       to->SetVector(y[0] + axis->distance * axis->normal[0],
                     y[1] + axis->distance * axis->normal[1],
@@ -912,13 +945,14 @@ namespace OpenBabel {
       double             s ;
       unsigned int       i, k;
 
-      if( verbose > 0 ) printf( "Trying infinity axis\n" ) ;
+      if( verbose > 0 ) { printf( "Trying infinity axis\n" ) ; }
       StatTotal++ ;
       axis->transform_atom = rotate_atom ;
       axis->order          = 0 ;
       axis->nparam         = 7 ;
-      for( k = 0 ; k < DIMENSION ; k++ )
+      for( k = 0 ; k < DIMENSION ; k++ ) {
         dir[k] = 0 ;
+      }
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
 
         rel[0] = _mol->GetAtom(i+1)->x() - CenterOfSomething[0];
