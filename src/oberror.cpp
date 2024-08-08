@@ -159,7 +159,7 @@ namespace OpenBabel
     delete _filterStreamBuf;
   }
 
-  void OBMessageHandler::ThrowError(OBError err, errorQualifier qualifier)
+  void OBMessageHandler::ThrowError(const OBError& err, errorQualifier qualifier)
   {
     if (!_logging)
       return;
