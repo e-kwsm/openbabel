@@ -245,8 +245,8 @@ namespace OpenBabel {
     ifs_cont.getline(buffer,BUFF_SIZE);
     tokenize(vs, buffer);
     bool symbolsInGeometryFile = false;
-    if (vs.size() != 0) {
-      if (vs.at(0).size() != 0) {
+    if (!vs.empty()) {
+      if (!vs.at(0).empty()) {
         if (isalpha(static_cast<int>(vs.at(0).at(0))) != 0) {
           symbolsInGeometryFile = true;
         }
@@ -256,7 +256,7 @@ namespace OpenBabel {
     // If no element data is present anywhere
     if (needSymbolsInGeometryFile && !symbolsInGeometryFile &&
         // and there are atoms specified
-        vs.size() != 0) {
+        !vs.empty()) {
       // Abort read
       pmol->EndModify();
       return false;
@@ -408,7 +408,7 @@ namespace OpenBabel {
         integration.push_back(atof(vs[2].c_str()));
       }
 
-      if (energies.size() != 0) {
+      if (!energies.empty()) {
         dos->SetData(fermi, energies, densities, integration);
         pmol->SetData(dos);
       }
@@ -440,7 +440,7 @@ namespace OpenBabel {
         }
 
         // Frequencies
-        if (strstr(buffer, "Eigenvectors") && Frequencies.size() == 0) {
+        if (strstr(buffer, "Eigenvectors") && Frequencies.empty()) {
           hasVibrations = true;
           double x, y, z;
           ifs_out.getline(buffer,BUFF_SIZE);  // dash line
@@ -678,7 +678,7 @@ namespace OpenBabel {
       }
       else
       {    
-        if(atomicNums.size() > 0)  
+        if(!atomicNums.empty())  
           atomicNums.rbegin()->second++;
       }  
       

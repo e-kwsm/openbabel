@@ -207,7 +207,7 @@ int main(int argc,char **argv)
       do {
         cin.getline(commandline, BUFF_SIZE - 1);
         tokenize(vs, commandline);
-      } while(vs.size() == 0);
+      } while(vs.empty());
       // okay now we read the new coordinates
       for(unsigned int i = 0; i < mol.NumAtoms(); ++i) {
         if (vs.size() < 3)

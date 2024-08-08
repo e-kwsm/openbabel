@@ -1615,7 +1615,7 @@ namespace OpenBabel {
 
     // open data/UFF.prm
     ifstream ifs;
-    if (OpenDatafile(ifs, "UFF.prm").length() == 0) {
+    if (OpenDatafile(ifs, "UFF.prm").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open UFF.prm", obError);
       return false;
     }
@@ -1703,7 +1703,7 @@ namespace OpenBabel {
 
     // open data/UFF.prm
     ifstream ifs;
-    if (OpenDatafile(ifs, "UFF.prm").length() == 0) {
+    if (OpenDatafile(ifs, "UFF.prm").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open UFF.prm", obError);
       return false;
     }

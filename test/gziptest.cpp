@@ -36,7 +36,7 @@ using namespace OpenBabel;
 //outputs error and terminates if not consistent
 void checkResults(const string& file, const vector<string>& correctResults)
 {
-  if(correctResults.size() == 0)
+  if(correctResults.empty())
     return;
   OBMol mol;
   OBConversion conv(file);
@@ -137,7 +137,7 @@ int gziptest(int argc, char* argv[])
 
   while(getline(ifs, line))
   {
-    if(line.length() == 0)
+    if(line.empty())
       continue; //ignore blank lines
     if(line[0] == '#')
     {

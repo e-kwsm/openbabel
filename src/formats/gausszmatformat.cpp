@@ -113,7 +113,7 @@ namespace OpenBabel
         method = "opt";
       }
 
-      if(model != "" && basis != "" && method != "") {
+      if(!model.empty() && !basis.empty() && !method.empty()) {
         ofs << model << "/" << basis << "," << method << "\n";
       }
       else {
@@ -320,7 +320,7 @@ namespace OpenBabel
 
     char *endptr;
     double temp;
-		if (atomLines.size() > 0) {
+		if (!atomLines.empty()) {
       unsigned int i, j;
       for (i = 0; i < atomLines.size(); ++i) {
         j = i+1;

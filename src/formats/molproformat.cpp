@@ -155,7 +155,7 @@ namespace OpenBabel
                 //set atomic number
                 int n;
                 atom->SetAtomicNum(0);
-                while (vs[1].length()!=0) { // recognize name with number
+                while (!vs[1].empty()) { // recognize name with number
                     n = OBElements::GetAtomicNum(vs[1].c_str());
                   if (n!=0) {
                     atom->SetAtomicNum(n);
@@ -263,7 +263,7 @@ namespace OpenBabel
     }
 
     //Attach vibrational data, if there is any, to molecule
-    if(Frequencies.size()>0)
+    if(!Frequencies.empty())
     {
       OBVibrationData* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);

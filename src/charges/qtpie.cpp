@@ -118,7 +118,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 
     // open data/qeq.txt
     ifstream ifs;
-    if (OpenDatafile(ifs, "qeq.txt").length() == 0) {
+    if (OpenDatafile(ifs, "qeq.txt").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open qeq.txt", obError);
       return;
     }
@@ -154,7 +154,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 
     Eigen::Vector3d P;
     //For now, completely ignore the formal charge
-    if (_parameters.size() == 0)
+    if (_parameters.empty())
       ParseParamFile();
 
     if (Z > 0 && Z < _parameters.size()-1) {

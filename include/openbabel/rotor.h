@@ -799,7 +799,7 @@ namespace OpenBabel
       //! \return true if there are more rotor keys
       bool Next()
       {
-        if(_vr.size() == 0)
+        if(_vr.empty())
           return false;
 
         bool carry = _vr[0].next();

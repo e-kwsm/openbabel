@@ -876,7 +876,7 @@ namespace OpenBabel {
     pInput->imbue(originalLocale);
 
     // If we failed to read, plus the stream is over, then check if this is a stream from ReadFile
-    if (!success && !pInput->good() && ownedInStreams.size() > 0) {
+    if (!success && !pInput->good() && !ownedInStreams.empty()) {
       ifstream *inFstream = dynamic_cast<ifstream*>(ownedInStreams[0]);
       if (inFstream != nullptr)
         inFstream->close(); // We will free the stream later, but close the file now
@@ -924,7 +924,7 @@ namespace OpenBabel {
   //save the current input state to this streamstate and clear conv
   void OBConversion::StreamState::pushInput(OBConversion& conv)
   {
-    assert(ownedStreams.size() == 0); //should be empty
+    assert(ownedStreams.empty()); //should be empty
 
     pStream = conv.pInput;
     std::copy(conv.ownedInStreams.begin(), conv.ownedInStreams.end(), std::back_inserter(ownedStreams));
@@ -939,7 +939,7 @@ namespace OpenBabel {
     conv.SetInStream(nullptr);
     conv.pInput =  dynamic_cast<std::istream*>(pStream);
 
-    assert(conv.ownedInStreams.size() == 0); //should be empty
+    assert(conv.ownedInStreams.empty()); //should be empty
 
     for(unsigned i = 0, n = conv.ownedInStreams.size(); i < n; i++)
     {
@@ -955,7 +955,7 @@ namespace OpenBabel {
   //save the current output state to this streamstate and clear conv
   void OBConversion::StreamState::pushOutput(OBConversion& conv)
   {
-    assert(ownedStreams.size() == 0); //should be empty
+    assert(ownedStreams.empty()); //should be empty
 
     pStream = conv.pOutput;
     std::copy(conv.ownedOutStreams.begin(), conv.ownedOutStreams.end(), std::back_inserter(ownedStreams));
@@ -970,7 +970,7 @@ namespace OpenBabel {
     conv.SetOutStream(nullptr);
     conv.pOutput =  dynamic_cast<std::ostream*>(pStream);
 
-    assert(conv.ownedOutStreams.size() == 0); //should be empty
+    assert(conv.ownedOutStreams.empty()); //should be empty
 
     for(unsigned i = 0, n = conv.ownedOutStreams.size(); i < n; i++)
     {

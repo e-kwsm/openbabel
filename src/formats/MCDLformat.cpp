@@ -800,7 +800,7 @@ private:
               frag=""+intToStr(chgarray[j][1])+","+intToStr(abs(i))+"-";//Math.abs(i)+"-1";
             else
               frag=""+intToStr(chgarray[j][1])+","+intToStr(abs(i))+"-";//Math.abs(i)+"-"+chgarray[j][1];
-            if (line.length() > 0) line=line+";";
+            if (!line.empty()) line=line+";";
             line=line+frag;
           }
         }
@@ -814,7 +814,7 @@ private:
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"+";//i+"+1";
             else
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"+";
-            if (line.length() > 0) line=line+";";
+            if (!line.empty()) line=line+";";
             line=line+frag;
           }
         }
@@ -861,7 +861,7 @@ private:
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"*";
             else
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"*";
-            if (line.length() > 0) line=line+";";
+            if (!line.empty()) line=line+";";
             line=line+frag;
           }
         }
@@ -1030,7 +1030,7 @@ private:
   //removing net charges and radiacal
   test=false;
   n=1;
-  while ((value.length() > 0) && (value.at(0) >= '0') && (value.at(0) <= '9') && (! test) && (n>0)) {
+  while ((!value.empty()) && (value.at(0) >= '0') && (value.at(0) <= '9') && (! test) && (n>0)) {
     n=indexOf(value,";");
     if (n>0) {
       s=value.substr(0,n);
@@ -1057,7 +1057,7 @@ private:
         netradical=n1;
       };
       value=value.substr(n+1,value.length());
-      if (value.length() > 0) if (value.at(0) == ';'){
+      if (!value.empty()) if (value.at(0) == ';'){
         value=value.substr(1);
       };
     };
@@ -1090,7 +1090,7 @@ private:
       value=value.substr(0,n1)+value.substr(n2+1);
     };
   };
-  if ((netcharge != 0) && (chargestring == "")) {
+  if ((netcharge != 0) && (chargestring.empty())) {
     chargestring = "1," +intToStr(abs(netcharge));
     if (netcharge < 0) chargestring=chargestring+"-"; else chargestring=chargestring+"+";
   };
@@ -1103,7 +1103,7 @@ private:
       value=value.substr(0,n1)+value.substr(n2+1);
     };
   };
-  if ((netradical != 0) && (radicalstring == "")) {
+  if ((netradical != 0) && (radicalstring.empty())) {
     radicalstring= "1," + intToStr(abs(netcharge)) + "*";
   };
 
@@ -1180,7 +1180,7 @@ private:
 
   //parsing and analizing...
   for (i=0; i<MAXFRAGS; i++) charges[i]=0;
-  if (chargestring != "") while (chargestring.length() > 0) {
+  if (!chargestring.empty()) while (!chargestring.empty()) {
     n1=indexOf(chargestring,";");
     if (n1>0) {
       s=chargestring.substr(0,n1);
@@ -1206,7 +1206,7 @@ private:
     };
   };
   for (i=0; i<MAXFRAGS; i++) radicals[i]=0;
-  if (radicalstring != "") while (radicalstring.length() > 0) {
+  if (!radicalstring.empty()) while (!radicalstring.empty()) {
     n1=indexOf(radicalstring,";");
     if (n1>0) {
       s=radicalstring.substr(0,n1);
@@ -1252,7 +1252,7 @@ private:
 
       aPosition[nt-1]=n2;
 
-      if (sstore.length()>0) if (parseFormula(sstore,enumber)) { //bf=Formula.parseString(sstore);
+      if (!sstore.empty()) if (parseFormula(sstore,enumber)) { //bf=Formula.parseString(sstore);
         for (k=1; k<NELEMMAX; k++) if (enumber[k] > 0) for (m=1; m<=enumber[k]; m++) {
           fragIndex[acount]=nt+1;//sa.fragIndex=fragNo;  //Do not increment!
           nHydr[acount]=0;//special[acount]=0;
@@ -1302,7 +1302,7 @@ private:
   nt=0;
   ss="";
   test=true;
-  while ((value.length()>0) && test) {
+  while ((!value.empty()) && test) {
     n1=indexOf(value,";");
     n2=indexOf(value,"]");
     if (n1<0) n1=n2; else if ((n2<n1) && (n2>=0)) n1=n2;
@@ -1317,7 +1317,7 @@ private:
     };
     nt++;
     //parsing each fragment
-    while (mf.length()>0) {
+    while (!mf.empty()) {
       n1=indexOf(mf,",");
       if (n1>=0) {
         s=mf.substr(0,n1);
@@ -1333,7 +1333,7 @@ private:
       iA2[bcount-1]=n1-1;
     };
 
-    if (value.length()>0) if (value.at(0)==']') value=""; //end parsing
+    if (!value.empty()) if (value.at(0)==']') value=""; //end parsing
   };
 
   //Alternation
@@ -1473,7 +1473,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
         };
       };
     };
-  return (value.length() == 0);
+  return (value.empty());
 };
 
   string MCDLFormat::getMolTitle(string & line) {
@@ -1516,8 +1516,8 @@ bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   string molTitle=getMolTitle(line);
 
-  if (molTitle.length() > 0) pmol->SetTitle(molTitle.c_str());
-  if (line.length() > 0) setMCDL(line,pmol,molTitle);
+  if (!molTitle.empty()) pmol->SetTitle(molTitle.c_str());
+  if (!line.empty()) setMCDL(line,pmol,molTitle);
 
   pmol->EndModify();
 
@@ -1535,7 +1535,7 @@ bool MCDLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   //To use an output option
   string title=pmol->GetTitle();
-  if (title.length() > 0) title=ftitlestart+title+"}";
+  if (!title.empty()) title=ftitlestart+title+"}";
   ofs << getMCDL(pmol,false) << title << endl;
   // prepareTest(pmol,ofs);
   //generateDiagram(pmol,ofs);

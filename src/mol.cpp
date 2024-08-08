@@ -1330,7 +1330,7 @@ namespace OpenBabel
       }
 
       SetConformers(conf);
-      if( currConf >= 0 && _vconf.size() ) {
+      if( currConf >= 0 && !_vconf.empty() ) {
         _c = _vconf[currConf];
       }
     }
@@ -3186,7 +3186,7 @@ namespace OpenBabel
 
         for (atom = BeginAtom(i);atom;atom = NextAtom(i))
           atom->ClearCoordPtr();
-	if (_vconf.size() > 0)
+	if (!_vconf.empty())
 	  _vconf.resize(_vconf.size()-1);
       }
 
@@ -3894,7 +3894,7 @@ namespace OpenBabel
         }
       }
       // Convert zero-order bonds
-      while (bonds.size() > 0) {
+      while (!bonds.empty()) {
         // Pick a bond using scoring system
         int bi = 0;
         if (bonds.size() > 1) {

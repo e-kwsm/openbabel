@@ -4916,9 +4916,9 @@ namespace OpenBabel {
           };
           //End addition}
           if (test2) {
-            if (queryEnum.size()<1) queryEnum.resize(1);
+            if (queryEnum.empty()) queryEnum.resize(1);
             queryEnum[0]=0;
-            if (queryAQTested.size()<1) queryAQTested.resize(1);
+            if (queryAQTested.empty()) queryAQTested.resize(1);
             queryAQTested[0]=j;
           };
           j++;
@@ -5323,11 +5323,11 @@ namespace OpenBabel {
         if (sm->getBond(i)->db > 1) bondList.push_back(w); //only ring bonds...
       };
     };
-    if (bondList.size() == 0) {
+    if (bondList.empty()) {
       bondList.resize(bondListAll.size());
       for (i=0; i<bondListAll.size(); i++) bondList[i]=bondListAll[i];
     };
-    if (bondList.size() > 0) {
+    if (!bondList.empty()) {
       //search for 4-coordinater non-carbon
       test=false;
       n=-1;
@@ -6320,7 +6320,7 @@ namespace OpenBabel {
       if (n != atEx) {
         nPrior++;
         test=false;
-        if (sm.getAtom(n)->anum.length() > 0) test=true;
+        if (!sm.getAtom(n)->anum.empty()) test=true;
         if (test) collectedSymbols[nPrior-1]=sm.getAtom(n)->anum; else collectedSymbols[nPrior-1]=aSymb[sm.getAtom(n)->na];
       };
     };
@@ -6348,7 +6348,7 @@ namespace OpenBabel {
     bool test=false;
     string result="";
 
-    if (sm.getAtom(atAtom)->anum.length() > 0) test=true;
+    if (!sm.getAtom(atAtom)->anum.empty()) test=true;
     if (test) result=sm.getAtom(atAtom)->anum; else result=aSymb[sm.getAtom(atAtom)->na];
     return result;
   };
@@ -6386,7 +6386,7 @@ namespace OpenBabel {
       n--;
       if (data.at(n) == ',') {
         n1++;
-        if (s2.length() == 0) {
+        if (s2.empty()) {
           s2=data.substr(n+1);
           m=n;
         };
@@ -6394,7 +6394,7 @@ namespace OpenBabel {
       test=(n1 < 2) && (n > 1);
     };
     if ((n1 == 2) && (n > 0) && (m > 0)) s1=data.substr(n+1,m);
-    if ((s1.length() >0 ) && (s2.length() > 0)) {
+    if ((!s1.empty() ) && (!s2.empty())) {
       n=compareStringsNumbers(s1,s2);
       if (n > 0) result=1; else if (n < 0) result=-1;
     };
@@ -6438,7 +6438,7 @@ namespace OpenBabel {
         m=n;
       };
     };
-    if ((s1.length() > 0) && (s2.length() > 0)) {
+    if ((!s1.empty()) && (!s2.empty())) {
       n=compareStringsNumbers(s1,s2);
       if (n > 0) result=1; else if (n < 0) result=-1;
     };
@@ -6460,7 +6460,7 @@ namespace OpenBabel {
       n--;
       if (data.at(n) == ',') {
         n1++;
-        if (s2.length() == 0) {
+        if (s2.empty()) {
           s2=data.substr(n+1);
           m=n;
         };
@@ -6511,7 +6511,7 @@ namespace OpenBabel {
         m=n;
       };
     };
-    if ((s1.length() > 0) && (s2.length() > 0) && (s3.length() > 0)) {
+    if ((!s1.empty()) && (!s2.empty()) && (!s3.empty())) {
       result=data.substr(0,n)+","+s2+","+s1+","+s3;
     };
     return result;
@@ -6605,7 +6605,7 @@ namespace OpenBabel {
                   if (s.compare(s1) > 0) s=s1;
                 };
             if (testParity) {
-              if ((ss.length() == 0) || (ss.compare(s) > 0)) ss=s;
+              if ((ss.empty()) || (ss.compare(s) > 0)) ss=s;
               for (j=i+1; j<anumStereo.size(); j++) if ((anumStereo[i] >= 0) && (anumStereo[j] >= 0)) if (eqList[anumStereo[i]] == eqList[anumStereo[j]]) anumStereo[j]=-1;
               anumStereo[i]=-1;
             } else {
@@ -6618,7 +6618,7 @@ namespace OpenBabel {
     //Do not analyze meso-forms for complex molecules....
     if (presentOtherStereo) ss="";
 
-    if (ss.length() > 0) {  //some meso-isomers were found-analyze their parity and change if necessary
+    if (!ss.empty()) {  //some meso-isomers were found-analyze their parity and change if necessary
       k=analizeParity(ss);
       if (k == 1) for (i=0; i<anumStereo.size(); i++) if (anumStereo[i] == -1) {  //all parities should be changed to satisfy..
             s=v[i];
@@ -6637,7 +6637,7 @@ namespace OpenBabel {
             v[i]=s2;
           };
         };
-    if (v.size() > 0) {
+    if (!v.empty()) {
       result=fsastart;
       for (i=0; i < v.size(); i++) {
         s1=v[i];
@@ -6831,7 +6831,7 @@ namespace OpenBabel {
               } else data="";  //collinear
             };
           };
-          if (data.length() > 0) {
+          if (!data.empty()) {
             v.push_back(data);
             anumStereo.push_back(n);
           };
@@ -6882,7 +6882,7 @@ namespace OpenBabel {
             v[i]=s2;
           };
         };
-    if (v.size() > 0) {   //stereobonds present
+    if (!v.empty()) {   //stereobonds present
       result=fsbstart;
       for (i=0; i < v.size(); i++) {
         s1=v[i];
@@ -6947,12 +6947,12 @@ namespace OpenBabel {
     int n1,atn;
     bool threeCoor;
 
-    if (astereo.length() == 0) return;
+    if (astereo.empty()) return;
     sm.readConnectionMatrix(iA1,iA2,rx,ry,acount,bcount);
 
     ss=astereo;
     astereo=addZeroeth(astereo,"-1");
-    while (astereo.length() >0 ) {
+    while (!astereo.empty() ) {
       s="";
       n1=indexOf(astereo,";");
       if (n1 > 0) {
@@ -6963,7 +6963,7 @@ namespace OpenBabel {
         astereo="";
       };
       //analize s
-      if (s.length() > 0) {
+      if (!s.empty()) {
         //save data in Astereo... Bond reconfiguring is possible only after re-drawing and chain rotations
         //      s=removeSpaces(s);
         n1=indexOf(s,",");
@@ -7012,11 +7012,11 @@ namespace OpenBabel {
     int i,n1,n2,k,bn;
     bool hasStereo=false;
     bool coorChanged=false;
-    if (bstereo.length() == 0) return;
+    if (bstereo.empty()) return;
     sm.readConnectionMatrix(iA1,iA2,rx,ry,acount,bcount);
     ss=bstereo;
     bstereo=addZeroeth(bstereo,"0");
-    while (bstereo.length() >0 ) {
+    while (!bstereo.empty() ) {
       s="";
       n1=indexOf(bstereo,";");
       if (n1 > 0) {
@@ -7027,7 +7027,7 @@ namespace OpenBabel {
         bstereo="";
       };
       //analize s
-      if (s.length() > 0) {
+      if (!s.empty()) {
         //save data in Bstereo... Bond reconfiguring is possible only after re-drawing
         //      CommonRout.RemoveSpaces(s);
         n1=indexOf(s,",");
@@ -7256,7 +7256,7 @@ namespace OpenBabel {
         };
       if (valency <= 0) valency=1;
     };
-    return (value.length() == 0);
+    return (value.empty());
   };
 
 

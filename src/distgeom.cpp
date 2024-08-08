@@ -157,7 +157,7 @@ namespace OpenBabel {
     }
 
     vector<OBRing*> rlist = _mol.GetSSSR();
-    if (rlist.size() > 0)
+    if (!rlist.empty())
       SetAromaticRingBounds();
 
     Set14Bounds();
@@ -207,7 +207,7 @@ namespace OpenBabel {
     }
 
     // Planar constraint for aromatic ring
-    if (rlist.size() > 0) {
+    if (!rlist.empty()) {
       FOR_RINGS_OF_MOL(r, _mol) {
         int size = r->Size();
         if (!r->IsAromatic()) continue;

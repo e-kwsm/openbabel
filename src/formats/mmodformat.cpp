@@ -92,7 +92,7 @@ namespace OpenBabel
         vector<string> vs;
         tokenize(vs,buffer," \n");
 
-        if ( !vs.empty() && vs.size() > 0)
+        if ( !vs.empty() && !vs.empty())
           sscanf(buffer,"%i%*s",&natoms);
 
         if (natoms == 0)

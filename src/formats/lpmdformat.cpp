@@ -103,7 +103,7 @@ bool LpmdFormat::ReadHeader( std::istream &ifs, OBMol &mol )
   return false;
  }
  tokenize(tokens, buffer," ");
- if(tokens.size() == 0)
+ if(tokens.empty())
  {
   obErrorLog.ThrowError(__FUNCTION__,"The initial line it is empty!!! non LPMD format",obError);
   return false;

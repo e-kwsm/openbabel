@@ -140,7 +140,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         tokenize(vs,line);
 
         if ( vs.size() < 6 ){
-          if ( vs.size() > 0 ){
+          if ( !vs.empty() ){
             //Implies input is missing for some reason
             cerr << "Error with line: " << line << endl;
             cerr << "Structure should be: AtomNumber AtomicNumber Element "
@@ -211,7 +211,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         tokenize(vs,line);
 
         if ( vs.size() < 11 ){
-          if ( vs.size() > 0 ){
+          if ( !vs.empty() ){
             //Implies input is missing for some reason
             cerr << "Error with line: " << line << endl;
             break; //Missing Input

@@ -223,7 +223,7 @@ bool AliasData::LoadFile(SuperAtomTable& table)
 {
   //In table: key=alias left-form; value=pair<alias right-form, SMILES>
   ifstream ifs;
-  if (OpenDatafile(ifs, "superatom.txt").length() == 0)
+  if (OpenDatafile(ifs, "superatom.txt").empty())
   {
     obErrorLog.ThrowError(__FUNCTION__, "Cannot open superatom.txt", obError);
     return false;
@@ -251,7 +251,7 @@ bool AliasData::LoadFile(SmartsTable& smtable)
 {
   //Re-parse the datafile. Seems simpler than trying to extract from the map.
   ifstream ifs;
-  if (OpenDatafile(ifs, "superatom.txt").length() == 0)
+  if (OpenDatafile(ifs, "superatom.txt").empty())
   {
     obErrorLog.ThrowError(__FUNCTION__, "Cannot open superatom.txt", obError);
     return false;

@@ -143,7 +143,7 @@ namespace OpenBabel {
     }
 
     bool process_ions = (short_fn == "CONTFF") || (short_fn == "POSFF");
-    string ionspot_filename = (path == "") ? "IONS.POT" : path + "/IONS.POT";    
+    string ionspot_filename = (path.empty()) ? "IONS.POT" : path + "/IONS.POT";    
     ifstream ifs_ions;
     if( process_ions )
     {  
@@ -238,7 +238,7 @@ namespace OpenBabel {
         vs.erase(find(vs.begin(), vs.end(), "!") ,vs.end());
         vs.erase(remove(vs.begin(), vs.end(), "="));
                 
-        if(vs.size() == 0)
+        if(vs.empty())
           continue;
         if(vs[0] == "qch")
         {
@@ -483,7 +483,7 @@ namespace OpenBabel {
     string path = pConv->GetOutFilename();
     size_t found = path.rfind("/");
     path = (found == string::npos) ? "" : path.substr(0, found);
-    string ionspot_filename = (path == "") ? "IONS.POT" : path + "/IONS.POT";
+    string ionspot_filename = (path.empty()) ? "IONS.POT" : path + "/IONS.POT";
     ofstream ofs_ions;
     ofs_ions.open(ionspot_filename.c_str(), fstream::out);
     

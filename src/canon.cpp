@@ -845,7 +845,7 @@ namespace OpenBabel {
       }
 
       // the STEREO flag
-      if (state.stereoCenters.size()) {
+      if (!state.stereoCenters.empty()) {
         // sort the stereo centers
         std::sort(state.stereoCenters.begin(), state.stereoCenters.end(), SortStereoCenters(code.labels));
 
@@ -1606,7 +1606,7 @@ namespace OpenBabel {
       for (std::size_t f = 0; f < fcodes.size(); ++f) {
         //print_vector("CODE", fcodes[f].code);
         //print_vector("code_labels", fcodes[f].labels);
-        if (fcodes[f].labels.size() == 0)
+        if (fcodes[f].labels.empty())
           continue; // defensive programming
 
         unsigned int max_label = 0;

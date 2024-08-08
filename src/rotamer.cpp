@@ -391,7 +391,7 @@ namespace OpenBabel
       return; // wrong size key
 
     // gotta check for weird ring torsion combinations
-    if (_vrings.size()) {
+    if (!_vrings.empty()) {
       // go through each ring and update the possible torsions
       for (unsigned int j = 0; j < _vrings.size(); ++j) {
         vector<int> path = _vrings[j];
@@ -524,7 +524,7 @@ namespace OpenBabel
       return false; // wrong size key
 
     // gotta check for weird ring torsion combinations
-    if (_vrings.size()) {
+    if (!_vrings.empty()) {
       // go through each ring and update the possible torsions
       for (unsigned int j = 0; j < _vrings.size(); ++j) {
         vector<int> path = _vrings[j];

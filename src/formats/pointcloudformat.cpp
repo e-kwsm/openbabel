@@ -217,7 +217,7 @@ namespace OpenBabel
       }
       free(a);
     }
-    if( radius_mult_list.size() == 0 ) { radius_mult_list.push_back( 1.0 ); }
+    if( radius_mult_list.empty() ) { radius_mult_list.push_back( 1.0 ); }
     while( density_list.size() < radius_mult_list.size()) {
       density_list.push_back(1.0);
     }
