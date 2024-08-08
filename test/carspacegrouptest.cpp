@@ -73,7 +73,7 @@ void testDefaultSpaceGroup()
   conv.SetInFormat("car");
   conv.ReadFile(&mol, GetFilename("monoclinic.car"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  OB_ASSERT( pUC->GetSpaceGroupName() == "" );
+  OB_ASSERT( pUC->GetSpaceGroupName().empty() );
 }
 
 int carspacegrouptest(int argc, char* argv[])
