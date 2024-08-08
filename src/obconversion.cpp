@@ -246,7 +246,7 @@ namespace OpenBabel {
 
   /// Convenience constructor.  Sets up streams from specified files.
   /// If format can not be determined from filename, a stream is not opened.
-  OBConversion::OBConversion(string infile, string outfile):
+  OBConversion::OBConversion(const string& infile, const string& outfile):
         pInput(nullptr), pOutput(nullptr),
         pInFormat(nullptr), pOutFormat(nullptr), Index(0), StartNumber(1),
         EndNumber(0), Count(-1), m_IsFirstInput(true), m_IsLast(true),
@@ -258,7 +258,7 @@ namespace OpenBabel {
     RegisterOptionParam("f", nullptr, 1,GENOPTIONS);
     RegisterOptionParam("l", nullptr, 1,GENOPTIONS);
 
-    OpenInAndOutFiles(std::move(infile), std::move(outfile));
+    OpenInAndOutFiles(infile, outfile);
   }
 
   /////////////////////////////////////////////////
