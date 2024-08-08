@@ -271,7 +271,7 @@ namespace OpenBabel
     d1 = HiPart(d);
     d0 = LoPart(d);
 
-    m = ((unsigned int)(n->hi/d1)) * d0;
+    m = ((n->hi/d1)) * d0;
     r1 = ((n->hi%d1)<<16) + HiPart(n->lo);
     if( r1 < m )
       {
@@ -281,7 +281,7 @@ namespace OpenBabel
       }
     r1 -= m;
 
-    m = ((unsigned int)(r1/d1)) * d0;
+    m = ((r1/d1)) * d0;
     r0 = ((r1%d1)<<16) + LoPart(n->lo);
     if( r0 < m )
       {
