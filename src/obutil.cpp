@@ -673,28 +673,34 @@ namespace OpenBabel
     for (k = 2;k <= mol.NumAtoms();++k)
       {
         ang = fabs(vic[k]->_ang);
-        if (ang > 5.0 && ang < 175.0)
+        if (ang > 5.0 && ang < 175.0) {
           continue;
+        }
         atom = mol.GetAtom(k);
         done = false;
-        for (a = mol.BeginAtom(i);a && a->GetIdx() < k && !done;a = mol.NextAtom(i))
+        for (a = mol.BeginAtom(i);a && a->GetIdx() < k && !done;a = mol.NextAtom(i)) {
           for (b=mol.BeginAtom(j);b && b->GetIdx()<a->GetIdx() && !done;b = mol.NextAtom(j))
             {
               v1 = atom->GetVector() - a->GetVector();
               v2 = b->GetVector() - a->GetVector();
               ang = fabs(vectorAngle(v1,v2));
-              if (ang < 5.0 || ang > 175.0)
+              if (ang < 5.0 || ang > 175.0) {
                 continue;
+              }
 
               // Also check length considerations -- don't bother if the length > 10.0 Angstroms
-              if (v1.length_2() > 99.999)
+              if (v1.length_2() > 99.999) {
                 continue;
+              }
 
-              for (c = mol.BeginAtom(m);c && c->GetIdx() < atom->GetIdx();c = mol.NextAtom(m))
-                if (c != atom && c != a && c != b)
+              for (c = mol.BeginAtom(m);c && c->GetIdx() < atom->GetIdx();c = mol.NextAtom(m)) {
+                if (c != atom && c != a && c != b) {
                   break;
-              if (!c)
+                }
+              }
+              if (!c) {
                 continue;
+              }
 
               vic[k]->_a = a;
               vic[k]->_b = b;
@@ -705,10 +711,12 @@ namespace OpenBabel
                                               a->GetVector(),
                                               b->GetVector(),
                                               c->GetVector());
-              if (!isfinite(vic[k]->_tor))
+              if (!isfinite(vic[k]->_tor)) {
                 vic[k]->_tor = 180.0;
+              }
               done = true;
             }
+        }
       }
   }
 
@@ -814,8 +822,9 @@ namespace OpenBabel
    */
   int SolveLinear(double A,double B)
   {
-    if( IsZero(A) )
+    if( IsZero(A) ) {
       return( 0 );
+    }
     Roots[0] = -B/A;
     return( 1 );
   }
@@ -829,14 +838,16 @@ namespace OpenBabel
   {
     double Descr, Temp, TwoA;
 
-    if( IsZero(A) )
+    if( IsZero(A) ) {
       return( SolveLinear(B,C) );
+    }
 
     TwoA = A+A;
     Temp = TwoA*C;
     Descr = B*B - (Temp+Temp);
-    if( Descr<0.0 )
+    if( Descr<0.0 ) {
       return( 0 );
+    }
 
     if( Descr>0.0 )
       {
@@ -866,8 +877,9 @@ namespace OpenBabel
       {
         return pow( X, OneThird );
       }
-    else
+    else {
       return -pow( -X, OneThird );
+    }
   }
 
   int SolveCubic(double A,double B,double C,double D)
@@ -950,8 +962,9 @@ namespace OpenBabel
 
     for (j = 0; j < 3; ++j)
       {
-        for (i = 0; i < 3; ++i)
+        for (i = 0; i < 3; ++i) {
           v[i][j] = 0.0;
+        }
 
         v[j][j] = 1.0;
         d[j] = a[j][j];
@@ -970,9 +983,10 @@ namespace OpenBabel
               }
           }
 
-        if((onorm/dnorm) <= 1.0e-12)
+        if((onorm/dnorm) <= 1.0e-12) {
         /* Completion achieved (i.e. off-diagonals are all 0.0 within error)*/
           goto Exit_now;
+        }
         for (j = 1; j < 3; ++j)
           {
             for (i = 0; i <= j - 1; ++i)
@@ -981,14 +995,16 @@ namespace OpenBabel
                 if(fabs(b) > 0.0)
                   {
                     dma = d[j] - d[i];
-                    if((fabs(dma) + fabs(b)) <=  fabs(dma))
+                    if((fabs(dma) + fabs(b)) <=  fabs(dma)) {
                       t = b / dma;
+                    }
                     else
                       {
                         q = 0.5 * dma / b;
                         t = 1.0/((double)fabs(q) + (double)sqrt(1.0+q*q));
-                        if(q < 0.0)
+                        if(q < 0.0) {
                           t = -t;
+                        }
                       }
                     c = 1.0/(double)sqrt(t * t + 1.0);
                     s = t * c;
@@ -1036,12 +1052,13 @@ namespace OpenBabel
       {
         k = j;
         dtemp = d[k];
-        for (i = j+1; i < 3; ++i)
+        for (i = j+1; i < 3; ++i) {
           if(d[i] < dtemp)
             {
               k = i;
               dtemp = d[k];
             }
+        }
 
         if(k > j)
           {
@@ -1136,9 +1153,11 @@ namespace OpenBabel
     double mat[3][3],rmat[3][3],mat2[3][3],roots[3];
 
     /* make inertial cross tensor */
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         mat[i][j]=0.0;
+      }
+    }
 
     for(i=0;i < size;++i)
       {
@@ -1159,13 +1178,14 @@ namespace OpenBabel
 
 
     /* square matrix= ((mat transpose) * mat) */
-    for(i=0;i<3;++i)
+    for(i=0;i<3;++i) {
       for(j=0;j<3;++j)
         {
           x=mat[0][i]*mat[0][j]+mat[1][i]*mat[1][j]+mat[2][i]*mat[2][j];
           mat2[i][j]=mat[i][j];
           rmat[i][j]=x;
         }
+    }
     get_roots_3_3(rmat,roots);
 
     roots[0]=(roots[0]<0.0001) ? 0.0: (roots[0]);
@@ -1180,26 +1200,33 @@ namespace OpenBabel
 
     if(d2<0.0)
       {
-        if( (roots[0]>=roots[1]) && (roots[0]>=roots[2]) )
+        if( (roots[0]>=roots[1]) && (roots[0]>=roots[2]) ) {
           roots[0]*=-1.0;
-        if( (roots[1]>roots[0]) && (roots[1]>=roots[2]) )
+        }
+        if( (roots[1]>roots[0]) && (roots[1]>=roots[2]) ) {
           roots[1]*=-1.0;
-        if( (roots[2]>roots[1]) && (roots[2]>roots[0]) )
+        }
+        if( (roots[2]>roots[1]) && (roots[2]>roots[0]) ) {
           roots[2]*=-1.0;
+        }
       }
 
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         mat[i][j]=roots[0]*rmat[i][0]*rmat[j][0]+
           roots[1]*rmat[i][1]*rmat[j][1]+
           roots[2]*rmat[i][2]*rmat[j][2];
+      }
+    }
 
     /* and multiply into original inertial cross matrix, mat2 */
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         rmat[i][j]=mat[0][j]*mat2[i][0]+
           mat[1][j]*mat2[i][1]+
           mat[2][j]*mat2[i][2];
+      }
+    }
 
     /* rotate all coordinates */
     d2 = 0.0;
@@ -1230,9 +1257,11 @@ namespace OpenBabel
     double mat[3][3],rmat[3][3],mat2[3][3],roots[3];
 
     /* make inertial cross tensor */
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         mat[i][j]=0.0;
+      }
+    }
 
     for(i=0;i < size;++i)
       {
@@ -1252,13 +1281,14 @@ namespace OpenBabel
       +mat[0][2]*(mat[1][0]*mat[2][1]-mat[1][1]*mat[2][0]);
 
     /* square matrix= ((mat transpose) * mat) */
-    for(i=0;i<3;++i)
+    for(i=0;i<3;++i) {
       for(j=0;j<3;++j)
         {
           x=mat[0][i]*mat[0][j]+mat[1][i]*mat[1][j]+mat[2][i]*mat[2][j];
           mat2[i][j]=mat[i][j];
           rmat[i][j]=x;
         }
+    }
     get_roots_3_3(rmat,roots);
 
     roots[0]=(roots[0]<0.0001) ? 0.0: (roots[0]);
@@ -1273,26 +1303,33 @@ namespace OpenBabel
 
     if(d2<0.0)
       {
-        if( (roots[0]>=roots[1]) && (roots[0]>=roots[2]) )
+        if( (roots[0]>=roots[1]) && (roots[0]>=roots[2]) ) {
           roots[0]*=-1.0;
-        if( (roots[1]>roots[0]) && (roots[1]>=roots[2]) )
+        }
+        if( (roots[1]>roots[0]) && (roots[1]>=roots[2]) ) {
           roots[1]*=-1.0;
-        if( (roots[2]>roots[1]) && (roots[2]>roots[0]) )
+        }
+        if( (roots[2]>roots[1]) && (roots[2]>roots[0]) ) {
           roots[2]*=-1.0;
+        }
       }
 
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         mat[i][j]=roots[0]*rmat[i][0]*rmat[j][0]+
           roots[1]*rmat[i][1]*rmat[j][1]+
           roots[2]*rmat[i][2]*rmat[j][2];
+      }
+    }
 
     /* and multiply into original inertial cross matrix, mat2 */
-    for(i=0;i<3;++i)
-      for(j=0;j<3;++j)
+    for(i=0;i<3;++i) {
+      for(j=0;j<3;++j) {
         rmat[i][j]=mat[0][j]*mat2[i][0]+
           mat[1][j]*mat2[i][1]+
           mat[2][j]*mat2[i][2];
+      }
+    }
 
     rvec[0] = rmat[0][0];
     rvec[1] = rmat[0][1];
