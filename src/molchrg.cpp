@@ -82,8 +82,9 @@ namespace OpenBabel
     double a,b,c;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
-        if (!GasteigerSigmaChi(atom,a,b,c))
+        if (!GasteigerSigmaChi(atom,a,b,c)) {
           return(false);
+        }
         _gsv[atom->GetIdx()]->SetValues(a,b,c,atom->GetPartialCharge());
       }
 
@@ -111,17 +112,19 @@ namespace OpenBabel
 
             if (_gsv[src->GetIdx()]->chi >= _gsv[dst->GetIdx()]->chi)
               {
-                if (dst->GetAtomicNum() == OBElements::Hydrogen)
+                if (dst->GetAtomicNum() == OBElements::Hydrogen) {
                   denom = double(OB_GASTEIGER_DENOM);
-                else
+                } else {
                   denom = _gsv[dst->GetIdx()]->denom;
+                }
               }
             else
               {
-                if (src->GetAtomicNum() == OBElements::Hydrogen)
+                if (src->GetAtomicNum() == OBElements::Hydrogen) {
                   denom = double(OB_GASTEIGER_DENOM);
-                else
+                } else {
                   denom = _gsv[src->GetIdx()]->denom;
+                }
               }
 
             charge = (_gsv[src->GetIdx()]->chi - _gsv[dst->GetIdx()]->chi)/denom;
@@ -130,8 +133,9 @@ namespace OpenBabel
           }
       }
 
-    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
+    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i)) {
       atom->SetPartialCharge(_gsv[atom->GetIdx()]->q);
+    }
 
     return(true);
   }
@@ -148,15 +152,16 @@ namespace OpenBabel
 
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
-        if (atom->IsCarboxylOxygen())
+        if (atom->IsCarboxylOxygen()) {
           atom->SetPartialCharge(-0.500);
-        else if (atom->IsPhosphateOxygen() &&
-                 atom->GetHvyDegree() == 1)
+        } else if (atom->IsPhosphateOxygen() &&
+                 atom->GetHvyDegree() == 1) {
           atom->SetPartialCharge(-0.666);
-        else if (atom->IsSulfateOxygen())
+        } else if (atom->IsSulfateOxygen()) {
           atom->SetPartialCharge(-0.500);
-        else
+        } else {
           atom->SetPartialCharge((double)atom->GetFormalCharge());
+        }
       }
   }
 
@@ -301,7 +306,9 @@ namespace OpenBabel
         c = (val[2]+val[0])/2 - val[1];
       }
     else
+    {
       return(false);
+    }
 
     return(true);
   }
@@ -309,19 +316,22 @@ namespace OpenBabel
   void OBGastChrg::GSVResize(int size)
   {
     vector <GasteigerState*>::iterator i;
-    for (i = _gsv.begin();i != _gsv.end();++i)
+    for (i = _gsv.begin();i != _gsv.end();++i) {
       delete *i;
+    }
     _gsv.clear();
 
-    for (int j = 0;j < size;++j)
+    for (int j = 0;j < size;++j) {
       _gsv.push_back(new GasteigerState);
+    }
   }
 
   OBGastChrg::~OBGastChrg()
   {
     vector <GasteigerState*>::iterator i;
-    for (i = _gsv.begin();i != _gsv.end();++i)
+    for (i = _gsv.begin();i != _gsv.end();++i) {
       delete *i;
+    }
   }
 
   GasteigerState::GasteigerState()
