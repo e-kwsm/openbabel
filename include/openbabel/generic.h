@@ -333,8 +333,8 @@ namespace OpenBabel
     **\param beta The angle beta
     **\param gamma The angle gamma
     */
-    void SetData(const double a, const double b, const double c,
-                 const double alpha, const double beta, const double gamma);
+    void SetData(double a, double b, double c,
+                 double alpha, double beta, double gamma);
     /*!
     **\brief Constructs the cell matrix using the supplied row vectors
     **\param v1 The x-vector
@@ -342,17 +342,17 @@ namespace OpenBabel
     **\param v3 The z-vector
     **\see OBUnitCell::GetCellVectors
     */
-    void SetData(const vector3 v1, const vector3 v2, const vector3 v3);
+    void SetData(vector3 v1, vector3 v2, vector3 v3);
 
     /*!
     **\brief Sets the unit cell matrix
     **\param m The unit cell matrix (row vectors)
     **\see OBUnitCell::GetCellMatrix
     */
-    void SetData(const matrix3x3 m);
+    void SetData(matrix3x3 m);
 
     //! Set the offset to the origin to @p v1
-    void SetOffset(const vector3 v1);
+    void SetOffset(vector3 v1);
 
     //! Set the space group for this unit cell.
     //! Does not create an OBSymmetryData entry

@@ -192,9 +192,9 @@ class OBConversion; //used only as pointer
     unsigned int _type;  //!< attribute type -- declared for each subclass
     DataOrigin   _source;//!< source of data for accounting
   public:
-    OBGenericData(const std::string attr = "undefined",
-                  const unsigned int type =  OBGenericDataType::UndefinedData,
-                  const DataOrigin source = any);
+    OBGenericData(std::string attr = "undefined",
+                  unsigned int type =  OBGenericDataType::UndefinedData,
+                  DataOrigin source = any);
     //Use default copy constructor and assignment operators
     //OBGenericData(const OBGenericData&);
 
@@ -293,7 +293,7 @@ class OBConversion; //used only as pointer
       //! \return whether the generic attribute/value pair exists
       bool                              HasData(const char *);
       //! \return whether the generic attribute/value pair exists, for a given OBGenericDataType
-      bool                              HasData(const unsigned int type);
+      bool                              HasData(unsigned int type);
       //! Delete any data matching the given OBGenericDataType
       void                              DeleteData(unsigned int type);
       //! Delete the given generic data from this object
@@ -315,7 +315,7 @@ class OBConversion; //used only as pointer
         { return(_vdata.size()); }
       //! \return the first matching data for a given type from OBGenericDataType
       //!    or NULL if nothing matches
-      OBGenericData                    *GetData(const unsigned int type);
+      OBGenericData                    *GetData(unsigned int type);
       //! \return any data matching the given attribute name or NULL if nothing matches
       OBGenericData                    *GetData(const std::string&);
       //! \return any data matching the given attribute name or NULL if nothing matches
@@ -323,7 +323,7 @@ class OBConversion; //used only as pointer
       //! \return the all matching data for a given type from OBGenericDataType
       //!    or an empty vector if nothing matches
       //! \since version 2.2
-      std::vector<OBGenericData*>       GetAllData(const unsigned int type);
+      std::vector<OBGenericData*>       GetAllData(unsigned int type);
       //! \return all data, suitable for iterating
       std::vector<OBGenericData*>      &GetData() { return(_vdata); }
       //! \return all data with a specific origin, suitable for iterating

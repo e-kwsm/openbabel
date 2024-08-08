@@ -187,7 +187,7 @@ namespace OpenBabel
    * \deprecated Use IsApprox() instead
    */
   OB_DEPRECATED_MSG("Use IsApprox() instead")
-  OBAPI bool IsNear(const double &, const double &, const double epsilon=2e-6);
+  OBAPI bool IsNear(const double &, const double &, double epsilon=2e-6);
   /*! "Safe" comparison for floats/doubles: true if a is less than epsilon
    * This function really doesn't make any sense w.r.t. floating-point
    * representation, so you should never use it. It is provided only for
@@ -195,7 +195,7 @@ namespace OpenBabel
    * \deprecated
    */
   OB_DEPRECATED
-  OBAPI bool IsNearZero(const double &, const double epsilon=2e-6);
+  OBAPI bool IsNearZero(const double &, double epsilon=2e-6);
   OBAPI bool IsNan(const double &);
   /**
    * \return true if \a a is much smaller than \a b. More precisely:

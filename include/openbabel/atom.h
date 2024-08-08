@@ -207,7 +207,7 @@ namespace OpenBabel
       //! Set the coordinate vector for this atom to @p v as a vector3
       void SetVector(const vector3 &v);
       //! Set the coordinate vector for this atom based on @p x @p y & @p z
-      void SetVector(const double x,const double y,const double z);
+      void SetVector(double x,double y,double z);
       //! Set the position of this atom from a pointer-driven array of coordinates
       void SetCoordPtr(double **c)        { _c = c; _cidx = (GetIdx()-1)*3; }
       //! Set the position of this atom based on the internal pointer array (i.e. from SetCoordPtr() )

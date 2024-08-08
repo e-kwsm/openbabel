@@ -104,7 +104,7 @@ namespace OpenBabel {
      * \brief Set the bounds matrix explicitly
      * \return Success or failure (e.g., bounds matrix does not match the number of atoms)
      */
-    bool SetBoundsMatrix(const Eigen::MatrixXf bounds);
+    bool SetBoundsMatrix(Eigen::MatrixXf bounds);
     float GetUpperBounds(int i, int j);
     float GetLowerBounds(int i, int j);
     unsigned int GetDimension() {return dim;};

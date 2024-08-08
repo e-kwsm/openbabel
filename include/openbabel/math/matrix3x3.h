@@ -256,7 +256,7 @@ namespace OpenBabel
 
       //! \brief Calculates a rotation matrix, rotating around the specified axis by
       //! the specified angle (in degrees)
-      void RotAboutAxisByAngle(const vector3 &axis, const double angle);
+      void RotAboutAxisByAngle(const vector3 &axis, double angle);
 
       //! Calculate an orthogonalisation matrix for a unit cell
       //! specified by the parameters alpha, beta, gamma, a, b, c
