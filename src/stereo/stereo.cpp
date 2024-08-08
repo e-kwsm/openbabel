@@ -28,15 +28,21 @@ namespace OpenBabel {
   bool OBStereo::ContainsSameRefs(const OBStereo::Refs &refs1, const OBStereo::Refs &refs2)
   {
     if (refs1.size() != refs2.size())
+    {
       return false;
+    }
 
     unsigned int count = 0;
     for (ConstRefIter i = refs1.begin(); i != refs1.end(); ++i)
+    {
       for (ConstRefIter j = refs2.begin(); j != refs2.end(); ++j)
+      {
         if (*i == *j) {
           count++;
           break;
         }
+      }
+    }
 
     return (count == refs1.size());
   }
@@ -44,8 +50,12 @@ namespace OpenBabel {
   bool OBStereo::ContainsRef(const OBStereo::Refs &refs, unsigned long id)
   {
     for (ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+    {
       if (*i == id)
+      {
         return true;
+      }
+    }
 
     return false;
   }
@@ -58,16 +68,22 @@ namespace OpenBabel {
       int e = 0; // ith element
       // loop over elements to the right
       for (j = i; j != refs.end(); ++j)
+      {
         // increment e if element to the right is lower
         if (*j < *i)
+        {
           e++;
+        }
+      }
 
       invVec.push_back(e);
     }
 
     int sum = 0;
     for (OBStereo::RefIter k = invVec.begin(); k != invVec.end(); ++k)
+    {
       sum += *k;
+    }
 
     return sum;
   }
@@ -75,9 +91,13 @@ namespace OpenBabel {
   void OBStereo::Permutate(OBStereo::Refs &refs, unsigned int i, unsigned int j)
   {
     if (i >= refs.size())
+    {
       return;
+    }
     if (j >= refs.size())
+    {
       return;
+    }
     unsigned long id = refs.at(i);
     refs[i] = refs.at(j);
     refs[j] = id;
@@ -86,9 +106,13 @@ namespace OpenBabel {
   OBStereo::Refs OBStereo::Permutated(const OBStereo::Refs &refs, unsigned int i, unsigned int j)
   {
     if (i >= refs.size())
+    {
       return refs;
+    }
     if (j >= refs.size())
+    {
       return refs;
+    }
     OBStereo::Refs result(refs);
     result[i] = refs.at(j);
     result[j] = refs.at(i);

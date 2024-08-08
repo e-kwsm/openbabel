@@ -45,20 +45,26 @@ namespace OpenBabel
   void SVGPainter::NewCanvas(double width, double height)
   {
     if(m_withViewBox)
+    {
       m_ofs << "<svg width=\"" << m_width << "\" height=\"" << m_height << "\" "
             << "x=\"0\" y=\"0\" "
             << "viewBox=\"0 0 " << width << ' ' << height << "\"\n";
+    }
     else
+    {
       m_ofs << "<svg width=\"" << width << "\" height=\"" << height << "\" "
             << "x=\"0\" y=\"0\" ";
+    }
 
     //Bond color and width are the initial m_Pencolor and m_PenWidth
     m_ofs << "font-family=\"" << m_fontFamily << "\" stroke=" << MakeRGB(m_Pencolor)
           << "stroke-width=\"" << m_PenWidth << "\"  stroke-linecap=\"round\"" << ">\n";
 
     if(!m_withViewBox && m_Fillcolor.alpha!=0.0)//Background color for single molecule. Handled by outer svg when table.
+    {
       m_ofs << "<rect x=\"0%\" y=\"0%\" width=\"100%\" height=\"100%\" stroke-width=\"0\" fill="
             << MakeRGB(m_Fillcolor) << " />\n";
+    }
     m_OrigBondcolor = m_Pencolor;
   }
 
@@ -122,7 +128,9 @@ namespace OpenBabel
       std::vector<double>::const_iterator it = dashes.begin();
       m_ofs << " stroke-dasharray=\"" << *it;
       for (; it!=dashes.end() ; ++it)
+      {
         m_ofs << "," << *it;
+      }
       m_ofs << "\"";
 
     }
@@ -135,7 +143,9 @@ namespace OpenBabel
     m_ofs << "<polygon points=\"";
       std::vector<std::pair<double,double> >::const_iterator i;
     for (i = points.begin(); i != points.end(); ++i)
+    {
       m_ofs << i->first << ' ' << i->second << ' ';
+    }
     m_ofs << "\"";
     m_ofs << " stroke-width=\"" << m_PenWidth << "\"";
     m_ofs << " fill=" << MakeRGB(m_Pencolor);
@@ -165,7 +175,9 @@ namespace OpenBabel
     metrics.height   = m_fontPointSize *  1.26; // Distance between successive lines of text
     metrics.width    = 0.0;
     for(string::size_type i=0;i<text.size();++i)
+    {
       metrics.width += m_fontPointSize * (isalpha(text[i]) ? 0.75 : 0.5);
+    }
 
     return metrics;
   }
@@ -177,9 +189,13 @@ namespace OpenBabel
   void SVGPainter::DrawBall(double x, double y, double r, double opacity)
   {
     if (!isfinite(opacity))
+    {
       opacity = 1.0;
+    }
     if (opacity < 0.2)
+    {
       opacity = 0.2;
+    }
 
     m_ofs << "<circle cx=\"" << x << "\" cy=\"" << y << "\" r=\"" << r << "\" ";
     m_ofs << "opacity=\"" << opacity << "\" ";

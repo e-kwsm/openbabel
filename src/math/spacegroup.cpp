@@ -79,7 +79,9 @@ namespace OpenBabel
   {
     set<SpaceGroup*>::iterator i, end = sgs.end();
     for (i = sgs.begin(); i != end; ++i)
+    {
       delete (*i);
+    }
   }
 
   enum
@@ -114,14 +116,20 @@ namespace OpenBabel
             {
               std::string alt = linestr.substr(0, idx);
               if (alt.length() > 0 && _SpaceGroups.sgbn[alt] == nullptr)
+              {
                 _SpaceGroups.sgbn[alt] = group;
+              }
               std::string stripped_HM=RemoveWhiteSpaceUnderscore(alt);
               if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[stripped_HM] == nullptr)
+              {
                 _SpaceGroups.sgbn[stripped_HM] = group;
+              }
               group->SetHMName(linestr.substr(idx+1, std::string::npos).c_str());
             }
           else
+          {
             group->SetHMName(line);
+          }
           step++;
           break;
         }
@@ -130,14 +138,20 @@ namespace OpenBabel
           {
             step = SPACE_GROUP_ID;
             if (HMs.length() > 0)
+            {
               group->RegisterSpaceGroup(1, HMs.c_str());
+            }
             else
+            {
               group->RegisterSpaceGroup();
+            }
             group = nullptr;
             HMs.clear();
 		      }
         else
+        {
           group->AddTransform(line);
+        }
         break;
       }
   }
@@ -151,7 +165,9 @@ namespace OpenBabel
   {
     list<transform3d*>::iterator i, end = m_transforms.end();
     for (i = m_transforms.begin(); i != end; ++i)
+    {
       delete *i;
+    }
   }
 
   void SpaceGroup::SetHMName(const char *name_in)
@@ -218,7 +234,9 @@ namespace OpenBabel
                       *t = strtod(row.c_str() + j, &end);
                       j = end - row.c_str() - 1;
                       if (neg)
+                      {
                         *t = - *t;
+                      }
                       break;
                     }
                   case '1':
@@ -247,7 +265,9 @@ namespace OpenBabel
                           }
                         *t = ((double) (row[j] - '0')) / (row[j+2] - '0');
                         if (neg)
+                        {
                           *t = - *t;
+                        }
 
                         j +=2;
                       }

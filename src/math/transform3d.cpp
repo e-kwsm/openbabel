@@ -54,11 +54,15 @@ namespace OpenBabel
       for (i = 0; i < 3; i++)
         {
           if (i)
+          {
             r << ",";
+          }
           n = static_cast<int> (floor((*v)[i] * 12.0 + 0.1));
           j = 0;
           while ((*m)(i, j) == 0.)
+          {
             j++;
+          }
           neg = (*m)(i, j) < 0.;
           switch (n)
             {

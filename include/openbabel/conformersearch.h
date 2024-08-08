@@ -93,8 +93,12 @@ namespace OpenBabel {
       bool IsGood(const OBMol &mol, const RotorKey &key, double *coords) override
       {
         for (unsigned int i = 0; i < m_filters.size(); ++i)
+        {
           if (!m_filters[i]->IsGood(mol, key, coords))
+          {
             return false;
+          }
+        }
         return true;
       }
     protected:
