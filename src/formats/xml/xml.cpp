@@ -23,9 +23,7 @@ namespace OpenBabel
 
   XMLConversion::XMLConversion(OBConversion* pConv)
     : OBConversion(*pConv),
-      _requestedpos(0), _lastpos(0),
-      _reader(nullptr), _writer(nullptr),
-      _LookingForNamespace(false), _SkipNextRead(false)
+      _requestedpos(0), _lastpos(0) 
   {
     _pConv = pConv;
     pConv->SetAuxConv(this);//marks original OBConversion object as having been extended

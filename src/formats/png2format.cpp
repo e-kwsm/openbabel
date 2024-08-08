@@ -32,7 +32,7 @@ class PNG2Format : public OBMoleculeFormat
 {
 public:
   //Register this format type ID in the constructor
-  PNG2Format() : _ncols(0), _nrows(0), _nmax(0)
+  PNG2Format()  
   {
     OBConversion::RegisterFormat("_png2",this);
   }
@@ -53,7 +53,7 @@ public:
   bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
 
   private:
-    int _ncols, _nrows, _nmax;
+    int _ncols{0}, _nrows{0}, _nmax{0};
     vector<OBBase*> _objects;
     CairoPainter _cairopainter; //now local variable in WriteMolecule()
 };
