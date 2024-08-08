@@ -46,10 +46,12 @@ bool OBDescriptor::Compare(OBBase* pOb, istream& optionText, bool noEval, string
 {
   //Get comparison operator
   char ch1=0, ch2=0;
-  while (optionText && !ispunctU(ch1)) {
+  while (optionText && !ispunctU(ch1))
+  {
     optionText >> ch1;
   }
-  if(ispunctU(optionText.peek())) {
+  if(ispunctU(optionText.peek()))
+  {
     optionText >> ch2;
   }
 
@@ -58,7 +60,8 @@ bool OBDescriptor::Compare(OBBase* pOb, istream& optionText, bool noEval, string
   optionText >> filterval;
   if (optionText)
   {
-    if(noEval) {
+    if(noEval)
+    {
       return false;
     }
 
@@ -97,7 +100,8 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
     bool negate=false, retFromCompare, ret=false;
     char ch=0;
     optionText >> ch; //skips whitespace
-    if(!optionText) {
+    if(!optionText)
+    {
       return false;
     }
 
@@ -120,7 +124,8 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
     }
     else //unbracketted expression
     {
-      if(!ispunctU(ch)) {
+      if(!ispunctU(ch))
+      {
         optionText.unget(); //must be start of ID
       }
       else
@@ -150,7 +155,8 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       {
         //if no existing data see if it is an OBDescriptor
         OBDescriptor* pDesc = OBDescriptor::FindType(descID.c_str());
-        if(pDesc && !noEval) {
+        if(pDesc && !noEval)
+        {
           retFromCompare = pDesc->Compare(pOb, optionText, noEval, &param);
         }
         else
@@ -165,17 +171,20 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       }
     }
 
-    if(negate) {
+    if(negate)
+    {
       retFromCompare=!retFromCompare;
     }
 
-    if(!noEval) {
+    if(!noEval)
+    {
       ret = retFromCompare;
     }
 
     //Look for boolean operator
     ch=0;
-    if(!(optionText >> ch)) {
+    if(!(optionText >> ch))
+    {
       return ret; //end of filterstring
     }
 
@@ -185,11 +194,13 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       return ret;
     }
 
-    if(!ispunctU(ch)) {
+    if(!ispunctU(ch))
+    {
       optionText.unget(); //start of next ID or )
     }
     else
-      if(optionText.peek()==ch) { //treat && and || as & and |
+      if(optionText.peek()==ch) //treat && and || as & and |
+      {
         optionText.ignore();
       }
 
@@ -216,7 +227,8 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
   optionText.unsetf(ios::skipws);
   for(;;)
   {
-    if(!optionText || isspace(ch) || ch==',') {
+    if(!optionText || isspace(ch) || ch==',')
+    {
       break;
     }
     if(ch=='(') // the parameter is in parentheses
@@ -277,7 +289,9 @@ double OBDescriptor::ParsePredicate(istream& optionText, char& ch1, char& ch2, s
   else
   {
     if(optionText.peek()=='=')
+    {
     optionText >> ch2;
+    }
   }
 
   //Try to read a double. Rewind and read as a string
@@ -285,7 +299,9 @@ double OBDescriptor::ParsePredicate(istream& optionText, char& ch1, char& ch2, s
   optionText >> val;
    //only a number when the param has no additional text or only a closing bracket
   if(!optionText.eof() && (optionText.fail() || isalpha(optionText.peek())))
+  {
     val = std::numeric_limits<double>::quiet_NaN();
+  }
   optionText.clear();
   optionText.seekg(spos);
   ReadStringFromFilter(optionText, svalue);
@@ -313,12 +329,18 @@ bool OBDescriptor::ReadStringFromFilter(istream& optionText, string& result)
     if(ch=='=' || ch=='!')
     {
       if(optionText.get()!='=')
+      {
         optionText.unget();
+      }
       if(ch=='!')
+      {
         ret=false; //to indicate negation
+      }
     }
     else  //no operator
+    {
       optionText.unget();
+    }
 
     optionText >> ch;
     if(ch=='\"' || ch=='\'')
@@ -347,7 +369,9 @@ bool OBDescriptor::ReadStringFromFilter(istream& optionText, string& result)
   }
 
   if(optionText.fail())
+  {
     obErrorLog.ThrowError(__FUNCTION__, "Error reading string from filter", obError, onceOnly);
+  }
 
   return ret;
 }
@@ -369,7 +393,9 @@ double OBDescriptor::PredictAndSave(OBBase* pOb, string* param)
   dp->SetValue( svalue );
   dp->SetOrigin(perceived);
   if(!PreviouslySet)
+  {
     pOb->SetData(dp);
+  }
   return val;
 }
 
@@ -397,16 +423,22 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
   stringstream ss(sval);
   double val;
   if((ss >> val) && !IsNan(filterval))
+  {
     //Do a numerical comparison if both values are numbers
     return DoComparison(ch1, ch2, val, filterval);
+  }
   else
   {
     //Do a string comparison if either the filter or the OBPair value is not a number
     //If sval is quoted remove quotes
     if(sval[0]=='\"' || sval[0]=='\'')
+    {
       sval.erase(0,1);
+    }
     if(sval[sval.size()-1]=='\"' || sval[sval.size()-1]=='\'')
+    {
       sval.erase(sval.size()-1);    
+    }
 
     bool leading=false, trailing=false;
     if(sfilterval[0]=='*')
@@ -423,9 +455,13 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
     if(pos!=string::npos)
     {
       if(trailing) //needs to be first
+      {
         sval.erase(pos+sfilterval.size()); //erase aftermatch
+      }
       if(leading)
+      {
         sval.erase(0, pos); //erase before match 
+      }
     }
     return DoComparison(ch1, ch2, sval, sfilterval);
   }
@@ -439,9 +475,13 @@ void OBDescriptor::AddProperties(OBBase* pOb, const string& DescrList)
   {
     pair<string,string> spair = GetIdentifier(ss);
     if( (pDescr = OBDescriptor::FindType(spair.first.c_str())) ) // extra parentheses to indicate assignment as truth value
+    {
       pDescr->PredictAndSave(pOb, &spair.second);
+    }
     else
+    {
       obErrorLog.ThrowError(__FUNCTION__, spair.first + " not recognized as a descriptor", obError, onceOnly);
+    }
   }
 }
 
@@ -453,7 +493,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
   for(itr=vs.begin();itr!=vs.end();++itr)
   {
     if(MatchPairData(pOb, *itr))
+    {
       pOb->DeleteData(*itr);
+    }
   }
 }
 
@@ -472,7 +514,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       if(delim=='\\')
       {
         if(DescrList[1]=='\\')
+        {
           ss.ignore();
+        }
         else if(DescrList[1]=='t')
         {
           delim='\t';
@@ -481,7 +525,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       }
     }
     else
+    {
       delim = ' ';
+    }
 
     string values;
     OBDescriptor* pDescr;
@@ -492,11 +538,15 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
 
       //If there is existing OBPairData use that
       if(MatchPairData(pOb, spair.first))
+      {
         thisvalue = pOb->GetData(spair.first)->GetValue();
+      }
       else
       {
         if( (pDescr = OBDescriptor::FindType(spair.first.c_str())) ) // extra parentheses to indicate truth value
+        {
           pDescr->GetStringValue(pOb, thisvalue, &spair.second);
+        }
         else
         {
           obErrorLog.ThrowError(__FUNCTION__,
@@ -515,14 +565,20 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
     //else if s with all '_' replaced by spaces matches return true and s is now the form with spaces
     //else return false.
     if(pOb->HasData(s))
+    {
       return true;
+    }
     if(s.find('_')==string::npos)
+    {
       return false;
+    }
     string temp(s);
     string::size_type pos = string::npos;
     //replace all underscores by spaces
     while((pos=temp.find('_', ++pos))!=string::npos)
+    {
       temp[pos]=' ';
+    }
     if(pOb->HasData(temp))
     {
       s = temp;
@@ -540,7 +596,9 @@ bool OBDescriptor::Display(std::string&txt, const char* param, const char* ID)
   if(param  && FindType(param))
   {
     if(strcmp(ID, param))
+    {
       return false;
+    }
     param = "verbose";
   }
   return OBPlugin::Display(txt,param,ID);

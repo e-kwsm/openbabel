@@ -89,70 +89,90 @@ namespace OpenBabel
     const char* GetSymbol(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return "";
+      }
       return element_symbols[atomic_number];
     }
 
     const char* GetName(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return "";
+      }
       return element_name[atomic_number];
     }
 
     double GetMass(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return atomic_mass[atomic_number];
     }
 
     double GetAllredRochowElectroNeg(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return eneg_allred[atomic_number];
     }
 
     double GetCovalentRad(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return cov_rad[atomic_number];
     }
 
     double GetVdwRad(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return vdw_rad[atomic_number];
     }
 
     double GetElectronAffinity(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return electron_affinity[atomic_number];
     }
 
     double GetIonization(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return ionization[atomic_number];
     }
 
     unsigned int GetMaxBonds(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0;
+      }
       return maxbonds[atomic_number];
     }
 
     double GetElectroNeg(unsigned int atomic_number)
     {
       if (atomic_number > NUMELEMENTS)
+      {
         return 0.0;
+      }
       return eneg_pauling[atomic_number];
     }
 
