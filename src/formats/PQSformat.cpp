@@ -235,7 +235,7 @@ namespace OpenBabel
                         sizeof(full_coord_path) - strlen(full_coord_path) - 1);
                 stringstream errorMsg;
                 errorMsg <<"External geometry file referenced: "<< \
-                  full_coord_path<<endl;
+                  full_coord_path<<'\n';
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
 
                 coordFileStream.open(full_coord_path);
@@ -308,7 +308,7 @@ namespace OpenBabel
             if (!coordFileStream)
               {
                 stringstream errorMsg;
-                errorMsg <<"ReadPQS: cannot read external "<<coord_file<<" file!"<<endl;
+                errorMsg <<"ReadPQS: cannot read external "<<coord_file<<" file!"<<'\n';
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
                 return(false);
                 //                exit (-1);
@@ -343,8 +343,8 @@ namespace OpenBabel
     unsigned int i;
     char buffer[BUFF_SIZE];
     OBAtom *atom;
-    ofs<<"TEXT="<<mol.GetTitle()<<endl;
-    ofs<<"GEOM=PQS"<<endl;
+    ofs<<"TEXT="<<mol.GetTitle()<<'\n';
+    ofs<<"GEOM=PQS"<<'\n';
     for (i=1; i<=mol.NumAtoms(); i++)
       {
         atom=mol.GetAtom(i);
@@ -353,7 +353,7 @@ namespace OpenBabel
                 atom->GetX(),
                 atom->GetY(),
                 atom->GetZ());
-        ofs<<buffer<<endl;
+        ofs<<buffer<<'\n';
       }
     return(true);
   }
