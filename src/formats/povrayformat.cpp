@@ -177,7 +177,7 @@ namespace OpenBabel
     time_res = strftime(timestr,
                         TIME_STR_SIZE,
                         "%a %b %d %H:%M:%S %Z %Y",
-                        localtime((time_t *) &akttime)
+                        localtime( (&akttime))
                         );
 
     /* ---- Write some header information ---- */
@@ -303,12 +303,12 @@ namespace OpenBabel
                        )
   {
     /* ---- Init bounding-box variables ---- */
-    min_x = (double) 0.0;
-    max_x = (double) 0.0;
-    min_y = (double) 0.0;
-    max_y = (double) 0.0;
-    min_z = (double) 0.0;
-    max_z = (double) 0.0;
+    min_x = 0.0;
+    max_x = 0.0;
+    min_y = 0.0;
+    max_y = 0.0;
+    min_z = 0.0;
+    max_z = 0.0;
 
     /* ---- Check all atoms ---- */
     for(unsigned int i = 1; i <= mol.NumAtoms(); ++i)
@@ -410,8 +410,8 @@ namespace OpenBabel
         dy = sqrt(SQUARE(x2-x1) + SQUARE(z2-z1));
 
         /* ---- Calculate Phi and Theta ---- */
-        phi = (double) 0.0;
-        theta = (double) 0.0;
+        phi = 0.0;
+        theta = 0.0;
         if (fabs(dist) >= EPSILON)
           phi = acos((y2-y1)/dist);
         if (fabs(dy) >= EPSILON)
@@ -431,12 +431,12 @@ namespace OpenBabel
           }
 
         /* ---- Rotate (Phi) bond if needed ---- */
-        if (fabs(RAD2DEG(-phi) + (double) 90.0) >= EPSILON)
+        if (fabs(RAD2DEG(-phi) + 90.0) >= EPSILON)
           {
 
             /* ---- Rotate along z-axis ---- */
             ofs << "\t  rotate <0.0000,0.0000,"
-                << RAD2DEG(-phi) + (double) 90.0
+                << RAD2DEG(-phi) + 90.0
                 << ">" << endl;
 
 
@@ -447,7 +447,7 @@ namespace OpenBabel
           {
 
             /* ---- Check direction ---- */
-            if ((z2 - z1) >= (double) 0.0)
+            if ((z2 - z1) >= 0.0)
               {
 
                 /* ---- Rotate along y-Axis (negative) ---- */
@@ -507,8 +507,8 @@ namespace OpenBabel
         dy = sqrt(SQUARE(x2-x1) + SQUARE(z2-z1));
 
         /* ---- Calculate Phi and Theta ---- */
-        phi = (double) 0.0;
-        theta = (double) 0.0;
+        phi = 0.0;
+        theta = 0.0;
         if (fabs(dist) >= EPSILON)
           phi = acos((y2-y1)/dist);
         if (fabs(dy) >= EPSILON)
@@ -529,21 +529,21 @@ namespace OpenBabel
             << "}" << endl;
 
         /* ---- Scale bond if needed ---- */
-        if (fabs((double) 2.0 * dist) >= EPSILON)
+        if (fabs( 2.0 * dist) >= EPSILON)
           {
 
             /* ---- Print povray scale-statement (x-Axis) ---- */
-            ofs << "\t    scale <" << (double) 0.5 * dist << ",1.0000,1.0000>" << endl;
+            ofs << "\t    scale <" << 0.5 * dist << ",1.0000,1.0000>" << endl;
 
           }
 
         /* ---- Rotate (Phi) bond if needed ---- */
-        if (fabs(RAD2DEG(-phi) + (double) 90.0) >= EPSILON)
+        if (fabs(RAD2DEG(-phi) + 90.0) >= EPSILON)
           {
 
             /* ---- Rotate along z-axis ---- */
             ofs << "\t    rotate <0.0000,0.0000,"
-                << RAD2DEG(-phi) + (double) 90.0
+                << RAD2DEG(-phi) + 90.0
                 << ">" << endl;
 
           }
@@ -553,7 +553,7 @@ namespace OpenBabel
           {
 
             /* ---- Check direction ---- */
-            if ((z2 - z1) >= (double) 0.0)
+            if ((z2 - z1) >= 0.0)
               {
 
                 /* ---- Rotate along y-Axis (negative) ---- */
@@ -591,21 +591,21 @@ namespace OpenBabel
             << "}" << endl;
 
         /* ---- Scale bond if needed ---- */
-        if (fabs((double) 2.0 * dist) >= EPSILON)
+        if (fabs( 2.0 * dist) >= EPSILON)
           {
 
             /* ---- Print povray scale-statement (x-Axis) ---- */
-            ofs << "\t    scale <" << (double) 0.5 * dist << ",1.0000,1.0000>" << endl;
+            ofs << "\t    scale <" << 0.5 * dist << ",1.0000,1.0000>" << endl;
 
           }
 
         /* ---- Rotate (Phi) bond if needed ---- */
-        if (fabs(RAD2DEG(-phi) + (double) 270.0) >= EPSILON)
+        if (fabs(RAD2DEG(-phi) + 270.0) >= EPSILON)
           {
 
             /* ---- Rotate along z-axis (oposite to start half) ---- */
             ofs << "\t    rotate <0.0000,0.0000,"
-                << (RAD2DEG(-phi) + (double) 90.0) + (double) 180.0
+                << (RAD2DEG(-phi) + 90.0) + 180.0
                 << ">" << endl;
 
           }
@@ -615,7 +615,7 @@ namespace OpenBabel
           {
 
             /* ---- Check direction ---- */
-            if ((z2 - z1) >= (double) 0.0)
+            if ((z2 - z1) >= 0.0)
               {
 
                 /* ---- Rotate along y-Axis (negative) (oposite orientation) ---- */
@@ -769,9 +769,9 @@ namespace OpenBabel
     /* ---- Print center comment (Warn: Vector is multiplied by -1.0)---- */
     ofs << "//Center of molecule " << prefix << " (bounding box)" << endl;
     ofs << "#declare " << prefix << "_center = <"
-        << (double) -1.0 * (min_x + max_x) / (double) 2.0 << ","
-        << (double) -1.0 * (min_y + max_y) / (double) 2.0 << ","
-        << (double) -1.0 * (min_z + max_z) / (double) 2.0 << ">;" << endl << endl;
+        << (-1.0) * (min_x + max_x) / 2.0 << ","
+        << (-1.0) * (min_y + max_y) / 2.0 << ","
+        << (-1.0) * (min_z + max_z) / 2.0 << ">;" << endl << endl;
   }
 
   ////////////////////////////////////////////////////////////////
