@@ -310,10 +310,7 @@ namespace OpenBabel
       obErrorLog.ThrowError(__FUNCTION__, "Error reading PQS file.  GEOM card not found!", obWarning);
 
     ifs.seekg(0, ios::end); //move .inp file pointer to the end of file
-    if (atom_count>0)
-      return true;
-    else
-      return false;
+    return atom_count > 0;
   }
 
   ////////////////////////////////////////////////////////////////

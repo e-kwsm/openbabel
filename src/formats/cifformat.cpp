@@ -1105,8 +1105,7 @@ namespace OpenBabel
         char delim;
         in.get(delim);
         value="";
-        while(!((lastc==delim)&&(!isgraph(in.peek()))) )
-          {
+        while ((lastc != delim) || !(!isgraph(in.peek()))) {
             in.get(lastc);
             value+=lastc;
           }

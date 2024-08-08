@@ -168,16 +168,10 @@ namespace OpenBabel
 
     string readKeywords(buffer);
     location = readKeywords.find("%PBC");   // file contains unitcell information behind the coords block
-    if (readKeywords.find("%PBC") != notFound)
-        unitCell = true;
-    else
-        unitCell = false;
+    unitCell = readKeywords.find("%PBC") != notFound;
 
     location = readKeywords.find("%VIRTUAL");   // file contains information about virtual atoms in the column next to the x,y,z values
-    if (readKeywords.find("%VIRTUAL") != notFound)
-        virtualAtoms = true;
-    else
-        virtualAtoms = false;
+    virtualAtoms = readKeywords.find("%VIRTUAL") != notFound;
 
     mol.BeginModify();
 

@@ -1432,7 +1432,8 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             n1=n;
             n2=n;
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+            if ((value.at(n2) < '0') || (value.at(n2) > '9'))
+              n2--;
             s=value.substr(n1,n2+1);
             k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
@@ -1455,7 +1456,8 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             n1=n;
             n2=n;
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+            if ((value.at(n2) < '0') || (value.at(n2) > '9'))
+              n2--;
             s=value.substr(n1,n2+1);
       k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
