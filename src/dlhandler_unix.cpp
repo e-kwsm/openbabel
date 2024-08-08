@@ -53,10 +53,7 @@ int matchFiles (SCANDIR_CONST struct dirent *entry_p)
 	string filename(entry_p->d_name);
 	string::size_type extPos = filename.rfind(DLHandler::getFormatFilePattern());
 
-	if(extPos!=string::npos && filename.substr(extPos) == DLHandler::getFormatFilePattern())
-		return true;
-
-	return false;
+	return extPos!=string::npos && filename.substr(extPos) == DLHandler::getFormatFilePattern();
 }
 
 bool DLHandler::getConvDirectory(string& convPath)
