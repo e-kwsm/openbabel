@@ -255,7 +255,7 @@ namespace OpenBabel
             for (c = b->BeginNbrAtom(k);c;c = b->NextNbrAtom(k))
               if (c != a && c->IsInRing())
                 {
-                  tor = fabs(((OBMol*)GetParent())->GetTorsion(this,a,b,c));
+                  tor = fabs((GetParent())->GetTorsion(this,a,b,c));
                   return(tor > 55.0 && tor < 75.0);
                 }
 
@@ -467,10 +467,10 @@ namespace OpenBabel
 
   char *OBAtom::GetType()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     if (mol)
       if (!mol->HasAtomTypesPerceived())
-        atomtyper.AssignTypes(*((OBMol*)GetParent()));
+        atomtyper.AssignTypes(*(GetParent()));
 
     if (strlen(_type) == 0) // Somehow we still don't have a type!
       {
@@ -495,7 +495,7 @@ namespace OpenBabel
   unsigned int OBAtom::GetHyb() const
   {
     //hybridization is assigned when atoms are typed
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
     if (mol && !mol->HasHybridizationPerceived())
       atomtyper.AssignHyb(*mol);
 
@@ -525,28 +525,28 @@ namespace OpenBabel
       if (bond->GetNbrAtom((OBAtom*)this)->IsHeteroatom())
         count++;
 
-    return((unsigned int)count);
+    return(count);
   }
 
   double OBAtom::GetPartialCharge()
   {
     if (!GetParent())
       return(_pcharge);
-    if (!((OBMol*)GetParent())->AutomaticPartialCharge())
+    if (!(GetParent())->AutomaticPartialCharge())
       return(_pcharge);
 
-    if (!((OBMol*)GetParent())->HasPartialChargesPerceived())
+    if (!(GetParent())->HasPartialChargesPerceived())
       {
         //seed partial charges are set in the atom typing procedure
         OBAtom *atom;
-        OBMol *mol = (OBMol*)GetParent();
+        OBMol *mol = GetParent();
         vector<OBAtom*>::iterator i;
         for (atom = mol->BeginAtom(i); atom; atom = mol->NextAtom(i))
           atom->SetPartialCharge(0.0);
 
-        phmodel.AssignSeedPartialCharge(*((OBMol*)GetParent()));
+        phmodel.AssignSeedPartialCharge(*(GetParent()));
         OBGastChrg gc;
-        gc.AssignPartialCharges(*((OBMol*)GetParent()));
+        gc.AssignPartialCharges(*(GetParent()));
       }
 
     return(_pcharge);
@@ -798,14 +798,14 @@ namespace OpenBabel
   //! @todo
   bool OBAtom::IsChiral()
   {
-    OBMol *mol = (OBMol*) GetParent();
+    OBMol *mol = GetParent();
     OBStereoFacade stereoFacade(mol);
     return stereoFacade.HasTetrahedralStereo(_id);
   }
 
   bool OBAtom::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
     return mol->IsPeriodic();
   }
 
@@ -814,7 +814,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
 
@@ -835,7 +835,7 @@ namespace OpenBabel
     vector<OBRing*>::iterator i;
     unsigned int count=0;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
 
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
@@ -849,7 +849,7 @@ namespace OpenBabel
       if ((*i)->IsInRing(GetIdx()))
         count++;
 
-    return((unsigned int)count);
+    return(count);
   }
 
   unsigned int OBAtom::MemberOfRingSize() const
@@ -857,7 +857,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
 
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
@@ -1053,7 +1053,7 @@ namespace OpenBabel
   {
     OBBondIterator i;
     for (i = _vbond.begin();i != _vbond.end();++i)
-      if ((OBBond*)bond == *i)
+      if (bond == *i)
         {
           _vbond.erase(i);
           return(true);
@@ -1063,7 +1063,7 @@ namespace OpenBabel
 
   bool OBAtom::MatchesSMARTS(const char *pattern)
   {
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    OBMol *mol = ((OBAtom*)this)->GetParent();
     vector<vector<int> > mlist;
     vector<vector<int> >::iterator l;
 
@@ -1118,7 +1118,7 @@ namespace OpenBabel
 
   double OBAtom::GetDistance(int b)
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     return( this->GetDistance(mol->GetAtom(b)) );
   }
 
@@ -1150,7 +1150,7 @@ namespace OpenBabel
 
   double OBAtom::GetAngle(int b, int c)
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     return(this->GetAngle(mol->GetAtom(b), mol->GetAtom(c)));
   }
 
@@ -1183,7 +1183,7 @@ namespace OpenBabel
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::HtoMethyl", obAuditMsg);
 
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
 
     mol->BeginModify();
 
@@ -1264,7 +1264,7 @@ namespace OpenBabel
     if (hyb == 3 && GetHvyDegree() > 4)
       return(false);
 
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
 
     OBAtom *nbr;
     vector<OBAtom*> delatm;

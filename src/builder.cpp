@@ -248,7 +248,7 @@ namespace OpenBabel
     if (atom == nullptr)
       return VZero;
 
-    int dimension = ((OBMol*)atom->GetParent())->GetDimension();
+    int dimension = (atom->GetParent())->GetDimension();
 
     if (dimension != 2) {
       /////////////////
@@ -323,7 +323,7 @@ namespace OpenBabel
 
         // check to see if atom is a square planar in disguise
         if (atom->GetHyb() == 3) {
-          OBStereoFacade stereoFacade((OBMol*)atom->GetParent(), false); // Don't reperceive
+          OBStereoFacade stereoFacade(atom->GetParent(), false); // Don't reperceive
           if (stereoFacade.HasSquarePlanarStereo(atom->GetId()))
             atom->SetHyb(4); // force sq. planar geometry for sq. planar stereo
         }
@@ -677,7 +677,7 @@ namespace OpenBabel
       //    /          /          //
       //                          //
       if (atom->GetExplicitDegree() == 3) {
-        OBStereoFacade stereoFacade((OBMol*)atom->GetParent());
+        OBStereoFacade stereoFacade(atom->GetParent());
         if (stereoFacade.HasTetrahedralStereo(atom->GetId())) {
           OBBond *hash = nullptr;
           OBBond *wedge = nullptr;
