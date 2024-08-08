@@ -472,7 +472,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
   //Do products
   temp = ln.substr(eqpos+1);
   tokenize(toks, temp, "+");
-  if(toks.size()>0)
+  if(!toks.empty())
   {
     /*
       product1

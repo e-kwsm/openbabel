@@ -826,7 +826,7 @@ bool CDXReader::ParseEnums(map<CDXTag, string>& enummap, const string& filename)
   {
     getline(ihs, ln);
     tokenize(vec, ln, " \t,{}");
-    if(vec.size()==0 || vec[0]=="//")
+    if(vec.empty() || vec[0]=="//")
       continue; //blank and comment lines
     if(vec[0]==";") //line is }; end of enum
       return true;
