@@ -142,9 +142,9 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if ( vs.size() < 6 ){
           if ( vs.size() > 0 ){
             //Implies input is missing for some reason
-            cerr << "Error with line: " << line << endl;
+            cerr << "Error with line: " << line << '\n';
             cerr << "Structure should be: AtomNumber AtomicNumber Element "
-                    "XCoord YCoord ZCoord" << endl;
+                    "XCoord YCoord ZCoord" << '\n';
             break; //Missing Input
           }
           else{
@@ -213,7 +213,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if ( vs.size() < 11 ){
           if ( vs.size() > 0 ){
             //Implies input is missing for some reason
-            cerr << "Error with line: " << line << endl;
+            cerr << "Error with line: " << line << '\n';
             break; //Missing Input
           }
           else{
@@ -234,7 +234,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         extraIter = numFreq % 6;
       }
       else{
-        cerr << "Couldn't Parse Frequencies, Check Input" << endl;
+        cerr << "Couldn't Parse Frequencies, Check Input" << '\n';
         break;
       }
       //Skip two lines to get to displacements
@@ -310,7 +310,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   //Blocks of numAtoms) and we need to set the vibration data for pmol
   if ( checkAtoms != numAtoms ){
     cerr << "Number of Atoms Specified in Input Does Not Equal Number of "
-            "Atoms Read From File!" << endl;
+            "Atoms Read From File!" << '\n';
     pmol->EndModify();
     return false;
   }

@@ -184,7 +184,7 @@ namespace OpenBabel
                 ifs.getline(buffer,BUFF_SIZE);     // Frequencies
                 tokenize(vs,buffer);
                 for(unsigned int i = 0; i < vs.size(); i++) {
-		    if (vs[i].find("i") != string::npos) {
+		    if (vs[i].find('i') != string::npos) {
 		      // imaginary frequency
 	              Frequencies.push_back(-atof(vs[i].c_str()));
 		    } else {
