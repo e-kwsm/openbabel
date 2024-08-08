@@ -24,6 +24,8 @@
 #ifndef OB_TETRAHEDRAL_H
 #define OB_TETRAHEDRAL_H
 
+#include <utility>
+
 #include <openbabel/stereo/tetranonplanar.h>
 
 namespace OpenBabel {
@@ -102,9 +104,9 @@ class OBAPI OBTetrahedralStereo : public OBTetraNonPlanarStereo
        * @param _view Specify viewing from or towards the atom with @p from_or_towards id.
        */
       Config(unsigned long _center, unsigned long from_or_towards,
-          const OBStereo::Refs &_refs, OBStereo::Winding _winding = OBStereo::Clockwise,
+          OBStereo::Refs _refs, OBStereo::Winding _winding = OBStereo::Clockwise,
           OBStereo::View _view = OBStereo::ViewFrom) : center(_center),
-          from(from_or_towards), refs(_refs), winding(_winding), view(_view),
+          from(from_or_towards), refs(std::move(_refs)), winding(_winding), view(_view),
           specified(true)
       {  }
       /**

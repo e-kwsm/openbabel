@@ -19,6 +19,8 @@ GNU General Public License for more details.
 #ifndef OB_TEXT_H
 #define OB_TEXT_H
 
+#include <utility>
+
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
 
@@ -33,7 +35,7 @@ private:
 public:
   //Constructors
   OBText(){}
-  OBText(const std::string& text) :txt(text) {}
+  OBText(std::string text) : txt(std::move(text)) {}
 
   ///\return all the text
   std::string GetText()const { return txt; }
