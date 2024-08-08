@@ -81,7 +81,7 @@ namespace OpenBabel
   inline unsigned int LFSR::GetNext()
   {
     do {
-      _lfsr = (_lfsr >> 1) ^ (unsigned int)(-(_lfsr & 1u) & _poly);
+      _lfsr = (_lfsr >> 1) ^ (-(_lfsr & 1u) & _poly);
     } while (_lfsr > _range);
 
     return _lfsr;

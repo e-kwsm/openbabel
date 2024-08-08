@@ -101,7 +101,7 @@ namespace OpenBabel
   void OBBond::SetLength(OBAtom *fixed, double length)
   {
     unsigned int i;
-    OBMol *mol = (OBMol*)fixed->GetParent();
+    OBMol *mol = fixed->GetParent();
     vector3 v1,v2,v3,v4,v5;
     vector<int> children;
 
@@ -185,7 +185,7 @@ namespace OpenBabel
   
   bool OBBond::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    OBMol *mol = ((OBBond*)this)->GetParent();
     return mol->IsPeriodic();
   }
 
@@ -197,13 +197,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -229,13 +229,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -263,13 +263,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -297,13 +297,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -427,14 +427,14 @@ namespace OpenBabel
 
     if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8)
       {
-        a1 = (OBAtom*)_bgn;
-        a2 = (OBAtom*)_end;
+        a1 = _bgn;
+        a2 = _end;
       }
 
     if (_bgn->GetAtomicNum() == 8 && _end->GetAtomicNum() == 6)
       {
-        a1 = (OBAtom*)_end;
-        a2 = (OBAtom*)_bgn;
+        a1 = _end;
+        a2 = _bgn;
       }
 
     if (!a1 || !a2)
@@ -489,13 +489,13 @@ namespace OpenBabel
         _end->GetHyb()==1 || _end->GetExplicitDegree()>3)
       return(true);
 
-    for (nbrStart = static_cast<OBAtom*>(_bgn)->BeginNbrAtom(i); nbrStart;
-         nbrStart = static_cast<OBAtom*>(_bgn)->NextNbrAtom(i))
+    for (nbrStart = _bgn->BeginNbrAtom(i); nbrStart;
+         nbrStart = _bgn->NextNbrAtom(i))
       {
         if (nbrStart != _end)
           {
-            for (nbrEnd = static_cast<OBAtom*>(_end)->BeginNbrAtom(j);
-                 nbrEnd; nbrEnd = static_cast<OBAtom*>(_end)->NextNbrAtom(j))
+            for (nbrEnd = _end->BeginNbrAtom(j);
+                 nbrEnd; nbrEnd = _end->NextNbrAtom(j))
               {
                 if (nbrEnd != _bgn)
                   {
@@ -533,7 +533,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    OBMol *mol = ((OBBond*)this)->GetParent();
 
     rlist = mol->GetSSSR();
     OBRing* result = nullptr;
@@ -549,7 +549,7 @@ namespace OpenBabel
 
   bool OBBond::IsClosure()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     if (!mol)
       return false;
     if (!mol->HasClosureBondsPerceived())
@@ -609,7 +609,7 @@ namespace OpenBabel
       }
     else
       {
-        OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+        OBMol *mol = ((OBBond*)this)->GetParent();
         OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
         return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector())).length();
       }

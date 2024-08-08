@@ -269,7 +269,7 @@ namespace OpenBabel
       {
         vector<string> vc;
         tokenize(vc,buffer);
-        if (vc.size() == (unsigned)_ncols)
+        if (vc.size() == _ncols)
           _table.push_back(vc);
         else
           {
