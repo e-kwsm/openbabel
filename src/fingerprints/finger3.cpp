@@ -162,7 +162,7 @@ public:
     ifstream ifs;
 	  stringstream errorMsg;
 
-    if (OpenDatafile(ifs, _patternsfile).length() == 0)
+    if (OpenDatafile(ifs, _patternsfile).empty())
     {
       errorMsg << "Cannot open " << _patternsfile << endl;
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
@@ -178,7 +178,7 @@ public:
     bool indata=false;
     do
     {
-      if(Trim(line).size()>0 && line[0]!='#')
+      if(!Trim(line).empty() && line[0]!='#')
       {
         pattern p;
         p.numbits=1; p.numoccurrences=0; //default values

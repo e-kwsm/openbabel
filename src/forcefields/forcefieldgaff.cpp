@@ -1082,7 +1082,7 @@ namespace OpenBabel
 
     // open data/gaff.dat
     ifstream ifs;
-    if (OpenDatafile(ifs, "gaff.dat").length() == 0) {
+    if (OpenDatafile(ifs, "gaff.dat").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open gaff.dat", obError);
       return false;
     }
@@ -1231,7 +1231,7 @@ namespace OpenBabel
 
     // open data/gaff.prm
     ifstream ifs;
-    if (OpenDatafile(ifs, "gaff.prm").length() == 0) {
+    if (OpenDatafile(ifs, "gaff.prm").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open gaff.prm", obError);
       return false;
     }

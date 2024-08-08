@@ -875,7 +875,7 @@ namespace OpenBabel
 
     // open data/_parFile
     ifstream ifs;
-    if (OpenDatafile(ifs, _parFile).length() == 0) {
+    if (OpenDatafile(ifs, _parFile).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open parameter file", obError);
       return false;
     }
@@ -930,7 +930,7 @@ namespace OpenBabel
 
     // open data/mmffbond.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffbond.par", obError);
       return false;
     }
@@ -965,7 +965,7 @@ namespace OpenBabel
 
     // open data/mmffbndk.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffbndk.par", obError);
       return false;
     }
@@ -999,7 +999,7 @@ namespace OpenBabel
 
     // open data/mmffang.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffang.par", obError);
       return false;
     }
@@ -1035,7 +1035,7 @@ namespace OpenBabel
 
     // open data/mmffstbn.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffstbn.par", obError);
       return false;
     }
@@ -1071,7 +1071,7 @@ namespace OpenBabel
 
     // open data/mmffdfsb.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffdfsb.par", obError);
       return false;
     }
@@ -1106,7 +1106,7 @@ namespace OpenBabel
 
     // open data/mmffoop.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffoop.par", obError);
       return false;
     }
@@ -1141,7 +1141,7 @@ namespace OpenBabel
 
     // open data/mmfftor.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmfftor.par", obError);
       return false;
     }
@@ -1179,7 +1179,7 @@ namespace OpenBabel
 
     // open data/mmffvdw.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffvdw.par", obError);
       return false;
     }
@@ -1220,7 +1220,7 @@ namespace OpenBabel
 
     // open data/mmffchg.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffchg.par", obError);
       return false;
     }
@@ -1254,7 +1254,7 @@ namespace OpenBabel
 
     // open data/mmffpbci.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffpbci", obError);
       return false;
     }
@@ -1287,7 +1287,7 @@ namespace OpenBabel
 
     // open data/mmffprop.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffprop.par", obError);
       return false;
     }
@@ -1336,7 +1336,7 @@ namespace OpenBabel
 
     // open data/mmffdef.par
     ifstream ifs;
-    if (OpenDatafile(ifs, filename).length() == 0) {
+    if (OpenDatafile(ifs, filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open mmffdef.par", obError);
       return false;
     }
@@ -1568,7 +1568,7 @@ namespace OpenBabel
               }
             }
           }
-          if (!betaAtoms.size()) {
+          if (betaAtoms.empty()) {
             nitrogenCount = 0;
             FOR_NBORS_OF_ATOM (nbr, atom) {
               if (nbr->GetAtomicNum() == OBElements::Nitrogen && (nbr->GetExplicitDegree() == 3)) {
@@ -1583,7 +1583,7 @@ namespace OpenBabel
               return 80; // Aromatic carbon between N's in imidazolium (CIM+)
             }
           }
-          if (!alphaAtoms.size() && !betaAtoms.size()) {
+          if (alphaAtoms.empty() && betaAtoms.empty()) {
             if (atom->GetAtomicNum() == OBElements::Carbon) {
               bool c60 = true; // special case to ensure c60 is typed correctly -- Paolo Tosco
               FOR_NBORS_OF_ATOM (nbr, atom) {
@@ -1614,7 +1614,7 @@ namespace OpenBabel
               }
             }
           }
-          if (alphaAtoms.size() && !betaAtoms.size()) {
+          if (!alphaAtoms.empty() && betaAtoms.empty()) {
             if (atom->GetAtomicNum() == OBElements::Carbon) {
               return 63; // Aromatic 5-ring C, alpha to N:, O:, or S: (C5A)
             } else if (atom->GetAtomicNum() == OBElements::Nitrogen) {
@@ -1625,7 +1625,7 @@ namespace OpenBabel
               }
             }
           }
-          if (!alphaAtoms.size() && betaAtoms.size()) {
+          if (alphaAtoms.empty() && !betaAtoms.empty()) {
             if (atom->GetAtomicNum() == OBElements::Carbon) {
               return 64; // Aromatic 5-ring C, beta to N:, O:, or S: (C5B)
             } else if (atom->GetAtomicNum() == OBElements::Nitrogen) {
@@ -1636,7 +1636,7 @@ namespace OpenBabel
               }
             }
           }
-          if (alphaAtoms.size() && betaAtoms.size()) {
+          if (!alphaAtoms.empty() && !betaAtoms.empty()) {
             for (unsigned int i = 0; i < alphaAtoms.size(); i++) {
               for (unsigned int j = 0; j < betaAtoms.size(); j++) {
                 if (!IsInSameRing(alphaAtoms[i], betaAtoms[j])) {
@@ -4067,7 +4067,7 @@ namespace OpenBabel
 
       while (ifs2.getline(buffer, 150)) {
         tokenize(vs, buffer);
-        if (vs.size() == 0) {
+        if (vs.empty()) {
           bondfound = false;
           continue;
         }
