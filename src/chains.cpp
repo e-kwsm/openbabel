@@ -1289,7 +1289,7 @@ namespace OpenBabel
                       else if (count == 1)
                         result = MatchConstraint(na,pep->n1);
 
-                      if(result == false)
+                      if(!result)
                         {
                           bitmasks[idx] &= ~pep->flag;
                           change = true;
@@ -1309,7 +1309,7 @@ namespace OpenBabel
     if( mask < 0 )
       return(atom->GetAtomicNum() == static_cast<unsigned int>(-mask));
     else
-      return(((bitmasks[atom->GetIdx()-1]&mask) == 0) ? false : true);
+      return((bitmasks[atom->GetIdx()-1]&mask) != 0);
   }
 
   bool OBChainsParser::Match2Constraints(Template *tmpl, OBAtom *na, OBAtom *nb)
@@ -1589,7 +1589,7 @@ namespace OpenBabel
                 continue;
 
               j = nbr->GetIdx() - 1;
-              if (!((curr == prev) && bitmasks[j]) && (j != prev))
+              if (((curr != prev) || !bitmasks[j]) && (j != prev))
                 {
                   Stack[StackPtr].prev = curr;
                   Stack[StackPtr].atom = j;

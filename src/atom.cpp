@@ -612,7 +612,7 @@ namespace OpenBabel
     if (!atom)
       return(false);
     if (!(atom->CountFreeOxygens() == 2)
-      && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
+      && (atom->CountFreeOxygens() != 1 || atom->CountFreeSulfurs() != 1))
       return(false);
 
     //atom is connected to a carbon that has a total
@@ -999,7 +999,7 @@ namespace OpenBabel
     OBAtom *atom;
     OBBondIterator i;
     for (atom = ((OBAtom*)this)->BeginNbrAtom(i);atom;atom = ((OBAtom*)this)->NextNbrAtom(i))
-      if (atom->GetAtomicNum() == OBElements::Hydrogen && !(ExcludeIsotopes && atom->GetIsotope()!=0))
+      if (atom->GetAtomicNum() == OBElements::Hydrogen && (!ExcludeIsotopes || atom->GetIsotope()==0))
         numH++;
 
     return(numH);
@@ -1734,8 +1734,8 @@ namespace OpenBabel
       return true;
     if (_ele == 7) {
       // N+ ions and sp2 hybrid N with 3 valences should not be Hbond acceptors
-      if (!((GetExplicitDegree() == 4 && GetHyb() == 3)
-            || (GetExplicitDegree() == 3 && GetHyb() == 2)))
+      if ((GetExplicitDegree() != 4 || GetHyb() != 3)
+            && (GetExplicitDegree() != 3 || GetHyb() != 2))
             return true;
     }
     // Changes from Paolo Tosco
@@ -1825,8 +1825,8 @@ namespace OpenBabel
     };
     if (_ele == 7) {
       // N+ ions and sp2 hybrid N with 3 valences should not be Hbond acceptors
-      if (!((GetExplicitDegree() == 4 && GetHyb() == 3)
-        || (GetExplicitDegree() == 3 && GetHyb() == 2)))
+      if ((GetExplicitDegree() != 4 || GetHyb() != 3)
+        && (GetExplicitDegree() != 3 || GetHyb() != 2))
         return true;
     };
     // Changes from Paolo Tosco
@@ -1839,7 +1839,7 @@ namespace OpenBabel
   bool OBAtom::IsHbondDonor()
   {
     // return MatchesSMARTS("[$([#8,#7H,#9;!H0])]");
-    if (!(_ele == 7 || _ele == 8 || _ele == 9))
+    if (_ele != 7 && _ele != 8 && _ele != 9)
       return false;
 
     OBAtom *nbr;

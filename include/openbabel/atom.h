@@ -155,7 +155,7 @@ namespace OpenBabel
       //! Unsets the bitwise @p flag
       void UnsetFlag(int flag) { _flags &= (~(flag)); }
       //! \return True of the atom has the @p flag
-      bool HasFlag(int flag)  {  return((_flags & flag) ? true : false); }
+      bool HasFlag(int flag)  {  return((_flags & flag) != 0); }
 
     public:
       enum StereoFlag {

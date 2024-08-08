@@ -985,10 +985,7 @@ namespace OpenBabel
     vector3 newD = a->GetVector() + bondD.length() * (bondB/bondB.length());
 
     // connect the fragments
-    if (!Connect(mol, idxC, idxB, newB, bondOrder1))
-      return false;
-
-    return true;
+    return Connect(mol, idxC, idxB, newB, bondOrder1);
   }
 
   bool OBBuilder::Swap(OBMol &mol, int idxA, int idxB, int idxC, int idxD)
@@ -1564,10 +1561,7 @@ namespace OpenBabel
         atomsInDiffRings++;
     }
 
-    if (atomsInSameRing == 2 && atomsInDiffRings == 2)
-      return true;
-
-    return false;
+    return atomsInSameRing == 2 && atomsInDiffRings == 2;
   }
 
   void OBBuilder::FlipSpiro(OBMol &mol, int idx)
