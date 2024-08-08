@@ -135,11 +135,15 @@ namespace OpenBabel
         c = new double [3*NumAtoms()];
         cc = GetBaseCoordinateSet(k);
         for (l=0 ; l<3*NumAtoms() ; ++l)
+        {
 					c[l] = cc[l];
+        }
         bc.push_back(c);
       }
     if (NumBaseCoordinateSets())
+    {
 			new_rml->SetBaseCoordinateSets(bc,NumAtoms());
+    }
 
     //Set reference array
     unsigned char *ref = new unsigned char [NumRotors()*4];
@@ -171,16 +175,22 @@ namespace OpenBabel
   {
     vector<unsigned char*>::iterator i;
     for (i = _vrotamer.begin();i != _vrotamer.end();++i)
+    {
       delete [] *i;
+    }
 
     vector<pair<OBAtom**,vector<int> > >::iterator j;
     for (j = _vrotor.begin();j != _vrotor.end();++j)
+    {
       delete [] j->first;
+    }
 
     //Delete the interal base coordinate list
     unsigned int k;
     for (k=0 ; k<_c.size() ; ++k)
+    {
       delete [] _c[k];
+    }
   }
 
   void OBRotamerList::GetReferenceArray(unsigned char *ref)const
@@ -202,12 +212,16 @@ namespace OpenBabel
     _vres.clear();
     vector<unsigned char*>::iterator j;
     for (j = _vrotamer.begin();j != _vrotamer.end();++j)
+    {
       delete [] *j;
+    }
     _vrotamer.clear();
 
     vector<pair<OBAtom**,vector<int> > >::iterator k;
     for (k = _vrotor.begin();k != _vrotor.end();++k)
+    {
       delete [] k->first;
+    }
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();

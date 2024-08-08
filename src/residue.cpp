@@ -169,45 +169,63 @@ namespace OpenBabel
                   case 'A':
 
                     if (ch4 == ' ')
+                    {
                       return 1;
+                    }
                     else if (ch4 == '2')
+                    {
                       return 19;
+                    }
 
                     break;
 
                   case ' ':
                     if (ch4 == ' ')
+                    {
                       return 2;
+                    }
                     break;
 
                   case '\'':
                     if (ch4 == ' ')
+                    {
                       return 4;
+                    }
                     break;
 
                   case '1':
                     if (ch4 == '*')
+                    {
                       return 18;
+                    }
                     break;
 
                   case '2':
                     if (ch4 == '*')
+                    {
                       return 16;
+                    }
                     break;
 
                   case '3':
                     if (ch4 == '*')
+                    {
                       return 14;
+                    }
                     break;
 
                   case '4':
                     if (ch4 == '*')
+                    {
                       return 12;
+                    }
                     break;
 
                   case '5':
                     if (ch4 == '*')
+                    {
                       return 11;
+                    }
                     break;
 
                   }
@@ -244,62 +262,84 @@ namespace OpenBabel
                   case ' ':
 
                     if (ch4 == ' ')
+                    {
                       return 3;
+                    }
 
                     break;
 
                   case 'T':
 
                     if (ch4 == ' ')
+                    {
                       return 5;
+                    }
 
                     break;
 
                   case '1':
 
                     if (ch4 == 'P')
+                    {
                       return 8;
+                    }
 
                     break;
 
                   case '2':
 
                     if (ch4 == 'P')
+                    {
                       return 9;
+                    }
                     else if (ch4 == '*')
+                    {
                       return 17;
+                    }
                     else if (ch4 == ' ')
+                    {
                       return 26;
+                    }
 
                     break;
 
                   case '3':
 
                     if (ch4 == '*')
+                    {
                       return 15;
+                    }
 
                     break;
 
                   case '4':
 
                     if (ch4 == '*')
+                    {
                       return 13;
+                    }
                     else if (ch4 == ' ')
+                    {
                       return 27;
+                    }
 
                     break;
 
                   case '5':
 
                     if (ch4 == '*')
+                    {
                       return 10;
+                    }
 
                     break;
 
                   case '6':
 
                     if (ch4 == ' ')
+                    {
                       return 28;
+                    }
 
                     break;
                   }
@@ -309,7 +349,9 @@ namespace OpenBabel
               case 'P':
 
                 if ((ch3 == ' ') && (ch4 == ' '))
+                {
                   return 7;
+                }
 
                 break;
 
@@ -318,9 +360,13 @@ namespace OpenBabel
                 if (ch4 == ' ')
                   {
                     if (ch3 == ' ')
+                    {
                       return 6;
+                    }
                     else if (ch3 == 'G')
+                    {
                       return 20;
+                    }
                   }
 
                 break;
@@ -364,12 +410,16 @@ namespace OpenBabel
             else if( ch2 == '+' )
               {
                 if( ch3 == 'U' )
+                {
                   return( 29 );
+                }
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'G' )
+                {
                   return( 39 );
+                }
               }
 
             break;
@@ -379,9 +429,13 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
+                {
                   return( 33 );
+                }
                 else if( ch3 == 'G' )
+                {
                   return( 38 );
+                }
               }
 
             break;
@@ -391,9 +445,13 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'A' )
+                {
                   return( 31 );
+                }
                 else if( ch3 == 'G' )
+                {
                   return( 34 );
+                }
               }
 
             break;
@@ -401,8 +459,12 @@ namespace OpenBabel
           case('2'):
 
             if( ch2 == 'M' )
+            {
               if( ch3 == 'G' )
+              {
                 return( 35 );
+              }
+            }
 
             break;
 
@@ -411,9 +473,13 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
+                {
                   return( 32 );
+                }
                 else if( ch3 == 'U' )
+                {
                   return( 41 );
+                }
               }
 
             break;
@@ -421,8 +487,12 @@ namespace OpenBabel
           case('7'):
 
             if( ch2 == 'M' )
+            {
               if( ch3 == 'G' )
+              {
                 return( 37 );
+              }
+            }
 
             break;
 
@@ -431,31 +501,45 @@ namespace OpenBabel
             if( ch2 == 'L' )
               {
                 if( ch3 == 'A' )
+                {
                   return(  0 );
+                }
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'P' )
+                {
                   return(  7 );
+                }
                 else if( ch3 == 'N' )
+                {
                   return(  9 );
+                }
                 else if( ch3 == 'X' )
+                {
                   return( 20 );
+                }
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'G' )
+                {
                   return( 12 );
+                }
               }
             else if( ch2 == 'C' )
               {
                 if( ch3 == 'E' )
+                {
                   return( 44 );
+                }
               }
             else if( ch2 == 'D' )
               {
                 if( ch3 == 'E' )
+                {
                   return( 24 );    /* "ADE" -> "  A" */
+                }
               }
 
             break;
@@ -465,28 +549,42 @@ namespace OpenBabel
             if( ch2 == 'Y' )
               {
                 if( ch3 == 'S' )
+                {
                   return( 17 );
+                }
                 else if( ch3 == 'H' )
+                {
                   return( 17 );    /* "CYH" -> "CYS" */
+                }
                 else if( ch3 == 'T' )
+                {
                   return( 25 );    /* "CYT" -> "  C" */
+                }
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == 'A' )
+                {
                   return( 51 );
+                }
               }
             else if( ch2 == 'P' )
               {
                 if( ch3 == 'R' )
+                {
                   return( 11 );    /* "CPR" -> "PRO" */
+                }
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'H' )
+                {
                   return( 17 );    /* "CSH" -> "CYS" */
+                }
                 else if( ch3 == 'M' )
+                {
                   return( 17 );    /* "CSM" -> "CYS" */
+                }
               }
 
             break;
@@ -496,12 +594,16 @@ namespace OpenBabel
             if( ch2 == 'O' )
               {
                 if( ch3 == 'D' )
+                {
                   return( 47 );
+                }
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'O' )
+                {
                   return( 47 );    /* "D2O" -> "DOD" */
+                }
               }
 
             break;
@@ -509,8 +611,12 @@ namespace OpenBabel
           case('F'):
 
             if( ch2 == 'O' )
+            {
               if( ch3 == 'R' )
+              {
                 return( 45 );
+              }
+            }
 
             break;
 
