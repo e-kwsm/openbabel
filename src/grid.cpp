@@ -161,8 +161,8 @@ namespace OpenBabel
     int grid_x, grid_y, grid_z;
 
     grid_z = idx % _zdim;
-    grid_x = static_cast<int>(idx / (_ydim * _zdim));
-    grid_y = static_cast<int>((idx - (grid_x * _ydim * _zdim)) / _zdim);
+    grid_x = (idx / (_ydim * _zdim));
+    grid_y = ((idx - (grid_x * _ydim * _zdim)) / _zdim);
 
     x = (grid_x * _spacing + _xmin) + _halfSpace;
     y = (grid_y * _spacing + _ymin) + _halfSpace;

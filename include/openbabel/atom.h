@@ -308,7 +308,7 @@ namespace OpenBabel
       //! \return the residue which contains this atom, or NULL if none exists
       OBResidue *GetResidue();
       //! \return the molecule which contains this atom, or NULL if none exists
-      OBMol     *GetParent()        {return((OBMol*)_parent);}
+      OBMol     *GetParent()        {return(_parent);}
       //! Create a vector for a new bond from this atom, with length given by the supplied parameter
       //! \return success or failure
       bool       GetNewBondVector(vector3 &v,double length);

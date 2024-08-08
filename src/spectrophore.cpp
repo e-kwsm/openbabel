@@ -497,7 +497,7 @@ OBSpectrophore::_getMoleculeData(OpenBabel::OBMol* mol)
       _oricoor[a][2] = atom->GetZ();
 
       // Radii
-      n = (unsigned int) atom->GetAtomicNum();
+      n = atom->GetAtomicNum();
       switch (n)
       {
          case 1:  // H
@@ -1495,7 +1495,7 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    double electronegativity;
    for (OpenBabel::OBMolAtomIter atom(mol); atom; ++atom)
    {
-      n = (unsigned int) atom->GetAtomicNum();
+      n = atom->GetAtomicNum();
       switch (n)
       {
          case 1:  // H
@@ -1653,7 +1653,7 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    unsigned int a(0);
    for (OpenBabel::OBMolAtomIter atom(mol); atom; ++atom)
    {
-      n = (unsigned int) atom->GetAtomicNum();
+      n = atom->GetAtomicNum();
       switch (n)
       {
          case 1:		// H

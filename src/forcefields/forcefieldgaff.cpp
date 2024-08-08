@@ -743,11 +743,11 @@ namespace OpenBabel
 
       FOR_NBORS_OF_ATOM(nbr, b) {
 	if (a ==nullptr)
-	  a = (OBAtom*) &*nbr;
+	  a = (&*nbr);
 	else if (c == nullptr)
-	  c = (OBAtom*) &*nbr;
+	  c = (&*nbr);
 	else
-	  d = (OBAtom*) &*nbr;
+	  d = (&*nbr);
       }
 
       // skip this improper dihedral if atom b does not have 3 neighbors

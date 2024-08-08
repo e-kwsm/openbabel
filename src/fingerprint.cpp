@@ -365,7 +365,7 @@ namespace OpenBabel
     pIndexstream->read( (char*)&header.nEntries,     sizeof(unsigned) );
     pIndexstream->read( (char*)&header.words,        sizeof(unsigned) );
     pIndexstream->read( (char*)&header.fpid,         sizeof(header.fpid) );
-    pIndexstream->read( (char*)&header.seek64,       sizeof(header.seek64) );
+    pIndexstream->read( (&header.seek64),       sizeof(header.seek64) );
     pIndexstream->read( (char*)&header.datafilename, sizeof(header.datafilename) );
     return !pIndexstream->fail();
  }

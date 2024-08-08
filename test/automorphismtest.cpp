@@ -24,7 +24,7 @@ void testAutomorphisms()
   conv.ReadString(&mol, "C1C(CC2CC2)C1");
 
   Automorphisms aut;
-  FindAutomorphisms((OBMol*)&mol, aut);
+  FindAutomorphisms((&mol), aut);
   cout << aut.size() << endl;
   OB_ASSERT( aut.size() == 8 );
 }

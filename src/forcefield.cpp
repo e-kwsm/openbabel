@@ -1611,7 +1611,7 @@ namespace OpenBabel
       return;
 
     double *initialCoord = new double [_mol.NumAtoms() * 3]; // initial state
-    memcpy((double*)initialCoord,(double*)_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
+    memcpy(initialCoord,_mol.GetCoordinates(),sizeof(double)*3*_mol.NumAtoms());
     vector<double *> newConfs(1, initialCoord);
     _mol.SetConformers(newConfs);
     _current_conformer = 0;

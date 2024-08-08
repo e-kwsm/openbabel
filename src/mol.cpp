@@ -349,7 +349,7 @@ namespace OpenBabel
     next.Resize(NumAtoms()+1);
     frag.Resize(NumAtoms()+1);
 
-    while ((unsigned)used.CountBits() < NumAtoms())
+    while (used.CountBits() < NumAtoms())
       {
         curr.Clear();
         frag.Clear();
@@ -417,7 +417,7 @@ namespace OpenBabel
           }
 
           if (unique_angle) {
-            angle.SetAtoms((OBAtom*)b, (OBAtom*)&*a, (OBAtom*)&*c);
+            angle.SetAtoms(b, (&*a), (&*c));
             angles->SetData(angle);
             angle.Clear();
           }
@@ -484,7 +484,7 @@ namespace OpenBabel
     OBBitVec used,curr,next,frag;
 
     lf.Clear();
-    while ((unsigned)used.CountBits() < NumAtoms())
+    while (used.CountBits() < NumAtoms())
       {
         curr.Clear();
         frag.Clear();
@@ -1650,8 +1650,8 @@ namespace OpenBabel
               vb = (OBVirtualBond*)*i;
               if (vb->GetBgn() > _natoms || vb->GetEnd() > _natoms)
                 continue;
-              if (obatom->GetIdx() == static_cast<unsigned int>(vb->GetBgn())
-                  || obatom->GetIdx() == static_cast<unsigned int>(vb->GetEnd()))
+              if (obatom->GetIdx() == vb->GetBgn()
+                  || obatom->GetIdx() == vb->GetEnd())
                 {
                   AddBond(vb->GetBgn(),vb->GetEnd(),vb->GetOrder());
                   verase.push_back(*i);
@@ -1714,7 +1714,7 @@ namespace OpenBabel
       }
 #undef  OBBondIncrement
 
-    _vbond[_nbonds] = (OBBond*)pBond;
+    _vbond[_nbonds] = pBond;
     _nbonds++;
 
     return(pBond);
@@ -1764,7 +1764,7 @@ namespace OpenBabel
       }
 #undef OBAtomIncrement
 
-    _vatom[_natoms] = (OBAtom*)obatom;
+    _vatom[_natoms] = obatom;
     _natoms++;
 
     if (HasData(OBGenericDataType::VirtualBondData))
@@ -1779,8 +1779,8 @@ namespace OpenBabel
               vb = (OBVirtualBond*)*i;
               if (vb->GetBgn() > _natoms || vb->GetEnd() > _natoms)
                 continue;
-              if (obatom->GetIdx() == static_cast<unsigned int>(vb->GetBgn())
-                  || obatom->GetIdx() == static_cast<unsigned int>(vb->GetEnd()))
+              if (obatom->GetIdx() == vb->GetBgn()
+                  || obatom->GetIdx() == vb->GetEnd())
                 {
                   AddBond(vb->GetBgn(),vb->GetEnd(),vb->GetOrder());
                   verase.push_back(*i);
@@ -2563,7 +2563,7 @@ namespace OpenBabel
           }
 #undef  OBBondIncrement
 
-        _vbond[_nbonds] = (OBBond*)bond;
+        _vbond[_nbonds] = bond;
         _nbonds++;
 
         if (insertpos == -1)
@@ -3107,7 +3107,7 @@ namespace OpenBabel
     BeginModify(); //prevent needless re-perception in DeleteBond
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       {
-        while (atom->GetExplicitValence() > static_cast<unsigned int>(OBElements::GetMaxBonds(atom->GetAtomicNum()))
+        while (atom->GetExplicitValence() > OBElements::GetMaxBonds(atom->GetAtomicNum())
                || atom->SmallestBondAngle() < 45.0)
           {
             bond = atom->BeginBond(l);
@@ -3445,7 +3445,7 @@ namespace OpenBabel
 
         // Possible sp-hybrids
         if ( (atom->GetHyb() == 1 || atom->GetExplicitDegree() == 1)
-             && atom->GetExplicitValence() + 2  <= static_cast<unsigned int>(OBElements::GetMaxBonds(atom->GetAtomicNum()))
+             && atom->GetExplicitValence() + 2  <= OBElements::GetMaxBonds(atom->GetAtomicNum())
              )
           {
 
@@ -3463,7 +3463,7 @@ namespace OpenBabel
               {
                 currentElNeg = OBElements::GetElectroNeg(b->GetAtomicNum());
                 if ( (b->GetHyb() == 1 || b->GetExplicitDegree() == 1)
-                     && b->GetExplicitValence() + 2 <= static_cast<unsigned int>(OBElements::GetMaxBonds(b->GetAtomicNum()))
+                     && b->GetExplicitValence() + 2 <= OBElements::GetMaxBonds(b->GetAtomicNum())
                      && (currentElNeg > maxElNeg ||
                          (IsApprox(currentElNeg,maxElNeg, 1.0e-6)
                           && (atom->GetBond(b))->GetLength() < shortestBond)) )
@@ -3491,7 +3491,7 @@ namespace OpenBabel
           }
         // Possible sp2-hybrid atoms
         else if ( (atom->GetHyb() == 2 || atom->GetExplicitDegree() == 1)
-                  && atom->GetExplicitValence() + 1 <= static_cast<unsigned int>(OBElements::GetMaxBonds(atom->GetAtomicNum())) )
+                  && atom->GetExplicitValence() + 1 <= OBElements::GetMaxBonds(atom->GetAtomicNum()) )
           {
             // as above
             if (atom->HasNonSingleBond() ||
@@ -3514,7 +3514,7 @@ namespace OpenBabel
               {
                 currentElNeg = OBElements::GetElectroNeg(b->GetAtomicNum());
                 if ( (b->GetHyb() == 2 || b->GetExplicitDegree() == 1)
-                     && b->GetExplicitValence() + 1 <= static_cast<unsigned int>(OBElements::GetMaxBonds(b->GetAtomicNum()))
+                     && b->GetExplicitValence() + 1 <= OBElements::GetMaxBonds(b->GetAtomicNum())
                      && (GetBond(atom, b))->IsDoubleBondGeometry()
                      && (currentElNeg > maxElNeg || (IsApprox(currentElNeg,maxElNeg, 1.0e-6)) ) )
                   {

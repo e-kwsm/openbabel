@@ -602,9 +602,9 @@ namespace OpenBabel
 
   char* OBRing::GetType()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     if (mol && !mol->HasRingTypesPerceived())
-      ringtyper.AssignTypes(*((OBMol*)GetParent()));
+      ringtyper.AssignTypes(*(GetParent()));
 
     return(_type);
   }
@@ -612,7 +612,7 @@ namespace OpenBabel
   unsigned int OBRing::GetRootAtom()
   {
     vector<int>::iterator i;
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
 
     //if (!IsAromatic())
     //  return 0;
@@ -702,7 +702,7 @@ namespace OpenBabel
 
     int i;
     OBAtom *nbr;
-    OBMol *mol = (OBMol*)atom->GetParent();
+    OBMol *mol = atom->GetParent();
     OBBitVec curr,used,next;
     vector<OBBond*>::iterator j;
     curr |= atom->GetIdx();
