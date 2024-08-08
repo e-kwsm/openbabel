@@ -281,7 +281,7 @@ namespace OpenBabel
         if (!_quiet) {
           cout << "...." << N_fold_symmetry << "-fold symmetry at rotor between " <<
                  begin->GetIdx() << " and " << end->GetIdx();
-          cout << " - reduced from " << old_size << " to " << rotor->Size() << endl;
+          cout << " - reduced from " << old_size << " to " << rotor->Size() << '\n';
                   }
               }
       }

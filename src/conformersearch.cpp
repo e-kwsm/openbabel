@@ -146,7 +146,7 @@ namespace OpenBabel {
                                        const RotorKeys &keys, const std::vector<double*> &conformers)
   {
     energy_nrequest++;
-    RotorKey cur_key = keys[index];
+    const RotorKey& cur_key = keys[index];
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);
@@ -188,7 +188,7 @@ namespace OpenBabel {
                                                  const RotorKeys &keys, const std::vector<double*> &conformers)
   {
     energy_nrequest++;
-    RotorKey cur_key = keys[index];
+    const RotorKey& cur_key = keys[index];
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);
@@ -350,7 +350,7 @@ namespace OpenBabel {
       OBRotorIterator end_it = m_rotorList.EndRotors();
       OBRotor* r = m_rotorList.BeginRotor(it);
       int rotcount = 1;
-      (*m_logstream) << "Rotors:" << std::endl;
+      (*m_logstream) << "Rotors:" << '\n';
       while(r){
         OBBond* b = r->GetBond();
         int at1,at2;
@@ -358,15 +358,15 @@ namespace OpenBabel {
         at2 = b->GetEndAtomIdx();
         (*m_logstream) << at1 << "-" << at2 << "  ";
         r = m_rotorList.NextRotor(it);
-        if (rotcount%4==0 && r){(*m_logstream) << std::endl;}
+        if (rotcount%4==0 && r){(*m_logstream) << '\n';}
         ++rotcount;
       }
-      (*m_logstream) << std::endl;
+      (*m_logstream) << '\n';
       return false;
     }
     // Print those that are fixed
     if (!m_fixedBonds.IsEmpty() && m_logstream != nullptr){
-      (*m_logstream) << "Fixed Rotors: " << std::endl;
+      (*m_logstream) << "Fixed Rotors: " << '\n';
       int end_it = m_fixedBonds.EndBit();
       int it = m_fixedBonds.FirstBit();
       int rotcount = 1;
@@ -377,10 +377,10 @@ namespace OpenBabel {
         at2 = b->GetEndAtomIdx();
         (*m_logstream) << at1 << "-" << at2 << "  ";
         it = m_fixedBonds.NextBit(it);
-        if (rotcount%4==0 && it!=end_it){(*m_logstream) << std::endl;}
+        if (rotcount%4==0 && it!=end_it){(*m_logstream) << '\n';}
         ++rotcount;
       }
-      (*m_logstream) << std::endl;
+      (*m_logstream) << '\n';
     }
 
     nb_rotors = m_rotorList.Size();
@@ -397,7 +397,7 @@ namespace OpenBabel {
       m_rotorKeys.push_back(rotorKey);
     else {
       if (m_logstream != nullptr)
-        (*m_logstream) << "Initial conformer does not pass filter!" << std::endl;
+        (*m_logstream) << "Initial conformer does not pass filter!" << '\n';
     }
 
     int tries = 0, ndup = 0, nbad = 0;
@@ -429,12 +429,12 @@ namespace OpenBabel {
     // print out initial conformers
     if (m_logstream != nullptr)
       {
-        (*m_logstream) << "Initial conformer count: " << m_rotorKeys.size() << std::endl;
-        (*m_logstream) << tries << " attempts,  " << ndup << " duplicates, " << nbad << " failed filter." << std::endl;
+        (*m_logstream) << "Initial conformer count: " << m_rotorKeys.size() << '\n';
+        (*m_logstream) << tries << " attempts,  " << ndup << " duplicates, " << nbad << " failed filter." << '\n';
         for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
           for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
             (*m_logstream) << m_rotorKeys[i][j] << " ";
-          (*m_logstream) << std::endl;
+          (*m_logstream) << '\n';
         }
       }
 
@@ -589,28 +589,28 @@ namespace OpenBabel {
 
     if (m_logstream != nullptr)
       {
-        (*m_logstream) << std::endl << "=====> Starting conformers search with a Genetic Algorithm <=====" << std::endl;
+        (*m_logstream) << '\n' << "=====> Starting conformers search with a Genetic Algorithm <=====" << '\n';
         if (use_sharing)
           {
-            (*m_logstream) << "Uses fitness sharing (with dynamic niche identification)" << std::endl;
-            (*m_logstream) << "Population size :" << m_rotorKeys.size() << std::endl;
-            (*m_logstream) << nb_niches << " niches searched, with a key distance radius of " << niche_radius << std::endl;
-            (*m_logstream) << "Fitness sharing parameter alpha: " << alpha_share << " \t sigma:" << sigma_share << std::endl;
-            (*m_logstream) << "Uniform crossover probability: " << p_crossover << std::endl;
-            (*m_logstream) << "Mutation probability: " << (1.0 / (double) m_mutability) << std::endl;
-            (*m_logstream) << "Niche mating probability: " << niche_mating << std::endl;
+            (*m_logstream) << "Uses fitness sharing (with dynamic niche identification)" << '\n';
+            (*m_logstream) << "Population size :" << m_rotorKeys.size() << '\n';
+            (*m_logstream) << nb_niches << " niches searched, with a key distance radius of " << niche_radius << '\n';
+            (*m_logstream) << "Fitness sharing parameter alpha: " << alpha_share << " \t sigma:" << sigma_share << '\n';
+            (*m_logstream) << "Uniform crossover probability: " << p_crossover << '\n';
+            (*m_logstream) << "Mutation probability: " << (1.0 / (double) m_mutability) << '\n';
+            (*m_logstream) << "Niche mating probability: " << niche_mating << '\n';
             if (local_opt_rate)
               {
                 (*m_logstream) << "Trying to improve best indivual with local search every ";
-                (*m_logstream) << local_opt_rate<< "generations" << std::endl;
+                (*m_logstream) << local_opt_rate<< "generations" << '\n';
               }
           }
         else
           {
-            (*m_logstream) << "Perform elitist generation replacement with mutation only" << std::endl;
-            (*m_logstream) << "Mutation probability: " << (1.0 / (double) m_mutability) << std::endl;
+            (*m_logstream) << "Perform elitist generation replacement with mutation only" << '\n';
+            (*m_logstream) << "Mutation probability: " << (1.0 / (double) m_mutability) << '\n';
           }
-        (*m_logstream) << "Will stop after " << m_convergence << " generations without improvement." << std::endl << std::endl;
+        (*m_logstream) << "Will stop after " << m_convergence << " generations without improvement." << '\n' << '\n';
       }
     if (use_sharing)
       score_population ();
@@ -634,7 +634,7 @@ namespace OpenBabel {
           score = MakeSelection();
         }
       if (OB_ISNAN(score)) {
-          (*m_logstream) << "The current score is not a number, will not continue." << std::endl << std::endl;
+          (*m_logstream) << "The current score is not a number, will not continue." << '\n' << '\n';
           return;
       }
       if (i == 0)
@@ -672,9 +672,9 @@ namespace OpenBabel {
       if (m_logstream != nullptr)
         {
           if (vscores.size ())
-            (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << "\t best " << vscores[0] << std::endl;
+            (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << "\t best " << vscores[0] << '\n';
           else
-            (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << std::endl;
+            (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << '\n';
         }
       if (identicalGenerations > m_convergence)
         break;
@@ -685,7 +685,7 @@ namespace OpenBabel {
         for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
           for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
             (*m_logstream) << m_rotorKeys[i][j] << " ";
-          (*m_logstream) << std::endl;
+          (*m_logstream) << '\n';
         }
       }
   }
@@ -697,7 +697,7 @@ namespace OpenBabel {
     rotamers.Setup(mol, m_rotorList);
 
     if (m_logstream != nullptr)
-      (*m_logstream) << "GetConformers:" << std::endl;
+      (*m_logstream) << "GetConformers:" << '\n';
     // Add all (parent + children) unique rotor keys
     for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
       rotamers.AddRotamer(m_rotorKeys[i]);
@@ -706,7 +706,7 @@ namespace OpenBabel {
         {
           for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
             (*m_logstream) << m_rotorKeys[i][j] << " ";
-          (*m_logstream) << std::endl;
+          (*m_logstream) << '\n';
         }
     }
 
@@ -808,7 +808,7 @@ namespace OpenBabel {
         if (m_logstream != nullptr)
           {
             (*m_logstream) << "    => Best individual improved with local search: ";
-            (*m_logstream) << backup_scores[0] << "  --> " << opt_score << std::endl;
+            (*m_logstream) << backup_scores[0] << "  --> " << opt_score << '\n';
           }
       }
     // Set back population and score vector
@@ -1130,7 +1130,7 @@ namespace OpenBabel {
     if (m_logstream != nullptr)
       {
         (*m_logstream) << "  ==> Number of niches: " << dynamic_niches.size ();
-        (*m_logstream) << "   # out of niches :" << out_niches.size () << "\t Best :" << vscores[0] << std::endl;
+        (*m_logstream) << "   # out of niches :" << out_niches.size () << "\t Best :" << vscores[0] << '\n';
       }
 
     // Save each niche 1set element, then 2nd until we have half of the population

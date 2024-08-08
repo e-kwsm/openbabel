@@ -229,7 +229,7 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    _nAtoms = mol->NumAtoms();
    if (_nAtoms < 3)
    {
-      std::cerr << "OBSpectrophore::GetSpectrophore() error: not enough atoms in molecule" << std::endl;;
+      std::cerr << "OBSpectrophore::GetSpectrophore() error: not enough atoms in molecule" << '\n';;
       return _spectro;
    }
 
@@ -1837,7 +1837,7 @@ OBSpectrophore::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
       }
       if (maxVal == 0)
       {
-         std::cerr << "OBSpectrophore: Warning singular matrix..." << std::endl;
+         std::cerr << "OBSpectrophore: Warning singular matrix..." << '\n';
       }
 
       vScales[i] = 1.0 / maxVal;
