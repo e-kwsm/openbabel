@@ -174,7 +174,7 @@ namespace OpenBabel
     std::vector<PosePair> insert_data;
     std::vector<int> insert_level;
 
-    while(nodes.size() > 0) { // Using stack-based recursion
+    while(!nodes.empty()) { // Using stack-based recursion
       node = nodes.back();
       nodes.pop_back();
       level = stack_levels.back();
@@ -214,7 +214,7 @@ namespace OpenBabel
         }
       } // end of for loop
 
-      if (min_nodes.size() == 0) {
+      if (min_nodes.empty()) {
         // No similar molecule found, so remember it for later so that we can
         // append it the children and add it as the first child all the way down
         // through the levels. The reason we don't add it now is that the molecule
@@ -294,7 +294,7 @@ void UpdateConformersFromTree(OBMol* mol, std::vector<double> &energies, OBDiver
 
   // The leaf iterator will (in effect) iterate over the nodes just at the loweset level
   for (OBDiversePoses::Tree::leaf_iterator node = poses->begin(); node != poses->end(); ++node)
-    if (node->first.size() > 0) // Don't include the dummy head node
+    if (!node->first.empty()) // Don't include the dummy head node
       confs.push_back(*node);
 
   // Sort the confs by energy (lowest first)
@@ -388,7 +388,7 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
              << rotor->GetBond()->GetEndAtomIdx() << " has " << size << " values" << std::endl;
       }
     }
-    if (rotor_sizes.size() > 0 && combinations == 0) { // Overflow!
+    if (!rotor_sizes.empty() && combinations == 0) { // Overflow!
       combinations = UINT_MAX;
     }
     if (verbose)
