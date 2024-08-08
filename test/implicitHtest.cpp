@@ -4,7 +4,7 @@
 using namespace std;
 using namespace OpenBabel;
 
-typedef vector<vector3> vv3;
+using vv3 = vector<vector3>;
 
 void testLossOfHydrogen(string filename)
 {

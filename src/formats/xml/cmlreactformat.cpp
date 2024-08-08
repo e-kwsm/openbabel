@@ -127,7 +127,7 @@ public:
   };
 
 private:
-  typedef map<string,std::shared_ptr<OBMol> > MolMap;
+  using MolMap = map<string,std::shared_ptr<OBMol> >;
   string AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap);
   bool WriteRateData(OBReaction* pReact, xmlChar* altprefix);
   void WriteMetadataList(OBReaction& react);

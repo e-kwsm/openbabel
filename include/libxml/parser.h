@@ -49,7 +49,7 @@ extern "C" {
  *
  * Callback for freeing some parser input allocations.
  */
-typedef void (* xmlParserInputDeallocate)(xmlChar *str);
+using xmlParserInputDeallocate = void (*)(xmlChar *str);
 
 struct _xmlParserInput {
     /* Input buffer */
@@ -83,8 +83,8 @@ struct _xmlParserInput {
  * place in the file they were detected. 
  * NOTE: This is off by default and not very well tested.
  */
-typedef struct _xmlParserNodeInfo xmlParserNodeInfo;
-typedef xmlParserNodeInfo *xmlParserNodeInfoPtr;
+using xmlParserNodeInfo = struct _xmlParserNodeInfo;
+using xmlParserNodeInfoPtr = xmlParserNodeInfo *;
 
 struct _xmlParserNodeInfo {
   const struct _xmlNode* node;
@@ -95,8 +95,8 @@ struct _xmlParserNodeInfo {
   unsigned long end_line;
 };
 
-typedef struct _xmlParserNodeInfoSeq xmlParserNodeInfoSeq;
-typedef xmlParserNodeInfoSeq *xmlParserNodeInfoSeqPtr;
+using xmlParserNodeInfoSeq = struct _xmlParserNodeInfoSeq;
+using xmlParserNodeInfoSeqPtr = xmlParserNodeInfoSeq *;
 struct _xmlParserNodeInfoSeq {
   unsigned long maximum;
   unsigned long length;
@@ -109,7 +109,7 @@ struct _xmlParserNodeInfoSeq {
  * The parser is now working also as a state based parser.
  * The recursive one use the state info for entities processing.
  */
-typedef enum {
+enum xmlParserInputState {
     XML_PARSER_EOF = -1,	/* nothing is to be parsed */
     XML_PARSER_START = 0,	/* nothing has been parsed */
     XML_PARSER_MISC,		/* Misc* before int subset */
@@ -128,7 +128,7 @@ typedef enum {
     XML_PARSER_EPILOG, 		/* the Misc* after the last end tag */
     XML_PARSER_IGNORE,		/* within an IGNORED section */
     XML_PARSER_PUBLIC_LITERAL 	/* within a PUBLIC value */
-} xmlParserInputState;
+};
 
 /**
  * XML_DETECT_IDS:
@@ -160,14 +160,14 @@ typedef enum {
  *
  * A parser can operate in various modes
  */
-typedef enum {
+enum xmlParserMode {
     XML_PARSE_UNKNOWN = 0,
     XML_PARSE_DOM = 1,
     XML_PARSE_SAX = 2,
     XML_PARSE_PUSH_DOM = 3,
     XML_PARSE_PUSH_SAX = 4,
     XML_PARSE_READER = 5
-} xmlParserMode;
+};
 
 /**
  * xmlParserCtxt:
@@ -333,7 +333,7 @@ struct _xmlSAXLocator {
  *
  * Returns the xmlParserInputPtr if inlined or NULL for DOM behaviour.
  */
-typedef xmlParserInputPtr (*resolveEntitySAXFunc) (void *ctx,
+using resolveEntitySAXFunc = xmlParserInputPtr (*)(void *ctx,
 				const xmlChar *publicId,
 				const xmlChar *systemId);
 /**
@@ -345,7 +345,7 @@ typedef xmlParserInputPtr (*resolveEntitySAXFunc) (void *ctx,
  *
  * Callback on internal subset declaration.
  */
-typedef void (*internalSubsetSAXFunc) (void *ctx,
+using internalSubsetSAXFunc = void (*)(void *ctx,
 				const xmlChar *name,
 				const xmlChar *ExternalID,
 				const xmlChar *SystemID);
@@ -358,7 +358,7 @@ typedef void (*internalSubsetSAXFunc) (void *ctx,
  *
  * Callback on external subset declaration.
  */
-typedef void (*externalSubsetSAXFunc) (void *ctx,
+using externalSubsetSAXFunc = void (*)(void *ctx,
 				const xmlChar *name,
 				const xmlChar *ExternalID,
 				const xmlChar *SystemID);
@@ -371,7 +371,7 @@ typedef void (*externalSubsetSAXFunc) (void *ctx,
  *
  * Returns the xmlEntityPtr if found.
  */
-typedef xmlEntityPtr (*getEntitySAXFunc) (void *ctx,
+using getEntitySAXFunc = xmlEntityPtr (*)(void *ctx,
 				const xmlChar *name);
 /**
  * getParameterEntitySAXFunc:
@@ -382,7 +382,7 @@ typedef xmlEntityPtr (*getEntitySAXFunc) (void *ctx,
  *
  * Returns the xmlEntityPtr if found.
  */
-typedef xmlEntityPtr (*getParameterEntitySAXFunc) (void *ctx,
+using getParameterEntitySAXFunc = xmlEntityPtr (*)(void *ctx,
 				const xmlChar *name);
 /**
  * entityDeclSAXFunc:
@@ -395,7 +395,7 @@ typedef xmlEntityPtr (*getParameterEntitySAXFunc) (void *ctx,
  *
  * An entity definition has been parsed.
  */
-typedef void (*entityDeclSAXFunc) (void *ctx,
+using entityDeclSAXFunc = void (*)(void *ctx,
 				const xmlChar *name,
 				int type,
 				const xmlChar *publicId,
@@ -410,7 +410,7 @@ typedef void (*entityDeclSAXFunc) (void *ctx,
  *
  * What to do when a notation declaration has been parsed.
  */
-typedef void (*notationDeclSAXFunc)(void *ctx,
+using notationDeclSAXFunc = void (*)(void *ctx,
 				const xmlChar *name,
 				const xmlChar *publicId,
 				const xmlChar *systemId);
@@ -426,7 +426,7 @@ typedef void (*notationDeclSAXFunc)(void *ctx,
  *
  * An attribute definition has been parsed.
  */
-typedef void (*attributeDeclSAXFunc)(void *ctx,
+using attributeDeclSAXFunc = void (*)(void *ctx,
 				const xmlChar *elem,
 				const xmlChar *fullname,
 				int type,

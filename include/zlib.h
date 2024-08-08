@@ -74,12 +74,12 @@ extern "C" {
   crash even in case of corrupted input.
 */
 
-typedef voidpf (*alloc_func) OF((voidpf opaque, uInt items, uInt size));
-typedef void   (*free_func)  OF((voidpf opaque, voidpf address));
+using alloc_func = voidpf (*)(voidpf, uInt, uInt);
+using free_func = void (*)(voidpf, voidpf);
 
 struct internal_state;
 
-typedef struct z_stream_s {
+using z_stream = struct z_stream_s {
     Bytef    *next_in;  /* next input byte */
     uInt     avail_in;  /* number of bytes available at next_in */
     uLong    total_in;  /* total nb of input bytes read so far */
@@ -98,15 +98,15 @@ typedef struct z_stream_s {
     int     data_type;  /* best guess about the data type: binary or text */
     uLong   adler;      /* adler32 value of the uncompressed data */
     uLong   reserved;   /* reserved for future use */
-} z_stream;
+};
 
-typedef z_stream FAR *z_streamp;
+using z_streamp = z_stream *;
 
 /*
      gzip header information passed to and from zlib routines.  See RFC 1952
   for more details on the meanings of these fields.
 */
-typedef struct gz_header_s {
+using gz_header = struct gz_header_s {
     int     text;       /* true if compressed data believed to be text */
     uLong   time;       /* modification time */
     int     xflags;     /* extra flags (not used when writing a gzip file) */
@@ -121,9 +121,9 @@ typedef struct gz_header_s {
     int     hcrc;       /* true if there was or will be a header crc */
     int     done;       /* true when done reading gzip header (not used
                            when writing a gzip file) */
-} gz_header;
+};
 
-typedef gz_header FAR *gz_headerp;
+using gz_headerp = gz_header *;
 
 /*
    The application must update next_in and avail_in when avail_in has
@@ -874,8 +874,8 @@ ZEXTERN int ZEXPORT inflateBackInit OF((z_streamp strm, int windowBits,
    match the version of the header file.
 */
 
-typedef unsigned (*in_func) OF((void FAR *, unsigned char FAR * FAR *));
-typedef int (*out_func) OF((void FAR *, unsigned char FAR *, unsigned));
+using in_func = unsigned int (*)(void *, unsigned char **);
+using out_func = int (*)(void *, unsigned char *, unsigned int);
 
 ZEXTERN int ZEXPORT inflateBack OF((z_streamp strm,
                                     in_func in, void FAR *in_desc,
@@ -1063,7 +1063,7 @@ ZEXTERN int ZEXPORT uncompress OF((Bytef *dest,   uLongf *destLen,
 */
 
 
-typedef voidp gzFile;
+using gzFile = voidp;
 
 ZEXTERN gzFile ZEXPORT gzopen  OF((const char *path, const char *mode));
 /*

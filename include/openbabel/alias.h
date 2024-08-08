@@ -104,7 +104,7 @@ private:
     std::string smiles;
     std::string color;
   };
-  typedef std::map<std::string, AliasItem> SuperAtomTable; //key=alias left-form
+  using SuperAtomTable = std::map<std::string, AliasItem>; //key=alias left-form
 
   static bool LoadFile(SuperAtomTable& table);
   static SuperAtomTable& table()
@@ -115,7 +115,7 @@ private:
     return t;
   }
   bool        FromNameLookup(OBMol& mol, const unsigned int atomindex);
-  typedef std::vector< std::pair<std::string, std::shared_ptr<OBSmartsPattern> > > SmartsTable;
+  using SmartsTable = std::vector<std::pair<std::string, std::shared_ptr<OBSmartsPattern>>>;
   static bool LoadFile(SmartsTable& smtable);
 };
 } //namespace

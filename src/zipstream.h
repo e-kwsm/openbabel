@@ -93,13 +93,13 @@ template <class charT,
 class basic_zip_streambuf : public std::basic_streambuf<charT, traits>
 {
 public:
-    typedef std::basic_ostream<charT, traits>& ostream_reference;
-    typedef unsigned char byte_type;
-    typedef char          char_type;
-    typedef byte_type* byte_buffer_type;
-    typedef std::vector<byte_type> byte_vector_type;
-    typedef std::vector<char_type> char_vector_type;
-    typedef int int_type;
+    using ostream_reference = std::basic_ostream<charT, traits> &;
+    using byte_type = unsigned char;
+    using char_type = char;
+    using byte_buffer_type = byte_type *;
+    using byte_vector_type = std::vector<byte_type>;
+    using char_vector_type = std::vector<char_type>;
+    using int_type = int;
 
     basic_zip_streambuf(ostream_reference ostream,
                             int level,
@@ -152,13 +152,13 @@ class basic_unzip_streambuf :
     public std::basic_streambuf<charT, traits>
 {
 public:
-    typedef std::basic_istream<charT,traits>& istream_reference;
-    typedef unsigned char byte_type;
-    typedef char          char_type;
-    typedef byte_type* byte_buffer_type;
-    typedef std::vector<byte_type> byte_vector_type;
-    typedef std::vector<char_type> char_vector_type;
-    typedef int int_type;
+    using istream_reference = std::basic_istream<charT, traits> &;
+    using byte_type = unsigned char;
+    using char_type = char;
+    using byte_buffer_type = byte_type *;
+    using byte_vector_type = std::vector<byte_type>;
+    using char_vector_type = std::vector<char_type>;
+    using int_type = int;
 
     /** Construct a unzip stream
      * More info on the following parameters can be found in the zlib documentation.
@@ -225,9 +225,9 @@ class basic_zip_ostream :
 {
 public:
 
-    typedef char char_type;
-    typedef std::basic_ostream<charT, traits>& ostream_reference;
-    typedef std::basic_ostream<charT, traits> ostream_type;
+    using char_type = char;
+    using ostream_reference = std::basic_ostream<charT, traits> &;
+    using ostream_type = std::basic_ostream<charT, traits>;
 
     inline
     explicit basic_zip_ostream(ostream_reference ostream,
@@ -269,8 +269,8 @@ class basic_zip_istream :
     public std::basic_istream<charT, traits>
 {
 public:
-    typedef std::basic_istream<charT, traits>& istream_reference;
-    typedef std::basic_istream<charT, traits> istream_type;
+    using istream_reference = std::basic_istream<charT, traits> &;
+    using istream_type = std::basic_istream<charT, traits>;
 
     explicit basic_zip_istream(istream_reference istream,
                                int window_size = -15 /*windowBits is passed < 0 to suppress zlib header */,
@@ -296,9 +296,9 @@ protected:
 };
 
 /// A typedef for basic_zip_ostream<char>
-typedef basic_zip_ostream<char> zip_ostream;
+using zip_ostream = basic_zip_ostream<char>;
 /// A typedef for basic_zip_istream<char>
-typedef basic_zip_istream<char> zip_istream;
+using zip_istream = basic_zip_istream<char>;
 
 /// A typedef for basic_zip_ostream<wchar_t>
 //typedef basic_zip_ostream<wchar_t> zip_wostream;
