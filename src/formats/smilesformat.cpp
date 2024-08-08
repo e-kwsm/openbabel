@@ -2766,7 +2766,7 @@ namespace OpenBabel {
       else {
         bool external = false;
         vector<pair<int,pair<OBAtom *,OBBond *> > > *externalBonds =
-          (vector<pair<int,pair<OBAtom *,OBBond *> > > *)((OBMol*)atom->GetParent())->GetData("extBonds");
+          (vector<pair<int,pair<OBAtom *,OBBond *> > > *)(atom->GetParent())->GetData("extBonds");
         vector<pair<int,pair<OBAtom *,OBBond *> > >::iterator externalBond;
 
         if (externalBonds) // TODO: This code has bit-rotted and needs some love
