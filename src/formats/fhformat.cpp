@@ -82,7 +82,7 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     CartesianToInternal(vic,mol);
 
-    ofs << endl << mol.NumAtoms() << endl;
+    ofs << '\n' << mol.NumAtoms() << '\n';
 
     double r,w,t;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))

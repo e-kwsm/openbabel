@@ -101,7 +101,7 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(!_pFP)
     {
       stringstream errorMsg;
-      errorMsg << "Fingerprint type '" << fpid << "' not available" << endl;
+      errorMsg << "Fingerprint type '" << fpid << "' not available" << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       return false;
     }
@@ -136,7 +136,7 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         << "#type=OpenBabel-" << _pFP->GetID() << "/1" << '\n'
         << "#software=OpenBabel/" << BABEL_VERSION << '\n'
         << "#source=" << source << '\n'
-        << "#date=" << getTimeStr() << endl;
+        << "#date=" << getTimeStr() << '\n';
   }
 
   stringstream molID;
@@ -160,7 +160,7 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   }
   // truncate to hex from whole number of bytes (seems to be the way fps does it)
   ofs << dec << ss.str().erase(2*((_nbits+7)/8));
-  ofs << '\t' << molID.str() << endl;
+  ofs << '\t' << molID.str() << '\n';
 
   return true;
 }
