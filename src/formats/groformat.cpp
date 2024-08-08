@@ -213,7 +213,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   for (int i=1; i<=natoms; i++) {
     if (!ifs.getline(buffer,BUFF_SIZE)) {
       errorMsg << "Problems reading a GRO file: "
-               << "Could not read line #" << i+2 << ", file error." << endl
+               << "Could not read line #" << i+2 << ", file error." << '\n'
                << " According to the second line, there should be " << natoms
                << " atoms, and therefore " << natoms+3 << " lines in the file.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
@@ -323,7 +323,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   // Get periodic box
   if (!ifs.getline(buffer,BUFF_SIZE)) {
     errorMsg << "Problems reading a GRO file: "
-             << "Could not read box vectors!" << endl;
+             << "Could not read box vectors!" << '\n';
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     return false;
   }
@@ -335,7 +335,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   stringstream ss(buffer);
   if (!ss) {
     errorMsg << "Problems reading a GRO file: "
-             << "Could not read box vectors!" << endl;
+             << "Could not read box vectors!" << '\n';
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
     return false;
   }
@@ -401,8 +401,8 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   long int atIdx = 0;
   long int resIdx = 0;
 
-  ofs << pmol->GetTitle() << endl;
-  ofs << pmol->NumAtoms() << endl;
+  ofs << pmol->GetTitle() << '\n';
+  ofs << pmol->NumAtoms() << '\n';
   ofs.setf(ios::fixed);
 
   FOR_ATOMS_OF_MOL(atom, pmol) {
@@ -438,7 +438,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
           << setw(8) << v.y()
           << setw(8) << v.z();
     }
-    ofs << endl;
+    ofs << '\n';
   }
 
   // On the last line of the file goes periodic box specification
@@ -471,7 +471,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     // Set to zero if there is no box data in the molecule
     ofs << "   0.00000   0.00000   0.00000";
   }
-  ofs << endl;
+  ofs << '\n';
 
   return true;
 }
