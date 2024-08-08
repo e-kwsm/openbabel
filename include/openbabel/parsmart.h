@@ -157,12 +157,12 @@ namespace OpenBabel
     OBSmartsPrivate                *_d;        //!< Internal data storage for future expansion
     OB_DEPRECATED std::vector<bool> _growbond; //!< \deprecated (Not used)
     std::vector<std::vector<int> >	_mlist;    //!< The list of matches
-    Pattern                        *_pat;      //!< The parsed SMARTS pattern
+    Pattern *_pat{nullptr}; //!< The parsed SMARTS pattern
     std::string				              _str;      //!< The string of the SMARTS expression
 
-    char *_buffer;
-    char *LexPtr;
-    char *MainPtr;
+    char *_buffer{nullptr};
+    char *LexPtr{nullptr};
+    char *MainPtr{nullptr};
 
     Pattern *ParseSMARTSPattern( void );
     Pattern *ParseSMARTSPart( Pattern*, int );
@@ -180,13 +180,10 @@ namespace OpenBabel
                            int prev, int part );
 
   public:
-  OBSmartsPattern() : _pat(nullptr), _buffer(nullptr), LexPtr(nullptr), MainPtr(nullptr) { }
+    OBSmartsPattern() {}
     virtual ~OBSmartsPattern();
 
-  OBSmartsPattern(const OBSmartsPattern& cp): _pat(nullptr), _buffer(nullptr), LexPtr(nullptr), MainPtr(nullptr)
-      {
-        *this = cp;
-      }
+    OBSmartsPattern(const OBSmartsPattern &cp) { *this = cp; }
 
     OBSmartsPattern& operator=(const OBSmartsPattern& cp)
       {

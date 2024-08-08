@@ -349,13 +349,12 @@ protected:
       //helper class for saving stream state
       struct StreamState
       {
-          std::ios *pStream; //active stream
-          std::vector<std::ios *> ownedStreams; //streams we own the memory to
+        std::ios *pStream{nullptr};           // active stream
+        std::vector<std::ios *> ownedStreams; // streams we own the memory to
 
-          StreamState(): pStream(nullptr) {}
-          ~StreamState()
-          {
-            assert(ownedStreams.size() == 0); //should be popped
+        StreamState() {}
+        ~StreamState() {
+          assert(ownedStreams.size() == 0); // should be popped
           }
 
           void pushInput(OBConversion& conv);

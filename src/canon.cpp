@@ -693,13 +693,14 @@ namespace OpenBabel {
     struct State
     {
       State(const std::vector<unsigned int> &_symmetry_classes,
-            const OBBitVec &_fragment, std::vector<StereoCenter> &_stereoCenters,
-            std::vector<FullCode> &_identityCodes, Orbits &_orbits, OBBitVec &_mcr,
-            bool _onlyOne) : symmetry_classes(_symmetry_classes), fragment(_fragment),
-          onlyOne(_onlyOne), stereoCenters(_stereoCenters),
-          code(_symmetry_classes.size()), identityCodes(_identityCodes),
-          backtrackDepth(0), orbits(_orbits), mcr(_mcr)
-      {
+            const OBBitVec &_fragment,
+            std::vector<StereoCenter> &_stereoCenters,
+            std::vector<FullCode> &_identityCodes, Orbits &_orbits,
+            OBBitVec &_mcr, bool _onlyOne)
+          : symmetry_classes(_symmetry_classes), fragment(_fragment),
+            onlyOne(_onlyOne), stereoCenters(_stereoCenters),
+            code(_symmetry_classes.size()), identityCodes(_identityCodes),
+            orbits(_orbits), mcr(_mcr) {
         mcr.Clear();
         if (mcr.IsEmpty())
           for (std::size_t i = 0; i < symmetry_classes.size(); ++i)
@@ -727,7 +728,7 @@ namespace OpenBabel {
        * Identity nodes of the search tree.
        */
       std::vector<FullCode> identityCodes;
-      unsigned int backtrackDepth;
+      unsigned int backtrackDepth{0};
       Orbits orbits;
       OBBitVec &mcr;
     };

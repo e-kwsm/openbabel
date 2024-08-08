@@ -41,8 +41,7 @@ namespace OpenBabel
   //! \brief Class to build 3D structures
   class OBAPI OBBuilder {
     public:
-
-      OBBuilder(): _keeprings(false) {}
+      OBBuilder() {}
 
       ///@name Call the build algorithm
       //@{
@@ -180,7 +179,7 @@ namespace OpenBabel
                                 OBMol &mol, OBStereo::Refs &unfixedcenters);
       static void AddRingNbrs(OBBitVec &fragment, OBAtom *atom, OBMol &mol);
       static bool SwapWithVector(OBMol &mol, int a, int b, int c, const vector3 &newlocation);
-      bool _keeprings;
+      bool _keeprings{false};
   }; // class OBBuilder
 
 }// namespace OpenBabel

@@ -48,8 +48,9 @@ namespace OpenBabel
   class OBAPI OBGlobalDataBase
     {
     protected:
-      bool         _init;		//!< Whether the data been read already
-      const char  *_dataptr;//!< Default data table if file is unreadable
+      bool _init{false}; //!< Whether the data been read already
+      const char *_dataptr{
+          nullptr};          //!< Default data table if file is unreadable
       std::string  _filename;//!< File to search for
       std::string  _dir;		//!< Data directory for file if _envvar fails
       std::string  _subdir;	//!< Subdirectory (if using environment variable)
@@ -57,7 +58,7 @@ namespace OpenBabel
 
     public:
       //! Constructor
-      OBGlobalDataBase(): _init(false), _dataptr(nullptr) { }
+      OBGlobalDataBase() {}
       //! Destructor
       virtual ~OBGlobalDataBase()                  {}
       //! Read in the data file, falling back as needed
