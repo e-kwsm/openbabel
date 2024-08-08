@@ -1281,7 +1281,9 @@ namespace OpenBabel
       }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     // return the locale to the original one
     obLocale.RestoreLocale();

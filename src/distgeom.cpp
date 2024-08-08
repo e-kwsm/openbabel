@@ -236,7 +236,7 @@ namespace OpenBabel {
     if (rlist.size() > 0) {
       FOR_RINGS_OF_MOL(r, _mol) {
         int size = r->Size();
-        if (!r->IsAromatic()) continue;
+        if (!r->IsAromatic()) { continue; }
 
         std::vector<int> path = r->_path;
         for (int a = 0; a < size; ++a) {

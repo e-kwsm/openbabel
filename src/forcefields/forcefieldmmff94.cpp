@@ -210,7 +210,9 @@ namespace OpenBabel
       theta = OBForceField::VectorAngleDerivative(pos_a, pos_b, pos_c, force_a, force_b, force_c);
 
       if (!isfinite(theta))
+      {
         theta = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+      }
 
       delta = theta - theta0;
 
@@ -230,7 +232,9 @@ namespace OpenBabel
       theta = OBForceField::VectorAngle(pos_a, pos_b, pos_c);
 
       if (!isfinite(theta))
+      {
         theta = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+      }
 
       delta = theta - theta0;
 

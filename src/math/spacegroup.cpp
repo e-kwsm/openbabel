@@ -42,8 +42,8 @@ namespace OpenBabel
   std::string RemoveWhiteSpaceUnderscore(const string &in){
     std::string out=in;
     for(std::string::iterator pos=out.begin();pos!=out.end();){
-      if( ((char)(*pos)==' ') ||((char)(*pos)=='_'))  pos=out.erase(pos);
-      else ++pos;
+      if( ((char)(*pos)==' ') ||((char)(*pos)=='_')) { pos=out.erase(pos); }
+      else { ++pos; }
     }
     return out;
   }
