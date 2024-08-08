@@ -953,7 +953,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamBndk(std::string &filename)
@@ -987,7 +987,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamAngle(std::string &filename)
@@ -1023,7 +1023,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamStrBnd(std::string &filename)
@@ -1059,7 +1059,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamDfsb(std::string &filename)
@@ -1094,7 +1094,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamOOP(std::string &filename)
@@ -1129,7 +1129,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamTorsion(std::string &filename)
@@ -1167,7 +1167,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamVDW(std::string &filename)
@@ -1208,7 +1208,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamCharge(std::string &filename)
@@ -1242,7 +1242,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamPbci(std::string &filename)
@@ -1275,7 +1275,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamProp(std::string &filename)
@@ -1324,7 +1324,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldMMFF94::ParseParamDef(std::string &filename)
@@ -1359,7 +1359,7 @@ namespace OpenBabel
     if (ifs)
       ifs.close();
 
-    return 0;
+    return false;
   }
 
   ////////////////////////////////////////////////////////////////////////////////
