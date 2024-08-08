@@ -49,7 +49,7 @@ GNU General Public License for more details.
 namespace OpenBabel {
 
   // Needed to preserve deprecated API
-  typedef OBPlugin::PluginIterator Formatpos;
+  using Formatpos = OBPlugin::PluginIterator;
 
   OBERROR extern  OBMessageHandler obErrorLog;
 
@@ -370,13 +370,13 @@ protected:
       bool             SetStartAndEnd();
 //      static FMapType& FormatsMap();///<contains ID and pointer to all OBFormat classes
 //      static FMapType& FormatsMIMEMap();///<contains MIME and pointer to all OBFormat classes
-      typedef std::map<std::string,int> OPAMapType;
+      using OPAMapType = std::map<std::string, int>;
       static OPAMapType& OptionParamArray(Option_type typ);
       bool             OpenAndSetFormat(bool SetFormat, std::ifstream* is, std::stringstream* ss=nullptr);
 
       std::string	  InFilename, OutFilename; //OutFileName added v2.4.0
 
-      typedef   FilteringInputStream< LineEndingExtractor > LEInStream;
+      using LEInStream = FilteringInputStream<LineEndingExtractor>;
 
       std::istream *pInput; //input stream, may be filtered
       std::vector<std::istream *> ownedInStreams; //streams we own the memory to

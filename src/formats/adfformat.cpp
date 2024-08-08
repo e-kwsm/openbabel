@@ -761,7 +761,7 @@ private:
         operator bool() const { return valid; }
     };
 
-    typedef T41GridData GridData;
+    using GridData = T41GridData;
 
     ///Read grid data.
     GridData ReadGridData( istream& is ) const;

@@ -339,7 +339,7 @@ namespace OpenBabel
   };
 
   // scoring function used: PLP = Piecewise Linear Potential or ChemScore algorithm
-  typedef enum { Undefined = -1, PLP, ChemScore } score_t;
+  enum score_t { Undefined = -1, PLP, ChemScore };
 
   //! \class OBScoreGrid grid.h <openbabel/grid.h>
   //! \brief A base class for scoring docking interactions between multiple molecules

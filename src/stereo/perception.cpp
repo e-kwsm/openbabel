@@ -417,7 +417,7 @@ namespace OpenBabel {
   {
     struct ParaAtom
     {
-      typedef OBAtom CenterType;
+      using CenterType = OBAtom;
 
       ParaAtom(unsigned long _id, unsigned int idx) : id(_id), inIdx(idx) {}
       OBAtom* GetCenter(OBMol *mol) const { return mol->GetAtomById(id); }
@@ -437,7 +437,7 @@ namespace OpenBabel {
     };
     struct ParaBond
     {
-      typedef OBBond CenterType;
+      using CenterType = OBBond;
       ParaBond(unsigned long _id, unsigned int _inIdx, unsigned int _outIdx) : id(_id), inIdx(_inIdx), outIdx(_outIdx) {}
       OBBond* GetCenter(OBMol *mol) const { return mol->GetBondById(id); }
       bool isInRing(const StereoRing &ring) const

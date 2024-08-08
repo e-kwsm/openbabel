@@ -26,10 +26,10 @@ GNU General Public License for more details.
 #include <openbabel/babelconfig.h>
 
 /* Adapt on some 64bit machines! */
-typedef int int32;
-typedef unsigned int uint32;
-typedef short int16;
-typedef unsigned short uint16;
+using int32 = int;
+using uint32 = unsigned int;
+using int16 = short;
+using uint16 = unsigned short;
 
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -182,7 +182,7 @@ const char *mob_elementsym[MOB_ELEMENTS]=
 #define mob_element(ATOM) ((ATOM)->header[MOB_ELEMENT]&MOB_ELEMENTMASK)
 #define mob_links(ATOM) ((ATOM)->header[MOB_LINKS]&MOB_LINKSMASK)
 
-typedef int32 mobdata;
+using mobdata = int32;
 
 struct mobatom                     /* Modeling object atom structure */
 { unsigned char header[4];

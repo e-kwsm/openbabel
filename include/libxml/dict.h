@@ -21,8 +21,8 @@ extern "C" {
 /*
  * The dictionnary.
  */
-typedef struct _xmlDict xmlDict;
-typedef xmlDict *xmlDictPtr;
+using xmlDict = struct _xmlDict;
+using xmlDictPtr = xmlDict *;
 
 /*
  * Constructor and destructor.

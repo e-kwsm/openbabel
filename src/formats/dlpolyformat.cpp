@@ -65,7 +65,7 @@ namespace OpenBabel
     int levcfg,imcon;
     std::string title;
     std::vector< vector3 > forces;
-    typedef std::map<std::string, int> labelToZType;
+    using labelToZType = std::map<std::string, int>;
     labelToZType labelToZ; // For storing previously determined labels
 
   }; // End DlpolyInputReader

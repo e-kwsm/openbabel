@@ -18,8 +18,8 @@ extern "C" {
 /*
  * The hash table.
  */
-typedef struct _xmlHashTable xmlHashTable;
-typedef xmlHashTable *xmlHashTablePtr;
+using xmlHashTable = struct _xmlHashTable;
+using xmlHashTablePtr = xmlHashTable *;
 
 #ifdef __cplusplus
 }
@@ -66,7 +66,7 @@ extern "C" {
  *
  * Callback to free data from a hash.
  */
-typedef void (*xmlHashDeallocator)(void *payload, xmlChar *name);
+using xmlHashDeallocator = void (*)(void *, xmlChar *);
 /**
  * xmlHashCopier:
  * @payload:  the data in the hash
@@ -76,7 +76,7 @@ typedef void (*xmlHashDeallocator)(void *payload, xmlChar *name);
  *
  * Returns a copy of the data or NULL in case of error.
  */
-typedef void *(*xmlHashCopier)(void *payload, xmlChar *name);
+using xmlHashCopier = void *(*)(void *, xmlChar *);
 /**
  * xmlHashScanner:
  * @payload:  the data in the hash
@@ -85,7 +85,7 @@ typedef void *(*xmlHashCopier)(void *payload, xmlChar *name);
  *
  * Callback when scanning data in a hash with the simple scanner.
  */
-typedef void (*xmlHashScanner)(void *payload, void *data, xmlChar *name);
+using xmlHashScanner = void (*)(void *, void *, xmlChar *);
 /**
  * xmlHashScannerFull:
  * @payload:  the data in the hash
@@ -96,7 +96,7 @@ typedef void (*xmlHashScanner)(void *payload, void *data, xmlChar *name);
  *
  * Callback when scanning data in a hash with the full scanner.
  */
-typedef void (*xmlHashScannerFull)(void *payload, void *data,
+using xmlHashScannerFull = void (*)(void *payload, void *data,
 				   const xmlChar *name, const xmlChar *name2,
 				   const xmlChar *name3);
 

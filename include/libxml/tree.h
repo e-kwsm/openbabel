@@ -24,28 +24,28 @@ extern "C" {
  * Some of the basic types pointer to structures:
  */
 /* xmlIO.h */
-typedef struct _xmlParserInputBuffer xmlParserInputBuffer;
-typedef xmlParserInputBuffer *xmlParserInputBufferPtr;
+using xmlParserInputBuffer = struct _xmlParserInputBuffer;
+using xmlParserInputBufferPtr = xmlParserInputBuffer *;
 
-typedef struct _xmlOutputBuffer xmlOutputBuffer;
-typedef xmlOutputBuffer *xmlOutputBufferPtr;
+using xmlOutputBuffer = struct _xmlOutputBuffer;
+using xmlOutputBufferPtr = xmlOutputBuffer *;
 
 /* parser.h */
-typedef struct _xmlParserInput xmlParserInput;
-typedef xmlParserInput *xmlParserInputPtr;
+using xmlParserInput = struct _xmlParserInput;
+using xmlParserInputPtr = xmlParserInput *;
 
-typedef struct _xmlParserCtxt xmlParserCtxt;
-typedef xmlParserCtxt *xmlParserCtxtPtr;
+using xmlParserCtxt = struct _xmlParserCtxt;
+using xmlParserCtxtPtr = xmlParserCtxt *;
 
-typedef struct _xmlSAXLocator xmlSAXLocator;
-typedef xmlSAXLocator *xmlSAXLocatorPtr;
+using xmlSAXLocator = struct _xmlSAXLocator;
+using xmlSAXLocatorPtr = xmlSAXLocator *;
 
-typedef struct _xmlSAXHandler xmlSAXHandler;
-typedef xmlSAXHandler *xmlSAXHandlerPtr;
+using xmlSAXHandler = struct _xmlSAXHandler;
+using xmlSAXHandlerPtr = xmlSAXHandler *;
 
 /* entities.h */
-typedef struct _xmlEntity xmlEntity;
-typedef xmlEntity *xmlEntityPtr;
+using xmlEntity = struct _xmlEntity;
+using xmlEntityPtr = xmlEntity *;
 
 /**
  * BASE_BUFFER_SIZE:
@@ -79,7 +79,7 @@ typedef xmlEntity *xmlEntityPtr;
  * Actually this had diverged a bit, and now XML_DOCUMENT_TYPE_NODE should
  * be deprecated to use an XML_DTD_NODE.
  */
-typedef enum {
+enum xmlElementType {
     XML_ELEMENT_NODE=		1,
     XML_ATTRIBUTE_NODE=		2,
     XML_TEXT_NODE=		3,
@@ -103,7 +103,7 @@ typedef enum {
 #ifdef LIBXML_DOCB_ENABLED
    ,XML_DOCB_DOCUMENT_NODE=	21
 #endif
-} xmlElementType;
+};
 
 
 /**
@@ -112,8 +112,8 @@ typedef enum {
  * A DTD Notation definition.
  */
 
-typedef struct _xmlNotation xmlNotation;
-typedef xmlNotation *xmlNotationPtr;
+using xmlNotation = struct _xmlNotation;
+using xmlNotationPtr = xmlNotation *;
 struct _xmlNotation {
     const xmlChar               *name;	        /* Notation name */
     const xmlChar               *PublicID;	/* Public identifier, if any */
@@ -126,7 +126,7 @@ struct _xmlNotation {
  * A DTD Attribute type definition.
  */
 
-typedef enum {
+enum xmlAttributeType {
     XML_ATTRIBUTE_CDATA = 1,
     XML_ATTRIBUTE_ID,
     XML_ATTRIBUTE_IDREF	,
@@ -137,7 +137,7 @@ typedef enum {
     XML_ATTRIBUTE_NMTOKENS,
     XML_ATTRIBUTE_ENUMERATION,
     XML_ATTRIBUTE_NOTATION
-} xmlAttributeType;
+};
 
 /**
  * xmlAttributeDefault:
@@ -145,12 +145,12 @@ typedef enum {
  * A DTD Attribute default definition.
  */
 
-typedef enum {
+enum xmlAttributeDefault {
     XML_ATTRIBUTE_NONE = 1,
     XML_ATTRIBUTE_REQUIRED,
     XML_ATTRIBUTE_IMPLIED,
     XML_ATTRIBUTE_FIXED
-} xmlAttributeDefault;
+};
 
 /**
  * xmlEnumeration:
@@ -158,8 +158,8 @@ typedef enum {
  * List structure used when there is an enumeration in DTDs.
  */
 
-typedef struct _xmlEnumeration xmlEnumeration;
-typedef xmlEnumeration *xmlEnumerationPtr;
+using xmlEnumeration = struct _xmlEnumeration;
+using xmlEnumerationPtr = xmlEnumeration *;
 struct _xmlEnumeration {
     struct _xmlEnumeration    *next;	/* next one */
     const xmlChar            *name;	/* Enumeration name */
@@ -171,8 +171,8 @@ struct _xmlEnumeration {
  * An Attribute declaration in a DTD.
  */
 
-typedef struct _xmlAttribute xmlAttribute;
-typedef xmlAttribute *xmlAttributePtr;
+using xmlAttribute = struct _xmlAttribute;
+using xmlAttributePtr = xmlAttribute *;
 struct _xmlAttribute {
     void           *_private;	        /* application data */
     xmlElementType          type;       /* XML_ATTRIBUTE_DECL, must be second ! */

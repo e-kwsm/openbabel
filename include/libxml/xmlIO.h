@@ -31,7 +31,7 @@ extern "C" {
  *
  * Returns 1 if yes and 0 if another Input module should be used
  */
-typedef int (*xmlInputMatchCallback) (char const *filename);
+using xmlInputMatchCallback = int (*)(const char *filename);
 /**
  * xmlInputOpenCallback:
  * @filename: the filename or URI
@@ -40,7 +40,7 @@ typedef int (*xmlInputMatchCallback) (char const *filename);
  *
  * Returns an Input context or NULL in case or error
  */
-typedef void * (*xmlInputOpenCallback) (char const *filename);
+using xmlInputOpenCallback = void *(*)(const char *filename);
 /**
  * xmlInputReadCallback:
  * @context:  an Input context
@@ -51,7 +51,7 @@ typedef void * (*xmlInputOpenCallback) (char const *filename);
  *
  * Returns the number of bytes read or -1 in case of error
  */
-typedef int (*xmlInputReadCallback) (void * context, char * buffer, int len);
+using xmlInputReadCallback = int (*)(void * context, char * buffer, int len);
 /**
  * xmlInputCloseCallback:
  * @context:  an Input context

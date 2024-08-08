@@ -14,7 +14,7 @@ using namespace OpenBabel;
 #endif
 
 
-typedef vector<vector3> vv3;
+using vv3 = vector<vector3>;
 
 void test_simpleAlign()
 {

@@ -182,7 +182,7 @@ namespace OpenBabel
       { "XNA", 'N' }, // Unknown Nucleic Acid
       { "", '\0' }
     };
-  typedef std::map< std::string, char > residue_lookup_map;
+  using residue_lookup_map = std::map<std::string, char>;
   residue_lookup_map residue_lookup;
 
   char
@@ -341,7 +341,7 @@ namespace OpenBabel
   HelixParameters DNA_helix = { 3.37998, 2*M_PI/10.0, 8 }; // HTER-OXT-.P-O5'-C5'-C4'-C3'-O3'-.P-O5'-C5'-C4'-C3'-O3'-.HCAP
   HelixParameters DNA_pair_helix = { -3.37998, -2*M_PI/10.0, 8 }; // Simply the negative of the above
   // HelixParameters DNA_strandAtoB = { 4.1600027464119, 3.3230513172128164 };
-  typedef OBAtom * ptrAtom;
+  using ptrAtom = OBAtom *;
   void add_bond(OBMol * pmol, OBAtom * from, OBAtom * to, int bond_order)
   {
     pmol->AddBond(from->GetIdx(), to->GetIdx(), bond_order);
@@ -349,7 +349,7 @@ namespace OpenBabel
   // #define GEN_BONDS 1
   void add_residue(OBMol * pmol, OBResidue * res, double offset_x, double offset_Theta, unsigned long & serial_no, ResidueRecord * res_rec, int resBondFromOffset, ptrAtom & resBondFrom, bool create_bonds, bool bond_orders)
   {
-    typedef std::vector<OBAtom *> atom_list;
+    using atom_list = std::vector<OBAtom *>;
     atom_list bond_refs;
     for (ResidueAtomRecord * atom_rec = res_rec->atom; atom_rec->symbol[0]; ++ atom_rec)
       {

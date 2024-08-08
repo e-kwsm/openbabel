@@ -188,7 +188,7 @@ private:
   std::map<CDXObjectID, std::vector<CDXObjectID> > _groupmap;
   // In case of chain A -> B -> C, B is both reactant and product
   CDXObjectID _lastProdId;
-  typedef std::map<CDXObjectID, std::vector<CDXObjectID> >::iterator GroupMapIterator;
+  using GroupMapIterator = std::map<CDXObjectID, std::vector<CDXObjectID>>::iterator;
   static const unsigned usedFlag = 1<<30;
 };
 

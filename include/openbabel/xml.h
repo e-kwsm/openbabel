@@ -69,7 +69,7 @@ namespace OpenBabel
       ///This is left as the current node. Returns 1 on success, 0 if not found, -1 if failed.
       int SkipXML(const char* ctag);
 
-      typedef std::map<std::string, XMLBaseFormat*> NsMapType;
+      using NsMapType = std::map<std::string, XMLBaseFormat*>;
 
       ///This static function returns a reference to the map
       ///Avoids "static initialization order fiasco"

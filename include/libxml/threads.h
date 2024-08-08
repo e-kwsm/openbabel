@@ -20,14 +20,14 @@ extern "C" {
 /*
  * xmlMutex are a simple mutual exception locks.
  */
-typedef struct _xmlMutex xmlMutex;
-typedef xmlMutex *xmlMutexPtr;
+using xmlMutex = struct _xmlMutex;
+using xmlMutexPtr = xmlMutex *;
 
 /*
  * xmlRMutex are reentrant mutual exception locks.
  */
-typedef struct _xmlRMutex xmlRMutex;
-typedef xmlRMutex *xmlRMutexPtr;
+using xmlRMutex = struct _xmlRMutex;
+using xmlRMutexPtr = xmlRMutex *;
 
 #ifdef __cplusplus
 }

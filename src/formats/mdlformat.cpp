@@ -151,7 +151,7 @@ namespace OpenBabel
       enum Parity {
         NotStereo, Clockwise, AntiClockwise, Unknown
       };
-      typedef map<unsigned int, unsigned int> HYDMap;
+      using HYDMap = map<unsigned int, unsigned int>;
       bool  HasProperties;
       string GetTimeDate();
       void GetUpDown(OBMol& mol, map<OBBond*, OBStereo::BondDirection> &updown, set<OBBond*> &stereodbl);

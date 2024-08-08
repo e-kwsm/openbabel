@@ -21,19 +21,19 @@ extern "C" {
  *
  * Indicates the level of an error
  */
-typedef enum {
+enum xmlErrorLevel {
     XML_ERR_NONE = 0,
     XML_ERR_WARNING = 1,	/* A simple warning */
     XML_ERR_ERROR = 2,		/* A recoverable error */
     XML_ERR_FATAL = 3		/* A fatal error */
-} xmlErrorLevel;
+};
 
 /**
  * xmlErrorDomain:
  *
  * Indicates where an error may have come from
  */
-typedef enum {
+enum xmlErrorDomain {
     XML_FROM_NONE = 0,
     XML_FROM_PARSER,	/* The XML parser */
     XML_FROM_TREE,	/* The tree module */
@@ -61,7 +61,7 @@ typedef enum {
     XML_FROM_CHECK,	/* The error checking module */
     XML_FROM_WRITER,	/* The xmlwriter module */
     XML_FROM_MODULE	/* The dynamically loaded module module*/
-} xmlErrorDomain;
+};
 
 /**
  * xmlError:
@@ -69,8 +69,8 @@ typedef enum {
  * An XML Error instance.
  */
 
-typedef struct _xmlError xmlError;
-typedef xmlError *xmlErrorPtr;
+using xmlError = struct _xmlError;
+using xmlErrorPtr = xmlError *;
 struct _xmlError {
     int		domain;	/* What part of the library raised this error */
     int		code;	/* The error code, e.g. an xmlParserError */
