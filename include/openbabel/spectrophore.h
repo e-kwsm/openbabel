@@ -379,7 +379,7 @@ Spectrophores&tm; are recommended.
 
          \param   r The desired resolution expressed as a double number
          */
-         void SetResolution(const double r = 3.0);
+         void SetResolution(double r = 3.0);
 
          /** Method to set the accuracy at which Spectrophores&tm; will be
          calculated.
@@ -409,7 +409,7 @@ Spectrophores&tm; are recommended.
          \param  a The desired accuracy expressed as an
          OBSpectrophore::AccuracyOption enumeration type
          */
-         void SetAccuracy(const AccuracyOption a = AngStepSize20);
+         void SetAccuracy(AccuracyOption a = AngStepSize20);
 
          /** Method to set the required stereoselectivity of the resulting
          Spectrophores&tm;.
@@ -433,7 +433,7 @@ Spectrophores&tm; are recommended.
          \param   s The desired stereospecificity treatment expressed as an
          OBSpectrophore::StereoOption enumeration type
          */
-         void SetStereo(const StereoOption s = NoStereoSpecificProbes);
+         void SetStereo(StereoOption s = NoStereoSpecificProbes);
 
          /** Method to set the desired normalization treatment of the calculated
          Spectrophores&tm;.
@@ -452,7 +452,7 @@ Spectrophores&tm; are recommended.
          \param   n The desired normalization treatment expressed as an
          OBSpectrophore::NormalizationOption enumeration type
          */
-         void SetNormalization(const NormalizationOption n = NoNormalization);
+         void SetNormalization(NormalizationOption n = NoNormalization);
          //@}
 
          /** \name Get methods */
@@ -585,9 +585,9 @@ while (obconversion.Read(&mol, &ifs))
          void _setBox(void);
          void _getEnergies(double**, double*);
          void _initiateSpectrophore(double*, double*);
-         void _rotateX(double**, double**, const double, const double);
-         void _rotateY(double**, double**, const double, const double);
-         void _rotateZ(double**, double**, const double, const double);
+         void _rotateX(double**, double**, double, double);
+         void _rotateY(double**, double**, double, double);
+         void _rotateZ(double**, double**, double, double);
          void _updateSpectrophore(double*, double*);
          void _calculateProperties(OpenBabel::OBMol*);
          void _solveMatrix(double**, double*, unsigned int);
