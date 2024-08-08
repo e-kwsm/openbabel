@@ -212,9 +212,9 @@ namespace OpenBabel
                   tokenize(vs,buffer);
                 } // while
                 Lx.push_back(vib1);
-	        if (vib2.size())
+	        if (!vib2.empty())
                   Lx.push_back(vib2);
-	        if (vib3.size())
+	        if (!vib3.empty())
                   Lx.push_back(vib3);
 	        ifs.getline(buffer,BUFF_SIZE);     // Symmetries (or end of frequencies)
 	      } // while
@@ -243,7 +243,7 @@ namespace OpenBabel
     }
 
     //Attach vibrational data, if there is any, to molecule
-    if(Frequencies.size()>0)
+    if(!Frequencies.empty())
     {
       OBVibrationData* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);

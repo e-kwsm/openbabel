@@ -65,7 +65,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
     if (line.find("atomic coordinates") != std::string::npos) {
       // The next lines contain 8 fields:
       // x y z atom shells charge pseudo isotop
-      while (std::getline(ifs, line) && line.length()) {
+      while (std::getline(ifs, line) && !line.empty()) {
         tokenize(vs, line);
         OBAtom *atom = mol.NewAtom();
         vector3 coords(atof(vs[0].c_str()),
