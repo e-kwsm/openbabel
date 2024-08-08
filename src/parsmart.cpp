@@ -332,15 +332,19 @@ namespace OpenBabel
    */
   static bool EquivalentBondExpr( BondExpr *expr1, BondExpr *expr2 )
   {
-    if (expr1 == nullptr && expr2 == nullptr)
+    if (expr1 == nullptr && expr2 == nullptr) {
       return true;
-    if (expr1 == nullptr && expr2 != nullptr)
+    }
+    if (expr1 == nullptr && expr2 != nullptr) {
       return false;
-    if (expr1 != nullptr && expr2 == nullptr)
+    }
+    if (expr1 != nullptr && expr2 == nullptr) {
       return false;
+    }
 
-    if (expr1->type != expr2->type)
+    if (expr1->type != expr2->type) {
       return false;
+    }
 
     switch( expr1->type )
       {
@@ -445,8 +449,9 @@ namespace OpenBabel
   {
     int index,size;
 
-    if (!pat)
+    if (!pat) {
       return -1; // should never happen
+    }
 
     if( pat->acount == pat->aalloc )
       {
@@ -460,9 +465,12 @@ namespace OpenBabel
             pat->atom = tmp;
           }
         else
+        {
           pat->atom = new AtomSpec[pat->aalloc];
-        if( !pat->atom )
+        }
+        if( !pat->atom ) {
           FatalAllocationError("atom pool");
+        }
       }
 
     index = pat->acount++;
@@ -477,8 +485,9 @@ namespace OpenBabel
   {
     int index,size;
 
-    if (!pat)
+    if (!pat) {
       return -1; // should never happen
+    }
 
     if( pat->bcount == pat->balloc )
       {
@@ -492,9 +501,12 @@ namespace OpenBabel
             pat->bond = tmp;
           }
         else
+        {
           pat->bond = new BondSpec[pat->balloc];
-        if( !pat->bond )
+        }
+        if( !pat->bond ) {
           FatalAllocationError("bond pool");
+        }
       }
 
     index = pat->bcount++;
@@ -536,8 +548,9 @@ namespace OpenBabel
       {
         if( pat->aalloc )
           {
-            for( i=0; i<pat->acount; i++ )
+            for( i=0; i<pat->acount; i++ ) {
               FreeAtomExpr(pat->atom[i].expr);
+            }
             if (pat->atom != nullptr) {
               //free(pat->atom);
               delete [] pat->atom;
@@ -547,8 +560,9 @@ namespace OpenBabel
 
         if( pat->balloc )
           {
-            for( i=0; i<pat->bcount; i++ )
+            for( i=0; i<pat->bcount; i++ ) {
               FreeBondExpr(pat->bond[i].expr);
+            }
             if (pat->bond != nullptr) {
               //free(pat->bond);
               delete [] pat->bond;
@@ -645,12 +659,14 @@ namespace OpenBabel
     switch( *LexPtr++ )
       {
       case('#'):
-        if( !isdigit(*LexPtr) )
+        if( !isdigit(*LexPtr) ) {
           return nullptr;
+        }
 
         index = 0;
-        while( isdigit(*LexPtr) )
+        while( isdigit(*LexPtr) ) {
           index = index*10 + ((*LexPtr++)-'0');
+        }
         if( index > 255 )
           {
             LexPtr--;
@@ -659,13 +675,15 @@ namespace OpenBabel
         return( GenerateElement(index) );
 
       case('$'):
-        if( *LexPtr != '(' )
+        if( *LexPtr != '(' ) {
           return nullptr;
+        }
         LexPtr++;
         pat = ParseSMARTSPattern();
 
-        if( !pat )
+        if( !pat ) {
           return nullptr;
+        }
         if( *LexPtr != ')' )
           {
             FreePattern(pat);
@@ -681,8 +699,9 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
           }
         else
           {
@@ -699,8 +718,9 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
           }
         else
           {
@@ -719,8 +739,9 @@ namespace OpenBabel
             LexPtr++;
             return BuildAtomLeaf(AE_CHIRAL,AL_UNSPECIFIED); // unspecified
           }
-        else if (*LexPtr != '@')
+        else if (*LexPtr != '@') {
           return BuildAtomLeaf(AE_CHIRAL,AL_ANTICLOCKWISE);
+        }
         else
           {
             LexPtr++;
@@ -731,18 +752,22 @@ namespace OpenBabel
         if (isdigit(*LexPtr))
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
             return BuildAtomLeaf(AE_HYB,index);
           }
         else
+        {
           return BuildAtomLeaf(AE_HYB,1);
+        }
 
       case('0'): case('1'): case('2'): case('3'): case('4'):
       case('5'): case('6'): case('7'): case('8'): case('9'):
         index = LexPtr[-1]-'0';
-        while( isdigit(*LexPtr) )
+        while( isdigit(*LexPtr) ) {
           index = index*10 + ((*LexPtr++)-'0');
+        }
         return BuildAtomLeaf(AE_MASS,index);
 
       case('A'):
@@ -798,8 +823,9 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
             return BuildAtomLeaf(AE_DEGREE,index);
           }
         return BuildAtomLeaf(AE_DEGREE,1);
@@ -882,8 +908,9 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
             return BuildAtomLeaf(AE_HCOUNT,index);
           }
         return BuildAtomLeaf(AE_HCOUNT,1);
@@ -1006,10 +1033,12 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
-            if( index == 0 )
+            }
+            if( index == 0 ) {
               return BuildAtomPred(AE_ACYCLIC);
+            }
             return BuildAtomLeaf(AE_RINGS,index);
           }
         return BuildAtomPred(AE_CYCLIC);
@@ -1056,10 +1085,12 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
-            if (index == 0) // default to 1 (if no number present)
+            }
+            if (index == 0) { // default to 1 (if no number present)
               index = 1;
+            }
             return BuildAtomLeaf(AE_CONNECT,index);
           }
         return BuildAtomLeaf(AE_CONNECT,1);
@@ -1100,11 +1131,14 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
           }
         else
+        {
           index = 1;
+        }
         return BuildAtomLeaf(AE_IMPLICIT,index);
 
       case('n'):  return GenerateAromElem(7,true);
@@ -1115,10 +1149,12 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
-            if( index == 0 )
+            }
+            if( index == 0 ) {
               return BuildAtomPred(AE_ACYCLIC);
+            }
             return BuildAtomLeaf(AE_SIZE,index);
           }
         return BuildAtomPred(AE_CYCLIC);
@@ -1135,8 +1171,9 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
             return BuildAtomLeaf(AE_VALENCE,index);
           }
         return BuildAtomLeaf(AE_VALENCE,1);
@@ -1145,8 +1182,9 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) )
+            while( isdigit(*LexPtr) ) {
               index = index*10 + ((*LexPtr++)-'0');
+            }
             return BuildAtomLeaf(AE_RINGCONNECT,index);
           }
         return BuildAtomPred(AE_CYCLIC);
@@ -1164,8 +1202,9 @@ namespace OpenBabel
     switch( level )
       {
       case(0): /* Low Precedence Conjunction */
-        if( !(expr1=ParseAtomExpr(1)) )
+        if( !(expr1=ParseAtomExpr(1)) ) {
           return nullptr;
+        }
 
         while( *LexPtr == ';' )
           {
@@ -1180,8 +1219,9 @@ namespace OpenBabel
         return expr1;
 
       case(1): /* Disjunction */
-        if( !(expr1=ParseAtomExpr(2)) )
+        if( !(expr1=ParseAtomExpr(2)) ) {
           return nullptr;
+        }
 
         while( *LexPtr == ',' )
           {
@@ -1196,14 +1236,16 @@ namespace OpenBabel
         return( expr1 );
 
       case(2): /* High Precedence Conjunction */
-        if( !(expr1=ParseAtomExpr(3)) )
+        if( !(expr1=ParseAtomExpr(3)) ) {
           return nullptr;
+        }
 
         while( (*LexPtr!=']') && (*LexPtr!=';') &&
                (*LexPtr!=',') && *LexPtr )
           {
-            if( *LexPtr=='&' )
+            if( *LexPtr=='&' ) {
               LexPtr++;
+            }
             prev = LexPtr;
             if( !(expr2=ParseAtomExpr(3)) )
               {
@@ -1213,7 +1255,9 @@ namespace OpenBabel
                     return nullptr;
                   }
                 else
+                {
                   return( expr1 );
+                }
               }
             expr1 = BuildAtomBin(AE_ANDHI,expr1,expr2);
           }
@@ -1223,8 +1267,9 @@ namespace OpenBabel
         if( *LexPtr == '!' )
           {
             LexPtr++;
-            if( !(expr1=ParseAtomExpr(3)) )
+            if( !(expr1=ParseAtomExpr(3)) ) {
               return nullptr;
+            }
             return( BuildAtomNot(expr1) );
           }
         return( ParseComplexAtomPrimitive() );
@@ -1264,8 +1309,9 @@ namespace OpenBabel
     switch( level )
       {
       case(0): /* Low Precedence Conjunction */
-        if( !(expr1=ParseBondExpr(1)) )
+        if( !(expr1=ParseBondExpr(1)) ) {
           return nullptr;
+        }
 
         while( *LexPtr == ';' )
           {
@@ -1280,8 +1326,9 @@ namespace OpenBabel
         return expr1;
 
       case(1): /* Disjunction */
-        if( !(expr1=ParseBondExpr(2)) )
+        if( !(expr1=ParseBondExpr(2)) ) {
           return nullptr;
+        }
 
         while( *LexPtr == ',' )
           {
@@ -1296,14 +1343,16 @@ namespace OpenBabel
         return expr1;
 
       case(2): /* High Precedence Conjunction */
-        if( !(expr1=ParseBondExpr(3)) )
+        if( !(expr1=ParseBondExpr(3)) ) {
           return nullptr;
+        }
 
         while( (*LexPtr!=']') && (*LexPtr!=';') &&
                (*LexPtr!=',') && *LexPtr )
           {
-            if( *LexPtr == '&' )
+            if( *LexPtr == '&' ) {
               LexPtr++;
+            }
             prev = LexPtr;
             if( !(expr2=ParseBondExpr(3)) )
               {
@@ -1313,7 +1362,9 @@ namespace OpenBabel
                     return nullptr;
                   }
                 else
+                {
                   return expr1;
+                }
               }
             expr1 = BuildBondBin(BE_ANDHI,expr1,expr2);
           }
@@ -1323,8 +1374,9 @@ namespace OpenBabel
         if( *LexPtr == '!' )
           {
             LexPtr++;
-            if( !(expr1=ParseBondExpr(3)) )
+            if( !(expr1=ParseBondExpr(3)) ) {
               return nullptr;
+            }
             return BuildBondNot(expr1);
           }
         return ParseBondPrimitive();
@@ -1340,8 +1392,9 @@ namespace OpenBabel
     if(isdigit(*LexPtr))
       {
         vb = 0;
-        while( isdigit(*LexPtr) )
+        while( isdigit(*LexPtr) ) {
           vb = vb*10 + ((*LexPtr++)-'0');
+        }
       }
 
     return(vb);
@@ -1349,8 +1402,9 @@ namespace OpenBabel
 
   Pattern *OBSmartsPattern::ParseSMARTSError( Pattern *pat, BondExpr *expr )
   {
-    if( expr )
+    if( expr ) {
       FreeBondExpr(expr);
+    }
     return SMARTSError(pat);
   }
 
@@ -1376,10 +1430,12 @@ namespace OpenBabel
           case(':'):  case('~'):  case('@'):
           case('/'):  case('\\'): case('!'):
             LexPtr--;
-            if( (prev==-1) || bexpr )
+            if( (prev==-1) || bexpr ) {
               return ParseSMARTSError(pat,bexpr);
-            if( !(bexpr=ParseBondExpr(0)) )
+            }
+            if( !(bexpr=ParseBondExpr(0)) ) {
               return ParseSMARTSError(pat,bexpr);
+            }
             break;
 
           case('('):
@@ -1392,27 +1448,32 @@ namespace OpenBabel
               {
                 index = pat->acount;
                 pat = SMARTSParser(pat,stat,-1,part);
-                if( !pat )
+                if( !pat ) {
                   return nullptr;
-                if( index == pat->acount )
+                }
+                if( index == pat->acount ) {
                   return ParseSMARTSError(pat,bexpr);
+                }
                 prev = index;
               }
             else
               {
                 pat = SMARTSParser(pat,stat,prev,part);
-                if( !pat )
+                if( !pat ) {
                   return nullptr;
+                }
               }
 
-            if( *LexPtr != ')' )
+            if( *LexPtr != ')' ) {
               return ParseSMARTSError(pat,bexpr);
+            }
             LexPtr++;
             break;
 
           case(')'):  LexPtr--;
-            if( (prev==-1) || bexpr )
+            if( (prev==-1) || bexpr ) {
               return ParseSMARTSError(pat,bexpr);
+            }
             return pat;
 
           case('%'):  if( prev == -1 )
@@ -1427,7 +1488,9 @@ namespace OpenBabel
                 LexPtr += 2;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
 
             if( stat->closure[index] == -1 )
               {
@@ -1440,25 +1503,30 @@ namespace OpenBabel
                   if (!stat->closord[index]) {
                     bexpr = GenerateDefaultBond();
                     FreeBondExpr(stat->closord[index]);
-                  } else
+                  } else {
                     bexpr = stat->closord[index];
-                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index]))
+                  }
+                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index])) {
                   return ParseSMARTSError(pat,bexpr);
+                }
 
                 CreateBond(pat,bexpr,prev,stat->closure[index]);
                 stat->closure[index] = -1;
                 bexpr = nullptr;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
             break;
 
           case('0'):  case('1'):  case('2'):
           case('3'):  case('4'):  case('5'):
           case('6'):  case('7'):  case('8'):
           case('9'):  LexPtr--;
-            if( prev == -1 )
+            if( prev == -1 ) {
               return ParseSMARTSError(pat,bexpr);
+            }
             index = (*LexPtr++)-'0';
 
             if( stat->closure[index] == -1 )
@@ -1474,22 +1542,27 @@ namespace OpenBabel
                   if (!stat->closord[index]) {
                     bexpr = GenerateDefaultBond();
                     FreeBondExpr(stat->closord[index]);
-                  } else
+                  } else {
                     bexpr = stat->closord[index];
-                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index]))
+                  }
+                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index])) {
                   return ParseSMARTSError(pat,bexpr);
+                }
 
                 CreateBond(pat,bexpr,prev,stat->closure[index]);
                 pat->atom[prev].nbrs.push_back(stat->closure[index]);
                 for (unsigned int nbr_idx=0; nbr_idx < pat->atom[stat->closure[index]].nbrs.size(); ++nbr_idx) {
-                  if (pat->atom[stat->closure[index]].nbrs[nbr_idx] == -index)
+                  if (pat->atom[stat->closure[index]].nbrs[nbr_idx] == -index) {
                     pat->atom[stat->closure[index]].nbrs[nbr_idx] = prev;
+                  }
                 }
                 stat->closure[index] = -1;
                 bexpr = nullptr;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
             break;
 
           case('['):
@@ -1501,7 +1574,9 @@ namespace OpenBabel
                 pat->hasExplicitH = true;
               }
             else
+            {
               aexpr = ParseAtomExpr(0);
+            }
             vb = (*LexPtr == ':') ? GetVectorBinding():0;
             if( aexpr == nullptr || (*LexPtr!=']') ){
               if (aexpr != nullptr){
@@ -1514,8 +1589,9 @@ namespace OpenBabel
             index = CreateAtom(pat,aexpr,part,vb);
             if( prev != -1 )
               {
-                if( !bexpr )
+                if( !bexpr ) {
                   bexpr = GenerateDefaultBond();
+                }
                 CreateBond(pat,bexpr,prev,index);
                 pat->atom[index].nbrs.push_back(prev);
                 pat->atom[prev].nbrs.push_back(index);
@@ -1531,13 +1607,15 @@ namespace OpenBabel
           default:
             LexPtr--;
             aexpr = ParseSimpleAtomPrimitive();
-            if( !aexpr )
+            if( !aexpr ) {
               return ParseSMARTSError(pat,bexpr);
+            }
             index = CreateAtom(pat,aexpr,part);
             if( prev != -1 )
               {
-                if( !bexpr )
+                if( !bexpr ) {
                   bexpr = GenerateDefaultBond();
+                }
                 CreateBond(pat,bexpr,prev,index);
                 pat->atom[index].nbrs.push_back(prev);
                 pat->atom[prev].nbrs.push_back(index);
@@ -1547,8 +1625,9 @@ namespace OpenBabel
           }
       }
 
-    if( (prev==-1) || bexpr )
+    if( (prev==-1) || bexpr ) {
       return ParseSMARTSError(pat,bexpr);
+    }
 
     return pat;
   }
@@ -1581,23 +1660,23 @@ namespace OpenBabel
         case AE_ANDLO:
           tmp1 = GetChiralFlag(expr->bin.lft);
           tmp2 = GetChiralFlag(expr->bin.rgt);
-          if (tmp1 == 0) return tmp2;
-          if (tmp2 == 0) return tmp1;
-          if (tmp1 == tmp2) return tmp1;
+          if (tmp1 == 0) { return tmp2; }
+          if (tmp2 == 0) { return tmp1; }
+          if (tmp1 == tmp2) { return tmp1; }
           break;
 
         case AE_OR:
           tmp1 = GetChiralFlag(expr->bin.lft);
           tmp2 = GetChiralFlag(expr->bin.rgt);
-          if (tmp1 == 0 || tmp2 == 0) return 0;
-          if (tmp1 == tmp2) return tmp1;
+          if (tmp1 == 0 || tmp2 == 0) { return 0; }
+          if (tmp1 == tmp2) { return tmp1; }
           break;
 
         case AE_NOT:
           // Treat [!@] as [@@], and [!@@] as [@]
           tmp1 = GetChiralFlag(expr->mon.arg);
-          if (tmp1 == AL_ANTICLOCKWISE) return AL_CLOCKWISE;
-          if (tmp1 == AL_CLOCKWISE) return AL_ANTICLOCKWISE;
+          if (tmp1 == AL_ANTICLOCKWISE) { return AL_CLOCKWISE; }
+          if (tmp1 == AL_CLOCKWISE) { return AL_ANTICLOCKWISE; }
           break;
       }
 
@@ -1609,23 +1688,26 @@ namespace OpenBabel
     ParseState stat;
     int i,flag;
 
-    for( i=0; i<100; i++ )
+    for( i=0; i<100; i++ ) {
       stat.closure[i] = -1;
+    }
 
     result = SMARTSParser(result,&stat,-1,part);
 
     flag = false;
-    for( i=0; i<100; i++ )
+    for( i=0; i<100; i++ ) {
       if( stat.closure[i] != -1 )
         {
           FreeBondExpr(stat.closord[i]);
           flag = true;
         }
+    }
 
     if( result )
       {
-        if( flag )
+        if( flag ) {
           return(SMARTSError(result));
+        }
         else
           {
             MarkGrowBonds(result);
@@ -1633,14 +1715,17 @@ namespace OpenBabel
             for (i = 0;i < result->acount;++i)
               {
                 result->atom[i].chiral_flag = GetChiralFlag(result->atom[i].expr);
-                if (result->atom[i].chiral_flag)
+                if (result->atom[i].chiral_flag) {
                   result->ischiral = true;
+                }
               }
             return(result);
           }
       }
     else
+    {
       return nullptr;
+    }
   }
 
 
