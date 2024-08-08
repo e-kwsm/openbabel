@@ -698,7 +698,7 @@ namespace OpenBabel {
             bool _onlyOne) : symmetry_classes(_symmetry_classes), fragment(_fragment),
           onlyOne(_onlyOne), stereoCenters(_stereoCenters),
           code(_symmetry_classes.size()), identityCodes(_identityCodes),
-          backtrackDepth(0), orbits(_orbits), mcr(_mcr)
+          orbits(_orbits), mcr(_mcr)
       {
         mcr.Clear();
         if (mcr.IsEmpty())
@@ -727,7 +727,7 @@ namespace OpenBabel {
        * Identity nodes of the search tree.
        */
       std::vector<FullCode> identityCodes;
-      unsigned int backtrackDepth;
+      unsigned int backtrackDepth = 0;
       Orbits orbits;
       OBBitVec &mcr;
     };
