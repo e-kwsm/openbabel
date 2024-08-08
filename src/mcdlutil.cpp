@@ -1314,7 +1314,8 @@ namespace OpenBabel {
               if (s == "E") {
                 sa->na=ANY_ATOM;
                 sa->special=1;
-              } else { sa->na=6;//Atom.positionofAtom(s); }
+              } else { sa->na=6;//Atom.positionofAtom(s);
+              }
       n=n+1;
       s=value.substr(n,4);
       n=n+4;
@@ -1343,7 +1344,7 @@ namespace OpenBabel {
       addBond(sb);
     };
   };
-  }
+
 
   void TSimpleMolecule::addAtom(TSingleAtom * sa){
     fAtom.push_back(sa);
