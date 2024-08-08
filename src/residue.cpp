@@ -806,19 +806,27 @@ namespace OpenBabel
             if( ch2 == 'E' )
               {
                 if( ch3 == 'R' )
+                {
                   return(  3 );
+                }
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == '4' )
+                {
                   return( 48 );
+                }
                 else if( ch3 == 'L' )
+                {
                   return( 46 );    /* "SOL" -> "HOH" */
+                }
               }
             else if( ch2 == 'U' )
               {
                 if( ch3 == 'L' )
+                {
                   return( 48 );    /* "SUL" -> "SO4" */
+                }
               }
 
             break;
@@ -828,26 +836,38 @@ namespace OpenBabel
             if( ch2 == 'H' )
               {
                 if( ch3 == 'R' )
+                {
                   return(  5 );
+                }
                 else if( ch3 == 'Y' )
+                {
                   return( 27 );    /* "THY" -> "  T" */
+                }
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'R' )
+                {
                   return( 15 );
+                }
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'P' )
+                {
                   return( 19 );
+                }
                 else if( ch3 == 'Y' )
+                {
                   return( 19 );    /* "TRY" -> "TRP" */
+                }
               }
             else if( ch2 == 'I' )
               {
                 if( ch3 == 'P' )
+                {
                   return( 46 );    /* "TIP" -> "HOH" */
+                }
               }
 
             break;
@@ -857,14 +877,20 @@ namespace OpenBabel
             if( ch2 == 'N' )
               {
                 if( ch3 == 'K' )
+                {
                   return( 43 );
+                }
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'A' )
+                {
                   return( 28 );    /* "URA" -> "  U" */
+                }
                 else if( ch3 == 'I' )
+                {
                   return( 28 );    /* "URI" -> "  U" */
+                }
               }
 
             break;
@@ -872,16 +898,24 @@ namespace OpenBabel
           case('V'):
 
             if( ch2 == 'A' )
+            {
               if( ch3 == 'L' )
+              {
                 return(  4 );
+              }
+            }
 
             break;
 
           case('W'):
 
             if( ch2 == 'A' )
+            {
               if( ch3 == 'T' )
+              {
                 return( 46 );    /* "WAT" -> "HOH" */
+              }
+            }
 
             break;
           }

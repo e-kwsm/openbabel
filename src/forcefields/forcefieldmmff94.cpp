@@ -337,7 +337,9 @@ namespace OpenBabel
     }
 
     if (!isfinite(theta))
+    {
       theta = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+    }
 
     delta_theta = theta - theta0;
     delta_rab = rab - rab0;
@@ -426,17 +428,29 @@ namespace OpenBabel
     row = 0;
 
     if (atom->GetAtomicNum() > 2)
+    {
       row++;
+    }
     if (atom->GetAtomicNum() > 10)
+    {
       row++;
+    }
     if (atom->GetAtomicNum() > 18)
+    {
       row++;
+    }
     if (atom->GetAtomicNum() > 36)
+    {
       row++;
+    }
     if (atom->GetAtomicNum() > 54)
+    {
       row++;
+    }
     if (atom->GetAtomicNum() > 86)
+    {
       row++;
+    }
 
     return row;
   }
@@ -468,7 +482,9 @@ namespace OpenBabel
       tor = OBForceField::VectorTorsionDerivative(pos_a, pos_b, pos_c, pos_d,
                                                   force_a, force_b, force_c, force_d);
       if (!isfinite(tor))
+      {
         tor = 1.0e-3;
+      }
 
       sine = sin(DEG_TO_RAD * tor);
       sine2 = sin(2.0 * DEG_TO_RAD * tor);
@@ -483,7 +499,9 @@ namespace OpenBabel
     } else {
       tor = OBForceField::VectorTorsion(pos_a, pos_b, pos_c, pos_d);
       if (!isfinite(tor))
+      {
         tor = 1.0e-3;
+      }
     }
 
     cosine = cos(DEG_TO_RAD * tor);
@@ -589,7 +607,9 @@ namespace OpenBabel
     }
 
     if (!isfinite(angle))
+    {
       angle = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+    }
 
     angle2 = angle * angle;
     energy = koop * angle2;
@@ -711,8 +731,12 @@ namespace OpenBabel
     for (int i = 0; i < _vdwcalculations.size(); ++i) {
       // Cut-off check
       if (_cutoff)
+      {
         if (!_vdwpairs.BitIsSet(_vdwcalculations[i].pairIndex))
+        {
           continue;
+        }
+      }
 
       _vdwcalculations[i].template Compute<gradients>();
       energy += _vdwcalculations[i].energy;
@@ -797,8 +821,12 @@ namespace OpenBabel
     for (int i = 0; i < _electrostaticcalculations.size(); ++i) {
       // Cut-off check
       if (_cutoff)
+      {
         if (!_elepairs.BitIsSet(_electrostaticcalculations[i].pairIndex))
+        {
           continue;
+        }
+      }
 
       _electrostaticcalculations[i].template Compute<gradients>();
       energy += _electrostaticcalculations[i].energy;
@@ -885,40 +913,68 @@ namespace OpenBabel
     }
 
     while (ifs.getline(buffer, 80)) {
-      if (EQn(buffer, "#", 1)) continue;
+      if (EQn(buffer, "#", 1)) { continue; }
 
       tokenize(vs, buffer);
       if (vs.size() < 2)
+      {
         continue;
+      }
 
       if (vs[0] == "prop")
+      {
         ParseParamProp(vs[1]);
+      }
       if (vs[0] == "def")
+      {
         ParseParamDef(vs[1]);
+      }
       if (vs[0] == "bond")
+      {
         ParseParamBond(vs[1]);
+      }
       if (vs[0] == "ang")
+      {
         ParseParamAngle(vs[1]);
+      }
       if (vs[0] == "bndk")
+      {
         ParseParamBndk(vs[1]);
+      }
       if (vs[0] == "chg")
+      {
         ParseParamCharge(vs[1]);
+      }
       if (vs[0] == "dfsb")
+      {
         ParseParamDfsb(vs[1]);
+      }
       if (vs[0] == "oop")
+      {
         ParseParamOOP(vs[1]);
+      }
       if (vs[0] == "pbci")
+      {
         ParseParamPbci(vs[1]);
+      }
       if (vs[0] == "stbn")
+      {
         ParseParamStrBnd(vs[1]);
+      }
       if (vs[0] == "tor")
+      {
         ParseParamTorsion(vs[1]);
+      }
       if (vs[0] == "vdw")
+      {
         ParseParamVDW(vs[1]);
+      }
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     // return the locale to the original one
     obLocale.RestoreLocale();
@@ -955,7 +1011,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -989,7 +1047,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1025,7 +1085,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1061,7 +1123,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1096,7 +1160,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1131,7 +1197,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1169,7 +1237,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1201,16 +1271,24 @@ namespace OpenBabel
       parameter._dpar.push_back(atof(vs[3].c_str()));  // A-i
       parameter._dpar.push_back(atof(vs[4].c_str()));  // G-i
       if (EQn(vs[5].c_str(), "-", 1))
+      {
         parameter._ipar.push_back(0);
+      }
       else if (EQn(vs[5].c_str(), "D", 1))
+      {
         parameter._ipar.push_back(1);  // hydrogen bond donor
+      }
       else if (EQn(vs[5].c_str(), "A", 1))
+      {
         parameter._ipar.push_back(2);  // hydrogen bond acceptor
+      }
       _ffvdwparams.push_back(parameter);
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1244,7 +1322,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1277,7 +1357,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1314,19 +1396,29 @@ namespace OpenBabel
       parameter._ipar.push_back(atoi(vs[8].c_str()));  // sbmb
 
       if (parameter._ipar[3])
+      {
         _ffpropPilp.SetBitOn(parameter.a);
+      }
       if (parameter._ipar[5])
+      {
         _ffpropArom.SetBitOn(parameter.a);
+      }
       if (parameter._ipar[6])
+      {
         _ffpropLin.SetBitOn(parameter.a);
+      }
       if (parameter._ipar[7])
+      {
         _ffpropSbmb.SetBitOn(parameter.a);
+      }
 
       _ffpropparams.push_back(parameter);
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }

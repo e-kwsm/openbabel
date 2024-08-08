@@ -822,22 +822,32 @@ namespace OpenBabel
     }
 
     for (i = _torsionAngles.begin();i != _torsionAngles.end();++i)
+    {
       if (*i >= 0.0 && *i < 2.0*M_PI / fold)
+      {
             tv.push_back(*i);
+      }
+    }
 
     if (tv.empty())
+    {
       return;
+    }
     _torsionAngles = tv;
   }
 
   void OBRotor::SetDihedralAtoms(std::vector<int> &ref)
   {
     if (ref.size() != 4)
+    {
       return;
+    }
     // copy indexes starting from 1
     _ref.resize(4);
     for (int i = 0;i < 4;++i)
+    {
       _ref[i] = ref[i];
+    }
     _torsion.resize(4);
     // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
     _torsion[0] = (ref[0]-1)*3;

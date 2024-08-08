@@ -133,7 +133,9 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
 		int hash = CalcHash(*itr);
 		SetBit(fp,hash);
 		if(!(Flags() & FPT_NOINFO))
+		{
       PrintFpt(*itr,hash);
+		}
 	}
 	if(nbits)
 		Fold(fp, nbits);

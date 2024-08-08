@@ -351,20 +351,33 @@ namespace OpenBabel
         vector3 t;
         t = *(*i) * v;
         if (t.x() < 0.)
+        {
           t.x() += 1.;
+        }
         if (t.x() >= 1.)
+        {
           t.x() -= 1.;
+        }
         if (t.y() < 0.)
+        {
           t.y() += 1.;
+        }
         if (t.y() >= 1.)
+        {
           t.y() -= 1.;
+        }
         if (t.z() < 0.)
+        {
           t.z() += 1.;
+        }
         if (t.z() >= 1.)
+        {
           t.z() -= 1.;
+        }
         list<vector3>::iterator j, jend = res.end();
         bool duplicate = false;
         for (j = res.begin(); j != jend; ++j)
+        {
           if (fabs(t.x() - (*j).x()) < prec &&
               fabs(t.y() - (*j).y()) < prec &&
               fabs(t.z() - (*j).z()) < prec)
@@ -372,6 +385,7 @@ namespace OpenBabel
               duplicate = true;
               break;
             }
+        }
         if (!duplicate)
         {
           res.push_back (t);
@@ -471,7 +485,9 @@ namespace OpenBabel
             // Also use the symbol stripped from whitespaces as key
             std::string stripped_HM=RemoveWhiteSpaceUnderscore(nm);
             if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[nm] == nullptr)
+            {
               _SpaceGroups.sgbn[nm] = this;
+            }
 		  }
         if ((m_OriginAlternative & 1) == 0 && _SpaceGroups.sgbn[m_HM] == nullptr)
           _SpaceGroups.sgbn[m_HM] = this;

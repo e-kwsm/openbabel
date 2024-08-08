@@ -185,11 +185,15 @@ namespace OpenBabel
 
     itr = pOptions->find("add");  //adds new properties from descriptors in list
     if(itr!=pOptions->end())
+    {
       OBDescriptor::AddProperties(this, itr->second);
+    }
 
     itr = pOptions->find("delete"); //deletes the specified properties
     if(itr!=pOptions->end())
+    {
       OBDescriptor::DeleteProperties(this, itr->second);
+    }
 
     itr = pOptions->find("append"); //Appends values of descriptors or properties to title
     if(itr!=pOptions->end())
@@ -197,7 +201,9 @@ namespace OpenBabel
         string title(GetTitle());
         title += OBDescriptor::GetValues(this, itr->second);
         if(ispunct(title[0]))
+        {
           title[0]=' ';//a leading punct char is used only as a separator, not at start
+        }
         SetTitle(Trim(title).c_str());
       }
 
