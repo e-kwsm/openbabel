@@ -443,8 +443,9 @@ namespace OpenBabel
   //! Free a ByteCode and all corresponding data
   static void DeleteByteCode(ByteCode *node)
   {
-    if (node == nullptr)
+    if (node == nullptr) {
       return;
+    }
     else
       {
         switch (node->type)
@@ -523,7 +524,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->ident.fcond;
+                }
               }
 
             if (!found)
@@ -540,8 +543,9 @@ namespace OpenBabel
           }
         else if( MonoAtom[curr].index != -1 )
           {
-            while( *node && ((*node)->type==BC_IDENT) )
+            while( *node && ((*node)->type==BC_IDENT) ) {
               node = (ByteCode**)&(*node)->ident.fcond;
+            }
 
             found = false;
             while( *node && ((*node)->type==BC_LOCAL) )
@@ -553,7 +557,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->local.fcond;
+                }
               }
 
             if (!found)
@@ -571,10 +577,12 @@ namespace OpenBabel
           }
         else
           {
-            while( *node && ((*node)->type==BC_IDENT) )
+            while( *node && ((*node)->type==BC_IDENT) ) {
               node = (ByteCode**)&(*node)->ident.fcond;
-            while( *node && ((*node)->type==BC_LOCAL) )
+            }
+            while( *node && ((*node)->type==BC_LOCAL) ) {
               node = (ByteCode**)&(*node)->local.fcond;
+            }
 
             found = false;
             while( *node && ((*node)->type==BC_ELEM) )
@@ -586,7 +594,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->elem.fcond;
+                }
               }
 
             if( !found )
@@ -648,7 +658,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->count.fcond;
+                }
               }
 
             if( !found )
@@ -715,17 +727,22 @@ namespace OpenBabel
         ptr = AllocateByteCode(BC_ASSIGN);
         ptr->assign.resid = resid;
         ptr->assign.atomid = new int[AtomIndex];
-        if( !ptr->assign.atomid )
+        if( !ptr->assign.atomid ) {
           FatalMemoryError();
-        for( i=0; i<MonoAtomCount; i++ )
-          if( (j=MonoAtom[i].index) != -1 )
+        }
+        for( i=0; i<MonoAtomCount; i++ ) {
+          if( (j=MonoAtom[i].index) != -1 ) {
             ptr->assign.atomid[j] = MonoAtom[i].atomid;
+          }
+        }
         if( BondIndex )
           {
             ptr->assign.bflags = new int[BondIndex];
-            for( i=0; i<MonoBondCount; i++ )
-              if( (j=MonoBond[i].index) != -1 )
+            for( i=0; i<MonoBondCount; i++ ) {
+              if( (j=MonoBond[i].index) != -1 ) {
                 ptr->assign.bflags[j] = MonoBond[i].flag;
+              }
+            }
           }
         *node = ptr;
       }
@@ -842,14 +859,17 @@ namespace OpenBabel
     vector<OBResidue*> residues;
     vector<OBResidue*>::iterator r;
 
-    if (mol.NumResidues() == 0)
+    if (mol.NumResidues() == 0) {
       return; // Done!
+    }
 
-    for (residue = mol.BeginResidue(r) ; residue ; residue = mol.NextResidue(r))
+    for (residue = mol.BeginResidue(r) ; residue ; residue = mol.NextResidue(r)) {
       residues.push_back(residue);
+    }
 
-    for ( unsigned int i = 0 ; i < residues.size() ; i++ )
+    for ( unsigned int i = 0 ; i < residues.size() ; i++ ) {
       mol.DeleteResidue(residues[i]);
+    }
 
     residues.clear();
   }
@@ -869,15 +889,17 @@ namespace OpenBabel
 
     // correct serine OG
     for ( unsigned int i = 0 ; i < numAtoms ; i++ ) {
-      if (resids[i] == RESIDMIN + 17) // serine
+      if (resids[i] == RESIDMIN + 17) { // serine
         if (atomids[i] == -1) {
           atom = mol.GetAtom(i+1);
 
           FOR_NBORS_OF_ATOM (nbr, atom) {
-            if (atomids[nbr->GetIdx()-1] == 4) // CB
+            if (atomids[nbr->GetIdx()-1] == 4) { // CB
               atomids[i] = 6; // OG
+            }
           }
         }
+      }
     }
 
     for ( unsigned int i = 0 ; i < numAtoms ; i++ ) {
@@ -909,11 +931,13 @@ namespace OpenBabel
         } else {
           snprintf(buffer, BUFF_SIZE, "H%.2s", ChainsAtomName[atomids[i]]+2);
         }
-      } else
+      } else {
         snprintf(buffer, BUFF_SIZE, "%.4s", ChainsAtomName[atomids[i]]);
+      }
 
-      if (buffer[3] == ' ')
+      if (buffer[3] == ' ') {
         buffer[3] = '\0';
+      }
 
       //cout << "  (2) --> = " << buffer << endl;
 
@@ -944,10 +968,11 @@ namespace OpenBabel
       }
     }
 
-    if (mol.NumResidues() == 1 && nukeSingleResidue)
+    if (mol.NumResidues() == 1 && nukeSingleResidue) {
       mol.DeleteResidue(mol.GetResidue(0));
-    else if (mol.NumResidues() == 1 && (mol.GetResidue(0))->GetName() == "UNK")
+    } else if (mol.NumResidues() == 1 && (mol.GetResidue(0))->GetName() == "UNK") {
       mol.DeleteResidue(mol.GetResidue(0));
+    }
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -995,12 +1020,15 @@ namespace OpenBabel
 		changed = true;
 
 		bool addResidue = true;
-		for (unsigned int i = 0; i < invalidResidues.size(); ++i)
+		for (unsigned int i = 0; i < invalidResidues.size(); ++i) {
 		  if ( (invalidResidues[i].first == chains[idx2]) &&
-		       (invalidResidues[i].second == resnos[idx2]) )
+		       (invalidResidues[i].second == resnos[idx2]) ) {
 		    addResidue = false;
-		if (addResidue)
+		  }
+		}
+		if (addResidue) {
 		  invalidResidues.push_back(pair<char,short>(chains[idx2], resnos[idx2]));
+                }
 	      }
             }
           }
@@ -1031,10 +1059,12 @@ namespace OpenBabel
         resnos[idx] = resno;
         resno++;
       } else {
-        if (resids[idx] != 0) // UNK
+        if (resids[idx] != 0) { // UNK
           continue;
-        if (hetflags[idx])
+        }
+        if (hetflags[idx]) {
           continue;
+        }
 
         char chain = chains[idx];
         FOR_ATOMS_OF_MOL (b, mol) {
@@ -1074,8 +1104,9 @@ namespace OpenBabel
 
     // find un-connected atoms (e.g., HOH oxygen atoms)
     for (atom = mol.BeginAtom(a) ; atom ; atom = mol.NextAtom(a)) {
-      if (atom->GetAtomicNum() == OBElements::Hydrogen || atom->GetHvyDegree() != 0)
+      if (atom->GetAtomicNum() == OBElements::Hydrogen || atom->GetHvyDegree() != 0) {
         continue;
+      }
 
       unsigned int idx = atom->GetIdx() - 1;
 
@@ -1111,10 +1142,11 @@ namespace OpenBabel
 
         // size = number of heavy atoms in residue chain
         if (size < 4) { // small ligand, probably
-          if (size == 1 && atom->GetAtomicNum() == OBElements::Oxygen)
+          if (size == 1 && atom->GetAtomicNum() == OBElements::Oxygen) {
             resid = 1; /* HOH */
-          else
+          } else {
             resid = 2; /* Unknown ligand */
+          }
 
           for (i = 0 ; i < numAtoms ; ++i) {
             if (chains[i] == ('A' + count)) {
@@ -1127,8 +1159,9 @@ namespace OpenBabel
           resno++;
         } else {
           count++; // number of connected chains
-          if (count > 26) // out of chain IDs
+          if (count > 26) { // out of chain IDs
             break;
+          }
         }
       }
     }
@@ -1152,8 +1185,9 @@ namespace OpenBabel
     atom = mol.GetAtom(i + 1);
 
     // ignore hydrogens
-    if (atom->GetAtomicNum() == OBElements::Hydrogen )
+    if (atom->GetAtomicNum() == OBElements::Hydrogen ) {
       return 0;
+    }
 
     result    = 1;
     chains[i] = c;
@@ -1161,8 +1195,9 @@ namespace OpenBabel
     // recurse till we have all atoms for this chain
     for (nbr = atom->BeginNbrAtom(b); nbr; nbr = atom->NextNbrAtom(b)) {
       index = nbr->GetIdx() - 1;
-      if (chains[index] == ' ')
+      if (chains[index] == ' ') {
         result += RecurseChain(mol, index, c);
+      }
     }
 
     // and return how many we found
@@ -1182,18 +1217,23 @@ namespace OpenBabel
     // Cyclic peptides have no NTer (1SKI)
     // timvdm 30/06/08
     bool foundNTer = false;
-    for (i = 0 ; i < numAtoms; i++)
-      if (bitmasks[i] & BitNTer)
+    for (i = 0 ; i < numAtoms; i++) {
+      if (bitmasks[i] & BitNTer) {
         foundNTer = true;
-    if (!foundNTer)
-      for (i = 0 ; i < numAtoms; i++)
-        if (bitmasks[i] & BitNAll)
+      }
+    }
+    if (!foundNTer) {
+      for (i = 0 ; i < numAtoms; i++) {
+        if (bitmasks[i] & BitNAll) {
           bitmasks[i] |= BitNTer;
+        }
+      }
+    }
 
 
     /* Order Peptide Backbone */
 
-    for ( i = 0 ; i < numAtoms ; i++ )
+    for ( i = 0 ; i < numAtoms ; i++ ) {
       if (atomids[i] == -1)
         {
           if( bitmasks[i] & BitNTer )
@@ -1207,6 +1247,7 @@ namespace OpenBabel
               TracePeptideChain(mol,i,1);
             }
         }
+    }
 
     /* Carbonyl Double Bond */
 
@@ -1215,8 +1256,9 @@ namespace OpenBabel
     for (bond = mol.BeginBond(b) ; bond ; bond = mol.NextBond(b))
       {
         if ((atomids[bond->GetBeginAtomIdx()-1] == 2 && atomids[bond->GetEndAtomIdx()-1] == 3) ||
-            (atomids[bond->GetBeginAtomIdx()-1] == 3 && atomids[bond->GetEndAtomIdx()-1] == 2))
+            (atomids[bond->GetBeginAtomIdx()-1] == 3 && atomids[bond->GetEndAtomIdx()-1] == 2)) {
           flags[bond->GetIdx()] |= BF_DOUBLE;
+        }
       }
 
     return true;
@@ -1244,10 +1286,12 @@ namespace OpenBabel
       {
         idx = atom->GetIdx() - 1;
         bitmasks[idx] = 0;
-        for ( i = 0 ; i < tmax ; i++ )
+        for ( i = 0 ; i < tmax ; i++ ) {
           if ( (static_cast<unsigned int>(templ[i].elem)  == atom->GetAtomicNum()) &&
-               (static_cast<unsigned int>(templ[i].count) == atom->GetHvyDegree()))
+               (static_cast<unsigned int>(templ[i].count) == atom->GetHvyDegree())) {
             bitmasks[idx] |= templ[i].flag;
+          }
+        }
       }
 
     /* Second Pass */
@@ -1261,33 +1305,40 @@ namespace OpenBabel
             if (bitmasks[idx]) // Determine Neighbours
               {
                 count = 0;
-                for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b))
-                  if (nbr->GetAtomicNum() != OBElements::Hydrogen)
+                for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b)) {
+                  if (nbr->GetAtomicNum() != OBElements::Hydrogen) {
                     neighbour[count++] = nbr;
+                  }
+                }
 
-                if (count >= 1)
+                if (count >= 1) {
                   na = neighbour[0];
-                if (count >= 2)
+                }
+                if (count >= 2) {
                   nb = neighbour[1];
-                if (count >= 3)
+                }
+                if (count >= 3) {
                   nc = neighbour[2];
-                if (count >= 4)
+                }
+                if (count >= 4) {
                   nd = neighbour[3];
+                }
 
-                for ( i = 0 ; i < tmax ; i++ )
+                for ( i = 0 ; i < tmax ; i++ ) {
                   if ( templ[i].flag & bitmasks[idx] )
                     {
                       pep    = &templ[i];
                       result = true;
 
-                      if (count == 4)
+                      if (count == 4) {
                         result = Match4Constraints(pep,na,nb,nc,nd);
-                      else if (count == 3)
+                      } else if (count == 3) {
                         result = Match3Constraints(pep,na,nb,nc);
-                      else if (count == 2)
+                      } else if (count == 2) {
                         result = Match2Constraints(pep,na,nb);
-                      else if (count == 1)
+                      } else if (count == 1) {
                         result = MatchConstraint(na,pep->n1);
+                      }
 
                       if(result == false)
                         {
@@ -1295,6 +1346,7 @@ namespace OpenBabel
                           change = true;
                         }
                     }
+                }
               }
           }
       }
@@ -1303,63 +1355,86 @@ namespace OpenBabel
 
   bool OBChainsParser::MatchConstraint(OBAtom *atom, int mask)
   {
-    if (atom == nullptr)
+    if (atom == nullptr) {
       return (false);
+    }
 
-    if( mask < 0 )
+    if( mask < 0 ) {
       return(atom->GetAtomicNum() == static_cast<unsigned int>(-mask));
-    else
+    } else {
       return(((bitmasks[atom->GetIdx()-1]&mask) == 0) ? false : true);
+    }
   }
 
   bool OBChainsParser::Match2Constraints(Template *tmpl, OBAtom *na, OBAtom *nb)
   {
-    if (na == nullptr || nb == nullptr)
+    if (na == nullptr || nb == nullptr) {
       return (false); // don't even try to evaluate it
+    }
 
-    if( MatchConstraint(na,tmpl->n2) )
-      if( MatchConstraint(nb,tmpl->n1) )
+    if( MatchConstraint(na,tmpl->n2) ) {
+      if( MatchConstraint(nb,tmpl->n1) ) {
         return( true );
-    if( MatchConstraint(nb,tmpl->n2) )
-      if( MatchConstraint(na,tmpl->n1) )
+      }
+    }
+    if( MatchConstraint(nb,tmpl->n2) ) {
+      if( MatchConstraint(na,tmpl->n1) ) {
         return( true );
+      }
+    }
     return( false );
   }
 
   bool OBChainsParser::Match3Constraints(Template *tmpl, OBAtom *na, OBAtom *nb, OBAtom *nc)
   {
-    if (na == nullptr || nb == nullptr || nc == nullptr)
+    if (na == nullptr || nb == nullptr || nc == nullptr) {
       return (false); // don't even try to evaluate it
+    }
 
-    if( MatchConstraint(na,tmpl->n3) )
-      if( Match2Constraints(tmpl,nb,nc) )
+    if( MatchConstraint(na,tmpl->n3) ) {
+      if( Match2Constraints(tmpl,nb,nc) ) {
         return( true );
-    if( MatchConstraint(nb,tmpl->n3) )
-      if( Match2Constraints(tmpl,na,nc) )
+      }
+    }
+    if( MatchConstraint(nb,tmpl->n3) ) {
+      if( Match2Constraints(tmpl,na,nc) ) {
         return( true );
-    if( MatchConstraint(nc,tmpl->n3) )
-      if( Match2Constraints(tmpl,na,nb) )
+      }
+    }
+    if( MatchConstraint(nc,tmpl->n3) ) {
+      if( Match2Constraints(tmpl,na,nb) ) {
         return( true );
+      }
+    }
     return( false );
   }
 
   bool OBChainsParser::Match4Constraints(Template *tmpl, OBAtom *na, OBAtom *nb, OBAtom *nc, OBAtom *nd)
   {
-    if (na == nullptr || nb == nullptr || nc == nullptr || nd == nullptr)
+    if (na == nullptr || nb == nullptr || nc == nullptr || nd == nullptr) {
       return (false); // don't even try to evaluate it
+    }
 
-    if( MatchConstraint(na,tmpl->n4) )
-      if( Match3Constraints(tmpl,nb,nc,nd) )
+    if( MatchConstraint(na,tmpl->n4) ) {
+      if( Match3Constraints(tmpl,nb,nc,nd) ) {
         return( true );
-    if( MatchConstraint(nb,tmpl->n4) )
-      if( Match3Constraints(tmpl,na,nc,nd) )
+      }
+    }
+    if( MatchConstraint(nb,tmpl->n4) ) {
+      if( Match3Constraints(tmpl,na,nc,nd) ) {
         return( true );
-    if( MatchConstraint(nc,tmpl->n4) )
-      if( Match3Constraints(tmpl,na,nb,nd) )
+      }
+    }
+    if( MatchConstraint(nc,tmpl->n4) ) {
+      if( Match3Constraints(tmpl,na,nb,nd) ) {
         return( true );
-    if( MatchConstraint(nd,tmpl->n4) )
-      if( Match3Constraints(tmpl,na,nb,nc) )
+      }
+    }
+    if( MatchConstraint(nd,tmpl->n4) ) {
+      if( Match3Constraints(tmpl,na,nb,nc) ) {
         return( true );
+      }
+    }
     return( false );
   }
 
@@ -1382,43 +1457,52 @@ namespace OpenBabel
 
     atom = mol.GetAtom(i+1);
     idx  = atom->GetIdx() - 1;
-    if (visits[i])
+    if (visits[i]) {
       return;
+    }
     visits[i] = true;
 
     count = 0;
-    for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b))
-      if (nbr->GetAtomicNum() != OBElements::Hydrogen)
+    for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b)) {
+      if (nbr->GetAtomicNum() != OBElements::Hydrogen) {
         neighbour[count++] = nbr->GetIdx()-1;
+      }
+    }
 
     resnos[idx] = r;
 
-    if (count >= 1)
+    if (count >= 1) {
       na = neighbour[0];
-    if (count >= 2)
+    }
+    if (count >= 2) {
       nb = neighbour[1];
-    if (count >= 3)
+    }
+    if (count >= 3) {
       nc = neighbour[2];
+    }
 
     switch( atomids[i] )
       {
       case(AI_N):
-        for( j=0; j<count; j++ )
+        for( j=0; j<count; j++ ) {
           if (bitmasks[neighbour[j]] & BitCAAll)
             {
               atomids[neighbour[j]] = AI_CA;
-              if (!visits[neighbour[j]])
+              if (!visits[neighbour[j]]) {
                 TracePeptideChain(mol,neighbour[j],r);
+              }
             }
+        }
         break;
 
       case(AI_CA):
         if( count == 3 )
           {
-            if ( bitmasks[na] & BitNAll )
+            if ( bitmasks[na] & BitNAll ) {
               na = nc;
-            else if ( bitmasks[nb] & BitNAll )
+            } else if ( bitmasks[nb] & BitNAll ) {
               nb = nc;
+            }
 
             if ( bitmasks[na] & BitC )
               {
@@ -1444,22 +1528,25 @@ namespace OpenBabel
             atomids[j]  = AI_C;
             bitmasks[k] = 0;
 
-            if (!visits[j])
+            if (!visits[j]) {
               TracePeptideChain(mol,j,r);
+            }
           }
         else if (count == 2)
           {
             if ( bitmasks[na] & BitCAll )
               {
                 atomids[na] = AI_C;
-                if (!visits[na])
+                if (!visits[na]) {
                   TracePeptideChain(mol,na,r);
+                }
               }
             else if ( bitmasks[nb] & BitCAll )
               {
                 atomids[nb] = AI_C;
-                if (!visits[nb])
+                if (!visits[nb]) {
                   TracePeptideChain(mol,nb,r);
+                }
               }
           }
         break;
@@ -1471,8 +1558,9 @@ namespace OpenBabel
             if ( bitmasks[neighbour[j]] & BitNAll )
               {
                 atomids[neighbour[j]] = AI_N;
-                if (!visits[neighbour[j]])
+                if (!visits[neighbour[j]]) {
                   TracePeptideChain(mol,neighbour[j],r+1);
+                }
               }
             else if( bitmasks[neighbour[j]] & BitOAll )
               {
@@ -1494,12 +1582,13 @@ namespace OpenBabel
     int resid;
     int max = mol.NumAtoms();
 
-    for (int i = 0 ; i < max ; ++i)
+    for (int i = 0 ; i < max ; ++i) {
       if (atomids[i] == AI_CA)
         {
           resid = IdentifyResidue(PDecisionTree, mol, i, resnos[i]);
           AssignResidue(mol,resnos[i],chains[i],resid);
         }
+    }
 
     return true;
   }
@@ -1508,9 +1597,11 @@ namespace OpenBabel
   {
     int max = mol.NumAtoms();
 
-    for (int j = 0 ; j < max ; ++j)
-      if ((resnos[j] == r) && (chains[j] == c) && !hetflags[j])
+    for (int j = 0 ; j < max ; ++j) {
+      if ((resnos[j] == r) && (chains[j] == c) && !hetflags[j]) {
         resids[j] = i;
+      }
+    }
   }
 
   int OBChainsParser::IdentifyResidue(void *tree, OBMol &mol, unsigned int seed,
@@ -1549,7 +1640,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->ident.fcond;
+          }
           break;
 
         case(BC_LOCAL):  curr = Stack[StackPtr-1].atom;
@@ -1561,7 +1654,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->local.fcond;
+          }
           break;
 
         case(BC_ELEM):   curr = Stack[StackPtr-1].atom;
@@ -1575,7 +1670,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->elem.fcond;
+          }
           break;
 
         case(BC_EVAL):   bcount = 0;
@@ -1585,8 +1682,9 @@ namespace OpenBabel
           atom = mol.GetAtom(curr+1); // WARNING, potential atom index issue
           for (nbr = atom->BeginNbrAtom(b); nbr; nbr = atom->NextNbrAtom(b))
             {
-              if (nbr->GetAtomicNum() == OBElements::Hydrogen)
+              if (nbr->GetAtomicNum() == OBElements::Hydrogen) {
                 continue;
+              }
 
               j = nbr->GetIdx() - 1;
               if (!((curr == prev) && bitmasks[j]) && (j != prev))
@@ -1607,8 +1705,9 @@ namespace OpenBabel
             {
               ptr = ptr->count.tcond;
             }
-          else
+          else {
             ptr = ptr->count.fcond;
+          }
           break;
 
         case(BC_ASSIGN):
@@ -1646,7 +1745,7 @@ namespace OpenBabel
 
     /* Order Nucleic Backbone */
 
-    for( i = 0 ; i < max ; i++ )
+    for( i = 0 ; i < max ; i++ ) {
       if( atomids[i] == -1 )
         {
           if( bitmasks[i] & BitPTer )
@@ -1660,6 +1759,7 @@ namespace OpenBabel
               TraceNucleicChain(mol,i,1);
             }
         }
+    }
 
     return true;
   }
@@ -1673,15 +1773,18 @@ namespace OpenBabel
     OBAtom *atom, *nbr;
     vector<OBBond *>::iterator b;
 
-    if (visits[i])
+    if (visits[i]) {
       return;
+    }
     visits[i] = true;
 
     count = 0;
     atom  = mol.GetAtom(i + 1);
-    for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b))
-      if (nbr->GetAtomicNum() != OBElements::Hydrogen)
+    for (nbr = atom->BeginNbrAtom(b) ; nbr ; nbr = atom->NextNbrAtom(b)) {
+      if (nbr->GetAtomicNum() != OBElements::Hydrogen) {
         neighbour[count++] = nbr->GetIdx() - 1;
+      }
+    }
 
     resnos[i] = r;
 
@@ -1694,8 +1797,9 @@ namespace OpenBabel
             if( bitmasks[neighbour[j]] & BitO5 )
               {
                 atomids[neighbour[j]] = AI_O5;
-                if (!visits[neighbour[j]])
+                if (!visits[neighbour[j]]) {
                   TraceNucleicChain(mol,neighbour[j],r);
+                }
               }
             else if( bitmasks[neighbour[j]] & BitOP )
               {
@@ -1708,24 +1812,28 @@ namespace OpenBabel
         break;
 
       case(AI_O5):
-        for( j=0; j<count; j++ )
+        for( j=0; j<count; j++ ) {
           if( bitmasks[neighbour[j]] & BitC5 )
             {
               atomids[neighbour[j]] = AI_C5;
-              if (!visits[neighbour[j]])
+              if (!visits[neighbour[j]]) {
                 TraceNucleicChain(mol,neighbour[j],r);
+              }
             }
+        }
 
         break;
 
       case(AI_C5):
-        for( j=0 ; j<count; j++ )
+        for( j=0 ; j<count; j++ ) {
           if( bitmasks[neighbour[j]] & BitC4 )
             {
               atomids[neighbour[j]] = AI_C4;
-              if (!visits[neighbour[j]])
+              if (!visits[neighbour[j]]) {
                 TraceNucleicChain(mol,neighbour[j],r);
+              }
             }
+        }
 
         break;
 
@@ -1735,8 +1843,9 @@ namespace OpenBabel
             if( bitmasks[neighbour[j]] & BitC3 )
               {
                 atomids[neighbour[j]] = AI_C3;
-                if (!visits[neighbour[j]])
+                if (!visits[neighbour[j]]) {
                   TraceNucleicChain(mol,neighbour[j],r);
+                }
               }
             else if( bitmasks[neighbour[j]] & BitO4 )
               {
@@ -1753,27 +1862,31 @@ namespace OpenBabel
             if( bitmasks[neighbour[j]] & BitO3All )
               {
                 atomids[neighbour[j]] = AI_O3;
-                if (!visits[neighbour[j]])
+                if (!visits[neighbour[j]]) {
                   TraceNucleicChain(mol,neighbour[j],r);
+                }
               }
             else if( bitmasks[neighbour[j]] & BitC2All )
               {
                 atomids[neighbour[j]] = AI_C2;
-                if (!visits[neighbour[j]])
+                if (!visits[neighbour[j]]) {
                   TraceNucleicChain(mol,neighbour[j],r);
+                }
               }
           }
 
         break;
 
       case(AI_O3):
-        for( j=0; j<count; j++ )
+        for( j=0; j<count; j++ ) {
           if( bitmasks[neighbour[j]] & BitP )
             {
               atomids[neighbour[j]] = AI_P;
-              if (!visits[neighbour[j]])
+              if (!visits[neighbour[j]]) {
                 TraceNucleicChain(mol,neighbour[j],r+1);
+              }
             }
+        }
 
         break;
 
@@ -1802,12 +1915,13 @@ namespace OpenBabel
 
   bool OBChainsParser::DetermineNucleicSidechains(OBMol &mol)
   {
-    for( unsigned int i = 0 ; i < mol.NumAtoms() ; i++ )
+    for( unsigned int i = 0 ; i < mol.NumAtoms() ; i++ ) {
       if( atomids[i] == 49 )
         {
           int resid = IdentifyResidue(NDecisionTree,mol,i,resnos[i]);
           AssignResidue(mol,resnos[i],chains[i],resid);
         }
+    }
 
     return true;
   }
@@ -1822,15 +1936,16 @@ namespace OpenBabel
     int idx,sidx;
 
     int max = mol.NumAtoms();
-    for ( int i = 0 ; i < max ; i++ )
+    for ( int i = 0 ; i < max ; i++ ) {
       hcounts[i] = 0;
+    }
 
     /* First Pass */
 
     vector<OBAtom*>::iterator a;
     vector<OBBond*>::iterator b;
 
-    for(atom = mol.BeginAtom(a); atom ; atom = mol.NextAtom(a))
+    for(atom = mol.BeginAtom(a); atom ; atom = mol.NextAtom(a)) {
       if(atom->GetAtomicNum() == OBElements::Hydrogen)
         {
           nbr = atom->BeginNbrAtom(b);
@@ -1847,16 +1962,19 @@ namespace OpenBabel
               chains[idx]   = chains[sidx];
             }
         }
+    }
 
     /* Second Pass */
 
-    for(atom = mol.BeginAtom(a) ; atom ; atom = mol.NextAtom(a))
+    for(atom = mol.BeginAtom(a) ; atom ; atom = mol.NextAtom(a)) {
       if (atom->GetAtomicNum() == OBElements::Hydrogen)
         {
           nbr = atom->BeginNbrAtom(b);
-          if (nbr != nullptr && hcounts[nbr->GetIdx()-1] == 1)
+          if (nbr != nullptr && hcounts[nbr->GetIdx()-1] == 1) {
             hcounts[atom->GetIdx()-1] = 0;
+          }
         }
+    }
 
     return true;
   }
@@ -1875,10 +1993,12 @@ namespace OpenBabel
 
     ParseSmiles(smiles,-1);
 
-    for( i=0; i<MonoBondCount; i++ )
+    for( i=0; i<MonoBondCount; i++ ) {
       MonoBond[i].index = -1;
-    for( i=0; i<MonoAtomCount; i++ )
+    }
+    for( i=0; i<MonoAtomCount; i++ ) {
       MonoAtom[i].index = -1;
+    }
     AtomIndex = BondIndex = 0;
 
     StackPtr = 0;
@@ -1957,8 +2077,9 @@ namespace OpenBabel
           {
             return( 66 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return( 1 );
+        }
         break;
 
       case('E'):  if( ch=='R' )
@@ -1969,8 +2090,9 @@ namespace OpenBabel
           {
             return( 99 );
           }
-        else if( ch=='U' )
+        else if( ch=='U' ) {
           return( 63 );
+        }
         break;
 
       case('F'):  if( ch=='E' )
@@ -1985,8 +2107,9 @@ namespace OpenBabel
           {
             return(  87 );
           }
-        else if( ch=='F' )
+        else if( ch=='F' ) {
           return(   9 );
+        }
         break;
 
       case('G'):  if( ch=='A' )
@@ -1997,8 +2120,9 @@ namespace OpenBabel
           {
             return( 64 );
           }
-        else if( ch=='E' )
+        else if( ch=='E' ) {
           return( 32 );
+        }
         break;
 
       case('H'):  if( ch=='E' )
@@ -2017,8 +2141,9 @@ namespace OpenBabel
           {
             return( 67 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return(  1 );
+        }
         break;
 
       case('I'):  if( ch=='N' )
@@ -2029,16 +2154,18 @@ namespace OpenBabel
           {
             return( 77 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return( 53 );
+        }
         break;
 
       case('K'):  if( ch=='R' )
           {
             return( 36 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return( 19 );
+        }
         break;
 
       case('L'):  if( ch=='A' )
@@ -2057,8 +2184,9 @@ namespace OpenBabel
           {
             return(  71 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return(   1 );
+        }
         break;
 
       case('M'):  if( ch=='D' )
@@ -2073,8 +2201,9 @@ namespace OpenBabel
           {
             return(  25 );
           }
-        else if( ch=='O' )
+        else if( ch=='O' ) {
           return(  42 );
+        }
         break;
 
       case('N'):  switch( ch )
@@ -2094,8 +2223,9 @@ namespace OpenBabel
           {
             return( 76 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return( 8 );
+        }
         break;
 
       case('P'):  switch( ch )
@@ -2149,42 +2279,50 @@ namespace OpenBabel
           }
         break;
 
-      case('U'):  if( ch==' ' )
+      case('U'):  if( ch==' ' ) {
           return( 92 );
+                  }
         break;
 
-      case('V'):  if( ch==' ' )
+      case('V'):  if( ch==' ' ) {
           return( 23 );
+                  }
         break;
 
-      case('W'):  if( ch==' ' )
+      case('W'):  if( ch==' ' ) {
           return( 74 );
+                  }
         break;
 
-      case('X'):  if( ch=='E' )
+      case('X'):  if( ch=='E' ) {
           return( 54 );
+                  }
         break;
 
       case('Y'):  if( ch=='B' )
           {
             return( 70 );
           }
-        else if( ch==' ' )
+        else if( ch==' ' ) {
           return( 39 );
+        }
         break;
 
       case('Z'):  if( ch=='N' )
           {
             return( 30 );
           }
-        else if( ch=='R' )
+        else if( ch=='R' ) {
           return( 40 );
+        }
         break;
       }
 
-    if( (*ptr>='0') && (*ptr<='9') )
-      if( (ch=='H') || (ch=='D') )
+    if( (*ptr>='0') && (*ptr<='9') ) {
+      if( (ch=='H') || (ch=='D') ) {
         return( 1 ); /* Hydrogen */
+      }
+    }
 
     return( 0 );
   }
@@ -2221,12 +2359,15 @@ namespace OpenBabel
 
           default:
             atomid = ch-'0';
-            while( isdigit(*ptr) )
+            while( isdigit(*ptr) ) {
               atomid = (atomid*10)+(*ptr++)-'0';
+            }
 
-            for( next=0; next<MonoAtomCount; next++ )
-              if( MonoAtom[next].atomid == atomid )
+            for( next=0; next<MonoAtomCount; next++ ) {
+              if( MonoAtom[next].atomid == atomid ) {
                 break;
+              }
+            }
 
             if( next == MonoAtomCount )
               {
