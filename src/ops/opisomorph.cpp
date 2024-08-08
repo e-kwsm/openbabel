@@ -230,7 +230,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
       // If extra target mols have been supplied, make a composite SMARTS
       // to test for any of the targets.
-      if(ExtraMols.size()>0)
+      if(!ExtraMols.empty())
       {
         for(unsigned i=0;i<ExtraMols.size();++i)
         {
