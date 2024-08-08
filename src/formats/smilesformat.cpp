@@ -286,7 +286,7 @@ namespace OpenBabel {
     char _updown;
     int _order;
     int _prev;
-    int _rxnrole;
+    int _rxnrole{1};
     const char *_ptr;
     bool _preserve_aromaticity;
     vector<int>             _vprev;
@@ -315,7 +315,7 @@ namespace OpenBabel {
 
   public:
 
-    OBSmilesParser(bool preserve_aromaticity=false): _preserve_aromaticity(preserve_aromaticity), _rxnrole(1) { }
+    OBSmilesParser(bool preserve_aromaticity=false): _preserve_aromaticity(preserve_aromaticity) { }
     ~OBSmilesParser() { }
 
     bool SmiToMol(OBMol&,const string&);
