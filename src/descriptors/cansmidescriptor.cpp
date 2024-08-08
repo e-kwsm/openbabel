@@ -51,11 +51,17 @@ double CanSmiles::GetStringValue(OBBase* pOb, std::string& svalue, std::string*)
   OBConversion conv;
   conv.AddOption("n"); //no name
   if(_noStereo)
+  {
     conv.AddOption("i");
+  }
   if(conv.SetOutFormat("can"))
+  {
     svalue = conv.WriteString(pOb);
+  }
   else
+  {
     obErrorLog.ThrowError(__FUNCTION__, "SmilesFormat is not loaded" , obError);
+  }
   Trim(svalue);
 
   return std::numeric_limits<double>::quiet_NaN();

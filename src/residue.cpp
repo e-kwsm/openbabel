@@ -663,19 +663,27 @@ namespace OpenBabel
             else if( ch2 == 'O' )
               {
                 if( ch3 == 'H' )
+                {
                   return( 46 );
+                }
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'P' )
+                {
                   return( 23 );
+                }
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'O' )
+                {
                   return( 46 );    /* "H20" -> "HOH" */
+                }
                 else if( ch3 == 'U' )
+                {
                   return( 40 );
+                }
               }
 
             break;
@@ -683,8 +691,12 @@ namespace OpenBabel
           case('I'):
 
             if( ch2 == 'L' )
+            {
               if( ch3 == 'E' )
+              {
                 return(  8 );
+              }
+            }
 
             break;
 
@@ -693,12 +705,16 @@ namespace OpenBabel
             if( ch2 == 'E' )
               {
                 if( ch3 == 'U' )
+                {
                   return(  2 );
+                }
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'S' )
+                {
                   return(  6 );
+                }
               }
 
             break;
@@ -708,12 +724,16 @@ namespace OpenBabel
             if( ch2 == 'E' )
               {
                 if( ch3 == 'T' )
+                {
                   return( 18 );
+                }
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'G' )
+                {
                   return( 36 );
+                }
               }
 
             break;
@@ -723,14 +743,20 @@ namespace OpenBabel
             if( ch2 == 'A' )
               {
                 if( ch3 == 'D' )
+                {
                   return( 50 );
+                }
                 else if( ch3 == 'P' )
+                {
                   return( 52 );
+                }
               }
             else if( ch2 == 'D' )
               {
                 if( ch3 == 'P' )
+                {
                   return( 53 );
+                }
               }
 
             break;
@@ -740,27 +766,37 @@ namespace OpenBabel
             if( ch2 == 'R' )
               {
                 if( ch3 == 'O' )
+                {
                   return( 11 );
+                }
               }
             else if( ch2 == 'H' )
               {
                 if( ch3 == 'E' )
+                {
                   return( 13 );
+                }
               }
             else if( ch2 == 'C' )
               {
                 if( ch3 == 'A' )
+                {
                   return( 22 );
+                }
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == '4' )
+                {
                   return( 49 );
+                }
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'U' )
+                {
                   return( 42 );
+                }
               }
 
             break;
@@ -1163,7 +1199,9 @@ namespace OpenBabel
                     }
                   }
                 else
+                  {
                   bonds.push_back(&(*bond));
+                  }
 
                 idxs.SetBitOn(bond->GetIdx());
               }

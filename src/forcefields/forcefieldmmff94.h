@@ -266,9 +266,13 @@ namespace OpenBabel
       const char* Description() override
       {
         if (mmff94s)
+        {
           return "MMFF94s force field.";
+        }
 	else
+        {
           return "MMFF94 force field.";
+        }
       }
 
       //! Get the unit in which the energy is expressed

@@ -72,30 +72,46 @@ namespace OpenBabel {
     void SetLowerBounds(int i, int j, float value)
     {
       if (i > j)
+      {
         bounds(i, j) = value;
+      }
       else
+      {
         bounds(j, i) = value;
+      }
     }
     void SetUpperBounds(int i, int j, float value)
     {
       if (i < j)
+      {
         bounds(i, j) = value;
+      }
       else
+      {
         bounds(j, i) = value;
+      }
     }
     float GetLowerBounds(int i, int j)
     {
       if (i > j)
+      {
         return bounds(i, j);
+      }
       else
+      {
         return bounds(j, i);
+      }
     }
     float GetUpperBounds(int i, int j)
     {
       if (i < j)
+      {
         return bounds(i, j);
+      }
       else
+      {
         return bounds(j, i);
+      }
     }
     float GetAvgBounds(int i, int j)
     {
@@ -158,7 +174,9 @@ namespace OpenBabel {
 
     vector<OBRing*> rlist = _mol.GetSSSR();
     if (rlist.size() > 0)
+    {
       SetAromaticRingBounds();
+    }
 
     Set14Bounds();
     if (_d->debug) {
@@ -185,15 +203,23 @@ namespace OpenBabel {
         unsigned long centerIdx = _mol.GetAtomById(config.center)->GetIdx()-1;
 
         if (config.from == OBStereo::ImplicitRef)
+        {
           nbrs.push_back(centerIdx);
+        }
         else
+        {
           nbrs.push_back(_mol.GetAtomById(config.from)->GetIdx()-1);
+        }
 
         for(size_t i=0; i<config.refs.size(); i++) {
           if (config.refs[i] == OBStereo::ImplicitRef)
+          {
             nbrs.push_back(centerIdx);
+          }
           else
+          {
             nbrs.push_back(_mol.GetAtomById(config.refs[i])->GetIdx()-1);
+          }
         }
 
         if(config.winding == OBStereo::Clockwise) {
@@ -235,7 +261,9 @@ namespace OpenBabel {
   void OBDistanceGeometry::SetUpperBounds()
   {
     if (!_d)
+    {
       return;
+    }
 
     unsigned int N = _mol.NumAtoms();
     float maxDist = N*1.5f; // if, somehow all atoms are in a linear chain
@@ -296,9 +324,13 @@ namespace OpenBabel {
 
     // Handle cases where cosine is outside [-1, 1] range.
     if (cosine > 1.0)
+    {
       return 0.0;
+    }
     if (cosine < -1.0)
+    {
       return M_PI;
+    }
 
     return acos(cosine);
   }
@@ -325,7 +357,9 @@ namespace OpenBabel {
       b = _mol.GetAtom((*angle)[1] + 1);
       c = _mol.GetAtom((*angle)[2] + 1);
       if (b->GetBond(c) != nullptr)
+      {
         continue;
+      }
       i = (*angle)[1];
       j = (*angle)[2];
 
@@ -427,7 +461,9 @@ namespace OpenBabel {
     FOR_RINGS_OF_MOL(r, _mol) {
       int size = r->Size();
       if (size != 6 || !r->IsAromatic())
+      {
         continue;
+      }
 
       // Aromatic rings must be planar, so atoms in the ring = regular polygon
       double angle = 180.0 - (360.0 / size);
@@ -483,9 +519,13 @@ namespace OpenBabel {
       d = _mol.GetAtom((*t)[3] + 1);
 
       if (a->GetBond(d) != nullptr)
+      {
         continue; // these are bonded
+      }
       if (_d->GetLowerBounds((*t)[0], (*t)[3]) > 0.01) // we visited this
+      {
         continue;
+      }
 
       // We want to know the a-d distance here
       // So ...
@@ -514,6 +554,7 @@ namespace OpenBabel {
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    {
       if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
@@ -522,10 +563,14 @@ namespace OpenBabel {
           c = _mol.GetAtomById(ct->GetConfig().end);
           FOR_NBORS_OF_ATOM(a, b) {
             if (a->GetIdx() == c->GetIdx())
+            {
               continue;
+            }
             FOR_NBORS_OF_ATOM(d, c) {
               if (d->GetIdx() == b->GetIdx())
+              {
                 continue;
+              }
 
               float lBounds = _d->GetLowerBounds(a->GetIdx() - 1, d->GetIdx() - 1) + DIST14_TOL;
               float uBounds = _d->GetUpperBounds(a->GetIdx() - 1, d->GetIdx() - 1) - DIST14_TOL;
@@ -540,6 +585,7 @@ namespace OpenBabel {
           } // neighbors of cis/trans b
         }
       } // iterate through cis/trans
+    }
 
 
     // Now correct ring bonds -- if bc is a ring bond, and a and d are in the same ring, then torsion should be "cis-oid"
@@ -548,7 +594,9 @@ namespace OpenBabel {
     FOR_RINGS_OF_MOL(r, _mol) {
       int size = r->Size();
       if (size < 4)
+      {
         continue;
+      }
 
       std::vector<int> path = r->_path;
       int a, b, c, d; // entries into path vector

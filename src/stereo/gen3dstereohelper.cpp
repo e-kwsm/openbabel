@@ -50,7 +50,9 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < tetrahedral.size(); ++i) {
       OBTetrahedralStereo::Config cfg = tetrahedral[i]->GetConfig();
       if (!cfg.specified)
+      {
         m_unspecifiedTetrahedral.push_back(cfg.center);
+      }
     }
 
     std::vector<OBCisTransStereo*> cistrans = facade.GetAllCisTransStereo();
@@ -59,12 +61,18 @@ namespace OpenBabel {
       OBAtom *begin = mol->GetAtomById(cfg.begin);
       OBAtom *end = mol->GetAtomById(cfg.end);
       if (!begin || !end)
+      {
         continue;
+      }
       OBBond *bond = mol->GetBond(begin, end);
       if (!bond)
+      {
         continue;
+      }
       if (!cfg.specified)
+      {
         m_unspecifiedCisTrans.push_back(bond->GetId());
+      }
     }
   }
 
@@ -79,7 +87,9 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < m_unspecifiedTetrahedral.size(); ++i) {
       OBTetrahedralStereo *ts = facade.GetTetrahedralStereo(m_unspecifiedTetrahedral[i]);
       if (!ts)
+      {
         continue;
+      }
       OBTetrahedralStereo::Config cfg = ts->GetConfig();
       cfg.specified = false;
       ts->SetConfig(cfg);
@@ -88,7 +98,9 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < m_unspecifiedCisTrans.size(); ++i) {
       OBCisTransStereo *ct = facade.GetCisTransStereo(m_unspecifiedCisTrans[i]);
       if (!ct)
+      {
         continue;
+      }
       OBCisTransStereo::Config cfg = ct->GetConfig();
       cfg.specified = false;
       ct->SetConfig(cfg);

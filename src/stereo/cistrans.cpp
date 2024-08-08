@@ -221,9 +221,13 @@ namespace OpenBabel {
         // Use its index to find the index of the cis (or trans) atom
         int j;
         if (getcisref) // GetCisRef
+        {
           j = 3 - i; // Convert 0 to 3, and 3 to 0
+        }
         else // GetTransRef
+        {
           j = (i > 1) ? i - 2 : i + 2;
+        }
 
         unsigned long refId = m_cfg.refs.at(j);
         return refId;

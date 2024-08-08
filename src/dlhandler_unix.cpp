@@ -130,7 +130,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
           while((entry = readdir(dp)) != nullptr)
             {
               if (matchFiles(entry) != 0)
+              {
                 file_list.push_back(currentPath + getSeparator() + (entry)->d_name);
+              }
             }
           closedir(dp); // calls free(dp) -- no memory leak
         }

@@ -821,16 +821,26 @@ namespace OpenBabel
     vector<OBBond*>::iterator i;
 
     for (nbr = atom->BeginNbrAtom(i);nbr;nbr = atom->NextNbrAtom(i))
+    {
       if ((*i)->IsInRing() && _vpa[nbr->GetIdx()])
+      {
         count++;
+      }
+    }
 
     if (count < 2)
       {
         _vpa[atom->GetIdx()] = false;
         if (count == 1)
+        {
           for (nbr = atom->BeginNbrAtom(i);nbr;nbr = atom->NextNbrAtom(i))
+          {
             if ((*i)->IsInRing() && _vpa[nbr->GetIdx()])
+            {
               PropagatePotentialAromatic(nbr);
+            }
+          }
+        }
       }
   }
 
@@ -926,7 +936,9 @@ namespace OpenBabel
                   {
                     heavyNbrs++;
                     if (nbr->IsInRing())
+                    {
                       ringNbrs++;
+                    }
                   }
 
                 // if this atom has more than 2 neighbor ring atoms
@@ -954,7 +966,9 @@ namespace OpenBabel
                               {
                                 rootAtomNumber++;
                                 if(rootAtomNumber>=2)
+                                {
                                   break;
+                                }
                               }
                           }
                         if(rootAtomNumber<2)
@@ -999,7 +1013,9 @@ namespace OpenBabel
                                         heavyNbrs++;
 
                                         if (nbr2->IsInRing())
+                                        {
                                           ringNbrs++;
+                                        }
                                       }
                                   }
 
@@ -1036,13 +1052,27 @@ namespace OpenBabel
     vector<OBBond*>::iterator j,k;
 
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
+    {
       if (_root[atom->GetIdx()])
+      {
         for (nbr1 = atom->BeginNbrAtom(j);nbr1;nbr1 = atom->NextNbrAtom(j))
+        {
           if ((*j)->IsInRing() && _vpa[nbr1->GetIdx()])
+          {
             for (nbr2 = nbr1->BeginNbrAtom(k);nbr2;nbr2 = nbr1->NextNbrAtom(k))
+            {
               if (nbr2 != atom && (*k)->IsInRing() && _vpa[nbr2->GetIdx()])
+              {
                 if (atom->IsConnected(nbr2))
+                {
                   _root[atom->GetIdx()] = false;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
   }
 
 } //namespace OpenBabel;

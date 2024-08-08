@@ -711,7 +711,9 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator tree<T, tree_node_al
 					}
 					tmp=tmp->parent;
                if(tmp==0)
+               {
 					   throw std::range_error("tree: begin_fixed out of range");
+               }
                --curdepth;
 				   } while(tmp->next_sibling==0);
 				}
@@ -1057,7 +1059,9 @@ iter tree<T, tree_node_allocator>::insert(iter position, const T& x)
 
 	if(tmp->prev_sibling==nullptr) {
 		if(tmp->parent) // when inserting nodes at the head, there is no parent
+		{
 			tmp->parent->first_child=tmp;
+		}
 		}
 	else
 		tmp->prev_sibling->next_sibling=tmp;
@@ -1085,8 +1089,9 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 		}
 
 	if(tmp->prev_sibling==0) {
-		if(tmp->parent) // when inserting nodes at the head, there is no parent
+		{
 			tmp->parent->first_child=tmp;
+		}
 		}
 	else
 		tmp->prev_sibling->next_sibling=tmp;
@@ -1187,7 +1192,9 @@ iter tree<T, tree_node_allocator>::replace(iter position, const iterator_base& f
 	tmp->prev_sibling=current_to->prev_sibling;
 	if(current_to->next_sibling==0) {
 		if(current_to->parent!=0)
+		{
 			current_to->parent->last_child=tmp;
+		}
 		}
 	else {
 		current_to->next_sibling->prev_sibling=tmp;
@@ -1471,7 +1478,7 @@ template <typename iter> iter tree<T, tree_node_allocator>::move_ontop(iter targ
 	assert(dst);
 	assert(src);
 
-	if(dst==src) return source;
+	if(dst==src) { return source; }
 
 	// remember connection points
 	tree_node *b_prev_sibling=dst->prev_sibling;
@@ -1534,7 +1541,7 @@ template <class StrictWeakOrdering>
 void tree<T, tree_node_allocator>::sort(sibling_iterator from, sibling_iterator to,
 													 StrictWeakOrdering comp, bool deep)
 	{
-	if(from==to) return;
+	if(from==to) { return; }
 	// make list of sorted nodes
 	// CHECK: if multiset stores equivalent nodes in the order in which they
 	// are inserted, then this routine should be called 'stable_sort'.

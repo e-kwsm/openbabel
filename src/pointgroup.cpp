@@ -1643,10 +1643,14 @@ namespace OpenBabel {
           }
           for( k = 0 ; k < _mol->NumAtoms() ; k++ ){
             if( !equivalentAtoms(*_mol->GetAtom(i+1), *_mol->GetAtom(k+1)) )
+            {
               continue ;
+            }
             if( ( fabs( DistanceFromCenter[i] - DistanceFromCenter[k] ) > TolerancePrimary ) ||
                 ( fabs( DistanceFromCenter[j] - DistanceFromCenter[k] ) > TolerancePrimary ) )
+            {
               continue ;
+            }
             if ((axis = init_higher_axis(i, j, k)) != nullptr) {
               NormalAxesCount++ ;
               NormalAxes = (SYMMETRY_ELEMENT **) realloc( NormalAxes, sizeof( SYMMETRY_ELEMENT* ) * NormalAxesCount ) ;
@@ -1737,13 +1741,17 @@ namespace OpenBabel {
       }
       else {
         if( NormalAxesCount == 1 )
+        {
           printf( "There is a normal axis in the molecule\n" ) ;
+        }
         else printf( "There are %d normal axes in the molecule\n", NormalAxesCount ) ;
         printf( "     Residual  Order         Direction of the axis                         Supporting point\n" ) ;
         for( i = 0 ; i < NormalAxesCount ; i++ ){
           printf( "%3d %8.4e ", i, NormalAxes[i]->maxdev ) ;
           if( NormalAxes[i]->order == 0 )
+          {
             printf( "Inf " ) ;
+          }
           else printf( "%3d ", NormalAxes[i]->order ) ;
           printf( "(%11.8f,%11.8f,%11.8f) ",
                   NormalAxes[i]->direction[0], NormalAxes[i]->direction[1], NormalAxes[i]->direction[2] ) ;
@@ -1766,13 +1774,17 @@ namespace OpenBabel {
       }
       else {
         if( ImproperAxesCount == 1 )
+        {
           printf( "There is an improper axis in the molecule\n" ) ;
+        }
         else printf( "There are %d improper axes in the molecule\n", ImproperAxesCount ) ;
         printf( "     Residual  Order         Direction of the axis                         Supporting point\n" ) ;
         for( i = 0 ; i < ImproperAxesCount ; i++ ){
           printf( "%3d %8.4e ", i, ImproperAxes[i]->maxdev ) ;
           if( ImproperAxes[i]->order == 0 )
+          {
             printf( "Inf " ) ;
+          }
           else printf( "%3d ", ImproperAxes[i]->order ) ;
           printf( "(%11.8f,%11.8f,%11.8f) ",
                   ImproperAxes[i]->direction[0], ImproperAxes[i]->direction[1], ImproperAxes[i]->direction[2] ) ;

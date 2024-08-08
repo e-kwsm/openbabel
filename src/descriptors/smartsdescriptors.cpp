@@ -49,13 +49,19 @@ namespace OpenBabel
     {
       OBMol* pmol = dynamic_cast<OBMol*> (pOb);
       if(!pmol)
+      {
         return 0;
+      }
 
       OBSmartsPattern sp;
       if (sp.Init(_smarts) && sp.Match(*pmol))
+      {
         return sp.GetUMapList().size();
+      }
       else
+      {
         return 0.0;
+      }
     }
 
     SmartsDescriptor* MakeInstance(const std::vector<std::string>& textlines) override

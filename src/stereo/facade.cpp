@@ -56,7 +56,9 @@ namespace OpenBabel {
     typedef std::map<unsigned long, OBTetrahedralStereo*>::iterator Iter;
     std::vector<OBTetrahedralStereo*> result;
     for (Iter it = m_tetrahedralMap.begin(); it != m_tetrahedralMap.end(); ++it)
+    {
       result.push_back(it->second);
+    }
 
     return result;
   }
@@ -68,7 +70,9 @@ namespace OpenBabel {
     typedef std::map<unsigned long, OBCisTransStereo*>::iterator Iter;
     std::vector<OBCisTransStereo*> result;
     for (Iter it = m_cistransMap.begin(); it != m_cistransMap.end(); ++it)
+    {
       result.push_back(it->second);
+    }
 
     return result;
   }
@@ -80,7 +84,9 @@ namespace OpenBabel {
     typedef std::map<unsigned long, OBSquarePlanarStereo*>::iterator Iter;
     std::vector<OBSquarePlanarStereo*> result;
     for (Iter it = m_squarePlanarMap.begin(); it != m_squarePlanarMap.end(); ++it)
+    {
       result.push_back(it->second);
+    }
 
     return result;
   }
@@ -89,7 +95,9 @@ namespace OpenBabel {
   {
     EnsureInit();
     if (m_tetrahedralMap.find(atomId) != m_tetrahedralMap.end())
+    {
       return true;
+    }
     return false;
   }
 
@@ -97,7 +105,9 @@ namespace OpenBabel {
   {
     EnsureInit();
     if (m_cistransMap.find(bondId) != m_cistransMap.end())
+    {
       return true;
+    }
     return false;
   }
 
@@ -105,35 +115,45 @@ namespace OpenBabel {
   {
     EnsureInit();
     if (m_squarePlanarMap.find(atomId) != m_squarePlanarMap.end())
+    {
       return true;
+    }
     return false;
   }
 
   OBTetrahedralStereo* OBStereoFacade::GetTetrahedralStereo(unsigned long atomId)
   {
     if (!HasTetrahedralStereo(atomId))
+    {
       return nullptr;
+    }
     return m_tetrahedralMap[atomId];
   }
 
   OBCisTransStereo* OBStereoFacade::GetCisTransStereo(unsigned long bondId)
   {
     if (!HasCisTransStereo(bondId))
+    {
       return nullptr;
+    }
     return m_cistransMap[bondId];
   }
 
   OBSquarePlanarStereo* OBStereoFacade::GetSquarePlanarStereo(unsigned long atomId)
   {
     if (!HasSquarePlanarStereo(atomId))
+    {
       return nullptr;
+    }
     return m_squarePlanarMap[atomId];
   }
 
   void OBStereoFacade::InitMaps()
   {
     if (m_perceive && !m_mol->HasChiralityPerceived())
+    {
       PerceiveStereo(m_mol);
+    }
 
     std::vector<OBGenericData *> stereoData = m_mol->GetAllData(OBGenericDataType::StereoData);
 
@@ -144,14 +164,18 @@ namespace OpenBabel {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config config = ts->GetConfig();
         if (config.center == OBStereo::NoRef)
+        {
           continue;
+        }
         m_tetrahedralMap[config.center] = ts;
       } else
       if (type == OBStereo::SquarePlanar) {
         OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
         OBSquarePlanarStereo::Config config = sp->GetConfig();
         if (config.center == OBStereo::NoRef)
+        {
           continue;
+        }
         m_squarePlanarMap[config.center] = sp;
       } else
       if (type == OBStereo::CisTrans) {
@@ -161,7 +185,9 @@ namespace OpenBabel {
         unsigned long id = OBStereo::NoRef;
         OBAtom *a = m_mol->GetAtomById(config.begin);
         if (!a)
+        {
           continue;
+        }
         FOR_BONDS_OF_ATOM (bond, a) {
           unsigned long beginId = bond->GetBeginAtom()->GetId();
           unsigned long endId = bond->GetEndAtom()->GetId();
@@ -172,7 +198,9 @@ namespace OpenBabel {
           }
         }
         if (id == OBStereo::NoRef)
+        {
           continue;
+        }
         m_cistransMap[id] = ct;
       }
     }

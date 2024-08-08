@@ -51,11 +51,17 @@ double InChIFilter::GetStringValue(OBBase* pOb, std::string& svalue, std::string
   OBConversion conv;
   conv.AddOption("w");//suppress trivial warnings
   if(bKey)
+  {
     conv.AddOption("K");
+  }
   if(conv.SetOutFormat("inchi"))
+  {
     svalue = conv.WriteString(pOb);
+  }
   else
+  {
     obErrorLog.ThrowError(__FUNCTION__, "InChIFormat is not loaded" , obError);
+  }
   Trim(svalue);
 
   return std::numeric_limits<double>::quiet_NaN();
@@ -68,7 +74,9 @@ bool InChIFilter::Compare(OBBase* pOb, istream& optionText, bool noEval, std::st
   bool ret;
   bool matchornegate = ReadStringFromFilter(optionText, InchiFilterString);
   if(noEval)
+  {
     return false;
+  }
   GetStringValue(pOb, inchi);
   if(!bKey)
   {
@@ -76,10 +84,14 @@ bool InChIFilter::Compare(OBBase* pOb, istream& optionText, bool noEval, std::st
 
     //See if filterstring starts with "InChI=1/"
     if(InchiFilterString.find(inchi.substr(0,inchipos))==0)
+    {
       filterpos=inchipos+1;
+    }
     //If filterstring starts with a number, set filterpos after the next '/'(for pasted InChIs)
     if(isdigit(InchiFilterString[0]))
+    {
       filterpos=InchiFilterString.find('/')+1;
+    }
 
     //Considering only the significant parts,
     //compare InChI and filter string, only to length of filter string
@@ -87,12 +99,16 @@ bool InChIFilter::Compare(OBBase* pOb, istream& optionText, bool noEval, std::st
     ret = inchi.compare(inchipos+1, len, InchiFilterString, filterpos, len)==0;
   }
   else
+  {
     // compare up to length of the provided filter string,
     // so can match ignoring stereo by providing only the first part of the key.
     ret = (inchi.compare(0,InchiFilterString.size(),InchiFilterString)==0);
+  }
 
   if(!matchornegate)
+  {
     ret = !ret;
+  }
   return ret;
 }
 

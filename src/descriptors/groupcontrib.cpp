@@ -129,7 +129,9 @@ namespace OpenBabel
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
+    {
       return 0.0;
+    }
 
     //Need to add hydrogens, so do this to a copy to leave original unchanged
     OBMol mol(*pmol);
@@ -137,7 +139,9 @@ namespace OpenBabel
 
     //Read in data, unless it has already been done.
     if(_contribsHeavy.empty() && _contribsHydrogen.empty())
+    {
       ParseFile();
+    }
 
     vector<vector<int> > _mlist; // match list for atom typing
     vector<vector<int> >::iterator j;
@@ -175,12 +179,16 @@ namespace OpenBabel
         _mlist = i->first->GetMapList();
         for (j = _mlist.begin();j != _mlist.end();++j) {
           if (tmpmol.GetAtom((*j)[0])->GetAtomicNum() == OBElements::Hydrogen)
+          {
             continue;
+          }
           int Hcount = tmpmol.GetAtom((*j)[0])->GetExplicitDegree() - tmpmol.GetAtom((*j)[0])->GetHvyDegree();
           hydrogenValues[(*j)[0] - 1] = i->second * Hcount;
           seenHydrogen.SetBitOn((*j)[0]);
           if (_debug)
+          {
             debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << " Hcount " << Hcount << endl;
+          }
         }
       }
     }
@@ -189,10 +197,14 @@ namespace OpenBabel
     double total = 0.0;
 
     if (_debug)
+    {
       debugMessage << "  Final contributions:\n";
+    }
     for (unsigned int index = 0; index < tmpmol.NumAtoms(); index++) {
       if (tmpmol.GetAtom(index + 1)->GetAtomicNum() == OBElements::Hydrogen)
+      {
         continue;
+      }
       total += atomValues[index];
       total += hydrogenValues[index];
       if (_debug) {
@@ -207,7 +219,9 @@ namespace OpenBabel
     }
 
     if (_debug)
+    {
       obErrorLog.ThrowError(__FUNCTION__, debugMessage.str(), obWarning);
+    }
 
     return total;
   }
