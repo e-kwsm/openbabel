@@ -127,7 +127,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     _pmol->BeginModify();
 
     buf = _pxmlConv->GetAttribute("id");
-    if (buf.length())
+    if (!buf.empty())
     {
       _pmol->SetTitle(buf);
     }
@@ -136,7 +136,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
   {
     EnsureEndElement();
     buf = _pxmlConv->GetAttribute("Type");
-    if (buf.length())
+    if (!buf.empty())
     {
       if (buf != "Unspecified" && buf != "Element")
       {
@@ -147,27 +147,27 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     }
     _tempAtom.SetAtomicNum(6); // default is carbon
     buf = _pxmlConv->GetAttribute("id");
-    if (buf.length())
+    if (!buf.empty())
       _tempAtom.SetIdx(atoi(buf.c_str()));
     buf = _pxmlConv->GetAttribute("Element");
-    if (buf.length())
+    if (!buf.empty())
       _tempAtom.SetAtomicNum(atoi(buf.c_str()));
 
     buf = _pxmlConv->GetAttribute("p"); // coords
-    if (buf.length())
+    if (!buf.empty())
     {
       double x = 0., y = 0.;
       sscanf(buf.c_str(), "%lf %lf", &x, &y);
       _tempAtom.SetVector(x, y, 0.);
     }
     buf = _pxmlConv->GetAttribute("Charge");
-    if (buf.length())
+    if (!buf.empty())
       _tempAtom.SetFormalCharge(atoi(buf.c_str()));
     buf = _pxmlConv->GetAttribute("Isotope");
-    if (buf.length())
+    if (!buf.empty())
       _tempAtom.SetIsotope(atoi(buf.c_str()));
     buf = _pxmlConv->GetAttribute("NumHydrogens");
-    if (buf.length())
+    if (!buf.empty())
     {
       _tempAtom.SetImplicitHCount(atoi(buf.c_str()));
     }
@@ -180,12 +180,12 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
 	  bool invert_ends = false;
 	  Begin = End = Flag = 0;
     buf = _pxmlConv->GetAttribute("Order");
-    if (buf.length())
+    if (!buf.empty())
       Order = atoi(buf.c_str());
     else
       Order = 1; //default value
     buf = _pxmlConv->GetAttribute("Display");
-    if (buf.length())
+    if (!buf.empty())
     {
       if (buf == "WedgeEnd")
       {
@@ -207,7 +207,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
       }
     }
     buf = _pxmlConv->GetAttribute("B");
-    if (buf.length())
+    if (!buf.empty())
     {
       if (invert_ends)
         End = atoms[atoi(buf.c_str())];
@@ -215,7 +215,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
         Begin = atoms[atoi(buf.c_str())];
     }
     buf = _pxmlConv->GetAttribute("E");
-    if (buf.length())
+    if (!buf.empty())
     {
       if (invert_ends)
         Begin = atoms[atoi(buf.c_str())];
