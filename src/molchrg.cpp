@@ -112,14 +112,14 @@ namespace OpenBabel
             if (_gsv[src->GetIdx()]->chi >= _gsv[dst->GetIdx()]->chi)
               {
                 if (dst->GetAtomicNum() == OBElements::Hydrogen)
-                  denom = double(OB_GASTEIGER_DENOM);
+                  denom = OB_GASTEIGER_DENOM;
                 else
                   denom = _gsv[dst->GetIdx()]->denom;
               }
             else
               {
                 if (src->GetAtomicNum() == OBElements::Hydrogen)
-                  denom = double(OB_GASTEIGER_DENOM);
+                  denom = OB_GASTEIGER_DENOM;
                 else
                   denom = _gsv[src->GetIdx()]->denom;
               }
