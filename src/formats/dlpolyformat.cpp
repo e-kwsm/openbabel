@@ -320,7 +320,7 @@ namespace OpenBabel
       } 
 
     // Add forces as conformer data
-    if ( levcfg > 1 && forces.size() )
+    if ( levcfg > 1 && !forces.empty() )
       {
         OBConformerData * conformer = new OBConformerData();
         std::vector< std::vector< vector3 > > conflist;
@@ -492,7 +492,7 @@ public:
       } // End while reading loop
     
     // Add forces as conformer data
-    if ( levcfg > 1 && forces.size() )
+    if ( levcfg > 1 && !forces.empty() )
       {
         OBConformerData * conformer = new OBConformerData();
         std::vector< std::vector< vector3 > > conflist;

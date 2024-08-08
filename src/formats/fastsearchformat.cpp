@@ -563,7 +563,7 @@ const char* Description() override  // required
       vector<string> vec;
       tokenize(vec, p);
 
-      if(vec.size() == 0)
+      if(vec.empty())
       {
     	  obErrorLog.ThrowError(__FUNCTION__,
     			  "Missing argument for -s/-S", obError);
