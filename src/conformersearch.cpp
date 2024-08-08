@@ -1010,9 +1010,13 @@ namespace OpenBabel {
     for (i = 1; i <= m_rotorList.Size(); ++i, rotor = m_rotorList.NextRotor(ri))
       {
         if (((OBRandom*)d)->NextInt() % m_mutability == 0)
+        {
           key1[i] = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
+        }
         if (((OBRandom*)d)->NextInt() % m_mutability == 0)
+        {
           key2[i] = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
+        }
       }
     if (IsUniqueKey(m_rotorKeys, key1) && IsGood(key1))
       ret_code += 1;
@@ -1041,7 +1045,9 @@ namespace OpenBabel {
 
     // Add all (parent + children) rotor keys
     for (i = 0; i < m_rotorKeys.size(); ++i)
+    {
       rotamers.AddRotamer(m_rotorKeys[i]);
+    }
 
     // Get conformers for the rotor keys
     rotamers.ExpandConformerList(m_mol, conformers);
@@ -1055,13 +1061,19 @@ namespace OpenBabel {
 
     // delete the conformers
     for (i = 0; i < conformers.size(); ++i)
+    {
       delete [] conformers[i];
+    }
 
     // Sort conformers
     if (max_flag)
+    {
       std::sort(conformer_scores.begin(), conformer_scores.end(), CompareConformerHighScore());
+    }
     else
+    {
       std::sort(conformer_scores.begin(), conformer_scores.end(), CompareConformerLowScore());
+    }
     pop_size = conformer_scores.size();
 
     // Save the score vector, reorder population
@@ -1123,14 +1135,18 @@ namespace OpenBabel {
             for (i = 0; i < ((pop_size * 2) / 3); i++)
               {
                 if (vshared[i])
+                {
                   continue;
+                }
                 min_dist = 1000000;
                 for(iniche = 0; iniche < dynamic_niches.size (); iniche++)
                   {
                     j = dynamic_niches[iniche][0];
                     dist = key_distance (m_rotorKeys[j], m_rotorKeys[i]);
                     if (dist < min_dist )
+                    {
                       min_dist = dist;
+                    }
                   }
                 if (min_dist > max_dist)
                   {
@@ -1143,9 +1159,15 @@ namespace OpenBabel {
 
         // Get the best unassigned individual
         if (imax == -1)
+        {
           for (i = 0; i < pop_size; i++)
+          {
             if (!vshared[i])
+            {
               break;
+            }
+          }
+        }
 
         for (iniche = 0; iniche < dynamic_niches.size (); iniche++)
           {
@@ -1229,12 +1251,18 @@ namespace OpenBabel {
     vflag.resize (pop_size);
     half_pop = pop_size / 2;
     if (pop_size % 2)
+    {
       half_pop++;
+    }
 
     // Build the list of individuals out of the niches
     for (i = 0; i < pop_size; i++)
+    {
       if (niche_map[i] == -1)
+      {
         out_niches.push_back (i);
+      }
+    }
 
     if (m_logstream != nullptr)
       {
@@ -1256,7 +1284,9 @@ namespace OpenBabel {
             nsize = dynamic_niches[iniche].size ();
             imax = nsize / 2;
             if (nsize % 2)
+            {
               imax++;
+            }
             if (iround < imax)
               {
                 i = dynamic_niches[iniche][iround];
@@ -1266,7 +1296,9 @@ namespace OpenBabel {
                     vflag[i] = 1;
                     ninsert++;
                     if (ninsert >= half_pop)
+                    {
                       break;
+                    }
                   }
               }
           }
@@ -1286,7 +1318,9 @@ namespace OpenBabel {
               }
           }
         if (ninsert == last_ninsert)
+        {
           break;
+        }
         iround++;
       }
     // Now add most distant individuals: force genetic diversity in the new population at the cost of higher energies.
@@ -1297,16 +1331,22 @@ namespace OpenBabel {
         for (i = 0; i < pop_size; i++)
           {
             if (vflag[i])
+            {
               continue;
+            }
             dist_min = 1000000;
             for (j = 1; j < pop_size; j++)
               {
                 // Get closest neigbhor distance for this key
                 if (!vflag[j])
+                {
                   continue;
+                }
                 dist = key_distance (m_rotorKeys[i], m_rotorKeys[j]);
                 if (dist < dist_min)
+                {
                   dist_min = dist;
+                }
               }
             if (dist_min > dist_max)
               {			// Find the most distant to its clostest neighbor
@@ -1326,23 +1366,33 @@ namespace OpenBabel {
         ret_code = reproduce (key1, key2);
         // Add the first offspring if valid... and not already in the new generation
         if ((ret_code % 2) && IsUniqueKey(new_generation, key1))
+        {
           offsprings.push_back (key1);
+        }
         // Add the second if valid, and enough space in the new population
         if ((ret_code > 1) && IsUniqueKey(new_generation, key2))
+        {
           offsprings.push_back (key2);
+        }
       }
 
     // Score the offsprings and the best in the new population
     m_rotorKeys.clear ();
     for (i = 0; i < offsprings.size(); i++)
+    {
       m_rotorKeys.push_back(offsprings[i]);
+    }
     score_population ();
     imax = pop_size - new_generation.size ();
     for (i = 0; i < imax; i++)
+    {
       new_generation.push_back(m_rotorKeys[i]);
+    }
     m_rotorKeys.clear ();
     for (i = 0; i < new_generation.size(); i++)
+    {
       m_rotorKeys.push_back(new_generation[i]);
+    }
     score_population ();
 
     // Convergence energy values: average of niches best element
@@ -1357,7 +1407,9 @@ namespace OpenBabel {
     }
     imax = pop_size / 2;
     for (i = 0; i < imax; i++)
+    {
       sum += vscores[i];
+    }
 
     // Convergence criterion: best half population score
     return sum / ((double) imax);
