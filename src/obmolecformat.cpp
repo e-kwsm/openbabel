@@ -36,12 +36,16 @@ namespace OpenBabel
   {
     std::istream *ifs = pConv->GetInStream();
     if (!ifs || !ifs->good())
+    {
       return false;
+    }
 
     OBMol* pmol = new OBMol;
 
     if(pConv->IsOption("C",OBConversion::GENOPTIONS))
+    {
       return DeferMolOutput(pmol, pConv, pFormat);
+    }
 
     bool ret=true;
    if(pConv->IsOption("separate",OBConversion::GENOPTIONS))
@@ -60,6 +64,7 @@ namespace OpenBabel
            vector<OBMol> SepArray = pmol->Separate(); //use un-transformed molecule
            //Add an appropriate title to each fragment
            if(SepArray.size()>1)
+           {
              for (unsigned int i=0; i<SepArray.size(); ++i)
              {
                stringstream ss;
@@ -67,8 +72,11 @@ namespace OpenBabel
                string title = ss.str();
                SepArray[i].SetTitle(title);
              }
+           }
            else
+           {
               SepArray[0].SetTitle(pmol->GetTitle());
+           }
 
            copy(SepArray.begin(),SepArray.end(),back_inserter(MolArray));
          }
@@ -81,7 +89,9 @@ namespace OpenBabel
      }
 
      if(MolArray.empty()) //normal end of fragments
+     {
        ret =false;
+     }
      else
      {
        // Copying is needed because the OBMol passed to AddChemObject will be deleted.
@@ -92,7 +102,9 @@ namespace OpenBabel
            pMolCopy->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS), pConv))!=0;
      }
      if(!ret)
+     {
        StoredMolsReady = false;
+     }
 
      delete pmol;
      return ret;
@@ -114,7 +126,9 @@ namespace OpenBabel
       {
         //With j option, accumulate all mols in one stored in this class
         if(pConv->IsFirstInput())
+        {
           _jmol = new OBMol;
+        }
         pConv->AddChemObject(_jmol);
         //will be discarded in WriteChemObjectImpl until the last input mol. This complication
         //is needed to allow joined molecules to be from different files. pOb1 in AddChem Object
@@ -125,7 +139,9 @@ namespace OpenBabel
       }
     }
     else
+    {
       delete pmol;
+    }
 
     // Normal operation - send molecule to be written
     ret = ret && (pConv->AddChemObject(ptmol)!=0); //success of both writing and reading
@@ -135,13 +151,17 @@ namespace OpenBabel
   bool OBMoleculeFormat::WriteChemObjectImpl(OBConversion* pConv, OBFormat* pFormat)
   {
     if(pConv->IsOption("C",OBConversion::GENOPTIONS))
+    {
       return OutputDeferredMols(pConv);
+    }
     if(pConv->IsOption("j",OBConversion::GENOPTIONS)
         || pConv->IsOption("join",OBConversion::GENOPTIONS))
       {
         //arrives here at the end of a file
         if(!pConv->IsLast())
+        {
           return true;
+        }
         bool ret=pFormat->WriteMolecule(_jmol,pConv);
         pConv->SetOutputIndex(1);
         delete _jmol;
@@ -170,13 +190,17 @@ namespace OpenBabel
         ret = DoOutputOptions(pOb, pConv);
 
         if(ret)
+        {
           ret = pFormat->WriteMolecule(pmol,pConv);
+        }
     }
 
     //If sent a OBReaction* (rather than a OBMol*) output the consituent molecules
     OBReaction* pReact = dynamic_cast<OBReaction*> (pOb);
     if(pReact)
+    {
       ret = OutputMolsFromReaction(pReact, pConv, pFormat);
+    }
     delete pOb;
     return ret;
   }
@@ -197,7 +221,9 @@ namespace OpenBabel
         for (; c < pmol->NumConformers()-1; ++c) {
           pmol->SetConformer(c);
           if(!pConv->GetOutFormat()->WriteMolecule(pmol, pConv))
+          {
             break;
+          }
         }
         pmol->SetConformer(c);
       }
@@ -231,7 +257,9 @@ namespace OpenBabel
     else
       {
         if((std::streamoff)pConv->GetInStream()->tellg()<=0)
+        {
           IsFirstFile=false;//File has changed
+        }
       }
 
     if (!pF->ReadMolecule(pmol,pConv))
@@ -241,13 +269,17 @@ namespace OpenBabel
       }
     const char* ptitle = pmol->GetTitle();
     if(*ptitle==0)
+    {
       obErrorLog.ThrowError(__FUNCTION__, "Molecule with no title ignored", obWarning);
+    }
     else
       {
         string title(ptitle);
         string::size_type pos = title.find_first_of("\t\r\n"); //some title have other data appended
         if(pos!=string::npos)
+        {
           title.erase(pos);
+        }
 
         map<std::string, OBMol*>::iterator itr;
         itr = IMols.find(title);
@@ -313,19 +345,27 @@ namespace OpenBabel
     //Decide on which OBMol provides the new title
     string title("No title");
     if(*pFirst->GetTitle()!=0)
+    {
       title = pFirst->GetTitle();
+    }
     else
       {
         if(*pSecond->GetTitle()!=0)
+        {
           title = pSecond->GetTitle();
+        }
         else
+        {
           obErrorLog.ThrowError(__FUNCTION__,"Combined molecule has no title", obWarning);
+        }
       }
 
     //Decide on which OBMol provides the new structure
     bool swap=false;
     if(pFirst->NumAtoms()==0 && pSecond->NumAtoms()!=0)
+    {
       swap=true;
+    }
     else if(pSecond->NumAtoms()!=0)
       {
         if(pFirst->GetSpacedFormula()!=pSecond->GetSpacedFormula())
@@ -337,13 +377,17 @@ namespace OpenBabel
         else
           {
             if(pSecond->NumBonds()!=0 && pFirst->NumBonds()==0)
+            {
               swap=true;
+            }
             else
               {
                 //Compare by inchi; error if different NOT YET IMPLEMENTED
                 //Use the one with the higher dimension
                 if(pSecond->GetDimension() > pFirst->GetDimension())
+                {
                   swap=true;
+                }
               }
           }
       }
@@ -366,10 +410,14 @@ namespace OpenBabel
         if(datatype==OBGenericDataType::PairData)
           {
             if(pData->GetAttribute() == (*igd)->GetAttribute())
+            {
               continue;
+            }
           }
         else if (pNewMol->GetData(datatype) != nullptr)
+        {
           continue;
+        }
 
         OBGenericData* pCopiedData = (*igd)->Clone(pNewMol);
         pNewMol->SetData(pCopiedData);
@@ -388,16 +436,20 @@ namespace OpenBabel
     for(itr=IMols.begin();itr!=IMols.end();++itr,++i)
       {
         if(!(itr->second)->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS), pConv))
+        {
           continue;
+        }
         pConv->SetOutputIndex(i);
         if(itr==lastitr)
+        {
           pConv->SetOneObjectOnly(); //to set IsLast
+        }
 
         ret = pConv->GetOutFormat()->WriteMolecule(itr->second, pConv);
 
         delete itr->second; //always delete OBMol object
         itr->second = nullptr; // so can be deleted in DeleteDeferredMols()
-        if (!ret) break;
+        if (!ret) { break; }
       }
     DeleteDeferredMols();//cleans up in case there have been errors
     return ret;
@@ -424,14 +476,22 @@ namespace OpenBabel
     //Collect the molecules first, just for convenience
     vector<std::shared_ptr<OBMol> > mols;
     for(int i=0;i<pReact->NumReactants();i++)
+    {
       mols.push_back(pReact->GetReactant(i));
+    }
     for(int i=0;i<pReact->NumProducts();i++)
+    {
       mols.push_back(pReact->GetProduct(i));
+    }
     for (int i = 0; i<pReact->NumAgents(); i++)
+    {
       mols.push_back(pReact->GetAgent(i));
+    }
 
     if(pReact->GetTransitionState())
+    {
       mols.push_back(pReact->GetTransitionState());
+    }
 
     pConv->SetOutputIndex(pConv->GetOutputIndex() - 1); // The OBReaction object is not output
     if((pFormat->Flags() & WRITEONEONLY) && mols.size()>1)
@@ -517,7 +577,9 @@ namespace OpenBabel
           {
             string name = mol.GetTitle();
             if(!name.empty())
+            {
               index.insert(make_pair(name, pos));
+            }
             mol.Clear();
             pos = datastream.tellg();
           }
@@ -525,7 +587,7 @@ namespace OpenBabel
                               "Prepared an index for " + datafilepath, obAuditMsg);
         //Save index to file
         ofstream dofs((datafilepath + ".obindx").c_str(), ios_base::out|ios_base::binary);
-        if(!dofs) return false;
+        if(!dofs) { return false; }
 
         strncpy(header.filename,datafilename.c_str(), sizeof(header.filename));
         header.filename[sizeof(header.filename) - 1] = '\0';

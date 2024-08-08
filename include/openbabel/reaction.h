@@ -75,21 +75,27 @@ public:
   {
     std::shared_ptr<OBMol> sp;
     if(i<_reactants.size())
+    {
       sp = _reactants[i];
+    }
     return sp; //returns empty if out of range
   }
   std::shared_ptr<OBMol> GetProduct(const unsigned i)
   {
     std::shared_ptr<OBMol> sp;
     if(i<_products.size())
+    {
       sp = _products[i];
+    }
     return sp; //returns empty if out of range
   }
   std::shared_ptr<OBMol> GetAgent(const unsigned i)
   {
     std::shared_ptr<OBMol> sp;
     if (i<_agents.size())
+    {
       sp = _agents[i];
+    }
     return sp; //returns empty if out of range
   }
 
