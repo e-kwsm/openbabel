@@ -828,7 +828,7 @@ Returns:
     success/errors codes
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
-EXPIMP_TEMPLATE INCHI_API int INCHI_DECL CheckINCHI(const char *szINCHI, const int strict);    
+EXPIMP_TEMPLATE INCHI_API int INCHI_DECL CheckINCHI(const char *szINCHI, int strict);    
 
 
 #ifndef COMPILE_ALL_CPP
@@ -948,8 +948,8 @@ Returns:
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^*/
 EXPIMP_TEMPLATE INCHI_API int INCHI_DECL GetINCHIKeyFromINCHI(const char* szINCHISource, 
-                                                              const int xtra1,
-                                                              const int xtra2,
+                                                              int xtra1,
+                                                              int xtra2,
                                                               char* szINCHIKey, 
                                                               char* szXtra1, 
                                                               char* szXtra2);
