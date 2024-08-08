@@ -751,12 +751,18 @@ namespace OpenBabel {
       if (m_logstream != nullptr)
         {
           if (vscores.size ())
+          {
             (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << "\t best " << vscores[0] << std::endl;
+          }
           else
+          {
             (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << std::endl;
+          }
         }
       if (identicalGenerations > m_convergence)
+      {
         break;
+      }
     }
 
     if (m_logstream != nullptr)
@@ -776,7 +782,9 @@ namespace OpenBabel {
     rotamers.Setup(mol, m_rotorList);
 
     if (m_logstream != nullptr)
+    {
       (*m_logstream) << "GetConformers:" << std::endl;
+    }
     // Add all (parent + children) unique rotor keys
     for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
       rotamers.AddRotamer(m_rotorKeys[i]);
@@ -784,7 +792,9 @@ namespace OpenBabel {
       if (m_logstream != nullptr)
         {
           for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
+          {
             (*m_logstream) << m_rotorKeys[i][j] << " ";
+          }
           (*m_logstream) << std::endl;
         }
     }
@@ -793,14 +803,20 @@ namespace OpenBabel {
     std::vector<double*> conformers;
     rotamers.ExpandConformerList(mol, conformers);
     if (conformers.size())
+    {
       mol.SetConformers(conformers);
+    }
   }
 
   bool OBConformerSearch::IsUniqueKey(const RotorKeys &keys, const RotorKey &key) const
   {
     for (unsigned int i = 0; i < keys.size(); ++i)
+    {
       if (keys[i] == key)
+      {
         return false;
+      }
+    }
     return true;
   }
 
@@ -842,8 +858,12 @@ namespace OpenBabel {
     std::vector<int>::const_iterator it2 = key2.begin ();
     // Skip first values, since  meaningfull valaues are starting at index 1 (Fortran translation inside ;-))
     for (++it1, ++it2; it1 != key1.end ();++it1, ++it2)
+    {
       if (*it1 != *it2)
+      {
         dist++;
+      }
+    }
     return dist;
   }
 
@@ -873,10 +893,14 @@ namespace OpenBabel {
         neighbor = best;
         new_val = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
         while (new_val == best[i])
+        {
           new_val = ((OBRandom*)d)->NextInt() % rotor->GetResolution().size();
+        }
         neighbor[i] = new_val;
         if (IsUniqueKey(backup_population, neighbor) && IsGood(neighbor))
+        {
           m_rotorKeys.push_back (neighbor);
+        }
       }
     score_population ();
     opt_score = vscores[0];
@@ -922,7 +946,9 @@ namespace OpenBabel {
     OBRotor *rotor = nullptr;
 
     if (pop_size < 2)
+    {
       return 0;
+    }
 
     // Make a 2-tournament selection to choose first parent
     i = ((OBRandom*)d)->NextInt() % pop_size;
@@ -930,7 +956,9 @@ namespace OpenBabel {
     parent1 = vshared_fitnes[i] > vshared_fitnes[j] ? i : j;
     iniche = niche_map[parent1];
     if (iniche > -1)
+    {
       nsize = dynamic_niches[iniche].size (); // Belongs to a specific niche
+    }
 
     // Do we apply crossover here?
     flag_crossover = (((OBRandom*)d)->NextFloat () <= p_crossover);

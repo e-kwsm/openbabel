@@ -1333,7 +1333,9 @@ namespace OpenBabel {
       c[1] = b[2]*axis->direction[0] - b[0]*axis->direction[2] ;
       c[2] = b[0]*axis->direction[1] - b[1]*axis->direction[0] ;
       for( i = 0 ; i < 3 ; i++ )
+      {
         y[i] = -a[i] + b[i]*a_cos + c[i]*a_sin ;
+      }
 
       to->SetVector(y[0] + axis->distance * axis->normal[0],
                     y[1] + axis->distance * axis->normal[1],
@@ -1355,7 +1357,7 @@ namespace OpenBabel {
       double             r ;
       int                i ;
 
-      if( verbose > 0 ) printf( "Trying an axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ;
+      if( verbose > 0 ) { printf( "Trying an axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ; }
       StatTotal++ ;
       /* First, reduce the problem to Cn case */
       a[0] = _mol->GetAtom(ia+1)->x() - CenterOfSomething[0];
@@ -1377,15 +1379,21 @@ namespace OpenBabel {
       r = sqrt(r) ;
       if( r <= ToleranceSame ){
         StatEarly++ ;
-        if( verbose > 0 ) printf( "    atoms can not define improper axis of the order more than 2\n" ) ;
+        if( verbose > 0 ) { printf( "    atoms can not define improper axis of the order more than 2\n" ) ; }
         return nullptr;
       }
       for( i = 0 ; i < DIMENSION ; i++ )
+      {
         centerpoint[i] /= r ;
+      }
       for( i = 0, r = 0 ; i < DIMENSION ; i++ )
+      {
         r += centerpoint[i] * b[i] ;
+      }
       for( i = 0 ; i < DIMENSION ; i++ )
+      {
         b[i] = 2*r*centerpoint[i] - b[i] ;
+      }
       /* Do a quick check of geometry validity */
       if ((axis = init_axis_parameters(a, b, c)) == nullptr) {
         if( verbose > 0 ) printf( "    no coherrent improper axis is defined by the points\n" ) ;
@@ -1458,7 +1466,9 @@ namespace OpenBabel {
       for( i = 1 ; i < _mol->NumAtoms() ; i++ ){
         for( j = 0 ; j < i ; j++ ){
           if( !equivalentAtoms(*_mol->GetAtom(i+1), *_mol->GetAtom(j+1)) )
+          {
             continue ;
+          }
           if ((plane = init_mirror_plane(i, j)) != nullptr) {
             PlanesCount++ ;
             Planes = (SYMMETRY_ELEMENT **) realloc( Planes, sizeof( SYMMETRY_ELEMENT* ) * PlanesCount ) ;
@@ -1517,9 +1527,13 @@ namespace OpenBabel {
       for( i = 1 ; i < _mol->NumAtoms() ; i++ ){
         for( j = 0 ; j < i ; j++ ){
           if( !equivalentAtoms(*_mol->GetAtom(i+1), *_mol->GetAtom(j+1)) )
+          {
             continue ;
+          }
           if( fabs( DistanceFromCenter[i] - DistanceFromCenter[j] ) > TolerancePrimary )
+          {
             continue ; /* A very cheap, but quite effective check */
+          }
           /*
            *   First, let's try to get it cheap and use CenterOfSomething
            */
@@ -1575,10 +1589,14 @@ namespace OpenBabel {
             for( l = 0 ; l < _mol->NumAtoms() ; l++ ){
               a4 = _mol->GetAtom(l+1);
               if( !equivalentAtoms(*a3, *a4) )
+              {
                 continue ;
+              }
               if( fabs( DistanceFromCenter[k] - DistanceFromCenter[l] ) > TolerancePrimary ||
                   fabs( distances[k] - distances[l] ) > TolerancePrimary )
+              {
                 continue ; /* We really need this one to run reasonably fast! */
+              }
 
               center[0] = (a3->x() + a4->x()) / 2.0;
               center[1] = (a3->y() + a4->y()) / 2.0;
