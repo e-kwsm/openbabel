@@ -391,7 +391,7 @@ namespace OpenBabel {
           ifs.getline(buffer, BUFF_SIZE);
           //ifs.getline(buffer, BUFF_SIZE); //FRAGNAME
           tokenize(vs, buffer);
-          while (vs.size() > 0) {
+          while (!vs.empty()) {
             if (vs.size() == 1) {
               vector<string> vs2;
               char delim[] = "=";
@@ -610,7 +610,7 @@ namespace OpenBabel {
           }
 
           // OK, now we have x, y, z for all new modes for one atom
-          if (displacements.size()) {
+          if (!displacements.empty()) {
             numDisp = prevModeCount;
             for (unsigned int i=0; i < modeCount;  ++i) {
               if (i >= modeCount - newModes){
@@ -713,7 +713,7 @@ namespace OpenBabel {
     }
 
     // Add OBOrbitalData
-    if (orbitals.size() > 0) {
+    if (!orbitals.empty()) {
       OBOrbitalData* od = new OBOrbitalData();
 
       if (aHOMO == bHOMO) {
@@ -809,7 +809,7 @@ namespace OpenBabel {
       }
 
       OBPairData* nd = nullptr;
-      if (model != "") {
+      if (!model.empty()) {
         nd = new OBPairData();
         nd->SetAttribute("model");
         nd->SetValue(model);
@@ -817,7 +817,7 @@ namespace OpenBabel {
         pmol->SetData(nd);
       }
 
-      if (basis != "") {
+      if (!basis.empty()) {
         nd = new OBPairData();
         nd->SetAttribute("basis");
         nd->SetValue(basis);
@@ -825,7 +825,7 @@ namespace OpenBabel {
         pmol->SetData(nd);
       }
 
-      if (method != "") {
+      if (!method.empty()) {
         nd = new OBPairData();
         nd->SetAttribute("method");
         nd->SetValue(method);
@@ -869,7 +869,7 @@ namespace OpenBabel {
     }
 
     // Found some vibrations
-    if (frequencies.size() != 0) {
+    if (!frequencies.empty()) {
       OBVibrationData* vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities, raman_intensities);
       vd->SetOrigin(fileformatInput);
@@ -1076,7 +1076,7 @@ namespace OpenBabel {
                   // Remove consecutive spaces
                   s.erase(unique(s.begin(), s.end(), local::cmpfn), s.end());
 
-                  while (s.length() > 0) {
+                  while (!s.empty()) {
                     if (s.find(' ') != string::npos) {
                       // There are spaces in value
                       // Find space positions

@@ -843,7 +843,7 @@ namespace OpenBabel
       ad->Expand(mol, atomnum); //Make chemically meaningful, if possible.
     }
 
-    if (comment.length()) {
+    if (!comment.empty()) {
       OBCommentData *cd = new OBCommentData;
       cd->SetData(comment);
       cd->SetOrigin(fileformatInput);
@@ -1305,7 +1305,7 @@ namespace OpenBabel
         }
       }
 
-      if (rads.size()) {
+      if (!rads.empty()) {
         int counter = 0;
         for(itr=rads.begin();itr!=rads.end();++itr, counter++) {
           if (counter % 8 == 0) {
@@ -1316,7 +1316,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(isos.size()) {
+      if(!isos.empty()) {
         int counter = 0;
         for(itr=isos.begin();itr!=isos.end();++itr, counter++) {
           if (counter % 8 == 0) {
@@ -1327,7 +1327,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(chgs.size()) {
+      if(!chgs.empty()) {
         int counter = 0;
         for (itr=chgs.begin(); itr != chgs.end(); ++itr, counter++) {
           if (counter % 8 == 0) {
@@ -1338,7 +1338,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(zchs.size()) {
+      if(!zchs.empty()) {
         int counter = 0;
         for (zitr=zchs.begin(); zitr != zchs.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
@@ -1349,7 +1349,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(hyds.size()) {
+      if(!hyds.empty()) {
         int counter = 0;
         for (zitr=hyds.begin(); zitr != hyds.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
@@ -1360,7 +1360,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(zbos.size()) {
+      if(!zbos.empty()) {
         int counter = 0;
         for(vector<int>::iterator it = zbos.begin(); it != zbos.end(); ++it, counter++) {
           if (counter % 8 == 0) {
@@ -1371,7 +1371,7 @@ namespace OpenBabel
         }
         ofs << endl;
       }
-      if(numberedRGroups.size()) {
+      if(!numberedRGroups.empty()) {
         int counter = 0;
         for (zitr=numberedRGroups.begin(); zitr != numberedRGroups.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
@@ -1764,11 +1764,11 @@ namespace OpenBabel
     std::vector<OBCisTransStereo *> stack;
 
     // Keep looping until all CT stereos have been handled
-    while (cistrans.size() > 0) {
+    while (!cistrans.empty()) {
       stack.push_back( *(cistrans.begin()) );
 
       // This loop uses the stack to handle a conjugated dbl bond system
-      while (stack.size() > 0) {
+      while (!stack.empty()) {
         OBCisTransStereo *ct = stack.back();
         stack.pop_back();
         cistrans.erase(ct);
@@ -1943,7 +1943,7 @@ namespace OpenBabel
         string buff;
         while (std::getline(ifs, line)) {
           Trim(line);
-          if (line.size()) {
+          if (!line.empty()) {
             buff.append(line);
             buff += "\n";
           } else

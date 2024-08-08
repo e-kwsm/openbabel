@@ -58,7 +58,7 @@ namespace OpenBabel
     else
       tmp += "*** Open Babel Debugging Message ";
 
-    if (_method.length() != 0)
+    if (!_method.empty())
       {
         tmp += " in " + _method + string("\n  ");
       }

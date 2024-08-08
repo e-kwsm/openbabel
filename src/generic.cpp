@@ -570,7 +570,7 @@ namespace OpenBabel
       "Fd-3m", "Fd-3c", "Im-3m", "Ia-3d"
     };
 
-    if (name.length () == 0)
+    if (name.empty())
       {
         if (_spaceGroup != nullptr)
           return _spaceGroup->GetId();
@@ -1385,7 +1385,7 @@ void OBDOSData::SetData(double fermi,
   {
     if (energies.size() < symmetries.size())
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
-    if (energies.size() == 0)
+    if (energies.empty())
       return;
     if (alphaHOMO > energies.size())
       return;
@@ -1416,7 +1416,7 @@ void OBDOSData::SetData(double fermi,
   {
     if (energies.size() < symmetries.size())
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
-    if (energies.size() == 0)
+    if (energies.empty())
       return;
     if (alphaHOMO > energies.size())
       return;
@@ -1445,7 +1445,7 @@ void OBDOSData::SetData(double fermi,
   {
     if (energies.size() < symmetries.size())
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
-    if (energies.size() == 0)
+    if (energies.empty())
       return;
     if (betaHOMO > energies.size())
       return;

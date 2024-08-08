@@ -360,7 +360,7 @@ namespace OpenBabel
 
     OBMolPairIter& operator=(const OBMolPairIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more 1-4 atom pairs)
-    operator bool() const        { return _pair.size()>0; }
+    operator bool() const        { return !_pair.empty(); }
     //! Preincrement -- advance to the next 1-4 atom pair and return
     OBMolPairIter& operator++();
     //! \return A vector of two atom indexes specifying the 1-4 atom pair

@@ -135,7 +135,7 @@ namespace OpenBabel
         if (buffer[0]!='$')
           {
             tokenize(vs, buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
+            if (vs.empty()) return false; // timvdm 18/06/2008
             atom=mol.NewAtom();
             str=vs[0];
             if (input_style==0)

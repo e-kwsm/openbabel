@@ -130,7 +130,7 @@ namespace OpenBabel
     while(ifs.getline(buffer,BUFF_SIZE))
     {
       tokenize(vs, buffer, delimstr);
-      if(vs.size() == 0)
+      if(vs.empty())
         continue;
       if(vs[0] == "atom" )
       {

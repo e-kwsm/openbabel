@@ -355,7 +355,7 @@ protected:
           StreamState(): pStream(nullptr) {}
           ~StreamState()
           {
-            assert(ownedStreams.size() == 0); //should be popped
+            assert(ownedStreams.empty()); //should be popped
           }
 
           void pushInput(OBConversion& conv);

@@ -293,7 +293,7 @@ int main(int argc, char **argv)
 	  exit(-1);
 	}
 
-	if(!docross && fileTest.size() == 0) {
+	if(!docross && fileTest.empty()) {
 	  cerr << helpmsg;
 	  cerr << "Command line parse error: test file is required but missing\n";
 	  exit(-1);
@@ -304,7 +304,7 @@ int main(int argc, char **argv)
 
 	OBConversion outconv;
 	OBFormat *outFormat = outconv.FormatFromExt(fileOut);
-	if(fileOut.size() > 0)
+	if(!fileOut.empty())
 	{
 		if(!outFormat || !outconv.SetInAndOutFormats(outFormat, outFormat))
 		{
@@ -314,7 +314,7 @@ int main(int argc, char **argv)
 	}
 
 	std::ofstream out;
-	if(fileOut.size() > 0)
+	if(!fileOut.empty())
 	{
 		out.open(fileOut.c_str());
 	}

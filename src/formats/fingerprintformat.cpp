@@ -177,7 +177,7 @@ namespace OpenBabel
         return false;
       }
       string descr = pFP->DescribeBits(fptvec, pConv->IsOption("s") != nullptr);
-      if(descr=="")
+      if(descr.empty())
         obErrorLog.ThrowError(__FUNCTION__,
         "Bit descriptions are not available for this fingerprint type", obError, onceOnly);
 

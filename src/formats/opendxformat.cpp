@@ -184,7 +184,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         break; // we're finished with reading data -- although we should probably have a voxel check in here too
 
       tokenize(vs, buffer);
-      if (vs.size() == 0)
+      if (vs.empty())
       {
         errorMsg << "Problem reading the OpenDX grid file: cannot"
                  << " read line " << line

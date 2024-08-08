@@ -172,13 +172,13 @@ int smartstest(int argc, char* argv[])
                    << mlist.size() << "\n";
               cout << "# Error with molecule " << mol.GetTitle();
               cout << "#  on pattern " << (*i)->GetSMARTS() << "\n";
-              if (mlist.size())
+              if (!mlist.empty())
                 cout << "# First match: atom #" << mlist[0][0] << "\n";
               molPassed = false;
               continue;
             }
 
-          if (mlist.size())
+          if (!mlist.empty())
             {
               for (k = 0;k < vs.size();k++)
                 {

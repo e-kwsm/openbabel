@@ -347,7 +347,7 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    if (from == "")
+    if (from.empty())
       return(false);
 
     if (_from >= 0 && _to >= 0 &&
@@ -459,7 +459,7 @@ namespace OpenBabel
         if (r1 == nullptr) // atoms may not have residues
           continue;
 
-        if (skipres.length() && r1->GetNumString() == skipres)
+        if (!skipres.empty() && r1->GetNumString() == skipres)
           continue;
 
         if (r1->GetName() != rname)
@@ -535,7 +535,7 @@ namespace OpenBabel
 
         r1 = a1->GetResidue();
         if (r1 == nullptr) continue; // atoms may not have residues
-        if (skipres.length() && r1->GetNumString() == skipres)
+        if (!skipres.empty() && r1->GetNumString() == skipres)
           continue;
 
         if (r1->GetName() != rname)
@@ -682,10 +682,10 @@ namespace OpenBabel
     string fn_open = OpenDatafile(ifs, _filename, _envvar);
     
     // Check _subdir directory
-    if (fn_open == "")
+    if (fn_open.empty())
       string fn_open = OpenDatafile(ifs, _filename, _subdir);
 
-    if (fn_open != "" && (ifs))
+    if (!fn_open.empty() && (ifs))
       {
         while(ifs.getline(charBuffer,BUFF_SIZE))
           ParseLine(charBuffer);

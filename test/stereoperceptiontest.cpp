@@ -121,7 +121,7 @@ std::string test_singleUnspecifiedTetrahedral(const std::string &file,
 {
   OBMol mol;
   string retval = readMol(&mol, file);
-  if (retval.size() > 0) {
+  if (!retval.empty()) {
     OBStereoFacade stereo(&mol);
     OB_ASSERT( stereo.HasTetrahedralStereo(center) );
     OBTetrahedralStereo *ts = stereo.GetTetrahedralStereo(center);
@@ -136,7 +136,7 @@ std::string test_singleUnknownTetrahedral(const std::string &file,
 {
   OBMol mol;
   string retval = readMol(&mol, file);
-  if (retval.size() > 0) {
+  if (!retval.empty()) {
     OBStereoFacade stereo(&mol);
     OB_ASSERT( stereo.HasTetrahedralStereo(center) );
     OBTetrahedralStereo *ts = stereo.GetTetrahedralStereo(center);
@@ -169,7 +169,7 @@ void test_noStereo(const std::string &file)
   StereoFrom3D(&mol);
 
   std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-  OB_ASSERT( stereoData.size() == 0 );
+  OB_ASSERT( stereoData.empty() );
 } 
 
 

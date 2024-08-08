@@ -359,7 +359,7 @@ namespace OpenBabel
     this->ExtractSpacegroup();
     this->ExtractUnitCell();
     this->ExtractAtomicPositions();
-    if(mvAtom.size()==0)
+    if(mvAtom.empty())
       {
         stringstream ss;
         ss << "CIF Error: no atom found ! (in data block:"<<mDataBlockName<<")";
@@ -589,7 +589,7 @@ namespace OpenBabel
     if(positem!=mvItem.end())
       {
         obErrorLog.ThrowError(__FUNCTION__, "Found spacegroup IT_coordinate_system_code:"+positem->second, obDebug);
-        if((mSpacegroupHermannMauguin.length()>0) && (positem->second=="1" || positem->second=="2"))
+        if((!mSpacegroupHermannMauguin.empty()) && (positem->second=="1" || positem->second=="2"))
         {
           // this is a HACK which will work as long as the HM symbols in spacegroups.txt have the ":1" or ":2" extension listed, when needed
           mSpacegroupHermannMauguin=mSpacegroupHermannMauguin+string(":")+positem->second;
@@ -606,7 +606,7 @@ namespace OpenBabel
     mSpaceGroup = nullptr;
     // be forgiving - if spg not found, try again
     // Prefer Hall > HM == number, as Hall symbol is truly unique
-    if (mSpacegroupSymbolHall.length() > 0) {
+    if (!mSpacegroupSymbolHall.empty()) {
       //Make sure there are no leading spaces before Hall symbol (kludge)
       for(std::string::iterator pos=mSpacegroupSymbolHall.begin();pos!=mSpacegroupSymbolHall.end();)
       {
@@ -615,7 +615,7 @@ namespace OpenBabel
       }
       mSpaceGroup = SpaceGroup::GetSpaceGroup(mSpacegroupSymbolHall);
     }
-    if (mSpaceGroup == nullptr && mSpacegroupHermannMauguin.length() > 0) {
+    if (mSpaceGroup == nullptr && !mSpacegroupHermannMauguin.empty()) {
       mSpaceGroup = SpaceGroup::GetSpaceGroup(mSpacegroupHermannMauguin);
     }
     if (mSpaceGroup == nullptr && mSpacegroupNumberIT != 0) {
@@ -746,7 +746,7 @@ namespace OpenBabel
     for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
         loop!=mvLoop.end();++loop)
       {
-        if(mvAtom.size()>0) break;// only extract ONE list of atoms, preferably fractional coordinates
+        if(!mvAtom.empty()) break;// only extract ONE list of atoms, preferably fractional coordinates
         map<ci_string,vector<string> >::const_iterator posx,posy,posz,poslabel,possymbol,posoccup;
         posx=loop->second.find("_atom_site_fract_x");
         posy=loop->second.find("_atom_site_fract_y");
@@ -784,7 +784,7 @@ namespace OpenBabel
                 this->Cartesian2FractionalCoord();
               }
           }
-        if(mvAtom.size()>0)
+        if(!mvAtom.empty())
           {// Got the atoms, get names and symbols
             possymbol=loop->second.find("_atom_site_type_symbol");
             if(possymbol!=loop->second.end())
@@ -824,13 +824,13 @@ namespace OpenBabel
             for(unsigned int i=0;i<nb;++i)
               {
                 ss<<mvAtom[i].mLabel<<" "<<mvAtom[i].mSymbol;
-                if(mvAtom[i].mCoordFrac.size()>0)
+                if(!mvAtom[i].mCoordFrac.empty())
                   {
                     ss<<" , Fractional: ";
                     for(unsigned int j=0;j<mvAtom[i].mCoordFrac.size();++j)
                       ss<<mvAtom[i].mCoordFrac[j]<<" ";
                   }
-                if(mvAtom[i].mCoordCart.size()>0)
+                if(!mvAtom[i].mCoordCart.empty())
                   {
                     ss<<" , Cartesian: ";
                     for(unsigned int j=0;j<mvAtom[i].mCoordCart.size();++j)
@@ -911,7 +911,7 @@ namespace OpenBabel
 
   void CIFData::CalcMatrices()
   {
-    if(mvLatticePar.size()==0) return;//:@todo: throw error
+    if(mvLatticePar.empty()) return;//:@todo: throw error
     float a,b,c,alpha,beta,gamma;//direct space parameters
     float aa,bb,cc,alphaa,betaa,gammaa;//reciprocal space parameters
     float v;//volume of the unit cell
@@ -1005,7 +1005,7 @@ namespace OpenBabel
 
   void CIFData::Cartesian2FractionalCoord()
   {
-    if(mvLatticePar.size()==0) return;//:@todo: report error
+    if(mvLatticePar.empty()) return;//:@todo: report error
     for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
       {
         pos->mCoordFrac.resize(3);
@@ -1018,7 +1018,7 @@ namespace OpenBabel
 
   void CIFData::Fractional2CartesianCoord()
   {
-    if(mvLatticePar.size()==0) return;//:@todo: report error
+    if(mvLatticePar.empty()) return;//:@todo: report error
     for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
       {
         pos->mCoordCart.resize(3);
@@ -1045,7 +1045,7 @@ namespace OpenBabel
         for(map<string,CIFData>::iterator posd=mvData.begin();posd!=mvData.end();++posd)
         {
           posd->second.ExtractAll();
-          if(posd->second.mvAtom.size()>0) found_atoms=true;
+          if(!posd->second.mvAtom.empty()) found_atoms=true;
         }
     }
   }
@@ -1131,7 +1131,7 @@ namespace OpenBabel
           {//Comment
             string tmp;
             getline(in,tmp);
-            if(block=="") mvComment.push_back(tmp);
+            if(block.empty()) mvComment.push_back(tmp);
             else mvData[block].mvComment.push_back(tmp);
             lastc='\r';
             continue;
@@ -1182,7 +1182,7 @@ namespace OpenBabel
                 if(in.peek()=='#')
                   {
                     getline(in,tmp);
-                    if(block=="") mvComment.push_back(tmp);
+                    if(block.empty()) mvComment.push_back(tmp);
                     else mvData[block].mvComment.push_back(tmp);
                     continue;
                   }
@@ -1213,7 +1213,7 @@ namespace OpenBabel
                     string tmp;
                     getline(in,tmp);
                     pos0=in.tellg();
-                    if(block=="") mvComment.push_back(tmp);
+                    if(block.empty()) mvComment.push_back(tmp);
                     else mvData[block].mvComment.push_back(tmp);
                     lastc='\r';
                     if(vv) obErrorLog.ThrowError(__FUNCTION__, "Comment in a loop (?):"+tmp, obDebug);
@@ -1261,7 +1261,7 @@ namespace OpenBabel
         string junk;
         getline(in,junk);
 
-        if(junk.size()>0)
+        if(!junk.empty())
         {
           stringstream errorMsg;
           errorMsg << "Warning: one line could not be interpreted while reading a CIF file:"<<endl
@@ -1409,15 +1409,15 @@ namespace OpenBabel
     CIF cif(*pConv->GetInStream(),true);
     // Loop on all data blocks until we find one structure :@todo: handle multiple structures
     for(map<string,CIFData>::iterator pos=cif.mvData.begin();pos!=cif.mvData.end();++pos)
-      if(pos->second.mvAtom.size()>0)
+      if(!pos->second.mvAtom.empty())
         {
           pmol->BeginModify();
           if(pos->second.mvLatticePar.size()==6)
             {// We have one unit cell
               string spg=pos->second.mSpacegroupSymbolHall;
-              if(spg=="") spg=pos->second.mSpacegroupHermannMauguin;
-              if(spg=="") spg=pos->second.mSpacegroupNumberIT;
-              if(spg=="") spg="P1";
+              if(spg.empty()) spg=pos->second.mSpacegroupHermannMauguin;
+              if(spg.empty()) spg=pos->second.mSpacegroupNumberIT;
+              if(spg.empty()) spg="P1";
               OBUnitCell *pCell=new OBUnitCell;
               pCell->SetOrigin(fileformatInput);
               pCell->SetData(pos->second.mvLatticePar[0],
@@ -1430,12 +1430,12 @@ namespace OpenBabel
               pCell->SetSpaceGroup(pos->second.mSpaceGroup);
               pmol->SetData(pCell);
             }
-          if(pos->second.mName!="") pmol->SetTitle(pos->second.mName);
+          if(!pos->second.mName.empty()) pmol->SetTitle(pos->second.mName);
           else
-            if(pos->second.mFormula!="") pmol->SetTitle(pos->second.mFormula);
+            if(!pos->second.mFormula.empty()) pmol->SetTitle(pos->second.mFormula);
             else pmol->SetTitle(pConv->GetTitle());
 
-          if(pos->second.mFormula!="") pmol->SetFormula(pos->second.mFormula);
+          if(!pos->second.mFormula.empty()) pmol->SetFormula(pos->second.mFormula);
 
           // Keep a map linking the cif atom label to the obatom*, for bond interpretation later
           std::map<std::string,OBAtom *> vLabelOBatom;
@@ -1493,7 +1493,7 @@ namespace OpenBabel
               atom->SetAtomicNum(atomicNum); //set atomic number, or '0' if the atom type is not recognized
               atom->SetType(tmpSymbol); //set atomic number, or '0' if the atom type is not recognized
               atom->SetVector(posat->mCoordCart[0],posat->mCoordCart[1],posat->mCoordCart[2]);
-              if(posat->mLabel.size()>0)
+              if(!posat->mLabel.empty())
               {
                 OBPairData *label = new OBPairData;
                 label->SetAttribute("_atom_site_label");
