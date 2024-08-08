@@ -367,7 +367,7 @@ namespace OpenBabel
     os.write((const char*)&fg._xdim,sizeof(int));
     os.write((const char*)&fg._ydim,sizeof(int));
     os.write((const char*)&fg._zdim,sizeof(int));
-    os.write((const char*)&fg._values[0],
+    os.write((const char*)fg._values.data(),
              (sizeof(double)*(fg._xdim*fg._ydim*fg._zdim)));
 
     return(os);
@@ -394,7 +394,7 @@ namespace OpenBabel
     fg._values.resize(size);
     size *= (int) sizeof(double);
 
-    is.read((char*)&fg._values[0],size);
+    is.read((char*)fg._values.data(),size);
     fg._halfSpace= fg._spacing/2.0;
 
     return(is);

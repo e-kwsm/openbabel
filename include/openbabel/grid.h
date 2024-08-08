@@ -241,7 +241,7 @@ namespace OpenBabel
     //! \deprecated Will be removed.
     //! \sa GetDataVector()
     OB_DEPRECATED_MSG("Use GetDataVector instead")
-    double *GetVals()    {        return(&_values[0]);    }
+    double *GetVals()    {        return(_values.data());    }
 
     //! \return Value at the point in the grid specified by i, j and k.
     double GetValue(int i, int j, int k)

@@ -151,8 +151,8 @@ namespace OpenBabel
     //	GetFingerprint(mol, vecwords, _index.header.words, _index.header.fptype);
 
     unsigned int words = _index.header.words;
-    unsigned int* nextp = &_index.fptdata[0];
-    unsigned int* ppat0 = &vecwords[0];
+    unsigned int* nextp = _index.fptdata.data();
+    unsigned int* ppat0 = vecwords.data();
     unsigned int* p;
     unsigned int* ppat;
     unsigned int i;
@@ -206,8 +206,8 @@ namespace OpenBabel
 
   unsigned int dataSize = _index.header.nEntries;
   unsigned int words = _index.header.words;
-  unsigned int* nextp = &_index.fptdata[0]; // start of next FP in index
-  unsigned int* ppat0 = &vecwords[0];       // start of target FP
+  unsigned int* nextp = _index.fptdata.data(); // start of next FP in index
+  unsigned int* ppat0 = vecwords.data();       // start of target FP
   unsigned int* p;                          // current position in index
   unsigned int* ppat;                       // current position in target FP
   unsigned int i; // need address of this, can't be register
@@ -244,7 +244,7 @@ namespace OpenBabel
 
     unsigned int words = _index.header.words;
     unsigned int dataSize = _index.header.nEntries;
-    unsigned int* nextp = &_index.fptdata[0];
+    unsigned int* nextp = _index.fptdata.data();
     unsigned int* p;
     unsigned int i;
     for(i=0;i<dataSize; ++i) //speed critical section
@@ -279,7 +279,7 @@ namespace OpenBabel
 
     unsigned int words = _index.header.words;
     unsigned int dataSize = _index.header.nEntries;
-    unsigned int* nextp = &_index.fptdata[0];
+    unsigned int* nextp = _index.fptdata.data();
     unsigned int* p;
     unsigned int i;
     for(i=0;i<dataSize; ++i) //speed critical section
@@ -338,15 +338,15 @@ namespace OpenBabel
     fptdata.resize(nwords);
     seekdata.resize(header.nEntries);
 
-    pIndexstream->read((char*)&(fptdata[0]), sizeof(unsigned int) * nwords);
+    pIndexstream->read((char*)fptdata.data(), sizeof(unsigned int) * nwords);
     if(header.seek64) 
       {
-    	pIndexstream->read((char*)&(seekdata[0]), sizeof(unsigned long) * header.nEntries);
+    	pIndexstream->read((char*)seekdata.data(), sizeof(unsigned long) * header.nEntries);
       }
     else 
       { //legacy format
 	 vector<unsigned int> tmp(header.nEntries);
-         pIndexstream->read((char*)&(tmp[0]), sizeof(unsigned int) * header.nEntries);
+         pIndexstream->read((char*)tmp.data(), sizeof(unsigned int) * header.nEntries);
 	 std::copy(tmp.begin(),tmp.end(),seekdata.begin());
       }
 
@@ -442,8 +442,8 @@ namespace OpenBabel
     _indexstream->write( (const char*)&hdr.seek64,         sizeof(hdr.seek64) );
     _indexstream->write( (const char*)&hdr.datafilename, sizeof(hdr.datafilename) );
 
-    _indexstream->write((const char*)&_pindex->fptdata[0], _pindex->fptdata.size()*sizeof(unsigned int));
-    _indexstream->write((const char*)&_pindex->seekdata[0], _pindex->seekdata.size()*sizeof(unsigned long));
+    _indexstream->write((const char*)_pindex->fptdata.data(), _pindex->fptdata.size()*sizeof(unsigned int));
+    _indexstream->write((const char*)_pindex->seekdata.data(), _pindex->seekdata.size()*sizeof(unsigned long));
     if(!_indexstream)
       obErrorLog.ThrowError(__FUNCTION__,
                             "Difficulty writing index", obWarning);
