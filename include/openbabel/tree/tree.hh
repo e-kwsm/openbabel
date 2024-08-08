@@ -604,7 +604,7 @@ template<class T, class tree_node_allocator>
 void tree<T, tree_node_allocator>::erase_children(const iterator_base& it)
 	{
 //	std::cout << "erase_children " << it.node << std::endl;
-	if(it.node==nullptr) return;
+	if(it.node==nullptr) { return; }
 
 	tree_node *cur=it.node->first_child;
 	tree_node *prev=nullptr;
@@ -1388,14 +1388,14 @@ template <typename iter> iter tree<T, tree_node_allocator>::move_after(iter targ
 			return source;
 
    // take src out of the tree
-   if(src->prev_sibling!=0) src->prev_sibling->next_sibling=src->next_sibling;
-   else                     src->parent->first_child=src->next_sibling;
-   if(src->next_sibling!=0) src->next_sibling->prev_sibling=src->prev_sibling;
-   else                     src->parent->last_child=src->prev_sibling;
+   if(src->prev_sibling!=0) { src->prev_sibling->next_sibling=src->next_sibling; }
+   else                     { src->parent->first_child=src->next_sibling; }
+   if(src->next_sibling!=0) { src->next_sibling->prev_sibling=src->prev_sibling; }
+   else                     { src->parent->last_child=src->prev_sibling; }
 
    // connect it to the new point
-   if(dst->next_sibling!=0) dst->next_sibling->prev_sibling=src;
-   else                     dst->parent->last_child=src;
+   if(dst->next_sibling!=0) { dst->next_sibling->prev_sibling=src; }
+   else                     { dst->parent->last_child=src; }
    src->next_sibling=dst->next_sibling;
    dst->next_sibling=src;
    src->prev_sibling=dst;
@@ -1417,14 +1417,14 @@ template <typename iter> iter tree<T, tree_node_allocator>::move_before(iter tar
 			return source;
 
    // take src out of the tree
-   if(src->prev_sibling!=0) src->prev_sibling->next_sibling=src->next_sibling;
-   else                     src->parent->first_child=src->next_sibling;
-   if(src->next_sibling!=0) src->next_sibling->prev_sibling=src->prev_sibling;
-   else                     src->parent->last_child=src->prev_sibling;
+   if(src->prev_sibling!=0) { src->prev_sibling->next_sibling=src->next_sibling; }
+   else                     { src->parent->first_child=src->next_sibling; }
+   if(src->next_sibling!=0) { src->next_sibling->prev_sibling=src->prev_sibling; }
+   else                     { src->parent->last_child=src->prev_sibling; }
 
    // connect it to the new point
-   if(dst->prev_sibling!=0) dst->prev_sibling->next_sibling=src;
-   else                     dst->parent->first_child=src;
+   if(dst->prev_sibling!=0) { dst->prev_sibling->next_sibling=src; }
+   else                     { dst->parent->first_child=src; }
    src->prev_sibling=dst->prev_sibling;
    dst->prev_sibling=src;
    src->next_sibling=dst;
@@ -1444,23 +1444,23 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 		dst_prev_sibling=target.parent_->last_child;
 		assert(dst_prev_sibling);
 		}
-	else dst_prev_sibling=dst->prev_sibling;
+	else { dst_prev_sibling=dst->prev_sibling; }
 	assert(src);
 
-	if(dst==src) return source;
+	if(dst==src) { return source; }
 	if(dst_prev_sibling)
 		if(dst_prev_sibling==src) // already in the right spot
 			return source;
 
 	// take src out of the tree
-	if(src->prev_sibling!=0) src->prev_sibling->next_sibling=src->next_sibling;
-	else                     src->parent->first_child=src->next_sibling;
-	if(src->next_sibling!=0) src->next_sibling->prev_sibling=src->prev_sibling;
-	else                     src->parent->last_child=src->prev_sibling;
+	if(src->prev_sibling!=0) { src->prev_sibling->next_sibling=src->next_sibling; }
+	else                     { src->parent->first_child=src->next_sibling; }
+	if(src->next_sibling!=0) { src->next_sibling->prev_sibling=src->prev_sibling; }
+	else                     { src->parent->last_child=src->prev_sibling; }
 
 	// connect it to the new point
-	if(dst_prev_sibling!=0) dst_prev_sibling->next_sibling=src;
-	else                    target.parent_->first_child=src;
+	if(dst_prev_sibling!=0) { dst_prev_sibling->next_sibling=src; }
+	else                    { target.parent_->first_child=src; }
 	src->prev_sibling=dst_prev_sibling;
 	if(dst) {
 		dst->prev_sibling=src;
@@ -1489,16 +1489,16 @@ template <typename iter> iter tree<T, tree_node_allocator>::move_ontop(iter targ
 	erase(target);
 
 	// take src out of the tree
-	if(src->prev_sibling!=0) src->prev_sibling->next_sibling=src->next_sibling;
-	else                     src->parent->first_child=src->next_sibling;
-	if(src->next_sibling!=0) src->next_sibling->prev_sibling=src->prev_sibling;
-	else                     src->parent->last_child=src->prev_sibling;
+	if(src->prev_sibling!=0) { src->prev_sibling->next_sibling=src->next_sibling; }
+	else                     { src->parent->first_child=src->next_sibling; }
+	if(src->next_sibling!=0) { src->next_sibling->prev_sibling=src->prev_sibling; }
+	else                     { src->parent->last_child=src->prev_sibling; }
 
 	// connect it to the new point
-	if(b_prev_sibling!=0) b_prev_sibling->next_sibling=src;
-	else                  b_parent->first_child=src;
-	if(b_next_sibling!=0) b_next_sibling->prev_sibling=src;
-	else                  b_parent->last_child=src;
+	if(b_prev_sibling!=0) { b_prev_sibling->next_sibling=src; }
+	else                  { b_parent->first_child=src; }
+	if(b_next_sibling!=0) { b_next_sibling->prev_sibling=src; }
+	else                  { b_parent->last_child=src; }
 	src->prev_sibling=b_prev_sibling;
 	src->next_sibling=b_next_sibling;
 	src->parent=b_parent;
@@ -1637,8 +1637,8 @@ bool tree<T, tree_node_allocator>::equal_subtree(const iter& one_, const iter& t
 	{
 	pre_order_iterator one(one_), two(two_);
 
-	if(!fun(*one,*two)) return false;
-	if(number_of_children(one)!=number_of_children(two)) return false;
+	if(!fun(*one,*two)) { return false; }
+	if(number_of_children(one)!=number_of_children(two)) { return false; }
 	return equal(begin(one),end(one),begin(two),fun);
 	}
 
@@ -1722,7 +1722,9 @@ int tree<T, tree_node_allocator>::max_depth() const
 	{
 	int maxd=-1;
 	for(tree_node *it = head->next_sibling; it!=feet; it=it->next_sibling)
+	{
 		maxd=std::max(maxd, max_depth(it));
+       }
 
 	return maxd;
 	}

@@ -145,18 +145,22 @@ public:
           {
             n1 = atoi(&*p1);
             //skip over number
-            while(p1!=s1.end() && isdigit(*p1++)); --p1;
+            while(p1!=s1.end() && isdigit(*p1++)) {}
+            --p1;
           }
         if(isdigit(*p2))
           {
             n2 = atoi(&*p2);
-            while(p2!=s2.end() && isdigit(*p2++)); --p2;
+            while(p2!=s2.end() && isdigit(*p2++)) {}
+            --p2;
           }
         if(n1<0 && n2 < 0)
           {
             //neither numbers
             if(*p1 != *p2)
+            {
         return *p1 < *p2;
+            }
           }
         else if(n1>=0 && n2>0)
           {
