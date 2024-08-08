@@ -47,28 +47,32 @@ namespace OpenBabel
   {
     string tmp = "==============================\n";
 
-    if (_level == obError)
+    if (_level == obError) {
       tmp += "*** Open Babel Error ";
-    else if (_level == obWarning)
+    } else if (_level == obWarning) {
       tmp += "*** Open Babel Warning ";
-    else if (_level == obInfo)
+    } else if (_level == obInfo) {
       tmp += "*** Open Babel Information ";
-    else if (_level == obAuditMsg)
+    } else if (_level == obAuditMsg) {
       tmp += "*** Open Babel Audit Log ";
-    else
+    } else {
       tmp += "*** Open Babel Debugging Message ";
+    }
 
     if (_method.length() != 0)
       {
         tmp += " in " + _method + string("\n  ");
       }
     tmp += _errorMsg + "\n";
-    if (!_explanation.empty())
+    if (!_explanation.empty()) {
       tmp += "  " + _explanation + "\n";
-    if (!_possibleCause.empty())
+    }
+    if (!_possibleCause.empty()) {
       tmp += "  Possible reason: " + _possibleCause + "\n";
-    if (!_suggestedRemedy.empty())
+    }
+    if (!_suggestedRemedy.empty()) {
       tmp += "  Suggestion: " + _suggestedRemedy + "\n";
+    }
     return tmp;
   }
 
@@ -161,8 +165,9 @@ namespace OpenBabel
 
   void OBMessageHandler::ThrowError(OBError err, errorQualifier qualifier)
   {
-    if (!_logging)
+    if (!_logging) {
       return;
+    }
 
     //Output error message if level sufficiently high and, if onceOnly set, it has not been logged before
     if (err.GetLevel() <= _outputLevel &&
@@ -173,8 +178,9 @@ namespace OpenBabel
 
     _messageList.push_back(err);
     _messageCount[err.GetLevel()]++;
-    if (_maxEntries != 0 && _messageList.size() > _maxEntries)
+    if (_maxEntries != 0 && _messageList.size() > _maxEntries) {
       _messageList.pop_front();
+    }
   }
 
   void OBMessageHandler::ThrowError(const std::string &method,
@@ -197,8 +203,9 @@ namespace OpenBabel
     for (i = _messageList.begin(); i != _messageList.end(); ++i)
       {
         error = (*i);
-        if (error.GetLevel() == level)
+        if (error.GetLevel() == level) {
           results.push_back( error.message() );
+        }
       }
 
     return results;
@@ -206,8 +213,9 @@ namespace OpenBabel
 
   bool OBMessageHandler::StartErrorWrap()
   {
-    if (_inWrapStreamBuf != nullptr)
+    if (_inWrapStreamBuf != nullptr) {
       return true; // already wrapped cerr  -- don't go into loops!
+    }
 
     _inWrapStreamBuf = cerr.rdbuf();
 
@@ -222,8 +230,9 @@ namespace OpenBabel
 
   bool OBMessageHandler::StopErrorWrap()
   {
-    if (_inWrapStreamBuf == nullptr)
+    if (_inWrapStreamBuf == nullptr) {
       return true; // never wrapped cerr
+    }
 
     cerr.rdbuf(_inWrapStreamBuf);
     _inWrapStreamBuf = nullptr; //shows not wrapped
@@ -237,16 +246,21 @@ namespace OpenBabel
   string OBMessageHandler::GetMessageSummary()
   {
     stringstream summary;
-    if (_messageCount[obError] > 0)
+    if (_messageCount[obError] > 0) {
       summary << _messageCount[obError] << " errors ";
-    if (_messageCount[obWarning] > 0)
+    }
+    if (_messageCount[obWarning] > 0) {
       summary << _messageCount[obWarning] << " warnings ";
-    if (_messageCount[obInfo] > 0)
+    }
+    if (_messageCount[obInfo] > 0) {
       summary << _messageCount[obInfo] << " info messages ";
-    if (_messageCount[obAuditMsg] > 0)
+    }
+    if (_messageCount[obAuditMsg] > 0) {
       summary << _messageCount[obAuditMsg] << " audit log messages ";
-    if (_messageCount[obDebug] > 0)
+    }
+    if (_messageCount[obDebug] > 0) {
       summary << _messageCount[obDebug] << " debugging messages ";
+    }
 
     return summary.str();
   }
