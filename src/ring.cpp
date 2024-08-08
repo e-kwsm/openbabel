@@ -328,7 +328,7 @@ namespace OpenBabel
             break;
           }
 
-    if (_rlist.size() == 0)
+    if (_rlist.empty())
       return; // nothing to do
 
     // handle LSSR

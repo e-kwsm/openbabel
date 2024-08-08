@@ -903,7 +903,7 @@ namespace OpenBabel
 
   void OBResidue::RemoveAtom(OBAtom *atom)
   {
-    if (atom != nullptr && _atoms.size())
+    if (atom != nullptr && !_atoms.empty())
       {
         for ( unsigned int i = 0 ; i < _atoms.size() ; ++i)
           {

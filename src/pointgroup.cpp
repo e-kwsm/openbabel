@@ -1820,7 +1820,7 @@ namespace OpenBabel {
 
     void clean_paired_atoms(SYMMETRY_ELEMENT *elem)
     {
-      if (PairedAtoms.size() == 0)
+      if (PairedAtoms.empty())
         return;
 
       OBAtom *a, *b, symmetric;
