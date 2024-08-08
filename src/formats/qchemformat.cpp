@@ -270,9 +270,9 @@ namespace OpenBabel
               tokenize(vs,buffer);
             }
             displacements.push_back(vib1);
-            if (vib2.size())
+            if (!vib2.empty())
               displacements.push_back(vib2);
-            if (vib3.size())
+            if (!vib3.empty())
               displacements.push_back(vib3);
           }
 
