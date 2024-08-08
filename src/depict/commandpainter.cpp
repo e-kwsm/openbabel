@@ -39,7 +39,7 @@ namespace OpenBabel
 
   void CommandPainter::NewCanvas(double width, double height)
   {
-    m_ofs << "NewCanvas " << width << " " << height << endl;
+    m_ofs << "NewCanvas " << width << " " << height << '\n';
   }
 
   bool CommandPainter::IsGood() const
@@ -49,30 +49,30 @@ namespace OpenBabel
 
   void CommandPainter::SetFontSize(int pointSize)
   {
-    m_ofs << "SetFontSize " << pointSize << endl;
+    m_ofs << "SetFontSize " << pointSize << '\n';
   }
 
   void CommandPainter::SetFillColor(const OBColor &color)
   {
-    m_ofs << "SetFillColor " << color.red << " " << color.green << " " << color.blue << " " << color.alpha << " (rgba)" << endl;
+    m_ofs << "SetFillColor " << color.red << " " << color.green << " " << color.blue << " " << color.alpha << " (rgba)" << '\n';
   }
 
   void CommandPainter::SetFillRadial(const OBColor &start, const OBColor &end)
   {
     m_ofs << "SetFillRadial" << start.red << " " << start.green << " " << start.blue << " " << start.alpha << " (rgba) to ";
-    m_ofs << end.red << " " << end.green << " " << end.blue << " " << end.alpha << " (rgba)" << endl;
+    m_ofs << end.red << " " << end.green << " " << end.blue << " " << end.alpha << " (rgba)" << '\n';
   }
 
 
   void CommandPainter::SetPenColor(const OBColor &color)
   {
-    m_ofs << "SetPenColor " << color.red << " " << color.green << " " << color.blue << " " << color.alpha << " (rgba)" << endl;
+    m_ofs << "SetPenColor " << color.red << " " << color.green << " " << color.blue << " " << color.alpha << " (rgba)" << '\n';
   }
 
   void CommandPainter::SetPenWidth(double width)
   {
     m_pen_width = width;
-    m_ofs << "SetPenWidth " << width << endl;
+    m_ofs << "SetPenWidth " << width << '\n';
   }
 
   double CommandPainter::GetPenWidth()
@@ -92,7 +92,7 @@ namespace OpenBabel
         m_ofs << " " << *it;
 
     }
-    m_ofs << endl;
+    m_ofs << '\n';
   }
 
   void CommandPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
@@ -104,22 +104,22 @@ namespace OpenBabel
         m_ofs << " to ";
       m_ofs << i->first << " " << i->second;
     }
-    m_ofs << endl;
+    m_ofs << '\n';
   }
 
   void CommandPainter::DrawCircle(double x, double y, double r)
   {
-    m_ofs << "DrawCircle " << x << " " << y << " radius " << r << endl;
+    m_ofs << "DrawCircle " << x << " " << y << " radius " << r << '\n';
   }
 
   void CommandPainter::DrawBall(double x, double y, double r, double opacity)
   {
-    m_ofs << "DrawBall " << x << " " << y << " radius " << r << endl;
+    m_ofs << "DrawBall " << x << " " << y << " radius " << r << '\n';
   }
 
   void CommandPainter::DrawText(double x, double y, const std::string &text)
   {
-    m_ofs << "DrawText " << x << " " << y << " \"" << text << "\"" << endl;
+    m_ofs << "DrawText " << x << " " << y << " \"" << text << "\"" << '\n';
   }
 
   OBFontMetrics CommandPainter::GetFontMetrics(const std::string &text)
