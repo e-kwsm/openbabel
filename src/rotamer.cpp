@@ -318,12 +318,16 @@ namespace OpenBabel
     _vres.clear();
     vector<unsigned char*>::iterator j;
     for (j = _vrotamer.begin();j != _vrotamer.end();++j)
+    {
       delete [] *j;
+    }
     _vrotamer.clear();
 
     vector<pair<OBAtom**,vector<int> > >::iterator k;
     for (k = _vrotor.begin();k != _vrotor.end();++k)
+    {
       delete [] k->first;
+    }
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();
@@ -375,9 +379,13 @@ namespace OpenBabel
 
         angle = CalcTorsionAngle(v1,v2,v3,v4);
         while (angle < 0.0)
+        {
           angle += 360.0;
+        }
         while (angle > 360.0)
+        {
           angle -= 360.0;
+        }
         rot[size] = (unsigned char)rint(angle*res);
       }
 
@@ -396,9 +404,13 @@ namespace OpenBabel
       {
         angle = _vres[i][arr[i+1]];
         while (angle < 0.0)
+        {
           angle += 360.0;
+        }
         while (angle > 360.0)
+        {
           angle -= 360.0;
+        }
         rot[i+1] = (unsigned char)rint(angle*res);
       }
     _vrotamer.push_back(rot);
@@ -410,7 +422,9 @@ namespace OpenBabel
     double angle,res=255.0/360.0;
 
     if (arr.size() != (_vrotor.size() + 1))
+    {
       return; // wrong size key
+    }
 
     // gotta check for weird ring torsion combinations
     if (_vrings.size()) {
@@ -430,9 +444,13 @@ namespace OpenBabel
           // what angle are we trying to use with this key?
           angle = _vres[ path[i] ][arr[ path[i]+1 ]]*res;
           while (angle < 0.0)
+          {
           	angle += 360.0;
+          }
         	while (angle > 360.0)
+               {
           	angle -= 360.0;
+               }
 
           // update the ring torsion for this setting
           _vringTors[j][i] = angle;
@@ -455,9 +473,13 @@ namespace OpenBabel
       {
         angle = _vres[i][arr[i+1]];
         while (angle < 0.0)
+        {
           angle += 360.0;
+        }
         while (angle > 360.0)
+        {
           angle -= 360.0;
+        }
         rot[i+1] = (unsigned char)rint(angle*res);
       }
     _vrotamer.push_back(rot);
@@ -475,9 +497,13 @@ namespace OpenBabel
       {
         angle = _vres[i][(int)arr[i+1]];
         while (angle < 0.0)
+        {
           angle += 360.0;
+        }
         while (angle > 360.0)
+        {
           angle -= 360.0;
+        }
         rot[i+1] = (unsigned char)rint(angle*res);
       }
     _vrotamer.push_back(rot);
@@ -504,7 +530,9 @@ namespace OpenBabel
     //transfer the conf list
     vector<double*>::iterator k;
     for (k = clist.begin();k != clist.end();++k)
+    {
       delete [] *k;
+    }
     clist = tmpclist;
   }
 
@@ -527,7 +555,9 @@ namespace OpenBabel
           {
             angle = invres*((double)conf[j+1]);
             if (angle > 180.0)
+            {
               angle -= 360.0;
+            }
             SetRotorToAngle(c,_vrotor[j].first,angle,_vrotor[j].second);
           }
         tmpclist.push_back(c);
@@ -543,7 +573,9 @@ namespace OpenBabel
     double angle;
 
     if (arr.size() != (_vrotor.size() + 1))
+    {
       return false; // wrong size key
+    }
 
     // gotta check for weird ring torsion combinations
     if (_vrings.size()) {
@@ -563,9 +595,13 @@ namespace OpenBabel
           // what angle are we trying to use with this key?
           angle = _vres[ path[i] ][arr[ path[i]+1 ]];
           while (angle < 0.0)
+          {
           	angle += 360.0;
+          }
         	while (angle > 360.0)
+               {
           	angle -= 360.0;
+               }
 
           // update the ring torsion for this setting
           _vringTors[j][i] = angle;
