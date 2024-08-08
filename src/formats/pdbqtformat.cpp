@@ -129,7 +129,7 @@ namespace OpenBabel
   static void ConstructTree (map <unsigned int, branch >& tree, vector <vector <int> > rigid_fragments, unsigned int root_piece, const OBMol& mol, bool flexible);
   static bool DeleteHydrogens(OBMol & mol);
   static bool Separate_preserve_charges(OBMol & mol, vector<OBMol> & result);
-  static unsigned int FindFragments(OBMol mol, vector <vector <int> >& rigid_fragments);
+  static unsigned int FindFragments(const OBMol& mol, vector <vector <int> >& rigid_fragments);
   static unsigned int RotBond_count(OBMol & mol);
 
   /////////////////////////////////////////////////////////////////
@@ -189,14 +189,14 @@ namespace OpenBabel
       if (line.length() == 0)
       {
         stringstream errorMsg;
-        errorMsg << "Warning: empty line, ignoring." << endl;
+        errorMsg << "Warning: empty line, ignoring." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
         continue;
       }
       if (line.length() < 3)
       {
         stringstream errorMsg;
-        errorMsg << "ERROR: not a valid PDBQT file" << endl;
+        errorMsg << "ERROR: not a valid PDBQT file" << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obError);
         return false;
       }
@@ -222,7 +222,7 @@ namespace OpenBabel
           stringstream errorMsg;
           errorMsg << "WARNING: Problems reading a PDBQT file\n"
             << "  Problems reading a ATOM/HETATM record.\n"
-            << endl << buffer << endl;
+            << '\n' << buffer << '\n';
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obError);
         }
         continue;
@@ -417,7 +417,7 @@ namespace OpenBabel
       charge,
       element_name_final);
     ofs << buffer;
-    ofs << endl;
+    ofs << '\n';
   }
 
   void OutputGroup(OBMol& mol, ostream& ofs, const vector <int>& group, map <unsigned int, unsigned int> new_indexes, bool use_new_indexes)
@@ -430,7 +430,7 @@ namespace OpenBabel
   }
 
 
-  unsigned int FindFragments(OBMol mol, vector <vector <int> >& rigid_fragments)
+  unsigned int FindFragments(const OBMol& mol, vector <vector <int> >& rigid_fragments)
   {
     unsigned int best_root_atom=1;
     unsigned int shortest_maximal_remaining_subgraph=mol.NumAtoms();
@@ -555,14 +555,14 @@ namespace OpenBabel
     }
 
     if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
-      ofs << "ROOT" << endl;
+      ofs << "ROOT" << '\n';
     for (set <unsigned int>::iterator it= (*tree.find(0)).second.rigid_with.begin() ; it != (*tree.find(0)).second.rigid_with.end(); ++it)
     {
       OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
     }
 
    if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
-     ofs << "ENDROOT" << endl;
+     ofs << "ENDROOT" << '\n';
 
     for (unsigned int i=1; i < tree.size(); i++)
     {
@@ -577,7 +577,7 @@ namespace OpenBabel
         ofs.width(4);
         if (!preserve_original_index) {ofs << (new_order.find(child_atom))-> second;}
         else {ofs << child_atom;}
-        ofs << endl;
+        ofs << '\n';
         for (set <unsigned int>::iterator it= (*tree.find(i)).second.rigid_with.begin() ; it != (*tree.find(i)).second.rigid_with.end(); ++it)
         {
           OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
@@ -603,7 +603,7 @@ namespace OpenBabel
             ofs.width(4);
             if (!preserve_original_index) {ofs << (new_order.find(child_atom))-> second;}
                                     else {ofs << child_atom;}
-            ofs << endl;
+            ofs << '\n';
           }
           (*tree.find(*it_parent)).second.children.erase(*it);
         }
@@ -891,9 +891,9 @@ namespace OpenBabel
         { // More than one molecule record
           model_num = pConv->GetOutputIndex(); // MODEL 1-based index
           snprintf(buffer, BUFF_SIZE, "MODEL %8d", model_num);
-          ofs << buffer << endl;
+          ofs << buffer << '\n';
         }
-        ofs << "REMARK  Name = " << mol.GetTitle(true) << endl;
+        ofs << "REMARK  Name = " << mol.GetTitle(true) << '\n';
 //        ofs << "USER    Name = " << mol.GetTitle(true) << endl;
         if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
         {
@@ -916,8 +916,8 @@ namespace OpenBabel
             }
           }
           qsort(rotBondTable, nRotBond, sizeof(OBAtom **), CompareBonds);
-          ofs << "REMARK  " << nRotBond << " active torsions:" << endl;
-          ofs << "REMARK  status: ('A' for Active; 'I' for Inactive)" << endl;
+          ofs << "REMARK  " << nRotBond << " active torsions:" << '\n';
+          ofs << "REMARK  status: ('A' for Active; 'I' for Inactive)" << '\n';
           for (rotBondId=0; rotBondId < nRotBond; rotBondId++)
           {
             snprintf(buffer, BUFF_SIZE, "REMARK  %3d  A    between atoms: ", rotBondId + 1);
@@ -945,20 +945,20 @@ namespace OpenBabel
                 ofs << "  and  ";
             }
             delete [] rotBondTable[rotBondId];
-            ofs << endl;
+            ofs << '\n';
           }
           delete [] rotBondTable;
         }
-        ofs << "REMARK                            x       y       z     vdW  Elec       q    Type" << endl;
+        ofs << "REMARK                            x       y       z     vdW  Elec       q    Type" << '\n';
 //        ofs << "USER                              x       y       z     vdW  Elec       q    Type" << endl;
-        ofs << "REMARK                         _______ _______ _______ _____ _____    ______ ____" << endl;
+        ofs << "REMARK                         _______ _______ _______ _____ _____    ______ ____" << '\n';
 //        ofs << "USER                           _______ _______ _______ _____ _____    ______ ____" << endl;
       }
       else
       {
         ofs << "BEGIN_RES" << " " << res_name << " " << res_chain << " ";
         ofs.width(3);
-        ofs << right << res_num << endl;
+        ofs << right << res_num << '\n';
       }
 
       // before we write any records, we should check to see if any coord < -1000
@@ -1035,20 +1035,20 @@ namespace OpenBabel
       if (!residue)
       {
         if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
-          ofs << "TORSDOF " << torsdof << endl;
+          ofs << "TORSDOF " << torsdof << '\n';
         else
-          ofs << "TER " << endl;
+          ofs << "TER " << '\n';
 //        ofs << "TER" << endl;
         if (model_num)
         {
-          ofs << "ENDMDL" << endl;
+          ofs << "ENDMDL" << '\n';
         }
       }
       else
       {
         ofs << "END_RES" << " " << res_name << " " << res_chain << " ";
         ofs.width(3);
-        ofs << right << res_num << endl;
+        ofs << right << res_num << '\n';
       }
     }
     return true;

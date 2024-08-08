@@ -196,9 +196,9 @@ namespace OpenBabel
     int nbrIdx, atomIdx;
 
     temp = mol.GetTitle();
-    ofs << "{PCM " << temp.substr(0,60) << endl;
-    ofs << "NA " << mol.NumAtoms() << endl;
-    ofs << "ATOMTYPES 1" << endl; // MMX atom types
+    ofs << "{PCM " << temp.substr(0,60) << '\n';
+    ofs << "NA " << mol.NumAtoms() << '\n';
+    ofs << "ATOMTYPES 1" << '\n'; // MMX atom types
 
     ttab.SetFromType("INT");
     ttab.SetToType("PCM");
@@ -225,10 +225,10 @@ namespace OpenBabel
 
         ofs << " C " << atom->GetPartialCharge();
 
-        ofs << endl;
+        ofs << '\n';
       }
 
-    ofs << "}" << endl;
+    ofs << "}" << '\n';
 
     return(true);
   }

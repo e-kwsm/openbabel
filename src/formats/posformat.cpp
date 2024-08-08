@@ -125,7 +125,7 @@ namespace OpenBabel
     Trim(readTitle);
 
     // This should give the location of the spacegroup number
-    string::size_type location = readTitle.find("#");
+    string::size_type location = readTitle.find('#');
     int spaceGroup = -1;
     if (location != string::npos) {
       // e.g., "#230"
