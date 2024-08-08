@@ -53,10 +53,10 @@ public:
   virtual ~OBFingerprint(){}
 
   /// Sets the nth bit
-  void SetBit(std::vector<unsigned int>& vec, const unsigned int n);
+  void SetBit(std::vector<unsigned int>& vec, unsigned int n);
 
   ///return true if the nth bit is set;
-  bool GetBit(const std::vector<unsigned int>& vec, const unsigned int n);
+  bool GetBit(const std::vector<unsigned int>& vec, unsigned int n);
 
     /// Repeatedly ORs the top half with the bottom half until no smaller than nbits
   void Fold(std::vector<unsigned int>& vec, unsigned int nbits);
