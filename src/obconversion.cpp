@@ -1303,7 +1303,7 @@ namespace OpenBabel {
     bool HasMultipleOutputFiles=false;
     int Count=0;
     SetFirstInput();
-    bool CommonInFormat = pInFormat ? true:false; //whether set in calling routine
+    bool CommonInFormat = pInFormat != nullptr; //whether set in calling routine
     ios_base::openmode omode = ios_base::out|ios_base::binary;
     obErrorLog.ClearLog();
 #ifndef DONT_CATCH_EXCEPTIONS
