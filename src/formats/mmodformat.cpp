@@ -219,7 +219,7 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     snprintf(buffer, BUFF_SIZE, " %5d %6s      E = %7.3f KJ/mol",
             mol.NumAtoms(),mol.GetTitle(),4.184*mol.GetEnergy());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     int type,k;
     OBAtom *atom,*nbr;

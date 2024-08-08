@@ -137,7 +137,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               string atomName;
               int atomId;
@@ -161,14 +161,14 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               }
             }
           if (ecpLines!=0){
-              cerr << "WARNING: element number given in 3rd column does not agree with element name on " << ecpLines << " lines." << endl
-                   << "         Difference between expected nuclear charge and given element number saved to atom property 'ecp'." << endl;
+              cerr << "WARNING: element number given in 3rd column does not agree with element name on " << ecpLines << " lines." << '\n'
+                   << "         Difference between expected nuclear charge and given element number saved to atom property 'ecp'." << '\n';
           }
         } // "[Atoms]" || "[ATOMS]"
         if ( lineBuffer.find( "[GEOMETRIES] (XYZ)" ) != string::npos ) {
           while( getline( ifs, lineBuffer ) ) {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
 
               // should give us a number of atoms (i.e., this is an XYZ-format file)
               unsigned int natoms;
@@ -239,7 +239,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               double freq;
               is >> freq;
@@ -250,7 +250,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               double intens;
               is >> intens;
@@ -264,7 +264,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             while ( getline( ifs, lineBuffer ) )
               {
                 if( lineBuffer == "" ) continue;
-                if( lineBuffer.find( "[" ) != string::npos ) break;
+                if( lineBuffer.find( '[' ) != string::npos ) break;
                 string atomName;
                 double x, y, z;
                 istringstream is( lineBuffer );
@@ -332,7 +332,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         double *confCoord = new double [3*pmol->NumAtoms()];
         vector<vector3> coordinates = conformers[i];
         if (coordinates.size() != pmol->NumAtoms())
-          cerr << " Wrong number of coordinates! " << endl;
+          cerr << " Wrong number of coordinates! " << '\n';
         for (unsigned int a = 0; a < coordinates.size(); ++a) {
           confCoord[3*a] = coordinates[a].x();
           confCoord[3*a+1] = coordinates[a].y();
@@ -367,8 +367,8 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     char buffer[BUFF_SIZE];
     int i = 1;
 
-    ofs << "[Molden Format]" << endl;
-    ofs << "[Atoms] Angs" << endl;
+    ofs << "[Molden Format]" << '\n';
+    ofs << "[Atoms] Angs" << '\n';
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
@@ -384,7 +384,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     OBVibrationData *vib = (OBVibrationData *) mol.GetData(OBGenericDataType::VibrationData);
     if (vib && vib->GetNumberOfFrequencies() > 0) {
-      ofs << "[FREQ]" << endl;
+      ofs << "[FREQ]" << '\n';
       vector<double> frequencies = vib->GetFrequencies();
       vector<double> intensities = vib->GetIntensities();
       for (unsigned int i = 0; i < vib->GetNumberOfFrequencies(); i++) {
@@ -392,13 +392,13 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         ofs << buffer;
       }
       if (intensities.size() > 0) {
-        ofs << "[INT]" << endl;
+        ofs << "[INT]" << '\n';
 	for (unsigned int i = 0; i < vib->GetNumberOfFrequencies(); i++) {
 	  snprintf(buffer, BUFF_SIZE, "%10.4f\n", intensities[i]);
 	  ofs << buffer;
         }
       }
-      ofs << "[FR-COORD]" << endl;
+      ofs << "[FR-COORD]" << '\n';
       FOR_ATOMS_OF_MOL(atom, mol)
         {
           snprintf(buffer, BUFF_SIZE, "%2s%13.6f%13.6f%13.6f\n",
@@ -408,7 +408,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
                   atom->GetZ()*ANGSTROM_TO_BOHR);
           ofs << buffer;
         }
-      ofs << "[FR-NORM-COORD]" << endl;
+      ofs << "[FR-NORM-COORD]" << '\n';
       for (unsigned int mode = 0; mode < vib->GetNumberOfFrequencies(); mode++) {
 	snprintf(buffer, BUFF_SIZE, "vibration%6d\n", mode+1);
 	ofs << buffer;

@@ -131,7 +131,7 @@ namespace OpenBabel {
     //    ifs_path.getline(buffer,BUFF_SIZE);
     //    path = buffer;
     string full_path = pConv->GetInFilename();
-    size_t found = full_path.rfind("/");
+    size_t found = full_path.rfind('/');
     string path = (found == string::npos) ? "" : path.substr(0, found);
     string short_fn = full_path.substr(path.length(), string::npos);
 
@@ -297,7 +297,7 @@ namespace OpenBabel {
       stringstream errorMsg;      
       errorMsg << "Problems reading a MDFF file: "
                << "The number of atoms read is not right."
-               <<  "atomCount = " << atomCount << " totalAtoms_fl = " << totalAtoms_fl << endl;
+               <<  "atomCount = " << atomCount << " totalAtoms_fl = " << totalAtoms_fl << '\n';
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
       
       pmol->EndModify();
@@ -413,15 +413,15 @@ namespace OpenBabel {
     }
 
     // write number of atoms
-    ofs << mol.NumAtoms() << endl;
+    ofs << mol.NumAtoms() << '\n';
     // write title
-    ofs << mol.GetTitle() << endl;
+    ofs << mol.GetTitle() << '\n';
     if (!mol.HasData(OBGenericDataType::UnitCell)) {
       // the unit cell has not been defined. Leave as all zeros so the user
       // can fill it in themselves
       for (int ii = 0; ii < 3; ii++) {
         snprintf(buffer, BUFF_SIZE, "0.0  0.0  0.0");
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     }
     else
@@ -433,29 +433,29 @@ namespace OpenBabel {
            i != cell.end(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     }
     //Print the number of atoms types
-    ofs <<  atypes_def.size() << endl;
+    ofs <<  atypes_def.size() << '\n';
     
     for (int i = 0; i < atypes_def.size(); i++)
     {
       snprintf(buffer, BUFF_SIZE, "%-3s ", atypes_def[i].first.c_str());
       ofs << buffer ;
     }
-    ofs << endl;
+    ofs << '\n';
     
     for (int i = 0; i < atypes_def.size(); i++)
     {
       snprintf(buffer, BUFF_SIZE, "%-3u ", atypes_def[i].second);
       ofs << buffer ;
     }
-    ofs << endl;
+    ofs << '\n';
 
     // and test if any of the atoms has constraints
     // print the atomic coordinates in \AA
-    ofs << "Cartesian" << endl;
+    ofs << "Cartesian" << '\n';
     
     map<string, double> charge_smb;
 
@@ -473,7 +473,7 @@ namespace OpenBabel {
         if(charge_smb[smb] != it->second->GetFormalCharge())
           charge_smb[smb] = NAN;
       
-      ofs << buffer << endl;
+      ofs << buffer << '\n';
     }
     
     if (writeIONS == nullptr)
@@ -481,7 +481,7 @@ namespace OpenBabel {
     
     //Write IONS.POT
     string path = pConv->GetOutFilename();
-    size_t found = path.rfind("/");
+    size_t found = path.rfind('/');
     path = (found == string::npos) ? "" : path.substr(0, found);
     string ionspot_filename = (path == "") ? "IONS.POT" : path + "/IONS.POT";
     ofstream ofs_ions;
@@ -505,7 +505,7 @@ namespace OpenBabel {
         else if (i == 3)
           ofs_ions << charge_smb[atypes_def[j].first] << "d0 ";
       }
-      ofs_ions << endl;
+      ofs_ions << '\n';
     }
 
     return true;

@@ -216,7 +216,7 @@ namespace OpenBabel
 		if(pConv->IsOption("n")) // appending file name to molecule names
       {
         name = pConv->GetInFilename();     // string name holds the filename for appending
-        unsigned int dotpos=name.find(".");         // removes the extension(s) from the filename
+        unsigned int dotpos=name.find('.');         // removes the extension(s) from the filename
         if (dotpos < name.length())name.erase(dotpos);
         pre_true = true;
       }
@@ -294,7 +294,7 @@ namespace OpenBabel
         //ClearLayer(layer);
       } // end i
     if(xml_true==true)ofs << "</molecule>";
-    ofs << endl;
+    ofs << '\n';
     return(true);
   } // writemolecule
 
