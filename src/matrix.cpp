@@ -31,8 +31,9 @@ void print_matrix(std::vector<std::vector<double> > &m)
 
     for (i = 0; i < m.size(); ++i)
     {
-        for (j = 0; j < m[i].size(); ++j)
+        for (j = 0; j < m[i].size(); ++j) {
             printf("%5.2f",m[i][j]);
+        }
         printf("\n");
     }
 }
@@ -44,8 +45,9 @@ void print_matrix_f(double *m, int rows, int cols)
     for (i = 0; i < rows; ++i)
     {
         idx = i * cols;
-        for (j = 0; j < cols; ++j)
+        for (j = 0; j < cols; ++j) {
             printf("%5.2f",m[idx+j]);
+        }
         printf("\n");
     }
 }
@@ -56,8 +58,9 @@ void print_matrix_ff(double **m, int rows, int cols)
 
     for (i = 0; i < rows; ++i)
     {
-        for (j = 0; j < cols; ++j)
+        for (j = 0; j < cols; ++j) {
             printf("%5.2f",m[i][j]);
+        }
         printf("\n");
     }
 }
@@ -68,8 +71,9 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
 {
     unsigned int i,j,k;
 
-    if (a.size() != b.size())
+    if (a.size() != b.size()) {
         return(false);
+    }
 
     c.resize(a.size());
 
@@ -79,8 +83,9 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
         for (j = 0; j < b[i].size(); ++j)
         {
             c[i][j] = 0.0;
-            for (k = 0; k < a[i].size(); ++k)
+            for (k = 0; k < a[i].size(); ++k) {
                 c[i][j] = c[i][j] + a[i][k] * b[k][j];
+            }
         }
     }
 
@@ -97,8 +102,9 @@ bool mult_matrix_f(double *c, double *a, double *b, int rows, int cols)
         for ( j = 0; j < cols ; j++ )
         {
             c[idx+j] = 0.0;
-            for ( k = 0; k < cols ; k++ )
+            for ( k = 0; k < cols ; k++ ) {
                 c[idx+j] = c[idx+j] + a[idx+k] * b[(k*cols)+j];
+            }
         }
     }
 
@@ -109,13 +115,15 @@ bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols)
 {
     int i,j,k;
 
-    for ( i = 0 ; i < rows ; i++ )
+    for ( i = 0 ; i < rows ; i++ ) {
         for ( j = 0; j < cols ; j++ )
         {
             c[i][j] = 0.0;
-            for ( k = 0; k < cols ; k++ )
+            for ( k = 0; k < cols ; k++ ) {
                 c[i][j] = c[i][j] + a[i][k] * b[k][j];
+            }
         }
+    }
 
     return(true);
 }
@@ -134,8 +142,9 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
     pvt_ind.resize(mat[0].size());
 
     index.resize(mat.size());
-    for (i = 0; (unsigned)i < mat.size(); ++i)
+    for (i = 0; (unsigned)i < mat.size(); ++i) {
         index[i].resize(2);
+    }
 
     // make sure we have a square matrix
     // #rows == #cols;
@@ -147,15 +156,16 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
 
     det = 1.0;
 
-    for (i = 0; i < cols; ++i)
+    for (i = 0; i < cols; ++i) {
         pvt_ind[i] = rows+1;
+    }
 
     for (i = 0; i < cols; ++i)
     {
         big = 0.0;
         for (j = 0; j < cols; ++j)
         {
-            if (pvt_ind[j] != 0)
+            if (pvt_ind[j] != 0) {
                 for (k = 0; k < cols; ++k)
                 {
                     if (fabs(big) < fabs(mat[j][k]))
@@ -165,6 +175,7 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
                         big = mat[j][k];
                     }
                 }
+            }
         }
 
         pvt_ind[col]++;
@@ -186,17 +197,20 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
 
         mat[col][col] = 1.0;
 
-        for (m = 0; m < cols; ++m)
+        for (m = 0; m < cols; ++m) {
             mat[col][m] /= pvt;
+        }
 
-        for (n = 0; n < cols; ++n)
+        for (n = 0; n < cols; ++n) {
             if (n != col)
             {
                 tempo = mat[n][col];
                 mat[n][col] = 0.0;
-                for (m = 0; m < cols; ++m)
+                for (m = 0; m < cols; ++m) {
                     mat[n][m] -= mat[col][m] * tempo;
+                }
             }
+        }
     }
 
     for (i = 0; i < cols; ++i)
@@ -229,8 +243,9 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
     pvt_ind.resize(cols);
     index.resize(rows);
 
-    for (i = 0; i < rows; ++i)
+    for (i = 0; i < rows; ++i) {
         index[i].resize(2);
+    }
 
     // make sure we have a square matrix
     // #rows == #cols;
@@ -242,8 +257,9 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
 
     det = 1.0;
 
-    for (i = 0; i < cols; ++i)
+    for (i = 0; i < cols; ++i) {
         pvt_ind[i] = rows+1;
+    }
 
     for (i = 0; i < cols; ++i)
     {
@@ -289,10 +305,11 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
 
         mat[idx1+col] = 1.0;
 
-        for (m = 0; m < cols; ++m)
+        for (m = 0; m < cols; ++m) {
             mat[idx1+m] /= pvt;
+        }
 
-        for (n = 0; n < cols; ++n)
+        for (n = 0; n < cols; ++n) {
             if (n != col)
             {
                 idx1  = n * cols;
@@ -300,9 +317,11 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
                 mat[idx1 + col] = 0.0;
 
                 idx2 = col * cols;
-                for (m = 0; m < cols; ++m)
+                for (m = 0; m < cols; ++m) {
                     mat[idx1 + m] -= mat[idx2 + m] * tempo;
+                }
             }
+        }
     }
 
     for (i = 0; i < cols; ++i)
@@ -339,8 +358,9 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
     pvt_ind.resize(cols);
     index.resize(rows);
 
-    for (i = 0; i < rows; ++i)
+    for (i = 0; i < rows; ++i) {
         index[i].resize(2);
+    }
 
     // make sure we have a square matrix
     // #rows == #cols;
@@ -352,15 +372,16 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
 
     det = 1.0;
 
-    for (i = 0; i < cols; ++i)
+    for (i = 0; i < cols; ++i) {
         pvt_ind[i] = rows+1;
+    }
 
     for (i = 0; i < cols; ++i)
     {
         big = 0.0;
         for (j = 0; j < cols; ++j)
         {
-            if (pvt_ind[j] != 0)
+            if (pvt_ind[j] != 0) {
                 for (k = 0; k < cols; ++k)
                 {
                     if (fabs(big) < fabs(mat[j][k]))
@@ -370,6 +391,7 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
                         big = mat[j][k];
                     }
                 }
+            }
         }
 
         pvt_ind[col]++;
@@ -391,17 +413,20 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
 
         mat[col][col] = 1.0;
 
-        for (m = 0; m < cols; ++m)
+        for (m = 0; m < cols; ++m) {
             mat[col][m] /= pvt;
+        }
 
-        for (n = 0; n < cols; ++n)
+        for (n = 0; n < cols; ++n) {
             if (n != col)
             {
                 tempo = mat[n][col];
                 mat[n][col] = 0.0;
-                for (m = 0; m < cols; ++m)
+                for (m = 0; m < cols; ++m) {
                     mat[n][m] -= mat[col][m] * tempo;
+                }
             }
+        }
     }
 
     for (i = 0; i < cols; ++i)
@@ -427,9 +452,11 @@ bool convert_matrix_f(std::vector<std::vector<double> > &src, double *dst)
 {
   unsigned int i, j, idx = 0;
 
-    for ( i = 0 ; i < src.size() ; i++ )
-      for ( j = 0 ; j < src[i].size() ; j++ )
+    for ( i = 0 ; i < src.size() ; i++ ) {
+      for ( j = 0 ; j < src[i].size() ; j++ ) {
             dst[idx++] = src[i][j];
+      }
+    }
 
     return true;
 }
@@ -438,9 +465,11 @@ bool convert_matrix_ff(std::vector<std::vector<double> > &src, double **dst)
 {
     unsigned int i, j;
 
-    for ( i = 0 ; i < src.size() ; i++ )
-        for ( j = 0 ; j < src[i].size() ; j++ )
+    for ( i = 0 ; i < src.size() ; i++ ) {
+        for ( j = 0 ; j < src[i].size() ; j++ ) {
             dst[i][j] = src[i][j];
+        }
+    }
 
     return true;
 }
@@ -455,8 +484,9 @@ bool convert_matrix_f(double *src, std::vector<std::vector<double> > &dst,
     {
         idx = i * cols;
         dst[i].resize(cols);
-        for ( j = 0 ; j < cols ; j++ )
+        for ( j = 0 ; j < cols ; j++ ) {
             dst[i][j] = src[idx+j];
+        }
     }
 
     return true;
@@ -471,8 +501,9 @@ bool convert_matrix_ff(double **src, std::vector<std::vector<double> > &dst,
     for ( i = 0 ; i < rows ; i++ )
     {
         dst[i].resize(cols);
-        for ( j = 0 ; j < cols ; j++ )
+        for ( j = 0 ; j < cols ; j++ ) {
             dst[i][j] = src[i][j];
+        }
     }
 
     return true;
@@ -485,8 +516,9 @@ bool convert_matrix_f_ff(double *src, double **dst, int rows, int cols)
     for ( i = 0 ; i < rows ; i++ )
     {
         idx = i * cols;
-        for ( j = 0 ; j < cols ; j++ )
+        for ( j = 0 ; j < cols ; j++ ) {
             dst[i][j] = src[idx+j];
+        }
     }
 
     return true;
@@ -499,8 +531,9 @@ bool convert_matrix_ff_f(double **src, double *dst, int rows, int cols)
     for ( i = 0 ; i < rows ; i++ )
     {
         idx = i * cols;
-        for ( j = 0 ; j < cols ; j++ )
+        for ( j = 0 ; j < cols ; j++ ) {
             dst[idx+j] = src[i][j];
+        }
     }
 
     return true;
