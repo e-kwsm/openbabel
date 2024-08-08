@@ -181,7 +181,7 @@ namespace OpenBabel {
     path = pConv->GetInFilename();
     if (path.empty()) return false; // Should be using ReadFile, not Read!
     size_t found;
-    found = path.rfind("/");
+    found = path.rfind('/');
     path = path.substr(0, found);
     if (found == string::npos) path = "./"; // No "/" in path?
 
@@ -276,8 +276,8 @@ namespace OpenBabel {
       while (ifs_pot.getline(buffer,BUFF_SIZE)) {
         if (strstr(buffer,"VRHFIN")) {
           str = buffer;
-          size_t start = str.find("=") + 1;
-          size_t end = str.find(":");
+          size_t start = str.find('=') + 1;
+          size_t end = str.find(':');
           str = str.substr(start, end - start);
           // Clean up whitespace:
           for (unsigned int i = 0; i < str.size(); i++)
@@ -686,17 +686,17 @@ namespace OpenBabel {
     }
 
     // write title
-    ofs << mol.GetTitle() << endl;
+    ofs << mol.GetTitle() << '\n';
     // write the multiplication factor, set this to one
     // and write the cell using the 3x3 cell matrix
-    ofs << "1.000 " << endl;
+    ofs << "1.000 " << '\n';
 
     if (!mol.HasData(OBGenericDataType::UnitCell)) {
       // the unit cell has not been defined. Leave as all zeros so the user
       // can fill it in themselves
       for (int ii = 0; ii < 3; ii++) {
         snprintf(buffer, BUFF_SIZE, "0.0  0.0  0.0");
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     }
     else
@@ -708,7 +708,7 @@ namespace OpenBabel {
            i != cell.end(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     }
 
@@ -722,7 +722,7 @@ namespace OpenBabel {
         snprintf(buffer, BUFF_SIZE, "%-3s ", OBElements::GetSymbol(it->first));
         ofs << buffer ;
       }
-      ofs << endl;
+      ofs << '\n';
     }
 
     // then do the same to write out the number of ions of each element
@@ -732,7 +732,7 @@ namespace OpenBabel {
       snprintf(buffer, BUFF_SIZE, "%-3u ", it->second);
       ofs << buffer ;
     }
-    ofs << endl;
+    ofs << '\n';
 
     // assume that there are no constraints on the atoms
     bool selective = false;
@@ -744,11 +744,11 @@ namespace OpenBabel {
       }
     }
     if (selective) {
-      ofs << "SelectiveDyn" << endl;
+      ofs << "SelectiveDyn" << '\n';
     }
 
     // print the atomic coordinates in \AA
-    ofs << "Cartesian" << endl;
+    ofs << "Cartesian" << '\n';
 
     for (std::vector<OBAtom *>::const_iterator it = atoms_sorted.begin();
          it != atoms_sorted.end(); ++it) 
@@ -772,7 +772,7 @@ namespace OpenBabel {
           ofs << "  T T T";
         }
       }
-      ofs << endl;
+      ofs << '\n';
     }
 
     return true;

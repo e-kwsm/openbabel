@@ -116,7 +116,7 @@ namespace OpenBabel {
     }
 
     size_t found;
-    found = filePath.rfind("/");
+    found = filePath.rfind('/');
     string path = filePath.substr(0, found) + "/";
     if (found == string::npos) path = "./";
     string fileName = filePath.substr(found + 1, filePath.size());

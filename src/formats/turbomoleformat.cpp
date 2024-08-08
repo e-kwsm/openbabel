@@ -167,7 +167,7 @@ bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(pConv->IsOption("a"))
       UnitConv=1;
 
-    ofs << "$coord" <<endl;
+    ofs << "$coord" <<'\n';
 
     char buffer[BUFF_SIZE];
     OBAtom *atom;
@@ -181,9 +181,9 @@ bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
                 atom->GetY()/UnitConv,
                 atom->GetZ()/UnitConv,
                 strlwr(symb) );
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
     }
-    ofs << "$end" << endl;
+    ofs << "$end" << '\n';
 
     return true;
 }

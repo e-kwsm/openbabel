@@ -352,20 +352,20 @@ namespace OpenBabel
     //    unsigned int i;
     //    OBAtom *atom;
 
-    ofs << "$comment" << endl;
-    ofs << mol.GetTitle() << endl;
-    ofs << "$end" << endl;
+    ofs << "$comment" << '\n';
+    ofs << mol.GetTitle() << '\n';
+    ofs << "$end" << '\n';
 
-    ofs << endl << "$molecule" << endl;
-    ofs << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << endl;
+    ofs << '\n' << "$molecule" << '\n';
+    ofs << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << '\n';
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
         ofs << atom->GetAtomicNum() << " "
-            << atom->GetX() << " " << atom->GetY() << " " << atom->GetZ() << endl;
+            << atom->GetX() << " " << atom->GetY() << " " << atom->GetZ() << '\n';
       }
-    ofs << "$end" << endl;
-    ofs << endl << "$rem" << endl;
+    ofs << "$end" << '\n';
+    ofs << '\n' << "$rem" << '\n';
 
     const char *keywords = pConv->IsOption("k",OBConversion::OUTOPTIONS);
     const char *keywordFile = pConv->IsOption("f",OBConversion::OUTOPTIONS);
@@ -383,13 +383,13 @@ namespace OpenBabel
         if (kfstream)
           {
             while (getline(kfstream, keyBuffer))
-              ofs << keyBuffer << endl;
+              ofs << keyBuffer << '\n';
           }
       }
     else
-      ofs << defaultKeywords << endl;
+      ofs << defaultKeywords << '\n';
 
-    ofs << "$end" << endl;
+    ofs << "$end" << '\n';
 
     return(true);
   }
