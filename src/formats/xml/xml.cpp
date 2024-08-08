@@ -61,7 +61,7 @@ namespace OpenBabel
 
     if (_reader == nullptr)
       {
-        cerr << "Cannot set up libxml2 reader" << endl;
+        cerr << "Cannot set up libxml2 reader" << '\n';
         return false;
       }
     //A new reader immediately reads 4 bytes (presumably to determine
@@ -85,7 +85,7 @@ namespace OpenBabel
 
     if(!_buf || !_writer)
       {
-        cerr << "Error setting up xml writer\n" << endl;
+        cerr << "Error setting up xml writer\n" << '\n';
         return false;
       }
 

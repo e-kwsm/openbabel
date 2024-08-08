@@ -190,7 +190,7 @@ bool CMLReactFormat::DoElement(const string& name)
       pmol = _spmol.get();
       if(!pmol)
       {
-        cerr << " Molecule reference \"" << reference <<"\" not found" << endl;
+        cerr << " Molecule reference \"" << reference <<"\" not found" << '\n';
         return false;
       }
     }
@@ -615,7 +615,7 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       *_pOut << s.substr(0, reaclistPos)                      //header
             << s.substr(mollistPos, footerPos-mollistPos)    //moleculeList
             << s.substr(reaclistPos, mollistPos-reaclistPos) //reactionList
-            << s.substr(footerPos) << endl;                  //footer
+            << s.substr(footerPos) << '\n';                  //footer
     }
     else if(_pxmlConv->GetOutputIndex()>1 && !_pxmlConv->IsOption("ReactionsNotStandalone"))
       xmlTextWriterEndElement(writer());//WRAPPER
