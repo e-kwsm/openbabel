@@ -98,7 +98,7 @@ namespace OpenBabel
   void OBBuilder::LoadFragments()  {
     // open data/fragments.txt
     ifstream ifs;
-    if (OpenDatafile(ifs, "rigid-fragments-index.txt").length() == 0) {
+    if (OpenDatafile(ifs, "rigid-fragments-index.txt").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open ring-fragments-index.txt", obError);
       return;
     }
@@ -114,7 +114,7 @@ namespace OpenBabel
       _rigid_fragments_index[smiles] = index;
     }
 
-    if (OpenDatafile(ifs, "ring-fragments.txt").length() == 0) {
+    if (OpenDatafile(ifs, "ring-fragments.txt").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open ring-fragments.txt", obError);
       return;
     }
@@ -172,7 +172,7 @@ namespace OpenBabel
     }
 
     ifstream ifs;
-    if (OpenDatafile(ifs, "rigid-fragments.txt").length() == 0) {
+    if (OpenDatafile(ifs, "rigid-fragments.txt").empty()) {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open rigid-fragments.txt", obError);
       return coords;
     }
@@ -1684,7 +1684,7 @@ namespace OpenBabel
       bool inversion = FixRingStereo(ringstereo, mol, unfixed);
 
       // Output warning message if necessary
-      if (unfixed.size() > 0 && warn) {
+      if (!unfixed.empty() && warn) {
         stringstream errorMsg;
         errorMsg << "Could not correct " << unfixed.size() << " stereocenter(s) in this molecule (" << mol.GetTitle() << ")";
         errorMsg << std::endl << "  with Atom Ids as follows:";
@@ -1717,7 +1717,7 @@ namespace OpenBabel
           if (!b->IsInRing())
             idxs.push_back(b->GetNbrAtom(center)->GetIdx());
 
-        if (idxs.size() == 0 && OBBuilder::IsSpiroAtom(config.center, mol))
+        if (idxs.empty() && OBBuilder::IsSpiroAtom(config.center, mol))
           FlipSpiro(mol, center->GetIdx());
         else if (idxs.size() >= 2)
           Swap(mol, center->GetIdx(), idxs.at(0), center->GetIdx(), idxs.at(1));
@@ -1742,7 +1742,7 @@ namespace OpenBabel
                                 OBStereo::Refs &unfixedcenters)
   {
     bool inversion = false;
-    if (atomIds.size() == 0) return inversion;
+    if (atomIds.empty()) return inversion;
 
     // Have we dealt with a particular ring stereo? (Indexed by Id)
     OBBitVec seen;
