@@ -763,13 +763,13 @@ OBText* CDXReader::WriteTree(const string& filename, unsigned wtoptions)
     if(tag==0 && !(wtoptions &1))
     {
       //Object end
-      tss << string(depth,indentchar) << "ObjectEnd " << _tempback << endl;
+      tss << string(depth,indentchar) << "ObjectEnd " << _tempback << '\n';
     } 
     else if(tag & kCDXTag_Object)
     {
       //Object
       tss<<string(depth-1,indentchar) << "Object " << tag
-                   << TagName(enummap,tag) << " id=" << ids.back() << endl; 
+                   << TagName(enummap,tag) << " id=" << ids.back() << '\n'; 
     }
     else
     {
@@ -800,7 +800,7 @@ OBText* CDXReader::WriteTree(const string& filename, unsigned wtoptions)
             tss << _buf[i];
           tss << '\"';
         }
-        tss << endl;
+        tss << '\n';
       }
     }
   }

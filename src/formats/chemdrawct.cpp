@@ -76,8 +76,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
 
-    ofs << mol.GetTitle() << endl;
-    ofs << " " << mol.NumAtoms() << " " << mol.NumBonds() << endl;
+    ofs << mol.GetTitle() << '\n';
+    ofs << " " << mol.NumAtoms() << " " << mol.NumBonds() << '\n';
 
     OBAtom *atom;
     vector<OBAtom*>::iterator i;
@@ -88,7 +88,7 @@ namespace OpenBabel
                  atom->x(),
                  atom->y(),
                  OBElements::GetSymbol(atom->GetAtomicNum()));
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     OBBond *bond;
@@ -100,7 +100,7 @@ namespace OpenBabel
                  bond->GetBeginAtomIdx(),
                  bond->GetEndAtomIdx(),
                  bond->GetBondOrder(), bond->GetBondOrder());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     return(true);
   }

@@ -804,9 +804,9 @@ bool ChemKinFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         return false;
       ofs << "REACTIONS\n";
     }
-    ofs  << ss.rdbuf() << endl;
+    ofs  << ss.rdbuf() << '\n';
     if(!pConv->IsOption("s"))
-      ofs << "END" << endl;
+      ofs << "END" << '\n';
   }
   return true;
 }
@@ -985,7 +985,7 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
     ss << " \t" << scientific << setprecision(3) << pRD->GetRate(OBRateData::A) << ' '
       << fixed << pRD->GetRate(OBRateData::n)	<< ' '
       << setprecision(1) << pRD->GetRate(OBRateData::E)
-      << " \t" << pReact->GetComment() << endl;
+      << " \t" << pReact->GetComment() << '\n';
 
     switch(pRD->ReactionType)
     {
@@ -994,12 +994,12 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
         << pRD->GetTroeParam(1) << ' ' << pRD->GetTroeParam(2);
       if(pRD->GetTroeParam(3))
         ss << ' ' <<pRD->GetTroeParam(3);
-      ss << '/' << endl;
+      ss << '/' << '\n';
       //fallthrough
     case OBRateData::LINDERMANN:
       ss << "\tLOW / " << scientific << setprecision(3) << pRD->GetLoRate(OBRateData::A) << ' '
         << fixed << pRD->GetLoRate(OBRateData::n) << ' '
-        << setprecision(1) << pRD->GetLoRate(OBRateData::E) << '/' << endl;
+        << setprecision(1) << pRD->GetLoRate(OBRateData::E) << '/' << '\n';
       //fallthrough
     case OBRateData::THREEBODY:
       string id;
@@ -1012,11 +1012,11 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
         ++neffs;
       }
       if(neffs)
-        ss << endl;
+        ss << '\n';
     }
   }
   else //simple option
-    ss << pReact->GetComment() << endl;
+    ss << pReact->GetComment() << '\n';
 
   return true;
 }

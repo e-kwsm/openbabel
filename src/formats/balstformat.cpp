@@ -142,12 +142,12 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
 
     if (strlen(mol.GetTitle()) > 0)
-      ofs << mol.GetTitle() << endl;
+      ofs << mol.GetTitle() << '\n';
     else
-      ofs << "Untitled" << endl;
+      ofs << "Untitled" << '\n';
 
     snprintf(buffer,BUFF_SIZE,"%d",mol.NumAtoms());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     OBAtom *atom,*nbr;
     vector<OBAtom*>::iterator i;
@@ -170,7 +170,7 @@ namespace OpenBabel
             snprintf(buffer, BUFF_SIZE, "%6d",nbr->GetIdx());
             ofs << buffer;
           }
-        ofs << endl;
+        ofs << '\n';
       }
 
     return(true);

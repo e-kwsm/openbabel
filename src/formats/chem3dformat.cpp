@@ -288,7 +288,7 @@ namespace OpenBabel
       }
     else
       ttab.SetToType(mol_typ);
-    ofs << endl;
+    ofs << '\n';
 
     ttab.SetFromType("INT");
 
@@ -324,7 +324,7 @@ namespace OpenBabel
             snprintf(buffer, BUFF_SIZE, "%6d",nbr->GetIdx());
             ofs << buffer;
           }
-        ofs << endl;
+        ofs << '\n';
       }
     return(true);
   }
