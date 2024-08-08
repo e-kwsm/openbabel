@@ -596,8 +596,12 @@ template <class T, class tree_node_allocator>
 void tree<T, tree_node_allocator>::clear()
 	{
 	if(head)
+	{
 		while(head->next_sibling!=feet)
+		{
 			erase(pre_order_iterator(head->next_sibling));
+		}
+	}
 	}
 
 template<class T, class tree_node_allocator>
@@ -1063,8 +1067,9 @@ iter tree<T, tree_node_allocator>::insert(iter position, const T& x)
 			tmp->parent->first_child=tmp;
 		}
 		}
-	else
+	{
 		tmp->prev_sibling->next_sibling=tmp;
+	}
 	return tmp;
 	}
 
@@ -1094,7 +1099,9 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 		}
 		}
 	else
+	{
 		tmp->prev_sibling->next_sibling=tmp;
+	}
 	return tmp;
 	}
 
