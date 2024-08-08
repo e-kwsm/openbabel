@@ -14,9 +14,9 @@ void testEnumerateTautomers(const std::string &smiles, int numTautomers)
   class Functor : public UniqueTautomerFunctor
   {
     public:
-      int numTautomers;
+      int numTautomers{0};
 
-      Functor() : numTautomers(0) {}
+      Functor() {}
       void operator()(OBMol*, const std::string&) override
       {
         numTautomers++;

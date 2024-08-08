@@ -141,7 +141,7 @@ bool OBGUIApp::OnInit()
 // ----------------------------------------------------------------------------
 
 OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
-       : wxFrame(nullptr,wxID_ANY,title, position,size), m_pGenOptsPanel(nullptr)
+       : wxFrame(nullptr,wxID_ANY,title, position,size)
 {
   // set the frame icon
   SetIcon(wxICON(sample));

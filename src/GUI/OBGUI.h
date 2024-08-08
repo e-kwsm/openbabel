@@ -131,7 +131,7 @@ private:
   wxButton*   m_pConvert;
   wxTextCtrl* m_pMessages;
 
-  DynOptionswx* m_pGenOptsPanel;
+  DynOptionswx* m_pGenOptsPanel{nullptr};
   DynOptionswx* m_pAPIOptsPanel;
   DynOptionswx* m_pConvOptsPanel;
   DynOptionswx* m_pInOptsPanel;
