@@ -270,7 +270,7 @@ namespace OpenBabel
     OBPairData *pd = dynamic_cast<OBPairData*>(atom->GetParent()->GetData("OpenBabel Symmetry Classes"));
     if (pd) {
 
-      cout << "same? = " << pd->GetValue() << endl;
+      cout << "same? = " << pd->GetValue() << '\n';
 
       istringstream iss(pd->GetValue());
       std::vector<unsigned int> symmetry_classes;
@@ -283,7 +283,7 @@ namespace OpenBabel
       vector<unsigned int>::iterator end_pos = unique(copy_sym.begin(), copy_sym.end()); // Requires sorted elements
       int nclasses = end_pos - copy_sym.begin();
 
-      cout << "sym_class[" << atom->GetIndex() << "] = " << symmetry_classes.at(atom->GetIndex()) << endl;
+      cout << "sym_class[" << atom->GetIndex() << "] = " << symmetry_classes.at(atom->GetIndex()) << '\n';
       return symmetry_classes.at(atom->GetIndex());
     }
 
@@ -914,7 +914,7 @@ namespace OpenBabel
 
     // compute the total width
     double totalWidth = 0.0;
-    if ((alignment == Right) || (alignment == Left) || (label.find("H") == std::string::npos)) {
+    if ((alignment == Right) || (alignment == Left) || (label.find('H') == std::string::npos)) {
       for (unsigned int i = 0; i < label.size(); ++i) {
         if (!isalpha(label[i])) {
           painter->SetFontSize(subscriptSize);
@@ -926,9 +926,9 @@ namespace OpenBabel
       }
     } else {
       painter->SetFontSize(fontSize);
-      totalWidth = painter->GetFontMetrics(label.substr(0, label.find("H"))).width;
+      totalWidth = painter->GetFontMetrics(label.substr(0, label.find('H'))).width;
       double width = 0.0;
-      for (unsigned int i = label.find("H"); i < label.size(); ++i) {
+      for (unsigned int i = label.find('H'); i < label.size(); ++i) {
         if (!isalpha(label[i])) {
           painter->SetFontSize(subscriptSize);
           width += painter->GetFontMetrics(label.substr(i, 1)).width;
@@ -959,8 +959,8 @@ namespace OpenBabel
         break;
       case Up:
       case Down:
-        if (label.find("H") != std::string::npos)
-          xOffset = - 0.5 * painter->GetFontMetrics(label.substr(0, label.find("H"))).width;
+        if (label.find('H') != std::string::npos)
+          xOffset = - 0.5 * painter->GetFontMetrics(label.substr(0, label.find('H'))).width;
         else
           xOffset = - 0.5 * totalWidth;
         break;
