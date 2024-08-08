@@ -1587,7 +1587,7 @@ namespace OpenBabel
             if (atom->GetAtomicNum() == OBElements::Carbon) {
               bool c60 = true; // special case to ensure c60 is typed correctly -- Paolo Tosco
               FOR_NBORS_OF_ATOM (nbr, atom) {
-                if (!(nbr->GetAtomicNum() == OBElements::Carbon && nbr->IsAromatic() && nbr->IsInRingSize(6)))
+                if (nbr->GetAtomicNum() != OBElements::Carbon || !nbr->IsAromatic() || !nbr->IsInRingSize(6))
                   c60 = false;
               }
               if (c60)
@@ -2248,8 +2248,8 @@ namespace OpenBabel
           bond = _mol.GetBond(&*nbr, atom);
           if (!bond->IsAromatic() && bond->GetBondOrder() == 3) {
             FOR_NBORS_OF_ATOM (nbrNbr, &*nbr) {
-              if (atom != &*nbrNbr && !(nbr->GetAtomicNum() == OBElements::Nitrogen
-                && nbrNbr->GetAtomicNum() == OBElements::Nitrogen && nbrNbr->GetExplicitDegree() == 2)) {
+              if (atom != &*nbrNbr && (nbr->GetAtomicNum() != OBElements::Nitrogen
+                || nbrNbr->GetAtomicNum() != OBElements::Nitrogen || nbrNbr->GetExplicitDegree() != 2)) {
                 return 42; // Triply bonded nitrogen (NSP)
               }
             }
@@ -2832,11 +2832,7 @@ namespace OpenBabel
       bondtype1 = GetBondType(a, b);
       bondtype2 = GetBondType(b, c);
 
-      if (HasLinSet(type_b)) {
-        anglecalc.linear = true;
-      } else {
-        anglecalc.linear = false;
-      }
+      anglecalc.linear = HasLinSet(type_b);
 
       // try exact match
       parameter = GetTypedParameter3Atom(angletype, type_a, type_b, type_c, _ffangleparams);
@@ -4533,10 +4529,7 @@ namespace OpenBabel
     btbc = GetBondType(b, c);
     atabc = GetAngleType(a, b, c);
 
-    if (atoi(a->GetType()) <= atoi(c->GetType()))
-      inverse = false;
-    else
-      inverse = true;
+    inverse = atoi(a->GetType()) > atoi(c->GetType());
 
     switch (atabc) {
     case 0:
@@ -4653,7 +4646,7 @@ namespace OpenBabel
       vector<OBRing*> vr;
       vr = _mol.GetSSSR();
 
-      if( !((atoi(a->GetType()) == 1) || (atoi(b->GetType()) == 1) || (atoi(c->GetType()) == 1) || (atoi(d->GetType()) == 1)) )
+      if( (atoi(a->GetType()) != 1) && (atoi(b->GetType()) != 1) && (atoi(c->GetType()) != 1) && (atoi(d->GetType()) != 1) )
         return 0;
 
       vector<OBRing*>::iterator ri;
