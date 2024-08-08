@@ -110,7 +110,7 @@ namespace OpenBabel
 
     pFF->SetDielectricConstant(epsilon);
     if (!pFF->Setup(*pmol)) {
-      cerr  << "Could not setup force field." << endl;
+      cerr  << "Could not setup force field." << '\n';
       return false;
     }
 
@@ -275,7 +275,7 @@ namespace OpenBabel
       pmol->AddHydrogens(false, false);
 
     if (!pFF->Setup(*pmol)) {
-      cerr  << "Could not setup force field." << endl;
+      cerr  << "Could not setup force field." << '\n';
       return false;
     }
 
