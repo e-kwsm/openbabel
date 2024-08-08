@@ -37,7 +37,7 @@ bool mdoMultiMoleculeFile(const std::string &filename)
   int testCount = 0;
   int failed = 0;
 
-  while (1) {
+  while (true) {
     if (!conv.Read(&mol)) {
       // failed read, try again
       if (!conv.Read(&mol))
