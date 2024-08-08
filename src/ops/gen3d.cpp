@@ -110,7 +110,7 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     OBBuilder builder;
     bool attemptBuild = !useDistGeom;
     if (attemptBuild && !builder.Build(molCopy) ) {
-      std::cerr << "Warning: Stereochemistry is wrong, using the distance geometry method instead" << std::endl;
+      std::cerr << "Warning: Stereochemistry is wrong, using the distance geometry method instead" << '\n';
       useDistGeom = true;
     }
 
