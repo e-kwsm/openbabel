@@ -90,7 +90,7 @@ namespace OpenBabel
       int spinState = pmol->GetTotalSpinMultiplicity();
       if (spinState != 1) // not a singlet, so give a reasonable default
         ofs << "HIGHSPIN= " << spinState - 1 << "  " << spinState - 1 << '\n';
-      ofs << endl;
+      ofs << '\n';
     }
     else { // old-style ZINDO, so we have to calculate the # of valence electrons
       for (atom = mol.BeginAtom(i); atom; atom = mol.NextAtom(i))
