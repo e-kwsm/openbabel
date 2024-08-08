@@ -103,7 +103,7 @@ namespace OpenBabel
     if (!atom)
       return(false);
     if (!(atom->CountFreeSulfurs() == 2)
-      && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
+      && (atom->CountFreeOxygens() != 1 || atom->CountFreeSulfurs() != 1))
       return(false);
 
     //atom is connected to a carbon that has a total
