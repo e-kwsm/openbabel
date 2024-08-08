@@ -88,8 +88,8 @@ namespace OpenBabel
         if (getenv("BABEL_DATADIR") == nullptr)
           {
             stringstream errorMsg;
-            errorMsg << "The BABEL_DATADIR environment variable is not defined" << endl;
-            errorMsg << "Please define it so the program can find " << infile << endl;
+            errorMsg << "The BABEL_DATADIR environment variable is not defined" << '\n';
+            errorMsg << "Please define it so the program can find " << infile << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
             //            exit(0);
           }
@@ -109,7 +109,7 @@ namespace OpenBabel
     if (!ifsP)
       {
         stringstream errorMsg;
-        errorMsg << "Could not open " << patty_dir << endl;
+        errorMsg << "Could not open " << patty_dir << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         //        exit(0);
       }
@@ -268,8 +268,8 @@ namespace OpenBabel
         if (failOnUndefined)
           {
             stringstream errorMsg;
-            errorMsg << "Unable to find type of feature passed in " << endl;
-            errorMsg << "Feature passed in is " << type << endl;
+            errorMsg << "Unable to find type of feature passed in " << '\n';
+            errorMsg << "Feature passed in is " << type << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
           }
         result = 7;
