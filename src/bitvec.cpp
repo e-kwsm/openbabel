@@ -563,7 +563,7 @@ namespace OpenBabel
       {
       should_continue = false;
       if (next_bit_1 == -1)
-        rtn = (next_bit_2 == -1 ? false : true);
+        rtn = (next_bit_2 != -1);
       else if (next_bit_2 == -1)
         rtn = false;
       else if (next_bit_2 < next_bit_1)
