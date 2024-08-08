@@ -395,7 +395,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       }
 
       tokenize(vs, buffer);
-      if (vs.size() < 1) return false; // timvdm 18/06/2008
+      if (vs.empty()) return false; // timvdm 18/06/2008
       nCubes = strtol(static_cast<const char*>(vs.at(0).c_str()), &endptr, 10);
       if (endptr == static_cast<const char*>(vs.at(0).c_str()))
       {
@@ -492,7 +492,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         return false;
       }
       tokenize(vs, buffer);
-      if (vs.size() == 0)
+      if (vs.empty())
       {
         errorMsg << "Problem reading the Gaussian cube file: cannot"
                  << " read line " << line

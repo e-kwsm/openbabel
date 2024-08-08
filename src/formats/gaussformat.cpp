@@ -171,7 +171,7 @@ namespace OpenBabel
             method = "opt";
           }
 
-        if(model != "" && basis != "" && method != "")
+        if(!model.empty() && !basis.empty() && !method.empty())
           {
             ofs << model << "/" << basis << "," << method << endl;
           }
@@ -1009,9 +1009,9 @@ namespace OpenBabel
             tokenize(vs,buffer);
           }
           Lx.push_back(vib1);
-          if (vib2.size())
+          if (!vib2.empty())
             Lx.push_back(vib2);
-          if (vib3.size())
+          if (!vib3.empty())
             Lx.push_back(vib3);
         }
 
@@ -1281,14 +1281,14 @@ namespace OpenBabel
 
     // Check whether we have data to extract heat of formation.
     if (ezpe_set && Hcorr_set && Gcorr_set && E0_set &&
-        CV_set && (thermo_method.size() > 0))
+        CV_set && (!thermo_method.empty()))
       {
           extract_thermo(&mol,thermo_method,temperature,ezpe,
                          Hcorr,Gcorr,E0,CV,RotSymNum,Scomponents);
       }
 
     // Attach orbital data, if there is any
-    if (orbitals.size() > 0)
+    if (!orbitals.empty())
       {
         OBOrbitalData *od = new OBOrbitalData;
         if (aHOMO == bHOMO) {
@@ -1307,13 +1307,13 @@ namespace OpenBabel
             {
               for (unsigned int i = betaStart; i < initialSize; ++i) {
                 betaOrbitals.push_back(orbitals[i]);
-                if (symmetries.size() > 0)
+                if (!symmetries.empty())
                   betaSymmetries.push_back(symmetries[i]);
               }
               // ok, now erase the end elements of orbitals and symmetries
               for (unsigned int i = betaStart; i < initialSize; ++i) {
                 orbitals.pop_back();
-                if (symmetries.size() > 0)
+                if (!symmetries.empty())
                   symmetries.pop_back();
               }
               // and load the alphas and betas
@@ -1326,10 +1326,10 @@ namespace OpenBabel
       }
 
     //Attach vibrational data, if there is any, to molecule
-    if(Frequencies.size()>0)
+    if(!Frequencies.empty())
     {
       OBVibrationData* vd = new OBVibrationData;
-      if (RamanActivities.size() != 0) {
+      if (!RamanActivities.empty()) {
         // check to see if they're all zero
         bool allZero = true;
         for (auto &i : RamanActivities) {
@@ -1364,7 +1364,7 @@ namespace OpenBabel
       mol.SetData(uc);
     }
     //Attach electronic transition data, if there is any, to molecule
-    if(Forces.size() > 0 && Forces.size() == Wavelengths.size())
+    if(!Forces.empty() && Forces.size() == Wavelengths.size())
     {
       OBElectronicTransitionData* etd = new OBElectronicTransitionData;
       etd->SetData(Wavelengths, Forces);
