@@ -53,7 +53,7 @@ namespace OpenBabel
 
     // open data/eqeqIonizations.txt
     ifstream ifs;
-    if (OpenDatafile(ifs, "eqeqIonizations.txt").length() == 0)
+    if (OpenDatafile(ifs, "eqeqIonizations.txt").empty())
     {
       obErrorLog.ThrowError(__FUNCTION__, "Cannot open eqeqIonizations.txt", obError);
       return false;
