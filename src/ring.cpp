@@ -493,7 +493,7 @@ namespace OpenBabel
     vector<OBRing*>::iterator i;
 
     for (i = _rlist.begin();i != _rlist.end();++i)
-      cout << (*i)->_pathset << endl;
+      cout << (*i)->_pathset << '\n';
   }
 
   /* A recursive O(N) traversal of the molecule */
