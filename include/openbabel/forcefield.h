@@ -1517,7 +1517,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! To be used for VDW or Electrostatic interactions. This
      *  is faster than VectorBondDerivative, but does no error checking.
      */
-    static double VectorDistanceDerivative(const double* const pos_i, const double* const pos_j,
+    static double VectorDistanceDerivative(const double* pos_i, const double* pos_j,
                                            double *force_i, double *force_j);
     //! \deprecated
     OB_DEPRECATED

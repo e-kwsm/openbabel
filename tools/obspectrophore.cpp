@@ -17,7 +17,7 @@ void showParameters(const OpenBabel::OBSpectrophore&, const std::string&);
 void showImplementationDetails(const char*);
 void showError(const std::string&);
 void showHelp(const char*);
-bool isValidValue(const char, char*);
+bool isValidValue(char, char*);
 OpenBabel::OBSpectrophore::NormalizationOption stringToNormalizationOption(char*);
 OpenBabel::OBSpectrophore::AccuracyOption stringToAccuracyOption(char*);
 OpenBabel::OBSpectrophore::StereoOption stringToStereoOption(char*);

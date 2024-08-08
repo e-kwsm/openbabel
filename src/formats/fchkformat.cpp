@@ -82,30 +82,30 @@ namespace OpenBabel
     bool ReadMolecule(OBBase *, OBConversion *) override;
 
   private :
-    bool static read_int(const char * const, int * const);
-    template<class T>  static bool read_numbers(const char * const,
+    bool static read_int(const char * , int * );
+    template<class T>  static bool read_numbers(const char * ,
                                                 vector<T> &,
-                                                const unsigned int width = 0);
-    template <class T> static bool read_section(const char * const,
+                                                unsigned int width = 0);
+    template <class T> static bool read_section(const char * ,
                                                 vector<T> &,
-                                                const unsigned int,
-                                                bool * const,
-                                                const char * const,
-                                                const unsigned int,
-                                                const unsigned int width = 0);
-    bool static validate_section(const char * const,
-                                 const int,
-                                 const char * const,
-                                 const unsigned int);
-    bool static validate_number(const int,
-                                const char * const,
-                                const unsigned int);
-    void static construct_mol(OBMol * const,
-                              OBConversion * const,
-                              const unsigned int,
+                                                unsigned int,
+                                                bool * ,
+                                                const char * ,
+                                                unsigned int,
+                                                unsigned int width = 0);
+    bool static validate_section(const char * ,
+                                 int,
+                                 const char * ,
+                                 unsigned int);
+    bool static validate_number(int,
+                                const char * ,
+                                unsigned int);
+    void static construct_mol(OBMol * ,
+                              OBConversion * ,
+                              unsigned int,
                               const vector<int> &,
                               const vector<double> &,
-                              const int,
+                              int,
                               const vector<int> &,
                               const vector<int> &);
     //       void static vibana(OBMol * const,

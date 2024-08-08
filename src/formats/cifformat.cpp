@@ -283,7 +283,7 @@ namespace OpenBabel
     /// Creates the CIF object from a stream
     ///
     /// \param interpret: if true, interpret all data blocks. See CIFData::ExtractAll()
-    CIF(std::istream &in, const bool interpret=true);
+    CIF(std::istream &in, bool interpret=true);
     //private:
     /// Separate the file in data blocks and parse them to sort tags, loops and comments.
     /// All is stored in the original strings.

@@ -82,20 +82,20 @@ namespace OpenBabel {
     //! \brief Set the segment name of this residue (max four characters)
     void    SetSegName(const std::string &segname);    
     //! Set the residue number (in the sequence)
-    void    SetNum(const unsigned int resnum);
-    void    SetNum(const std::string  resnum);
+    void    SetNum(unsigned int resnum);
+    void    SetNum(std::string  resnum);
     //! Set the chain ID for this residue
-    void    SetChain(const char chain);
+    void    SetChain(char chain);
     //! Set the chain number for this residue
-    void    SetChainNum(const unsigned int chainnum);
+    void    SetChainNum(unsigned int chainnum);
     //! Set the internal index of this residue in the parent OBMol.
     //! Intended mostly for internal use
-    void    SetIdx(const unsigned int idx);
+    void    SetIdx(unsigned int idx);
     //! Set  PDB insertion code information for this residue. This allows
     //! consecutive residues to have the same number. Some communities
     //! that work in a well-conserved structural world use this, e.g.
     //! for immunoglobulins.
-    void    SetInsertionCode(const char insertioncode);
+    void    SetInsertionCode(char insertioncode);
 
     //! Set the character code ID for an ATOM record for the supplied atom
     //! This does nothing if the supplied atom is not found in the residue

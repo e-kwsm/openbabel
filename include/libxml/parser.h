@@ -1033,18 +1033,18 @@ XMLPUBFUN xmlParserInputPtr XMLCALL
  * Node infos.
  */
 XMLPUBFUN const xmlParserNodeInfo* XMLCALL
-		xmlParserFindNodeInfo	(const xmlParserCtxtPtr ctxt,
-				         const xmlNodePtr node);
+		xmlParserFindNodeInfo	(xmlParserCtxtPtr ctxt,
+				         xmlNodePtr node);
 XMLPUBFUN void XMLCALL		
 		xmlInitNodeInfoSeq	(xmlParserNodeInfoSeqPtr seq);
 XMLPUBFUN void XMLCALL		
 		xmlClearNodeInfoSeq	(xmlParserNodeInfoSeqPtr seq);
 XMLPUBFUN unsigned long XMLCALL 
-		xmlParserFindNodeInfoIndex(const xmlParserNodeInfoSeqPtr seq,
-                                         const xmlNodePtr node);
+		xmlParserFindNodeInfoIndex(xmlParserNodeInfoSeqPtr seq,
+                                         xmlNodePtr node);
 XMLPUBFUN void XMLCALL		
 		xmlParserAddNodeInfo	(xmlParserCtxtPtr ctxt,
-					 const xmlParserNodeInfoPtr info);
+					 xmlParserNodeInfoPtr info);
 
 /*
  * External entities handling actually implemented in xmlIO.

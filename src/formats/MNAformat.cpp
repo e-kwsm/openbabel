@@ -160,7 +160,7 @@ namespace OpenBabel
 			static MNAZ Z2MNAZ(unsigned);
 
 		private:
-			string MNAize(OBAtom * const, unsigned);
+			string MNAize(OBAtom * , unsigned);
 
 			static string const chain_marker;
 			static string const open_nbor_list;
@@ -180,7 +180,7 @@ namespace OpenBabel
 
 	////////////////////////////////////////////////////////////////
 
-	bool MNAcmp(OBAtom const * const, OBAtom const * const);
+	bool MNAcmp(OBAtom const * , OBAtom const * );
 
 
 	bool MNAFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)

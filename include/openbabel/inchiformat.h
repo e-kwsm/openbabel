@@ -119,7 +119,7 @@ public:
   int  SkipObjects(int n, OBConversion* pConv) override;
 
   static char CompareInchi(const std::string& Inchi1, const std::string& Inchi2);
-  static std::string InChIErrorMessage(const char ch);
+  static std::string InChIErrorMessage(char ch);
 
   ///Removes layers or truncates InChi, according to \param spec
   ///which can contain any number of:/formula /connect /nostereo /nosp3 /noEZ /nochg /noiso
