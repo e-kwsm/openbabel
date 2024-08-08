@@ -61,7 +61,7 @@ void print_vector(const std::string &label, const std::vector<T> &v)
   std::cout << label << ": ";
   for (std::size_t i = 0; i < v.size(); ++i)
     std::cout << v[i] << " ";
-  std::cout << endl;
+  std::cout << '\n';
 }
 
 namespace OpenBabel {
@@ -1145,11 +1145,11 @@ namespace OpenBabel {
     if (DEBUG) {
       for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
         if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << '\n';
         if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << '\n';
         if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << '\n';
       }
     }
 
@@ -1280,7 +1280,7 @@ namespace OpenBabel {
       std::vector<unsigned int> duplicatedSymClasses = findDuplicatedSymmetryClasses(center, symmetry_classes);
 
       if (DEBUG_INVERSIONS) {
-        cout << "permutationInvertsTetrahedralCenter(" << center->GetIndex() << ")" << endl;
+        cout << "permutationInvertsTetrahedralCenter(" << center->GetIndex() << ")" << '\n';
         print_vector("duplicatedSymClasses", duplicatedSymClasses);
       }
 
@@ -1391,7 +1391,7 @@ namespace OpenBabel {
     static std::vector<Entry> compute(OBMol *mol, const std::vector<unsigned int> &symClasses,
         const Automorphisms &automorphisms)
     {
-      if (DEBUG_INVERSIONS) cout << "ENTER StereoInverted::compute()" << endl;
+      if (DEBUG_INVERSIONS) cout << "ENTER StereoInverted::compute()" << '\n';
 
       // We need topological canonical labels for this
       std::vector<unsigned int> canon_labels;
@@ -1405,7 +1405,7 @@ namespace OpenBabel {
         Entry entry;
         entry.p = automorphisms[i];
 
-        if (DEBUG_INVERSIONS) cout << "----> Checking automorphism " << i+1 << endl;
+        if (DEBUG_INVERSIONS) cout << "----> Checking automorphism " << i+1 << '\n';
 
         // Check the atoms
         std::vector<OBAtom*>::iterator ia;
@@ -1441,21 +1441,21 @@ namespace OpenBabel {
               }
             }
           }
-          cout << endl;
+          cout << '\n';
           cout << "  invertedAtoms: ";
           for (std::size_t l = 0; l < entry.invertedAtoms.size(); ++l)
             cout << entry.invertedAtoms[l]->GetId() << " ";
-          cout << endl;
+          cout << '\n';
           cout << "  invertedBonds: ";
           for (std::size_t l = 0; l < entry.invertedBonds.size(); ++l)
             cout << entry.invertedBonds[l]->GetId() << " ";
-          cout << endl;
+          cout << '\n';
         }
 
         result.push_back(entry);
       }
 
-      if (DEBUG_INVERSIONS) cout << "EXIT StereoInverted::compute()" << endl;
+      if (DEBUG_INVERSIONS) cout << "EXIT StereoInverted::compute()" << '\n';
 
       return result;
     }
@@ -1653,7 +1653,7 @@ namespace OpenBabel {
         int classification = classifyTetrahedralNbrSymClasses(symClasses, atom);
 
         if (DEBUG_INVERSIONS)
-          cout << "foundPermutation for id = " << atom->GetId() << ": " << foundPermutation << endl;
+          cout << "foundPermutation for id = " << atom->GetId() << ": " << foundPermutation << '\n';
 
         if (!foundPermutation) {
           // true-stereocenter found
@@ -1811,11 +1811,11 @@ namespace OpenBabel {
     if (DEBUG) {
       for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
         if (unit->type == OBStereo::Tetrahedral)
-          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << '\n';
         if (unit->type == OBStereo::CisTrans)
-          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << '\n';
         if (unit->type == OBStereo::SquarePlanar)
-          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+          cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << '\n';
       }
     }
 
@@ -2117,7 +2117,7 @@ namespace OpenBabel {
       if (center->GetHvyDegree() < 3) {
         std::stringstream errorMsg;
         errorMsg << "Cannot calculate a signed volume for an atom with a heavy atom valence of "
-                 << center->GetHvyDegree() << std::endl;
+                 << center->GetHvyDegree() << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
         continue;
       }
@@ -2429,7 +2429,7 @@ namespace OpenBabel {
       if (center->GetHvyDegree() < 3) {
         std::stringstream errorMsg;
         errorMsg << "Cannot calculate a signed volume for an atom with a heavy atom valence of "
-                 << center->GetHvyDegree() << std::endl;
+                 << center->GetHvyDegree() << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
         continue;
       }
