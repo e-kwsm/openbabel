@@ -1398,11 +1398,11 @@ namespace OpenBabel {
 
       FOR_NBORS_OF_ATOM(nbr, b) {
         if (a == nullptr)
-          a = (OBAtom*) &*nbr;
+          a = (&*nbr);
         else if (c == nullptr)
-          c = (OBAtom*) &*nbr;
+          c = (&*nbr);
         else
-          d = (OBAtom*) &*nbr;
+          d = (&*nbr);
       }
 
       if (a == nullptr || c == nullptr || d == nullptr)
