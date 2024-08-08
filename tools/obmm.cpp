@@ -82,7 +82,7 @@ int main(int argc,char **argv)
   cout << "                              program" << endl;
   cout << "                v 0.1                " << endl << endl;
 
-  while (1) {
+  while (true) {
 
     cout << "command > ";
     cin.getline(commandline, BUFF_SIZE - 1);
