@@ -120,9 +120,9 @@ namespace OpenBabel
       else
         ofs << ">Unknown molecule";
       ofs << " " << pmol->NumResidues() << " bp";
-      ofs << "; generated with OpenBabel " << BABEL_VERSION << endl;
+      ofs << "; generated with OpenBabel " << BABEL_VERSION << '\n';
     }
-    ofs << seq << endl;
+    ofs << seq << '\n';
     return true;
   }
   struct residue_lookup_record

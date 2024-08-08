@@ -112,7 +112,7 @@ const char* Description() override  // required
 
   private:
     bool ObtainTarget(OBConversion* pConv, std::vector<OBMol>& patternMols, const std::string& indexname);
-    void AddPattern(vector<OBMol>& patternMols, OBMol patternMol, int idx);
+    void AddPattern(vector<OBMol>& patternMols, const OBMol& patternMol, int idx);
 
   private:
     ///big data structure which will remain in memory after it is loaded
@@ -157,7 +157,7 @@ const char* Description() override  // required
       ifs.open(indexname.c_str(),ios::binary);
     if(!ifs)
       {
-        errorMsg << "Couldn't open " << indexname << endl;
+        errorMsg << "Couldn't open " << indexname << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -165,7 +165,7 @@ const char* Description() override  // required
     string datafilename = fs.ReadIndex(&ifs);
     if(datafilename.empty())
       {
-        errorMsg << "Difficulty reading from index " << indexname << endl;
+        errorMsg << "Difficulty reading from index " << indexname << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -189,7 +189,7 @@ const char* Description() override  // required
     ifstream datastream(path.c_str());
     if(!datastream)
       {
-        errorMsg << "Difficulty opening " << path << endl;
+        errorMsg << "Difficulty opening " << path << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -202,7 +202,7 @@ const char* Description() override  // required
 
     if (isgzip)
       {
-	errorMsg << "Index datafile must not be in gzip format: " << path << endl;
+	errorMsg << "Index datafile must not be in gzip format: " << path << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
         return false;
       }
@@ -311,7 +311,7 @@ const char* Description() override  // required
         vector<OBMol>::iterator iter;
         for(iter=patternMols.begin();iter!=patternMols.end();++iter)
           fs.Find(&*iter, SeekPositions, MaxCandidates);
-        clog << SeekPositions.size() << " candidates from fingerprint search phase" << endl;
+        clog << SeekPositions.size() << " candidates from fingerprint search phase" << '\n';
       }
 
       vector<unsigned long>::iterator seekitr,
@@ -413,7 +413,7 @@ const char* Description() override  // required
             if(!pOs->good() || !idxok)
               {
                 stringstream errorMsg;
-                errorMsg << "Trouble opening or reading " << indexname << endl;
+                errorMsg << "Trouble opening or reading " << indexname << '\n';
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
                 static_cast<ofstream *>(pOs)->close(); // close the file before quitting
                 delete pOs;
@@ -504,9 +504,9 @@ const char* Description() override  // required
         clog << " Estimated completion time ";
         double secs = sw.Elapsed() * nmols / 400; //
         if(secs>150)
-          clog << secs/60 << " minutes" << endl;
+          clog << secs/60 << " minutes" << '\n';
     else
-          clog << secs << " seconds" << endl;
+          clog << secs << " seconds" << '\n';
       }
     }
     else
@@ -527,9 +527,9 @@ const char* Description() override  // required
 
         double secs = sw.Elapsed();
         if(secs>150)
-          clog << "\n It took " << secs/60 << " minutes" << endl;
+          clog << "\n It took " << secs/60 << " minutes" << '\n';
         else
-          clog << "\n It took " << secs << " seconds" << endl;
+          clog << "\n It took " << secs << " seconds" << '\n';
       }
     delete pOb;
     return true;
@@ -672,7 +672,7 @@ const char* Description() override  // required
            << OBFingerprint::Getbitsperint() * header.words << " bits.\n"
            << "Typical usage for a substructure search:\n"
            << "obabel indexfile.fs -osmi -sSMILES\n"
-           << "(-s option in GUI is 'Convert only if match SMARTS or mols in file')" << endl;
+           << "(-s option in GUI is 'Convert only if match SMARTS or mols in file')" << '\n';
       return false;
     }
 
@@ -680,7 +680,7 @@ const char* Description() override  // required
     return true;
   }
 
-  void FastSearchFormat::AddPattern(vector<OBMol>& patternMols, OBMol patternMol, int idx)
+  void FastSearchFormat::AddPattern(vector<OBMol>& patternMols, const OBMol& patternMol, int idx)
   {
     //Recursive function to generate all combinations of aromatic/single bonds for each tilde bond
     //Copying an OBMol, which happens when adding it to a vector, kekulizes it,

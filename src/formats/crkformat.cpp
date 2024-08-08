@@ -117,13 +117,13 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    ofs << "<Property Type=\"DiagramStructure\">" <<  endl;
-    ofs << " <Structure2D>" << endl;
+    ofs << "<Property Type=\"DiagramStructure\">" <<  '\n';
+    ofs << " <Structure2D>" << '\n';
 
     WriteCRK(ofs,mol,true);
 
-    ofs << " </Structure2D>" << endl;
-    ofs << "</Property>" << endl;
+    ofs << " </Structure2D>" << '\n';
+    ofs << "</Property>" << '\n';
 
     return true;
   }
@@ -215,13 +215,13 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    ofs << "<Property Type=\"ModelStructure\">" <<  endl;
-    ofs << " <Structure3D>" << endl;
+    ofs << "<Property Type=\"ModelStructure\">" <<  '\n';
+    ofs << " <Structure3D>" << '\n';
 
     CRK2DFormat::WriteCRK(ofs,mol,true);
 
-    ofs << " </Structure3D>" << endl;
-    ofs << "</Property>" << endl;
+    ofs << " </Structure3D>" << '\n';
+    ofs << "</Property>" << '\n';
 
     return true;
   }
@@ -425,7 +425,7 @@ namespace OpenBabel
       for(unsigned int n=1;n<=mol.NumAtoms();n++)
         groupCharge+=mol.GetAtom(n)->GetFormalCharge();
 
-    ofs << "  <Group Charge=\"" << groupCharge << "\" Spin=\"0\">" << endl;
+    ofs << "  <Group Charge=\"" << groupCharge << "\" Spin=\"0\">" << '\n';
 
     for(unsigned int n=1;n<=mol.NumAtoms();n++)
       {
@@ -440,14 +440,14 @@ namespace OpenBabel
 
         //ofs << ((int)atm) << endl;
 
-        ofs << "   <Atom ID=\"" << id << "\">" << endl;
-        ofs << "    <X>" << x << "</X>" << endl;
-        ofs << "    <Y>" << y << "</Y>" << endl;
-        ofs << "    <Z>" << z << "</Z>" << endl;
-        ofs << "    <Element>" << element << "</Element>" << endl;
+        ofs << "   <Atom ID=\"" << id << "\">" << '\n';
+        ofs << "    <X>" << x << "</X>" << '\n';
+        ofs << "    <Y>" << y << "</Y>" << '\n';
+        ofs << "    <Z>" << z << "</Z>" << '\n';
+        ofs << "    <Element>" << element << "</Element>" << '\n';
         if (charge!=0)
-          ofs << "    <Charge>" << charge << "</Charge>" << endl;
-        ofs << "   </Atom>" << endl;
+          ofs << "    <Charge>" << charge << "</Charge>" << '\n';
+        ofs << "   </Atom>" << '\n';
       }
 
     for(unsigned int m=0;m<mol.NumBonds();m++)
@@ -464,15 +464,15 @@ namespace OpenBabel
         if (bnd->IsWedge())
           style=2;
 
-        ofs << "   <Bond>" << endl;
-        ofs << "    <From>" << from << "</From>" << endl;
-        ofs << "    <To>" << to << "</To>" << endl;
-        ofs << "    <Order>" << order << "</Order>" << endl;
-        ofs << "    <Style>" << style << "</Style>" << endl;
-        ofs << "   </Bond>" << endl;
+        ofs << "   <Bond>" << '\n';
+        ofs << "    <From>" << from << "</From>" << '\n';
+        ofs << "    <To>" << to << "</To>" << '\n';
+        ofs << "    <Order>" << order << "</Order>" << '\n';
+        ofs << "    <Style>" << style << "</Style>" << '\n';
+        ofs << "   </Bond>" << '\n';
       }
 
-    ofs << "  </Group>" << endl;
+    ofs << "  </Group>" << '\n';
   }
 
 } //namespace OpenBabel
