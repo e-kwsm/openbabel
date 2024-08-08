@@ -854,7 +854,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
         AnnotationData *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
         vector<string> styles = data->GetGenericValue();
         for (vector<string>::const_iterator i = styles.begin(); i != styles.end(); ++i) {
-          string stylestring = *i;
+          const string& stylestring = *i;
           int style = 255;
           if (stylestring == "dashed") {
             style = 2;
