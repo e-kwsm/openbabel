@@ -24,7 +24,7 @@ namespace OpenBabel {
         else
           std::cout << v[i] << " ";
 
-      std::cout << endl;
+      std::cout << '\n';
     }
 
   static const char *red    = "\033[1;31m";
@@ -157,7 +157,7 @@ namespace OpenBabel {
           return false;
 
         if (DEBUG)
-          std::cout << green << "-----------------> MATCH" << normal << std::endl;
+          std::cout << green << "-----------------> MATCH" << normal << '\n';
 
         // create the map
         Mapping map;
@@ -216,21 +216,21 @@ namespace OpenBabel {
         // check if the bonds match
         if (!checkBonds(state, queryAtom)) {
           if (DEBUG)
-            cout << "    bonds do not match..." << endl;
+            cout << "    bonds do not match..." << '\n';
           Backtrack(state);
           return false;
         }
 
         if (DEBUG) {
-          cout << "FOUND:  " << queryAtom->GetIndex() << " -> " << queriedAtom->GetIndex() << "       " << state.queryPath.size() << endl;
+          cout << "FOUND:  " << queryAtom->GetIndex() << " -> " << queriedAtom->GetIndex() << "       " << state.queryPath.size() << '\n';
           cout << "queryDepths:   ";
           for (unsigned int i = 0; i < state.query->NumAtoms(); ++i)
             cout << state.queryDepths[i] << " ";
-          cout <<endl;
+          cout <<'\n';
           cout << "queriedDepths: ";
           for (unsigned int i = 0; i < state.queried->NumAtoms(); ++i)
             cout << state.queriedDepths[i] << " ";
-          cout <<endl;
+          cout <<'\n';
         }
 
         //
@@ -327,7 +327,7 @@ namespace OpenBabel {
             return;
 
           if (DEBUG)
-            cout << yellow << "candidate: " << candidate.queryAtom->GetIndex() << " -> " << candidate.queriedAtom->GetIndex() << normal << endl;
+            cout << yellow << "candidate: " << candidate.queryAtom->GetIndex() << " -> " << candidate.queriedAtom->GetIndex() << normal << '\n';
 
 
           if (matchCandidate(state, candidate.queryAtom, candidate.queriedAtom)) {
@@ -341,7 +341,7 @@ namespace OpenBabel {
       void Backtrack(State &state)
       {
         if (DEBUG)
-          cout << red << "backtrack... " << normal << state.queryPath.size()-1 << endl;
+          cout << red << "backtrack... " << normal << state.queryPath.size()-1 << '\n';
         // remove last atoms from the mapping
         if (state.queryPath.size()) {
           state.mapping[state.queryPath.back()] = nullptr;
@@ -436,9 +436,9 @@ namespace OpenBabel {
 
         if (DEBUG)
           for (unsigned int i =0; i < maps.size(); ++i) {
-            cout << "mapping:" << endl;
+            cout << "mapping:" << '\n';
             for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
-              cout << "    " << it->first << " -> " << it->second << endl;
+              cout << "    " << it->first << " -> " << it->second << '\n';
           }
       }
 
@@ -458,9 +458,9 @@ namespace OpenBabel {
 
         if (DEBUG)
           for (unsigned int i =0; i < maps.size(); ++i) {
-            cout << "mapping:" << endl;
+            cout << "mapping:" << '\n';
             for (Mapping::iterator it = maps[i].begin(); it != maps[i].end(); ++it)
-              cout << "    " << it->first << " -> " << it->second << endl;
+              cout << "    " << it->first << " -> " << it->second << '\n';
           }
 
       }
@@ -486,7 +486,7 @@ namespace OpenBabel {
             continue;
           }
           if (DEBUG)
-            std::cout << blue << "START: 0 -> " << queriedAtom->GetIndex() << normal << std::endl;
+            std::cout << blue << "START: 0 -> " << queriedAtom->GetIndex() << normal << '\n';
 
           if (m_query->NumAtoms() > 1) {
             if (matchCandidate(state, queryAtom, queriedAtom))
@@ -633,7 +633,7 @@ namespace OpenBabel {
 
     if (DEBUG)
     for (unsigned int i = 0; i < symClasses.size(); ++i)
-      cout << i << ": " << symClasses[i] << endl;
+      cout << i << ": " << symClasses[i] << '\n';
 
     // compute the connected fragments
     OBBitVec visited;
