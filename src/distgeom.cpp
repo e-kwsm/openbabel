@@ -147,13 +147,13 @@ namespace OpenBabel {
     // Do we use the current geometry for default 1-2 and 1-3 bounds?
     Set12Bounds(useCurrentGeometry);
     if (_d->debug) {
-      cerr << endl << " 1-2 Matrix\n";
-      cerr << _d->bounds << endl;
+      cerr << '\n' << " 1-2 Matrix\n";
+      cerr << _d->bounds << '\n';
     }
     Set13Bounds(useCurrentGeometry);
     if (_d->debug) {
-      cerr << endl << " 1-3 Matrix\n";
-      cerr << _d->bounds << endl;
+      cerr << '\n' << " 1-3 Matrix\n";
+      cerr << _d->bounds << '\n';
     }
 
     vector<OBRing*> rlist = _mol.GetSSSR();
@@ -162,16 +162,16 @@ namespace OpenBabel {
 
     Set14Bounds();
     if (_d->debug) {
-      cerr << endl << " 1-4 Matrix\n";
-      cerr << _d->bounds << endl;
+      cerr << '\n' << " 1-4 Matrix\n";
+      cerr << _d->bounds << '\n';
     }
     Set15Bounds();
     SetLowerBounds();
     TriangleSmooth();
     _d->preMet = _d->bounds; // make a copy before metrization
     if (_d->debug) {
-      cerr << endl << " Smoothed Matrix\n";
-      cerr << _d->bounds << endl;
+      cerr << '\n' << " Smoothed Matrix\n";
+      cerr << _d->bounds << '\n';
     }
 
     // RDKit: Code/DistGeom/ChiralViolationContrib.cpp
@@ -1000,7 +1000,7 @@ namespace OpenBabel {
     return returnValue;
   }
 
-  bool OBDistanceGeometry::SetBoundsMatrix(const Eigen::MatrixXf bounds)
+  bool OBDistanceGeometry::SetBoundsMatrix(const Eigen::MatrixXf& bounds)
   {
     if (_d != nullptr) {
       // Check size of bounds matrix
@@ -1178,7 +1178,7 @@ namespace OpenBabel {
     generator.TimeSeed();
 
     if (_d->debug) {
-      cerr << " max box size: " << _d->maxBoxSize << endl;
+      cerr << " max box size: " << _d->maxBoxSize << '\n';
     }
 
     _d->success = false;
@@ -1192,7 +1192,7 @@ namespace OpenBabel {
         break;
       }
       if (_d->debug && !_d->success)
-        cerr << "Stereo unsatisfied, trying again" << endl;
+        cerr << "Stereo unsatisfied, trying again" << '\n';
     }
   }
 
@@ -1219,7 +1219,7 @@ namespace OpenBabel {
           uBounds = _d->GetUpperBounds(i - 1, j - 1);
           if (dist - uBounds > 2.5) {
                 if (_d->debug) {
-                  cerr << " upper violation " << dist << " " << uBounds << endl;
+                  cerr << " upper violation " << dist << " " << uBounds << '\n';
                 }
             return false;
           }
@@ -1236,7 +1236,7 @@ namespace OpenBabel {
           dist = a->GetDistance(b);
           if (dist < minDist) {
             if (_d->debug) {
-                  cerr << " lower violation " << dist << " " << minDist << endl;
+                  cerr << " lower violation " << dist << " " << minDist << '\n';
             }
             return false;
           }
