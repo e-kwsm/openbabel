@@ -44,9 +44,11 @@ namespace OpenBabel {
   {
     // set all atoms to 1 if the mask is empty
     OBBitVec mask2 = mask;
-    if (!mask2.CountBits())
-      for (unsigned int i = 0; i < mol->NumAtoms(); ++i)
+    if (!mask2.CountBits()) {
+      for (unsigned int i = 0; i < mol->NumAtoms(); ++i) {
         mask2.SetBitOn(i + 1);
+      }
+    }
 
     OBQuery *query = new OBQuery;
     unsigned int offset = 0;
@@ -62,8 +64,9 @@ namespace OpenBabel {
     FOR_BONDS_OF_MOL (obbond, mol) {
       unsigned int beginIndex = obbond->GetBeginAtom()->GetIndex();
       unsigned int endIndex = obbond->GetEndAtom()->GetIndex();
-      if (!mask2.BitIsSet(beginIndex + 1) || !mask2.BitIsSet(endIndex + 1))
+      if (!mask2.BitIsSet(beginIndex + 1) || !mask2.BitIsSet(endIndex + 1)) {
         continue;
+      }
 
       query->AddBond(new OBQueryBond(query->GetAtoms()[indexes[beginIndex]], query->GetAtoms()[indexes[endIndex]],
             obbond->GetBondOrder(), obbond->IsAromatic()));

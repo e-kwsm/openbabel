@@ -128,7 +128,9 @@ namespace OpenBabel
         return result;
       }
     else
+    {
       return 0;
+    }
   }
 
   static int IsOddPrime( unsigned int x )
@@ -140,21 +142,31 @@ namespace OpenBabel
     for( i=2; i<MAXPRIMES-1; i++ )
       {
         if( (x%primes[i]) == 0 )
+        {
           return False;
+        }
         if( (unsigned int) primes[i] >= root )
+        {
           return True;
+        }
       }
 
     for( i=primes[MAXPRIMES-1]; i<=root; i+=2 )
+    {
       if( (x%i) == 0 )
+      {
         return False;
+      }
+    }
     return True;
   }
 
   static int RelativelyPrime( unsigned int x, unsigned int y )
   {
     if( BothEven(x,y) )
+    {
       return False;
+    }
 
     if( IsEven(x) )
       {
@@ -165,8 +177,12 @@ namespace OpenBabel
         while( IsEven(x) );
       }
     else
+    {
       while( IsEven(y) )
+      {
         y >>= 1;
+      }
+    }
 
     while( x != y )
       {
@@ -196,7 +212,9 @@ namespace OpenBabel
   {
     x->lo += y;
     if( x->lo < y )
+    {
       x->hi++;
+    }
   }
 
   static void DoubleMultiply( unsigned int x, unsigned int y, DoubleType *z )
@@ -218,7 +236,9 @@ namespace OpenBabel
     x1 += HiPart(x0);
     x1 += x2;
     if( x1 < x2 )
+    {
       x3 += (1<<16);
+    }
 
     z->hi = HiPart(x1) + x3;
     z->lo = (LoPart(x1)<<16) + LoPart(x0);
@@ -244,14 +264,18 @@ namespace OpenBabel
             return  8-table[x>>24];
           }
         else
+        {
           return 16-table[x>>16];
+        }
       }
     else if( x >= (1<<8) )
       {
         return 24-table[x>>8];
       }
     else
+    {
       return 32-table[x];
+    }
   }
 
   static unsigned int DoubleModulus( DoubleType *n,  unsigned int d )
@@ -277,7 +301,9 @@ namespace OpenBabel
       {
         r1 += d;
         if( (r1>=d) && (r1<m) )
+        {
           r1 += d;
+        }
       }
     r1 -= m;
 
@@ -287,7 +313,9 @@ namespace OpenBabel
       {
         r0 += d;
         if( (r0>=d) && (r0<m) )
+        {
           r0 += d;
+        }
       }
     r0 -= m;
 
@@ -324,14 +352,22 @@ namespace OpenBabel
     for( i=1; i<MAXPRIMES; i++ )
       {
         if( (x%primes[i]) == 0 )
+        {
           *ptr++ = primes[i];
+        }
         if( (unsigned int)(primes[i]) >= half )
+        {
           return ptr-factors;
+        }
       }
 
     for( i=primes[MAXPRIMES-1]+2; i<=half; i+=2 )
+    {
       if( IsOddPrime(i) && ((x%i)==0) )
+      {
         *ptr++ = i;
+      }
+    }
     return ptr-factors;
   }
 
@@ -344,24 +380,36 @@ namespace OpenBabel
     /* 1/2 + sqrt(3)/6 */
     hi = (int)floor(0.7886751345948*m+0.5);
     if( RelativelyPrime(m,hi) )
+    {
       return hi;
+    }
 
     /* 1/2 - sqrt(3)/6 */
     lo = (int)floor(0.2113248654052*m+0.5);
     if( RelativelyPrime(m,lo) )
+    {
       return lo;
+    }
 
     half = m/2;
     for( i=1; i<half; i++ )
       {
         if( RelativelyPrime(m,hi+i) )
+        {
           return hi+i;
+        }
         if( RelativelyPrime(m,hi-i) )
+        {
           return hi-i;
+        }
         if( RelativelyPrime(m,lo+i) )
+        {
           return lo+i;
+        }
         if( RelativelyPrime(m,lo-i) )
+        {
           return lo-i;
+        }
       }
     return 1;
   }
@@ -384,7 +432,9 @@ namespace OpenBabel
 
         count = DetermineFactors(m,fact);
         if( (m&3) == 0 )
+        {
           fact[0] = 4;
+        }
 
         if( count )
           {
@@ -392,11 +442,13 @@ namespace OpenBabel
               {
                 flag = True;
                 for( i=0; i<count; i++ )
+                {
                   if( b%fact[i] )
                     {
                       flag = False;
                       break;
                     }
+                }
 
                 if( flag )
                   {
@@ -460,7 +512,9 @@ namespace OpenBabel
     x = 0;  /* seed */
 
     if (useSysRand)
+    {
       this->TimeSeed();
+    }
   }
 
   int OBRandom::NextInt()

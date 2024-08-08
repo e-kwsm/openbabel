@@ -89,7 +89,9 @@ namespace OpenBabel
   void OBMol::FindSSSR()
   {
     if (HasSSSRPerceived())
+    {
       return;
+    }
     SetSSSRPerceived();
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::FindSSSR", obAuditMsg);
@@ -117,8 +119,12 @@ namespace OpenBabel
 
         //restrict search for rings around closure bonds
         for (bond = BeginBond(k);bond;bond = NextBond(k))
+        {
           if (bond->IsClosure())
+          {
             cbonds.push_back(bond);
+          }
+        }
 
         if (!cbonds.empty())
           {
@@ -127,7 +133,9 @@ namespace OpenBabel
             vector<OBBond*>::iterator i;
 
             for (i = cbonds.begin();i != cbonds.end();++i)
+            {
               rs.AddRingFromClosure(*this,(OBBond*)*i);
+            }
 
             rs.SortRings();
             rs.RemoveRedundant(frj);
@@ -190,9 +198,13 @@ namespace OpenBabel
     //
     mask.Clear();
     for (unsigned int j = 0; j < rlist.size(); ++j)
+    {
       // Here we select only smaller rings.
       if (rlist[j]->_path.size() < ring->_path.size())
+      {
         mask |= rlist[j]->_pathset;
+      }
+    }
 
     mask = mask & ring->_pathset;
 
@@ -202,7 +214,9 @@ namespace OpenBabel
     std::vector<unsigned int> bonds = atomRingToBondRing(mol, ring->_path);
     OBBitVec bondset;
     for (unsigned int i = 0; i < bonds.size(); ++i)
+    {
       bondset.SetBitOn(bonds[i]);
+    }
 
     //
     // Remove larger rings that cover the same bonds as smaller rings.
@@ -212,11 +226,15 @@ namespace OpenBabel
       std::vector<unsigned int> otherBonds = atomRingToBondRing(mol, rlist[j]->_path);
       OBBitVec bs;
       for (unsigned int i = 0; i < otherBonds.size(); ++i)
+      {
         bs.SetBitOn(otherBonds[i]);
+      }
 
       // Here we select only smaller rings.
       if (otherBonds.size() < bonds.size())
+      {
         mask |= bs;
+      }
     }
 
     mask = mask & bondset;
@@ -236,7 +254,9 @@ namespace OpenBabel
   void OBMol::FindLSSR()
   {
     if (HasLSSRPerceived())
+    {
       return;
+    }
     SetLSSRPerceived();
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::FindLSSR", obAuditMsg);
@@ -264,8 +284,12 @@ namespace OpenBabel
 
         //restrict search for rings around closure bonds
         for (bond = BeginBond(k);bond;bond = NextBond(k))
+        {
           if (bond->IsClosure())
+          {
             cbonds.push_back(bond);
+          }
+        }
 
         if (!cbonds.empty())
           {
@@ -274,7 +298,9 @@ namespace OpenBabel
             vector<OBBond*>::iterator i;
 
             for (i = cbonds.begin();i != cbonds.end();++i)
+            {
               rs.AddRingFromClosure(*this,(OBBond*)*i);
+            }
 
             rs.SortRings();
             rs.RemoveRedundant(-1); // -1 means LSSR
@@ -303,14 +329,20 @@ namespace OpenBabel
   static int DetermineFRJ(OBMol &mol)
   {
     if (!mol.HasClosureBondsPerceived())
+    {
       return (int)FindRingAtomsAndBonds2(mol);
+    }
 
     int frj = 0;
     OBBond *bond;
     vector<OBBond*>::iterator j;
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
+    {
       if (bond->IsClosure()) // bond->HasFlag(OB_CLOSURE_BOND)?
+      {
         frj++;
+      }
+    }
     return frj;
   }
 
@@ -320,16 +352,22 @@ namespace OpenBabel
 
     //remove identical rings
     for (i = _rlist.size()-1;i > 0;i--)
+    {
       for (j = i-1;j >= 0;j--)
+      {
         if ((_rlist[i])->_pathset == (_rlist[j])->_pathset)
           {
             delete _rlist[i];
             _rlist.erase(_rlist.begin()+i);
             break;
           }
+      }
+    }
 
     if (_rlist.size() == 0)
+    {
       return; // nothing to do
+    }
 
     // handle LSSR
     if (frj < 0) {
@@ -339,27 +377,37 @@ namespace OpenBabel
         visitRing(mol, _rlist[i], rlist, rignored);
       }
       for (unsigned int i = 0; i < rignored.size(); ++i)
+      {
         delete rignored[i];
+      }
       _rlist = rlist;
       return;
     }
 
     // exit if we already have frj rings
     if (_rlist.size() == (unsigned)frj)
+    {
       return;
+    }
 
     //make sure tmp is the same size as the rings
     OBBitVec tmp;
     for (j = 0;j < (signed)_rlist.size();++j)
+    {
       tmp = (_rlist[j])->_pathset;
+    }
 
     //remove larger rings that cover the same atoms as smaller rings
     for (i = _rlist.size()-1;i >= 0;i--)
       {
         tmp.Clear();
         for (j = 0;j < (signed)_rlist.size();++j)
+        {
           if ((_rlist[j])->_path.size() <= (_rlist[i])->_path.size() && i != j)
+          {
             tmp |= (_rlist[j])->_pathset;
+          }
+        }
 
         tmp = tmp & (_rlist[i])->_pathset;
 
@@ -370,7 +418,9 @@ namespace OpenBabel
           }
 
         if (_rlist.size() == (unsigned)frj)
+        {
           break;
+        }
       }
   }
 
@@ -393,6 +443,7 @@ namespace OpenBabel
     vector<OBRTree*>::iterator i;
 
     for (i = t1.begin();i != t1.end();++i)
+    {
       if (*i)
         {
           path1.clear();
@@ -407,7 +458,9 @@ namespace OpenBabel
               p1.clear();
               m = path1.begin();
               if (m != path1.end())
+              {
                 p1.push_back((*m)->GetIdx());
+              }
               for (m = path1.begin(),++m;m != path1.end();++m)
                 {
                   p1.push_back((*m)->GetIdx());
@@ -419,31 +472,48 @@ namespace OpenBabel
                         {
                           p2.pop_front();
                           if (p1.size()+p2.size() > 2)
+                          {
                             SaveUniqueRing(p1,p2);
+                          }
                           pathok = false;
                           break;
                         }
                       if ((*n)->IsConnected(*m) && p1.size()+p2.size() > 2)
+                      {
                         SaveUniqueRing(p1,p2);
+                      }
                     }
                   if (!pathok)
+                  {
                     break;
+                  }
                 }
             }
         }
+    }
 
     //clean up OBRTree vectors
     for (i = t1.begin();i != t1.end();++i)
+    {
       if (*i)
+      {
         delete *i;
+      }
+    }
 
     for (i = t2.begin();i != t2.end();++i)
+    {
       if (*i)
+      {
         delete *i;
+      }
+    }
 
     // set parent for all rings
     for (unsigned int j = 0; j < _rlist.size(); ++j)
+    {
       _rlist[j]->SetParent(&mol);
+    }
   }
 
   bool OBRingSearch::SaveUniqueRing(deque<int> &d1,deque<int> &d2)
@@ -466,8 +536,12 @@ namespace OpenBabel
 
     vector<OBRing*>::iterator j;
     for (j = _rlist.begin();j != _rlist.end();++j)
+    {
       if (bv == (*j)->_pathset)
+      {
         return(false);
+      }
+    }
 
     OBRing *ring = new OBRing(path, bv);
     _rlist.push_back(ring);
@@ -480,7 +554,9 @@ namespace OpenBabel
   {
     vector<OBRing*>::iterator i;
     for (i = _rlist.begin();i != _rlist.end();++i)
+    {
       delete *i;
+    }
   }
 
   bool CompareRingSize(const OBRing *a,const OBRing *b)
@@ -493,7 +569,9 @@ namespace OpenBabel
     vector<OBRing*>::iterator i;
 
     for (i = _rlist.begin();i != _rlist.end();++i)
+    {
       cout << (*i)->_pathset << endl;
+    }
   }
 
   /* A recursive O(N) traversal of the molecule */
@@ -517,12 +595,16 @@ namespace OpenBabel
             if (nvisit <= depth) {
               bond->SetInRing();
               if (result < 0 || nvisit < result)
+              {
                 result = nvisit;
+              }
             }
           }
         } else {
           if (result < 0 || nvisit < result)
+          {
             result = nvisit;
+          }
           bond->SetClosure();
           bond->SetInRing();
           frj++;
@@ -530,7 +612,9 @@ namespace OpenBabel
       }
     }
     if (result > 0 && result <= depth)
+    {
       atom->SetInRing();
+    }
     return result;
   }
 
@@ -557,11 +641,13 @@ namespace OpenBabel
 
     unsigned int frj = 0;
     for(unsigned int i=1; i<=acount; i++ )
+    {
       if(avisit[i] == 0) {
         avisit[i] = 1;
         OBAtom *atom = mol.GetAtom(i);
         FindRings(atom,avisit,bvisit,frj,1);
       }
+    }
     free(avisit);
     free(bvisit);
     return frj;
@@ -570,10 +656,14 @@ namespace OpenBabel
   void OBMol::FindRingAtomsAndBonds()
   {
     if (HasFlag(OB_RINGFLAGS_MOL))
+    {
       return;
+    }
     if (obErrorLog.GetOutputLevel() >= obAuditMsg)
+    {
       obErrorLog.ThrowError(__FUNCTION__,
                             "Ran OpenBabel::FindRingAtomsAndBonds", obAuditMsg);
+    }
     FindRingAtomsAndBonds2(*this);
   }
 
@@ -582,8 +672,12 @@ namespace OpenBabel
     OBMol *mol = _parent;
     vector<int>::iterator i;
     for (i = _path.begin();i != _path.end();++i)
+    {
       if (!(mol->GetAtom(*i))->IsAromatic())
+      {
         return(false);
+      }
+    }
 
     return(true);
   }
@@ -604,7 +698,9 @@ namespace OpenBabel
   {
     OBMol *mol = (OBMol*)GetParent();
     if (mol && !mol->HasRingTypesPerceived())
+    {
       ringtyper.AssignTypes(*((OBMol*)GetParent()));
+    }
 
     return(_type);
   }
@@ -618,28 +714,42 @@ namespace OpenBabel
     //  return 0;
 
     if (Size() == 6)
+    {
       for (i = _path.begin();i != _path.end();++i)
+      {
         if (mol->GetAtom(*i)->GetAtomicNum() != OBElements::Carbon)
+        {
 	        return (*i);
+        }
+      }
+    }
 
     if (Size() == 5)
+    {
       for (i = _path.begin();i != _path.end();++i) {
         OBAtom *atom = mol->GetAtom(*i);
         switch (atom->GetAtomicNum()) {
         case OBElements::Sulfur:
           if (atom->GetExplicitDegree() == 2)
+          {
             return (*i);
+          }
           break;
         case OBElements::Oxygen:
           if (atom->GetExplicitDegree() == 2)
+          {
             return (*i);
+          }
           break;
         case OBElements::Nitrogen:
           if (atom->GetExplicitValence() == atom->GetExplicitDegree())
+          {
             return (*i);
+          }
           break;
         }
       }
+    }
 
     return 0;
   }
@@ -683,7 +793,9 @@ namespace OpenBabel
   {
     //on identity, return
     if(this == &src)
+    {
       return(*this);
+    }
 
     //no base class
 
@@ -718,20 +830,26 @@ namespace OpenBabel
           {
             atom = mol->GetAtom(i);
             for (nbr = atom->BeginNbrAtom(j);nbr;nbr = atom->NextNbrAtom(j))
+            {
               if (!used[nbr->GetIdx()])
                 {
                   next |= nbr->GetIdx();
                   used |= nbr->GetIdx();
                   vt[nbr->GetIdx()] = new OBRTree (nbr,vt[atom->GetIdx()]);
                 }
+            }
           }
 
         if (next.IsEmpty())
+        {
           break;
+        }
         curr = next;
         level++;
         if (level > OB_RTREE_CUTOFF)
+        {
           break;
+        }
       }
 #undef OB_RTREE_CUTOFF
   }
@@ -748,7 +866,9 @@ namespace OpenBabel
   {
     path.push_back(_atom);
     if (_prv)
+    {
       _prv->PathToRoot(path);
+    }
   }
 
   int OBRTree::GetAtomIdx()
