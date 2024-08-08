@@ -179,7 +179,7 @@ string FPSFormat::getTimeStr()
   time_res = strftime(timestr,
                       TIME_STR_SIZE,
                       "%Y-%m-%dT%H:%M:%S",
-                      gmtime((time_t *) &akttime)
+                      gmtime( (&akttime))
                       );
   return string(timestr);
 }
