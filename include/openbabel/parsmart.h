@@ -42,7 +42,7 @@ namespace OpenBabel
 
   //! \union _AtomExpr parsmart.h <openbabel/parsmart.h>
   //! \brief An internal (SMARTS parser) atomic expression
-  union AtomExpr {
+  typedef union _AtomExpr {
     int type;
     struct
     {
@@ -69,11 +69,11 @@ namespace OpenBabel
       union _AtomExpr *rgt;
     }
       bin;
-  };
+  } AtomExpr;
 
   //! \union _BondExpr parsmart.h <openbabel/parsmart.h>
   //! \brief An internal (SMARTS parser) bond expression
-  union BondExpr {
+  typedef union _BondExpr {
     int type;
     struct
     {
@@ -88,21 +88,22 @@ namespace OpenBabel
       union _BondExpr *rgt;
     }
       bin;
-  };
+  } BondExpr;
 
   //! \struct BondSpec parsmart.h <openbabel/parsmart.h>
   //! \brief An internal (SMARTS parser) bond specification
-  struct BondSpec
+  typedef struct
   {
     BondExpr *expr;
     int src,dst;
     int visit;
     bool grow;
-  };
+  }
+  BondSpec;
 
   //! \struct AtomSpec parsmart.h <openbabel/parsmart.h>
   //! \brief An internal (SMARTS parser) atom specification
-  struct AtomSpec
+  typedef struct
   {
     AtomExpr *expr;
     int visit;
@@ -110,11 +111,12 @@ namespace OpenBabel
     int chiral_flag;
     int vb;
     std::vector<int> nbrs;
-  };
+  }
+  AtomSpec;
 
   //! \struct Pattern parsmart.h <openbabel/parsmart.h>
   //! \brief A SMARTS parser internal pattern
-  struct Pattern
+  typedef struct
   {
     int aalloc,acount;
     int balloc,bcount;
@@ -123,16 +125,17 @@ namespace OpenBabel
     BondSpec *bond;
     int parts;
     bool hasExplicitH;
-  };
+  }
+  Pattern;
 
   //! \struct ParseState parsmart.h <openbabel/parsmart.h>
   //! \brief A SMARTS parser internal state
-  struct ParseState
+  typedef struct
   {
     BondExpr *closord[100];
     int       closure[100];
     int       closindex;
-  };
+  } ParseState;
 
 #else
   // for SWIG, just forward declare that we have some Pattern struct
