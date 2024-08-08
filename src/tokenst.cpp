@@ -148,15 +148,23 @@ namespace OpenBabel
   {
     string::size_type pos = txt.find_last_not_of(" \t\n\r");
     if(pos!=string::npos)
+    {
       txt.erase(pos+1);
+    }
     else
+    {
       txt.erase();
+    }
 
     pos = txt.find_first_not_of(" \t\n\r");
     if(pos!=string::npos)
+    {
       txt.erase(0, pos);
+    }
     else
+    {
       txt.erase();
+    }
     return txt;
   }
 
@@ -173,7 +181,9 @@ namespace OpenBabel
       while(ifs && ifs.get()==txt[i++])
       {
         if(i==txt.size())
+        {
           return ifs;
+        }
       }
       ifs.unget();
     }
@@ -213,12 +223,16 @@ namespace OpenBabel
     ifs.clear();
     ifs.open(filename.c_str(),imode);
     if(ifs)
+    {
       return filename;
+    }
 
     string file;
     const char* datadir = getenv(envvar.c_str());
     if(!datadir)
+    {
       datadir = BABEL_DATADIR;
+    }
 
     // check the subdirectory for this version number
     file = datadir;
@@ -229,7 +243,9 @@ namespace OpenBabel
     ifs.clear();
     ifs.open(file.c_str(),imode);
     if(ifs)
+    {
       return file;
+    }
 
     // couldn't find it with the version built in, so try the parent
     file = datadir;
@@ -240,7 +256,9 @@ namespace OpenBabel
     ifs.open(file.c_str(),imode);
 
     if (ifs)
+    {
       return file;
+    }
 
     ifs.clear();
     ifs.close();

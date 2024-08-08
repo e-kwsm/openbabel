@@ -1886,7 +1886,7 @@ OBSpectrophore::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
       if (j != dim - 1)
       {
          dummy = 1.0 / A[j][j]; // A.GetValueAt(j,j);
-         for (i = j + 1; i < dim; ++i) A[i][j] *= dummy;
+         for (i = j + 1; i < dim; ++i) { A[i][j] *= dummy; }
       }
 
 
@@ -1900,7 +1900,7 @@ OBSpectrophore::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
 void
 OBSpectrophore::_luSolve(double** A, std::vector<int>& I, double* B, unsigned int dim)
 {
-   for (unsigned int i = 0; i < dim; ++i) _swapRows(B, i, I[i]);
+   for (unsigned int i = 0; i < dim; ++i) { _swapRows(B, i, I[i]); }
 
    // forward substitution pass
    for (unsigned int k = 0; k < dim; ++k)

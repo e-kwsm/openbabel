@@ -416,9 +416,13 @@ namespace OpenBabel {
         assert( bond->GetBeginAtomIdx() <= mol->NumAtoms() );
         assert( bond->GetEndAtomIdx() <= mol->NumAtoms() );
         if (atomTypes[bond->GetBeginAtomIdx()-1] != Other && atomTypes[bond->GetEndAtomIdx()-1] != Other)
+        {
           bondTypes.push_back(Unassigned);
+        }
         else
+        {
           bondTypes.push_back(Assigned);
+        }
       }
 
       return bondTypes;
@@ -431,21 +435,29 @@ namespace OpenBabel {
         int numSingleBond = 0, numDoubleBond = 0, numUnassigned = 0;
         FOR_BONDS_OF_ATOM (bond, &*atom) {
           if (bondTypes[bond->GetIdx()] == Single)
+          {
             numSingleBond++;
+          }
           if (bondTypes[bond->GetIdx()] == Double)
+          {
             numDoubleBond++;
+          }
           if (bondTypes[bond->GetIdx()] == Unassigned)
+          {
             numUnassigned++;
+          }
         }
 
         // A donor can not have any double bonds
         if (atomTypes[atom->GetIndex()] == Donor)
+        {
           if (numDoubleBond) {
 #ifdef DEBUG
             std::cout << indentation(depth) << "invalid Donor" << std::endl;
 #endif
             return false;
           }
+        }
 
         // An acceptor or hybridized atom should:
         if (atomTypes[atom->GetIndex()] == Acceptor || atomTypes[atom->GetIndex()] == Hybridized) {
@@ -473,8 +485,12 @@ namespace OpenBabel {
     {
       // Check to see if we are at a leaf node (i.e. no unassigned atoms left)
       for (std::size_t i = 0; i < atomTypes.size(); ++i)
+      {
         if (atomTypes[i] == Unassigned)
+        {
           return false;
+        }
+      }
       return true;
     }
 
@@ -509,7 +525,9 @@ namespace OpenBabel {
         if (numHydrogens) {
           FOR_ATOMS_OF_MOL (atom, mol) {
             if (atomTypes[atom->GetIndex()] != Unassigned)
+            {
               continue;
+            }
             bool allBondsSingle = true;
             FOR_BONDS_OF_ATOM (bond, &*atom) {
               if (bondTypes[bond->GetIdx()] != Single) {
@@ -531,7 +549,9 @@ namespace OpenBabel {
         // Any unassigned atom with an assigned double bond must be assigned an acceptor
         FOR_ATOMS_OF_MOL (atom, mol) {
           if (atomTypes[atom->GetIndex()] != Unassigned)
+          {
             continue;
+          }
           bool hasDoubleBond = false;
           FOR_BONDS_OF_ATOM (bond, &*atom) {
             if (bondTypes[bond->GetIdx()] == Double) {
@@ -552,7 +572,9 @@ namespace OpenBabel {
         // A hybridized or acceptor atom with assigned double bond assigns all the remaining unassigned bonds single
         FOR_ATOMS_OF_MOL (atom, mol) {
           if (atomTypes[atom->GetIndex()] != Acceptor && atomTypes[atom->GetIndex()] != Hybridized)
+          {
             continue;
+          }
           bool hasDoubleBond = false;
           FOR_BONDS_OF_ATOM (bond, &*atom) {
             if (bondTypes[bond->GetIdx()] == Double) {
@@ -577,14 +599,20 @@ namespace OpenBabel {
         // A hybridized or acceptor atom with a single unassigned bond assigns it double if it doesn't already have one
         FOR_ATOMS_OF_MOL (atom, mol) {
           if (atomTypes[atom->GetIndex()] != Acceptor && atomTypes[atom->GetIndex()] != Hybridized)
+          {
             continue;
+          }
           bool hasDoubleBond = false;
           int numUnassigned = 0;
           FOR_BONDS_OF_ATOM (bond, &*atom) {
             if (bondTypes[bond->GetIdx()] == Double)
+            {
               hasDoubleBond = true;
+            }
             if (bondTypes[bond->GetIdx()] == Unassigned)
+            {
               numUnassigned++;
+            }
           }
 
 
@@ -605,7 +633,9 @@ namespace OpenBabel {
 
       // An invalid atom type causes the search to backtrack
       if (!IsPropagationValid(mol, atomTypes, bondTypes, depth + 1))
+      {
         return;
+      }
 
       // Check to see if we are at a leaf node (i.e. no unassigned atoms left)
       if (IsLeafNode(atomTypes)) {
@@ -613,6 +643,7 @@ namespace OpenBabel {
         // Check to make sure there are no unassigned bonds remaining
         // This happens for phenyl rings and other fragments consisting of only hybridized atoms
         for (std::size_t i = 0; i < bondTypes.size(); ++i)
+        {
           if (bondTypes[i] == Unassigned) {
             // Randomly assign a bond, the other bonds will be propagated
             OBBond *bond = mol->GetBond(i);
@@ -635,9 +666,12 @@ namespace OpenBabel {
 #endif
             AssignmentPropagation(mol, atomTypes, bondTypes, numHydrogens, functor, depth + 1);
             if (m_canonical && m_foundLeafNode)
+            {
               propagation.release();
+            }
             return;
           }
+        }
 
         //
         if (!numHydrogens) {
@@ -652,9 +686,13 @@ namespace OpenBabel {
 
           FOR_BONDS_OF_MOL (bond, mol) {
             if (bondTypes[bond->GetIdx()] == Single)
+            {
               bond->SetBondOrder(1);
+            }
             if (bondTypes[bond->GetIdx()] == Double)
+            {
               bond->SetBondOrder(2);
+            }
             bond->SetAromatic(false);
           }
           mol->SetAromaticPerceived(false);
@@ -669,15 +707,21 @@ namespace OpenBabel {
       }
 
       if (m_canonical && m_foundLeafNode)
+      {
         propagation.release();
+      }
     }
 
     OBAtom *SelectNextAtom(const std::vector<Type> &atomTypes) const
     {
       // Select next lowest canonical unassigned atom
       for (std::size_t i = 0; i < m_canonAtoms.size(); ++i)
+      {
         if (atomTypes[m_canonAtoms[i]->GetIndex()] == Unassigned)
+        {
           return m_canonAtoms[i];
+        }
+      }
       return nullptr;
     }
 
@@ -798,9 +842,13 @@ namespace OpenBabel {
         int numUnassignedBonds = 0;
         FOR_BONDS_OF_ATOM (bond, &*atom)
           if (bondTypes[bond->GetIdx()] == Unassigned)
+        {
             ++numUnassignedBonds;
+        }
         if (!numUnassignedBonds)
+        {
           atomTypes[atom->GetIndex()] = Other;
+        }
       }
 
 #ifdef DEBUG
@@ -826,7 +874,9 @@ namespace OpenBabel {
           DecrementImplicitHCount(atm, 0);
         }
         if (atomTypes[i] == Donor || atomTypes[i] == Acceptor)
+        {
           atomTypes[i] = Unassigned;
+        }
       }
 #ifdef DEBUG
       PrintAtomTypes(atomTypes);
@@ -841,7 +891,9 @@ namespace OpenBabel {
         // Set all unassigned bonds to single
         FOR_BONDS_OF_MOL (bond, mol)
           if (bondTypes[bond->GetIdx()] == Unassigned)
+          {
             bond->SetBondOrder(1);
+          }
         mol->SetAromaticPerceived(false);
 
         // Compute canonical labels
@@ -854,7 +906,9 @@ namespace OpenBabel {
 
         m_canonAtoms.resize(mol->NumAtoms());
         for (std::size_t i = 0; i < mol->NumAtoms(); ++i)
+        {
           m_canonAtoms[canonLabels[i]-1] = mol->GetAtom(i+1);
+        }
       } else {
         FOR_ATOMS_OF_MOL (atom, mol)
           m_canonAtoms.push_back(&*atom);
@@ -879,7 +933,9 @@ namespace OpenBabel {
 
       // If no leaf was found, call functor with input molecule
       if (!canonical && !m_foundLeafNode)
+      {
         functor(mol);
+      }
     }
 
 
@@ -893,7 +949,9 @@ namespace OpenBabel {
 
     // Make sure the found tautomer is unique
     if (std::find(m_smiles.begin(), m_smiles.end(), smiles) != m_smiles.end())
+    {
       return;
+    }
 
     m_smiles.push_back(smiles);
     this->operator()(mol, smiles);

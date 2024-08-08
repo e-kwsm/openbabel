@@ -508,14 +508,18 @@ namespace OpenBabel
   {
     vector<OBRotor*>::iterator i;
     for (i = _rotor.begin();i != _rotor.end();++i)
+    {
       delete *i;
+    }
   }
 
   void OBRotorList::Clear()
   {
     vector<OBRotor*>::iterator i;
     for (i = _rotor.begin();i != _rotor.end();++i)
+    {
       delete *i;
+    }
     _rotor.clear();
     _ringRotors = false;
     //_fix.Clear();
@@ -539,7 +543,9 @@ namespace OpenBabel
   {
     _rings.clear();
     if (_bond == nullptr)
+    {
       return; // nothing to do
+    }
 
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
@@ -547,12 +553,16 @@ namespace OpenBabel
     OBMol *mol = _bond->GetParent();
 
     if (mol == nullptr)
+    {
       return; // nothing to do
+    }
 
     rlist = mol->GetSSSR();
     for (i = rlist.begin();i != rlist.end();++i) {
       if ((*i)->IsMember(_bond))
+      {
         _rings.push_back(*i);
+      }
     }
   }
 
