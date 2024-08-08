@@ -3923,7 +3923,7 @@ namespace OpenBabel {
     bool isrxn = mol.IsReaction();
     OBReactionFacade rxn(&mol);
     unsigned int rxnrole = 1; // reactants
-    while (1) {
+    while (true) {
       if (_pconv->IsOption("R"))
         _bcdigit = 0; // Reset the bond closure index for each disconnected component
 
