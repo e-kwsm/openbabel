@@ -74,8 +74,8 @@ namespace OpenBabel
           {
             stringstream errorMsg;
             errorMsg << " Error in OBBondTyper. Pattern is incorrect, found "
-                     << vs.size() << " tokens." << endl;
-            errorMsg << " Buffer is: " << buffer << endl;
+                     << vs.size() << " tokens." << '\n';
+            errorMsg << " Buffer is: " << buffer << '\n';
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obInfo);
             return;
           }

@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <stdio.h>
 #include <cstring>
 #include <fstream>
+#include <utility>
 #include <vector>
 #include <string>
 #include <cstring>
@@ -105,14 +106,14 @@ namespace OpenBabel
               double T,double value,int multiplicity,
               std::string unit)
       {
-        _element      = element;
+        _element      = std::move(element);
         _charge       = charge;
-        _method       = method;
-        _desc         = desc;
+        _method       = std::move(method);
+        _desc         = std::move(desc);
         _T            = T;
         _value        = value;
         _multiplicity = multiplicity;
-        _unit         = unit;
+        _unit         = std::move(unit);
       }
 
     /** \brief Destructor */
