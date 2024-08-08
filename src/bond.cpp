@@ -112,7 +112,9 @@ namespace OpenBabel
     int b = GetNbrAtom(fixed)->GetIdx();
 
     if (a == b)
+    {
       return; // this would be a problem...
+    }
 
     mol->FindChildren(children,a,b);
     children.push_back(b);
@@ -158,23 +160,33 @@ namespace OpenBabel
     // This could be one hellish conditional, but let's break it down
     // .. the bond is a single bond
     if (_order != 1)
+    {
       return false;
+    }
 
     // not in a ring, or in a large ring
     // and if it's a ring, not sp2
     OBRing *ring = FindSmallestRing();
     if (ring != nullptr) {
       if(!includeRingBonds)
+      {
         return false;
+      }
       if (ring->Size() <= 3)
+      {
         return false;
+      }
       if (_bgn->GetHyb() == 2 || _end->GetHyb() == 2)
+      {
         return false;
+      }
     }
 
     // atoms are not sp hybrids
     if (_bgn->GetHyb() == 1 || _end->GetHyb() == 1)
+    {
       return false;
+    }
 
     // not just an -OH or -NH2, etc.
     // maybe we want to add this as an option
@@ -205,16 +217,18 @@ namespace OpenBabel
          c = (OBAtom*)_end;
          n = (OBAtom*)_bgn;
       }
-      if (!c || !n) return(false);
-      if (GetBondOrder() != 1) return(false);
-      if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
+      if (!c || !n) { return(false); }
+      if (GetBondOrder() != 1) { return(false); }
+      if (n->GetTotalDegree() != 3) { // must be a degree 3 nitrogen
+	return false;
+      }
 
       // Make sure C is attached to =O
       OBBond *bond;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
-         if (bond->IsCarbonyl()) return(true);
+         if (bond->IsCarbonyl()) { return(true); }
       }
 
       // Return
@@ -237,19 +251,21 @@ namespace OpenBabel
          c = (OBAtom*)_end;
          n = (OBAtom*)_bgn;
       }
-      if (!c || !n) return(false);
-      if (GetBondOrder() != 1) return(false);
-      if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
+      if (!c || !n) { return(false); }
+      if (GetBondOrder() != 1) { return(false); }
+      if (n->GetTotalDegree() != 3) { // must be a degree 3 nitrogen
+	return false;
+      }
 
       // Make sure that N is connected to one non-H
-      if (n->GetHvyDegree() != 1) return(false);
+      if (n->GetHvyDegree() != 1) { return(false); }
 
       // Make sure C is attached to =O
       OBBond *bond;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
-         if (bond->IsCarbonyl()) return(true);
+         if (bond->IsCarbonyl()) { return(true); }
       }
 
       return(false);
@@ -271,19 +287,21 @@ namespace OpenBabel
          c = (OBAtom*)_end;
          n = (OBAtom*)_bgn;
       }
-      if (!c || !n) return(false);
-      if (GetBondOrder() != 1) return(false);
-      if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
+      if (!c || !n) { return(false); }
+      if (GetBondOrder() != 1) { return(false); }
+      if (n->GetTotalDegree() != 3) { // must be a degree 3 nitrogen
+	return false;
+      }
 
       // Make sure that N is connected to two non-H atoms
-      if (n->GetHvyDegree() != 2) return(false);
+      if (n->GetHvyDegree() != 2) { return(false); }
 
       // Make sure C is attached to =O
       OBBond *bond;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
-         if (bond->IsCarbonyl()) return(true);
+         if (bond->IsCarbonyl()) { return(true); }
       }
 
       return(false);
@@ -305,19 +323,21 @@ namespace OpenBabel
          c = (OBAtom*)_end;
          n = (OBAtom*)_bgn;
       }
-      if (!c || !n) return(false);
-      if (GetBondOrder() != 1) return(false);
-      if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
+      if (!c || !n) { return(false); }
+      if (GetBondOrder() != 1) { return(false); }
+      if (n->GetTotalDegree() != 3) { // must be a degree 3 nitrogen
+	return false;
+      }
 
       // Make sure that N is connected to three non-H atoms
-      if (n->GetHvyDegree() != 3) return(false);
+      if (n->GetHvyDegree() != 3) { return(false); }
 
       // Make sure C is attached to =O
       OBBond *bond;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
-         if (bond->IsCarbonyl()) return(true);
+         if (bond->IsCarbonyl()) { return(true); }
       }
 
       return(false);
@@ -438,15 +458,23 @@ namespace OpenBabel
       }
 
     if (!a1 || !a2)
+    {
       return(false);
+    }
     if (GetBondOrder() != 1)
+    {
       return(false);
+    }
 
     OBBond *bond;
     vector<OBBond*>::iterator i;
     for (bond = a1->BeginBond(i);bond;bond = a1->NextBond(i))
+    {
       if (bond->IsCarbonyl())
+      {
         return(true);
+      }
+    }
 
     return(false);
   }
@@ -454,11 +482,15 @@ namespace OpenBabel
   bool OBBond::IsCarbonyl()
   {
     if (GetBondOrder() != 2)
+    {
       return(false);
+    }
 
     if ((_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8) ||
         (_bgn->GetAtomicNum() == 8 && _end->GetAtomicNum() == 6))
+    {
       return(true);
+    }
 
     return(false);
   }
@@ -467,10 +499,14 @@ namespace OpenBabel
   {
     OBMol *mol = ((OBBond*)this)->GetParent();
     if (!mol->HasAromaticPerceived())
+    {
         aromtyper.AssignAromaticFlags(*mol);
+    }
 
     if (this->HasFlag(OB_AROMATIC_BOND))
+    {
       return true;
+    }
 
     return false;
   }
@@ -487,7 +523,9 @@ namespace OpenBabel
     // As this is called from PerceiveBondOrders, GetHyb() may still be undefined.
     if (_bgn->GetHyb()==1 || _bgn->GetExplicitDegree()>3||
         _end->GetHyb()==1 || _end->GetExplicitDegree()>3)
+    {
       return(true);
+    }
 
     for (nbrStart = static_cast<OBAtom*>(_bgn)->BeginNbrAtom(i); nbrStart;
          nbrStart = static_cast<OBAtom*>(_bgn)->NextNbrAtom(i))
@@ -519,10 +557,14 @@ namespace OpenBabel
   {
     OBMol *mol = ((OBBond*)this)->GetParent();
     if (!mol->HasRingAtomsAndBondsPerceived())
+    {
       mol->FindRingAtomsAndBonds();
+    }
 
     if (((OBBond*)this)->HasFlag(OB_RING_BOND))
+    {
       return true;
+    }
 
     return false;
   }
@@ -551,9 +593,13 @@ namespace OpenBabel
   {
     OBMol *mol = (OBMol*)GetParent();
     if (!mol)
+    {
       return false;
+    }
     if (!mol->HasClosureBondsPerceived())
+    {
       mol->FindRingAtomsAndBonds();
+    }
     return HasFlag(OB_CLOSURE_BOND);
   }
 
@@ -582,7 +628,9 @@ namespace OpenBabel
                   + CorrectedBondRad(end->GetAtomicNum(), end->GetHyb());
 
     if (IsAromatic())
+    {
       return length * 0.93;
+    }
     
     switch (_order) {
     case 3:

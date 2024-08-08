@@ -49,7 +49,9 @@ private:
         m_gradp.resize(n);
         m_drt.resize(n);
         if(m_param.past > 0)
+        {
             m_fx.resize(m_param.past);
+        }
     }
 
 public:
@@ -90,7 +92,9 @@ public:
         Scalar xnorm = x.norm();
         Scalar gnorm = m_grad.norm();
         if(fpast > 0)
+        {
             m_fx[0] = fx;
+        }
 
         // Early exit if the initial x is already a minimizer
         if(gnorm <= m_param.epsilon * std::max(xnorm, Scalar(1.0)))
@@ -127,7 +131,9 @@ public:
             if(fpast > 0)
             {
                 if(k >= fpast && std::abs((m_fx[k % fpast] - fx) / fx) < m_param.delta)
+                {
                     return k;
+                }
 
                 m_fx[k % fpast] = fx;
             }

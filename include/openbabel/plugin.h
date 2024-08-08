@@ -111,9 +111,13 @@ public:
   static PluginIterator Begin(const char* PluginID)
   {
     if( !strcmp(PluginID, "plugins") || GetTypeMap(PluginID)!=PluginMap())
+    {
       return GetTypeMap(PluginID).begin();
+    }
     else
+    {
       return PluginMap().end();
+    }
   }
 
   static PluginIterator End(const char* PluginID)

@@ -179,7 +179,9 @@ namespace OpenBabel {
       refs[1] = ref2;
       refs[2] = ref3;
       if (ref4 != NoRef)
+      {
         refs.push_back(ref4);
+      }
       return refs;
     }
     /**
@@ -475,7 +477,7 @@ namespace OpenBabel {
       /**
        * Ensure the maps are initialized and initialize them only once.
        */
-      inline void EnsureInit() { if (!m_init) InitMaps(); }
+      inline void EnsureInit() { if (!m_init) { InitMaps(); } }
       /**
        * Initialize @p m_tetrahedralMap and m_cistransMap to contain the
        * data objects. If @p m_perceive is true and chirality isn't perceived

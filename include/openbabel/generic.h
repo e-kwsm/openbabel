@@ -179,8 +179,12 @@ namespace OpenBabel
       std::vector<OBGenericData*>::iterator i;
 
       for (i = _vdata.begin();i != _vdata.end();++i)
+      {
         if ((*i)->GetAttribute() == s)
+        {
           return(*i);
+        }
+      }
 
       return(nullptr);
     }
@@ -191,8 +195,12 @@ namespace OpenBabel
       std::vector<OBGenericData*>::iterator i;
 
       for (i = _vdata.begin();i != _vdata.end();++i)
+      {
         if ((*i)->GetAttribute() == s)
+        {
           return(*i);
+        }
+      }
 
       return(nullptr);
     }
@@ -220,12 +228,14 @@ namespace OpenBabel
     {
       std::vector<OBGenericData*>::iterator i;
       for (i = _vdata.begin();i != _vdata.end();++i)
+      {
         if (*i == gd)
           {
             delete *i;
             _vdata.erase(i);
             break; // Done, don't do anything more, since iterator is invalid
           }
+      }
     }
 
   }; // OBSetData

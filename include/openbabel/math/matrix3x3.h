@@ -52,8 +52,12 @@ namespace OpenBabel
         {
           // Loops are typically unrolled and/or vectorized
           for (unsigned int i = 0; i < 3; ++i)
+          {
             for (unsigned int j = 0; j < 3; ++j)
+            {
               ele[i][j] = 0.0;
+            }
+          }
         }
 
       //! Constructs s times the unit matrix
@@ -61,11 +65,17 @@ namespace OpenBabel
         {
           // Loops are typically unrolled and/or vectorized
           for (unsigned int i = 0; i < 3; ++i)
+          {
             for (unsigned int j = 0; j < 3; ++j)
+            {
               ele[i][j] = 0.0;
+            }
+          }
 
           for (unsigned int i = 0; i < 3; ++i)
+          {
             ele[i][i] = s;
+          }
         }
 
       //! Constructs a matrix from row vectors
@@ -88,8 +98,12 @@ namespace OpenBabel
         {
           // Loops are typically unrolled and/or vectorized
           for (unsigned int i = 0; i < 3; ++i)
+          {
             for (unsigned int j = 0; j < 3; ++j)
+            {
               ele[i][j] = d[i][j];
+            }
+          }
 
           // We could also potentially use memcpy here
         }
@@ -104,8 +118,12 @@ namespace OpenBabel
       void GetArray(double *m)
         {
           for (unsigned int i = 0; i < 3; ++i)
+          {
             for (unsigned int j = 0; j < 3; ++j)
+            {
               m[3*i+j] = ele[i][j];
+            }
+          }
         }
 
       /*! \return a constant reference to an element of the matrix.
@@ -236,8 +254,12 @@ namespace OpenBabel
       matrix3x3 &operator*=(const double &c)
       {
         for( int i = 0; i < 3; i++ )
+        {
           for( int j = 0; j < 3; j++ )
+          {
             ele[i][j] *= c;
+          }
+        }
         return *this;
       }
 

@@ -181,15 +181,21 @@ namespace OpenBabel {
 
         // clockwise <-> anti-clockwise : odd = true
         if (winding == cfg.winding)
+        {
           odd = !odd;
+        }
         // ViewFrom <-> ViewTowards : odd = true
         if (view == cfg.view)
+        {
           odd = !odd;
+        }
 
         // make sure we actually found id
         if (result.refs.size() == 3) {
           if (odd)
+          {
             OBStereo::Permutate(result.refs, 1, 2);
+          }
           return result;
         }
 

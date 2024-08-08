@@ -49,7 +49,9 @@ public:
 
         // Check the value of step
         if(step <= Scalar(0))
+        {
             std::invalid_argument("'step' must be positive");
+        }
 
         // Save the function value at the current x
         const Scalar fx_init = fx;
@@ -57,7 +59,9 @@ public:
         const Scalar dg_init = grad.dot(drt);
         // Make sure d points to a descent direction
         if(dg_init > 0)
+        {
             std::logic_error("the moving direction increases the objective function value");
+        }
 
         const Scalar dg_test = param.ftol * dg_init;
         Scalar width;
@@ -76,7 +80,9 @@ public:
             } else {
                 // Armijo condition is met
                 if(param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_ARMIJO)
+                {
                     break;
+                }
 
                 const Scalar dg = grad.dot(drt);
                 if(dg < param.wolfe * dg_init)
@@ -85,7 +91,9 @@ public:
                 } else {
                     // Regular Wolfe condition is met
                     if(param.linesearch == LBFGS_LINESEARCH_BACKTRACKING_WOLFE)
+                    {
                         break;
+                    }
 
                     if(dg > -param.wolfe * dg_init)
                     {
@@ -98,13 +106,19 @@ public:
             }
 
             if(iter >= param.max_linesearch)
+            {
                 throw std::runtime_error("the line search routine reached the maximum number of iterations");
+            }
 
             if(step < param.min_step)
+            {
                 throw std::runtime_error("the line search step became smaller than the minimum value allowed");
+            }
 
             if(step > param.max_step)
+            {
                 throw std::runtime_error("the line search step became larger than the maximum value allowed");
+            }
 
             step *= width;
         }

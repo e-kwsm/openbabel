@@ -39,9 +39,13 @@ namespace OpenBabel
     if(rightAligned)
     {
       if(!_right_form.empty())
+      {
         return _right_form;
+      }
       if(table().find(_alias)!=table().end())
+      {
         return table().find(_alias)->second.right_form;
+      }
     }
     return _alias;
   }
@@ -69,7 +73,9 @@ namespace OpenBabel
       {
         OBAtom* pAtom = mol.GetAtom(atomindex);
         if(!pAtom)
+        {
           return false;
+        }
         pAtom->SetIsotope(iso);
         pAtom->SetAtomicNum(elemno);
         return true;
@@ -77,7 +83,9 @@ namespace OpenBabel
     }
 
     if(FromNameLookup(mol, atomindex))
+    {
       return true;
+    }
 
     // Rn is stored as an atom with 0 atomic number and atomclass = n
     // R', R'' etc. are treated as R1, R2
@@ -86,9 +94,13 @@ namespace OpenBabel
     {
       unsigned int n = 1;
       if(_alias[1]=='\'')
-        while(n<_alias.size()-1 && _alias[n]==_alias[n+1]) n++;
+      {
+        while(n<_alias.size()-1 && _alias[n]==_alias[n+1]) { n++; }
+      }
       else
+      {
         n = atoi(_alias.c_str()+1);
+      }
 
       OBPairInteger *atomclass = new OBPairInteger();
       atomclass->SetAttribute("Atom Class");
@@ -96,7 +108,9 @@ namespace OpenBabel
       mol.GetAtom(atomindex)->SetData(atomclass);
 
       if(atomindex <= mol.NumAtoms()) //needed for Rn aliases in mdlformat
+      {
         mol.GetAtom(atomindex)->SetAtomicNum(0);
+      }
 
       _right_form = _alias;
       return true;
@@ -125,13 +139,19 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
 */
   SuperAtomTable::iterator pos = table().find(_alias);
   if(pos==table().end())
+  {
     return false;
+  }
 
   int dimension=0;
   if(mol.Has3D())
+  {
     dimension=3;
+  }
   else if(mol.Has2D())
+  {
     dimension=2;
+  }
   mol.SetDimension(dimension);
 
   //Convert SMILES of alias
@@ -161,7 +181,9 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   vector<pair<OBAtom*, unsigned> > otherAttachments;
   OBAtom* pAttach;
   while(firstAttachAtom && (pAttach = XxAtom->NextNbrAtom(bi)) ) // extra parentheses to minimize warnings
+  {
     otherAttachments.push_back(make_pair(pAttach, (*bi)->GetBondOrder()));
+  }
 
   //Copy coords of XxAtom to the first real atom in the fragment
   //so that the connecting bond is well defined for 2D case
@@ -171,7 +193,9 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   mol.DeleteAtom(XxAtom, false);//delay deletion of the OBAtom object because this is attached to it
   //Correct indices for the deletion
   if(atomindex<mainAttachIdx)
+  {
     --mainAttachIdx;
+  }
 
   //Find the eventual index of first atom in fragment
   unsigned newFragIdx = mol.NumAtoms()+1;
@@ -184,7 +208,8 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
     builder.Build(obFrag);
     obFrag.DeleteAtom(obFrag.GetAtom(1));//remove dummy atom
     mol += obFrag; //Combine with main molecule
-    if(mainAttachIdx) {
+    if(mainAttachIdx)
+    {
       builder.Connect(mol, mainAttachIdx, newFragIdx,XxAtom->GetVector(),firstAttachOrder);
     }
   }
@@ -193,11 +218,14 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
     obFrag.DeleteAtom(obFrag.GetAtom(1));//remove dummy atom
     mol += obFrag; //Combine with main molecule and connect
     if(mainAttachIdx)
+    {
       mol.AddBond(mainAttachIdx, newFragIdx, 1, firstAttachFlags);
+    }
   }
 
-  if(dimension==2)//Use MCDL
+  if(dimension==2) { //Use MCDL
     groupRedraw(&mol, mol.NumBonds()-1, newFragIdx, true);
+  }
 
   //++Add bonds from list to newFragIdx
   while(!otherAttachments.empty())
@@ -209,7 +237,9 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   //Store the ids of the atoms which replace the alias (the last atoms in the combined molecule).
   //The ids do not change when other atoms are deleted.
   for(unsigned i=obFrag.NumAtoms();i;--i)
+  {
     _expandedatoms.push_back(mol.GetAtom(mol.NumAtoms()-i +1)->GetId());
+  }
 
   //Make a copy of this AliasData object (currently attached to XxAtom)
   //and attach it to the first atom of the fragment.
@@ -232,7 +262,9 @@ bool AliasData::LoadFile(SuperAtomTable& table)
   while(getline(ifs, ln))
   {
     if (ln[0]=='#' || ln.empty())
+    {
       continue;
+    }
     std::vector<string> vec;
     if(tokenize(vec, ln) && vec.size()>=3)
     {
@@ -260,9 +292,12 @@ bool AliasData::LoadFile(SmartsTable& smtable)
   while(getline(ifs, ln))
   {
     if ((ln[0]=='#' && ln[1]!='#') || ln.empty())
+    {
       continue;
-    if(ln[0]=='#') //stop reading at line starting with ##
+    }
+    if(ln[0]=='#') { //stop reading at line starting with ##
       break;
+    }
     std::vector<string> vec;
     if(tokenize(vec, ln) && vec.size()>=3)
     {
@@ -274,8 +309,9 @@ bool AliasData::LoadFile(SmartsTable& smtable)
       OBConversion conv(&ss, &ssmarts);
       conv.AddOption("h",OBConversion::GENOPTIONS);//add explicit Hs...
       conv.AddOption("h");//...and output them to ensure the superatom itself is not substituted
-      if(conv.SetInAndOutFormats("smi","smi"))
+      if(conv.SetInAndOutFormats("smi","smi")) {
         conv.Convert();
+      }
       if(!ssmarts.str().empty())
       {
         //OBSmartsPattern objects are not copyable without complications,
@@ -299,8 +335,9 @@ void AliasData::DeleteExpandedAtoms(OBMol& mol)
   for(unsigned i=0;i<_expandedatoms.size();++i)
   {
     OBAtom* at = mol.GetAtomById(_expandedatoms[i]);
-    if(!at)
+    if(!at) {
       continue;
+    }
     mol.DeleteHydrogens(at);
     if(at->HasData(AliasDataType))
     {
@@ -309,7 +346,9 @@ void AliasData::DeleteExpandedAtoms(OBMol& mol)
       at->SetSpinMultiplicity(0);
     }
     else
+    {
       mol.DeleteAtom(at);
+    }
   }
   _expandedatoms.clear();
 }
@@ -338,8 +377,9 @@ void AliasData::RevertToAliasForm(OBMol& mol)
 bool AliasData::AddAliases(OBMol* pmol)
 {
   static SmartsTable smtable;
-  if(smtable.empty())
+  if(smtable.empty()) {
     LoadFile(smtable);
+  }
   set<int> AllExAtoms;
   SmartsTable::iterator iter;
   for(iter=smtable.begin();iter!=smtable.end();++iter)
@@ -375,8 +415,9 @@ bool AliasData::AddAliases(OBMol* pmol)
             }
           }
         }
-        if(ad)
+        if(ad) {
           pmol->GetAtom(mlist[imatch][1])->SetData(ad);//attach alias to first expanded atom
+        }
       }
     }
   }
@@ -406,8 +447,9 @@ bool OpGenAlias::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
   MARK_UNUSED(pmap);
 
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
   return AliasData::AddAliases(pmol);
 }
 

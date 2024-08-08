@@ -191,12 +191,18 @@ namespace OpenBabel
     OBSmartsPattern& operator=(const OBSmartsPattern& cp)
       {
         if (this == &cp)
+        {
           return *this;
+        }
 
         if (_pat)
+        {
           delete[] _pat;
+        }
         if (_buffer)
+        {
           delete[] _buffer;
+        }
         _buffer = nullptr;
         _pat = nullptr;
         std::string s = cp._str;

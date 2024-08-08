@@ -81,7 +81,9 @@ namespace OpenBabel
       {
         OBDataIterator m;
         for (m = _vdata.begin();m != _vdata.end();++m)
+        {
           delete *m;
+        }
         _vdata.clear();
       }
 
@@ -92,13 +94,19 @@ namespace OpenBabel
     //returns true if the generic attribute/value pair exists
   {
     if (_vdata.empty())
+    {
       return(false);
+    }
 
     OBDataIterator i;
 
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetAttribute() == s)
+      {
         return(true);
+      }
+    }
 
     return(false);
   }
@@ -114,13 +122,19 @@ namespace OpenBabel
     //returns true if the generic attribute/value pair exists
   {
     if (_vdata.empty())
+    {
       return(false);
+    }
 
     OBDataIterator i;
 
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetDataType() == dt)
+      {
         return(true);
+      }
+    }
 
     return(false);
   }
@@ -131,8 +145,12 @@ namespace OpenBabel
     OBDataIterator i;
 
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetAttribute() == s)
+      {
         return *i;
+      }
+    }
 
     return nullptr;
   }
@@ -143,8 +161,12 @@ namespace OpenBabel
     OBDataIterator i;
 
     for (i = _vdata.begin(); i != _vdata.end(); ++i)
+    {
       if (strcmp((*i)->GetAttribute().c_str(), s)==0)
+      {
         return *i;
+      }
+    }
 
     return nullptr;
   }
@@ -153,8 +175,12 @@ namespace OpenBabel
   {
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetDataType() == dt)
+      {
         return(*i);
+      }
+    }
     return nullptr;
   }
 
@@ -165,8 +191,12 @@ namespace OpenBabel
     // return all values matching this type
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetDataType() == dt)
+      {
         matches.push_back(*i);
+      }
+    }
 
     return(matches);
   }
@@ -177,8 +207,12 @@ namespace OpenBabel
 
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetOrigin() == source)
+      {
         filtered.push_back((*i));
+      }
+    }
 
     return filtered;
   }
@@ -186,13 +220,17 @@ namespace OpenBabel
   void OBBase::CloneData(OBGenericData *d)
   {
     if(!d)
+    {
       return; // Nothing to do for NULL
+    }
 
     // Clone the data, relative to ourselves
     // This creates a new copy -- useable by scripting languages
     OBGenericData *clone = d->Clone(this);
     if (clone)
+    {
       _vdata.push_back(clone);
+    }
 
     return;
   }
@@ -202,10 +240,16 @@ namespace OpenBabel
     vector<OBGenericData*> vdata;
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if ((*i)->GetDataType() == dt)
+      {
         delete *i;
+      }
       else
+      {
         vdata.push_back(*i);
+      }
+    }
     _vdata = vdata;
   }
 
@@ -219,15 +263,21 @@ namespace OpenBabel
       {
         del = false;
         for (j = vg.begin();j != vg.end();++j)
+        {
           if (*i == *j)
             {
               del = true;
               break;
             }
+        }
         if (del)
+        {
           delete *i;
+        }
         else
+        {
           vdata.push_back(*i);
+        }
       }
     _vdata = vdata;
   }
@@ -236,12 +286,14 @@ namespace OpenBabel
   {
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
+    {
       if (*i == gd)
         {
           delete *i;
           _vdata.erase(i);
           return; //Must stop since iterators invalidated by erase
         }
+    }
   }
 
   bool OBBase::DeleteData(const string& s)

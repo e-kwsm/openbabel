@@ -278,26 +278,26 @@ namespace OpenBabel
       // or an internal vector (e.g., SetCoordPtr())
       //! \return the x coordinate
       double      x() const {
-        if (_c)            return((*_c)[_cidx]);
-        else               return _v.x();
+        if (_c) {          return((*_c)[_cidx]); }
+        else    {          return _v.x(); }
       }
       //! \return the y coordinate
       double      y() const {
-        if (_c)            return((*_c)[_cidx+1]);
-        else               return _v.y();
+        if (_c) {          return((*_c)[_cidx+1]); }
+        else    {          return _v.y(); }
       }
       //! \return the z coordinate
       double      z() const {
-        if (_c)            return((*_c)[_cidx+2]);
-        else               return _v.z();
+        if (_c) {          return((*_c)[_cidx+2]); }
+        else    {          return _v.z(); }
       }
       //! \return the coordinates as a double* or NULL if none.
       //!
       //! See SetCoordPtr() for more. If no coordinate pointer is used
       //! (e.g., only vector3), NULL will be returned.
       double     *GetCoordinate(){
-        if (_c)          return(&(*_c)[_cidx]);
-        else             return nullptr;
+        if (_c) {        return(&(*_c)[_cidx]); }
+        else    {        return nullptr; }
       }
       //! \return the coordinates as a vector3 object
       vector3   &GetVector();
@@ -362,7 +362,9 @@ namespace OpenBabel
       void NewResidue()
         {
           if (!_residue)
+          {
             _residue = new OBResidue;
+          }
         }
       //! Add (set) the residue for this atom
       void AddResidue(OBResidue *res) { SetResidue(res); }
@@ -429,9 +431,13 @@ namespace OpenBabel
       //! \since version 2.4
       bool IsHetAtom() {
         if (_residue == nullptr)
+        {
           return false;
+        }
         else
+        {
           return _residue->IsHetAtom(this);
+        }
       }
       //! \return Is the specified element, as specified by atom number (see OBElement namespace)?
       bool IsElement(const unsigned int e) const {
