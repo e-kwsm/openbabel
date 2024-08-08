@@ -73,7 +73,7 @@ bool TitleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       return false;
 
   ostream &ofs = *pConv->GetOutStream();
-	ofs << pmol->GetTitle() << endl;
+	ofs << pmol->GetTitle() << '\n';
 	return true;
 }
 

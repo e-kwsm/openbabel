@@ -164,13 +164,13 @@ bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if (!prFormat) {
       prFormat = rconv.FormatFromExt(rfilename);
       if (!prFormat) {
-        cerr << "Cannot read reference format!" << endl;
+        cerr << "Cannot read reference format!" << '\n';
         return false;
       }
     }
     rfs.open(rfilename);
     if (!rfs) {
-      cerr << "Cannot read reference file!" << endl;
+      cerr << "Cannot read reference file!" << '\n';
       return false;
     }
     const char* pp = pConv->IsOption("r");
@@ -179,8 +179,8 @@ bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     rconv.SetInStream(&rfs);
     rconv.SetInFormat(prFormat);
-    ofs << "**Generating Confab Report " << endl;
-    ofs << "..Reference file = " << rfilename << endl;
+    ofs << "**Generating Confab Report " << '\n';
+    ofs << "..Reference file = " << rfilename << '\n';
     ofs << "..Conformer file = " << pConv->GetInFilename() << "\n\n";
 
     //rconv.Read(&rmol);
