@@ -196,7 +196,7 @@ namespace OpenBabel
 
     mask = mask & ring->_pathset;
 
-    bool containsSmallerAtomRing = (mask == ring->_pathset) ? true : false;
+    bool containsSmallerAtomRing = mask == ring->_pathset;
 
     // Translate ring atom indexes to ring bond indexes.
     std::vector<unsigned int> bonds = atomRingToBondRing(mol, ring->_path);
@@ -221,7 +221,7 @@ namespace OpenBabel
 
     mask = mask & bondset;
 
-    bool containsSmallerBondRing = (mask == bondset) ? true : false;
+    bool containsSmallerBondRing = mask == bondset;
 
     // The ring is part of the LSSR if all it's atoms and bonds are not
     // found in smaller rings.
