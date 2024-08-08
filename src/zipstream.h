@@ -134,7 +134,7 @@ private:
     int                 _err;
     byte_vector_type    _output_buffer;
     char_vector_type    _buffer;
-    unsigned long       _crc;
+    unsigned long _crc{0};
 };
 
 
@@ -192,9 +192,9 @@ public:
     inline
     long              get_in_size              (void) const;
     int               check_header      (void);
-    bool              _is_gzip;
+    bool _is_gzip{false};
 
-private:
+  private:
 
     void              put_back_from_zip_stream (void);
 
@@ -209,8 +209,10 @@ private:
     int                 _err;
     byte_vector_type    _input_buffer;
     char_vector_type    _buffer;
-    unsigned long       _crc;
-    unsigned long       _unzipped_component_bytes; //keep track of bytes that were in separately zipped sections for seeking purposes
+    unsigned long _crc{0};
+    unsigned long _unzipped_component_bytes{
+        0}; // keep track of bytes that were in separately zipped sections for
+            // seeking purposes
 };
 
 //*****************************************************************************
@@ -255,7 +257,7 @@ private:
     basic_zip_ostream<charT,traits>&  add_footer(void);
 
     bool _is_gzip;
-    bool _added_footer;
+    bool _added_footer{false};
 };
 
 //*****************************************************************************
@@ -291,8 +293,8 @@ public:
 protected:
     void     read_footer       (void);
 
-    long _gzip_crc;
-    long _gzip_data_size;
+    long _gzip_crc{0};
+    long _gzip_data_size{0};
 };
 
 /// A typedef for basic_zip_ostream<char>

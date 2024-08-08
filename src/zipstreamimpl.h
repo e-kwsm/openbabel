@@ -46,36 +46,30 @@ Altered by: Geoffrey Hutchison 2005 for Open Babel project
  */
 
 template <class charT, class traits>
-basic_zip_streambuf<charT, traits>::basic_zip_streambuf(ostream_reference ostream,
-                                                        int level,
-                                                        EStrategy strategy,
-                                                        int window_size,
-                                                        int memory_level,
-                                                        size_t buffer_size)
-    : _ostream(ostream),
-      _output_buffer(buffer_size, 0),
-      _buffer(buffer_size, 0),
-      _crc(0)
+basic_zip_streambuf<charT, traits>::basic_zip_streambuf(
+    ostream_reference ostream, int level, EStrategy strategy, int window_size,
+    int memory_level, size_t buffer_size)
+    : _ostream(ostream), _output_buffer(buffer_size, 0), _buffer(buffer_size, 0)
+
 {
-    _zip_stream.zalloc = (alloc_func) nullptr;
-    _zip_stream.zfree = (free_func) nullptr;
+  _zip_stream.zalloc = (alloc_func) nullptr;
+  _zip_stream.zfree = (free_func) nullptr;
 
-    _zip_stream.next_in = nullptr;
-    _zip_stream.avail_in = 0;
-    _zip_stream.avail_out = 0;
-    _zip_stream.next_out = nullptr;
+  _zip_stream.next_in = nullptr;
+  _zip_stream.avail_in = 0;
+  _zip_stream.avail_out = 0;
+  _zip_stream.next_out = nullptr;
 
-    if(level > 9)
-        level = 9;
+  if (level > 9)
+    level = 9;
 
-    if(memory_level > 9)
-        memory_level = 9;
+  if (memory_level > 9)
+    memory_level = 9;
 
-    _err=deflateInit2(&_zip_stream, level, Z_DEFLATED,
-                      window_size, memory_level,
-                      static_cast<int>(strategy));
+  _err = deflateInit2(&_zip_stream, level, Z_DEFLATED, window_size,
+                      memory_level, static_cast<int>(strategy));
 
-    this->setp( &(_buffer[0]), &(_buffer[_buffer.size()-1]));
+  this->setp(&(_buffer[0]), &(_buffer[_buffer.size() - 1]));
 }
 
 /** Destructor
@@ -300,16 +294,12 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
 /** Constructor
  */
 template <class charT, class traits>
-basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(istream_reference istream,
-                                                            int window_size,
-                                                            size_t read_buffer_size,
-                                                            size_t input_buffer_size)
-    : _is_gzip(false),
-      _istream(istream),
-      _input_buffer(input_buffer_size),
-      _buffer(read_buffer_size),
-      _crc(0),
-      _unzipped_component_bytes(0)
+basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(
+    istream_reference istream, int window_size, size_t read_buffer_size,
+    size_t input_buffer_size)
+    : _istream(istream), _input_buffer(input_buffer_size),
+      _buffer(read_buffer_size)
+
 {
   initialize(window_size);
 }
@@ -616,22 +606,17 @@ basic_unzip_streambuf<charT, traits>::fill_input_buffer(void)
 
 /**
  */
-template <class charT, class traits> inline
-basic_zip_ostream<charT, traits>::basic_zip_ostream(ostream_reference ostream,
-                                                    bool is_gzip,
-                                                    int level,
-                                                    EStrategy strategy,
-                                                    int window_size,
-                                                    int memory_level,
-                                                    size_t buffer_size) :
-    basic_zip_streambuf<charT, traits>(ostream, level, strategy, window_size,
-                                       memory_level, buffer_size),
-    std::basic_ostream<charT, traits>(this),
-    _is_gzip(is_gzip),
-    _added_footer(false)
+template <class charT, class traits>
+inline basic_zip_ostream<charT, traits>::basic_zip_ostream(
+    ostream_reference ostream, bool is_gzip, int level, EStrategy strategy,
+    int window_size, int memory_level, size_t buffer_size)
+    : basic_zip_streambuf<charT, traits>(ostream, level, strategy, window_size,
+                                         memory_level, buffer_size),
+      std::basic_ostream<charT, traits>(this), _is_gzip(is_gzip)
+
 {
-		if(_is_gzip)
-        add_header();
+  if (_is_gzip)
+    add_header();
 }
 
 /** Destructor
@@ -748,12 +733,11 @@ basic_zip_istream<charT, traits>::basic_zip_istream(istream_reference istream,
                                                     size_t input_buffer_size)
     : basic_unzip_streambuf<charT, traits>(istream, window_size,
                                            read_buffer_size, input_buffer_size),
-      std::basic_istream<charT, traits>(this),
-      _gzip_crc(0),
-      _gzip_data_size(0)
+      std::basic_istream<charT, traits>(this)
+
 {
-    if(this->get_zerr() == Z_OK)
-      this->check_header();
+  if (this->get_zerr() == Z_OK)
+    this->check_header();
 }
 
 /** returns true if it is a gzip file

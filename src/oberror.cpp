@@ -142,9 +142,7 @@ namespace OpenBabel
 
   **/
 
-  OBMessageHandler::OBMessageHandler() :
-    _outputLevel(obWarning), _outputStream(&clog), _logging(true), _maxEntries(100)
-  {
+  OBMessageHandler::OBMessageHandler() : _outputStream(&clog) {
     _messageCount[0] = _messageCount[1] = _messageCount[2] = 0;
     _messageCount[3] = _messageCount[4] = 0;
     _filterStreamBuf = _inWrapStreamBuf = nullptr;
