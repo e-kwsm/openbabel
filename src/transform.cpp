@@ -89,7 +89,7 @@ namespace OpenBabel
         stringstream errorMsg;
         errorMsg << "Both -p and -h options are set. "
                  << "All implicit hydrogens (-h) will be added without considering pH."
-                 << endl;
+                 << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
       else {
