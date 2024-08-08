@@ -57,7 +57,7 @@ namespace OpenBabel
       std::vector<std::vector<char> > m_buf;
       int m_width, m_height; // Width and height of output canvas in characters
       double m_aspect; // Ratio of height:width for a single character
-      double m_scale; // Conversion from Depiction coords to m_buf coords
+      double m_scale{1}; // Conversion from Depiction coords to m_buf coords
   };
 
 }
