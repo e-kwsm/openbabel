@@ -398,7 +398,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
     rapidjson::Value atoms(rapidjson::kArrayType);
     double c = 20;
     if (pConv->IsOption("c")) {
-      c = atof((const char *) pConv->IsOption("c"));
+      c = atof( pConv->IsOption("c"));
     }
     FOR_ATOMS_OF_MOL(patom, pmol) {
       rapidjson::Value atom(rapidjson::kObjectType);
