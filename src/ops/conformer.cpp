@@ -169,7 +169,7 @@ namespace OpenBabel
       pFF->SetUpdateFrequency(10); // delay updates of non-bonded distances
 
       if (!pFF->Setup(*pmol)) {
-        cerr  << "Could not setup force field." << endl;
+        cerr  << "Could not setup force field." << '\n';
         return false;
       }
 
@@ -293,16 +293,16 @@ namespace OpenBabel
           if (converted==2 && p1>0 && p2>0){
             if (p1>pmol->NumAtoms() || p2>pmol->NumAtoms()){
               std::cerr << "ERROR at least one of the atom indices " << p1 << " or " << p2 
-                        << " is greater than the number of atoms " << pmol->NumAtoms() << "." << std::endl << std::flush;
+                        << " is greater than the number of atoms " << pmol->NumAtoms() << "." << '\n' << std::flush;
               return false;
             }
             OBBond* b = pmol->GetBond(p1,p2);
             if (!b){
-              std::cerr << "ERROR atoms " << p1 << " and " << p2 << " form no bond." << std::endl << std::flush;
+              std::cerr << "ERROR atoms " << p1 << " and " << p2 << " form no bond." << '\n' << std::flush;
               return false;
             }
             if (!(b->IsRotor())){
-                std::cerr << "ERROR bond formed by atoms " << p1 << " and " << p2 << " is not rotable." << std::endl << std::flush;
+                std::cerr << "ERROR bond formed by atoms " << p1 << " and " << p2 << " is not rotable." << '\n' << std::flush;
                 return false;
             }
             int idx = b->GetIdx();
@@ -312,7 +312,7 @@ namespace OpenBabel
               fixbonds.SetBitOff(idx);
             }
           }else{
-              std::cerr << "ERROR parsing '" << segment << "' as rotor (must be i-j where i and j are indices >0)" << std::endl << std::flush;
+              std::cerr << "ERROR parsing '" << segment << "' as rotor (must be i-j where i and j are indices >0)" << '\n' << std::flush;
               return false;
           }
         }
