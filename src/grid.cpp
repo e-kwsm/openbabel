@@ -43,17 +43,29 @@ namespace OpenBabel
       }
       else {
         if (atom->GetX() < _xmin)
+        {
           _xmin = atom->GetX();
+        }
         if (atom->GetX() > _xmax)
+        {
           _xmax = atom->GetX();
+        }
         if (atom->GetY() < _ymin)
+        {
           _ymin = atom->GetY();
+        }
         if (atom->GetY() > _ymax)
+        {
           _ymax = atom->GetY();
+        }
         if (atom->GetZ() < _zmin)
+        {
           _zmin = atom->GetZ();
+        }
         if (atom->GetZ() > _zmax)
+        {
           _zmax = atom->GetZ();
+        }
       }
     }
   }
@@ -147,11 +159,13 @@ namespace OpenBabel
   double OBFloatGrid::Inject(double x, double y, double z)
   {
     if (_values.empty())
+    {
       return 0.0;
+    }
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
-        || z<=_zmin || z>=_zmax ) return 0.0;
+        || z<=_zmin || z>=_zmax ) { return 0.0; }
 
     return(_values[CoordsToIndex(x, y, z)]);
   }
@@ -188,7 +202,9 @@ namespace OpenBabel
   double OBFloatGrid::Interpolate(double x, double y, double z)
   {
     if (_values.empty())
+    {
       return 0.0;
+    }
 
     int n,igx,igy,igz;
     double yzdim;
@@ -198,24 +214,30 @@ namespace OpenBabel
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
-        || z<=_zmin || z>=_zmax ) return 0.0;
+        || z<=_zmin || z>=_zmax ) { return 0.0; }
 
     yzdim = _ydim*_zdim;
 
     /* calculate grid voxel and fractional offsets */
     gx=(x-_xmin-_halfSpace)*_inv_spa;
     if (gx<0)
+    {
       gx=0;
+    }
     igx=static_cast<int>(gx);
     fgx=gx-static_cast<double>(igx);
     gy=(y-_ymin-_halfSpace)*_inv_spa;
     if (gy<0)
+    {
       gy=0;
+    }
     igy=static_cast<int>(gy);
     fgy= gy - static_cast<double>(igy);
     gz=(z-_zmin-_halfSpace)*_inv_spa;
     if (gz<0)
+    {
       gz=0;
+    }
     igz=static_cast<int>(gz);
     fgz= gz - static_cast<double>(igz);
 
@@ -223,7 +245,9 @@ namespace OpenBabel
     n=static_cast<int>(igx*yzdim + igy*_zdim + igz);
 
     if ((n+1+_zdim+yzdim) >= (yzdim*_xdim))
+    {
       return 0.0;
+    }
 
     /* calculate linear weightings */
     ax=1.0-fgx;
@@ -270,24 +294,30 @@ namespace OpenBabel
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
-        || z<=_zmin || z>=_zmax ) return 0.0;
+        || z<=_zmin || z>=_zmax ) { return 0.0; }
 
     yzdim = _ydim*_zdim;
 
     /* calculate grid voxel and fractional offsets */
     gx=(x-_xmin-_halfSpace)*_inv_spa;
     if (gx<0)
+    {
       gx=0;
+    }
     igx=static_cast<int>(gx);
     fgx=gx-(double)igx;
     gy=(y-_ymin-_halfSpace)*_inv_spa;
     if (gy<0)
+    {
       gy=0;
+    }
     igy=static_cast<int>(gy);
     fgy= gy - (double) igy;
     gz=(z-_zmin-_halfSpace)*_inv_spa;
     if (gz<0)
+    {
       gz=0;
+    }
     igz=static_cast<int>(gz);
     fgz= gz - (double) igz;
 
@@ -414,7 +444,9 @@ namespace OpenBabel
     int j,size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
     for (unsigned int num = 0; num < cell.size(); ++num)
+    {
       cell[num].resize(0);
+    }
 
     cutoff *= cutoff; //don't do sqrts
 
@@ -426,14 +458,30 @@ namespace OpenBabel
     OBAtom *atom;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i),j=0;atom;atom = mol.NextAtom(i),j+=3)
+    {
       if (PointIsInBox(c[j],c[j+1],c[j+2]))
+      {
         for (x = _xmin+(_inc/2.0),k=0;k < _nxinc;x+=_inc,++k)
+        {
           if ((dx_2 = SQUARE(c[j]-x)) < cutoff)
+          {
             for (y = _ymin+(_inc/2.0),l=0;l < _nyinc;y+=_inc,++l)
+            {
               if ((dx_2+(dy_2 = SQUARE(c[j+1]-y))) < cutoff)
+              {
                 for (z = _zmin+(_inc/2.0),m=0;m < _nzinc;z+=_inc,++m)
+                {
                   if ((dx_2+dy_2+SQUARE(c[j+2]-z)) < cutoff)
+                  {
                     cell[(k*_nyinc*_nzinc)+(l*_nzinc)+m].push_back(atom->GetIdx());
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
 
     _inc = 1/_inc;
   }
@@ -462,15 +510,33 @@ namespace OpenBabel
     OBAtom *atom;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i),j=0;atom;atom = mol.NextAtom(i),j+=3)
+    {
       if (use[atom->GetIdx()])
+      {
         if (PointIsInBox(c[j],c[j+1],c[j+2]))
+        {
           for (x = _xmin+(_inc/2.0),k=0;k < _nxinc;x+=_inc,++k)
+          {
             if ((dx_2 = SQUARE(c[j]-x)) < cutoff)
+            {
               for (y = _ymin+(_inc/2.0),l=0;l < _nyinc;y+=_inc,++l)
+              {
                 if ((dx_2+(dy_2 = SQUARE(c[j+1]-y))) < cutoff)
+                {
                   for (z = _zmin+(_inc/2.0),m=0;m < _nzinc;z+=_inc,++m)
+                  {
                     if ((dx_2+dy_2+SQUARE(c[j+2]-z)) < cutoff)
+                    {
                       cell[(k*_nyinc*_nzinc)+(l*_nzinc)+m].push_back(atom->GetIdx());
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
 
     _inc = 1/_inc;
   }
@@ -478,11 +544,17 @@ namespace OpenBabel
   vector<int> *OBProxGrid::GetProxVector(double x,double y,double z)
   {
     if (x < _xmin || x > _xmax)
+    {
       return nullptr;
+    }
     if (y < _ymin || y > _ymax)
+    {
       return nullptr;
+    }
     if (z < _zmin || z > _zmax)
+    {
       return nullptr;
+    }
 
     x -= _xmin;
     y -= _ymin;
@@ -493,7 +565,9 @@ namespace OpenBabel
     k = (int) (z*_inc);
     idx = (i*_nyinc*_nzinc)+(j*_nzinc)+k;
     if (idx >= _maxinc)
+    {
       return nullptr;
+    }
 
     return(&cell[idx]);
   }

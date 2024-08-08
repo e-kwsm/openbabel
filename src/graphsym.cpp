@@ -52,10 +52,16 @@ void print_vector(const std::string &label, const std::vector<T> &v)
 {
   std::cout << label << ": ";
   for (std::size_t i = 0; i < v.size(); ++i)
+  {
     if (v[i] < 10)
+    {
       std::cout << " " << v[i] << " ";
+    }
     else
+    {
       std::cout << v[i] << " ";
+    }
+  }
 
   std::cout << endl;
 }
@@ -65,7 +71,9 @@ void print_sym_classes(const std::string &label, const std::vector<std::pair<Ope
 {
   cout << label << ": ";
   for (unsigned int i = 0; i < atom_sym_classes.size(); i++)
+  {
     cout << atom_sym_classes[i].second << " ";
+  }
   cout << endl;
 }
 
@@ -147,7 +155,9 @@ namespace OpenBabel {
     for (bond = atom->BeginBond(bi); bond; bond = atom->NextBond(bi)) {
       nbr = bond->GetNbrAtom(atom);
       if (_frag_atoms.BitIsSet(nbr->GetIdx()) && nbr->GetAtomicNum() != OBElements::Hydrogen)
+      {
         count++;
+      }
     }
 
     return(count);
@@ -175,9 +185,13 @@ namespace OpenBabel {
       nbr = bond->GetNbrAtom(atom);
       if (_frag_atoms.BitIsSet(nbr->GetIdx()) && nbr->GetAtomicNum() != OBElements::Hydrogen) {
         if (bond->IsAromatic())
+        {
           count += 1.6f;
+        }
         else
+        {
           count += (float)bond->GetBondOrder();
+        }
       }
     }
     if (atom->GetAtomicNum() == 7 && atom->IsAromatic() && atom->GetTotalDegree() == 3) {
@@ -232,14 +246,18 @@ namespace OpenBabel {
         for (natom = curr.NextBit(-1);natom != curr.EndBit();natom = curr.NextBit(natom)) {
           atom1 = _pmol->GetAtom(natom);
           if (!_frag_atoms.BitIsSet(atom1->GetIdx()))
+          {
             continue;
+          }
           for (bond = atom1->BeginBond(j);bond;bond = atom1->NextBond(j)) {
             int nbr_idx = bond->GetNbrAtomIdx(atom1);
             if (   _frag_atoms.BitIsSet(nbr_idx)
                 && !used.BitIsSet(nbr_idx)
                 && !curr.BitIsSet(nbr_idx)
                 && bond->GetNbrAtom(atom1)->GetAtomicNum() != OBElements::Hydrogen)
+            {
               next.SetBitOn(nbr_idx);
+            }
           }
         }
         used |= next;
@@ -273,7 +291,9 @@ namespace OpenBabel {
       OBRing *ring = *ri;
       OBBitVec bvtmp = _frag_atoms & ring->_pathset;      // intersection: fragment and ring
       if (bvtmp == ring->_pathset)                        // all ring atoms in fragment?
+      {
         ring_atoms |= ring->_pathset;                     //   yes - add this ring's atoms
+      }
     }
   }
 
@@ -382,12 +402,16 @@ namespace OpenBabel {
       for (nbr = atom->BeginNbrAtom(nbr_iter); nbr; nbr = atom->NextNbrAtom(nbr_iter)) {
         int idx = nbr->GetIdx();
         if (_frag_atoms.BitIsSet(idx))
+        {
           vtmp.push_back(vp1[idx2index[idx]].second);
+        }
       }
 
       sort(vtmp.begin(),vtmp.end(),CompareUnsigned);
       for (m = 100, k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
+      {
         id += *k * m;
+      }
       vp2.push_back(pair<OBAtom*,unsigned int> (atom, id));
     }
 #if DEBUG2
@@ -440,7 +464,9 @@ namespace OpenBabel {
 
       sort(vtmp.begin(),vtmp.end(),CompareUnsigned);
       for (m = 100, k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
+      {
         id += *k * m;
+      }
       vp2.push_back(pair<OBAtom*,unsigned int> (atom, id));
     }
 #if DEBUG2
@@ -513,7 +539,7 @@ namespace OpenBabel {
         CreateNewClassVector(symmetry_classes, tmp_classes);
         CountAndRenumberClasses(tmp_classes, nclasses2);
         symmetry_classes = tmp_classes;
-        if (nclasses1 == nclasses2) break;
+        if (nclasses1 == nclasses2) { break; }
         nclasses1 = nclasses2;
       }
     }
@@ -560,7 +586,9 @@ namespace OpenBabel {
     for (atom = _pmol->BeginAtom(j); atom; atom = _pmol->NextAtom(j)) {
       int idx = atom->GetIdx();
       if (_frag_atoms.BitIsSet(idx))
+      {
         symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, vgi[idx-1]));
+      }
       //else
       //  symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, OBGraphSym::NoSymmetryClass));
     }
@@ -582,9 +610,13 @@ namespace OpenBabel {
     stringstream temp;
     vector<unsigned int>::iterator sym_iter = atom_sym_classes.begin();
     if (sym_iter != atom_sym_classes.end())
+    {
       temp << (*sym_iter++);
+    }
     for (; sym_iter != atom_sym_classes.end(); ++sym_iter)
+    {
       temp << " " << (*sym_iter);
+    }
 
     OBPairData *symData = new OBPairData;
     symData->SetAttribute("OpenBabel Symmetry Classes");
@@ -629,7 +661,9 @@ namespace OpenBabel {
     for (OBAtom *atom = _pmol->BeginAtom(j); atom; atom = _pmol->NextAtom(j)) {
       int idx = atom->GetIdx();
       if (_frag_atoms.BitIsSet(idx))
+      {
         symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, symClasses[idx-1]));
+      }
     }
 
     // The heart of the matter: Do extended sum-of-invariants until no further

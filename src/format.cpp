@@ -32,9 +32,13 @@ int OBFormat::RegisterFormat(const char* ID, const char* MIME)
 {
   GetMap()[ID] = this;
   if (MIME)
+  {
     FormatsMIMEMap()[MIME] = this;
+  }
   if(Flags() & DEFAULTFORMAT)
+  {
     Default() = this;
+  }
 
   //ensure "formats" is registered as a plugin
   PluginMap()[TypeID()] =this;
@@ -47,9 +51,13 @@ const char* OBFormat::TargetClassDescription()
 {
   //Provides class of default format unless overridden
   if (OBFormat::FindType(nullptr))
+  {
     return OBFormat::FindType(nullptr)->TargetClassDescription();
+  }
   else
+  {
     return "";
+  }
 }
 
 //////////////////////////////////////////////////////////
@@ -57,18 +65,26 @@ const type_info& OBFormat::GetType()
 {
   //Provides info on class of default format unless overridden
   if (OBFormat::FindType(nullptr))
+  {
     return OBFormat::FindType(nullptr)->GetType();
+  }
   else
+  {
     return typeid(this); //rubbish return if DefaultFormat not set
+  }
 }
 
 //////////////////////////////////////////////////////////
 OBFormat* OBFormat::FormatFromMIME(const char* MIME)
 {
   if(FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end())
+  {
     return nullptr;
+  }
   else
+  {
     return static_cast<OBFormat*>(FormatsMIMEMap()[MIME]);
+  }
 }
 
 //////////////////////////////////////////////////////////
@@ -76,7 +92,9 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
 {
   //No output for formats which can't be written or read
   if((Flags() & NOTREADABLE) && (Flags() & NOTWRITABLE))
+  {
     return false;
+  }
 
   bool justread=false, justwrite=false;
   //No output if formats is not readable or writable if this was requested
@@ -86,13 +104,17 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
     {
       justread=true;
       if(Flags() & NOTREADABLE)
+      {
         return false;
+      }
     }
     if((!strncasecmp(param, "out",3) || !strncasecmp(param, "write",5)))
     {
       justwrite=true;
       if(Flags() & NOTWRITABLE)
+      {
         return false;
+      }
     }
   }
 
@@ -100,15 +122,23 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
   //for the format, e.g. "smiles" and "smi", the contents of the member
   //variable _id, returned by GetID() is the last one.
   if(ID)
+  {
     txt = ID;
+  }
   else
+  {
     txt = GetID();
+  }
   txt += " -- ";
   txt += FirstLine(Description());
   if(!justread && (Flags() & NOTWRITABLE))
+  {
     txt += " [Read-only]";
+  }
   if(!justwrite && (Flags() & NOTREADABLE))
+  {
     txt += " [Write-only]";
+  }
 
   if(param && strstr(param, "verbose"))
   {

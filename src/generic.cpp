@@ -272,7 +272,9 @@ namespace OpenBabel
   OBUnitCell & OBUnitCell::operator=(const OBUnitCell &src)
   {
     if(this == &src)
+    {
       return(*this);
+    }
 
     _mOrtho = src._mOrtho;
     _mOrient = src._mOrient;
@@ -380,27 +382,39 @@ namespace OpenBabel
     double x = fmod(frac.x(), 1);
     double y = fmod(frac.y(), 1);
     double z = fmod(frac.z(), 1);
-    if (x < 0) x += 1;
-    if (y < 0) y += 1;
-    if (z < 0) z += 1;
+    if (x < 0) { x += 1; }
+    if (y < 0) { y += 1; }
+    if (z < 0) { z += 1; }
 
 #define LIMIT 0.999999
     if (x > LIMIT)
+    {
       x -= 1;
+    }
     if (y > LIMIT)
+    {
       y -= 1;
+    }
     if (z > LIMIT)
+    {
       z -= 1;
+    }
 #undef LIMIT
 
     // Fuzzy logic from Francois-Xavier
 #define EPSILON 1.0e-6
     if (x > 1 - EPSILON || x < EPSILON)
+    {
       x = 0.0;
+    }
     if (y > 1 - EPSILON || y < EPSILON)
+    {
       y = 0.0;
+    }
     if (z > 1 - EPSILON || z < EPSILON)
+    {
       z = 0.0;
+    }
 #undef EPSILON
 
     return vector3(x, y, z);
@@ -444,50 +458,66 @@ namespace OpenBabel
     //	195-230 Cubic
 
     if ( spacegroup == 0  && _spaceGroup)
+    {
       spacegroup = _spaceGroup->GetId();
+    }
 
     if ( spacegroup <= 0 )
+    {
       return OBUnitCell::Undefined;
-
+    }
     else if ( spacegroup == 1 ||
               spacegroup == 2 )
+    {
       return OBUnitCell::Triclinic;
-
+    }
     else if ( spacegroup >= 3 &&
               spacegroup <= 15 )
+    {
       return OBUnitCell::Monoclinic;
-
+    }
     else if ( spacegroup >= 16 &&
               spacegroup <= 74 )
+    {
       return OBUnitCell::Orthorhombic;
-
+    }
     else if ( spacegroup >= 75 &&
               spacegroup <= 142 )
+    {
       return OBUnitCell::Tetragonal;
-
+    }
     else if ( spacegroup >= 143 &&
               spacegroup <= 167 )
+    {
       return OBUnitCell::Rhombohedral;
-
+    }
     else if ( spacegroup >= 168 &&
               spacegroup <= 194 )
+    {
       return OBUnitCell::Hexagonal;
-
+    }
     else if ( spacegroup >= 195 &&
               spacegroup <= 230 )
+    {
       return OBUnitCell::Cubic;
-
+    }
     //just to be extra sure
     else // ( spacegroup > 230 )
+    {
       return OBUnitCell::Undefined;
+    }
   }
 
   OBUnitCell::LatticeType OBUnitCell::GetLatticeType() const
   {
     if (_lattice != Undefined)
+    {
       return _lattice;
+    }
     else if (_spaceGroup != nullptr)
+    {
       return GetLatticeType(_spaceGroup->GetId());
+    }
 
     double a = GetA();
     double b = GetB();
@@ -497,9 +527,9 @@ namespace OpenBabel
     double gamma = GetGamma();
 
     unsigned int rightAngles = 0;
-    if (IsApprox(alpha, 90.0, 1.0e-3)) rightAngles++;
-    if (IsApprox(beta,  90.0, 1.0e-3)) rightAngles++;
-    if (IsApprox(gamma, 90.0, 1.0e-3)) rightAngles++;
+    if (IsApprox(alpha, 90.0, 1.0e-3)) { rightAngles++; }
+    if (IsApprox(beta,  90.0, 1.0e-3)) { rightAngles++; }
+    if (IsApprox(gamma, 90.0, 1.0e-3)) { rightAngles++; }
 
     // recast cache member "_lattice" as mutable
     OBUnitCell::LatticeType *lattice =
@@ -509,26 +539,40 @@ namespace OpenBabel
       {
       case 3:
         if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4))
+        {
           *lattice = Cubic;
+        }
         else if (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4))
+        {
           *lattice = Tetragonal;
+        }
         else
+        {
           *lattice = Orthorhombic;
+        }
         break;
       case 2:
         if ( (IsApprox(alpha, 120.0, 1.0e-3)
               || IsApprox(beta, 120.0, 1.0e-3)
               || IsApprox(gamma, 120.0f, 1.0e-3))
              && (IsApprox(a, b, 1.0e-4) || IsApprox(b, c, 1.0e-4)) )
+        {
           *lattice = Hexagonal;
+        }
         else
+        {
           *lattice = Monoclinic;
+        }
         break;
       default:
         if (IsApprox(a, b, 1.0e-4) && IsApprox(b, c, 1.0e-4))
+        {
           *lattice = Rhombohedral;
+        }
         else
+        {
           *lattice = Triclinic;
+        }
       }
 
     return *lattice;
@@ -573,9 +617,13 @@ namespace OpenBabel
     if (name.length () == 0)
       {
         if (_spaceGroup != nullptr)
+        {
           return _spaceGroup->GetId();
+        }
         else
+        {
           name = _spaceGroupName;
+        }
       }
     static const int numStrings = sizeof( spacegroups ) / sizeof( spacegroups[0] );
     for ( int i = 0; i < numStrings; ++i ) {
@@ -592,17 +640,29 @@ namespace OpenBabel
   {
     vector3 dr = v2 - v1;
     if (dr.x() < -0.5)
+    {
       dr.SetX(dr.x() + 1);
+    }
     if (dr.x() > 0.5)
+    {
       dr.SetX(dr.x() - 1);
+    }
     if (dr.y() < -0.5)
+    {
       dr.SetY(dr.y() + 1);
+    }
     if (dr.y() > 0.5)
+    {
       dr.SetY(dr.y() - 1);
+    }
     if (dr.z() < -0.5)
+    {
       dr.SetZ(dr.z() + 1);
+    }
     if (dr.z() > 0.5)
+    {
       dr.SetZ(dr.z() - 1);
+    }
 
     return (dr.length_2() < 1e-6);
   }
@@ -612,7 +672,9 @@ namespace OpenBabel
     const SpaceGroup *sg = GetSpaceGroup(); // the actual space group and transformations for this unit cell
 
     if (sg == nullptr)
+    {
       return ;
+    }
 
     // For each atom, we loop through: convert the coords back to inverse space, apply the transformations and create new atoms
     vector3 baseV, uniqueV, updatedCoordinate;
@@ -763,7 +825,9 @@ namespace OpenBabel
   OBSymmetryData & OBSymmetryData::operator=(const OBSymmetryData &src)
   {
     if(this == &src)
+    {
       return(*this);
+    }
 
     _pointGroup = src._pointGroup;
     _spaceGroup = src._spaceGroup;
@@ -787,7 +851,9 @@ namespace OpenBabel
   OBConformerData & OBConformerData::operator=(const OBConformerData &src)
   {
     if(this == &src)
+    {
       return(*this);
+    }
 
     _source = src._source;
 
@@ -849,8 +915,9 @@ namespace OpenBabel
   OBRingData& OBRingData::operator =(const OBRingData &src)
   {
     //on identity, return
-    if(this == &src)
+    if(this == &src) {
       return(*this);
+    }
 
     //chain to base class
     OBGenericData::operator =(src);
@@ -870,7 +937,9 @@ namespace OpenBabel
     for(ring = _vr.begin();ring != _vr.end();++ring)
       {
         if(*ring == 0)
+        {
           continue;
+        }
 
         //allocate and copy ring data
         OBRing *newring = new OBRing;
@@ -925,7 +994,9 @@ namespace OpenBabel
   OBAngle& OBAngle::operator = (const OBAngle &src)
   {
     if (this == &src)
+    {
       return(*this);
+    }
 
     _vertex         = src._vertex;
     _termini.first  = src._termini.first;
@@ -1036,7 +1107,9 @@ namespace OpenBabel
   OBAngleData& OBAngleData::operator =(const OBAngleData &src)
   {
     if (this == &src)
+    {
       return(*this);
+    }
 
     _source = src._source;
     _angles = src._angles;
@@ -1070,7 +1143,9 @@ namespace OpenBabel
   bool OBAngleData::FillAngleArray(std::vector<std::vector<unsigned int> > &angles)
   {
     if(_angles.empty())
+    {
       return(false);
+    }
 
     vector<OBAngle>::iterator angle;
 
@@ -1168,7 +1243,9 @@ namespace OpenBabel
   OBTorsion& OBTorsion::operator =(const OBTorsion &src)
   {
     if (this == &src)
+    {
       return(*this);
+    }
 
     _bc  = src._bc;
     _ads = src._ads;
@@ -1195,7 +1272,9 @@ namespace OpenBabel
   bool OBTorsion::SetAngle(double radians,unsigned int index)
   {
     if(index >= _ads.size())
+    {
       return(false);
+    }
 
     _ads[index].third = radians;
 
@@ -1211,7 +1290,9 @@ namespace OpenBabel
   bool OBTorsion::GetAngle(double &radians, unsigned int index)
   {
     if(index >= _ads.size())
+    {
       return false;
+    }
     radians = _ads[index].third;
     return true;
   }
@@ -1233,9 +1314,13 @@ namespace OpenBabel
     for(ad = _ads.begin();ad != _ads.end() && (Aprotor || Dprotor);++ad)
       {
         if (ad->first->GetAtomicNum() != OBElements::Hydrogen)
+        {
           Aprotor = false;
+        }
         if (ad->second->GetAtomicNum() != OBElements::Hydrogen)
+        {
           Dprotor = false;
+        }
       }
     return (Aprotor || Dprotor);
   }
@@ -1246,7 +1331,9 @@ namespace OpenBabel
   bool OBTorsion::AddTorsion(OBAtom *a,OBAtom *b, OBAtom *c,OBAtom *d)
   {
     if(!Empty() && (b != _bc.first || c != _bc.second))
+    {
       return(false);
+    }
 
     if(Empty())
       {
@@ -1266,7 +1353,9 @@ namespace OpenBabel
   bool OBTorsion::AddTorsion(quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> &atoms)
   {
     if(!Empty() && (atoms.second != _bc.first || atoms.third != _bc.second))
+    {
       return(false);
+    }
 
     if(Empty())
       {
@@ -1295,7 +1384,9 @@ namespace OpenBabel
   OBTorsionData& OBTorsionData::operator =(const OBTorsionData &src)
   {
     if (this == &src)
+    {
       return(*this);
+    }
 
     OBGenericData::operator =(src);
 
@@ -1323,7 +1414,9 @@ namespace OpenBabel
   bool OBTorsionData::FillTorsionArray(std::vector<std::vector<unsigned int> > &torsions)
   {
     if(_torsions.empty())
+    {
       return(false);
+    }
 
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > tmpquads,quads;
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> >::iterator thisQuad;
@@ -1334,7 +1427,9 @@ namespace OpenBabel
       {
         tmpquads = torsion->GetTorsions();
         for(thisQuad = tmpquads.begin();thisQuad != tmpquads.end();++thisQuad)
+        {
           quads.push_back(*thisQuad);
+        }
       }
 
     //fill array of torsion atoms
@@ -1384,11 +1479,17 @@ void OBDOSData::SetData(double fermi,
   void OBOrbitalData::LoadClosedShellOrbitals(std::vector<double> energies, std::vector<std::string> symmetries, unsigned int alphaHOMO)
   {
     if (energies.size() < symmetries.size())
+    {
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
+    }
     if (energies.size() == 0)
+    {
       return;
+    }
     if (alphaHOMO > energies.size())
+    {
       return;
+    }
 
     _alphaHOMO = alphaHOMO;
     _alphaOrbitals.clear();
@@ -1397,16 +1498,24 @@ void OBDOSData::SetData(double fermi,
     _openShell = false;
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
+    {
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
+      {
         symmetries.push_back("A");
+      }
+    }
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)
       {
         if (i < alphaHOMO)
+        {
           currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
+        }
         else
+        {
           currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+        }
 
         _alphaOrbitals.push_back(currentOrbital);
       }
@@ -1415,27 +1524,41 @@ void OBDOSData::SetData(double fermi,
   void OBOrbitalData::LoadAlphaOrbitals(std::vector<double> energies, std::vector<std::string> symmetries, unsigned int alphaHOMO)
   {
     if (energies.size() < symmetries.size())
+    {
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
+    }
     if (energies.size() == 0)
+    {
       return;
+    }
     if (alphaHOMO > energies.size())
+    {
       return;
+    }
 
     _alphaHOMO = alphaHOMO;
     _alphaOrbitals.clear();
     _openShell = true;
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
+    {
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
+      {
         symmetries.push_back("A");
+      }
+    }
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)
       {
         if (i < alphaHOMO)
+        {
           currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
+        }
         else
+        {
           currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+        }
 
         _alphaOrbitals.push_back(currentOrbital);
       }
@@ -1444,27 +1567,41 @@ void OBDOSData::SetData(double fermi,
   void OBOrbitalData::LoadBetaOrbitals(std::vector<double> energies, std::vector<std::string> symmetries, unsigned int betaHOMO)
   {
     if (energies.size() < symmetries.size())
+    {
       return; // something is very weird -- it's OK to pass no symmetries (we'll assume "A")
+    }
     if (energies.size() == 0)
+    {
       return;
+    }
     if (betaHOMO > energies.size())
+    {
       return;
+    }
 
     _betaHOMO = betaHOMO;
     _betaOrbitals.clear();
     _openShell = true;
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
+    {
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
+      {
         symmetries.push_back("A");
+      }
+    }
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)
       {
         if (i < betaHOMO)
+        {
           currentOrbital.SetData(energies[i], 2.0, symmetries[i]);
+        }
         else
+        {
           currentOrbital.SetData(energies[i], 0.0, symmetries[i]);
+        }
 
         _betaOrbitals.push_back(currentOrbital);
       }
