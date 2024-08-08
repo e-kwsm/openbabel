@@ -184,7 +184,7 @@ private:
   char* GetInChIOptions(OBConversion* pConv, bool Reading);
   void SaveInchi(OBMol* pmol, const std::string& s);
 
-  typedef std::set<std::string, InchiLess> nSet;
+  using nSet = std::set<std::string, InchiLess>;
   nSet allInchi;
   std::string firstInchi;
   std::string firstID;

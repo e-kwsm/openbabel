@@ -54,23 +54,23 @@
 
 
 /* radical definitions */
-typedef enum tagINCHIRadical {
+using inchi_Radical = enum tagINCHIRadical {
    INCHI_RADICAL_NONE    = 0,
    INCHI_RADICAL_SINGLET = 1,
    INCHI_RADICAL_DOUBLET = 2,
    INCHI_RADICAL_TRIPLET = 3
-} inchi_Radical;
+};
 
 /* bond type definitions */
-typedef enum tagINCHIBondType {
+using inchi_BondType = enum tagINCHIBondType {
    INCHI_BOND_TYPE_NONE    =  0,
    INCHI_BOND_TYPE_SINGLE  =  1,
    INCHI_BOND_TYPE_DOUBLE  =  2,
    INCHI_BOND_TYPE_TRIPLE  =  3,
    INCHI_BOND_TYPE_ALTERN  =  4  /* avoid by all means */
-} inchi_BondType;
+};
 /* 2D stereo definitions */
-typedef enum tagINCHIBondStereo2D {
+using inchi_BondStereo2D = enum tagINCHIBondStereo2D {
    /* stereocenter-related; positive: the sharp end points to this atom  */
    INCHI_BOND_STEREO_NONE           =  0,
    INCHI_BOND_STEREO_SINGLE_1UP     =  1,
@@ -82,7 +82,7 @@ typedef enum tagINCHIBondStereo2D {
    INCHI_BOND_STEREO_SINGLE_2DOWN   = -6,
    /* stereobond-related */
    INCHI_BOND_STEREO_DOUBLE_EITHER  =  3 /* unknown stereobond geometry */
-} inchi_BondStereo2D;
+};
 
 /*************************************************************************
  * Notes on using INCHI_BOND_STEREO_SINGLE_*  from inchi_BondStereo2D    *
@@ -110,18 +110,18 @@ typedef enum tagINCHIBondStereo2D {
 #define ISOTOPIC_SHIFT_MAX      100 /* max abs(isotopic mass - average atomic mass) */
 
 #ifndef INCHI_US_CHAR_DEF
-typedef signed char   S_CHAR;
-typedef unsigned char U_CHAR;
+using S_CHAR = signed char;
+using U_CHAR = unsigned char;
 #define INCHI_US_CHAR_DEF
 #endif
 
 #ifndef INCHI_US_SHORT_DEF
-typedef signed short   S_SHORT;
-typedef unsigned short U_SHORT;
+using S_SHORT = short;
+using U_SHORT = unsigned short;
 #define INCHI_US_SHORT_DEF
 #endif
 
-typedef  S_SHORT AT_NUM;            /* atom number; starts from 0 */
+using AT_NUM = S_SHORT;            /* atom number; starts from 0 */
 
 /*************************************************
  *
@@ -131,7 +131,7 @@ typedef  S_SHORT AT_NUM;            /* atom number; starts from 0 */
  *
  *************************************************/
 
-typedef struct tagInchiAtom {
+using inchi_Atom = struct tagInchiAtom {
     /* atom coordinates */
     double x;
     double y;
@@ -159,7 +159,7 @@ typedef struct tagInchiAtom {
                                   /* ISOTOPIC_SHIFT_FLAG + mass - (average atomic mass) */
     S_CHAR  radical;              /* inchi_Radical */
     S_CHAR  charge;               /* positive or negative; 0 => no charge */
-}inchi_Atom;
+};
 
 /*******************************************************************
  * Notes: 1. Atom ordering numbers (i, k, and atom[i].neighbor[j] below)
@@ -435,22 +435,22 @@ typedef struct tagInchiAtom {
 #define NO_ATOM          (-1) /* non-existent (central) atom */
 
 /* 0D parity types */
-typedef enum tagINCHIStereoType0D {
+using inchi_StereoType0D = enum tagINCHIStereoType0D {
    INCHI_StereoType_None        = 0,
    INCHI_StereoType_DoubleBond  = 1,
    INCHI_StereoType_Tetrahedral = 2,
    INCHI_StereoType_Allene      = 3
-} inchi_StereoType0D;
+};
 
 /* 0D parities */
-typedef enum tagINCHIStereoParity0D {
+using inchi_StereoParity0D = enum tagINCHIStereoParity0D {
    INCHI_PARITY_NONE      = 0,
    INCHI_PARITY_ODD       = 1,  /* 'o' */
    INCHI_PARITY_EVEN      = 2,  /* 'e' */
    INCHI_PARITY_UNKNOWN   = 3,  /* 'u' */ /* (see also readinch.c)
                                           used in: Extract0DParities, INChITo_Atom  */
    INCHI_PARITY_UNDEFINED = 4   /* '?' -- should not be used; however, see Note above */
-} inchi_StereoParity0D;
+};
 
 
 /*************************************************
@@ -462,14 +462,14 @@ typedef enum tagINCHIStereoParity0D {
  *************************************************/
 
 
-typedef struct tagINCHIStereo0D {
+using inchi_Stereo0D = struct tagINCHIStereo0D {
     AT_NUM  neighbor[4];    /* 4 atoms always */
     AT_NUM  central_atom;   /* central tetrahedral atom or a central */
                             /* atom of allene; otherwise NO_ATOM */
     S_CHAR  type;           /* inchi_StereoType0D */
     S_CHAR  parity;         /* inchi_StereoParity0D: may be a combination of two parities: */
                             /* ParityOfConnected | (ParityOfDisconnected << 3), see Note above */
-}inchi_Stereo0D;
+};
 
 
 
@@ -484,7 +484,7 @@ typedef struct tagINCHIStereo0D {
 
 
 /* Structure -> InChI, GetINCHI() / GetStdINCHI() */
-typedef struct tagINCHI_Input {
+using inchi_Input = struct tagINCHI_Input {
     /* the caller is responsible for the data allocation and deallocation */
     inchi_Atom     *atom;         /* array of num_atoms elements */
     inchi_Stereo0D *stereo0D;     /* array of num_stereo0D 0D stereo elements or NULL */
@@ -492,15 +492,15 @@ typedef struct tagINCHI_Input {
                                   /* '/' or '-' depending on OS and compiler */
     AT_NUM          num_atoms;    /* number of atoms in the structure < 1024 */
     AT_NUM          num_stereo0D; /* number of 0D stereo elements */
-}inchi_Input;
+};
 
 /* InChI -> Structure, GetStructFromINCHI()/GetStructFromStdINCHI() */
-typedef struct tagINCHI_InputINCHI {
+using inchi_InputINCHI = struct tagINCHI_InputINCHI {
     /* the caller is responsible for the data allocation and deallocation */
     char *szInChI;     /* InChI ASCIIZ string to be converted to a strucure */
     char *szOptions;   /* InChI options: space-delimited; each is preceded by */
                        /* '/' or '-' depending on OS and compiler */
-} inchi_InputINCHI;
+};
 
 
 /*************************************************
@@ -512,7 +512,7 @@ typedef struct tagINCHI_InputINCHI {
  *************************************************/
 
 /* Structure -> InChI */
-typedef struct tagINCHI_Output {
+using inchi_Output = struct tagINCHI_Output {
     /* zero-terminated C-strings allocated by GetStdINCHI() */
     /* to deallocate all of them call FreeStdINCHI() (see below) */
     char *szInChI;     /* InChI ASCIIZ string */
@@ -520,10 +520,10 @@ typedef struct tagINCHI_Output {
     char *szMessage;   /* Error/warning ASCIIZ message */
     char *szLog;       /* log-file ASCIIZ string, contains a human-readable list */
                        /* of recognized options and possibly an Error/warning message */
-} inchi_Output;
+};
 
 /* InChI -> Structure */
-typedef struct tagINCHI_OutputStruct {
+using inchi_OutputStruct = struct tagINCHI_OutputStruct {
     /* 4 pointers are allocated by GetStructFromINCHI()/GetStructFromStdINCHI()     */
     /* to deallocate all of them call FreeStructFromStdINCHI()/FreeStructFromStdINCHI() */
     inchi_Atom     *atom;         /* array of num_atoms elements */
@@ -539,7 +539,7 @@ typedef struct tagINCHI_OutputStruct {
                                                   y=1 => Main layer or Mobile-H
                                                   y=0 => Fixed-H layer
                                         */
-}inchi_OutputStruct;
+};
 
 
 
@@ -580,7 +580,7 @@ typedef struct tagINCHI_OutputStruct {
         GetStructFromINCHI
         GetStructFromStdINCHI
 */
-typedef enum tagRetValGetINCHI {
+using RetValGetINCHI = enum tagRetValGetINCHI {
     inchi_Ret_SKIP    = -2, /* not used in InChI library */
     inchi_Ret_EOF     = -1, /* no structural data has been provided */
     inchi_Ret_OKAY    =  0, /* Success; no errors or warnings */
@@ -590,10 +590,10 @@ typedef enum tagRetValGetINCHI {
     inchi_Ret_UNKNOWN =  4, /* Unknown program error */
     inchi_Ret_BUSY    =  5  /* Previuos call to InChI has not returned yet */
 
-} RetValGetINCHI;
+};
 
 /*^^^ Return codes for CheckINCHI */
-typedef enum tagRetValCheckINCHI 
+using RetValCheckINCHI = enum tagRetValCheckINCHI 
 {
     INCHI_VALID_STANDARD     =   0,
     INCHI_VALID_NON_STANDARD =  -1,    
@@ -602,7 +602,7 @@ typedef enum tagRetValCheckINCHI
     INCHI_INVALID_LAYOUT     =   3,
     INCHI_FAIL_I2I           =   4
     
-} RetValCheckINCHI;
+};
 
 
 
@@ -757,11 +757,11 @@ EXPIMP_TEMPLATE INCHI_API int INCHI_DECL GetINCHIfromINCHI( inchi_InputINCHI *in
 #define STR_ERR_LEN     256
 #endif
 
-typedef struct tagInchiInpData {
+using InchiInpData = struct tagInchiInpData {
     inchi_Input *pInp;    /* a pointer to pInp that has all items 0 or NULL */
     int          bChiral; /* 1 => the structure was marked as chiral, 2=> not chiral, 0=> not marked */
     char         szErrMsg[STR_ERR_LEN];
-} InchiInpData;
+};
 
 /* to compile all InChI code as a C++ code #define COMPILE_ALL_CPP */
 #ifndef COMPILE_ALL_CPP
@@ -894,14 +894,14 @@ EXPIMP_TEMPLATE INCHI_API int INCHI_DECL CheckINCHI(const char *szINCHI, const i
 
 
 /*^^^ Return codes for CheckINCHIKey */
-typedef enum tagRetValGetINCHIKey
+using RetValCheckINCHIKeyv = enum tagRetValGetINCHIKey
 {
     INCHIKEY_VALID_STANDARD     =   0,
     INCHIKEY_VALID_NON_STANDARD =  -1,
     INCHIKEY_INVALID_LENGTH     =   1,
     INCHIKEY_INVALID_LAYOUT     =   2,
     INCHIKEY_INVALID_VERSION    =   3
-} RetValCheckINCHIKeyv;
+};
 
 
 
@@ -1017,11 +1017,11 @@ EXPIMP_TEMPLATE INCHI_API int INCHI_DECL CheckINCHIKey(const char *szINCHIKey);
 #endif
 
 
-typedef unsigned short AT_NUMBR;    
-typedef signed short NUM_HS; 
-typedef unsigned long INCHI_MODES;        
+using AT_NUMBR = unsigned short;    
+using NUM_HS = short; 
+using INCHI_MODES = unsigned long;        
 
-typedef struct tagNormAtom 
+using NORM_ATOM = struct tagNormAtom 
 {
     char          elname[ATOM_EL_LEN];      /* chem. element name */
     U_CHAR        el_number;                /* number of the element in the Periodic Table */
@@ -1075,11 +1075,11 @@ typedef struct tagNormAtom
 #endif
 
 #endif
-} NORM_ATOM;
+};
 
 
 
-typedef struct tagNormAtomData
+using NORM_ATOMS = struct tagNormAtomData
 {
     NORM_ATOM *at;                  /* atom list */
     NORM_ATOM *at_fixed_bonds;      /* atom list with added or removed protons only */
@@ -1101,10 +1101,10 @@ typedef struct tagNormAtomData
     INCHI_MODES bTautFlags;         /* for internal use */
     INCHI_MODES bTautFlagsDone;     /* for internal use */
     INCHI_MODES bNormalizationFlags;/* for internal use */
-} NORM_ATOMS;
+};
 
 
-typedef struct tagINCHIGEN_DATA 
+using INCHIGEN_DATA = struct tagINCHIGEN_DATA 
 {
     
     char          pStrErrStruct[STR_ERR_LEN]; /* intermediate log (warning/error report) */
@@ -1116,12 +1116,12 @@ typedef struct tagINCHIGEN_DATA
     NORM_ATOMS   *NormAtomsNontaut[INCHI_NUM]; 
     NORM_ATOMS   *NormAtomsTaut[INCHI_NUM];
 
-} INCHIGEN_DATA;
+};
 
 
 /*^^^ InChI Generator Handle */
 
-typedef void* INCHIGEN_HANDLE;
+using INCHIGEN_HANDLE = void *;
 
 
 
