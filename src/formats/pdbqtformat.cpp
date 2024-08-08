@@ -186,7 +186,7 @@ namespace OpenBabel
           }
         }
       }
-      if (line.length() == 0)
+      if (line.empty())
       {
         stringstream errorMsg;
         errorMsg << "Warning: empty line, ignoring." << endl;
@@ -590,7 +590,7 @@ namespace OpenBabel
         if ((*it)==0) {break;} //do not close the main root; that is closed separately
         vector <unsigned int>::iterator it_parent=it;
         --it_parent;
-        if ((*tree.find(*it)).second.children.size() == 0)
+        if ((*tree.find(*it)).second.children.empty())
         {
           if (free_bonds.count(*it))
           {
