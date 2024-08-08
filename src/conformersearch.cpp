@@ -1064,7 +1064,7 @@ namespace OpenBabel {
                     dist = key_distance (m_rotorKeys[i], m_rotorKeys[j]);
                     if ((double)dist < sigma_share)
                       {
-                        sh_ij = 1.0 - pow (((double) dist) / ((double ) sigma_share), alpha_share);
+                        sh_ij = 1.0 - pow (((double) dist) / ( sigma_share), alpha_share);
                         sh_count += sh_ij;
                       }
                   }
