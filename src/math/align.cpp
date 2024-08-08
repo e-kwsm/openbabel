@@ -73,7 +73,9 @@ namespace OpenBabel
     vector<vector3>::const_iterator it;
     vector<vector3>::size_type colm;
     for (colm=0,it=pcoords->begin();colm<N;++colm,++it)
+    {
       coords.col(colm) = Eigen::Vector3d( it->AsArray() );
+    }
   }
 
   Eigen::Vector3d OBAlign::MoveToOrigin(Eigen::MatrixXd &coords) {
@@ -86,7 +88,9 @@ namespace OpenBabel
 
     // Subtract the centroids
     for (vector<vector3>::size_type i=0; i<N; ++i)
+    {
       coords.col(i) -= centroid;
+    }
     return centroid;
   }
 
@@ -143,7 +147,9 @@ namespace OpenBabel
     for (unsigned int i=1; i<=targetmol.NumAtoms(); ++i) {
       atom = targetmol.GetAtom(i);
       if (_includeH || atom->GetAtomicNum() != OBElements::Hydrogen)
+      {
         _targetmol_coords.push_back(atom->GetVector());
+      }
     }
     SetTarget(_targetmol_coords);
   }
@@ -177,7 +183,9 @@ namespace OpenBabel
         guess -= eval_horn_NR_corrxn(coeff, guess);
 
         if (fabs(guess - oldg) < fabs(delta*guess))
+        {
             return(guess);
+        }
     }
 
     return initialg + 1.0; // Failed to converge!
@@ -261,7 +269,9 @@ namespace OpenBabel
     vector<double> coeffs = CalcQuarticCoeffs(M);
     double lambdamax = QCProot(coeffs, 0.5 * innerprod, 1e-6);
     if (lambdamax > (0.5 * innerprod))
+    {
       _fail = true;
+    }
     else {
       double sqrdev = innerprod - (2.0 * lambdamax);
       _rmsd = sqrt(sqrdev / mtarget.cols());
@@ -313,9 +323,13 @@ namespace OpenBabel
 
     if (!_symmetry || _aut.size() == 1) {
       if (_method == OBAlign::Kabsch)
+      {
         SimpleAlign(_mtarget);
+      }
       else
+      {
         TheobaldAlign(_mtarget);
+      }
     }
     else {  // Iterate over the automorphisms
 
@@ -333,17 +347,23 @@ namespace OpenBabel
         for (unsigned int j=1; j<=_prefmol->NumAtoms(); ++j) {
           if (_frag_atoms.BitIsSet(j)) {
             for (std::size_t l = 0; l < _aut[k].size(); ++l)
+            {
               if (_aut[k][l].first == j - 1) {
                 mtarget.col(i) = _mtarget.col(_newidx[_aut[k][l].second]);
                 break;
               }
+            }
             i++;
           }
         }
         if (_method == OBAlign::Kabsch)
+        {
           SimpleAlign(mtarget);
+        }
         else
+        {
           TheobaldAlign(mtarget);
+        }
         if (_rmsd < min_rmsd) {
           min_rmsd = _rmsd;
           result = _result;
@@ -371,8 +391,12 @@ namespace OpenBabel
     // Convert Eigen::Matrix to matrix3x3
     double rot[3][3];
     for (int row=0; row<3; ++row)
+    {
        for (int col=0; col<3; ++col)
+       {
          rot[col][row] = _rotMatrix(row, col); // Return in form suitable for use in expressions like "result *= rotMatrix";
+       }
+    }
     matrix3x3 rotmat = matrix3x3(rot);
 
     return rotmat;
@@ -397,13 +421,17 @@ namespace OpenBabel
     else { // Need to deal with the case where hydrogens were excluded
       vector<vector3> target_coords;
       for (unsigned int i=1; i<=_ptargetmol->NumAtoms(); ++i)
+      {
         target_coords.push_back(_ptargetmol->GetAtom(i)->GetVector());
+      }
       Eigen::MatrixXd mtarget;
       VectorsToMatrix(&target_coords, mtarget);
 
       // Subtract the centroid of the non-H atoms
       for (unsigned int i=0; i<mtarget.cols(); ++i)
+      {
         mtarget.col(i) -= _target_centr;
+      }
 
       // Rotate
       Eigen::MatrixXd result = mtarget.transpose() * _rotMatrix;
