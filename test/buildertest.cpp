@@ -50,7 +50,7 @@ bool doBuildMoleculeTest(OBMol &mol)
 
   OBForceField* pff = OBForceField::FindType("mmff94");
   OB_REQUIRE(pff != nullptr);
-  cout << mol.GetTitle() << endl;
+  cout << mol.GetTitle() << '\n';
   OB_REQUIRE(pff->Setup(mol));
   // Check for explosions -- PR#3016479
   pff->SteepestDescent(100);
@@ -61,7 +61,7 @@ bool doBuildMoleculeTest(OBMol &mol)
 
 bool doMultiMoleculeFile(const std::string &filename)
 {
-  cout << " Starting " << filename << endl;
+  cout << " Starting " << filename << '\n';
 
   std::string file = OBTestUtil::GetFilename(filename);
   std::ifstream ifs;
@@ -84,9 +84,9 @@ bool doMultiMoleculeFile(const std::string &filename)
   return result;
 }
 
-bool doSMILESBuilderTest(string smiles)
+bool doSMILESBuilderTest(const string& smiles)
 {
-  cout << " SMILES " << smiles << endl;
+  cout << " SMILES " << smiles << '\n';
 
   testCount++;
 
