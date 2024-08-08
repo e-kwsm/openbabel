@@ -280,7 +280,7 @@ namespace OpenBabel
     if(!pReact->GetTitle().empty())
       ofs << '\t' << pReact->GetTitle();
 
-    ofs << endl;
+    ofs << '\n';
 
     return true;
   }

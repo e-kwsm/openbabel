@@ -714,13 +714,13 @@ namespace Smiley {
      */
     void addAtom(int element, bool aromatic, int isotope, int hCount, int charge, int atomClass)
     {
-      std::cout << "addAtom:" << std::endl
-        << "    element: " << element << std::endl
-        << "    aromatic: " << aromatic << std::endl
-        << "    isotope: " << isotope << std::endl
-        << "    hCount: " << hCount << std::endl
-        << "    charge: " << charge << std::endl
-        << "    atomClass: " << atomClass << std::endl;
+      std::cout << "addAtom:" << '\n'
+        << "    element: " << element << '\n'
+        << "    aromatic: " << aromatic << '\n'
+        << "    isotope: " << isotope << '\n'
+        << "    hCount: " << hCount << '\n'
+        << "    charge: " << charge << '\n'
+        << "    atomClass: " << atomClass << '\n';
     }
 
     /**
@@ -730,12 +730,12 @@ namespace Smiley {
      */
     void addBond(int source, int target, int order, bool isUp, bool isDown)
     {
-      std::cout << "addBond:" << std::endl
-        << "    source: " << source << std::endl
-        << "    target: " << target << std::endl
-        << "    order: " << order << std::endl
-        << "    siUp: " << isUp << std::endl
-        << "    isDown: " << isDown << std::endl;
+      std::cout << "addBond:" << '\n'
+        << "    source: " << source << '\n'
+        << "    target: " << target << '\n'
+        << "    order: " << order << '\n'
+        << "    siUp: " << isUp << '\n'
+        << "    isDown: " << isDown << '\n';
     }
 
     /**
@@ -744,13 +744,13 @@ namespace Smiley {
      */
     void setChiral(int index, Chirality chirality, const std::vector<int> &nbrs)
     {
-      std::cout << "setChiral:" << std::endl
-                << "    index: " << index << std::endl
-                << "    chirality: " << chirality << std::endl
+      std::cout << "setChiral:" << '\n'
+                << "    index: " << index << '\n'
+                << "    chirality: " << chirality << '\n'
                 << "    nbrs: ";
       for (std::size_t i = 0; i < nbrs.size(); ++i)
         std::cout << nbrs[i] << " ";
-      std::cout << std::endl;
+      std::cout << '\n';
     }
 
     void operation(int type)
@@ -769,7 +769,7 @@ namespace Smiley {
           str += ",";
           break;
       }
-      std::cout << "operation: " << str[str.size() - 1] << std::endl;
+      std::cout << "operation: " << str[str.size() - 1] << '\n';
     }
 
     void addOrganicSubsetAtom(int element, bool aromatic)
@@ -781,7 +781,7 @@ namespace Smiley {
         str += "<a" + number2string(element) + ">";
       else
         str += "<A" + number2string(element) + ">";
-      std::cout << "addOrganicSubsetAtom: " << str.substr(pos) << std::endl;
+      std::cout << "addOrganicSubsetAtom: " << str.substr(pos) << '\n';
     }
 
     std::string number2string(int value)
@@ -863,7 +863,7 @@ namespace Smiley {
         default:
           return;
       }
-      std::cout << "atomPrimitive: " << str.substr(pos) << std::endl;
+      std::cout << "atomPrimitive: " << str.substr(pos) << '\n';
     }
 
     void bondPrimitive(int type)
@@ -899,26 +899,26 @@ namespace Smiley {
         default:
           return;
       }
-      std::cout << "bondPrimitive: " << str[str.size() - 1] << std::endl;
+      std::cout << "bondPrimitive: " << str[str.size() - 1] << '\n';
     }
 
     void setPrevious(int index)
     {
       str += number2string(index);
-      std::cout << "setPrevious: " << index << std::endl;
+      std::cout << "setPrevious: " << index << '\n';
     }
 
     void startRingBond(int number)
     {
       str += number2string(number);
-      std::cout << "startRingBond: " << number << std::endl;
+      std::cout << "startRingBond: " << number << '\n';
     }
 
     void startRingBond(int number, int index)
     {
       str += number2string(number);
-      std::cout << "startRingBond: " << number << std::endl
-                << "    index: " << index << std::endl;
+      std::cout << "startRingBond: " << number << '\n'
+                << "    index: " << index << '\n';
     }
 
     std::string str;
@@ -1083,7 +1083,7 @@ namespace Smiley {
           std::cout << "chiralNbrs for " << i << ": ";
           for (std::size_t j = 0; j < m_chiralInfo[i].nbrs.size(); ++j)
             std::cout << m_chiralInfo[i].nbrs[j] << " ";
-          std::cout << std::endl;
+          std::cout << '\n';
         }
       }
 
@@ -1663,7 +1663,7 @@ namespace Smiley {
       void parseHydrogenCount()
       {
         if (DEBUG)
-          std::cout << "parseHydrogenCount(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseHydrogenCount(" << m_str.substr(m_pos) << ")" << '\n';
 
         // [C] = [CH0]
         m_hCount = 0;
@@ -1688,7 +1688,7 @@ namespace Smiley {
       void parseCharge()
       {
         if (DEBUG)
-          std::cout << "parseCharge(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseCharge(" << m_str.substr(m_pos) << ")" << '\n';
 
         if (m_str[m_pos] == '-') {
           if (checkNextChar('-')) {
@@ -1735,7 +1735,7 @@ namespace Smiley {
       void parseClass()
       {
         if (DEBUG)
-          std::cout << "parseClass(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseClass(" << m_str.substr(m_pos) << ")" << '\n';
 
         if (m_str[m_pos] != ':')
           return;
@@ -1756,7 +1756,7 @@ namespace Smiley {
           bool firstPrimitive)
       {
         if (DEBUG)
-          std::cout << "parseCharDigit(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseCharDigit(" << m_str.substr(m_pos) << ")" << '\n';
 
         if (m_str[m_pos] != chr)
           return false;
@@ -1774,7 +1774,7 @@ namespace Smiley {
           bool firstPrimitive, bool noDefault = false)
       {
         if (DEBUG)
-          std::cout << "parseCharNumber(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseCharNumber(" << m_str.substr(m_pos) << ")" << '\n';
 
         if (m_str[m_pos] != chr)
           return false;
@@ -2083,7 +2083,7 @@ namespace Smiley {
       void parseBracketAtom()
       {
         if (DEBUG)
-          std::cout << "parseBracketAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseBracketAtom(" << m_str.substr(m_pos) << ")" << '\n';
 
         std::size_t close = findMatchingBracket("[", "]", m_pos);
         ++m_pos;
@@ -2124,7 +2124,7 @@ namespace Smiley {
       bool parseOrganicSubsetAtom()
       {
         if (DEBUG)
-          std::cout << "parseOrganicSubsetAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseOrganicSubsetAtom(" << m_str.substr(m_pos) << ")" << '\n';
 
         switch (m_str[m_pos]) {
           case 'B':
@@ -2202,7 +2202,7 @@ namespace Smiley {
       bool parseAtom()
       {
         if (DEBUG)
-          std::cout << "parseAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseAtom(" << m_str.substr(m_pos) << ")" << '\n';
 
         m_element = -1;
         m_isotope = -1;
@@ -2229,7 +2229,7 @@ namespace Smiley {
       void processBondPrimitive(int type, bool &firstPrimitive, int &parsedOp)
       {
         if (DEBUG)
-          std::cout << "processBondPrimitive(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "processBondPrimitive(" << m_str.substr(m_pos) << ")" << '\n';
         m_explicitBond = true;
         ++m_pos;
         if (m_mode == SmilesMode)
@@ -2250,7 +2250,7 @@ namespace Smiley {
       void parseBond()
       {
         if (DEBUG)
-          std::cout << "parseBond(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseBond(" << m_str.substr(m_pos) << ")" << '\n';
 
         bool firstPrimitive = true;
         int parsedOp = 0;
@@ -2422,7 +2422,7 @@ namespace Smiley {
       void parseRingBond()
       {
         if (DEBUG)
-          std::cout << "parseRingBond(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseRingBond(" << m_str.substr(m_pos) << ")" << '\n';
 
         parseBond();
         if (std::isdigit(m_str[m_pos])) {
@@ -2455,7 +2455,7 @@ namespace Smiley {
       void parseChain()
       {
         if (DEBUG)
-          std::cout << "parseChain(" << m_str.substr(m_pos) << ")" << std::endl;
+          std::cout << "parseChain(" << m_str.substr(m_pos) << ")" << '\n';
 
         while (true) {
           // check for dot ::= '.'?
@@ -2515,7 +2515,7 @@ namespace Smiley {
             pos = m_pos;
             if (m_str[m_pos] == '(') {
               if (DEBUG)
-                std::cout << "    open branch: " << m_prev << " @pos " << m_pos << std::endl;
+                std::cout << "    open branch: " << m_prev << " @pos " << m_pos << '\n';
               m_branches.push_back(BranchInfo(m_prev, m_pos));
               ++m_pos;
               parseChain();

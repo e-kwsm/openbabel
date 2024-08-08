@@ -36,7 +36,7 @@ namespace OpenBabel
     std::cout << label << ": ";
     for (std::size_t i = 0; i < v.size(); ++i)
       std::cout << v[i] << " ";
-    std::cout << std::endl;
+    std::cout << '\n';
   }
 
   /**
@@ -346,8 +346,8 @@ namespace OpenBabel
     std::getline(ifs, smiles);
 
     // extract title
-    std::size_t space_pos = smiles.find(" ");
-    std::size_t tab_pos = smiles.find("\t");
+    std::size_t space_pos = smiles.find(' ');
+    std::size_t tab_pos = smiles.find('\t');
     if (space_pos != std::string::npos && tab_pos != std::string::npos)
       space_pos = std::min(space_pos, tab_pos);
     else if (tab_pos != std::string::npos)
@@ -373,13 +373,13 @@ namespace OpenBabel
         std::cerr << "Syntax";
       else
         std::cerr << "Semantics";
-      std::cerr << "Error: " << e.what() << "." << std::endl;
-      std::cerr << smiles << std::endl;
+      std::cerr << "Error: " << e.what() << "." << '\n';
+      std::cerr << smiles << '\n';
       for (std::size_t i = 0; i < e.pos(); ++i)
         std::cerr << " ";
       for (std::size_t i = 0; i < e.length(); ++i)
         std::cerr << "^";
-      std::cerr << std::endl;
+      std::cerr << '\n';
     }
 
     pmol->EndModify();
@@ -477,7 +477,7 @@ namespace OpenBabel
       unsigned long aboveSource = OBStereo::ImplicitRef;
       unsigned long belowSource = OBStereo::ImplicitRef;
       if (!AssignNbrAtoms(upDown, source, aboveSource, belowSource)) {
-        std::cerr << "Invalid cis/trans specification" << std::endl;
+        std::cerr << "Invalid cis/trans specification" << '\n';
         continue;
       }
 
@@ -487,7 +487,7 @@ namespace OpenBabel
       unsigned long aboveTarget = OBStereo::ImplicitRef;
       unsigned long belowTarget = OBStereo::ImplicitRef;
       if (!AssignNbrAtoms(upDown, target, aboveTarget, belowTarget)) {
-        std::cerr << "Invalid cis/trans specification" << std::endl;
+        std::cerr << "Invalid cis/trans specification" << '\n';
         continue;
       }
 
