@@ -58,11 +58,15 @@ namespace OpenBabel
   {
     vector<OBChemTsfm*>::iterator k;
     for (k = _vtsfm.begin();k != _vtsfm.end();++k)
+    {
       delete *k;
+    }
 
     vector<pair<OBSmartsPattern*,vector<double> > >::iterator m;
     for (m = _vschrg.begin();m != _vschrg.end();++m)
+    {
       delete m->first;
+    }
   }
 
   void OBPhModel::ParseLine(const char *buffer)
@@ -71,7 +75,9 @@ namespace OpenBabel
     OBSmartsPattern *sp;
 
     if (buffer[0] == '#')
+    {
       return;
+    }
 
     if (EQn(buffer,"TRANSFORM",7))
       {
@@ -115,7 +121,9 @@ namespace OpenBabel
         vector<double> vf;
         vector<string>::iterator i;
         for (i = vs.begin()+2;i != vs.end();++i)
+	{
           vf.push_back(atof((char*)i->c_str()));
+        }
 
         _vschrg.push_back(pair<OBSmartsPattern*,vector<double> > (sp,vf));
       }
@@ -124,11 +132,15 @@ namespace OpenBabel
   void OBPhModel::AssignSeedPartialCharge(OBMol &mol)
   {
     if (!_init)
+    {
       Init();
+    }
 
     mol.SetPartialChargesPerceived();
     if (!mol.AutomaticPartialCharge())
+    {
       return;
+    }
 
     vector<pair<OBSmartsPattern*,vector<double> > >::iterator i;
     for (i = _vschrg.begin(); i != _vschrg.end(); ++i) {
@@ -139,8 +151,12 @@ namespace OpenBabel
         vector<vector<int> >::iterator j;
 
         for (j = mlist.begin(); j != mlist.end(); ++j)
+	{
           for (k = 0; k < j->size(); ++k)
+	  {
             mol.GetAtom((*j)[k])->SetPartialCharge(i->second[k]);
+          }
+        }
       }
     }
   }
@@ -148,11 +164,17 @@ namespace OpenBabel
   void OBPhModel::CorrectForPH(OBMol &mol, double pH)
   {
     if (!_init)
+    {
       Init();
+    }
     if (mol.IsCorrectedForPH())
+    {
       return;
+    }
     if (mol.GetDimension() > 0 && !mol.AutomaticFormalCharge())
+    {
       return;
+    }
 
     bool hasChainsPerceived = mol.HasChainsPerceived();
 
@@ -221,59 +243,85 @@ namespace OpenBabel
   bool OBChemTsfm::Init(string &bgn,string &end)
   {
     if (!_bgn.Init(bgn))
+    {
       return(false);
+    }
     if (!end.empty())
+    {
       if (!_end.Init(end))
+      {
         return(false);
+      }
+    }
 
     //find atoms to be deleted
     unsigned int i,j;
     int vb;
     bool found;
     for (i = 0;i < _bgn.NumAtoms();++i)
+    {
       if ((vb = _bgn.GetVectorBinding(i)))
         {
           found = false;
           for (j = 0;j < _end.NumAtoms();++j)
+	  {
             if (vb == _end.GetVectorBinding(j))
               {
                 found = true;
                 break;
               }
+          }
 
           if (!found)
+	  {
             _vadel.push_back(i);
+          }
         }
+    }
 
     //find elements to be changed
     int ele;
     for (i = 0;i < _bgn.NumAtoms();++i)
+    {
       // Allow single-atom transformations without vector bindings
       if ((vb = _bgn.GetVectorBinding(i)) || _bgn.NumAtoms() == 1)
         {
           ele = _bgn.GetAtomicNum(i);
           for (j = 0;j < _end.NumAtoms();++j)
+	  {
             if (vb == _end.GetVectorBinding(j))
+	    {
               if (ele != _end.GetAtomicNum(j))
                 {
                   _vele.push_back(pair<int,int> (i,_end.GetAtomicNum(j)));
                   break;
                 }
+            }
+          }
         }
+    }
 
     //find charges to modify
     int chrg;
     for (i = 0;i < _bgn.NumAtoms();++i)
+    {
       // Allow single-atom transformations without vector bindings
       // PR#2802980.
       if ((vb = _bgn.GetVectorBinding(i)) || _bgn.NumAtoms() == 1)
         {
           chrg = _bgn.GetCharge(i);
           for (j = 0;j < _end.NumAtoms();++j)
+	  {
             if (vb == _end.GetVectorBinding(j))
+	    {
               if (chrg != _end.GetCharge(j))
+	      {
                 _vchrg.push_back(pair<int,int> (i,_end.GetCharge(j)));
+              }
+            }
+          }
         }
+    }
 
     //find bonds to be modified
     //find bonds to be modified
@@ -286,7 +334,9 @@ namespace OpenBabel
         bvb1 = _bgn.GetVectorBinding(bsrc);
         bvb2 = _bgn.GetVectorBinding(bdst);
         if (!bvb1 || !bvb2)
+	{
           continue;
+        }
 
         for (j = 0;j < _end.NumBonds();++j)
           {
@@ -296,7 +346,9 @@ namespace OpenBabel
             if ((bvb1 == evb1 && bvb2 == evb2) || (bvb1 == evb2 && bvb2 == evb1))
               {
                 if (bord == eord)
+		{
                   break; //nothing to modify if bond orders identical
+                }
                 _vbond.push_back(pair<pair<int,int>,int> (pair<int,int> (bsrc,bdst),eord));
                 break;
               }
@@ -305,7 +357,9 @@ namespace OpenBabel
 
     //make sure there is some kind of transform to do here
     if (_vadel.empty() && _vchrg.empty() && _vbond.empty() && _vele.empty())
+    {
       return(false);
+    }
 
     return(true);
   }
@@ -313,7 +367,9 @@ namespace OpenBabel
   bool OBChemTsfm::Apply(OBMol &mol)
   {
     if (!_bgn.Match(mol))
+    {
       return(false);
+    }
     mol.BeginModify();
     vector<vector<int> > mlist = _bgn.GetUMapList();
 
@@ -326,7 +382,9 @@ namespace OpenBabel
         vector<pair<int,int> >::iterator j;
 
         for (i = mlist.begin();i != mlist.end();++i)
+	{
           for (j = _vchrg.begin();j != _vchrg.end();++j)
+	  {
             if (j->first < (signed)i->size()) { //goof proofing
               OBAtom *atom = mol.GetAtom((*i)[j->first]);
               int old_charge = atom->GetFormalCharge();
@@ -335,6 +393,8 @@ namespace OpenBabel
                 OBAtomAssignTypicalImplicitHydrogens(atom); //update with new charge info
               }
             }
+          }
+        }
       }
 
     if (!_vbond.empty()) //modify bond orders
@@ -343,6 +403,7 @@ namespace OpenBabel
         vector<vector<int> >::iterator i;
         vector<pair<pair<int,int>,int> >::iterator j;
         for (i = mlist.begin();i != mlist.end();++i)
+	{
           for (j = _vbond.begin();j != _vbond.end();++j)
             {
               bond = mol.GetBond((*i)[j->first.first],(*i)[j->first.second]);
@@ -357,10 +418,13 @@ namespace OpenBabel
                 OBAtom* atom = k == 0 ? bond->GetBeginAtom() : bond->GetEndAtom();
                 int new_hcount = atom->GetImplicitHCount() - (j->second - old_bond_order);
                 if (new_hcount < 0)
+		{
                   new_hcount = 0;
+                }
                 atom->SetImplicitHCount(new_hcount);
               }
             }
+        }
       }
 
     if (!_vadel.empty() || !_vele.empty()) //delete atoms and change elements
@@ -372,8 +436,12 @@ namespace OpenBabel
           {
             vector<pair<int,int> >::iterator k;
             for (i = mlist.begin();i != mlist.end();++i)
+	    {
               for (k = _vele.begin();k != _vele.end();++k)
+	      {
                 mol.GetAtom((*i)[k->first])->SetAtomicNum(k->second);
+              }
+            }
           }
 
         //make sure same atom isn't deleted twice
@@ -381,16 +449,22 @@ namespace OpenBabel
         vector<OBAtom*> vdel;
         vda.resize(mol.NumAtoms()+1,false);
         for (i = mlist.begin();i != mlist.end();++i)
+	{
           for (j = _vadel.begin();j != _vadel.end();++j)
+	  {
             if (!vda[(*i)[*j]])
               {
                 vda[(*i)[*j]] = true;
                 vdel.push_back(mol.GetAtom((*i)[*j]));
               }
+          }
+        }
 
         vector<OBAtom*>::iterator k;
         for (k = vdel.begin();k != vdel.end();++k)
+	{
           mol.DeleteAtom((OBAtom*)*k);
+        }
       }
 
     mol.EndModify();
@@ -400,11 +474,15 @@ namespace OpenBabel
   bool OBChemTsfm::IsAcid()
   {
     if (_bgn.NumAtoms() > _end.NumAtoms())  // O=CO[#1:1] >> O=CO
+    {
       return true;
+    }
 
     for (unsigned int i = 0; i < _end.NumAtoms(); ++i) {
       if (_end.GetCharge(i) < 0)
+      {
         return true;
+      }
     }
 
     return false;
@@ -414,7 +492,9 @@ namespace OpenBabel
   {
     for (unsigned int i = 0; i < _end.NumAtoms(); ++i) {
       if (_end.GetCharge(i) > 0)
+      {
         return true;
+      }
     }
 
     return false;

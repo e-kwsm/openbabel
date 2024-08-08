@@ -94,7 +94,9 @@ namespace OpenBabel
             //            exit(0);
           }
         else
+        {
           patty_dir = getenv("BABEL_DATADIR");
+        }
         patty_dir += FILE_SEP_CHAR;
         patty_dir += infile;
         ifs1.open(patty_dir.c_str());
@@ -243,9 +245,13 @@ namespace OpenBabel
         break;
       case 'A' :
         if (toupper(type.c_str()[1]) == 'N') // ANI - ANION
+        {
           result = PT_ANION;
+        }
         else
+        {
           result = PT_ACCEPTOR;
+        }
         break;
       case 'P' : // POL - POLAR
         result = PT_POLAR;
@@ -284,7 +290,9 @@ namespace OpenBabel
     for(unsigned int pos=0; pos < typ.size(); ++pos)
       {
         if(typ[pos] == type)
+        {
           return (pos + 1);
+        }
       }
 
     return (0);

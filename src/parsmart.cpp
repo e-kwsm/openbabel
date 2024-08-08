@@ -332,17 +332,21 @@ namespace OpenBabel
    */
   static bool EquivalentBondExpr( BondExpr *expr1, BondExpr *expr2 )
   {
-    if (expr1 == nullptr && expr2 == nullptr) {
+    if (expr1 == nullptr && expr2 == nullptr)
+    {
       return true;
     }
-    if (expr1 == nullptr && expr2 != nullptr) {
+    if (expr1 == nullptr && expr2 != nullptr)
+    {
       return false;
     }
-    if (expr1 != nullptr && expr2 == nullptr) {
+    if (expr1 != nullptr && expr2 == nullptr)
+    {
       return false;
     }
 
-    if (expr1->type != expr2->type) {
+    if (expr1->type != expr2->type)
+    {
       return false;
     }
 
@@ -449,7 +453,8 @@ namespace OpenBabel
   {
     int index,size;
 
-    if (!pat) {
+    if (!pat)
+    {
       return -1; // should never happen
     }
 
@@ -468,7 +473,8 @@ namespace OpenBabel
         {
           pat->atom = new AtomSpec[pat->aalloc];
         }
-        if( !pat->atom ) {
+        if( !pat->atom )
+        {
           FatalAllocationError("atom pool");
         }
       }
@@ -485,7 +491,8 @@ namespace OpenBabel
   {
     int index,size;
 
-    if (!pat) {
+    if (!pat)
+    {
       return -1; // should never happen
     }
 
@@ -504,7 +511,8 @@ namespace OpenBabel
         {
           pat->bond = new BondSpec[pat->balloc];
         }
-        if( !pat->bond ) {
+        if( !pat->bond )
+        {
           FatalAllocationError("bond pool");
         }
       }
@@ -548,7 +556,8 @@ namespace OpenBabel
       {
         if( pat->aalloc )
           {
-            for( i=0; i<pat->acount; i++ ) {
+            for( i=0; i<pat->acount; i++ )
+            {
               FreeAtomExpr(pat->atom[i].expr);
             }
             if (pat->atom != nullptr) {
@@ -560,7 +569,8 @@ namespace OpenBabel
 
         if( pat->balloc )
           {
-            for( i=0; i<pat->bcount; i++ ) {
+            for( i=0; i<pat->bcount; i++ )
+            {
               FreeBondExpr(pat->bond[i].expr);
             }
             if (pat->bond != nullptr) {
@@ -659,12 +669,14 @@ namespace OpenBabel
     switch( *LexPtr++ )
       {
       case('#'):
-        if( !isdigit(*LexPtr) ) {
+        if( !isdigit(*LexPtr) )
+        {
           return nullptr;
         }
 
         index = 0;
-        while( isdigit(*LexPtr) ) {
+        while( isdigit(*LexPtr) )
+        {
           index = index*10 + ((*LexPtr++)-'0');
         }
         if( index > 255 )
@@ -675,13 +687,15 @@ namespace OpenBabel
         return( GenerateElement(index) );
 
       case('$'):
-        if( *LexPtr != '(' ) {
+        if( *LexPtr != '(' )
+        {
           return nullptr;
         }
         LexPtr++;
         pat = ParseSMARTSPattern();
 
-        if( !pat ) {
+        if( !pat )
+        {
           return nullptr;
         }
         if( *LexPtr != ')' )
@@ -699,7 +713,8 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
           }
@@ -718,7 +733,8 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
           }
@@ -739,7 +755,8 @@ namespace OpenBabel
             LexPtr++;
             return BuildAtomLeaf(AE_CHIRAL,AL_UNSPECIFIED); // unspecified
           }
-        else if (*LexPtr != '@') {
+        else if (*LexPtr != '@')
+        {
           return BuildAtomLeaf(AE_CHIRAL,AL_ANTICLOCKWISE);
         }
         else
@@ -752,7 +769,8 @@ namespace OpenBabel
         if (isdigit(*LexPtr))
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
             return BuildAtomLeaf(AE_HYB,index);
@@ -765,7 +783,8 @@ namespace OpenBabel
       case('0'): case('1'): case('2'): case('3'): case('4'):
       case('5'): case('6'): case('7'): case('8'): case('9'):
         index = LexPtr[-1]-'0';
-        while( isdigit(*LexPtr) ) {
+        while( isdigit(*LexPtr) )
+        {
           index = index*10 + ((*LexPtr++)-'0');
         }
         return BuildAtomLeaf(AE_MASS,index);
@@ -823,7 +842,8 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
             return BuildAtomLeaf(AE_DEGREE,index);
@@ -908,7 +928,8 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
             return BuildAtomLeaf(AE_HCOUNT,index);
@@ -1033,10 +1054,12 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
-            if( index == 0 ) {
+            if( index == 0 )
+            {
               return BuildAtomPred(AE_ACYCLIC);
             }
             return BuildAtomLeaf(AE_RINGS,index);
@@ -1085,10 +1108,12 @@ namespace OpenBabel
         else if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
-            if (index == 0) { // default to 1 (if no number present)
+            if (index == 0) // default to 1 (if no number present)
+            {
               index = 1;
             }
             return BuildAtomLeaf(AE_CONNECT,index);
@@ -1131,7 +1156,8 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
           }
@@ -1149,10 +1175,12 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
-            if( index == 0 ) {
+            if( index == 0 )
+            {
               return BuildAtomPred(AE_ACYCLIC);
             }
             return BuildAtomLeaf(AE_SIZE,index);
@@ -1171,7 +1199,8 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
             return BuildAtomLeaf(AE_VALENCE,index);
@@ -1182,7 +1211,8 @@ namespace OpenBabel
         if( isdigit(*LexPtr) )
           {
             index = 0;
-            while( isdigit(*LexPtr) ) {
+            while( isdigit(*LexPtr) )
+            {
               index = index*10 + ((*LexPtr++)-'0');
             }
             return BuildAtomLeaf(AE_RINGCONNECT,index);
@@ -1202,7 +1232,8 @@ namespace OpenBabel
     switch( level )
       {
       case(0): /* Low Precedence Conjunction */
-        if( !(expr1=ParseAtomExpr(1)) ) {
+        if( !(expr1=ParseAtomExpr(1)) )
+        {
           return nullptr;
         }
 
@@ -1219,7 +1250,8 @@ namespace OpenBabel
         return expr1;
 
       case(1): /* Disjunction */
-        if( !(expr1=ParseAtomExpr(2)) ) {
+        if( !(expr1=ParseAtomExpr(2)) )
+        {
           return nullptr;
         }
 
@@ -1236,14 +1268,16 @@ namespace OpenBabel
         return( expr1 );
 
       case(2): /* High Precedence Conjunction */
-        if( !(expr1=ParseAtomExpr(3)) ) {
+        if( !(expr1=ParseAtomExpr(3)) )
+        {
           return nullptr;
         }
 
         while( (*LexPtr!=']') && (*LexPtr!=';') &&
                (*LexPtr!=',') && *LexPtr )
           {
-            if( *LexPtr=='&' ) {
+            if( *LexPtr=='&' )
+            {
               LexPtr++;
             }
             prev = LexPtr;
@@ -1267,7 +1301,8 @@ namespace OpenBabel
         if( *LexPtr == '!' )
           {
             LexPtr++;
-            if( !(expr1=ParseAtomExpr(3)) ) {
+            if( !(expr1=ParseAtomExpr(3)) )
+            {
               return nullptr;
             }
             return( BuildAtomNot(expr1) );
@@ -1309,7 +1344,8 @@ namespace OpenBabel
     switch( level )
       {
       case(0): /* Low Precedence Conjunction */
-        if( !(expr1=ParseBondExpr(1)) ) {
+        if( !(expr1=ParseBondExpr(1)) )
+        {
           return nullptr;
         }
 
@@ -1326,7 +1362,8 @@ namespace OpenBabel
         return expr1;
 
       case(1): /* Disjunction */
-        if( !(expr1=ParseBondExpr(2)) ) {
+        if( !(expr1=ParseBondExpr(2)) )
+        {
           return nullptr;
         }
 
@@ -1343,14 +1380,16 @@ namespace OpenBabel
         return expr1;
 
       case(2): /* High Precedence Conjunction */
-        if( !(expr1=ParseBondExpr(3)) ) {
+        if( !(expr1=ParseBondExpr(3)) )
+        {
           return nullptr;
         }
 
         while( (*LexPtr!=']') && (*LexPtr!=';') &&
                (*LexPtr!=',') && *LexPtr )
           {
-            if( *LexPtr == '&' ) {
+            if( *LexPtr == '&' )
+            {
               LexPtr++;
             }
             prev = LexPtr;
@@ -1374,7 +1413,8 @@ namespace OpenBabel
         if( *LexPtr == '!' )
           {
             LexPtr++;
-            if( !(expr1=ParseBondExpr(3)) ) {
+            if( !(expr1=ParseBondExpr(3)) )
+            {
               return nullptr;
             }
             return BuildBondNot(expr1);
@@ -1392,7 +1432,8 @@ namespace OpenBabel
     if(isdigit(*LexPtr))
       {
         vb = 0;
-        while( isdigit(*LexPtr) ) {
+        while( isdigit(*LexPtr) )
+        {
           vb = vb*10 + ((*LexPtr++)-'0');
         }
       }
@@ -1402,7 +1443,8 @@ namespace OpenBabel
 
   Pattern *OBSmartsPattern::ParseSMARTSError( Pattern *pat, BondExpr *expr )
   {
-    if( expr ) {
+    if( expr )
+    {
       FreeBondExpr(expr);
     }
     return SMARTSError(pat);
@@ -1430,10 +1472,12 @@ namespace OpenBabel
           case(':'):  case('~'):  case('@'):
           case('/'):  case('\\'): case('!'):
             LexPtr--;
-            if( (prev==-1) || bexpr ) {
+            if( (prev==-1) || bexpr )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
-            if( !(bexpr=ParseBondExpr(0)) ) {
+            if( !(bexpr=ParseBondExpr(0)) )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
             break;
@@ -1448,10 +1492,12 @@ namespace OpenBabel
               {
                 index = pat->acount;
                 pat = SMARTSParser(pat,stat,-1,part);
-                if( !pat ) {
+                if( !pat )
+                {
                   return nullptr;
                 }
-                if( index == pat->acount ) {
+                if( index == pat->acount )
+                {
                   return ParseSMARTSError(pat,bexpr);
                 }
                 prev = index;
@@ -1459,19 +1505,22 @@ namespace OpenBabel
             else
               {
                 pat = SMARTSParser(pat,stat,prev,part);
-                if( !pat ) {
+                if( !pat )
+                {
                   return nullptr;
                 }
               }
 
-            if( *LexPtr != ')' ) {
+            if( *LexPtr != ')' )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
             LexPtr++;
             break;
 
           case(')'):  LexPtr--;
-            if( (prev==-1) || bexpr ) {
+            if( (prev==-1) || bexpr )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
             return pat;
@@ -1503,10 +1552,12 @@ namespace OpenBabel
                   if (!stat->closord[index]) {
                     bexpr = GenerateDefaultBond();
                     FreeBondExpr(stat->closord[index]);
-                  } else {
+                  } else
+                  {
                     bexpr = stat->closord[index];
                   }
-                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index])) {
+                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index]))
+                {
                   return ParseSMARTSError(pat,bexpr);
                 }
 
@@ -1524,7 +1575,8 @@ namespace OpenBabel
           case('3'):  case('4'):  case('5'):
           case('6'):  case('7'):  case('8'):
           case('9'):  LexPtr--;
-            if( prev == -1 ) {
+            if( prev == -1 )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
             index = (*LexPtr++)-'0';
@@ -1542,17 +1594,20 @@ namespace OpenBabel
                   if (!stat->closord[index]) {
                     bexpr = GenerateDefaultBond();
                     FreeBondExpr(stat->closord[index]);
-                  } else {
+                  } else
+                  {
                     bexpr = stat->closord[index];
                   }
-                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index])) {
+                } else if (stat->closord[index] && !EquivalentBondExpr(bexpr, stat->closord[index]))
+                {
                   return ParseSMARTSError(pat,bexpr);
                 }
 
                 CreateBond(pat,bexpr,prev,stat->closure[index]);
                 pat->atom[prev].nbrs.push_back(stat->closure[index]);
                 for (unsigned int nbr_idx=0; nbr_idx < pat->atom[stat->closure[index]].nbrs.size(); ++nbr_idx) {
-                  if (pat->atom[stat->closure[index]].nbrs[nbr_idx] == -index) {
+                  if (pat->atom[stat->closure[index]].nbrs[nbr_idx] == -index)
+                  {
                     pat->atom[stat->closure[index]].nbrs[nbr_idx] = prev;
                   }
                 }
@@ -1589,7 +1644,8 @@ namespace OpenBabel
             index = CreateAtom(pat,aexpr,part,vb);
             if( prev != -1 )
               {
-                if( !bexpr ) {
+                if( !bexpr )
+                {
                   bexpr = GenerateDefaultBond();
                 }
                 CreateBond(pat,bexpr,prev,index);
@@ -1607,13 +1663,15 @@ namespace OpenBabel
           default:
             LexPtr--;
             aexpr = ParseSimpleAtomPrimitive();
-            if( !aexpr ) {
+            if( !aexpr )
+            {
               return ParseSMARTSError(pat,bexpr);
             }
             index = CreateAtom(pat,aexpr,part);
             if( prev != -1 )
               {
-                if( !bexpr ) {
+                if( !bexpr )
+                {
                   bexpr = GenerateDefaultBond();
                 }
                 CreateBond(pat,bexpr,prev,index);
@@ -1625,7 +1683,8 @@ namespace OpenBabel
           }
       }
 
-    if( (prev==-1) || bexpr ) {
+    if( (prev==-1) || bexpr )
+    {
       return ParseSMARTSError(pat,bexpr);
     }
 
@@ -1688,14 +1747,16 @@ namespace OpenBabel
     ParseState stat;
     int i,flag;
 
-    for( i=0; i<100; i++ ) {
+    for( i=0; i<100; i++ )
+    {
       stat.closure[i] = -1;
     }
 
     result = SMARTSParser(result,&stat,-1,part);
 
     flag = false;
-    for( i=0; i<100; i++ ) {
+    for( i=0; i<100; i++ )
+    {
       if( stat.closure[i] != -1 )
         {
           FreeBondExpr(stat.closord[i]);
@@ -1705,7 +1766,8 @@ namespace OpenBabel
 
     if( result )
       {
-        if( flag ) {
+        if( flag )
+        {
           return(SMARTSError(result));
         }
         else
@@ -1715,7 +1777,8 @@ namespace OpenBabel
             for (i = 0;i < result->acount;++i)
               {
                 result->atom[i].chiral_flag = GetChiralFlag(result->atom[i].expr);
-                if (result->atom[i].chiral_flag) {
+                if (result->atom[i].chiral_flag)
+                {
                   result->ischiral = true;
                 }
               }
@@ -1737,23 +1800,33 @@ namespace OpenBabel
     while( *LexPtr == '(' )
       {
         if (!result)
+        {
           return nullptr; // ensure we don't get a null dereference
+        }
 
         LexPtr++;
         result = ParseSMARTSPart(result,result->parts);
         if( !result )
+        {
           return nullptr;
+        }
         result->parts++;
 
         if( *LexPtr != ')' )
+        {
           return SMARTSError(result);
+        }
         LexPtr++;
 
         if( !*LexPtr || (*LexPtr==')') )
+        {
           return result;
+        }
 
         if( *LexPtr != '.' )
+        {
           return SMARTSError(result);
+        }
 
         // Here's where we'd handle fragments
         //        cerr << " conjunction " << LexPtr[0] << endl;
@@ -1768,12 +1841,16 @@ namespace OpenBabel
     Pattern *result;
 
     if( !ptr || !*ptr )
+    {
       return nullptr;
+    }
 
     LexPtr = MainPtr = ptr;
     result = ParseSMARTSPattern();
     if( result && *LexPtr )
+    {
       return SMARTSError(result);
+    }
     return result;
   }
 
@@ -1783,13 +1860,17 @@ namespace OpenBabel
 
     src = ptr;
     while( *src && !isspace(*src) )
+    {
       src++;
+    }
 
     if( isspace(*src) )
       {
         *src++ = '\0';
         while( isspace(*src) )
+        {
           src++;
+        }
       }
 
     return ParseSMARTSString(ptr);
@@ -1806,7 +1887,9 @@ namespace OpenBabel
     strcpy(_buffer,buffer);
 
     if (_pat != nullptr)
+    {
       FreePattern(_pat);
+    }
     _pat = ParseSMARTSRecord(_buffer);
     _str = _buffer;
 
@@ -1820,7 +1903,9 @@ namespace OpenBabel
     strcpy(_buffer, s.c_str());
 
     if (_pat != nullptr)
+    {
       FreePattern(_pat);
+    }
     _pat = ParseSMARTSRecord(_buffer);
     _str = s;
 
@@ -1830,7 +1915,9 @@ namespace OpenBabel
   OBSmartsPattern::~OBSmartsPattern()
   {
     if (_pat)
+    {
       FreePattern(_pat);
+    }
     delete [] _buffer;
   }
 
@@ -1838,7 +1925,9 @@ namespace OpenBabel
   {
 	OBSmartsMatcher matcher;
 	if (_pat == nullptr)
+        {
       return false;
+        }
     if(_pat->hasExplicitH) //The SMARTS pattern contains [H]
       {
         //Do matching on a copy of mol with explicit hydrogens
@@ -1862,17 +1951,23 @@ namespace OpenBabel
 	OBSmartsMatcher matcher;
 	mlist.clear();
 	if (_pat == nullptr)
+        {
       return false;
+        }
     if(_pat->hasExplicitH) //The SMARTS pattern contains [H]
       {
         //Do matching on a copy of mol with explicit hydrogens
         OBMol tmol = mol;
         tmol.AddHydrogens(false,false);
         if(!matcher.match(tmol,_pat,mlist,mtype == Single))
+        {
         	return false;
+        }
       }
     else if(!matcher.match(mol,_pat,mlist,mtype == Single))
+    {
     	return false;
+    }
 
     if((mtype == AllUnique) && mlist.size() > 1)
     {
@@ -1890,8 +1985,12 @@ namespace OpenBabel
             bv.Clear();
             bv.FromVecInt(*i);
             for (j = vbv.begin();j != vbv.end() && ok;++j)
+            {
               if ((*j) == bv)
+              {
                 ok = false;
+              }
+            }
 
             if (ok)
               {
@@ -1919,19 +2018,29 @@ namespace OpenBabel
     matcher.match(mol,_pat,mlist);
     _mlist.clear();
     if (mlist.empty())
+    {
       return(false);
+    }
 
     for (i = mlist.begin();i != mlist.end();++i)
       {
         ok = true;
         for (j = pr.begin();j != pr.end() && ok;++j)
+        {
           if ((*i)[j->first] != j->second)
+          {
             ok = false;
+          }
+        }
 
         if (ok)
+        {
           _mlist.push_back(*i);
+        }
         if (single && !_mlist.empty())
+        {
           return(true);
+        }
       }
 
     return((_mlist.empty()) ? false:true);
@@ -1949,23 +2058,31 @@ namespace OpenBabel
 
     _mlist.clear();
     if (mlist.empty())
+    {
       return(false);
+    }
 
     for (i = mlist.begin();i != mlist.end();++i)
       {
         ok = true;
         for (j = i->begin();j != i->end();++j)
+        {
           if (!vres[*j])
             {
               ok = false;
               break;
             }
+        }
         if (!ok)
+        {
           continue;
+        }
 
         _mlist.push_back(*i);
         if (single && !_mlist.empty())
+        {
           return(true);
+        }
       }
 
     return((_mlist.empty()) ? false:true);
@@ -1978,14 +2095,22 @@ namespace OpenBabel
 
     ttab.resize(pat->acount);
     for (i = 0;i < pat->acount;++i)
+    {
       ttab[i].resize(mol.NumAtoms()+1);
+    }
 
     OBAtom *atom;
     std::vector<OBAtom*>::iterator j;
     for (i = 0;i < pat->acount;++i)
+    {
       for (atom = mol.BeginAtom(j);atom;atom = mol.NextAtom(j))
+      {
         if (EvalAtomExpr(pat->atom[0].expr,atom))
+        {
           ttab[i][atom->GetIdx()] = true;
+        }
+      }
+    }
   }
 
   void OBSmartsMatcher::FastSingleMatch(OBMol &mol, const Pattern *pat,
@@ -2008,11 +2133,14 @@ namespace OpenBabel
 
     int bcount;
     for (atom = mol.BeginAtom(i);atom;atom=mol.NextAtom(i))
+    {
       if (EvalAtomExpr(pat->atom[0].expr,atom))
         {
           map[0] = atom->GetIdx();
           if (pat->bcount)
+          {
             vif[0] = false;
+          }
           bv.Clear();
           bv.SetBitOn(atom->GetIdx());
 
@@ -2037,13 +2165,19 @@ namespace OpenBabel
                         {
                           vif[bcount++] = true;
                           if (bcount < pat->bcount)
+                          {
                             vif[bcount] = false;
+                          }
                         }
                       else
+                      {
                         bcount--;
+                      }
                     }
                   else //bond must have already been visited - backtrack
+                  {
                     bcount--;
+                  }
                 }
               else //need to map atom and check bond
                 {
@@ -2060,7 +2194,9 @@ namespace OpenBabel
                     }
 
                   for (;nbr;nbr=a1->NextNbrAtom(vi[bcount]))
+                  {
                     if (!bv[nbr->GetIdx()])
+                    {
                       if (EvalAtomExpr(pat->atom[pat->bond[bcount].dst].expr,nbr)
                           && EvalBondExpr(pat->bond[bcount].expr,(OBBond *)*(vi[bcount])))
                         {
@@ -2069,15 +2205,22 @@ namespace OpenBabel
                           vif[bcount] = true;
                           bcount++;
                           if (bcount < pat->bcount)
+                          {
                             vif[bcount] = false;
+                          }
                           break;
                         }
+                    }
+                  }
 
                   if (!nbr)//no match - time to backtrack
+                  {
                     bcount--;
+                  }
                 }
             }
         }
+    }
   }
 
 
@@ -2086,7 +2229,9 @@ namespace OpenBabel
   {
     mlist.clear();
     if (!pat || pat->acount == 0)
+    {
       return(false);//shouldn't ever happen
+    }
 
     if (single && !pat->ischiral) {
       // perform a fast single match (only works for non-chiral SMARTS)
@@ -2111,10 +2256,14 @@ namespace OpenBabel
         for (int j = 0; j < pat->acount; ++j) {
           // skip non-chiral pattern atoms
           if (!pat->atom[j].chiral_flag)
+          {
             continue;
+          }
           // ignore @? in smarts, parse like any other smarts
           if (pat->atom[j].chiral_flag == AL_UNSPECIFIED)
+          {
             continue;
+          }
 
           // use the mapping the get the chiral atom in the molecule being queried
           OBAtom *center = mol.GetAtom((*m)[j]);
@@ -2143,14 +2292,22 @@ namespace OpenBabel
           OBTetrahedralStereo::Config smartsConfig;
           smartsConfig.center = center->GetId();
           if (nbrs.at(0) == SmartsImplicitRef)
+          {
             smartsConfig.from = OBStereo::ImplicitRef;
+          }
           else
+          {
             smartsConfig.from = mol.GetAtom( (*m)[nbrs.at(0)] )->GetId();
+          }
           OBStereo::Ref firstref;
           if (nbrs.at(1) == SmartsImplicitRef)
+          {
             firstref = OBStereo::ImplicitRef;
+          }
           else
+          {
             firstref = mol.GetAtom( (*m)[nbrs.at(1)] )->GetId();
+          }
           OBAtom *ra2 = mol.GetAtom( (*m)[nbrs.at(2)] );
           OBAtom *ra3 = mol.GetAtom( (*m)[nbrs.at(3)] );
           smartsConfig.refs = OBStereo::MakeRefs(firstref, ra2->GetId(), ra3->GetId());
@@ -2173,17 +2330,23 @@ namespace OpenBabel
 
           // and save the match if the two configurations are the same
           if (ts->GetConfig() != smartsConfig)
+          {
             allStereoCentersMatch = false;
+          }
 
           // don't waste time checking more stereocenters using this mapping if one didn't match
           if (!allStereoCentersMatch)
+          {
             break;
+          }
         }
 
         // if all the atoms in the molecule match the stereochemistry specified
         // in the smarts pattern, save this mapping as a match
         if (allStereoCentersMatch)
+        {
           tmpmlist.push_back(*m);
+        }
       }
 
       mlist = tmpmlist;
@@ -2195,6 +2358,7 @@ namespace OpenBabel
   bool OBSmartsMatcher::EvalAtomExpr(AtomExpr *expr,OBAtom *atom)
   {
     for (;;)
+    {
       switch (expr->type)
         {
         case AE_TRUE:
@@ -2250,12 +2414,16 @@ namespace OpenBabel
         case AE_ANDHI: /* Same as AE_ANDLO */
         case AE_ANDLO:
           if (!EvalAtomExpr(expr->bin.lft,atom))
+          {
             return false;
+          }
           expr = expr->bin.rgt;
           break;
         case AE_OR:
           if (EvalAtomExpr(expr->bin.lft,atom))
+          {
             return true;
+          }
           expr = expr->bin.rgt;
           break;
 
@@ -2264,8 +2432,12 @@ namespace OpenBabel
             //see if pattern has been matched
             std::vector<std::pair<const Pattern*,std::vector<bool> > >::iterator i;
             for (i = RSCACHE.begin();i != RSCACHE.end();++i)
+            {
               if (i->first == (Pattern*)expr->recur.recur)
+              {
                 return(i->second[atom->GetIdx()]);
+              }
+            }
 
             //perceive and match pattern
             std::vector<std::vector<int> >::iterator j;
@@ -2273,8 +2445,12 @@ namespace OpenBabel
             std::vector<std::vector<int> > mlist;
             if (match( *((OBMol *) atom->GetParent()),
                        (Pattern*)expr->recur.recur,mlist))
+            {
               for (j = mlist.begin();j != mlist.end();++j)
+              {
                 vb[(*j)[0]] = true;
+              }
+            }
 
             RSCACHE.push_back(std::pair<const Pattern*,
                               std::vector<bool> > ((const Pattern*)expr->recur.recur,
@@ -2286,23 +2462,29 @@ namespace OpenBabel
         default:
           return false;
         }
+    }
   }
 
   bool OBSmartsMatcher::EvalBondExpr(BondExpr *expr,OBBond *bond)
   {
     for (;;)
+    {
       switch( expr->type )
         {
         case BE_ANDHI:
         case BE_ANDLO:
           if (!EvalBondExpr(expr->bin.lft,bond))
+          {
             return false;
+          }
           expr = expr->bin.rgt;
           break;
 
         case BE_OR:
           if (EvalBondExpr(expr->bin.lft,bond))
+          {
             return true;
+          }
           expr = expr->bin.rgt;
           break;
 
@@ -2336,12 +2518,15 @@ namespace OpenBabel
         default:
           return false;
         }
+    }
   }
 
   std::vector<std::vector<int> > &OBSmartsPattern::GetUMapList()
   {
     if (_mlist.empty() || _mlist.size() == 1)
+    {
       return(_mlist);
+    }
 
     bool ok;
     OBBitVec bv;
@@ -2356,8 +2541,12 @@ namespace OpenBabel
         bv.Clear();
         bv.FromVecInt(*i);
         for (j = vbv.begin();j != vbv.end() && ok;++j)
+        {
           if ((*j) == bv)
+          {
             ok = false;
+          }
+        }
 
         if (ok)
           {
@@ -2378,7 +2567,9 @@ namespace OpenBabel
     for ( i = _mlist.begin() ; i != _mlist.end() ; ++i )
       {
         for (j = (*i).begin();j != (*i).end();++j)
+        {
           ofs << *j << ' ' << ends;
+        }
         ofs << endl;
       }
   }
@@ -2401,7 +2592,9 @@ namespace OpenBabel
         memset((char*)_uatoms,'\0',sizeof(bool)*(mol.NumAtoms()+1));
       }
     else
+    {
       _uatoms = nullptr;
+    }
   }
 
   OBSSMatch::~OBSSMatch()
@@ -2417,6 +2610,7 @@ namespace OpenBabel
         OBAtom *atom;
         std::vector<OBAtom*>::iterator i;
         for (atom = _mol->BeginAtom(i);atom;atom = _mol->NextAtom(i))
+        {
           if (matcher.EvalAtomExpr(_pat->atom[0].expr,atom))
             {
               _map[0] = atom->GetIdx();
@@ -2425,6 +2619,7 @@ namespace OpenBabel
               _map[0] = 0;
               _uatoms[atom->GetIdx()] = false;
             }
+        }
         return;
       }
 
@@ -2440,7 +2635,9 @@ namespace OpenBabel
         int dst = _pat->bond[bidx].dst;
 
         if (_map[src] <= 0 || _map[src] > (signed)_mol->NumAtoms())
+        {
           return;
+        }
 
         AtomExpr *aexpr = _pat->atom[dst].expr;
         BondExpr *bexpr = _pat->bond[bidx].expr;
@@ -2449,6 +2646,7 @@ namespace OpenBabel
 
         atom = _mol->GetAtom(_map[src]);
         for (nbr = atom->BeginNbrAtom(i);nbr;nbr = atom->NextNbrAtom(i))
+        {
           if (!_uatoms[nbr->GetIdx()] && matcher.EvalAtomExpr(aexpr,nbr) &&
         		  matcher.EvalBondExpr(bexpr,((OBBond*) *i)))
             {
@@ -2458,13 +2656,16 @@ namespace OpenBabel
               _uatoms[nbr->GetIdx()] = false;
               _map[dst] = 0;
             }
+        }
       }
     else //just check bond here
       {
         OBBond *bond = _mol->GetBond(_map[_pat->bond[bidx].src],
                                      _map[_pat->bond[bidx].dst]);
         if (bond && matcher.EvalBondExpr(_pat->bond[bidx].expr,bond))
+        {
           Match(mlist,bidx+1);
+        }
       }
   }
 
@@ -2490,17 +2691,17 @@ namespace OpenBabel
       case BE_ANDLO:
         tmp1 = GetExprOrder(expr->bin.lft);
         tmp2 = GetExprOrder(expr->bin.rgt);
-        if (tmp1 == 0) return tmp2;
-        if (tmp2 == 0) return tmp1;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp1 == 0) { return tmp2; }
+        if (tmp2 == 0) { return tmp1; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
 
       case BE_OR:
         tmp1 = GetExprOrder(expr->bin.lft);
-        if (tmp1 == 0) return 0;
+        if (tmp1 == 0) { return 0; }
         tmp2 = GetExprOrder(expr->bin.rgt);
-        if (tmp2 == 0) return 0;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp2 == 0) { return 0; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
       }
 
@@ -2520,17 +2721,17 @@ namespace OpenBabel
       case AE_ANDLO:
         tmp1 = GetExprCharge(expr->bin.lft);
         tmp2 = GetExprCharge(expr->bin.rgt);
-        if (tmp1 == 0) return tmp2;
-        if (tmp2 == 0) return tmp1;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp1 == 0) { return tmp2; }
+        if (tmp2 == 0) { return tmp1; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
 
       case AE_OR:
         tmp1 = GetExprCharge(expr->bin.lft);
-        if (tmp1 == 0) return 0;
+        if (tmp1 == 0) { return 0; }
         tmp2 = GetExprCharge(expr->bin.rgt);
-        if (tmp2 == 0) return 0;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp2 == 0) { return 0; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
       }
 
@@ -2557,17 +2758,17 @@ namespace OpenBabel
       case AE_ANDLO:
         tmp1 = GetExprAtomicNum(expr->bin.lft);
         tmp2 = GetExprAtomicNum(expr->bin.rgt);
-        if (tmp1 == 0) return tmp2;
-        if (tmp2 == 0) return tmp1;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp1 == 0) { return tmp2; }
+        if (tmp2 == 0) { return tmp1; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
 
       case AE_OR:
         tmp1 = GetExprAtomicNum(expr->bin.lft);
-        if (tmp1 == 0) return 0;
+        if (tmp1 == 0) { return 0; }
         tmp2 = GetExprAtomicNum(expr->bin.rgt);
-        if (tmp2 == 0) return 0;
-        if (tmp1 == tmp2) return tmp1;
+        if (tmp2 == 0) { return 0; }
+        if (tmp1 == tmp2) { return tmp1; }
         break;
       }
 
@@ -2597,19 +2798,27 @@ namespace OpenBabel
       {
         pos++;
         for (j = pos;j < s.size();++j)
+        {
           if (!isalpha(s[j]) && !isdigit(s[j]) && s[j] != '_')
+          {
             break;
+          }
+        }
         if (pos == j)
+        {
           continue;
+        }
 
         token = s.substr(pos,j-pos);
         for (i = vlex.begin();i != vlex.end();++i)
+        {
           if (token == i->first)
             {
               repstr = "(" + i->second + ")";
               s.replace(pos,j-pos,repstr);
               j = 0;
             }
+        }
         pos = j;
       }
   }
