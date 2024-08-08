@@ -232,7 +232,7 @@ namespace OpenBabel
       }
     else
       {
-        if(ret==false)
+        if(!ret)
           {
             obErrorLog.ThrowError(__FUNCTION__, "Error executing an option", obError);
             delete this; //added 9March2006

@@ -1857,8 +1857,7 @@ bool tree<T, tree_node_allocator>::is_in_subtree(const iterator_base& it, const 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::is_valid(const iterator_base& it) const
 	{
-	if(it.node==0 || it.node==feet || it.node==head) return false;
-	else return true;
+	return !static_cast<bool>(it.node==0 || it.node==feet || it.node==head);
 	}
 
 template <class T, class tree_node_allocator>
@@ -1946,57 +1945,49 @@ T* tree<T, tree_node_allocator>::iterator_base::operator->() const
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::post_order_iterator::operator!=(const post_order_iterator& other) const
 	{
-	if(other.node!=this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node!=this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::post_order_iterator::operator==(const post_order_iterator& other) const
 	{
-	if(other.node==this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node==this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::pre_order_iterator::operator!=(const pre_order_iterator& other) const
 	{
-	if(other.node!=this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node!=this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::pre_order_iterator::operator==(const pre_order_iterator& other) const
 	{
-	if(other.node==this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node==this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::sibling_iterator::operator!=(const sibling_iterator& other) const
 	{
-	if(other.node!=this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node!=this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::sibling_iterator::operator==(const sibling_iterator& other) const
 	{
-	if(other.node==this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node==this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::leaf_iterator::operator!=(const leaf_iterator& other) const
    {
-   if(other.node!=this->node) return true;
-   else return false;
+   return static_cast<bool>(other.node!=this->node);
    }
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::leaf_iterator::operator==(const leaf_iterator& other) const
    {
-   if(other.node==this->node && other.top_node==this->top_node) return true;
-   else return false;
+   return static_cast<bool>(other.node==this->node && other.top_node==this->top_node);
    }
 
 template <class T, class tree_node_allocator>
@@ -2296,15 +2287,13 @@ tree<T, tree_node_allocator>::breadth_first_queued_iterator::breadth_first_queue
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::breadth_first_queued_iterator::operator!=(const breadth_first_queued_iterator& other) const
 	{
-	if(other.node!=this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node!=this->node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::breadth_first_queued_iterator::operator==(const breadth_first_queued_iterator& other) const
 	{
-	if(other.node==this->node) return true;
-	else return false;
+	return static_cast<bool>(other.node==this->node);
 	}
 
 template <class T, class tree_node_allocator>
@@ -2381,15 +2370,13 @@ tree<T, tree_node_allocator>::fixed_depth_iterator::fixed_depth_iterator(const f
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::fixed_depth_iterator::operator==(const fixed_depth_iterator& other) const
 	{
-	if(other.node==this->node && other.top_node==top_node) return true;
-	else return false;
+	return static_cast<bool>(other.node==this->node && other.top_node==top_node);
 	}
 
 template <class T, class tree_node_allocator>
 bool tree<T, tree_node_allocator>::fixed_depth_iterator::operator!=(const fixed_depth_iterator& other) const
 	{
-	if(other.node!=this->node || other.top_node!=top_node) return true;
-	else return false;
+	return static_cast<bool>(other.node!=this->node || other.top_node!=top_node);
 	}
 
 template <class T, class tree_node_allocator>

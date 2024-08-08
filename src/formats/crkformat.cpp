@@ -253,9 +253,9 @@ namespace OpenBabel
 
     while (ifs.getline(buffer,BUFF_SIZE))
       {
-        if (strstr(buffer,classTag) && foundClass == false)
+        if (strstr(buffer,classTag) && !foundClass)
           foundClass=true;
-        else if (strstr(buffer,classTag) && foundClass == true)
+        else if (strstr(buffer,classTag) && foundClass)
           break;
         else if (strstr(buffer,"<Atom"))
           {

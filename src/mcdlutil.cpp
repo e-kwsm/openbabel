@@ -1170,7 +1170,7 @@ namespace OpenBabel {
                           || ((abs(s3)<0.05) && (abs(s2+sQ3)<0.05));
           }
           i++;
-        } while (! (test || (i == 3)));
+        } while (!test && i != 3);
         if (test) mK[i-1]=false;  //In the original Java code without -1
       }
       for (i=0; i<getAtom(aN)->nb; i++) if (mK[i]) {
@@ -1751,7 +1751,7 @@ namespace OpenBabel {
 
     k=0;
     test=false;
-    while (! ((nP==0) || test)) {                        //recursion
+    while (nP != 0 && !test) {                        //recursion
       ringSize++;
       singleVawe(bk,oD,pB,pA,nP,curBond,curAtom);      //new neighbour sphere generation}
       test=false;
@@ -4075,7 +4075,7 @@ namespace OpenBabel {
         do { //Search, if bond I from BOND1 is presented in the fragment
           j1++;
           if (eMolecule.getBond(i)->at[0] == list[j1]) test=true;
-        }  while (! (test || (j1 == (naDEF-1))));
+        }  while (!test && j1 != naDEF-1);
         if (test) {  //Bond is presented-addition
           j2=-1;
           do     //Search for second atom, which makes I-th bond in fragment
@@ -4338,7 +4338,7 @@ namespace OpenBabel {
         this->unitVector(thisAN,xu1,yu1);
         if (xu1 > -0.999) r=yu1/(1+xu1); else if (yu1 > 0) r=1E9; else r=-1E9;
         cAngle=2*180*atan(r)/PI;
-        if (true) {
+        {
           cAngle=(int)(cAngle/30);
           cAngle=30*cAngle;
           r=cAngle*PI/180;
@@ -4362,7 +4362,7 @@ namespace OpenBabel {
         } else this->unitVector(thisAN,xu1,yu1);
         if (xu1 > -0.999) r=yu1/(1+xu1); else if (yu1 > 0) r=1E9; else r=-1E9;
         cAngle=2*180*atan(r)/PI;
-        if (true) {
+        {
           cAngle=(int)(cAngle/30);
           cAngle=30*cAngle;
           r=cAngle*PI/180;
@@ -7219,7 +7219,7 @@ namespace OpenBabel {
                 n1=n;
                 n2=n;
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-                if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+                if (value.at(n2) < '0' || value.at(n2) > '9') n2--;
                 s=value.substr(n1,n2+1);
                 k=atoi(s.c_str());
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
@@ -7243,7 +7243,7 @@ namespace OpenBabel {
                 n1=n;
                 n2=n;
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-                if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+                if (value.at(n2) < '0' || value.at(n2) > '9') n2--;
                 s=value.substr(n1,n2+1);
                 k=atoi(s.c_str());
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
