@@ -992,27 +992,43 @@ namespace OpenBabel {
       }
       s = sqrt(s) ;
       if( s > 0 )
+      {
         for( k = 0 ; k < DIMENSION ; k++ )
+        {
           dir[k] /= s ;
-      else dir[0] = 1 ;
+        }
+      }
+      else { dir[0] = 1 ; }
       for( k = 0 ; k < DIMENSION ; k++ )
+      {
         axis->direction[k] = dir[k] ;
+      }
       for( k = 0, s = 0 ; k < DIMENSION ; k++ )
+      {
         s += SQUARE( CenterOfSomething[k] ) ;
+      }
       s = sqrt(s) ;
       if( s > 0 )
+      {
         for( k = 0 ; k < DIMENSION ; k++ )
+        {
           axis->normal[k] = CenterOfSomething[k]/s ;
+        }
+      }
       else {
         for( k = 1 ; k < DIMENSION ; k++ )
+        {
           axis->normal[k] = 0 ;
+        }
         axis->normal[0] = 1 ;
       }
       axis->distance = s ;
       for( k = 0 ; k < _mol->NumAtoms() ; k++ )
+      {
         axis->transform[k] = k ;
+      }
       if( refine_symmetry_element( axis, 0 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the infinity axis\n" ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the infinity axis\n" ) ; }
         destroy_symmetry_element( axis ) ;
         return nullptr;
       }
@@ -1265,12 +1281,12 @@ namespace OpenBabel {
       c[2] = _mol->GetAtom(ic+1)->z() - CenterOfSomething[2];
 
       if ((axis = init_axis_parameters(a, b, c)) == nullptr) {
-        if( verbose > 0 ) printf( "    no coherrent axis is defined by the points\n" ) ;
+        if( verbose > 0 ) { printf( "    no coherrent axis is defined by the points\n" ) ; }
         return nullptr;
       }
       axis->transform_atom = rotate_atom ;
       if( refine_symmetry_element( axis, 1 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the c%d axis\n", axis->order ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the c%d axis\n", axis->order ) ; }
         destroy_symmetry_element( axis ) ;
         return nullptr;
       }
@@ -1302,11 +1318,17 @@ namespace OpenBabel {
       x[2] = from->z() - axis->distance * axis->normal[2];
 
       for( i = 0, dot = 0 ; i < 3 ; i++ )
+      {
         dot += x[i] * axis->direction[i] ;
+      }
       for( i = 0 ; i < 3 ; i++ )
+      {
         a[i] = axis->direction[i] * dot ;
+      }
       for( i = 0 ; i < 3 ; i++ )
+      {
         b[i] = x[i] - a[i] ;
+      }
       c[0] = b[1]*axis->direction[2] - b[2]*axis->direction[1] ;
       c[1] = b[2]*axis->direction[0] - b[0]*axis->direction[2] ;
       c[2] = b[0]*axis->direction[1] - b[1]*axis->direction[0] ;
