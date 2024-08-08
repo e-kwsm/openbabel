@@ -80,7 +80,7 @@ namespace OpenBabel
           }
         bool IsValid() const;
 
-        const int HEXAGONAL_ORIGIN;
+        const int HEXAGONAL_ORIGIN{10};
 
       private:
         /**
@@ -88,8 +88,8 @@ namespace OpenBabel
          */
         std::string m_HM;
         std::string m_Hall;
-        unsigned int m_id;
-        unsigned int m_OriginAlternative;
+        unsigned int m_id{0};
+        unsigned int m_OriginAlternative{0};
         std::list<transform3d*> m_transforms;
     };
 
