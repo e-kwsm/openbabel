@@ -119,9 +119,7 @@ namespace OpenBabel {
   {
   }
 
-  OBTetrahedralStereo::~OBTetrahedralStereo()
-  {
-  }
+  OBTetrahedralStereo::~OBTetrahedralStereo() = default;
 
   bool OBTetrahedralStereo::IsValid() const
   {

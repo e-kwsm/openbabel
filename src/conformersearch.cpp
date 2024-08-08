@@ -53,7 +53,7 @@ namespace OpenBabel {
     m_check_hydrogens = check_hydrogens;
   }
 
-  OBConformerFilter::~OBConformerFilter() {}
+  OBConformerFilter::~OBConformerFilter() = default;
 
   bool OBStericConformerFilter::IsGood(const OBMol &mol, const RotorKey &key, double *conformer)
   {
@@ -101,7 +101,7 @@ namespace OpenBabel {
   //
   //////////////////////////////////////////////////////////
 
-  OBConformerScore::~OBConformerScore() {}
+  OBConformerScore::~OBConformerScore() = default;
 
   double OBRMSDConformerScore::Score(OBMol &mol, unsigned int index,
                                      const RotorKeys &keys, const std::vector<double*> &conformers)

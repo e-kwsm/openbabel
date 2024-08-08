@@ -846,9 +846,7 @@ namespace OpenBabel
   OBForceFieldMMFF94 theForceFieldMMFF94s("MMFF94s", false);
   //***********************************************
 
-  OBForceFieldMMFF94::~OBForceFieldMMFF94()
-  {
-  }
+  OBForceFieldMMFF94::~OBForceFieldMMFF94() = default;
 
   OBForceFieldMMFF94 &OBForceFieldMMFF94::operator=(OBForceFieldMMFF94 &src)
   {

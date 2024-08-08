@@ -493,9 +493,7 @@ namespace OpenBabel
   OBForceFieldGaff theForceFieldGaff("GAFF", true);
   //***********************************************
 
-  OBForceFieldGaff::~OBForceFieldGaff()
-  {
-  }
+  OBForceFieldGaff::~OBForceFieldGaff() = default;
 
   OBForceFieldGaff &OBForceFieldGaff::operator=(OBForceFieldGaff &src)
   {

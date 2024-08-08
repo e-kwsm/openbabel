@@ -489,9 +489,7 @@ namespace OpenBabel
   //**** OBRotor Member Functions ****
   //**********************************
 
-  OBRotor::OBRotor()
-  {
-  }
+  OBRotor::OBRotor() = default;
 
   void OBRotor::SetRings()
   {

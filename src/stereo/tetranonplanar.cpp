@@ -29,9 +29,7 @@ namespace OpenBabel {
   {
   }
 
-  OBTetraNonPlanarStereo::~OBTetraNonPlanarStereo()
-  {
-  }
+  OBTetraNonPlanarStereo::~OBTetraNonPlanarStereo() = default;
 
 }
 
