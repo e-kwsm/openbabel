@@ -43,10 +43,9 @@ private:
   std::shared_ptr<OBMol> _ts;
   std::string _title;
   std::string _comment;
-  bool _reversible;
+  bool _reversible = false;
 public:
-  OBReaction() : _reversible(false)
-  {}
+  OBReaction() {}
 
   int NumReactants() const
   { return static_cast<int> (_reactants.size()); }

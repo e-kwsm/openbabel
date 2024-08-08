@@ -256,8 +256,7 @@ namespace OpenBabel
     _mOrtho(matrix3x3()),
     _mOrient(matrix3x3()),
     _offset(vector3()),
-    _spaceGroupName(""), _spaceGroup(nullptr),
-    _lattice(Undefined)
+    _spaceGroupName("")
   {  }
 
   OBUnitCell::OBUnitCell(const OBUnitCell &src) :
