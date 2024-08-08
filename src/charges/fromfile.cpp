@@ -62,7 +62,7 @@ namespace OpenBabel
 
 		if( !fin ) {
 			stringstream msg;
-			msg << "Cannot open file " << file << endl;
+			msg << "Cannot open file " << file << '\n';
 			obErrorLog.ThrowError(__FUNCTION__, msg.str(), obError);
 			return false;
 		}
@@ -81,11 +81,11 @@ namespace OpenBabel
 
 		if( !arg ) {
 			stringstream msg;
-			msg << "Charge file argument required:" << endl
-				<< "\tbabel --partialcharge fromfile:/path/to/file"<< endl
-				<< "File format is one 'atom-name charge' pair per line, eg:"<<endl
-				<< "\tC1\t1.0" << endl
-				<< "\tO2\t-1.5" << endl;
+			msg << "Charge file argument required:" << '\n'
+				<< "\tbabel --partialcharge fromfile:/path/to/file"<< '\n'
+				<< "File format is one 'atom-name charge' pair per line, eg:"<<'\n'
+				<< "\tC1\t1.0" << '\n'
+				<< "\tO2\t-1.5" << '\n';
 			obErrorLog.ThrowError(__FUNCTION__, msg.str(), obError);
 			return false;
 		}
@@ -142,7 +142,7 @@ namespace OpenBabel
 				if( name ) {
 					msg << " (" << name <<") ";
 				}
-				msg << "not found " <<  endl;  
+				msg << "not found " <<  '\n';  
 				obErrorLog.ThrowError(__FUNCTION__, msg.str(), obError);
 				return false;
 			}
