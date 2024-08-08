@@ -576,9 +576,9 @@ namespace OpenBabel
         onorm = 0.0;
         for (j = 0; j < static_cast<int>(n); j++)
           {
-            dnorm += (double)fabs(d[j]);
+            dnorm += fabs(d[j]);
             for (i = 0; i < j; i++)
-              onorm += (double)fabs(a[n*i+j]);
+              onorm += fabs(a[n*i+j]);
           }
         // Normal end point of this algorithm.
         if((onorm/dnorm) <= 1.0e-12)
@@ -598,12 +598,12 @@ namespace OpenBabel
                     else
                       {
                         q = 0.5 * dma / b;
-                        t = 1.0/((double)fabs(q) + (double)sqrt(1.0+q*q));
+                        t = 1.0/(fabs(q) + sqrt(1.0+q*q));
                         if (q < 0.0)
                           t = -t;
                       }
 
-                    c = 1.0/(double)sqrt(t*t + 1.0);
+                    c = 1.0/sqrt(t*t + 1.0);
                     s = t * c;
                     a[n*i+j] = 0.0;
 
