@@ -188,7 +188,7 @@ namespace OpenBabel
     snprintf(buffer, BUFF_SIZE, "%5d ATOMS, %5d BONDS,     0 CHARGES",
              mol.NumAtoms(),
              mol.NumBonds());
-    ofs << buffer << endl;
+    ofs << buffer << '\n';
 
     OBAtom *atom;
     string str,str1;
@@ -205,7 +205,7 @@ namespace OpenBabel
                  atom->GetX(),
                  atom->GetY(),
                  atom->GetZ());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     OBBond *bond;
@@ -235,7 +235,7 @@ namespace OpenBabel
                  bond->GetBeginAtomIdx(),
                  bond->GetEndAtomIdx(),
                  bond_string);
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
     return(true);
   }
