@@ -271,7 +271,7 @@ namespace OpenBabel
         for(i=0;i<nCandidates;++i)
           SeekposMap.insert(pair<const double, unsigned long>(0,0));
       }
-    else if(SeekposMap.size()==0)
+    else if(SeekposMap.empty())
       return false;
 
     vector<unsigned int> targetfp;
