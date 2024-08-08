@@ -17,6 +17,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <string>
+#include <utility>
 #include <vector>
 #include <cstdlib>
 
@@ -77,8 +78,8 @@ namespace OpenBabel
 
   EEMCharges::EEMCharges(const char* ID, std::string parameters, std::string type) : OBChargeModel(ID, false)
   {
-    _parameters_file = parameters;
-    _type = type;
+    _parameters_file = std::move(parameters);
+    _type = std::move(type);
   }
 
 
@@ -158,7 +159,7 @@ namespace OpenBabel
       if(!found) {
         std::stringstream ss;
         ss << "No parameters found for: " << OBElements::GetSymbol(n) << " " << b
-           << ". EEM charges were not calculated for the molecule." << std::endl;
+           << ". EEM charges were not calculated for the molecule." << '\n';
         obErrorLog.ThrowError(__FUNCTION__, ss.str(), obError);
         return false;
       }
@@ -244,7 +245,7 @@ namespace OpenBabel
           }
         if (maxVal == 0)
           {
-            std::cerr << "EEMCharges: Warning singular matrix..." << std::endl;
+            std::cerr << "EEMCharges: Warning singular matrix..." << '\n';
           }
 
         vScales[i] = 1.0 / maxVal;
