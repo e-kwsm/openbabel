@@ -59,9 +59,7 @@ namespace OpenBabel
     // find the rotatable bonds
     FindRotors(mol, sampleRingBonds);
     if (!Size())
-    {
       return(false);
-    }
 
     // set the atoms that should be evaluated when this rotor changes
     SetEvalAtoms(mol);
@@ -70,7 +68,6 @@ namespace OpenBabel
     OBRotor *rotor;
     vector<OBRotor*>::iterator i;
     for (rotor = BeginRotor(i);rotor;rotor = NextRotor(i))
-    {
       if (!rotor->Size())
         {
           int ref[4];
@@ -80,13 +77,10 @@ namespace OpenBabel
 		  ref[0],ref[1],ref[2],ref[3]);
           obErrorLog.ThrowError(__FUNCTION__, buffer, obDebug);
         }
-    }
 
     // Reduce the number of torsions to be checked through symmetry considerations
     if (_removesym)
-    {
       RemoveSymVals(mol);
-    }
 
     return(true);
   }
@@ -118,9 +112,7 @@ namespace OpenBabel
       if (bond->IsRotor(sampleRingBonds)) {
         // check if the bond is fixed (using deprecated fixed atoms or new fixed bonds)
         if ((HasFixedAtoms() || HasFixedBonds()) && IsFixedBond(bond))
-        {
           continue;
-        }
 
         if (bond->IsInRing()) {
           //otherwise mark that we have them and add it to the pile
@@ -153,9 +145,7 @@ namespace OpenBabel
   bool OBRotorList::IsFixedBond(OBBond *bond)
   {
     if (_fixedatoms.IsEmpty() && _fixedbonds.IsEmpty())
-    {
       return false;
-    }
 
     // new fixed bonds
     if (!_fixedbonds.IsEmpty()) {
@@ -163,9 +153,7 @@ namespace OpenBabel
     }
 
     if (_fixedatoms.IsEmpty())
-    {
       return false;
-    }
 
     // deprecated fixed atoms
     OBAtom *a1,*a2,*a3;
@@ -174,34 +162,26 @@ namespace OpenBabel
     a1 = bond->GetBeginAtom();
     a2 = bond->GetEndAtom();
     if (!_fixedatoms[a1->GetIdx()] || !_fixedatoms[a2->GetIdx()])
-    {
       return(false);
-    }
 
     bool isfixed=false;
     for (a3 = a1->BeginNbrAtom(i);a3;a3 = a1->NextNbrAtom(i))
-    {
       if (a3 != a2 && _fixedatoms[a3->GetIdx()])
         {
           isfixed = true;
           break;
         }
-    }
 
     if (!isfixed)
-    {
       return(false);
-    }
 
     isfixed = false;
     for (a3 = a2->BeginNbrAtom(i);a3;a3 = a2->NextNbrAtom(i))
-    {
       if (a3 != a1 && _fixedatoms[a3->GetIdx()])
         {
           isfixed = true;
           break;
         }
-    }
 
     return(isfixed);
   }
@@ -241,16 +221,10 @@ namespace OpenBabel
               {
                 atom1 = mol.GetAtom(natom);
                 for (bond = atom1->BeginBond(j);bond;bond = atom1->NextBond(j))
-                {
                   if (!used.BitIsSet(bond->GetNbrAtomIdx(atom1)) &&
                       !curr.BitIsSet(bond->GetNbrAtomIdx(atom1)))
-                  {
                       if (bond->GetNbrAtom(atom1)->GetAtomicNum() != OBElements::Hydrogen)
-                      {
                       next.SetBitOn(bond->GetNbrAtomIdx(atom1));
-                      }
-                  }
-                }
               }
 
             used |= next;
@@ -292,13 +266,11 @@ namespace OpenBabel
           if (this_side->GetAtomicNum() == 6 && this_side->GetHyb() == hyb && this_side->GetExplicitDegree() == (hyb + 1) ) {
             syms.clear();
             FOR_NBORS_OF_ATOM(nbr, this_side) {
-              if ( &(*nbr) == other_side ) { continue; }
+              if ( &(*nbr) == other_side ) continue;
               syms.insert(sym_classes[nbr->GetIdx() - 1]);
             }
             if (syms.size() == 1) // All of the rotated atoms have the same symmetry class
-            {
               N_fold_symmetry *= hyb;
-            }
                       }
                   }
               }
@@ -342,16 +314,12 @@ namespace OpenBabel
               {
                 a1 = mol.GetAtom(j);
                 for (a2 = a1->BeginNbrAtom(k);a2;a2 = a1->NextNbrAtom(k))
-                {
                   if (!eval[a2->GetIdx()])
-                  {
                     if (!((OBBond*)*k)->IsRotor(_ringRotors)||((HasFixedAtoms()||HasFixedBonds())&&IsFixedBond((OBBond*)*k)))
                       {
                         next.SetBitOn(a2->GetIdx());
                         eval.SetBitOn(a2->GetIdx());
                       }
-                  }
-                }
               }
             curr = next;
           }
@@ -362,9 +330,7 @@ namespace OpenBabel
           {
             a1 = mol.GetAtom(j);
             for (a2 = a1->BeginNbrAtom(k);a2;a2 = a1->NextNbrAtom(k))
-            {
               next.SetBitOn(a2->GetIdx());
-            }
           }
         eval |= next;
         rotor->SetEvalAtoms(eval);
@@ -407,9 +373,7 @@ namespace OpenBabel
 
       // translate the rotate atom indexes to coordinate indexes (i.e. from 0, multiplied by 3)
       for (j = atoms.begin(); j != atoms.end(); ++j)
-      {
         *j = ((*j) - 1) * 3;
-      }
       // set the rotate atoms and dihedral atom indexes
       rotor->SetRotAtoms(atoms);
       rotor->SetDihedralAtoms(ref);
@@ -440,9 +404,7 @@ namespace OpenBabel
           }
 
         for (j = rotatoms.begin();j != rotatoms.end();++j)
-        {
           *j = ((*j)-1)*3;
-        }
         rotor->SetRotAtoms(rotatoms);
         rotor->SetDihedralAtoms(ref);
       }
@@ -473,9 +435,7 @@ namespace OpenBabel
                 swap(ref[1],ref[2]);
                 mol.FindChildren(rotatoms,ref[1],ref[2]);
                 for (j = rotatoms.begin();j != rotatoms.end();++j)
-                {
                   *j = ((*j)-1)*3;
-                }
                 rotor->SetRotAtoms(rotatoms);
                 rotor->SetDihedralAtoms(ref);
               }
@@ -487,9 +447,7 @@ namespace OpenBabel
               swap(ref[1],ref[2]);
               mol.FindChildren(rotatoms,ref[1],ref[2]);
               for (j = rotatoms.begin();j != rotatoms.end();++j)
-              {
                 *j = ((*j)-1)*3;
-              }
               rotor->SetRotAtoms(rotatoms);
               rotor->SetDihedralAtoms(ref);
             }
@@ -508,18 +466,14 @@ namespace OpenBabel
   {
     vector<OBRotor*>::iterator i;
     for (i = _rotor.begin();i != _rotor.end();++i)
-    {
       delete *i;
-    }
   }
 
   void OBRotorList::Clear()
   {
     vector<OBRotor*>::iterator i;
     for (i = _rotor.begin();i != _rotor.end();++i)
-    {
       delete *i;
-    }
     _rotor.clear();
     _ringRotors = false;
     //_fix.Clear();
@@ -543,9 +497,7 @@ namespace OpenBabel
   {
     _rings.clear();
     if (_bond == nullptr)
-    {
       return; // nothing to do
-    }
 
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
@@ -553,16 +505,12 @@ namespace OpenBabel
     OBMol *mol = _bond->GetParent();
 
     if (mol == nullptr)
-    {
       return; // nothing to do
-    }
 
     rlist = mol->GetSSSR();
     for (i = rlist.begin();i != rlist.end();++i) {
       if ((*i)->IsMember(_bond))
-      {
         _rings.push_back(*i);
-      }
     }
   }
 
@@ -598,31 +546,19 @@ namespace OpenBabel
     c1mag = SQUARE(c1x)+SQUARE(c1y)+SQUARE(c1z);
     c2mag = SQUARE(c2x)+SQUARE(c2y)+SQUARE(c2z);
     if (c1mag*c2mag < 0.01)
-    {
       costheta = 1.0; //avoid div by zero error
-    }
     else
-    {
       costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
-    }
 
     if (costheta < -0.9999999)
-    {
       costheta = -0.9999999;
-    }
     if (costheta >  0.9999999)
-    {
       costheta =  0.9999999;
-    }
 
     if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0)
-    {
       ang = -acos(costheta);
-    }
     else
-    {
       ang = acos(costheta);
-    }
 
     return(ang);
   }
@@ -644,13 +580,9 @@ namespace OpenBabel
     double ang,sn,cs,t,dx,dy,dz,mag;
 
     if (prev == -1)
-    {
       ang = _torsionAngles[idx] - CalcTorsion(c);
-    }
     else
-    {
       ang = _torsionAngles[idx] - _torsionAngles[prev];
-    }
 
     sn = sin(ang);
     cs = cos(ang);
@@ -817,37 +749,25 @@ namespace OpenBabel
     vector<double>::iterator i;
     vector<double> tv;
     if (_torsionAngles.size() == 1)
-    {
       return;
-    }
 
     for (i = _torsionAngles.begin();i != _torsionAngles.end();++i)
-    {
       if (*i >= 0.0 && *i < 2.0*M_PI / fold)
-      {
             tv.push_back(*i);
-      }
-    }
 
     if (tv.empty())
-    {
       return;
-    }
     _torsionAngles = tv;
   }
 
   void OBRotor::SetDihedralAtoms(std::vector<int> &ref)
   {
     if (ref.size() != 4)
-    {
       return;
-    }
     // copy indexes starting from 1
     _ref.resize(4);
     for (int i = 0;i < 4;++i)
-    {
       _ref[i] = ref[i];
-    }
     _torsion.resize(4);
     // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
     _torsion[0] = (ref[0]-1)*3;
@@ -861,9 +781,7 @@ namespace OpenBabel
     // copy indexes starting from 1
     _ref.resize(4);
     for (int i = 0;i < 4;++i)
-    {
       _ref[i] = ref[i];
-    }
     _torsion.resize(4);
     // convert the indexes (start from 0, multiplied by 3) for easy access to coordinates
     _torsion[0] = (ref[0]-1)*3;
@@ -902,23 +820,17 @@ namespace OpenBabel
     char temp_buffer[BUFF_SIZE];
 
     if (buffer[0] == '#')
-    {
       return;
-    }
     tokenize(vs,buffer);
     if (vs.empty())
-    {
       return;
-    }
 
     if (EQn(buffer,"SP3-SP3",7))
       {
         _sp3sp3.clear();
         //        assert (vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
-        {
           _sp3sp3.push_back(DEG_TO_RAD*atof(j->c_str()));
-        }
         return;
       }
 
@@ -927,9 +839,7 @@ namespace OpenBabel
         _sp3sp2.clear();
         //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
-        {
           _sp3sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
-        }
         return;
       }
 
@@ -938,9 +848,7 @@ namespace OpenBabel
         _sp2sp2.clear();
         //        assert(vs.size() > 1);
         for (j = vs.begin(),++j;j != vs.end();++j)
-        {
           _sp2sp2.push_back(DEG_TO_RAD*atof(j->c_str()));
-        }
         return;
       }
 
@@ -950,9 +858,7 @@ namespace OpenBabel
         temp_buffer[sizeof(temp_buffer) - 1] = '\0';
         //reference atoms
         for (i = 0;i < 4;++i)
-        {
           ref[i] = atoi(vs[i+1].c_str())-1;
-        }
         //possible torsions
         vals.clear();
         delta = OB_DEFAULT_DELTA;
@@ -964,9 +870,7 @@ namespace OpenBabel
                 i += 2;
               }
             else
-            {
               vals.push_back(DEG_TO_RAD*atof(vs[i].c_str()));
-            }
           }
 
         if (vals.empty())
@@ -977,13 +881,9 @@ namespace OpenBabel
           }
         OBRotorRule *rr = new OBRotorRule (temp_buffer,ref,vals,delta);
         if (rr->IsValid())
-        {
           _vr.push_back(rr);
-        }
         else
-        {
           delete rr;
-        }
       }
 
   }
@@ -992,9 +892,7 @@ namespace OpenBabel
                                         int ref[4],vector<double> &vals,double &delta)
   {
     if (!_init)
-    {
       Init();
-    }
 
     vals.clear();
     vector<pair<int,int> > vpr;
@@ -1018,16 +916,12 @@ namespace OpenBabel
           {
             swap(vpr[0].first,vpr[1].first);
             if (!sp->RestrictedMatch(mol,vpr,true))
-            {
               continue;
-            }
           }
 
         map = sp->GetMapList();
         for (j = 0;j < 4;++j)
-        {
           ref[j] = map[0][ref[j]];
-        }
         vals = (*i)->GetTorsionVals();
         delta = (*i)->GetDelta();
 
@@ -1035,9 +929,7 @@ namespace OpenBabel
         a1 = mol.GetAtom(ref[0]);
         a4 = mol.GetAtom(ref[3]);
         if (a1->GetAtomicNum() == OBElements::Hydrogen && a4->GetAtomicNum() == OBElements::Hydrogen)
-        {
           continue; //don't allow hydrogens at both ends
-        }
         if (a1->GetAtomicNum() == OBElements::Hydrogen || a4->GetAtomicNum() == OBElements::Hydrogen) //need a heavy atom reference - can use hydrogen
           {
             bool swapped = false;
@@ -1052,30 +944,20 @@ namespace OpenBabel
 
             vector<OBBond*>::iterator k;
             for (r = a2->BeginNbrAtom(k);r;r = a2->NextNbrAtom(k))
-            {
               if (r->GetAtomicNum() != OBElements::Hydrogen && r != a3)
-              {
                 break;
-              }
-            }
 
             if (!r)
-            {
               continue; //unable to find reference heavy atom
-            }
             //			cerr << "r = " << r->GetIdx() << endl;
 
             double t1 = mol.GetTorsion(a1,a2,a3,a4);
             double t2 = mol.GetTorsion(r,a2,a3,a4);
             double diff = t2 - t1;
             if (diff > 180.0)
-            {
               diff -= 360.0;
-            }
             if (diff < -180.0)
-            {
               diff += 360.0;
-            }
             diff *= DEG_TO_RAD;
 
             vector<double>::iterator m;
@@ -1083,23 +965,15 @@ namespace OpenBabel
               {
                 *m += diff;
                 if (*m < M_PI)
-                {
                   *m += 2.0*M_PI;
-                }
                 if (*m > M_PI)
-                {
                   *m -= 2.0*M_PI;
-                }
               }
 
             if (swapped)
-            {
               ref[3] = r->GetIdx();
-            }
             else
-            {
               ref[0] = r->GetIdx();
-            }
 
             /*
               mol.SetTorsion(r,a2,a3,a4,vals[0]);
@@ -1127,20 +1001,11 @@ namespace OpenBabel
     vector<OBBond*>::iterator k;
 
     for (a1 = a2->BeginNbrAtom(k);a1;a1 = a2->NextNbrAtom(k))
-    for (a1 = a2->BeginNbrAtom(k); a1; a1 = a2->NextNbrAtom(k))
-    {
       if (a1->GetAtomicNum() != OBElements::Hydrogen && a1 != a3)
-      {
         break;
-      }
-    }
     for (a4 = a3->BeginNbrAtom(k);a4;a4 = a3->NextNbrAtom(k))
-    {
       if (a4->GetAtomicNum() != OBElements::Hydrogen && a4 != a2)
-      {
         break;
-      }
-    }
 
     ref[0] = a1->GetIdx();
     ref[1] = a2->GetIdx();
@@ -1190,9 +1055,7 @@ namespace OpenBabel
   {
     vector<OBRotorRule*>::iterator i;
     for (i = _vr.begin();i != _vr.end();++i)
-    {
       delete (*i);
-    }
   }
 
 #undef OB_DEFAULT_DELTA
