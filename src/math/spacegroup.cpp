@@ -501,7 +501,7 @@ namespace OpenBabel
       {
         if (T.find((*i)->DescribeAsString()) != T.end())
           {
-            cerr << "Duplicated transform: " << (*i)->DescribeAsString() << endl;
+            cerr << "Duplicated transform: " << (*i)->DescribeAsString() << '\n';
             return false;
           }
         T[(*i)->DescribeAsString()] = *i;
@@ -518,7 +518,7 @@ namespace OpenBabel
             s = (*(*j).second * *(*k).second).DescribeAsString();
             if (T.find(s) == end)
               {
-                cerr << "Invalid transform: " << (*j).first << " * " << (*k).first << " = " << s << endl;
+                cerr << "Invalid transform: " << (*j).first << " * " << (*k).first << " = " << s << '\n';
                 return false;
               }
             if (!has_inverse && s == "x,y,z")
@@ -526,7 +526,7 @@ namespace OpenBabel
           }
         if (!has_inverse)
           {
-            cerr << "Transform with no inverse: " << (*j).first << endl;
+            cerr << "Transform with no inverse: " << (*j).first << '\n';
             return false;
           }
       }
