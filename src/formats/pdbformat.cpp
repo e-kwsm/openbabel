@@ -390,7 +390,7 @@ namespace OpenBabel
       }
     else
       {
-        if (readIntegerFromRecord(buffer, 7, &startAtomSerialNumber) == false)
+        if (!readIntegerFromRecord(buffer, 7, &startAtomSerialNumber))
           {
             errorMsg << "WARNING: Problems reading a PDB file\n"
                      << "  Problems reading a CONECT record.\n"
@@ -448,7 +448,7 @@ namespace OpenBabel
         // bonds and salt bridges, which we ignore. In that case, we just
         // exit gracefully.
         boundedAtomsSerialNumbersValid[0] = readIntegerFromRecord(buffer, 12, boundedAtomsSerialNumbers+0);
-        if (boundedAtomsSerialNumbersValid[0] == false)
+        if (!boundedAtomsSerialNumbersValid[0])
           return(true);
         boundedAtomsSerialNumbersValid[1] = readIntegerFromRecord(buffer, 17, boundedAtomsSerialNumbers+1);
         boundedAtomsSerialNumbersValid[2] = readIntegerFromRecord(buffer, 22, boundedAtomsSerialNumbers+2);
@@ -909,7 +909,7 @@ namespace OpenBabel
     if (sbuf.size() < 48)
       return(false);
 
-    bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
+    bool hetatm = strncmp(buffer,"HETATM",6) == 0;
     bool elementFound = false; // true if correct element found in col 77-78
 
     /* serial number */

@@ -918,7 +918,7 @@ namespace OpenBabel
                                 else
                                   {
                                     // second root atom in this ring ?
-                                    if (_root[tmp[j]] == true)
+                                    if (_root[tmp[j]])
                                       {
                                         // when there is a second root
                                         // atom this ring can not be

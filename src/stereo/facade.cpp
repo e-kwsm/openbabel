@@ -88,25 +88,19 @@ namespace OpenBabel {
   bool OBStereoFacade::HasTetrahedralStereo(unsigned long atomId)
   {
     EnsureInit();
-    if (m_tetrahedralMap.find(atomId) != m_tetrahedralMap.end())
-      return true;
-    return false;
+    return m_tetrahedralMap.find(atomId) != m_tetrahedralMap.end();
   }
 
   bool OBStereoFacade::HasCisTransStereo(unsigned long bondId)
   {
     EnsureInit();
-    if (m_cistransMap.find(bondId) != m_cistransMap.end())
-      return true;
-    return false;
+    return m_cistransMap.find(bondId) != m_cistransMap.end();
   }
 
   bool OBStereoFacade::HasSquarePlanarStereo(unsigned long atomId)
   {
     EnsureInit();
-    if (m_squarePlanarMap.find(atomId) != m_squarePlanarMap.end())
-      return true;
-    return false;
+    return m_squarePlanarMap.find(atomId) != m_squarePlanarMap.end();
   }
 
   OBTetrahedralStereo* OBStereoFacade::GetTetrahedralStereo(unsigned long atomId)
