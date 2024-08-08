@@ -166,12 +166,18 @@ public:
           {
             //both numbers
             if(n1!=n2)
+            {
         return n1 < n2;
+            }
           }
         else if(n1>0)
+        {
           return islower(*p2)!=0;
+        }
         else if(n2>0)
+        {
           return !islower(*p1);
+        }
 
         ++p1; ++p2; // iterate
       } // while loop
