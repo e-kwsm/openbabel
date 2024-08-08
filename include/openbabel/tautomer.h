@@ -66,7 +66,7 @@ namespace OpenBabel {
   class OBAPI TautomerFunctor
   {
     public:
-      virtual ~TautomerFunctor() {}
+      virtual ~TautomerFunctor() = default;
       /**
        * This function is called every time a tautomer is discovered.
        *
@@ -104,7 +104,7 @@ namespace OpenBabel {
   class OBAPI UniqueTautomerFunctor : public TautomerFunctor
   {
     public:
-      virtual ~UniqueTautomerFunctor() {}
+      virtual ~UniqueTautomerFunctor() = default;
       /**
        * This function is called every time a tautomer is discovered.
        *

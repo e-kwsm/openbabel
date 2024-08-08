@@ -37,10 +37,7 @@ namespace OpenBabel
        m_Pencolor("black"), m_Fillcolor("white"), m_Gradientcolor(make_pair(OBColor("white"),OBColor("white"))), m_PenWidth(1),
        m_fontPointSize(16), m_isFillcolor(true), m_Gradients(gradients)  {}
 
-  SVGPainter::~SVGPainter()
-  {
-
-  }
+  SVGPainter::~SVGPainter() = default;
 
   void SVGPainter::NewCanvas(double width, double height)
   {

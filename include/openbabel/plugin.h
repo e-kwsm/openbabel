@@ -60,7 +60,7 @@ public:
   typedef PluginMapType::const_iterator PluginIterator;
 
   ///Virtual destructor necessary for classes with virtual functions
-  virtual ~OBPlugin(){};
+  virtual ~OBPlugin() = default;
 
   ///Required description of a sub-type
   virtual const char* Description() { return nullptr;} ;

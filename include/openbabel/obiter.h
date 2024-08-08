@@ -51,7 +51,7 @@ namespace OpenBabel
     OBMolAtomIter(OBMol *mol);
     OBMolAtomIter(OBMol &mol);
     OBMolAtomIter(const OBMolAtomIter &ai);
-    ~OBMolAtomIter() { }
+    ~OBMolAtomIter() = default;
 
     OBMolAtomIter& operator=(const OBMolAtomIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more atoms)
@@ -78,7 +78,7 @@ namespace OpenBabel
     OBMolAtomDFSIter(OBMol *mol, int StartIndex=1);
     OBMolAtomDFSIter(OBMol &mol, int StartIndex=1);
     OBMolAtomDFSIter(const OBMolAtomDFSIter &ai);
-    ~OBMolAtomDFSIter() { }
+    ~OBMolAtomDFSIter() = default;
 
     OBMolAtomDFSIter& operator=(const OBMolAtomDFSIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more atoms)
@@ -114,7 +114,7 @@ namespace OpenBabel
     OBMolAtomBFSIter(OBMol *mol, int StartIndex = 1);
     OBMolAtomBFSIter(OBMol &mol, int StartIndex = 1);
     OBMolAtomBFSIter(const OBMolAtomBFSIter &ai);
-    ~OBMolAtomBFSIter() { }
+    ~OBMolAtomBFSIter() = default;
 
     OBMolAtomBFSIter& operator=(const OBMolAtomBFSIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more atoms)
@@ -145,7 +145,7 @@ namespace OpenBabel
     OBMolBondBFSIter(OBMol *mol, int StartIndex = 0);
     OBMolBondBFSIter(OBMol &mol, int StartIndex = 0);
     OBMolBondBFSIter(const OBMolBondBFSIter &ai);
-    ~OBMolBondBFSIter() { }
+    ~OBMolBondBFSIter() = default;
 
     OBMolBondBFSIter& operator=(const OBMolBondBFSIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more atoms)
@@ -174,7 +174,7 @@ namespace OpenBabel
     OBMolBondIter(OBMol *mol);
     OBMolBondIter(OBMol &mol);
     OBMolBondIter(const OBMolBondIter &bi);
-    ~OBMolBondIter() { }
+    ~OBMolBondIter() = default;
 
     OBMolBondIter& operator=(const OBMolBondIter &bi);
     //! \return Whether the iterator can still advance (i.e., visit more bonds)
@@ -200,7 +200,7 @@ namespace OpenBabel
     OBAtomAtomIter(OBAtom *atm);
     OBAtomAtomIter(OBAtom &atm);
     OBAtomAtomIter(const OBAtomAtomIter &ai);
-    ~OBAtomAtomIter() { }
+    ~OBAtomAtomIter() = default;
 
     OBAtomAtomIter& operator=(const OBAtomAtomIter &ai);
      //! \return Whether the iterator can still advance (i.e., visit more neighbors)
@@ -226,7 +226,7 @@ namespace OpenBabel
     OBAtomBondIter(OBAtom *atm);
     OBAtomBondIter(OBAtom &atm);
     OBAtomBondIter(const OBAtomBondIter &bi);
-    ~OBAtomBondIter() { }
+    ~OBAtomBondIter() = default;
 
     OBAtomBondIter& operator=(const OBAtomBondIter &bi);
     //! \return Whether the iterator can still advance (i.e., visit more bonds)
@@ -252,7 +252,7 @@ namespace OpenBabel
     OBResidueIter(OBMol *mol);
     OBResidueIter(OBMol &mol);
     OBResidueIter(const OBResidueIter &ri);
-    ~OBResidueIter() { }
+    ~OBResidueIter() = default;
 
     OBResidueIter& operator=(const OBResidueIter &ri);
     //! \return Whether the iterator can still advance (i.e., visit more residues)
@@ -278,7 +278,7 @@ namespace OpenBabel
     OBResidueAtomIter(OBResidue *res);
     OBResidueAtomIter(OBResidue &res);
     OBResidueAtomIter(const OBResidueAtomIter &ri);
-    ~OBResidueAtomIter() { }
+    ~OBResidueAtomIter() = default;
 
     OBResidueAtomIter &operator = (const OBResidueAtomIter &ri);
     //! \return Whether the iterator can still advance (i.e., visit more atoms in this residue)
@@ -305,7 +305,7 @@ namespace OpenBabel
     OBMolAngleIter(OBMol *mol);
     OBMolAngleIter(OBMol &mol);
     OBMolAngleIter(const OBMolAngleIter &ai);
-    ~OBMolAngleIter() { }
+    ~OBMolAngleIter() = default;
 
     OBMolAngleIter& operator=(const OBMolAngleIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more angles)
@@ -329,7 +329,7 @@ namespace OpenBabel
     OBMolTorsionIter(OBMol *mol);
     OBMolTorsionIter(OBMol &mol);
     OBMolTorsionIter(const OBMolTorsionIter &ai);
-    ~OBMolTorsionIter() { }
+    ~OBMolTorsionIter() = default;
 
     OBMolTorsionIter& operator=(const OBMolTorsionIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more torsions)
@@ -356,7 +356,7 @@ namespace OpenBabel
     OBMolPairIter(OBMol *mol);
     OBMolPairIter(OBMol &mol);
     OBMolPairIter(const OBMolPairIter &ai);
-    ~OBMolPairIter() { }
+    ~OBMolPairIter() = default;
 
     OBMolPairIter& operator=(const OBMolPairIter &ai);
     //! \return Whether the iterator can still advance (i.e., visit more 1-4 atom pairs)
@@ -383,7 +383,7 @@ namespace OpenBabel
     OBMolRingIter(OBMol *mol);
     OBMolRingIter(OBMol &mol);
     OBMolRingIter(const OBMolRingIter &ri);
-    ~OBMolRingIter() { }
+    ~OBMolRingIter() = default;
 
     OBMolRingIter& operator=(const OBMolRingIter &ri);
     //! \return Whether the iterator can advance (i.e., there are more rings)

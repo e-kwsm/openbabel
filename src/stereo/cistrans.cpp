@@ -81,9 +81,7 @@ namespace OpenBabel {
   {
   }
 
-  OBCisTransStereo::~OBCisTransStereo()
-  {
-  }
+  OBCisTransStereo::~OBCisTransStereo() = default;
 
   bool OBCisTransStereo::IsValid() const
   {

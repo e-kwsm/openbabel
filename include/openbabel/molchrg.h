@@ -36,7 +36,7 @@ class OBAPI GasteigerState
 {
 public:
     GasteigerState();
-    ~GasteigerState() {}
+    ~GasteigerState() = default;
 
     void SetValues(double _a,double _b,double _c,double _q)
     {
@@ -62,7 +62,7 @@ class OBAPI OBGastChrg
     bool GasteigerSigmaChi(OBAtom *,double &,double &,double &);
 
 public:
-    OBGastChrg()    {}
+    OBGastChrg() = default;
     ~OBGastChrg();
 
     //! Assign partial charges to this OBMol, setting each OBAtom partial charge

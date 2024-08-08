@@ -202,8 +202,7 @@ public:
 
     explicit FilteringInputStream(istream_reference istream):
         FilteringInputStreambuf<Extractor>(&istream),std::istream(this) {}
-    virtual ~FilteringInputStream() {}
-
+    virtual ~FilteringInputStream() = default;
 };
 
 } //namespace

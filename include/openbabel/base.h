@@ -199,7 +199,7 @@ class OBConversion; //used only as pointer
        A derived class may return NULL if copying is inappropriate */
     virtual OBGenericData* Clone(OBBase* /*parent*/) const
     { return nullptr; }
-    virtual ~OBGenericData()    {}
+    virtual ~OBGenericData() = default;
     //Use default copy constructor and assignment operators
     //OBGenericData& operator=(const OBGenericData &src);
 

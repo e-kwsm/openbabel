@@ -30,9 +30,7 @@ namespace OpenBabel {
   {
   }
 
-  OBTetraPlanarStereo::~OBTetraPlanarStereo()
-  {
-  }
+  OBTetraPlanarStereo::~OBTetraPlanarStereo() = default;
 
   /*
   std::vector<unsigned long> OBTetraPlanarStereo::ToInternal(const std::vector<unsigned long> &refs,
