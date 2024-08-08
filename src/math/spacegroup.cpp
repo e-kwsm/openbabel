@@ -373,7 +373,9 @@ namespace OpenBabel
               break;
             }
         if (!duplicate)
+        {
           res.push_back (t);
+        }
       }
     return res;
   }
@@ -463,7 +465,9 @@ namespace OpenBabel
             char a = '0' + m_OriginAlternative;
             std::string nm = m_HM + ':' + a;
             if (_SpaceGroups.sgbn[nm] == nullptr)
+            {
               _SpaceGroups.sgbn[nm] = this;
+            }
             // Also use the symbol stripped from whitespaces as key
             std::string stripped_HM=RemoveWhiteSpaceUnderscore(nm);
             if (stripped_HM.length() > 0 && _SpaceGroups.sgbn[nm] == nullptr)
@@ -570,7 +574,9 @@ namespace OpenBabel
                 return false;
               }
             if (!has_inverse && s == "x,y,z")
+            {
               has_inverse = true;
+            }
           }
         if (!has_inverse)
           {

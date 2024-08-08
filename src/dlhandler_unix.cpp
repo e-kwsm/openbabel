@@ -122,7 +122,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
       currentPath=paths[i];
 
       if ((dp = opendir(currentPath.c_str())) == nullptr)
+      {
         continue; // no big deal, this path causes an error
+      }
       else
         {
           while((entry = readdir(dp)) != nullptr)
@@ -150,9 +152,13 @@ int DLHandler::findFiles (std::vector<std::string>& file_list,
     }
   size_t pos = filename.find_last_of("\\/");
   if(pos!=string::npos)
+  {
     return findFiles(file_list,filename.substr(pos+1), filename.substr(0,pos+1));
+  }
   else
+  {
     return findFiles(file_list,filename, "");
+  }
 }
 
 #ifdef __MINGW32__

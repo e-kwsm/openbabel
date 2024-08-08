@@ -1019,9 +1019,13 @@ namespace OpenBabel {
         }
       }
     if (IsUniqueKey(m_rotorKeys, key1) && IsGood(key1))
+    {
       ret_code += 1;
+    }
     if (IsUniqueKey(m_rotorKeys, key2) && IsGood(key2))
+    {
       ret_code += 2;
+    }
     return ret_code;		// Returns number of new distinct individuals (i.e. rotor keys)
   }
 
@@ -1113,8 +1117,12 @@ namespace OpenBabel {
     vshared_fitnes.clear ();
     dtmp = 1.0 - min_score;
     if (max_flag)
+    {
       for (dit =  vscores.begin (); dit != vscores.end (); ++dit)
+      {
         vshared_fitnes.push_back (*dit + dtmp);
+      }
+    }
     else			// Minimization: invert score so best has 1.0, others lower values
       for (dit =  vscores.begin (); dit != vscores.end (); ++dit)
         vshared_fitnes.push_back (1.0 / (*dit + dtmp));

@@ -1634,9 +1634,13 @@ namespace OpenBabel {
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         for( j = i + 1 ; j < _mol->NumAtoms() ; j++ ){
           if( !equivalentAtoms(*_mol->GetAtom(i+1), *_mol->GetAtom(j+1)) )
+          {
             continue ;
+          }
           if( fabs( DistanceFromCenter[i] - DistanceFromCenter[j] ) > TolerancePrimary )
+          {
             continue ; /* A very cheap, but quite effective check */
+          }
           for( k = 0 ; k < _mol->NumAtoms() ; k++ ){
             if( !equivalentAtoms(*_mol->GetAtom(i+1), *_mol->GetAtom(k+1)) )
               continue ;
@@ -1686,10 +1690,14 @@ namespace OpenBabel {
       int           i ;
 
       if( PlanesCount == 0 )
+      {
         printf( "There are no planes of symmetry in the molecule\n" ) ;
+      }
       else {
         if( PlanesCount == 1 )
+        {
           printf( "There is a plane of symmetry in the molecule\n" ) ;
+        }
         else printf( "There are %d planes of symmetry in the molecule\n", PlanesCount ) ;
         printf( "     Residual          Direction of the normal           Distance\n" ) ;
         for( i = 0 ; i < PlanesCount ; i++ ){
@@ -1724,7 +1732,9 @@ namespace OpenBabel {
       int           i ;
 
       if( NormalAxesCount == 0 )
+      {
         printf( "There are no normal axes in the molecule\n" ) ;
+      }
       else {
         if( NormalAxesCount == 1 )
           printf( "There is a normal axis in the molecule\n" ) ;
@@ -1751,7 +1761,9 @@ namespace OpenBabel {
       int           i ;
 
       if( ImproperAxesCount == 0 )
+      {
         printf( "There are no improper axes in the molecule\n" ) ;
+      }
       else {
         if( ImproperAxesCount == 1 )
           printf( "There is an improper axis in the molecule\n" ) ;
@@ -1903,7 +1915,7 @@ namespace OpenBabel {
       }
       else {
         //        printf( "Molecule has the following symmetry elements: " ) ;
-        if( InversionCentersCount > 0 ) strcat( symmetry_code, "(i) " ) ;
+        if( InversionCentersCount > 0 ) { strcat( symmetry_code, "(i) " ) ; }
         if( NormalAxesCounts[0] == 1 )
         {
           strcat( symmetry_code, "(Cinf) " ) ;
@@ -1920,7 +1932,7 @@ namespace OpenBabel {
           if( ImproperAxesCounts[i] == 1 ){ snprintf( buf, 100, "(S%d) ", i ) ; strcat( symmetry_code, buf ) ; }
           if( ImproperAxesCounts[i] >  1 ){ snprintf( buf, 100, "%d*(S%d) ", ImproperAxesCounts[i], i ) ; strcat( symmetry_code, buf ) ; }
         }
-        if( PlanesCount == 1 ) strcat( symmetry_code, "(sigma) " ) ;
+        if( PlanesCount == 1 ) { strcat( symmetry_code, "(sigma) " ) ; }
         if( PlanesCount >  1 ){ snprintf( buf, 100, "%d*(sigma) ", PlanesCount ) ; strcat( symmetry_code, buf ) ; }
         //        printf( "%s\n", symmetry_code ) ;
       }
@@ -2033,20 +2045,30 @@ namespace OpenBabel {
     Symbol perceived = Unknown; // assume no symmetry
 
     if( d->PlanesCount + d->NormalAxesCount + d->ImproperAxesCount + d->InversionCentersCount == 0 )
+    {
       return C1; // no symmetry
+    }
 
     // OK, let's use the normal decision tree, falling back to an appropriate sub-group as needed
     // Check for linear or K/Kh groups
     if( d->NormalAxesCounts[0] >= 1 ) // has Cinf axis
       {
         if (d->NormalAxesCounts[2] == 1 && d->PlanesCount > 1 && d->InversionCentersCount == 1) // has C2, so Dinfh
+        {
           perceived = Dinfh;
+        }
         else if (d->InversionCentersCount == 1 && d->PlanesCount == 1) // no C2, but i = Kh
+        {
           perceived = Kh;
+        }
         else if (d->PlanesCount >= 1) // fallback
+        {
           perceived = Cinfv;
+        }
         else // really unlikely
+        {
           perceived = K;
+        }
       }
 
     if (d->NormalAxesCounts[5] > 1) { // Possible icosahedral

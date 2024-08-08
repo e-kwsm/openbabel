@@ -1275,7 +1275,9 @@ template <typename iter>
 iter tree<T, tree_node_allocator>::flatten(iter position)
 	{
 	if(position.node->first_child==0)
+	{
 		return position;
+	}
 
 	tree_node *tmp=position.node->first_child;
 	while(tmp) {
@@ -1307,7 +1309,7 @@ iter tree<T, tree_node_allocator>::reparent(iter position, sibling_iterator begi
 
 	assert(first!=position.node);
 
-	if(begin==end) return begin;
+	if(begin==end) { return begin; }
 	// determine last node
 	while((++begin)!=end) {
 		last=last->next_sibling;
@@ -1340,7 +1342,7 @@ iter tree<T, tree_node_allocator>::reparent(iter position, sibling_iterator begi
 	tree_node *pos=first;
    for(;;) {
 		pos->parent=position.node;
-		if(pos==last) break;
+		if(pos==last) { break; }
 		pos=pos->next_sibling;
 		}
 
@@ -1350,7 +1352,7 @@ iter tree<T, tree_node_allocator>::reparent(iter position, sibling_iterator begi
 template <class T, class tree_node_allocator>
 template <typename iter> iter tree<T, tree_node_allocator>::reparent(iter position, iter from)
 	{
-	if(from.node->first_child==0) return position;
+	if(from.node->first_child==0) { return position; }
 	return reparent(position, from.node->first_child, end(from));
 	}
 
