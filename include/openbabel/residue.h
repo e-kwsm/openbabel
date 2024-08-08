@@ -83,7 +83,7 @@ namespace OpenBabel {
     void    SetSegName(const std::string &segname);    
     //! Set the residue number (in the sequence)
     void    SetNum(const unsigned int resnum);
-    void    SetNum(const std::string  resnum);
+    void    SetNum(const std::string&  resnum);
     //! Set the chain ID for this residue
     void    SetChain(const char chain);
     //! Set the chain number for this residue
