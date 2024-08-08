@@ -33,12 +33,18 @@ namespace OpenBabel {
   bool OBTetrahedralStereo::Config::operator==(const OBTetrahedralStereo::Config &other) const
   {
     if (center != other.center)
+    {
       return false;
+    }
     if ((refs.size() != 3) || (other.refs.size() != 3))
+    {
       return false;
+    }
     // return true if either is unspecified (i.e. accidental)
     if (!specified || !other.specified)
+    {
       return true;
+    }
 
     // Convert both Config's refs to same from, winding and view while
     // avoiding having an ImplicitRef in the 'from' position of either
@@ -60,7 +66,9 @@ namespace OpenBabel {
       if (OBStereo::ContainsRef(thisConfig.refs, OBStereo::ImplicitRef)) {
         // if both refs already contain ImplicitRef, return false
         if (OBStereo::ContainsRef(otherConfig.refs, OBStereo::ImplicitRef))
+        {
           return false;
+        }
 
         // example: *this       = 23H
         //          otherConfig = 234 --> 23H
@@ -69,8 +77,12 @@ namespace OpenBabel {
         for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
           bool found = false;
           for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
+          {
             if (otherConfig.refs.at(i) == *j)
+            {
               found = true;
+            }
+          }
 
           if (!found) {
             // the ref from otherConfig is not found in this config
@@ -82,7 +94,9 @@ namespace OpenBabel {
       if (OBStereo::ContainsRef(otherConfig.refs, OBStereo::ImplicitRef)) {
         // if both refs already contain ImplicitRef, return false
         if (OBStereo::ContainsRef(thisConfig.refs, OBStereo::ImplicitRef))
+        {
           return false;
+        }
 
         // example: *this       = 234
         //          otherConfig = 23H --> 234
@@ -92,13 +106,21 @@ namespace OpenBabel {
           bool found = false;
           // for each refs in otherConfig
           for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
+          {
             if (thisConfig.refs.at(i) == *j)
+            {
               found = true;
+            }
+          }
 
           if (!found) {
             for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
+            {
               if (*j == OBStereo::ImplicitRef)
+              {
                 *j = thisConfig.refs.at(i);
+              }
+            }
             break;
           }
         }
@@ -126,11 +148,17 @@ namespace OpenBabel {
   bool OBTetrahedralStereo::IsValid() const
   {
     if (m_cfg.center == OBStereo::NoRef)
+    {
       return false;
+    }
     if (m_cfg.from == OBStereo::NoRef)
+    {
       return false;
+    }
     if (m_cfg.refs.size() != 3)
+    {
       return false;
+    }
     return true;
   }
 
@@ -164,33 +192,49 @@ namespace OpenBabel {
       OBStereo::Winding winding, OBStereo::View view) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     if (m_cfg.winding != OBStereo::UnknownWinding)
+    {
       return OBTetraNonPlanarStereo::ToConfig(m_cfg, m_cfg.from, winding, view);
+    }
     else
+    {
       return OBTetraNonPlanarStereo::ToConfig(m_cfg, m_cfg.from, OBStereo::UnknownWinding, view);
+    }
   }
 
   OBTetrahedralStereo::Config OBTetrahedralStereo::GetConfig(unsigned long from_or_towards,
         OBStereo::Winding winding, OBStereo::View view) const
   {
     if (!IsValid())
+    {
       return Config();
+    }
 
     if (m_cfg.winding != OBStereo::UnknownWinding)
+    {
       return OBTetraNonPlanarStereo::ToConfig(m_cfg, from_or_towards, winding, view);
+    }
     else
+    {
       return OBTetraNonPlanarStereo::ToConfig(m_cfg, from_or_towards, OBStereo::UnknownWinding, view);
+    }
   }
 
   bool OBTetrahedralStereo::operator==(const OBTetrahedralStereo &other) const
   {
     if (!IsValid() || !other.IsValid())
+    {
       return false;
+    }
 
     if (m_cfg == other.GetConfig())
+    {
       return true;
+    }
 
     return false;
   }
@@ -213,29 +257,49 @@ namespace std {
     OBTetrahedralStereo::Config cfg = ts.GetConfig();
     out << "OBTetrahedralStereo(center = " << cfg.center;
     if (cfg.view == OBStereo::ViewFrom)
+    {
       out << ", viewFrom = ";
+    }
     else
+    {
       out << ", viewTowards = ";
+    }
 
     if (cfg.from == OBStereo::ImplicitRef)
+    {
       out << "H";
+    }
     else
+    {
       out << cfg.from;
+    }
 
     out << ", refs = ";
     for (OBStereo::Refs::iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     if (!cfg.specified)
+    {
       out << ", unspecified)";
+    }
     else {
       if (cfg.winding == OBStereo::Clockwise)
+      {
         out << ", clockwise)";
+      }
       else
+      {
         out << ", anti-clockwise)";
+      }
     }
 
     return out;
@@ -245,29 +309,49 @@ namespace std {
   {
     out << "OBTetrahedralStereo::Config(center = " << cfg.center;
     if (cfg.view == OBStereo::ViewFrom)
+    {
       out << ", viewFrom = ";
+    }
     else
+    {
       out << ", viewTowards = ";
+    }
 
     if (cfg.from == OBStereo::ImplicitRef)
+    {
       out << "H";
+    }
     else
+    {
       out << cfg.from;
+    }
 
     out << ", refs = ";
     for (OBStereo::Refs::const_iterator i = cfg.refs.begin(); i != cfg.refs.end(); ++i)
+    {
       if (*i != OBStereo::ImplicitRef)
+      {
         out << *i << " ";
+      }
       else
+      {
         out << "H ";
+      }
+    }
 
     if (!cfg.specified)
+    {
       out << ", unspecified)";
+    }
     else {
       if (cfg.winding == OBStereo::Clockwise)
+      {
         out << ", clockwise)";
+      }
       else
+      {
         out << ", anti-clockwise)";
+      }
     }
 
     return out;

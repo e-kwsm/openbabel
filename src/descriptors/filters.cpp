@@ -35,7 +35,9 @@ public:
   double Predict(OBBase *pOb, string *param = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
+    {
       return 0;
+    }
     return pmol->GetMolWt();
   }
 };
@@ -49,7 +51,9 @@ public:
   double Predict(OBBase *pOb, string *param = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
+    {
       return 0;
+    }
     return pmol->NumRotors();
   }
 };
@@ -79,19 +83,27 @@ bool SmartsFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
                            std::string *) {
   OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   if (!pmol)
+  {
     return false;
+  }
 
   string smarts;
   bool matchornegate = ReadStringFromFilter(optionText, smarts);
   if (noEval)
+  {
     return false;
+  }
   OBSmartsPattern sp;
   if (!sp.Init(smarts))
+  {
     return false; // can't initialize the SMARTS, so fail gracefully
+  }
 
   bool ret = sp.Match(*pmol, true); // single match
   if (!matchornegate)
+  {
     ret = !ret;
+  }
   return ret;
 }
 
@@ -119,7 +131,9 @@ bool TitleFilter::Compare(OBBase *pOb, istream &optionText, bool noEval,
                           std::string *) {
   OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   if (!pmol)
+  {
     return false;
+  }
 
   string title(pmol->GetTitle());
   return CompareStringWithFilter(optionText, title, noEval);
@@ -129,7 +143,9 @@ double TitleFilter::GetStringValue(OBBase *pOb, std::string &svalue,
                                    std::string *) {
   OBMol *pmol = dynamic_cast<OBMol *>(pOb);
   if (pmol)
+  {
     svalue = pmol->GetTitle();
+  }
   return std::numeric_limits<double>::quiet_NaN();
 }
 
@@ -137,7 +153,9 @@ bool TitleFilter::LessThan(OBBase *pOb1, OBBase *pOb2) {
   OBMol *pmol1 = dynamic_cast<OBMol *>(pOb1);
   OBMol *pmol2 = dynamic_cast<OBMol *>(pOb2);
   if (pmol1 == nullptr || pmol2 == nullptr)
+  {
     return false; // as a default to prevent dereferencing NULL pointers
+  }
 
   return strcmp(pmol1->GetTitle(), pmol2->GetTitle()) < 0;
 }
@@ -155,7 +173,9 @@ public:
                         std::string *param = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
     if (pmol)
+    {
       svalue = pmol->GetSpacedFormula(1, ""); // actually unspaced
+    }
     return std::numeric_limits<double>::quiet_NaN();
   }
 

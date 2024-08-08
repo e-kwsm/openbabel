@@ -167,7 +167,9 @@ struct NborInfo {
   bool operator < (const NborInfo &x) const
   {
     if (order != x.order)
+    {
       return order < x.order;
+    }
     return idx < x.idx;
   }
 };
@@ -177,7 +179,9 @@ static void ECFPPass(OpenBabel::OBMol &mol,
 {
   FOR_ATOMS_OF_MOL(atom, mol) {
     if (atom->GetAtomicNum() == OBElements::Hydrogen)
+    {
       continue;
+    }
     OpenBabel::OBAtom* aptr = &(*atom);
     unsigned int idx = aptr->GetIdx();
     AtomInfo *ptr = &ainfo[idx];
@@ -186,7 +190,9 @@ static void ECFPPass(OpenBabel::OBMol &mol,
     FOR_BONDS_OF_ATOM(bptr, aptr) {
       OpenBabel::OBAtom* nptr = bptr->GetNbrAtom(aptr);
       if (nptr->GetAtomicNum() == OBElements::Hydrogen)
+      {
         continue;
+      }
       unsigned int order;
       if (!bptr->IsAromatic()) {
         switch (bptr->GetBondOrder()) {
@@ -201,7 +207,9 @@ static void ECFPPass(OpenBabel::OBMol &mol,
       nbrs.push_back(NborInfo(order,ainfo[nidx].e[pass-1]));
       // for duplicate removal as described in paper (?)
       if (pass == 1)
+      {
         ptr->b[pass-1].push_back(bptr->GetIdx());
+      }
     }
     std::sort(nbrs.begin(),nbrs.end());
 
@@ -225,7 +233,9 @@ static void ECFPFirstPass(OpenBabel::OBMol &mol,
   /* First Pass: ECFP_0 */
   FOR_ATOMS_OF_MOL(atom, mol) {
     if (atom->GetAtomicNum() == OBElements::Hydrogen)
+    {
       continue;
+    }
     OpenBabel::OBAtom* aptr = &(*atom);
     unsigned int idx = aptr->GetIdx();
     buffer[0] = aptr->GetHvyDegree(); // degree of heavy atom connections
@@ -264,12 +274,16 @@ bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int n
 
   ECFPFirstPass(*pmol,ainfo);
   for (pass=1; pass<= _radius; pass++)
+  {
     ECFPPass(*pmol,ainfo,pass);
+  }
 
   // Duplicate removal - this is a simplified version of what's in the paper
   FOR_ATOMS_OF_MOL(atom, pmol) {
     if (atom->GetAtomicNum() == OBElements::Hydrogen)
+    {
       continue;    
+    }
     unsigned int idx = atom->GetIdx();
     for (pass=0; pass <= _radius; pass++) {
       unsigned int bit = (ainfo[idx].e[pass] % nbits) & 0x7fffffff; 

@@ -60,7 +60,9 @@ void print_vector(const std::string &label, const std::vector<T> &v)
 {
   std::cout << label << ": ";
   for (std::size_t i = 0; i < v.size(); ++i)
+  {
     std::cout << v[i] << " ";
+  }
   std::cout << endl;
 }
 
@@ -90,7 +92,9 @@ namespace OpenBabel {
         break;
     }
     if (obErrorLog.GetOutputLevel() >= obAuditMsg)
+    {
       obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::PerceiveStereo", obAuditMsg);
+    }
   }
 
   /**
@@ -101,9 +105,11 @@ namespace OpenBabel {
   {
     std::vector<OBAtom*>::iterator ia;
     for (OBAtom *atom = mol->BeginAtom(ia); atom; atom = mol->NextAtom(ia))
+    {
       if (atom->GetHyb() == 3 && atom->GetHvyDegree() >= 3) {
         return true;
       }
+    }
     return false;
   }
 
@@ -115,9 +121,11 @@ namespace OpenBabel {
   {
     std::vector<OBBond*>::iterator ib;
     for (OBBond *bond = mol->BeginBond(ib); bond; bond = mol->NextBond(ib))
+    {
       if (bond->GetBondOrder() == 2) {
         return true;
       }
+    }
     return false;
   }
 
@@ -139,23 +147,33 @@ namespace OpenBabel {
     // consider only potential steroecenters
     if ((atom->GetHyb() != 3 && !(atom->GetHyb() == 5 && atom->GetAtomicNum() == OBElements::Phosphorus))
         || atom->GetTotalDegree() > 4 || atom->GetHvyDegree() < 3 || atom->GetHvyDegree() > 4)
+    {
       return false;
+    }
     // skip non-chiral N
     if (atom->GetAtomicNum() == OBElements::Nitrogen && atom->GetFormalCharge()==0) {
       int nbrRingAtomCount = 0;
       FOR_NBORS_OF_ATOM (nbr, atom) {
         if (nbr->IsInRing())
+        {
           nbrRingAtomCount++;
+        }
       }
       if (nbrRingAtomCount < 3)
+      {
         return false;
+      }
     }
     if (atom->GetAtomicNum() == OBElements::Carbon) {
       if (atom->GetFormalCharge())
+      {
         return false;
+      }
       FOR_NBORS_OF_ATOM (nbr, atom) {
         if (nbr->GetAtomicNum() == 26 && nbr->GetExplicitDegree() > 7)
+        {
           return false;
+        }
       }
     }
 
@@ -173,15 +191,25 @@ namespace OpenBabel {
   bool isPotentialCisTrans(OBBond *bond)
   {
     if (bond->GetBondOrder() != 2)
+    {
       return false;
+    }
     if (bond->IsInRing())
+    {
       return false;
+    }
     if (!bond->GetBeginAtom()->HasSingleBond() || !bond->GetEndAtom()->HasSingleBond())
+    {
       return false;
+    }
     if (bond->GetBeginAtom()->GetHvyDegree() == 1 || bond->GetEndAtom()->GetHvyDegree() == 1)
+    {
       return false;
+    }
     if (bond->GetBeginAtom()->GetHvyDegree() > 3 || bond->GetEndAtom()->GetHvyDegree() > 3)
+    {
       return false;
+    }
     return true;
   }
 
@@ -204,13 +232,17 @@ namespace OpenBabel {
   {
     if (unit.type == OBStereo::Tetrahedral) {
       if (fragment.BitIsSet(unit.id))
+      {
         return true;
+      }
     } else if(unit.type == OBStereo::CisTrans) {
       OBBond *bond = mol->GetBondById(unit.id);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
       if (fragment.BitIsSet(begin->GetId()) || fragment.BitIsSet(end->GetId()))
+      {
         return true;
+      }
     }
     return false;
   }
@@ -238,9 +270,13 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < units.size(); ++i) {
       const OBStereoUnit &unit = units[i];
       if (unit.type != OBStereo::Tetrahedral)
+      {
         continue;
+      }
       if (unit.id == atom->GetId())
+      {
         return true;
+      }
     }
     return false;
   }
@@ -254,9 +290,13 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < units.size(); ++i) {
       const OBStereoUnit &unit = units[i];
       if (unit.type != OBStereo::CisTrans)
+      {
         continue;
+      }
       if (unit.id == bond->GetId())
+      {
         return true;
+      }
     }
     return false;
   }
@@ -272,7 +312,9 @@ namespace OpenBabel {
       nbrClasses.push_back(symClasses.at(nbr->GetIndex()));
     // add an implicit ref if there are only 3 explicit
     if (nbrClasses.size() == 3)
+    {
       nbrClasses.push_back(OBStereo::ImplicitRef);
+    }
 
     // use some STL to work out the number of unique classes
     nbrClassesCopy = nbrClasses; // keep copy for count below
@@ -288,9 +330,13 @@ namespace OpenBabel {
       case 2:
         // differentiate between T1122 and T1112
         if (std::count(nbrClassesCopy.begin(), nbrClassesCopy.end(), uniqueClasses.at(0)) == 2)
+        {
           return T1122; // e.g. 1 1 2 2
+        }
         else
+        {
           return T1112; // e.g. 1 1 1 2
+        }
       case 1:
 	  default:
         return T1111; // e.g. 1 1 1 1
@@ -305,16 +351,24 @@ namespace OpenBabel {
     std::vector<unsigned int> nbrClasses, uniqueClasses;
     FOR_NBORS_OF_ATOM (nbr, atom) {
       if (nbr->GetIdx() != doubleBond->GetNbrAtom(atom)->GetIdx())
+      {
         nbrClasses.push_back(symClasses.at(nbr->GetIndex()));
+      }
     }
 
     if (nbrClasses.size() == 1)
+    {
       nbrClasses.push_back(OBStereo::ImplicitRef);
+    }
 
     if (nbrClasses.at(0) == nbrClasses.at(1))
+    {
       return C11; // e.g. 1 1
+    }
     else
+    {
       return C12; // e.g. 1 2
+    }
   }
 
   /**
@@ -345,13 +399,17 @@ namespace OpenBabel {
         } else if (shared.size() == 1) {
           int classification = classifyTetrahedralNbrSymClasses(symClasses, mol->GetAtom(shared[0]));
           if (classification == T1122 || classification == T1111)
+          {
             found = true;
+          }
         }
 
         if (found) {
           // add bits for the atoms in the ring
           for (std::size_t l = 0; l < rings[i]->_path.size(); ++l)
+          {
             result[j].SetBitOn(rings[i]->_path[l]);
+          }
           break;
         }
       }
@@ -360,7 +418,9 @@ namespace OpenBabel {
       if (!found) {
         OBBitVec r;
         for (std::size_t l = 0; l < rings[i]->_path.size(); ++l)
+        {
           r.SetBitOn(rings[i]->_path[l]);
+        }
         result.push_back(r);
       }
     }
@@ -387,10 +447,14 @@ namespace OpenBabel {
     FOR_NBORS_OF_ATOM (nbr, atom) {
       // don't pass through skip
       if (nbr->GetId() == skip->GetId())
+      {
         continue;
+      }
       // skip visited atoms
       if (fragment.BitIsSet(nbr->GetId()))
+      {
         continue;
+      }
       // add the neighbor atom to the fragment
       fragment.SetBitOn(nbr->GetId());
       // recurse...
@@ -424,8 +488,12 @@ namespace OpenBabel {
       bool isInRing(const StereoRing &ring) const
       {
         for (std::size_t i = 0; i < ring.paraAtoms.size(); ++i)
+        {
           if (ring.paraAtoms[i].inIdx == inIdx)
+          {
             return true;
+          }
+        }
         return false;
       }
 
@@ -443,8 +511,12 @@ namespace OpenBabel {
       bool isInRing(const StereoRing &ring) const
       {
         for (std::size_t i = 0; i < ring.paraBonds.size(); ++i)
+        {
           if (ring.paraBonds[i].inIdx == inIdx)
+          {
             return true;
+          }
+        }
         return false;
       }
 
@@ -499,11 +571,15 @@ namespace OpenBabel {
     for (std::size_t i = 0; i < rings.size(); ++i) {
       // skip visited rings
       if (visitedRings[i])
+      {
         continue;
+      }
 
       // Check if currentPara is in this ring
       if (!currentPara.isInRing(rings[i]))
+      {
         continue;
+      }
 
       //
       // A new ring containing currentPara is found
@@ -521,7 +597,9 @@ namespace OpenBabel {
         const StereoRing::ParaAtom &paraAtom = rings[i].paraAtoms[j];
         // skip idx
         if (paraAtom.inIdx == idx)
+        {
           continue;
+        }
         // there is another atom already identified as stereo atom
         if (std::find(stereoAtoms.begin(), stereoAtoms.end(), paraAtom.inIdx) != stereoAtoms.end()) {
           //cout << "OK: " << __LINE__ << endl;
@@ -534,7 +612,9 @@ namespace OpenBabel {
           return true;
         } else {
           if (paraAtom.outsideNbrs.size() != 2)
+          {
             return false;
+          }
           // two ring substituents, need to check for topological difference
           if (symmetry_classes[paraAtom.outsideNbrs[0]->GetIndex()] != symmetry_classes[paraAtom.outsideNbrs[1]->GetIndex()]) {
             // they are different
@@ -555,7 +635,9 @@ namespace OpenBabel {
         const StereoRing::ParaBond &paraBond = rings[i].paraBonds[j];
         // skip idx
         if (paraBond.inIdx == idx)
+        {
           continue;
+        }
         // there is another atom already identified as stereo atom
         if (std::find(stereoAtoms.begin(), stereoAtoms.end(), paraBond.inIdx) != stereoAtoms.end()) {
           //cout << "OK: " << __LINE__ << endl;
@@ -568,7 +650,9 @@ namespace OpenBabel {
           return true;
         } else {
           if (paraBond.outsideNbrs.size() != 2)
+          {
             continue;
+          }
           // two ring substituents, need to check for topological difference
           if (symmetry_classes[paraBond.outsideNbrs[0]->GetIndex()] != symmetry_classes[paraBond.outsideNbrs[1]->GetIndex()]) {
             // they are different
@@ -609,14 +693,18 @@ namespace OpenBabel {
         const StereoRing::ParaAtom &paraAtom = rings[i].paraAtoms[j];
         // skip the atom if it is already in stereoAtoms
         if (std::find(stereoAtoms.begin(), stereoAtoms.end(), paraAtom.inIdx) != stereoAtoms.end())
+        {
           continue;
+        }
 
         std::vector<bool> visitedRings(rings.size(), false);
         //visitedRings[i] = true;
         if (ApplyRule1(paraAtom, symmetry_classes, rings, visitedRings, units, stereoAtoms)) {
           bool isStereoUnit = false;
           if (paraAtom.outsideNbrs.size() == 1)
+          {
             isStereoUnit = true;
+          }
           if (paraAtom.outsideNbrs.size() == 2) {
             if (symmetry_classes[paraAtom.outsideNbrs[0]->GetIndex()] == symmetry_classes[paraAtom.outsideNbrs[1]->GetIndex()]) {
               // check for spiro atom
@@ -626,11 +714,15 @@ namespace OpenBabel {
                 if (paraAtom.inIdx == paraAtom2.outIdx && paraAtom.insideNbrs == paraAtom2.outsideNbrs) {
                   isSpiro = true;
                   if (ApplyRule1(paraAtom2, symmetry_classes, rings, visitedRings, units, stereoAtoms))
+                  {
                     isStereoUnit = true;
+                  }
                 }
               }
               if (!isSpiro)
+              {
                 isStereoUnit = checkLigands(paraAtom, units);
+              }
               //cout << "isStereoUnit = " << isStereoUnit << endl;
             } else {
               isStereoUnit = true;
@@ -651,14 +743,18 @@ namespace OpenBabel {
         const StereoRing::ParaBond &paraBond = rings[i].paraBonds[j];
         // skip the atom if it is already in stereoAtoms
         if (std::find(stereoAtoms.begin(), stereoAtoms.end(), paraBond.inIdx) != stereoAtoms.end())
+        {
           continue;
+        }
 
         std::vector<bool> visitedRings(rings.size(), false);
         //visitedRings[i] = true;
         if (ApplyRule1(paraBond, symmetry_classes, rings, visitedRings, units, stereoAtoms)) {
           bool isStereoUnit = false;
           if (paraBond.outsideNbrs.size() == 1)
+          {
             isStereoUnit = true;
+          }
           if (paraBond.outsideNbrs.size() == 2) {
             if (symmetry_classes[paraBond.outsideNbrs[0]->GetIndex()] == symmetry_classes[paraBond.outsideNbrs[1]->GetIndex()]) {
               // check for spiro bond
@@ -668,11 +764,15 @@ namespace OpenBabel {
                 if (paraBond.inIdx == paraBond2.outIdx && paraBond.insideNbrs == paraBond2.outsideNbrs) {
                   isSpiro = true;
                   if (ApplyRule1(paraBond2, symmetry_classes, rings, visitedRings, units, stereoAtoms))
+                  {
                     isStereoUnit = true;
+                  }
                 }
               }
               if (!isSpiro)
+              {
                 isStereoUnit = checkLigands(paraBond, units);
+              }
               //cout << "isStereoUnit = " << isStereoUnit << endl;
             } else {
               isStereoUnit = true;
@@ -705,11 +805,15 @@ namespace OpenBabel {
 
     // do quick test to see if there are any possible stereogenic units
     if (!mayHaveTetrahedralCenter(mol) && !mayHaveCisTransBond(mol))
+    {
       return units;
+    }
 
     // make sure we have symmetry classes for all atoms
     if (symClasses.size() != mol->NumAtoms())
+    {
       return units;
+    }
 
     // para-stereocenters candidates
     std::vector<unsigned int> stereoAtoms; // Tetrahedral = idx, CisTrans = begin & end idx
@@ -724,7 +828,9 @@ namespace OpenBabel {
     std::vector<OBAtom*>::iterator ia;
     for (OBAtom *atom = mol->BeginAtom(ia); atom; atom = mol->NextAtom(ia)) {
       if (!isPotentialTetrahedral(atom))
+      {
         continue;
+      }
 
       // list containing neighbor symmetry classes
       std::vector<unsigned int> tlist;
@@ -736,17 +842,23 @@ namespace OpenBabel {
         // check if we already have a neighbor with this symmetry class
         std::vector<unsigned int>::iterator k;
         for (k = tlist.begin(); k != tlist.end(); ++k)
+        {
           if (symClasses[nbr->GetIndex()] == *k) {
             ischiral = false;
             // if so, might still be a para-stereocenter
             paraAtoms.push_back(atom->GetIdx());
           }
+        }
 
         if (ischiral)
+        {
           // keep track of all neighbors, so we can detect duplicates
           tlist.push_back(symClasses[nbr->GetIndex()]);
+        }
         else
+        {
           break;
+        }
       }
 
       if (ischiral) {
@@ -764,21 +876,29 @@ namespace OpenBabel {
     std::vector<OBBond*>::iterator ib;
     for (OBBond *bond = mol->BeginBond(ib); bond; bond = mol->NextBond(ib)) {
       if (bond->IsInRing() && bond->IsAromatic())
+      {
         continue; // Exclude C=C in phenyl rings for example
+      }
 
       if (bond->GetBondOrder() == 2) {
         OBAtom *begin = bond->GetBeginAtom();
         OBAtom *end = bond->GetEndAtom();
         if (!begin || !end)
+        {
           continue;
+        }
 
         if (begin->GetTotalDegree() > 3 || end->GetTotalDegree() > 3)
+        {
           continue; // e.g. C=Ru where the Ru has four substituents
+        }
 
         // Needs to have at least one explicit single bond at either end
         // FIXME: timvdm: what about C=C=C=C
         if (!begin->HasSingleBond() || !end->HasSingleBond())
+        {
           continue;
+        }
 
         isCisTransBond = true;
         std::vector<OBBond*>::iterator j;
@@ -789,14 +909,18 @@ namespace OpenBabel {
           // (There is a third, implicit, neighbor which is either a hydrogen
           // or a lone pair.)
           if (begin->ExplicitHydrogenCount() == 1)
+          {
             isCisTransBond = false;
+          }
         } else if (begin->GetExplicitDegree() == 3) {
           std::vector<unsigned int> tlist;
 
           for (OBAtom *nbr = begin->BeginNbrAtom(j); nbr; nbr = begin->NextNbrAtom(j)) {
             // skip end atom
             if (nbr->GetId() == end->GetId())
+            {
               continue;
+            }
             // do we already have an atom with this symmetry class?
             if (tlist.size()) {
               // compare second with first
@@ -817,19 +941,25 @@ namespace OpenBabel {
         }
 
         if (!isCisTransBond)
+        {
           continue;
+        }
 
         if (end->GetExplicitDegree() == 2) {
           // see comment above for begin atom
           if (end->ExplicitHydrogenCount() == 1)
+          {
             isCisTransBond = false;
+          }
         } else if (end->GetExplicitDegree() == 3) {
           std::vector<unsigned int> tlist;
 
           for (OBAtom *nbr = end->BeginNbrAtom(j); nbr; nbr = end->NextNbrAtom(j)) {
             // skip end atom
             if (nbr->GetId() == begin->GetId())
+            {
               continue;
+            }
             // do we already have an atom with this symmetry class?
             if (tlist.size()) {
               // compare second with first
@@ -850,8 +980,10 @@ namespace OpenBabel {
         }
 
         if (isCisTransBond)
+        {
           // true-stereocenter found
           units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId()));
+        }
       }
     }
 
@@ -888,10 +1020,13 @@ namespace OpenBabel {
       rings.push_back(StereoRing());
       StereoRing &ring = rings.back();
 
-
       for (std::size_t j = 0; j < stereoAtoms.size(); ++j)
+      {
         if (lssr[i]->_pathset.BitIsSet(stereoAtoms[j]))
+        {
           ring.trueCount++;
+        }
+      }
 
       //cout << "StereoRing: trueCount = " << ring.trueCount << endl;
       for (std::size_t j = 0; j < paraAtoms.size(); ++j) {
@@ -901,14 +1036,20 @@ namespace OpenBabel {
 
           FOR_NBORS_OF_ATOM (nbr, mol->GetAtom(paraAtoms[j])) {
             if (lssr[i]->_pathset.BitIsSet(nbr->GetIdx()))
+            {
               ring.paraAtoms.back().insideNbrs.push_back(&*nbr);
+            }
             else
+            {
               ring.paraAtoms.back().outsideNbrs.push_back(&*nbr);
+            }
           }
 
           //cout << "  ParaAtom(idx = " << ring.paraAtoms.back().inIdx << ", outside = " << ring.paraAtoms.back().outsideNbrs.size() << ")" << endl;
           if (ring.paraAtoms.back().insideNbrs.size() != 2)
+          {
             ring.paraAtoms.pop_back();
+          }
         }
       }
 
@@ -922,18 +1063,24 @@ namespace OpenBabel {
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetBeginAtom()) {
             if (nbr->GetIdx() == endIdx)
+            {
               continue;
+            }
             ring.paraBonds.back().insideNbrs.push_back(&*nbr);
           }
           FOR_NBORS_OF_ATOM (nbr, bond->GetEndAtom()) {
             if (nbr->GetIdx() == beginIdx)
+            {
               continue;
+            }
             ring.paraBonds.back().outsideNbrs.push_back(&*nbr);
           }
 
           //cout << "  ParaBond(inIdx = " << beginIdx << ", outIdx = " << endIdx << ", outside = " << ring.paraBonds.back().outsideNbrs.size() << ")" << endl;
           if (ring.paraBonds.back().insideNbrs.size() != 2)
+          {
             ring.paraBonds.pop_back();
+          }
         }
 
         if (lssr[i]->_pathset.BitIsSet(endIdx)) {
@@ -941,18 +1088,24 @@ namespace OpenBabel {
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetEndAtom()) {
             if (nbr->GetIdx() == beginIdx)
+            {
               continue;
+            }
             ring.paraBonds.back().insideNbrs.push_back(&*nbr);
           }
           FOR_NBORS_OF_ATOM (nbr, bond->GetBeginAtom()) {
             if (nbr->GetIdx() == endIdx)
+            {
               continue;
+            }
             ring.paraBonds.back().outsideNbrs.push_back(&*nbr);
           }
 
           //cout << "  ParaBond(inIdx = " << endIdx << ", outIdx = " << beginIdx << ", outside = " << ring.paraBonds.back().outsideNbrs.size() << ")" << endl;
           if (ring.paraBonds.back().insideNbrs.size() != 2)
+          {
             ring.paraBonds.pop_back();
+          }
         }
 
       }
@@ -989,13 +1142,16 @@ namespace OpenBabel {
       bool alreadyAdded = false;
       for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
         if ((*u2).type == OBStereo::Tetrahedral)
+        {
           if (atom->GetId() == (*u2).id) {
             alreadyAdded = true;
           }
+        }
       }
       if (alreadyAdded)
+      {
         continue;
-
+      }
 
       int classification = classifyTetrahedralNbrSymClasses(symClasses, atom);
       switch (classification) {
@@ -1018,7 +1174,9 @@ namespace OpenBabel {
             OBAtom *ligandAtom2 = findAtomWithSymmetryClass(atom, duplicatedSymClass2, symClasses);
             if (containsAtLeast_1true_2para(ligandAtom1, atom, units) &&
                 containsAtLeast_1true_2para(ligandAtom2, atom, units))
+            {
               units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+            }
           }
           break;
         case T1112:
@@ -1027,7 +1185,9 @@ namespace OpenBabel {
             unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
             OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
             if (containsAtLeast_2true_2paraAssemblies(ligandAtom, atom, units, mergedRings))
+            {
               units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+            }
           }
           break;
         case T1111:
@@ -1057,12 +1217,16 @@ namespace OpenBabel {
       bool alreadyAdded = false;
       for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
         if ((*u2).type == OBStereo::CisTrans)
+        {
           if (bond->GetId() == (*u2).id) {
             alreadyAdded = true;
           }
+        }
       }
       if (alreadyAdded)
+      {
         continue;
+      }
 
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
@@ -1088,13 +1252,17 @@ namespace OpenBabel {
             for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
               if ((*u2).type == OBStereo::Tetrahedral) {
                 if (ligand.BitIsSet((*u2).id))
+                {
                   beginValid = true;
+                }
               } else if((*u2).type == OBStereo::CisTrans) {
                 OBBond *bond = mol->GetBondById((*u2).id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
+                {
                   beginValid = true;
+                }
               }
             }
           }
@@ -1102,7 +1270,9 @@ namespace OpenBabel {
       }
 
       if (!beginValid)
+      {
         continue;
+      }
 
       int endClassification = classifyCisTransNbrSymClasses(symClasses, bond, bond->GetEndAtom());
       bool endValid = false;
@@ -1125,13 +1295,17 @@ namespace OpenBabel {
             for (OBStereoUnitSet::iterator u2 = units.begin(); u2 != units.end(); ++u2) {
               if ((*u2).type == OBStereo::Tetrahedral) {
                 if (ligand.BitIsSet((*u2).id))
+                {
                   endValid = true;
+                }
               } else if((*u2).type == OBStereo::CisTrans) {
                 OBBond *bond = mol->GetBondById((*u2).id);
                 OBAtom *begin = bond->GetBeginAtom();
                 OBAtom *end = bond->GetEndAtom();
                 if (ligand.BitIsSet(begin->GetId()) || ligand.BitIsSet(end->GetId()))
+                {
                   endValid = true;
+                }
               }
             }
           }
@@ -1139,17 +1313,25 @@ namespace OpenBabel {
       }
 
       if (endValid)
+      {
         units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), true));
+      }
     }
 
     if (DEBUG) {
       for (OBStereoUnitSet::iterator unit = units.begin(); unit != units.end(); ++unit) {
         if (unit->type == OBStereo::Tetrahedral)
+        {
           cout << "Tetrahedral(center = " << unit->id << ", para = " << unit->para << ")" << endl;
+        }
         if (unit->type == OBStereo::CisTrans)
+        {
           cout << "CisTrans(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+        }
         if (unit->type == OBStereo::SquarePlanar)
+        {
           cout << "SquarePlanar(bond = " << unit->id << ", para = " << unit->para << ")" << endl;
+        }
       }
     }
 

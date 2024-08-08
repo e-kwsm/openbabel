@@ -1124,8 +1124,12 @@ namespace OpenBabel {
       }
     }
     else			// Minimization: invert score so best has 1.0, others lower values
+    {
       for (dit =  vscores.begin (); dit != vscores.end (); ++dit)
+      {
         vshared_fitnes.push_back (1.0 / (*dit + dtmp));
+      }
+    }
 
     // Use a vector to keep track of assigned indivivduals
     vshared.resize (pop_size);

@@ -44,13 +44,17 @@ OpAddFileName theOpAddFileName("addfilename"); //Global instance
 bool OpAddFileName::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   if(!pConv)
+  {
     return true; //do not stop any conversion but do nothing
+  }
   std::string  fname(pConv->GetInFilename());
 
   //remove path from the filename
   std::string::size_type pos = fname.find_last_of("/\\:");
   if(pos!=std::string::npos)
+  {
     fname.erase(0, pos+1);
+  }
   fname = " " + fname;
   pOb->SetTitle((pOb->GetTitle() + fname).c_str());
   return true;

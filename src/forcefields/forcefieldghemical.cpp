@@ -123,7 +123,9 @@ namespace OpenBabel
     }
 
     if (!isfinite(theta))
+    {
       theta = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+    }
 
     delta2 = delta * delta;
 
@@ -180,7 +182,9 @@ namespace OpenBabel
       tor = DEG_TO_RAD * OBForceField::VectorTorsionDerivative(pos_a, pos_b, pos_c, pos_d,
                                                                force_a, force_b, force_c, force_d);
       if (!isfinite(tor))
+      {
         tor = 1.0e-3;
+      }
 
       const double sine = sin(tor);
       const double sine2 = sin(2.0 * tor);
@@ -193,8 +197,10 @@ namespace OpenBabel
       OBForceField::VectorSelfMultiply(force_d, dE);
     } else {
       tor = DEG_TO_RAD * OBForceField::VectorTorsion(pos_a, pos_b, pos_c, pos_d);
-      if (!isfinite(tor)) // stop any NaN or infinity
+      if (!isfinite(tor))
+      {
         tor = 1.0e-3; // rather than NaN
+      }
     }
 
     const double cosine = cos(tor);
@@ -297,8 +303,12 @@ namespace OpenBabel
     for (i = _vdwcalculations.begin(); i != _vdwcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
+      {
         if (!_vdwpairs.BitIsSet(j))
+        {
           continue;
+        }
+      }
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -342,7 +352,9 @@ namespace OpenBabel
     }
 
     if (IsNearZero(rab, 1.0e-3))
+    {
       rab = 1.0e-3;
+    }
 
     energy = qq / rab;
   }
@@ -365,8 +377,12 @@ namespace OpenBabel
     for (i = _electrostaticcalculations.begin(); i != _electrostaticcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
+      {
         if (!_elepairs.BitIsSet(j))
+        {
           continue;
+        }
+      }
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -443,22 +459,30 @@ namespace OpenBabel
 
       // skip this bond if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
         bool validBond = false;
         for (unsigned int i=0; i < _intraGroup.size(); ++i) {
           if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()))
+          {
             validBond = true;
+          }
         }
         if (!validBond)
+        {
           continue;
+        }
       }
 
       bondtype = bond->GetBondOrder();
       if (bond->IsAromatic())
+      {
         bondtype = 5;
+      }
 
       bondcalc.a = a;
       bondcalc.b = b;
@@ -509,7 +533,9 @@ namespace OpenBabel
 
       // skip this angle if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) || _constraints.IsIgnored(c->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the three angle atoms are in a single intraGroup
       if (HasGroups()) {
@@ -517,10 +543,14 @@ namespace OpenBabel
         for (unsigned int i=0; i < _intraGroup.size(); ++i) {
           if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
               _intraGroup[i].BitIsSet(c->GetIdx()))
+          {
             validAngle = true;
+          }
         }
         if (!validAngle)
+        {
           continue;
+        }
       }
 
       anglecalc.a = a;
@@ -579,7 +609,9 @@ namespace OpenBabel
       // skip this torsion if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ||
            _constraints.IsIgnored(c->GetIdx()) || _constraints.IsIgnored(d->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the four torsion atoms are in a single intraGroup
       if (HasGroups()) {
@@ -587,16 +619,22 @@ namespace OpenBabel
         for (unsigned int i=0; i < _intraGroup.size(); ++i) {
           if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
               _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx()))
+          {
             validTorsion = true;
+          }
         }
         if (!validTorsion)
+        {
           continue;
+        }
       }
 
       OBBond *bc = _mol.GetBond(b, c);
       torsiontype = bc->GetBondOrder();
       if (bc->IsAromatic())
+      {
         torsiontype = 5;
+      }
 
       torsioncalc.a = a;
       torsioncalc.b = b;
@@ -691,7 +729,9 @@ namespace OpenBabel
 
       // skip this vdw if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two atoms are in a single _interGroup or if
       // two two atoms are in one of the _interGroups pairs.
@@ -699,17 +739,25 @@ namespace OpenBabel
         bool validVDW = false;
         for (unsigned int i=0; i < _interGroup.size(); ++i) {
           if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+          {
             validVDW = true;
+          }
         }
         for (unsigned int i=0; i < _interGroups.size(); ++i) {
           if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+          {
             validVDW = true;
+          }
           if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          {
             validVDW = true;
+          }
         }
 
         if (!validVDW)
+        {
           continue;
+        }
       }
 
       parameter_a = GetParameter(a->GetType(), nullptr, nullptr, nullptr, _ffvdwparams);
@@ -749,7 +797,9 @@ namespace OpenBabel
 
       // 1-4 scaling
       if (a->IsOneFour(b))
+      {
         vdwcalc.kab *= 0.5;
+      }
       /*
         vdwcalc.is14 = false;
         FOR_NBORS_OF_ATOM (nbr, a)
@@ -794,7 +844,9 @@ namespace OpenBabel
 
       // skip this ele if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two atoms are in a single _interGroup or if
       // two two atoms are in one of the _interGroups pairs.
@@ -802,17 +854,25 @@ namespace OpenBabel
         bool validEle = false;
         for (unsigned int i=0; i < _interGroup.size(); ++i) {
           if (_interGroup[i].BitIsSet(a->GetIdx()) && _interGroup[i].BitIsSet(b->GetIdx()))
+          {
             validEle = true;
+          }
         }
         for (unsigned int i=0; i < _interGroups.size(); ++i) {
           if (_interGroups[i].first.BitIsSet(a->GetIdx()) && _interGroups[i].second.BitIsSet(b->GetIdx()))
+          {
             validEle = true;
+          }
           if (_interGroups[i].first.BitIsSet(b->GetIdx()) && _interGroups[i].second.BitIsSet(a->GetIdx()))
+          {
             validEle = true;
+          }
         }
 
         if (!validEle)
+        {
           continue;
+        }
       }
 
       elecalc.qq = KCAL_TO_KJ * 332.17 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
@@ -823,7 +883,9 @@ namespace OpenBabel
 
         // 1-4 scaling
         if (a->IsOneFour(b))
+        {
           elecalc.qq *= 0.5;
+        }
 
         elecalc.SetupPointers();
         _electrostaticcalculations.push_back(elecalc);
@@ -836,15 +898,25 @@ namespace OpenBabel
   bool OBForceFieldGhemical::SetupPointers()
   {
     for (unsigned int i = 0; i < _bondcalculations.size(); ++i)
+    {
       _bondcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _anglecalculations.size(); ++i)
+    {
       _anglecalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _torsioncalculations.size(); ++i)
+    {
       _torsioncalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _vdwcalculations.size(); ++i)
+    {
       _vdwcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _electrostaticcalculations.size(); ++i)
+    {
       _electrostaticcalculations[i].SetupPointers();
+    }
 
     return true;
   }
@@ -878,13 +950,21 @@ namespace OpenBabel
         parameter._dpar.push_back(atof(vs[5].c_str())); // force cte
         parameter._ipar.resize(1);
         if (EQn(vs[3].c_str(), "S", 1))
+        {
           parameter._ipar[0] = 1;
+        }
         if (EQn(vs[3].c_str(), "D", 1))
+        {
           parameter._ipar[0] = 2;
+        }
         if (EQn(vs[3].c_str(), "T", 1))
+        {
           parameter._ipar[0] = 3;
+        }
         if (EQn(vs[3].c_str(), "C", 1))
+        {
           parameter._ipar[0] = 5;
+        }
         _ffbondparams.push_back(parameter);
       }
       if (EQn(buffer, "angle", 5)) {
@@ -906,19 +986,31 @@ namespace OpenBabel
         parameter._dpar[0] = atof(vs[6].c_str()); // force cte
         parameter._dpar[2] = atof(vs[8].c_str()); // n
         if (EQn(vs[7].c_str(), "+", 1))
+        {
           parameter._dpar[1] = +1; // s
+        }
         else if (EQn(vs[7].c_str(), "-", 1))
+        {
           parameter._dpar[1] = -1; // s
+        }
 
         parameter._ipar.resize(1);
         if (EQn(vs[5].c_str(), "?S?", 3))
+        {
           parameter._ipar[0] = 1;
+        }
         else if (EQn(vs[5].c_str(), "?D?", 3))
+        {
           parameter._ipar[0] = 2;
+        }
         else if (EQn(vs[5].c_str(), "?T?", 3))
+        {
           parameter._ipar[0] = 3;
+        }
         else if (EQn(vs[5].c_str(), "?C?", 3))
+        {
           parameter._ipar[0] = 5;
+        }
         _fftorsionparams.push_back(parameter);
       }
       if (EQn(buffer, "vdw", 3)) {
@@ -934,16 +1026,22 @@ namespace OpenBabel
         parameter._b = vs[2];
         parameter._ipar.resize(1);
         if (EQn(vs[3].c_str(), "S", 1))
+        {
           parameter._ipar[0] = 1;
+        }
         else if (EQn(vs[3].c_str(), "D", 1))
+        {
           parameter._ipar[0] = 2;
+        }
         parameter._dpar.push_back(atof(vs[4].c_str())); // charge
         _ffchargeparams.push_back(parameter);
       }
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     // return the locale to the original one
     obLocale.RestoreLocale();
@@ -979,7 +1077,9 @@ namespace OpenBabel
 
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1]))
+        {
           _vexttyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[2]));
+        }
         else {
           delete sp;
           sp = nullptr;
@@ -1027,7 +1127,9 @@ namespace OpenBabel
     //    cout << "ATOMTYPE " << a->GetType() << endl;
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     // return the locale to the original one
     obLocale.RestoreLocale();
@@ -1104,15 +1206,19 @@ namespace OpenBabel
   {
     OBFFParameter *par;
     if (a == nullptr)
+    {
       return nullptr;
+    }
 
     if (b == nullptr) {
       string _a(a);
       for (unsigned int idx=0; idx < parameter.size(); ++idx)
+      {
         if ((_a == parameter[idx]._a) && (type == parameter[idx]._ipar[0])) {
           par = &parameter[idx];
           return par;
         }
+      }
       return nullptr;
     }
     if (c == nullptr) {
@@ -1202,7 +1308,9 @@ namespace OpenBabel
       OBFFLog(_logbuf);
       // 8% tolerance here because some bonds have slight instability
       if (err.x() > 8.0 || err.y() > 8.0 || err.z() > 8.0)
+      {
         passed = false;
+      }
 
       // OBFF_EANGLE
       numgrad = NumericalDerivative(&*a, OBFF_EANGLE);
@@ -1215,7 +1323,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_ETORSION
       numgrad = NumericalDerivative(&*a, OBFF_ETORSION);
@@ -1228,7 +1338,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_EVDW
       numgrad = NumericalDerivative(&*a, OBFF_EVDW);
@@ -1241,7 +1353,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_EELECTROSTATIC
       numgrad = NumericalDerivative(&*a, OBFF_EELECTROSTATIC);
@@ -1254,7 +1368,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
     }
 
     return passed; // are all components good enough?

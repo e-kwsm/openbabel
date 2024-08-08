@@ -61,24 +61,38 @@ namespace OpenBabel
     // should delete the molecule itself (unlike the -s, --filter options,
     // which delete it in this function).
     if(!OBOp::DoOps(this, pOptions, pConv))
+    {
       return nullptr;
+    }
 
     bool ret=true;
 
     map<string,string>::const_iterator itr, itr2;
 
     if(pOptions->find("b")!=pOptions->end())
+    {
       ConvertDativeBonds();
+    }
     if(pOptions->find("B")!=pOptions->end())
+    {
       MakeDativeBonds();
+    }
 
     if(pOptions->find("d")!=pOptions->end())
+    {
       if(!DeleteHydrogens())
+      {
         ret=false;
+      }
+    }
 
     if(pOptions->find("h")!=pOptions->end())
+    {
       if(!AddHydrogens(false, false))
+      {
         ret=false;
+      }
+    }
 
     if(pOptions->find("r")!=pOptions->end()) {
       StripSalts();
@@ -97,16 +111,22 @@ namespace OpenBabel
       else {
         double pH = strtod(itr->second.c_str(), nullptr);
         if(!AddHydrogens(false, true, pH))
+        {
           ret=false;
+        }
       }
     }
 
     if(pOptions->find("c")!=pOptions->end())
+    {
       Center();
+    }
 
     itr = pOptions->find("title"); //Replaces title
     if(itr!=pOptions->end())
+    {
       SetTitle(itr->second.c_str());
+    }
 
     itr = pOptions->find("addtotitle"); //Appends text to title
     if(itr!=pOptions->end())

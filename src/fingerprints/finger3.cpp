@@ -54,9 +54,13 @@ public:
       bool IsDefault=false) : OBFingerprint(ID, IsDefault)
   {
     if (filename == nullptr)
+    {
       _patternsfile="patterns.txt";
+    }
     else
+    {
       _patternsfile = filename;
+    }
   }
 
 /////////////////////////////////////////////////////////////////////////////
@@ -72,7 +76,9 @@ public:
     // the
     string secondline;
     if(!_pats.empty())
+    {
       secondline = "\n" + toString(_bitcount) + " bits. Datafile version = " +  _version;
+    }
     desc = "SMARTS patterns specified in the file " + _patternsfile
       + secondline
       + "\nPatternFP is definable";
@@ -94,7 +100,9 @@ public:
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
+    {
       return false;
+    }
 
     //This fingerprint is constructed from a molecule with no explicit hydrogens.
     pmol->DeleteHydrogens();
@@ -102,12 +110,16 @@ public:
     unsigned int n;
     //Read patterns file if it has not been done already
     if(_pats.empty())
+    {
       ReadPatternFile(_version);
+    }
 
     //Make fp size the smallest power of two to contain the patterns
     n=Getbitsperint();
     while(n < _bitcount)
+    {
       n*=2;
+    }
     fp.resize(n/Getbitsperint());
 
     n=0; //bit position
@@ -141,9 +153,11 @@ public:
           ngrp = (num -1)/div-- +1; //rounds up
           num -= ngrp;
           while(ngrp--)
+          {
             if (numMatches > div) {
               SetBit(fp,i);
             }
+          }
           i++;
         }
       }
@@ -151,7 +165,9 @@ public:
     }
 
     if(foldbits)
+    {
       Fold(fp, foldbits);
+    }
     return true;
   }
 
@@ -171,7 +187,9 @@ public:
 
     string line;
     if(!getline(ifs, line)) //first line
+    {
       return false;
+    }
     bool smartsfirst = (Trim(line)=="#Comments after SMARTS");
 
     _bitcount=0;
@@ -189,13 +207,17 @@ public:
         {
           if(isdigit(line[0]))
           {
-            if(!ParseRDKitFormat(ss, p))
+            if (!ParseRDKitFormat(ss, p))
+            {
               continue;
+            }
           }
           else
+          {
             //Original format, which looks like:
             //  SMARTS description
             ss >> p.smartsstring >> p.description;
+          }
         }
         else
         {
@@ -220,26 +242,34 @@ public:
         //Find version number
         string::size_type pos = line.find("Version");
         if(pos!=string::npos)
+        {
           pos+=8;
+        }
         else if(line.find("Extracted from RDKit")!=string::npos)
         {
           pos=20;
           while((pos=line.find('r',pos))!=string::npos)
+          {
             if(isdigit(line[++pos]))
+            {
               break;
+            }
+          }
         }
         if(pos!=string::npos)
         {
           ver=line.substr(pos) + ' ';//space fixes bug in while() when number at end of line
           pos=1;
-          while(isdigit(ver[++pos]));
+          while(isdigit(ver[++pos])) {}
           ver.erase(pos);
         }
       }
     }while(getline(ifs,line));
 
     if (ifs)
+    {
       ifs.close();
+    }
     return true;
   }
 
@@ -262,7 +292,9 @@ public:
         {
           ss << ppat->description;
           if(div>0)
+          {
             ss << '*' << div+1;
+          }
           ss << '\t' ;
           break; //ignore the bits signifying a smaller number of occurrences
         }
@@ -284,7 +316,9 @@ public:
     ss.ignore(dum, '\'');
     getline(ss, p.smartsstring, '\'');
     if(p.smartsstring[0]=='?') //ignore patterns with SMARTS '?'
+    {
       p.smartsstring="[999]";//this seems to match nothing;  was return false;
+    }
     ss.ignore(dum,',');
     ss >> p.numoccurrences;
     ss.ignore(dum,'#');
@@ -295,9 +329,13 @@ public:
     string::size_type pos;
     pos = comment.find("FIX");
     if(pos==string::npos)
+    {
       pos = comment.find("*NOTE*");
+    }
     if(pos!=string::npos)
+    {
       comment.erase(pos);
+    }
     p.description = number + ": " + comment;
     return true;
   }
