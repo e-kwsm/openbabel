@@ -85,7 +85,7 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     while (n && ifs.getline(buffer,BUFF_SIZE))
       {
-        if (EQn(buffer,"ENDMDL",6))
+        if (!strncmp(buffer,"ENDMDL",6))
           -- n;
       }
 
@@ -115,18 +115,18 @@ namespace OpenBabel
     mol.BeginModify();
     while (ifs.good() && ifs.getline(buffer,BUFF_SIZE))
       {
-        if (EQn(buffer,"ENDMDL",6))
+        if (!strncmp(buffer,"ENDMDL",6))
           break;
-        if (EQn(buffer,"END",3)) {
+        if (!strncmp(buffer,"END",3)) {
           // eat anything until the next ENDMDL
-          while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6));
+          while (ifs.getline(buffer,BUFF_SIZE) && strncmp(buffer,"ENDMDL",6));
           break;
         }
-        if (EQn(buffer,"TER",3)) {
+        if (!strncmp(buffer,"TER",3)) {
           chainNum++;
           continue;
         }
-        if (EQn(buffer,"ATOM",4) || EQn(buffer,"HETATM",6))
+        if (!strncmp(buffer,"ATOM",4) || !strncmp(buffer,"HETATM",6))
           {
             if( ! parseAtomRecord(buffer,mol,chainNum))
               {
@@ -236,7 +236,7 @@ namespace OpenBabel
     if (sbuf.size() < 48)
       return(false);
 
-    bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
+    bool hetatm = strncmp(buffer,"HETATM",6) == 0;
 
     /* serial number */
     string serno = sbuf.substr(0,5);
@@ -277,7 +277,7 @@ namespace OpenBabel
       }
 
     string type;
-    if (EQn(buffer,"ATOM",4))
+    if (!strncmp(buffer,"ATOM",4))
       {
         type = atmid.substr(0,2);
         if (isdigit(type[0])) {

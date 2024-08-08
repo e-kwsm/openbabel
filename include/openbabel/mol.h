@@ -409,7 +409,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Mark that distance calculations, etc., should apply periodic boundary conditions through the minimimum image convention.
     //! Does not automatically recalculate bonding.
     void   SetPeriodicMol(bool value = true){ SET_OR_UNSET_FLAG(OB_PERIODIC_MOL); }
-    bool   HasFlag(int flag)   { return (_flags & flag) ? true : false; }
+    bool   HasFlag(int flag)   { return (_flags & flag) != 0; }
     void   SetFlag(int flag)   { _flags |= flag; }
     void   UnsetFlag(int flag) { _flags &= (~(flag)); }
     void   SetFlags(int flags) { _flags = flags; }

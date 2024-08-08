@@ -796,10 +796,10 @@ namespace OpenBabel
     }
 
     // Set private class variables for options
-    trans_texture = pConv->IsOption("t") ? true : false;
-    sky = pConv->IsOption("s") ? true : false;
-    checkerboard = pConv->IsOption("c") ? true : false;
-    sphere = pConv->IsOption("f") ? true : false;
+    trans_texture = pConv->IsOption("t") != nullptr;
+    sky = pConv->IsOption("s") != nullptr;
+    checkerboard = pConv->IsOption("c") != nullptr;
+    sphere = pConv->IsOption("f") != nullptr;
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

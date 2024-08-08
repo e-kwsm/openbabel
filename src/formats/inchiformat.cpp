@@ -190,13 +190,13 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       unsigned long start = OBStereo::ImplicitRef;
       unsigned long end = OBStereo::ImplicitRef;
       FOR_NBORS_OF_ATOM(a, pmol->GetAtom(ct->begin + 1)) {
-        if ( !(a->GetId() == ct->end || a->GetId() == stereo.neighbor[0] ) ) {
+        if (a->GetId() != ct->end && a->GetId() != stereo.neighbor[0]) {
           start = a->GetId();
           break;
         }
       }
       FOR_NBORS_OF_ATOM(b, pmol->GetAtom(ct->end + 1)) {
-        if ( !(b->GetId() == ct->begin || b->GetId() == stereo.neighbor[3] ) ) {
+        if (b->GetId() != ct->begin && b->GetId() != stereo.neighbor[3]) {
           end = b->GetId();
           break;
         }

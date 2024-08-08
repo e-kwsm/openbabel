@@ -442,8 +442,7 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     if (str=="OT1") str="O";
     if (str=="OT2") str="OXT";
     res->SetAtomID(dstatom,str);
-    if (srcatom->header[MOB_ELEMENT]&MOB_HETATOMFLAG) hetatom=true;
-    else hetatom=false;
+    hetatom = (srcatom->header[MOB_ELEMENT]&MOB_HETATOMFLAG) != 0;
     res->SetHetAtom(dstatom,hetatom);
     /* NOW ADD THE BONDS */
     links=srcatom->header[MOB_LINKS];

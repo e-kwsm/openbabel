@@ -317,13 +317,8 @@ namespace OpenBabel {
     }
     // [C|c|K|k] indicates cartesian coordinates, anything else (including
     // an empty string, buffer[0] == 0) indicates fractional coordinates
-    if ( buffer[0] == 'C' || buffer[0] == 'c' ||
-         buffer[0] == 'K' || buffer[0] == 'k' ) {
-      cartesian = true;
-    }
-    else {
-      cartesian = false;
-    }
+    cartesian = buffer[0] == 'C' || buffer[0] == 'c' ||
+                buffer[0] == 'K' || buffer[0] == 'k';
 
     atomCount = 0;
     for (unsigned int i = 0; i < totalAtoms; i++) {

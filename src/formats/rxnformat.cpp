@@ -296,14 +296,8 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     HandleAgent handleagent = ReadAgentOption(pConv->IsOption("G"));
     bool hasAgent = rxnfacade.NumComponents(AGENT) > 0;
     bool agentInReactants, agentInProducts;
-    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_REACT))
-      agentInReactants = true;
-    else
-      agentInReactants = false;
-    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_PROD))
-      agentInProducts = true;
-    else
-      agentInProducts = false;
+    agentInReactants = hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_REACT);
+    agentInProducts = hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_PROD);
 
     ostream &ofs = *pConv->GetOutStream();
 
