@@ -4123,7 +4123,7 @@ namespace OpenBabel {
     bool success = pInChIFormat->WriteMolecule(mol, &MolConv);
     if (!success) return false;
     string inchi = newstream.str();
-    if (inchi.size() == 0) return false;
+    if (inchi.empty()) return false;
     vector<string> vs;
     tokenize(vs, inchi);
     MolConv.SetInFormat(pInChIFormat);
