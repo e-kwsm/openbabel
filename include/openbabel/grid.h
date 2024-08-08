@@ -115,7 +115,7 @@ namespace OpenBabel
     OBFloatGrid() : _ival(nullptr), _halfSpace(0.0) {}
     ~OBFloatGrid()
     {
-      if (_ival) delete [] _ival;
+      if (_ival) { delete [] _ival; }
     }
 
     //! Initialize the grid using this molecule as a box (plus a padding)
@@ -246,10 +246,11 @@ namespace OpenBabel
     //! \return Value at the point in the grid specified by i, j and k.
     double GetValue(int i, int j, int k)
     {
-      if (i*_ydim*_zdim + j*_zdim + k > _xdim*_ydim*_zdim)
+      if (i*_ydim*_zdim + j*_zdim + k > _xdim*_ydim*_zdim) {
         return 0.0;
-      else
+      } else {
         return _values[i*_ydim*_zdim + j*_zdim + k];
+      }
     }
 
     //! \deprecated Will be removed.
@@ -257,15 +258,17 @@ namespace OpenBabel
     OB_DEPRECATED_MSG("Use vector version instead")
     void SetVals(double *ptr)
     {
-     for (int i = 0; i < _xdim*_ydim*_zdim; ++i)
+     for (int i = 0; i < _xdim*_ydim*_zdim; ++i) {
        _values[i] = ptr[i];
+     }
     }
 
     //! Set the value at the grid point specified by i, j and k to val.
     bool SetValue(int i, int j, int k, double val)
     {
-      if (i*_ydim*_zdim + j*_zdim + k > _xdim*_ydim*_zdim)
+      if (i*_ydim*_zdim + j*_zdim + k > _xdim*_ydim*_zdim) {
         return false;
+      }
 
       _values[i*_ydim*_zdim + j*_zdim + k] = val;
       return true;

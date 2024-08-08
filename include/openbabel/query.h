@@ -100,13 +100,17 @@ namespace OpenBabel {
        */
       virtual bool Matches(const OBAtom *atom) const
       {
-        if (atom->GetAtomicNum() != m_atomicNum)
+        if (atom->GetAtomicNum() != m_atomicNum) {
           return false;
-        if (atom->IsAromatic() != m_isAromatic)
+        }
+        if (atom->IsAromatic() != m_isAromatic) {
           return false;
-        if (m_isInRing)
-          if (!atom->IsInRing())
+        }
+        if (m_isInRing) {
+          if (!atom->IsInRing()) {
             return false;
+          }
+        }
         return true;
       }
     protected:
@@ -176,8 +180,9 @@ namespace OpenBabel {
        */
       virtual bool Matches(const OBBond *bond) const
       {
-        if (m_aromatic)
+        if (m_aromatic) {
           return bond->IsAromatic();
+        }
         return bond->GetBondOrder() == m_order;
       }
     protected:
@@ -232,9 +237,11 @@ namespace OpenBabel {
        */
       OBQueryBond* GetBond(OBQueryAtom *begin, OBQueryAtom *end) const
       {
-        for (unsigned int i = 0; i < begin->GetBonds().size(); ++i)
-          if (begin->GetNbrs()[i] == end)
+        for (unsigned int i = 0; i < begin->GetBonds().size(); ++i) {
+          if (begin->GetNbrs()[i] == end) {
             return begin->GetBonds()[i];
+          }
+        }
         return nullptr;
       }
       /**
