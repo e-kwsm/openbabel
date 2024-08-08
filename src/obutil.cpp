@@ -937,10 +937,10 @@ namespace OpenBabel
         onorm = 0.0;
         for (j = 0; j < 3; ++j)
           {
-            dnorm = dnorm + (double)fabs(d[j]);
+            dnorm = dnorm + fabs(d[j]);
             for (i = 0; i <= j - 1; ++i)
               {
-                onorm = onorm + (double)fabs(a[i][j]);
+                onorm = onorm + fabs(a[i][j]);
               }
           }
 
@@ -960,11 +960,11 @@ namespace OpenBabel
                     else
                       {
                         q = 0.5 * dma / b;
-                        t = 1.0/((double)fabs(q) + (double)sqrt(1.0+q*q));
+                        t = 1.0/(fabs(q) + sqrt(1.0+q*q));
                         if(q < 0.0)
                           t = -t;
                       }
-                    c = 1.0/(double)sqrt(t * t + 1.0);
+                    c = 1.0/sqrt(t * t + 1.0);
                     s = t * c;
                     a[i][j] = 0.0;
                     /* Perform a Jacobi rotation on the supplied matrix*/
@@ -1043,7 +1043,7 @@ namespace OpenBabel
     v3[1] = -r1[0]*r2[2] + r1[2]*r2[0];
     v3[2] =  r1[0]*r2[1] - r1[1]*r2[0];
 	/* Ensure it is normalised |v3|=1 */
-    s = (double)sqrt(v3[0]*v3[0] + v3[1]*v3[1] + v3[2]*v3[2]);
+    s = sqrt(v3[0]*v3[0] + v3[1]*v3[1] + v3[2]*v3[2]);
     v3[0] /= s;
     v3[1] /= s;
     v3[2] /= s;
@@ -1053,7 +1053,7 @@ namespace OpenBabel
     v2[1] = -v3[0]*r1[2] + v3[2]*r1[0];
     v2[2] =  v3[0]*r1[1] - v3[1]*r1[0];
     /* Ensure it is normalised |v2|=1 */
-    s = (double)sqrt(v2[0]*v2[0] + v2[1]*v2[1] + v2[2]*v2[2]);
+    s = sqrt(v2[0]*v2[0] + v2[1]*v2[1] + v2[2]*v2[2]);
     v2[0] /= s;
     v2[1] /= s;
     v2[2] /= s;
@@ -1063,7 +1063,7 @@ namespace OpenBabel
     v1[1] = -v2[0]*v3[2] + v2[2]*v3[0];
     v1[2] =  v2[0]*v3[1] - v2[1]*v3[0];
      /* Ensure it is normalised |v1|=1 */
-    s = (double)sqrt(v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2]);
+    s = sqrt(v1[0]*v1[0] + v1[1]*v1[1] + v1[2]*v1[2]);
     v1[0] /= s;
     v1[1] /= s;
     v1[2] /= s;
@@ -1096,9 +1096,9 @@ namespace OpenBabel
     mat[2][1]=rmat[5];
     mat[2][2]=rmat[8];
 
-    roots[0]=(double)Roots[0];
-    roots[1]=(double)Roots[1];
-    roots[2]=(double)Roots[2];
+    roots[0]=Roots[0];
+    roots[1]=Roots[1];
+    roots[2]=Roots[2];
 
     return 1;
   }
@@ -1148,9 +1148,9 @@ namespace OpenBabel
 
     /* make sqrt of rmat, store in mat*/
 
-    roots[0]=roots[0]<0.0001? 0.0: 1.0/(double)sqrt(roots[0]);
-    roots[1]=roots[1]<0.0001? 0.0: 1.0/(double)sqrt(roots[1]);
-    roots[2]=roots[2]<0.0001? 0.0: 1.0/(double)sqrt(roots[2]);
+    roots[0]=roots[0]<0.0001? 0.0: 1.0/sqrt(roots[0]);
+    roots[1]=roots[1]<0.0001? 0.0: 1.0/sqrt(roots[1]);
+    roots[2]=roots[2]<0.0001? 0.0: 1.0/sqrt(roots[2]);
 
     if(d2<0.0)
       {
@@ -1194,7 +1194,7 @@ namespace OpenBabel
 
     d2 /= (double) size;
 
-    return((double)sqrt(d2));
+    return(sqrt(d2));
   }
 
   void get_rmat(double *rvec,double *r,double *f,int size)
@@ -1241,9 +1241,9 @@ namespace OpenBabel
 
     /* make sqrt of rmat, store in mat*/
 
-    roots[0]=(roots[0]<0.0001) ? 0.0: 1.0/(double)sqrt(roots[0]);
-    roots[1]=(roots[1]<0.0001) ? 0.0: 1.0/(double)sqrt(roots[1]);
-    roots[2]=(roots[2]<0.0001) ? 0.0: 1.0/(double)sqrt(roots[2]);
+    roots[0]=(roots[0]<0.0001) ? 0.0: 1.0/sqrt(roots[0]);
+    roots[1]=(roots[1]<0.0001) ? 0.0: 1.0/sqrt(roots[1]);
+    roots[2]=(roots[2]<0.0001) ? 0.0: 1.0/sqrt(roots[2]);
 
     if(d2<0.0)
       {

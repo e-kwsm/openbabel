@@ -2184,9 +2184,9 @@ namespace OpenBabel
 
             //perceive and match pattern
             std::vector<std::vector<int> >::iterator j;
-            std::vector<bool> vb(((OBMol*) atom->GetParent())->NumAtoms()+1);
+            std::vector<bool> vb(( atom->GetParent())->NumAtoms()+1);
             std::vector<std::vector<int> > mlist;
-            if (match( *((OBMol *) atom->GetParent()),
+            if (match( *( atom->GetParent()),
                        (Pattern*)expr->recur.recur,mlist))
               for (j = mlist.begin();j != mlist.end();++j)
                 vb[(*j)[0]] = true;
