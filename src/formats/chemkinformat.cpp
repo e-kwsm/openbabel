@@ -221,7 +221,7 @@ void ChemKinFormat::Init()
     IMols.clear();
     //Special species name
     std::shared_ptr<OBMol> sp(new OBMol);
-    sp.get()->SetTitle("M");
+    sp->SetTitle("M");
     IMols["M"] = sp;
 }
 
@@ -286,7 +286,7 @@ bool ChemKinFormat::ReadHeader(istream& ifs, OBConversion* pConv)
         }
         //Add all species to IMols
         std::shared_ptr<OBMol> sp(new OBMol);
-        sp.get()->SetTitle(*itr);
+        sp->SetTitle(*itr);
         IMols[*itr] = sp;
       }
     }
