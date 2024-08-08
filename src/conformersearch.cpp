@@ -147,7 +147,7 @@ namespace OpenBabel {
   {
     energy_nrequest++;
     RotorKey cur_key = keys[index];
-    if (energy_map.size () > 0)
+    if (!energy_map.empty())
       {
         // Check that we haven't already computed this energy);
         mapRotorEnergy::iterator it = energy_map.find (cur_key);
@@ -189,7 +189,7 @@ namespace OpenBabel {
   {
     energy_nrequest++;
     RotorKey cur_key = keys[index];
-    if (energy_map.size () > 0)
+    if (!energy_map.empty())
       {
         // Check that we haven't already computed this energy);
         mapRotorEnergy::iterator it = energy_map.find (cur_key);
@@ -671,7 +671,7 @@ namespace OpenBabel {
       }
       if (m_logstream != nullptr)
         {
-          if (vscores.size ())
+          if (!vscores.empty())
             (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << "\t best " << vscores[0] << std::endl;
           else
             (*m_logstream) << "Generation #" << i + 1 << "  " << last_score << std::endl;
@@ -713,7 +713,7 @@ namespace OpenBabel {
     // Get conformers for the rotor keys
     std::vector<double*> conformers;
     rotamers.ExpandConformerList(mol, conformers);
-    if (conformers.size())
+    if (!conformers.empty())
       mol.SetConformers(conformers);
   }
 
