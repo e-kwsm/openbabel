@@ -61,7 +61,9 @@ public:
   {
     OBBase* pOb = pConv->GetChemObject();
     if(!_callDo || _pOp->Do(pOb, "", pConv->GetOptions(OBConversion::GENOPTIONS), pConv))  
+    {
       _obvec.push_back(pOb); // Store the object pointer.
+    }
 
     if(pConv->IsLast())
     {
@@ -70,7 +72,9 @@ public:
       {
         //clear the options if return is true - they have already been applied
         if(_pOp->ProcessVec(_obvec))
+        {
           pConv->SetOptions("",OBConversion::GENOPTIONS);
+        }
 
         //Now output the processed vector, unless it is empty
         if(!_obvec.empty())

@@ -106,7 +106,9 @@ namespace OpenBabel
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
     if(!pmol)
+    {
       return false;
+    }
     pmol->AddHydrogens(false, false);
 
     OpMap::const_iterator iter;

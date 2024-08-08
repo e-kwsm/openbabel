@@ -1453,7 +1453,9 @@ namespace OpenBabel
     }
 
     if (ifs)
+    {
       ifs.close();
+    }
 
     return 0;
   }
@@ -1514,7 +1516,9 @@ namespace OpenBabel
         // does the current ring atom have a exocyclic double bond?
         FOR_NBORS_OF_ATOM (nbr, ringatom) {
           if ((*ri)->IsInRing(nbr->GetIdx()))
+          {
             continue;
+          }
 
           if (!nbr->IsAromatic()) {
             if (ringatom->GetAtomicNum() == OBElements::Carbon && ringatom->IsInRingSize(5)
@@ -1531,7 +1535,9 @@ namespace OpenBabel
             continue;
           }
           if (ringbond->GetBondOrder() == 2)
+          {
             pi_electrons++;
+          }
         }
 
         // is the atom N, O or S in 5 rings
@@ -1547,7 +1553,9 @@ namespace OpenBabel
       ringbond = _mol.GetBond(first_rj, index);
       if (ringbond) {
         if (ringbond->GetBondOrder() == 2)
+        {
           pi_electrons += 2;
+        }
       }
 
       if (((pi_electrons == 6) && ((ringsize == 5) || (ringsize == 6)))
@@ -1555,13 +1563,17 @@ namespace OpenBabel
         // mark ring atoms as aromatic
         for(rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) {
           if (!_mol.GetAtom(*rj)->IsAromatic())
+          {
             done = true;
+          }
           _mol.GetAtom(*rj)->SetAromatic();
         }
         // mark all ring bonds as aromatic
         FOR_BONDS_OF_MOL (bond, _mol)
           if((*ri)->IsMember(&*bond))
+          {
             bond->SetAromatic();
+          }
       }
     }
 
@@ -1605,7 +1617,9 @@ namespace OpenBabel
         }
         FOR_NBORS_OF_ATOM (nbr, atom) {
           if (!((_mol.GetBond(atom, &*nbr))->IsAromatic()) || !nbr->IsInRingSize(5))
+          {
             continue;
+          }
 
           if (IsInSameRing(atom, &*nbr)) {
             alphaPos.push_back(&*nbr);
@@ -1613,9 +1627,13 @@ namespace OpenBabel
 
           FOR_NBORS_OF_ATOM (nbrNbr, &*nbr) {
             if (nbrNbr->GetIdx() == atom->GetIdx())
+            {
               continue;
+            }
             if (!((_mol.GetBond(&*nbr, &*nbrNbr))->IsAromatic()) || !nbrNbr->IsInRingSize(5))
+            {
               continue;
+            }
 
             IsAromatic = true;
 
@@ -1684,10 +1702,14 @@ namespace OpenBabel
               bool c60 = true; // special case to ensure c60 is typed correctly -- Paolo Tosco
               FOR_NBORS_OF_ATOM (nbr, atom) {
                 if (!(nbr->GetAtomicNum() == OBElements::Carbon && nbr->IsAromatic() && nbr->IsInRingSize(6)))
+                {
                   c60 = false;
+                }
               }
               if (c60)
+              {
                 return 37; // correct atom type for c in c60 (all atoms symmetric)
+              }
               // there is no S:, O:, or N:
               // this is the case for anions with only carbon and nitrogen in the ring
               return 78; // General carbon in 5-membered aromatic ring (C5)
@@ -1825,7 +1847,9 @@ namespace OpenBabel
 
               FOR_NBORS_OF_ATOM (nbrNbrNbr, &*nbrNbr) {
                 if (nbrNbrNbr->GetIdx() == nbr->GetIdx())
+                {
                   continue;
+                }
 
                 bond = _mol.GetBond(&*nbrNbr, &*nbrNbrNbr);
                 if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
@@ -1886,7 +1910,9 @@ namespace OpenBabel
           if (nbr->GetExplicitDegree() == 2) {
             FOR_NBORS_OF_ATOM (nbrNbr, &*nbr) {
               if (nbrNbr->GetAtomicNum() == OBElements::Hydrogen)
+              {
                 continue;
+              }
 
               bond = _mol.GetBond(&*nbr, &*nbrNbr);
               if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
@@ -1901,7 +1927,9 @@ namespace OpenBabel
 
           FOR_NBORS_OF_ATOM (nbrNbr, &*nbr) {
             if (nbrNbr->GetAtomicNum() == OBElements::Hydrogen)
+            {
               continue;
+            }
 
             if (nbrNbr->GetAtomicNum() == OBElements::Carbon) {
               if (nbrNbr->IsAromatic()) {
@@ -1910,7 +1938,9 @@ namespace OpenBabel
 
               FOR_NBORS_OF_ATOM (nbrNbrNbr, &*nbrNbr) {
                 if (nbrNbrNbr->GetIdx() == nbr->GetIdx())
+                {
                   continue;
+                }
 
                 bond = _mol.GetBond(&*nbrNbr, &*nbrNbrNbr);
                 if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
@@ -1924,7 +1954,9 @@ namespace OpenBabel
             if (nbrNbr->GetAtomicNum() == OBElements::Nitrogen) {
               FOR_NBORS_OF_ATOM (nbrNbrNbr, &*nbrNbr) {
                 if (nbrNbrNbr->GetIdx() == nbr->GetIdx())
+                {
                   continue;
+                }
 
                 bond = _mol.GetBond(&*nbrNbr, &*nbrNbrNbr);
                 if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
@@ -1937,7 +1969,9 @@ namespace OpenBabel
             if (nbrNbr->GetAtomicNum() == OBElements::Sulfur) {
               FOR_NBORS_OF_ATOM (nbrNbrNbr, &*nbrNbr) {
                 if (nbrNbrNbr->GetIdx() == nbr->GetIdx())
+                {
                   continue;
+                }
 
                 if (nbrNbrNbr->GetAtomicNum() == OBElements::Oxygen || (nbrNbrNbr->GetExplicitDegree() == 1)) {
                   return 28; // Hydrogen on NSO, NSO2 or NSO3 nitrogen (HNSO)
@@ -2280,13 +2314,19 @@ namespace OpenBabel
           bool isBondTriple = false;
           FOR_NBORS_OF_ATOM (nbr, atom) {
             if (!isNbrCarbon)
+            {
               isNbrCarbon = nbr->GetAtomicNum() == OBElements::Carbon;
+            }
             bond = _mol.GetBond(&*nbr, atom);
             if (!isBondTriple)
+            {
               isBondTriple = !bond->IsAromatic() && bond->GetBondOrder() == 3;
+            }
           }
           if (isBondTriple && isNbrCarbon)
+          {
             return 61; // Isonitrile nitrogen (NR%)
+          }
 
           return 53; // Central nitrogen in C=N=N or N=N=N (=N=)
         }
@@ -2441,25 +2481,35 @@ namespace OpenBabel
             }
             if (!bond->IsAromatic() && bond->GetBondOrder() == 1) {
 	      if ((nbr->GetExplicitDegree() == 2) || (nbr->GetExplicitValence() == 3))
+             {
 	      // O(-)--N
 	        return 35;
+             }
 	      else
+             {
               // O--N
                 return 32; // Oxygen in N-oxides (ONX)
+             }
             } else {
               // sometimes ONX bonds are labelled as double bonds
               // (e.g. by MOE, noticed by Paolo Tosco)
               int ndab = 0;
               FOR_BONDS_OF_ATOM(bond2, &*nbr) {
                 if (bond2->GetBondOrder() == 2 || bond2->GetBondOrder() == 5)
+                {
                   ndab++;
+                }
               }
               if (ndab + nbr->GetExplicitDegree() == 5)
+              {
                 // O--N
                 return 32; // Oxygen in N-oxides (ONX)
+              }
               else
+              {
                 // O==N
                 return 7; // Nitroso oxygen (O=N)
+              }
             }
           }
           // O-?-S
@@ -2583,7 +2633,9 @@ namespace OpenBabel
           bond = _mol.GetBond(&*nbr, atom);
           if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
             if (nbr->GetAtomicNum() == 6)
+            {
 	            doubleBondTo = 6;
+            }
           }
 
           if (nbr->GetExplicitDegree() == 1) {
@@ -2602,7 +2654,9 @@ namespace OpenBabel
           return 73; // Sulfur in anionic sulfinate group (SO2M)
         }
         if (oxygenCount && sulphurCount)
+        {
           return 73; // Tricoordinate sulfur in anionic thiosulfinate group (SSOM)
+        }
 
         //if ((doubleBondTo == 6) || (doubleBondTo == 8))
         return 17; // Sulfur doubly bonded to carbon, Sulfoxide sulfur (S=C, S=O)
@@ -2621,7 +2675,9 @@ namespace OpenBabel
         }
 
         if (doubleBondTo == 8)
+        {
           return 74; // Sulfinyl sulfur, e.g., in C=S=O (=S=O)
+        }
 
         return 15; // Thiol, sulfide, or disulfide sulfor (S)
       }
@@ -2666,7 +2722,9 @@ namespace OpenBabel
           }
         }
         if (oxygenCount == 4)
+        {
           return 77; // Perchlorate anion chlorine (CLO4)
+        }
       }
       // 1 neighbour
       if (atom->GetExplicitDegree() == 1) {
@@ -2700,9 +2758,13 @@ namespace OpenBabel
     ////////////////////////////////
     if (atom->GetAtomicNum() == 26) {
       if (atom->GetFormalCharge() == 2)
+      {
         return 87; // Dipositive iron (FE+2)
+      }
       else
+      {
         return 88; // Tripositive iron (FE+3)
+      }
     }
 
     ////////////////////////////////
@@ -2710,9 +2772,13 @@ namespace OpenBabel
     ////////////////////////////////
     if (atom->GetAtomicNum() == 29) {
       if (atom->GetFormalCharge() == 1)
+      {
         return 97; // Monopositive copper cation (CU+1)
+      }
       else
+      {
         return 98; // Dipositive copper cation (CU+2)
+      }
     }
 
     ////////////////////////////////
@@ -2811,7 +2877,9 @@ namespace OpenBabel
 
       // skip this bond if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
@@ -2823,7 +2891,9 @@ namespace OpenBabel
           }
         }
         if (!validBond)
+        {
           continue;
+        }
       }
 
       bondtype = GetBondType(a, b);
@@ -2907,7 +2977,9 @@ namespace OpenBabel
 
       // skip this angle if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) || _constraints.IsIgnored(c->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the three angle atoms are in a single intraGroup
       if (HasGroups()) {
@@ -2920,7 +2992,9 @@ namespace OpenBabel
           }
         }
         if (!validAngle)
+        {
           continue;
+        }
       }
 
       angletype = GetAngleType(a, b, c);
@@ -2937,11 +3011,17 @@ namespace OpenBabel
       // try exact match
       parameter = GetTypedParameter3Atom(angletype, type_a, type_b, type_c, _ffangleparams);
       if (parameter == nullptr) // try 3-2-3
+      {
         parameter = GetTypedParameter3Atom(angletype, EqLvl3(type_a), type_b, EqLvl3(type_c), _ffangleparams);
+      }
       if (parameter == nullptr) // try 4-2-4
+      {
         parameter = GetTypedParameter3Atom(angletype, EqLvl4(type_a), type_b, EqLvl4(type_c), _ffangleparams);
+      }
       if (parameter == nullptr) // try 5-2-5
+      {
         parameter = GetTypedParameter3Atom(angletype, EqLvl5(type_a), type_b, EqLvl5(type_c), _ffangleparams);
+      }
 
       if (parameter) {
         anglecalc.ka = parameter->_dpar[0];
@@ -2958,16 +3038,24 @@ namespace OpenBabel
         anglecalc.theta0 = 120.0;
 
         if (GetCrd(type_b) == 4)
+        {
           anglecalc.theta0 = 109.45;
+        }
 
         if ((GetCrd(type_b) == 2) && b->GetAtomicNum() == OBElements::Oxygen)
+        {
           anglecalc.theta0 = 105.0;
+        }
 
         if (b->GetAtomicNum() > 10)
+        {
           anglecalc.theta0 = 95.0;
+        }
 
         if (HasLinSet(type_b))
+        {
           anglecalc.theta0 = 180.0;
+        }
 
         if ((GetCrd(type_b) == 3) && (GetVal(type_b) == 3) && !GetMltb(type_b)) {
           if (b->GetAtomicNum() == OBElements::Nitrogen) {
@@ -2978,10 +3066,14 @@ namespace OpenBabel
         }
 
         if (a->IsInRingSize(3) && b->IsInRingSize(3) && c->IsInRingSize(3) && IsInSameRing(a, c))
+        {
           anglecalc.theta0 = 60.0;
+        }
 
         if (a->IsInRingSize(4) && b->IsInRingSize(4) && c->IsInRingSize(4) && IsInSameRing(a, c))
+        {
           anglecalc.theta0 = 90.0;
+        }
 
         strbndcalc.theta0 = anglecalc.theta0; // **
       }
@@ -3009,9 +3101,13 @@ namespace OpenBabel
 
         beta = 1.75;
         if (a->IsInRingSize(4) && b->IsInRingSize(4) && c->IsInRingSize(4) && IsInSameRing(a, c))
+        {
           beta = 0.85 * beta;
+        }
         if (a->IsInRingSize(3) && b->IsInRingSize(3) && c->IsInRingSize(3) && IsInSameRing(a, c))
+        {
           beta = 0.05 * beta;
+        }
 
         // Theta2 is in Degrees^2, but parameters are expecting radians
         // PR#2741669
@@ -3027,7 +3123,9 @@ namespace OpenBabel
       _anglecalculations.push_back(anglecalc);
 
       if (anglecalc.linear)
+      {
         continue;
+      }
 
       parameter = GetTypedParameter3Atom(strbndtype, type_a, type_b, type_c, _ffstrbndparams);
       if (parameter == nullptr) {
@@ -3205,7 +3303,9 @@ namespace OpenBabel
       // skip this torsion if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ||
            _constraints.IsIgnored(c->GetIdx()) || _constraints.IsIgnored(d->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the four torsion atoms are in a single intraGroup
       if (HasGroups()) {
@@ -3218,7 +3318,9 @@ namespace OpenBabel
           }
         }
         if (!validTorsion)
+        {
           continue;
+        }
       }
 
       torsiontype = GetTorsionType(a, b, c, d);
@@ -3261,7 +3363,9 @@ namespace OpenBabel
 
         // rule (a) page 631
         if (HasLinSet(type_b) || HasLinSet(type_c))
+        {
           continue;
+        }
 
         // rule (b) page 631
         if (b->GetBond(c)->IsAromatic()) {
@@ -3291,9 +3395,13 @@ namespace OpenBabel
           Uc = GetUParam(c);
           OBBond *bond = a->GetBond(b);
           if (((GetMltb(type_b) == 2) && (GetMltb(type_c) == 2)) && !bond->IsAromatic() && bond->GetBondOrder() == 2)
+          {
             pi_bc = 1.0;
+          }
           else
+          {
             pi_bc = 0.4;
+          }
 
           beta = 6.0;
           torsioncalc.v1 = 0.0;
@@ -3304,6 +3412,7 @@ namespace OpenBabel
 
         // rule (d) page 632
         if (!found_rule)
+        {
           if (((GetCrd(type_b) == 4) && (GetCrd(type_c) == 4))) {
             double Vb, Vc;
             Vb = GetVParam(b);
@@ -3314,6 +3423,7 @@ namespace OpenBabel
             torsioncalc.v3 = sqrt(Vb * Vc) / 9.0;
             found_rule = true;
           }
+        }
 
         // rule (e) page 632
         if (!found_rule)
@@ -3351,7 +3461,9 @@ namespace OpenBabel
             (GetMltb(type_b) && HasPilpSet(type_c)) ||
             (GetMltb(type_c) && HasPilpSet(type_b)))) {
             if (HasPilpSet(type_b) && HasPilpSet(type_c)) // case (1)
+            {
               continue;
+            }
 
             double Ub, Uc, pi_bc, beta;
             Ub = GetUParam(b);
@@ -3360,32 +3472,48 @@ namespace OpenBabel
 
             if (HasPilpSet(type_b) && GetMltb(type_c)) { // case (2)
               if (GetMltb(type_c) == 1)
+              {
                 pi_bc = 0.5;
+              }
               else if ((GetElementRow(b) == 1) && (GetElementRow(c) == 1))
+              {
                 pi_bc = 0.3;
+              }
               else
+              {
                 pi_bc = 0.15;
+              }
               found_rule = true;
             }
 
             if (HasPilpSet(type_c) && GetMltb(type_b)) { // case (3)
               if (GetMltb(type_b) == 1)
+              {
                 pi_bc = 0.5;
+              }
               else if ((GetElementRow(b) == 1) && (GetElementRow(c) == 1))
+              {
                 pi_bc = 0.3;
+              }
               else
+              {
                 pi_bc = 0.15;
+              }
               found_rule = true;
             }
 
             if (!found_rule)
+            {
               if (((GetMltb(type_b) == 1) || (GetMltb(type_c) == 1)) && (b->GetAtomicNum() != OBElements::Carbon || c->GetAtomicNum() != OBElements::Carbon)) {
                 pi_bc = 0.4;
                 found_rule = true;
               }
+            }
 
             if (!found_rule)
+            {
               pi_bc = 0.15;
+            }
 
             torsioncalc.v1 = 0.0;
             torsioncalc.v2 = beta * pi_bc * sqrt(Ub * Uc);
@@ -3501,7 +3629,9 @@ namespace OpenBabel
               }
             }
             if (!validOOP)
+            {
               continue;
+            }
           }
 
           if (((type_a == _ffoopparams[idx].a) && (type_c == _ffoopparams[idx].c) && (type_d == _ffoopparams[idx].d)) ||
@@ -3590,7 +3720,9 @@ namespace OpenBabel
 
       // skip this vdw if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two atoms are in a single _interGroup or if
       // two two atoms are in one of the _interGroups pairs.
@@ -3616,7 +3748,9 @@ namespace OpenBabel
         }
 
         if (!validVDW)
+        {
           continue;
+        }
       }
 
       OBFFParameter *parameter_a, *parameter_b;
@@ -3666,7 +3800,9 @@ namespace OpenBabel
           // R_AB is scaled to 0.8 for D-A interactions. The value used in the calculation of epsilon is not scaled.
           vdwcalc.R_AB = 0.8 * vdwcalc.R_AB;
         } else
+        {
           vdwcalc.epsilon = (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
+        }
 
         R_AB2 = vdwcalc.R_AB * vdwcalc.R_AB;
         R_AB4 = R_AB2 * R_AB2;
@@ -3683,7 +3819,9 @@ namespace OpenBabel
           // R_AB is scaled to 0.8 for D-A interactions. The value used in the calculation of epsilon is not scaled.
           vdwcalc.R_AB = 0.8 * vdwcalc.R_AB;
         } else
+        {
           vdwcalc.epsilon = (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
+        }
 
         R_AB2 = vdwcalc.R_AB * vdwcalc.R_AB;
         R_AB4 = R_AB2 * R_AB2;
@@ -3723,7 +3861,9 @@ namespace OpenBabel
 
       // skip this ele if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      {
         continue;
+      }
 
       // if there are any groups specified, check if the two atoms are in a single _interGroup or if
       // two two atoms are in one of the _interGroups pairs.
@@ -3749,7 +3889,9 @@ namespace OpenBabel
         }
 
         if (!validEle)
+        {
           continue;
+        }
       }
 
       elecalc.qq = 332.0716 * a->GetPartialCharge() * b->GetPartialCharge() / _epsilon;
@@ -3760,7 +3902,9 @@ namespace OpenBabel
 
         // 1-4 scaling
         if (a->IsOneFour(b))
+        {
           elecalc.qq *= 0.75;
+        }
 
         elecalc.pairIndex = pairIndex;
         elecalc.SetupPointers();
@@ -3774,19 +3918,33 @@ namespace OpenBabel
   bool OBForceFieldMMFF94::SetupPointers()
   {
     for (unsigned int i = 0; i < _bondcalculations.size(); ++i)
+    {
       _bondcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _anglecalculations.size(); ++i)
+    {
       _anglecalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _strbndcalculations.size(); ++i)
+    {
       _strbndcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _torsioncalculations.size(); ++i)
+    {
       _torsioncalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _oopcalculations.size(); ++i)
+    {
       _oopcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _vdwcalculations.size(); ++i)
+    {
       _vdwcalculations[i].SetupPointers();
+    }
     for (unsigned int i = 0; i < _electrostaticcalculations.size(); ++i)
+    {
       _electrostaticcalculations[i].SetupPointers();
+    }
 
     return true;
   }
@@ -3847,7 +4005,9 @@ namespace OpenBabel
       }
 
       if (done)
+      {
         continue;
+      }
 
       if (type == 56) {
         int n_count = 0;
@@ -3855,7 +4015,9 @@ namespace OpenBabel
         FOR_ATOMS_OF_MOL (atom2, _mol) {
           temp_type = atoi(atom2->GetType());
           if (temp_type == 56 || temp_type == 81)
+          {
             ++n_count;
+          }
         }
         atom->SetPartialCharge((double)((n_count + 1) / 3) / (double)n_count);
       } else if (type == 32) {
@@ -3867,21 +4029,33 @@ namespace OpenBabel
         FOR_NBORS_OF_ATOM(nbr, &*atom) {
           FOR_NBORS_OF_ATOM(nbr2, &*nbr) {
             if (nbr2->GetAtomicNum() == OBElements::Oxygen && (nbr2->GetExplicitDegree() == 1))
+            {
               o_count++;
+            }
             if (nbr2->GetAtomicNum() == OBElements::Sulfur && (nbr2->GetExplicitDegree() == 1))
+            {
               s_count++;
+            }
             if (nbr2->GetAtomicNum() == OBElements::Nitrogen && !nbr2->IsAromatic())
+            {
               sulfonamide = true;
+            }
             OBBond *bond = nbr->GetBond(&*nbr2);
             if (nbr2->GetAtomicNum() == OBElements::Carbon && !bond->IsAromatic() && bond->GetBondOrder() == 2)
+            {
               sulfone_s_c = true;
+            }
           }
 
           if (nbr->GetAtomicNum() == OBElements::Carbon)
+          {
             atom->SetPartialCharge(-0.5); // O2CM
+          }
 
           if (nbr->GetAtomicNum() == OBElements::Nitrogen && (o_count == 3))
+          {
             atom->SetPartialCharge(-1.0 / o_count);  // O3N
+          }
 
           if (nbr->GetAtomicNum() == OBElements::Sulfur && !sulfonamide) {
             if (((o_count + s_count) == 2) && (nbr->GetExplicitDegree() == 3)
@@ -3909,20 +4083,26 @@ namespace OpenBabel
           }
 
           if (atoi(nbr->GetType()) == 77)
+          {
             atom->SetPartialCharge(-0.25); // O4CL
+          }
         }
       } else if (type == 61) {
         FOR_BONDS_OF_ATOM(bond, &*atom) {
           OBAtom *nbr = bond->GetNbrAtom(&*atom);
           if (!bond->IsAromatic() && bond->GetBondOrder() == 3 && nbr->GetAtomicNum() == OBElements::Nitrogen)
+          {
             atom->SetPartialCharge(1.0);
+          }
         }
       } else if (type == 72) {
         int s_count = 0;
 
         FOR_NBORS_OF_ATOM(nbr, &*atom) {
           if (nbr->GetAtomicNum() == OBElements::Sulfur)
+          {
             s_count++;
+          }
 
           if (nbr->GetAtomicNum() == OBElements::Phosphorus || nbr->GetAtomicNum() == OBElements::Sulfur) {
             FOR_NBORS_OF_ATOM(nbr2, &*nbr)
@@ -3951,11 +4131,17 @@ namespace OpenBabel
 
           if ((*ri)->IsAromatic() && (*ri)->IsMember(&*atom) && ((*ri)->Size() == 5)) {
             for(rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) // for each ring atom
+            {
               if (_mol.GetAtom(*rj)->GetAtomicNum() == OBElements::Nitrogen)
+              {
                 n_count++;
+              }
+            }
 
             if (n_count > 1)
+            {
               atom->SetPartialCharge(-1.0 / n_count);
+            }
           }
         }
       } else if (type == 81) {
@@ -3966,6 +4152,7 @@ namespace OpenBabel
         vector<OBRing*>::iterator ri;
         vector<int>::iterator rj;
         for (ri = vr.begin();ri != vr.end();++ri) // for each ring
+        {
           if ((*ri)->IsAromatic() && (*ri)->IsMember(&*atom) && ((*ri)->Size() == 5)) {
             int n_count = 0;
             for(rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) // for each ring atom
@@ -4022,15 +4209,19 @@ namespace OpenBabel
 
       // charge sharing
       if (!factor)
+      {
         FOR_NBORS_OF_ATOM (nbr, &*atom)
           if (nbr->GetPartialCharge() < 0.0)
             q0a += nbr->GetPartialCharge() / (2.0 * (double)(nbr->GetExplicitDegree()));
+      }
 
       // needed for SEYWUO, positive charge sharing?
       if (type == 62)
+      {
         FOR_NBORS_OF_ATOM (nbr, &*atom)
           if (nbr->GetPartialCharge() > 0.0)
             q0a -= nbr->GetPartialCharge() / 2.0;
+      }
 
       q0b = 0.0;
       Wab = 0.0;
@@ -4055,17 +4246,25 @@ namespace OpenBabel
         if (!bci_found) {
           for (unsigned int idx=0; idx < _ffpbciparams.size(); idx++) {
             if (type == _ffpbciparams[idx].a)
+            {
               Pa = _ffpbciparams[idx]._dpar[0];
+            }
             if (nbr_type == _ffpbciparams[idx].a)
+            {
               Pb = _ffpbciparams[idx]._dpar[0];
+            }
           }
           Wab += Pa - Pb;
         }
       }
       if (factor)
+      {
         charges[atom->GetIdx()] = (1.0 - M * factor) * q0a + factor * q0b + Wab;
+      }
       else
+      {
         charges[atom->GetIdx()] = q0a + Wab;
+      }
     }
 
     FOR_ATOMS_OF_MOL (atom, _mol)
@@ -4142,9 +4341,13 @@ namespace OpenBabel
       bond_lengths.clear();
 
       if (!conv.Read(&_mol, &ifs))
+      {
         break;
+      }
       if (_mol.Empty())
+      {
         break;
+      }
 
       _ncoords = _mol.NumAtoms() * 3;
       _gradientPtr = new double[_ncoords];
@@ -4152,7 +4355,9 @@ namespace OpenBabel
       SetTypes();
 
       if ((c == 98) || (c == 692)) // CUDPAS & VUWXUG
+      {
         continue;
+      }
 
       termcount = 0;
       molfound = false;
@@ -4170,7 +4375,9 @@ namespace OpenBabel
 
         string str(buffer);
         if (string::npos != str.find(_mol.GetTitle(),0))
+        {
           molfound = true;
+        }
 
         if (atomfound) {
           if (n) {
@@ -4180,11 +4387,17 @@ namespace OpenBabel
             types.push_back(atoi(vs[11].c_str()));
           } else {
             if (vs.size() > 2)
+            {
               types.push_back(atoi(vs[2].c_str()));
+            }
             if (vs.size() > 5)
+            {
               types.push_back(atoi(vs[5].c_str()));
+            }
             if (vs.size() > 8)
+            {
               types.push_back(atoi(vs[8].c_str()));
+            }
 
             atomfound = false;
           }
@@ -4199,11 +4412,17 @@ namespace OpenBabel
             fcharges.push_back(atof(vs[11].c_str()));
           } else {
             if (vs.size() > 2)
+            {
               fcharges.push_back(atof(vs[2].c_str()));
+            }
             if (vs.size() > 5)
+            {
               fcharges.push_back(atof(vs[5].c_str()));
+            }
             if (vs.size() > 8)
+            {
               fcharges.push_back(atof(vs[8].c_str()));
+            }
 
             fchgfound = false;
           }
@@ -4218,11 +4437,17 @@ namespace OpenBabel
             pcharges.push_back(atof(vs[11].c_str()));
           } else {
             if (vs.size() > 2)
+            {
               pcharges.push_back(atof(vs[2].c_str()));
+            }
             if (vs.size() > 5)
+            {
               pcharges.push_back(atof(vs[5].c_str()));
+            }
             if (vs.size() > 8)
+            {
               pcharges.push_back(atof(vs[8].c_str()));
+            }
 
             pchgfound = false;
           }
@@ -4243,31 +4468,51 @@ namespace OpenBabel
         }
 
         if (bondfound)
+        {
           bond_lengths.push_back(atof(vs[7].c_str()));
+        }
 
         if (molfound) {
           if (EQn(buffer, " Total ENERGY", 13))
+          {
             etot = atof(vs[3].c_str());
+          }
           if (EQn(buffer, " Bond Stretching", 16))
+          {
             ebond = atof(vs[2].c_str());
+          }
           if (EQn(buffer, " Angle Bending", 14))
+          {
             eangle = atof(vs[2].c_str());
+          }
           if (EQn(buffer, " Out-of-Plane Bending", 21))
+          {
             eoop = atof(vs[2].c_str());
+          }
           if (EQn(buffer, " Stretch-Bend", 13))
+          {
             estbn = atof(vs[1].c_str());
+          }
           if (EQn(buffer, "     Total Torsion", 18))
+          {
             etor = atof(vs[2].c_str());
+          }
           if (EQn(buffer, "     Net vdW", 12))
+          {
             evdw = atof(vs[2].c_str());
+          }
           if (EQn(buffer, " Electrostatic", 14))
+          {
             eeq = atof(vs[1].c_str());
+          }
           if (EQn(buffer, " ---------------------", 22) && (termcount == 0)) {
             termcount++;
             bondfound = true;
           }
           if (EQn(buffer, " OPTIMOL>  # read next", 22))
+          {
             break;
+          }
         }
 
 
@@ -4429,9 +4674,13 @@ namespace OpenBabel
     } // for (unsigned int c;; c++ )
 
     if (ifs)
+    {
       ifs.close();
+    }
     if (ifs2)
+    {
       ifs2.close();
+    }
 
     return true;
   }
@@ -4476,7 +4725,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_EANGLE
       numgrad = NumericalDerivative(&*a, OBFF_EANGLE);
@@ -4489,7 +4740,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_ESTRBND
       numgrad = NumericalDerivative(&*a, OBFF_ESTRBND);
@@ -4502,7 +4755,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_ETORSION
       numgrad = NumericalDerivative(&*a, OBFF_ETORSION);
@@ -4515,7 +4770,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_EOOP
       numgrad = NumericalDerivative(&*a, OBFF_EOOP);
@@ -4542,7 +4799,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
 
       // OBFF_EELECTROSTATIC
       numgrad = NumericalDerivative(&*a, OBFF_EELECTROSTATIC);
@@ -4555,7 +4814,9 @@ namespace OpenBabel
               anagrad.x(), anagrad.y(), anagrad.z(), err.x(), err.y(), err.z());
       OBFFLog(_logbuf);
       if (err.x() > 5.0 || err.y() > 5.0 || err.z() > 5.0)
+      {
         passed = false;
+      }
     }
 
     return passed; // did we pass every single component?
@@ -4580,13 +4841,19 @@ namespace OpenBabel
   {
     OBBond *bond = _mol.GetBond(a, b);
     if (bond->GetBondOrder() != 1 || bond->IsAromatic())
+    {
       return 0;
+    }
 
     if (HasAromSet(atoi(a->GetType())) && HasAromSet(atoi(b->GetType())))
+    {
       return 1;
+    }
 
     if (HasSbmbSet(atoi(a->GetType())) && HasSbmbSet(atoi(b->GetType())))
+    {
       return 1;
+    }
 
     return 0;
   }
@@ -4598,6 +4865,7 @@ namespace OpenBabel
     sumbondtypes = GetBondType(a,b) + GetBondType(b, c);
 
     if (a->IsInRingSize(3) && b->IsInRingSize(3) && c->IsInRingSize(3) && IsInSameRing(a, c))
+    {
       switch (sumbondtypes) {
       case 0:
         return 3;
@@ -4606,8 +4874,10 @@ namespace OpenBabel
       case 2:
         return 6;
       }
+    }
 
     if (a->IsInRingSize(4) && b->IsInRingSize(4) && c->IsInRingSize(4) && IsInSameRing(a, c))
+    {
       switch (sumbondtypes) {
       case 0:
         return 4;
@@ -4616,6 +4886,7 @@ namespace OpenBabel
       case 2:
         return 8;
       }
+    }
 
     return sumbondtypes;
   }
@@ -4630,9 +4901,13 @@ namespace OpenBabel
     atabc = GetAngleType(a, b, c);
 
     if (atoi(a->GetType()) <= atoi(c->GetType()))
+    {
       inverse = false;
+    }
     else
+    {
       inverse = true;
+    }
 
     switch (atabc) {
     case 0:
@@ -4722,16 +4997,24 @@ namespace OpenBabel
     btcd = GetBondType(c, d);
 
     if (btbc == 1)
+    {
       return 1;
+    }
 
     if (a->IsInRingSize(4) && b->IsInRingSize(4) && c->IsInRingSize(4) && d->IsInRingSize(4))
+    {
       if (IsInSameRing(a,b) && IsInSameRing(b,c) && IsInSameRing(c,d))
+      {
         return 4;
+      }
+    }
 
     OBBond *bond = _mol.GetBond(b, c);
     if (bond->GetBondOrder() == 1 && !bond->IsAromatic()) {
       if (btab || btcd)
+      {
         return 2;
+      }
       /*
         unsigned int order1 = GetCXT(0, atoi(d->GetType()), atoi(c->GetType()), atoi(b->GetType()), atoi(a->GetType()));
         unsigned int order2 = GetCXT(0, atoi(a->GetType()), atoi(b->GetType()), atoi(c->GetType()), atoi(d->GetType()));
@@ -4859,7 +5142,9 @@ namespace OpenBabel
 
     par = GetParameter1Atom(atomtype, _ffpropparams); // from mmffprop.par
     if (par)
+    {
       return par->_ipar[1];
+    }
 
     return 0;
   }
@@ -4871,7 +5156,9 @@ namespace OpenBabel
 
     par = GetParameter1Atom(atomtype, _ffpropparams); // from mmffprop.par
     if (par)
+    {
       return par->_ipar[2];
+    }
 
     return 0;
   }
@@ -4883,7 +5170,9 @@ namespace OpenBabel
 
     par = GetParameter1Atom(atomtype, _ffpropparams); // from mmffprop.par
     if (par)
+    {
       return par->_ipar[4];
+    }
 
     return 0;
   }
@@ -4892,8 +5181,12 @@ namespace OpenBabel
   int OBForceFieldMMFF94::EqLvl2(int type)
   {
     for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
+    {
       if (_ffdefparams[idx]._ipar[0] == type)
+      {
         return _ffdefparams[idx]._ipar[1];
+      }
+    }
 
     return type;
   }
@@ -4902,8 +5195,12 @@ namespace OpenBabel
   int OBForceFieldMMFF94::EqLvl3(int type)
   {
     for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
+    {
       if (_ffdefparams[idx]._ipar[0] == type)
+      {
         return _ffdefparams[idx]._ipar[2];
+      }
+    }
 
     return type;
   }
@@ -4912,8 +5209,12 @@ namespace OpenBabel
   int OBForceFieldMMFF94::EqLvl4(int type)
   {
     for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
+    {
       if (_ffdefparams[idx]._ipar[0] == type)
+      {
         return _ffdefparams[idx]._ipar[3];
+      }
+    }
 
     return type;
   }
@@ -4922,8 +5223,12 @@ namespace OpenBabel
   int OBForceFieldMMFF94::EqLvl5(int type)
   {
     for (unsigned int idx=0; idx < _ffdefparams.size(); idx++)
+    {
       if (_ffdefparams[idx]._ipar[0] == type)
+      {
         return _ffdefparams[idx]._ipar[4];
+      }
+    }
 
     return type;
   }
@@ -5092,9 +5397,13 @@ namespace OpenBabel
 
     parameter = GetTypedParameter2Atom(GetBondType(a, b), atoi(a->GetType()), atoi(b->GetType()), _ffbondparams);
     if (parameter == nullptr)
+    {
       rab = GetRuleBondLength(a, b);
+    }
     else
+    {
       rab = parameter->_dpar[1];
+    }
 
     return rab;
   }
@@ -5111,36 +5420,62 @@ namespace OpenBabel
 
 
     if (a->GetAtomicNum() == OBElements::Hydrogen)
+    {
       r0a = 0.33;
+    }
     if (b->GetAtomicNum() == OBElements::Hydrogen)
+    {
       r0b = 0.33;
+    }
 
     if (a->GetAtomicNum() == OBElements::Hydrogen || b->GetAtomicNum() == OBElements::Hydrogen)
+    {
       c = 0.050;
+    }
     else
+    {
       c = 0.085;
+    }
 
     if (GetMltb(atoi(a->GetType()) == 3))
+    {
       Ha = 1;
+    }
     else if ((GetMltb(atoi(a->GetType())) == 1) || (GetMltb(atoi(a->GetType())) == 2))
+    {
       Ha = 2;
+    }
     else
+    {
       Ha = 3;
+    }
 
     if (GetMltb(atoi(b->GetType()) == 3))
+    {
       Hb = 1;
+    }
     else if ((GetMltb(atoi(b->GetType())) == 1) || (GetMltb(atoi(b->GetType())) == 2))
+    {
       Hb = 2;
+    }
     else
+    {
       Hb = 3;
+    }
 
     BOab = a->GetBond(b)->GetBondOrder();
     if ((GetMltb(atoi(a->GetType())) == 1) && (GetMltb(atoi(b->GetType())) == 1))
+    {
       BOab = 4;
+    }
     if ((GetMltb(atoi(a->GetType())) == 1) && (GetMltb(atoi(b->GetType())) == 2))
+    {
       BOab = 5;
+    }
     if ((GetMltb(atoi(a->GetType())) == 2) && (GetMltb(atoi(b->GetType())) == 1))
+    {
       BOab = 5;
+    }
     if (a->GetBond(b)->IsAromatic()) {
       if (!HasPilpSet(atoi(a->GetType())) && !HasPilpSet(atoi(b->GetType()))) {
         BOab = 4;
@@ -5168,13 +5503,21 @@ namespace OpenBabel
       break;
     case 1:
       if (Ha == 1)
+      {
         r0a -= 0.08;
+      }
       if (Ha == 2)
+      {
         r0a -= 0.03;
+      }
       if (Hb == 1)
+      {
         r0b -= 0.08;
+      }
       if (Hb == 2)
+      {
         r0b -= 0.03;
+      }
     }
 
     /*
@@ -5194,10 +5537,12 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (a == parameter[idx].a) {
         par = &parameter[idx];
         return par;
       }
+    }
 
     return nullptr;
   }
@@ -5207,12 +5552,14 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (((a == parameter[idx].a) && (b == parameter[idx].b)) ||
           ((a == parameter[idx].b) && (b == parameter[idx].a)))
         {
           par = &parameter[idx];
           return par;
         }
+    }
 
     return nullptr;
   }
@@ -5222,12 +5569,14 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c)) ||
           ((a == parameter[idx].c) && (b == parameter[idx].b) && (c == parameter[idx].a)))
         {
           par = &parameter[idx];
           return par;
         }
+    }
 
     return nullptr;
   }
@@ -5237,12 +5586,14 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (((a == parameter[idx].a) && (b == parameter[idx].b) && (ffclass == parameter[idx]._ipar[0])) ||
           ((a == parameter[idx].b) && (b == parameter[idx].a) && (ffclass == parameter[idx]._ipar[0])))
         {
           par = &parameter[idx];
           return par;
         }
+    }
 
     return nullptr;
   }
@@ -5252,12 +5603,14 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c) && (ffclass == parameter[idx]._ipar[0])) ||
           ((a == parameter[idx].c) && (b == parameter[idx].b) && (c == parameter[idx].a) && (ffclass == parameter[idx]._ipar[0])) )
         {
           par = &parameter[idx];
           return par;
         }
+    }
 
     return nullptr;
   }
@@ -5267,6 +5620,7 @@ namespace OpenBabel
     OBFFParameter *par;
 
     for (unsigned int idx=0; idx < parameter.size(); idx++)
+    {
       if (((a == parameter[idx].a) && (b == parameter[idx].b) && (c == parameter[idx].c) &&
            (d == parameter[idx].d) && (ffclass == parameter[idx]._ipar[0]))
           /* || ((a == parameter[idx].d) && (b == parameter[idx].c) && (c == parameter[idx].b) &&
@@ -5275,6 +5629,7 @@ namespace OpenBabel
           par = &parameter[idx];
           return par;
         }
+    }
 
     return nullptr;
   }

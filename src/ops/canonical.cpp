@@ -44,7 +44,9 @@ bool OpCanonical::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
+  {
     return false;
+  }
 
   std::vector<OBAtom*> atoms;
   FOR_ATOMS_OF_MOL (atom, pmol)
@@ -59,7 +61,9 @@ bool OpCanonical::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
 
   std::vector<OBAtom*> newatoms(atoms.size(), nullptr);
   for (std::size_t i = 0; i < canon_labels.size(); ++i)
+  {
     newatoms[canon_labels[i]-1] = atoms[i];
+  }
 
   pmol->RenumberAtoms(newatoms);
 
