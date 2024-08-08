@@ -162,7 +162,7 @@ namespace OpenBabel
   static void FatalAllocationError( const char *ptr )
   {
     stringstream errorMsg;
-    errorMsg << "Error: Unable to allocate" << ptr << endl;
+    errorMsg << "Error: Unable to allocate" << ptr << '\n';
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
   }
 
@@ -568,8 +568,8 @@ namespace OpenBabel
   Pattern *OBSmartsPattern::SMARTSError( Pattern *pat )
   {
     stringstream errorMsg;
-    errorMsg << "SMARTS Error:\n" << MainPtr << endl;
-    errorMsg << setw(LexPtr-MainPtr+1) << '^' << endl;
+    errorMsg << "SMARTS Error:\n" << MainPtr << '\n';
+    errorMsg << setw(LexPtr-MainPtr+1) << '^' << '\n';
     obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError, onceOnly);
 
     FreePattern(pat);
@@ -2294,7 +2294,7 @@ namespace OpenBabel
       {
         for (j = (*i).begin();j != (*i).end();++j)
           ofs << *j << ' ' << ends;
-        ofs << endl;
+        ofs << '\n';
       }
   }
 
@@ -2507,7 +2507,7 @@ namespace OpenBabel
     std::string token,repstr;
     std::vector<std::pair<std::string,std::string> >::iterator i;
 
-    for (pos = 0,pos = s.find("$",pos);pos < s.size();pos = s.find("$",pos))
+    for (pos = 0,pos = s.find('$',pos);pos < s.size();pos = s.find('$',pos))
       //for (pos = 0,pos = s.find("$",pos);pos != std::string::npos;pos = s.find("$",pos))
       {
         pos++;

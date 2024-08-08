@@ -49,31 +49,31 @@ namespace OpenBabel {
   //Alternate overloaded methods
   OBMCDL int alternate(OBMol * pmol, const int nH[], int bondOrders []);  //This method does not work!
   //Zero-based atomic numeration should be in connection matrix arrays iA1 and iA2-so first atom has indez zero
-  OBMCDL int alternate(const std::vector<int> aPosition,const std::vector<int> aCharge,
-      const std::vector<int> aRad,const std::vector<int> nHydr, const std::vector<int> iA1,
-      const std::vector<int> iA2, std::vector<int> & bondOrders, int nAtoms, int nBonds);
+  OBMCDL int alternate(const std::vector<int>& aPosition,const std::vector<int>& aCharge,
+      const std::vector<int>& aRad,const std::vector<int>& nHydr, const std::vector<int>& iA1,
+      const std::vector<int>& iA2, std::vector<int> & bondOrders, int nAtoms, int nBonds);
   /**
    * @since version 2.3
    */
   //Diagram generation overloaded methods
   OBMCDL void generateDiagram(OBMol * pmol);
   //Zero-based atomic numeration should be in connection matrix arrays iA1 and iA2-so first atom has indez zero
-  OBMCDL void generateDiagram(const std::vector<int> iA1, const std::vector<int> iA2,
+  OBMCDL void generateDiagram(const std::vector<int>& iA1, const std::vector<int>& iA2,
       std::vector<double>& rx, std::vector<double>& ry, int nAtoms, int nBonds);
   OBMCDL void generateDiagram(OBMol * pmol, std::ostream & ofs);  //for testing purposes only
 
   //Fragment search - pure subgraph isomorphisme
   bool fragmentSearch(OBMol * query, OBMol * structure);
-  bool fragmentSearch(const std::vector<int> aPositionQuery, const std::vector<int> iA1Query,
-      const std::vector<int> iA2Query, const std::vector<int> bondTypesQuery,
-      const std::vector<int> aPositionStructure, const std::vector<int> iA1Structure,
-      const std::vector<int> iA2Structure,  const std::vector<int> bondTypesStructure,
+  bool fragmentSearch(const std::vector<int>& aPositionQuery, const std::vector<int>& iA1Query,
+      const std::vector<int>& iA2Query, const std::vector<int>& bondTypesQuery,
+      const std::vector<int>& aPositionStructure, const std::vector<int>& iA1Structure,
+      const std::vector<int>& iA2Structure,  const std::vector<int>& bondTypesStructure,
       int nAtomsQuery, int nBondsQuery, int nAtomsStructure, int nBondsStructure);
   ///Equivalence list generation
   OBMCDL void equivalenceList(OBMol * pmol,  std::vector<int>& eqList);
-  void equivalenceList(const std::vector<int> aPosition,const std::vector<int> aCharge,
-      const std::vector<int> aRad, const std::vector<int> iA1, const std::vector<int> iA2,
-      const std::vector<int> bondTypes,  std::vector<int>& eqList, int nAtoms, int nBonds);
+  void equivalenceList(const std::vector<int>& aPosition,const std::vector<int>& aCharge,
+      const std::vector<int>& aRad, const std::vector<int>& iA1, const std::vector<int>& iA2,
+      const std::vector<int>& bondTypes,  std::vector<int>& eqList, int nAtoms, int nBonds);
   //Fragment addition
   OBMCDL void addFragment(OBMol * molecule, OBMol * fragment, int molAN, int fragAN, int molBN,
       int fragBN, bool isAddition);
@@ -81,22 +81,22 @@ namespace OpenBabel {
   //routines below have no common meaning, but are necessary to process stereo information
   OBMCDL void createStereoLists(OBMol * pmol, std::vector<int>& bondStereoList,
       std::vector<int>& atomStereoList, std::vector<int>& eqList);
-  OBMCDL std::string getAtomMCDL(OBMol * pmol, int ntatoms, const std::vector<int> ix,
-      const std::vector<int> aNumber, const std::vector<int> atomStereoList, const std::vector<int> eqList);
-  OBMCDL std::string getBondMCDL(OBMol * pmol, int nbStore, int ntatoms, const std::vector<int> ix,
-      const std::vector<int> aNumber, int bonds[MAXBONDS][4], const std::vector<int> bondStereoList,
-      const std::vector<int> eqList);
+  OBMCDL std::string getAtomMCDL(OBMol * pmol, int ntatoms, const std::vector<int>& ix,
+      const std::vector<int>& aNumber, const std::vector<int>& atomStereoList, const std::vector<int>& eqList);
+  OBMCDL std::string getBondMCDL(OBMol * pmol, int nbStore, int ntatoms, const std::vector<int>& ix,
+      const std::vector<int>& aNumber, int bonds[MAXBONDS][4], const std::vector<int>& bondStereoList,
+      const std::vector<int>& eqList);
   OBMCDL void implementAtomStereo(std::vector<int>& iA1, std::vector<int>& iA2, std::vector<int>& stereoBonds,
-      const std::vector<double>rx, const std::vector<double> ry, int acount, int bcount, std::string astereo);
-  OBMCDL void implementBondStereo(const std::vector<int> iA1, const std::vector<int> iA2,
+      const std::vector<double>&rx, const std::vector<double>& ry, int acount, int bcount, std::string astereo);
+  OBMCDL void implementBondStereo(const std::vector<int>& iA1, const std::vector<int>& iA2,
       std::vector<double>& rx, std::vector<double>& ry, int acount, int bcount, std::string bstereo);
 
 
   OBMCDL int groupRedraw(OBMol * pmol, int bondN, int atomN, bool atomNInGroup);
   //int  groupRedrawFrameAtom(OBMol * pmol, int bondN, int atomInFrame);
 
-  OBMCDL int  canonizeMCDL(const std::string atomBlock, std::vector<std::string> & structureList);
-  OBMCDL bool parseFormula(const std::string formulaString, std::vector <int>& enumber, int & valency);
+  OBMCDL int  canonizeMCDL(const std::string& atomBlock, std::vector<std::string> & structureList);
+  OBMCDL bool parseFormula(const std::string& formulaString, std::vector <int>& enumber, int & valency);
 
   OBMCDL void prepareTest(OBMol * pmol, std::ostream & ofs);
 

@@ -1122,7 +1122,7 @@ namespace OpenBabel
     return sformula;
   }
 
-  void OBMol::SetFormula(string molFormula)
+  void OBMol::SetFormula(const string& molFormula)
   {
     string attr = "Formula";
     OBPairData *dp = (OBPairData *) GetData(attr);
@@ -2934,7 +2934,7 @@ namespace OpenBabel
 
   bool WriteTitles(ostream &ofs, OBMol &mol)
   {
-    ofs << mol.GetTitle() << endl;
+    ofs << mol.GetTitle() << '\n';
     return true;
   }
 
@@ -3381,7 +3381,7 @@ namespace OpenBabel
         std::string title = this->GetTitle();
         if (!title.empty())
           errorMsg << " (title is " << title << ")";
-        errorMsg << endl;
+        errorMsg << '\n';
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         // return false; Should we return false for a kekulization failure?
       }
