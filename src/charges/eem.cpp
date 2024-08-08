@@ -120,7 +120,9 @@ namespace OpenBabel
     mol.SetPartialChargesPerceived();
 
     if(_parameters.empty())
+    {
       _loadParameters();
+    }
 
     // Copied from spectrophore.cpp
     // CHI and ETA
@@ -206,7 +208,9 @@ namespace OpenBabel
 
     // Cleanup
     for(unsigned int i = 0; i < dim; i++)
+    {
       delete [] ETA[i];
+    }
 
     delete [] ETA;
 

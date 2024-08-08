@@ -615,7 +615,9 @@ namespace OpenBabel {
           FOR_NBORS_OF_ATOM(nbr, _mol.GetAtom(path[b])) {
             if (nbr->GetIdx() == static_cast<unsigned>(path[a])
             || nbr->GetIdx() == static_cast<unsigned>(path[c]))
+            {
               continue;
+            }
             // This atom should be trans to atom D
             _d->SetLowerBounds(nbr->GetIdx() - 1, path[d] - 1,
                                _d->GetUpperBounds(nbr->GetIdx() - 1, path[d] - 1) - DIST14_TOL);
@@ -623,7 +625,9 @@ namespace OpenBabel {
           FOR_NBORS_OF_ATOM(nbr, _mol.GetAtom(path[c])) {
             if (nbr->GetIdx() == static_cast<unsigned>(path[d])
             || nbr->GetIdx() == static_cast<unsigned>(path[b]))
+            {
               continue;
+            }
             // This atom should be trans to atom A
             _d->SetLowerBounds(nbr->GetIdx() - 1, path[a] - 1,
                                _d->GetUpperBounds(nbr->GetIdx() - 1, path[a] - 1) - DIST14_TOL);
@@ -638,14 +642,18 @@ namespace OpenBabel {
           FOR_NBORS_OF_ATOM(nbr, _mol.GetAtom(path[b])) {
             if (nbr->GetIdx() == static_cast<unsigned>(path[a])
             || nbr->GetIdx() == static_cast<unsigned>(path[c]))
+            {
               continue;
+            }
             // This atom should be quasi-trans to atom D
             _d->SetLowerBounds(nbr->GetIdx() - 1, path[d] - 1, _d->GetAvgBounds(nbr->GetIdx() - 1, path[d] - 1));
           }
           FOR_NBORS_OF_ATOM(nbr, _mol.GetAtom(path[c])) {
             if (nbr->GetIdx() == static_cast<unsigned>(path[d])
              || nbr->GetIdx() == static_cast<unsigned>(path[b]))
+            {
               continue;
+            }
             // This atom should be quasi-trans to atom A
             _d->SetLowerBounds(nbr->GetIdx() - 1, path[a] - 1, _d->GetAvgBounds(nbr->GetIdx() - 1, path[a] - 1));
           }
@@ -723,6 +731,7 @@ namespace OpenBabel {
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    {
       if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
@@ -732,9 +741,12 @@ namespace OpenBabel {
 
           bc = _mol.GetBond(b, c);
           if (bc && bc->GetIdx() == bond->GetIdx())
+          {
             return ct;
+          }
         }
       }
+    }
     // didn't find anything, return NULL
     return nullptr;
   }
@@ -780,9 +792,13 @@ namespace OpenBabel {
       }
       FOR_NBORS_OF_ATOM(e, d) {
         if (_mol.GetBond(a, &*e) != nullptr)
+        {
           continue; // Already handled by 1,2 interaction
+        }
         if (_d->GetLowerBounds((*t)[0], e->GetIdx() - 1) > 0.01) // we visited this
+        {
           continue;
+        }
 
         rDE = _d->GetLowerBounds((*t)[3], e->GetIdx() - 1) + DIST12_TOL;
         rCE = _d->GetLowerBounds((*t)[2], e->GetIdx() - 1) + DIST12_TOL;
@@ -794,17 +810,25 @@ namespace OpenBabel {
 
         // Check stereochemistry
         if (stereo && stereo->IsCis(b->GetId(), e->GetId()))
+        {
           uBounds = lBounds; // Must be cis
+        }
         if (stereo && stereo->IsTrans(b->GetId(), e->GetId()))
+        {
           lBounds = uBounds; // Must be trans
+        }
 
         // Correcting ring shapes -- should be mostly cisoid
         if (AreInSameRing(a, &*e))
+        {
           uBounds = (lBounds + uBounds) / 2.0;
+        }
         // TODO.. set exo and endo bonds (if needed)
 
         if (_d->GetLowerBounds((*t)[0], e->GetIdx() - 1) < lBounds)
+        {
           _d->SetLowerBounds((*t)[0], e->GetIdx() - 1, lBounds - DIST15_TOL);
+        }
         _d->SetUpperBounds((*t)[0], e->GetIdx() - 1, uBounds + DIST15_TOL);
       }
 
@@ -817,9 +841,13 @@ namespace OpenBabel {
       }
       FOR_NBORS_OF_ATOM(z, a) {
         if (_mol.GetBond(d, &*z) != nullptr)
+        {
           continue; // Already handled by 1,2 interaction
+        }
         if (_d->GetLowerBounds((*t)[0], z->GetIdx() - 1) > 0.01) // we visited this
+        {
           continue;
+        }
 
         rAE = _d->GetLowerBounds((*t)[0], z->GetIdx() - 1) + DIST12_TOL;
         rBE = _d->GetLowerBounds((*t)[1], z->GetIdx() - 1) + DIST12_TOL;
@@ -831,16 +859,24 @@ namespace OpenBabel {
 
         // Check stereochemistry
         if (stereo && stereo->IsCis(z->GetId(), c->GetId()))
+        {
           uBounds = lBounds; // Must be cis
+        }
         if (stereo && stereo->IsTrans(z->GetId(), c->GetId()))
+        {
           lBounds = uBounds; // Must be trans
+        }
 
         // Correcting ring shapes -- should be mostly cisoid
         if (AreInSameRing(d, &*z))
+        {
           uBounds = (lBounds + uBounds) / 2.0;
+        }
 
         if (_d->GetLowerBounds(z->GetIdx() - 1, (*t)[3]) < lBounds)
+        {
           _d->SetLowerBounds(z->GetIdx() - 1, (*t)[3], lBounds - DIST15_TOL);
+        }
         _d->SetUpperBounds(z->GetIdx() - 1, (*t)[3], uBounds + DIST15_TOL);
       }
     }
@@ -862,13 +898,19 @@ namespace OpenBabel {
       // each node in the path
       for(j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
         if ((unsigned)(*j) == a->GetIdx())
+        {
           a_in = true;
+        }
         if ((unsigned)(*j) == b->GetIdx())
+        {
           b_in = true;
+        }
       }
 
       if (a_in && b_in)
+      {
         return (*i)->Size();
+      }
     }
 
     return 0;
@@ -890,7 +932,9 @@ namespace OpenBabel {
       a = _a->GetIdx() - 1;
       FOR_ATOMS_OF_MOL (_b, _mol) {
         if (&*_b == &*_a)
+        {
           continue;
+        }
         b = _b->GetIdx() - 1;
 
         // Get upper and lower bounds for ab
@@ -898,9 +942,13 @@ namespace OpenBabel {
         l_ab = _d->GetLowerBounds(a, b);
         FOR_ATOMS_OF_MOL (_c, _mol) {
           if (_c->GetIdx() <= _b->GetIdx())
+          {
             continue;
+          }
           if (&*_c == &*_a)
+          {
             continue;
+          }
 
           c = _c->GetIdx() - 1;
 
@@ -935,7 +983,9 @@ namespace OpenBabel {
 
         // Update boxSize after all "c" updates for this pair
         if (_d->GetUpperBounds(a, b) > _d->maxBoxSize)
+        {
           _d->maxBoxSize = _d->GetUpperBounds(a, b);
+        }
       } // loop(b)
     } // loop(a)
   }
@@ -957,10 +1007,14 @@ namespace OpenBabel {
           bRad = OBElements::GetVdwRad(b->GetAtomicNum());
           minDist = aRad + bRad;
           if (minDist < 1.0f)
+          {
             minDist = 1.0f;
+          }
 
           if (!AreInSameRing(a, b))
+          {
             minDist += 0.1; // prevents bonds going through rings
+          }
 
           if (!_mol.GetBond(a, b)
               && _d->GetLowerBounds(i, j) < 0.4f) { // only check for nonobonded contacts
@@ -1044,7 +1098,9 @@ namespace OpenBabel {
   {
     Eigen::MatrixXf returnValue;
     if (_d != nullptr)
+    {
       returnValue = _d->bounds;
+    }
     return returnValue;
   }
 
@@ -1055,7 +1111,9 @@ namespace OpenBabel {
       _d->bounds = bounds;
       return true;
     } else
+    {
       return false;
+    }
   }
 
   bool OBDistanceGeometry::generateInitialCoords(void) {
@@ -1172,7 +1230,9 @@ namespace OpenBabel {
     for (size_t i = 0; i < N; i++) {
       for (size_t j = 0; j < N; j++) {
         for(size_t k = 0; k < dim; k++)
+        {
           distMat2(i, j) += pow(_coord(i*dim + k)-_coord(j*dim + k), 2.0);
+        }
         distMat2(i, j) = sqrt(distMat2(i, j));
       }
     }
@@ -1240,7 +1300,9 @@ namespace OpenBabel {
         break;
       }
       if (_d->debug && !_d->success)
+      {
         cerr << "Stereo unsatisfied, trying again" << endl;
+      }
     }
   }
 
@@ -1273,12 +1335,16 @@ namespace OpenBabel {
           }
           // now lower.. if the two atoms aren't bonded
           if (_mol.GetBond(a, b))
+          {
             continue;
+          }
 
           bRad = OBElements::GetVdwRad(b->GetAtomicNum());
           minDist = aRad + bRad - 2.5;
           if (minDist < 0.8)
+          {
             minDist = 0.8;
+          }
 
           // Compare the current distance to the lower bounds
           dist = a->GetDistance(b);
@@ -1313,7 +1379,9 @@ namespace OpenBabel {
       for (k=0 ; k<_mol.NumConformers() ; ++k) {
         xyz = new double [3*_mol.NumAtoms()];
         for (l=0 ; l<(int) (3*_mol.NumAtoms()) ; ++l)
+        {
           xyz[l] = _mol.GetConformer(k)[l];
+        }
         conf.push_back(xyz);
       }
       mol.SetConformers(conf);
@@ -1324,7 +1392,9 @@ namespace OpenBabel {
   {
     mol.AddHydrogens();
     if (!Setup(mol, useCurrentGeom))
+    {
       return false;
+    }
 
     AddConformer();
     GetConformers(mol);
@@ -1342,7 +1412,9 @@ namespace OpenBabel {
             double v = 0.0;
             double d2 = 0;
             for(size_t k=0; k<dim; k++)
+            {
               d2 += pow(x[i*dim+k]-x[j*dim+k], 2.0);
+            }
             double d = sqrt(d2);
             double ub = owner->GetUpperBounds(i, j);
             double lb = owner->GetLowerBounds(i, j);
@@ -1380,7 +1452,9 @@ namespace OpenBabel {
         double lb = owner->GetLowerBounds(i, j);
         double d2 = 0;
         for(size_t k=0; k<dim; k++)
+        {
           d2 += pow(x[i*dim+k]-x[j*dim+k], 2.0);
+        }
         double d = sqrt(d2);
         if (d > ub) {
           double u2 = ub * ub;
@@ -1468,8 +1542,10 @@ namespace OpenBabel {
         for(size_t j=0; j<size; ++j) {
             double v = 0.0;
             double d2 = 0;
-            for(size_t k=0; k<dim; k++)
+            for (size_t k = 0; k < dim; k++)
+            {
               d2 += pow(x[i*dim+k]-x[j*dim+k], 2.0);
+            }
             double d = sqrt(d2);
             double ub = owner->GetUpperBounds(i, j);
             double lb = owner->GetLowerBounds(i, j);
@@ -1507,7 +1583,9 @@ namespace OpenBabel {
         double lb = owner->GetLowerBounds(i, j);
         double d2 = 0;
         for(size_t k=0; k<dim; k++)
+        {
           d2 += pow(x[i*dim+k]-x[j*dim+k], 2.0);
+        }
         double d = sqrt(d2);
         if (d > ub) {
           double u2 = ub * ub;
@@ -1520,6 +1598,9 @@ namespace OpenBabel {
         for (size_t k=0; k<dim; ++k) {
           double g = 0;
           if(d > 0) g = preFactor * (x[i*dim+k] - x[j*dim+k]) / d;
+          {
+            g = preFactor * (x[i * dim + k] - x[j * dim + k]) / d;
+          }
           grad[i * dim + k] += g;
           grad[j * dim + k] += -g;
         }

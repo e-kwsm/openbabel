@@ -58,7 +58,9 @@ MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
 
     OBForceField* pFF = OBForceField::FindForceField("MMFF94");
     if (!pFF || !pFF->Setup(mol))
+    {
       return false;
+    }
 
     pFF->GetPartialCharges(mol);
     m_partialCharges.clear();
@@ -68,7 +70,9 @@ MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
     FOR_ATOMS_OF_MOL(atom, mol) {
       OBPairData *chg = (OpenBabel::OBPairData*) atom->GetData("FFPartialCharge");
       if (chg)
+      {
         atom->SetPartialCharge(atof(chg->GetValue().c_str()));
+      }
       m_partialCharges.push_back(atom->GetPartialCharge());
       m_formalCharges.push_back(atom->GetFormalCharge());
     }

@@ -66,21 +66,33 @@ vector3 fuzzyWrapFractionalCoordinate (vector3 coord)
 
 #define LIMIT 0.999999
     if (x > LIMIT)
+    {
       x -= 1;
+    }
     if (y > LIMIT)
+    {
       y -= 1;
+    }
     if (z > LIMIT)
+    {
       z -= 1;
+    }
 #undef LIMIT
 
     // Fuzzy logic from Francois-Xavier
 #define EPSILON 1.0e-6
     if (x > 1 - EPSILON || x < EPSILON)
+    {
       x = 0.0;
+    }
     if (y > 1 - EPSILON || y < EPSILON)
+    {
       y = 0.0;
+    }
     if (z > 1 - EPSILON || z < EPSILON)
+    {
       z = 0.0;
+    }
 #undef EPSILON
 
     return vector3(x, y, z);
@@ -95,17 +107,29 @@ bool areDuplicateAtoms2(vector3 v1, vector3 v2)
     - fuzzyWrapFractionalCoordinate(v1);
 
   if (dr.x() < -0.5)
+  {
     dr.SetX(dr.x() + 1);
+  }
   if (dr.x() > 0.5)
+  {
     dr.SetX(dr.x() - 1);
+  }
   if (dr.y() < -0.5)
+  {
     dr.SetY(dr.y() + 1);
+  }
   if (dr.y() > 0.5)
+  {
     dr.SetY(dr.y() - 1);
+  }
   if (dr.z() < -0.5)
+  {
     dr.SetZ(dr.z() + 1);
+  }
   if (dr.z() > 0.5)
+  {
     dr.SetZ(dr.z() - 1);
+  }
 
   return (dr.length_2() < 1e-3);
 }
@@ -116,7 +140,9 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
+  {
     return false;
+  }
 
   if (!(pmol->HasData(OBGenericDataType::UnitCell)))
   {

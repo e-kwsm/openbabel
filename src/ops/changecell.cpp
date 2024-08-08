@@ -106,9 +106,13 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
   
   OBUnitCell * old_cell;
   if ( ! pmol->HasData(OBGenericDataType::UnitCell) )
+  {
     old_cell = nullptr;
+  }
   else         
+  {
     old_cell = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+  }
   
   if (old_cell == nullptr)
   {
@@ -144,9 +148,13 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
                      (vcvs[2].mult ? c : 1.0) * vcvs[2].value,
                      alpha, beta, gamma );
   if (old_cell == nullptr)
+  {
     new_cell->SetSpaceGroup(1);
+  }
   else
+  {
     new_cell->SetSpaceGroup(old_cell->GetSpaceGroupNumber());
+  }
   
   if( keep_fract )
   {
@@ -163,7 +171,9 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
   }  
   
   if (old_cell != nullptr)
+  {
     pmol->DeleteData(old_cell);
+  }
   
   pmol->SetData(new_cell);
     

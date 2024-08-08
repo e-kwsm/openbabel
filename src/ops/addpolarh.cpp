@@ -42,7 +42,9 @@ bool OpAddPolarH::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCon
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
+  {
     return false;
+  }
 
   pmol->AddPolarHydrogens();
 

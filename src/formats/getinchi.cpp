@@ -184,7 +184,9 @@ string GetInChI(istream& is)
       // Ignore the content of any <...> elements
       // But a second consecutive  <...> element terminates an unquoted InChI
       if(afterelement && state==unquoted)
+      {
           return result;
+      }
       inelement=true;
     }
     else if(inelement)
@@ -230,7 +232,9 @@ string GetInChI(istream& is)
         if(prefix.compare(0,result.size(),result)==0) //true if correct
         {
           if(result.size()==prefix.size())
+          {
             state = isnic(qch)&& qch!='>' ? quoted : unquoted;
+          }
         }
         else
         {

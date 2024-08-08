@@ -42,7 +42,9 @@ bool OpDelNonPolarH::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OB
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
+  {
     return false;
+  }
 
   pmol->DeleteNonPolarHydrogens();
 
