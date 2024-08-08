@@ -298,7 +298,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-      ofs << endl;
+      ofs << '\n';
     }
 
     return true;

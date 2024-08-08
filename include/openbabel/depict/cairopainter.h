@@ -2,6 +2,8 @@
 #define OB_CAIROPAINTER_H
 
 #include <openbabel/depict/painter.h>
+
+#include <utility>
 #include "cairo.h"
 
 namespace OpenBabel
@@ -36,11 +38,11 @@ namespace OpenBabel
       void WriteImage(std::ostream& ofs);
       void SetWidth(int width) {m_width=width;}
       void SetHeight(int height) {m_height=height;}
-      void SetTitle(std::string title) {m_title=title;}
+      void SetTitle(std::string title) {m_title=std::move(title);}
       void SetIndex(int index) {m_index=index;}
       void SetTableSize(int nrows, int ncols) {m_nrows=nrows; m_ncols=ncols;}
-      void SetBackground(std::string color) {m_fillcolor=color;}
-      void SetBondColor(std::string color) {m_bondcolor=color;}
+      void SetBackground(std::string color) {m_fillcolor=std::move(color);}
+      void SetBondColor(std::string color) {m_bondcolor=std::move(color);}
       void SetTransparent(bool tr) {m_transparent=tr;}
       void SetCropping(bool cr) {m_cropping=cr;}
      //@}

@@ -141,7 +141,7 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
       if (buf != "Unspecified" && buf != "Element")
       {
         cerr << "CDXML Format: Node type \"" << buf <<
-                  "\" is not currently supported." << endl;
+                  "\" is not currently supported." << '\n';
         return false; // FIXME: use as many types as possible
 	  }
     }
