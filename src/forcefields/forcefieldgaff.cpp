@@ -1211,7 +1211,7 @@ namespace OpenBabel
     // return the locale to the original one
     obLocale.RestoreLocale();
 
-    return 0;
+    return false;
   }
 
   bool OBForceFieldGaff::SetTypes()

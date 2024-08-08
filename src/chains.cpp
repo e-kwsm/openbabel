@@ -803,10 +803,10 @@ namespace OpenBabel
     int bsize = mol.NumBonds();
 
     bitmasks.resize(asize, 0);
-    visits.resize(asize, 0);
+    visits.resize(asize, false);
     resids.resize(asize, 0);
     flags.resize(bsize, 0);
-    hetflags.resize(asize, 0);
+    hetflags.resize(asize, false);
     atomids.resize(asize, 0);
     resnos.resize(asize, 0);
     sernos.resize(asize, 0);
