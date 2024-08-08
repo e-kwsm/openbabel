@@ -1560,8 +1560,7 @@ namespace OpenBabel
 
     for (i = 0;i < pat->bcount;++i)
       {
-        pat->bond[i].grow = (bv[pat->bond[i].src] && bv[pat->bond[i].dst])?
-          false:true;
+        pat->bond[i].grow = !(bv[pat->bond[i].src] && bv[pat->bond[i].dst]);
 
         bv.SetBitOn(pat->bond[i].src);
         bv.SetBitOn(pat->bond[i].dst);
@@ -1849,7 +1848,7 @@ namespace OpenBabel
           return(true);
       }
 
-    return((_mlist.empty()) ? false:true);
+    return(!_mlist.empty());
   }
 
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
@@ -1883,7 +1882,7 @@ namespace OpenBabel
           return(true);
       }
 
-    return((_mlist.empty()) ? false:true);
+    return(!_mlist.empty());
   }
 
   void OBSmartsMatcher::SetupAtomMatchTable(std::vector<std::vector<bool> > &ttab,
