@@ -440,7 +440,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
       rapidjson::Value raman(rapidjson::kArrayType);
       vector<double> ramanVec = vib->GetRamanActivities();
-      if (ramanVec.size() > 0) {
+      if (!ramanVec.empty()) {
         for (unsigned int i = 0; i < modeCount; i++) {
           raman.PushBack(ramanVec[i], al);
         }
@@ -500,7 +500,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
       std::vector<double> rotatoryStrengthsVec =
           edata->GetRotatoryStrengthsLength();
-      if (rotatoryStrengthsVec.size() > 0) {
+      if (!rotatoryStrengthsVec.empty()) {
         rapidjson::Value rotatoryStrengths(rapidjson::kArrayType);
         for (unsigned int i = 0; i < rotatoryStrengthsVec.size(); i++) {
           rotatoryStrengths.PushBack(rotatoryStrengthsVec[i], al);
