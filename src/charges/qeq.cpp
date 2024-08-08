@@ -207,8 +207,8 @@ namespace OpenBabel
         if (Parameters[0] == 0.)
           {
             stringstream msg;
-            msg << "Some QEq Parameters not found!" << endl
-                << "Parameters not found for atom no. " << i+1 << endl
+            msg << "Some QEq Parameters not found!" << '\n'
+                << "Parameters not found for atom no. " << i+1 << '\n'
                 << "Atom will be ignored in the charge computation.";
             obErrorLog.ThrowError(__FUNCTION__, msg.str(), obError);
           }
@@ -306,7 +306,7 @@ namespace OpenBabel
   //! Wrapper around the Eigen linear solver routines
   // First attempts to solve using Gaussian elimination
   // if that fails, tries again using singular value decomposition (SVD)
-  bool QEqCharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold)
+  bool QEqCharges::solver(const Eigen::MatrixXd& A, const Eigen::VectorXd& b, Eigen::VectorXd &x, const double NormThreshold)
   {
     // using a LU factorization
 #ifdef HAVE_EIGEN3
@@ -322,12 +322,12 @@ namespace OpenBabel
     if (IsNan(resnorm) || resnorm > NormThreshold || !SolverOK)
       {
         stringstream msg;
-        msg << "Warning, LU solver failed." << endl;
-        if (!SolverOK) msg << "Solver returned error." << endl;
-        if (IsNan(resnorm)) msg << "NaNs were returned" << endl;
+        msg << "Warning, LU solver failed." << '\n';
+        if (!SolverOK) msg << "Solver returned error." << '\n';
+        if (IsNan(resnorm)) msg << "NaNs were returned" << '\n';
         if (resnorm > NormThreshold) msg << "Residual has norm " << resnorm
                                          << " which exceeds the recommended threshold of " << NormThreshold
-                                         << endl;
+                                         << '\n';
         msg << "Proceeding with singular value decomposition.";
 
         obErrorLog.ThrowError(__FUNCTION__, msg.str(), obWarning);
