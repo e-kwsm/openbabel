@@ -63,29 +63,36 @@ namespace OpenBabel
     const char* p = unit;
     switch(p[0]) {
     case 'e':
-      if (p[1]=='V' && p[2]=='\0')
+      if (p[1]=='V' && p[2]=='\0') {
         return ELECTRONVOLT_TO_KCALPERMOL; // eV
+      }
       if (p[1]=='l' && p[2]=='e' && p[3]=='c' && p[4]=='t' && p[5]=='r' && p[6]=='o' && p[7]=='n' &&
-          p[8]=='v' && p[9]=='o' && p[10]=='l' && p[11]=='t' && p[12]=='\0')
+          p[8]=='v' && p[9]=='o' && p[10]=='l' && p[11]=='t' && p[12]=='\0') {
         return ELECTRONVOLT_TO_KCALPERMOL; // electronvolt
+      }
       break;
     case 'k':
-      if (p[1]=='J' && p[2]=='/' && p[3]=='m' && p[4]=='o' && p[5]=='l' && p[6]=='\0')
+      if (p[1]=='J' && p[2]=='/' && p[3]=='m' && p[4]=='o' && p[5]=='l' && p[6]=='\0') {
         return KJPERMOL_TO_KCALPERMOL; // kJ/mol
-      if (p[1]=='c' && p[2]=='a' && p[3]=='l' && p[4]=='/' && p[5]=='m' && p[6]=='o' && p[7]=='l' && p[8]=='\0')
+      }
+      if (p[1]=='c' && p[2]=='a' && p[3]=='l' && p[4]=='/' && p[5]=='m' && p[6]=='o' && p[7]=='l' && p[8]=='\0') {
         return 1.0; // kcal/mol
+      }
       break;
     case 'H':
-      if (p[1]=='a' && p[2]=='r' && p[3]=='t' && p[4]=='r' && p[5]=='e' && p[6]=='e' && p[7]=='\0')
+      if (p[1]=='a' && p[2]=='r' && p[3]=='t' && p[4]=='r' && p[5]=='e' && p[6]=='e' && p[7]=='\0') {
         return HARTEE_TO_KCALPERMOL; // Hartree
+      }
       break;
     case 'J':
-      if (p[1]=='/' && p[2]=='m' && p[3]=='o' && p[4]=='l' && p[5]==' ' && p[6]=='K' && p[7]=='\0')
+      if (p[1]=='/' && p[2]=='m' && p[3]=='o' && p[4]=='l' && p[5]==' ' && p[6]=='K' && p[7]=='\0') {
         return KJPERMOL_TO_KCALPERMOL; // J/mol K
+      }
       break;
     case 'R':
-      if (p[1]=='y' && p[2]=='d' && p[3]=='b' && p[4]=='e' && p[5]=='r' && p[6]=='g' && p[7]=='\0')
+      if (p[1]=='y' && p[2]=='d' && p[3]=='b' && p[4]=='e' && p[5]=='r' && p[6]=='g' && p[7]=='\0') {
         return RYDBERG_TO_KCALPERMOL; // Rydberg
+      }
       break;
     }
 
@@ -103,8 +110,9 @@ namespace OpenBabel
     OBAtomHOF *oba;
 
     ptr = const_cast<char*>( strchr(line,'#'));
-    if (nullptr != ptr)
+    if (nullptr != ptr) {
       ptr[0] = '\0';
+    }
     if (strlen(line) > 0)
       {
         tokenize(vs,line,"|");
@@ -258,8 +266,9 @@ namespace OpenBabel
 
   void OBTypeTable::ParseLine(const char *buffer)
   {
-    if (buffer[0] == '#')
+    if (buffer[0] == '#') {
       return; // just a comment line
+    }
 
     if (_linecount == 0) {
       tokenize(_colnames,buffer);
@@ -269,8 +278,9 @@ namespace OpenBabel
       {
         vector<string> vc;
         tokenize(vc,buffer);
-        if (vc.size() == (unsigned)_ncols)
+        if (vc.size() == (unsigned)_ncols) {
           _table.push_back(vc);
+        }
         else
           {
             stringstream errorMsg;
@@ -284,18 +294,20 @@ namespace OpenBabel
 
   bool OBTypeTable::SetFromType(const char* from)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
     string tmp = from;
 
     unsigned int i;
-    for (i = 0;i < _colnames.size();++i)
+    for (i = 0;i < _colnames.size();++i) {
       if (tmp == _colnames[i])
         {
           _from = i;
           return(true);
         }
+    }
 
     obErrorLog.ThrowError(__FUNCTION__, "Requested type column not found", obInfo);
 
@@ -304,18 +316,20 @@ namespace OpenBabel
 
   bool OBTypeTable::SetToType(const char* to)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
     string tmp = to;
 
     unsigned int i;
-    for (i = 0;i < _colnames.size();++i)
+    for (i = 0;i < _colnames.size();++i) {
       if (tmp == _colnames[i])
         {
           _to = i;
           return(true);
         }
+    }
 
     obErrorLog.ThrowError(__FUNCTION__, "Requested type column not found", obInfo);
 
@@ -329,8 +343,9 @@ namespace OpenBabel
   OB_DEPRECATED_MSG("you should consider using std::string instead")
   bool OBTypeTable::Translate(char *to, const char *from)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
     bool rval;
     string sto,sfrom;
@@ -344,22 +359,25 @@ namespace OpenBabel
 
   bool OBTypeTable::Translate(string &to, const string &from)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
-    if (from == "")
+    if (from == "") {
       return(false);
+    }
 
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
         vector<vector<string> >::iterator i;
-        for (i = _table.begin();i != _table.end();++i)
+        for (i = _table.begin();i != _table.end();++i) {
           if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
             {
               to = (*i)[_to];
               return(true);
             }
+        }
       }
 
     // Throw an error, copy the string and return false
@@ -370,21 +388,24 @@ namespace OpenBabel
 
   std::string OBTypeTable::Translate(const string &from)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
-    if (from.empty())
+    if (from.empty()) {
       return("");
+    }
 
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
         vector<vector<string> >::iterator i;
-        for (i = _table.begin();i != _table.end();++i)
+        for (i = _table.begin();i != _table.end();++i) {
           if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
             {
               return (*i)[_to];
             }
+        }
       }
 
     // Throw an error, copy the string and return false
@@ -394,38 +415,44 @@ namespace OpenBabel
 
   std::string OBTypeTable::GetFromType()
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
-    if (_from > 0 && _from < (signed)_table.size())
+    if (_from > 0 && _from < (signed)_table.size()) {
       return( _colnames[_from] );
-    else
+    } else {
       return( _colnames[0] );
+    }
   }
 
   std::string OBTypeTable::GetToType()
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
-    if (_to > 0 && _to < (signed)_table.size())
+    if (_to > 0 && _to < (signed)_table.size()) {
       return( _colnames[_to] );
-    else
+    } else {
       return( _colnames[0] );
+    }
   }
 
   void Toupper(string &s)
   {
     unsigned int i;
-    for (i = 0;i < s.size();++i)
+    for (i = 0;i < s.size();++i) {
       s[i] = toupper(s[i]);
+    }
   }
 
   void Tolower(string &s)
   {
     unsigned int i;
-    for (i = 0;i < s.size();++i)
+    for (i = 0;i < s.size();++i) {
       s[i] = tolower(s[i]);
+    }
   }
 
   ///////////////////////////////////////////////////////////////////////
@@ -441,8 +468,9 @@ namespace OpenBabel
 
   bool OBResidueData::AssignBonds(OBMol &mol)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
     OBAtom *a1,*a2;
     OBResidue *r1,*r2;
@@ -456,11 +484,13 @@ namespace OpenBabel
     for (a1 = mol.BeginAtom(i);a1;a1 = mol.NextAtom(i))
       {
         r1 = a1->GetResidue();
-        if (r1 == nullptr) // atoms may not have residues
+        if (r1 == nullptr) { // atoms may not have residues
           continue;
+        }
 
-        if (skipres.length() && r1->GetNumString() == skipres)
+        if (skipres.length() && r1->GetNumString() == skipres) {
           continue;
+        }
 
         if (r1->GetName() != rname)
           {
@@ -471,15 +501,19 @@ namespace OpenBabel
         for (j=i,a2 = mol.NextAtom(j);a2;a2 = mol.NextAtom(j))
           {
             r2 = a2->GetResidue();
-            if (r2 == nullptr) // atoms may not have residues
+            if (r2 == nullptr) { // atoms may not have residues
               continue;
+            }
 
-            if (r1->GetNumString() != r2->GetNumString())
+            if (r1->GetNumString() != r2->GetNumString()) {
               break;
-            if (r1->GetName() != r2->GetName())
+            }
+            if (r1->GetName() != r2->GetName()) {
               break;
-            if (r1->GetChain() != r2->GetChain())
+            }
+            if (r1->GetChain() != r2->GetChain()) {
               break; // Fixes PR#2889763 - Fabian
+            }
 
             if ((bo = LookupBO(r1->GetAtomID(a1),r2->GetAtomID(a2))))
               {
@@ -534,9 +568,12 @@ namespace OpenBabel
           }
 
         r1 = a1->GetResidue();
-        if (r1 == nullptr) continue; // atoms may not have residues
-        if (skipres.length() && r1->GetNumString() == skipres)
+        if (r1 == nullptr) { // atoms may not have residues
           continue;
+        }
+        if (skipres.length() && r1->GetNumString() == skipres) {
+          continue;
+        }
 
         if (r1->GetName() != rname)
           {
@@ -563,8 +600,9 @@ namespace OpenBabel
     string s;
     vector<string> vs;
 
-    if (buffer[0] == '#')
+    if (buffer[0] == '#') {
       return;
+    }
 
     tokenize(vs,buffer);
     if (!vs.empty())
@@ -584,8 +622,9 @@ namespace OpenBabel
             _vatmtmp.push_back(vs[3]);
           }
 
-        if (vs[0] == "RES")
+        if (vs[0] == "RES") {
           _resname.push_back(vs[1]);
+        }
 
         if (vs[0]== "END")
           {
@@ -599,17 +638,19 @@ namespace OpenBabel
 
   bool OBResidueData::SetResName(const string &s)
   {
-    if (!_init)
+    if (!_init) {
       Init();
+    }
 
     unsigned int i;
 
-    for (i = 0;i < _resname.size();++i)
+    for (i = 0;i < _resname.size();++i) {
       if (_resname[i] == s)
         {
           _resnum = i;
           return(true);
         }
+    }
 
     _resnum = -1;
     return(false);
@@ -617,42 +658,49 @@ namespace OpenBabel
 
   int OBResidueData::LookupBO(const string &s)
   {
-    if (_resnum == -1)
+    if (_resnum == -1) {
       return(0);
+    }
 
     unsigned int i;
-    for (i = 0;i < _resbonds[_resnum].size();++i)
-      if (_resbonds[_resnum][i].first == s)
+    for (i = 0;i < _resbonds[_resnum].size();++i) {
+      if (_resbonds[_resnum][i].first == s) {
         return(_resbonds[_resnum][i].second);
+      }
+    }
 
     return(0);
   }
 
   int OBResidueData::LookupBO(const string &s1, const string &s2)
   {
-    if (_resnum == -1)
+    if (_resnum == -1) {
       return(0);
+    }
     string s;
 
     s = (s1 < s2) ? s1 + " " + s2 : s2 + " " + s1;
 
     unsigned int i;
-    for (i = 0;i < _resbonds[_resnum].size();++i)
-      if (_resbonds[_resnum][i].first == s)
+    for (i = 0;i < _resbonds[_resnum].size();++i) {
+      if (_resbonds[_resnum][i].first == s) {
         return(_resbonds[_resnum][i].second);
+      }
+    }
 
     return(0);
   }
 
   bool OBResidueData::LookupType(const string &atmid,string &type,int &hyb)
   {
-    if (_resnum == -1)
+    if (_resnum == -1) {
       return(false);
+    }
 
     string s;
     vector<string>::iterator i;
 
-    for (i = _resatoms[_resnum].begin();i != _resatoms[_resnum].end();i+=3)
+    for (i = _resatoms[_resnum].begin();i != _resatoms[_resnum].end();i+=3) {
       if (atmid == *i)
         {
           ++i;
@@ -661,14 +709,16 @@ namespace OpenBabel
           hyb = atoi((*i).c_str());
           return(true);
         }
+    }
 
     return(false);
   }
 
   void OBGlobalDataBase::Init()
   {
-    if (_init)
+    if (_init) {
       return;
+    }
     _init = true;
 
     ifstream ifs;
@@ -682,13 +732,15 @@ namespace OpenBabel
     string fn_open = OpenDatafile(ifs, _filename, _envvar);
     
     // Check _subdir directory
-    if (fn_open == "")
+    if (fn_open == "") {
       string fn_open = OpenDatafile(ifs, _filename, _subdir);
+    }
 
     if (fn_open != "" && (ifs))
       {
-        while(ifs.getline(charBuffer,BUFF_SIZE))
+        while(ifs.getline(charBuffer,BUFF_SIZE)) {
           ParseLine(charBuffer);
+        }
       }
 
     else
@@ -698,7 +750,7 @@ namespace OpenBabel
           obErrorLog.ThrowError(__FUNCTION__, "Cannot open " + _filename + " defaulting to compiled data.", obDebug);
 
           const char *p1,*p2;
-          for (p1 = p2 = _dataptr;*p2 != '\0';++p2)
+          for (p1 = p2 = _dataptr;*p2 != '\0';++p2) {
             if (*p2 == '\n')
               {
                 strncpy(charBuffer, p1, (p2 - p1));
@@ -706,6 +758,7 @@ namespace OpenBabel
                 ParseLine(charBuffer);
                 p1 = p2 + 1;
               }
+          }
         }
       else
         {
@@ -718,8 +771,9 @@ namespace OpenBabel
     // return the locale to the original one
     obLocale.RestoreLocale();
 
-    if (ifs)
+    if (ifs) {
       ifs.close();
+    }
 
     if (GetSize() == 0)
       {
