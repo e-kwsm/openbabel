@@ -113,7 +113,7 @@ namespace OpenBabel
                 atom->GetAtomicNum(),
                 type_name,
                 atom->GetFormalCharge());
-        ofs << buffer << endl;
+        ofs << buffer << '\n';
       }
 
     ofs << "property_flags:\n";

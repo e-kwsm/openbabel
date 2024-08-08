@@ -290,7 +290,7 @@ namespace OpenBabel
               snprintf(buffer,BUFF_SIZE,"%6d",nbr->GetIdx());
               ofs << buffer;
             }
-          ofs << endl;
+          ofs << '\n';
 
           snprintf(buffer,BUFF_SIZE,"ORDER %6d",atom->GetIdx());
           ofs << buffer;
@@ -299,10 +299,10 @@ namespace OpenBabel
               snprintf(buffer,BUFF_SIZE,"%6d",(*j)->GetBondOrder());
               ofs << buffer;
             }
-          ofs << endl;
+          ofs << '\n';
         }
 
-    ofs << "END" << endl;
+    ofs << "END" << '\n';
     return(true);
   }
 
