@@ -75,7 +75,7 @@ namespace OpenBabel
     // open data file
     ifstream ifs;
 
-    if (OpenDatafile(ifs, _filename).length() == 0) {
+    if (OpenDatafile(ifs, _filename).empty()) {
       obErrorLog.ThrowError(__FUNCTION__, " Could not find contribution data file.", obError);
       return false;
     }
