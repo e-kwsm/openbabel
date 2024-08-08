@@ -95,11 +95,11 @@ namespace OpenBabel
       }
       bool AddPose(double* coords, double energy);
       bool AddPose(std::vector<vector3> coords, double energy);
-      typedef std::pair<std::vector<vector3>, double> PosePair;
-      typedef tree<PosePair> Tree;
+      using PosePair = std::pair<std::vector<vector3>, double>;
+      using Tree = tree<PosePair>;
       Tree* GetTree() { return &poses; }
-      typedef tree<PosePair>::iterator Tree_it;
-      typedef tree<PosePair>::sibling_iterator Tree_sit;
+      using Tree_it = tree<PosePair>::iterator;
+      using Tree_sit = tree<PosePair>::sibling_iterator;
       size_t GetSize();
       inline int GetNRMSD() {
         return n_rmsd;
