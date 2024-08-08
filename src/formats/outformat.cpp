@@ -179,7 +179,7 @@ namespace OpenBabel
     }
 
     // if we assigned something above, let's try to find it
-    if (formatName.length())
+    if (!formatName.empty())
       pFormat = pConv->FindFormat(formatName);
 
     if (pFormat) {
