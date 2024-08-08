@@ -153,7 +153,7 @@ namespace OpenBabel
     tmpmol.ConvertDativeBonds();
 
     // atom contributions
-    if (_debug) debugMessage << "Heavy atom contributions:" << endl;
+    if (_debug) debugMessage << "Heavy atom contributions:" << '\n';
     for (i = _contribsHeavy.begin();i != _contribsHeavy.end();++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
@@ -161,7 +161,7 @@ namespace OpenBabel
           atomValues[(*j)[0] - 1] = i->second;
           seenHeavy.SetBitOn((*j)[0]);
 	        if (_debug)
-            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << endl;
+            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << '\n';
         }
       }
     }
@@ -169,7 +169,7 @@ namespace OpenBabel
     vector<double> hydrogenValues(tmpmol.NumAtoms(), 0.0);
 
     // Hydrogen contributions - note that matches to hydrogens themselves are ignored
-    if (_debug) debugMessage << "  Hydrogen contributions:" << endl;
+    if (_debug) debugMessage << "  Hydrogen contributions:" << '\n';
     for (i = _contribsHydrogen.begin();i != _contribsHydrogen.end();++i) {
       if (i->first->Match(tmpmol)) {
         _mlist = i->first->GetMapList();
@@ -180,7 +180,7 @@ namespace OpenBabel
           hydrogenValues[(*j)[0] - 1] = i->second * Hcount;
           seenHydrogen.SetBitOn((*j)[0]);
           if (_debug)
-            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << " Hcount " << Hcount << endl;
+            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << " Hcount " << Hcount << '\n';
         }
       }
     }

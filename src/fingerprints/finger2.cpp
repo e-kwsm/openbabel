@@ -271,7 +271,7 @@ void fingerprint2::PrintFpt(const vector<int>& f, int hash)
 	unsigned int i;
 	for(i=0;i<f.size();++i)
     _ss  << f[i] << " ";
-  _ss << "<" << hash << ">" << endl;
+  _ss << "<" << hash << ">" << '\n';
 }
 
 } //namespace OpenBabel
