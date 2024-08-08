@@ -69,11 +69,15 @@ namespace OpenBabel {
         atom2 = mol.GetAtom(a2+1);
         // Default should be to recognize H clashes too
         if (!m_check_hydrogens  && (atom1->GetAtomicNum() == OBElements::Hydrogen || atom2->GetAtomicNum() == OBElements::Hydrogen ))
+        {
           continue;
+        }
 
         // skip connected atoms
         if (atom1->IsConnected(atom2))
+        {
           continue;
+        }
         // compute the distance
         dx = conformer[a1*3  ] - conformer[a2*3  ];
         dy = conformer[a1*3+1] - conformer[a2*3+1];
@@ -88,7 +92,9 @@ namespace OpenBabel {
 
         // check distance
         if (distanceSquared < m_cutoff || distanceSquared < vdwCutoff)
+        {
           return false;
+        }
       }
     }
 
@@ -112,7 +118,9 @@ namespace OpenBabel {
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
     for (unsigned int a = 0; a < numAtoms; ++a)
+    {
       vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
+    }
 
     OBAlign align(mol, mol, false, false);
     align.SetRef(vi);
@@ -120,12 +128,16 @@ namespace OpenBabel {
     double score_min = 10e10;
     for (unsigned int j = 0; j < conformers.size(); ++j) {
       if (index == j)
+      {
         continue;
+      }
       double *conformer_j = conformers[j];
       // create vector3 conformer
       std::vector<vector3> vj;
       for (unsigned int a = 0; a < numAtoms; ++a)
+      {
         vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
+      }
 
       // perform Kabsch alignment
       align.SetTarget(vj);
@@ -135,7 +147,9 @@ namespace OpenBabel {
       double rmsd = align.GetRMSD();
       // store the rmsd if it is lower than any of the previous
       if (rmsd < score_min)
+      {
         score_min = rmsd;
+      }
     }
 
     // return the lowest RMSD
@@ -152,7 +166,9 @@ namespace OpenBabel {
         // Check that we haven't already computed this energy);
         mapRotorEnergy::iterator it = energy_map.find (cur_key);
         if (it != energy_map.end ())
+        {
           return it->second;
+        }
       }
     energy_ncompute++;
 
@@ -169,17 +185,23 @@ namespace OpenBabel {
     if (!ff->Setup(mol)) {
       ff = OBForceField::FindType("UFF");
       if (!ff->Setup(mol))
+      {
         return 10e10;
+      }
     }
     double score = ff->Energy(false); // no gradients
 
     // copy original coordinates back
     for (unsigned int i = 0; i < mol.NumAtoms() * 3; ++i)
+    {
       origCoords[i] = coords[i];
+    }
 
     // Save that in the map
     if (energy_map.size () < 50000)
+    {
       energy_map[cur_key] = score;
+    }
 
     return score;
   }
@@ -194,7 +216,9 @@ namespace OpenBabel {
         // Check that we haven't already computed this energy);
         mapRotorEnergy::iterator it = energy_map.find (cur_key);
         if (it != energy_map.end ())
+        {
           return it->second;
+        }
       }
     energy_ncompute++;
 
@@ -211,18 +235,24 @@ namespace OpenBabel {
     if (!ff->Setup(mol)) {
       ff = OBForceField::FindType("UFF");
       if (!ff->Setup(mol))
+      {
         return 10e10;
+      }
     }
     ff->ConjugateGradients(50);
     double score = ff->Energy(false); // no gradients
 
     // copy original coordinates back
     for (unsigned int i = 0; i < mol.NumAtoms() * 3; ++i)
+    {
       origCoords[i] = coords[i];
+    }
 
     // Save that in the map
     if (energy_map.size () < 50000)
+    {
       energy_map[cur_key] = score;
+    }
 
     return score;
   }
@@ -244,19 +274,25 @@ namespace OpenBabel {
     if (!ff->Setup(mol)) {
       ff = OBForceField::FindType("UFF");
       if (!ff->Setup(mol))
+      {
         return 10e10;
+      }
     }
     ff->ConjugateGradients(50);
     double score = ff->Energy(false); // no gradients
 
     // copy original coordinates back
     for (unsigned int i = 0; i < mol.NumAtoms() * 3; ++i)
+    {
       origCoords[i] = coords[i];
+    }
 
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
     for (unsigned int a = 0; a < numAtoms; ++a)
+    {
       vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
+    }
 
     OBAlign align(mol, mol, false, false);
     align.SetRef(vi);
@@ -264,12 +300,16 @@ namespace OpenBabel {
     double score_min = 10e10;
     for (unsigned int j = 0; j < conformers.size(); ++j) {
       if (index == j)
+      {
         continue;
+      }
       double *conformer_j = conformers[j];
       // create vector3 conformer
       std::vector<vector3> vj;
       for (unsigned int a = 0; a < numAtoms; ++a)
+      {
         vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
+      }
 
       // perform Kabsch alignment
       align.SetTarget(vj);
@@ -279,7 +319,9 @@ namespace OpenBabel {
       double rmsd = align.GetRMSD();
       // store the rmsd if it is lower than any of the previous
       if (rmsd < score_min)
+      {
         score_min = rmsd;
+      }
     }
 
     // return the lowest RMSD
@@ -338,7 +380,9 @@ namespace OpenBabel {
     m_convergence = convergence;
 
     if (m_mol.GetCoordinates() == nullptr)
+    {
       return false;
+    }
 
     // Initialize the OBRotorList
     m_rotorList.SetFixedBonds(m_fixedBonds);
@@ -394,10 +438,14 @@ namespace OpenBabel {
 
     RotorKey rotorKey(m_rotorList.Size() + 1, 0); // indexed from 1
     if (IsGood(rotorKey))
+    {
       m_rotorKeys.push_back(rotorKey);
+    }
     else {
       if (m_logstream != nullptr)
+      {
         (*m_logstream) << "Initial conformer does not pass filter!" << std::endl;
+      }
     }
 
     int tries = 0, ndup = 0, nbad = 0;
@@ -408,7 +456,9 @@ namespace OpenBabel {
       OBRotor *rotor = m_rotorList.BeginRotor(ri);
       for (unsigned int i = 1; i < m_rotorList.Size() + 1; ++i, rotor = m_rotorList.NextRotor(ri)) {
         if (generator.NextInt() % m_mutability == 0)
+        {
           rotorKey[i] = generator.NextInt() % rotor->GetResolution().size();
+        }
       }
       // duplicates are always rejected
       if (!IsUniqueKey(m_rotorKeys, rotorKey))
@@ -432,8 +482,9 @@ namespace OpenBabel {
         (*m_logstream) << "Initial conformer count: " << m_rotorKeys.size() << std::endl;
         (*m_logstream) << tries << " attempts,  " << ndup << " duplicates, " << nbad << " failed filter." << std::endl;
         for (unsigned int i = 0; i < m_rotorKeys.size(); ++i) {
-          for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j)
+          for (unsigned int j = 1; j < m_rotorKeys[i].size(); ++j) {
             (*m_logstream) << m_rotorKeys[i][j] << " ";
+          }
           (*m_logstream) << std::endl;
         }
       }

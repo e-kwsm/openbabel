@@ -625,18 +625,28 @@ namespace OpenBabel
             if( ch2 == 'L' )
               {
                 if( ch3 == 'Y' )
+                {
                   return(  1 );
+                }
                 else if( ch3 == 'U' )
+                {
                   return( 10 );
+                }
                 else if( ch3 == 'N' )
+                {
                   return( 14 );
+                }
                 else if( ch3 == 'X' )
+                {
                   return( 21 );
+                }
               }
             else if( ch2 == 'U' )
               {
                 if( ch3 == 'A' )
+                {
                   return( 26 );    /* "GUA" -> "  G" */
+                }
               }
 
             break;

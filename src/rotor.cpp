@@ -59,7 +59,9 @@ namespace OpenBabel
     // find the rotatable bonds
     FindRotors(mol, sampleRingBonds);
     if (!Size())
+    {
       return(false);
+    }
 
     // set the atoms that should be evaluated when this rotor changes
     SetEvalAtoms(mol);
