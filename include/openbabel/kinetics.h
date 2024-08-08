@@ -135,10 +135,10 @@ class OBNasaThermoData : public OBGenericData
 {
 protected:
   double Coeffs[14];
-  double LoT, MidT, HiT;
-  char phase;
+  double LoT{300}, MidT{1000}, HiT{3000};
+  char phase{'G'};
 public:
-  OBNasaThermoData(): LoT(300),MidT(1000),HiT(3000),phase('G')
+  OBNasaThermoData()
   {	_type = ThermoData;	_attr = "Nasa thermo data";}
 
   OBGenericData* Clone(OBBase* parent) const override { return new OBNasaThermoData(*this); }
