@@ -54,7 +54,9 @@ int matchFiles (SCANDIR_CONST struct dirent *entry_p)
 	string::size_type extPos = filename.rfind(DLHandler::getFormatFilePattern());
 
 	if(extPos!=string::npos && filename.substr(extPos) == DLHandler::getFormatFilePattern())
+	{
 		return true;
+	}
 
 	return false;
 }
@@ -79,7 +81,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
   char buffer[BUFF_SIZE];
 
   if (!path.empty())
+  {
     paths.push_back(path);
+  }
 
   if (getenv("BABEL_LIBDIR") != nullptr)
     {
@@ -101,7 +105,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
     }
 
   if (paths.empty())
+  {
     paths.push_back("./"); // defaults to current directory
+  }
 
   /* Our old code used scandir. Replaced with readdir (below) as for example
    * Solaris pre 10 doesn't implement scandir.

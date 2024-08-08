@@ -261,7 +261,9 @@ namespace OpenBabel
 
         pSize = r->Size();
         if (pSize < 4)
+        {
           continue; // not rotatable
+        }
 
         path = r->_path;
         for (int j = 0; j < pSize; ++j) {
@@ -277,7 +279,9 @@ namespace OpenBabel
           for (rotor = rl.BeginRotor(i);rotor;rotor = rl.NextRotor(i))
             {
               if (bond != rotor->GetBond())
+              {
                 continue; // no match at all
+              }
 
               // Central bond matches, make sure 1..4 atoms are in the path
               rotor->GetDihedralAtoms(ref);
@@ -300,8 +304,12 @@ namespace OpenBabel
     vector<double>::iterator n;
     vector<vector<double> >::iterator m;
     for (m = _vres.begin();m != _vres.end();++m)
+    {
       for (n = m->begin();n != m->end();++n)
+      {
         *n *= RAD_TO_DEG;
+      }
+    }
   }
 
   void OBRotamerList::Setup(OBMol &mol,unsigned char *ref,int nrotors)
