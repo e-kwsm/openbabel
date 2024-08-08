@@ -137,7 +137,7 @@ namespace OpenBabel {
   bool isPotentialTetrahedral(OBAtom *atom)
   {
     // consider only potential steroecenters
-    if ((atom->GetHyb() != 3 && !(atom->GetHyb() == 5 && atom->GetAtomicNum() == OBElements::Phosphorus))
+    if ((atom->GetHyb() != 3 && (atom->GetHyb() != 5 || atom->GetAtomicNum() != OBElements::Phosphorus))
         || atom->GetTotalDegree() > 4 || atom->GetHvyDegree() < 3 || atom->GetHvyDegree() > 4)
       return false;
     // skip non-chiral N
@@ -1380,9 +1380,7 @@ namespace OpenBabel {
       bool endInverted = permutationInvertsCisTransBeginOrEndAtom(p, bond, bond->GetEndAtom(), canon_labels);
 
       // combine result using xor operation
-      if (beginInverted ^ endInverted)
-        return true;
-      return false;
+      return (beginInverted ^ endInverted) != 0;
     }
 
     /**
@@ -1593,9 +1591,7 @@ namespace OpenBabel {
       }
     }
 
-    if (trueStereoCenterCount >= 2 || ringIndices.size() >= 2)
-      return true;
-    return false;
+    return trueStereoCenterCount >= 2 || ringIndices.size() >= 2;
   }
 
   /**
@@ -1657,7 +1653,7 @@ namespace OpenBabel {
 
         if (!foundPermutation) {
           // true-stereocenter found
-          bool isParaCenter = (classification == T1234) ? false : true;
+          bool isParaCenter = classification != T1234;
           //cout << "found(2) " << atom->GetId() << endl;
           units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), isParaCenter));
           doneAtoms.push_back(atom->GetId());
@@ -1745,7 +1741,7 @@ namespace OpenBabel {
 
         if (!foundPermutation) {
           // true-stereocenter found
-          bool isParaCenter = (beginClassification == C12) && (endClassification == C12) ? false : true;
+          bool isParaCenter = !((beginClassification == C12) && (endClassification == C12));
           units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), isParaCenter));
           doneBonds.push_back(bond->GetId());
         } else {
@@ -2745,7 +2741,7 @@ namespace OpenBabel {
             config.specified = false;
       }
 
-      if (config.specified==true) { // Work out the stereochemistry
+      if (config.specified) { // Work out the stereochemistry
         // 0      3
         //  \    /        2 triangles: 0-1-b & 2-3-a
         //   a==b    -->  same sign: U
@@ -2934,10 +2930,7 @@ namespace OpenBabel {
                 anticlockwise_order = AngleOrder(mol.GetAtomById(test_cfg.refs[0])->GetVector(),
                   mol.GetAtomById(test_cfg.refs[1])->GetVector(), mol.GetAtomById(test_cfg.refs[2])->GetVector(),
                   center->GetVector());
-              if (anticlockwise_order)
-                useup = false;
-              else
-                useup = true;
+              useup = !anticlockwise_order;
             }
 
 
