@@ -30,7 +30,7 @@ namespace OpenBabel
     //     along to mark the left hand side
     //   - A potential improvement would be to BFS from both sides at the same time
 
-    if (!bond->IsInRing()) return 0;
+    if (!bond->IsInRing()) { return 0; }
     OBAtom* start = bond->GetBeginAtom();
     OBAtom* end = bond->GetEndAtom();
     std::vector<OBAtom*> qatoms;
@@ -39,8 +39,8 @@ namespace OpenBabel
     OBBitVec seen(numatoms + 1);
     seen.SetBitOn(start->GetIdx());
     FOR_BONDS_OF_ATOM(nbond, start) {
-      if (&*nbond == bond) continue;
-      if (!nbond->IsInRing()) continue;
+      if (&*nbond == bond) { continue; }
+      if (!nbond->IsInRing()) { continue; }
       OBAtom* nbr = nbond->GetNbrAtom(start);
       qatoms.push_back(nbr);
     }
@@ -54,15 +54,17 @@ namespace OpenBabel
         depthmarker = qatoms.size();
       }
       qstart++;
-      if (seen.BitIsSet(curr->GetIdx()))
+      if (seen.BitIsSet(curr->GetIdx())) {
         continue;
+      }
       seen.SetBitOn(curr->GetIdx());
       if (depth < bound) {
         FOR_BONDS_OF_ATOM(nbond, curr) {
-          if (!nbond->IsInRing()) continue;
+          if (!nbond->IsInRing()) { continue; }
           OBAtom* nbr = nbond->GetNbrAtom(curr);
-          if (nbr == end)
+          if (nbr == end) {
             return depth + 1;
+          }
           if (!seen.BitIsSet(nbr->GetIdx())) {
             qatoms.push_back(nbr);
           }
@@ -80,76 +82,76 @@ namespace OpenBabel
     case 1:
       switch (charge) {
       case 0:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 2:
       if (charge == 0) {
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
       }
       break;
     case 3:
       switch (charge) {
       case 0:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 4:
       switch (charge) {
       case 0:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 1:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 2:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 5:
       switch (charge) {
       case -2:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case -1:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 0:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case 1:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 2:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       }
       break;
     case 6:
       switch (charge) {
       case -2:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case -1:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case 0:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 1:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case 2:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       }
       break;
@@ -158,10 +160,10 @@ namespace OpenBabel
       // to round up to 5 when adding hydrogens
       switch (charge) {
       case -2:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case -1:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 0:
         switch (bosum) {
@@ -171,23 +173,23 @@ namespace OpenBabel
         }
         break;
       case 1:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 2:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       }
       break;
     case 8:
       switch (charge) {
       case -2:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case -1:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 0:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 1:
         switch (bosum) {
@@ -200,13 +202,13 @@ namespace OpenBabel
     case 9:
       switch (charge) {
       case -1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case 0:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 1:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 2:
         switch (bosum) {
@@ -218,29 +220,29 @@ namespace OpenBabel
       break;
     case 10:
       if (charge == 0) {
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
       }
       break;
     case 11:
       switch (charge) {
       case -1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case 0:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 12:
       switch (charge) {
       case 0:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 2:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
@@ -253,26 +255,26 @@ namespace OpenBabel
         }
         break;
       case -1:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 0:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case 1:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case 2:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 3:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 14:
       switch (charge) {
       case -2:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       case -1:
         switch (bosum) {
@@ -281,13 +283,13 @@ namespace OpenBabel
         }
         break;
       case 0:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 1:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       case 2:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2; }
         break;
       }
       break;
@@ -315,17 +317,17 @@ namespace OpenBabel
         }
         break;
       case 1:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       case 2:
-        if (bosum <= 3) return 3;
+        if (bosum <= 3) { return 3; }
         break;
       }
       break;
     case 16:
       switch (charge) {
       case -2:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case -1:
         switch (bosum) {
@@ -349,14 +351,14 @@ namespace OpenBabel
         }
         break;
       case 2:
-        if (bosum <= 4) return 4;
+        if (bosum <= 4) { return 4; }
         break;
       }
       break;
     case 17:
       switch (charge) {
       case -1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case 0:
         switch (bosum) {
@@ -383,32 +385,33 @@ namespace OpenBabel
       break;
     case 18:
       if (charge == 0) {
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
       }
       break;
     case 19:
       switch (charge) {
       case -1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       case 0:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 1:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;
     case 20:
       switch (charge) {
       case 0:
-        if (bosum <= 2) return 2;
+        if (bosum <= 2) { return 2;
+        }
         break;
       case 1:
-        if (bosum <= 1) return 1;
+        if (bosum <= 1) { return 1; }
         break;
       case 2:
-        if (bosum == 0) return 0;
+        if (bosum == 0) { return 0; }
         break;
       }
       break;

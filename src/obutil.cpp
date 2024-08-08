@@ -100,7 +100,7 @@ namespace OpenBabel
   //! underflow.
   bool CanBeSquared(const double &a)
   {
-    if( a == 0 ) return true;
+    if( a == 0 ) { return true; }
     const double max_squarable_double = 1e150;
     const double min_squarable_double = 1e-150;
     double abs_a = fabs(a);
@@ -113,8 +113,9 @@ namespace OpenBabel
     string::size_type pos = (unsigned int)src.find_last_of(".");
     string dst;
 
-    if (pos != string::npos)
+    if (pos != string::npos) {
       dst = src.substr(0,pos+1);
+    }
     else
       {
         dst = src;
@@ -174,8 +175,9 @@ namespace OpenBabel
   //! Calculate the RMS deviation between the first N coordinates of *r and *f
   double calc_rms(double *r,double *f, unsigned int N)
   {
-    if (N == 0)
+    if (N == 0) {
       return 0.0; // no RMS deviation between two empty sets
+    }
 
     double d2=0.0;
     for (unsigned int i = 0;i < N;++i)
@@ -224,20 +226,24 @@ namespace OpenBabel
 
     c1mag = SQUARE(c1x)+SQUARE(c1y)+SQUARE(c1z);
     c2mag = SQUARE(c2x)+SQUARE(c2y)+SQUARE(c2z);
-    if (c1mag*c2mag < 0.01)
+    if (c1mag*c2mag < 0.01) {
       costheta = 1.0; //avoid div by zero error
-    else
+    } else {
       costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
+    }
 
-    if (costheta < -0.999999)
+    if (costheta < -0.999999) {
       costheta = -0.999999;
-    if (costheta >  0.999999)
+    }
+    if (costheta >  0.999999) {
       costheta =  0.999999;
+    }
 
-    if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0)
+    if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0) {
       radang = -acos(costheta);
-    else
+    } else {
       radang = acos(costheta);
+    }
 
     //
     // now we have the torsion angle (radang) - set up the rot matrix
@@ -360,41 +366,51 @@ namespace OpenBabel
   //! Shift the supplied string to uppercase
   void ToUpper(std::string &s)
   {
-    if (s.empty())
+    if (s.empty()) {
       return;
+    }
     unsigned int i;
-    for (i = 0;i < s.size();++i)
-      if (isalpha(s[i]) && !isdigit(s[i]))
+    for (i = 0;i < s.size();++i) {
+      if (isalpha(s[i]) && !isdigit(s[i])) {
         s[i] = toupper(s[i]);
+      }
+    }
   }
 
   //! Shift the supplied char* to uppercase
   void ToUpper(char *cptr)
   {
     char *c;
-    for (c = cptr;*c != '\0';++c)
-      if (isalpha(*c) && !isdigit(*c))
+    for (c = cptr;*c != '\0';++c) {
+      if (isalpha(*c) && !isdigit(*c)) {
         *c = toupper(*c);
+      }
+    }
   }
 
   //! Shift the supplied string to lowercase
   void ToLower(std::string &s)
   {
-    if (s.empty())
+    if (s.empty()) {
       return;
+    }
     unsigned int i;
-    for (i = 0;i < s.size();++i)
-      if (isalpha(s[i]) && !isdigit(s[i]))
+    for (i = 0;i < s.size();++i) {
+      if (isalpha(s[i]) && !isdigit(s[i])) {
         s[i] = tolower(s[i]);
+      }
+    }
   }
 
   //! Shift the supplied char* to lowercase
   void ToLower(char *cptr)
   {
     char *c;
-    for (c = cptr;*c != '\0';++c)
-      if (isalpha(*c) && !isdigit(*c))
+    for (c = cptr;*c != '\0';++c) {
+      if (isalpha(*c) && !isdigit(*c)) {
         *c = tolower(*c);
+      }
+    }
   }
 
   //! Shift the supplied string: lowercase to upper, and upper to lower
@@ -402,25 +418,28 @@ namespace OpenBabel
   //! \param start - The position to start inverting case
   void InvertCase(std::string &s, unsigned int start)
   {
-    if (start >= s.size())
+    if (start >= s.size()) {
       return;
+    }
     unsigned int i;
-    for (i = start; i < s.size();++i)
+    for (i = start; i < s.size();++i) {
       if (isalpha(s[i]) && !isdigit(s[i])) {
-        if (isupper(s[i])) s[i] = tolower(s[i]);
-        else s[i] = toupper(s[i]);
+        if (isupper(s[i])) { s[i] = tolower(s[i]); }
+        else { s[i] = toupper(s[i]); }
       }
+    }
   }
 
   //! Shift the supplied char*: lowercase to upper, and upper to lower
   void InvertCase(char *cptr)
   {
     char *c;
-    for (c = cptr;*c != '\0';++c)
+    for (c = cptr;*c != '\0';++c) {
       if (isalpha(*c) && !isdigit(*c)) {
-        if (isupper(*c)) *c = tolower(*c);
-        else *c = toupper(*c);
+        if (isupper(*c)) { *c = tolower(*c); }
+        else { *c = toupper(*c); }
       }
+    }
   }
 
   //! "Clean" the supplied atom type, shifting the first character to uppercase,
@@ -429,8 +448,9 @@ namespace OpenBabel
   void CleanAtomType(char *id)
   {
     id[0] = toupper(id[0]);
-    if (isalpha(id[1]) == 0)
+    if (isalpha(id[1]) == 0) {
       id[1] = '\0';
+    }
     else
       {
         id[1] = tolower(id[1]);
@@ -451,8 +471,9 @@ namespace OpenBabel
     vector<OBAtom*>::iterator i;
     unsigned int index;
 
-    if (vic.empty())
+    if (vic.empty()) {
       return;
+    }
 
     if (vic[0] != nullptr) {
       std::vector<OBInternalCoord*>::iterator it = vic.begin();
@@ -474,8 +495,9 @@ namespace OpenBabel
         index = atom->GetIdx();
 
         // make sure we always have valid pointers
-        if (index >= vic.size() || !vic[index])
+        if (index >= vic.size() || !vic[index]) {
           return;
+        }
 
         if (vic[index]->_a) // make sure we have a valid ptr
           {
@@ -535,10 +557,12 @@ namespace OpenBabel
     // Delete dummy atoms
     vector<OBAtom*> for_deletion;
     FOR_ATOMS_OF_MOL(a, mol)
-      if (a->GetAtomicNum() == 0)
+      if (a->GetAtomicNum() == 0) {
         for_deletion.push_back(&(*a));
-    for(vector<OBAtom*>::iterator a_it=for_deletion.begin(); a_it!=for_deletion.end(); ++a_it)
+      }
+    for(vector<OBAtom*>::iterator a_it=for_deletion.begin(); a_it!=for_deletion.end(); ++a_it) {
       mol.DeleteAtom(*a_it);
+    }
 
   }
 
@@ -559,9 +583,9 @@ namespace OpenBabel
     //set reference atoms
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
-        if      (atom->GetIdx() == 1)
+        if      (atom->GetIdx() == 1) {
           continue;
-        else if (atom->GetIdx() == 2)
+        } else if (atom->GetIdx() == 2)
           {
             vic[atom->GetIdx()]->_a = mol.GetAtom(1);
             continue;
@@ -627,13 +651,15 @@ namespace OpenBabel
         c = vic[k]->_c;
         v1 = atom->GetVector() - a->GetVector();
         vic[k]->_dst = v1.length();
-        if (k == 2)
+        if (k == 2) {
           continue;
+        }
 
         v2 = b->GetVector()    - a->GetVector();
         vic[k]->_ang = vectorAngle(v1,v2);
-        if (k == 3)
+        if (k == 3) {
           continue;
+        }
 
         vic[k]->_tor = CalcTorsionAngle(atom->GetVector(),
                                         a->GetVector(),

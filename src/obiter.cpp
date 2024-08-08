@@ -148,7 +148,7 @@ namespace OpenBabel
   OBMolAtomDFSIter::OBMolAtomDFSIter(OBMol *mol, int StartIndex):
     _parent(mol), _ptr(_parent->GetAtom(StartIndex))
   {
-    if (!_ptr) return;
+    if (!_ptr) { return; }
 
     _notVisited.Resize(_parent->NumAtoms());
     _notVisited.SetRangeOn(0, _parent->NumAtoms() - 1);
@@ -168,7 +168,7 @@ namespace OpenBabel
   OBMolAtomDFSIter::OBMolAtomDFSIter(OBMol &mol, int StartIndex):
     _parent(&mol), _ptr(_parent->GetAtom(StartIndex))
   {
-    if (!_ptr) return;
+    if (!_ptr) { return; }
 
     _notVisited.Resize(_parent->NumAtoms());
     _notVisited.SetRangeOn(0, _parent->NumAtoms() - 1);
@@ -220,8 +220,9 @@ namespace OpenBabel
             _ptr = _parent->GetAtom(next + 1);
             _notVisited.SetBitOff(next);
           }
-        else
+        else {
           _ptr = nullptr;
+        }
       }
 
     if (_ptr)
@@ -229,12 +230,13 @@ namespace OpenBabel
         vector<OBBond*>::iterator i;
         OBAtom *a;
 
-        for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
+        for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i)) {
           if (_notVisited[a->GetIdx() - 1])
             {
               _stack.push(a);
               _notVisited.SetBitOff(a->GetIdx() - 1);
             }
+        }
       }
 
     return *this;
@@ -290,7 +292,7 @@ namespace OpenBabel
   OBMolAtomBFSIter::OBMolAtomBFSIter(OBMol *mol, int StartIndex):
     _parent(mol), _ptr(_parent->GetAtom(StartIndex))
   {
-    if (!_ptr) return;
+    if (!_ptr) { return; }
 
     _notVisited.Resize(_parent->NumAtoms());
     _notVisited.SetRangeOn(0, _parent->NumAtoms() - 1);
@@ -315,7 +317,7 @@ namespace OpenBabel
   OBMolAtomBFSIter::OBMolAtomBFSIter(OBMol &mol, int StartIndex):
     _parent(&mol), _ptr(_parent->GetAtom(StartIndex))
   {
-    if (!_ptr) return;
+    if (!_ptr) { return; }
 
     _notVisited.Resize(_parent->NumAtoms());
     _notVisited.SetRangeOn(0, _parent->NumAtoms() - 1);
@@ -372,12 +374,14 @@ namespace OpenBabel
         if (next != _notVisited.EndBit())
           {
             _ptr = _parent->GetAtom(next + 1); // Atom index issue
-            if (_ptr != nullptr)
+            if (_ptr != nullptr) {
               _depth[_ptr->GetIdx()] = 1; // new island
+            }
             _notVisited.SetBitOff(next);
           }
-        else
+        else {
           _ptr = nullptr;
+        }
       }
 
     if (_ptr)
@@ -385,13 +389,14 @@ namespace OpenBabel
         vector<OBBond*>::iterator i;
         OBAtom *a;
 
-        for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
+        for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i)) {
           if (_notVisited[a->GetIdx() - 1])
             {
               _queue.push(a);
               _depth[a->GetIdx()] = _depth[_ptr->GetIdx()] + 1;
               _notVisited.SetBitOff(a->GetIdx() - 1);
             }
+        }
       }
 
     return *this;
@@ -406,8 +411,9 @@ namespace OpenBabel
 
   int OBMolAtomBFSIter::CurrentDepth() const
   {
-    if (_ptr == nullptr)
+    if (_ptr == nullptr) {
       return 0;
+    }
 
     return _depth[_ptr->GetIdx()];
   }
@@ -461,8 +467,9 @@ namespace OpenBabel
       return;
     }
     _ptr = _parent->GetBond(StartIndex);
-    if (!_ptr)
+    if (!_ptr) {
       return;
+    }
     
     _notVisited.Resize(numbonds);
     _notVisited.SetRangeOn(0, numbonds - 1);
@@ -500,8 +507,9 @@ namespace OpenBabel
       return;
     }
     _ptr = _parent->GetBond(StartIndex);
-    if (!_ptr)
+    if (!_ptr) {
       return;
+    }
 
     _notVisited.Resize(numbonds);
     _notVisited.SetRangeOn(0, numbonds - 1);
@@ -565,12 +573,14 @@ namespace OpenBabel
       if (next != _notVisited.EndBit())
       {
         _ptr = _parent->GetBond(next + 1); // Bond index issue
-        if (_ptr != nullptr)
+        if (_ptr != nullptr) {
           _depth[_ptr->GetIdx()] = 1; // new island
+        }
         _notVisited.SetBitOff(next);
       }
-      else
+      else {
         _ptr = nullptr;
+      }
     }
 
     if (_ptr) {
@@ -603,8 +613,9 @@ namespace OpenBabel
 
   int OBMolBondBFSIter::CurrentDepth() const
   {
-    if (_ptr == nullptr)
+    if (_ptr == nullptr) {
       return 0;
+    }
 
     return _depth[_ptr->GetIdx()];
   }
@@ -1021,22 +1032,26 @@ namespace OpenBabel
 
   OBMolRingIter::OBMolRingIter(OBMol *mol): _parent(mol), _ptr(nullptr)
   {
-    if (!_parent->HasSSSRPerceived())
+    if (!_parent->HasSSSRPerceived()) {
       _parent->FindSSSR();
+    }
 
     _rings = (OBRingData *) _parent->GetData("SSSR");
-    if(_rings)
+    if(_rings) {
       _ptr = _rings->BeginRing(_i);
+    }
   }
 
   OBMolRingIter::OBMolRingIter(OBMol &mol): _parent(&mol), _ptr(nullptr)
   {
-    if (!_parent->HasSSSRPerceived())
+    if (!_parent->HasSSSRPerceived()) {
       _parent->FindSSSR();
+    }
 
     _rings = (OBRingData *) _parent->GetData("SSSR");
-    if (_rings)
+    if (_rings) {
       _ptr = _rings->BeginRing(_i);
+    }
   }
 
   OBMolRingIter::OBMolRingIter(const OBMolRingIter &ri)
@@ -1061,8 +1076,9 @@ namespace OpenBabel
 
   OBMolRingIter& OBMolRingIter::operator++()
   {
-    if (_rings)
+    if (_rings) {
       _ptr = _rings->NextRing(_i);
+    }
     return *this;
   }
 
@@ -1165,8 +1181,9 @@ namespace OpenBabel
   {
     _i++;
 
-    if (_i != _vangle.end())
+    if (_i != _vangle.end()) {
       _angle = *_i;
+    }
 
     return *this;
   }
@@ -1266,8 +1283,9 @@ namespace OpenBabel
   {
     _i++;
 
-    if (_i != _vtorsion.end())
+    if (_i != _vtorsion.end()) {
       _torsion = *_i;
+    }
 
     return *this;
   }
@@ -1316,22 +1334,24 @@ namespace OpenBabel
 
     bool foundPair = false;
     OBAtom *a = _parent->BeginAtom(_i);
-    if (!a)
+    if (!a) {
       return;
+    }
     OBAtom *b = _parent->BeginAtom(_j);
     while (!foundPair) {
       b = _parent->NextAtom(_j);
 
       if (!b) {
         a = _parent->NextAtom(_i);
-        if (!a)
+        if (!a) {
 	  return;
+        }
         b = _parent->BeginAtom(_j);
       }
 
-      if (a->GetIdx() >= b->GetIdx()) continue;
-      if (a->IsConnected(b)) continue;
-      if (a->IsOneThree(b)) continue;
+      if (a->GetIdx() >= b->GetIdx()) { continue; }
+      if (a->IsConnected(b)) { continue; }
+      if (a->IsOneThree(b)) { continue; }
 
       foundPair = true;
     }
@@ -1347,22 +1367,24 @@ namespace OpenBabel
 
     bool foundPair = false;
     OBAtom *a = _parent->BeginAtom(_i);
-    if (!a)
+    if (!a) {
       return;
+    }
     OBAtom *b = _parent->BeginAtom(_j);
     while (!foundPair) {
       b = _parent->NextAtom(_j);
 
       if (!b) {
         a = _parent->NextAtom(_i);
-	if (!a)
+	if (!a) {
           return;
+        }
         b = _parent->BeginAtom(_j);
       }
 
-      if (a->GetIdx() >= b->GetIdx()) continue;
-      if (a->IsConnected(b)) continue;
-      if (a->IsOneThree(b)) continue;
+      if (a->GetIdx() >= b->GetIdx()) { continue; }
+      if (a->IsConnected(b)) { continue; }
+      if (a->IsOneThree(b)) { continue; }
 
       foundPair = true;
     }
@@ -1403,14 +1425,15 @@ namespace OpenBabel
 
       if (!b) {
         a = _parent->NextAtom(_i);
-	if (!a)
+	if (!a) {
           return *this;
+        }
         b = _parent->BeginAtom(_j);
       }
 
-      if (a->GetIdx() >= b->GetIdx()) continue;
-      if (a->IsConnected(b)) continue;
-      if (a->IsOneThree(b)) continue;
+      if (a->GetIdx() >= b->GetIdx()) { continue; }
+      if (a->IsConnected(b)) { continue; }
+      if (a->IsOneThree(b)) { continue; }
 
 
       foundPair = true;
