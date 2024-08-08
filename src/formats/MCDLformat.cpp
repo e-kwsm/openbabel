@@ -126,13 +126,13 @@ private:
   string intToStr(int k);
   string getMCDL(OBMol* pmol, bool includeCoordinates);
   void restoreFullMCDL(string value, OBMol* pmol);
-  void setMCDL(const string lineToParse, OBMol* pmol, string & sout);
-  void assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
-    const std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
+  void setMCDL(string lineToParse, OBMol* pmol, string & sout);
+  void assignCharges(std::vector <int> aPosition, std::vector <int> iA1,
+    std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
     std::vector <int>& bondOrder, int aPos, int nPrev, int nt, int acount, int bcount);
-  int indexOf(const string instring, const string substring, int fromPos=0);
-  int lastIndexOf(const string instring, const string substring);
-  bool parseFormula(const string formulaString, std::vector <int>& enumber);
+  int indexOf(string instring, string substring, int fromPos=0);
+  int lastIndexOf(string instring, string substring);
+  bool parseFormula(string formulaString, std::vector <int>& enumber);
   string getMolTitle(string & line);
 
 };
