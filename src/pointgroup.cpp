@@ -583,39 +583,52 @@ namespace OpenBabel {
           }
           set_params( elem, values ) ;
           fnew2 = eval_optimization_target_function(elem, nullptr);
-          if( verbose > 1 ) printf( "        interpolation base points: %g, %g, %g\n", f, fnew, fnew2 ) ;
+          if( verbose > 1 ) { printf( "        interpolation base points: %g, %g, %g\n", f, fnew, fnew2 ) ; }
           for( i = 0 ; i < vars ; i++ )
+          {
             values[i] -= 2*step[i] ;
+          }
           a     = ( 4*f - fnew2 - 3*fnew ) / 2 ;
           b     = ( f + fnew2 - 2*fnew ) / 2 ;
-          if( verbose > 1 ) printf( "        linear interpolation coefficients %g, %g\n", a, b ) ;
+          if( verbose > 1 ) { printf( "        linear interpolation coefficients %g, %g\n", a, b ) ;
+          }
           if( b > 0 ){
             x = -a/(2*b) ;
             if( x > 0.2 && x < 1.8 ){
-              if( verbose > 1 ) printf( "        interpolated: %g\n", x ) ;
+              if( verbose > 1 ) { printf( "        interpolated: %g\n", x ) ;
+              }
               for( i = 0 ; i < vars ; i++ )
+              {
                 values[i] += x*step[i] ;
+              }
             }
-            else b = 0 ;
+            else { b = 0 ;
+            }
           }
           if( b <= 0 ){
             if( fnew2 < fnew ){
               for( i = 0 ; i < vars ; i++ )
+              {
                 values[i] += 2*step[i] ;
+              }
             }
             else {
               for( i = 0 ; i < vars ; i++ )
+              {
                 values[i] += step[i] ;
+              }
             }
           }
           set_params( elem, values ) ;
         }
       } while( snorm > MinOptStep && ++cycle < MaxOptCycles ) ;
       f = eval_optimization_target_function(elem, nullptr);
-      if( cycle >= MaxOptCycles ) BadOptimization = 1 ;
+      if( cycle >= MaxOptCycles ) { BadOptimization = 1 ; }
       if( verbose > 0 ) {
         if( cycle >= MaxOptCycles )
+        {
           printf( "        maximum number of optimization cycles made\n" ) ;
+        }
         printf( "        optimization completed after %d cycles with f = %g\n", cycle, f ) ;
       }
     }
