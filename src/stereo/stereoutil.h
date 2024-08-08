@@ -66,9 +66,9 @@ namespace OpenBabel {
     enum {
       Type = OBStereo::Tetrahedral // the stereo type
     };
-    typedef OBAtom Center; // the stereogenic center type
-    typedef OBTetrahedralStereo Stereo; // The stereo data object
-    typedef OBTetrahedralStereo::Config Config; // the config struct
+    using Center = OBAtom; // the stereogenic center type
+    using Stereo = OBTetrahedralStereo; // The stereo data object
+    using Config = OBTetrahedralStereo::Config; // the config struct
     static Center* GetCenter(OBMol *mol, unsigned long id) { return mol->GetAtomById(id); }
   };
   template<> struct OBStereoTypeTraits<OBStereo::CisTrans>
@@ -76,9 +76,9 @@ namespace OpenBabel {
     enum {
       Type = OBStereo::CisTrans,
     };
-    typedef OBBond Center;
-    typedef OBCisTransStereo Stereo;
-    typedef OBCisTransStereo::Config Config;
+    using Center = OBBond;
+    using Stereo = OBCisTransStereo;
+    using Config = OBCisTransStereo::Config;
     static Center* GetCenter(OBMol *mol, unsigned long id) { return mol->GetBondById(id); }
   };
 

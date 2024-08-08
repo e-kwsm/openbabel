@@ -81,12 +81,12 @@ namespace OpenBabel {
        * @typedef std::vector< std::pair<unsigned int,unsigned int> > Mapping
        * Type for an individual mapping.
        */
-      typedef std::vector< std::pair<unsigned int,unsigned int> > Mapping;
+      using Mapping = std::vector<std::pair<unsigned int, unsigned int>>;
       /**
        * @typedef std::vector<OBIsomorphismMapper::Mapping> Mappings
        * Type for a collection (std::vector) of Mapping objects.
        */
-      typedef std::vector< Mapping > Mappings;
+      using Mappings = std::vector<Mapping>;
 
       /**
        * Constructor. OBIsomorphismMapper is an abstract class, use GetInstance() to
@@ -197,13 +197,13 @@ namespace OpenBabel {
    * @brief A single automorphic permutation.
    * @since 2.3
    */
-  typedef OBIsomorphismMapper::Mapping Automorphism;
+  using Automorphism = OBIsomorphismMapper::Mapping;
   /**
    * @typedef OBIsomorphismMapper::Mappings Automorphisms
    * @brief A group of automorphic permutations.
    * @since 2.3
    */
-  typedef OBIsomorphismMapper::Mappings Automorphisms;
+  using Automorphisms = OBIsomorphismMapper::Mappings;
 
   /**
    * Find the automorphisms of a molecule by using an OBIsomorphismMapper. This

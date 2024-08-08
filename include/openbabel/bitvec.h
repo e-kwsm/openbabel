@@ -57,7 +57,7 @@ namespace OpenBabel
   class OBERROR OBBitVec
     {
     public:
-      typedef std::vector<uint32_t> word_vector;
+      using word_vector = std::vector<uint32_t>;
 
 	private:
 	  /// The number of <b>words</b> currently stored ( NOT bit count )

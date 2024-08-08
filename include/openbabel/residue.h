@@ -40,12 +40,12 @@ namespace OpenBabel {
 
   class OBAtom;
   //! A standard iterator over a vector of atoms
-  typedef std::vector<OBAtom*>::iterator OBAtomIterator;
+  using OBAtomIterator = std::vector<OBAtom *>::iterator;
   //! A standard constant iterator over a vector of atoms
-  typedef std::vector<OBAtom*>::const_iterator OBAtomConstIterator;
+  using OBAtomConstIterator = std::vector<OBAtom *>::const_iterator;
   class OBBond;
   //! A standard iterator over a vector of bonds
-  typedef std::vector<OBBond*>::iterator OBBondIterator;
+  using OBBondIterator = std::vector<OBBond *>::iterator;
 
   // Class OBResidue
   // class introduction in residue.cpp

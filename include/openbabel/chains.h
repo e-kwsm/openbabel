@@ -36,7 +36,7 @@ namespace OpenBabel
   //! Structure template for atomic patterns in residues for OBChainsParser
   // implementation in chains.cpp
   struct Template;
-  typedef struct Template Template;
+  using Template = struct Template;
 
   /** @class OBChainsParser chains.h <openbabel/chains.h>
       @brief Perceives peptide or nucleotide chains and residues in an OBMol

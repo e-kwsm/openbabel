@@ -35,7 +35,7 @@ class OBAPI OBOp : public OBPlugin
   MAKE_PLUGIN(OBOp);
 
 public:
-  typedef const std::map<std::string, std::string> OpMap ;
+  using OpMap = const std::map<std::string, std::string>;
 
   ///Provides the name of this kind of plugin. Use -L "ops" to list from commandline.
   const char* TypeID() override { return "ops"; }

@@ -72,7 +72,7 @@ namespace OpenBabel
       void Normalize();
 	};
 
-  typedef std::list<transform3d*>::const_iterator transform3dIterator;
+  using transform3dIterator = std::list<transform3d *>::const_iterator;
 
 }
 

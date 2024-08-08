@@ -142,7 +142,7 @@ namespace OpenBabel {
      *
      * @sa OBAtom::GetId() OBStereo
      */
-    typedef unsigned long Ref;
+    using Ref = unsigned long;
     /**
      * Special case Ref values.
      */
@@ -153,15 +153,15 @@ namespace OpenBabel {
     /**
      * A list (std::vector) of Ref variables.
      */
-    typedef std::vector<Ref> Refs;
+    using Refs = std::vector<Ref>;
     /**
      * Iterator (std::iterator) for a Refs list.
      */
-    typedef Refs::iterator RefIter;
+    using RefIter = Refs::iterator;
     /**
      * Iterator (std::iterator) for a const Refs list.
      */
-    typedef Refs::const_iterator ConstRefIter;
+    using ConstRefIter = Refs::const_iterator;
     //@}
 
     ///@name Refs utility functions
@@ -284,14 +284,14 @@ namespace OpenBabel {
    * is used as return type of FinStereogenicUnits(). This set is also the input
    * for many functions requiring this information (e.g. StereoFrom2D, ...).
    */
-  typedef std::vector<OBStereoUnit> OBStereoUnitSet;
+  using OBStereoUnitSet = std::vector<OBStereoUnit>;
   /**
    * @brief A set of sets of OBStereoUnit objects.
    *
    * This type is used for cases where there is some relationship between
    * individual OBStereoUnit objects.
    */
-  typedef std::vector<OBStereoUnitSet> OBStereoUnitSetOfSets;
+  using OBStereoUnitSetOfSets = std::vector<OBStereoUnitSet>;
 
 
   // fwd decl

@@ -232,7 +232,7 @@ class OBConversion; //used only as pointer
   };
 
   //! A standard iterator over vectors of OBGenericData (e.g., inherited from OBBase)
-  typedef std::vector<OBGenericData*>::iterator OBDataIterator;
+  using OBDataIterator = std::vector<OBGenericData *>::iterator;
 
   //! Base Class
   // introduction in base.cpp

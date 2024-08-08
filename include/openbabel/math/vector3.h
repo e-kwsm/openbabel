@@ -63,13 +63,13 @@ namespace OpenBabel
     ~vector3() { }
 
     //! A random access iterator over x, y, z
-    typedef double* iterator;
+    using iterator = double *;
 
     //! A random access iterator over const x, y, z
-    typedef const double* const_iterator;
+    using const_iterator = const double *;
 
     //! A signed integral type for differences between two iterators
-    typedef std::ptrdiff_t difference_type;
+    using difference_type = std::ptrdiff_t;
 
     //! \return iterator to beginning
     iterator begin() { return &_vx; }

@@ -197,8 +197,8 @@ class  FilteringInputStream :
     public std::istream
 {
 public:
-    typedef std::istream& istream_reference;
-    typedef std::istream istream_type;
+    using istream_reference = std::istream &;
+    using istream_type = std::istream;
 
     explicit FilteringInputStream(istream_reference istream):
         FilteringInputStreambuf<Extractor>(&istream),std::istream(this) {}
