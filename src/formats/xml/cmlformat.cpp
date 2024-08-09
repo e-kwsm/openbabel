@@ -483,7 +483,7 @@ bool CMLFormat::DoElement(const string &name) {
              name == "integerArray") {
     string name = _pxmlConv->GetAttribute("builtin");
     //		cmlArray& arr = (name=="atomRef1" || name=="atomRef2" ||
-    //name=="order") 			? BondArray : AtomArray;
+    // name=="order") 			? BondArray : AtomArray;
     cmlArray &arr = inBondArray ? BondArray : AtomArray;
 
     xmlTextReaderRead(reader());
@@ -1802,7 +1802,7 @@ bool CMLFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
         ref2 = atomIds[pbond->GetEndAtomIdx()];
         xmlTextWriterStartElementNS(writer(), prefix, C_BOND, nullptr);
         //				xmlTextWriterWriteFormatAttribute(writer(),
-        //C_ID,"b%d", pbond->GetIdx()); remove bond id
+        // C_ID,"b%d", pbond->GetIdx()); remove bond id
         if (!cml1) {
           xmlTextWriterWriteFormatAttribute(writer(), C_ATOMREFS2, "%s %s",
                                             ref1.c_str(), ref2.c_str());
@@ -2052,7 +2052,7 @@ void CMLFormat::WriteCrystal(OBMol &mol) {
 
   xmlTextWriterStartElementNS(writer(), prefix, C_CRYSTAL, nullptr);
   //	xmlTextWriterWriteFormatAttribute(writer(), C_z,"%d", number of
-  //molecules per cell);
+  // molecules per cell);
 
   xmlTextWriterStartElementNS(writer(), prefix, C_SCALAR, nullptr);
   xmlTextWriterWriteFormatAttribute(writer(), C_TITLE, "%s", "a");

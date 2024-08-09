@@ -166,10 +166,11 @@ const INCHI_TAG IdentLbl[] = {
     /* IL_DBND_ORD, */ {"/b", "dbond", "dbond", 0},
     /* IL_SP3S_ORD, */ {"/t", "sp3", "sp3", 0},
     /* IL_INVS_ORD, */ {"/m", "sp3:inverted", "abs.inverted", 0}, /* mirrored */
-    /* IL_TYPS_ORD, */ {"/s", "type (1=abs, 2=rel, 3=rac)", "type", 0}, /* stereo
-                                                                           type
-                                                                         */
-    /* isotopic */
+    /* IL_TYPS_ORD, */
+    {"/s", "type (1=abs, 2=rel, 3=rac)", "type", 0}, /* stereo
+                                                        type
+                                                      */
+                                                     /* isotopic */
     /* IL_ATMS_ORD, */ {"/i", "atoms", "atoms", 1},
     /* isotopic mobile H only */
     /* IL_XCGA_ORD, */ {"/h", "exchangeable_H", "H-isotopic", 1},
@@ -272,10 +273,11 @@ const INCHI_TAG AuxLbl[] = {
     /* AL_ISOT_ORD, */ {"/", "isotopic", "isotopic", 0}, /* isotopic */
                                                          /* AL_STER_ORD, */
     {"/", "abs_stereo_inverted", "stereo.abs.inverted",
-     0}, /* inv abs sp3 stereo */
-    /* AL_REVR_ORD, */ {"/", "reversibility", "reversibility", 0}, /* reversibility
-                                                                    */
-                                                                   /* items */
+     0},                                        /* inv abs sp3 stereo */
+                                                /* AL_REVR_ORD, */
+    {"/", "reversibility", "reversibility", 0}, /* reversibility
+                                                 */
+                                                /* items */
     /* AL_VERS_ORD, */ {"", "version", "version", 1},
     /* AL_NORM_ORD, */ {"/", "normalization_type", "norm-type", 1},
     /* AL_ANBR_ORD, */ {"/N:", "original_atom_numbers", "atom.orig-nbr", 1},

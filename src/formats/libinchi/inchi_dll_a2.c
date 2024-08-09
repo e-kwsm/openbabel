@@ -171,7 +171,7 @@ int NormOneStructureINChI(INCHIGEN_DATA *gendata, INCHIGEN_CONTROL *genctl,
   char *pStr = genctl->pStr;
 
   INP_ATOM_DATA
-      *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+  *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
   ORIG_ATOM_DATA *cur_prep_inp_data = prep_inp_data + iINChI;
 
   inchiTime ulTStart;
@@ -421,7 +421,7 @@ int CanonOneStructureINChI(INCHIGEN_CONTROL *genctl, int iINChI,
   INP_ATOM_DATA *inp_cur_data = NULL;
 
   INP_ATOM_DATA
-      *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+  *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
 
   ORIG_ATOM_DATA *cur_prep_inp_data = prep_inp_data + iINChI;
 
@@ -557,7 +557,7 @@ int NormOneComponentINChI(INCHIGEN_CONTROL *genctl, int iINChI, int i) {
   /* pINChI2[m=iINChI-1][j< prep_inp_data[m].num_components][TAUT_NON] */
 
   INP_ATOM_DATA
-      *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+  *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
   INP_ATOM_DATA *inp_cur_data = NULL;
 
   COMPONENT_TREAT_INFO *cti = NULL;
@@ -776,7 +776,7 @@ int CanonOneComponentINChI(INCHIGEN_CONTROL *genctl, int iINChI, int i) {
   PINChI_Aux2 *pINChI_Aux = NULL;
 
   INP_ATOM_DATA
-      *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+  *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
   INP_ATOM_DATA *inp_cur_data = NULL;
 
   COMPONENT_TREAT_INFO *cti = NULL;
@@ -971,8 +971,8 @@ int Normalization_step(INChI **ppINChI, INChI_Aux **ppINChI_Aux,
       (*pbTautFlagsDone /*& (~(INCHI_MODE)TG_FLAG_ALL_TAUTOMERIC) */);
 
   z->out_at = NULL;
-      /*, *norm_at_fixed_bonds[TAUT_NUM]; */ /*  = {out_norm_nontaut_at,
-                                                out_norm_taut_at} ; */
+  /*, *norm_at_fixed_bonds[TAUT_NUM]; */ /*  = {out_norm_nontaut_at,
+                                            out_norm_taut_at} ; */
 
   /* Init: internal structs */
 
@@ -1668,7 +1668,7 @@ int Canonicalization_step(INChI **ppINChI, INChI_Aux **ppINChI_Aux,
           ret = ret2;
         }
       } /* success in FillOutINChI */
-    }   /* success Canon_INChI */
+    } /* success Canon_INChI */
 
     FreeNeighList(pCS->NeighList);
     DeAllocateCS(pCS2);

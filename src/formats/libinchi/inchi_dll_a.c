@@ -618,7 +618,7 @@ exit_function:
     int ic, istruct, itaut, nc[2];
     int warn_prot = 0, warn_neutr = 0;
     INP_ATOM_DATA
-        *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+    *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
     nc[0] = pGenData->num_components[0];
     nc[1] = pGenData->num_components[1];
     for (istruct = 0; istruct < 2; istruct++) {

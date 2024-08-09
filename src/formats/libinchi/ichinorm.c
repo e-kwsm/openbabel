@@ -781,7 +781,8 @@ int remove_terminal_HDT(int num_atoms, inp_ATOM *at, int bFixTermHChrg) {
                      /*if ( k ) {*/
                      /*
                      for ( m = 0; m < MAX_NUM_STEREO_BONDS && new_at[i].sb_parity[m]; m ++
-                     ) {            if ( PARITY_WELL_DEF(new_at[i].sb_parity[m]) ) {            if ( old_trans[m]
+                     ) {            if ( PARITY_WELL_DEF(new_at[i].sb_parity[m]) ) {            if (
+                     old_trans[m]
                      != 2 - (4 + new_at[i].sn_ord[m] + new_at[i].sb_ord[m] +
                      (new_at[i].sn_ord[m] > new_at[i].sb_ord[m]))%2 ) {
                                  new_at[i].sb_parity[m] = 3 - new_at[i].sb_parity[m];

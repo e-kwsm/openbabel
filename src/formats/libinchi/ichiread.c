@@ -2592,10 +2592,11 @@ int InChILine2Data(INCHI_IOSTREAM *pInp, SEGM_LINE *pLine, char **pStr,
                                      ->nNumberOfStereoBonds) ||
                             (pInChI_Alt && pInChI_Alt->nNumberOfIsotopicAtoms);
                         if (bIso) {
-                          if (!pInChI_Alt->StereoIsotopic && /* create
-                                                                zero/NULL-initialized
-                                                                pInChI_Alt->StereoIsotopic
-                                                              */
+                          if (!pInChI_Alt
+                                   ->StereoIsotopic && /* create
+                                                          zero/NULL-initialized
+                                                          pInChI_Alt->StereoIsotopic
+                                                        */
                               0 > (ret2 = CopySegment(pInChI_Alt, pInChI_Alt,
                                                       CPY_SP3_M, 1, -1))) {
                             goto exit_function;
@@ -3130,7 +3131,7 @@ int InChILine2Data(INCHI_IOSTREAM *pInp, SEGM_LINE *pLine, char **pStr,
             }
           }
         } /* end of component cycle (k) */
-      }   /* end of Mobile/Fixed H cycle (j) */
+      } /* end of Mobile/Fixed H cycle (j) */
 
       /**** replace NO_VALUE_INT with zeroes in all Mobile & Fixed H components
        * ****/

@@ -780,7 +780,7 @@ int Get2DTetrahedralAmbiguity(double at_coord[][3], int bAddExplicitNeighbor,
   } /* eof nNumNeigh == 4 */
 
   else /*************************** number of bonds != 3 or 4
-          ******************/
+        ******************/
   {
 
     return -1; /*  error */
@@ -1816,7 +1816,7 @@ int half_stereo_bond_parity(inp_ATOM *at, int cur_at, inp_ATOM *at_removed_H,
           if (++num_iso_H[k] >
               1) /*  num_iso_H[0] = number of non-isotopic H atoms */
             return CT_ISO_H_ERR;
-                /*  program error in counting hydrogens */ /*   <BRKPT> */
+          /*  program error in counting hydrogens */ /*   <BRKPT> */
           index_H[num_eH++] = j;
         } else {
           return CT_ISO_H_ERR; /*  program error */ /*   <BRKPT> */
@@ -2244,7 +2244,7 @@ int can_be_a_stereo_bond_with_isotopic_H(inp_ATOM *at, int cur_at,
         continue;
       }
 #else
-      return 0;  /*  wrong bond type */
+      return 0; /*  wrong bond type */
 #endif
     }
 

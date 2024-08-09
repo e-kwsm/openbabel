@@ -3087,9 +3087,9 @@ int ProcessOneStructure(STRUCT_DATA *sd, INPUT_PARMS *ip, char *szTitle,
                         int nStrLen, unsigned char save_opt_bits) {
   int nRet = 0, nRet1, i, k, maxINChI = 0;
   COMP_ATOM_DATA
-      composite_norm_data[INCHI_NUM]
-                         [TAUT_NUM + 1]; /* [0]:non-taut, [1]:taut,
-                                            [2]:intermediate taut struct */
+  composite_norm_data[INCHI_NUM]
+                     [TAUT_NUM + 1]; /* [0]:non-taut, [1]:taut,
+                                        [2]:intermediate taut struct */
   NORM_CANON_FLAGS ncFlags;
   NORM_CANON_FLAGS *pncFlags = &ncFlags;
   ORIG_STRUCT OrigStruct;
@@ -3446,7 +3446,7 @@ int CreateOneStructureINChI(
 
   INP_ATOM_DATA InpNormAtData, InpNormTautData;
   INP_ATOM_DATA
-      *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
+  *inp_norm_data[TAUT_NUM]; /*  = { &InpNormAtData, &InpNormTautData }; */
   ORIG_ATOM_DATA *cur_prep_inp_data = prep_inp_data + iINChI;
   inchiTime ulTStart;
 #ifndef COMPILE_ANSI_ONLY

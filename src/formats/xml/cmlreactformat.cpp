@@ -422,7 +422,7 @@ bool CMLReactFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   //  OBConversion MolConv(*_pxmlConv); //new copy to use to write associated
   //  CML molecules
   //	MolConv.SetAuxConv(NULL); //temporary until a proper OBConversion copy
-  //constructor written 	MolConv.SetOneObjectOnly();
+  // constructor written 	MolConv.SetOneObjectOnly();
 
   OBFormat *pCMLFormat = _pxmlConv->FindFormat("cml");
   if (pCMLFormat == nullptr) {

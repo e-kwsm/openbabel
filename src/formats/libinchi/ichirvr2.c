@@ -3057,9 +3057,8 @@ int MovePlusFromS2DiaminoCarbon(BN_STRUCT *pBNS, BN_DATA *pBD,
         (pe1 = pBNS->edge + pvS->iedge[0])->flow +
                 (pe2 = pBNS->edge + pvS->iedge[1])->flow ==
             1 /* -S(+)= */
-        &&
-        pVA[vC = (peSC = pe1->flow ? pe1 : pe2)->neighbor12 ^ i]
-                .cNumValenceElectrons == 4 &&
+        && pVA[vC = (peSC = pe1->flow ? pe1 : pe2)->neighbor12 ^ i]
+                   .cNumValenceElectrons == 4 &&
         at2[vC].valence == 3 && 0 <= (ePlusC = pVA[vC].nCPlusGroupEdge - 1) &&
         (pePlusC = pBNS->edge + ePlusC)->flow &&
         !(0 <= (eMinusC = pVA[vC].nCMinusGroupEdge - 1) &&

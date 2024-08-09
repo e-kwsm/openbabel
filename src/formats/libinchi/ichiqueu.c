@@ -1406,7 +1406,8 @@ int Check5MembTautRing(inp_ATOM *atom, DFS_PATH *DfsPath, int nLenDfsPath,
     if (!atom[endpoint].endpoint) { /* not a known endpoint */
                                     /*
                                                 nMobile  = (atom[endpoint].charge == -1) +
-                                       atom[endpoint].num_H;                               } else {                               nMobile  = 0;
+                                       atom[endpoint].num_H;                               } else {                               nMobile  =
+                                       0;
                                             }
                                             if ( nMobile ) {
                                     */

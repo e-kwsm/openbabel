@@ -553,13 +553,14 @@ int FixFixedHRestoredStructure(
           /*!pc2i->c2at[i].endptInChI &&*/ /* <=== relaxation */
               (e = pVA[iat].nCPlusGroupEdge - 1) >= 0 &&
           !pBNS->edge[e].forbidden &&
-          pc2i->c2at[i].nFixHInChI > 0 /*== 1 --modification#2*/ && /*pc2i->c2at[i].nMobHInChI
-                                                                       ==  1
-                                                                       &&*/
+          pc2i->c2at[i].nFixHInChI > 0 /*== 1 --modification#2*/
+          &&                           /*pc2i->c2at[i].nMobHInChI
+                                          ==  1
+                                          &&*/
           /* reversed structure info: */
           pc2i->c2at[i].nFixHRevrs == 0 && /* pc2i->c2at[i].nMobHRevrs == 0 &&*/
-          pc2i->c2at[i].nAtChargeRevrs == 0 &&
-          at2[iat].num_H && at2[iat].valence == at2[iat].chem_bonds_valence) {
+          pc2i->c2at[i].nAtChargeRevrs == 0 && at2[iat].num_H &&
+          at2[iat].valence == at2[iat].chem_bonds_valence) {
         iat_SB_NH[num_SB_NH++] = iat;
         if ((ret = AddToEdgeList(&CurrEdges, e, INC_ADD_EDGE))) {
           goto exit_function;
@@ -1233,9 +1234,10 @@ int FixFixedHRestoredStructure(
             /* reversed structure info: */
             pc2i->c2at[i].nFixHRevrs == 0 &&
             pc2i->c2at[i].nMobHRevrs == 1 && /* was not removed */
-            /*pc2i->c2at[i].nAtChargeRevrs == 0 &&*/ at2[iat].num_H && /* at2 is
-                                                                          Fixed-H
-                                                                        */
+            /*pc2i->c2at[i].nAtChargeRevrs == 0 &&*/
+            at2[iat].num_H && /* at2 is
+                                 Fixed-H
+                               */
             at2[iat].valence == at2[iat].chem_bonds_valence) {
           if ((ret = AddToEdgeList(&CurrEdges, e, INC_ADD_EDGE))) {
             goto exit_function;

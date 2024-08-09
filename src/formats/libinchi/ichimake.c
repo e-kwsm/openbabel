@@ -2172,11 +2172,11 @@ int CompareReversedStereoINChI(
                  /*
                  if ( s1->nNumberInv && s2->nNumberInv ) {
                      if ( memcmp( s1->nNumberInv, s2->nNumberInv,
-                 s1->nNumberOfStereoCenters*sizeof(s1->nNumber[0]) ) )              return 25;              if (
-                 memcmp( s1->t_parityInv, s2->t_parityInv,
-                 s1->nNumberOfStereoCenters*sizeof(s1->t_parity[0]) ) )              return 26;              if (
-                 s1->nCompInv2Abs != s2->nCompInv2Abs ||              s1->bTrivialInv  != s2->bTrivialInv
-                 ) {              return 27;
+                 s1->nNumberOfStereoCenters*sizeof(s1->nNumber[0]) ) )              return
+                 25;              if (              memcmp( s1->t_parityInv, s2->t_parityInv,
+                 s1->nNumberOfStereoCenters*sizeof(s1->t_parity[0]) ) )              return
+                 26;              if (              s1->nCompInv2Abs != s2->nCompInv2Abs ||
+                 s1->bTrivialInv  != s2->bTrivialInv              ) {              return 27;
                      }
                  } else
                  if ( s1->nNumberInv || s2->nNumberInv ) {
@@ -2988,10 +2988,10 @@ int Create_INChI(INChI **ppINChI, INChI_Aux **ppINChI_Aux,
   int num_taut_at = 0;
 
   inp_ATOM *out_at = NULL;
-      /*, *norm_at_fixed_bonds[TAUT_NUM]; */ /*  = {out_norm_nontaut_at,
-                                                out_norm_taut_at} ; */
-  INChI *pINChI = NULL;                      /* added initialization 2006-03 */
-  INChI_Aux *pINChI_Aux = NULL;              /* added initialization 2006-03 */
+  /*, *norm_at_fixed_bonds[TAUT_NUM]; */ /*  = {out_norm_nontaut_at,
+                                            out_norm_taut_at} ; */
+  INChI *pINChI = NULL;                  /* added initialization 2006-03 */
+  INChI_Aux *pINChI_Aux = NULL;          /* added initialization 2006-03 */
   int bPointedEdgeStereo =
       ((TG_FLAG_POINTED_EDGE_STEREO & *pbTautFlags) ? PES_BIT_POINT_EDGE_STEREO
                                                     : 0) |

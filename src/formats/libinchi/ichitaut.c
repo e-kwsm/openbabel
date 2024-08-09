@@ -59,7 +59,7 @@
 int SetTautomericBonds(inp_ATOM *at, int nNumBondPos, T_BONDPOS *BondPos);
 int CompRankTautomer(const void *a1, const void *a2);
 int RegisterEndPoints(T_GROUP_INFO *t_group_info, /* T_GROUP *t_group, int
-                                                     *pnum_t, int max_num_t,*/
+                                                   *pnum_t, int max_num_t,*/
                       T_ENDPOINT *EndPoint, int nNumEndPoints, inp_ATOM *at,
                       int num_atoms, C_GROUP_INFO *cgi,
                       struct BalancedNetworkStructure *pBNS);
@@ -618,8 +618,8 @@ int RegisterEndPoints(T_GROUP_INFO *t_group_info,
     }
   } else {
     ret = -1;
-        /* program error: only some of EndPoint[i].nEquNumber are zero */ /*   <BRKPT>
-                                                                           */
+    /* program error: only some of EndPoint[i].nEquNumber are zero */ /*   <BRKPT>
+                                                                       */
     goto exit_function;
   }
 
@@ -2539,7 +2539,7 @@ typedef struct tagTGroupData {
   S_SHORT nGroupIndex; /* TGroupData[nGroupNumber]nGroupIndex = index of t_group
                           in t_group_info */
   S_SHORT
-      nDonorM; /* number of endpoint-donors that have negative charge (Minus) */
+  nDonorM; /* number of endpoint-donors that have negative charge (Minus) */
   S_SHORT nDonorH; /* number of endpoint-donors that have only H */
   S_SHORT nAccepM; /* number of endpoint-acceptors that have negative charge
                       (Minus) */
@@ -3917,7 +3917,7 @@ int MarkTautomerGroups(inp_ATOM *at, int num_atoms, T_GROUP_INFO *t_group_info,
 #if (TAUT_TROPOLONE_5 == 1)
               5
 #else
-               7
+              7
 #endif
           && bIsCenterPointStrict(at, i1) &&
 #if (TAUT_RINGS_ATTACH_CHAIN == 1)
@@ -4393,7 +4393,7 @@ int CountTautomerGroups(sp_ATOM *at, int num_atoms,
   if (!nNewGroupNumber) {
     if (!num_groups_noH)
       goto err_exit_function;
-          /*  program error: not a tautomer */ /*   <BRKPT> */
+    /*  program error: not a tautomer */ /*   <BRKPT> */
     else
       goto exit_function;
   }
@@ -4606,7 +4606,7 @@ int CountTautomerGroupsInpAt(inp_ATOM *at, int num_atoms,
   if (!nNewGroupNumber) {
     if (!num_groups_noH)
       goto err_exit_function;
-          /*  program error: not a tautomer */ /*   <BRKPT> */
+    /*  program error: not a tautomer */ /*   <BRKPT> */
     else
       goto exit_function;
   }

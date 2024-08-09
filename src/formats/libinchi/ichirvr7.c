@@ -1286,7 +1286,7 @@ int CompareAllDisconnectedOrigInchiToRevInChI(
   COMPONENT_REM_PROTONS nNumRemovedProtons_D; /* removed from the disconnected
                                                  layer of the Input InChI */
   COMPONENT_REM_PROTONS
-      nNumRemovedProtons_D_all;               /* if only totals are avalable */
+  nNumRemovedProtons_D_all;                   /* if only totals are avalable */
   COMPONENT_REM_PROTONS nNumRemovedProtons_R; /* removed from disconnected layer
                                                  of the reconstructed struct */
   COMPONENT_REM_PROTONS nNumRemovedProtons_R_all;
