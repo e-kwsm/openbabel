@@ -33,7 +33,7 @@ GNU General Public License for more details.
 
 #if TIME_WITH_SYS_TIME
 #include <sys/time.h>
-#include <time.h>
+#include <ctime>
 #else
 #if HAVE_SYS_TIME_H
 #include <sys/time.h>
