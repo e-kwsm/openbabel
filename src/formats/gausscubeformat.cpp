@@ -106,8 +106,9 @@ namespace OpenBabel
 bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream& ifs = *pConv->GetInStream();
 
@@ -121,8 +122,9 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     int line = 0; // Line counter - help in debugging...
 
-    if (!ifs)
+    if (!ifs) {
       return false; // We are attempting to read past the end of the file
+    }
 
     // The first two lines are comments - and so not needed.
     ++line;
@@ -395,7 +397,8 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       }
 
       tokenize(vs, buffer);
-      if (vs.size() < 1) return false; // timvdm 18/06/2008
+      if (vs.size() < 1) { return false; // timvdm 18/06/2008
+      }
       nCubes = strtol(static_cast<const char*>(vs.at(0).c_str()), &endptr, 10);
       if (endptr == static_cast<const char*>(vs.at(0).c_str()))
       {
@@ -542,10 +545,12 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     ifs.seekg(ipos);
 
     // Connect the dots and guess bond orders
-    if (!pConv->IsOption("b", OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b", OBConversion::INOPTIONS)) {
       pmol->ConnectTheDots();
-    if (!pConv->IsOption("s", OBConversion::INOPTIONS) && !pConv->IsOption("b", OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s", OBConversion::INOPTIONS) && !pConv->IsOption("b", OBConversion::INOPTIONS)) {
       pmol->PerceiveBondOrders();
+    }
 
     pmol->SetDimension(3); // always a 3D structure
 
@@ -556,8 +561,9 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
   bool OBGaussianCubeFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
@@ -568,10 +574,11 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     // first two lines are comments
     str = mol.GetTitle();
-    if (str.empty())
+    if (str.empty()) {
       ofs << "*****" << endl;
-    else
+    } else {
       ofs << str << endl;
+    }
 
     ofs << endl; // line 2
 
@@ -656,10 +663,11 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           {
             value = static_cast<OBGridData*>(grids[l])->GetValue(i, j, k);
             snprintf(buffer, BUFF_SIZE," %12.5E", value);
-            if (count % 6 == 0)
+            if (count % 6 == 0) {
               ofs << buffer << endl;
-            else
+            } else {
               ofs << buffer;
+            }
             count++;
           }
         } // z-axis

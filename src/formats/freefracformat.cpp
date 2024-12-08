@@ -120,8 +120,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -136,10 +137,11 @@ namespace OpenBabel
                               "Problems reading a free form fractional file: Could not read the first line (title/comments).", obWarning);
         return(false);
       }
-    if (strlen(buffer) != 0)
+    if (strlen(buffer) != 0) {
       mol.SetTitle(buffer);
-    else
+    } else {
       mol.SetTitle(title);
+    }
 
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
@@ -150,8 +152,9 @@ namespace OpenBabel
       }
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
-    if (vs.size() != 6)
+    if (vs.size() != 6) {
       return(false);
+    }
 
     //parse cell values
     double A, B, C, Alpha, Beta, Gamma;
@@ -178,13 +181,15 @@ namespace OpenBabel
 
     while(ifs.getline(buffer,BUFF_SIZE))
       {
-        if (strlen(buffer) == 0 || *buffer == 0x0D) //incl Windows kludge
+        if (strlen(buffer) == 0 || *buffer == 0x0D) { //incl Windows kludge
           // blank line -- consider it the end of this molecule
           break;
+        }
 
         tokenize(vs,buffer);
-        if (vs.size() != 4)
+        if (vs.size() != 4) {
           return(false);
+        }
 
         atom = mol.NewAtom();
 
@@ -221,11 +226,13 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
     if (!pConv->IsOption("s",OBConversion::INOPTIONS)
-        && !pConv->IsOption("b",OBConversion::INOPTIONS))
+        && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     return(true);
@@ -236,8 +243,9 @@ namespace OpenBabel
   bool FreeFormFractionalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -248,8 +256,9 @@ namespace OpenBabel
 
     ofs << mol.GetTitle() << endl;
 
-    if (!mol.HasData(OBGenericDataType::UnitCell))
+    if (!mol.HasData(OBGenericDataType::UnitCell)) {
       ofs << "   1.00000   1.00000   1.00000  90.00000  90.00000  90.00000\n";
+    }
     else
       {
         uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
@@ -264,8 +273,9 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(atom, mol)
       {
         v = atom->GetVector();
-        if (uc != nullptr)
+        if (uc != nullptr) {
           v = uc->CartesianToFractional(v);
+        }
 
         snprintf(buffer, BUFF_SIZE, "%s %10.5f%10.5f%10.5f",
                  OBElements::GetSymbol(atom->GetAtomicNum()),

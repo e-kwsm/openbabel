@@ -113,8 +113,9 @@ public:
     int natoms = 0;
     int nlines = 0;
 
-    if (n == 0)
+    if (n == 0) {
       n++;
+    }
     istream& ifs = *pConv->GetInStream();
     getline(ifs, line);
     ifs >> natoms;
@@ -140,8 +141,9 @@ GROFormat theGROFormat;
 bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   istream& ifs = *pConv->GetInStream();
 
@@ -387,8 +389,9 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false; // Stop converting
+  }
 
   ostream& ofs = *pConv->GetOutStream();
 

@@ -64,8 +64,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -85,12 +86,14 @@ namespace OpenBabel
     while (ifs.good() && (strstr(buffer, "mol") == nullptr || buffer[0] == ';')) //The "mol" in comment line should be ignored.
       {
         ifs.getline(buffer, BUFF_SIZE);
-        if (ifs.peek() == EOF || !ifs.good())
+        if (ifs.peek() == EOF || !ifs.good()) {
           return false;
+        }
       }
     ifs.getline(buffer, BUFF_SIZE);
-    if (!ifs.good())
+    if (!ifs.good()) {
       return false; // ended early
+    }
 
     mol.BeginModify();
     while (ifs.good() && strstr(buffer, "endmol") == nullptr)
@@ -167,8 +170,9 @@ namespace OpenBabel
   bool HINFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -218,8 +222,9 @@ namespace OpenBabel
                 bond_char = 's';
                 break;
               }
-            if (bond->IsAromatic())
+            if (bond->IsAromatic()) {
               bond_char = 'a';
+            }
 
             snprintf(buffer,BUFF_SIZE, "%d %c ", (bond->GetNbrAtom(atom))->GetIdx(), bond_char);
             ofs << buffer;

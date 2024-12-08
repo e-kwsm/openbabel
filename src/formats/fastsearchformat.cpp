@@ -153,8 +153,9 @@ const char* Description() override  // required
     //Have to open input stream again because needs to be in binary mode
     ifstream ifs;
     stringstream errorMsg;
-    if(!indexname.empty())
+    if(!indexname.empty()) {
       ifs.open(indexname.c_str(),ios::binary);
+    }
     if(!ifs)
       {
         errorMsg << "Couldn't open " << indexname << endl;
@@ -171,8 +172,9 @@ const char* Description() override  // required
       }
 
     vector<OBMol> patternMols;
-    if(!ObtainTarget(pConv, patternMols, indexname))
+    if(!ObtainTarget(pConv, patternMols, indexname)) {
       return false;
+    }
 
     bool exactmatch = pConv->IsOption("e", OBConversion::INOPTIONS) != nullptr; // -ae option
 
@@ -181,10 +183,11 @@ const char* Description() override  // required
     //but indexname may. Derive a full datafile name
     string path;
     pos = indexname.find_last_of("/\\");
-    if(pos==string::npos)
+    if(pos==string::npos) {
       path = datafilename;
-    else
+    } else {
       path = indexname.substr(0,pos+1) + datafilename;
+    }
 
     ifstream datastream(path.c_str());
     if(!datastream)
@@ -197,8 +200,9 @@ const char* Description() override  // required
 
     //Input format is currently fs; set it appropriately
     bool isgzip = false;
-    if(!pConv->SetInAndOutFormats(pConv->FormatFromExt(datafilename.c_str(), isgzip), pConv->GetOutFormat()))
+    if(!pConv->SetInAndOutFormats(pConv->FormatFromExt(datafilename.c_str(), isgzip), pConv->GetOutFormat())) {
       return false;
+    }
 
     if (isgzip)
       {
@@ -217,20 +221,23 @@ const char* Description() override  // required
     vector<OBMol>extraUnchargedMols;
     for(unsigned i=0;i<patternMols.size();++i)
     {
-      if(patternMols[i].ConvertDativeBonds())
+      if(patternMols[i].ConvertDativeBonds()) {
         extraSMARTSMols.push_back(&patternMols[i]);
+      }
       else 
       {
         // If target has uncharged dative bonds, still use it for fastsearching,
         // but add the charged form for -s filter.
         extraUnchargedMols.push_back(patternMols[i]);
-        if(extraUnchargedMols.back().MakeDativeBonds())
+        if(extraUnchargedMols.back().MakeDativeBonds()) {
           extraSMARTSMols.push_back(&extraUnchargedMols.back());
+        }
       }
     }
     OBOp* sFilter = OBOp::FindType("s");
-    if(sFilter)
+    if(sFilter) {
       sFilter->ProcessVec(extraSMARTSMols);
+    }
 
     //Now do searching
     const char* p = pConv->IsOption("t",OBConversion::INOPTIONS);
@@ -278,8 +285,9 @@ const char* Description() override  // required
 
               }
             pConv->SetOneObjectOnly();
-            if(itr != --SeekposMap.rend())
+            if(itr != --SeekposMap.rend()) {
               pConv->SetMoreFilesToCome();//so that not seen as last on output
+            }
             pConv->Convert(nullptr, nullptr);
           }
       }
@@ -289,8 +297,9 @@ const char* Description() override  // required
       //Structure search
       int MaxCandidates = 4000;
       p = pConv->IsOption("l",OBConversion::INOPTIONS);
-      if(p && atoi(p))
+      if(p && atoi(p)) {
         MaxCandidates = atoi(p);
+      }
 
       vector<unsigned long> SeekPositions;
 
@@ -309,8 +318,9 @@ const char* Description() override  // required
       {
         //Do a substructure search for each target
         vector<OBMol>::iterator iter;
-        for(iter=patternMols.begin();iter!=patternMols.end();++iter)
+        for(iter=patternMols.begin();iter!=patternMols.end();++iter) {
           fs.Find(&*iter, SeekPositions, MaxCandidates);
+        }
         clog << SeekPositions.size() << " candidates from fingerprint search phase" << endl;
       }
 
@@ -324,15 +334,17 @@ const char* Description() override  // required
       }
 
       //Output the candidate molecules, filtering through s filter, unless it was not requested
-      if(pConv->IsOption("n", OBConversion::INOPTIONS) )
+      if(pConv->IsOption("n", OBConversion::INOPTIONS) ) {
         pConv->RemoveOption("s",OBConversion::GENOPTIONS);
+      }
 
       pConv->SetLast(false);
       for(seekitr=begin; seekitr!=end; ++seekitr)
       {
         datastream.seekg(*seekitr);
-        if(!pConv->GetInFormat()->ReadChemObject(pConv))
+        if(!pConv->GetInFormat()->ReadChemObject(pConv)) {
           return false;
+        }
         pConv->SetFirstInput(false); //needed for OpSort
       }
     }
@@ -362,8 +374,9 @@ const char* Description() override  // required
         pOs = pConv->GetOutStream();// with named index it is already open
         NewOstreamUsed=false;
         string mes("prepare an");
-        if(update)
+        if(update) {
           mes = "update the";
+        }
         clog << "This will " << mes << " index of " << pConv->GetInFilename()
              <<  " and may take some time..." << flush;
 
@@ -389,8 +402,9 @@ const char* Description() override  // required
             //Derive index name from datafile name
             string indexname=pConv->GetInFilename();
             string::size_type pos=indexname.find_last_of('.');
-            if(pos!=string::npos)
+            if(pos!=string::npos) {
               indexname.erase(pos);
+            }
             indexname += ".fs";
 
             bool idxok=true;
@@ -437,13 +451,15 @@ const char* Description() override  // required
 
         int nbits = 0;
         const char* p = pConv->IsOption("N");
-        if(p)
+        if(p) {
           nbits = atoi(p);
+        }
 
         string fpid; //fingerprint type
         p=pConv->IsOption("f");
-        if(p)
+        if(p) {
           fpid=p;
+        }
 
         //Prepare name without path
         string datafilename = pConv->GetInFilename();
@@ -454,12 +470,14 @@ const char* Description() override  // required
             return false;
           }
         string::size_type pos = datafilename.find_last_of("/\\");
-        if(pos!=string::npos)
+        if(pos!=string::npos) {
           datafilename=datafilename.substr(pos+1);
+        }
 
         nmols = pConv->NumInputObjects();
-        if(nmols>0)
+        if(nmols>0) {
           clog << "\nIt contains " << nmols << " molecules" << flush;
+        }
         if(nmols>500000)
         {
           istream* is = pConv->GetInStream();
@@ -484,7 +502,9 @@ const char* Description() override  // required
             pConv->GetInStream()->seekg(LastSeekpos);
           }
         else
+        {
           fsi = new FastSearchIndexer(datafilename, pOs, fpid, nbits, nmols);
+        }
 
         obErrorLog.StopLogging();
       }
@@ -492,8 +512,9 @@ const char* Description() override  // required
     //All passes provide an object for indexing
     OBBase* pOb = pConv->GetChemObject();
     OBMol* pmol = dynamic_cast<OBMol*> (pOb);
-    if(pmol)
+    if(pmol) {
       pmol->ConvertDativeBonds();//use standard form for dative bonds
+    }
 
     streampos seekpos = pConv->GetInPos();
     if(!update || seekpos>LastSeekpos)
@@ -503,22 +524,26 @@ const char* Description() override  // required
       {
         clog << " Estimated completion time ";
         double secs = sw.Elapsed() * nmols / 400; //
-        if(secs>150)
+        if(secs>150) {
           clog << secs/60 << " minutes" << endl;
-    else
+    } else {
           clog << secs << " seconds" << endl;
+    }
       }
     }
     else
+    {
       //Don't index old objects during update. Don't increment pConv->Index.
       pConv->SetOutputIndex(pConv->GetOutputIndex()-1);
+    }
 
     if(pConv->IsLast())
       {
         //Last pass
         delete fsi; //saves index file
-        if(NewOstreamUsed)
+        if(NewOstreamUsed) {
           delete pOs;
+        }
 
         //return to starting conditions
         fsi=nullptr;
@@ -526,10 +551,11 @@ const char* Description() override  // required
         obErrorLog.StartLogging();
 
         double secs = sw.Elapsed();
-        if(secs>150)
+        if(secs>150) {
           clog << "\n It took " << secs/60 << " minutes" << endl;
-        else
+        } else {
           clog << "\n It took " << secs << " seconds" << endl;
+        }
       }
     delete pOb;
     return true;
@@ -554,8 +580,9 @@ const char* Description() override  // required
     if(!p)
     {
       p = pConv->IsOption("S",OBConversion::GENOPTIONS);
-      if(!p)
+      if(!p) {
         p = pConv->IsOption("S",OBConversion::INOPTIONS);//for GUI mainly
+      }
       OldSOption = true;
     }
     if(p)
@@ -571,11 +598,13 @@ const char* Description() override  // required
       }
 
       //ignore leading ~ (not relevant to fastsearch)
-      if(vec[0][0]=='~')
+      if(vec[0][0]=='~') {
         vec[0].erase(0,1);
+      }
 
-      if(vec.size()>1 && vec[1]=="exact")
+      if(vec.size()>1 && vec[1]=="exact") {
         pConv->AddOption("e", OBConversion::INOPTIONS);
+      }
 
       OBConversion patternConv;
       OBFormat* pFormat;
@@ -596,12 +625,14 @@ const char* Description() override  // required
         {
           string::size_type pos1, pos2;
           pos1 = txt.find("[#");
-          if(pos1==string::npos)
+          if(pos1==string::npos) {
             break;
+          }
           pos2 = txt.find(']');
           int atno;
-          if(pos2!=string::npos &&  (atno = atoi(txt.substr(pos1+2, pos2-pos1-2).c_str())) && atno>0)
+          if(pos2!=string::npos &&  (atno = atoi(txt.substr(pos1+2, pos2-pos1-2).c_str())) && atno>0) {
             txt.replace(pos1, pos2-pos1+1, OBElements::GetSymbol(atno));
+          }
           else
           {
             obErrorLog.ThrowError(__FUNCTION__,"Ill-formed [#n] atom in SMARTS", obError);
@@ -642,8 +673,9 @@ const char* Description() override  // required
       {
         // target(s) are in a file
         patternMols.push_back(patternMol);
-        while(patternConv.Read(&patternMol))
+        while(patternConv.Read(&patternMol)) {
           patternMols.push_back(patternMol);
+        }
         return true;
       }
     }
@@ -664,8 +696,9 @@ const char* Description() override  // required
       //neither -s or -S options provided. Output info rather than doing search
       const FptIndexHeader& header = fs.GetIndexHeader();
       string id(header.fpid);
-      if(id.empty())
+      if(id.empty()) {
         id = "default";
+      }
       clog << indexname << " is an index of\n " << header.datafilename
            << ".\n It contains " << header.nEntries
            << " molecules. The fingerprint type is " << id << " with "
@@ -687,8 +720,9 @@ const char* Description() override  // required
     // changing aromatic (bo=5) bonds. So set order after adding. Should work here,
     // but is dangerous if the vector needs to be reallocated.
 
-    if(idx>=patternMol.NumBonds())
+    if(idx>=patternMol.NumBonds()) {
       return;
+    }
     if(patternMol.GetBond(idx)->GetBondOrder()==4)
     {
       patternMol.GetBond(idx)->SetBondOrder(1);

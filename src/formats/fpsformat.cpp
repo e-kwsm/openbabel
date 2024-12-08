@@ -108,11 +108,13 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     p=pConv->IsOption("N");
     _nbits=0;
-    if(p)
+    if(p) {
       _nbits = atoi(p);
-    if(_nbits<0)
+    }
+    if(_nbits<0) {
       obErrorLog.ThrowError(__FUNCTION__,
       "The number of bits to fold to, in the-xN option, should be >=0", obWarning);
+    }
 
     if(_nbits==0) //if not folded, use first number on second line of the description
     {
@@ -128,8 +130,9 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(!pConv->IsOption("p"))
     {
       string::size_type pos = source.find_last_of("/\\");
-      if(pos!=string::npos)
+      if(pos!=string::npos) {
         source.erase(0,pos+1);
+      }
     }
     ofs << "#FPS1\n"
         << "#num_bits=" << _nbits << '\n'
@@ -140,13 +143,15 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   }
 
   stringstream molID;
-  if(strlen(pOb->GetTitle())==0)
+  if(strlen(pOb->GetTitle())==0) {
     molID << '#' << pConv->GetOutputIndex();
-  else
+  } else {
     molID << pOb->GetTitle();
+  }
 
-  if(!_pFP->GetFingerprint(pOb, fptvec, _nbits))
+  if(!_pFP->GetFingerprint(pOb, fptvec, _nbits)) {
     return false;
+  }
 
   stringstream ss;
   for(unsigned i=0;i<(_nbits+31)/32;++i)

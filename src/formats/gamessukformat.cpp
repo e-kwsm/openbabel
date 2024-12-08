@@ -137,13 +137,13 @@ namespace OpenBabel
         ReadMode=ZMATRIX;
         //cout << "ZMATRIX mode " << ReadMode << endl;
         //cout << "tokens.size()" << tokens.size() << endl;
-        if (tokens.size()>1) if (IsUnits(tokens[1])) factor=Rescale(tokens[1]);
+        if (tokens.size()>1) { if (IsUnits(tokens[1])) { factor=Rescale(tokens[1]); } }
         ContainsZmatrix=true;
         vic.push_back(nullptr); // OBMol indexed from 1 -- potential atom index problem
       } else if (line.compare(0, 4, "coor")==0 || line.compare(0, 4, "cart")==0 ||line.compare(0, 4, "geom")==0) {
         ReadMode=CARTESIAN;
         //cout << "CARTESIAN mode " << ReadMode << endl;
-        if (tokens.size()>1) if (IsUnits(tokens[1])) factor=Rescale(tokens[1]);
+        if (tokens.size()>1) { if (IsUnits(tokens[1])) { factor=Rescale(tokens[1]); } }
 
         /*
           We need to have read the variables first
@@ -164,7 +164,7 @@ namespace OpenBabel
         ReadMode=SKIP;
         //cout << "SKIP mode " << ReadMode << endl;
       } else {
-        if (ReadMode==SKIP) continue;
+        if (ReadMode==SKIP) { continue; }
         if (ReadMode==ZMATRIX) {
           // Create an atom
           OBAtom *atom = mol.NewAtom();
@@ -198,7 +198,7 @@ namespace OpenBabel
     } // End loop over lines
 
 
-    if (ContainsZmatrix)InternalToCartesian(vic,mol);
+    if (ContainsZmatrix) { InternalToCartesian(vic,mol); }
     mol.EndModify();
 
     return true;
@@ -249,7 +249,7 @@ namespace OpenBabel
     int Z=OBElements::GetAtomicNum(label.substr(0,2).c_str());
 
     // If not try the first one
-    if (Z==0) Z=OBElements::GetAtomicNum(label.substr(0,1).c_str());
+    if (Z==0) { Z=OBElements::GetAtomicNum(label.substr(0,1).c_str()); }
 
     if (Z==0){
       // Check if it's an x (dummy) atom
@@ -284,7 +284,7 @@ namespace OpenBabel
     if ( ! ok)
       {
         // Can't convert to double so see if it's in the variables
-        if (variables.find(tokens[0])==variables.end()) return false;
+        if (variables.find(tokens[0])==variables.end()) { return false; }
         x = variables[tokens[0]];
       }
 
@@ -292,7 +292,7 @@ namespace OpenBabel
     if ( ! ok)
       {
         // Can't convert to double so see if it's in the variables
-        if (variables.find(tokens[1])==variables.end()) return false;
+        if (variables.find(tokens[1])==variables.end()) { return false; }
         y = variables[tokens[1]];
       }
 
@@ -300,7 +300,7 @@ namespace OpenBabel
     if ( ! ok)
       {
         // Can't convert to double so see if it's in the variables
-        if (variables.find(tokens[2])==variables.end()) return false;
+        if (variables.find(tokens[2])==variables.end()) { return false; }
         z = variables[tokens[2]];
       }
 
@@ -343,7 +343,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[2])==variables.end()) return false;
+          if (variables.find(tokens[2])==variables.end()) { return false; }
           var = variables[tokens[2]];
         }
       vic[*zmatLineCount]->_dst = var;
@@ -361,7 +361,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[2])==variables.end()) return false;
+          if (variables.find(tokens[2])==variables.end()) { return false; }
           var = variables[tokens[2]];
         }
       vic[*zmatLineCount]->_dst = var;
@@ -374,7 +374,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[4])==variables.end()) return false;
+          if (variables.find(tokens[4])==variables.end()) { return false; }
           var = variables[tokens[4]];
         }
       vic[*zmatLineCount]->_ang = var;
@@ -390,7 +390,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[2])==variables.end()) return false;
+          if (variables.find(tokens[2])==variables.end()) { return false; }
           var = variables[tokens[2]];
         }
       vic[*zmatLineCount]->_dst = var;
@@ -402,7 +402,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[4])==variables.end()) return false;
+          if (variables.find(tokens[4])==variables.end()) { return false; }
           var = variables[tokens[4]];
         }
       vic[*zmatLineCount]->_ang = var;
@@ -414,7 +414,7 @@ namespace OpenBabel
       if ( !ok )
         {
           // Can't convert to double so see if it's in the variables
-          if (variables.find(tokens[6])==variables.end()) return false;
+          if (variables.find(tokens[6])==variables.end()) { return false; }
           var = variables[tokens[6]];
         }
       vic[*zmatLineCount]->_tor = var;
@@ -447,8 +447,9 @@ namespace OpenBabel
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
 
       // Skip commnents
-      if (EQn(buffer, "#", 1) || EQn(buffer, "?", 1))
+      if (EQn(buffer, "#", 1) || EQn(buffer, "?", 1)) {
         continue;
+      }
 
       // Copy line to a C++ string and convert to lower case
       // & remove leading and trailing spaces
@@ -458,8 +459,8 @@ namespace OpenBabel
       Trim(line);
 
       // Check for end of variables
-      if (line.length()==0 && stopstr.length()==0) break;
-      if (stopstr.length()>0 && line.compare(0, stopstr.length(), stopstr)==0) break;
+      if (line.length()==0 && stopstr.length()==0) { break; }
+      if (stopstr.length()>0 && line.compare(0, stopstr.length(), stopstr)==0) { break; }
 
       // Check for commas & split with that as the separator if necessary
       if (line.find(',')!=string::npos) {
@@ -554,8 +555,9 @@ namespace OpenBabel
      */
 
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream& ifs = *pConv->GetInStream();
@@ -576,7 +578,7 @@ namespace OpenBabel
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
 
       // Skip commnents
-      if (EQn(buffer, "#", 1) || EQn(buffer, "?", 1)) continue;
+      if (EQn(buffer, "#", 1) || EQn(buffer, "?", 1)) { continue; }
 
       // Copy line to a C++ string and convert to lower case
       // & remove leading and trailing spaces
@@ -609,22 +611,23 @@ namespace OpenBabel
 	    {
 
 	      // Check for commas & split with that as the separator if necessary
-	      if (line.find(',')!=string::npos)
+	      if (line.find(',')!=string::npos) {
 		tokenize(tokens, line, ",");
-	      else
+	      } else {
 		tokenize(tokens, line, " \t\n");
+	      }
 
 	      // See if we need to rescale
-	      if (IsUnits(tokens[1])) factor=Rescale(tokens[1]);
+	      if (IsUnits(tokens[1])) { factor=Rescale(tokens[1]); }
 
-	      if (! ReadVariables(ifs, factor, "end")) return false;
+	      if (! ReadVariables(ifs, factor, "end")) { return false; }
 
 	      ReadMode=SKIP;
 	      geomList.push_back("end\n");
 	      continue;
 	    }
 
-	  if (line.compare(0, 3, "end")==0) ReadMode=SKIP;
+	  if (line.compare(0, 3, "end")==0) { ReadMode=SKIP; }
 
 	  geomList.push_back(line);
 	}
@@ -638,10 +641,12 @@ namespace OpenBabel
       mol.EndModify();
       return false;
     } else {
-      if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+      if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
         mol.ConnectTheDots();
-      if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+      }
+      if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
         mol.PerceiveBondOrders();
+      }
       return ok;
     }
 
@@ -652,8 +657,9 @@ namespace OpenBabel
   bool GAMESSUKInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -775,7 +781,7 @@ namespace OpenBabel
         // Skip additional line to be where variables are printed
         ifs.getline(buffer, BUFF_SIZE);
         // Read in the variables till we hit blank line
-        if (! ReadVariables(ifs, 1.0, "")) return false;
+        if (! ReadVariables(ifs, 1.0, "")) { return false; }
       }
       
     // Now go and process the geometry
@@ -811,7 +817,7 @@ namespace OpenBabel
     regex_t *myregex = new regex_t;
     iok = regcomp(myregex, pattern.c_str(), REG_EXTENDED | REG_NOSUB)==0;
 #endif*/
-    if (!iok) cerr << "Error compiling regex in GUK OUTPUT!\n";
+    if (!iok) { cerr << "Error compiling regex in GUK OUTPUT!\n"; }
 
     // Read in the coordinates - we process them directly rather
     // then use ReadGeometry as we probably should do...
@@ -819,7 +825,7 @@ namespace OpenBabel
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)){
 
       // End of geometry block
-      if (strstr(buffer, "*************************") != nullptr) break;
+      if (strstr(buffer, "*************************") != nullptr) { break; }
 //#ifdef _MSC_VER
       if (regex_search(buffer, myregex)) {
 /*#else
@@ -861,7 +867,7 @@ namespace OpenBabel
       // FF to start of coordinate specification
       while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
         if (strstr(buffer,
-                   "atom     znuc       x             y             z") != nullptr) break;
+                   "atom     znuc       x             y             z") != nullptr) { break; }
       }
 
       // Skip 2 lines - should then be at the coordinates
@@ -873,7 +879,7 @@ namespace OpenBabel
       while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)){
 
         // End of geometry block
-        if (strstr(buffer, "*************************") != nullptr) break;
+        if (strstr(buffer, "*************************") != nullptr) { break; }
 
         //cerr << "Got Coord line: " << buffer << endl;
         OBAtom *atom = mol.NewAtom();
@@ -907,7 +913,7 @@ namespace OpenBabel
 
       while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
         if (strstr(buffer,
-                   "       x              y              z            chg  tag") != nullptr) break;
+                   "       x              y              z            chg  tag") != nullptr) { break; }
       }
 
       // Skip 1 line - should then be at the coordinates
@@ -918,7 +924,7 @@ namespace OpenBabel
       while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)){
 
         // End of geometry block
-        if (strstr(buffer, "============================================================") != nullptr) break;
+        if (strstr(buffer, "============================================================") != nullptr) { break; }
 
         //cerr << "Got Coord line: " << buffer << endl;
         OBAtom *atom = mol.NewAtom();
@@ -974,8 +980,9 @@ namespace OpenBabel
           root7 = min(maxroot,root7);
 
           //Skip 6 lines to col header with frequencies
-          for( int j=0; j < 6; j++ )
+          for( int j=0; j < 6; j++ ) {
             ifs.getline(buffer, BUFF_SIZE);
+          }
 
           tokenize(tokens,buffer," \t\n");
           for( std::size_t si=0; si < tokens.size(); si++ )
@@ -1000,19 +1007,21 @@ namespace OpenBabel
                   //std::cout << "GOT LINE:" << buffer <<std::endl;
                   tokenize(tokens,buffer," \t\n");
                   int start=1;
-                  if ( j == 0 )
+                  if ( j == 0 ) {
                     start=3;
+                  }
                   for ( int k=0; k<mycols; k++ )
                     {
                       //std::cout << "Lx[ " << root1+k << " ]" <<
                       //  "][ " << atomcount << " ] [ " << j << " ] = " << tokens.at(start+k) << std::endl;
                       ok = from_string<double>(dtmp, tokens.at(start+k), std::dec);
-                      if ( j==0)
+                      if ( j==0) {
                         Lx[ root1+k ][ atomcount ].SetX( dtmp );
-                      else if ( j==1 )
+                      } else if ( j==1 ) {
                         Lx[ root1+k ][ atomcount ].SetY( dtmp );
-                      else if ( j==2 )
+                      } else if ( j==2 ) {
                         Lx[ root1+k ][ atomcount ].SetZ( dtmp );
+                      }
                     }
                 } // End j loop
               atomcount+=1;
@@ -1030,7 +1039,7 @@ namespace OpenBabel
         {
           ifs.getline(buffer, BUFF_SIZE);
           // End of info
-          if (strstr(buffer, "============") != nullptr) break;
+          if (strstr(buffer, "============") != nullptr) { break; }
           tokenize(tokens,buffer," \t\n");
           
           ok = from_string<double>(dtmp, tokens.at(1), std::dec);
@@ -1095,8 +1104,9 @@ namespace OpenBabel
           mycols=root7-root1;
 
           //Skip 6 lines to col header with frequencies
-          for( int j=0; j < 6; j++ )
+          for( int j=0; j < 6; j++ ) {
             ifs.getline(buffer, BUFF_SIZE);
+          }
 
           line=buffer;
           // Need  to manually chop up line
@@ -1124,19 +1134,21 @@ namespace OpenBabel
                   //std::cout << "GOT LINE:" << buffer <<std::endl;
                   tokenize(tokens,buffer," \t\n");
                   start=1;
-                  if ( j == 0 )
+                  if ( j == 0 ) {
                     start=3;
+                  }
                   for ( int k=0; k<mycols; k++ )
                     {
                       // std::cout << "Lx[ " << root1+k << " ]" <<
                       //  "][ " << atomcount << " ] [ " << j << " ] = " << tokens.at(start+k) << std::endl;
                       ok = from_string<double>(dtmp, tokens.at(start+k), std::dec);
-                      if ( j==0)
+                      if ( j==0) {
                         Lx[ root1+k ][ atomcount ].SetX( dtmp );
-                      else if ( j==1 )
+                      } else if ( j==1 ) {
                         Lx[ root1+k ][ atomcount ].SetY( dtmp );
-                      else if ( j==2 )
+                      } else if ( j==2 ) {
                         Lx[ root1+k ][ atomcount ].SetZ( dtmp );
+                      }
                     }
                 } // End j loop
               atomcount+=1;
@@ -1198,8 +1210,9 @@ namespace OpenBabel
       */
 
       OBMol *pmol = dynamic_cast<OBMol*>(pOb);
-      if (pmol == nullptr)
+      if (pmol == nullptr) {
         return false;
+      }
 
       //Define some references so we can use the old parameter names
       istream& ifs = *pConv->GetInStream();
@@ -1234,36 +1247,40 @@ namespace OpenBabel
           
           // Read the cartesian coordinates if we've not read in the ZMATRIX
           if (strstr(buffer, "*            charge       x             y              z       shells") != nullptr &&
-              RunType==UNKNOWN)
+              RunType==UNKNOWN) {
             ok = ReadInitialCartesian( mol, ifs );
+          }
           
           // Determine the RunType - affects how we move on from here.
           if (strstr(buffer, " * RUN TYPE") != nullptr)
             {
               tokenize(tokens,buffer," \t\n");
               runt=tokens[3].substr(0,5);
-              if(runt=="optxy") RunType=OPTXYZ;
-              else if (runt=="optim") RunType=OPTZMAT;
-              else if (runt=="saddl") RunType=SADDLE;
+              if(runt=="optxy") { RunType=OPTXYZ; }
+              else if (runt=="optim") { RunType=OPTZMAT; }
+              else if (runt=="saddl") { RunType=SADDLE; }
               continue;
             } // End RUNTYPE
           
           // Read the optimised geometry
           if (strstr(buffer, "optimization converged") != nullptr)
             {
-              if (RunType==OPTXYZ)
+              if (RunType==OPTXYZ) {
                 ok = ReadOptGeomXyz1( mol, ifs );
-              else if (RunType==OPTZMAT || RunType==SADDLE)
+              } else if (RunType==OPTZMAT || RunType==SADDLE) {
                 ok = ReadOptGeomXyz2( mol, ifs );
+              }
             } // End read optimised geometry
 
           // Frequencies for runtype hessian
-          if (strstr(buffer, "cartesians to normal") != nullptr)
+          if (strstr(buffer, "cartesians to normal") != nullptr) {
             ok = ReadNormalModesHessian( mol, ifs);
+          }
 
           // Frequencies for runtype force
-          if (strstr(buffer, "eigenvectors of cartesian") != nullptr)
+          if (strstr(buffer, "eigenvectors of cartesian") != nullptr) {
             ok = ReadNormalModesForce( mol, ifs);
+          }
           
         } // End Reading loop
     
@@ -1272,10 +1289,12 @@ namespace OpenBabel
         return false;
       } else {
         mol.BeginModify();
-        if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+        if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
           mol.ConnectTheDots();
-        if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+        }
+        if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
           mol.PerceiveBondOrders();
+        }
         mol.EndModify();
         return true;
       }

@@ -72,8 +72,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -97,28 +98,33 @@ namespace OpenBabel
     // Get !Header line with version number
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %*s %d", &i);
-    if (!i)
+    if (!i) {
       return false;
+    }
 
     // Get !Info line with number of coord sets
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %d", &i);
-    if (!i)
+    if (!i) {
       return false;
+    }
 
     // Get !Atoms line with number
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %d", &natoms);
-    if (!natoms)
+    if (!natoms) {
       return(false);
+    }
 
     for (i = 1; i <= natoms; i ++)
     {
-      if (!ifs.getline(buffer,BUFF_SIZE))
+      if (!ifs.getline(buffer,BUFF_SIZE)) {
         return(false);
+      }
       tokenize(vs,buffer);
-      if (vs.size() < 2)
+      if (vs.size() < 2) {
         return(false);
+      }
       atom = mol.NewAtom();
       atom->SetAtomicNum(atoi(vs[1].c_str()));
     }
@@ -126,33 +132,39 @@ namespace OpenBabel
     // Get !Bonds line with number
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %d", &nbonds);
-    if (nbonds != 0)
+    if (nbonds != 0) {
       for (i = 0; i < nbonds; i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
-        if (!sscanf(buffer,"%d%d%2s",&bgn,&end,bobuf))
+        }
+        if (!sscanf(buffer,"%d%d%2s",&bgn,&end,bobuf)) {
           return (false);
+        }
         bostr = bobuf;
         order = 1;
-        if      (bostr == "D")
+        if      (bostr == "D") {
           order = 2;
-        else if (bostr == "T")
+        } else if (bostr == "T") {
           order = 3;
-        else if (bostr == "C")
+        } else if (bostr == "C") {
           order = 5; // Conjugated ~= Aromatic
+        }
         mol.AddBond(bgn+1,end+1,order);
       }
+    }
 
     // Get !Coord line
     ifs.getline(buffer,BUFF_SIZE);
     for (i = 1; i <= natoms; i ++)
     {
-      if (!ifs.getline(buffer,BUFF_SIZE))
+      if (!ifs.getline(buffer,BUFF_SIZE)) {
         return(false);
+      }
       tokenize(vs,buffer);
-      if (vs.size() != 4)
+      if (vs.size() != 4) {
         return(false);
+      }
       atom = mol.GetAtom(i);
       x = 10.0*atof((char*)vs[1].c_str());
       y = 10.0*atof((char*)vs[2].c_str());
@@ -166,11 +178,13 @@ namespace OpenBabel
       hasPartialCharges = true;
       for (i = 1; i <= natoms; i ++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         tokenize(vs,buffer);
-        if (vs.size() != 2)
+        if (vs.size() != 2) {
           return(false);
+        }
         atom = mol.GetAtom(i);
         atom->SetPartialCharge(atof((char*)vs[1].c_str()));
       }
@@ -179,8 +193,9 @@ namespace OpenBabel
     // look for the !End block if it exists
     while (ifs.getline(buffer,BUFF_SIZE))
     {
-      if (strstr(buffer, "!End") != nullptr)
+      if (strstr(buffer, "!End") != nullptr) {
         break;
+      }
     }
 
     // clean out remaining blank lines
@@ -194,8 +209,9 @@ namespace OpenBabel
     ifs.seekg(ipos);
 
     mol.EndModify();
-    if (hasPartialCharges)
+    if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
+    }
     mol.SetTitle(title);
     return(true);
   }
@@ -205,8 +221,9 @@ namespace OpenBabel
   bool GhemicalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -214,8 +231,9 @@ namespace OpenBabel
 
     // delete dummy atoms
     FOR_ATOMS_OF_MOL(atom, pmol)
-      if (atom->GetAtomicNum() == 0)
+      if (atom->GetAtomicNum() == 0) {
         mol.DeleteAtom(&*atom);
+      }
 
     // Ghemical header -- here "version 1.0" format
     ofs << "!Header gpr 100\n";
@@ -252,8 +270,9 @@ namespace OpenBabel
         default :
           bond_char = 'S';
       }
-      if (bond->IsAromatic())
+      if (bond->IsAromatic()) {
         bond_char = 'C';
+      }
       ofs << bond->GetBeginAtomIdx()-1 << ' '
         << bond->GetEndAtomIdx()-1 << ' '
         <<  bond_char << '\n';

@@ -79,8 +79,9 @@ namespace OpenBabel {
   bool GULPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -162,8 +163,9 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
+        for (size_t i = 0; i < toDelete.size(); i++) {
           pmol->DeleteAtom(toDelete.at(i));
+        }
 
         // Load new atoms from molecule
         ifs.getline(buffer,BUFF_SIZE); // Blank
@@ -190,7 +192,8 @@ namespace OpenBabel {
           x = y = z = 0;
           int set = 0;
           for (size_t i = 3; i < size; i++) {
-            if (strstr(vs[i].c_str(), "*")) continue; // Skip "*" in output
+            if (strstr(vs[i].c_str(), "*")) { continue; // Skip "*" in output
+            }
             // Else assign x,y,z based on how many coords have been
             // set already. These are currently fractional, we'll
             // convert all at the end of the run.
@@ -231,8 +234,9 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
+        for (size_t i = 0; i < toDelete.size(); i++) {
           pmol->DeleteAtom(toDelete.at(i));
+        }
 
         // Load new atoms from molecule
         ifs.getline(buffer,BUFF_SIZE); // Blank
@@ -259,7 +263,8 @@ namespace OpenBabel {
           x = y = z = 0;
           int set = 0;
           for (size_t i = 3; i < size; i++) {
-            if (strstr(vs[i].c_str(), "*")) continue; // Skip "*" in output
+            if (strstr(vs[i].c_str(), "*")) { continue; // Skip "*" in output
+            }
             // Else assign x,y,z based on how many coords have been
             // set already. These are currently fractional, we'll
             // convert all at the end of the run.
@@ -332,11 +337,13 @@ namespace OpenBabel {
             enthalpy_eV = atof(vs[4].c_str());
           }
 
-          if (!ifs.getline(buffer,BUFF_SIZE))
+          if (!ifs.getline(buffer,BUFF_SIZE)) {
             break;
+          }
         }
-        if (hasPV)
+        if (hasPV) {
           pmol->SetEnergy((enthalpy_eV - pv_eV) * EV_TO_KCAL_PER_MOL);
+        }
       }
     }
 
