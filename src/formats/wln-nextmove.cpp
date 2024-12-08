@@ -53,11 +53,13 @@ OpenBabel::OBBond* NMOBMolNewBond(OpenBabel::OBMol* mol,
                                   OpenBabel::OBAtom* end,
                                   unsigned int order, bool arom)
 {
-    if (!mol->AddBond(beg->GetIdx(), end->GetIdx(), order))
+    if (!mol->AddBond(beg->GetIdx(), end->GetIdx(), order)) {
         return nullptr;
+    }
     OpenBabel::OBBond* bptr = mol->GetBond(mol->NumBonds() - 1);
-    if (arom)
+    if (arom) {
         bptr->SetAromatic();
+    }
     return bptr;
 }
 
@@ -72,8 +74,9 @@ void NMOBMolDestroyBond(OpenBabel::OBMol* mol,
 void NMOBAtomSetAromatic(OpenBabel::OBAtom* atm, bool arom)
 {
     OpenBabel::OBMol* mol = (OpenBabel::OBMol*)atm->GetParent();
-    if (mol && !mol->HasAromaticPerceived())
+    if (mol && !mol->HasAromaticPerceived()) {
         mol->SetAromaticPerceived();
+    }
 
     atm->SetAromatic(arom);
 }
@@ -81,8 +84,9 @@ void NMOBAtomSetAromatic(OpenBabel::OBAtom* atm, bool arom)
 
 bool NMOBSanitizeMol(OpenBabel::OBMol* mol)
 {
-    if (!OBKekulize(mol))
+    if (!OBKekulize(mol)) {
         return false;
+    }
     mol->SetAromaticPerceived(false);
     mol->DeleteHydrogens();
     return true;
@@ -134,8 +138,9 @@ struct WLNParser {
     bool error() {
         fprintf(stderr,"Error: Character %c in %s\n",*ptr,orig);
         unsigned int len = (unsigned int)(ptr-orig)+22;
-        for (unsigned int i=0; i<len; i++)
+        for (unsigned int i=0; i<len; i++) {
             fputc(' ',stderr);
+        }
         fprintf(stderr,"^\n");
         return false;
     }
@@ -149,10 +154,11 @@ struct WLNParser {
 
     void dec_h(OpenBabel::OBAtom* aptr, unsigned int count) {
         unsigned int hcount = aptr->GetImplicitHCount();
-        if (hcount > count)
+        if (hcount > count) {
             aptr->SetImplicitHCount(hcount-count);
-        else if (hcount)
+        } else if (hcount) {
             aptr->SetImplicitHCount(0);
+        }
     }
 
     void dec_q(OpenBabel::OBAtom* aptr, unsigned int count) {
@@ -172,9 +178,10 @@ struct WLNParser {
         prev = aptr;
         order = bo;
         if (bo) {
-            if (state == 0)
+            if (state == 0) {
                 state = 1;
-        } else state = 2;
+            }
+        } else { state = 2; }
     }
 
     void term() {
@@ -214,8 +221,9 @@ struct WLNParser {
                 rings.pop_back();
                 state = 2;
                 order = 0;
-                if (!stack.empty() && stack.back()!=STACK_RING)
+                if (!stack.empty() && stack.back()!=STACK_RING) {
                     pop_common();
+                }
                 return;
             case STACK_NORMAL:
                 pending = PENDING_DEPROT;
@@ -247,17 +255,19 @@ struct WLNParser {
         if (stack.empty()|| stack.back()==STACK_RING) {
             state = 2;
             order = 0;
-        } else pop_common();
+        } else { pop_common(); }
     }
 
     bool double_pop() {
-        if (stack.empty())
+        if (stack.empty()) {
             return false;
+        }
         unsigned int top = stack.back();
         if ((top&STACK_MASK) == STACK_POLY) {
             stack.pop_back();
-        } else if (!pop())
+        } else if (!pop()) {
             return false;
+        }
         return pop();
     }
 
@@ -268,7 +278,7 @@ struct WLNParser {
             if ((top&STACK_MASK) != STACK_POLY) {
                 pop_common();
                 term();
-            } else stack.pop_back();
+            } else { stack.pop_back(); }
         }
     }
 
@@ -412,9 +422,10 @@ struct WLNParser {
                 NMOBMolNewBond(mol,ring[i],ring[i+1],1,true);}
             ring[0]->SetImplicitHCount(0);}
         else{
-            for (unsigned int i=0; i<size-1; i++)
+            for (unsigned int i=0; i<size-1; i++) {
                 // NMOBMolNewBond(mol,ring[i],ring[i+1],1+(i&1),true);
                 NMOBMolNewBond(mol,ring[i],ring[i+1],1,true);
+            }
             NMOBMolNewBond(mol,ring[size-1],ring[0],1,true);}
     }
 
@@ -477,21 +488,24 @@ struct WLNParser {
     // General Poly Ring Case Addition - Michael Blakey for Nextmove Software <--- solved for general case
 
     int polyfused_ring(std::vector<OpenBabel::OBAtom*> &ring,std::vector<char> char_vector, std::vector<int> atom_vector, int ring_positions){
-        if (char_vector.size() != atom_vector.size())
+        if (char_vector.size() != atom_vector.size()) {
             return error();
+        }
         std::vector <char> bond_stack;
         bond_stack.push_back('\0'); // stops zero indexing on A character rings
         std::vector<int> end_bonds;
-        for (int i=0; i<=ring_positions; i++)
+        for (int i=0; i<=ring_positions; i++) {
             bond_stack.push_back(i + 'A');
+        }
 
         for (int i =0; i<char_vector.size(); i++){
             auto it = find(bond_stack.begin(), bond_stack.end(), char_vector.at(i));
             if (it != bond_stack.end()){
                 int index = it - bond_stack.begin();
                 int stack_val = index + atom_vector.at(i) - 1;
-                if (stack_val == bond_stack.size())
+                if (stack_val == bond_stack.size()) {
                     return error();
+                }
                 end_bonds.push_back(bond_stack.at(stack_val) - 'A');
                 bond_stack.erase(bond_stack.begin() + index+1, bond_stack.begin() + stack_val);
             }
@@ -518,11 +532,13 @@ struct WLNParser {
     // General Peri Ring Case Addition - Michael Blakey for Nextmove Software <--- solved for general case
     // <-- issues with local path redefinition, they'll be some graph theory somewhere for this
     int perifused_ring(std::vector<OpenBabel::OBAtom*> &ring,std::vector<char> char_vector, std::vector<int> atom_vector,std::vector<char> peri_vector, int ring_positions) {
-        if (char_vector.empty())
+        if (char_vector.empty()) {
             return error();
+        }
         for (char i:char_vector){
-            if (i > 'C')
+            if (i > 'C') {
                 return error();
+            }
         }
         if (peri_vector.size() > 2){
             fprintf(stderr,"Peri Points Greater Than 3 Are Currently Unstable \n");
@@ -534,8 +550,9 @@ struct WLNParser {
         bond_stack.push_back('\0'); // stops zero indexing on A character rings
         std::vector<int> start_bonds;
         std::vector<int> end_bonds;
-        for (int i = 0; i <= ring_positions; i++)
+        for (int i = 0; i <= ring_positions; i++) {
             bond_stack.push_back(i + 'A');
+        }
 
         for (int i = 0; i < (char_vector.size() - peri_vector.size()); i++) {
             start_bonds.push_back(char_vector.at(i) - 'A');
@@ -584,13 +601,15 @@ struct WLNParser {
     }
 
     int ReduceBridge_ring(std::vector<OpenBabel::OBAtom*> &ring, std::vector<char> bridge_vector, int size){
-        if (bridge_vector.empty() || size<1)
+        if (bridge_vector.empty() || size<1) {
             return error();
+        }
         int num_connections = bridge_vector.size();
         int last_connection = bridge_vector.back() - 'A';
         fuse(ring[last_connection+1],ring[size-num_connections-1],1);
-        if (!mol->GetBond(ring[last_connection+1],ring[size-num_connections-1]))
+        if (!mol->GetBond(ring[last_connection+1],ring[size-num_connections-1])) {
             return error();
+        }
         for (int i = size-1; i > size-1-num_connections;i--){
             mol->DeleteAtom(ring[i]);
         }
@@ -633,13 +652,15 @@ struct WLNParser {
                 }
             }
             if (wln_string[i] == 'J' && wln_string[i - 1] != ' ') {
-                if (i >= 6)
+                if (i >= 6) {
                     cycles.push_back(i);}
+            }
         }
-        if (peri)
+        if (peri) {
             return peri_index;
-        else
+        } else {
             return 0;
+        }
     }
 
     void AtomCharVector(int ptr_it, std::string wln_string,std::vector<int> &atom_vector, std::vector<char> &char_vector){
@@ -648,8 +669,9 @@ struct WLNParser {
                 atom_vector.push_back(wln_string.at(i) - '0');
                 if (isalpha(wln_string.at(i-1))) {;
                     char_vector.push_back(wln_string.at(i-1));}
-                else
+                else {
                     char_vector.push_back('A');}
+            }
         }
     }
 
@@ -665,7 +687,7 @@ struct WLNParser {
         } else if (order == 1) {
             fuse(prev,aptr,1);
             may_pop();
-        } else return error();
+        } else { return error(); }
         return true;
     }
 

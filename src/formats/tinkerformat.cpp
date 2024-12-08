@@ -84,8 +84,9 @@ namespace OpenBabel
   bool TinkerFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     istream &ifs = *pConv->GetInStream();
 
@@ -141,12 +142,14 @@ namespace OpenBabel
 
     for (int i = 1; i <= natoms; ++i)
     {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
             return false;
+        }
         tokenize(vs,buffer);
         // e.g. "2  C      2.476285    0.121331   -0.001070     2     1     3    14"
-        if (vs.size() < 5)
+        if (vs.size() < 5) {
             return false;
+        }
 
         atom = pmol->NewAtom();
         x = stof(vs[2]);
@@ -165,13 +168,16 @@ namespace OpenBabel
         atom->SetData(pac);
 
         // add bonding
-        if (vs.size() > 6)
-          for (unsigned int j = 6; j < vs.size(); ++j)
+        if (vs.size() > 6) {
+          for (unsigned int j = 6; j < vs.size(); ++j) {
             pmol->AddBond(pmol->NumAtoms(), stoi(vs[j]), 1); // we don't know the bond order
+          }
+        }
 
     }
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS)) {
       pmol->PerceiveBondOrders();
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -191,8 +197,9 @@ namespace OpenBabel
   bool TinkerFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -205,21 +212,23 @@ namespace OpenBabel
 
     // Before we try output of MMFF94 atom types, check if it works
     OBForceField *ff = OpenBabel::OBForceField::FindForceField("MMFF94");
-    if (mmffTypes && ff && ff->Setup(*pmol))
+    if (mmffTypes && ff && ff->Setup(*pmol)) {
       mmffTypes = ff->GetAtomTypes(*pmol);
-    else
+    } else {
       mmffTypes = false; // either the force field isn't available, or it doesn't work
+    }
 
     if (!mmffTypes && !mm3Types && !classTypes) {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MM2 parameters\n", pmol->NumAtoms(), pmol->GetTitle());
       mm2Types = true;
     }
-    else if (mm3Types)
+    else if (mm3Types) {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MM3 parameters\n",pmol->NumAtoms(), pmol->GetTitle());
-    else if (classTypes)
+    } else if (classTypes) {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   Custom parameters\n", pmol->NumAtoms(), pmol->GetTitle());
-    else
+    } else {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MMFF94 parameters\n", pmol->NumAtoms(), pmol->GetTitle());
+    }
     ofs << buffer;
 
     ttab.SetFromType("INT");
@@ -254,8 +263,9 @@ namespace OpenBabel
           OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
           if (acdata) {
             int ac = acdata->GetGenericValue();
-            if (ac >= 0)
+            if (ac >= 0) {
               atomType = ac;
+            }
           }
         }
       }
@@ -291,23 +301,29 @@ namespace OpenBabel
     switch (atom->GetAtomicNum()) {
     case 1: // Hydrogen
       b = atom->BeginNbrAtom(j);
-      if (b->IsCarboxylOxygen())
+      if (b->IsCarboxylOxygen()) {
         return 24;
-      if (b->GetAtomicNum() == OBElements::Sulfur)
+      }
+      if (b->GetAtomicNum() == OBElements::Sulfur) {
         return 44;
+      }
       if (b->GetAtomicNum() == OBElements::Nitrogen) {
-        if (b->IsAmideNitrogen())
+        if (b->IsAmideNitrogen()) {
           return 28;
-        if (b->GetExplicitDegree() > 3)
+        }
+        if (b->GetExplicitDegree() > 3) {
           return 48;// ammonium
+        }
         return 23; // default amine/imine
       }
-      if (b->GetAtomicNum() == OBElements::Carbon && b->GetHyb() == 1)
+      if (b->GetAtomicNum() == OBElements::Carbon && b->GetHyb() == 1) {
         return 124; // acetylene
+      }
 
       if (b->GetAtomicNum() == OBElements::Oxygen) {
-        if (b->HasAlphaBetaUnsat())
+        if (b->HasAlphaBetaUnsat()) {
           return 73; // includes non-enol/phenol, but has the right spirit
+        }
         return 21; // default alcohol
       }
 
@@ -320,95 +336,116 @@ namespace OpenBabel
       return 163; break;
 
     case 5: // B
-      if (atom->GetExplicitDegree() >= 4)
+      if (atom->GetExplicitDegree() >= 4) {
         return 27; // tetrahedral
+      }
       return 26; break;
 
     case 6: // C
       if (atom->IsInRingSize(3)) { // cyclopropane / cyclopropene
-        if (atom->GetHyb() == 3)
+        if (atom->GetHyb() == 3) {
           return 22;
+        }
         if (atom->GetHyb() == 2) {
-          if (atom->CountFreeOxygens() == 1) // propanone
+          if (atom->CountFreeOxygens() == 1) { // propanone
             return 67;
+          }
           return 38; // propane
         }
       }
       if (atom->IsInRingSize(4)) { // cyclobutane or cyclobutene
-        if (atom->GetHyb() == 3)
+        if (atom->GetHyb() == 3) {
           return 56;
+        }
         if (atom->GetHyb() == 2) {
-          if (atom->CountFreeOxygens() == 1) // butanone
+          if (atom->CountFreeOxygens() == 1) { // butanone
             return 58;
+          }
           return 57; // regular cyclobutane
         }
       }
 
       if (atom->CountBondsOfOrder(2) == 2) { // allene
-        if (atom->CountFreeOxygens() == 1) // ketene
+        if (atom->CountFreeOxygens() == 1) { // ketene
           return 106;
+        }
         return 68;
       }
 
-      if (atom->GetFormalCharge() == +1)
+      if (atom->GetFormalCharge() == +1) {
         return 30;
-      if (atom->GetSpinMultiplicity() == 2)
+      }
+      if (atom->GetSpinMultiplicity() == 2) {
         return 29;
+      }
 
-      if (atom->GetHyb() == 3)
+      if (atom->GetHyb() == 3) {
         return 1;
-      else if (atom->GetHyb() == 2) {
-        if (atom->CountFreeOxygens() >= 1)
+      } else if (atom->GetHyb() == 2) {
+        if (atom->CountFreeOxygens() >= 1) {
           return 3;
+        }
         return 2;
       }
-      else if (atom->GetHyb() == 1)
+      else if (atom->GetHyb() == 1) {
         return 4;
+      }
       break;
 
     case 7: // N
       // TODO
-      if (atom->IsAmideNitrogen())
+      if (atom->IsAmideNitrogen()) {
         return 151;
+      }
       if (atom->IsAromatic()) {
-        if (atom->GetFormalCharge() == 1)
+        if (atom->GetFormalCharge() == 1) {
           return 111;
-        if (atom->IsInRingSize(5)) // pyrrole
+        }
+        if (atom->IsInRingSize(5)) { // pyrrole
           return 40;
-        if (atom->IsInRingSize(6)) // pyridine
+        }
+        if (atom->IsInRingSize(6)) { // pyridine
           return 37;
+        }
       }
 
-      if (atom->CountFreeOxygens() == 2) // nitro
+      if (atom->CountFreeOxygens() == 2) { // nitro
         return 46;
+      }
 
       if (atom->GetHyb() == 3) {
-        if (atom->GetExplicitDegree() > 3)
+        if (atom->GetExplicitDegree() > 3) {
           return 39; // ammonium
+        }
         return 8;
       }
-      else if (atom->GetHyb() == 2)
+      else if (atom->GetHyb() == 2) {
         return 9;
-      else if (atom->GetHyb() == 1)
+      } else if (atom->GetHyb() == 1) {
         return 10;
+      }
       break;
 
     case 8: // O
       //TODO
-      if (atom->IsPhosphateOxygen())
+      if (atom->IsPhosphateOxygen()) {
         return 159;
-      if (atom->IsCarboxylOxygen())
+      }
+      if (atom->IsCarboxylOxygen()) {
         return 75;
-      if (atom->IsInRingSize(3))
+      }
+      if (atom->IsInRingSize(3)) {
         return 49; // epoxy
+      }
 
       b = atom->BeginNbrAtom(j);
       if (atom->HasBondOfOrder(2) && b->GetAtomicNum() == OBElements::Carbon) { // O=C
         return 7;
       }
 
-      if (atom->IsAromatic())
+      if (atom->IsAromatic()) {
         return 41; // furan
+      }
       return 6;
       break;
 
@@ -422,29 +459,36 @@ namespace OpenBabel
       return 19; break;
 
     case 15: // P
-      if (atom->CountFreeOxygens() > 0)
+      if (atom->CountFreeOxygens() > 0) {
         return 153; // phosphate
-      if (atom->GetExplicitValence() > 3)
+      }
+      if (atom->GetExplicitValence() > 3) {
         return 60; // phosphorus V
+      }
       return 25; break;
 
     case 16: // S
-      if (atom->IsAromatic())
+      if (atom->IsAromatic()) {
         return 42; // thiophene
-      if (atom->GetFormalCharge() == 1)
+      }
+      if (atom->GetFormalCharge() == 1) {
         return 16; // sulfonium
+      }
 
       // look at the neighbors
       FOR_NBORS_OF_ATOM (nbor, atom) {
         switch (nbor->GetAtomicNum()) {
         case 6:
-          if (nbor->GetHyb() == 2) // S=C
-            countNeighborC++; break;
+          if (nbor->GetHyb() == 2) { // S=C
+            countNeighborC++;
+          }
+          break;
         case 7:
           countNeighborN++; break;
         case 8:
-          if (nbor->GetHvyDegree() == 1)
+          if (nbor->GetHvyDegree() == 1) {
             countNeighborO++;
+          }
           break;
         case 16:
           countNeighborS++; break;
@@ -453,19 +497,23 @@ namespace OpenBabel
         }
       }
 
-      if (countNeighborO == 1)
+      if (countNeighborO == 1) {
         return 17; // sulfoxide
+      }
       if (countNeighborO >= 2) {
-        if (countNeighborN)
+        if (countNeighborN) {
           return 154; // sulfonamide
+        }
         return 18; // sulfone or sulfate
       }
-      if (countNeighborC)
+      if (countNeighborC) {
         return 74; // S=C
-      if (countNeighborS == 1)
+      }
+      if (countNeighborS == 1) {
         return 104; // S-S disulfide
-      else if (countNeighborS > 1)
+      } else if (countNeighborS > 1) {
         return 105;
+      }
 
       return 15; break;
 
@@ -476,16 +524,19 @@ namespace OpenBabel
     case 20: // Ca
       return 125; break;
     case 26: // Fe
-      if (atom->GetFormalCharge() == 2)
+      if (atom->GetFormalCharge() == 2) {
         return 61;
+      }
       return 62; break;
     case 27: // Co
-      if (atom->GetFormalCharge() == 2)
+      if (atom->GetFormalCharge() == 2) {
         return 65;
+      }
       return 66; break;
     case 28: // Ni
-      if (atom->GetFormalCharge() == 2)
+      if (atom->GetFormalCharge() == 2) {
         return 63;
+      }
       return 64; break;
 
     case 32: // Ge

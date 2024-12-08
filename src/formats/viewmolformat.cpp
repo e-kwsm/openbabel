@@ -67,8 +67,9 @@ ViewMolFormat theViewMolFormat;
 bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -92,8 +93,9 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     {
         if (strstr(buffer, "$title") != nullptr)
         {
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
                 return (false);
+            }
             mol.SetTitle(buffer);
             foundTitle = true;
 	    ifs.getline(buffer,BUFF_SIZE);
@@ -101,16 +103,19 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         else if (strstr(buffer, "$coord") != nullptr)
         {
             tokenize(vs,buffer);
-            if (vs.size() == 2)
+            if (vs.size() == 2) {
                 factor = atof((char*)vs[1].c_str()); // conversion to angstrom
+            }
             while (ifs.getline(buffer,BUFF_SIZE))
             {
 
-                if (buffer[0] == '$')
+                if (buffer[0] == '$') {
                     break;
+                }
                 tokenize(vs,buffer);
-                if (vs.size() != 4)
+                if (vs.size() != 4) {
 		  break;
+                }
                 atom = mol.NewAtom();
                 x = atof((char*)vs[0].c_str()) * factor;
                 y = atof((char*)vs[1].c_str()) * factor;
@@ -124,34 +129,40 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             foundBonds = true;
             while (ifs.getline(buffer,BUFF_SIZE))
             {
-                if (buffer[0] == '$')
+                if (buffer[0] == '$') {
                     break;
+                }
                 sscanf(buffer,"%d %d %lf",&bgn,&end, &border);
-                if (border > 1.0)
+                if (border > 1.0) {
                     order = int(border);
-                else
+                } else {
                     order = 1;
+                }
                 mol.AddBond(bgn+1,end+1,order);
             }
         }
-        else if (strstr(buffer, "$end") != nullptr)
+        else if (strstr(buffer, "$end") != nullptr) {
 	  break;
-	else // something else (i.e., garbage, blank lines, etc.)
+	} else { // something else (i.e., garbage, blank lines, etc.)
 	  ifs.getline(buffer,BUFF_SIZE);
+        }
     } // while
 
     if (!foundBonds)
     {
-      if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+      if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
 	mol.ConnectTheDots();
-      if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+      }
+      if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
 	mol.PerceiveBondOrders();
+      }
     }
 
     mol.EndModify();
 
-    if (!foundTitle)
+    if (!foundTitle) {
         mol.SetTitle(title);
+    }
     return(true);
 }
 
@@ -160,8 +171,9 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -170,8 +182,9 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     unsigned int i;
     char buffer[BUFF_SIZE];
 
-    if (strlen(mol.GetTitle()) > 0)
+    if (strlen(mol.GetTitle()) > 0) {
         ofs << "$title" << endl << mol.GetTitle() << endl;
+    }
 
     ofs << "$coord 1.0" << endl;
 
