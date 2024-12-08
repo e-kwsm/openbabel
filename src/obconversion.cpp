@@ -471,19 +471,19 @@ int OBConversion::Convert(istream *is, ostream *os) {
 ///	 - makes a new chemical object of its chosen type (e.g. OBMol)
 ///	 - reads an object from the input file
 ///	 - subjects the chemical object to 'transformations' as specified by the
-///Options
+/// Options
 ///	 - calls AddChemObject to add it to a buffer. The previous object is
-///first output 	   via the output Format's WriteMolecule(). During the output
-///process calling
+/// first output 	   via the output Format's WriteMolecule(). During the
+/// output process calling
 /// IsFirst() and GetIndex() (the number of objects including the current one
 /// already output. allows more control, for instance writing \<cml\> and
 /// \</cml\> tags for multiple molecule outputs only.
 ///
 ///	AddChemObject does not save the object passed to it if it is NULL (as a
-///result of a DoTransformation()) 	or if the number of the object is outside the
-///range defined by 	StartNumber and EndNumber.This means the start and end
-///counts apply to all chemical objects 	found whether or not they	are
-///output.
+/// result of a DoTransformation()) 	or if the number of the object is
+/// outside the range defined by 	StartNumber and EndNumber.This means the
+/// start and end counts apply to all chemical objects 	found whether or not
+/// they	are output.
 ///
 ///	If ReadMolecule returns false the input conversion loop is exited.
 ///
@@ -634,7 +634,7 @@ OBBase *OBConversion::GetChemObject() {
 
 //////////////////////////////////////////////////////
 ///	Called by ReadMolecule() to deliver an object it has read from an input
-///stream.
+/// stream.
 /// Used in two modes:
 ///  - When Count is negative it is left negative and the routine is just a
 ///  store
