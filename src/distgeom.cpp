@@ -1168,22 +1168,23 @@ namespace OpenBabel {
     Eigen::MatrixXd eigVecs = es.eigenvectors();
 
     for (size_t i = 0; i < N; i++) {
-      if(eigVals(i) > 0) eigVals(i) = sqrt(eigVals(i));
-      else eigVals(i) *= -1;
+      if(eigVals(i) > 0) { eigVals(i) = sqrt(eigVals(i)); }
+      else { eigVals(i) *= -1; }
     }
 
     _coord.resize(N * dim);
     for (size_t i = 0; i < N; i++) {
       for (size_t j = 0; j < dim; j++) {
-        if(N-1-j >= 0) _coord(i*dim + j) = eigVals(N-1-j) * eigVecs(i, N-1-j);
-        else _coord(i*dim + j) = 0;
+        if(N-1-j >= 0) { _coord(i*dim + j) = eigVals(N-1-j) * eigVecs(i, N-1-j); }
+        else { _coord(i*dim + j) = 0; }
       }
     }
     Eigen::MatrixXd distMat2(N, N);
     for (size_t i = 0; i < N; i++) {
       for (size_t j = 0; j < N; j++) {
-        for(size_t k = 0; k < dim; k++)
+        for(size_t k = 0; k < dim; k++) {
           distMat2(i, j) += pow(_coord(i*dim + k)-_coord(j*dim + k), 2.0);
+        }
         distMat2(i, j) = sqrt(distMat2(i, j));
       }
     }
@@ -1294,7 +1295,7 @@ namespace OpenBabel {
     for (unsigned int trial = 0; trial < maxIter; trial++) {
       generateInitialCoords();
       firstMinimization();
-      if (dim == 4) minimizeFourthDimension();
+      if (dim == 4) { minimizeFourthDimension(); }
       if (CheckStereoConstraints() && CheckBounds()) {
         _d->success = true;
         break;
@@ -1420,9 +1421,9 @@ namespace OpenBabel {
             double lb = owner->GetLowerBounds(i, j);
             double u2 = ub * ub;
             double l2 = lb * lb;
-            if (d > ub) v = d2/u2-1.0; 
-            else if (d < lb) v = (2.0*l2 / (l2+d2))-1.0;
-            if(v > 0.0) ret += v*v;
+            if (d > ub) { v = d2/u2-1.0; }
+            else if (d < lb) { v = (2.0*l2 / (l2+d2))-1.0; }
+            if(v > 0.0) { ret += v*v; }
         }
     }
     // calculate distance error
@@ -1436,8 +1437,8 @@ namespace OpenBabel {
       double vol = (v1-v4).dot((v2-v4).cross(v3-v4));
       double lb = tetra.GetLowerBound();
       double ub = tetra.GetUpperBound();
-      if(vol < lb) ret += (vol - lb) * (vol - lb);
-      else if(vol > ub) ret += (vol - ub) * (vol - ub);
+      if(vol < lb) { ret += (vol - lb) * (vol - lb); }
+      else if(vol > ub) { ret += (vol - ub) * (vol - ub); }
     }
     // clear gradient
     for (size_t i=0; i<grad.rows(); i++) {
@@ -1466,7 +1467,7 @@ namespace OpenBabel {
         }
         for (size_t k=0; k<dim; ++k) {
           double g = 0;
-          if(d > 0) g = preFactor * (x[i*dim+k] - x[j*dim+k]) / d;
+          if(d > 0) { g = preFactor * (x[i*dim+k] - x[j*dim+k]) / d; }
           grad[i * dim + k] += g;
           grad[j * dim + k] += -g;
         }
@@ -1495,9 +1496,9 @@ namespace OpenBabel {
       double ub = tetra.GetUpperBound();
 
       double preFactor;
-      if (vol < lb) preFactor = vol - lb;
-      else if (vol > ub) preFactor = vol - ub;
-      else continue;
+      if (vol < lb) { preFactor = vol - lb; }
+      else if (vol > ub) { preFactor = vol - ub; }
+      else { continue; }
 
       // RDKit: Code/DistGeom/ChiralViolationContrib.cpp
       grad[dim * idx1] += preFactor * (v2.y() * v3.z() - v3.y() * v2.z());
@@ -1551,9 +1552,9 @@ namespace OpenBabel {
             double lb = owner->GetLowerBounds(i, j);
             double u2 = ub * ub;
             double l2 = lb * lb;
-            if (d > ub) v = d2/u2-1.0; 
-            else if (d < lb) v = (2.0*l2 / (l2+d2))-1.0;
-            if(v > 0.0) ret += v*v;
+            if (d > ub) { v = d2/u2-1.0; }
+            else if (d < lb) { v = (2.0*l2 / (l2+d2))-1.0; }
+            if(v > 0.0) { ret += v*v; }
         }
     }
     // calculate distance error
@@ -1567,8 +1568,8 @@ namespace OpenBabel {
       double vol = (v1-v4).dot((v2-v4).cross(v3-v4));
       double lb = tetra.GetLowerBound();
       double ub = tetra.GetUpperBound();
-      if(vol < lb) ret += (vol - lb) * (vol - lb);
-      else if(vol > ub) ret += (vol - ub) * (vol - ub);
+      if(vol < lb) { ret += (vol - lb) * (vol - lb); }
+      else if(vol > ub) { ret += (vol - ub) * (vol - ub); }
     }
     // clear gradient
     for (size_t i=0; i<grad.rows(); i++) {
@@ -1597,7 +1598,7 @@ namespace OpenBabel {
         }
         for (size_t k=0; k<dim; ++k) {
           double g = 0;
-          if(d > 0) g = preFactor * (x[i*dim+k] - x[j*dim+k]) / d;
+          if(d > 0) { g = preFactor * (x[i*dim+k] - x[j*dim+k]) / d; }
           {
             g = preFactor * (x[i * dim + k] - x[j * dim + k]) / d;
           }
@@ -1629,9 +1630,9 @@ namespace OpenBabel {
       double ub = tetra.GetUpperBound();
 
       double preFactor;
-      if (vol < lb) preFactor = vol - lb;
-      else if (vol > ub) preFactor = vol - ub;
-      else continue;
+      if (vol < lb) { preFactor = vol - lb; }
+      else if (vol > ub) { preFactor = vol - ub; }
+      else { continue; }
 
       // RDKit: Code/DistGeom/ChiralViolationContrib.cpp
       grad[dim * idx1] += preFactor * (v2.y() * v3.z() - v3.y() * v2.z());

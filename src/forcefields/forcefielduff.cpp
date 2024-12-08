@@ -357,8 +357,9 @@ namespace OpenBabel {
                                                 force_a, force_b, force_c, force_d);
       angle *= DEG_TO_RAD;
 
-	    if (!isfinite(angle))
+	    if (!isfinite(angle)) {
 	      angle = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us;
+	    }
 
       // somehow we already get the -1 from the OOPDeriv -- so we'll omit it here
       dE = koop * (c1*sin(angle) + 2.0 * c2 * sin(2.0*angle));
@@ -944,30 +945,36 @@ namespace OpenBabel {
       b = bond->GetEndAtom();
 
       // skip this bond if the atoms are ignored
-      if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) )
+      if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ) {
         continue;
+      }
 
       // if there are any groups specified, check if the two bond atoms are in a single intraGroup
       if (HasGroups()) {
         bool validBond = false;
         for (unsigned int i=0; i < _intraGroup.size(); ++i) {
-          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()))
+          if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx())) {
             validBond = true;
+          }
         }
-        if (!validBond)
+        if (!validBond) {
           continue;
+        }
       }
 
       bondorder = bond->GetBondOrder();
-      if (bond->IsAromatic())
+      if (bond->IsAromatic()) {
         bondorder = 1.5;
+      }
       // e.g., in Cp rings, may not be "aromatic" by OB
       // but check for explicit hydrogen counts (e.g., biphenyl inter-ring is not aromatic)
       if ((a->GetType()[2] == 'R' && b->GetType()[2] == 'R')
-          && (a->ExplicitHydrogenCount() == 1 && b->ExplicitHydrogenCount() == 1))
+          && (a->ExplicitHydrogenCount() == 1 && b->ExplicitHydrogenCount() == 1)) {
         bondorder = 1.5;
-      if (bond->IsAmide())
+      }
+      if (bond->IsAmide()) {
         bondorder = 1.41;
+      }
 
       bondcalc.a = a;
       bondcalc.b = b;
@@ -1182,18 +1189,22 @@ namespace OpenBabel {
 			// Precompute the force constant
 			bondPtr = _mol.GetBond(a,b);
 			bondorder = bondPtr->GetBondOrder();
-      if (bondPtr->IsAromatic())
+      if (bondPtr->IsAromatic()) {
         bondorder = 1.5;
-      if (bondPtr->IsAmide())
+      }
+      if (bondPtr->IsAmide()) {
         bondorder = 1.41;
+      }
 			rab = CalculateBondDistance(parameterA, parameterB, bondorder);
 
 			bondPtr = _mol.GetBond(b,c);
 			bondorder = bondPtr->GetBondOrder();
-      if (bondPtr->IsAromatic())
+      if (bondPtr->IsAromatic()) {
         bondorder = 1.5;
-      if (bondPtr->IsAmide())
+      }
+      if (bondPtr->IsAmide()) {
         bondorder = 1.41;
+      }
 			rbc = CalculateBondDistance(parameterB, parameterC, bondorder);
 			rac = sqrt(rab*rab + rbc*rbc - 2.0 * rab*rbc*anglecalc.cosT0);
 

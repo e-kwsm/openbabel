@@ -619,14 +619,16 @@ namespace OpenBabel
     double *c = mol.GetCoordinates();
     for (unsigned int i = 0;i < _vrotor.size();++i)
       {
-				if (arr[i+1] == -1) // skip this rotor
+				if (arr[i+1] == -1) { // skip this rotor
 					continue;
-				else {
+				} else {
         	angle = _vres[i][arr[i+1]];
-        	while (angle < 0.0)
+        	while (angle < 0.0) {
           	angle += 360.0;
-        	while (angle > 360.0)
+		}
+        	while (angle > 360.0) {
           	angle -= 360.0;
+		}
 	        SetRotorToAngle(c,_vrotor[i].first,angle,_vrotor[i].second);
 				} // set an angle
       } // for rotors
@@ -704,14 +706,15 @@ namespace OpenBabel
 
     c1mag = c1x*c1x + c1y*c1y + c1z*c1z;
     c2mag = c2x*c2x + c2y*c2y + c2z*c2z;
-    if (c1mag*c2mag < 0.01) costheta = 1.0; //avoid div by zero error
-    else costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
+    if (c1mag*c2mag < 0.01) { costheta = 1.0; //avoid div by zero error
+    } else { costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
+    }
 
-    if (costheta < -0.999999) costheta = -0.999999;
-    if (costheta >  0.999999) costheta =  0.999999;
+    if (costheta < -0.999999) { costheta = -0.999999; }
+    if (costheta >  0.999999) { costheta =  0.999999; }
 
-    if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0) radang = -acos(costheta);
-    else                                     radang = acos(costheta);
+    if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0) { radang = -acos(costheta); }
+    else {                                   { radang = acos(costheta); }
 
     //
     // now we have the torsion angle (radang) - set up the rot matrix

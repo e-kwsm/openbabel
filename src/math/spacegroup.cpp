@@ -305,18 +305,21 @@ namespace OpenBabel
         iss >> m(1,0) >> m(1,1) >> m(1,2) >> v.y();
         iss >> m(2,0) >> m(2,1) >> m(2,2) >> v.z();
       }
-		if (v.x() < 0)
+		if (v.x() < 0) {
 			v.x() += 1.;
-		else if (v.x() >= 1.)
+		} else if (v.x() >= 1.) {
 			v.x() -= 1.;
-		if (v.y() < 0)
+		}
+		if (v.y() < 0) {
 			v.y() += 1.;
-		else if (v.y() >= 1.)
+		} else if (v.y() >= 1.) {
 			v.y() -= 1.;
-		if (v.z() < 0)
+		}
+		if (v.z() < 0) {
 			v.z() += 1.;
-		else if (v.z() >= 1.)
+		} else if (v.z() >= 1.) {
 			v.z() -= 1.;
+		}
 
     // only push_back unique transformations
     transform3dIterator i, iend = m_transforms.end();
@@ -489,8 +492,9 @@ namespace OpenBabel
               _SpaceGroups.sgbn[nm] = this;
             }
 		  }
-        if ((m_OriginAlternative & 1) == 0 && _SpaceGroups.sgbn[m_HM] == nullptr)
+        if ((m_OriginAlternative & 1) == 0 && _SpaceGroups.sgbn[m_HM] == nullptr) {
           _SpaceGroups.sgbn[m_HM] = this;
+        }
 	  }
     // Also use the HM symbol stripped from whitespaces as key
 	  std::string stripped_HM=RemoveWhiteSpaceUnderscore(m_HM);
