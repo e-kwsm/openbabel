@@ -65,8 +65,9 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -76,8 +77,9 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     char buffer[BUFF_SIZE];
     ifs.getline(buffer,BUFF_SIZE);
 
-    if (strlen(buffer) > 5)
+    if (strlen(buffer) > 5) {
         mol.SetTitle(&buffer[5]);
+    }
     mol.SetEnergy(0.0);
 
     int natoms;
@@ -96,8 +98,9 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     for (int i = 1;i <= natoms;i++)
     {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
             return(false);
+        }
         atom.Clear();
         element[0] = buffer[0];
         element[1] = (buffer[1] != ' ') ? buffer[1]:'\0';
@@ -106,12 +109,13 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         v.Set(x,y,z);
         atom.SetVector(v);
 
-        if (!mol.AddAtom(atom))
+        if (!mol.AddAtom(atom)) {
             return(false);
+        }
         tokenize(vs,&buffer[60]);
         vector<string>::iterator j;
 
-        for (j = vs.begin();j != vs.end();++j)
+        for (j = vs.begin();j != vs.end();++j) {
             if (!j->empty())
             {
                 //get the bond order
@@ -131,9 +135,11 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
                 }
                 (*j)[j->size()-1] = ' ';
                 end = atoi(j->c_str());
-                if (i>end)
+                if (i>end) {
                     mol.AddBond(i,end,order);
+                }
             }
+        }
     }
 
     mol.EndModify();

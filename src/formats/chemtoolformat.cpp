@@ -68,8 +68,9 @@ namespace OpenBabel
   bool CHTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -93,12 +94,15 @@ namespace OpenBabel
       {
         x = (int)(atom->GetX()) * conv_factor;
         y = (int)(atom->GetY()) * conv_factor;
-        if (x > w)
+        if (x > w) {
           w = x;
-        if (y > h)
+        }
+        if (y > h) {
           h = y;
-        if (atom->GetAtomicNum() != 6)
+        }
+        if (atom->GetAtomicNum() != 6) {
           natoms++;
+        }
       }
     ofs << "geometry " << w * 1.1 << " " << h * 1.1 << endl;
 
@@ -110,10 +114,12 @@ namespace OpenBabel
         bondtype = 0;
         atom1 = bond->GetBeginAtom();
         atom2 = bond->GetEndAtom();
-        if (bond->GetBondOrder() == 2)
+        if (bond->GetBondOrder() == 2) {
           bondtype = 1;
-        if (bond->GetBondOrder() == 3)
+        }
+        if (bond->GetBondOrder() == 3) {
           bondtype = 3;
+        }
         // @todo: use flag-info, too
         snprintf(buffer, BUFF_SIZE, "%d\t%d\t%d\t%d\t%1d",
                  (int)floor(atom1->GetX() * conv_factor + 0.5),

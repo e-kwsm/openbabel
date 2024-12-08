@@ -72,8 +72,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -90,8 +91,9 @@ namespace OpenBabel
       {
         ifs.getline(buffer,BUFF_SIZE);
         sscanf(buffer," %d %*s %d", &natoms, &nbonds);
-        if (!natoms)
+        if (!natoms) {
           return(false);
+        }
       }
 
     mol.ReserveAtoms(natoms);
@@ -105,11 +107,13 @@ namespace OpenBabel
 
     for (i = 1; i <= natoms; i ++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         tokenize(vs,buffer);
-        if (vs.size() < 5)
+        if (vs.size() < 5) {
           return(false);
+        }
         atom = mol.NewAtom();
         x = atof((char*)vs[2].c_str());
         y = atof((char*)vs[3].c_str());
@@ -132,8 +136,9 @@ namespace OpenBabel
 
     for (i = 0; i < nbonds; i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         sscanf(buffer," %*d%d%d%99s",&bgn,&end,bobuf);
         bostr = bobuf;
         order = 1;
@@ -167,8 +172,9 @@ namespace OpenBabel
   bool AlchemyFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

@@ -66,8 +66,9 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -92,16 +93,19 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             string z = sbuf.substr(40,8);
             vector3 v(atof(x.c_str()),atof(y.c_str()),atof(z.c_str()));
             atom.SetVector(v);
-            if (!mol.AddAtom(atom))
+            if (!mol.AddAtom(atom)) {
                 return(false);
+            }
         }
 
         if (EQn(buffer,"CONECT",6))
         {
             tokenize(vs,buffer);
-            if (!vs.empty() && vs.size() > 2)
-                for (i = vs.begin(),i+=2;i != vs.end();++i)
+            if (!vs.empty() && vs.size() > 2) {
+                for (i = vs.begin(),i+=2;i != vs.end();++i) {
                     mol.AddBond(atoi(vs[1].c_str()),atoi((*i).c_str()),1);
+                }
+            }
         }
     }
 
@@ -115,8 +119,9 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -136,19 +141,25 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
     {
         vcenter += atom->GetVector();
-        if (atom->x() < vmin.x())
+        if (atom->x() < vmin.x()) {
             vmin.SetX(atom->x());
-        if (atom->y() < vmin.y())
+        }
+        if (atom->y() < vmin.y()) {
             vmin.SetY(atom->y());
-        if (atom->z() < vmin.z())
+        }
+        if (atom->z() < vmin.z()) {
             vmin.SetZ(atom->z());
+        }
 
-        if (atom->x() > vmax.x())
+        if (atom->x() > vmax.x()) {
             vmax.SetX(atom->x());
-        if (atom->y() > vmax.y())
+        }
+        if (atom->y() > vmax.y()) {
             vmax.SetY(atom->y());
-        if (atom->z() > vmax.z())
+        }
+        if (atom->z() > vmax.z()) {
             vmax.SetZ(atom->z());
+        }
     }
     vcenter /= (double)mol.NumAtoms();
 

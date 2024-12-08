@@ -67,8 +67,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -78,10 +79,12 @@ namespace OpenBabel
     int i,natoms;
     char buffer[BUFF_SIZE];
 
-    if (!ifs.getline(buffer,BUFF_SIZE))
+    if (!ifs.getline(buffer,BUFF_SIZE)) {
       return(false);
-    if (!ifs.getline(buffer,BUFF_SIZE))
+    }
+    if (!ifs.getline(buffer,BUFF_SIZE)) {
       return(false);
+    }
     sscanf(buffer,"%d",&natoms);
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
@@ -93,13 +96,16 @@ namespace OpenBabel
 
     for (i = 1; i <= natoms;i ++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         tokenize(vs,buffer);
-        if (vs.size() < 4)
+        if (vs.size() < 4) {
           return(false);
-        if (vs[0].size() > 1)
+        }
+        if (vs[0].size() > 1) {
           vs[0][1] = tolower(vs[0][1]);
+        }
         atom = mol.NewAtom();
         x = atof((char*)vs[1].c_str());
         y = atof((char*)vs[2].c_str());
@@ -107,8 +113,9 @@ namespace OpenBabel
         atom->SetVector(x,y,z); //set coordinates
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
 
-        for (j = vs.begin()+4;j != vs.end();++j)
+        for (j = vs.begin()+4;j != vs.end();++j) {
           mol.AddBond(atom->GetIdx(),atoi((char*)j->c_str()),1);
+        }
       }
 
     // clean out any remaining blank lines
@@ -131,8 +138,9 @@ namespace OpenBabel
   bool BallStickFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -141,10 +149,11 @@ namespace OpenBabel
     char tmptype[16];
     char buffer[BUFF_SIZE];
 
-    if (strlen(mol.GetTitle()) > 0)
+    if (strlen(mol.GetTitle()) > 0) {
       ofs << mol.GetTitle() << endl;
-    else
+    } else {
       ofs << "Untitled" << endl;
+    }
 
     snprintf(buffer,BUFF_SIZE,"%d",mol.NumAtoms());
     ofs << buffer << endl;
@@ -157,8 +166,9 @@ namespace OpenBabel
       {
         strncpy(tmptype,OBElements::GetSymbol(atom->GetAtomicNum()), sizeof(tmptype));
         tmptype[15] = '\0';
-        if (strlen(tmptype) > 1)
+        if (strlen(tmptype) > 1) {
           tmptype[1] = toupper(tmptype[1]);
+        }
         snprintf(buffer,BUFF_SIZE,"%-3s %8.4f  %8.4f  %8.4f",
                  tmptype,
                  atom->GetX(),

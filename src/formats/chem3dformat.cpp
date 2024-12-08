@@ -73,8 +73,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -89,8 +90,9 @@ namespace OpenBabel
   bool CHEM3D1Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -142,8 +144,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -158,8 +161,9 @@ namespace OpenBabel
   bool CHEM3D2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -188,11 +192,13 @@ namespace OpenBabel
 
     if (mmads)
       {
-        if (vs.empty())
+        if (vs.empty()) {
           return(false);
+        }
         natoms = atoi((char*)vs[0].c_str());
-        if (vs.size() == 2)
+        if (vs.size() == 2) {
           mol.SetTitle(vs[1]);
+        }
       }
     else
       {
@@ -217,8 +223,9 @@ namespace OpenBabel
           }
       }
 
-    if (!natoms)
+    if (!natoms) {
       return(false);
+    }
     divisor = pow(10.0,exponent);
     mol.ReserveAtoms(natoms);
 
@@ -240,14 +247,17 @@ namespace OpenBabel
                &z,
                tmp);
         v.Set(x,y,z);
-        if (has_fractional)
+        if (has_fractional) {
           v *= m;
-        if (has_divisor)
+        }
+        if (has_divisor) {
           v/= divisor;
+        }
 
         tokenize(vs,buffer);
-        if (vs.empty())
+        if (vs.empty()) {
           return(false);
+        }
 
         atom = mol.NewAtom();
         ttab.Translate(tmp1,tmp);
@@ -255,8 +265,9 @@ namespace OpenBabel
         atom->SetVector(v);
         atom->SetAtomicNum(OBElements::GetAtomicNum(atomic_type));
 
-        for (k = 6;k < vs.size(); k++)
+        for (k = 6;k < vs.size(); k++) {
           mol.AddBond(atom->GetIdx(),atoi((char*)vs[k].c_str()),1);
+        }
       }
 
     // clean out remaining blank lines
@@ -287,7 +298,9 @@ namespace OpenBabel
         ttab.SetToType("MM2");
       }
     else
+    {
       ttab.SetToType(mol_typ);
+    }
     ofs << endl;
 
     ttab.SetFromType("INT");

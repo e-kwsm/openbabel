@@ -222,8 +222,9 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   if(pConv->IsOption("d",OBConversion::INOPTIONS))
   {
     unsigned wtoptions=0;
-    if(pConv->IsOption("o",OBConversion::INOPTIONS))
+    if(pConv->IsOption("o",OBConversion::INOPTIONS)) {
       wtoptions |= 1; //display objects only
+    }
     OBText* pText  = cdxr.WriteTree("chemdrawcdx.h", wtoptions);
     if(pText)
     {

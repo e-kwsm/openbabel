@@ -67,8 +67,9 @@ namespace OpenBabel
   bool ChemDrawFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -108,8 +109,9 @@ namespace OpenBabel
   bool ChemDrawFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -127,19 +129,20 @@ namespace OpenBabel
     mol.BeginModify();
 
     ifs.getline(buffer,BUFF_SIZE);
-    if (strlen(buffer) == 0)
+    if (strlen(buffer) == 0) {
       mol.SetTitle(buffer);
-    else
+    } else {
       mol.SetTitle(title);
+    }
 
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer," %d %d", &natoms, &nbonds);
 
     for (unsigned int i = 1; i <= natoms; i ++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE)) return(false);
+        if (!ifs.getline(buffer,BUFF_SIZE)) { return(false); }
         tokenize(vs,buffer);
-        if (vs.size() != 4) return(false);
+        if (vs.size() != 4) { return(false); }
         atom = mol.NewAtom();
 
         x = atof((char*)vs[0].c_str());
@@ -150,15 +153,16 @@ namespace OpenBabel
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
       }
 
-    if (nbonds != 0)
+    if (nbonds != 0) {
       for (unsigned int i = 0; i < nbonds; i++)
         {
-          if (!ifs.getline(buffer,BUFF_SIZE)) return(false);
+          if (!ifs.getline(buffer,BUFF_SIZE)) { return(false); }
           tokenize(vs,buffer);
-          if (vs.size() != 4) return(false);
-          if (!sscanf(buffer,"%d%d%d%*d",&bgn,&end,&order)) return (false);
+          if (vs.size() != 4) { return(false); }
+          if (!sscanf(buffer,"%d%d%d%*d",&bgn,&end,&order)) { return (false); }
           mol.AddBond(bgn,end,order);
         }
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;

@@ -70,8 +70,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -91,8 +92,9 @@ namespace OpenBabel
       {
         if(strstr(buffer, "end") != nullptr)
           {
-            if (mol.NumAtoms() > 0) // we've already read in a molecule, so exit
+            if (mol.NumAtoms() > 0) { // we've already read in a molecule, so exit
               break;
+            }
             // else, we hit the end of the previous molecular system
             // (in a multimolecule file)
             ifs.getline(buffer,BUFF_SIZE); // title
@@ -182,14 +184,17 @@ namespace OpenBabel
           }
       }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
-    if (hasPartialCharges)
+    if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
+    }
     mol.SetTitle(title);
     return(true);
   }

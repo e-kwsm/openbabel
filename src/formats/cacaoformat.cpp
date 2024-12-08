@@ -71,8 +71,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -89,15 +90,16 @@ namespace OpenBabel
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%d",&natoms);
 
-    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"CELL",4))
-      ;
+    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"CELL",4)) {}
 
-    if (!EQn(buffer,"CELL",4))
+    if (!EQn(buffer,"CELL",4)) {
       return(false);
+    }
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
-    if (vs.size() != 7)
+    if (vs.size() != 7) {
       return(false);
+    }
 
     //parse cell values
     A = atof((char*)vs[1].c_str());
@@ -121,11 +123,13 @@ namespace OpenBabel
 
     for (i = 1; i <= natoms;i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         tokenize(vs,buffer," \n\t,");
-        if (vs.size() < 4)
+        if (vs.size() < 4) {
           return(false);
+        }
         atom = mol.NewAtom();
 
         x = atof((char*)vs[1].c_str());
@@ -138,10 +142,12 @@ namespace OpenBabel
         atom->SetVector(v);
       }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -162,8 +168,9 @@ namespace OpenBabel
   bool CacaoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -179,7 +186,9 @@ namespace OpenBabel
     ofs << buffer;
 
     if (!mol.HasData(OBGenericDataType::UnitCell))
+    {
       ofs << "CELL 1.,1.,1.,90.,90.,90.\n";
+    }
     else
       {
         OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
@@ -218,8 +227,9 @@ namespace OpenBabel
     vector<OBAtom*>::iterator ai;
 
     vit.push_back(nullptr);
-    for (atom = mol.BeginAtom(ai);atom;atom = mol.NextAtom(ai))
+    for (atom = mol.BeginAtom(ai);atom;atom = mol.NextAtom(ai)) {
       vit.push_back(new OBInternalCoord (atom));
+    }
 
     vit[1]->_a = &dummy1;
     vit[1]->_b = &dummy2;
@@ -251,14 +261,20 @@ namespace OpenBabel
       }
 
     for (i = 3;i <= mol.NumAtoms();i++)
+    {
       vit[i]->_b = vit[vit[i]->_a->GetIdx()]->_a;
+    }
 
     for (i = 4;i <= mol.NumAtoms();i++)
       {
         if (vit[i]->_b && vit[i]->_b->GetIdx())
+        {
           vit[i]->_c = vit[vit[i]->_b->GetIdx()]->_b;
+        }
         else
+        {
           vit[i]->_c = &dummy1;
+        }
       }
 
     OBAtom *a,*b,*c;
@@ -320,8 +336,9 @@ namespace OpenBabel
   bool CacaoInternalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -331,8 +348,9 @@ namespace OpenBabel
     vector3 v;
     char tmptype[16],buffer[BUFF_SIZE];
 
-    if (mol.Empty())
+    if (mol.Empty()) {
       return(false);
+    }
 
     //translate first atom to origin
     v = mol.GetAtom(1)->GetVector();
@@ -354,8 +372,9 @@ namespace OpenBabel
         strncpy(tmptype,OBElements::GetSymbol(mol.GetAtom(i)->GetAtomicNum()), sizeof(tmptype));
         tmptype[sizeof(tmptype) - 1] = '\0';
 
-        if (vit[i]->_tor < 0.0)
+        if (vit[i]->_tor < 0.0) {
           vit[i]->_tor += 360.0;
+        }
         snprintf(buffer, BUFF_SIZE, "%2d,%d,%2s%7.3f,%7.3f,%7.3f",
                  vit[i]->_a->GetIdx(),i,tmptype,
                  vit[i]->_dst,
@@ -365,12 +384,13 @@ namespace OpenBabel
       }
 
     vector<OBInternalCoord*>::iterator j;
-    for (j = vit.begin();j != vit.end();++j)
+    for (j = vit.begin();j != vit.end();++j) {
       if (*j)
         {
           delete *j;
           *j = nullptr;
         }
+    }
 
     return(true);
   }

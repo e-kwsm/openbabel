@@ -67,8 +67,9 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -91,12 +92,15 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         {
             atom = mol.NewAtom();
             coord = new OBInternalCoord();
-            if (mol.NumAtoms() > 1)
+            if (mol.NumAtoms() > 1) {
                 coord->_a = mol.GetAtom(atoi(vs[4].c_str()));
-            if (mol.NumAtoms() > 2)
+            }
+            if (mol.NumAtoms() > 2) {
                 coord->_b = mol.GetAtom(atoi(vs[5].c_str()));
-            if (mol.NumAtoms() > 3)
+            }
+            if (mol.NumAtoms() > 3) {
                 coord->_c = mol.GetAtom(atoi(vs[6].c_str()));
+            }
             coord->_dst = atof(vs[7].c_str());
             coord->_ang = atof(vs[8].c_str());
             coord->_tor = atof(vs[9].c_str());
@@ -104,19 +108,23 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
 
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
                 break;
+            }
             tokenize(vs,buffer);
         }
     }
 
-    if (internals.size() > 0)
+    if (internals.size() > 0) {
       InternalToCartesian(internals,mol);
+    }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     mol.SetTitle(title);

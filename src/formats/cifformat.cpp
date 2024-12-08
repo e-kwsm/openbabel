@@ -124,13 +124,13 @@ namespace OpenBabel
       {
         c1 = *s1; c2 = *s2;
         s1++; s2++;
-        if (!c1) return c2 ? -1 : 0;
-        if (!c2) return 1;
+        if (!c1) { return c2 ? -1 : 0; }
+        if (!c2) { return 1; }
         if (c1 != c2)
           {
             c1 = tolower(c1);
             c2 = tolower(c2);
-            if (c1 != c2) return c1 < c2 ? -1 : 1;
+            if (c1 != c2) { return c1 < c2 ? -1 : 1; }
           }
         len--;
       }
@@ -151,7 +151,7 @@ namespace OpenBabel
 
   const char* ci_char_traits::find( const char* s, int n, char a )
   {
-    while( n-- > 0 && tolower(*s) != tolower(a) ) ++s;
+    while( n-- > 0 && tolower(*s) != tolower(a) ) { ++s; }
     return s;
   }
   //############################## CIF CLASSES headers####################################################
@@ -331,18 +331,18 @@ namespace OpenBabel
         // for IUCr journals, so do not generate an error if the block contains
         // no structural information
         bool empty_iucrjournal_block=true;
-        if(mvItem.find("_cell_length_a"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        if(mvItem.find("_cell_length_b"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        if(mvItem.find("_cell_length_c"   )!=mvItem.end()) empty_iucrjournal_block=false;
+        if(mvItem.find("_cell_length_a"   )!=mvItem.end()) { empty_iucrjournal_block=false; }
+        if(mvItem.find("_cell_length_b"   )!=mvItem.end()) { empty_iucrjournal_block=false; }
+        if(mvItem.find("_cell_length_c"   )!=mvItem.end()) { empty_iucrjournal_block=false; }
         for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
             loop!=mvLoop.end();++loop)
           {
-            if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_fract_z")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_x")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_y")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_z")!=loop->second.end()) empty_iucrjournal_block=false;
+            if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) { empty_iucrjournal_block=false; }
+            if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) { empty_iucrjournal_block=false; }
+            if(loop->second.find("_atom_site_fract_z")!=loop->second.end()) { empty_iucrjournal_block=false; }
+            if(loop->second.find("_atom_site_Cartn_x")!=loop->second.end()) { empty_iucrjournal_block=false; }
+            if(loop->second.find("_atom_site_Cartn_y")!=loop->second.end()) { empty_iucrjournal_block=false; }
+            if(loop->second.find("_atom_site_Cartn_z")!=loop->second.end()) { empty_iucrjournal_block=false; }
           }
         if(empty_iucrjournal_block)
           {
