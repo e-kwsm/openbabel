@@ -118,7 +118,7 @@ namespace OpenBabel
         for(int m=0;m<LAYER_SIZE;m++)
           {
             freq=layer_a[n][m];
-            if (freq == 0) continue;
+            if (freq == 0) { continue; }
             ofs << n+1 << SEP_1 << freq << SEP_1 << m << SEP_0;
             layer_a[n][m]=0;
           }
@@ -134,7 +134,7 @@ namespace OpenBabel
         for(int m=0;m<LAYER_SIZE;m++)
           {
             freq=layer_a[n][m];
-            if (freq == 0) continue;
+            if (freq == 0) { continue; }
             ofs << "<layer depth=\"" << n+1 << "\" "
                 << "frequency=\"" << freq <<"\" "<<"type=\""<< m <<"\"/>";
             layer_a[n][m]=0;
@@ -194,8 +194,9 @@ namespace OpenBabel
   bool MPDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
 
 
@@ -217,12 +218,13 @@ namespace OpenBabel
       {
         name = pConv->GetInFilename();     // string name holds the filename for appending
         unsigned int dotpos=name.find(".");         // removes the extension(s) from the filename
-        if (dotpos < name.length())name.erase(dotpos);
+        if (dotpos < name.length()) { name.erase(dotpos); }
         pre_true = true;
       }
 
-		if(pConv->IsOption("c")) // outputting in XML format
+		if(pConv->IsOption("c")) { // outputting in XML format
 			xml_true=true;
+		}
 
 		if(pConv->IsOption("i")) // using IDX not SBN
       {
@@ -234,12 +236,12 @@ namespace OpenBabel
     if(xml_true==true) // <xml>
       {
         ofs << "<molecule id=\"";
-        if(pre_true==true)ofs << name;
+        if(pre_true==true) { ofs << name; }
         if (str.empty())
           {
             ofs << pConv->GetOutputIndex() << "\">";
           }
-        else ofs << str << pConv->GetOutputIndex() << "\">";
+        else { ofs << str << pConv->GetOutputIndex() << "\">"; }
       } // </xml>
     else{
       if (str.empty())
@@ -263,7 +265,7 @@ namespace OpenBabel
         //  else {otyp=MyType(str);}
         orig = atom->GetIdx();
         if(xml_true==true){ ofs << "<atom type=\"" << otyp << "\">";}
-        else ofs << otyp << SEP_0;
+        else { ofs << otyp << SEP_0; }
 
         vector<OBBond*>::iterator j; // iterate over its neighbours
         for (nbr = atom->BeginNbrAtom(j);nbr;nbr = atom->NextNbrAtom(j))
@@ -279,7 +281,7 @@ namespace OpenBabel
             vector<OBBond*>::iterator k; // iterate again over neighbours
             for (nbr2 = nbr->BeginNbrAtom(k);nbr2;nbr2 = nbr->NextNbrAtom(k))
               {
-                if (nbr2->GetIdx()==orig) continue;
+                if (nbr2->GetIdx()==orig) { continue; }
                 src = nbr2->GetType();
                 ttab.Translate(str,src);
                 // if (idx_true==true){
@@ -289,11 +291,11 @@ namespace OpenBabel
                 layer[1][otyp]=layer[1][otyp]+1;
               } // end k
           } // end j
-        if(xml_true==true)PrintXML(layer,ofs);
-        else PrintLayer(layer,ofs);
+        if(xml_true==true) { PrintXML(layer,ofs); }
+        else { PrintLayer(layer,ofs); }
         //ClearLayer(layer);
       } // end i
-    if(xml_true==true)ofs << "</molecule>";
+    if(xml_true==true) { ofs << "</molecule>"; }
     ofs << endl;
     return(true);
   } // writemolecule

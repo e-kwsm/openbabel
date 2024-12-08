@@ -109,8 +109,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -165,8 +166,9 @@ namespace OpenBabel
                   }
                 }
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           } // if "ATOMIC COORDINATES"
@@ -210,16 +212,19 @@ namespace OpenBabel
             tokenize(vs,buffer);
 	    while(vs.size() > 1) {
               vector<double> x, y, z;
-              for (unsigned int i = 1; i < vs.size(); i++)
+              for (unsigned int i = 1; i < vs.size(); i++) {
                 x.push_back(atof(vs[i].c_str()));
+              }
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);
-              for (unsigned int i = 1; i < vs.size(); i++)
+              for (unsigned int i = 1; i < vs.size(); i++) {
                 y.push_back(atof(vs[i].c_str()));
+              }
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);
-              for (unsigned int i = 1; i < vs.size(); i++)
+              for (unsigned int i = 1; i < vs.size(); i++) {
                 z.push_back(atof(vs[i].c_str()));
+              }
               for (unsigned int i = 0; i < freq.size(); i++) {
                 vib.push_back(vector<vector3>());
                 vib[i].push_back(vector3(x[i], y[i], z[i]));
@@ -270,10 +275,12 @@ namespace OpenBabel
       mol.SetData(vd);
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     mol.SetTitle(title);
@@ -285,8 +292,9 @@ namespace OpenBabel
   bool MolproInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

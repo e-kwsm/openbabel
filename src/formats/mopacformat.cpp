@@ -68,8 +68,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -125,8 +126,9 @@ namespace OpenBabel
                 z = atof((char*)vs[4].c_str());
                 atom->SetVector(x,y,z);
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -149,8 +151,9 @@ namespace OpenBabel
                     atom->SetVector(x,y,z);
                   }
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -168,8 +171,9 @@ namespace OpenBabel
                 z = atof((char*)vs[4].c_str());
 
                 translationVectors[numTranslationVectors++].Set(x, y, z);
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -187,8 +191,9 @@ namespace OpenBabel
                 // CARTESIAN COORDINATES block anyway
                 if (strcmp(vs.at(2).c_str(), "Tv") != 0)
                   {
-                    if (!ifs.getline(buffer,BUFF_SIZE))
+                    if (!ifs.getline(buffer,BUFF_SIZE)) {
                       break;
+                    }
                     tokenize(vs,buffer);
                     continue;
                   }
@@ -212,11 +217,13 @@ namespace OpenBabel
                   break;
                 }
 
-                if (isZ)
+                if (isZ) {
                   translationVectors[numTranslationVectors++].Set(x, y, z);
+                }
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -229,10 +236,11 @@ namespace OpenBabel
 
             while (ifs.getline(buffer,BUFF_SIZE)) {
               tokenize(vs,buffer);
-              if (vs.size() == 0)
+              if (vs.size() == 0) {
                 break;
-              else if (vs.size() < 11)
+              } else if (vs.size() < 11) {
                 break;
+              }
 
               atom = mol.NewAtom();
 
@@ -254,20 +262,23 @@ namespace OpenBabel
             // now fill in the atom ids into the internal coords
             unsigned int idx = 0;
             FOR_ATOMS_OF_MOL (a, mol) {
-              if ((indices[idx] > 0) && (indices[idx] <= mol.NumAtoms()))
+              if ((indices[idx] > 0) && (indices[idx] <= mol.NumAtoms())) {
                 vic[a->GetIdx()]->_a = mol.GetAtom(indices[idx]);
-              else
+              } else {
                 vic[a->GetIdx()]->_a = nullptr;
+              }
 
-              if ((indices[idx+1] > 0) && (indices[idx+1] <= mol.NumAtoms()))
+              if ((indices[idx+1] > 0) && (indices[idx+1] <= mol.NumAtoms())) {
                 vic[a->GetIdx()]->_b = mol.GetAtom(indices[idx+1]);
-              else
+              } else {
                 vic[a->GetIdx()]->_b = nullptr;
+              }
 
-              if ((indices[idx+2] > 0) && (indices[idx+2] <= mol.NumAtoms()))
+              if ((indices[idx+2] > 0) && (indices[idx+2] <= mol.NumAtoms())) {
                 vic[a->GetIdx()]->_c = mol.GetAtom(indices[idx+2]);
-              else
+              } else {
                 vic[a->GetIdx()]->_c = nullptr;
+              }
 
               idx += 3;
             }
@@ -277,8 +288,9 @@ namespace OpenBabel
         else if (strstr(buffer, "DOUBLY OCCUPIED LEVELS") != nullptr)
           {
             tokenize(vs, buffer);
-            if (vs.size() < 9)
+            if (vs.size() < 9) {
               continue;
+            }
             alphaHOMO = atoi(vs[8].c_str());
           }
         else if (strstr(buffer, "EIGENVALUES") != nullptr)
@@ -307,17 +319,20 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);	// column headings
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
+            if (vs.size() < 1) { return false; // timvdm 18/06/2008
+            }
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
-                if (vs.size() < 3) break;
+                if (vs.size() < 3) { break; }
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                if (atom != nullptr)
+                if (atom != nullptr) {
                   atom->SetPartialCharge(atof(vs[2].c_str()));
+                }
                 charges.push_back(atof(vs[2].c_str()));
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -329,25 +344,30 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);	// column headings
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
+            if (vs.size() < 1) { return false; // timvdm 18/06/2008
+            }
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
-                if (vs.size() < 3) break;
+                if (vs.size() < 3) { break; }
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                if (atom != nullptr)
+                if (atom != nullptr) {
                   atom->SetPartialCharge(atof(vs[2].c_str()));
+                }
                 charges.push_back(atof(vs[2].c_str()));
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
             // Now we should be at DIPOLE line. If missing, break out of block
             // and continue parsing file.
-            if (vs.size() == 0 || strstr(vs[0].c_str(), "DIPOLE") != nullptr)
+            if (vs.size() == 0 || strstr(vs[0].c_str(), "DIPOLE") != nullptr) {
               continue;
-            if (!ifs.getline(buffer,BUFF_SIZE))	// POINT CHARGE
+            }
+            if (!ifs.getline(buffer,BUFF_SIZE)) {	// POINT CHARGE
               continue; // let the outer loop handle this
+            }
             ifs.getline(buffer,BUFF_SIZE);	// HYBRID
             ifs.getline(buffer,BUFF_SIZE);	// SUM
             tokenize(vs, buffer);
@@ -364,14 +384,16 @@ namespace OpenBabel
               dipoleMoment->SetOrigin(fileformatInput);
             }
 
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
               break;
+            }
           }
         else if(strstr(buffer,"MASS-WEIGHTED COORDINATE ANALYSIS") != nullptr)
           { // the correct vibrations -- earlier bits aren't mass-weighted
             readingVibrations = true;
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
               break;
+            }
           }
         else if (readingVibrations && strstr(buffer, "Root No.") != nullptr)
           {
@@ -418,8 +440,9 @@ namespace OpenBabel
 
               // OK, now we have x, y, z for all new modes for one atom
               for (unsigned int i = 0; i < modeCount - 1;  ++i) {
-                if (displacements.size() < prevModeCount + i + 1)
+                if (displacements.size() < prevModeCount + i + 1) {
                   displacements.push_back(displacement);
+                }
                 displacements[prevModeCount + i].push_back(vector3(x[i], y[i], z[i]));
               }
 
@@ -433,8 +456,9 @@ namespace OpenBabel
           {
             unsigned int currentIntensity = intensities.size();
             tokenize(vs, buffer);
-            if (vs.size() < 2)
+            if (vs.size() < 2) {
               break;
+            }
 
             double transDipole = atof(vs[1].c_str());
             intensities.push_back(frequencies[currentIntensity] * transDipole * transDipole);
@@ -446,11 +470,13 @@ namespace OpenBabel
       return false;
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
     if (!pConv->IsOption("s",OBConversion::INOPTIONS)
-        && !pConv->IsOption("b",OBConversion::INOPTIONS))
+        && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -468,8 +494,9 @@ namespace OpenBabel
         dp->SetOrigin(fileformatInput);
         mol.SetData(dp);
       }
-    if (dipoleMoment)
+    if (dipoleMoment) {
       mol.SetData(dipoleMoment);
+    }
     if (frequencies.size() != 0) { // we found some vibrations
       OBVibrationData *vd = new OBVibrationData;
       vd->SetData(displacements, frequencies, intensities);
@@ -636,8 +663,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -667,7 +695,7 @@ namespace OpenBabel
         elementSymbol = "";
 
         //First see if this is a comment line - skip comment lines
-        if (buffer[0] == '*') continue;
+        if (buffer[0] == '*') { continue; }
 
         //First see if there is a label defined
         tokenize(vs,buffer,"()");
@@ -683,8 +711,9 @@ namespace OpenBabel
             atomLabel = vs[1];
             strcpy(buffer,vs[2].c_str());
           }
-        else //no label, reset buffer
+        else { //no label, reset buffer
           strcpy(buffer,vs[0].c_str());
+        }
 
         //Now parse the rest of the line
         //There should be three cases:
@@ -692,8 +721,9 @@ namespace OpenBabel
         //2. There are 7 tokens and the first token is a string containing the element symbol
         //3. There are 6 tokens and the first token is a number specifying the Cartesian x coordinate
         tokenize(vs,buffer);
-        if (vs.size() == 0)
+        if (vs.size() == 0) {
           break;
+        }
         else if (vs.size() < 6)
           {
             //TODO Replace with correct OBError.ThrowError() call
@@ -708,10 +738,11 @@ namespace OpenBabel
           }
         else if (vs.size() == 7)
           {
-            if (elementSymbol == "")
+            if (elementSymbol == "") {
               elementSymbol = vs[0];
-            else
+            } else {
               isotopeMass = atof((char*)vs[0].c_str());
+            }
 
             x = atof((char*)vs[1].c_str());
             y = atof((char*)vs[3].c_str());
@@ -745,11 +776,13 @@ namespace OpenBabel
       mol.SetData(uc);
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
     if (!pConv->IsOption("s",OBConversion::INOPTIONS) &&
-        !pConv->IsOption("b",OBConversion::INOPTIONS))
+        !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
     mol.SetTitle(title);
 
     mol.EndModify();
@@ -762,8 +795,9 @@ namespace OpenBabel
   bool MOPACCARTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -777,8 +811,9 @@ namespace OpenBabel
     bool writeUnitCell = nullptr != pConv->IsOption("u", OBConversion::OUTOPTIONS);
     string defaultKeywords = "PUT KEYWORDS HERE";
 
-    if(keywords)
+    if(keywords) {
       defaultKeywords = keywords;
+    }
 
     if (keywordFile)
       {
@@ -786,14 +821,16 @@ namespace OpenBabel
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else {
       ofs << defaultKeywords;
-      if (mol.GetTotalCharge() != 0)
+      if (mol.GetTotalCharge() != 0) {
         ofs << " CHARGE=" << mol.GetTotalCharge();
+      }
       
       // should handle GetTotalSpinMultiplicity() too
       ofs << endl;
@@ -868,8 +905,9 @@ namespace OpenBabel
   bool MOPACINTFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;
@@ -891,10 +929,11 @@ namespace OpenBabel
 
     while (ifs.getline(buffer,BUFF_SIZE)) {
       tokenize(vs,buffer);
-      if (vs.size() == 0)
+      if (vs.size() == 0) {
         break;
-      else if (vs.size() < 10)
+      } else if (vs.size() < 10) {
         return false;
+      }
       atom = mol.NewAtom();
 
       OBInternalCoord *coord = new OBInternalCoord;
@@ -915,20 +954,23 @@ namespace OpenBabel
 
     unsigned int idx = 0;
     FOR_ATOMS_OF_MOL (a, mol) {
-      if ((indices[idx] > 0) && (indices[idx] <= mol.NumAtoms()))
+      if ((indices[idx] > 0) && (indices[idx] <= mol.NumAtoms())) {
         vic[a->GetIdx()]->_a = mol.GetAtom(indices[idx]);
-      else
+      } else {
         vic[a->GetIdx()]->_a = nullptr;
+      }
 
-      if ((indices[idx+1] > 0) && (indices[idx+1] <= mol.NumAtoms()))
+      if ((indices[idx+1] > 0) && (indices[idx+1] <= mol.NumAtoms())) {
         vic[a->GetIdx()]->_b = mol.GetAtom(indices[idx+1]);
-      else
+      } else {
         vic[a->GetIdx()]->_b = nullptr;
+      }
 
-      if ((indices[idx+2] > 0) && (indices[idx+2] <= mol.NumAtoms()))
+      if ((indices[idx+2] > 0) && (indices[idx+2] <= mol.NumAtoms())) {
         vic[a->GetIdx()]->_c = mol.GetAtom(indices[idx+2]);
-      else
+      } else {
         vic[a->GetIdx()]->_c = nullptr;
+      }
 
       idx += 3;
     }
@@ -947,10 +989,12 @@ namespace OpenBabel
     */
     InternalToCartesian(vic,mol);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
     mol.SetTitle(title);
 
     return(true);
@@ -960,8 +1004,9 @@ namespace OpenBabel
   bool MOPACINTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
@@ -972,8 +1017,9 @@ namespace OpenBabel
     vector<OBInternalCoord*> vic;
     vic.push_back(nullptr);
 
-    for (unsigned int i = 0; i<mol.NumAtoms(); i++)
+    for (unsigned int i = 0; i<mol.NumAtoms(); i++) {
       vic.push_back(new OBInternalCoord);
+    }
 
     CartesianToInternal(vic,mol);
 
@@ -992,12 +1038,15 @@ namespace OpenBabel
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else
+    {
       ofs << defaultKeywords << endl;
+    }
 
     ofs << mol.GetTitle() << endl;
     ofs << endl; // comment
@@ -1014,18 +1063,23 @@ namespace OpenBabel
       strncpy(type, OBElements::GetSymbol(atom->GetAtomicNum()), 16);
       type[15] = '\0';
 
-      if (t < 0)
+      if (t < 0) {
         t += 360;
+      }
       snprintf(buffer, BUFF_SIZE, "%-2s %10.6f  1  %10.6f  1  %10.6f  1  ", type, r, w, t);
       ofs << buffer;
-      if (atom->GetIdx() == 1)
+      if (atom->GetIdx() == 1) {
         snprintf(buffer, BUFF_SIZE, "%4d%4d%4d\n", 0, 0, 0);
-      if (atom->GetIdx() == 2)
+      }
+      if (atom->GetIdx() == 2) {
         snprintf(buffer, BUFF_SIZE, "%4d%4d%4d\n", a->GetIdx(), 0, 0);
-      if (atom->GetIdx() == 3)
+      }
+      if (atom->GetIdx() == 3) {
         snprintf(buffer, BUFF_SIZE, "%4d%4d%4d\n", a->GetIdx(), b->GetIdx(), 0);
-      if (atom->GetIdx() >= 4)
+      }
+      if (atom->GetIdx() >= 4) {
         snprintf(buffer, BUFF_SIZE, "%4d%4d%4d\n", a->GetIdx(), b->GetIdx(), c->GetIdx());
+      }
       ofs << buffer;
     }
 
