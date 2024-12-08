@@ -106,8 +106,9 @@ namespace OpenBabel
   bool XYZFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -119,8 +120,9 @@ namespace OpenBabel
 
     unsigned int natoms;	// [ejk] assumed natoms could not be -ve
 
-    if (!ifs)
+    if (!ifs) {
       return false; // we're attempting to read past the end of the file
+    }
 
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
@@ -149,15 +151,17 @@ namespace OpenBabel
       }
     string readTitle(buffer);
     string::size_type location = readTitle.find("Energy");
-    if (location != string::npos)
+    if (location != string::npos) {
       readTitle.erase(location);
+    }
     Trim(readTitle);
 
     location = readTitle.find_first_not_of(" \t\n\r");
-    if (location != string::npos)
+    if (location != string::npos) {
       mol.SetTitle(readTitle);
-    else
+    } else {
       mol.SetTitle(title);
+    }
 
     mol.BeginModify();
 
@@ -208,8 +212,9 @@ namespace OpenBabel
         }
 
         atom->SetAtomicNum(atomicNum);
-        if (atomicNum == 0) // still strange, try using an atom type
+        if (atomicNum == 0) { // still strange, try using an atom type
           atom->SetType(vs[0]);
+        }
 
         // Read the atom coordinates
         char *endptr;
@@ -256,8 +261,9 @@ namespace OpenBabel
           string::size_type decimal = vs[4].find('.');
           if (decimal !=string::npos) { // period found
             double charge = strtod((char*)vs[4].c_str(),&endptr);
-            if (endptr != (char*)vs[4].c_str())
+            if (endptr != (char*)vs[4].c_str()) {
               atom->SetPartialCharge(charge);
+            }
           }
         } // attempt to parse charges
       }
@@ -272,10 +278,12 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -287,8 +295,9 @@ namespace OpenBabel
   bool XYZFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -298,11 +307,12 @@ namespace OpenBabel
 
     snprintf(buffer, BUFF_SIZE, "%d\n", mol.NumAtoms());
     ofs << buffer;
-    if (fabs(mol.GetEnergy()) > 1.0e-3) // nonzero energy field
+    if (fabs(mol.GetEnergy()) > 1.0e-3) { // nonzero energy field
       snprintf(buffer, BUFF_SIZE, "%s\tEnergy: %15.7f\n",
                mol.GetTitle(), mol.GetEnergy());
-    else
+    } else {
       snprintf(buffer, BUFF_SIZE, "%s\n", mol.GetTitle());
+    }
     ofs << buffer;
 
     FOR_ATOMS_OF_MOL(atom, mol)

@@ -112,8 +112,9 @@ bool PubChemFormat::DoElement(const string& name)
 	if(name=="PC-Element")
 	{
 		int AtNumber;
-		if(!_pxmlConv->GetContentInt(AtNumber) || !AtNumber)
+		if(!_pxmlConv->GetContentInt(AtNumber) || !AtNumber) {
 			return false;
+                }
 		AtNum.push_back(AtNumber);
 	}
 
@@ -124,59 +125,70 @@ bool PubChemFormat::DoElement(const string& name)
 	else if(name=="PC-Bonds_aid1_E")
 	{
 		int indx;
-		if(_pxmlConv->GetContentInt(indx))
+		if(_pxmlConv->GetContentInt(indx)) {
 			BondBeginAtIndx.push_back(indx);
+		}
 	}
 	else if(name=="PC-Bonds_aid2_E")
 	{
 		int indx;
-		if(_pxmlConv->GetContentInt(indx))
+		if(_pxmlConv->GetContentInt(indx)) {
 			BondEndAtIndx.push_back(indx);
+		}
 	}
 	else if(name=="PC-BondType")
 	{
 		int order;
-		if(_pxmlConv->GetContentInt(order))
+		if(_pxmlConv->GetContentInt(order)) {
 			BondOrder.push_back(order);
+		}
 	}
 	else if(name=="PC-CoordinateType")
 	{
-		if(_pxmlConv->GetAttribute("value")=="twod")
+		if(_pxmlConv->GetAttribute("value")=="twod") {
 			dim=2;
-		else if(_pxmlConv->GetAttribute("value")=="threed")
+		} else if(_pxmlConv->GetAttribute("value")=="threed") {
 			dim=3;
+		}
 		_pmol->SetDimension(dim);
 	}
 
 	else if(name=="PC-Coordinates_aid_E")
 	{
 		int indx;
-		if(_pxmlConv->GetContentInt(indx))
+		if(_pxmlConv->GetContentInt(indx)) {
 			CoordIndx.push_back(indx);
+		}
 	}
 	else if(name=="PC-Conformer_x_E")
 	{
-		if(ConformerIndx)
+		if(ConformerIndx) {
 			return true; //currently only one conformer is read
+		}
 		double x;
-		if(_pxmlConv->GetContentDouble(x))
+		if(_pxmlConv->GetContentDouble(x)) {
 			Coordx.push_back(x);
+		}
 	}
 	else if(name=="PC-Conformer_y_E")
 	{
-		if(ConformerIndx)
+		if(ConformerIndx) {
 			return true; //currently only one conformer is read
+		}
 		double y;
-		if(_pxmlConv->GetContentDouble(y))
+		if(_pxmlConv->GetContentDouble(y)) {
 			Coordy.push_back(y);
+		}
 	}
 	else if(name=="PC-Conformer_z_E")
 	{
-		if(ConformerIndx)
+		if(ConformerIndx) {
 			return true; //currently only one conformer is read
+		}
 		double z;
-		if(_pxmlConv->GetContentDouble(z))
+		if(_pxmlConv->GetContentDouble(z)) {
 			Coordz.push_back(z);
+		}
 	}
 	return true;
 }
@@ -194,14 +206,16 @@ bool PubChemFormat::EndElement(const string& name)
 	}
 	else if(name=="PC-Bonds")
 	{
-		for(i=0;i<BondBeginAtIndx.size();++i)
+		for(i=0;i<BondBeginAtIndx.size();++i) {
 			_pmol->AddBond(BondBeginAtIndx[i],BondEndAtIndx[i],BondOrder[i]);
+		}
 	}
 	else if(name=="PC-Conformer")
 	{
 		++ConformerIndx;
-		if(Coordz.size()!=Coordx.size())
+		if(Coordz.size()!=Coordx.size()) {
 			Coordz.resize(Coordx.size());
+		}
 		for(i=0;i<CoordIndx.size();++i)
 		{
 			OBAtom* pAtom = _pmol->GetAtom(CoordIndx[i]);
