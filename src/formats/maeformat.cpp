@@ -116,7 +116,7 @@ int MAEFormat::SkipObjects(int n, OBConversion* pConv)
 void MAEFormat::setupReader(OBConversion* pConv)
 {
     if(m_in_filename == pConv->GetInFilename() && 
-            pConv->GetInStream()->tellg() == m_in_location) return;
+            pConv->GetInStream()->tellg() == m_in_location) { return; }
     m_in_filename = pConv->GetInFilename();
 
     // Required for the MaeParser interface, create a shared_ptr w/o
@@ -158,8 +158,9 @@ void MAEFormat::checkEOF(OBConversion* pConv)
 bool MAEFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     setupReader(pConv);
 
@@ -197,7 +198,7 @@ bool MAEFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         const auto bond_atom_1 = bond_atom_1s->at(i);
         const auto bond_atom_2 = bond_atom_2s->at(i);
         // Bonds may be duplicated in MAE format
-        if(bond_atom_1 > bond_atom_2) continue;
+        if(bond_atom_1 > bond_atom_2) { continue; }
         const auto order = orders->at(i);
         const unsigned int flag = 0; // Need to do work here around stereo/kekule
         if (!pmol->AddBond(bond_atom_1, bond_atom_2, order, flag)) {
@@ -309,8 +310,9 @@ shared_ptr<IndexedBlock> MAEFormat::TranslateBondBlock(OBMol* pmol)
 bool MAEFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     // The Writer automatically writes the format block at instantiation, so
     // must use a single writer for all writing

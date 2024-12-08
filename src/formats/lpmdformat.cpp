@@ -135,7 +135,7 @@ bool LpmdFormat::ReadHeader( std::istream &ifs, OBMol &mol )
 bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
  OBMol* pmol = pOb->CastAndClear<OBMol>();
- if (pmol == nullptr) return false;
+ if (pmol == nullptr) { return false; }
 
  N=0;
  std::istream &ifs = *pConv->GetInStream();
@@ -144,7 +144,7 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
  //Read the header only once.
  if(file_line==0)
  {
-  if ( ! ReadHeader( ifs, mol ) ) return false;
+  if ( ! ReadHeader( ifs, mol ) ) { return false; }
  }
  std::stringstream ErrMsg;
  //Read the cell vectors.
@@ -210,14 +210,14 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   for(int i=1 ; i < headers.size() ; ++i) //the first element is HDR
   {
    //Basic information position and atomic symbol.
-   if(headers.at(i).compare("X")==0) from_string<double>(X, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("Y")==0) from_string<double>(Y, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("Z")==0) from_string<double>(Z, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("SYM")==0) symbol = tokens.at(i-1);
+   if(headers.at(i).compare("X")==0) { from_string<double>(X, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("Y")==0) { from_string<double>(Y, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("Z")==0) { from_string<double>(Z, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("SYM")==0) { symbol = tokens.at(i-1); }
    //Velocities
-   if(headers.at(i).compare("VX")==0) from_string<double>(VX, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("VY")==0) from_string<double>(VY, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("VZ")==0) from_string<double>(VZ, tokens.at(i-1), std::dec);
+   if(headers.at(i).compare("VX")==0) { from_string<double>(VX, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("VY")==0) { from_string<double>(VY, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("VZ")==0) { from_string<double>(VZ, tokens.at(i-1), std::dec); }
    //Accelerations
    if(headers.at(i).compare("AX")==0) {from_string<double>(AX, tokens.at(i-1), std::dec);ma++;}
    if(headers.at(i).compare("AY")==0) {from_string<double>(AY, tokens.at(i-1), std::dec);ma++;}
@@ -227,15 +227,15 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
    if(headers.at(i).compare("FY")==0) {from_string<double>(FY, tokens.at(i-1), std::dec);mf++;}
    if(headers.at(i).compare("FZ")==0) {from_string<double>(FZ, tokens.at(i-1), std::dec);mf++;}
    //Charges
-   if(headers.at(i).compare("CHG")==0) from_string<double>(CHG, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("PHG")==0) from_string<double>(CHG, tokens.at(i-1), std::dec);
-   if(headers.at(i).compare("FHG")==0) from_string<double>(FCH, tokens.at(i-1), std::dec);
+   if(headers.at(i).compare("CHG")==0) { from_string<double>(CHG, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("PHG")==0) { from_string<double>(CHG, tokens.at(i-1), std::dec); }
+   if(headers.at(i).compare("FHG")==0) { from_string<double>(FCH, tokens.at(i-1), std::dec); }
   }
   atom->SetVector(unitcell->FractionalToCartesian(vector3(X,Y,Z)));
   int atomicNum = OBElements::GetAtomicNum(symbol.c_str());
   atom->SetAtomicNum(atomicNum);
   //Conditional or zero??
-  if( CHG!=0.0e0 ) atom->SetPartialCharge(CHG);
+  if( CHG!=0.0e0 ) { atom->SetPartialCharge(CHG); }
   //Always fill it?
   if(ma!=0 && mf ==0)
   {
@@ -256,13 +256,16 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
  mol.SetData(conformer);
 
  while(ifs.peek() != EOF && ifs.good() &&
-       (ifs.peek() == '\n' || ifs.peek() == '\r'))
+       (ifs.peek() == '\n' || ifs.peek() == '\r')) {
    ifs.getline(buffer,BUFF_SIZE);
+ }
 
- if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+ if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
     mol.ConnectTheDots();
- if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+ }
+ if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
     mol.PerceiveBondOrders();
+ }
 
  mol.EndModify();
  return true;
@@ -273,7 +276,7 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
- if (pmol == nullptr) return false;
+ if (pmol == nullptr) { return false; }
 
  ostream& ofs = *pConv->GetOutStream();
  OBMol &mol = *pmol;
@@ -332,18 +335,18 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  const char* p = pConv->IsOption("f");
  const char* q = pConv->IsOption("m");
  const char* r = pConv->IsOption("e");
- if(p) level = atoi(p);
- if(q) mode  = atoi(q);
- if(r) charge = true;
+ if(p) { level = atoi(p); }
+ if(q) { mode  = atoi(q); }
+ if(r) { charge = true; }
 
  if(pConv->GetOutputIndex()==1)
  {
   ofs << "LPMD 2.0 L\n" ;
   ofs << "HDR X Y Z ";
-  if(level>=1) ofs << "VX VY VZ ";
-  if(level>=2 && mode==0) ofs << "AX AY AZ ";
-  if(level>=2 && mode==1) ofs << "FX FY FZ ";
-  if(charge) ofs << "CHG ";
+  if(level>=1) { ofs << "VX VY VZ "; }
+  if(level>=2 && mode==0) { ofs << "AX AY AZ "; }
+  if(level>=2 && mode==1) { ofs << "FX FY FZ "; }
+  if(charge) { ofs << "CHG "; }
   ofs << '\n';
  }
 

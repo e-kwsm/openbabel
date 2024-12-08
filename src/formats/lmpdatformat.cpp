@@ -78,8 +78,9 @@ namespace OpenBabel
   bool LMPDATFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -237,19 +238,25 @@ namespace OpenBabel
     vmin.Set( 10E10, 10E10, 10E10);
     FOR_ATOMS_OF_MOL(a,mol)
     {
-        if (a->x() < vmin.x())
+        if (a->x() < vmin.x()) {
             vmin.SetX(a->x());
-        if (a->y() < vmin.y())
+        }
+        if (a->y() < vmin.y()) {
             vmin.SetY(a->y());
-        if (a->z() < vmin.z())
+        }
+        if (a->z() < vmin.z()) {
             vmin.SetZ(a->z());
+        }
 
-        if (a->x() > vmax.x())
+        if (a->x() > vmax.x()) {
             vmax.SetX(a->x());
-        if (a->y() > vmax.y())
+        }
+        if (a->y() > vmax.y()) {
             vmax.SetY(a->y());
-        if (a->z() > vmax.z())
+        }
+        if (a->z() > vmax.z()) {
             vmax.SetZ(a->z());
+        }
     }
 
     //For now, a simple cube may be the best way to go.
@@ -267,12 +274,12 @@ namespace OpenBabel
     {
 	    double cmin=10e-10;
 	    double cmax=-10e10;
-	    if ( vmax.x() > cmax ) cmax=vmax.x();
-	    if ( vmax.y() > cmax ) cmax=vmax.y();
-	    if ( vmax.z() > cmax ) cmax=vmax.z();
-	    if ( vmin.x() < cmin ) cmin=vmin.x();
-	    if ( vmin.y() < cmin ) cmin=vmin.y();
-	    if ( vmin.z() < cmin ) cmin=vmin.z();
+	    if ( vmax.x() > cmax ) { cmax=vmax.x(); }
+	    if ( vmax.y() > cmax ) { cmax=vmax.y(); }
+	    if ( vmax.z() > cmax ) { cmax=vmax.z(); }
+	    if ( vmin.x() < cmin ) { cmin=vmin.x(); }
+	    if ( vmin.y() < cmin ) { cmin=vmin.y(); }
+	    if ( vmin.z() < cmin ) { cmin=vmin.z(); }
 
 	    double length=cmax-cmin;
 	    xlo = cmin -0.5;//- 0.01*length;
@@ -323,25 +330,31 @@ namespace OpenBabel
 	    {
 		    if(strcmp(selectCharges,"spce")==0)
 		    {
-			    if(itr->second == 15.9994)
+			    if(itr->second == 15.9994) {
 				    AtomCharge[itr->first] = -0.8472;
-			    if(itr->second == 1.00794) 
+			    }
+			    if(itr->second == 1.00794) { 
 				    AtomCharge[itr->first] =  0.4236;
+			    }
 		    }
 		    else if(strcmp(selectCharges,"spc")==0)
 		    {
-			    if(itr->second == 15.9994)
+			    if(itr->second == 15.9994) {
 				    AtomCharge[itr->first] = -0.820;
-			    if(itr->second == 1.00794) 
+			    }
+			    if(itr->second == 1.00794) { 
 				    AtomCharge[itr->first] =  0.410;
+			    }
 		    }
 	    }
 	    else
 	    {
-		    if(itr->second == 15.9994)
+		    if(itr->second == 15.9994) {
 			    AtomCharge[itr->first] = -0.820;
-		    if(itr->second == 1.00794) 
+		    }
+		    if(itr->second == 1.00794) { 
 			    AtomCharge[itr->first] =  0.410;
+		    }
 	    }
 
     }

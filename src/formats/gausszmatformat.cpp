@@ -75,8 +75,9 @@ namespace OpenBabel
   bool GaussianZMatrixInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -98,16 +99,19 @@ namespace OpenBabel
       string method;
 
       OBPairData *pd = (OBPairData *) pmol->GetData("model");
-      if(pd)
+      if(pd) {
         model = pd->GetValue();
+      }
 
       pd = (OBPairData *) pmol->GetData("basis");
-      if(pd)
+      if(pd) {
         basis = pd->GetValue();
+      }
 
       pd = (OBPairData *) pmol->GetData("method");
-      if(pd)
+      if(pd) {
         method = pd->GetValue();
+      }
 
       if(method == "optimize") {
         method = "opt";
@@ -125,8 +129,9 @@ namespace OpenBabel
       ifstream kfstream(keywordFile);
       string keyBuffer;
       if (kfstream) {
-        while (getline(kfstream, keyBuffer))
+        while (getline(kfstream, keyBuffer)) {
           ofs << keyBuffer << "\n";
+        }
       }
     }
     else {
@@ -201,11 +206,13 @@ namespace OpenBabel
       {
         r = vic[atom->GetIdx()]->_dst;
         w = vic[atom->GetIdx()]->_ang;
-				if (w < 0.0)
+				if (w < 0.0) {
 					w += 360.0;
+				}
         t = vic[atom->GetIdx()]->_tor;
-				if (t < 0.0)
+				if (t < 0.0) {
 					t += 360.0;
+				}
 
 				switch(atom->GetIdx())
           {
@@ -243,8 +250,9 @@ namespace OpenBabel
   bool GaussianZMatrixInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -269,15 +277,19 @@ namespace OpenBabel
     mol.BeginModify();
 
     //@todo: Read keywords from this line
-    while (ifs.getline(buffer,BUFF_SIZE))
-      if (strncmp(buffer,"#", 1) == 0) // begins with '#'
+    while (ifs.getline(buffer,BUFF_SIZE)) {
+      if (strncmp(buffer,"#", 1) == 0) { // begins with '#'
 			  break;
+      }
+    }
 
 		while (ifs.getline(buffer,BUFF_SIZE)) { // blank line, title, blank, then we begin
-			if (strlen(buffer) == 0)
+			if (strlen(buffer) == 0) {
 				blankLines++;
-			if (blankLines == 2)
+			}
+			if (blankLines == 2) {
 				break;
+			}
 		}
 
     ifs.getline(buffer,BUFF_SIZE); // Charge = # Multiplicty = #
@@ -291,9 +303,9 @@ namespace OpenBabel
 		// We read through atom lines and cache them (into atomLines)
 		while (ifs.getline(buffer,BUFF_SIZE)) {
 			if (strlen(buffer) == 0) {
-        if (foundVariables)
+        if (foundVariables) {
           break; // blank line after variable section
-        else {
+        } else {
           readVariables = true;
           continue;
         }
@@ -337,10 +349,11 @@ namespace OpenBabel
           vic[j]->_a = mol.GetAtom(atoi(vs[1].c_str()));
 
           temp = strtod((char*)vs[2].c_str(), &endptr);
-          if (endptr != (char*)vs[2].c_str())
+          if (endptr != (char*)vs[2].c_str()) {
             vic[j]->_dst = temp;
-          else
+          } else {
             vic[j]->_dst = variables[vs[2].c_str()];
+          }
         }
 
         if (j >= 3) {
@@ -348,10 +361,11 @@ namespace OpenBabel
           vic[j]->_b = mol.GetAtom(atoi(vs[3].c_str()));
 
           temp = strtod((char*)vs[4].c_str(), &endptr);
-          if (endptr != (char*)vs[4].c_str())
+          if (endptr != (char*)vs[4].c_str()) {
             vic[j]->_ang = temp;
-          else
+          } else {
             vic[j]->_ang = variables[vs[4].c_str()];
+          }
         }
 
         if (j >= 4) {
@@ -363,10 +377,11 @@ namespace OpenBabel
             vic[j]->_tor = temp;
           } else {
             const char* tor_str = vs[6].c_str();
-            if (tor_str[0] == '-')
+            if (tor_str[0] == '-') {
               vic[j]->_tor = -1 * variables[tor_str+1];
-            else
+            } else {
               vic[j]->_tor = variables[tor_str];
+            }
           }
         }
       }
@@ -379,10 +394,12 @@ namespace OpenBabel
 
 		InternalToCartesian(vic,mol);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -409,8 +426,9 @@ _strcasestr(const char *s, const char *pattern)
 
     while (*s)
     {
-	if (strncasecmp(s, pattern, length) == 0)
+	if (strncasecmp(s, pattern, length) == 0) {
 	    return s;
+	}
 	s++;
     }
     return nullptr;
