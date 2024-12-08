@@ -188,23 +188,28 @@ private:
 
     for (i=0; i<ntatoms; i++)
     {
-        if (i > 0)
+        if (i > 0) {
             strcat(semis,";");
+        }
 
         n = 0;
-        for (j=0; j<nbonds; j++)
-            if (conntab[j][2] == (i+1))
+        for (j=0; j<nbonds; j++) {
+            if (conntab[j][2] == (i+1)) {
                 icons[n++] = conntab[j][3];
+            }
+        }
         if (n > 1)
         {
-            for (j=0; j<n-1; j++)
-                for (k=j+1; k<n; k++)
+            for (j=0; j<n-1; j++) {
+                for (k=j+1; k<n; k++) {
                     if (icons[k] < icons[j])
                     {
                         nn = icons[j];
                         icons[j] = icons[k];
                         icons[k] = nn;
                     }
+                }
+            }
 
         }
         comma = 0;
@@ -246,8 +251,8 @@ private:
     int  mx[MAXFRAGS];
 
 	//stack overflow message-move data from stack to heap
-	for (i=0; i<=MAXFRAGS; i++) strngs[i]=(char *)calloc(MAXFRAGS,sizeof(char));
-    for (i=0; i<MAXBONDS; i++)  nsum[i]=(int *) calloc(MAXFRAGS,sizeof(int));
+	for (i=0; i<=MAXFRAGS; i++) { strngs[i]=(char *)calloc(MAXFRAGS,sizeof(char)); }
+    for (i=0; i<MAXBONDS; i++) { nsum[i]=(int *) calloc(MAXFRAGS,sizeof(int)); }
 
     // depth = recursion level
     if (depth > 10)
@@ -256,13 +261,15 @@ private:
         return;
         //exitprog(freeflag);
     }
-    if (depth > maxdepth)
+    if (depth > maxdepth) {
         maxdepth = depth;
+    }
 
     for (i=0; i<nbonds; i++)
     {
-        for (j=0; j<4; j++)
+        for (j=0; j<4; j++) {
             conntab[i][j] = z[i][j];
+        }
         mx[conntab[i][0]-1] = conntab[i][2];
     }
 
@@ -273,17 +280,20 @@ private:
         for (i=0; i<ntatoms; i++)
         {
             ix[i] = mx[i];
-            if (ix[i] != mx[0])
+            if (ix[i] != mx[0]) {
                 jflag = true;
+            }
         }
     }
 
     iflag = true;
     while (iflag)
     {
-        if (jflag)
-            for (i=0; i<ntatoms; i++)
+        if (jflag) {
+            for (i=0; i<ntatoms; i++) {
                 ix[i] = 0;
+            }
+        }
 
             nt = 1;
             ktype = 1;
@@ -294,11 +304,12 @@ private:
             for (j=0; j<ntatoms; j++)
             {
                    lflag[j] = false;
-                for (i=0; i<nbonds; i++)
+                for (i=0; i<nbonds; i++) {
                        nsum[i][j] = 0;
+                }
             }
 
-            for (i=0; i<nbonds; i++)
+            for (i=0; i<nbonds; i++) {
             if (conntab[i][2] == nt)
             {
                 j = conntab[i][0]-1;
@@ -306,24 +317,33 @@ private:
                 nsum[j][k]++;
                 lflag[j] = true;
             }
+        }
 
                 nn = 0;
 
             for (i=0; i<ntatoms; i++)
+            {
             if (lflag[i])
             {
                 for (j=0; j<ntypes; j++)
+                {
                     strg[j] = nsum[i][j]+48;
+                }
                 strg[ntypes] = '\0';
                 newone = true;
                 for (j=0; j<nn; j++)
+                {
                     if (strcmp(strngs[j],strg) == 0)
                     {    newone = false;
                         break;
                     }
+                }
                 if (newone)
+                {
                     strcpy(strngs[nn++],strg);
+                }
             }
+        }
 
             if (nn > 1)
             {
@@ -331,7 +351,9 @@ private:
 
             // sort strings
             for (i=0; i<nn-1; i++)
+            {
                 for (j=i+1; j<nn; j++)
+                {
                     if (strcmp(strngs[j],strngs[i]) > 0)
                     {
                     strcpy(tstr,strngs[i]);
@@ -339,17 +361,27 @@ private:
                     strcpy(strngs[j],tstr);
                     }
                 }
+            }
+                }
 
             for (i=0; i<ntatoms; i++)
+            {
             if (lflag[i])
             {
                 for (j=0; j<ntypes; j++)
+                {
                     strg[j] = nsum[i][j]+48;
+                }
                 strg[ntypes] = '\0';
                 for (j=0; j<nn; j++)
+                {
                     if (strcmp(strg,strngs[j]) == 0)
+                    {
                         ix[i] = ktype+j;
+                    }
+                }
             }
+        }
 
                 nt++;
                 ktype += nn;
@@ -361,11 +393,15 @@ private:
             conntab[i][2] = ix[conntab[i][0]-1];
             conntab[i][3] = ix[conntab[i][1]-1];
             if (conntab[i][2] > ntypes)
+            {
                 ntypes = conntab[i][2];
+            }
         }
 
             if (iflag)
+            {
             continue;
+            }
 
         if (ntypes < ntatoms)
         {
@@ -373,11 +409,13 @@ private:
             {
             numdups = 0;
             for (i=0; i<ntatoms; i++)
+            {
                 if (ix[i] == j+1)
                 {
                     numdups++;
                     jump = ix[i] - mx[i];
                 }
+            }
             if (numdups > 1)
             {
                 dupfrag = j+1;
@@ -386,25 +424,33 @@ private:
             }
 
             for (i=0; i<ntatoms; i++)
+            {
                 cx[i] = ix[i];
+            }
 
             for (j=0; j<numdups; j++)
             {
                 for (i=0; i<ntatoms; i++)
+                {
                     ix[i] = cx[i];
+                }
 
             dupnum = 0;
                 for (i=0; i<ntatoms; i++)
             {
                 if (ix[i] > dupfrag)
+                {
                     ix[i] = mx[i] + jump + 1;
+                }
                 else if (ix[i] == dupfrag && j != dupnum)
                 {
                     dupnum++;
                     ix[i] = mx[i] + jump + 1;
                 }
                 else if (ix[i] == dupfrag && j == dupnum)
+                {
                     dupnum++;
+                }
             }
 
             ntypes = 0;
@@ -413,7 +459,9 @@ private:
                 conntab[i][2] = ix[conntab[i][0]-1];
                 conntab[i][3] = ix[conntab[i][1]-1];
                 if (conntab[i][2] > ntypes)
+                {
                     ntypes = conntab[i][2];
+                }
                 }
                 solve(ntypes,conntab,depth+1);
             }
@@ -429,10 +477,16 @@ private:
             kflag++;
       finalstr=constring(conntab,tstr);
             for (i=0; i<ntatoms; i++)
+            {
                 qx[i] = ix[i];
+            }
             for (i=0; i<nbonds; i++)
+            {
                 for (j=0; j<4; j++)
+                {
                     qa[i][j] = conntab[i][j];
+                }
+            }
         }
         else if (finalstr != constring(conntab,tstr))
         {
@@ -448,28 +502,40 @@ private:
                 for (j=0; j<nbonds; j++)
                 {
                     if (conntab[j][2] == (i+1))
+                    {
                            tstr[conntab[j][3]-1] = '1';
+                    }
                     if (qa[j][2] == (i+1))
+                    {
                            strg[qa[j][3]-1] = '1';
+                    }
                 }
                 if (strcmp(tstr,strg) < 0)
+                {
                        break;
+                }
                 if (strcmp(tstr,strg) > 0)
                 {
                     finalstr=constring(conntab,tstr);
                     for (j=0; j<ntatoms; j++)
+                    {
                         qx[j] = ix[j];
+                    }
                     for (j=0; j<nbonds; j++)
+                    {
                         for (k=0; k<4; k++)
+                        {
                             qa[j][k] = conntab[j][k];
+                        }
+                    }
                     break;
                 }
             }
         }
     }
 	//freeing resources
-	for (i=0; i<=MAXFRAGS; i++) free(strngs[i]);
-	for (i=0; i< MAXBONDS; i++) free(nsum[i]);
+	for (i=0; i<=MAXFRAGS; i++) { free(strngs[i]); }
+	for (i=0; i< MAXBONDS; i++) { free(nsum[i]); }
 }
 
 
@@ -547,7 +613,9 @@ private:
     ntypes = 0;
     ntatoms = 0;
     for (i=0; i<MAXFRAGS; i++)
+    {
         ifragnum[i] = 0;
+    }
 
     chgflag = 0;
     netcharge = 0;
@@ -584,12 +652,13 @@ private:
     while (i < naStore) {
       if ((nConn[i] == 1) && (nHydr[i] == 0)) {
         k=-1;
-        for (j=0; j<nbStore; j++) if ((bonds[j][0] == (i+1)) || (bonds[j][1] == (i+1))) {
+        for (j=0; j<nbStore; j++) { if ((bonds[j][0] == (i+1)) || (bonds[j][1] == (i+1))) {
           k=j;
           break;
         }
+        }
         if (k>=0) {
-          if (bonds[k][0] == (i+1)) nn=bonds[k][1]-1; else nn=bonds[k][0]-1;
+          if (bonds[k][0] == (i+1)) { nn=bonds[k][1]-1; } else { nn=bonds[k][0]-1; }
           aCharge[nn]=aCharge[nn]+aCharge[i];
           aRadical[nn]=aRadical[nn]+aRadical[i];
           aSymb[nn]=aSymb[nn]+aSymb[i];
@@ -602,8 +671,8 @@ private:
             aNumber[j]=aNumber[j+1];
           };
           for (j=0; j<nbStore; j++) {
-            if (bonds[j][0] > (i+1)) bonds[j][0]--;
-            if (bonds[j][1] > (i+1)) bonds[j][1]--;
+            if (bonds[j][0] > (i+1)) { bonds[j][0]--; }
+            if (bonds[j][1] > (i+1)) { bonds[j][1]--; }
           };
           for (j=k; j<(nbStore-1); j++) {
             bonds[j][0]=bonds[j+1][0];
@@ -621,19 +690,21 @@ private:
 //Ald without fragcon
   for (i=1; i<=naStore; i++) {
       charge=aCharge[i-1];
-      if (charge != 0) chgflag = 1;
-      if (aRadical[i-1] != 0) radicalflag=1;
+      if (charge != 0) { chgflag = 1; }
+      if (aRadical[i-1] != 0) { radicalflag=1; }
       ntatoms++;
       newone = 1;
       frag=aSymb[i-1];
       j=nHydr[i-1];
-      if (j>0) for (l=0; l<j; l++) {
+      if (j>0) { for (l=0; l<j; l++) {
         frag=frag+"H";
-      };
-      for (j=0; j<ntypes; j++) if (fragment[j] == frag) {
+      }
+      }
+      for (j=0; j<ntypes; j++) { if (fragment[j] == frag) {
         ifragnum[j]++;
         newone = 0;
         break;
+      }
       }
       if (newone != 0) {
         fragment[ntypes]=frag;
@@ -644,7 +715,7 @@ private:
 
     ltypes=ntypes;
 // order fragment types in ASCII order
-    for (i=0; i<ntypes-1; i++) for (j=i+1; j<ntypes; j++) if (fragment[j] < fragment[i]) {
+    for (i=0; i<ntypes-1; i++) { for (j=i+1; j<ntypes; j++) { if (fragment[j] < fragment[i]) {
       frag=fragment[i];
       fragment[i]=fragment[j];
       fragment[j]=frag;
@@ -652,15 +723,18 @@ private:
       ifragnum[i] = ifragnum[j];
       ifragnum[j] = k;
     }
+    }
+    }
 // reread the fragments
 // ix[i]: fragment type of fragment i
     for (i=1; i<=ntatoms; i++) {
       frag=aSymb[i-1];
       j=nHydr[i-1];
-      if (j>0) for (l=0; l<j; l++) {
+      if (j>0) { for (l=0; l<j; l++) {
         frag=frag+"H";
-      };
-      for (j=0; j<ntypes; j++) if (frag == fragment[j]) ix[i-1] = j+1;
+      }
+      }
+      for (j=0; j<ntypes; j++) { if (frag == fragment[j]) { ix[i-1] = j+1; } }
     }
 
 //FRAGCON format atoms conversion
@@ -673,13 +747,14 @@ private:
       ia1=bonds[i-1][1];
 
       newone = 1;
-      for (j=0; j<nbonds; j++)
+      for (j=0; j<nbonds; j++) {
           if ((ia[j][0] == ia0 && ia[j][1] == ia1) ||
               (ia[j][0] == ia1 && ia[j][1] == ia0))
           {
               newone = 0;
               break;
           }
+      }
       if (newone == 1) {
         ia[nbonds][0] = ia0;
         ia[nbonds][1] = ia1;
@@ -693,16 +768,17 @@ private:
         ia[i][2] = ix[ia[i][0]-1];
         ia[i][3] = ix[ia[i][1]-1];
     };
-    for (i=0; i<nbonds; i++) for (j=0; j<4; j++) {
+    for (i=0; i<nbonds; i++) { for (j=0; j<4; j++) {
       z[i][j] = ia[i][j];
-    };
+    }
+    }
     maxdepth = 1;
 
         // data ready for solution
     solve(ntypes,z,1);
 
-    for (i=0; i<ntatoms; i++) ix[i] = qx[i];
-    for (i=0; i<nbonds; i++) for (j=0; j<4; j++) ia[i][j] = qa[i][j];
+    for (i=0; i<ntatoms; i++) { ix[i] = qx[i]; }
+    for (i=0; i<nbonds; i++) { for (j=0; j<4; j++) { ia[i][j] = qa[i][j]; } }
 
 //atoms stereo getting
     astereo=getAtomMCDL(pmol,ntatoms,ix,aNumber,atomStereoList,eqList);
@@ -710,18 +786,19 @@ private:
     bstereo=getBondMCDL(pmol,nbStore,ntatoms,ix,aNumber,bonds,bondStereoList,eqList);
 
     // original and final fragment numbers
-    if (chgflag != 0) for (i=0; i<ntatoms; i++) nchg[ix[i]] = aCharge[i];
-    if (radicalflag != 0) for (i=0; i<ntatoms; i++) nrad[ix[i]] = aRadical[i];
+    if (chgflag != 0) { for (i=0; i<ntatoms; i++) { nchg[ix[i]] = aCharge[i]; } }
+    if (radicalflag != 0) { for (i=0; i<ntatoms; i++) { nrad[ix[i]] = aRadical[i]; } }
 
     // net charge
     data="";
     if (netcharge != 0)
     {
-        if (netcharge > 0)
+        if (netcharge > 0) {
             data=data+intToStr(netcharge)+"+;";
-        else data=data+intToStr(abs(netcharge))+"-;";
+        }
+        else { data=data+intToStr(abs(netcharge))+"-;"; }
     }
-    if (netradical != 0) data=data+intToStr(netradical)+"*;";
+    if (netradical != 0) { data=data+intToStr(netradical)+"*;"; }
     // fragment portion of linear descriptor
     for (i=0; i<ltypes; i++) {
       if (i > 0) {
@@ -741,12 +818,14 @@ private:
         semis=semis+";";
       }
       n = 0;
-      for (j=0; j<nbonds; j++) if (ia[j][2] == (i+1)) icons[n++] = ia[j][3];
+      for (j=0; j<nbonds; j++) { if (ia[j][2] == (i+1)) { icons[n++] = ia[j][3]; } }
       if (n > 1) {
-        for (j=0; j<n-1; j++) for (k=j+1; k<n; k++) if (icons[k] < icons[j]) {
+        for (j=0; j<n-1; j++) { for (k=j+1; k<n; k++) { if (icons[k] < icons[j]) {
           nn = icons[j];
           icons[j] = icons[k];
           icons[k] = nn;
+        }
+        }
         }
       }
       comma = 0;
@@ -769,11 +848,13 @@ private:
     // fragment charges
     if (chgflag != 0) {
       nt = 0;
-      for (n=-3; n<4; n++) for (i=0; i<ntatoms; i++) if ((nchg[ix[i]] == n) && (n != 0)) {
+      for (n=-3; n<4; n++) { for (i=0; i<ntatoms; i++) { if ((nchg[ix[i]] == n) && (n != 0)) {
         chgarray[nt][0] = n;
         chgarray[nt++][1] = ix[i];
       }
-      for (i=0; i<nt-1; i++) for (j=i; j<nt; j++) if (chgarray[i][0] > chgarray[j][0]) {
+      }
+      }
+      for (i=0; i<nt-1; i++) { for (j=i; j<nt; j++) { if (chgarray[i][0] > chgarray[j][0]) {
         k = chgarray[i][0];
         n = chgarray[i][1];
         chgarray[i][0] = chgarray[j][0];
@@ -781,37 +862,46 @@ private:
         chgarray[j][0] = k;
         chgarray[j][1] = n;
       }
-      for (i=0; i<nt-1; i++) for (j=i; j<nt; j++) if ((chgarray[i][0] == chgarray[j][0]) && (chgarray[i][1] > chgarray[j][1])) {
+      }
+      }
+      for (i=0; i<nt-1; i++) { for (j=i; j<nt; j++) { if ((chgarray[i][0] == chgarray[j][0]) && (chgarray[i][1] > chgarray[j][1])) {
         n = chgarray[i][1];
         chgarray[i][1] = chgarray[j][1];
         chgarray[j][1] = n;
       }
+      }
+      }
       line="";
       for (i=-1; i>-4; i--) {
         n = 0;
-        for (j=0; j<nt; j++) if (chgarray[j][0] == i) n++;
+        for (j=0; j<nt; j++) { if (chgarray[j][0] == i) { n++; } }
         if (n > 0) {
-          for (j=0; j<nt; j++) if (chgarray[j][0] == i) {
-            if (chgarray[j][1] == 0)
+          for (j=0; j<nt; j++) { if (chgarray[j][0] == i) {
+            if (chgarray[j][1] == 0) {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(abs(i))+"-";//Math.abs(i)+"-1";
-            else
+            } else {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(abs(i))+"-";//Math.abs(i)+"-"+chgarray[j][1];
-            if (line.length() > 0) line=line+";";
+            }
+            if (line.length() > 0) { line=line+";";
+            }
             line=line+frag;
+          }
           }
         }
       }
       for (i=1; i<4; i++){
         n = 0;
-        for (j=0; j<nt; j++) if (chgarray[j][0] == i) n++;
+        for (j=0; j<nt; j++) { if (chgarray[j][0] == i) { n++; } }
         if (n > 0) {
-          for (j=0; j<nt; j++) if (chgarray[j][0] == i) {
-            if (chgarray[j][1] == 0)
+          for (j=0; j<nt; j++) { if (chgarray[j][0] == i) {
+            if (chgarray[j][1] == 0) {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"+";//i+"+1";
-            else
+            } else {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"+";
-            if (line.length() > 0) line=line+";";
+            }
+            if (line.length() > 0) { line=line+";"; }
             line=line+frag;
+          }
           }
         }
       }
@@ -830,11 +920,13 @@ private:
         chgarray[i][1]=0;
       };
       nt = 0;
-      for (n=1; n<3; n++) for (i=0; i<ntatoms; i++) if (nrad[ix[i]] == n) {
+      for (n=1; n<3; n++) { for (i=0; i<ntatoms; i++) { if (nrad[ix[i]] == n) {
         chgarray[nt][0] = n;
         chgarray[nt++][1] = ix[i];
       }
-      for (i=0; i<nt-1; i++) for (j=i; j<nt; j++) if (chgarray[i][0] > chgarray[j][0]) {
+      }
+      }
+      for (i=0; i<nt-1; i++) { for (j=i; j<nt; j++) { if (chgarray[i][0] > chgarray[j][0]) {
         k = chgarray[i][0];
         n = chgarray[i][1];
         chgarray[i][0] = chgarray[j][0];
@@ -842,23 +934,30 @@ private:
         chgarray[j][0] = k;
         chgarray[j][1] = n;
       }
-      for (i=0; i<nt-1; i++) for (j=i; j<nt; j++) if ((chgarray[i][0] == chgarray[j][0]) && (chgarray[i][1] > chgarray[j][1])) {
+      }
+      }
+      for (i=0; i<nt-1; i++) { for (j=i; j<nt; j++) { if ((chgarray[i][0] == chgarray[j][0]) && (chgarray[i][1] > chgarray[j][1])) {
         n = chgarray[i][1];
         chgarray[i][1] = chgarray[j][1];
         chgarray[j][1] = n;
       }
+      }
+      }
       line="";
       for (i=1; i<3; i++){
         n = 0;
-        for (j=0; j<nt; j++) if (chgarray[j][0] == i) n++;
+        for (j=0; j<nt; j++) { if (chgarray[j][0] == i) { n++; } }
         if (n > 0) {
-          for (j=0; j<nt; j++) if (chgarray[j][0] == i) {
-            if (chgarray[j][1] == 0)
+          for (j=0; j<nt; j++) { if (chgarray[j][0] == i) {
+            if (chgarray[j][1] == 0) {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"*";
-            else
+            } else {
               frag=""+intToStr(chgarray[j][1])+","+intToStr(i)+"*";
-            if (line.length() > 0) line=line+";";
+            }
+            if (line.length() > 0) { line=line+";";
+            }
             line=line+frag;
+          }
           }
         }
       }
@@ -1031,8 +1130,8 @@ private:
     if (n>0) {
       s=value.substr(0,n);
       n1=indexOf(s,"+");
-      if (n1 < 0) n1=indexOf(s,"-");
-      if (n1 < 0) n1=indexOf(s,"*");
+      if (n1 < 0) { n1=indexOf(s,"-"); }
+      if (n1 < 0) { n1=indexOf(s,"*"); }
       if (n1 < 0) {
         n=0;
         test=true;
@@ -1042,7 +1141,7 @@ private:
       s=value.substr(0,n);
       if ((s.at(s.length()-1) == '+') || (s.at(s.length()-1) == '-')) {
         //total charge processing
-        if (s.at(s.length()-1) == '+') netcharge=1; else netcharge=-1;
+        if (s.at(s.length()-1) == '+') { netcharge=1; } else { netcharge=-1; }
         s=s.substr(0,s.length()-1);
         n1=atoi(s.c_str());
         netcharge=netcharge*n1;
@@ -1053,9 +1152,10 @@ private:
         netradical=n1;
       };
       value=value.substr(n+1,value.length());
-      if (value.length() > 0) if (value.at(0) == ';'){
+      if (value.length() > 0) { if (value.at(0) == ';') {
         value=value.substr(1);
-      };
+      }
+      }
     };
   };
 
@@ -1088,7 +1188,7 @@ private:
   };
   if ((netcharge != 0) && (chargestring == "")) {
     chargestring = "1," +intToStr(abs(netcharge));
-    if (netcharge < 0) chargestring=chargestring+"-"; else chargestring=chargestring+"+";
+    if (netcharge < 0) { chargestring=chargestring+"-"; } else { chargestring=chargestring+"+"; }
   };
   //radical processing
   n1=indexOf(value,fradstart);
@@ -1121,11 +1221,11 @@ private:
     if (n1<0) {
       n1=n2;
     } else {
-      if ((n2<n1) && (n2>=0)) n1=n2;
+      if ((n2<n1) && (n2>=0)) { n1=n2; }
     };
     mf=value.substr(0,n1);
     value=value.substr(n1,value.length());
-    if (value.at(0)==';') value=value.substr(1,value.length());
+    if (value.at(0)==';') { value=value.substr(1,value.length()); }
     n1=1;
     if ((mf.at(0)>='0') && (mf.at(0)<='9')) {
       test=true;
@@ -1145,7 +1245,7 @@ private:
       if (n2<(mf.length()-2)) {
         ss=mf.substr(mf.length()-1,mf.length());
         k=atoi(ss.c_str())+1;//Integer.parseInt(ss)+1;
-      } else k=2;
+      } else { k=2; }
       mf=mf.substr(0,n2+1)+intToStr(k);
       n2=lastIndexOf(mf,"HH");
     };
@@ -1156,7 +1256,7 @@ private:
     if (n2>0)  {
       if (n2<(mf.length()-1)) {
         temp=mf.substr(n2+1,mf.length());
-      } else temp="1";
+      } else { temp="1"; }
       mf=mf.substr(0,n2);
     };
     n2=atoi(temp.c_str());//Integer.parseInt(temp);
@@ -1175,8 +1275,8 @@ private:
   acount=nt;
 
   //parsing and analizing...
-  for (i=0; i<MAXFRAGS; i++) charges[i]=0;
-  if (chargestring != "") while (chargestring.length() > 0) {
+  for (i=0; i<MAXFRAGS; i++) { charges[i]=0; }
+  if (chargestring != "") { while (chargestring.length() > 0) {
     n1=indexOf(chargestring,";");
     if (n1>0) {
       s=chargestring.substr(0,n1);
@@ -1190,16 +1290,17 @@ private:
       sa1=s.substr(0,n1);
       s=s.substr(n1+1);
       n2=1;
-      if (indexOf(s,"-") > 0) n2=-1;
+      if (indexOf(s,"-") > 0) { n2=-1; }
       s=s.substr(0,s.length()-1);
       n1=atoi(s.c_str());
       n1=n1*n2;
       n2=atoi(sa1.c_str());
       charges[n2-1]=n1;
     };
-  };
-  for (i=0; i<MAXFRAGS; i++) radicals[i]=0;
-  if (radicalstring != "") while (radicalstring.length() > 0) {
+  }
+  }
+  for (i=0; i<MAXFRAGS; i++) { radicals[i]=0; }
+  if (radicalstring != "") { while (radicalstring.length() > 0) {
     n1=indexOf(radicalstring,";");
     if (n1>0) {
       s=radicalstring.substr(0,n1);
@@ -1213,12 +1314,13 @@ private:
       sa1=s.substr(0,n1);
       s=s.substr(n1+1);
       n2=1;
-      if (indexOf(s,"-") > 0) n2=-1;
+      if (indexOf(s,"-") > 0) { n2=-1; }
       s=s.substr(0,s.length()-1);
       n2=atoi(sa1.c_str());
       radicals[n2-1]=1;
     };
-  };
+  }
+  }
 //passed
 
 
@@ -1230,9 +1332,9 @@ private:
   for (i=0; i<nelements; i++) {
     s=names[i];
     n1=1;
-    if (s.length()>1) if ((s.at(1)>='a') && (s.at(1)<='z')) n1=2;
+    if (s.length()>1) { if ((s.at(1)>='a') && (s.at(1)<='z')) { n1=2; } }
     temp=s.substr(0,n1);
-    if (n1<s.length()) sstore=s.substr(n1,s.length()); else sstore="";
+    if (n1<s.length()) { sstore=s.substr(n1,s.length()); } else { sstore=""; }
     n1=nF[i];
     n2=OBElements::GetAtomicNum(temp.c_str());//Atom.positionofAtom(temp);
     nPrev=acount;
@@ -1244,24 +1346,27 @@ private:
 
       aPosition[nt-1]=n2;
 
-      if (sstore.length()>0) if (parseFormula(sstore,enumber)) { //bf=Formula.parseString(sstore);
-        for (k=1; k<NELEMMAX; k++) if (enumber[k] > 0) for (m=1; m<=enumber[k]; m++) {
+      if (sstore.length()>0) { if (parseFormula(sstore,enumber)) { //bf=Formula.parseString(sstore);
+        for (k=1; k<NELEMMAX; k++) { if (enumber[k] > 0) { for (m=1; m<=enumber[k]; m++) {
           fragIndex[acount]=nt+1;//sa.fragIndex=fragNo;  //Do not increment!
           nHydr[acount]=0;//special[acount]=0;
           aPosition[acount]=k;
           acount++;
 
           kk=hydrogenValency(k);//HVal[k];
-          if (kk == 0) kk=1;
+          if (kk == 0) { kk=1; }
           bcount++;
           sbSpecial[bcount-1]=1;
           bondOrders[bcount-1]=kk;
           iA1[bcount-1]=nt-1;
           iA2[bcount-1]=acount-1;
-        };
+        }
+        }
+        }
         //checking for nitrogen...
         //length analizing-extracting and addition of other atoms...
-      };
+      }
+      }
       //charges analizing and restore
 
     if (charges[nt-1] != 0) {      //search for appropriate atom to put charge..
@@ -1297,7 +1402,7 @@ private:
   while ((value.length()>0) && test) {
     n1=indexOf(value,";");
     n2=indexOf(value,"]");
-    if (n1<0) n1=n2; else if ((n2<n1) && (n2>=0)) n1=n2;
+    if (n1<0) { n1=n2; } else if ((n2<n1) && (n2>=0)) { n1=n2; }
     mf="";
     if ((n1>=0) && (value.length() > n1)) {
       mf=value.substr(0,n1);
@@ -1325,13 +1430,17 @@ private:
       iA2[bcount-1]=n1-1;
     };
 
-    if (value.length()>0) if (value.at(0)==']') value=""; //end parsing
+    if (value.length()>0) { if (value.at(0)==']') { value=""; //end parsing
+    }
+    }
   };
 
   //Alternation
   alternate(aPosition,aCharge,aRad,nHydr,iA1,iA2,bondOrders,acount,bcount);
   generateDiagram(iA1,iA2,rx,ry,acount,bcount);
-  for (i=0; i<bcount; i++) if (bondOrders[i] == 1) stereoBonds[i]=-1; //flags for bonds, which might be stereo
+  for (i=0; i<bcount; i++) { if (bondOrders[i] == 1) { stereoBonds[i]=-1; //flags for bonds, which might be stereo
+  }
+  }
   implementAtomStereo(iA1,iA2,stereoBonds,rx,ry,acount,bcount,astereo);
   implementBondStereo(iA1,iA2,rx,ry,acount,bcount,bstereo);
 
@@ -1340,15 +1449,15 @@ private:
     for (i=0; i<acount; i++) {
       sa.Clear();
       sa.SetAtomicNum(aPosition[i]);
-      if (aCharge[i] != 0) sa.SetFormalCharge(aCharge[i]);
-      if (aRad[i] != 0) sa.SetSpinMultiplicity(1);
+      if (aCharge[i] != 0) { sa.SetFormalCharge(aCharge[i]); }
+      if (aRad[i] != 0) { sa.SetSpinMultiplicity(1); }
       sa.SetVector(rx[i],ry[i],0.0);
       pmol->AddAtom(sa);
     };
     for (i=0; i<bcount; i++) {
       flags=0;
-      if (stereoBonds[i] == 1) flags=OB_WEDGE_BOND; else
-      if (stereoBonds[i] == 2) flags=OB_HASH_BOND;
+      if (stereoBonds[i] == 1) { flags=OB_WEDGE_BOND; } else
+      if (stereoBonds[i] == 2) { flags=OB_HASH_BOND; }
       pmol->AddBond(iA1[i]+1,iA2[i]+1,bondOrders[i],flags);
     };
   };
@@ -1376,15 +1485,15 @@ private:
           };
         };
     };
-      if (charges[nt-1] == 0) break;
+      if (charges[nt-1] == 0) { break; }
     };
   };
 
 
   int MCDLFormat::indexOf(const string instring, const string substring, int fromPos) {
     int result=instring.find(substring,fromPos);
-    if (result == string::npos) result=-1;
-    if (result >= instring.length()) result=-1;
+    if (result == string::npos) { result=-1; }
+    if (result >= instring.length()) { result=-1; }
       return result;
   };
 
@@ -1397,9 +1506,9 @@ private:
   n=-1;
   while (test) {
     n=instring.find(substring,n+1);
-    if (n == string::npos)
+    if (n == string::npos) {
       test=false;
-    else {
+    } else {
         result=n;
     };
   };
@@ -1417,9 +1526,9 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
   string asym;
   string value=formulaString;
 
-  for (i = 0; i<NELEMMCDL; i++) enumber[i] = 0;
+  for (i = 0; i<NELEMMCDL; i++) { enumber[i] = 0; }
 
-  for (i = 1; i<NELEMMCDL; i++) if (strlen(OBElements::GetSymbol(i)) == 2) {
+  for (i = 1; i<NELEMMCDL; i++) { if (strlen(OBElements::GetSymbol(i)) == 2) {
       test=true;
     asym=OBElements::GetSymbol(i);
       while (test) {
@@ -1429,20 +1538,22 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
           test=true;
           value=value.substr(0,n)+value.substr(n+asym.length(),value.length());
           k=1;
-          if (n<value.length()) if ((value.at(n)>='0') && (value.at(n)<='9')) {
+          if (n<value.length()) { if ((value.at(n)>='0') && (value.at(n)<='9')) {
             n1=n;
             n2=n;
-            while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+            while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) { n2++; }
+            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) { n2--; }
             s=value.substr(n1,n2+1);
             k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
-          };
+          }
+          }
           enumber[i]=enumber[i]+k;
         };
       };
-    };
-  for (i = 1; i<NELEMMCDL; i++) if (strlen(OBElements::GetSymbol(i)) == 1) {
+    }
+    }
+  for (i = 1; i<NELEMMCDL; i++) { if (strlen(OBElements::GetSymbol(i)) == 1) {
       test=true;
     asym=OBElements::GetSymbol(i);
       while (test) {
@@ -1452,19 +1563,21 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
           test=true;
           value=value.substr(0,n)+value.substr(n+asym.length(),value.length());
           k=1;
-          if (n<value.length()) if ((value.at(n)>='0') && (value.at(n)<='9')) {
+          if (n<value.length()) { if ((value.at(n)>='0') && (value.at(n)<='9')) {
             n1=n;
             n2=n;
-            while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
-            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
+            while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) { n2++; }
+            if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) { n2--; }
             s=value.substr(n1,n2+1);
       k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
-          };
+          }
+          }
           enumber[i]=enumber[i]+k;
         };
       };
-    };
+    }
+    }
   return (value.length() == 0);
 };
 
@@ -1493,8 +1606,9 @@ MCDLFormat theMCDLFormat;
 bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   istream& ifs = *pConv->GetInStream();
 
@@ -1504,12 +1618,12 @@ bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   pmol->SetDimension(dim);
 
   string line="";
-    if(ifs.good()) getline(ifs, line);
+    if(ifs.good()) { getline(ifs, line); }
 
   string molTitle=getMolTitle(line);
 
-  if (molTitle.length() > 0) pmol->SetTitle(molTitle.c_str());
-  if (line.length() > 0) setMCDL(line,pmol,molTitle);
+  if (molTitle.length() > 0) { pmol->SetTitle(molTitle.c_str()); }
+  if (line.length() > 0) { setMCDL(line,pmol,molTitle); }
 
   pmol->EndModify();
 
@@ -1521,13 +1635,13 @@ bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool MCDLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr) return false;
+  if (pmol == nullptr) { return false; }
 
   std::ostream & ofs = *pConv->GetOutStream();
 
   //To use an output option
   string title=pmol->GetTitle();
-  if (title.length() > 0) title=ftitlestart+title+"}";
+  if (title.length() > 0) { title=ftitlestart+title+"}"; }
   ofs << getMCDL(pmol,false) << title << endl;
   // prepareTest(pmol,ofs);
   //generateDiagram(pmol,ofs);
