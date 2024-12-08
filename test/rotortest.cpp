@@ -17,10 +17,12 @@ using namespace OpenBabel;
 bool IsNear_mod(const double &a, const double &b, const double &m, const double epsilon)
 {
   double arg=a-b;
-  while(arg<-m/2)
+  while(arg<-m/2) {
     arg+=m;
-  while(arg>=m/2)
+  }
+  while(arg>=m/2) {
     arg-=m;
+  }
 
   return (fabs(arg) < epsilon);
 }
@@ -84,8 +86,9 @@ void testOBRotorSetToAngle()
   std::vector<int> atoms;
   mol->FindChildren(atoms, 4, 5);
   // convert to coordinate indexes (start from 0, multiplied by 3)
-  for (unsigned int i = 0; i < atoms.size(); ++i)
+  for (unsigned int i = 0; i < atoms.size(); ++i) {
     atoms[i] = (atoms[i] - 1) * 3;
+  }
   rotor.SetRotAtoms(atoms);
 
   OB_ASSERT(IsNear_mod(fabs(RAD_TO_DEG * rotor.CalcTorsion(mol->GetCoordinates())), 180.0, 360.0, 1.0));
@@ -116,8 +119,9 @@ void testOBRotorSetRotor()
   std::vector<int> atoms;
   mol->FindChildren(atoms, 4, 5);
   // convert to coordinate indexes (start from 0, multiplied by 3)
-  for (unsigned int i = 0; i < atoms.size(); ++i)
+  for (unsigned int i = 0; i < atoms.size(); ++i) {
     atoms[i] = (atoms[i] - 1) * 3;
+  }
   rotor.SetRotAtoms(atoms);
 
   OB_ASSERT(IsNear_mod(fabs(RAD_TO_DEG * rotor.CalcTorsion(mol->GetCoordinates())), 180.0, 360.0, 1.0));

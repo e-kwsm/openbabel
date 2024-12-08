@@ -72,13 +72,15 @@ int smartsparse(int argc, char* argv[])
   unsigned int patterns = 0;
   for (;ifs.getline(buffer,BUFF_SIZE);)
     {
-      if (buffer[0] == '#') // skip comment line
+      if (buffer[0] == '#') { // skip comment line
         continue;
+      }
       
-      if (sp.Init(buffer))
+      if (sp.Init(buffer)) {
         cout << "ok " << ++patterns << endl;
-      else
+      } else {
         cout << "not ok " << ++patterns << " failed on " << buffer << endl;
+      }
     }
   ifs.close();
   // output the number of tests run

@@ -64,8 +64,9 @@ void testCanonicalTautomers(const std::string &smiles)
 
   // check to make sure all tautomers result in the same canonical tautomer
   const std::vector<std::string> &tautomers = functor.tautomers;
-  if (tautomers.empty())
+  if (tautomers.empty()) {
     return;
+  }
 
   std::vector<std::string> canonicalTautomers;
   for (std::size_t i = 0; i < tautomers.size(); ++i) {

@@ -103,8 +103,9 @@ int main(int argc,char *argv[])
       molCount++;
       //      cerr << " read " << molCount << " molecules " << endl;
 
-      if(!conv1.Read(&mol) || !conv2.Read(&mol2))
+      if(!conv1.Read(&mol) || !conv2.Read(&mol2)) {
         break; // make sure to check for failed reads
+      }
 
       const char* p1 = strrchr(argv[1],'.');
       const char* p2 = strrchr(argv[2],'.');
@@ -181,7 +182,7 @@ int main(int argc,char *argv[])
             }
 	
           if ( (p1 && strncasecmp(p1 + 1, "SMI", 3) == 0)
-               || (p2 && strncasecmp(p2 + 1, "SMI", 3) == 0) )
+               || (p2 && strncasecmp(p2 + 1, "SMI", 3) == 0) ) {
             if ((atom1->GetX()-atom2->GetX()>1e-1) ||
                 (atom1->GetY()-atom2->GetY()>1e-1) ||
                 (atom1->GetZ()-atom2->GetZ()>1e-1))
@@ -190,6 +191,7 @@ int main(int argc,char *argv[])
                      << " in molecule " << molCount << endl;
                 return(-1);
               }
+          }
         }
 
     } // while reading molecules
@@ -197,12 +199,14 @@ int main(int argc,char *argv[])
   char buffer[BUFF_SIZE];
   // try skipping any blank lines
   while(inFileStream1.peek() != EOF && inFileStream1.good() && 
-        (inFileStream1.peek() == '\n' || inFileStream1.peek() == '\r'))
+        (inFileStream1.peek() == '\n' || inFileStream1.peek() == '\r')) {
     inFileStream1.getline(buffer,BUFF_SIZE);
+  }
 
   while(inFileStream2.peek() != EOF && inFileStream2.good() && 
-        (inFileStream2.peek() == '\n' || inFileStream2.peek() == '\r'))
+        (inFileStream2.peek() == '\n' || inFileStream2.peek() == '\r')) {
     inFileStream2.getline(buffer,BUFF_SIZE);
+  }
 
   // now check to see if there's anything to read
   mol.Clear();

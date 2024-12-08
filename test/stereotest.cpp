@@ -202,9 +202,11 @@ bool doStereoPerception3(OBMol &mol, const OBStereoUnitSet &refUnits = OBStereoU
     for (unsigned int i = 0; i < units.size(); ++i) {
       bool foundUnit = false;
       for (unsigned int j = 0; j < refUnits.size(); ++j) {
-        if (units[i].type == refUnits[j].type)
-          if (units[i].id == refUnits[j].id)
+        if (units[i].type == refUnits[j].type) {
+          if (units[i].id == refUnits[j].id) {
             foundUnit = true;
+          }
+        }
       }
       OB_ASSERT( foundUnit );
     }

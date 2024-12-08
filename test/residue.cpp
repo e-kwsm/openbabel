@@ -239,7 +239,9 @@ void CheckInvalidResidue(OBConversion &conv,
       cout << "# " << res->GetName() << endl;
     }
   } else
+  {
     cout << "ok " << testCount << " # correctly rejected " << test << '\n';
+  }
 }
 
 void CheckValidDipeptide(OBConversion &conv,

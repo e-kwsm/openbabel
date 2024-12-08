@@ -37,8 +37,9 @@ std::string remove_slashr(const char *smi)
   const char *p = smi;
   while (*p)
   {
-    if (*p != '\r')
+    if (*p != '\r') {
       ans += *p;
+    }
     p++;
   }
   return ans;
@@ -181,8 +182,9 @@ void test_AromaticTripleBond()
     bool hasTripleBond = false;
     FOR_BONDS_OF_MOL(bond, mol)
     {
-      if (bond->GetBondOrder() == 3)
+      if (bond->GetBondOrder() == 3) {
         hasTripleBond = true;
+      }
     }
     OB_ASSERT(hasTripleBond);
   }
@@ -237,14 +239,16 @@ void test_Issue178_DeleteHydrogens()
     for (int j = 0; j < 2; ++j)
     {
       conv.ReadString(&mol, smi[i]);
-      if (j == 0)
+      if (j == 0) {
         mol.DeleteHydrogens();
-      else
+      } else {
         mol.DeleteNonPolarHydrogens();
+      }
       int myNumHs = 0;
       FOR_ATOMS_OF_MOL(atom, mol)
-      if (atom->GetAtomicNum() == OBElements::Hydrogen)
+      if (atom->GetAtomicNum() == OBElements::Hydrogen) {
         myNumHs++;
+      }
       OB_COMPARE(myNumHs, numHs[i]);
     }
   }
@@ -257,8 +261,9 @@ void test_Issue178_DeleteHydrogens()
     mol.DeletePolarHydrogens();
     int myNumHs = 0;
     FOR_ATOMS_OF_MOL(atom, mol)
-    if (atom->GetAtomicNum() == OBElements::Hydrogen)
+    if (atom->GetAtomicNum() == OBElements::Hydrogen) {
       myNumHs++;
+    }
     OB_COMPARE(myNumHs, numHsB[i]);
   }
   // Test atom class
@@ -271,8 +276,9 @@ void test_Issue178_DeleteHydrogens()
   mol.DeleteHydrogens();
   int myNumHs = 0;
   FOR_ATOMS_OF_MOL(atom, mol)
-  if (atom->GetAtomicNum() == OBElements::Hydrogen)
+  if (atom->GetAtomicNum() == OBElements::Hydrogen) {
     myNumHs++;
+  }
   OB_COMPARE(myNumHs, 1);
 }
 
@@ -418,8 +424,9 @@ void test_SMILES_Valence()
     {
       OBMol mol;
       OB_ASSERT(conv.ReadString(&mol, smilesData[i].inp));
-      if (rep == 2)
+      if (rep == 2) {
         mol.AddHydrogens();
+      }
       std::string out = conv.WriteString(&mol, true);
       const char *mout;
       switch (rep)
