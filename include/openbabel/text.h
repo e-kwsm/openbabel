@@ -71,8 +71,9 @@ public:
     std::string::size_type newpos = txt.find("OPENBABEL_INSERT", pos);
     if(newpos== std::string::npos)//not found: return rest of txt
     {
-      if(ToInsertOnly)
+      if(ToInsertOnly) {
         return("");
+      }
       pos = 0;
       return txt.substr(oldpos);
     }

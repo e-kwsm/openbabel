@@ -129,12 +129,14 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     float radius;
 
     while (ifs.getline(buffer, BUFF_SIZE)) {
-      if (buffer[0] == '#')
+      if (buffer[0] == '#') {
         continue;
+      }
 
       tokenize(vs, buffer);
-      if (vs.size() < 4)
+      if (vs.size() < 4) {
         continue;
+      }
 
       // Reads in a line of parameters
       // The format is:              code converts to
@@ -154,8 +156,9 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 
     Eigen::Vector3d P;
     //For now, completely ignore the formal charge
-    if (_parameters.size() == 0)
+    if (_parameters.size() == 0) {
       ParseParamFile();
+    }
 
     if (Z > 0 && Z < _parameters.size()-1) {
       return _parameters[Z - 1];
@@ -214,7 +217,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     //Read in total charge of molecule
     double Z = (double)(mol.GetTotalCharge());
 
-    if (Z != 0.) obErrorLog.ThrowError(__FUNCTION__, "Warning, total charge on molecule is not zero. QTPIE routine may give nonsense.", obWarning);
+    if (Z != 0.) { obErrorLog.ThrowError(__FUNCTION__, "Warning, total charge on molecule is not zero. QTPIE routine may give nonsense.", obWarning); }
 
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -241,10 +244,11 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 		//R = atom1->GetDistance(atom2)*Angstrom;
 		//
 	        R = atom1->GetDistance(j+1)*Angstrom;
-	        if (R<CoulMaxDistance)
+	        if (R<CoulMaxDistance) {
 		    Coulomb = CoulombInt(BasisSet[i], BasisSet[j], R);
-	        else
+	        } else {
 		    Coulomb = 1./R;
+	        }
 	        Hardness(i,j) = Coulomb;
 	        Hardness(j,i) = Coulomb;
 	    }
@@ -282,7 +286,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 
     // Calculate normalization factors
     Eigen::VectorXd OvNorm(N);
-    for (i=0; i<N; i++) OvNorm[i] = 1.0 / (1.0 + Overlap.row(i).sum());
+    for (i=0; i<N; i++) { OvNorm[i] = 1.0 / (1.0 + Overlap.row(i).sum()); }
 
     // Calculate voltages
     double PotentialDiff, Norm, ThisVoltage, ThisOverlap;
@@ -294,8 +298,9 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
 	{
 		PotentialDiff = Electronegativity[i] - Electronegativity[j];
 		ThisOverlap = Overlap(i,j);
-		if (ThisOverlap > OverlapThreshold)
+		if (ThisOverlap > OverlapThreshold) {
 		       ThisVoltage -= PotentialDiff * Norm* ThisOverlap;
+		}
 	}
 
 	Voltage[i] = ThisVoltage;
@@ -373,11 +378,12 @@ bool QTPIECharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd 
       {
         stringstream msg;
         msg << "Warning, LU solver failed." << endl;
-        if (!SolverOK) msg << "Solver returned error." << endl;
-        if (IsNan(resnorm)) msg << "NaNs were returned" << endl;
-        if (resnorm > NormThreshold) msg << "Residual has norm " << resnorm
+        if (!SolverOK) { msg << "Solver returned error." << endl; }
+        if (IsNan(resnorm)) { msg << "NaNs were returned" << endl; }
+        if (resnorm > NormThreshold) { msg << "Residual has norm " << resnorm
                                          << " which exceeds the recommended threshold of " << NormThreshold
                                          << endl;
+        }
         msg << "Proceeding with singular value decomposition.";
 
         obErrorLog.ThrowError(__FUNCTION__, msg.str(), obWarning);

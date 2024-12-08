@@ -63,8 +63,9 @@ namespace OpenBabel
     obLocale.SetLocale();
     while (ifs.getline(buffer, BUFF_SIZE))
     {
-      if (buffer[0] == '#')
+      if (buffer[0] == '#') {
         continue;
+      }
 
       tokenize(vs, buffer);
       if (vs.size() != 12)
@@ -77,8 +78,9 @@ namespace OpenBabel
       //   Atomic Number    Element    Ion Charge    Affinity    Ionizations (x8)
       atomicNumber = atoi(vs[0].c_str());
       _chargeCenter[atomicNumber] = atoi(vs[2].c_str());
-      for (i = 0; i < 9; i ++)
+      for (i = 0; i < 9; i ++) {
         _ionizations[atomicNumber][i] = atof(vs[i + 3].c_str());
+      }
 
       // The electron affinity of hydrogen is a custom-fit parameter
       _ionizations[1][0] = hi_0;
@@ -208,8 +210,9 @@ namespace OpenBabel
   //! Calculates a lumped charge coefficient for simplified nonperiodic systems
   double EQEqCharges::GetNonperiodicJij(double J_i, double J_j, double R_ij, bool isSameAtom)
   {
-    if (isSameAtom)
+    if (isSameAtom) {
       return J_i;
+    }
 
     double a_ij, E_0ij;
     a_ij = sqrt(J_i * J_j) / k;
@@ -236,8 +239,9 @@ namespace OpenBabel
         for (w = -numNeighbors[2]; w <= numNeighbors[2]; w++)
         {
           // If we're iterating over same atom + center unit cell, skip
-          if (isSameAtom && u == 0 && v == 0 && w == 0)
+          if (isSameAtom && u == 0 && v == 0 && w == 0) {
             continue;
+          }
 
           // Orbital overlap term summation
           uvw.Set(u, v, w);
@@ -248,8 +252,9 @@ namespace OpenBabel
           alpha += erfc(R_ij / eta) / R_ij;
 
           // Skip Fourier math below if same unit cell
-          if (u == 0 && v == 0 && w == 0)
+          if (u == 0 && v == 0 && w == 0) {
             continue;
+          }
 
           // K-space component summation (from reciprocal lattice vector)
           rlv = fourier * uvw;

@@ -136,12 +136,14 @@ namespace OpenBabel
     Eigen::Vector3d P;
     float radius;
     while (ifs.getline(buffer, BUFF_SIZE)) {
-      if (buffer[0] == '#')
+      if (buffer[0] == '#') {
         continue;
+      }
 
       tokenize(vs, buffer);
-      if (vs.size() < 4)
+      if (vs.size() < 4) {
         continue;
+      }
 
       // Reads in a line of parameters
       // The format is:              code converts to
@@ -161,11 +163,13 @@ namespace OpenBabel
   {
     Eigen::Vector3d P;
     //For now, completely ignore the formal charge
-    if (_parameters.size() == 0)
+    if (_parameters.size() == 0) {
       ParseParamFile();
+    }
 
-    if (Z > 0 && Z < _parameters.size()-1)
+    if (Z > 0 && Z < _parameters.size()-1) {
       return _parameters[Z - 1];
+    }
 
     P<<0., 1.e10, 1.e10; //Magic value
     return P;
@@ -244,10 +248,11 @@ namespace OpenBabel
                 ////R = atom1->GetDistance(atom2)*Angstrom;
                 //
                 R = atom1->GetDistance(j+1)*Angstrom;
-                if (R<CoulMaxDistance)
+                if (R<CoulMaxDistance) {
                   Coulomb = CoulombInt(BasisSet[i], BasisSet[j], R);
-                else
+                } else {
                   Coulomb = 1./R;
+                }
                 Hardness(i,j) = Coulomb;
                 Hardness(j,i) = Coulomb;
               }
@@ -323,11 +328,12 @@ namespace OpenBabel
       {
         stringstream msg;
         msg << "Warning, LU solver failed." << endl;
-        if (!SolverOK) msg << "Solver returned error." << endl;
-        if (IsNan(resnorm)) msg << "NaNs were returned" << endl;
-        if (resnorm > NormThreshold) msg << "Residual has norm " << resnorm
+        if (!SolverOK) { msg << "Solver returned error." << endl; }
+        if (IsNan(resnorm)) { msg << "NaNs were returned" << endl; }
+        if (resnorm > NormThreshold) { msg << "Residual has norm " << resnorm
                                          << " which exceeds the recommended threshold of " << NormThreshold
                                          << endl;
+        }
         msg << "Proceeding with singular value decomposition.";
 
         obErrorLog.ThrowError(__FUNCTION__, msg.str(), obWarning);

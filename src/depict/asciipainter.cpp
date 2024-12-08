@@ -87,14 +87,15 @@ namespace OpenBabel
     for(vp_it=coords.begin();vp_it!=coords.end();++vp_it,++s_it) {
       int x = vp_it->first;
       int y = vp_it->second;
-      if (x>=0 && x<m_width && y>=0 && y<m_height)
+      if (x>=0 && x<m_width && y>=0 && y<m_height) {
         m_buf.at(y).at(x) = *s_it;
+      }
     }
   }
 
   void ASCIIPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
   {
-    if (points.size() < 2) return;
+    if (points.size() < 2) { return; }
 
     vector<pair<double,double> >::const_iterator vp_it;
     for(vp_it=points.begin();vp_it!=(points.end() - 1);++vp_it) {
@@ -116,8 +117,9 @@ namespace OpenBabel
     int sx = round(x*m_scale);
     int sy = round(y*m_scale/m_aspect);
     for (int i=0; i<text.size(); ++i) {
-      if (sy>=0 && sy<m_height && sx+i>=0 && sx+i<m_width)
+      if (sy>=0 && sy<m_height && sx+i>=0 && sx+i<m_width) {
         m_buf.at(sy).at(sx+i) = text.at(i);
+      }
     }
   }
 
@@ -154,12 +156,14 @@ namespace OpenBabel
   int getdelta(int x, int y, int x2, int y2)
   {
     int ans = 0;
-    if (x2 == x) return ans; // Not applicable to vertical lines
+    if (x2 == x) { return ans; // Not applicable to vertical lines
+    }
     if (y2 > y) {
       ans = 1;
       double slope = (y2-y) / double(x2-x);
-      if (fabs(slope) > 1.0)
+      if (fabs(slope) > 1.0) {
         ans = 0;
+      }
     }
     return ans;
   }
@@ -172,16 +176,18 @@ namespace OpenBabel
       swap(y2, y);
     }
     double slope;
-    if (x == x2)
+    if (x == x2) {
       slope = 1e99;
-    else
+    } else {
       slope = (y2-y) / double(x2-x);
+    }
 
     string ans;
-    if (slope > 0)
+    if (slope > 0) {
       ans = (slope > 1.0) ? "|\\": "_\\";
-    else
+    } else {
       ans = (slope >-1.0) ? "_/": "|/";
+    }
     return ans;
   }
 
@@ -209,9 +215,9 @@ namespace OpenBabel
     int d = 2*dy - dx;
     for(int i=0; i<dx; ++i) {
       ans.append(d>=0 ? symbols.substr(1,1): symbols.substr(0,1));
-      if (steep)
+      if (steep) {
         coords.push_back(pair<int,int>(y, x));
-      else {
+      } else {
         int tmp_delta = d>=0 ? delta : 0; // Correction for / and \ in some cases
         coords.push_back(pair<int,int>(x, y + tmp_delta));
       }

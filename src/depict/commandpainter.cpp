@@ -88,8 +88,9 @@ namespace OpenBabel
     if (!dashes.empty()) {
       std::vector<double>::const_iterator it;
       m_ofs << " dashes";
-      for (it=dashes.begin(); it!=dashes.end() ; ++it)
+      for (it=dashes.begin(); it!=dashes.end() ; ++it) {
         m_ofs << " " << *it;
+      }
 
     }
     m_ofs << endl;
@@ -100,8 +101,9 @@ namespace OpenBabel
     m_ofs << "DrawPolygon ";
     std::vector<std::pair<double,double> >::const_iterator i;
     for (i = points.begin(); i != points.end(); ++i) {
-      if (i != points.begin())
+      if (i != points.begin()) {
         m_ofs << " to ";
+      }
       m_ofs << i->first << " " << i->second;
     }
     m_ofs << endl;
