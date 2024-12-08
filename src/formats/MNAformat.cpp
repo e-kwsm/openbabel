@@ -187,16 +187,19 @@ namespace OpenBabel
 	{
 		OBMol* pmol = dynamic_cast<OBMol*>(pOb);
 
-		if (pmol == nullptr)
+		if (pmol == nullptr) {
 			return false;
+		}
 
 		ostream& ofs = *pConv->GetOutStream();
 
-		if (pConv->GetOutputIndex() == 1)
+		if (pConv->GetOutputIndex() == 1) {
 			ofs << "# The contents of this file were derived from " << pConv->GetInFilename() << endl;
+		}
 
-		if (!pConv->IsOption("n"))
+		if (!pConv->IsOption("n")) {
 			ofs << "# Title = " << pmol->GetTitle() << endl;
+		}
 
 		const char * const p = pConv->IsOption(levels_option);
 
@@ -236,19 +239,22 @@ namespace OpenBabel
 
 		if (pConv->IsOption("d", OBConversion::GENOPTIONS))
 		{
-			if (pConv->GetOutputIndex() == 1)
+			if (pConv->GetOutputIndex() == 1) {
 				obErrorLog.ThrowError(__FUNCTION__, "MNA includes hydrogens by definition, just be aware of that.", obInfo);
+			}
 			ofs << "# Hydrogens deleted explicitly." << endl;
 			mol.DeleteHydrogens();
 		}
-		else
+		else {
 			mol.AddHydrogens();
+		}
 
 		FOR_ATOMS_OF_MOL(atom, mol)
 			ofs << MNAize(&*atom, levels) << endl;
 
-		if (!pConv->IsLast())
+		if (!pConv->IsLast()) {
 			ofs << "$$$$" << endl;
+		}
 
 		return true;
 	}
@@ -274,8 +280,9 @@ namespace OpenBabel
 
 			// Recurse into neighbours
 
-			for (vector<OBAtom *>::iterator nbor = nbors.begin(); nbor != nbors.end(); ++nbor)
+			for (vector<OBAtom *>::iterator nbor = nbors.begin(); nbor != nbors.end(); ++nbor) {
 				s += MNAize(*nbor, level - 1);
+			}
 
 			s += close_nbor_list;
 		}
@@ -294,24 +301,29 @@ namespace OpenBabel
 		{
 			if (B->IsInRing())
 			{
-				if (MNAFormat::Z2MNAZ(A->GetAtomicNum()) < MNAFormat::Z2MNAZ(B->GetAtomicNum()))
+				if (MNAFormat::Z2MNAZ(A->GetAtomicNum()) < MNAFormat::Z2MNAZ(B->GetAtomicNum())) {
 					altb = true;
-				else
+				} else {
 					altb = false; // Will this need to recurse here?  (Or does atomic numbering take care of that?)
+				}
 			}
 			else
+			{
 				altb = true;
+			}
 		}
 		else
 		{
-			if (B->IsInRing())
+			if (B->IsInRing()) {
 				altb = false;
+			}
 			else
 			{
-				if (MNAFormat::Z2MNAZ(A->GetAtomicNum()) < MNAFormat::Z2MNAZ(B->GetAtomicNum()))
+				if (MNAFormat::Z2MNAZ(A->GetAtomicNum()) < MNAFormat::Z2MNAZ(B->GetAtomicNum())) {
 					altb = true;
-				else
+				} else {
 					altb = false; // And here?
+				}
 			}
 		}
 

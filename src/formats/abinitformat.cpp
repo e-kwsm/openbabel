@@ -74,8 +74,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -114,8 +115,9 @@ namespace OpenBabel
         // tokens are listed in alphabetical order for code clarity
         if (strstr(buffer, "acell")) {
           tokenize(vs, buffer);
-          if (vs.size() < 4)
+          if (vs.size() < 4) {
             continue; // invalid line
+          }
 
           // acell=  7.6967369631E+00  7.6967369631E+00  7.6967369631E+00
           for (int i = 0; i < 3; ++i) {
@@ -124,8 +126,9 @@ namespace OpenBabel
         }
         else if (strstr(buffer, " xcart ")) {
           double unit = BOHR_TO_ANGSTROM;
-          if (strstr(buffer, "ngstrom"))
+          if (strstr(buffer, "ngstrom")) {
             unit = 1.0; // no conversion needed
+          }
 
 	  //          ifs.getline(buffer,BUFF_SIZE);
           tokenize(vs, buffer);
@@ -151,8 +154,9 @@ namespace OpenBabel
       }
         else if (strstr(buffer, "natom")) {
           tokenize(vs, buffer);
-          if (vs.size() != 2)
+          if (vs.size() != 2) {
             continue;
+          }
           natom = atoi(vs[1].c_str());
         }
         else if (strstr(buffer, "rprim")) {
@@ -161,8 +165,9 @@ namespace OpenBabel
 	  ifs.getline(buffer,BUFF_SIZE);
           for (int i = 1; i < 4; ++i) {
             tokenize(vs, buffer);
-            if (vs.size() < 3)
+            if (vs.size() < 3) {
               break;
+            }
 
             // first line, rprim takes up a token
 	    //            if (i == 0)
@@ -197,13 +202,15 @@ namespace OpenBabel
         else if (strstr(buffer, "znucl")) {
           tokenize(vs, buffer);
           // make sure znucl is first token
-          if (vs[0] != "znucl")
+          if (vs[0] != "znucl") {
             continue;
+          }
           // push back the remaining tokens into atomicNumbers
           atomicNumbers.clear();
           atomicNumbers.push_back(0); // abinit starts typat with 1
-          for (unsigned int i = 1; i < vs.size(); ++i)
+          for (unsigned int i = 1; i < vs.size(); ++i) {
             atomicNumbers.push_back(int(atof(vs[i].c_str())));
+          }
         }
         // xangst
         // forces
@@ -220,8 +227,9 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    if (natom == 0)
+    if (natom == 0) {
       return false;
+    }
 
     int numConformers = atomPositions.size() / natom;
     for (int i = 0; i < numConformers; ++i) {
@@ -239,10 +247,12 @@ namespace OpenBabel
     // Set geometry to last one
     mol.SetConformer(mol.NumConformers() - 1);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // Attach unit cell translation vectors if found
     if (numTranslationVectors > 0) {
@@ -250,8 +260,9 @@ namespace OpenBabel
 	    //      uc->SetData(acell[0] * translationVectors[0], acell[1] * translationVectors[1], acell[2] * translationVectors[2]);
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
-      if (symmetryCode)
+      if (symmetryCode) {
         uc->SetSpaceGroup(symmetryCode);
+      }
       mol.SetData(uc);
     }
 

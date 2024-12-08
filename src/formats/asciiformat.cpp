@@ -108,8 +108,9 @@ ASCIIFormat theASCIIFormat;
 bool ASCIIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   ostream& ofs = *pConv->GetOutStream();
 
@@ -156,8 +157,9 @@ bool ASCIIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   ASCIIPainter painter(width, height, aspect);
   OBDepict depictor(&painter);
   // Don't use margin...unless someone specifies it
-  if(!pConv->IsOption("m"))
+  if(!pConv->IsOption("m")) {
     depictor.SetOption(OBDepict::noMargin);
+  }
 
   if(pConv->IsOption("s")) { // Print the test card -- should be a square
     painter.NewCanvas(100, 100);
@@ -167,7 +169,9 @@ bool ASCIIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     painter.DrawLine(20, 80, 20, 20);
   }
   else
+  {
     depictor.DrawMolecule(&workingmol);
+  }
 
   painter.Write(ofs);
   if(pConv->IsOption("s")) {
