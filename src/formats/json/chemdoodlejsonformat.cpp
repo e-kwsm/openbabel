@@ -75,11 +75,12 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
   bool ChemDoodleJSONFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol *pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
     istream &ifs = *pConv->GetInStream();
 
-    if (!ifs.good())
+    if (!ifs.good()) {
       return false;
+    }
 
     map<OBBond *, OBStereo::BondDirection> updown;
 
@@ -319,16 +320,21 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
     FOR_BONDS_OF_MOL(pbond, pmol) {
       OBStereo::BondDirection bd = OBStereo::NotStereo;
       unsigned int flag = pbond->GetFlags();
-      if (flag & OBBond::Wedge)
+      if (flag & OBBond::Wedge) {
         bd = OBStereo::UpBond;
-      if (flag & OBBond::Hash)
+      }
+      if (flag & OBBond::Hash) {
         bd = OBStereo::DownBond;
-      if (flag & OBBond::WedgeOrHash)
+      }
+      if (flag & OBBond::WedgeOrHash) {
         bd = OBStereo::UnknownDir;
-      if (flag & OBBond::CisOrTrans && pbond->GetBondOrder() == 2)
+      }
+      if (flag & OBBond::CisOrTrans && pbond->GetBondOrder() == 2) {
         bd = OBStereo::UnknownDir;
-      if (bd != OBStereo::NotStereo)
+      }
+      if (bd != OBStereo::NotStereo) {
         updown[&*pbond] = bd;
+      }
     }
 
     // TODO: Do we need to do SetImplicitValence for each atom?
@@ -346,8 +352,9 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       OpenBabel::OBStereoFacade facade(pmol);
       for (bd_it = updown.begin(); bd_it != updown.end(); ++bd_it) {
         OBBond *bond = bd_it->first;
-        if (bond->GetBondOrder() != 2 || bd_it->second != OBStereo::UnknownDir)
+        if (bond->GetBondOrder() != 2 || bd_it->second != OBStereo::UnknownDir) {
           continue; // Only continue for those double bonds with UnknownDir
+        }
         OBCisTransStereo *ct = facade.GetCisTransStereo(bond->GetId());
         if (ct) {
           OBCisTransStereo::Config config = ct->GetConfig();
@@ -366,8 +373,9 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
   bool ChemDoodleJSONFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     ostream &ofs = *pConv->GetOutStream();
 
     if (pmol->GetDimension() == 0) {
@@ -383,8 +391,9 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
     map<OBBond *, OBStereo::BondDirection> updown;
     map<OBBond *, OBStereo::Ref> from;
     map<OBBond *, OBStereo::Ref>::const_iterator from_cit;
-    if (!pConv->IsOption("w", pConv->OUTOPTIONS))
+    if (!pConv->IsOption("w", pConv->OUTOPTIONS)) {
       TetStereoToWedgeHash(*pmol, updown, from);
+    }
 
     // Whether to include default values
     bool verbose = pConv->IsOption("v", pConv->OUTOPTIONS) != nullptr;

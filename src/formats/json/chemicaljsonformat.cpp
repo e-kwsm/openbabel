@@ -63,12 +63,14 @@ ChemicalJSONFormat theChemicalJSONFormat;
 
 bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
   OBMol *pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
     return false;
+  }
   istream &ifs = *pConv->GetInStream();
 
-  if (!ifs.good())
+  if (!ifs.good()) {
     return false;
+  }
 
   // Parse entire file into memory once, then reuse inRoot for subsequent
   // molecules (It's really tricky to stream json)
@@ -271,8 +273,9 @@ bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
 
 bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   OBMol *pmol = dynamic_cast<OBMol *>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
     return false;
+  }
   ostream &ofs = *pConv->GetOutStream();
 
   if (pmol->GetDimension() != 3) {
@@ -300,8 +303,9 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
   std::string chargeMethod = "Gasteiger"; // that's the default
   OBPairData *dp = (OBPairData *)pmol->GetData("PartialCharges");
-  if (dp != nullptr)
+  if (dp != nullptr) {
     chargeMethod = dp->GetValue();
+  }
 
   FOR_ATOMS_OF_MOL(patom, pmol) {
     // Add coordinates
@@ -319,11 +323,12 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
     partialCharges.PushBack(patom->GetPartialCharge(), al);
 
     // check for NMR shifts
-    if (patom->HasData("NMR Isotropic Shift"))
+    if (patom->HasData("NMR Isotropic Shift")) {
       nmrShifts.PushBack(
           rapidjson::StringRef(
               patom->GetData("NMR Isotropic Shift")->GetValue().c_str()),
           al);
+    }
   }
 
   // conformers / multiple coordinates
