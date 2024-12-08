@@ -219,8 +219,9 @@ namespace OpenBabel
     bool hasPartialCharges = true;
     for (lcount=0;;lcount++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         if (EQn(buffer,"@<TRIPOS>ATOM",13))
           {
             foundAtomLine = true;
@@ -230,11 +231,13 @@ namespace OpenBabel
         if (lcount == 0)
           {
             tokenize(vstr,buffer);
-            if (!vstr.empty())
+            if (!vstr.empty()) {
               mol.SetTitle(buffer);
+            }
           }
-        else if (lcount == 1)
+        else if (lcount == 1) {
           sscanf(buffer,"%d%d",&natoms,&nbonds);
+        }
         else if (lcount == 3) // charge descriptions
           {
             // Annotate origin of partial charges
@@ -244,15 +247,18 @@ namespace OpenBabel
             dp->SetOrigin(fileformatInput);
             mol.SetData(dp);
 
-            if (strncasecmp(buffer, "NO_CHARGES", 10) == 0)
+            if (strncasecmp(buffer, "NO_CHARGES", 10) == 0) {
               hasPartialCharges = false;
+            }
           }
         else if (lcount == 4) //energy (?)
           {
             tokenize(vstr,buffer);
-            if (!vstr.empty() && vstr.size() == 3)
-              if (vstr[0] == "Energy")
+            if (!vstr.empty() && vstr.size() == 3) {
+              if (vstr[0] == "Energy") {
                 mol.SetEnergy(atof(vstr[2].c_str()));
+              }
+            }
           }
         else if (lcount == 5) //comment
           {
@@ -292,8 +298,9 @@ namespace OpenBabel
     ttab.SetFromType("SYB");
     for (i = 0;i < natoms;i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         sscanf(buffer," %*s %1024s %lf %lf %lf %1024s %d %1024s %lf",
                atmid, &x,&y,&z, temp_type, &resnum, resname, &pcharge);
 
@@ -350,11 +357,12 @@ namespace OpenBabel
           // check if it's "Du" or "Xx" and the element is in the atom name
           if (str == "Du" || str == "Xx") {
             str = atmid;
-            for (unsigned int i = 0; i < str.length(); ++i)
+            for (unsigned int i = 0; i < str.length(); ++i) {
               if (!isalpha(str[i])) {
                 str.erase(i);
                 break; // we've erased the end of the string
               }
+            }
           }
 
 
@@ -372,10 +380,11 @@ namespace OpenBabel
         }
 
         atom.SetAtomicNum(elemno);
-        if (isotope)
+        if (isotope) {
           atom.SetIsotope(isotope);
-        else if (elemno == 1)
+        } else if (elemno == 1) {
           has_explicit_hydrogen = true;
+        }
         ttab.SetToType("INT");
         ttab.Translate(str1,str);
         atom.SetType(str1);
@@ -383,12 +392,15 @@ namespace OpenBabel
         // MMFF94 has different atom types for Cu(I) and Cu(II)
         // as well as for Fe(II) and Fe(III), so the correct formal
         // charge is needed for correct atom type assignment
-        if (str1 == "Cu" || str1 == "Fe")
+        if (str1 == "Cu" || str1 == "Fe") {
           atom.SetFormalCharge((int)pcharge);
-        if (!mol.AddAtom(atom))
+        }
+        if (!mol.AddAtom(atom)) {
           return(false);
-        if (!IsNearZero(pcharge))
+        }
+        if (!IsNearZero(pcharge)) {
           hasPartialCharges = true;
+        }
 
         // Add residue information if it exists
         if (resnum != -1 && resnum != 0 &&
@@ -401,10 +413,12 @@ namespace OpenBabel
                 res->GetNum() != resnum)
               {
                 vector<OBResidue*>::iterator ri;
-                for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri))
+                for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri)) {
                   if (res->GetName() == resname &&
-                      res->GetNum() == resnum)
+                      res->GetNum() == resnum) {
                     break;
+                  }
+                }
 
                 if (res == nullptr)
                   {
@@ -431,8 +445,9 @@ namespace OpenBabel
           sscanf(buffer,"%d %d",&aid, &num);
           for(int i = 0; i < num; i++) 
           {
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
               return(false);
+            }
             if(strncmp(buffer, "charge", 6) == 0)
             {
               int charge = 0;
@@ -447,18 +462,21 @@ namespace OpenBabel
         }
     }
 
-    while(nextrti != "@<TRIPOS>BOND" && nextrti.length() > 0)
+    while(nextrti != "@<TRIPOS>BOND" && nextrti.length() > 0) {
       nextrti = read_until_rti(ifs);
+    }
 
-    if(nextrti != "@<TRIPOS>BOND")
+    if(nextrti != "@<TRIPOS>BOND") {
       return false;
+    }
 
     int start, end;
     bool needs_kekulization = false;
     for (i = 0; i < nbonds; i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
 
         sscanf(buffer,"%*d %d %d %1024s",&start,&end,temp_type);
         str = temp_type;
@@ -469,10 +487,11 @@ namespace OpenBabel
           flags = OB_AROMATIC_BOND;
           needs_kekulization = true;
         }
-        else if (str == "AM" || str == "am" || str == "Am")
+        else if (str == "AM" || str == "am" || str == "Am") {
           order = 1;
-        else
+        } else {
           order = atoi(str.c_str());
+        }
 
         mol.AddBond(start, end, order, flags);
       }
@@ -493,17 +512,20 @@ namespace OpenBabel
         unsigned int total_valence = atom->GetTotalDegree();
         switch (atom->GetAtomicNum()) {
         case 8:
-          if (total_valence != 1) continue;
-          if (strcmp(atom->GetType(), "O2") != 0) continue; // TODO: the O.co2 type is lost by this point
+          if (total_valence != 1) { continue; }
+          if (strcmp(atom->GetType(), "O2") != 0) { continue; // TODO: the O.co2 type is lost by this point
+          }
           {
             OBAtomBondIter bit(&*atom);
-            if (!bit->IsAromatic() && bit->GetBondOrder() == 1)
+            if (!bit->IsAromatic() && bit->GetBondOrder() == 1) {
               atom->SetFormalCharge(-1); // set -1 charge on dangling O.co2
+            }
           }
           break;
         case 17: // Cl
-          if (total_valence == 0)
+          if (total_valence == 0) {
             atom->SetFormalCharge(-1);
+          }
           break;
         }
       }
@@ -517,26 +539,27 @@ namespace OpenBabel
       FOR_ATOMS_OF_MOL(atom, mol) {
         OBAtom* oxygenOrSulfur = &*atom;
         // Look first for a terminal O/S
-        if (!IsOxygenOrSulfur(oxygenOrSulfur) || oxygenOrSulfur->GetTotalDegree() != 1) continue;
+        if (!IsOxygenOrSulfur(oxygenOrSulfur) || oxygenOrSulfur->GetTotalDegree() != 1) { continue; }
         OBAtomBondIter bitA(oxygenOrSulfur);
         OBBond *bondA = &*bitA;
-        if (!bondA->IsAromatic()) continue;
+        if (!bondA->IsAromatic()) { continue; }
         // Look for the carbon
         OBAtom *carbon = bondA->GetNbrAtom(oxygenOrSulfur);
-        if (carbon->GetAtomicNum() != 6) continue;
+        if (carbon->GetAtomicNum() != 6) { continue; }
         // Look for the other oxygen or sulfur
         OBAtom* otherOxygenOrSulfur = nullptr;
         OBBond* bondB = nullptr;
         FOR_BONDS_OF_ATOM(bitB, carbon) {
-          if (&*bitB == bondA || !bitB->IsAromatic()) continue;
+          if (&*bitB == bondA || !bitB->IsAromatic()) { continue; }
           OBAtom* nbr = bitB->GetNbrAtom(carbon);
           if (IsOxygenOrSulfur(nbr) && nbr->GetTotalDegree() == 1) {
             otherOxygenOrSulfur = nbr;
             bondB = &*bitB;
           }
         }
-        if (!otherOxygenOrSulfur) continue;
-        if(otherOxygenOrSulfur->GetFormalCharge() != 0) continue; //formal charge already set on one
+        if (!otherOxygenOrSulfur) { continue; }
+        if(otherOxygenOrSulfur->GetFormalCharge() != 0) { continue; //formal charge already set on one
+        }
 
         // Now set as C(=O)O
         bondA->SetAromatic(false);
@@ -559,8 +582,9 @@ namespace OpenBabel
         stringstream errorMsg;
         errorMsg << "Failed to kekulize aromatic bonds in MOL2 file";
         std::string title = mol.GetTitle();
-        if (!title.empty())
+        if (!title.empty()) {
           errorMsg << " (title is " << title << ")";
+        }
         errorMsg << endl;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
         // return false; Should we return false for a kekulization failure?
@@ -573,15 +597,17 @@ namespace OpenBabel
     // Mol2 files define atom types -- there is no need to re-perceive
     mol.SetAtomTypesPerceived();
 
-    if (has_residue_information)
+    if (has_residue_information) {
       mol.SetChainsPerceived();
+    }
 
     if (!has_explicit_hydrogen) {
       // Guess how many hydrogens are present on each atom based on typical valencies
       // TODO: implement the MOL2 valence model (if it exists)
       FOR_ATOMS_OF_MOL(matom, mol) {
-        if (matom->GetImplicitHCount() == 0)
+        if (matom->GetImplicitHCount() == 0) {
           OBAtomAssignTypicalImplicitHydrogens(&*matom);
+        }
       }
     }
 
@@ -595,8 +621,9 @@ namespace OpenBabel
         delete [] comment;
         comment = nullptr;
       }
-    if (hasPartialCharges)
+    if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
+    }
 
     /* Disabled due to PR#3048758 -- seekg is very slow with gzipped mol2
     // continue untill EOF or untill next molecule record
@@ -621,8 +648,9 @@ namespace OpenBabel
   bool MOL2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -653,10 +681,11 @@ namespace OpenBabel
 
     ofs << "@<TRIPOS>MOLECULE" << endl;
     str = mol.GetTitle();
-    if (str.empty())
+    if (str.empty()) {
       ofs << "*****" << endl;
-    else
+    } else {
       ofs << str << endl;
+    }
 
     snprintf(buffer, BUFF_SIZE," %d %d 0 0 0", mol.NumAtoms(),mol.NumBonds());
     ofs << buffer << endl;
@@ -668,16 +697,17 @@ namespace OpenBabel
         // NO_CHARGES, DEL_RE, GASTEIGER, GAST_HUCK, HUCKEL, PULLMAN,
         // GAUSS80_CHARGES, AMPAC_CHARGES, MULLIKEN_CHARGES, DICT_ CHARGES,
         // MMFF94_CHARGES, USER_CHARGES
-      if (strcasecmp(dp->GetValue().c_str(),"Mulliken") == 0)
+      if (strcasecmp(dp->GetValue().c_str(),"Mulliken") == 0) {
         ofs << "MULLIKEN_CHARGES" << endl;
-      else if (strcasecmp(dp->GetValue().c_str(),"MMFF94") == 0)
+      } else if (strcasecmp(dp->GetValue().c_str(),"MMFF94") == 0) {
         ofs << "MMFF94_CHARGES" << endl;
-      else if (strcasecmp(dp->GetValue().c_str(),"ESP") == 0)
+      } else if (strcasecmp(dp->GetValue().c_str(),"ESP") == 0) {
         ofs << "USER_CHARGES" << endl;
-      else if (strcasecmp(dp->GetValue().c_str(),"Gasteiger") == 0)
+      } else if (strcasecmp(dp->GetValue().c_str(),"Gasteiger") == 0) {
         ofs << "GASTEIGER" << endl;
-      else // ideally, code should pick from the Tripos types
+      } else { // ideally, code should pick from the Tripos types
         ofs << "USER_CHARGES" << endl;
+      }
     }
     else { // No idea what these charges are... all our code sets "PartialCharges"
         ofs << "GASTEIGER" << endl;
@@ -721,7 +751,7 @@ namespace OpenBabel
         str = atom->GetType();
         ttab.Translate(str1,str);
 
-        if (atom->GetFormalCharge() != 0) hasFormalCharges = true;
+        if (atom->GetFormalCharge() != 0) { hasFormalCharges = true; }
         //
         //  Use original atom names if there are residues
         //
@@ -768,12 +798,13 @@ namespace OpenBabel
       {
         s1 = bond->GetBeginAtom()->GetType();
         s2 = bond->GetEndAtom()->GetType();
-        if (bond->IsAromatic() || s1 == "O.co2" || s2 == "O.co2")
+        if (bond->IsAromatic() || s1 == "O.co2" || s2 == "O.co2") {
           strcpy(label,"ar");
-        else if (bond->IsAmide())
+        } else if (bond->IsAmide()) {
           strcpy(label,"am");
-        else
+        } else {
           snprintf(label,BUFF_SIZE,"%d",bond->GetBondOrder());
+        }
 
         snprintf(buffer, BUFF_SIZE,"%6d %5d %5d   %2s",
                  bond->GetIdx()+1,bond->GetBeginAtomIdx(),bond->GetEndAtomIdx(),
@@ -790,16 +821,19 @@ namespace OpenBabel
   {
     const char txt[] = "@<TRIPOS>MOLECULE";
     istream& ifs = *pConv->GetInStream();
-    if(!ifs)
+    if(!ifs) {
       return -1;
-    if(n>0 && ifs.peek()==txt[0])
+    }
+    if(n>0 && ifs.peek()==txt[0]) {
       ifs.ignore(); // move past '@' so that next mol will be found
+    }
     do {
       ignore(ifs, txt);
     } while(ifs && (--n)>0);
 
-    if(!ifs.eof())
+    if(!ifs.eof()) {
       ifs.seekg(1-sizeof(txt), ios::cur);//1 for '/0'
+    }
     char ch = ifs.peek();
    return 1;
   }

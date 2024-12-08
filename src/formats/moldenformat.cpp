@@ -111,7 +111,7 @@ OBMoldenFormat moldenFormat__;
 bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
     OBMol* pmol = dynamic_cast< OBMol* >(pOb);
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
 
     istream& ifs = *pConv->GetInStream();
 
@@ -133,11 +133,12 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             lineBuffer.find( "[ATOMS]" ) != string::npos ) {
           unsigned int ecpLines = 0;
           double factor = 1.; // Angstrom
-          if( lineBuffer.find( "AU" ) != string::npos ) factor = BOHR_TO_ANGSTROM; // Bohr
+          if( lineBuffer.find( "AU" ) != string::npos ) { factor = BOHR_TO_ANGSTROM; // Bohr
+          }
           while( getline( ifs, lineBuffer ) )
             {
-              if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer == "" ) { continue; }
+              if( lineBuffer.find( "[" ) != string::npos ) { break; }
               istringstream is( lineBuffer );
               string atomName;
               int atomId;
@@ -146,7 +147,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               double x, y, z;
               is >> atomName >> atomId >> valenceCharge >> x >> y >> z;
               OBAtom* atom = pmol->NewAtom();
-              if( !atom ) break;
+              if( !atom ) { break; }
               atomicNumber = OBElements::GetAtomicNum(atomName.c_str());
               atom->SetAtomicNum( atomicNumber );
               atom->SetVector( x * factor, y * factor, z * factor );
@@ -167,8 +168,8 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         } // "[Atoms]" || "[ATOMS]"
         if ( lineBuffer.find( "[GEOMETRIES] (XYZ)" ) != string::npos ) {
           while( getline( ifs, lineBuffer ) ) {
-              if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer == "" ) { continue; }
+              if( lineBuffer.find( "[" ) != string::npos ) { break; }
 
               // should give us a number of atoms (i.e., this is an XYZ-format file)
               unsigned int natoms;
@@ -200,11 +201,13 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               vector<vector3> coordinates;
               vector<string> vs;
               for (unsigned int a = 0; a < natoms; ++a) {
-                if (!getline(ifs, lineBuffer) )
+                if (!getline(ifs, lineBuffer) ) {
                   break;
+                }
                 tokenize(vs, lineBuffer);
-                if (vs.size() != 4)
+                if (vs.size() != 4) {
                   break;
+                }
 
                 double x, y, z;
                 x = atof(vs[1].c_str());
@@ -224,7 +227,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                   }
 
                   OBAtom* atom = pmol->NewAtom();
-                  if( !atom ) break;
+                  if( !atom ) { break; }
                   atom->SetAtomicNum( atomicNum );
                   atom->SetVector( x, y, z );
                 } // end creating atoms
@@ -238,8 +241,8 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         if( lineBuffer.find( "[FREQ]" ) != string::npos ) {
           while( getline( ifs, lineBuffer ) )
             {
-              if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer == "" ) { continue; }
+              if( lineBuffer.find( "[" ) != string::npos ) { break; }
               istringstream is( lineBuffer );
               double freq;
               is >> freq;
@@ -249,8 +252,8 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         if( lineBuffer.find( "[INT]" ) != string::npos ) {
           while( getline( ifs, lineBuffer ) )
             {
-              if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer == "" ) { continue; }
+              if( lineBuffer.find( "[" ) != string::npos ) { break; }
               istringstream is( lineBuffer );
               double intens;
               is >> intens;
@@ -263,14 +266,14 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             // in the file.
             while ( getline( ifs, lineBuffer ) )
               {
-                if( lineBuffer == "" ) continue;
-                if( lineBuffer.find( "[" ) != string::npos ) break;
+                if( lineBuffer == "" ) { continue; }
+                if( lineBuffer.find( "[" ) != string::npos ) { break; }
                 string atomName;
                 double x, y, z;
                 istringstream is( lineBuffer );
                 is >> atomName >> x >> y >> z;
                 OBAtom* atom = pmol->NewAtom();
-                if( !atom ) break;
+                if( !atom ) { break; }
                 atom->SetAtomicNum( OBElements::GetAtomicNum(atomName.c_str()));
                 // Vibrational equilibrium geometry is mandated to be
                 // in Bohr.
@@ -314,7 +317,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         if (fabs(Frequencies[i]) < 10.) {
           // skip translational and rotational modes
           Frequencies.erase( Frequencies.begin() + i );
-          if (Intensities.size() > i) Intensities.erase( Intensities.begin() + i );
+          if (Intensities.size() > i) { Intensities.erase( Intensities.begin() + i ); }
           Lx.erase( Lx.begin() + i );
           i--;  // compensate for the vibration which just got cut out
         }
@@ -324,15 +327,17 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       pmol->SetData(vd);
     }
 
-    if (energies.size() > 0)
+    if (energies.size() > 0) {
       pmol->SetEnergies(energies);
+    }
 
     if (conformers.size() > 0) {
       for (unsigned int i = 0; i < conformers.size(); ++i) {
         double *confCoord = new double [3*pmol->NumAtoms()];
         vector<vector3> coordinates = conformers[i];
-        if (coordinates.size() != pmol->NumAtoms())
+        if (coordinates.size() != pmol->NumAtoms()) {
           cerr << " Wrong number of coordinates! " << endl;
+        }
         for (unsigned int a = 0; a < coordinates.size(); ++a) {
           confCoord[3*a] = coordinates[a].x();
           confCoord[3*a+1] = coordinates[a].y();
@@ -343,7 +348,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       pmol->SetConformer(pmol->NumConformers());
     }
 
-    if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) pmol->ConnectTheDots();
+    if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) { pmol->ConnectTheDots(); }
     if (!pConv->IsOption( "s", OBConversion::INOPTIONS )
         && !pConv->IsOption( "b", OBConversion::INOPTIONS ) )
     {
@@ -357,8 +362,9 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
