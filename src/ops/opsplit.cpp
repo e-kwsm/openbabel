@@ -90,8 +90,9 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     return true;
   }
 
-  if(!pConv)
+  if(!pConv) {
     return false;
+  }
   
     if(pConv->IsFirstInput())
   {
@@ -113,15 +114,17 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     // Otherwise use current directory and the ID of the output format.
     _outExt = _outPath = pConv->GetOutFilename(); //This may not be present yet in OBConversion
     std::string::size_type pos = _outPath.find_last_of("\\/");
-    if(pos!=std::string::npos)
+    if(pos!=std::string::npos) {
       _outPath.erase(pos+1);
-    else
+    } else {
       _outPath.clear();
+    }
     pos = _outExt.rfind('.');
-    if(pos!=std::string::npos)
+    if(pos!=std::string::npos) {
       _outExt.erase(0, pos+1);
-    else
+    } else {
       _outExt = _realOutFormat->GetID();
+    }
 
     /* Need to call this op after all other options because it outputs directly
        rather than letting OBConversion do the writing. Use the trick of
@@ -155,8 +158,9 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   }
   else //use OBPairData property
   {
-    if(pOb->HasData(_optionText))
+    if(pOb->HasData(_optionText)) {
       name = pOb->GetData(_optionText)->GetValue();
+    }
   }
 
   bool filenameok = !name.empty() && name.find_first_of("/\\:*|?\"") == std::string::npos;
@@ -174,8 +178,9 @@ bool OpSplit::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     std::stringstream ss;
     ss << _outPath << _inputCount << '.' << _outExt;
     ofs.clear();
-    if(ofs.is_open())
+    if(ofs.is_open()) {
       ofs.close();
+    }
     ofs.open(ss.str().c_str());
     if(!ofs)
     {

@@ -41,8 +41,9 @@ bool AddDataToSubstruct(OBMol* pmol,
   for(unsigned int j=0; j<atomIdxs.size(); ++j)
   {
     OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
-    if(!pAtom)
+    if(!pAtom) {
       continue;
+    }
     OBPairData* dp = new OBPairData;
     dp->SetAttribute(attribute);
     dp->SetValue(value);
@@ -73,9 +74,11 @@ Deletes all atoms except those in @p atomIndxs
 bool ExtractSubstruct(OBMol* pmol, const std::vector<int>& atomIdxs)
 {
   //Erase from the top to avoid invalidating the remaining ones
-  for(int i = pmol->NumAtoms(); i; --i)
-    if(find(atomIdxs.begin(),atomIdxs.end(), i)==atomIdxs.end())
+  for(int i = pmol->NumAtoms(); i; --i) {
+    if(find(atomIdxs.begin(),atomIdxs.end(), i)==atomIdxs.end()) {
       pmol->DeleteAtom(pmol->GetAtom(i));
+    }
+  }
   return true;
 }
 
@@ -93,11 +96,13 @@ bool MakeQueriesFromMolInFile(vector<OBQuery*>& queries, const std::string& file
         !(pFormat = patternConv.FormatFromExt(filename.c_str())) ||
         !patternConv.SetInFormat(pFormat) ||
         !patternConv.ReadFile(&patternMol, filename) ||
-        patternMol.NumAtoms()==0)
+        patternMol.NumAtoms()==0) {
       return false;
+    }
 
-    if(noH)
+    if(noH) {
       patternMol.DeleteHydrogens();
+    }
 
     do
     {
@@ -165,8 +170,9 @@ OpNewS theOpNewV("v");
 bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   // The SMARTS and any other parameters are extracted on the first molecule
   // and stored in the member variables. The parameter is cleared so that
@@ -195,8 +201,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     //allows -s option to be used for highlighting substructures (--highlight also does this)
     vector<string>::iterator it = std::remove(vec.begin(), vec.end(),"showall");
     showAll = it != vec.end();
-    if(showAll)
+    if(showAll) {
       vec.erase(it);
+    }
 
     //Store the number of matches required, if as a number in the second parameter, else 0.
     nmatches = 0;
@@ -204,13 +211,15 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     if(vec.size()>1)
     {
       comparechar = vec[1][0];
-      if(comparechar=='>' || comparechar=='<')
+      if(comparechar=='>' || comparechar=='<') {
         vec[1].erase(0,1);
-      else
+      } else {
         comparechar = '\0';
+      }
       nmatches = atoi(vec[1].c_str());
-      if(nmatches) //remove this parameter to still allow coloring
+      if(nmatches) { //remove this parameter to still allow coloring
         vec.erase(vec.begin()+1);
+      }
     }
 
     //Interpret as a filename if possible
@@ -236,8 +245,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
         {
           OBConversion extraConv;
           extraConv.AddOption("h");
-          if(!extraConv.SetOutFormat("smi"))
+          if(!extraConv.SetOutFormat("smi")) {
             return false;
+          }
           // Add option which avoids implicit H being added to the SMARTS.
           // The parameter must be present but can be anything.
           extraConv.AddOption("h",OBConversion::OUTOPTIONS, "X");
@@ -262,8 +272,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     else
     {
       // Target is in a file. Add extra targets if any supplied
-      for(unsigned i=0;i<ExtraMols.size();++i)
+      for(unsigned i=0;i<ExtraMols.size();++i) {
         queries.push_back(CompileMoleculeQuery(static_cast<OBMol*>(ExtraMols[i])));
+      }
       ExtraMols.clear();
     }
 
@@ -279,19 +290,22 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
           obErrorLog.ThrowError(__FUNCTION__, "Cannot read the parameter of -s option, "
           "which has to be valid SMILES when the exact option is used.", obError, onceOnly);
           delete pmol;
-          if(pConv)
+          if(pConv) {
             pConv->SetOneObjectOnly(); //stop conversion
+          }
           return false;
         }
         nPatternAtoms = patmol.NumHvyAtoms();
       }
     }
-    else
+    else {
       nPatternAtoms = 0;
+    }
 
     //disable old versions
-    if(pConv)
+    if(pConv) {
       pConv->AddOption(GetID(), OBConversion::GENOPTIONS, "");
+    }
   }
 
   bool match = false;
@@ -299,9 +313,11 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
   vector<vector<int> > vecatomvec;
   vector<vector<int> >* pMappedAtoms = nullptr;
 
-  if(nPatternAtoms)
-    if(pmol->NumHvyAtoms() != nPatternAtoms)
+  if(nPatternAtoms) {
+    if(pmol->NumHvyAtoms() != nPatternAtoms) {
       return false;
+    }
+  }
 
   unsigned int imol=0; //index of mol in pattern file
   if(!queries.empty()) //filename supplied
@@ -319,8 +335,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
         for(ita=mappings.begin(); ita!=mappings.end();++ita)//each mapping
         {
           vector<int> atomvec;
-          for(itb=ita->begin(); itb!=ita->end();++itb)//each atom index
+          for(itb=ita->begin(); itb!=ita->end();++itb) { //each atom index
             atomvec.push_back(itb->second+1);
+          }
           vecatomvec.push_back(atomvec);
           atomvec.clear();
         }
@@ -332,8 +349,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
   else //SMARTS supplied
   {
 
-    if(addHydrogens)
+    if(addHydrogens) {
       pmol->AddHydrogens(false,false);
+    }
 
     if( (match = sp.Match(*pmol)) ) // extra parens to indicate truth value
     {
@@ -341,9 +359,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
       if(nmatches!=0)
       {
         int n = sp.GetUMapList().size();
-        if(comparechar=='>')      match = (n > nmatches);
-        else if(comparechar=='<') match = (n < nmatches);
-        else                      match = (n == nmatches);
+        if(comparechar=='>')      { match = (n > nmatches); }
+        else if(comparechar=='<') { match = (n < nmatches); }
+        else                      { match = (n == nmatches); }
       }
     }
   }
@@ -356,11 +374,12 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     return false;
   }
 
-  if(match)
+  if(match) {
     //Copy the idxes of the first match to a member variable so that it can be retrieved from outside
     firstmatch.assign(pMappedAtoms->begin()->begin(), pMappedAtoms->begin()->end());
-  else
+  } else {
     firstmatch.clear();
+  }
 
   if(match && !inv && vec.size()>=2 && !vec[1].empty() && !nPatternAtoms)
   {
@@ -375,17 +394,20 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
     // color the substructure if there is a second parameter which is not "exact" or "extract" or "noH"
     // with multiple color parameters use the one corresponding to the query molecule, or the last
-    if(imol>vec.size()-2)
+    if(imol>vec.size()-2) {
       imol = vec.size()-2;
-    for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
+    }
+    for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter) { //each match
        AddDataToSubstruct(pmol, *iter, "color", vec[imol+1]);
+    }
     return true;
   }
 
   if(pConv && pConv->IsLast())
   {
-    for(qiter=queries.begin();qiter!=queries.end();++qiter)
+    for(qiter=queries.begin();qiter!=queries.end();++qiter) {
       delete *qiter;
+    }
     queries.clear();
   }
   return true;

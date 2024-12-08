@@ -91,8 +91,9 @@ OpAlign theSecondOpAlign("align");
 bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
     
   map<string,string>::const_iterator itr;
 
@@ -122,8 +123,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   if(pmol->GetDimension()==3 && (pConv->GetOutFormat()->Flags() & DEPICTION2D))
   {
     OBOp* pgen = OBOp::FindType("gen2D");
-    if(pgen)
+    if(pgen) {
       pgen->Do(pmol);
+    }
   }
 
   // All molecules must have coordinates, so add them if 0D
@@ -135,8 +137,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     //Will the coordinates be 2D or 3D?
     itr = pmap->find("gen3D");
     OBOp* pgen = (itr==pmap->end()) ? OBOp::FindType("gen2D") : OBOp::FindType("gen3D");
-    if(pgen)
+    if(pgen) {
       pgen->Do(pmol);
+    }
   }
 
   //Do the alignment in 2D if the output format is svg, png etc. and there is no -xn option
@@ -146,8 +149,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     if(pOutFormat->Flags() & DEPICTION2D)
     {
       OBOp* pgen = OBOp::FindType("gen2D");
-      if(pgen)
+      if(pgen) {
         pgen->Do(pmol);
+      }
     }
   }
 
@@ -156,9 +160,10 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     _refvec.clear();
     // Reference molecule is basically the first molecule
     _refMol = *pmol;
-    if(!_pOpIsoM)
+    if(!_pOpIsoM) {
      //no -s option. Use a molecule reference.
      _align.SetRefMol(_refMol);
+    }
     else
     {
       //If there is a -s option, reference molecule has only those atoms that are matched
@@ -170,7 +175,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
       {
         // Make a vector of the matching atom coordinates...
         for(vector<int>::iterator iter=ats.begin(); iter!=ats.end(); ++iter)
+        {
           _refvec.push_back((pmol->GetAtom(*iter))->GetVector());        
+        }
         // ...and use a vector reference
         _align.SetRef(_refvec);
       }
@@ -203,8 +210,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   if(_pOpIsoM) //Using -s option
   {   
     //Ignore mol if it does not pass -s option
-    if(!_pOpIsoM->Do(pmol, "", pmap, pConv)) // "" means will use existing parameters
+    if(!_pOpIsoM->Do(pmol, "", pmap, pConv)) { // "" means will use existing parameters
       return false;
+    }
 
     // Get the atoms equivalent to those in ref molecule        
     vector<int> ats = _pOpIsoM->GetMatchAtoms();
@@ -221,13 +229,15 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
     
     // Do the alignment
     _align.SetTarget(vec);
-    if(!_align.Align())
+    if(!_align.Align()) {
       return false;
+    }
 
     // Get the centroid of the reference atoms
     vector3 ref_centroid;
-    for(vector<vector3>::iterator iter=_refvec.begin(); iter!=_refvec.end(); ++iter)
+    for(vector<vector3>::iterator iter=_refvec.begin(); iter!=_refvec.end(); ++iter) {
       ref_centroid += *iter;
+    }
     ref_centroid /= _refvec.size();
 
     //subtract the centroid, rotate the target molecule, then add the centroid
@@ -244,8 +254,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   else //Not using -s option)
   {
     _align.SetTargetMol(*pmol);
-    if(!_align.Align())
+    if(!_align.Align()) {
       return false;
+    }
     _align.UpdateCoords(pmol);
   }
 
@@ -253,8 +264,9 @@ bool OpAlign::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*
   OBPairData* dp = new OBPairData;
   dp->SetAttribute("rmsd");
   double val = _align.GetRMSD();
-  if(val<1e-12)
+  if(val<1e-12) {
     val = 0.0;
+  }
   dp->SetValue(toString(val));
   dp->SetOrigin(local);
   pmol->SetData(dp);

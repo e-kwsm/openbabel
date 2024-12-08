@@ -49,8 +49,9 @@ OpReadConformers theOpReadConformers("readconformer"); //Global instance
 bool OpReadConformers::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   //Make a deferred format and divert the output to it
-  if(pConv && pConv->IsFirstInput())
+  if(pConv && pConv->IsFirstInput()) {
     new DeferredFormat(pConv, this); //it will delete itself
+  }
 
   return true;
 }
@@ -72,8 +73,9 @@ bool OpReadConformers::ProcessVec(std::vector<OBBase*>& vec)
   for(iter= vec.begin();iter!=vec.end();++iter)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(*iter);
-    if(!pmol)
+    if(!pmol) {
       continue;
+    }
     smiles = smconv.WriteString(pmol);
     Trim(smiles);
 

@@ -66,8 +66,9 @@ OpHighlight theOpHighlight("highlight"); //Global instance
 bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
   std::vector<std::string> vec;
   tokenize(vec, OptionText);
   
@@ -110,17 +111,20 @@ bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConvers
       return false;
     }
 
-    if(addHydrogens)
+    if(addHydrogens) {
       pmol->AddHydrogens(false,false);
+    }
 
-    if( (match = sp.Match(*pmol)) ) // extra parens to indicate truth value
+    if( (match = sp.Match(*pmol)) ) { // extra parens to indicate truth value
       pMappedAtoms = &sp.GetMapList();
+    }
 
     if(match)
     {
       vector<vector<int> >::iterator iter;
-      for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
+      for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter) {//each match
          AddDataToSubstruct(pmol, *iter, "color", color);
+      }
     }
   }
 
@@ -137,8 +141,9 @@ bool OpHighlight::AddDataToSubstruct(OBMol* pmol,
   for(unsigned int j = 0; j < atomIdxs.size(); ++j)
   {
     OBAtom* pAtom = pmol->GetAtom(atomIdxs[j]);
-    if(!pAtom)
+    if(!pAtom) {
       continue;
+    }
     OBPairData* dp = new OBPairData;
     dp->SetAttribute(attribute);
     dp->SetValue(value);

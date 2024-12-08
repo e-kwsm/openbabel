@@ -78,12 +78,14 @@ OpLargest theOpSmallest("smallest");
 /////////////////////////////////////////////////////////////////
 bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
-  if(!strcmp(OptionText, "inactive"))
+  if(!strcmp(OptionText, "inactive")) {
     return true;
+  }
 
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
   if(pConv->IsFirstInput())
   {
     _pConv = pConv;
@@ -91,8 +93,9 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
     _rev = strcmp(GetID(),"largest")!=0; //_rev is initially true for --smallest
     std::vector<string> vec;
     tokenize(vec, OptionText);
-    if(vec.size()>1 && isdigit(vec[1][0]))
+    if(vec.size()>1 && isdigit(vec[1][0])) {
       swap(vec[0], vec[1]); //ensure n desc or desc 
+    }
 
     unsigned idesc = vec.size()>1 ? 1 : 0;
 
@@ -104,8 +107,9 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
     //If + is last char of descriptor the val is to be added to title on output
     string::iterator it = vec[idesc].end() -1;
     _addDescToTitle = (*it=='+');
-    if(_addDescToTitle)
+    if(_addDescToTitle) {
       vec[idesc].erase(it);
+    }
 
     //If the first molecule has matching OBPairData, use that and set _pDesc to NULL
     if(!vec.empty() && MatchPairData(pOb, vec[idesc]))
@@ -130,10 +134,12 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
     }
     
     _nmols=1;
-    if(vec.size()>1)
+    if(vec.size()>1) {
       _nmols = atoi(vec[0].c_str());
-    if(_nmols==0)
+    }
+    if(_nmols==0) {
       _nmols=1;
+    }
  
     //It is necessary for this op to act *after* all the other options. They
     //might filter out molecules and the user will expect this op to select
@@ -157,17 +163,19 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
   //Save in map if descriptor val is better
   // than the current selection or otherwise delete
   double val;
-  if(_pDesc)
+  if(_pDesc) {
     val = _pDesc->Predict(pOb, &_param);
+  }
   else
   {
     stringstream ss(pOb->GetData(_prop)->GetValue());
     ss >> val;
   }
  
-  if(_selmap.size()<_nmols)
+  if(_selmap.size()<_nmols) {
     //populate map of selected mols up to desired number
     _selmap.insert(make_pair(val, pOb));
+  }
   else
   {
     //replace mols in selection if new mol is better candidate
@@ -180,8 +188,9 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConve
       _selmap.erase(leastwanted); // remove it from the map
       _selmap.insert(make_pair(val, pOb)); //add new candidate
     }
-    else
+    else {
       delete pOb; // discard  a mol that did not make selection
+    }
   }
   return false; //do not save in DeferredFormat 
 }
@@ -203,8 +212,9 @@ bool OpLargest::ProcessVec(vector<OBBase*>& vec)
     }
     vec.push_back(iter->second);
   }
-  if(_rev) //it's difficult to find an elegant and efficient way of doing this
+  if(_rev) { //it's difficult to find an elegant and efficient way of doing this
     reverse(vec.begin(),vec.end());
+  }
   return true;
 }
 
@@ -213,15 +223,18 @@ bool OpLargest::MatchPairData(OBBase* pOb, string& s)
   //If s matches a PairData attribute return true
   //else if s with all '_' replaced by spaces matches return true and s is now the form with spaces
   //else return false.
-  if(pOb->HasData(s))
+  if(pOb->HasData(s)) {
     return true;
-  if(s.find('_')==string::npos)
+  }
+  if(s.find('_')==string::npos) {
     return false;
+  }
   string temp(s);
   string::size_type pos = string::npos;
   //replace all underscores by spaces
-  while((pos=temp.find('_', ++pos))!=string::npos)
+  while((pos=temp.find('_', ++pos))!=string::npos) {
     temp[pos]=' ';
+  }
   if(pOb->HasData(temp))
   {
     s = temp;

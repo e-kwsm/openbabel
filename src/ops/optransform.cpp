@@ -41,8 +41,9 @@ bool OpTransform::Initialize()
   _dataLoaded=true;
   _transforms.clear();
   ifstream ifs;
-  if(ifs.is_open())
+  if(ifs.is_open()) {
     ifs.close();
+  }
   char charBuffer[BUFF_SIZE];
 
   // Set the locale for number parsing to avoid locale issues: PR#1785463
@@ -61,12 +62,15 @@ bool OpTransform::Initialize()
       obErrorLog.ThrowError(__FUNCTION__," Could not open " + string(_filename), obError);
       return false;
     }
-    while(ifs.getline(charBuffer,BUFF_SIZE))
+    while(ifs.getline(charBuffer,BUFF_SIZE)) {
       ParseLine(charBuffer);
+    }
   }
-  else //When filename is * use data in lines following
-    for(unsigned int i=4; i < _textlines.size(); ++i)
+  else { //When filename is * use data in lines following
+    for(unsigned int i=4; i < _textlines.size(); ++i) {
       ParseLine(_textlines[i].c_str());
+    }
+  }
 
 
   // return the locale to the original one
@@ -80,8 +84,9 @@ void OpTransform::ParseLine(const char *buffer)
 {
   vector<string> vs;
 
-  if (buffer[0] == '#')
+  if (buffer[0] == '#') {
     return;
+  }
 
   if (EQn(buffer,"TRANSFORM",7))
   {
@@ -100,26 +105,31 @@ void OpTransform::ParseLine(const char *buffer)
         string mes("Could not make valid transform from the line:\n");
         obErrorLog.ThrowError(__FUNCTION__, mes + buffer, obWarning);
       }
-      else
+      else {
         _transforms.push_back(tr);
+      }
     }
   }
 }
 bool OpTransform::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
 #ifndef _DEBUG //reloads on every call in debug mode
-  if(!_dataLoaded)
+  if(!_dataLoaded) {
 #endif
-    if(!Initialize())
+    if(!Initialize()) {
       return false;
+    }
+  }
 
   vector<OBChemTsfm>::iterator itr;
-  for(itr=_transforms.begin(); itr!=_transforms.end();++itr)
+  for(itr=_transforms.begin(); itr!=_transforms.end();++itr) {
     itr->Apply(*pmol);
+  }
   return true;
 }
 //Dummy instance so that OpTransform will be recognized by define plugin

@@ -91,8 +91,9 @@ namespace OpenBabel
   bool OpConfab::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv=nullptr)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if(!pmol)
+    if(!pmol) {
       return false;
+    }
 
     if(pConv->IsFirstInput())
     {
@@ -105,20 +106,25 @@ namespace OpenBabel
 
       OpMap::const_iterator iter;
       iter = pmap->find("rcutoff");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         rmsd_cutoff = atof(iter->second.c_str());
+      }
       iter = pmap->find("ecutoff");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         energy_cutoff = atof(iter->second.c_str());
+      }
       iter = pmap->find("conf");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         conf_cutoff = atoi(iter->second.c_str());
+      }
       iter = pmap->find("verbose");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         verbose = true;
+      }
       iter = pmap->find("original");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         include_original = true;
+      }
 
       cout << "**Starting Confab " << CONFAB_VER << "\n";
       cout << "**To support, cite Journal of Cheminformatics, 2011, 3, 8.\n";
@@ -166,8 +172,9 @@ namespace OpenBabel
 
     for (; c < mol.NumConformers(); ++c) {
       mol.SetConformer(c);
-      if(!pConv->GetOutFormat()->WriteMolecule(&mol, pConv))
+      if(!pConv->GetOutFormat()->WriteMolecule(&mol, pConv)) {
         break;
+      }
     }
     cout << endl;
 

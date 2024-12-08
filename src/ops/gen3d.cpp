@@ -48,8 +48,9 @@ OpGen3D theOpGen3D("gen3D"); //Global instance
 bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   // As with gen2D, we need to perceive the stereo if coming from 0D.
   // Otherwise, unspecified cis/trans stereobonds become specified.
@@ -76,19 +77,19 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   if (endptr == OptionText) { // not a number
     speed = 3; // we'll default to balanced
     // but let's also check if it's words like "fast" or "best"
-    if (strncasecmp(OptionText, "fastest", 7) == 0)
+    if (strncasecmp(OptionText, "fastest", 7) == 0) {
       speed = 5;
-    else if (strncasecmp(OptionText, "fast", 4) == 0) // already matched fastest
+    } else if (strncasecmp(OptionText, "fast", 4) == 0) { // already matched fastest
       speed = 4;
-    else if (strncasecmp(OptionText, "med", 3) == 0) // or medium
+    } else if (strncasecmp(OptionText, "med", 3) == 0) { // or medium
       speed = 3;
-    else if ( (strncasecmp(OptionText, "slowest", 7) == 0)
-             || (strncasecmp(OptionText, "best", 4) == 0) )
+    } else if ( (strncasecmp(OptionText, "slowest", 7) == 0)
+             || (strncasecmp(OptionText, "best", 4) == 0) ) {
       speed = 1;
-    else if ( (strncasecmp(OptionText, "slow", 4) == 0)
-              || (strncasecmp(OptionText, "better", 6) == 0) )
+    } else if ( (strncasecmp(OptionText, "slow", 4) == 0)
+              || (strncasecmp(OptionText, "better", 6) == 0) ) {
       speed = 2;
-    else if ( (strncasecmp(OptionText, "dist", 4) == 0)
+    } else if ( (strncasecmp(OptionText, "dist", 4) == 0)
                || (strncasecmp(OptionText, "dg", 2) == 0) ) {
       useDistGeom = true;
       speed = 5;
@@ -96,10 +97,11 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   }
 
   // Give some limits so we can use switch statements
-  if (speed < 1)
+  if (speed < 1) {
     speed = 1;
-  else if (speed > 5)
+  } else if (speed > 5) {
     speed = 5;
+  }
 
   bool success = false;
   unsigned int maxIter = 25;
@@ -118,8 +120,9 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     OBDistanceGeometry dg;
     if (useDistGeom) {
       // use the bond lengths and angles if we ran the builder
-      if (!dg.GetGeometry(molCopy, attemptBuild)) // ensured to have correct stereo
+      if (!dg.GetGeometry(molCopy, attemptBuild)) { // ensured to have correct stereo
         continue;
+      }
       speed = 3;
     }
 #endif
@@ -128,17 +131,20 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
     molCopy.SetDimension(3);
     molCopy.AddHydrogens(false, false); // Add some hydrogens before running MMFF
 
-    if (speed == 5)
+    if (speed == 5) {
       return true; // done
+    }
 
     // All other speed levels do some FF cleanup
     // Try MMFF94 first and UFF if that doesn't work
     OBForceField* pFF = OBForceField::FindForceField("MMFF94");
-    if (!pFF)
+    if (!pFF) {
       return true;
+    }
     if (!pFF->Setup(molCopy)) {
       pFF = OBForceField::FindForceField("UFF");
-      if (!pFF || !pFF->Setup(molCopy)) return true; // can't use either MMFF94 or UFF
+      if (!pFF || !pFF->Setup(molCopy)) { return true; // can't use either MMFF94 or UFF
+      }
     }
 
     // Since we only want a rough geometry, use distance cutoffs for VDW, Electrostatics

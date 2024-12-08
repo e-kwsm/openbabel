@@ -81,8 +81,9 @@ bool OpSort::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
     const char* pLast = OptionText + strlen(OptionText)-1;
     _addDescToTitle = *(OptionText + strlen(OptionText)-1)=='+';//last char
-    if(_addDescToTitle)
+    if(_addDescToTitle) {
       *const_cast<char*>(pLast)='\0';
+    }
 
     std::istringstream optionStream(OptionText);
     std::pair<std::string,std::string> spair = OBDescriptor::GetIdentifier(optionStream);
@@ -114,8 +115,9 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
     std::vector<std::pair<OBBase*,double> > valvec;
     valvec.reserve(vec.size());
     std::vector<OBBase*>::iterator iter;
-    for(iter=vec.begin();iter!=vec.end();++iter)
+    for(iter=vec.begin();iter!=vec.end();++iter) {
       valvec.push_back(std::make_pair<OBBase*,double>(&(**iter), _pDesc->Predict(*iter, &_pDescOption)));
+    }
 
     //Sort
     std::sort(valvec.begin(),valvec.end(), Order<double>(_pDesc, _rev));

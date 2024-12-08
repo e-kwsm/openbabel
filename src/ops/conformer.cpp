@@ -121,42 +121,51 @@ namespace OpenBabel
     int numConformers = 30;
 
     iter = pmap->find("log");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       log=true;
+    }
 
     iter = pmap->find("nconf");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       getValue<int>(iter->second, numConformers);
+    }
 
     iter = pmap->find("systematic");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       systematic = true;
+    }
 
     iter = pmap->find("random");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       random = true;
+    }
 
     iter = pmap->find("fast");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       fast = true;
+    }
 
     iter = pmap->find("weighted");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       weighted = true;
+    }
 
     iter = pmap->find("ring");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
         rings = true;
+    }
 
     iter = pmap->find("rings");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
         rings = true;
+    }
 
     if (systematic || random || fast || weighted) {
       std::string ff = "MMFF94";
       iter = pmap->find("ff");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         ff = iter->second;
+      }
       OBForceField* pFF = OBForceField::FindForceField(ff);
 
       // set some force field variables
@@ -203,57 +212,70 @@ namespace OpenBabel
       OBBitVec extrotors;
 
       iter = pmap->find("children");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         getValue<int>(iter->second, numChildren);
+      }
 
       iter = pmap->find("mutability");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         getValue<int>(iter->second, mutability);
+      }
 
       iter = pmap->find("convergence");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         getValue<int>(iter->second, convergence);
+      }
 
       iter = pmap->find("score");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         score = iter->second;
+      }
 
       OBConformerSearch cs;
       std::unique_ptr<OBConformerScore> s;
-      if (score == "energy")
+      if (score == "energy") {
         s.reset(new OBEnergyConformerScore{});
-      else if (score == "mine" || score == "minenergy")
+      } else if (score == "mine" || score == "minenergy") {
         s.reset(new OBMinimizingEnergyConformerScore{});
-      else if (score == "minr" || score == "minrmsd")
+      } else if (score == "minr" || score == "minrmsd") {
         s.reset(new OBMinimizingRMSDConformerScore{});
-      if (s)
+      }
+      if (s) {
         cs.SetScore(s.get());
+      }
 
       iter = pmap->find("csfilter");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         filter = iter->second;
+      }
  
       iter = pmap->find("vdw-factor");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         getValue<double>(iter->second, vdw_factor);
+      }
  
       iter = pmap->find("cutoff");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         getValue<double>(iter->second, cutoff);
+      }
       
       iter = pmap->find("ignore-H");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         check_hydrogens = false;
+      }
  
       std::unique_ptr<OBConformerFilter> f;
-      if (filter == "steric")
+      if (filter == "steric") {
         f.reset(new OBStericConformerFilter(cutoff, vdw_factor, check_hydrogens));
-      if (f)
+      }
+      if (f) {
         cs.SetFilter(f.get());
+      }
 
       iter = pmap->find("printrot");
-      if(iter!=pmap->end())
+      if(iter!=pmap->end()) {
         cs.PrintRotors(true);
+      }
 
       iter = pmap->find("onlyrot");
       if(iter!=pmap->end()){

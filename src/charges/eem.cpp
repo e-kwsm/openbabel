@@ -260,13 +260,13 @@ namespace OpenBabel
     for (j = 0; j < dim; ++j)
       {
         // make a local copy of column j
-        for (i = 0; i < dim; ++i) colJ[i] = A[i][j];
+        for (i = 0; i < dim; ++i) { colJ[i] = A[i][j]; }
         for (i = 0; i < dim; ++i)
           {
             pRowi = A[i];
             dummy = pRowi[j];
             kMax = i < j ? i : j;
-            for (k = 0; k < kMax; ++k) dummy -= pRowi[k] * colJ[k];
+            for (k = 0; k < kMax; ++k) { dummy -= pRowi[k] * colJ[k]; }
             colJ[i] = dummy;
             pRowi[j] = colJ[i];
           }
@@ -297,7 +297,7 @@ namespace OpenBabel
         if (j != dim - 1)
           {
             dummy = 1.0 / A[j][j]; // A.GetValueAt(j,j);
-            for (i = j + 1; i < dim; ++i) A[i][j] *= dummy;
+            for (i = j + 1; i < dim; ++i) { A[i][j] *= dummy; }
           }
 
 
@@ -313,7 +313,7 @@ namespace OpenBabel
   {
     unsigned int i, k;
 
-    for (i = 0; i < dim; ++i) _swapRows(B, i, I[i]);
+    for (i = 0; i < dim; ++i) { _swapRows(B, i, I[i]); }
 
     // forward substitution pass
     for (k = 0; k < dim; ++k)

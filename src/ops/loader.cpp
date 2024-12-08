@@ -60,7 +60,9 @@ public:
     if(!ifs)
     {
       if(filefound)
+      {
         obErrorLog.ThrowError(__FUNCTION__,string(filename) + " found but could not be opened", obError);
+      }
       return;
     }
 
@@ -72,18 +74,21 @@ public:
     {
       //More general version
       vector<string> textlines(1);
-      while(ifs && !ReadLine(ifs, textlines[0], true)); //get first non-blank line
-      if(!ifs)
+      while(ifs && !ReadLine(ifs, textlines[0], true)) {} //get first non-blank line
+      if(!ifs) {
         break;
+      }
       while(ReadLine(ifs, ln, true )) //get subsequent lines with comments removed
       {
         //Concatenate with next line if ends with "\n". Otherwise each in separate string
-        if(ln.size()>=2 && ln.substr(ln.size()-2)=="\\n")
+        if(ln.size()>=2 && ln.substr(ln.size()-2)=="\\n") {
           ln.replace(ln.size()-2, 2,"\n");//replace "\n" by '\n'
-        if(textlines.back()[textlines.back().size()-1]=='\n')
+        }
+        if(textlines.back()[textlines.back().size()-1]=='\n') {
           textlines.back() += ln; //concatenate
-        else
+        } else {
           textlines.push_back(ln);
+        }
       }
       //look up class name in map maintained in OBPlugin
       if(!textlines.empty() && FindDef(textlines[0].c_str()) != nullptr)
@@ -98,7 +103,9 @@ public:
         // populate _text fully before making the plugin instances.
       }
       else
+      {
         obErrorLog.ThrowError(__FUNCTION__, "Failed to make an instance " + textlines[0], obError);
+      }
       textlines.clear();
     }
 
@@ -118,8 +125,9 @@ public:
   ~OBDefine() override
   {
     std::vector<OBPlugin*>::iterator iter;
-    for(iter=_instances.begin();iter!=_instances.end();++iter)
+    for(iter=_instances.begin();iter!=_instances.end();++iter) {
       delete *iter;
+    }
   }
 
   const char* Description() override { return "Makes plugin classes from a datafile"; }
@@ -171,8 +179,9 @@ OBDefine placeholderOBDefine;
       {
         //Remove rest of line after # in first column or # followed by whitespace
         string::size_type pos = ln.find('#');
-        if(pos!=string::npos && (pos==0 || isspace(ln[pos+1])))
+        if(pos!=string::npos && (pos==0 || isspace(ln[pos+1]))) {
           ln.erase(pos);
+        }
       }
       Trim(ln);
       return !ln.empty();
@@ -189,18 +198,21 @@ OBPlugin* OBDefine::FindDef(const char* ID)
     for(iter=map.begin();iter!=map.end();++iter)
     {
       const char* pdescr = iter->second->Description();
-      if(!pdescr)
+      if(!pdescr) {
         continue;
+      }
       string descr(pdescr);
       //Matches if the ID is before the last occurrence of "definable"
       //in the description on the same line.
       string::size_type pos, pos2;
       pos= descr.rfind("definable");
-      if(pos==string::npos)
+      if(pos==string::npos) {
         continue;
+      }
       pos2 = descr.rfind('\n', pos);
-      if(pos2!=string::npos && descr.substr(pos2, pos-pos2).find(ID)!=string::npos)
+      if(pos2!=string::npos && descr.substr(pos2, pos-pos2).find(ID)!=string::npos) {
         return iter->second;
+      }
     }
   }
   return nullptr;

@@ -57,12 +57,14 @@ bool OpPartialCharge::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBCon
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   bool print = false;
 
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   iter = pmap->find("print");
-  if(iter!=pmap->end())
+  if(iter!=pmap->end()) {
     print=true;
+  }
 
 	if( OptionText ) {
 		arg = strdup( OptionText );

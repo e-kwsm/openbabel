@@ -67,8 +67,9 @@ OpNeutralize theOpNeutralize("neutralize"); //Global instance
 bool OpNeutralize::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   // The algorithm assumes that hydrogens are suppressed
   pmol->DeleteHydrogens();
@@ -110,8 +111,9 @@ bool OpNeutralize::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
 bool OpNeutralize::NoNegativelyChargedNbr(OBAtom *atm)
 {
   FOR_NBORS_OF_ATOM(nbr, atm) {
-    if (nbr->GetFormalCharge() < 0)
+    if (nbr->GetFormalCharge() < 0) {
       return false;
+    }
   }
   return true;
 }
@@ -119,8 +121,9 @@ bool OpNeutralize::NoNegativelyChargedNbr(OBAtom *atm)
 bool OpNeutralize::NoPositivelyChargedNbr(OBAtom *atm)
 {
   FOR_NBORS_OF_ATOM(nbr, atm) {
-    if (nbr->GetFormalCharge() > 0)
+    if (nbr->GetFormalCharge() > 0) {
       return false;
+    }
   }
   return true;
 }

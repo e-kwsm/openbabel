@@ -51,8 +51,9 @@ public:
         //need to set output index manually
         //Output to the original output.
         _pOrigConv->SetOutputIndex(pConv->GetOutputIndex()-2);
-        if(!_pOrigConv->AddChemObject(pMolCopy))
+        if(!_pOrigConv->AddChemObject(pMolCopy)) {
           pConv->SetLast(true); //error on main output stops conversion
+        }
         _pOrigConv->SetLast(pConv->IsLast());
       }
     }
@@ -61,10 +62,11 @@ public:
     if(_pExtraConv)
     {
       _pExtraConv->SetOutputIndex(pConv->GetOutputIndex()-2);
-      if(!_pExtraConv->AddChemObject(pOb))
+      if(!_pExtraConv->AddChemObject(pOb)) {
         _pExtraConv = nullptr; //error on extra output stops only it
-      else // need "else" or we'll dereference a NULL
+      } else { // need "else" or we'll dereference a NULL
         _pExtraConv->SetLast(pConv->IsLast());
+      }
     }
 
     if(pConv->IsLast())
@@ -141,8 +143,9 @@ bool OpExtraOut::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
     Make a copy the current OBConversion and replace the output format by
     an instance of ExtraFormat. This then does all the subsequent work.
   */
-  if(!pConv || !OptionText || *OptionText=='\0')
+  if(!pConv || !OptionText || *OptionText=='\0') {
     return true; //silent no-op. false would prevent the main output
+  }
 
   if(pConv->IsFirstInput())
   {
@@ -150,8 +153,9 @@ bool OpExtraOut::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversi
     Trim(sOptionText);
     OBConversion* pExtraConv = new OBConversion(*pConv); //copy ensures OBConversion::Index>-1
     std::ofstream* ofs;
-    if( (ofs = new std::ofstream(OptionText)) ) // extra parens to indicate truth value
+    if( (ofs = new std::ofstream(OptionText)) ) { // extra parens to indicate truth value
       pExtraConv->SetOutStream(ofs);
+    }
     if(!ofs || !pExtraConv->SetOutFormat(OBConversion::FormatFromExt(sOptionText)))
     {
       obErrorLog.ThrowError(__FUNCTION__, "Error setting up extra output file", obError);
