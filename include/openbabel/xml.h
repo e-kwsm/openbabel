@@ -187,22 +187,26 @@ namespace OpenBabel
       virtual int SkipObjects(int n, OBConversion* pConv)
         {
           //don't implement on base class
-          if(*EndTag()=='>')
+          if(*EndTag()=='>') {
             return 0;
+          }
 
           //Set up XMLConversion class with reader
           _pxmlConv = XMLConversion::GetDerived(pConv,true);
-          if(!_pxmlConv)
+          if(!_pxmlConv) {
             return -1;
+          }
 
           //always find the end of at least 1 object
-          if(n==0)++n;
+          if(n==0) { ++n; }
 
           //Skip n objects, returning -1 if not successful
           int i;
-          for(i=0; i<n; ++i)
-            if(_pxmlConv->SkipXML(EndTag())!=1)
+          for(i=0; i<n; ++i) {
+            if(_pxmlConv->SkipXML(EndTag())!=1) {
               return -1;
+            }
+          }
 
           return 1;
         }
@@ -232,11 +236,13 @@ namespace OpenBabel
       virtual bool ReadMolecule(OBBase* pOb, OBConversion* pConv)
         {
           _pmol = dynamic_cast<OBMol*>(pOb);
-          if(!_pmol)
+          if(!_pmol) {
             return false;
+          }
           _pxmlConv = XMLConversion::GetDerived(pConv,true);
-          if(!_pxmlConv)
+          if(!_pxmlConv) {
             return false;
+          }
           _embedlevel = -1;
           return _pxmlConv->ReadXML(this,pOb);
         };
