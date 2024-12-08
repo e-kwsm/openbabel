@@ -58,8 +58,9 @@ int main(int argc,char **argv)
     exit (-1);
   }
   // If we can't also use this for an output format, use XYZ
-  if (!conv.SetOutFormat(inFormat))
+  if (!conv.SetOutFormat(inFormat)) {
     conv.SetOutFormat(conv.FindFormat("xyz"));
+  }
 
   ifstream ifs;
 
@@ -77,8 +78,9 @@ int main(int argc,char **argv)
     {
       mol.Clear();
       conv.Read(&mol, &ifs);
-      if (mol.Empty())
+      if (mol.Empty()) {
         break;
+      }
 
       // not needed by OBPointGroup, but useful for external programs
       pg.Setup(&mol);

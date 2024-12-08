@@ -105,10 +105,12 @@ int main(int argc,char **argv)
 
   for (c=1;;c++) {
       mol.Clear();
-      if (!conv.Read(&mol, &ifs))
+      if (!conv.Read(&mol, &ifs)) {
         break;
-      if (mol.Empty())
+      }
+      if (mol.Empty()) {
         break;
+      }
 
       OBForceField* pFF = OBForceField::FindForceField(ff);
       if (!pFF) {

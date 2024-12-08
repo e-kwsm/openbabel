@@ -152,8 +152,9 @@ class Matcher
 
 			double rmsd = calc_rms(refcoord, testcoord, N);
 
-			if (rmsd < bestRMSD)
+			if (rmsd < bestRMSD) {
 				bestRMSD = rmsd;
+			}
 			// check all possible mappings
 			return false;
 		}
@@ -368,15 +369,16 @@ int main(int argc, char **argv)
       OBMol moltest;
       while (testconv.Read(&moltest))
       {
-        if (moltest.Empty())
+        if (moltest.Empty()) {
           break;
+        }
 
         processMol(moltest);
 
         double bestRMSD = HUGE_VAL;
         for(unsigned i = 0, n = matchers.size(); i < n; i++) {
           double rmsd = matchers[i].computeRMSD(moltest, minimize);
-          if(rmsd < bestRMSD) bestRMSD = rmsd;
+          if(rmsd < bestRMSD) { bestRMSD = rmsd; }
         }
 
         cout << "RMSD " << molref.GetTitle() << ":" <<  moltest.GetTitle() << " " << bestRMSD << "\n";
@@ -385,11 +387,13 @@ int main(int argc, char **argv)
         {
           outconv.Write(&moltest, &out);
         }
-        if (!firstOnly) //one test molecule will be read for each reference molecule
+        if (!firstOnly) { //one test molecule will be read for each reference molecule
           break;
+        }
       }
-      if(firstOnly) //done with first reference mol
+      if(firstOnly) { //done with first reference mol
         break;
+      }
     }
 	}
 	return (0);

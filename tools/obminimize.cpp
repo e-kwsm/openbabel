@@ -198,20 +198,24 @@ int main(int argc,char **argv)
   pFF->SetElectrostaticCutOff(rele);
   pFF->SetUpdateFrequency(freq);
   pFF->EnableCutOff(cut);
-  if (newton)
+  if (newton) {
     pFF->SetLineSearchType(LineSearchType::Newton2Num);
+  }
 
   OBMol mol;
 
   for (c=1;;c++) {
     mol.Clear();
-    if (!conv.Read(&mol, &ifs))
+    if (!conv.Read(&mol, &ifs)) {
       break;
-    if (mol.Empty())
+    }
+    if (mol.Empty()) {
       break;
+    }
 
-    if (hydrogens)
+    if (hydrogens) {
       mol.AddHydrogens();
+    }
 
     if (!pFF->Setup(mol)) {
       cerr << program_name << ": could not setup force field." << endl;
@@ -229,18 +233,20 @@ int main(int argc,char **argv)
 
     unsigned int totalSteps = 1;
     while (done) {
-      if (sd)
+      if (sd) {
         done = pFF->SteepestDescentTakeNSteps(1);
-      else
+      } else {
         done = pFF->ConjugateGradientsTakeNSteps(1);
+      }
       totalSteps++;
 
       if (pFF->DetectExplosion()) {
         cerr << "explosion has occurred!" << endl;
         conv.Write(&mol, &cout);
         return(1);
-      } else
+      } else {
         pFF->GetCoordinates(mol);
+      }
     }
     double timeElapsed = timer.Elapsed();
 

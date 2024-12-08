@@ -73,8 +73,9 @@ int main(int argc,char **argv)
         ++curArg;
       }
       // We expect -a and so changeAll should be true
-      if (!changeAll)
+      if (!changeAll) {
         errflg++;
+      }
 
       // now let's shift values
       while (curArg < 8) {
@@ -96,10 +97,11 @@ int main(int argc,char **argv)
       errflg++; // error in arguments, quit and warn user
     }
     if (argc == 9) {
-      if (strcmp(argv[8], "-a") == 0)
+      if (strcmp(argv[8], "-a") == 0) {
         changeAll = true;
-      else
+      } else {
         errflg++; // error in arguments, quit and warn user
+      }
     }
   }
 
@@ -152,15 +154,17 @@ int main(int argc,char **argv)
     mol.Clear();
     //NF      ifs >> mol;                   // Read molecule
     conv.Read(&mol,&ifs); //NF
-    if (mol.Empty())
+    if (mol.Empty()) {
       break;
+    }
 
     if (sp.Match(mol)) {
       // if match perform rotation
       maplist = sp.GetUMapList(); // get unique matches
 
-      if (maplist.size() > 1)
+      if (maplist.size() > 1) {
         cerr << "obrotate: Found " << maplist.size() << " matches. Only last one will be rotated." << endl;
+      }
 
       // look at all the mapping atom but save only the last one.
       for (m = maplist.begin(); m != maplist.end(); ++m) {
@@ -168,8 +172,9 @@ int main(int argc,char **argv)
         a2 = mol.GetAtom( (*m)[ smartor[1] - 1] );
         a3 = mol.GetAtom( (*m)[ smartor[2] - 1] );
         a4 = mol.GetAtom( (*m)[ smartor[3] - 1] );
-        if (changeAll)
+        if (changeAll) {
           mol.SetTorsion(a1, a2, a3, a4, angle * DEG_TO_RAD);
+        }
       }
 
       if ( !a2->IsConnected(a3) ) {
@@ -177,8 +182,9 @@ int main(int argc,char **argv)
         exit(-1);
       }
 
-      if (!changeAll)
+      if (!changeAll) {
         mol.SetTorsion(a1, a2, a3, a4, angle * DEG_TO_RAD);
+      }
     } else {
       cerr << "obrotate: Found 0 matches for the SMARTS pattern." << endl;
       exit(-1);

@@ -132,10 +132,12 @@ int main(int argc,char **argv)
   char buffer[BUFF_SIZE];
   for (c=1;;c++) {
     mol.Clear();
-    if (!conv.Read(&mol, &ifs))
+    if (!conv.Read(&mol, &ifs)) {
       break;
-    if (mol.Empty())
+    }
+    if (mol.Empty()) {
       break;
+    }
 
     if (!pFF->Setup(mol)) {
       cerr << program_name << ": could not setup force field." << endl;

@@ -120,16 +120,19 @@ int main(int argc,char **argv)
     {
       mol.Clear();
       conv.Read(&mol, &ifs);
-      if (mol.Empty())
+      if (mol.Empty()) {
         break;
+      }
       
-      if (!mol.HasHydrogensAdded())
+      if (!mol.HasHydrogensAdded()) {
         mol.AddHydrogens();
+      }
       // Print the properties
-      if (strlen(mol.GetTitle()) != 0)
+      if (strlen(mol.GetTitle()) != 0) {
         cout << "name             " << mol.GetTitle() << endl;
-      else 
+      } else {
         cout << "name             " << FileIn << " " << c << endl;
+      }
 
       cout << "formula          " << mol.GetFormula() << endl;
       cout << "mol_weight       " << mol.GetMolWt() << endl;
@@ -161,25 +164,29 @@ int main(int argc,char **argv)
       cout << "num_bonds        " << mol.NumBonds() << endl;
       cout << "num_residues     " << mol.NumResidues() << endl;
       cout << "num_rotors       " << mol.NumRotors() << endl;
-      if (mol.NumResidues() > 0)
+      if (mol.NumResidues() > 0) {
         cout << "sequence         " << sequence(mol) << endl;
-      else
+      } else {
         cout << "sequence         " << "-" << endl;
+      }
 
       cout << "num_rings        " << nrings(mol) << endl;
 
       OBDescriptor* pDesc;
       pDesc= OBDescriptor::FindType("logP");
-      if(pDesc)
+      if(pDesc) {
         cout << "logP             " << pDesc->Predict(&mol) << endl;
+      }
 
       pDesc = OBDescriptor::FindType("TPSA");
-      if(pDesc)
+      if(pDesc) {
         cout << "PSA              " << pDesc->Predict(&mol) << endl;
+      }
 
       pDesc = OBDescriptor::FindType("MR");
-      if(pDesc)
+      if(pDesc) {
         cout << "MR               " << pDesc->Predict(&mol) << endl;
+      }
 
       cout << "$$$$" << endl; // SDF like end of compound descriptor list
       
@@ -212,8 +219,9 @@ string sequence(OBMol &mol)
   string residueSequence;
   FOR_RESIDUES_OF_MOL(r, mol)
     {
-      if (r->GetName().find("HOH") != string::npos)
+      if (r->GetName().find("HOH") != string::npos) {
         continue;
+      }
       
       if (r->GetChainNum() != currentChain) {
         if (residueSequence.size() != 0) { // remove the trailing "-"
@@ -226,8 +234,9 @@ string sequence(OBMol &mol)
       residueSequence += r->GetName();
       residueSequence += "-";
     }
-  if (residueSequence.size() != 0) // remove the trailing "-"
+  if (residueSequence.size() != 0) { // remove the trailing "-"
     residueSequence.erase(residueSequence.size() - 1);
+  }
 
   return residueSequence; 
 }

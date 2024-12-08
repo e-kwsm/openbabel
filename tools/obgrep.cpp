@@ -107,12 +107,13 @@ int main(int argc,char **argv)
           break;
 
         case '?':
-          if (isprint (optopt))
+          if (isprint (optopt)) {
             fprintf (stderr, "Unknown option `-%c'.\n", optopt);
-          else
+          } else {
             fprintf (stderr,
                      "Unknown option character `\\x%x'.\n",
                      optopt);
+          }
           return 1;
         }
     }
@@ -138,8 +139,9 @@ int main(int argc,char **argv)
   else
     {
       Pattern = argv[index++];
-      if (argc - index == 1)
+      if (argc - index == 1) {
         FileIn  = argv[index];
+      }
     }
 
   ifstream ifs;
@@ -186,8 +188,9 @@ int main(int argc,char **argv)
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         break;
+      }
 
 
       ////////////////////////////////////////////////////////////////
@@ -195,10 +198,11 @@ int main(int argc,char **argv)
       // is impossible.
       // It is impossible to make a full match if the number of atoms is
       // different
-      if (full )
+      if (full ) {
         impossible_match = (sp.NumAtoms() == mol.NumHvyAtoms()) ? false : true;
-      else
+      } else {
         impossible_match = false;
+      }
 
       if (impossible_match)
         { // -> avoid useless SMART matching attempt
@@ -206,10 +210,11 @@ int main(int argc,char **argv)
             {
               if (!count)
                 {
-                  if ( name_only )
+                  if ( name_only ) {
                     cout << mol.GetTitle() << endl;
-                  else
+                  } else {
                     conv.Write(&mol, &cout);
+                  }
                 }
               numMatching++;
             }
@@ -230,10 +235,11 @@ int main(int argc,char **argv)
 
           maplist = sp.GetUMapList();
 
-          if( maplist.size() == ntimes )
+          if( maplist.size() == ntimes ) {
             ntimes_matched = true;
-          else
+          } else {
             ntimes_matched = false;
+          }
         }
       else
         {  // ntimes == 0, we don't care about the number of matches
@@ -250,10 +256,11 @@ int main(int argc,char **argv)
             {      // do something only when invert flag is off
               if (!count)
                 {
-                  if ( name_only )
+                  if ( name_only ) {
                     cout << mol.GetTitle() << endl;
-                  else
+                  } else {
                     conv.Write(&mol, &cout);
+                  }
                 }
               numMatching++;
             }
@@ -266,10 +273,11 @@ int main(int argc,char **argv)
             {       // do something only if invert flag is on
               if (!count)
                 {
-                  if ( name_only )
+                  if ( name_only ) {
                     cout << mol.GetTitle() << endl;
-                  else
+                  } else {
                     conv.Write(&mol, &cout);
+                  }
                 }
               numMatching++;
             }

@@ -204,8 +204,9 @@ int main(int argc,char **argv)
     {
       molmv.Clear();
       conv.Read(&molmv,&ifsmv);                   // Read molecule
-      if (molmv.Empty())
+      if (molmv.Empty()) {
         break;
+      }
 
       if (sp.Match(molmv))          // if match perform rotation
         {

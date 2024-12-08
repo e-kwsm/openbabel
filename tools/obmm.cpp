@@ -210,8 +210,9 @@ int main(int argc,char **argv)
       } while(vs.size() == 0);
       // okay now we read the new coordinates
       for(unsigned int i = 0; i < mol.NumAtoms(); ++i) {
-        if (vs.size() < 3)
+        if (vs.size() < 3) {
           break;
+        }
 
         double x = atof(vs[0].c_str());
         double y = atof(vs[1].c_str());
@@ -301,9 +302,11 @@ int main(int argc,char **argv)
 
       pFF = OBForceField::FindForceField(vs[1]);
 
-      if (!mol.Empty())
-        if (!pFF->Setup(mol))
+      if (!mol.Empty()) {
+        if (!pFF->Setup(mol)) {
           cout << "Error while initializing the force field (" << vs[1] << ") for this molecule." <<endl;
+        }
+      }
 
       continue;
     }

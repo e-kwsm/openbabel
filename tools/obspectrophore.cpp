@@ -67,7 +67,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else normalization = stringToNormalizationOption(optarg);
+				else { normalization = stringToNormalizationOption(optarg); }
 				break;
 				
 			case 'a':
@@ -78,7 +78,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else accuracy = stringToAccuracyOption(optarg);
+				else { accuracy = stringToAccuracyOption(optarg); }
 				break;
 				
 			case 's':
@@ -89,7 +89,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else stereo = stringToStereoOption(optarg);
+				else { stereo = stringToStereoOption(optarg); }
 				break;
 				
 			case 'r':
@@ -209,7 +209,7 @@ bool
 isValidValue(const char c, char* v)
 {
 	std::string o = v;
-	for (unsigned int i = 0; i < o.length(); i++) o[i] = toupper(o[i]);
+	for (unsigned int i = 0; i < o.length(); i++) { o[i] = toupper(o[i]); }
 	switch (c)
 	{
 		case 'i':
@@ -272,7 +272,7 @@ isValidValue(const char c, char* v)
 			else
 			{
 				// Remove '+'as first character
-				if (o[0] == '+') o.erase(0,1);
+				if (o[0] == '+') { o.erase(0,1); }
 				
 				// Remove maximal one '.'
 				for (unsigned int i = 0; i < o.length(); i++) 
@@ -303,11 +303,11 @@ OpenBabel::OBSpectrophore::NormalizationOption
 stringToNormalizationOption(char* v)
 {
 	std::string o = v;
-	for (unsigned int i = 0; i < o.length(); i++) o[i] = toupper(o[i]);
-	if (!o.compare("NO"))                 return OpenBabel::OBSpectrophore::NoNormalization;
-	if (!o.compare("ZEROMEAN"))           return OpenBabel::OBSpectrophore::NormalizationTowardsZeroMean;
-	if (!o.compare("UNITSTD"))            return OpenBabel::OBSpectrophore::NormalizationTowardsUnitStd;
-	if (!o.compare("ZEROMEANANDUNITSTD")) return OpenBabel::OBSpectrophore::NormalizationTowardsZeroMeanAndUnitStd;
+	for (unsigned int i = 0; i < o.length(); i++) { o[i] = toupper(o[i]); }
+	if (!o.compare("NO"))                 { return OpenBabel::OBSpectrophore::NoNormalization; }
+	if (!o.compare("ZEROMEAN"))           { return OpenBabel::OBSpectrophore::NormalizationTowardsZeroMean; }
+	if (!o.compare("UNITSTD"))            { return OpenBabel::OBSpectrophore::NormalizationTowardsUnitStd; }
+	if (!o.compare("ZEROMEANANDUNITSTD")) { return OpenBabel::OBSpectrophore::NormalizationTowardsZeroMeanAndUnitStd; }
 	return OpenBabel::OBSpectrophore::NoNormalization;
 }
 
@@ -317,16 +317,16 @@ OpenBabel::OBSpectrophore::AccuracyOption
 stringToAccuracyOption(char* v)
 {
 	std::string o = v;
-	if (!o.compare("1"))  return OpenBabel::OBSpectrophore::AngStepSize1;
-	if (!o.compare("2"))  return OpenBabel::OBSpectrophore::AngStepSize2;
-	if (!o.compare("5"))  return OpenBabel::OBSpectrophore::AngStepSize5;
-	if (!o.compare("10")) return OpenBabel::OBSpectrophore::AngStepSize10;
-	if (!o.compare("15")) return OpenBabel::OBSpectrophore::AngStepSize15;
-	if (!o.compare("20")) return OpenBabel::OBSpectrophore::AngStepSize20;
-	if (!o.compare("30")) return OpenBabel::OBSpectrophore::AngStepSize30;
-	if (!o.compare("36")) return OpenBabel::OBSpectrophore::AngStepSize36;
-	if (!o.compare("45")) return OpenBabel::OBSpectrophore::AngStepSize45;
-	if (!o.compare("60")) return OpenBabel::OBSpectrophore::AngStepSize60;
+	if (!o.compare("1"))  { return OpenBabel::OBSpectrophore::AngStepSize1; }
+	if (!o.compare("2"))  { return OpenBabel::OBSpectrophore::AngStepSize2; }
+	if (!o.compare("5"))  { return OpenBabel::OBSpectrophore::AngStepSize5; }
+	if (!o.compare("10")) { return OpenBabel::OBSpectrophore::AngStepSize10; }
+	if (!o.compare("15")) { return OpenBabel::OBSpectrophore::AngStepSize15; }
+	if (!o.compare("20")) { return OpenBabel::OBSpectrophore::AngStepSize20; }
+	if (!o.compare("30")) { return OpenBabel::OBSpectrophore::AngStepSize30; }
+	if (!o.compare("36")) { return OpenBabel::OBSpectrophore::AngStepSize36; }
+	if (!o.compare("45")) { return OpenBabel::OBSpectrophore::AngStepSize45; }
+	if (!o.compare("60")) { return OpenBabel::OBSpectrophore::AngStepSize60; }
 	return OpenBabel::OBSpectrophore::AngStepSize20;
 }
 
@@ -336,11 +336,11 @@ OpenBabel::OBSpectrophore::StereoOption
 stringToStereoOption(char* v)
 {
 	std::string o = v;
-	for (unsigned int i = 0; i < o.length(); i++) o[i] = toupper(o[i]);
-	if (!o.compare("NO"))     return OpenBabel::OBSpectrophore::NoStereoSpecificProbes;
-	if (!o.compare("UNIQUE")) return OpenBabel::OBSpectrophore::UniqueStereoSpecificProbes;
-	if (!o.compare("MIRROR")) return OpenBabel::OBSpectrophore::MirrorStereoSpecificProbes;
-	if (!o.compare("ALL"))    return OpenBabel::OBSpectrophore::AllStereoSpecificProbes;
+	for (unsigned int i = 0; i < o.length(); i++) { o[i] = toupper(o[i]); }
+	if (!o.compare("NO"))     { return OpenBabel::OBSpectrophore::NoStereoSpecificProbes; }
+	if (!o.compare("UNIQUE")) { return OpenBabel::OBSpectrophore::UniqueStereoSpecificProbes; }
+	if (!o.compare("MIRROR")) { return OpenBabel::OBSpectrophore::MirrorStereoSpecificProbes; }
+	if (!o.compare("ALL"))    { return OpenBabel::OBSpectrophore::AllStereoSpecificProbes; }
 	return OpenBabel::OBSpectrophore::NoStereoSpecificProbes;
 }
 

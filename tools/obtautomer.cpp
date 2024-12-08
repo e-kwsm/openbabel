@@ -87,8 +87,9 @@ int main(int argc,char **argv)
   for (c = 1;; ++c) {
       mol.Clear();
       conv.Read(&mol, &ifs);
-      if (mol.Empty())
+      if (mol.Empty()) {
         break;
+      }
 
       if (std::string(argv[1]) == "-c") {
         CanonicalTautomer(&mol);
