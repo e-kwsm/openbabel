@@ -103,8 +103,9 @@ int formalcharge(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
           cout << "Bail out! error reading reference data" << endl;
@@ -127,12 +128,14 @@ int formalcharge(int argc, char* argv[])
 void GenerateFormalChargeReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, fsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs, fsmilestypes_file.c_str())) {
     return;
+  }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, fresults_file.c_str()))
+  if (!SafeOpen(ofs, fresults_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -147,8 +150,9 @@ void GenerateFormalChargeReference()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       ofs << mol.GetTotalCharge();
       FOR_ATOMS_OF_MOL(atom, mol)

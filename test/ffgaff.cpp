@@ -115,8 +115,9 @@ int ffgaff(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
           cout << "Bail out! error reading reference data" << endl;
@@ -138,7 +139,9 @@ int ffgaff(int argc, char* argv[])
             energy << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # energy \n";
+      }
 
       // check that gradients validate too
       if (!pFF->ValidateGradients())
@@ -147,7 +150,9 @@ int ffgaff(int argc, char* argv[])
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # gradients \n";
+      }
     }
 
   // return number of tests run
@@ -160,12 +165,14 @@ int ffgaff(int argc, char* argv[])
 void NGenerateEnergies()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, cmolecules_file.c_str()))
+  if (!SafeOpen(ifs, cmolecules_file.c_str())) {
     return;
+  }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, cresults_file.c_str()))
+  if (!SafeOpen(ofs, cresults_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -191,8 +198,9 @@ void NGenerateEnergies()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       if (!pFF->Setup(mol)) {
         cerr << "Could not setup force field on molecule: " << mol.GetTitle() << endl;

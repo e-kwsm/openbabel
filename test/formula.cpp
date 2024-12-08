@@ -112,8 +112,9 @@ int formula(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       if (!check) {
         // just give the molecular formula
@@ -140,7 +141,9 @@ int formula(int argc, char* argv[])
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular formula\n";
+      }
 
       if ( fabs(atof(vs[1].c_str()) - mol.GetMolWt() ) > 1.0e-3)
         {
@@ -150,7 +153,9 @@ int formula(int argc, char* argv[])
             mol.GetMolWt() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular weight\n";
+      }
 
       if ( fabs(atof(vs[2].c_str()) - mol.GetExactMass() ) > 1.0e-3)
         {
@@ -160,7 +165,9 @@ int formula(int argc, char* argv[])
             mol.GetExactMass() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular exact mass\n";
+      }
 
 
       // now after adding explicit hydrogens -- should be identical
@@ -175,7 +182,9 @@ int formula(int argc, char* argv[])
                << " for hydrogen-added molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular hydrogen-added formula\n";
+      }
 
       if ( fabs(atof(vs[1].c_str()) - mol.GetMolWt() ) > 1.0e-3)
         {
@@ -187,7 +196,9 @@ int formula(int argc, char* argv[])
                << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecule + hydrogens weight\n";
+      }
 
       if ( fabs(atof(vs[2].c_str()) - mol.GetExactMass() ) > 1.0e-3)
         {
@@ -199,8 +210,10 @@ int formula(int argc, char* argv[])
                << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular exact mass"
              << " after hydrogen addition\n";
+      }
 
     }
 
@@ -214,12 +227,14 @@ int formula(int argc, char* argv[])
 void GenerateFormulaReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, gsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs, gsmilestypes_file.c_str())) {
     return;
+  }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, gresults_file.c_str()))
+  if (!SafeOpen(ofs, gresults_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -234,8 +249,9 @@ void GenerateFormulaReference()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       //write out formula, molecular weight and exact mass
       ofs << mol.GetFormula() << " " << mol.GetMolWt() << " "

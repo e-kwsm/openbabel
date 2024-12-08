@@ -55,10 +55,11 @@ int datatest(int argc, char* argv[])
   cout << "ok 1\n"; // for loading tests
 
   double mass = OBElements::GetMass(2);
-  if ( fabs(mass - 4.0026 ) < 2e-3 )
+  if ( fabs(mass - 4.0026 ) < 2e-3 ) {
     cout << "ok 2\n";
-  else
+  } else {
     cout << "not ok 2\n";
+  }
 
   return(0);
 }

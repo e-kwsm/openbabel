@@ -43,12 +43,14 @@ using namespace OpenBabel;
 void GenerateEnergies(string molecules_file, string results_file, string method, double epsilon = 1.0)
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, molecules_file.c_str()))
+  if (!SafeOpen(ifs, molecules_file.c_str())) {
     return;
+  }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, results_file.c_str()))
+  if (!SafeOpen(ofs, results_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -71,8 +73,9 @@ void GenerateEnergies(string molecules_file, string results_file, string method,
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       if (!pFF->Setup(mol)) {
         cerr << "Could not setup force field on molecule: " << mol.GetTitle() << endl;
@@ -127,8 +130,9 @@ void TestFile(string filename, string results_file, string method, double epsilo
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
           cout << "Bail out! error reading reference data" << endl;
@@ -150,7 +154,9 @@ void TestFile(string filename, string results_file, string method, double epsilo
             energy << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # energy \n";
+      }
 
       // check that gradients validate too
       if (!pFF->ValidateGradients())
@@ -159,7 +165,9 @@ void TestFile(string filename, string results_file, string method, double epsilo
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # gradients \n";
+      }
     }
 } // end TestFile
 
