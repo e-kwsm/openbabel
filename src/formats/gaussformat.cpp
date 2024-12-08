@@ -156,16 +156,19 @@ namespace OpenBabel
         string method;
 
         OBPairData *pd = (OBPairData *) pmol->GetData("model");
-        if(pd)
+        if(pd) {
           model = pd->GetValue();
+        }
 
         pd = (OBPairData *) pmol->GetData("basis");
-        if(pd)
+        if(pd) {
           basis = pd->GetValue();
+        }
 
         pd = (OBPairData *) pmol->GetData("method");
-        if(pd)
+        if(pd) {
           method = pd->GetValue();
+        }
 
         if(method == "optimize")
           {
@@ -188,8 +191,9 @@ namespace OpenBabel
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else
@@ -206,15 +210,16 @@ namespace OpenBabel
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
-        if (atom->GetIsotope() == 0)
+        if (atom->GetIsotope() == 0) {
           snprintf(buffer, BUFF_SIZE, "%-3s      %10.5f      %10.5f      %10.5f",
                    OBElements::GetSymbol(atom->GetAtomicNum()),
                    atom->GetX(), atom->GetY(), atom->GetZ());
-        else
+        } else {
           snprintf(buffer, BUFF_SIZE, "%-3s(Iso=%d) %10.5f      %10.5f      %10.5f",
                    OBElements::GetSymbol(atom->GetAtomicNum()),
                    atom->GetIsotope(),
                    atom->GetX(), atom->GetY(), atom->GetZ());
+        }
 
         ofs << buffer << endl;
       }
@@ -415,10 +420,11 @@ namespace OpenBabel
     // Clean up
     delete ahof;
 
-    if (foundall == atomid)
+    if (foundall == atomid) {
       return 1;
-    else
+    } else {
       return 0;
+    }
   }
 
   // Reading Gaussian output has been tested for G98 and G03 to some degree
@@ -427,8 +433,9 @@ namespace OpenBabel
   bool GaussianOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -518,8 +525,9 @@ namespace OpenBabel
             strncpy (coords_type, vs[0].c_str(), 24);
             strcat (coords_type, " orientation:");
           }
-        if ((no_symmetry && i==1) || i==2)
+        if ((no_symmetry && i==1) || i==2) {
            break;
+        }
       }
     // Reset end-of-file pointers etc.
     ifs.clear();
@@ -633,8 +641,9 @@ namespace OpenBabel
               }
             // done with reading atoms
             natoms = mol.NumAtoms();
-            if(natoms==0)
+            if(natoms==0) {
               return false;
+            }
             // malloc / memcpy
             double *tmpCoords = new double [(natoms)*3];
             memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
@@ -658,7 +667,7 @@ namespace OpenBabel
                   dipoleMoment->SetOrigin(fileformatInput);
                   mol.SetData(dipoleMoment);
                 }
-              if (!ifs.getline(buffer,BUFF_SIZE)) break;
+              if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
             }
         else if (strstr(buffer, "Traceless Quadrupole moment") != nullptr)
             {
@@ -684,7 +693,7 @@ namespace OpenBabel
                   quadrupoleMoment->SetOrigin(fileformatInput);
                   mol.SetData(quadrupoleMoment);
                 }
-              if (!ifs.getline(buffer,BUFF_SIZE)) break;
+              if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
             }
         else if (strstr(buffer, "Exact polarizability") != nullptr)
             {
@@ -715,7 +724,7 @@ namespace OpenBabel
                   pol_tensor->SetOrigin(fileformatInput);
                   mol.SetData(pol_tensor);
                 }
-              if (!ifs.getline(buffer,BUFF_SIZE)) break;
+              if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
             }
         else if(strstr(buffer, "Total atomic charges") != nullptr ||
                 strstr(buffer, "Mulliken atomic charges") != nullptr ||
@@ -745,11 +754,12 @@ namespace OpenBabel
                    strstr(buffer, "Sum of ") == nullptr)
               {
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                if (!atom)
+                if (!atom) {
                   break;
+                }
                 atom->SetPartialCharge(atof(vs[2].c_str()));
                 MPA_q.push_back(atof(vs[2].c_str()));
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
 
               }
@@ -793,12 +803,13 @@ namespace OpenBabel
                    strstr(buffer, "Tot ") == nullptr)
               {
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                if (!atom)
+                if (!atom) {
                   break;
+                }
                 atom->SetPartialCharge(atof(vs[2].c_str()));
                 HPA_q.push_back(atof(vs[2].c_str()));
                 CM5_q.push_back(atof(vs[7].c_str()));
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
 
               }
@@ -827,8 +838,9 @@ namespace OpenBabel
           {
             // Data points for ESP calculation
             tokenize(vs,buffer);
-            if (nullptr == esp)
+            if (nullptr == esp) {
               esp = new OpenBabel::OBFreeGrid();
+            }
             if (vs.size() == 8)
               {
                 esp->AddPoint(atof(vs[5].c_str()),atof(vs[6].c_str()),
@@ -847,8 +859,9 @@ namespace OpenBabel
           {
             // Data points for ESP calculation
             tokenize(vs,buffer);
-            if (nullptr == esp)
+            if (nullptr == esp) {
               esp = new OpenBabel::OBFreeGrid();
+            }
             if (vs.size() == 9)
               {
                 esp->AddPoint(atof(vs[6].c_str()),atof(vs[7].c_str()),
@@ -924,11 +937,12 @@ namespace OpenBabel
                    strstr(buffer, "-----") == nullptr)
               {
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
-                if (!atom)
+                if (!atom) {
                   break;
+                }
                 atom->SetPartialCharge(atof(vs[2].c_str()));
                 ESP_q.push_back(atof(vs[2].c_str()));
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
               }
             if (ESP_q.size() == mol.NumAtoms())
@@ -956,11 +970,12 @@ namespace OpenBabel
                    strstr(buffer, "=====") == nullptr)
               {
                 atom = mol.GetAtom(atoi(vs[1].c_str()));
-                if (!atom)
+                if (!atom) {
                   break;
+                }
                 atom->SetPartialCharge(atof(vs[2].c_str()));
 
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
               }
           }
@@ -968,24 +983,28 @@ namespace OpenBabel
         {
           //The info should appear only once as several blocks starting with this line
           tokenize(vs, buffer);
-          for(unsigned int i=2; i<vs.size(); ++i)
+          for(unsigned int i=2; i<vs.size(); ++i) {
             Frequencies.push_back(atof(vs[i].c_str()));
+          }
           ifs.getline(buffer,BUFF_SIZE); //Red. masses
           ifs.getline(buffer,BUFF_SIZE); //Frc consts
           ifs.getline(buffer,BUFF_SIZE); //IR Inten
           tokenize(vs, buffer);
-          for(unsigned int i=3; i<vs.size(); ++i)
+          for(unsigned int i=3; i<vs.size(); ++i) {
             Intensities.push_back(atof(vs[i].c_str()));
+          }
 
           ifs.getline(buffer, BUFF_SIZE); // column labels or Raman intensity
           if(strstr(buffer, "Raman Activ")) {
             tokenize(vs, buffer);
-            for(unsigned int i=3; i<vs.size(); ++i)
+            for(unsigned int i=3; i<vs.size(); ++i) {
               RamanActivities.push_back(atof(vs[i].c_str()));
+            }
             ifs.getline(buffer, BUFF_SIZE); // Depolar (P)
 
-            while (strstr(buffer, "Atom") == nullptr)
+            while (strstr(buffer, "Atom") == nullptr) {
               ifs.getline(buffer, BUFF_SIZE); // eventually column labels
+            }
           }
           ifs.getline(buffer, BUFF_SIZE); // actual displacement data
           tokenize(vs, buffer);
@@ -997,35 +1016,40 @@ namespace OpenBabel
               y = atof(vs[i+1].c_str());
               z = atof(vs[i+2].c_str());
 
-              if (i == 2)
+              if (i == 2) {
                 vib1.push_back(vector3(x, y, z));
-              else if (i == 5)
+              } else if (i == 5) {
                 vib2.push_back(vector3(x, y, z));
-              else if (i == 8)
+              } else if (i == 8) {
                 vib3.push_back(vector3(x, y, z));
+              }
             }
 
-            if (!ifs.getline(buffer, BUFF_SIZE))
+            if (!ifs.getline(buffer, BUFF_SIZE)) {
               break;
+            }
             tokenize(vs,buffer);
           }
           Lx.push_back(vib1);
-          if (vib2.size())
+          if (vib2.size()) {
             Lx.push_back(vib2);
-          if (vib3.size())
+          }
+          if (vib3.size()) {
             Lx.push_back(vib3);
+          }
         }
 
         else if(strstr(buffer, " This molecule is "))//rotational data
         {
-          if(strstr(buffer, "asymmetric"))
+          if(strstr(buffer, "asymmetric")) {
             RotorType = OBRotationData::ASYMMETRIC;
-          else if(strstr(buffer, "symmetric"))
+          } else if(strstr(buffer, "symmetric")) {
             RotorType = OBRotationData::SYMMETRIC;
-          else if(strstr(buffer, "linear"))
+          } else if(strstr(buffer, "linear")) {
             RotorType = OBRotationData::LINEAR;
-          else
+          } else {
              RotorType = OBRotationData::UNKNOWN;
+          }
           ifs.getline(buffer,BUFF_SIZE); //symmetry number
           tokenize(vs, buffer);
           RotSymNum = atoi(vs[3].c_str());
@@ -1035,8 +1059,9 @@ namespace OpenBabel
         {
           tokenize(vs, buffer);
           RotConsts.clear();
-          for (unsigned int i=3; i<vs.size(); ++i)
+          for (unsigned int i=3; i<vs.size(); ++i) {
             RotConsts.push_back(atof(vs[i].c_str()));
+          }
         }
 
         else if(strstr(buffer, "alpha electrons")) // # of electrons / orbital
@@ -1058,8 +1083,9 @@ namespace OpenBabel
             // Extract both Alpha and Beta symmetries
             ifs.getline(buffer, BUFF_SIZE); // skip the current line
             for(iii=0; (iii<2); iii++) {
-              if (strstr(buffer, "electronic state"))
+              if (strstr(buffer, "electronic state")) {
                 break; // We've gone too far!
+              }
               while (!ifs.eof() &&
                      (nullptr != strstr(buffer,"Alpha") ||
                       nullptr != strstr(buffer,"Beta"))) {
@@ -1091,10 +1117,12 @@ namespace OpenBabel
           betaStart = 0;
           while (strstr(buffer, ". eigenvalues --")) {
             tokenize(vs, buffer);
-            if (vs.size() < 4)
+            if (vs.size() < 4) {
               break;
-            if (vs[0].find("Beta") !=string::npos && betaStart == 0) // mark where we switch from alpha to beta
+            }
+            if (vs[0].find("Beta") !=string::npos && betaStart == 0) { // mark where we switch from alpha to beta
               betaStart = orbitals.size();
+            }
             for (unsigned int i = 4; i < vs.size(); ++i) {
               orbitals.push_back(atof(vs[i].c_str()));
             }
@@ -1308,14 +1336,16 @@ namespace OpenBabel
             {
               for (unsigned int i = betaStart; i < initialSize; ++i) {
                 betaOrbitals.push_back(orbitals[i]);
-                if (symmetries.size() > 0)
+                if (symmetries.size() > 0) {
                   betaSymmetries.push_back(symmetries[i]);
+                }
               }
               // ok, now erase the end elements of orbitals and symmetries
               for (unsigned int i = betaStart; i < initialSize; ++i) {
                 orbitals.pop_back();
-                if (symmetries.size() > 0)
+                if (symmetries.size() > 0) {
                   symmetries.pop_back();
+                }
               }
               // and load the alphas and betas
               od->LoadAlphaOrbitals(orbitals, symmetries, aHOMO);
@@ -1344,8 +1374,9 @@ namespace OpenBabel
         } else { // zero Raman
           vd->SetData(Lx, Frequencies, Intensities);
         }
-      } else // no Raman
+      } else { // no Raman
         vd->SetData(Lx, Frequencies, Intensities);
+      }
       vd->SetOrigin(fileformatInput);
       mol.SetData(vd);
     }
@@ -1369,12 +1400,15 @@ namespace OpenBabel
     {
       OBElectronicTransitionData* etd = new OBElectronicTransitionData;
       etd->SetData(Wavelengths, Forces);
-      if (EDipole.size() == Forces.size())
+      if (EDipole.size() == Forces.size()) {
         etd->SetEDipole(EDipole);
-      if (RotatoryStrengthsLength.size() == Forces.size())
+      }
+      if (RotatoryStrengthsLength.size() == Forces.size()) {
         etd->SetRotatoryStrengthsLength(RotatoryStrengthsLength);
-      if (RotatoryStrengthsVelocity.size() == Forces.size())
+      }
+      if (RotatoryStrengthsVelocity.size() == Forces.size()) {
         etd->SetRotatoryStrengthsVelocity(RotatoryStrengthsVelocity);
+      }
       etd->SetOrigin(fileformatInput);
       mol.SetData(etd);
     }
@@ -1383,15 +1417,18 @@ namespace OpenBabel
     // ConnectTheDots will remove conformers, so we add those later
     mol.SetCoordinates(vconf[vconf.size() - 1]);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // Set conformers to all coordinates we adopted
     // but remove last geometry -- it's a duplicate
-    if (vconf.size() > 1)
+    if (vconf.size() > 1) {
       vconf.pop_back();
+    }
 
     mol.SetConformers(vconf);
     mol.SetConformer(mol.NumConformers() - 1);
