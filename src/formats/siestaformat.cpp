@@ -79,8 +79,9 @@ namespace OpenBabel {
   bool SIESTAFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -118,13 +119,14 @@ namespace OpenBabel {
     size_t found;
     found = filePath.rfind("/");
     string path = filePath.substr(0, found) + "/";
-    if (found == string::npos) path = "./";
+    if (found == string::npos) { path = "./"; }
     string fileName = filePath.substr(found + 1, filePath.size());
 
     // We want to chop off the last four characters: ".out"
     found = fileName.find(".out");
-    if (found != std::string::npos && found == fileName.size() - 4)
+    if (found != std::string::npos && found == fileName.size() - 4) {
       fileName.erase(fileName.size() - 4, fileName.size() - 1);
+    }
 
     string struct_name;
     ifstream ifs_struct_out;
@@ -136,10 +138,10 @@ namespace OpenBabel {
     for (size_t i = 0; i < directories.size(); i++) {
       struct_name = path + directories.at(i) + "/" + fileName + ".STRUCT_OUT";
       ifs_struct_out.open(struct_name.c_str());
-      if (ifs_struct_out) break;
-      else ifs_struct_out.close();
+      if (ifs_struct_out) { break; }
+      else { ifs_struct_out.close(); }
     }
-    if (ifs_struct_out) struct_out_found = true;
+    if (ifs_struct_out) { struct_out_found = true; }
 
     // If these failed, we'll just look for the coordinates in the .out file
     // Send a message to the user if the .STRUCT_OUT was not found
