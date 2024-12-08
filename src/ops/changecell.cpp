@@ -66,8 +66,9 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
   }  
 
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
   
   bool keep_fract = false;
   if( vcr[0][0] == 'k' )

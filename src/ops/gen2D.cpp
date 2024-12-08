@@ -50,8 +50,9 @@ OpGen2D theOpGen2D("gen2D"); //Global instance
 bool OpGen2D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   // If we are coming from a 0D structure, then we need to perceive the cis/trans
   // bonds *now*, before adding the coordinates, to mark unspecified cis/trans

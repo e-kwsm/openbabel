@@ -3268,29 +3268,34 @@ namespace OpenBabel {
           // gave incorrect results when score < 0 and max_bond_score was an unsigned int
           // see https://stackoverflow.com/questions/5416414/signed-unsigned-comparisons#5416498
           FOR_BONDS_OF_ATOM(b, center) {
-            if (alreadyset.find(&*b) != alreadyset.end()) continue;
+            if (alreadyset.find(&*b) != alreadyset.end()) { continue; }
 
             OBAtom* nbr = b->GetNbrAtom(center);
 	    int nbr_nbonds = nbr->GetExplicitDegree();
             int score = 0;
             if (!b->IsInRing()) {
-	      if (!nbr->IsInRing())
+	      if (!nbr->IsInRing()) {
 		score += 8;		// non-ring bond to non-ring atom is good
-	      else
+	      } else {
 		score += 2;		// non-ring bond to ring atom is bad
+	      }
 	    }
-            if (tetcenters.find(nbr->GetId()) == tetcenters.end()) // Not a tetcenter
+            if (tetcenters.find(nbr->GetId()) == tetcenters.end()) { // Not a tetcenter
               score += 4;
-	    if (nbr_nbonds == 1)	// terminal atom...
+            }
+	    if (nbr_nbonds == 1) {	// terminal atom...
 		score += 8;		// strongly prefer terminal atoms
-	    else
+	    } else {
 	      score -= nbr_nbonds - 2;	// bond to atom with many bonds is penalized
-	    if (nbr->GetAtomicNum() == OBElements::Hydrogen)
+	    }
+	    if (nbr->GetAtomicNum() == OBElements::Hydrogen) {
 	      score += 2;		// prefer H
-	    else if (nbr->GetAtomicNum() == OBElements::Carbon)
+	    } else if (nbr->GetAtomicNum() == OBElements::Carbon) {
 	      score += 1;		// then C
-            if (&*b==close_bond_a || &*b==close_bond_b)
+	    }
+            if (&*b==close_bond_a || &*b==close_bond_b) {
               score += 16;
+	     }
 
             if (score > max_bond_score) {
               max_bond_score = score;
@@ -3442,7 +3447,7 @@ namespace OpenBabel {
       else if (datatype == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
-        if (ts_cfg.from == atomId) ts_cfg.from = OBStereo::ImplicitRef;
+        if (ts_cfg.from == atomId) { ts_cfg.from = OBStereo::ImplicitRef; }
         replace(ts_cfg.refs.begin(), ts_cfg.refs.end(), atomId, (OBStereo::Ref) OBStereo::ImplicitRef);
         ts->SetConfig(ts_cfg);
       }
@@ -3482,7 +3487,7 @@ namespace OpenBabel {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config ts_cfg = ts->GetConfig();
         if (ts_cfg.center == centerId) {
-          if (ts_cfg.from == OBStereo::ImplicitRef) ts_cfg.from = newId;
+          if (ts_cfg.from == OBStereo::ImplicitRef) { ts_cfg.from = newId; }
           replace(ts_cfg.refs.begin(), ts_cfg.refs.end(), (OBStereo::Ref) OBStereo::ImplicitRef, (OBStereo::Ref) newId);
           ts->SetConfig(ts_cfg);
         }

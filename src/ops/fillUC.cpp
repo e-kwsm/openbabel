@@ -60,9 +60,9 @@ vector3 fuzzyWrapFractionalCoordinate (vector3 coord)
     double x = fmod(coord.x(), 1);
     double y = fmod(coord.y(), 1);
     double z = fmod(coord.z(), 1);
-    if (x < 0) x += 1;
-    if (y < 0) y += 1;
-    if (z < 0) z += 1;
+    if (x < 0) { x += 1; }
+    if (y < 0) { y += 1; }
+    if (z < 0) { z += 1; }
 
 #define LIMIT 0.999999
     if (x > LIMIT)
@@ -162,8 +162,9 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
     tokenize(vec, itr->second.c_str());
     for(vector<string>::iterator iter = vec.begin(); iter != vec.end(); ++ iter)
     {
-      if (iter == vec.begin()) // Warn user about converting only once
+      if (iter == vec.begin()) { // Warn user about converting only once
         obErrorLog.ThrowError(__FUNCTION__, "Converting to P 1 cell using available symmetry transformations." , obWarning);
+      }
       spacegroup.AddTransform(iter->c_str());
     }
 
@@ -254,8 +255,9 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
   }
 
   else{
-    if(0!=strncasecmp(OptionText, "strict", 6))
+    if(0!=strncasecmp(OptionText, "strict", 6)) {
       obErrorLog.ThrowError(__FUNCTION__, "fillUC: lacking \"strict\n or \"keepconnect\" option, using strict" , obWarning);
+    }
     for(std::map<OBAtom*,std::vector<vector3> >:: iterator atom=vatoms.begin();
         atom!=vatoms.end();++atom){
       // Bring back within unit cell

@@ -77,8 +77,9 @@ namespace OpenBabel
   bool OpEnergy::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if(!pmol)
+    if(!pmol) {
       return false;
+    }
 
     bool log = false;
     bool addh = true;
@@ -86,23 +87,28 @@ namespace OpenBabel
     string ff = "MMFF94";
     double epsilon = 1.0;
     OpMap::const_iterator iter = pmap->find("ff");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       ff = iter->second;
+    }
     OBForceField* pFF = OBForceField::FindForceField(ff);
     iter = pmap->find("epsilon");
-    if (iter!=pmap->end())
+    if (iter!=pmap->end()) {
       epsilon = atof(iter->second.c_str());
+    }
 
     iter = pmap->find("log");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       log=true;
+    }
 
     iter = pmap->find("noh");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       addh=false;
+    }
 
-    if (addh)
+    if (addh) {
       pmol->AddHydrogens(false, false);
+    }
 
     // set some force field variables
     pFF->SetLogFile(&clog);
@@ -174,8 +180,9 @@ namespace OpenBabel
   bool OpMinimize::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if(!pmol)
+    if(!pmol) {
       return false;
+    }
 
     int steps = 2500;
     double crit = 1e-6;
@@ -191,59 +198,72 @@ namespace OpenBabel
 
     string ff = "MMFF94";
     OpMap::const_iterator iter = pmap->find("ff");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       ff = iter->second;
+    }
     OBForceField* pFF = OBForceField::FindForceField(ff);
 
     iter = pmap->find("sd");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       sd=true;
+    }
 
     iter = pmap->find("newton");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       newton=true;
+    }
 
     iter = pmap->find("cut");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       cut=true;
+    }
 
     iter = pmap->find("noh");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       addh=false;
+    }
 
     iter = pmap->find("crit");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       crit = atof(iter->second.c_str());
+    }
 
     iter = pmap->find("steps");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       steps = atoi(iter->second.c_str());
+    }
 
     iter = pmap->find("epsilon");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       epsilon = atof(iter->second.c_str());
+    }
 
     iter = pmap->find("rvdw");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       rvdw = atof(iter->second.c_str());
+    }
 
     iter = pmap->find("rele");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       rele = atof(iter->second.c_str());
+    }
 
     iter = pmap->find("pf");
     if(iter!=pmap->end()) {
       freq = atoi(iter->second.c_str());
-      if (freq < 1)
+      if (freq < 1) {
         freq = 10; // don't divide by zero
+      }
     }
 
     iter = pmap->find("log");
-    if(iter!=pmap->end())
+    if(iter!=pmap->end()) {
       log=true;
+    }
 
-    if (newton)
+    if (newton) {
       pFF->SetLineSearchType(LineSearchType::Newton2Num);
+    }
 
     // set some force field variables
     pFF->SetLogFile(&clog);
@@ -254,8 +274,9 @@ namespace OpenBabel
     pFF->SetDielectricConstant(epsilon);
     pFF->EnableCutOff(cut);
 
-    if (addh)
+    if (addh) {
       pmol->AddHydrogens(false, false);
+    }
 
     if (!pFF->Setup(*pmol)) {
       cerr  << "Could not setup force field." << endl;
@@ -263,10 +284,11 @@ namespace OpenBabel
     }
 
     bool done = true;
-    if (sd)
+    if (sd) {
       pFF->SteepestDescent(steps, crit);
-    else
+    } else {
       pFF->ConjugateGradients(steps, crit);
+    }
 
     pFF->GetCoordinates(*pmol);
 
