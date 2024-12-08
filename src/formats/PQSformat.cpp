@@ -212,32 +212,38 @@ namespace OpenBabel
             geom_found=true;
             lowerit(buffer);
 
-            if (strstr(buffer, "bohr") != nullptr)
+            if (strstr(buffer, "bohr") != nullptr) {
               bohr_to_angstrom=0.529177249;
-            else
+            } else {
               bohr_to_angstrom=1.0;
+            }
             input_style=0;
-            if (strstr(buffer, "=tx90") != nullptr)
+            if (strstr(buffer, "=tx90") != nullptr) {
               input_style=1;
-            if (strstr(buffer, "=tx92") != nullptr)
+            }
+            if (strstr(buffer, "=tx92") != nullptr) {
               input_style=0;
-            if (strstr(buffer, "=pqs") != nullptr)
+            }
+            if (strstr(buffer, "=pqs") != nullptr) {
               input_style=0;
+            }
 
             if (strstr(buffer, "file=") != nullptr)
               {  //external geometry file
                 strncpy(coord_file,strstr(buffer,"file=")+5, sizeof(coord_file));
                 coord_file[sizeof(coord_file) - 1] = '\0';
-                if (strrchr(coord_file, ' ') != nullptr)
+                if (strrchr(coord_file, ' ') != nullptr) {
                   *strrchr(coord_file,' ')='\0';
+                }
                 if (coord_file[0]!='/')
                   {
                     strncpy(full_coord_path,title, sizeof(full_coord_path));
                     full_coord_path[sizeof(full_coord_path)-1] = '\0';
-                    if (strrchr(full_coord_path, '/') != nullptr)
+                    if (strrchr(full_coord_path, '/') != nullptr) {
                       *(strrchr(full_coord_path,'/')+1)='\0';
-                    else
+                    } else {
                       full_coord_path[0] = '\0';
+                    }
                   }
                 strcat(full_coord_path,coord_file);
                 full_coord_path[sizeof(full_coord_path) - 1] = '\0';
@@ -260,14 +266,18 @@ namespace OpenBabel
                     //New framework mods
                     OBConversion coordconv(&coordFileStream);
                     OBFormat* pFormat;
-                    if (strstr(buffer, "=car" ) != nullptr)
+                    if (strstr(buffer, "=car" ) != nullptr) {
                       pFormat =OBConversion::FindFormat("BIOSYM");
-                    if (strstr(buffer, "=hin" ) != nullptr)
+                    }
+                    if (strstr(buffer, "=hin" ) != nullptr) {
                       pFormat = OBConversion::FindFormat("HIN");
-                    if (strstr(buffer, "=pdb" ) != nullptr)
+                    }
+                    if (strstr(buffer, "=pdb" ) != nullptr) {
                       pFormat = OBConversion::FindFormat("PDB");
-                    if (strstr(buffer, "=mop" ) != nullptr)
+                    }
+                    if (strstr(buffer, "=mop" ) != nullptr) {
                       pFormat = OBConversion::FindFormat("MOPAC");
+                    }
                     return pFormat->ReadMolecule(&mol,&coordconv);
 
                     /*         if (strstr(buffer,"=car" )!=NULL)
@@ -291,14 +301,16 @@ namespace OpenBabel
 
     if (geom_found)
       {
-        if (atom_count==0)        //read directly form .inp file
+        if (atom_count==0) {      //read directly form .inp file
           atom_count=ReadPQS_geom(ifs,mol,title,input_style,bohr_to_angstrom);
+        }
         if (atom_count==0)
           {   //try .coord file
             strncpy(coord_file,title, sizeof(coord_file));
             coord_file[sizeof(coord_file) - 1] = '\0';
-            if (strrchr(coord_file, '.') != nullptr)
+            if (strrchr(coord_file, '.') != nullptr) {
               *strrchr(coord_file,'.')='\0';
+            }
             strcat(coord_file,".coord");
             coordFileStream.open(coord_file);
             if (!coordFileStream)
@@ -310,18 +322,23 @@ namespace OpenBabel
                 //                exit (-1);
               }
             else
+            {
               atom_count=ReadPQS_geom(coordFileStream,mol,title,0,
                                       bohr_to_angstrom);
+            }
           }
       }
     else
+    {
       obErrorLog.ThrowError(__FUNCTION__, "Error reading PQS file.  GEOM card not found!", obWarning);
+    }
 
     ifs.seekg(0, ios::end); //move .inp file pointer to the end of file
-    if (atom_count>0)
+    if (atom_count>0) {
       return true;
-    else
+    } else {
       return false;
+    }
   }
 
   ////////////////////////////////////////////////////////////////
@@ -329,8 +346,9 @@ namespace OpenBabel
   bool PQSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

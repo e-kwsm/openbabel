@@ -861,29 +861,30 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
-         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
 
                          t41Data = NewData(gd);
-         while( ReadSCFGrid( ifs, *t41Data ) ) {}
+         while( ReadSCFGrid( ifs, *t41Data ) ) {;
+}
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
-         }
+}
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
 
                          t41Data = NewData(gd);
-         while( ReadSumFragGrid( ifs, *t41Data ) ) {}
+         while( ReadSumFragGrid( ifs, *t41Data ) ) {;
+}
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
-         }
+}
 
          ifs.clear();
          ifs.seekg( current, ios::beg );

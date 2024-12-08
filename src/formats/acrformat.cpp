@@ -82,8 +82,9 @@ namespace OpenBabel
   bool ACRFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream& ifs = *pConv->GetInStream();
 
@@ -134,19 +135,22 @@ namespace OpenBabel
       tokenize(vs, buf, " \t\r\n");
 
       if (atom_input) {
-	if (vs.size() < 9) return false; // timvdm 18/06/2008
+	if (vs.size() < 9) { return false; // timvdm 18/06/2008
+	}
         type = vs[1];
         X = atof((char*)vs[6].c_str())/scale;
         Y = atof((char*)vs[7].c_str())/scale;
         Z = atof((char*)vs[8].c_str())/scale;
 
         OBAtom* a = pmol->NewAtom();
-        if (*(type.c_str()) != '*')
+        if (*(type.c_str()) != '*') {
           a->SetAtomicNum(OBElements::GetAtomicNum(type.c_str()));
+        }
         a->SetVector(X,Y,Z);
 
       } else if (bond_input) {
-	if (vs.size() < 2) return false; // timvdm 18/06/2008
+	if (vs.size() < 2) { return false; // timvdm 18/06/2008
+	}
         // add to pmol
         if (!pmol->AddBond(atoi((char*)vs[0].c_str()) + 1, atoi((char*)vs[1].c_str()) + 1,
                            1 /* bond order not specified in Carine, use PerceiveBondOrder later */))
