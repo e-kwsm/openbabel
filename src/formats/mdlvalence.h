@@ -237,70 +237,70 @@ static unsigned int MDLValence(unsigned int elem, int q, unsigned int val)
 
   case 33:  // As
     switch (q) {
-    case -2:  if (val <= 1) return 1;
-              if (val <= 3) return 3;
-              if (val <= 5) return 5;
-              if (val <= 7) return 7;  break;
-    case -1:  if (val <= 2) return 2;
-              if (val <= 4) return 4;
-              if (val <= 6) return 6;  break;
-    case  0:  if (val <= 3) return 3;
-              if (val <= 5) return 5;  break;
-    case  1:  if (val <= 4) return 4;  break;
-    case  2:  if (val <= 3) return 3;  break;
-    case  4:  if (val <= 1) return 1;  break;
+    case -2:  if (val <= 1) { return 1; }
+              if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; }
+              if (val <= 7) { return 7; } break;
+    case -1:  if (val <= 2) { return 2; }
+              if (val <= 4) { return 4; }
+              if (val <= 6) { return 6; } break;
+    case  0:  if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; } break;
+    case  1:  if (val <= 4) { return 4; } break;
+    case  2:  if (val <= 3) { return 3; } break;
+    case  4:  if (val <= 1) { return 1; } break;
     }
     break;
 
   case 34:  // Se
     switch (q) {
-    case -1:  if (val <= 1) return 1;
-              if (val <= 3) return 3;
-              if (val <= 5) return 5;
-              if (val <= 7) return 7;  break;
-    case  0:  if (val <= 2) return 2;
-              if (val <= 4) return 4;
-              if (val <= 6) return 6;  break;
-    case  1:  if (val <= 3) return 3;
-              if (val <= 5) return 5;  break;
-    case  2:  if (val <= 4) return 4;  break;
-    case  3:  if (val <= 3) return 3;  break;
-    case  5:  if (val <= 1) return 1;  break;
+    case -1:  if (val <= 1) { return 1; }
+              if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; }
+              if (val <= 7) { return 7; } break;
+    case  0:  if (val <= 2) { return 2; }
+              if (val <= 4) { return 4; }
+              if (val <= 6) { return 6; } break;
+    case  1:  if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; } break;
+    case  2:  if (val <= 4) { return 4; } break;
+    case  3:  if (val <= 3) { return 3; } break;
+    case  5:  if (val <= 1) { return 1; } break;
     }
     break;
 
   case 35:  // Br
     switch (q) {
-    case  0:  if (val <= 1) return 1;
-              if (val <= 3) return 3;
-              if (val <= 5) return 5;
-              if (val <= 7) return 7;  break;
-    case  1:  if (val <= 2) return 2;
-              if (val <= 4) return 4;
-              if (val <= 6) return 6;  break;
-    case  2:  if (val <= 3) return 3;
-              if (val <= 5) return 5;  break;
-    case  3:  if (val <= 4) return 4;  break;
-    case  4:  if (val <= 3) return 3;  break;
-    case  6:  if (val <= 1) return 1;  break;
+    case  0:  if (val <= 1) { return 1; }
+              if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; }
+              if (val <= 7) { return 7; } break;
+    case  1:  if (val <= 2) { return 2; }
+              if (val <= 4) { return 4; }
+              if (val <= 6) { return 6; } break;
+    case  2:  if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; } break;
+    case  3:  if (val <= 4) { return 4; } break;
+    case  4:  if (val <= 3) { return 3; } break;
+    case  6:  if (val <= 1) { return 1; } break;
     }
     break;
 
   case 49:  // In
     switch (q) {
-    case -4:  if (val <= 1) return 1;
-              if (val <= 3) return 3;
-              if (val <= 5) return 5;
-              if (val <= 7) return 7;  break;
-    case -3:  if (val <= 2) return 2;
-              if (val <= 4) return 4;
-              if (val <= 6) return 6;  break;
-    case -2:  if (val <= 3) return 3;
-              if (val <= 5) return 5;  break;
-    case -1:  if (val <= 2) return 2;
-              if (val <= 4) return 4;  break;
-    case  0:  if (val <= 3) return 3;  break;
-    case  2:  if (val <= 1) return 1;  break;
+    case -4:  if (val <= 1) { return 1; }
+              if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; }
+              if (val <= 7) { return 7; } break;
+    case -3:  if (val <= 2) { return 2; }
+              if (val <= 4) { return 4; }
+              if (val <= 6) { return 6; } break;
+    case -2:  if (val <= 3) { return 3; }
+              if (val <= 5) { return 5; } break;
+    case -1:  if (val <= 2) { return 2; }
+              if (val <= 4) { return 4; } break;
+    case  0:  if (val <= 3) { return 3; } break;
+    case  2:  if (val <= 1) { return 1; } break;
     }
     break;
 
