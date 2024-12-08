@@ -60,7 +60,7 @@ int int32lemem(char *data)
   value=(int)((unsigned char*)data)[0]+((int)((unsigned char*)data)[1]<<8)+
         ((int)((unsigned char*)data)[2]<<16)+((int)((unsigned char*)data)[3]<<24);
   intmino2=-1073741824;
-  if ((unsigned int) INT_MIN!=0x80000000&&(value&0x80000000)) value=(intmino2*2)+(value&0x7fffffff);
+  if ((unsigned int) INT_MIN!=0x80000000&&(value&0x80000000)) { value=(intmino2*2)+(value&0x7fffffff); }
   return(value); }
 
 int int32le(int32 value)
@@ -80,7 +80,8 @@ unsigned int uint32le(uint32 value)
 void storeint32le(char *data,int32 value)
 { int i;
 
-  for (i=0;i<4;i++) data[i]=(value>>(i*8))&255; }
+  for (i=0;i<4;i++) { data[i]=(value>>(i*8))&255; }
+}
 
 /* CONVERT MAXIMALLY n CHARACTERS TO INTEGER
    ========================================= */
@@ -88,7 +89,7 @@ int str_natoi(char *string,int number)
 { char ch;
   int i;
 
-  for (i=0;i<number;i++) if (!string[i]) return(atoi(string));
+  for (i=0;i<number;i++) { if (!string[i]) { return(atoi(string)); } }
   ch=string[number];
   string[number]=0;
   i=atoi(string);
@@ -104,7 +105,8 @@ void str_ncopy(char *string1,char *string2,int len)
   for (i=0;i<len;i++)
   { ch=string2[i];
     string1[i]=ch;
-    if (!ch) break; }
+    if (!ch) { break; }
+  }
   string1[i]=0; }
 
 /* ELEMENT SYMBOLS */
@@ -276,7 +278,7 @@ void mob_invid(struct atomid *id)
    ========================= */
 int mob_issameres(struct atomid *id1,struct atomid *id2)
 { if (id1->resnamechain==id2->resnamechain&&id1->resno==id2->resno&&
-      id1->inscode==id2->inscode) return(1);
+      id1->inscode==id2->inscode) { return(1); }
   return(0); }
 
 /* CHECK IF ATOM BELONGS TO GIVEN RESIDUE
@@ -298,7 +300,7 @@ int mob_reslen(struct mobatom *atom,int atomsleft)
   mob_getid(&id,atom);
   i=0;
   while (atomsleft--)
-  { if (!mob_hasres(atom,&id)) break;
+  { if (!mob_hasres(atom,&id)) { break; }
     i++;
     atom=mob_next(atom); }
   return(i); }
@@ -309,7 +311,8 @@ int mob_hasname(struct mobatom *atom,struct atomid *id2)
 { struct atomid id1;
 
   mob_getid(&id1,atom);
-  if (id1.atom==id2->atom&&id1.altloc==id2->altloc) return(1); else return(0); }
+  if (id1.atom==id2->atom&&id1.altloc==id2->altloc) { return(1); } else { return(0); }
+}
 
 
 class YOBFormat : public OBMoleculeFormat
@@ -357,8 +360,9 @@ YOBFormat theYOBFormat;
 bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   //Define some references so we can use the old parameter names
   istream &ifs = *pConv->GetInStream();
@@ -381,15 +385,15 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   /* VERIFY FILE FORMAT */
   ifs.read(buffer,8);
-  if (!EQn(buffer,"YMOB",4)) return(false);
+  if (!EQn(buffer,"YMOB",4)) { return(false); }
   /* IGNORE ENTIRE INFO STRUCTURE */
   infosize=uint32lemem(&buffer[4]);
-  for (i=0;i<infosize;i++) ifs.read(buffer,1);
+  for (i=0;i<infosize;i++) { ifs.read(buffer,1); }
   /* READ ATOM DATA */
   ifs.read(buffer,4);
   size=uint32lemem(buffer);
   mob=(mobdata*)mem_alloc(size);
-  if (!mob) return(false);
+  if (!mob) { return(false); }
   ifs.read((char*)mob,size);
   /* PARSE THE ATOMS */
   mol.Clear();
@@ -417,18 +421,18 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       res=mol.NewResidue();
       *((int32*)resname)=id.resnamechain;
       chain=resname[3];
-      if (chain>='0'&&chain<='9') chain-=48;
-      else if (chain>='A'&&chain<='Z') chain-=64;
-      else if (chain>='a'&&chain<='z') chain-=96;
+      if (chain>='0'&&chain<='9') { chain-=48; }
+      else if (chain>='A'&&chain<='Z') { chain-=64; }
+      else if (chain>='a'&&chain<='z') { chain-=96; }
       resname[3]=0;
       res->SetChainNum(chain);
       str=resname;
       res->SetName(str);
       res->SetNum(str_natoi((char*)&id.resno,4)); }
-    else mob_getid(&id,srcatom);
+    else { mob_getid(&id,srcatom); }
     /* SET THE CHARGE, WHICH IS PASSED IN THE property FIELD */
     dstatom->SetPartialCharge(id.property);
-    if (id.property!=0) charged=1;
+    if (id.property!=0) { charged=1; }
     res->AddAtom(dstatom);
     /* WHO KNOWS WHY HALF OF THE ATOM PARAMETERS CAN BE SET DIRECTLY
        ABOVE, AND THE SECOND HALF NEEDS A RESIDUE OBJECT IN BETWEEN? */
@@ -436,14 +440,14 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     *((int32*)atomname)=id.atom;
     atomname[4]=0;
     /* SHIFT ATOM NAME BY ONE CHARACTER TO REMOVE LEADING SPACE */
-    if (atomname[0]==' '&&(!pConv->IsOption("f",OBConversion::INOPTIONS))) memmove(atomname,atomname+1,4);
+    if (atomname[0]==' '&&(!pConv->IsOption("f",OBConversion::INOPTIONS))) { memmove(atomname,atomname+1,4); }
     /* RENAME TERMINAL OXYGENS */
     str=atomname;
-    if (str=="OT1") str="O";
-    if (str=="OT2") str="OXT";
+    if (str=="OT1") { str="O"; }
+    if (str=="OT2") { str="OXT"; }
     res->SetAtomID(dstatom,str);
-    if (srcatom->header[MOB_ELEMENT]&MOB_HETATOMFLAG) hetatom=true;
-    else hetatom=false;
+    if (srcatom->header[MOB_ELEMENT]&MOB_HETATOMFLAG) { hetatom=true; }
+    else { hetatom=false; }
     res->SetHetAtom(dstatom,hetatom);
     /* NOW ADD THE BONDS */
     links=srcatom->header[MOB_LINKS];
@@ -452,17 +456,18 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       linked=link&MOB_LINKATOMMASK;
       if (linked<i)
       { linktype=link>>MOB_LINKTYPESHIFTS;
-        if (linktype==MOB_LINKQUADRUPLE) linktype=4;
-        else if (linktype>MOB_LINKTRIPLE) linktype=5;
+        if (linktype==MOB_LINKQUADRUPLE) { linktype=4; }
+        else if (linktype>MOB_LINKTRIPLE) { linktype=5; }
         mol.AddBond(i+1,linked+1,linktype); } }
     mob_setnext(&srcatom); }
   mem_free(mob);
 
   mol.EndModify();
-  if (charged) mol.SetPartialChargesPerceived();
-  if (has_residue_info)
+  if (charged) { mol.SetPartialChargesPerceived(); }
+  if (has_residue_info) {
     mol.SetChainsPerceived();
-  if (!mol.NumAtoms()) return(false);
+  }
+  if (!mol.NumAtoms()) { return(false); }
   return(true); }
 
 /* WRITE YASARA OBJECT
@@ -472,8 +477,9 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   //Define some references so we can use the old parameter names
   ostream &ofs = *pConv->GetOutStream();
@@ -497,7 +503,7 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   vector<OBBond*>::iterator iter;
 
   atoms=mol.NumAtoms();
-  if (!atoms) return(false);
+  if (!atoms) { return(false); }
   /* WRITE FILE FORMAT */
   ofs<<"YMOB";
   /* WRITE AN INFO STRUCTURE WITH EMPTY TRANSFORMATION HISTORY (UNIT MATRIX) */
@@ -509,8 +515,9 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   mem_set(buffer,0,8);
   for (i=0;i<4;i++)
   { for (j=0;j<4;j++)
-    { if (i==j) ofs.write((char*)double1,8);
-      else ofs.write(buffer,8); } }
+    { if (i==j) { ofs.write((char*)double1,8); }
+      else { ofs.write(buffer,8); } }
+  }
   storeint32le(buffer,MOB_INFOEND);
   storeint32le(&buffer[4],MOB_INFOENDSIZE);
   ofs.write(buffer,8);
@@ -520,7 +527,7 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   { srcatom=mol.GetAtom(i);
     /* COUNT BONDS */
     links=0;
-    for (bond=srcatom->BeginBond(iter);bond;bond=srcatom->NextBond(iter)) links++;
+    for (bond=srcatom->BeginBond(iter);bond;bond=srcatom->NextBond(iter)) { links++; }
     size+=links*4+32; }
   /* WRITE DATA HEADER */
   storeint32le(buffer,size);
@@ -533,7 +540,7 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   { srcatom=mol.GetAtom(i);
     /* COUNT BONDS AGAIN (EASY ACCESS TO THE NUMBER OF BONDS IS TOO WELL HIDDEN ;-) */
     links=0;
-    for (bond=srcatom->BeginBond(iter);bond;bond=srcatom->NextBond(iter)) links++;
+    for (bond=srcatom->BeginBond(iter);bond;bond=srcatom->NextBond(iter)) { links++; }
     /* WRITE ATOM HEADER+POSITION */
     buffer[MOB_LINKS]=links;
     buffer[MOB_IDLEN]=4;
@@ -550,14 +557,14 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     { storeint32le(buffer,linkedatom->GetIdx()-1);
       bondorder=(*iter)->GetBondOrder();
       //printf("  Order %d\n",bondorder);
-      if (bondorder==4) bondorder=MOB_LINKQUADRUPLE;
-      else if (bondorder==5) bondorder=MOB_LINKRESONANCE50;
+      if (bondorder==4) { bondorder=MOB_LINKQUADRUPLE; }
+      else if (bondorder==5) { bondorder=MOB_LINKRESONANCE50; }
       buffer[3]=bondorder;
       ofs.write(buffer,4); }
     /* WRITE ATOM ID */
     mem_set(buffer,0,sizeof(buffer));
     flags=MOB_ATOMFLAG|MOB_RESFLAG;
-    if (pConv->IsOption("a",OBConversion::OUTOPTIONS)&&srcatom->IsAromatic()) flags|=MOB_AROMATICFLAG;
+    if (pConv->IsOption("a",OBConversion::OUTOPTIONS)&&srcatom->IsAromatic()) { flags|=MOB_AROMATICFLAG; }
     storeint32le(buffer,flags);
     if (srcatom->HasResidue())
     { res=srcatom->GetResidue();
@@ -565,14 +572,15 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       pos=4;
       if (!pConv->IsOption("f",OBConversion::OUTOPTIONS))
       { /* GUESS IF THE ATOM NAME NEEDS TO BE SHIFTED */
-        if (strlen(mob_elementsym[element])==1||strncasecmp(mob_elementsym[element],atomname,2)) pos=5; }
+        if (strlen(mob_elementsym[element])==1||strncasecmp(mob_elementsym[element],atomname,2)) { pos=5; }
+      }
       str_copy(&buffer[pos],atomname);
       str_copy(&buffer[8],(char*)res->GetName().c_str());
       snprintf(&buffer[12], 4, "%4d",res->GetNum()); }
     else
     { str_copy(&buffer[4],OBElements::GetSymbol(element));
       str_copy(&buffer[8],"UNK    1"); }
-    for (j=4;j<16;j++) if (!buffer[j]) buffer[j]=' ';
+    for (j=4;j<16;j++) { if (!buffer[j]) { buffer[j]=' '; } }
     ofs.write(buffer,16); }
   return(true); }
 
