@@ -147,11 +147,13 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     }
     _tempAtom.SetAtomicNum(6); // default is carbon
     buf = _pxmlConv->GetAttribute("id");
-    if (buf.length())
+    if (buf.length()) {
       _tempAtom.SetIdx(atoi(buf.c_str()));
+    }
     buf = _pxmlConv->GetAttribute("Element");
-    if (buf.length())
+    if (buf.length()) {
       _tempAtom.SetAtomicNum(atoi(buf.c_str()));
+    }
 
     buf = _pxmlConv->GetAttribute("p"); // coords
     if (buf.length())
@@ -161,18 +163,22 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
       _tempAtom.SetVector(x, y, 0.);
     }
     buf = _pxmlConv->GetAttribute("Charge");
-    if (buf.length())
+    if (buf.length()) {
       _tempAtom.SetFormalCharge(atoi(buf.c_str()));
+    }
     buf = _pxmlConv->GetAttribute("Isotope");
-    if (buf.length())
+    if (buf.length()) {
       _tempAtom.SetIsotope(atoi(buf.c_str()));
+    }
     buf = _pxmlConv->GetAttribute("NumHydrogens");
     if (buf.length())
     {
       _tempAtom.SetImplicitHCount(atoi(buf.c_str()));
     }
     else
+    {
       _handleImplicitHydrogens.push_back(_tempAtom.GetIdx());
+    }
   }
   else if(name=="b")
   {
@@ -180,10 +186,11 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
 	  bool invert_ends = false;
 	  Begin = End = Flag = 0;
     buf = _pxmlConv->GetAttribute("Order");
-    if (buf.length())
+    if (buf.length()) {
       Order = atoi(buf.c_str());
-    else
+    } else {
       Order = 1; //default value
+    }
     buf = _pxmlConv->GetAttribute("Display");
     if (buf.length())
     {
@@ -209,18 +216,20 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
     buf = _pxmlConv->GetAttribute("B");
     if (buf.length())
     {
-      if (invert_ends)
+      if (invert_ends) {
         End = atoms[atoi(buf.c_str())];
-      else
+      } else {
         Begin = atoms[atoi(buf.c_str())];
+      }
     }
     buf = _pxmlConv->GetAttribute("E");
     if (buf.length())
     {
-      if (invert_ends)
+      if (invert_ends) {
         Begin = atoms[atoi(buf.c_str())];
-      else
+      } else {
         End = atoms[atoi(buf.c_str())];
+      }
     }
   }
   /*
@@ -264,8 +273,9 @@ bool ChemDrawXMLFormat::EndElement(const string& name)
     
     // Add implicit hydrogens on atoms without "hydrogens" property
     for (vector<unsigned int>::iterator vit = _handleImplicitHydrogens.begin();
-         vit != _handleImplicitHydrogens.end(); ++vit)
+         vit != _handleImplicitHydrogens.end(); ++vit) {
            OBAtomAssignTypicalImplicitHydrogens(_pmol->GetAtom(atoms[*vit]));
+    }
 
     _pmol->EndModify();
 
@@ -390,12 +400,14 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   static const xmlChar C_DISPLAY[]          = "Display";
 
   _pxmlConv = XMLConversion::GetDerived(pConv,false);
-  if(!_pxmlConv)
+  if(!_pxmlConv) {
     return false;
+  }
 
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
 	return false;
+  }
   OBMol &mol = *pmol;
 
   OBBond *pbond;
@@ -411,12 +423,15 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     _scale = 0.;
     if (mol.NumBonds())
     {
-      for (pbond = mol.BeginBond(j);pbond;pbond = mol.NextBond(j))
+      for (pbond = mol.BeginBond(j);pbond;pbond = mol.NextBond(j)) {
         _scale += pbond->GetLength();
+      }
       _scale /= mol.NumBonds();
 	}
     else
+    {
       _scale = 1.; // FIXME: what happens if the molecule has no bond?
+    }
     _scale = 30. / _scale;
     _offset = 0;
   }
@@ -468,10 +483,11 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     {
       xmlTextWriterWriteFormatAttribute(writer(), C_ORDER , "%d", n);
     }
-    if (pbond->IsHash())
+    if (pbond->IsHash()) {
       xmlTextWriterWriteFormatAttribute(writer(), C_DISPLAY , "WedgedHashBegin");
-    else if (pbond->IsWedge())
+    } else if (pbond->IsWedge()) {
       xmlTextWriterWriteFormatAttribute(writer(), C_DISPLAY , "WedgeBegin");
+    }
     xmlTextWriterEndElement(writer());
   }
   _offset += mol.NumAtoms ();

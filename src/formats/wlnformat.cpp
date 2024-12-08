@@ -130,16 +130,18 @@ namespace OpenBabel
   bool WLNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
     const char* title = pConv->GetTitle();
     char buffer[BUFF_SIZE];
 
-    if (!ifs.getline(buffer,BUFF_SIZE))
+    if (!ifs.getline(buffer,BUFF_SIZE)) {
       return false;
+    }
 
     NMReadWLN(buffer, pmol);
 

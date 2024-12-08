@@ -697,7 +697,7 @@ struct WLNParser {
         } else if (order == 1) {
             fuse(prev,aptr,1);
             next(aptr,0);
-        } else return error();
+        } else { return error(); }
         return true;
     }
 
@@ -705,18 +705,20 @@ struct WLNParser {
         if (order == 1) {
             fuse(prev,aptr,1);
             next(aptr,1);
-        } else return error();
+        } else { return error(); }
         return true;
     }
 
     bool alkane() {
         unsigned int len = (*ptr++ - '0');
-        while(*ptr>='0' && *ptr<='9')
+        while(*ptr>='0' && *ptr<='9') {
             len = 10*len + (*ptr++ - '0');
+        }
         for (unsigned int i=0; i<len; i++) {
             OpenBabel::OBAtom* temp = atom(6,4);
-            if (order)
+            if (order) {
                 fuse(prev,temp,order);
+            }
             prev = temp;
             order = 1;
         }
@@ -736,7 +738,7 @@ struct WLNParser {
             pending = PENDING_NONE;
             push_poly();
             prev = temp;
-        } else return error();
+        } else { return error(); }
         pending = PENDING_NONE;
         order = 1;
         return true;
@@ -752,8 +754,9 @@ struct WLNParser {
 
     void unsaturate2(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
         OpenBabel::OBBond* bptr = src->GetBond(dst);
-        if (bptr)
+        if (bptr) {
             bptr->SetBondOrder(3);
+        }
         NMOBAtomSetAromatic(src,false);
         NMOBAtomSetAromatic(dst,false);
         src->SetImplicitHCount(0);
@@ -797,8 +800,9 @@ struct WLNParser {
         // Normal Rings
         if (ptr[1] >= '3' && ptr[1] <= '9') {
             size = ptr[1] - '0';
-            if (spiro)
+            if (spiro) {
                 spiro_pos = size;
+            }
             ptr += 2;
 
             // Macro Sized Rings
@@ -813,10 +817,12 @@ struct WLNParser {
             // Poly & Peri Fused Rings
         } else if (ptr[1]== ' ') {
             peri_index = detect_peri(wln_string,cycles, peri_atoms);
-            if (peri_index==0)
+            if (peri_index==0) {
                 poly=true;
-            if (cycles.empty())
+            }
+            if (cycles.empty()) {
                 return error();
+            }
             cyclic_set = cycles.at(0);
             for (int i = 0; i < cyclic_set; i++) {
                 if (isdigit(wln_string[i])) {
@@ -1001,11 +1007,13 @@ struct WLNParser {
                 break;
         }
 
-        if (!done)
+        if (!done) {
             new_cycle(ring,size);
+        }
 
-        if (debug_wln_read)
+        if (debug_wln_read) {
             printf("DEBUG: ring size=%u ptr=%s\n",size,ptr);
+        }
 
         unsigned int loc = 0;
         unsigned int elem = 0;
@@ -1014,18 +1022,21 @@ struct WLNParser {
 
         // Ring Atom Assignment
         for (;;) {
-            if (debug_wln_read)
+            if (debug_wln_read) {
                 printf("DEBUG: loc=%u ptr=%s\n",loc,ptr);
+            }
             switch(*ptr) {
                 case 'H':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetImplicitHCount(2);
                     NMOBAtomSetAromatic(aptr,false);
                     ptr++;
-                    if (*ptr != 'J')
+                    if (*ptr != 'J') {
                         return error();
+                    }
                     ptr++;
                     return true;
 
@@ -1051,8 +1062,9 @@ struct WLNParser {
                     return true;
 
                 case 'K':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(7);
                     aptr->SetFormalCharge(1);
@@ -1062,8 +1074,9 @@ struct WLNParser {
                     continue;
 
                 case 'M':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(7);
                     NMOBAtomSetAromatic(aptr,false);
@@ -1073,8 +1086,9 @@ struct WLNParser {
                     continue;
 
                 case 'N':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(7);
                     aptr->SetImplicitHCount(0);
@@ -1083,8 +1097,9 @@ struct WLNParser {
                     continue;
 
                 case 'O':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(8);
                     NMOBAtomSetAromatic(aptr,false);
@@ -1094,8 +1109,9 @@ struct WLNParser {
                     continue;
 
                 case 'P':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(15);
                     aptr->SetImplicitHCount(0);
@@ -1104,8 +1120,9 @@ struct WLNParser {
                     continue;
 
                 case 'S':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetAtomicNum(16);
                     aptr->SetImplicitHCount(0);
@@ -1130,11 +1147,13 @@ struct WLNParser {
                         }
                     }
                     ptr++;
-                    if (*ptr != 'J')
+                    if (*ptr != 'J') {
                         return error();
+                    }
                     if (ring_bridge){
-                        if (CONFLICT>0)
+                        if (CONFLICT>0) {
                             return error();
+                        }
                         ReduceBridge_ring(ring,bridge_vector,size);
                     }
                     ptr++;
@@ -1142,8 +1161,9 @@ struct WLNParser {
                     // Additions made here to provide cross bridge double bond
                 case 'U':
                     //MARK
-                    if (loc+1 >= size)
+                    if (loc+1 >= size) {
                         return error();
+                    }
                     if (ptr[1]=='U') {
                         unsaturate2(ring[loc],ring[loc+1]);
                         ptr += 2;
@@ -1162,8 +1182,9 @@ struct WLNParser {
                     continue;
 
                 case 'V':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     fuse(aptr,atom(8,0),2);
                     NMOBAtomSetAromatic(aptr,false);
@@ -1173,8 +1194,9 @@ struct WLNParser {
 
                 case 'X':
                 case 'Y':
-                    if (loc >= size)
+                    if (loc >= size) {
                         return error();
+                    }
                     aptr = ring[loc];
                     aptr->SetImplicitHCount(2);
                     NMOBAtomSetAromatic(aptr,false);
@@ -1211,8 +1233,9 @@ struct WLNParser {
                     }
 
 
-                    {if(ptr[1]>='A' && ptr[1]<='Z')
+                    {if(ptr[1]>='A' && ptr[1]<='Z') {
                             loc = ptr[1]-'A';
+                                                    }
                         if (ptr[1] == 'T' && ptr[2] =='J' && ring_bridge){
                             ptr++;
                             continue;
@@ -1291,10 +1314,12 @@ struct WLNParser {
                             }
                             break;
                     }
-                    if (!elem)
+                    if (!elem) {
                         return error();
-                    if (loc >= size)
+                    }
+                    if (loc >= size) {
                         return error();
+                    }
                     hcount = 0;
                     if (*ptr == 'H') {
                         if (ptr[1] == 'H') {
@@ -1319,18 +1344,21 @@ struct WLNParser {
     bool parse() {
         ptr = orig;
         if (ptr[0]=='W' && ptr[1]=='L' && ptr[2]=='N' &&
-            ptr[3]==':' && ptr[4]==' ')
+            ptr[3]==':' && ptr[4]==' ') {
             ptr += 5;
+        }
         for(;;) {
-            if (debug_wln_read)
+            if (debug_wln_read) {
                 printf("DEBUG: state=%u order=%u ptr=%s\n",state,order,ptr);
+            }
             switch (*ptr) {
                 case '\t':
                     mol->SetTitle(ptr+1);
                     /* fall through */
                 case '\0':
-                    if (state == 0)
+                    if (state == 0) {
                         return error();
+                    }
                     drain();
                     return true;
 
@@ -1357,8 +1385,9 @@ struct WLNParser {
                     }
                     if (ptr[1]=='N') {  // CN
                         if (order == 1) {
-                            if (!degree1(cyano()))
+                            if (!degree1(cyano())) {
                                 return false;
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1375,20 +1404,23 @@ struct WLNParser {
                     break;
 
                 case 'E':
-                    if (!term1(atom(35,1)))
+                    if (!term1(atom(35,1))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 case 'F':
-                    if (!term1(atom(9,1)))
+                    if (!term1(atom(9,1))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 case 'G':
-                    if (!term1(atom(17,1)))
+                    if (!term1(atom(17,1))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -1401,8 +1433,9 @@ struct WLNParser {
                     break;
 
                 case 'I':
-                    if (!term1(atom(53,1)))
+                    if (!term1(atom(53,1))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -1444,8 +1477,9 @@ struct WLNParser {
 
                 case 'L':
                     if (state == 0) {
-                        if (!parse_ring())
+                        if (!parse_ring()) {
                             return false;
+                        }
                         state = 2;
                         order = 0;
                         continue;
@@ -1468,8 +1502,9 @@ struct WLNParser {
                             continue;
                         }
                     }
-                    if (!degree2(atom(7,3)))
+                    if (!degree2(atom(7,3))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -1490,8 +1525,9 @@ struct WLNParser {
                     }
                     if (ptr[1]=='C') {  // NC
                         if (state == 0) {
-                            if (!degree1(cyano()))
+                            if (!degree1(cyano())) {
                                 return false;
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1504,15 +1540,17 @@ struct WLNParser {
                                 continue;
                             }
                         }
-                        if (!degree1(diazonio()))
+                        if (!degree1(diazonio())) {
                             return false;
+                        }
                         ptr += 2;
                         continue;
                     }
                     if (ptr[1]=='O') {  // NO
                         if (order == 1) {
-                            if (!degree1(nitroso()))
+                            if (!degree1(nitroso())) {
                                 return false;
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1528,8 +1566,9 @@ struct WLNParser {
                     }
                     if (ptr[1]=='W') {  // NW
                         if (order == 1) {
-                            if (!term1(nitro()))
+                            if (!term1(nitro())) {
                                 return false;
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1560,7 +1599,9 @@ struct WLNParser {
                                 carbon_monoxide();
                                 state = 2;
                             } else
+                            {
                                 next(carbonyl(),2);
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1615,20 +1656,22 @@ struct WLNParser {
                         ptr++;
                         continue;
                     }
-                    if (!degree2(atom(8,2)))
+                    if (!degree2(atom(8,2))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 case 'P':
                     if (state == 0) {
-                        if (!term1(atom(15,3)))
+                        if (!term1(atom(15,3))) {
                             return false;
+                        }
                     } else if (state == 1) {
                         OpenBabel::OBAtom* temp = atom(15,3);
                         fuse(prev,temp,order);
                         next(temp,1);
-                    } else break;
+                    } else { break; }
                     pending = PENDING_NONE;
                     push_poly();
                     ptr++;
@@ -1644,14 +1687,16 @@ struct WLNParser {
                     continue;
 
                 case 'Q':
-                    if (!term1(atom(8,2)))
+                    if (!term1(atom(8,2))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 case 'R':
-                    if (!degree1(benzene()))
+                    if (!degree1(benzene())) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -1671,14 +1716,16 @@ struct WLNParser {
                         }
                     }
                     if (ptr[1]=='H') {
-                        if (!degree1(atom(16,2)))
+                        if (!degree1(atom(16,2))) {
                             return false;
+                        }
                         ptr += 2;
                         continue;
                     }
                     if (ptr[1]=='O' && ptr[2]=='&') {  // SO&
-                        if (!degree2(sulfinyl()))
+                        if (!degree2(sulfinyl())) {
                             return false;
+                        }
                         ptr += 3;
                         continue;
                     }
@@ -1690,15 +1737,17 @@ struct WLNParser {
                         }
                     }
                     if (ptr[1]=='W') {
-                        if (!degree2(sulfonyl()))
+                        if (!degree2(sulfonyl())) {
                             return false;
+                        }
                         ptr += 2;
                         continue;
                     }
                     if (ptr[1]=='Z' && ptr[2]=='W') {  // SZW
                         if (order == 1) {
-                            if (!term1(sulfamoyl()))
+                            if (!term1(sulfamoyl())) {
                                 return false;
+                            }
                             ptr += 3;
                             continue;
                         }
@@ -1718,15 +1767,17 @@ struct WLNParser {
                         ptr++;
                         continue;
                     }
-                    if (!degree2(atom(16,2)))
+                    if (!degree2(atom(16,2))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 case 'T':
                     if (state == 0) {
-                        if (!parse_ring())
+                        if (!parse_ring()) {
                             return false;
+                        }
                         state = 2;
                         order = 0;
                         continue;
@@ -1734,8 +1785,9 @@ struct WLNParser {
                     break;
 
                 case 'U':
-                    if (order != 1)
+                    if (order != 1) {
                         return error();
+                    }
                     if (ptr[1]=='U') {
                         order = 3;
                         ptr += 2;
@@ -1845,8 +1897,9 @@ struct WLNParser {
                     break;
 
                 case 'Z':
-                    if (!term1(atom(7,3)))
+                    if (!term1(atom(7,3))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -1861,8 +1914,9 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(47))
+                                if (!poly(47)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -1875,26 +1929,30 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(13))
+                                if (!poly(13)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='S' && ptr[3]=='-') {  // -AS-
-                                if (!poly(33))
+                                if (!poly(33)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='T' && ptr[3]=='-') {  // -AT-
-                                if (!poly(85))
+                                if (!poly(85)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='U' && ptr[3]=='-') {  // -AU-
-                                if (!poly(79))
+                                if (!poly(79)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -1909,8 +1967,9 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(56))
+                                if (!poly(56)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -1922,21 +1981,24 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(4))
+                                if (!poly(4)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='I' && ptr[3]=='-') {  // -BI-
-                                if (!poly(83))
+                                if (!poly(83)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
 
                             if (ptr[2]=='O' && ptr[3]=='-') {  // -BO-
-                                if (!poly(5))
+                                if (!poly(5)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -1950,8 +2012,9 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(20))
+                                if (!poly(20)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -1964,34 +2027,39 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(17))
+                                if (!poly(17)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
 
 
                             if (ptr[2]=='D' && ptr[3]=='-') {  // -CD-
-                                if (!poly(48))
+                                if (!poly(48)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='O' && ptr[3]=='-') {  // -CO-
-                                if (!poly(27))
+                                if (!poly(27)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='U' && ptr[3]=='-') {  // -CU-
-                                if (!poly(29))
+                                if (!poly(29)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='R' && ptr[3]=='-') {  // -CR-
-                                if (!poly(24))
+                                if (!poly(24)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2003,78 +2071,89 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(55))
+                                if (!poly(55)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'E':
                             if (ptr[2]=='-') {  // -E-
-                                if (!poly(35))
+                                if (!poly(35)) {
                                     return false;
+                                }
                                 ptr += 3;
                                 continue;
                             }
                             break;
                         case 'F':
                             if (ptr[2]=='E' && ptr[3]=='-') {  // -FE-
-                                if (!poly(26))
+                                if (!poly(26)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'G':
                             if (ptr[2]=='-') {  // -G-
-                                if (!poly(17))
+                                if (!poly(17)) {
                                     return false;
+                                }
                                 ptr += 3;
                                 continue;
                             }
                             if (ptr[2]=='A' && ptr[3]=='-') {  // -GA-
-                                if (!poly(31))
+                                if (!poly(31)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='E' && ptr[3]=='-') {  // -GE-
-                                if (!poly(32))
+                                if (!poly(32)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'H':
                             if (ptr[2]=='F' && ptr[3]=='-') {  // -HF-
-                                if (!poly(72))
+                                if (!poly(72)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='G' && ptr[3]=='-') {  // -HG-
-                                if (!poly(80))
+                                if (!poly(80)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'I':
                             if (ptr[2]=='-') {  // -I-
-                                if (!poly(53))
+                                if (!poly(53)) {
                                     return false;
+                                }
                                 ptr += 3;
                                 continue;
                             }
                             if (ptr[2]=='N' && ptr[3]=='-') {  // -IN-
-                                if (!poly(49))
+                                if (!poly(49)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='R' && ptr[3]=='-') {  // -IR-
-                                if (!poly(77))
+                                if (!poly(77)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2101,8 +2180,9 @@ struct WLNParser {
                                 }
                             }
                             if (ptr[2]=='A' && ptr[3]=='-') {  // -LA-
-                                if (!poly(57))
+                                if (!poly(57)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2116,20 +2196,23 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(12))
+                                if (!poly(12)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='N' && ptr[3]=='-') {  // -MN-
-                                if (!poly(25))
+                                if (!poly(25)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='O' && ptr[3]=='-') {  // -MO-
-                                if (!poly(42))
+                                if (!poly(42)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2143,54 +2226,62 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(11))
+                                if (!poly(11)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='B' && ptr[3]=='-') {  // -NB-
-                                if (!poly(41))
+                                if (!poly(41)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='I' && ptr[3]=='-') {  // -NI-
-                                if (!poly(28))
+                                if (!poly(28)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'O':
                             if (ptr[2]=='S' && ptr[3]=='-') {  // -OS-
-                                if (!poly(76))
+                                if (!poly(76)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'P':
                             if (ptr[2]=='B' && ptr[3]=='-') {  // -PB-
-                                if (!poly(82))
+                                if (!poly(82)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='D' && ptr[3]=='-') {  // -PD-
-                                if (!poly(46))
+                                if (!poly(46)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='O' && ptr[3]=='-') {  // -PO-
-                                if (!poly(84))
+                                if (!poly(84)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='T' && ptr[3]=='-') {  // -PT-
-                                if (!poly(78))
+                                if (!poly(78)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2204,46 +2295,53 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(37))
+                                if (!poly(37)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='E' && ptr[3]=='-') {  // -RE-
-                                if (!poly(75))
+                                if (!poly(75)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='H' && ptr[3]=='-') {  // -RH-
-                                if (!poly(45))
+                                if (!poly(45)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='U' && ptr[3]=='-') {  // -RU-
-                                if (!poly(44))
+                                if (!poly(44)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'S':
                             if (ptr[2]=='B' && ptr[3]=='-') {  // -SB-
-                                if (!poly(51))
+                                if (!poly(51)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='C' && ptr[3]=='-') {  // -SC-
-                                if (!poly(21))
+                                if (!poly(21)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='E' && ptr[3]=='-') {  // -SE-
-                                if (!poly(34))
+                                if (!poly(34)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2255,98 +2353,112 @@ struct WLNParser {
                                     ptr += 4;
                                     continue;
                                 }
-                                if (!poly(14))
+                                if (!poly(14)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='N' && ptr[3]=='-') {  // -SN-
-                                if (!poly(50))
+                                if (!poly(50)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='R' && ptr[3]=='-') {  // -SR-
-                                if (!poly(38))
+                                if (!poly(38)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'T':
                             if (ptr[2]=='A' && ptr[3]=='-') {  // -TA-
-                                if (!poly(73))
+                                if (!poly(73)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='C' && ptr[3]=='-') {  // -TC-
-                                if (!poly(43))
+                                if (!poly(43)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='E' && ptr[3]=='-') {  // -TE-
-                                if (!poly(52))
+                                if (!poly(52)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='I' && ptr[3]=='-') {  // -TI-
-                                if (!poly(22))
+                                if (!poly(22)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='L' && ptr[3]=='-') {  // -TL-
-                                if (!poly(81))
+                                if (!poly(81)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'U':
                             if (ptr[2]=='R' && ptr[3]=='-') {  // -UR-
-                                if (!poly(92))
+                                if (!poly(92)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'V':
                             if (ptr[2]=='A' && ptr[3]=='-') {  // -VA-
-                                if (!poly(23))
+                                if (!poly(23)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'W':
                             if (ptr[2]=='O' && ptr[3]=='-') {  // -WO-
-                                if (!poly(74))
+                                if (!poly(74)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'Y':
                             if (ptr[2]=='T' && ptr[3]=='-') {  // -YT-
-                                if (!poly(39))
+                                if (!poly(39)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             break;
                         case 'Z':
                             if (ptr[2]=='N' && ptr[3]=='-') {  // -ZN-
-                                if (!poly(30))
+                                if (!poly(30)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
                             if (ptr[2]=='R' && ptr[3]=='-') {  // -ZR-
-                                if (!poly(40))
+                                if (!poly(40)) {
                                     return false;
+                                }
                                 ptr += 4;
                                 continue;
                             }
@@ -2362,8 +2474,9 @@ struct WLNParser {
                                     const char *loc_ptr = ptr+2;
                                     unsigned int loc = *loc_ptr-'A';
                                     ptr += 3;
-                                    if (!parse_ring())
+                                    if (!parse_ring()) {
                                         return false;
+                                    }
                                     if (loc >= rings.back().size()) {
                                         ptr = loc_ptr;
                                         return error();
@@ -2377,7 +2490,9 @@ struct WLNParser {
                                         spiro=false;
                                     }
                                     else
+                                    {
                                         fuse(prev,rings.back()[loc],order);
+                                    }
                                     state = 2;
                                     order = 0;
                                     continue;
@@ -2390,13 +2505,15 @@ struct WLNParser {
                 case '&':
                     term();
                     if (ptr[1]=='&') {
-                        if (!double_pop())
+                        if (!double_pop()) {
                             return false;
+                        }
                         ptr += 2;
                         continue;
                     }
-                    if (!pop())
+                    if (!pop()) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
@@ -2414,8 +2531,9 @@ struct WLNParser {
                         }
                     }
                     if (ptr[1]>='A' && ptr[1]<='Z') {
-                        if (rings.empty())
+                        if (rings.empty()) {
                             return error();
+                        }
                         term();
                         unsigned int loc = ptr[1]-'A';
                         if (loc < rings.back().size()) {
@@ -2429,8 +2547,9 @@ struct WLNParser {
                                     if(ptr[i]==' '){
                                         space_loc = i;
                                         break;}
-                                    if(ptr[i] == '-')
+                                    if(ptr[i] == '-') {
                                         scaffold_loc = i;
+                                    }
                                     if (ptr[i] == '&' && ptr[i+1] ==' '){
                                         clear_loc = i;
                                     }
@@ -2468,15 +2587,17 @@ struct WLNParser {
                     break;
 
                 case '#':
-                    if (!term1(atom(0,0)))
+                    if (!term1(atom(0,0))) {
                         return false;
+                    }
                     ptr++;
                     continue;
 
                 default:
                     if (*ptr>='1' && *ptr<='9') {
-                        if (!alkane())
+                        if (!alkane()) {
                             return false;
+                        }
                         continue;
                     }
                     break;
@@ -2488,13 +2609,14 @@ struct WLNParser {
     // ptr is E, F, G or I
     int parse_inorganic_halide(unsigned int cation, unsigned int count,
                                unsigned int anion) {
-        if (count != 1)
+        if (count != 1) {
             return 0;
+        }
         if (ptr[1]>='2' && ptr[1]<='9' && !ptr[2]) {
             count = ptr[1]-'0';
         } else if (!ptr[1]) {
             count = 1;
-        } else return 0;
+        } else { return 0; }
 
         prev = atom(cation,0);
         for (unsigned int i=0; i<count; i++) {
@@ -2512,7 +2634,7 @@ struct WLNParser {
                 count = ptr[1]-'0';
             } else if (!ptr[1]) {
                 count = 1;
-            } else return 0;
+            } else { return 0; }
             prev = atom(cation,0);
             for (unsigned int i=0; i<count; i++) {
                 OpenBabel::OBAtom* temp = atom(anion,0);
@@ -2568,12 +2690,13 @@ struct WLNParser {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
             acount = 1;
-        } else return 0;
+        } else { return 0; }
 
         if (ccount != acount*acharge) {
             unsigned int ccharge = (acount*acharge)/ccount;
-            if (ccount*ccharge != acount*acharge)
+            if (ccount*ccharge != acount*acharge) {
                 return 0;
+            }
             for (unsigned int i=0; i<ccount; i++) {
                 prev = atom(cation,0);
                 prev->SetFormalCharge(ccharge);
@@ -2589,33 +2712,38 @@ struct WLNParser {
                     prev = atom(5,0);
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     break;
                 case WLN_CARBONATE:
                     prev = atom(6,0);
                     NMOBMolNewBond(mol,prev,atom(8,0),2,false);
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     break;
                 case WLN_SULFATE:
                     prev = atom(16,0);
@@ -2623,28 +2751,32 @@ struct WLNParser {
                     NMOBMolNewBond(mol,prev,atom(8,0),2,false);
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     break;
                 case WLN_SULFITE:
                     prev = atom(16,0);
                     NMOBMolNewBond(mol,prev,atom(8,0),2,false);
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     temp = atom(8,0);
                     NMOBMolNewBond(mol,prev,temp,1,false);
-                    if (cation)
+                    if (cation) {
                         NMOBMolNewBond(mol,temp,atom(cation,0),1,false);
-                    else temp->SetFormalCharge(-1);
+                    }
+                    else { temp->SetFormalCharge(-1); }
                     break;
             }
         }
@@ -2660,11 +2792,11 @@ struct WLNParser {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
             acount = 1;
-        } else return 0;
+        } else { return 0; }
 
         if (ccount == 1) {
             prev = atom(cation,0);
-        } else return 0;
+        } else { return 0; }
 
         OpenBabel::OBAtom* temp;
         OpenBabel::OBAtom* temp2;
@@ -2700,9 +2832,10 @@ struct WLNParser {
                     /* Internal error */
                     return 0;
             }
-            if (ccount == 1)
+            if (ccount == 1) {
                 NMOBMolNewBond(mol,prev,temp,1,false);
-            else temp->SetFormalCharge(-1);
+            }
+            else { temp->SetFormalCharge(-1); }
         }
         return 1;
     }
@@ -2711,203 +2844,228 @@ struct WLNParser {
     int parse_inorganic() {
         ptr = orig;
         if (ptr[0]=='W' && ptr[1]=='L' && ptr[2]=='N' &&
-            ptr[3]==':' && ptr[4]==' ')
+            ptr[3]==':' && ptr[4]==' ') {
             ptr += 5;
+        }
 
         unsigned int cation = 0;
         switch (*ptr) {
             case 'A':
-                if (ptr[1]=='L')  // AL
+                if (ptr[1]=='L') {  // AL
                     cation = 13;
-                else if (ptr[1]=='G')  // AG
+                } else if (ptr[1]=='G') {  // AG
                     cation = 47;
-                else if (ptr[1]=='U')  // AU
+                } else if (ptr[1]=='U') {  // AU
                     cation = 79;
+                }
                 break;
             case 'B':
-                if (ptr[1]=='A')  // BA
+                if (ptr[1]=='A') {  // BA
                     cation = 56;
-                else if (ptr[1]=='E')  // BE
+                } else if (ptr[1]=='E') {  // BE
                     cation = 4;
+                }
                 break;
             case 'C':
-                if (ptr[1]=='A')  // CA
+                if (ptr[1]=='A') {  // CA
                     cation = 20;
-                else if (ptr[1]=='D')  // CD
+                } else if (ptr[1]=='D') {  // CD
                     cation = 48;
-                else if (ptr[1]=='E')  // CE
+                } else if (ptr[1]=='E') {  // CE
                     cation = 58;
-                else if (ptr[1]=='N')  // CN
+                } else if (ptr[1]=='N') {  // CN
                     cation = 112;
-                else if (ptr[1]=='O')  // CO
+                } else if (ptr[1]=='O') {  // CO
                     cation = 27;
-                else if (ptr[1]=='R')  // CR
+                } else if (ptr[1]=='R') {  // CR
                     cation = 24;
-                else if (ptr[1]=='S')  // CS
+                } else if (ptr[1]=='S') {  // CS
                     cation = 55;
-                else if (ptr[1]=='U')  // CU
+                } else if (ptr[1]=='U') {  // CU
                     cation = 29;
+                }
                 break;
             case 'D':
-                if (ptr[1]=='Y')  // DY
+                if (ptr[1]=='Y') {  // DY
                     cation = 66;
+                }
                 break;
             case 'E':
-                if (ptr[1]=='R')  // ER
+                if (ptr[1]=='R') {  // ER
                     cation = 68;
-                else if (ptr[1]=='S')  // ES
+                } else if (ptr[1]=='S') {  // ES
                     cation = 99;
-                else if (ptr[1]=='U')  // EU
+                } else if (ptr[1]=='U') {  // EU
                     cation = 63;
+                }
                 break;
             case 'F':
-                if (ptr[1]=='E')  // FE
+                if (ptr[1]=='E') {  // FE
                     cation = 26;
+                }
                 break;
             case 'G':
-                if (ptr[1]=='A')  // GA
+                if (ptr[1]=='A') {  // GA
                     cation = 31;
-                else if (ptr[1]=='D')  // GD
+                } else if (ptr[1]=='D') {  // GD
                     cation = 64;
-                else if (ptr[1]=='E')  // GE
+                } else if (ptr[1]=='E') {  // GE
                     cation = 32;
+                }
                 break;
             case 'H':
-                if (ptr[1]=='G')  // HG
+                if (ptr[1]=='G') {  // HG
                     cation = 80;
-                else if (ptr[1]=='O')  // HO
+                } else if (ptr[1]=='O') {  // HO
                     cation = 67;
+                }
                 break;
             case 'I':
-                if (ptr[1]=='N')  // IN
+                if (ptr[1]=='N') {  // IN
                     cation = 49;
+                }
                 break;
             case 'K':
-                if (ptr[1]=='A')  // KA
+                if (ptr[1]=='A') {  // KA
                     cation = 19;
+                }
                 break;
             case 'L':
-                if (ptr[1]=='A')  // LA
+                if (ptr[1]=='A') {  // LA
                     cation = 57;
-                else if (ptr[1]=='I')  // LI
+                } else if (ptr[1]=='I') {  // LI
                     cation = 3;
-                else if (ptr[1]=='U')  // LU
+                } else if (ptr[1]=='U') {  // LU
                     cation = 71;
+                }
                 break;
             case 'M':
-                if (ptr[1]=='G')  // MG
+                if (ptr[1]=='G') {  // MG
                     cation = 12;
-                else if (ptr[1]=='N')  // MN
+                } else if (ptr[1]=='N') {  // MN
                     cation = 25;
-                else if (ptr[1]=='O')  // MO
+                } else if (ptr[1]=='O') {  // MO
                     cation = 42;
+                }
                 break;
             case 'N':
-                if (ptr[1]=='A')  // NA
+                if (ptr[1]=='A') {  // NA
                     cation = 11;
-                else if (ptr[1]=='D')  // ND
+                } else if (ptr[1]=='D') {  // ND
                     cation = 60;
-                else if (ptr[1]=='I')  // NI
+                } else if (ptr[1]=='I') {  // NI
                     cation = 28;
+                }
                 break;
             case 'P':
-                if (ptr[1]=='A')  // PA
+                if (ptr[1]=='A') {  // PA
                     cation = 91;
-                else if (ptr[1]=='B')  // PB
+                } else if (ptr[1]=='B') {  // PB
                     cation = 82;
-                else if (ptr[1]=='D')  // PD
+                } else if (ptr[1]=='D') {  // PD
                     cation = 46;
-                else if (ptr[1]=='M')  // PM
+                } else if (ptr[1]=='M') {  // PM
                     cation = 61;
-                else if (ptr[1]=='O')  // PO
+                } else if (ptr[1]=='O') {  // PO
                     cation = 84;
-                else if (ptr[1]=='R')  // PR
+                } else if (ptr[1]=='R') {  // PR
                     cation = 59;
-                else if (ptr[1]=='T')  // PT
+                } else if (ptr[1]=='T') {  // PT
                     cation = 78;
-                else if (ptr[1]=='U')  // PU
+                } else if (ptr[1]=='U') {  // PU
                     cation = 94;
+                }
                 break;
             case 'R':
-                if (ptr[1]=='A')  // RA
+                if (ptr[1]=='A') {  // RA
                     cation = 88;
-                else if (ptr[1]=='B')  // RB
+                } else if (ptr[1]=='B') {  // RB
                     cation = 37;
-                else if (ptr[1]=='E')  // RE
+                } else if (ptr[1]=='E') {  // RE
                     cation = 75;
-                else if (ptr[1]=='F')  // RF
+                } else if (ptr[1]=='F') {  // RF
                     cation = 104;
-                else if (ptr[1]=='H')  // RH
+                } else if (ptr[1]=='H') {  // RH
                     cation = 45;
-                else if (ptr[1]=='N')  // RN
+                } else if (ptr[1]=='N') {  // RN
                     cation = 86;
-                else if (ptr[1]=='U')  // RU
+                } else if (ptr[1]=='U') {  // RU
                     cation = 44;
+                }
                 break;
             case 'S':
-                if (ptr[1]=='B')  // SB
+                if (ptr[1]=='B') {  // SB
                     cation = 51;
-                else if (ptr[1]=='C')  // SC
+                } else if (ptr[1]=='C') {  // SC
                     cation = 21;
-                else if (ptr[1]=='E')  // SE
+                } else if (ptr[1]=='E') {  // SE
                     cation = 34;
-                else if (ptr[1]=='G')  // SG
+                } else if (ptr[1]=='G') {  // SG
                     cation = 106;
-                else if (ptr[1]=='I')  // SI
+                } else if (ptr[1]=='I') {  // SI
                     cation = 14;
-                else if (ptr[1]=='M')  // SM
+                } else if (ptr[1]=='M') {  // SM
                     cation = 62;
-                else if (ptr[1]=='N')  // SN
+                } else if (ptr[1]=='N') {  // SN
                     cation = 50;
-                else if (ptr[1]=='R')  // SR
+                } else if (ptr[1]=='R') {  // SR
                     cation = 38;
+                }
                 break;
             case 'T':
-                if (ptr[1]=='A')  // TA
+                if (ptr[1]=='A') {  // TA
                     cation = 73;
-                else if (ptr[1]=='B')  // TB
+                } else if (ptr[1]=='B') {  // TB
                     cation = 65;
-                else if (ptr[1]=='C')  // TC
+                } else if (ptr[1]=='C') {  // TC
                     cation = 43;
-                else if (ptr[1]=='H')  // TH
+                } else if (ptr[1]=='H') {  // TH
                     cation = 90;
-                else if (ptr[1]=='I')  // TI
+                } else if (ptr[1]=='I') {  // TI
                     cation = 22;
-                else if (ptr[1]=='L')  // TL
+                } else if (ptr[1]=='L') {  // TL
                     cation = 81;
-                else if (ptr[1]=='M')  // TM
+                } else if (ptr[1]=='M') {  // TM
                     cation = 69;
+                }
                 break;
             case 'U':
-                if (ptr[1]=='R')  // UR
+                if (ptr[1]=='R') {  // UR
                     cation = 92;
+                }
                 break;
             case 'V':
-                if (ptr[1]=='A')  // VA
+                if (ptr[1]=='A') {  // VA
                     cation = 23;
+                }
                 break;
             case 'W':
-                if (ptr[1]=='O')  // WO
+                if (ptr[1]=='O') {  // WO
                     cation = 74;
+                }
                 break;
             case 'X':
-                if (ptr[1]=='E')  // XE
+                if (ptr[1]=='E') {  // XE
                     cation = 54;
+                }
                 break;
             case 'Y':
-                if (ptr[1]=='T')  // YT
+                if (ptr[1]=='T') {  // YT
                     cation = 39;
+                }
                 break;
             case 'Z':
-                if (ptr[1]=='N')  // ZN
+                if (ptr[1]=='N') {  // ZN
                     cation = 30;
-                else if (ptr[1]=='R')  // ZR
+                } else if (ptr[1]=='R') {  // ZR
                     cation = 40;
+                }
                 break;
         }
 
-        if (!cation)
+        if (!cation) {
             return 0;
+        }
         unsigned int count;
         if (ptr[2]>='2' && ptr[2]<='9' && ptr[3]==' ') {
             count = ptr[2]-'0';
@@ -2915,7 +3073,7 @@ struct WLNParser {
         } else if (ptr[2]==' ') {
             count = 1;
             ptr += 3;
-        } else return 0;
+        } else { return 0; }
 
         switch (*ptr) {
             case 'B':
@@ -2993,10 +3151,12 @@ bool NMReadWLN(const char *ptr, OpenBabel::OBMol* mol)
     WLNParser wp(ptr,mol);
     int result = wp.parse_inorganic();
     if (result == 0) {
-        if (!wp.parse())
+        if (!wp.parse()) {
             return false;
-    } else if (result < 0)
+        }
+    } else if (result < 0) {
         return false;
+    }
     mol->SetDimension(0);
     return NMOBSanitizeMol(mol);
 }

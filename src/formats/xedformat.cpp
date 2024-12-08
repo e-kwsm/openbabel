@@ -67,8 +67,9 @@ XEDFormat theXEDFormat;
 bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -95,11 +96,13 @@ bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
                 bond->GetBeginAtomIdx(),
                 bond->GetEndAtomIdx());
         ofs << buffer;
-        if ( !((i+1) % 5) )
+        if ( !((i+1) % 5) ) {
             ofs << endl;
+        }
     }
-    if (mol.NumBonds()%5)
+    if (mol.NumBonds()%5) {
         ofs << endl;
+    }
 
     for(i = 1;i <= mol.NumAtoms(); i++)
     {
