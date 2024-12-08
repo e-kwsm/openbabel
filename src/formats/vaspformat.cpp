@@ -50,11 +50,13 @@ namespace OpenBabel {
         int dist = std::distance(std::find(csm.begin(), csm.end(), b_num),
                                  std::find(csm.begin(), csm.end(), a_num));
         
-        if ( dist != 0)
+        if ( dist != 0) {
           return dist < 0;
+        }
 
-        if( (num_sort) && ( a_num - b_num != 0 ) )
+        if( (num_sort) && ( a_num - b_num != 0 ) ) {
           return a_num < b_num;
+        }
         
         return false;
       }
@@ -148,8 +150,9 @@ namespace OpenBabel {
   bool VASPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     // Move stream to EOF, some apps check ifs position to check for multimolecule files.
     // VASP does not support this, and this parser makes its own streams.
@@ -179,11 +182,13 @@ namespace OpenBabel {
     //    ifs_path.getline(buffer,BUFF_SIZE);
     //    path = buffer;
     path = pConv->GetInFilename();
-    if (path.empty()) return false; // Should be using ReadFile, not Read!
+    if (path.empty()) { return false; // Should be using ReadFile, not Read!
+    }
     size_t found;
     found = path.rfind("/");
     path = path.substr(0, found);
-    if (found == string::npos) path = "./"; // No "/" in path?
+    if (found == string::npos) { path = "./"; // No "/" in path?
+    }
 
     // Open files
     string potcar_filename = path + "/POTCAR";
@@ -280,11 +285,12 @@ namespace OpenBabel {
           size_t end = str.find(":");
           str = str.substr(start, end - start);
           // Clean up whitespace:
-          for (unsigned int i = 0; i < str.size(); i++)
+          for (unsigned int i = 0; i < str.size(); i++) {
             if (str.at(i) == ' ') {
               str.erase(i,1);
               --i;
             }
+          }
           atomTypes.push_back(OpenBabel::OBElements::GetAtomicNum(str.c_str()));
         }
       }
@@ -352,10 +358,11 @@ namespace OpenBabel {
       y = atof((char*)vs[1].c_str());
       z = atof((char*)vs[2].c_str());
       vector3 coords (x,y,z);
-      if (!cartesian)
+      if (!cartesian) {
         coords = cell->FractionalToCartesian( coords );
+      }
       // If we have Cartesian coordinates, we need to apply the scaling factor
-      else coords *= scale;
+      else { coords *= scale; }
       atom->SetVector(coords);
       //if the selective dynamics info is present then read it into OBPairData
       //this needs to be kept somehow to be able to write out the same as input
@@ -535,8 +542,9 @@ namespace OpenBabel {
               const vector3 dxyz = currXyz[natom] - prevXyz[natom];
               vector3::const_iterator iter = std::find_if(dxyz.begin(), dxyz.end(),
                   [](double v) { return v != 0.0; });
-              if (iter != dxyz.end()) dipGrad[natom].SetRow(iter - dxyz.begin(),
+              if (iter != dxyz.end()) { dipGrad[natom].SetRow(iter - dxyz.begin(),
                                                             (currDm - prevDm) / *iter);
+              }
             }
             prevXyz.clear();
           }
@@ -650,8 +658,9 @@ namespace OpenBabel {
     {
       vector<string> vs;
       tokenize(vs, sortAtomsCustom);
-      for(size_t i = 0; i < vs.size(); ++i)
+      for(size_t i = 0; i < vs.size(); ++i) {
         custom_sort_nums.push_back(OBElements::GetAtomicNum(vs[i].c_str()));
+      }
     }
 
     compare_sort_items csi(custom_sort_nums, sortAtomsNum != nullptr);
@@ -678,8 +687,9 @@ namespace OpenBabel {
       }
       else
       {    
-        if(atomicNums.size() > 0)  
+        if(atomicNums.size() > 0) {
           atomicNums.rbegin()->second++;
+        }
       }  
       
       prev_anum = anum;

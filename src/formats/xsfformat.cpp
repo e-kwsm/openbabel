@@ -72,8 +72,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -95,8 +96,9 @@ namespace OpenBabel
 
     while (ifs.getline(buffer, BUFF_SIZE))
       {
-        if (buffer[0] == '#')
+        if (buffer[0] == '#') {
           continue; // comment
+        }
         if (strstr(buffer, "ATOMS") != nullptr) {
           // Minimum of 4 columns -- AtNum, x, y, z (forces)
           // where AtNum stands for atomic number (or symbol), while X Y Z are
@@ -128,7 +130,8 @@ namespace OpenBabel
           numTranslationVectors = 0; // if we have an animation
           while (numTranslationVectors < 3 && ifs.getline(buffer,BUFF_SIZE)) {
             tokenize(vs,buffer); // we really need to check that it's 3 entries only
-            if (vs.size() < 3) return false; // timvdm 18/06/2008
+            if (vs.size() < 3) { return false; // timvdm 18/06/2008
+            }
             x = atof((char*)vs[0].c_str());
             y = atof((char*)vs[1].c_str());
             z = atof((char*)vs[2].c_str());
@@ -139,14 +142,16 @@ namespace OpenBabel
           // read the coordinates
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
-          if (vs.size() < 2) return false;
+          if (vs.size() < 2) { return false; }
           int numAtoms = atoi(vs[0].c_str());
           for (int a = 0; a < numAtoms; ++a) {
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
               break;
+            }
             tokenize(vs,buffer);
-            if (vs.size() < 4)
+            if (vs.size() < 4) {
               break;
+            }
 
             if (!createdAtoms) {
               atom = mol.NewAtom();
@@ -168,8 +173,9 @@ namespace OpenBabel
     mol.EndModify();
 
     int natom = mol.NumAtoms();
-    if (natom == 0)
+    if (natom == 0) {
       return false;
+    }
 
     int numConformers = atomPositions.size() / natom;
     for (int i = 0; i < numConformers; ++i) {
@@ -187,10 +193,12 @@ namespace OpenBabel
     // Set geometry to last one
     mol.SetConformer(mol.NumConformers() - 1);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // Add final properties
     mol.SetTitle(title);

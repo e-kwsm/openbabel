@@ -67,8 +67,9 @@ namespace OpenBabel
   bool ZINDOFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -88,8 +89,9 @@ namespace OpenBabel
       ofs << "STOP=CI MAX_CI=50 CI_DUMP=25\n";
       ofs << "MAX_ITS=500\n";
       int spinState = pmol->GetTotalSpinMultiplicity();
-      if (spinState != 1) // not a singlet, so give a reasonable default
+      if (spinState != 1) { // not a singlet, so give a reasonable default
         ofs << "HIGHSPIN= " << spinState - 1 << "  " << spinState - 1 << '\n';
+      }
       ofs << endl;
     }
     else { // old-style ZINDO, so we have to calculate the # of valence electrons
@@ -139,10 +141,11 @@ namespace OpenBabel
       ofs << '\n';
       ofs << " $CONTRL" << '\n';
       ofs << '\n';
-      if (charged)
+      if (charged) {
         ofs << " SCFTYP       ROHF   RUNTYP       CI   ENTTYP     COORD" << '\n';
-      else
+      } else {
         ofs << " SCFTYP        RHF   RUNTYP       CI   ENTTYP     COORD" << '\n';
+      }
       ofs << " UNITS        ANGS   INTTYP        1   IAPX           3" << '\n';
       if (charged)
         {
@@ -207,17 +210,19 @@ namespace OpenBabel
       ofs << "  -60000.0 0.0000000" << '\n';
       ofs << '\n';
 
-      if (charged)
+      if (charged) {
         snprintf(buffer, BUFF_SIZE, "%5d%5d%5d%5d", 1, orbitals, orbitals, orbitals + 1);
-      else
+      } else {
         snprintf(buffer, BUFF_SIZE, "%5d%5d%5d", 1, orbitals, orbitals);
+      }
       ofs << buffer << '\n';
-      if (charged)
+      if (charged) {
         snprintf(buffer, BUFF_SIZE, "%5d%5d%5d%5d%5d",
                  21, (orbitals - 8), orbitals + 1, orbitals + 1, orbitals + 11);
-      else
+      } else {
         snprintf(buffer, BUFF_SIZE, "%5d%5d%5d%5d%5d",
                  21, (orbitals - 9), orbitals, orbitals + 1, orbitals + 10);
+      }
       ofs << buffer << "\n\n";
       ofs << " $END \n";
     }

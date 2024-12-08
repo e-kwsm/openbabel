@@ -76,23 +76,26 @@ TurbomoleFormat theTurbomoleFormat;
 bool TurbomoleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;
     double UnitConv=AAU;
-    if(pConv->IsOption("a", OBConversion::INOPTIONS))
+    if(pConv->IsOption("a", OBConversion::INOPTIONS)) {
       UnitConv=1;
+    }
 
 
     char buffer[BUFF_SIZE];
     do
     {
         ifs.getline(buffer,BUFF_SIZE);
-	if (ifs.peek() == EOF || !ifs.good())
+	if (ifs.peek() == EOF || !ifs.good()) {
 	  return false;
+        }
     }
     while(strncmp(buffer,"$coord",6));
 
@@ -101,30 +104,37 @@ bool TurbomoleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     while(!(!ifs))
     {
         ifs.getline(buffer,BUFF_SIZE);
-        if(*buffer=='$')
+        if(*buffer=='$') {
             break;
-        if(*buffer=='#')
+        }
+        if(*buffer=='#') {
             continue;
+        }
         float x,y,z;
         char atomtype[8];
-        if(sscanf(buffer,"%f %f %f %7s",&x,&y,&z,atomtype)!=4)
+        if(sscanf(buffer,"%f %f %f %7s",&x,&y,&z,atomtype)!=4) {
             return false;
+        }
 
         atom.SetVector(x*UnitConv, y*UnitConv, z*UnitConv);
         atom.SetAtomicNum(OBElements::GetAtomicNum(atomtype));
         atom.SetType(atomtype);
 
-        if(!mol.AddAtom(atom))
+        if(!mol.AddAtom(atom)) {
             return false;
+        }
         atom.Clear();
     }
-    while(!(!ifs) && strncmp(buffer,"$end",4))
+    while(!(!ifs) && strncmp(buffer,"$end",4)) {
         ifs.getline(buffer,BUFF_SIZE);
+    }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -147,8 +157,9 @@ char *strlwr(char *s)
     if (s != nullptr)
       {
         char *p;
-        for (p = s; *p; ++p)
+        for (p = s; *p; ++p) {
             *p = tolower(*p);
+        }
       }
     return s;
 }
@@ -157,15 +168,17 @@ char *strlwr(char *s)
 bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
     double UnitConv=AAU;
-    if(pConv->IsOption("a"))
+    if(pConv->IsOption("a")) {
       UnitConv=1;
+    }
 
     ofs << "$coord" <<endl;
 
