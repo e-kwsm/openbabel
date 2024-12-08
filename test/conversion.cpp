@@ -80,18 +80,20 @@ int conversion(int argc, char* argv[])
     cout << "not ok 5\n";
   }
 
-  if ( (obConversion.WriteString(&obMol)).length() > 0)
+  if ( (obConversion.WriteString(&obMol)).length() > 0) {
     cout << "ok 6\n";
-  else
+  } else {
     cout << "not ok 6\n";
+  }
 
   // PR#1474265
   obConversion.WriteFile(&obMol, "test.mdl");
   ifstream ifs("test.mdl");
-  if (ifs.good())
+  if (ifs.good()) {
     cout << "ok 7\n";
-  else
+  } else {
     cout << "not ok 7\n";
+  }
 
   // gzip input
   // gzip output

@@ -64,16 +64,18 @@ int format(int argc, char* argv[])
   cout << "ok 2\n";
 
   OBFormat *inFormat = obConversion.GetInFormat();
-  if (inFormat)
+  if (inFormat) {
     cout << "ok 3\n";
-  else
+  } else {
     cout << "not ok 3\n";
+  }
 
   OBFormat *outFormat = obConversion.GetOutFormat();
-  if (outFormat)
+  if (outFormat) {
     cout << "ok 4\n";
-  else
+  } else {
     cout << "not ok 4\n";
+  }
 
   return(0);
 }

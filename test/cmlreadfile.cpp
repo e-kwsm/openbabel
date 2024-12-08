@@ -66,10 +66,11 @@ int cmlreadfile(int argc, char* argv[])
 
   // Test using ReadFile to read from CML
   OpenBabel::OBMol obmol_first;
-  if (obconv_first.ReadFile(&obmol_first, TESTDATADIR + cmlfile))
+  if (obconv_first.ReadFile(&obmol_first, TESTDATADIR + cmlfile)) {
           cout << "ok 2!" << endl;
-  else
+  } else {
           cout << "not ok 2" << endl;
+  }
 
 
   
@@ -81,20 +82,23 @@ int cmlreadfile(int argc, char* argv[])
   }
   // Test using ReadFile to read from multimol CML
   OpenBabel::OBMol obmol;
-  if (obconv.ReadFile(&obmol, TESTDATADIR + cmlfile_multi))
+  if (obconv.ReadFile(&obmol, TESTDATADIR + cmlfile_multi)) {
           cout << "ok 3!" << endl;
-  else
+  } else {
           cout << "not ok 3" << endl;
+  }
 
   // Test reading the second and final molecule using Read
-  if (obconv.Read(&obmol))
+  if (obconv.Read(&obmol)) {
           cout << "ok 4!" << endl;
-  else
+  } else {
           cout << "not ok 4" << endl;
-  if (obmol.NumAtoms()==28)
+  }
+  if (obmol.NumAtoms()==28) {
           cout << "ok 5!" << endl;
-  else
+  } else {
           cout << "not ok 5" << endl;
+  }
  
   // Test that there are no remaining molecules
   // (this test fails on Linux)
