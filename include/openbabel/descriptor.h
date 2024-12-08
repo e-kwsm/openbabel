@@ -110,15 +110,21 @@ static bool DoComparison(char ch1, char ch2, T& val, T& filterval)
   case('!'):
   return val!=filterval; //**needs a better floating point comparison**
   case('>'):
-  if(ch2=='=') {
+  if(ch2=='=')
+  {
     return val>=filterval;
-  } else {
+  }
+  else
+  {
     return val>filterval;
   }
   case('<'):
-  if(ch2=='=') {
+  if(ch2=='=')
+  {
     return val<=filterval;
-  } else {
+  }
+  else
+  {
     return val<filterval;
   }
   }
