@@ -228,22 +228,25 @@ namespace OpenBabel
         cmlBondOrAtom.clear();
         int IsEmpty = xmlTextReaderIsEmptyElement(reader());
         TransferElement(AtomArray);
-        if(IsEmpty==1) //have to push here because end atom may not be called
+        if(IsEmpty==1) { //have to push here because end atom may not be called
           AtomArray.push_back(cmlBondOrAtom);
+        }
       }
     else if(name=="bond")
       {
         cmlBondOrAtom.clear();
         int IsEmpty = xmlTextReaderIsEmptyElement(reader());
         TransferElement(BondArray);
-        if(IsEmpty==1)
+        if(IsEmpty==1) {
           BondArray.push_back(cmlBondOrAtom);
+        }
       }
     else if(name=="molecule" || name=="jobstep") //hack for molpro
       {
         //Ignore atoms with "ref" attributes
-        if(xmlTextReaderGetAttribute(reader(), BAD_CAST "ref"))
+        if(xmlTextReaderGetAttribute(reader(), BAD_CAST "ref")) {
           return true;
+        }
         _pmol->Clear();
         AtomArray.clear();
         BondArray.clear();
@@ -257,22 +260,27 @@ namespace OpenBabel
         pUnitCell = nullptr;
         PropertyScalarsNeeded=0;
 
-        if(++_embedlevel)
+        if(++_embedlevel) {
           return true; //ignore if already inside a molecule
+        }
         _pmol->BeginModify();
         AtomMap.clear();
 
         const xmlChar* ptitle  = xmlTextReaderGetAttribute(reader(), BAD_CAST "title");
-        if(!ptitle)
+        if(!ptitle) {
           ptitle  = xmlTextReaderGetAttribute(reader(), BAD_CAST "id");
-        if(!ptitle)
+        }
+        if(!ptitle) {
           ptitle  = xmlTextReaderGetAttribute(reader(), BAD_CAST "molID");//Marvin
-        if(ptitle)
+        }
+        if(ptitle) {
           _pmol->SetTitle((const char*)ptitle);
+        }
 
         ptitle = xmlTextReaderGetAttribute(reader(), BAD_CAST "spinMultiplicity");
-        if(ptitle)
+        if(ptitle) {
           _pmol->SetTotalSpinMultiplicity(atoi((const char*)ptitle));
+        }
 
         // free((void*)ptitle);//libxml2 doc says "The string must be deallocated by the caller."
 
@@ -309,23 +317,26 @@ namespace OpenBabel
             molWideData.push_back(atomrefdata);
 
             stringstream ss;
-            if(name=="atomParity")
+            if(name=="atomParity") {
               ss << AtomArray.size()+1; //index of current atom
-            else
+            } else {
               ss << BondArray.size(); //index of current bond
+            }
             pair<string,string> atdata("centralAtomOrBond",ss.str());
             molWideData.push_back(atdata);
           }
       }
     else if(name=="name")
       {
-        if(_pmol)
+        if(_pmol) {
           _pmol->SetTitle(_pxmlConv->GetContent().c_str());
+        }
       }
     else if(name=="formula")
       {
-        if(!xmlTextReaderIsEmptyElement(reader()))
+        if(!xmlTextReaderIsEmptyElement(reader())) {
           inFormula=true;
+        }
         //Only concise form is currently supported
         const xmlChar* pformula = xmlTextReaderGetAttribute(reader(), BAD_CAST "concise");
         if(pformula)
@@ -361,14 +372,16 @@ namespace OpenBabel
           {
             //Reads OBPairData(like SDF properties). Name is in scalar title or id attribute
             const xmlChar* pattr  = xmlTextReaderGetAttribute(reader(), BAD_CAST "title");
-            if(!pattr)
+            if(!pattr) {
               pattr  = xmlTextReaderGetAttribute(reader(), BAD_CAST "id");
+            }
 
             string attr;
-            if(pattr)
+            if(pattr) {
               attr = (const char*)pattr;
-            else
+            } else {
               attr = titleonproperty;
+            }
             // free((void*)pattr);//"The string must be deallocated by the caller."
 
             xmlTextReaderRead(reader());
@@ -403,8 +416,9 @@ namespace OpenBabel
         xmlTextReaderRead(reader());
         const xmlChar* pvalue = xmlTextReaderConstValue(reader());
         string value;
-        if(pvalue)
+        if(pvalue) {
           value = (const char*)pvalue;
+        }
         vector<string> items;
         tokenize(items,value);
 
@@ -412,8 +426,9 @@ namespace OpenBabel
         {
           vector< vector< vector3 > > vLx;
           vector<double> vFrequencies, vIntensities;
-          for(unsigned i=0;i<items.size();++i)
+          for(unsigned i=0;i<items.size();++i) {
             vFrequencies.push_back(atof(items[i].c_str()));
+          }
 
           OBVibrationData* vd = new OBVibrationData;
           vd->SetData(vLx, vFrequencies, vIntensities);
@@ -425,8 +440,9 @@ namespace OpenBabel
         {
           const double WAVENUM_TO_GHZ=30.0;
           vector<double> rotConsts;
-          for(unsigned i=0;i<items.size();++i)
+          for(unsigned i=0;i<items.size();++i) {
             rotConsts.push_back(atof(items[i].c_str()) * WAVENUM_TO_GHZ);
+          }
 
           OBRotationData* rd = new OBRotationData;
           rd->SetData(OBRotationData::UNKNOWN, rotConsts, 1);//rotor type and symmetry number unknown
@@ -460,16 +476,19 @@ namespace OpenBabel
       {
         //***pattr need to be deleted***
         const char* pattr  = (const char*)xmlTextReaderGetAttribute(reader(), BAD_CAST "dictRef");
-        if(pattr && !strcmp(pattr,"Thermo_OldNasa"))
+        if(pattr && !strcmp(pattr,"Thermo_OldNasa")) {
           ReadNasaThermo();
+        }
         else
           {
-            if(!pattr) // no dictRef; look for title on scalar
+            if(!pattr) { // no dictRef; look for title on scalar
               pattr  = (const char*)xmlTextReaderGetAttribute(reader(), BAD_CAST "title");
-            if(pattr)
+            }
+            if(pattr) {
               titleonproperty = pattr;
-            else
+            } else {
               titleonproperty.clear();
+            }
             PropertyScalarsNeeded = 1;
           }
       }
@@ -481,8 +500,9 @@ namespace OpenBabel
         string name = _pxmlConv->GetAttribute("builtin");
         xmlTextReaderRead(reader());
         const xmlChar* pvalue = xmlTextReaderConstValue(reader());
-        if(!pvalue)
+        if(!pvalue) {
           return false;
+        }
         string value = (const char*)pvalue;
         Trim(value);
         pair<string,string> nameAndvalue(name,value);
@@ -497,14 +517,16 @@ namespace OpenBabel
 
         xmlTextReaderRead(reader());
         const xmlChar* pvalue = xmlTextReaderConstValue(reader());
-        if(!pvalue)
+        if(!pvalue) {
           return false;
+        }
         string value = (const char*)pvalue;
 
         vector<string> items;
         tokenize(items,value);
-        if(arr.size()<items.size())
+        if(arr.size()<items.size()) {
           arr.resize(items.size());
+        }
         unsigned int i;
         for(i=0;i<items.size();++i)
           {
@@ -514,8 +536,9 @@ namespace OpenBabel
       }
 
     //The end element event would not be called for <element/>, so call it explicitly.
-    if(xmlTextReaderIsEmptyElement(reader())==1)
+    if(xmlTextReaderIsEmptyElement(reader())==1) {
       return EndElement(name);
+    }
 
     return true;
   }
@@ -532,20 +555,25 @@ namespace OpenBabel
       {
         BondArray.push_back(cmlBondOrAtom);
       }
-    else if(name=="formula")
+    else if(name=="formula") {
       inFormula=false;
+    }
     else if(name=="molecule" || name=="jobstep") //hack for molpro
       {
-        if(!DoAtoms() || !DoBonds() || !DoHCounts() || !DoMolWideData())
+        if(!DoAtoms() || !DoBonds() || !DoHCounts() || !DoMolWideData()) {
           return false;
+        }
 
-        if (_pmol->GetDimension()==0)
+        if (_pmol->GetDimension()==0) {
           StereoFrom0D(_pmol); // Remove any spurious stereos (due to symmetry)
+        }
 
         //Use formula only if nothing else provided
-        if(_pmol->NumAtoms()==0 && !RawFormula.empty())
-          if(!ParseFormula(RawFormula, _pmol))
+        if(_pmol->NumAtoms()==0 && !RawFormula.empty()) {
+          if(!ParseFormula(RawFormula, _pmol)) {
             obErrorLog.ThrowError(_pmol->GetTitle(),"Error in formula", obError);
+          }
+        }
 
         _pmol->AssignSpinMultiplicity();
         _pmol->EndModify();
@@ -557,12 +585,14 @@ namespace OpenBabel
         if(!SpaceGroupName.empty())
         {
           const SpaceGroup *group = SpaceGroup::GetSpaceGroup(SpaceGroupName);
-          if ((!group || !(_SpaceGroup == *group)) && _SpaceGroup.IsValid())
+          if ((!group || !(_SpaceGroup == *group)) && _SpaceGroup.IsValid()) {
             group = SpaceGroup::Find(&_SpaceGroup);
-          if (group)
+          }
+          if (group) {
             pUnitCell->SetSpaceGroup(group);
-          else
+          } else {
             pUnitCell->SetSpaceGroup(SpaceGroupName);
+          }
         }
       }
     return true;
@@ -593,18 +623,23 @@ namespace OpenBabel
   static const char* FindStartOfAtomClass(const char* atomid)
   {
     // Try to find a match to 'a' followed by a number followed by _ followed by at least one digit
-    if (atomid[0] != 'a')
+    if (atomid[0] != 'a') {
       return nullptr; // Needs to start with 'a'
+    }
     const char *p = atomid + 1;
-    while(*p >= '0' && *p <= '9')
+    while(*p >= '0' && *p <= '9') {
       p++;
-    if (p == atomid + 1)
+    }
+    if (p == atomid + 1) {
       return nullptr; // No digits
-    if (*p != '_')
+    }
+    if (*p != '_') {
       return nullptr;
+    }
     p++;
-    if (*p >= '0' && *p <= '9')
+    if (*p >= '0' && *p <= '9') {
       return p;
+    }
     return nullptr;
   }
 
@@ -636,8 +671,9 @@ namespace OpenBabel
             if(attrname=="id" || attrname=="atomId" || attrname=="atomID")//which one correct?
               {
                 Trim(value);
-                if(AtomMap.count(value)>0)
+                if(AtomMap.count(value)>0) {
                   obErrorLog.ThrowError(GetMolID(),"The atom id " + value + " is not unique", obWarning);
+                }
                 AtomMap[value] = nhvy;//nAtoms;
 
                 //If the id ends with "_NUMBER", then NUMBER is taken as an atom class
@@ -656,8 +692,9 @@ namespace OpenBabel
                 int atno, iso=0;
                 atno = GetAtomicNumAndIsotope(value.c_str(), &iso);
                 pAtom->SetAtomicNum(atno);
-                if(iso)
+                if(iso) {
                   pAtom->SetIsotope(iso);
+                }
                 continue;
               }
 
@@ -675,8 +712,9 @@ namespace OpenBabel
               usingFract = false;
             }
             else if(pUnitCell && !using3 && !using2
-              && (attrname=="xFract" || attrname=="yFract" || attrname=="zFract"))
+              && (attrname=="xFract" || attrname=="yFract" || attrname=="zFract")) {
               usingFract=true;
+            }
 
             if ((using3     && attrname=="x3") ||
                 (using2     && attrname=="x2") ||
@@ -734,9 +772,10 @@ namespace OpenBabel
                */
               }
 
-            else if(attrname=="formalCharge")
+            else if(attrname=="formalCharge") {
               pAtom->SetFormalCharge(atoi(value.c_str()));
 
+            }
             else if(attrname=="label")
               {
                 OBPairData *label = new OBPairData();
@@ -761,7 +800,7 @@ namespace OpenBabel
                 pAtom->SetData(radius);
               }
 
-            else if(attrname=="spinMultiplicity")
+            else if(attrname=="spinMultiplicity") {
               pAtom->SetSpinMultiplicity(atoi(value.c_str()));
 
             /*else if(attrname=="atomRefs4")//from atomParity element (but there is no such thing!)
@@ -781,21 +820,24 @@ namespace OpenBabel
                 }
               }*/
 
+            }
             else if(attrname=="radical") //Marvin extension
               {
                 int spin=0;
-                if(value=="monovalent")
+                if(value=="monovalent") {
                   spin=2;
-                else if(value=="divalent")
+                } else if(value=="divalent") {
                   spin=3;
-                else if(value=="divalent3")
+                } else if(value=="divalent3") {
                   spin=3;
-                else if(value=="divalent1")
+                } else if(value=="divalent1") {
                   spin=1;
+                }
                 pAtom->SetSpinMultiplicity(spin);
               }
-            else if(attrname=="isotopeNumber" || attrname=="isotope")
+            else if(attrname=="isotopeNumber" || attrname=="isotope") {
               pAtom->SetIsotope(atoi(value.c_str()));
+            }
 
           } //each attribute
 
@@ -803,15 +845,18 @@ namespace OpenBabel
           HCounts.push_back(hcount);
 
           //Save atom coordinates
-          if(using3 || usingFract)
+          if(using3 || usingFract) {
             dim=3;
+          }
           else if(using2)
           {
             dim=2;
             z=0.0;
           }
           else
+          {
             dim=0;
+          }
           if(usingFract)
             {
               //Coordinates are fractional
@@ -821,7 +866,9 @@ namespace OpenBabel
               pAtom->SetVector(v);
             }
           else
+          {
             pAtom->SetVector(x, y, z);
+          }
       }//each atom
 
     _pmol->SetDimension(dim);
@@ -877,26 +924,29 @@ namespace OpenBabel
 
                       }
                     else
+                    {
                       indx1 = AtomMap[value];
+                    }
                   }
                 else
                   {
-                    if(indx2==0)
+                    if(indx2==0) {
                       indx2 = AtomMap[value];
-                    else
+                    } else {
                       indx1=-1; //forces error
+                    }
                   }
               }
             else if(attrname=="order")
               {
                 const char bo = value[0];
-                if(bo=='S')
+                if(bo=='S') {
                   ord=1;
-                else if(bo=='D')
+                } else if(bo=='D') {
                   ord=2;
-                else if(bo=='T')
+                } else if(bo=='T') {
                   ord=3;
-                else if(bo=='A') {
+                } else if(bo=='A') {
                   ord=1;
                   flag |= OBBond::Aromatic;
                   needs_kekulization = true;
@@ -907,10 +957,14 @@ namespace OpenBabel
               }
 
             else if(attrname=="color")
+            {
               colour=value[0];
 
+            }
             else if(attrname=="label")
+            {
               label = value;
+            }
           }
 
         if(PossibleBond)
@@ -965,8 +1019,9 @@ namespace OpenBabel
           stringstream errorMsg;
           errorMsg << "Failed to kekulize aromatic bonds in MOL file";
           std::string title = _pmol->GetTitle();
-          if (!title.empty())
+          if (!title.empty()) {
             errorMsg << " (title is " << title << ")";
+          }
           errorMsg << endl;
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           // return false; Should we return false for a kekulization failure?
@@ -994,9 +1049,11 @@ namespace OpenBabel
       if(explH > hcount)
       {
         map<string,int>::iterator it;
-        for(it=AtomMap.begin();it!=AtomMap.end();++it)
-          if(it->second == atom->GetIdx())
+        for(it=AtomMap.begin();it!=AtomMap.end();++it) {
+          if(it->second == atom->GetIdx()) {
             break;
+          }
+        }
         stringstream ss;
         ss << "In atom " << it->first << " the number of explicit hydrogens exceeds the hydrogenCount attribute.";
         obErrorLog.ThrowError(__FUNCTION__, ss.str(), obError);
@@ -1027,42 +1084,48 @@ namespace OpenBabel
                 vector<string> ids;
                 tokenize(ids, atrefsvalue);
                 int i;
-                for(i=0;i<4;++i)
+                for(i=0;i<4;++i) {
                   AtomRefIdx.push_back(AtomMap[ids[i]]);
+                }
               }
 
             nextname = (++AttributeIter)->first;
-            if(!(nextname=="centralAtomOrBond"))
+            if(!(nextname=="centralAtomOrBond")) {
               return false;
+            }
 
             int Idx = atoi(AttributeIter->second.c_str());
             if(name=="atomParity")
               {
                 OBAtom* patom = _pmol->GetAtom(Idx);
-                if(!patom)
+                if(!patom) {
                   return false;
+                }
 
                 OBStereo::Ref center = patom->GetId();
                 OBStereo::Ref from = _pmol->GetAtom(AtomRefIdx[0])->GetId();
-                if (from == center)
+                if (from == center) {
                   from = OBStereo::ImplicitRef;
+                }
 
                 OBStereo::Refs refs;
                 vector<unsigned int>::const_iterator idx_cit=AtomRefIdx.begin();
                 ++idx_cit;
                 for (; idx_cit!=AtomRefIdx.end(); ++idx_cit) {
                   OBStereo::Ref id = _pmol->GetAtom(*idx_cit)->GetId();
-                  if (id == center)
+                  if (id == center) {
                     id = OBStereo::ImplicitRef;
+                  }
                   refs.push_back(id);
                 }
 
                 int parity = atoi(value.c_str());
                 OBStereo::Winding winding = OBStereo::Clockwise; // parity > 0
-                if (parity < 0)
+                if (parity < 0) {
                   winding = OBStereo::AntiClockwise;
-                else if (parity == 0) // What to do with parity of 0?
+                } else if (parity == 0) { // What to do with parity of 0?
                   return false;
+                }
 
                 OBTetrahedralStereo::Config cfg = OBTetrahedralStereo::Config(
                                                         center, from, refs, winding, OBStereo::ViewFrom);
@@ -1087,23 +1150,26 @@ namespace OpenBabel
                         pDBond->SetHash();
                       }
                     // ... or ordinary cis/trans
-                    if(value!="C" && value!="T")
+                    if(value!="C" && value!="T") {
                       continue;
+                    }
                     //which is valid only with one substituent on each C
 
                     OBAtom* pAt1 = pDBond->GetBeginAtom();
                     OBAtom* pAt2 = pDBond->GetEndAtom();
                     FOR_NBORS_OF_ATOM(a1,pAt1)
                       {
-                        if (a1->GetAtomicNum() != OBElements::Hydrogen && &*a1 != pAt2)
+                        if (a1->GetAtomicNum() != OBElements::Hydrogen && &*a1 != pAt2) {
                           break;
+                        }
                         pbond1 = _pmol->GetBond(pAt1->GetIdx(),a1->GetIdx());
                       }
 
                     FOR_NBORS_OF_ATOM(a2,pAt2)
                       {
-                        if (a2->GetAtomicNum() != OBElements::Hydrogen && &*a2 != pAt1)
+                        if (a2->GetAtomicNum() != OBElements::Hydrogen && &*a2 != pAt1) {
                           break;
+                        }
                         pbond2 = _pmol->GetBond(pAt2->GetIdx(),a2->GetIdx());
                       }
                   }
@@ -1113,8 +1179,9 @@ namespace OpenBabel
                     pbond2 = _pmol->GetBond(AtomRefIdx[2],AtomRefIdx[3]);
                   }
 
-                if(!pbond1 || !pbond2 || AtomRefIdx.empty())
+                if(!pbond1 || !pbond2 || AtomRefIdx.empty()) {
                   continue;
+                }
 
                 // Create the list of 4 atomrefs
                 OBStereo::Ref begin, end;
