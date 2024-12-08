@@ -93,14 +93,17 @@ namespace OpenBabel
         vector<string> vs;
         tokenize(vs,buffer," \n");
 
-        if ( !vs.empty() && vs.size() > 0)
+        if ( !vs.empty() && vs.size() > 0) {
           sscanf(buffer,"%i%*s",&natoms);
+        }
 
-        if (natoms == 0)
+        if (natoms == 0) {
           return false;
+        }
 
-        if ( !vs.empty() && vs.size() > 1)
+        if ( !vs.empty() && vs.size() > 1) {
           mol.SetTitle(vs[1]);
+        }
         else
           {
             string s = defaultTitle;
@@ -108,7 +111,9 @@ namespace OpenBabel
           }
       }
     else
+    {
       return(false);
+    }
 
     mol.BeginModify();
     mol.ReserveAtoms(natoms);
@@ -128,8 +133,9 @@ namespace OpenBabel
     ttab.SetFromType("MMD");
     for (i = 1; i <= natoms; i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           break;
+        }
 
         int end[6], order[6];
 
@@ -170,9 +176,11 @@ namespace OpenBabel
         mol.AddAtom(atom);
       }
 
-    for (i = 1; i <= natoms; i++)
-      for (j = 0; j < (signed)connections[i].size(); j++)
+    for (i = 1; i <= natoms; i++) {
+      for (j = 0; j < (signed)connections[i].size(); j++) {
         mol.AddBond(i, connections[i][j].first, connections[i][j].second);
+      }
+    }
 
     mol.EndModify();
     mol.SetPartialChargesPerceived();
@@ -185,12 +193,15 @@ namespace OpenBabel
 
     OBBond *bond;
     vector<OBBond*>::iterator bi;
-    for (bond = mol.BeginBond(bi);bond;bond = mol.NextBond(bi))
-      if (bond->GetBondOrder() == 5 && !bond->IsInRing())
+    for (bond = mol.BeginBond(bi);bond;bond = mol.NextBond(bi)) {
+      if (bond->GetBondOrder() == 5 && !bond->IsInRing()) {
         bond->SetBondOrder(1);
+      }
+    }
 
-    if ( natoms != (signed)mol.NumAtoms() )
+    if ( natoms != (signed)mol.NumAtoms() ) {
       return(false);
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -210,8 +221,9 @@ namespace OpenBabel
   bool MacroModFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
