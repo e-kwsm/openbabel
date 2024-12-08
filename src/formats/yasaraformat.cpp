@@ -246,15 +246,15 @@ void mob_getid(struct atomid *id,struct mobatom *atom)
   { inscodealtloc=int32le(atom->link[idpos++]);
     id->inscode=inscodealtloc&0xffff;
     id->altloc=inscodealtloc&0xffff; }
-  else id->inscode=id->altloc=0;
-  if (flags&MOB_OCCUPANCYFLAG) id->occupancy=((float*)atom->link)[idpos++];
-  else id->occupancy=1.0f;
-  if (flags&MOB_TEMPFACFLAG) id->bfactor=((float*)atom->link)[idpos++];
-  else id->bfactor=0;
-  if (flags&MOB_SEGMENTFLAG) id->segment=atom->link[idpos++];
-  else id->segment=0;
-  if (flags&MOB_PROPERTYFLAG) id->property=((float*)atom->link)[idpos++];
-  else id->property=0;
+  else { id->inscode=id->altloc=0; }
+  if (flags&MOB_OCCUPANCYFLAG) { id->occupancy=((float*)atom->link)[idpos++]; }
+  else { id->occupancy=1.0f; }
+  if (flags&MOB_TEMPFACFLAG) { id->bfactor=((float*)atom->link)[idpos++]; }
+  else { id->bfactor=0; }
+  if (flags&MOB_SEGMENTFLAG) { id->segment=atom->link[idpos++]; }
+  else { id->segment=0; }
+  if (flags&MOB_PROPERTYFLAG) { id->property=((float*)atom->link)[idpos++]; }
+  else { id->property=0; }
   id->flags=flags&(MOB_SURFENVFLAG|MOB_DOTFLAG); }
 
 /* CLEAR ATOMID
