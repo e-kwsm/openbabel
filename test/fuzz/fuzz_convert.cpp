@@ -2,7 +2,7 @@
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 
 #include <fuzzer/FuzzedDataProvider.h>
