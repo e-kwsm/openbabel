@@ -79,11 +79,12 @@ int invalidsmarts(int argc, char* argv[])
     {
       // each line is a potential test pattern
 
-      if (smarts.Init(pattern))
+      if (smarts.Init(pattern)) {
         cout << "not ok " << ++currentTest << " # pattern was parsed "
              << " but should have been rejected\n";
-      else
+      } else {
         cout << "ok " << ++currentTest << "\n";
+      }
     }
 
   mifs.close();
@@ -97,14 +98,16 @@ int invalidsmarts(int argc, char* argv[])
     }
 
   pattern.clear();
-  while (getline(mifs, buffer))
+  while (getline(mifs, buffer)) {
     pattern += buffer;
+  }
 
-  if (smarts.Init(pattern))
+  if (smarts.Init(pattern)) {
     cout << "not ok " << ++currentTest << " # random data #1 was parsed "
          << " but should have been rejected\n";
-  else
+  } else {
     cout << "ok " << ++currentTest << " # random data #1 \n";
+  }
   cout << "# read " << pattern.size() << "\n";
 
   mifs.close();
@@ -118,13 +121,15 @@ int invalidsmarts(int argc, char* argv[])
     }
 
   pattern.clear();
-  while (getline(mifs, buffer))
+  while (getline(mifs, buffer)) {
     pattern += buffer;
-  if (smarts.Init(pattern))
+  }
+  if (smarts.Init(pattern)) {
     cout << "not ok " << ++currentTest << " # random data #2 was parsed "
          << " but should have been rejected\n";
-  else
+  } else {
     cout << "ok " << ++currentTest << " # random data #2 \n";
+  }
   cout << "# read " << pattern.size() << "\n";
 
   mifs.close();
@@ -138,13 +143,15 @@ int invalidsmarts(int argc, char* argv[])
     }
 
   pattern.clear();
-  while (getline(mifs, buffer))
+  while (getline(mifs, buffer)) {
     pattern += buffer;
-  if (smarts.Init(pattern))
+  }
+  if (smarts.Init(pattern)) {
     cout << "not ok " << ++currentTest << " # random data #3 was parsed "
          << " but should have been rejected\n";
-  else
+  } else {
     cout << "ok " << ++currentTest << " # random data #3 \n";
+  }
   cout << "# read " << pattern.size() << "\n";
 
   // return number of tests run

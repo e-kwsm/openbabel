@@ -105,8 +105,9 @@ int main(int argc, char* argv[])
     string correct = GetInChI(results);
     string generated;
     ssout >> generated;
-    if(correct.empty() || generated.empty())
+    if(correct.empty() || generated.empty()) {
       break;
+    }
     if(correct.size()<9)//skip molecules with an empty InChI
     {
       skipped++;
@@ -122,7 +123,9 @@ int main(int argc, char* argv[])
       nfail++;
     }
     else
+    {
       cout << "ok " << n << " # InChI matched expected\n";
+    }
   }
   cout << n-1-skipped<< " molecules compared" << endl;
   cout << "# " << skipped << " # empty molecules skipped" << endl;

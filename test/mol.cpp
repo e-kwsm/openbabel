@@ -128,10 +128,11 @@ int mol(int argc, char* argv[])
     }
 
   OBMol testMol2D, testMol3D;
-  if (conv.Read(&testMol3D))
+  if (conv.Read(&testMol3D)) {
     cout << "ok 8\n";
-  else
+  } else {
     cout << "not ok 8\n";
+  }
   testMol3D.Center();
   
   // test bond insertion (PR#1665649)
@@ -185,10 +186,11 @@ int mol(int argc, char* argv[])
   pFormat = conv.FindFormat("InChI");
   if (pFormat != nullptr && conv.SetOutFormat(pFormat))
     {
-      if (conv.Write(&emptyMol))
+      if (conv.Write(&emptyMol)) {
         cout << "ok 12" << endl;
-      else
+      } else {
         cout << "not ok 12 # failed empty InChI" << endl;
+      }
     }
 
   OBMol testMolFormula;

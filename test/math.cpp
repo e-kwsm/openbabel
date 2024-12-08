@@ -84,9 +84,11 @@ void pickRandom( vector3 & v )
 
 void pickRandom( matrix3x3 & m )
 {
-  for( int row = 0; row < 3; row++ )
-    for( int column = 0; column < 3; column++ )
+  for( int row = 0; row < 3; row++ ) {
+    for( int column = 0; column < 3; column++ ) {
       pickRandom( m( row, column ) );
+    }
+  }
 }
 
 bool compare( const double & d1, const double & d2, double precision = 1e-6 )
@@ -102,8 +104,9 @@ bool compare( const vector3 & v1, const vector3 & v2, double precision = 1e-6 )
 bool compare( const matrix3x3 & m1, const matrix3x3 & m2 )
 {
   bool ret = true;
-  for( int i = 0; i < 3; i++ )
+  for( int i = 0; i < 3; i++ ) {
     ret &= compare( m1.GetColumn(i), m2.GetColumn(i) );
+  }
   return ret;
 }
 
@@ -183,22 +186,27 @@ void testBasics_matrix3x3()
   VERIFY( compare( m2, m3 ) );
 
   // test const operator() and Get()
-  for( i = 0; i < 3; i++ )
+  for( i = 0; i < 3; i++ ) {
     for( j = 0; j < 3; j++ )
     {
       VERIFY( compare( static_cast<const matrix3x3>(m2)(i,j), e[i][j] ) );
       x = m2.Get( i, j );
       VERIFY( compare( x, e[i][j] ) );
     }
+  }
 
   // test non-const operator() and Set()
-  for( i = 0; i < 3; i++ )
-    for( j = 0; j < 3; j++ )
+  for( i = 0; i < 3; i++ ) {
+    for( j = 0; j < 3; j++ ) {
       m1(i,j) = m2(i,j);
+    }
+  }
   VERIFY( compare( m1, m2 ) );
-  for( i = 0; i < 3; i++ )
-    for( j = 0; j < 3; j++ )
+  for( i = 0; i < 3; i++ ) {
+    for( j = 0; j < 3; j++ ) {
       m3.Set(i,j, m2(i,j) );
+    }
+  }
   VERIFY( compare( m3, m2 ) );
 
   // test SetColumn(), GetColumn(), SetRow(), GetRow(), transpose()
@@ -242,7 +250,7 @@ void testArithmeticOperators()
   VERIFY( compare( 2.0 * vec1, vec1 + vec1 ) );
 
   double a1, a2;
-  do pickRandom(a1); while( a1 == 0.0 );
+  do { pickRandom(a1); } while( a1 == 0.0 );
   pickRandom(a2);
   VERIFY( compare( vec1 * ( a1 + a2 ), vec1 * a1 + vec1 * a2 ) );
   VERIFY( compare( ( a1 - a2 ) * vec1, a1 * vec1 - a2 * vec1 ) );
@@ -261,7 +269,7 @@ void testArithmeticOperators()
 void testDistancesAnglesOrthogonality()
 {
   vector3 v1, v2, v3;
-  do pickRandom( v1 ); while( v1.length() == 0 );
+  do { pickRandom( v1 ); } while( v1.length() == 0 );
   VERIFY( compare( v1.length_2(), v1.length() * v1.length() ) );
   v1.createOrthoVector( v2 );
   VERIFY( compare( v2.length(), 1.0 ) );
@@ -295,7 +303,7 @@ void testDistancesAnglesOrthogonality()
 void testInversion()
 {
   matrix3x3 rnd;
-  do pickRandom( rnd ); while( rnd.determinant() < 1e-3 );
+  do { pickRandom( rnd ); } while( rnd.determinant() < 1e-3 );
   matrix3x3 result = rnd * rnd.inverse();
   VERIFY( result.isUnitMatrix() );
 }
@@ -320,9 +328,11 @@ void randomRotation(matrix3x3 *mat, double rotAngle)
 void testEigenvalues()
 {
   matrix3x3 Diagonal;
-  for(int i=0; i<3; i++)
-    for(int j=0; j<3; j++)
+  for(int i=0; i<3; i++) {
+    for(int j=0; j<3; j++) {
       Diagonal.Set(i, j, 0.0);
+    }
+  }
   Diagonal.Set(0, 0, randomizer.NextFloat());
   Diagonal.Set(1, 1, Diagonal.Get(0,0)+fabs(randomizer.NextFloat()));
   Diagonal.Set(2, 2, Diagonal.Get(1,1)+fabs(randomizer.NextFloat()));
@@ -342,8 +352,9 @@ void testEigenvalues()
   vector3 eigenvals;
   toDiagonalize.findEigenvectorsIfSymmetric(eigenvals);
   
-  for(unsigned int j=0; j<3; j++)
+  for(unsigned int j=0; j<3; j++) {
     VERIFY( IsNegligible( eigenvals[j] - Diagonal.Get(j,j), Diagonal.Get(2,2) ) );
+  }
   
   VERIFY( eigenvals[0] < eigenvals[1] &&  eigenvals[1] < eigenvals[2] );
 }
@@ -372,8 +383,9 @@ void testEigenvectors()
   matrix3x3 shouldBeDiagonal = eigenvects.inverse() * rnd * eigenvects;
   VERIFY( shouldBeDiagonal.isDiagonal() );
   
-  for(unsigned int j=0; j<3; j++)
+  for(unsigned int j=0; j<3; j++) {
     VERIFY( compare( shouldBeDiagonal.Get(j,j), eigenvals[j] ) );
+  }
   
   for(unsigned int i=0; i<3; i++ )
     {
@@ -423,8 +435,9 @@ int math(int argc, char* argv[])
 
   cout << "1.." << testCount << endl;
 
-  if( failedCount == 0 ) cout << "# math: all tests are successful" << endl;
-  else cout << "# math: " << failedCount << " out of "
+  if( failedCount == 0 ) { cout << "# math: all tests are successful" << endl; }
+  else { cout << "# math: " << failedCount << " out of "
             << testCount << " tests failed." << endl;
+  }
   return 0;
 }

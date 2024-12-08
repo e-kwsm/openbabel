@@ -101,8 +101,9 @@ bool doShuffleTestMultiFile(const std::string &filename)
   bool result = true;
   while (conv.Read(&mol, &ifs)) {
     bool res = doShuffleTestMolecule(mol);
-    if (!res)
+    if (!res) {
       result = res;
+    }
   }
 
   return result;

@@ -89,48 +89,53 @@ int iterators(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       counter = 0;
       FOR_ATOMS_OF_MOL(atom, mol)
         ++counter;
-      if (counter != mol.NumAtoms())
+      if (counter != mol.NumAtoms()) {
         cout << "not ok " << ++currentTest 
              << " # atom iterator failed: expected " << mol.NumAtoms()
              << " but found " << counter << '\n';
-      else
+      } else {
         cout << "ok " << ++currentTest << '\n';
+      }
 
       counter = 0;
       FOR_DFS_OF_MOL(atom, mol)
         ++counter;
-      if (counter != mol.NumAtoms())
+      if (counter != mol.NumAtoms()) {
         cout << "not ok " << ++currentTest 
              << " # depth-first atom iterator failed: expected " 
              << mol.NumAtoms() << " but found " << counter << '\n';
-      else
+      } else {
         cout << "ok " << ++currentTest << '\n';
+      }
 
       counter = 0;
       FOR_BFS_OF_MOL(atom, mol)
         ++counter;
-      if (counter != mol.NumAtoms())
+      if (counter != mol.NumAtoms()) {
         cout << "not ok " << ++currentTest 
              << " # breadth-first atom iterator failed: expected " 
              << mol.NumAtoms() << " but found " << counter << '\n';
-      else
+      } else {
         cout << "ok " << ++currentTest << '\n';
+      }
 
       counter = 0;
       FOR_BONDS_OF_MOL(bond, mol)
         ++counter;
-      if (counter != mol.NumBonds())
+      if (counter != mol.NumBonds()) {
         cout << "not ok " << ++currentTest 
              << " # bond iterator failed: expected " << mol.NumBonds()
              << " but found " << counter << '\n';
-      else
+      } else {
         cout << "ok " << ++currentTest << '\n';
+      }
 
       // test ring iterators: PR#2815025
       counter = 0;
@@ -143,20 +148,22 @@ int iterators(int argc, char* argv[])
           prevRing = &*ring;
           ++counter;
         }
-        if (counter != mol.GetSSSR().size()) // number of rings
+        if (counter != mol.GetSSSR().size()) { // number of rings
           cout << "not ok " << ++currentTest
                << " # ring iterator failed: expected " << mol.GetSSSR().size()
                << " but found " << counter << '\n';
-        else
+        } else {
           cout << "ok " << ++currentTest << '\n';
+        }
       } else {// if (have rings)
           //if no rings, iterator should still work
           unsigned cnt = 0;
           FOR_RINGS_OF_MOL(ring, mol) {
               cnt++;
           }
-          if(cnt != 0) cout << "not ok " << ++currentTest
+          if(cnt != 0) { cout << "not ok " << ++currentTest
                   << " iterated over ringless molecule ";
+          }
       }
     }
 

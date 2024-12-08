@@ -70,10 +70,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 17)
+  if (mol.NumAtoms() == 17) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CC(O)=O)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -81,10 +82,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 3.9 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 16)
+  if (mol.NumAtoms() == 16) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CC(O)=O)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -92,10 +94,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 15)
+  if (mol.NumAtoms() == 15) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CC(O)=O)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -103,10 +106,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 14)
+  if (mol.NumAtoms() == 14) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Glutamic acid (sidechain COOH pKa = 4.3)
@@ -118,10 +122,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 20)
+  if (mol.NumAtoms() == 20) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCC(O)=O)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -141,10 +146,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 18)
+  if (mol.NumAtoms() == 18) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCC(O)=O)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -152,10 +158,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 17)
+  if (mol.NumAtoms() == 17) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Histidine (sidechain nH+ pKa = 6.08)
@@ -167,10 +174,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 22)
+  if (mol.NumAtoms() == 22) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
   
   conv.ReadString(&mol, "NC(Cc1nc[nH]c1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -178,10 +186,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 5.0 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 21)
+  if (mol.NumAtoms() == 21) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(Cc1nc[nH]c1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -189,10 +198,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 20)
+  if (mol.NumAtoms() == 20) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(Cc1nc[nH]c1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -200,10 +210,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 19)
+  if (mol.NumAtoms() == 19) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Lysine (sidechain NH3+ pKa = 8.28)
@@ -215,10 +226,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 26)
+  if (mol.NumAtoms() == 26) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCCCN)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -226,10 +238,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 25)
+  if (mol.NumAtoms() == 25) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCCCN)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -249,10 +262,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 23)
+  if (mol.NumAtoms() == 23) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Tyrosine (sidechain OH pKa = 10.1)
@@ -264,10 +278,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 25)
+  if (mol.NumAtoms() == 25) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(Cc1ccc(O)cc1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -275,10 +290,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 24)
+  if (mol.NumAtoms() == 24) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(Cc1ccc(O)cc1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -286,10 +302,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 10.05 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 23)
+  if (mol.NumAtoms() == 23) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(Cc1ccc(O)cc1)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -297,10 +314,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 22)
+  if (mol.NumAtoms() == 22) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Arginine (sidechain =NH2+ pKa = 12.0)
@@ -312,10 +330,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 28)
+  if (mol.NumAtoms() == 28) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCCNC(N)=N)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -323,10 +342,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 27)
+  if (mol.NumAtoms() == 27) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCCNC(N)=N)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -334,10 +354,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 11.0 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 26)
+  if (mol.NumAtoms() == 26) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NC(CCCNC(N)=N)C(O)=O");
   mol.SetAutomaticFormalCharge(true);
@@ -345,10 +366,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 25)
+  if (mol.NumAtoms() == 25) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // 
   // Gly-Gly (terminal NH3+, COOH and the amide bond)
@@ -360,10 +382,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 1.0 : ";
   conv.Write(&mol, &cout);
   
-  if (mol.NumAtoms() == 18)
+  if (mol.NumAtoms() == 18) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NCC(=O)NCC(=O)O");
   mol.SetAutomaticFormalCharge(true);
@@ -371,10 +394,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 7.4 : ";
   conv.Write(&mol, &cout);
  
-  if (mol.NumAtoms() == 17)
+  if (mol.NumAtoms() == 17) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   conv.ReadString(&mol, "NCC(=O)NCC(=O)O");
   mol.SetAutomaticFormalCharge(true);
@@ -382,10 +406,11 @@ int phmodel(int argc, char* argv[])
   cout << "#pH = 13.0 : ";
   conv.Write(&mol, &cout);
 
-  if (mol.NumAtoms() == 16)
+  if (mol.NumAtoms() == 16) {
     cout << "ok " << ++test << "\n";
-  else
+  } else {
     cout << "not ok " << ++test << "\n";
+  }
 
   // the number of tests for "prove"
   cout << "1.." << test << "\n";
