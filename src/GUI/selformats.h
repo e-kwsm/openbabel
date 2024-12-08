@@ -17,8 +17,9 @@ public:
 		//Cannot get SetSize() to work here so use fixed item height
 		size_t height = 5 + 15 * AllFormatsArray.GetCount();
 		size_t maxheight = static_cast<size_t> (0.8*wxSystemSettings::GetMetric(wxSYS_SCREEN_Y));
-		if(height > maxheight)
+		if(height > maxheight) {
 			height = maxheight;
+		}
 		pList = new wxCheckListBox(this, wxID_ANY, wxDefaultPosition,
 			wxSize(-1,height), AllFormatsArray);
 
@@ -46,8 +47,9 @@ public:
 		unsigned i;
 		for(i=0;i< pList->GetCount();++i)
 		{
-			if(pList->IsChecked(i))
+			if(pList->IsChecked(i)) {
 				active.Append(pList->GetString(i) + _T(';'));
+			}
 		}
 		EndModal(wxID_OK);
 	}
@@ -67,8 +69,9 @@ public:
 	{
 		bool chk=false;
 		config.Read(_T("ActiveFormats"),&ActiveFormatsString,wxEmptyString);
-		if(!ActiveFormatsString.IsEmpty())
+		if(!ActiveFormatsString.IsEmpty()) {
 			config.Read(_T("UseRestrictedFormats"), &chk, false);
+		}
 		return chk;
 	}
 	void Clear() //Called in OBGUIFrame::GetAvailableFormats

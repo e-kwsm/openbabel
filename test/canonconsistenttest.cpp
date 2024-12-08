@@ -40,12 +40,14 @@ bool mdoMultiMoleculeFile(const std::string &filename)
   while (1) {
     if (!conv.Read(&mol)) {
       // failed read, try again
-      if (!conv.Read(&mol))
+      if (!conv.Read(&mol)) {
         break; // we tried twice, so break
+      }
     }
     testCount++;
-    if (testCount % 1000 == 0)
+    if (testCount % 1000 == 0) {
       cout << testCount << " completed" << endl;
+    }
 
     mol.SetTitle("");
     output = conv.WriteString(&mol, true); // trim whitespace
@@ -55,10 +57,11 @@ bool mdoMultiMoleculeFile(const std::string &filename)
     if (roundtrip != output) {
       failed++;
       result = false;
-      if (strcasecmp(output.c_str(), roundtrip.c_str()) != 0)
+      if (strcasecmp(output.c_str(), roundtrip.c_str()) != 0) {
         cout << "Failed roundtrip: \n  " << output << " -> \n  " << roundtrip << "\n";
-      else
+      } else {
         cout << "Failed aromaticity: \n " << output << "\n";
+      }
     }
   }
   cout << "PASSED TESTS: " << testCount - failed << "/" << testCount << endl;

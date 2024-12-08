@@ -89,8 +89,9 @@ int cansmi(int argc, char* argv[])
                << " buffer was " << buffer << "\n";
           continue;
         }
-        if (mol.Empty())
+        if (mol.Empty()) {
           continue;
+        }
 
         buffer = conv.WriteString(&mol);
 
@@ -102,11 +103,12 @@ int cansmi(int argc, char* argv[])
         }
 
         // Now make sure the molecules are roughly equivalent
-        if (mol.NumHvyAtoms() == mol2.NumHvyAtoms())
+        if (mol.NumHvyAtoms() == mol2.NumHvyAtoms()) {
           cout << "ok " << ++currentMol << " # number of heavy atoms match\n";
-        else
+        } else {
           cout << "not ok " << ++currentMol << " # number of heavy atoms wrong"
                << " for molecule " << buffer << "\n";
+        }
       }
     break;
   default:
