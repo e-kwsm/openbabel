@@ -73,8 +73,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -88,15 +89,16 @@ namespace OpenBabel
 
     ifs.getline(buffer,BUFF_SIZE);
     mol.SetTitle(buffer);
-    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"CELL",4))
-      ;
+    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"CELL",4)) { }
 
-    if (!EQn(buffer,"CELL",4))
+    if (!EQn(buffer,"CELL",4)) {
       return(false);
+    }
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
-    if (vs.size() != 8)
+    if (vs.size() != 8) {
       return(false);
+    }
 
     //parse cell values
     A = atof((char*)vs[2].c_str());
@@ -117,8 +119,7 @@ namespace OpenBabel
     vector3 v;
 
     //skip until FVAR found
-    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"FVAR",4))
-      ;
+    while (ifs.getline(buffer,BUFF_SIZE) &&!EQn(buffer,"FVAR",4)) { }
 
     mol.BeginModify();
 
@@ -128,8 +129,9 @@ namespace OpenBabel
         tokenize(vs,buffer," \n\t,");
 
         //skip AFIX and PART instructions
-        if (vs.size() < 7)
+        if (vs.size() < 7) {
           continue;
+        }
         atom = mol.NewAtom();
 
         x = atof((char*)vs[2].c_str());
@@ -146,14 +148,17 @@ namespace OpenBabel
         atom->SetVector(v);
 
         //skip next line if anisotropic atoms.
-        if (vs.size() == 9)
+        if (vs.size() == 9) {
           ifs.getline(buffer,BUFF_SIZE);
+        }
       } //while
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     return(true);

@@ -107,8 +107,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -154,8 +155,9 @@ namespace OpenBabel
                 z = atof((char*)vs[4].c_str());
                 atom->SetVector(x,y,z);
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -170,7 +172,7 @@ namespace OpenBabel
                 z = atof(vs[5].c_str());
                 dipoleMoment.Set(x, y, z);
               }
-            if (!ifs.getline(buffer,BUFF_SIZE)) break;
+            if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
           }
         else if (strstr(buffer, "Mulliken Net Atomic Charges") != nullptr)
           {
@@ -185,10 +187,12 @@ namespace OpenBabel
               {
                 atom = mol.GetAtom(atoi(vs[0].c_str()));
                 ++nbAtomRead;
-                if (atom)
+                if (atom) {
                   atom->SetPartialCharge(atof(vs[2].c_str()));
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                }
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
             if (nbAtomRead != mol.NumAtoms())
@@ -218,8 +222,9 @@ namespace OpenBabel
                 nmrShift->SetValue(tag);
                 atom->SetData(nmrShift);
 
-                if (!ifs.getline(buffer, BUFF_SIZE))
+                if (!ifs.getline(buffer, BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs, buffer);
               }
           }
@@ -229,8 +234,9 @@ namespace OpenBabel
             // We'll only see this data once -- several modes per "section"
             // (e.g., 2 or 3 across)
             tokenize(vs,buffer);
-            for(unsigned int i=1; i < vs.size(); ++i)
+            for(unsigned int i=1; i < vs.size(); ++i) {
               frequencies.push_back(atof(vs[i].c_str()));
+            }
 
             ifs.getline(buffer,BUFF_SIZE); // IR active or force constant
             if (strstr(buffer, "Force Cnst:") != nullptr) {
@@ -239,8 +245,9 @@ namespace OpenBabel
             }
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer); // Remember: "IR Intens" is two tokens
-            for(unsigned int i=2; i < vs.size(); ++i)
+            for(unsigned int i=2; i < vs.size(); ++i) {
               intensities.push_back(atof(vs[i].c_str()));
+            }
 
             ifs.getline(buffer,BUFF_SIZE);	// Raman active
             ifs.getline(buffer,BUFF_SIZE);	// column headings
@@ -257,23 +264,27 @@ namespace OpenBabel
                 y = atof(vs[i+1].c_str());
                 z = atof(vs[i+2].c_str());
 
-                if (i == 1)
+                if (i == 1) {
                   vib1.push_back(vector3(x, y, z));
-                else if (i == 4)
+                } else if (i == 4) {
                   vib2.push_back(vector3(x, y, z));
-                else if (i == 7)
+                } else if (i == 7) {
                   vib3.push_back(vector3(x, y, z));
+                }
               }
 
-              if (!ifs.getline(buffer, BUFF_SIZE))
+              if (!ifs.getline(buffer, BUFF_SIZE)) {
                 break;
+              }
               tokenize(vs,buffer);
             }
             displacements.push_back(vib1);
-            if (vib2.size())
+            if (vib2.size()) {
               displacements.push_back(vib2);
-            if (vib3.size())
+            }
+            if (vib3.size()) {
               displacements.push_back(vib3);
+            }
           }
 
         // In principle, the final geometry in cartesians is exactly the same
@@ -302,10 +313,12 @@ namespace OpenBabel
       return false;
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -342,8 +355,9 @@ namespace OpenBabel
   bool QChemInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -382,12 +396,15 @@ namespace OpenBabel
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else
+    {
       ofs << defaultKeywords << endl;
+    }
 
     ofs << "$end" << endl;
 

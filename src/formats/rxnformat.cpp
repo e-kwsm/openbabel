@@ -79,11 +79,13 @@ RXNFormat theRXNFormat;
 static bool ParseComponent(const char* t, unsigned int *ans)
 {
   const char *p = t;
-  while (*p == ' ')
+  while (*p == ' ') {
     p++;
+  }
   while (p - t < 3) {
-    if (*p < '0' || *p > '9')
+    if (*p < '0' || *p > '9') {
       return false;
+    }
     *ans *= 10;
     *ans += *p - '0';
     p++;
@@ -95,60 +97,74 @@ static bool ParseComponent(const char* t, unsigned int *ans)
 bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     OBFormat* pMolFormat = pConv->FindFormat("MOL");
-    if (pMolFormat == nullptr)
+    if (pMolFormat == nullptr) {
       return false;
+    }
 
     istream &ifs = *pConv->GetInStream();
     string ln;
     // When MDLFormat reads the last product it may also read and discard
     // the line with $RXN for the next reaction. But it then sets $RXNread option.
-    if(pConv->IsOption("$RXNread"))
+    if(pConv->IsOption("$RXNread")) {
       pConv->RemoveOption("$RXNread", OBConversion::OUTOPTIONS);
+    }
     else
     {
-      if (!getline(ifs,ln))
+      if (!getline(ifs,ln)) {
         return(false);
-      if(Trim(ln).find("$RXN")!=0)
+      }
+      if(Trim(ln).find("$RXN")!=0) {
         return false; //Has to start with $RXN
+      }
     }
-    if (!getline(ifs,ln))
+    if (!getline(ifs,ln)) {
       return false; //reaction title
+    }
     pmol->SetTitle(Trim(ln));
 
-    if (!getline(ifs,ln))
+    if (!getline(ifs,ln)) {
       return false; //creator
-    if (!getline(ifs, ln))
+    }
+    if (!getline(ifs, ln)) {
       return false; //comment
+    }
     // Originally the comment was added to the reaction via:
     //     pmol->SetComment(Trim(ln));
 
-    if (!getline(ifs, ln))
+    if (!getline(ifs, ln)) {
       return false; // num reactants, products, and optionally agents
+    }
 
     unsigned int nReactants = 0, nProducts = 0, nAgents = 0;
     bool ok = ParseComponent(ln.c_str() + 0, &nReactants);
-    if (!ok)
+    if (!ok) {
       return false;
+    }
     ok = ParseComponent(ln.c_str() + 3, &nProducts);
-    if (!ok)
+    if (!ok) {
       return false;
+    }
     if (ln[6] != '\0') { // optional agents
       ok = ParseComponent(ln.c_str() + 6, &nAgents);
-      if (!ok)
+      if (!ok) {
         return false;
+      }
     }
 
     if(nReactants + nProducts + nAgents)
     {
       //Read the first $MOL. The others are read at the end of the previous MOL
-      if(!getline(ifs, ln))
+      if(!getline(ifs, ln)) {
         return false;
-      if(Trim(ln).find("$MOL")==string::npos)
+      }
+      if(Trim(ln).find("$MOL")==string::npos) {
         return false;
+      }
     }
 
     OBReactionFacade rxnfacade(pmol);
@@ -226,28 +242,34 @@ enum HandleAgent {
 
 static HandleAgent ReadAgentOption(const char* t)
 {
-  if (!t)
+  if (!t) {
     return AS_AGENT; // default
+  }
   switch(t[0]) {
   case 'a':
-    if (t[1]=='g' && t[2]=='e' && t[3]=='n' && t[4]=='t' && t[5]=='\0')
+    if (t[1]=='g' && t[2]=='e' && t[3]=='n' && t[4]=='t' && t[5]=='\0') {
       return AS_AGENT;
+    }
     break;
   case 'i':
-    if (t[1]=='g' && t[2]=='n' && t[3]=='o' && t[4]=='r' && t[5]=='e' && t[6]=='\0')
+    if (t[1]=='g' && t[2]=='n' && t[3]=='o' && t[4]=='r' && t[5]=='e' && t[6]=='\0') {
       return IGNORE;
+    }
     break;
   case 'r':
-    if (t[1]=='e' && t[2]=='a' && t[3]=='c' && t[4]=='t' && t[5]=='a' && t[6]=='n' && t[7]=='t' && t[8]=='\0')
+    if (t[1]=='e' && t[2]=='a' && t[3]=='c' && t[4]=='t' && t[5]=='a' && t[6]=='n' && t[7]=='t' && t[8]=='\0') {
       return AS_REACT;
+    }
     break;
   case 'p':
-    if (t[1]=='r' && t[2]=='o' && t[3]=='d' && t[4]=='u' && t[5]=='c' && t[6]=='t' && t[7]=='\0')
+    if (t[1]=='r' && t[2]=='o' && t[3]=='d' && t[4]=='u' && t[5]=='c' && t[6]=='t' && t[7]=='\0') {
       return AS_PROD;
+    }
     break;
   case 'b':
-    if (t[1]=='o' && t[2]=='t' && t[3]=='h' && t[4]=='\0')
+    if (t[1]=='o' && t[2]=='t' && t[3]=='h' && t[4]=='\0') {
       return BOTH_REACT_AND_PROD;
+    }
     break;
   }
   return AS_AGENT;
@@ -260,8 +282,9 @@ static void WriteMolFile(OBMol* pmol, OBConversion* pconv, OBFormat* pformat)
   // Treat a dummy atom with "rxndummy" as the empty file
   if (pmol->NumAtoms() == 1) {
     OBAtom *atm = pmol->GetFirstAtom();
-    if (atm->GetAtomicNum() == 0 && atm->HasData("rxndummy"))
+    if (atm->GetAtomicNum() == 0 && atm->HasData("rxndummy")) {
       pmol->DeleteAtom(atm);
+    }
   }
   pformat->WriteMolecule(pmol, pconv);
 }
@@ -279,8 +302,9 @@ static void WriteAgents(OBMol& mol, OBReactionFacade& rxnfacade, OBConversion* p
 bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr || !pmol->IsReaction())
+    if (pmol == nullptr || !pmol->IsReaction()) {
       return false;
+    }
 
     pConv->AddOption("no$$$$",OBConversion::OUTOPTIONS);
 
@@ -296,14 +320,16 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     HandleAgent handleagent = ReadAgentOption(pConv->IsOption("G"));
     bool hasAgent = rxnfacade.NumComponents(AGENT) > 0;
     bool agentInReactants, agentInProducts;
-    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_REACT))
+    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_REACT)) {
       agentInReactants = true;
-    else
+    } else {
       agentInReactants = false;
-    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_PROD))
+    }
+    if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_PROD)) {
       agentInProducts = true;
-    else
+    } else {
       agentInProducts = false;
+    }
 
     ostream &ofs = *pConv->GetOutStream();
 
@@ -314,17 +340,20 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ofs << "\n";
 
     ofs << setw(3);
-    if (agentInReactants)
+    if (agentInReactants) {
       ofs << rxnfacade.NumComponents(REACTANT) + rxnfacade.NumComponents(AGENT);
-    else
+    } else {
       ofs << rxnfacade.NumComponents(REACTANT);
+    }
     ofs << setw(3);
-    if (agentInProducts)
+    if (agentInProducts) {
       ofs << rxnfacade.NumComponents(PRODUCT) + rxnfacade.NumComponents(AGENT);
-    else
+    } else {
       ofs << rxnfacade.NumComponents(PRODUCT);
-    if (hasAgent && handleagent==AS_AGENT)
+    }
+    if (hasAgent && handleagent==AS_AGENT) {
       ofs << setw(3) << rxnfacade.NumComponents(AGENT);
+    }
     ofs << '\n';
 
     // Write reactants
@@ -334,8 +363,9 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       rxnfacade.GetComponent(&mol, REACTANT, i);
       WriteMolFile(&mol, pConv, pMolFormat);
     }
-    if (agentInReactants)
+    if (agentInReactants) {
       WriteAgents(mol, rxnfacade, pConv, pMolFormat);
+    }
 
     // Write products
     for(unsigned int i=0; i<rxnfacade.NumComponents(PRODUCT); i++) {
@@ -343,12 +373,14 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       rxnfacade.GetComponent(&mol, PRODUCT, i);
       WriteMolFile(&mol, pConv, pMolFormat);
     }
-    if (agentInProducts)
+    if (agentInProducts) {
       WriteAgents(mol, rxnfacade, pConv, pMolFormat);
+    }
 
     // Write agent out (if treating AS_AGENT)
-    if(hasAgent && handleagent==AS_AGENT)
+    if(hasAgent && handleagent==AS_AGENT) {
       WriteAgents(mol, rxnfacade, pConv, pMolFormat);
+    }
     
     return true;
 }

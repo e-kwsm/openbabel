@@ -305,7 +305,7 @@ namespace OpenBabel
                 min);
         ofs << buffer;
 
-        for (i = min + 1; ((i < max) && (i <= mol.NumAtoms())); i++)
+        for (i = min + 1; ((i < max) && (i <= mol.NumAtoms())); i++) {
           if (i <= mol.NumAtoms())
             {
               atom = mol.GetAtom(i);
@@ -314,15 +314,17 @@ namespace OpenBabel
                       i);
               ofs << buffer;
             }
+        }
         ofs << "\n";
 
         snprintf(buffer, BUFF_SIZE, "%14s","");
         ofs << buffer;
-        for (i = min; i < max; i++)
+        for (i = min; i < max; i++) {
           if (i <= mol.NumAtoms())
             {
               ofs << "-----------";
             }
+        }
 
         ofs << "\n";
         for (i = min; i <= mol.NumAtoms(); i++)
@@ -332,7 +334,7 @@ namespace OpenBabel
                     OBElements::GetSymbol(atom->GetAtomicNum()),
                     i);
             ofs << buffer;
-            for (j = min; j < max; j++)
+            for (j = min; j < max; j++) {
               if (j <= i)
                 {
                   atom2 = mol.GetAtom(j);
@@ -343,6 +345,7 @@ namespace OpenBabel
                   snprintf(buffer, BUFF_SIZE, "%10.4f ",dst);
                   ofs << buffer;
                 }
+            }
             ofs << "\n";
           }
         max += columns - 1;
@@ -366,13 +369,15 @@ namespace OpenBabel
 
         for(a = b->BeginNbrAtom(bi2);a;a = b->NextNbrAtom(bi2))
           {
-            if(a == c)
+            if(a == c) {
               continue;
+            }
 
             for(d = c->BeginNbrAtom(bi3);d;d = c->NextNbrAtom(bi3))
               {
-                if(d == b)
+                if(d == b) {
                   continue;
+                }
 
                 snprintf(buffer, BUFF_SIZE, "%4d %4d %4d %4d %10.3f",
                         a->GetIdx(), b->GetIdx(),c->GetIdx(),d->GetIdx(),

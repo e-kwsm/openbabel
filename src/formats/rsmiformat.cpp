@@ -81,8 +81,9 @@ namespace OpenBabel
           auditMsg,
           obAuditMsg);
 
-      if(ret) //Do transformation and return molecule
+      if(ret) { //Do transformation and return molecule
         return pConv->AddChemObject(pReact->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv))!=0;
+      }
       else
       {
         pConv->AddChemObject(nullptr);
@@ -97,8 +98,9 @@ namespace OpenBabel
       //WriteChemObject() always deletes the object retrieved by GetChemObject
       OBBase* pOb = pConv->GetChemObject();
       OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
-      if (pReact == nullptr)
+      if (pReact == nullptr) {
         return false;
+      }
 
       bool ret=false;
       ret=WriteMolecule(pReact,pConv);
@@ -148,13 +150,16 @@ namespace OpenBabel
     string::size_type pos, pos2;
 
     //Ignore lines that start with # or /
-    while ((ifs && ifs.peek()=='#') || ifs.peek()=='/')
-      if(!getline(ifs, ln))
+    while ((ifs && ifs.peek()=='#') || ifs.peek()=='/') {
+      if(!getline(ifs, ln)) {
         return false;
+      }
+    }
 
     //Get title
-    if(!getline(ifs, ln))
+    if(!getline(ifs, ln)) {
       return false;
+    }
     pos = ln.find_first_of(" \t");
     if(pos!=string::npos)
     {
@@ -164,7 +169,9 @@ namespace OpenBabel
       pReact->SetTitle(title);
     }
     else
+    {
       rsmiles = ln;
+    }
 
     //Check for illegal characters
     pos = rsmiles.find_first_of(",<\"\'!^&_|{}");
@@ -194,8 +201,9 @@ namespace OpenBabel
       return false;
     }
     mols = jreactants.Separate();
-    for(itr=mols.begin();itr!=mols.end();++itr)
+    for(itr=mols.begin();itr!=mols.end();++itr) {
       pReact->AddReactant(std::shared_ptr<OBMol>(new OBMol(*itr)));
+    }
 
     pos2 = rsmiles.find('>', pos+1);
     if(pos2==string::npos)
@@ -228,8 +236,9 @@ namespace OpenBabel
     }
     mols.clear();
     mols = jproducts.Separate();
-    for(itr=mols.begin();itr!=mols.end();++itr)
+    for(itr=mols.begin();itr!=mols.end();++itr) {
       pReact->AddProduct(std::shared_ptr<OBMol>(new OBMol(*itr)));
+    }
 
     return true;
   }
@@ -241,44 +250,53 @@ namespace OpenBabel
     //It's really a reaction, not a molecule.
     //Cast output object to the class type need, i.e. OBReaction
     OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
-    if (pReact == nullptr)
+    if (pReact == nullptr) {
       return false;
+    }
     ostream &ofs = *pConv->GetOutStream();
 
 
     OBFormat* pSmiFormat = OBConversion::FindFormat("SMI");
-    if(!pSmiFormat)
+    if(!pSmiFormat) {
       return false;
+    }
     pConv->AddOption("smilesonly",OBConversion::OUTOPTIONS);//suppresses title and new line
     pConv->AddOption("c",OBConversion::OUTOPTIONS);//output atom classes if available
 
     OBMol jReactants;
-    for(int i=0;i<pReact->NumReactants();++i)
+    for(int i=0;i<pReact->NumReactants();++i) {
       jReactants += *(pReact->GetReactant(i));
+    }
 
-    if(!pSmiFormat->WriteMolecule(&jReactants, pConv))
+    if(!pSmiFormat->WriteMolecule(&jReactants, pConv)) {
       return false;
+    }
 
     ofs << '>';
 
     OBMol jAgents;
-    for (int i = 0; i<pReact->NumAgents(); ++i)
+    for (int i = 0; i<pReact->NumAgents(); ++i) {
       jAgents += *(pReact->GetAgent(i));
+    }
 
-    if(!pSmiFormat->WriteMolecule(&jAgents, pConv))
+    if(!pSmiFormat->WriteMolecule(&jAgents, pConv)) {
       return false;
+    }
 
     ofs << '>';
 
     OBMol jProducts;
-    for(int i=0;i<pReact->NumProducts();++i)
+    for(int i=0;i<pReact->NumProducts();++i) {
       jProducts += *(pReact->GetProduct(i));
+    }
 
-    if(!pSmiFormat->WriteMolecule(&jProducts, pConv))
+    if(!pSmiFormat->WriteMolecule(&jProducts, pConv)) {
       return false;
+    }
 
-    if(!pReact->GetTitle().empty())
+    if(!pReact->GetTitle().empty()) {
       ofs << '\t' << pReact->GetTitle();
+    }
 
     ofs << endl;
 

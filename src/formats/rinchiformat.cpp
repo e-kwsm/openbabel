@@ -95,8 +95,9 @@ namespace OpenBabel
     while (true) {
       trimmed += *p;
       p++;
-      if (*p == '\n' || *p == '\0')
+      if (*p == '\n' || *p == '\0') {
         break;
+      }
     }
     return trimmed;
   }
@@ -105,13 +106,15 @@ namespace OpenBabel
   bool ReactionInChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr || !pmol->IsReaction())
+    if (pmol == nullptr || !pmol->IsReaction()) {
       return false;
+    }
     ostream &ofs = *pConv->GetOutStream();
 
     OBFormat* pInChIFormat = OBConversion::FindFormat("inchi");
-    if (!pInChIFormat)
+    if (!pInChIFormat) {
       return false;
+    }
 
     bool isEquilibrium = pConv->IsOption("e");
 
@@ -157,8 +160,9 @@ namespace OpenBabel
           }
           else {
             string inchi = ss.str();
-            if (strncmp(inchi.c_str(), "InChI=1S/", 9) != 0)
+            if (strncmp(inchi.c_str(), "InChI=1S/", 9) != 0) {
               return false;
+            }
             inchis[part].push_back(TrimInChI(inchi.c_str()));
           }
           ss.str("");
@@ -173,15 +177,17 @@ namespace OpenBabel
     std::string reactants_string = "";
     const int rsize = inchis[M_REACTANTS].size();
     for (int i = 0; i < rsize; ++i) {
-      if (i > 0)
+      if (i > 0) {
         reactants_string += '!';
+      }
       reactants_string += inchis[M_REACTANTS][i];
     }
     std::string products_string = "";
     const int psize = inchis[M_PRODUCTS].size();
     for (int i = 0; i < psize; ++i) {
-      if (i > 0)
+      if (i > 0) {
         products_string += '!';
+      }
       products_string += inchis[M_PRODUCTS][i];
     }
 
@@ -195,17 +201,19 @@ namespace OpenBabel
       if (!inchis[M_AGENTS].empty()) {
         ofs << "<>";
         for (std::vector<std::string>::const_iterator vit = inchis[M_AGENTS].begin(); vit != inchis[M_AGENTS].end(); ++vit) {
-          if (vit != inchis[M_AGENTS].begin())
+          if (vit != inchis[M_AGENTS].begin()) {
             ofs << '!';
+          }
           ofs << *vit;
         }
       }
     }
     ofs << "/d";
-    if (isEquilibrium)
+    if (isEquilibrium) {
       ofs << '=';
-    else
+    } else {
       ofs << (reactants_first ? '+' : '-');
+    }
     if (hasNonInchi) {
       ofs << "/u" << (reactants_first ? nonInchi[M_REACTANTS] : nonInchi[M_PRODUCTS]) << '-'
         << (reactants_first ? nonInchi[M_PRODUCTS] : nonInchi[M_REACTANTS]) << '-'
