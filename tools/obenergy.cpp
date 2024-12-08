@@ -108,21 +108,25 @@ int main(int argc, char **argv)
     exit(-1);
   }
   pFF->SetLogFile(&cout);
-  if (verbose)
+  if (verbose) {
     pFF->SetLogLevel(OBFF_LOGLVL_HIGH);
-  else
+  } else {
     pFF->SetLogLevel(OBFF_LOGLVL_MEDIUM);
+  }
 
   OBMol mol;
   for (int c = 1;; c++) {
     mol.Clear();
-    if (!conv.Read(&mol, &ifs))
+    if (!conv.Read(&mol, &ifs)) {
       break;
-    if (mol.Empty())
+    }
+    if (mol.Empty()) {
       break;
+    }
 
-    if (hydrogens)
+    if (hydrogens) {
       mol.AddHydrogens();
+    }
 
     if (!pFF->Setup(mol)) {
       cerr << program_name << ": could not setup force field." << endl;

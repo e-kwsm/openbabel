@@ -80,10 +80,11 @@ int main(int argc,char *argv[])
     argv[0][pos]='\0';
 #endif
   pos = pn.find_last_of("/\\");
-  if(pos==string::npos)
+  if(pos==string::npos) {
     program_name=argv[0];
-  else
+  } else {
     program_name=argv[0]+pos+1;
+  }
 
   const char* p;
   int arg;
@@ -109,8 +110,9 @@ int main(int argc,char *argv[])
                   //Parameter is the input format which overrides any file extensions
                   gotInType = true;
                   iext = argv[arg] + 2;
-                  if(!*iext)
+                  if(!*iext) {
                     iext = argv[++arg]; //space left after -i: use next argument
+                  }
 
                   if (iext && strncasecmp(iext, "MIME", 4) == 0)
                     {
@@ -119,7 +121,9 @@ int main(int argc,char *argv[])
                       pInFormat = Conv.FormatFromMIME(iext);
                     }
                   else
+                    {
                       pInFormat = Conv.FindFormat(iext);
+                    }
                   if (pInFormat == nullptr)
                     {
                       cerr << program_name << ": cannot read input format!" << endl;
@@ -132,8 +136,9 @@ int main(int argc,char *argv[])
                   //Parameter is the output format which overrides any file extension
                   gotOutType = true;
                   oext = argv[arg] + 2;
-                  if(!*oext)
+                  if(!*oext) {
                     oext = argv[++arg]; //space left after -i: use next argument
+                  }
 
                   if (oext && strncasecmp(oext, "MIME", 4) == 0)
                     {
@@ -142,7 +147,9 @@ int main(int argc,char *argv[])
                       pOutFormat = Conv.FormatFromMIME(oext);
                     }
                   else
+                  {
                     pOutFormat = Conv.FindFormat(oext);
+                  }
 
                   if (pOutFormat == nullptr)
                     {
@@ -154,15 +161,17 @@ int main(int argc,char *argv[])
 
                 case 'O':
                   OutputFileName = argv[arg] + 2;
-                  if(OutputFileName.empty())
+                  if(OutputFileName.empty()) {
                     OutputFileName = argv[++arg]; //space left after -O: use next argument
+                  }
                   break;
 
                 case 'L': //display a list of plugin type or classes
                   {
                     const char* param = nullptr;
-                    if(argc>arg+1)
+                    if(argc>arg+1) {
                       param = argv[arg+2];
+                    }
 
                     // First assume first arg is a plugin type and
                     // param is a subtype, like babel -L ops gen3D
@@ -195,16 +204,21 @@ int main(int argc,char *argv[])
                           if(pFormat)
                             {
                               cout << argv[arg]+2 << "  " << pFormat->Description() << endl;
-                              if(pFormat->Flags() & NOTWRITABLE)
+                              if(pFormat->Flags() & NOTWRITABLE) {
                                 cout << " This format is Read-only" << endl;
-                              if(pFormat->Flags() & NOTREADABLE)
+                              }
+                              if(pFormat->Flags() & NOTREADABLE) {
                                 cout << " This format is Write-only" << endl;
+                              }
 
-                              if(strlen(pFormat->SpecificationURL()))
+                              if(strlen(pFormat->SpecificationURL())) {
                                 cout << "Specification at: " << pFormat->SpecificationURL() << endl;
+                              }
                             }
                           else
+                          {
                             cout << "Format type: " << argv[arg]+2 << " was not recognized" <<endl;
+                          }
                         }
                       else
                         {
@@ -212,7 +226,9 @@ int main(int argc,char *argv[])
                         }
                     }
                   else
+                  {
                     help();
+                  }
                   return 0;
 
                 case '-': //long option --name text
@@ -230,7 +246,8 @@ int main(int argc,char *argv[])
                         while(arg<argc-1 && *argv[arg+1]!='-')
                           {
                             //use text from subsequent args
-                            if(!txt.empty())txt += ' '; //..space separated if more than one
+                            if(!txt.empty()) { txt += ' '; //..space separated if more than one
+                            }
                             txt += argv[++arg];
                           }
 
@@ -248,8 +265,10 @@ int main(int argc,char *argv[])
                               }
                           }
                         else
+                        {
                           // Is a normal long option name, e.g --addtotitle
                           Conv.AddOption(nam,OBConversion::GENOPTIONS,txt.c_str());
+                        }
                       }
                   }
                   break;
@@ -273,8 +292,9 @@ int main(int argc,char *argv[])
                 case 'f':
                 case 'l':
                   p = argv[arg] + 2;
-                  if(!*p)
+                  if(!*p) {
                     p = argv[++arg]; //space left after -f: use next argument
+                  }
                   Conv.AddOption(opchar, OBConversion::GENOPTIONS, p);
                   break;
 
@@ -289,8 +309,9 @@ int main(int argc,char *argv[])
                   break;
                 }
             }
-          else //filenames
+          else { //filenames
               FileList.push_back(argv[arg]);
+          }
         }
     }
 
@@ -356,14 +377,16 @@ int main(int argc,char *argv[])
       else
         {
           string::size_type pos = OutputFileName.rfind(".gz");
-          if(pos==string::npos)
+          if(pos==string::npos) {
             pos = OutputFileName.rfind('.');
-          else
+          } else {
             pos = OutputFileName.rfind('.',pos-1);
-          if(pos==string::npos)
+          }
+          if(pos==string::npos) {
             OutputFileName += '*';
-          else
+          } else {
             OutputFileName.insert(pos,"*");
+          }
         }
     }
 
@@ -400,13 +423,15 @@ void DoOption(const char* p, OBConversion& Conv,
   *ch = *p++;
   std::string txt;
   //Get the option text
-  if(*p)
+  if(*p) {
     txt = p; //use text immediately following the option letter, and keep looking
+  }
 
   while(arg<argc-1 && *argv[arg+1]!='-')
   {
     //use text from subsequent args
-    if(!txt.empty())txt += ' '; //..space separated if more than one
+    if(!txt.empty()) { txt += ' '; //..space separated if more than one
+    }
     txt += argv[++arg];
   }
   Conv.AddOption(ch, typ, txt.c_str());
@@ -463,12 +488,14 @@ void help()
 #endif
 
   OBFormat* pDefault = OBConversion::GetDefaultFormat();
-  if(pDefault)
+  if(pDefault) {
     cout << pDefault->TargetClassDescription();// some more options probably for OBMol
+  }
 
   OBFormat* pAPI= OBConversion::FindFormat("obapi");
-  if(pAPI)
+  if(pAPI) {
     cout << pAPI->Description();
+  }
 
   cout << "To see a list of recognized file formats use\n  obabel -L formats [read] [write]\n"
        << "To see details and specific options for a particular format, e.g CML, use\n  obabel -L cml\n"
