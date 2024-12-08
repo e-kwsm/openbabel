@@ -263,15 +263,17 @@ namespace OpenBabel
      }
    void backup(size_t count)
      {
-     for ( ++ count; count; -- count )
+     for ( ++ count; count; -- count ) {
        input->unget();
+     }
      last_char = 0;
      next_char = input->get();
      }
    void backup(size_t count, char next)
      {
-     for ( ; count; -- count )
+     for ( ; count; -- count ) {
        input->unget();
+     }
      last_char = 0;
      next_char = next;
      }
@@ -292,8 +294,9 @@ namespace OpenBabel
       }
    CIFTagID::CIFDataName rtn = CIFTagID::unread_CIFDataName;
     CIFtagmap::const_iterator found = CIFtagLookupTable.find(tag_name);
-    if (found != CIFtagLookupTable.end())
+    if (found != CIFtagLookupTable.end()) {
       rtn = (* found).second;
+    }
     return rtn;
  }
  CIFTagID::CIFCatName CIFLexer::lookup_cat(CIFTagID::CIFDataName tagid)
@@ -301,22 +304,23 @@ namespace OpenBabel
    CIFTagID::CIFCatName catid = CIFTagID::unread_CIFCatName;
    if (tagid > CIFTagID::unread_CIFDataName)
      {
-     if (tagid < CIFTagID::MAX_atom_site)
+     if (tagid < CIFTagID::MAX_atom_site) {
        catid = CIFTagID::atom_site;
-     else if (tagid < CIFTagID::MAX_cell)
+     } else if (tagid < CIFTagID::MAX_cell) {
        catid = CIFTagID::cell;
-     else if (tagid < CIFTagID::MAX_chemical)
+     } else if (tagid < CIFTagID::MAX_chemical) {
        catid = CIFTagID::chemical;
-     else if (tagid < CIFTagID::MAX_chemical_formula)
+     } else if (tagid < CIFTagID::MAX_chemical_formula) {
        catid = CIFTagID::chemical_formula;
-     else if (tagid < CIFTagID::MAX_symmetry)
+     } else if (tagid < CIFTagID::MAX_symmetry) {
        catid = CIFTagID::symmetry;
-     else if (tagid < CIFTagID::MAX_symmetry_equiv)
+     } else if (tagid < CIFTagID::MAX_symmetry_equiv) {
        catid = CIFTagID::symmetry_equiv;
-     else if (tagid < CIFTagID::MAX_space_group)
+     } else if (tagid < CIFTagID::MAX_space_group) {
        catid = CIFTagID::space_group;
-     else if (tagid < CIFTagID::MAX_atom_type)
+     } else if (tagid < CIFTagID::MAX_atom_type) {
        catid = CIFTagID::atom_type;
+     }
      }
    return catid;
  }
@@ -347,10 +351,11 @@ namespace OpenBabel
      case '_':
        do // read name to the next whitespace
          {
-         if (next_char == '.') // combines DDL1 and DDL2 tag names
+         if (next_char == '.') { // combines DDL1 and DDL2 tag names
            next_char = '_';
-         else
+         } else {
            next_char = tolower(next_char);
+         }
          token.as_text.push_back((char)next_char);
          advance();
          } while (next_char > ' ' && input->good());
@@ -367,12 +372,14 @@ namespace OpenBabel
            while (next_char == '"')
              {
              advance();
-             if (next_char <= ' ') // whitespace
+             if (next_char <= ' ') { // whitespace
                break;
+             }
              token.as_text.push_back((char)last_char);
              }
-           if (next_char <= ' ') // whitespace
+           if (next_char <= ' ') { // whitespace
              break;
+           }
            }
          token.as_text.push_back((char)next_char);
          } while (input->good());
@@ -388,12 +395,14 @@ namespace OpenBabel
            while (next_char == '\'')
              {
              advance();
-             if (next_char <= ' ') // whitespace
+             if (next_char <= ' ') { // whitespace
                break;
+             }
              token.as_text.push_back((char)last_char);
              }
-           if (next_char <= ' ') // whitespace
+           if (next_char <= ' ') { // whitespace
              break;
+           }
            }
          token.as_text.push_back((char)next_char);
          } while (input->good());
@@ -411,8 +420,9 @@ namespace OpenBabel
              while (next_char == '\n')
                {
                advance();
-               if (next_char == ';') // end
+               if (next_char == ';') { // end
                  break;
+               }
                token.as_text.push_back((char)last_char);
                }
              if (next_char == ';') // end
@@ -443,15 +453,17 @@ namespace OpenBabel
  if (token.type == CIFLexer::ValueOrKeyToken)
    {
    string::size_type len = token.as_text.size();
-   if (len == 1 && token.as_text[0] == '.')
+   if (len == 1 && token.as_text[0] == '.') {
      token.type = CIFLexer::ValueToken;
+   }
    else if (!strncasecmp(token.as_text.c_str(), "data_", 5))
      {
      token.type = CIFLexer::KeyDataToken;
      token.as_text.erase(0, 5);
      }
-   else if (!strcasecmp(token.as_text.c_str(), "loop_"))
+   else if (!strcasecmp(token.as_text.c_str(), "loop_")) {
      token.type = CIFLexer::KeyLoopToken;
+   }
    else if (!strncasecmp(token.as_text.c_str(), "save_", 5))
      {
      if (len == 5)
@@ -464,37 +476,41 @@ namespace OpenBabel
        token.as_text.erase(0, 5);
        }
      }
-   else if (!strcasecmp(token.as_text.c_str(), "stop_"))
+   else if (!strcasecmp(token.as_text.c_str(), "stop_")) {
      token.type = CIFLexer::KeyStopToken;
-   else if (!strcasecmp(token.as_text.c_str(), "global_"))
+   } else if (!strcasecmp(token.as_text.c_str(), "global_")) {
      token.type = CIFLexer::KeyGlobalToken;
-   else
+   } else {
      token.type = CIFLexer::ValueToken;
+   }
    }
  return token.type != CIFLexer::UnknownToken;
  }
  /////////////////////////////////////////////////////////////////
   int mmCIFFormat::SkipObjects(int n, OBConversion* pConv)
  {
-   if (n == 0)
+   if (n == 0) {
      ++ n;
+   }
    CIFLexer lexer(pConv->GetInStream());
    CIFLexer::Token token;
    while (n && lexer.good())
      {
-     while ( lexer.next_token(token) && token.type != CIFLexer::KeyDataToken);
+     while ( lexer.next_token(token) && token.type != CIFLexer::KeyDataToken) {}
      -- n;
      }
-   if (lexer.good())
+   if (lexer.good()) {
      lexer.backup(5 + token.as_text.size(), 'd'); // length of "data_<name>"
+   }
 
    return lexer.good() ? 1 : -1;
  }
  bool mmCIFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
  {
    OBMol* pmol = pOb->CastAndClear<OBMol>();
-   if (pmol == nullptr)
+   if (pmol == nullptr) {
      return false;
+   }
 
    CIFLexer lexer(pConv->GetInStream());
    CIFLexer::Token token;
@@ -510,7 +526,7 @@ namespace OpenBabel
    bool wrap_coords = pConv->IsOption("w",OBConversion::INOPTIONS);
 
    // move to the next data block (i.e. molecule, we hope )
-   while (lexer.next_token(token) && token.type != CIFLexer::KeyDataToken);
+   while (lexer.next_token(token) && token.type != CIFLexer::KeyDataToken) {}
    if (token.type == CIFLexer::KeyDataToken)
      { // we have found the next data block:
      pmol->BeginModify();
@@ -540,7 +556,7 @@ namespace OpenBabel
            }
          else // not yet found a molecule, so go to the next data block
            {
-           while (lexer.next_token(token) && token.type != CIFLexer::KeyDataToken);
+           while (lexer.next_token(token) && token.type != CIFLexer::KeyDataToken) { }
            if (token.type == CIFLexer::KeyDataToken)
              { // we have found the next data block:
              pmol->SetTitle(token.as_text);
@@ -555,12 +571,13 @@ namespace OpenBabel
            // move back to the start of the data block:
            lexer.backup(5 + token.as_text.size(), 'd'); // length of "data_<name>"
            }
-         else // not yet found a molecule, so try again
+         else { // not yet found a molecule, so try again
            pmol->SetTitle(token.as_text);
+         }
          break;
        case CIFLexer::KeySaveToken:
          { // Simply eat tokens until the save_ ending token
-         while (lexer.next_token(token) && token.type != CIFLexer::KeySaveEndToken);
+         while (lexer.next_token(token) && token.type != CIFLexer::KeySaveEndToken) { }
          }
          break;
        case CIFLexer::KeyLoopToken:
@@ -571,8 +588,9 @@ namespace OpenBabel
            { // Read in the tags
            CIFTagID::CIFDataName tagid = lexer.lookup_tag(token.as_text);
            columns.push_back(tagid);
-           if (catid == CIFTagID::unread_CIFCatName && tagid != CIFTagID::unread_CIFDataName)
+           if (catid == CIFTagID::unread_CIFCatName && tagid != CIFTagID::unread_CIFDataName) {
              catid = lexer.lookup_cat(tagid);
+           }
            }
          size_t column_count = columns.size();
          switch (catid)
@@ -603,8 +621,9 @@ namespace OpenBabel
              case CIFTagID::_atom_site_type_symbol:
              case CIFTagID::_atom_site_label_atom_id:
              case CIFTagID::_atom_site_label:
-               if (atom_type_tag < (* colx))
+               if (atom_type_tag < (* colx)) {
                  atom_type_tag = (* colx);
+               }
                break;
              default:
                break;
@@ -612,9 +631,11 @@ namespace OpenBabel
              }
            if (use_cartn)
              {
-             for (CIFColumnList::iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
-               if ( (* colx) >= CIFTagID::_atom_site_fract_x && (* colx) <= CIFTagID::_atom_site_fract_z)
+             for (CIFColumnList::iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx) {
+               if ( (* colx) >= CIFTagID::_atom_site_fract_x && (* colx) <= CIFTagID::_atom_site_fract_z) {
                  (* colx) = CIFTagID::unread_CIFDataName;
+               }
+             }
              use_fract = 0;
              }
            size_t column_idx = 0;
@@ -643,8 +664,9 @@ namespace OpenBabel
                atom->SetData(label);
                atom_mol_label.assign(token.as_text);
 
-               if (atom_type_tag != CIFTagID::_atom_site_label)
+               if (atom_type_tag != CIFTagID::_atom_site_label) {
                  break;
+               }
                // Else remove everything starting from the first digit
                // and drop through to _atom_site_type_symbol
                if(string::npos != token.as_text.find_first_of("0123456789"))
@@ -815,13 +837,17 @@ namespace OpenBabel
                    res->SetName(residue_name);
                    }
                  else
+                 {
                    res = pmol->GetResidue( (* resx).second );
+                 }
                  res->AddAtom(atom);
-                 if (!atom_label.empty())
+                 if (!atom_label.empty()) {
                    res->SetAtomID(atom, atom_label);
+                 }
                  unsigned long serial_no = strtoul(atom_mol_label.c_str(), nullptr, 10);
-                 if (serial_no > 0)
+                 if (serial_no > 0) {
                    res->SetSerialNum(atom, serial_no);
+                 }
                  }
                column_idx = 0;
                }
@@ -835,11 +861,13 @@ namespace OpenBabel
            while (token.type == CIFLexer::ValueToken) // Read in the Fields
              {
              if ((columns[column_idx] == CIFTagID::_symmetry_equiv_pos_as_xyz)
-               && token.as_text.find(UNKNOWN_VALUE) == string::npos)
+               && token.as_text.find(UNKNOWN_VALUE) == string::npos) {
                space_group.AddTransform(token.as_text);
+             }
              ++ column_idx;
-             if (column_idx == column_count)
+             if (column_idx == column_count) {
                column_idx = 0;
+             }
              token_peeked = lexer.next_token(token);
              }
            }
@@ -852,10 +880,12 @@ namespace OpenBabel
            double charge = 0;
            while (token.type == CIFLexer::ValueToken) // Read in the Fields
              {
-             if (columns[column_idx] == CIFTagID::_atom_type_symbol)
+             if (columns[column_idx] == CIFTagID::_atom_type_symbol) {
                atom_label = token.as_text;
-             if (columns[column_idx] == CIFTagID::_atom_type_oxidation_number)
+             }
+             if (columns[column_idx] == CIFTagID::_atom_type_oxidation_number) {
                charge = token.as_number();
+             }
              ++ column_idx;
              if (column_idx == column_count)
              {
@@ -870,8 +900,9 @@ namespace OpenBabel
 
          case CIFTagID::unread_CIFCatName:
          default:
-           while (token.type == CIFLexer::ValueToken) // Eat the values, we don't want them
+           while (token.type == CIFLexer::ValueToken) { // Eat the values, we don't want them
              token_peeked = lexer.next_token(token);
+           }
            break;
            }
          }
@@ -969,25 +1000,28 @@ namespace OpenBabel
                         );
          pCell->SetSpaceGroup(space_group_name);
          const SpaceGroup * pSpaceGroup = SpaceGroup::Find( & space_group);
-         if (pSpaceGroup)
+         if (pSpaceGroup) {
            pCell->SetSpaceGroup(pSpaceGroup);
-         else
+         } else {
            space_group_failed = true;
+         }
          pmol->SetData(pCell);
          if (use_fract)
            {
            for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++ atom_x)
              {
              OBAtom * atom = (* atom_x);
-             if (wrap_coords)
+             if (wrap_coords) {
                atom->SetVector(pCell->FractionalToCartesian(
                                pCell->WrapFractionalCoordinate(atom->GetVector())));
-             else
+             } else {
                atom->SetVector(pCell->FractionalToCartesian(atom->GetVector()));
+             }
              }  // Note: this is where we could keep the original fractional coordinates, e.g. in a new OBCoord class
            }
-         if (pConv->IsOption("p",OBConversion::INOPTIONS))
+         if (pConv->IsOption("p",OBConversion::INOPTIONS)) {
            pmol->SetPeriodicMol();
+         }
          }
        for (OBAtomIterator atom_x = pmol->BeginAtoms(), atom_y = pmol->EndAtoms(); atom_x != atom_y; ++atom_x )
        {
@@ -1009,8 +1043,9 @@ namespace OpenBabel
        if (!pConv->IsOption("b",OBConversion::INOPTIONS))
          {
          pmol->ConnectTheDots();
-         if (!pConv->IsOption("s",OBConversion::INOPTIONS))
+         if (!pConv->IsOption("s",OBConversion::INOPTIONS)) {
            pmol->PerceiveBondOrders();
+         }
          }
        }
 
@@ -1035,8 +1070,9 @@ namespace OpenBabel
 
      pmol->EndModify();
      }
-   if (has_residue_information)
+   if (has_residue_information) {
      pmol->SetChainsPerceived();
+   }
    return (pmol->NumAtoms() > 0 ? true : false);
  }
 
@@ -1045,8 +1081,9 @@ namespace OpenBabel
  bool mmCIFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  {
    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-   if (pmol == nullptr)
+   if (pmol == nullptr) {
      return false;
+   }
 
    //Define some references so we can use the old parameter names
    ostream & ofs = * pConv->GetOutStream();
@@ -1054,9 +1091,11 @@ namespace OpenBabel
    char buffer[BUFF_SIZE];
 
    string id;
-   for (const char * p = pmol->GetTitle(); * p; ++ p)
-     if ( (* p) > ' ' && (* p) <= '~' )
+   for (const char * p = pmol->GetTitle(); * p; ++ p) {
+     if ( (* p) > ' ' && (* p) <= '~' ) {
        id.append(1, (char)toupper(* p));
+     }
+   }
    if (id.empty())
      {
      snprintf(buffer, BUFF_SIZE, "T%lu", (unsigned long)time(nullptr));
@@ -1130,8 +1169,9 @@ namespace OpenBabel
          snprintf(buffer, BUFF_SIZE, "%s%lu", OBElements::GetSymbol(atom->GetAtomicNum()), (unsigned long)site_id);
          atomname.assign(buffer);
          }
-       if (resname.empty())
+       if (resname.empty()) {
          resname.assign("UNK");
+       }
        ofs << '\t' << atomname << '\t' << resname << '\t' << pRes->GetChainNum() << '\t' << pRes->GetNum() << endl;
        }
      ofs << '\t' << atom->GetX() << '\t' << atom->GetY() << '\t' << atom->GetZ() << endl;
@@ -1175,10 +1215,11 @@ namespace OpenBabel
          loop_transforms = true;
          // Do we have an extended HM symbol, with origin choice as ":1" or ":2" ? If so, remove it.
          size_t n=pSG->GetHMName().find(":");
-         if(n==string::npos)
+         if(n==string::npos) {
            ofs << "_space_group_name_H-M_alt '" << pSG->GetHMName() << "'" << endl;
-         else
+         } else {
            ofs << "_space_group_name_H-M_alt '" << pSG->GetHMName().substr(0,n) << "'" << endl;
+         }
          }
        ofs << endl;
 
