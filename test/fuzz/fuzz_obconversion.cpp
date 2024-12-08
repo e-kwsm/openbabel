@@ -1,14 +1,14 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <stdarg.h>
-#include <string.h>
+#include <cstdio>
+#include <cstdlib>
+#include <cstdint>
+#include <cstdarg>
+#include <cstring>
 
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <iostream>
 
 

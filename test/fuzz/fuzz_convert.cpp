@@ -2,7 +2,7 @@
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <cstdlib>
-#include <stdio.h>
+#include <cstdio>
 #include <sstream>
 
 // Vendored alongside this file (LLVM Apache-2.0 WITH LLVM-exception)
