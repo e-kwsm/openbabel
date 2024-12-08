@@ -164,7 +164,7 @@ namespace OpenBabel
   bool PointCloudFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
   {
     OBMol* pmol = dynamic_cast< OBMol* >(pOb);
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
 
     ostream& os = *pConv->GetOutStream();
 

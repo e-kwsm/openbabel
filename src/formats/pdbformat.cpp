@@ -436,11 +436,13 @@ namespace OpenBabel
         if (vs.size() > 4) { boundedAtomsSerialNumbers[3] = atoi(vs[4].c_str()); }
 
         unsigned int limit = 4;
-        if (vs.size() <= 4)
+        if (vs.size() <= 4) {
           limit = vs.size() - 1;
+        }
 
-        for (unsigned int s = 0; s < limit; ++s)
+        for (unsigned int s = 0; s < limit; ++s) {
           boundedAtomsSerialNumbersValid[s] = true;
+        }
       }
     else
       {
@@ -449,8 +451,9 @@ namespace OpenBabel
         // bonds and salt bridges, which we ignore. In that case, we just
         // exit gracefully.
         boundedAtomsSerialNumbersValid[0] = readIntegerFromRecord(buffer, 12, boundedAtomsSerialNumbers+0);
-        if (boundedAtomsSerialNumbersValid[0] == false)
+        if (boundedAtomsSerialNumbersValid[0] == false) {
           return(true);
+        }
         boundedAtomsSerialNumbersValid[1] = readIntegerFromRecord(buffer, 17, boundedAtomsSerialNumbers+1);
         boundedAtomsSerialNumbersValid[2] = readIntegerFromRecord(buffer, 22, boundedAtomsSerialNumbers+2);
         boundedAtomsSerialNumbersValid[3] = readIntegerFromRecord(buffer, 27, boundedAtomsSerialNumbers+3);
@@ -489,21 +492,23 @@ namespace OpenBabel
         // Figure the bond order
         unsigned char order = 0;
         while(boundedAtomsSerialNumbersValid[k+order+1] && (boundedAtomsSerialNumbers[k+order]
-                                                            == boundedAtomsSerialNumbers[k+order+1]))
+                                                            == boundedAtomsSerialNumbers[k+order+1])) {
           order++;
+        }
         k += order;
 
         // Generate the bond
         if (firstAtom->GetIdx() < connectedAtom->GetIdx()) { // record the bond 'in one direction' only
           OBBond *bond = mol.GetBond(firstAtom, connectedAtom);
-          if (!bond)
+          if (!bond) {
             mol.AddBond(firstAtom->GetIdx(), connectedAtom->GetIdx(), order+1);
-          else // An additional CONECT record with the same firstAtom that references
+          } else { // An additional CONECT record with the same firstAtom that references
                // a bond created in the previous CONECT record.
                // For example, the 1136->1138 double bond in the following:
                //   CONECT 1136 1128 1137 1137 1138
                //   CONECT 1136 1138 1139
             bond->SetBondOrder(bond->GetBondOrder() + order+1);
+          }
         }
 
       }
@@ -514,8 +519,9 @@ namespace OpenBabel
   bool PDBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -560,18 +566,22 @@ namespace OpenBabel
           attr != "SSBOND" && attr != "LINK" && attr != "CISPEP" && attr != "SITE" &&
           attr != "ORIGX1" && attr != "ORIGX2" && attr != "ORIGX3" && attr != "SCALE1" &&
           attr != "SCALE2" && attr != "SCALE3" && attr != "MATRIX1" && attr != "MATRIX2" &&
-          attr != "MATRIX3" && attr != "MODEL")
+          attr != "MATRIX3" && attr != "MODEL") {
         continue;
+      }
 
-      if (attr == "COMPND")
+      if (attr == "COMPND") {
         compndWritten = true;
-      if (attr == "AUTHOR")
+      }
+      if (attr == "AUTHOR") {
         authorWritten = true;
+      }
 
       // compute spacing needed. HELIX, SITE, HET, ... are trimmed when reading
       int nSpacing = 6 - attr.size();
-      for (int i = 0; i < nSpacing; ++i)
+      for (int i = 0; i < nSpacing; ++i) {
         attr += " ";
+      }
 
 
       std::string lines = pd->GetValue();
@@ -579,10 +589,11 @@ namespace OpenBabel
       string::size_type pos = lines.find('\n');
       while (last != string::npos) {
         string line = lines.substr(last, pos - last);
-        if (pos == string::npos)
+        if (pos == string::npos) {
           last = string::npos;
-        else
+        } else {
           last = pos + 1;
+        }
         pos = lines.find('\n', last);
 
         ofs << attr << line << endl;
@@ -590,10 +601,11 @@ namespace OpenBabel
     }
 
     if (!compndWritten) {
-      if (strlen(mol.GetTitle()) > 0)
+      if (strlen(mol.GetTitle()) > 0) {
         snprintf(buffer, BUFF_SIZE, "COMPND    %s ",mol.GetTitle());
-      else
+      } else {
         snprintf(buffer, BUFF_SIZE, "COMPND    UNNAMED");
+      }
       ofs << buffer << endl;
     }
 
@@ -613,15 +625,16 @@ namespace OpenBabel
 
           // Do we have an extended HM symbol, with origin choice as ":1" or ":2" ? If so, remove it.
           size_t n=tmpHM.find(":");
-          if(n!=string::npos) tmpHM=tmpHM.substr(0, n);
+          if(n!=string::npos) { tmpHM=tmpHM.substr(0, n); }
 
           if (pConv->IsOption("o", OBConversion::OUTOPTIONS))
             {
               unsigned int origin = pUC->GetSpaceGroup()->GetOriginAlternative();
-              if (origin == pUC->GetSpaceGroup()->HEXAGONAL_ORIGIN)
+              if (origin == pUC->GetSpaceGroup()->HEXAGONAL_ORIGIN) {
                 tmpHM[0] = 'H';
-              else if (origin > 0)
+              } else if (origin > 0) {
                 tmpHM += ":" + to_string(origin);
+              }
 
               if (tmpHM.length() > MAX_HM_NAME_LEN)
               {
@@ -637,11 +650,13 @@ namespace OpenBabel
                    tmpHM.c_str());
         }
         else
+        {
           snprintf(buffer, BUFF_SIZE,
                    "CRYST1%9.3f%9.3f%9.3f%7.2f%7.2f%7.2f %-11s 1",
                    pUC->GetA(), pUC->GetB(), pUC->GetC(),
                    pUC->GetAlpha(), pUC->GetBeta(), pUC->GetGamma(),
                    "P1");
+        }
 
         ofs << buffer << endl;
       }
@@ -653,20 +668,26 @@ namespace OpenBabel
     minX = minY = minZ = -999.0f;
     FOR_ATOMS_OF_MOL(a, mol)
       {
-        if (a->GetX() < minX)
+        if (a->GetX() < minX) {
           minX = a->GetX();
-        if (a->GetY() < minY)
+        }
+        if (a->GetY() < minY) {
           minY = a->GetY();
-        if (a->GetZ() < minZ)
+        }
+        if (a->GetZ() < minZ) {
           minZ = a->GetZ();
+        }
       }
     vector3 transV = VZero;
-    if (minX < -999.0)
+    if (minX < -999.0) {
       transV.SetX(-1.0*minX - 900.0);
-    if (minY < -999.0)
+    }
+    if (minY < -999.0) {
       transV.SetY(-1.0*minY - 900.0);
-    if (minZ < -999.0)
+    }
+    if (minZ < -999.0) {
       transV.SetZ(-1.0*minZ - 900.0);
+    }
 
     // if minX, minY, or minZ was never changed, shift will be 0.0f
     // otherwise, move enough so that smallest coord is > -999.0f
@@ -681,8 +702,9 @@ namespace OpenBabel
         type_name[sizeof(type_name) - 1] = '\0';
 
         //two char. elements are on position 13 and 14 one char. start at 14
-        if (strlen(type_name) > 1)
+        if (strlen(type_name) > 1) {
           type_name[1] = toupper(type_name[1]);
+        }
         else
           {
             char tmp[10];
@@ -725,7 +747,7 @@ namespace OpenBabel
               }
             res_num = res->GetNum();
             the_insertioncode = res->GetInsertionCode();
-            if (0 == the_insertioncode) the_insertioncode=' ';
+            if (0 == the_insertioncode) { the_insertioncode=' '; }
           }
         else
           {
@@ -781,18 +803,20 @@ namespace OpenBabel
     for (i = 1; i <= mol.NumAtoms(); i ++)
       {
         atom = mol.GetAtom(i);
-        if (atom->GetExplicitDegree() == 0)
+        if (atom->GetExplicitDegree() == 0) {
           continue; // no need to write a CONECT record -- no bonds
+        }
 
         // Write out up to 4 real bonds per line PR#1711154
         int currentValence = 0;
         for (nbr = atom->BeginNbrAtom(k);nbr;nbr = atom->NextNbrAtom(k))
           {
             OBBond *bond = mol.GetBond(atom, nbr);
-            if(!bond) continue;
+            if(!bond) { continue; }
             unsigned bondorder = bond->GetBondOrder();
-            if(bondorder == 0 || pConv->IsOption("n", OBConversion::OUTOPTIONS)) 
+            if(bondorder == 0 || pConv->IsOption("n", OBConversion::OUTOPTIONS)) { 
               bondorder = 1;
+            }
             //a non-standard convention is to store bond orders by
             //replicating conect records
             for(unsigned bo = 0; bo < bondorder; bo++) {
@@ -907,8 +931,9 @@ namespace OpenBabel
   /* ATOMFORMAT "(i5,1x,a4,a1,a3,1x,a1,i4,a1,3x,3f8.3,2f6.2,a2,a2)" */
   {
     string sbuf = &buffer[6];
-    if (sbuf.size() < 48)
+    if (sbuf.size() < 48) {
       return(false);
+    }
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
     bool elementFound = false; // true if correct element found in col 77-78
@@ -924,7 +949,7 @@ namespace OpenBabel
 
     /* insertion code */
     char insertioncode = sbuf.substr(27-6-1,1)[0];
-    if (' '==insertioncode) insertioncode=0;
+    if (' '==insertioncode) { insertioncode=0; }
 
     /* segname */
     string segname;
@@ -973,23 +998,28 @@ namespace OpenBabel
       }
 
     //trim spaces on the right and left sides
-    while (!atmid.empty() && atmid[0] == ' ')
+    while (!atmid.empty() && atmid[0] == ' ') {
       atmid = atmid.erase(0, 1);
+    }
 
-    while (!atmid.empty() && atmid[atmid.size()-1] == ' ')
+    while (!atmid.empty() && atmid[atmid.size()-1] == ' ') {
       atmid = atmid.substr(0,atmid.size()-1);
+    }
 
     /* residue name */
     string resname = sbuf.substr(11,3);
-    if (resname == "   ")
+    if (resname == "   ") {
       resname = "UNK";
+    }
     else
       {
-        while (!resname.empty() && resname[0] == ' ')
+        while (!resname.empty() && resname[0] == ' ') {
           resname = resname.substr(1,resname.size()-1);
+        }
 
-        while (!resname.empty() && resname[resname.size()-1] == ' ')
+        while (!resname.empty() && resname[resname.size()-1] == ' ') {
           resname = resname.substr(0,resname.size()-1);
+        }
       }
 
     string type;
@@ -1000,89 +1030,105 @@ namespace OpenBabel
         type = atmid.substr(0,2);
         if (isdigit(type[0])) {
           // sometimes non-standard files have, e.g 11HH
-          if (!isdigit(type[1])) type = atmid.substr(1,1);
-          else type = atmid.substr(2,1);
+          if (!isdigit(type[1])) { type = atmid.substr(1,1); }
+          else { type = atmid.substr(2,1); }
         } else if ((sbuf[6] == ' ' &&
                    strncasecmp(type.c_str(), "Zn", 2) != 0 &&
                    strncasecmp(type.c_str(), "Fe", 2) != 0) ||
-                   isdigit(type[1]))	//type[1] is digit in Platon
+                   isdigit(type[1])) {	//type[1] is digit in Platon
           type = atmid.substr(0,1);     // one-character element
+        }
 
 
         if (resname.substr(0,2) == "AS" || resname[0] == 'N') {
-          if (atmid == "AD1")
+          if (atmid == "AD1") {
             type = "O";
-          if (atmid == "AD2")
+          }
+          if (atmid == "AD2") {
             type = "N";
+          }
         }
         if (resname.substr(0,3) == "HIS" || resname[0] == 'H') {
-          if (atmid == "AD1" || atmid == "AE2")
+          if (atmid == "AD1" || atmid == "AE2") {
             type = "N";
-          if (atmid == "AE1" || atmid == "AD2")
+          }
+          if (atmid == "AE1" || atmid == "AD2") {
             type = "C";
+          }
         }
         if (resname.substr(0,2) == "GL" || resname[0] == 'Q') {
-          if (atmid == "AE1")
+          if (atmid == "AE1") {
             type = "O";
-          if (atmid == "AE2")
+          }
+          if (atmid == "AE2") {
             type = "N";
+          }
         }
         // fix: #2002557
         if (atmid[0] == 'H' &&
             (atmid[1] == 'D' || atmid[1] == 'E' ||
              atmid[1] == 'G' || atmid[1] == 'H' ||
-             atmid[1] == 'N')) // HD, HE, HG, HH, HN...
+             atmid[1] == 'N')) { // HD, HE, HG, HH, HN...
           type = "H";
+        }
 
-        if (type.size() == 2)
+        if (type.size() == 2) {
           type[1] = tolower(type[1]);
+        }
 
       } else { //must be hetatm record
         if (isalpha(element[1]) && (isalpha(element[0]) || (element[0] == ' '))) {
-          if (isalpha(element[0]))
+          if (isalpha(element[0])) {
             type = element.substr(0,2);
-          else
+          } else {
             type = element.substr(1,1);
+          }
 
-          if (type.size() == 2)
+          if (type.size() == 2) {
             type[1] = tolower(type[1]);
+          }
         } else { // no element column to use
           if (isalpha(atmid[0])) {
-            if (atmid.size() > 2)
+            if (atmid.size() > 2) {
               type = atmid.substr(0,2);
-            else if (atmid[0] == 'A') // alpha prefix
+            } else if (atmid[0] == 'A') { // alpha prefix
               type = atmid.substr(1, atmid.size() - 1);
-            else
+            } else {
               type = atmid.substr(0,1);
-          } else if (atmid[0] == ' ')
+            }
+          } else if (atmid[0] == ' ') {
             type = atmid.substr(1,1); // one char element
-          else
+          } else {
             type = atmid.substr(1,2);
+          }
 
           // Some cleanup steps
           if (atmid == resname) {
             type = atmid;
-            if (type.size() == 2)
+            if (type.size() == 2) {
               type[1] = tolower(type[1]);
+            }
           } else
             if (resname == "ADR" || resname == "COA" || resname == "FAD" ||
                 resname == "GPG" || resname == "NAD" || resname == "NAL" ||
                 resname == "NDP" || resname == "ABA") {
-              if (type.size() > 1)
+              if (type.size() > 1) {
                 type = type.substr(0,1);
+              }
               //type.erase(1,type.size()-1);
             } else // other residues
               if (isdigit(type[0])){
                 type = type.substr(1,1);
               }
               else
-                if (type.size() > 1 && isdigit(type[1]))
+                if (type.size() > 1 && isdigit(type[1])) {
                   type = type.substr(0,1);
+                }
                 else
                   if (type.size() > 1 && isalpha(type[1])) {
-                    if (type[0] == 'O' && type[1] == 'H')
+                    if (type[0] == 'O' && type[1] == 'H') {
                       type = type.substr(0,1); // no "Oh" element (e.g. 1MBN)
-                    else if(isupper(type[1])) {
+                    } else if(isupper(type[1])) {
                       type[1] = tolower(type[1]);
                     }
                   }
@@ -1111,9 +1157,9 @@ namespace OpenBabel
 
     // useful for debugging unknown atom types (e.g., PR#1577238)
     //    cout << mol.NumAtoms() + 1  << " : '" << element << "'" << " " << OBElements::GetAtomicNum(element.c_str()) << endl;
-    if (elementFound)
+    if (elementFound) {
       atom.SetAtomicNum(OBElements::GetAtomicNum(element.c_str()));
-    else { // use our old-style guess from athe atom type
+    } else { // use our old-style guess from athe atom type
       unsigned int atomic_num = OBElements::GetAtomicNum(type.c_str());
       if (atomic_num ==  0) { //try one character if two character element not found
         type = type.substr(0,1);
@@ -1156,15 +1202,16 @@ namespace OpenBabel
         || res->GetSegName() != segname)
       {
         vector<OBResidue*>::iterator ri;
-        for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri))
+        for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri)) {
           if (res->GetName() == resname
               && res->GetNumString() == resnum
               && static_cast<int>(res->GetChain()) == chain
               && static_cast<int>(res->GetInsertionCode()) == insertioncode
               && res->GetSegName() == segname) {
-            if (insertioncode) fprintf(stderr,"I: identified residue wrt insertion code: '%c'\n",insertioncode);
+            if (insertioncode) { fprintf(stderr,"I: identified residue wrt insertion code: '%c'\n",insertioncode); }
             break;
           }
+        }
 
         if (res == nullptr) {
           res = mol.NewResidue();
@@ -1176,8 +1223,9 @@ namespace OpenBabel
         }
       }
 
-    if (!mol.AddAtom(atom))
+    if (!mol.AddAtom(atom)) {
       return(false);
+    }
     else {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 

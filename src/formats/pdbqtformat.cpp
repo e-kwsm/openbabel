@@ -135,8 +135,9 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   int PDBQTFormat::SkipObjects(int n, OBConversion* pConv)
   {
-    if (n == 0)
+    if (n == 0) {
     ++ n;
+    }
     istream &ifs = *pConv->GetInStream();
     char buffer[BUFF_SIZE];
     while (n && ifs.getline(buffer,BUFF_SIZE))
@@ -150,8 +151,9 @@ namespace OpenBabel
   bool PDBQTFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
     return false;
+    }
 
 
     //Define some references so we can use the old parameter names
@@ -211,7 +213,7 @@ namespace OpenBabel
       if (EQn(buffer,"END",3))
       {
         // eat anything until the next ENDMDL
-        while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6));
+        while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6)) {}
         break;
       }
 
@@ -341,8 +343,9 @@ namespace OpenBabel
     type_name[sizeof(type_name) - 1] = '\0';
     //two char. elements are on position 13 and 14 one char. start at 14
 
-    if (strlen(type_name) > 1)
+    if (strlen(type_name) > 1) {
       type_name[1] = toupper(type_name[1]);
+    }
     else
     {
       char tmp[10];
@@ -356,7 +359,7 @@ namespace OpenBabel
       snprintf(type_name,5,"%s",(char*)res->GetAtomID(atom).c_str());
       the_chain = res->GetChain();
       the_icode = res->GetInsertionCode();
-      if(the_icode == 0) the_icode = ' ';
+      if(the_icode == 0) { the_icode = ' '; }
 
       //two char. elements are on position 13 and 14 one char. start at 14
       if (strlen(OBElements::GetSymbol(atom->GetAtomicNum())) == 1)
@@ -397,9 +400,9 @@ namespace OpenBabel
     else
     {
       if (!isalnum(element_name[0])) {element_name_final[0]=' ';}
-      else element_name_final[0]=element_name[0];
+      else { element_name_final[0]=element_name[0]; }
       if (!isalnum(element_name[1])) {element_name_final[1]=' ';}
-      else element_name_final[1]=element_name[1];
+      else { element_name_final[1]=element_name[1]; }
     }
 
     double charge = atom->GetPartialCharge();
@@ -505,15 +508,17 @@ namespace OpenBabel
     multimap <unsigned int, unsigned int>::iterator it=how_many_atoms_move.begin();
     if ((!moves_many) && !how_many_atoms_move.empty()) {
       it=how_many_atoms_move.end();
-      if (it!=how_many_atoms_move.begin()) // don't move past begin
+      if (it!=how_many_atoms_move.begin()) { // don't move past begin
         --it;
+      }
     }
     for (unsigned int i = 1; i <= depth; i++)
     {
       free_bonds.insert((*it).second);
       if (!moves_many) {
-        if (it!=how_many_atoms_move.begin())
+        if (it!=how_many_atoms_move.begin()) {
           --it;
+        }
       }
       else{
         ++it;
@@ -554,15 +559,17 @@ namespace OpenBabel
       }
     }
 
-    if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
+    if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS))) {
       ofs << "ROOT" << endl;
+    }
     for (set <unsigned int>::iterator it= (*tree.find(0)).second.rigid_with.begin() ; it != (*tree.find(0)).second.rigid_with.end(); ++it)
     {
       OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
     }
 
-   if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
+   if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS))) {
      ofs << "ENDROOT" << endl;
+   }
 
     for (unsigned int i=1; i < tree.size(); i++)
     {
@@ -684,14 +691,16 @@ namespace OpenBabel
 
   static bool IsImide(OBBond* querybond)
   {
-    if (querybond->GetBondOrder() != 2)
+    if (querybond->GetBondOrder() != 2) {
       return(false);
+    }
 
     OBAtom* bgn = querybond->GetBeginAtom();
     OBAtom* end = querybond->GetEndAtom();
     if ((bgn->GetAtomicNum() == 6 && end->GetAtomicNum() == 7) ||
-      (bgn->GetAtomicNum() == 7 && end->GetAtomicNum() == 6))
+      (bgn->GetAtomicNum() == 7 && end->GetAtomicNum() == 6)) {
       return(true);
+    }
 
     return(false);
   }
@@ -714,16 +723,17 @@ namespace OpenBabel
       c = end;
       n =bgn;
     }
-    if (!c || !n) return(false);
-    if (querybond->GetBondOrder() != 1) return(false);
-    if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
+    if (!c || !n) { return(false); }
+    if (querybond->GetBondOrder() != 1) { return(false); }
+    if (n->GetTotalDegree() != 3) { return false; // must be a degree 3 nitrogen
+    }
 
     // Make sure C is attached to =N
     OBBond *bond;
     vector<OBBond*>::iterator i;
     for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
     {
-      if (IsImide(bond)) return(true);
+      if (IsImide(bond)) { return(true); }
     }
 
     // Return
@@ -737,8 +747,9 @@ namespace OpenBabel
   //and if both atoms it connects have at least one other atom bounded to them
   {
     if ( the_bond->GetBondOrder() != 1 || the_bond->IsAromatic() || 
-         the_bond->IsAmide() || IsAmidine(the_bond) || the_bond->IsInRing() )
+         the_bond->IsAmide() || IsAmidine(the_bond) || the_bond->IsInRing() ) {
       return false;
+    }
     if ( ((the_bond->GetBeginAtom())->GetExplicitDegree() == 1) || ((the_bond->GetEndAtom())->GetExplicitDegree() == 1) ) {return false;}
     return true;
   }
@@ -793,8 +804,9 @@ namespace OpenBabel
   bool Separate_preserve_charges(OBMol & mol, vector <OBMol> & result)
   {
 //    vector<OBMol> result;
-    if( mol.NumAtoms() == 0 )
+    if( mol.NumAtoms() == 0 ) {
       return false; // nothing to do, but let's prevent a crash
+    }
 
     OBMolAtomDFSIter iter( mol, 1);
     OBMol newMol;
@@ -836,8 +848,9 @@ namespace OpenBabel
   bool PDBQTFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -926,23 +939,26 @@ namespace OpenBabel
             {
               memset(type_name, 0, sizeof(type_name));
               strncpy(type_name, OBElements::GetSymbol(rotBondTable[rotBondId][bondAtomNum]->GetAtomicNum()), sizeof(type_name));
-              if (strlen(type_name) > 1)
+              if (strlen(type_name) > 1) {
                 type_name[1] = toupper(type_name[1]);
+              }
               if ((res = rotBondTable[rotBondId][bondAtomNum]->GetResidue()) != nullptr)
               {
                 snprintf(type_name,5,"%s",(char*)res->GetAtomID(rotBondTable[rotBondId][bondAtomNum]).c_str());
                 // AtomIDs may start with space if read from a PDB file (rather than perceived)
                 end = isspace(type_name[0]) ? 1 : 0;
                 // Use sizeof() - 1 to ensure there's room for the NULL termination!
-                while (end < sizeof(type_name) - 1 && type_name[end] && !isspace(type_name[end]))
+                while (end < sizeof(type_name) - 1 && type_name[end] && !isspace(type_name[end])) {
                   end++;
+                }
                 type_name[end] = '\0';
               }
               snprintf(buffer, BUFF_SIZE, "%s_%d", type_name + (isspace(type_name[0]) ? 1 : 0),
                 rotBondTable[rotBondId][bondAtomNum]->GetIdx());
               ofs << buffer;
-              if (bondAtomNum == 0)
+              if (bondAtomNum == 0) {
                 ofs << "  and  ";
+              }
             }
             delete [] rotBondTable[rotBondId];
             ofs << endl;
@@ -967,20 +983,26 @@ namespace OpenBabel
       minX = minY = minZ = -999.0f;
       FOR_ATOMS_OF_MOL(a, all_pieces.at(i))
       {
-        if (a->GetX() < minX)
+        if (a->GetX() < minX) {
           minX = a->GetX();
-        if (a->GetY() < minY)
+        }
+        if (a->GetY() < minY) {
           minY = a->GetY();
-        if (a->GetZ() < minZ)
+        }
+        if (a->GetZ() < minZ) {
           minZ = a->GetZ();
+        }
       }
       vector3 transV = VZero;
-      if (minX < -999.0)
+      if (minX < -999.0) {
         transV.SetX(-1.0*minX - 900.0);
-      if (minY < -999.0)
+      }
+      if (minY < -999.0) {
         transV.SetY(-1.0*minY - 900.0);
-      if (minZ < -999.0)
+      }
+      if (minZ < -999.0) {
         transV.SetZ(-1.0*minZ - 900.0);
+      }
 
       // if minX, minY, or minZ was never changed, shift will be 0.0f
       // otherwise, move enough so that smallest coord is > -999.0f
@@ -1034,10 +1056,11 @@ namespace OpenBabel
 
       if (!residue)
       {
-        if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS)))
+        if (!(pConv->IsOption("r",OBConversion::OUTOPTIONS))) {
           ofs << "TORSDOF " << torsdof << endl;
-        else
+        } else {
           ofs << "TER " << endl;
+        }
 //        ofs << "TER" << endl;
         if (model_num)
         {
@@ -1060,8 +1083,9 @@ namespace OpenBabel
   /* ATOMFORMAT "(i5,1x,a4,a1,a3,1x,a1,i4,a1,3x,3f8.3,2f6.2,a2,a2)" */
   {
     string sbuf = &buffer[6];
-    if (sbuf.size() < 48)
+    if (sbuf.size() < 48) {
       return(false);
+    }
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
     bool elementFound = false; // true if correct element found in col 77-78
@@ -1134,21 +1158,25 @@ namespace OpenBabel
     }
 
     //trim spaces on the right and left sides
-    while (!atmid.empty() && atmid[0] == ' ')
+    while (!atmid.empty() && atmid[0] == ' ') {
       atmid = atmid.erase(0, 1);
+    }
 
-    while (!atmid.empty() && atmid[atmid.size()-1] == ' ')
+    while (!atmid.empty() && atmid[atmid.size()-1] == ' ') {
       atmid = atmid.substr(0,atmid.size()-1);
+    }
 
     /* residue name */
     string resname = sbuf.substr(11,3);
-    if (resname == "   ") resname = "UNK";
+    if (resname == "   ") { resname = "UNK"; }
     else
     {
-      while (!resname.empty() && resname[0] == ' ')
+      while (!resname.empty() && resname[0] == ' ') {
         resname = resname.substr(1,resname.size()-1);
-      while (!resname.empty() && resname[resname.size()-1] == ' ')
+      }
+      while (!resname.empty() && resname[resname.size()-1] == ' ') {
         resname = resname.substr(0,resname.size()-1);
+      }
     }
 
     OBAtom atom;
@@ -1194,19 +1222,21 @@ namespace OpenBabel
     /* residue sequence number */
     string resnum = sbuf.substr(16,4);
     char icode = sbuf[20];
-    if(icode == ' ') icode = 0;
+    if(icode == ' ') { icode = 0; }
 
     OBResidue *res = mol.NumResidues() > 0 ? mol.GetResidue(mol.NumResidues()-1) : nullptr;
     if (res == nullptr || res->GetName() != resname
       || res->GetNumString() != resnum || res->GetInsertionCode() != icode)
     {
       vector<OBResidue*>::iterator ri;
-      for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri))
+      for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri)) {
       if (res->GetName() == resname
         && res->GetNumString() == resnum
         && res->GetInsertionCode() == icode
-        && static_cast<int>(res->GetChain()) == chain)
+        && static_cast<int>(res->GetChain()) == chain) {
         break;
+      }
+      }
 
       if (res == nullptr)
       {
@@ -1218,8 +1248,9 @@ namespace OpenBabel
       }
     }
 
-    if (!mol.AddAtom(atom))
+    if (!mol.AddAtom(atom)) {
       return(false);
+    }
     else
     {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());

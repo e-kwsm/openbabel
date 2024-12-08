@@ -81,17 +81,21 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
     pConv->AddOption("pngwritechemobject"); // to show WriteMolecule that this function has been called
     const char* pc = pConv->IsOption("c");
     const char* pr = pConv->IsOption("r");
-    if(pr)
+    if(pr) {
       _nrows = atoi(pr);
-    if(pc)
+    }
+    if(pc) {
       _ncols = atoi(pc);
-    if(pr && pc) // both specified: fixes maximum number objects to be output
+    }
+    if(pr && pc) { // both specified: fixes maximum number objects to be output
       _nmax = _nrows * _ncols;
+    }
 
     //explicit max number of objects
     const char* pmax =pConv->IsOption("N");
-    if(pmax)
+    if(pmax) {
       _nmax = atoi(pmax);
+    }
   }
 
   OBMoleculeFormat::DoOutputOptions(pOb, pConv);
@@ -117,10 +121,11 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
         _ncols = (int)ceil(sqrt(((double)nmols)));
       }
 
-      if(_nrows)
+      if(_nrows) {
         _ncols = (nmols-1) / _nrows + 1; //rounds up
-      else if(_ncols)
+      } else if(_ncols) {
         _nrows = (nmols-1) / _ncols + 1;
+      }
     }
 
     //output all collected molecules
@@ -138,16 +143,18 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
     }
 
     //delete all the molecules
-    for(iter=_objects.begin();iter!=_objects.end(); ++iter)
+    for(iter=_objects.begin();iter!=_objects.end(); ++iter) {
       delete *iter;
+    }
 
     _objects.clear();
     _nmax = _ncols = _nrows = 0;
   }
   //OBConversion decrements OutputIndex when returns false because it thinks it is an error
   //So we compensate.
-  if(!ret || nomore)
+  if(!ret || nomore) {
     pConv->SetOutputIndex(pConv->GetOutputIndex()+1);
+  }
   return ret && !nomore;
 }
 
@@ -157,8 +164,9 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
 bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   ostream& ofs = *pConv->GetOutStream();
 
@@ -217,10 +225,12 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     bondcolor = "gray";
   }
   const char* bcol = pConv->IsOption("B");
-  if(bcol && *bcol)
+  if(bcol && *bcol) {
     bondcolor = bcol;
-  if(bg && *bg)
+  }
+  if(bg && *bg) {
     background = bg;
+  }
 
   string text;
   if(!pConv->IsOption("d"))
@@ -245,10 +255,12 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   OBDepict depictor(&_cairopainter);
 
   // The following options are all taken from svgformat.cpp
-  if(!pConv->IsOption("C"))
+  if(!pConv->IsOption("C")) {
     depictor.SetOption(OBDepict::drawTermC);
-  if(pConv->IsOption("a"))
+  }
+  if(pConv->IsOption("a")) {
     depictor.SetOption(OBDepict::drawAllC);
+  }
 
   if(pConv->IsOption("A"))
   {
@@ -259,27 +271,32 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   depictor.SetBondColor(bondcolor);
   _cairopainter.SetBackground(background);
   _cairopainter.SetTransparent(transparent);
-  if(pConv->IsOption("t"))
+  if(pConv->IsOption("t")) {
     _cairopainter.SetPenWidth(4);
-  else
+  } else {
     _cairopainter.SetPenWidth(1);
+  }
 
   //No element-specific atom coloring if requested
-  if(pConv->IsOption("u"))
+  if(pConv->IsOption("u")) {
     depictor.SetOption(OBDepict::bwAtoms);
-  if(!pConv->IsOption("U"))
+  }
+  if(!pConv->IsOption("U")) {
     depictor.SetOption(OBDepict::internalColor);
-  if(pConv->IsOption("s"))
+  }
+  if(pConv->IsOption("s")) {
     depictor.SetOption(OBDepict::asymmetricDoubleBond);
+  }
 
   // Draw it!
   depictor.DrawMolecule(&workingmol);
 
   if (pConv->IsLast())
   {
-    if(!pConv->IsOption("O"))
+    if(!pConv->IsOption("O")) {
      //if no embedding just write image
       _cairopainter.WriteImage(ofs);
+    }
     else //embedding
     {
       //write image to stringstream, read it into pngformat
@@ -305,8 +322,9 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         conv2.SetLast(iter==_objects.end()-1);
         ret=ppng->WriteMolecule(*iter, &conv2);
       }
-      if(ret)
+      if(ret) {
         ofs << ss.rdbuf(); //copy png (with embeds) to normal output stream
+      }
     }
   }
   return true; //or false to stop converting
