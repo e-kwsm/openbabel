@@ -142,12 +142,13 @@ namespace OpenBabel
         sscanf(buffer," %*d%d%d%99s",&bgn,&end,bobuf);
         bostr = bobuf;
         order = 1;
-        if      (bostr == "DOUBLE")
+        if      (bostr == "DOUBLE") {
           order = 2;
-        else if (bostr == "TRIPLE")
+        } else if (bostr == "TRIPLE") {
           order = 3;
-        else if (bostr == "AROMATIC")
+        } else if (bostr == "AROMATIC") {
           order = 5;
+        }
         mol.AddBond(bgn,end,order);
       }
 
