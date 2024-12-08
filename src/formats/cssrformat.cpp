@@ -64,8 +64,9 @@ namespace OpenBabel
   bool CSSRFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -121,7 +122,7 @@ namespace OpenBabel
         bonds = 0;
         for (nbr = atom->BeginNbrAtom(j); nbr; nbr = atom->NextNbrAtom(j))
           {
-            if (bonds > 8) break;
+            if (bonds > 8) { break; }
             snprintf(buffer, BUFF_SIZE, "%4d",nbr->GetIdx());
             ofs << buffer;
             bonds++;

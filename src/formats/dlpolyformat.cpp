@@ -79,13 +79,13 @@ namespace OpenBabel
     // Check we don't have it already
     labelToZType::const_iterator it;
     it = labelToZ.find( label );
-    if ( it != labelToZ.end() ) return it-> second;
+    if ( it != labelToZ.end() ) { return it-> second; }
     
     // See if the first 2 characters give us a valid atomic number
     int Z=OBElements::GetAtomicNum(label.substr(0,2).c_str());
     
     // If not try the first one
-    if (Z==0) Z=OBElements::GetAtomicNum(label.substr(0,1).c_str());
+    if (Z==0) { Z=OBElements::GetAtomicNum(label.substr(0,1).c_str()); }
     
     if (Z==0){
       // Houston...
@@ -196,23 +196,23 @@ namespace OpenBabel
     bool ok;
 
     // Line with AtomLabel, AtomIndex & AtomicNumber - only AtomLabel required
-    if ( ! ifs.getline(buffer,BUFF_SIZE) ) return false;
+    if ( ! ifs.getline(buffer,BUFF_SIZE) ) { return false; }
     //std::cout << "Got Atom line " << buffer << std::endl;
 
     tokenize(tokens, buffer, " \t\n");
     AtomLabel = tokens.at(0);
         
     // Currently we ignore atom index as it is optional - assume atoms are in order
-    if ( tokens.size() >= 2 ) ok = from_string<int>(AtomIndex, tokens.at(1), std::dec);
+    if ( tokens.size() >= 2 ) { ok = from_string<int>(AtomIndex, tokens.at(1), std::dec); }
 
     if ( tokens.size() == 3 )
       {
         ok = from_string<int>(AtomicNumber, tokens.at(2), std::dec);
-        if ( ! ok ) AtomicNumber=-1;
+        if ( ! ok ) { AtomicNumber=-1; }
       }
         
     // Got data so read in  coordinates on next line
-    if ( !ifs.getline(buffer,BUFF_SIZE) ) return false;
+    if ( !ifs.getline(buffer,BUFF_SIZE) ) { return false; }
     tokenize(tokens, buffer, " \t\n");
     ok = from_string<double>(x, tokens.at(0), std::dec);
     ok = from_string<double>(y, tokens.at(1), std::dec);
@@ -233,13 +233,13 @@ namespace OpenBabel
     // levcfg > 0, next line will be velocities - skip for now
     if (levcfg > 0 )
       {
-        if ( !ifs.getline(buffer,BUFF_SIZE) ) return false;
+        if ( !ifs.getline(buffer,BUFF_SIZE) ) { return false; }
       }
     
     // levcfg > 1, next line will be forces
     if ( levcfg > 1 )
       {
-        if ( !ifs.getline(buffer,BUFF_SIZE) ) return false;
+        if ( !ifs.getline(buffer,BUFF_SIZE) ) { return false; }
         tokenize(tokens, buffer, " \t\n");
         ok =  from_string<double>(x, tokens.at(0), std::dec);
         ok =  from_string<double>(y, tokens.at(1), std::dec);
@@ -300,17 +300,18 @@ namespace OpenBabel
     forces.clear();
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     
     //Define some references so we can use the old parameter names
     std::istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;
 
-    if ( ! ParseHeader( ifs, mol ) ) return false;
+    if ( ! ParseHeader( ifs, mol ) ) { return false; }
 
     // If imcon > 0 then there are 3 lines with the cell vectors
-    if ( imcon > 0 ) ParseUnitCell( ifs, mol );
+    if ( imcon > 0 ) { ParseUnitCell( ifs, mol ); }
 
     mol.BeginModify();
     ok = true;
@@ -331,10 +332,11 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    if ( mol.NumAtoms() == 0 )
+    if ( mol.NumAtoms() == 0 ) {
       return(false);
-    else
+    } else {
       return(true);
+    }
 
   } // End ReadMolecule
 
@@ -347,8 +349,9 @@ namespace OpenBabel
      */
 
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     
     //Define some references so we can use the old parameter names
     std::ostream &ofs = *pConv->GetOutStream();
@@ -431,8 +434,9 @@ public:
     forces.clear();
   
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     
     //Define some references so we can use the old parameter names
     std::istream &ifs = *pConv->GetInStream();
@@ -441,14 +445,14 @@ public:
     // Only parse the header if we're at the start of the file
     if ( ! ifs.tellg() )
       {
-        if ( ! ParseHeader( ifs, mol ) ) return false;
+        if ( ! ParseHeader( ifs, mol ) ) { return false; }
       }
 
     /*
      * Read the trajectory line - this tells us how many atoms we read in and
      * also the timestep which we use to set the title
      */
-    if ( ! ifs.getline(buffer,BUFF_SIZE) ) return false;
+    if ( ! ifs.getline(buffer,BUFF_SIZE) ) { return false; }
     tokenize(tokens, buffer, " \t\n");
     if ( tokens.size() < 6  )
       {
@@ -477,7 +481,7 @@ public:
     mol.SetTitle( tstitle );
 
     // If imcon > 0 then there are 3 lines with the cell vectors 
-    if ( imcon > 0 ) ParseUnitCell( ifs, mol );
+    if ( imcon > 0 ) { ParseUnitCell( ifs, mol ); }
 
     // Start of coordinates - just loop through reading in data
     int atomsRead=0;
@@ -485,9 +489,9 @@ public:
     while ( true )
       {
         
-        if ( ! ReadAtom( ifs, mol ) ) break;
+        if ( ! ReadAtom( ifs, mol ) ) { break; }
         atomsRead++;
-        if ( atomsRead >= natms) break;
+        if ( atomsRead >= natms) { break; }
 
       } // End while reading loop
     
@@ -503,10 +507,11 @@ public:
 
     mol.EndModify();
     
-    if ( mol.NumAtoms() == 0 )
+    if ( mol.NumAtoms() == 0 ) {
       return(false);
-    else
+    } else {
       return(true);
+    }
 
   } // End ReadMolecule
 

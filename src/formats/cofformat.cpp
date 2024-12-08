@@ -67,8 +67,9 @@ namespace OpenBabel
   bool COFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     stringstream errorMsg;
     char buffer[BUFF_SIZE];
@@ -121,13 +122,15 @@ namespace OpenBabel
     vector<string> vecAtomNames;
     unsigned int natoms = 0;
     int offset = 0;
-    if(version > 7)
+    if(version > 7) {
       offset = 1;
+    }
     while(ifs.getline(buffer,BUFF_SIZE))
     {
       tokenize(vs, buffer, delimstr);
-      if(vs.size() == 0)
+      if(vs.size() == 0) {
         continue;
+      }
       if(vs[0] == "atom" )
       {
         if(vs.size() < offset+9)
@@ -140,12 +143,14 @@ namespace OpenBabel
 
         //-set atomic number, or '0' if the atom type is not recognized
         std::string elem = vs[2+offset];
-        if (elem == "X")
+        if (elem == "X") {
           elem = "Xx"; // Culgi 'X' is the same as Openbabel 'Xx'.
+        }
         int atomicNum = OBElements::GetAtomicNum(elem.c_str());
         atom->SetAtomicNum(atomicNum);
-        if(atomicNum == 0)
+        if(atomicNum == 0) {
           atom->SetType(elem);
+        }
 
         //-set charge
         char *endptr;
@@ -179,10 +184,11 @@ namespace OpenBabel
         {
           for(int j=0 ; j< natoms ; j++)
           {
-            if(vs[1] ==vecAtomNames[j])
+            if(vs[1] ==vecAtomNames[j]) {
               iniatom = j;
-            else if(vs[2] == vecAtomNames[j])
+            } else if(vs[2] == vecAtomNames[j]) {
               finatom = j;
+            }
           }
 
           if (iniatom < 0 || finatom < 0)
@@ -198,7 +204,9 @@ namespace OpenBabel
         int iorder = -1;
         unsigned int flags = 0;
         if (fabs(order - 1.0) < 1.e-6)
+        {
           iorder = 1;
+        }
         else if (fabs(order - 1.5) < 1.e-6)
         {
           // Aromatic bonds get order 1 here. OBKekulize, which is
@@ -207,9 +215,13 @@ namespace OpenBabel
           flags = OB_AROMATIC_BOND;
         }
         else if (fabs(order - 2.0) < 1.e-6)
+        {
           iorder = 2;
+        }
         else if (fabs(order - 3.0) < 1.e-6)
+        {
           iorder = 3;
+        }
         else
         {
           errorMsg << "Unable to read Culgi Object File. Bond order " << vs[3] << "not possible.\n";
@@ -244,8 +256,9 @@ namespace OpenBabel
       patom->ClearBond();
       for (pbond = pmol->BeginBond(bpos); pbond; pbond = pmol->NextBond(bpos))
       {
-        if (patom == pbond->GetBeginAtom() || patom == pbond->GetEndAtom())
+        if (patom == pbond->GetBeginAtom() || patom == pbond->GetEndAtom()) {
           patom->AddBond(pbond);
+        }
       }
     }
 
@@ -282,8 +295,9 @@ namespace OpenBabel
   bool COFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     stringstream errorMsg;
 
     ostream& ofs = *(pConv->GetOutStream());
@@ -335,19 +349,24 @@ namespace OpenBabel
     // etc to the name, so we try to clean that up here
     const char *tit = pmol->GetTitle();
     std::string molname(tit);
-    if(molname.empty())
+    if(molname.empty()) {
       molname = pConv->GetTitle();
+    }
     size_t nPos = molname.find_last_of(".");
-    if(nPos != std::string::npos)
+    if(nPos != std::string::npos) {
       molname = molname.substr(0, nPos);
+    }
     nPos = molname.find_last_of("\\");
-    if(nPos != std::string::npos)
+    if(nPos != std::string::npos) {
       molname = molname.substr(nPos+1, molname.size());
+    }
     nPos = molname.find_last_of("/");
-    if(nPos != std::string::npos)
+    if(nPos != std::string::npos) {
       molname = molname.substr(nPos+1, molname.size());
-    if(molname.empty())
+    }
+    if(molname.empty()) {
       molname = "mol";
+    }
     ofs  << "molecule\t" << molname << "\t0" << endl;
 
     int i = 0;
@@ -361,8 +380,9 @@ namespace OpenBabel
       i++;
       string elem = OBElements::GetSymbol(atom->GetAtomicNum());
       // Culgi does not recognize atom type 'Xx' but does know 'X'.
-      if(elem == "Xx")
+      if(elem == "Xx") {
         elem = "X";
+      }
       bool found = false;
       string ename;
       for( int j=0; j<elems.size(); j++)
@@ -418,10 +438,11 @@ namespace OpenBabel
       string outlabel;
       sstream.str("");
       sstream << "bond\t" << i1-1 << "\t" << i2-1 << "\t";
-      if (bond->IsAromatic())
+      if (bond->IsAromatic()) {
         sstream <<"1.5";
-      else
+      } else {
         sstream << bond->GetBondOrder() << ".0";
+      }
       outlabel = sstream.str();
       ofs << outlabel << endl;
     }
@@ -430,8 +451,9 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(atom, mol)
     {
       int iFormalCharge = atom->GetFormalCharge();
-      if(iFormalCharge!=0)
+      if(iFormalCharge!=0) {
         ofs << "formalq\t" << iAt << "\t" << iFormalCharge << endl;
+      }
       iAt++;
     }
 

@@ -238,8 +238,9 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   //Top level parse 
   while(cdxr)
   {
-    if(!TopLevelParse(cdxr, pConv, 0))
+    if(!TopLevelParse(cdxr, pConv, 0)) {
       return false;
+    }
   }
 
   //At the end, output molecules that have not been used in a reaction
@@ -251,11 +252,13 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     {
       OBMol* ptmol = static_cast<OBMol*>(pmol->DoTransformations(
                     pConv->GetOptions(OBConversion::GENOPTIONS),pConv));
-      if(!ptmol)
+      if(!ptmol) {
         delete pmol;
+      }
       else
-        if(!pConv->AddChemObject(ptmol))
+        if(!pConv->AddChemObject(ptmol)) {
           return false; //error during writing
+        }
     }
   }
 
@@ -287,8 +290,9 @@ bool ChemDrawBinaryXFormat::TopLevelParse
       {
         // Add the id of this mol to the group's entry in _groupmap 
         GroupMapIterator gmapiter = _groupmap.find(ContainingGroup);
-        if(gmapiter!=_groupmap.end())
+        if(gmapiter!=_groupmap.end()) {
           gmapiter->second.push_back(cdxr.CurrentID());
+        }
       }
       ok = DoFragment(cdxr, pmol);
     }
@@ -299,9 +303,11 @@ bool ChemDrawBinaryXFormat::TopLevelParse
       pReact->SetIsReaction();
       ok = DoReaction(cdxr, pReact);
       // Output OBReaction and continue 
-      if(pReact)
-        if(!pConv->AddChemObject(pReact))
+      if(pReact) {
+        if(!pConv->AddChemObject(pReact)) {
           return false; //error during writing
+        }
+      }
     }
 
     else if(ok && tag==kCDXObj_Graphic)
@@ -313,12 +319,14 @@ bool ChemDrawBinaryXFormat::TopLevelParse
         {
           char type1=0;
           UINT16 type2=0;
-          if(cdxr.GetLen()==1)
+          if(cdxr.GetLen()==1) {
             ss.get(type1);
+          }
           else
             READ_INT16(ss,type2);
-          if(type1==kCDXArrowType_Equilibrium || type2==kCDXArrowType_Equilibrium)
+          if(type1==kCDXArrowType_Equilibrium || type2==kCDXArrowType_Equilibrium) {
             _graphicmap[type1+type2] = equilArrow; //save in graphicmap
+          }
         }
       }
     }
@@ -340,11 +348,12 @@ bool ChemDrawBinaryXFormat::DoReaction(CDXReader& cdxr, OBMol* pReact)
       {
         READ_INT32(ss,id);
         vector<OBMol*> molvec = LookupMol(id); //id could be a group with several mols
-        for(unsigned i=0;i<molvec.size();++i)
+        for(unsigned i=0;i<molvec.size();++i) {
           if(strcmp(molvec[i]->GetTitle(),"justplus"))
           {
             facade.AddComponent(molvec[i], REACTANT);
           }
+        }
       }
     }
     else if(tag == kCDXProp_ReactionStep_Products)
@@ -354,12 +363,13 @@ bool ChemDrawBinaryXFormat::DoReaction(CDXReader& cdxr, OBMol* pReact)
       {
         READ_INT32(ss,id);
         vector<OBMol*> molvec = LookupMol(id); //id could be a group with several mols
-        for(unsigned i=0;i<molvec.size();++i)
+        for(unsigned i=0;i<molvec.size();++i) {
           if(strcmp(molvec[i]->GetTitle(),"justplus"))
           {
             facade.AddComponent(molvec[i], PRODUCT);
             _lastProdId = id;
           }
+        }
       }
     }
     else if(tag==kCDXProp_ReactionStep_Arrows)
@@ -383,16 +393,18 @@ vector<OBMol*> ChemDrawBinaryXFormat::LookupMol(CDXObjectID id)
     for(unsigned i=0;i<gmapiter->second.size();++i)
     {
       OBMol* pmmol = LookupInMolMap(gmapiter->second[i]);
-      if(pmmol)
+      if(pmmol) {
         molvec.push_back(pmmol);
+      }
     }
   }
   else
   {
     //id is not a group; it must be a fragment
     OBMol* pmmol = LookupInMolMap(id);
-    if(pmmol)
+    if(pmmol) {
       molvec.push_back(pmmol);
+    }
   }
   return molvec; 
 }
@@ -421,10 +433,11 @@ ChemDrawBinaryXFormat::graphicType ChemDrawBinaryXFormat::LookupGraphic(CDXObjec
 {
   std::map<CDXObjectID, graphicType>::iterator mapiter;
   mapiter = _graphicmap.find(id);
-  if(mapiter != _graphicmap.end())
+  if(mapiter != _graphicmap.end()) {
     return mapiter->second;
-  else
+  } else {
     return none;
+  }
 }
 
 ////////////////////////////////////////////////////////////////////////
@@ -451,16 +464,18 @@ bool ChemDrawBinaryXFormat::DoFragment(CDXReader& cdxr, OBMol* pmol)
   {
     OBAtom* pAtom = pmol->GetAtom(idx);
     AliasData* ad = dynamic_cast<AliasData*>(pAtom->GetData(AliasDataType));
-    if(ad && !ad->IsExpanded())
+    if(ad && !ad->IsExpanded()) {
       aliasatoms.push_back(pAtom);
+    }
   }
   for(vector<OBAtom*>::iterator vit=aliasatoms.begin();
       vit!=aliasatoms.end(); ++vit)
   {
     int idx = (*vit)->GetIdx();
     AliasData* ad = dynamic_cast<AliasData*>((*vit)->GetData(AliasDataType));
-    if(ad && !ad->IsExpanded())
+    if(ad && !ad->IsExpanded()) {
       ad->Expand(*pmol, idx); //Make chemically meaningful, if possible.
+    }
   }
   return true;
 }
@@ -489,8 +504,9 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
         case kCDXProp_Node_Type:
           UINT16 type;
           READ_INT16(cdxr.data(), type);
-          if(type==4 || type==5) //Nickname or fragment
+          if(type==4 || type==5) { //Nickname or fragment
             isAlias = true;
+          }
           break;
         case kCDXProp_Node_Element:
           READ_INT16(cdxr.data(), atnum);
@@ -504,8 +520,9 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
           }
             break;
         case kCDXProp_Atom_Charge:
-          if(cdxr.GetLen()==1)
+          if(cdxr.GetLen()==1) {
             charge = (int8_t)cdxr.data().get();
+          }
           else
             READ_INT32(cdxr.data(), charge);
           break;
@@ -543,8 +560,9 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
           //cdxr.ReadNext(objectsOnly, cdxr.GetDepth()-1);
           break;
         default:
-          if(tag & kCDXTag_Object) //unhandled object
-            while(cdxr.ReadNext());
+          if(tag & kCDXTag_Object) { //unhandled object
+            while(cdxr.ReadNext()) {}
+          }
         }
       }
       //All properties of Node have now been read
@@ -562,13 +580,15 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
       } 
       else
       {
-        if(atnum==0xffff)
+        if(atnum==0xffff) {
           atnum = 6; //atoms are C by default
+        }
         pAtom->SetAtomicNum(atnum);
-        if (hasNumHs)
+        if (hasNumHs) {
           pAtom->SetImplicitHCount(numHs);
-        else if (atnum==6)
+        } else if (atnum==6) {
           handleImplicitCarbons.push_back(pAtom);
+        }
         pAtom->SetFormalCharge(charge);
         pAtom->SetIsotope(iso);
         pAtom->SetSpinMultiplicity(spin);
@@ -624,24 +644,27 @@ bool ChemDrawBinaryXFormat::DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
         obErrorLog.ThrowError(__FUNCTION__,"Incorrect bond", obError);
         return false;
       }
-      if(stereo==4 || stereo==7 || stereo==10 || stereo==12)
+      if(stereo==4 || stereo==7 || stereo==10 || stereo==12) {
         swap(bgnIdx, endIdx);
+      }
       pmol->AddBond(bgnIdx, endIdx, order);
       if(stereo)
       {
         OBBond* pBond = pmol->GetBond(pmol->NumBonds()-1);
-        if(stereo==3 || stereo==4)
+        if(stereo==3 || stereo==4) {
           pBond->SetHash();
-        else if(stereo==6 || stereo==7)
+        } else if(stereo==6 || stereo==7) {
           pBond->SetWedge();
+        }
       }
     }
   }
   // Handle 'implicit carbons' by adjusting their valence with
   // implicit hydrognes
   for(vector<OBAtom*>::iterator vit=handleImplicitCarbons.begin();
-      vit!=handleImplicitCarbons.end(); ++vit)
+      vit!=handleImplicitCarbons.end(); ++vit) {
     OBAtomAssignTypicalImplicitHydrogens(*vit);
+  }
 
   return true;
 }
@@ -661,8 +684,9 @@ string ChemDrawBinaryXFormat::DoText(CDXReader& cdxr)
       ss.ignore(nStyleRuns*10);
       ss >> text;
     default:
-      if(tag & kCDXTag_Object) //unhandled object
-        while(cdxr.ReadNext());      
+      if(tag & kCDXTag_Object) { //unhandled object
+        while(cdxr.ReadNext()) {}
+      }
     }
   }
   return text;
@@ -688,24 +712,27 @@ CDXTag CDXReader::ReadNext(bool objectsOnly, int targetDepth)
       --depth;
       _tempback = ids.back(); //needed for WriteTree
       ids.pop_back();
-      if(targetDepth<0 || depth == targetDepth)
+      if(targetDepth<0 || depth == targetDepth) {
         return 0; //end of object
+      }
     }
     else if(tag & kCDXTag_Object)
     {
       READ_INT32(ifs, id);
       ids.push_back(id);
       ++depth;
-      if(targetDepth<0 || depth-1 == targetDepth)
+      if(targetDepth<0 || depth-1 == targetDepth) {
         return tag; //object
+      }
     }
     else
     {
       //property
       READ_INT16(ifs, _len);
 
-      if(objectsOnly)
+      if(objectsOnly) {
         ifs.ignore(_len);
+      }
       else
       {
         //copy property data to buffer
@@ -735,8 +762,9 @@ CDXReader::CDXReader(std::istream& is) : ifs(is), depth(0)
   char buffer[kCDX_HeaderStringLen+1];
   ifs.read(buffer,kCDX_HeaderStringLen);
   buffer[kCDX_HeaderStringLen] = '\0';
-  if(strncmp(buffer, kCDX_HeaderString, kCDX_HeaderStringLen) == 0)
+  if(strncmp(buffer, kCDX_HeaderString, kCDX_HeaderStringLen) == 0) {
     ifs.ignore(kCDX_HeaderLength - kCDX_HeaderStringLen);	// Discard rest of header.
+  }
   else
   {
     obErrorLog.ThrowError(__FUNCTION__,"Invalid file, no ChemDraw Header",obError);
@@ -759,8 +787,9 @@ OBText* CDXReader::WriteTree(const string& filename, unsigned wtoptions)
   while(*this)
   {
     CDXTag tag = ReadNext();
-    if(ifs.eof())
+    if(ifs.eof()) {
       return new OBText(tss.str()); //normal exit
+    }
     if(tag==0 && !(wtoptions &1))
     {
       //Object end
@@ -797,8 +826,9 @@ OBText* CDXReader::WriteTree(const string& filename, unsigned wtoptions)
           UINT16 nStyleRuns;
           READ_INT16(ss, nStyleRuns);
           tss << '\"';
-          for(unsigned i=2+nStyleRuns*10; i<_len; ++i)
+          for(unsigned i=2+nStyleRuns*10; i<_len; ++i) {
             tss << _buf[i];
+          }
           tss << '\"';
         }
         tss << endl;
@@ -827,20 +857,24 @@ bool CDXReader::ParseEnums(map<CDXTag, string>& enummap, const string& filename)
   {
     getline(ihs, ln);
     tokenize(vec, ln, " \t,{}");
-    if(vec.size()==0 || vec[0]=="//")
+    if(vec.size()==0 || vec[0]=="//") {
       continue; //blank and comment lines
-    if(vec[0]==";") //line is }; end of enum
+    }
+    if(vec[0]==";") { //line is }; end of enum
       return true;
-    if(vec[0][0]!='k') //only collect enums starting with kCDX
+    }
+    if(vec[0][0]!='k') { //only collect enums starting with kCDX
       continue;
+    }
     int tagpos = (vec[1]=="=" && vec.size()>4) ? 4 : 2;
     ss.str(vec[tagpos]);
     ss.clear();
     ss >> hex >> tag;
     if(ss)
     {
-      if(tag==0x0400 && vec[0]=="kCDXUser_TemporaryEnd")//special case
+      if(tag==0x0400 && vec[0]=="kCDXUser_TemporaryEnd") { //special case
         continue;
+      }
       enummap[tag] = vec[0];
     }
   }
