@@ -34,8 +34,9 @@ namespace OpenBabel
 
   bool XMLConversion::SetupReader()
   {
-    if(_reader)
+    if(_reader) {
       return true; //do not need to make a new reader
+    }
 
 	//setup libxml2 for use in a potentially multithreaded
 	//environment
@@ -45,10 +46,12 @@ namespace OpenBabel
     //save its position and rewind so that the reader initialization is ok.
     //(Getting the requested object is handled in ReadXML(), when the format is known.)
     _requestedpos = GetInStream()->tellg();
-    if(_requestedpos < 0)
+    if(_requestedpos < 0) {
       _requestedpos = 0;
-    if(_requestedpos)
+    }
+    if(_requestedpos) {
       GetInStream()->seekg(0);
+    }
 
     //Set up a parser from an input stream
     _reader = xmlReaderForIO(
@@ -73,8 +76,9 @@ namespace OpenBabel
   bool XMLConversion::SetupWriter()
   {
     //Set up XML writer if one does not already exist
-    if(_writer)
+    if(_writer) {
       return true;
+    }
 
     _buf = xmlOutputBufferCreateIO  (
                                      WriteStream, //xmlOutputWriteCallback
@@ -90,8 +94,9 @@ namespace OpenBabel
       }
 
     int ret;
-    if(IsOption("c"))
+    if(IsOption("c")) {
       ret = xmlTextWriterSetIndent(_writer,0);
+    }
     else
       {
         ret = xmlTextWriterSetIndent(_writer,1);
@@ -117,12 +122,14 @@ namespace OpenBabel
   ///Called from each XML class during its construction
   void XMLConversion::RegisterXMLFormat(XMLBaseFormat* pFormat, bool IsDefault, const char* uri)
   {
-    if(IsDefault || Namespaces().empty())
+    if(IsDefault || Namespaces().empty()) {
       _pDefault=pFormat;
-    if(uri)
+    }
+    if(uri) {
       Namespaces()[uri] = pFormat;
-    else
+    } else {
       Namespaces()[pFormat->NamespaceURI()] = pFormat;
+    }
   }
 
   ///Returns the extended form of the OBConversion object with an xml reader or writer,
@@ -130,16 +137,18 @@ namespace OpenBabel
   XMLConversion* XMLConversion::GetDerived(OBConversion* pConv, bool ForReading)
   {
     XMLConversion* pxmlConv;
-    if(!pConv->GetAuxConv())
+    if(!pConv->GetAuxConv()) {
       //Need to make an extended copy. It will be deleted by pConv's destructor
       pxmlConv =  new XMLConversion(pConv);
+    }
     else
       {
         //pConv has already had an extended copy made
         *pConv->GetAuxConv() = *pConv; //ensure they have the same OBConversion data
         pxmlConv = dynamic_cast<XMLConversion*>(pConv->GetAuxConv());
-        if (!pxmlConv)
+        if (!pxmlConv) {
           return nullptr;
+        }
       }
 
     if(ForReading)
@@ -213,8 +222,9 @@ namespace OpenBabel
 
       const xmlChar* pname = xmlTextReaderConstLocalName(_reader);
       int typ = xmlTextReaderNodeType(_reader);
-      if(typ==XML_READER_TYPE_SIGNIFICANT_WHITESPACE || !pname)
+      if(typ==XML_READER_TYPE_SIGNIFICANT_WHITESPACE || !pname) {
         continue; //Text nodes handled in format class
+      }
       string ElName((const char*)pname);
 
       //Pass the node on to the appropriate format class
@@ -224,13 +234,14 @@ namespace OpenBabel
         elementCnt++;
         ret= pFormat->DoElement(ElName);
       }
-      else if(typ==XML_READER_TYPE_END_ELEMENT)
+      else if(typ==XML_READER_TYPE_END_ELEMENT) {
         ret= pFormat->EndElement(ElName);
-      else
+      } else {
         continue;
+      }
       _lastpos = GetInStream()->tellg();
 
-      if(!ret)
+      if(!ret) {
         //derived format callback has stopped processing by returning false;
         //leave reader intact so it can be continued to be used.
         if(!IsOption("n",OBConversion::INOPTIONS))
@@ -238,6 +249,7 @@ namespace OpenBabel
             _LookingForNamespace = true;
             return true;
           }
+      }
     }
 
     if(result==-1)
@@ -277,8 +289,9 @@ namespace OpenBabel
     while((result = xmlTextReaderRead(_reader))==1)
       {
         if(xmlTextReaderNodeType(_reader)==targettyp
-           && !xmlStrcmp(xmlTextReaderConstLocalName(_reader), BAD_CAST	tag.c_str()))
+           && !xmlStrcmp(xmlTextReaderConstLocalName(_reader), BAD_CAST	tag.c_str())) {
           break;
+        }
       }
     return result;
   }
@@ -309,8 +322,9 @@ namespace OpenBabel
   {
     xmlTextReaderRead(_reader);
     const xmlChar* pvalue = xmlTextReaderConstValue(_reader);
-    if(!pvalue)
+    if(!pvalue) {
       return false;
+    }
     value = atoi((const char*)pvalue);
     return true;
   }
@@ -320,8 +334,9 @@ namespace OpenBabel
   {
     xmlTextReaderRead(_reader);
     const xmlChar* pvalue = xmlTextReaderConstValue(_reader);
-    if(!pvalue)
+    if(!pvalue) {
       return false;
+    }
     value = strtod((const char*)pvalue, nullptr);
     return true;
   }
@@ -335,8 +350,9 @@ namespace OpenBabel
     XMLConversion* pConv = static_cast<XMLConversion*>(context);
     istream* ifs = pConv->GetInStream();
 
-    if(!ifs->good() || ifs->eof())
+    if(!ifs->good() || ifs->eof()) {
       return 0;
+    }
 
     ifs->get(buffer, len+1, '>');
     streamsize count = strlen(buffer);
@@ -363,8 +379,9 @@ namespace OpenBabel
     if(len>0)                //a call with len=0 coming from xmlFreeTextWriter
     {                        //called from destructor of XMLConversion was causing crash
       ofs->write(buffer,len);
-      if(!ofs)
+      if(!ofs) {
         return -1;
+      }
       ofs->flush();
     }
     return len;
