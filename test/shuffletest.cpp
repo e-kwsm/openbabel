@@ -42,20 +42,23 @@ void compareMolecules(OBMol *mol1, OBMol *mol2)
   unsigned int unique2 = end2 - symclassesCopy2.begin();
 
   OB_ASSERT( unique1 == unique2 );
-  if (unique1 != unique2)
+  if (unique1 != unique2) {
     cout << unique1 << " == " << unique2 << endl;
+  }
 
   FOR_ATOMS_OF_MOL (a1, mol1) {
     OBAtom *a2 = nullptr;
     unsigned int symClass1 = symclasses1.at(a1->GetIndex());
-    for (unsigned int i = 0; i < symclasses2.size(); ++i)
+    for (unsigned int i = 0; i < symclasses2.size(); ++i) {
       if (symclasses2.at(i) == symClass1) {
         a2 = mol2->GetAtom(i+1);
         break;
       }
+    }
 
-    if (!a2)
+    if (!a2) {
       continue;
+    }
 
     OB_ASSERT( a1->GetAtomicNum() == a2->GetAtomicNum() );
     OB_ASSERT( a1->GetExplicitDegree() == a2->GetExplicitDegree() );

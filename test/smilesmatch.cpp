@@ -88,25 +88,29 @@ int smilesmatch(int argc, char* argv[])
     {
       mol.Clear();
       conv.ReadString(&mol, buffer);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       // trim off any title, etc.
       string::size_type pos = buffer.find_first_of(" \t\n\r");
-      if (pos != string::npos)
+      if (pos != string::npos) {
         buffer.erase(pos);
+      }
 
       pos = buffer.find_first_of('.');
-      if (pos != string::npos)
+      if (pos != string::npos) {
         continue;
+      }
 
       smarts.Init(buffer);
-      if (smarts.Match(mol))
+      if (smarts.Match(mol)) {
         cout << "ok " << ++currentMol << " # SMARTS matched the"
              << " SMILES molecule\n";
-      else
+      } else {
         cout << "not ok " << ++currentMol << " # SMARTS did not match"
              << " for molecule " << buffer << "\n";
+      }
     }
 
   // output the number of tests run

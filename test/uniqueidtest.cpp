@@ -56,8 +56,9 @@ void testIdsNewAtom2()
 void testIdsDeleteAtom()
 {
   OBMol mol;
-  for (int i = 0; i < 10; ++i)
+  for (int i = 0; i < 10; ++i) {
     mol.NewAtom();
+  }
 
   OB_REQUIRE( mol.GetAtomById(3) );
   OB_REQUIRE( mol.GetAtomById(4) );
@@ -76,8 +77,9 @@ void testIdsAddAtom()
 {
   OBMol mol;
   // add 5 atoms
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 5; ++i) {
     mol.NewAtom();
+  }
 
   OBAtom a;
   a.SetAtomicNum(6);
@@ -138,8 +140,9 @@ void testIdsNewBond2()
 void testIdsDeleteBond()
 {
   OBMol mol;
-  for (int i = 0; i < 10; ++i)
+  for (int i = 0; i < 10; ++i) {
     mol.NewBond();
+  }
 
   OB_REQUIRE( mol.GetBondById(3) );
   OB_REQUIRE( mol.GetBondById(4) );
@@ -164,8 +167,9 @@ void testIdsAddBond()
 {
   OBMol mol;
   // add 5 bonds
-  for (int i = 0; i < 5; ++i)
+  for (int i = 0; i < 5; ++i) {
     mol.NewBond();
+  }
 
   OBBond bond;
   OBAtom *a = mol.NewAtom();

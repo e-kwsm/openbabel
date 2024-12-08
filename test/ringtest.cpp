@@ -116,8 +116,9 @@ int ringtest(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
           cout << "Bail out! error reading reference data" << endl;
@@ -128,8 +129,9 @@ int ringtest(int argc, char* argv[])
       vb.resize(mol.NumBonds(),false);
       //check ring bonds
       tokenize(vs,buffer);
-      for (i = vs.begin();i != vs.end();++i)
+      for (i = vs.begin();i != vs.end();++i) {
         vb[atoi(i->c_str())] = true;
+      }
 
       for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
         {
@@ -140,8 +142,10 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest
                  << " # correct ring bond data\n";
+          }
         }
 
       vr = mol.GetSSSR();
@@ -158,8 +162,10 @@ int ringtest(int argc, char* argv[])
           cout << "# Molecule: " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest
              << " # SSSR size matches reference\n";
+      }
 
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
@@ -177,12 +183,16 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest << " # correct SSSR count\n";
+          }
 
           count = 0;
-          for (m = vr.begin();m != vr.end();++m)
-            if ((*m)->_pathset[atom->GetIdx()])
+          for (m = vr.begin();m != vr.end();++m) {
+            if ((*m)->_pathset[atom->GetIdx()]) {
               count++;
+            }
+          }
 
           if (atoi(i->c_str()) != count)
             {
@@ -190,7 +200,9 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest << " # ring membership passed\n";
+          }
 
           ++i;
         }
@@ -209,12 +221,14 @@ void GenerateRingReference()
 {
   std::ifstream ifs;
 
-  if (!SafeOpen(ifs,lsmilestypes_file.c_str()))
+  if (!SafeOpen(ifs,lsmilestypes_file.c_str())) {
     return;
+  }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs,lresults_file.c_str()))
+  if (!SafeOpen(ofs,lresults_file.c_str())) {
     return;
+  }
 
   int count;
   OBAtom *atom;
@@ -237,16 +251,18 @@ void GenerateRingReference()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       //write out ring bonds
-      for (bond = mol.BeginBond(i);bond;bond = mol.NextBond(i))
+      for (bond = mol.BeginBond(i);bond;bond = mol.NextBond(i)) {
         if (bond->IsInRing())
           {
             sprintf(buffer,"%3d",bond->GetIdx());
             ofs << buffer;
           }
+      }
       ofs << endl;
 
       vr = mol.GetSSSR();
@@ -257,9 +273,11 @@ void GenerateRingReference()
       for (atom = mol.BeginAtom(j);atom;atom = mol.NextAtom(j))
         {
           count = 0;
-          for (k = vr.begin();k != vr.end();++k)
-            if ((*k)->_pathset[atom->GetIdx()])
+          for (k = vr.begin();k != vr.end();++k) {
+            if ((*k)->_pathset[atom->GetIdx()]) {
               count++;
+            }
+          }
 
           sprintf(buffer,"%3d",count);
           ofs << buffer;

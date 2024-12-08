@@ -87,15 +87,17 @@ int smartstest(int argc, char* argv[])
   vector<OBSmartsPattern*> vsp;
   for (;ifs.getline(buffer,BUFF_SIZE);)
     {
-      if (buffer[0] == '#') // skip comment line
+      if (buffer[0] == '#') { // skip comment line
         continue;
+      }
 
       OBSmartsPattern *sp = new OBSmartsPattern;
 
-      if (sp->Init(buffer))
+      if (sp->Init(buffer)) {
         vsp.push_back(sp);
-      else
+      } else {
         delete sp;
+      }
     }
   ifs.close();
 
@@ -146,8 +148,9 @@ int smartstest(int argc, char* argv[])
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       currentMol++;
       molPassed = true;
@@ -172,8 +175,9 @@ int smartstest(int argc, char* argv[])
                    << mlist.size() << "\n";
               cout << "# Error with molecule " << mol.GetTitle();
               cout << "#  on pattern " << (*i)->GetSMARTS() << "\n";
-              if (mlist.size())
+              if (mlist.size()) {
                 cout << "# First match: atom #" << mlist[0][0] << "\n";
+              }
               molPassed = false;
               continue;
             }
@@ -201,8 +205,9 @@ int smartstest(int argc, char* argv[])
                 }
             }
         }
-      if (molPassed)
+      if (molPassed) {
         cout << "ok " << currentMol << " # molecule passed tests\n";
+      }
     }
 
   // output the number of tests run
@@ -220,32 +225,37 @@ int smartstest(int argc, char* argv[])
 void GenerateSmartsReference()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs,msmarts_file.c_str()))
+  if (!SafeOpen(ifs,msmarts_file.c_str())) {
     return;
+  }
 
   char buffer[BUFF_SIZE];
   vector<OBSmartsPattern*> vsp;
   for (;ifs.getline(buffer,BUFF_SIZE);)
     {
-      if (buffer[0] == '#') // skip comment line
+      if (buffer[0] == '#') { // skip comment line
         continue;
+      }
 
       OBSmartsPattern *sp = new OBSmartsPattern;
 
-      if (sp->Init(buffer))
+      if (sp->Init(buffer)) {
         vsp.push_back(sp);
-      else
+      } else {
         delete sp;
+      }
     }
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, mresults_file.c_str()))
+  if (!SafeOpen(ofs, mresults_file.c_str())) {
     return;
+  }
 
   ofs << vsp.size() << " patterns" << endl;
   std::ifstream mifs;
-  if (!SafeOpen(mifs, msmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, msmilestypes_file.c_str())) {
     return;
+  }
 
   vector<int> vm;
   vector<vector<int> > mlist;
@@ -265,8 +275,9 @@ void GenerateSmartsReference()
       mol.Clear();
       conv.Read(&mol);
 
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
       for (i = vsp.begin();i != vsp.end();++i)
         {
           (*i)->Match(mol);
