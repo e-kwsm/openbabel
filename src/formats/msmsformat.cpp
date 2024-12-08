@@ -109,7 +109,7 @@ OBMSMSFormat msmsFormat__;
 bool OBMSMSFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
 {
     OBMol* pmol = dynamic_cast< OBMol* >(pOb);
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
 
     ostream& os = *pConv->GetOutStream();
 
@@ -125,7 +125,7 @@ bool OBMSMSFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
         const double* c = a->GetCoordinate();
         os << c[ 0 ] << '\t' << c[ 1 ] << '\t' << c[ 2 ] << '\t' <<
         OBElements::GetVdwRad( a->GetAtomicNum() );
-        if( atomNames ) os << '\t' << a->GetAtomicNum();
+        if( atomNames ) { os << '\t' << a->GetAtomicNum(); }
         os << '\n';
     }
     os.flush();

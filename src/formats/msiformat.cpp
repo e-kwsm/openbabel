@@ -68,8 +68,9 @@ namespace OpenBabel
   bool MSIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -79,8 +80,9 @@ namespace OpenBabel
 
     stringstream errorMsg;
 
-    if (!ifs)
+    if (!ifs) {
       return false; // we're attempting to read past the end of the file
+    }
 
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
@@ -154,16 +156,18 @@ namespace OpenBabel
               z = atof((char*)vs[5].c_str());
 
               translationVectors[numTranslationVectors++].Set(x, y, z);
-              if (!ifs.getline(buffer,BUFF_SIZE))
+              if (!ifs.getline(buffer,BUFF_SIZE)) {
                 break;
+              }
               tokenize(vs,buffer);
             }
         }
 
         if (strstr(buffer, "SpaceGroup") != nullptr) {
           tokenize(vs, buffer);
-          if (vs.size() != 5)
+          if (vs.size() != 5) {
             continue; // invalid space group
+          }
           setSpaceGroup = true;
           sg = SpaceGroup::GetSpaceGroup(vs[4]); // remove the initial " character
         }
@@ -173,11 +177,13 @@ namespace OpenBabel
           if (strstr(buffer, "ACL") != nullptr) {
             tokenize(vs, buffer);
             // size should be 5 -- need a test here
-            if (vs.size() != 5) return false; // timvdm 18/06/2008
+            if (vs.size() != 5) { return false; // timvdm 18/06/2008
+            }
             vs[3].erase(0,1); // "6 => remove the first " character
             unsigned int atomicNum = atoi(vs[3].c_str());
-            if (atomicNum == 0)
+            if (atomicNum == 0) {
               atomicNum = 1; // hydrogen ?
+            }
 
             // valid element, so create the atom
             atom = mol.NewAtom();
@@ -187,7 +193,8 @@ namespace OpenBabel
           else if (strstr(buffer, "XYZ") != nullptr) {
             tokenize(vs, buffer);
             // size should be 6 -- need a test here
-            if (vs.size() != 6) return false; // timvdm 18/06/2008
+            if (vs.size() != 6) { return false; // timvdm 18/06/2008
+            }
             vs[3].erase(0,1); // remove ( character
             vs[5].erase(vs[5].length()-2, 2); // remove trailing )) characters
             atom->SetVector(atof(vs[3].c_str()),
@@ -201,29 +208,33 @@ namespace OpenBabel
         if (bondRecord) {
           if (strstr(buffer, "Atom1") != nullptr) {
             tokenize(vs, buffer);
-            if (vs.size() < 4) return false; // timvdm 18/06/2008
+            if (vs.size() < 4) { return false; // timvdm 18/06/2008
+            }
             vs[3].erase(vs[3].length()-1,1);
             startBondAtom = atoi(vs[3].c_str());
             continue;
           }
           else if (strstr(buffer, "Atom2") != nullptr) {
             tokenize(vs, buffer);
-            if (vs.size() < 4) return false; // timvdm 18/06/2008
+            if (vs.size() < 4) { return false; // timvdm 18/06/2008
+            }
             vs[3].erase(vs[3].length()-1,1);
             endBondAtom = atoi(vs[3].c_str());
             continue;
           }
           else if (strstr(buffer, "Type") != nullptr) {
             tokenize(vs, buffer);
-            if (vs.size() < 4) return false; // timvdm 18/06/2008
+            if (vs.size() < 4) { return false; // timvdm 18/06/2008
+            }
             vs[3].erase(vs[3].length()-1,1);
             bondOrder = atoi(vs[3].c_str());
-            if (bondOrder == 4) // triple bond?
+            if (bondOrder == 4) { // triple bond?
               bondOrder = 3;
-            else if (bondOrder == 8) // aromatic?
+            } else if (bondOrder == 8) { // aromatic?
               bondOrder = 5;
-            else if (bondOrder != 2) // 1 OK, 2 OK, others unknown
+            } else if (bondOrder != 2) { // 1 OK, 2 OK, others unknown
               bondOrder = 1;
+            }
             continue;
           }
         }

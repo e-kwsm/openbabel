@@ -104,8 +104,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -128,10 +129,12 @@ namespace OpenBabel
             mol.Clear();
             while (strstr(buffer, "geometry") == nullptr)
               {
-                if (strstr(buffer, "angstrom") != nullptr)
+                if (strstr(buffer, "angstrom") != nullptr) {
                   bohr = false;
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                }
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   return(false);
+                }
               }
             ifs.getline(buffer,BUFF_SIZE); // Now we're on the atoms
             tokenize(vs,buffer);
@@ -153,8 +156,9 @@ namespace OpenBabel
                 atom->SetVector(x,y,z);
                 atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -165,10 +169,12 @@ namespace OpenBabel
       return false;
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -180,8 +186,9 @@ namespace OpenBabel
   bool MPQCInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
