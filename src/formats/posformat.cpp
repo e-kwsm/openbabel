@@ -81,8 +81,9 @@ namespace OpenBabel
   bool POSFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -93,8 +94,9 @@ namespace OpenBabel
     stringstream errorMsg;
     unsigned int natoms;
 
-    if (!ifs)
+    if (!ifs) {
       return false; // we're attempting to read past the end of the file
+    }
 
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
@@ -131,18 +133,20 @@ namespace OpenBabel
       // e.g., "#230"
       string spaceGroupNumber = readTitle.substr(location + 1, 4); // +1 to skip #
       string::size_type nonNumber = spaceGroupNumber.find_first_not_of("0123456789");
-      if (nonNumber != string::npos)
+      if (nonNumber != string::npos) {
         spaceGroupNumber.erase(nonNumber);
+      }
       // Finally get the space group from the file
       spaceGroup = atoi(spaceGroupNumber.c_str());
     }
 
     location = readTitle.find_first_not_of(" \t\n\r");
     // Is there non-whitespace
-    if (location != string::npos)
+    if (location != string::npos) {
       mol.SetTitle(readTitle);
-    else
+    } else {
       mol.SetTitle(defaultTitle);
+    }
 
     vector3 v1, v2, v3;
     double x,y,z;
@@ -159,24 +163,27 @@ namespace OpenBabel
         // three lines: a(#) = .. .. ..
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
-        if (vs.size() != 5)
+        if (vs.size() != 5) {
           continue;
+        }
         v1.SetX(atof(vs[2].c_str()));
         v1.SetY(atof(vs[3].c_str()));
         v1.SetZ(atof(vs[4].c_str()));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
-        if (vs.size() != 5)
+        if (vs.size() != 5) {
           continue;
+        }
         v2.SetX(atof(vs[2].c_str()));
         v2.SetY(atof(vs[3].c_str()));
         v2.SetZ(atof(vs[4].c_str()));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
-        if (vs.size() != 5)
+        if (vs.size() != 5) {
           continue;
+        }
         v3.SetX(atof(vs[2].c_str()));
         v3.SetY(atof(vs[3].c_str()));
         v3.SetZ(atof(vs[4].c_str()));
@@ -189,8 +196,9 @@ namespace OpenBabel
         // real atomic data
         while (ifs.getline(buffer,BUFF_SIZE) && strlen(buffer)) {
           tokenize(vs,buffer);
-          if (vs.size() != 7)
+          if (vs.size() != 7) {
             break;
+          }
 
           atom = mol.NewAtom();
           // check to see if first column is number or element symbol
@@ -217,10 +225,12 @@ namespace OpenBabel
       }
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 

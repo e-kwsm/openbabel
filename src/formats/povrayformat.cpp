@@ -318,22 +318,28 @@ namespace OpenBabel
         OBAtom *atom = mol.GetAtom(i);
 
         /* ---- Check for minimal/maximal x-position ---- */
-        if (atom -> GetX() < min_x)
+        if (atom -> GetX() < min_x) {
           min_x = atom -> GetX();
-        if (atom -> GetX() > max_x)
+        }
+        if (atom -> GetX() > max_x) {
           max_x = atom -> GetX();
+        }
 
         /* ---- Check for minimal/maximal y-position ---- */
-        if (atom -> GetY() < min_y)
+        if (atom -> GetY() < min_y) {
           min_y = atom -> GetY();
-        if (atom -> GetY() > max_y)
+        }
+        if (atom -> GetY() > max_y) {
           max_y = atom -> GetY();
+        }
 
         /* ---- Check for minimal/maximal z-position ---- */
-        if (atom -> GetZ() < min_z)
+        if (atom -> GetZ() < min_z) {
           min_z = atom -> GetZ();
-        if (atom -> GetZ() > max_z)
+        }
+        if (atom -> GetZ() > max_z) {
           max_z = atom -> GetZ();
+        }
 
       }
 
@@ -412,10 +418,12 @@ namespace OpenBabel
         /* ---- Calculate Phi and Theta ---- */
         phi = (double) 0.0;
         theta = (double) 0.0;
-        if (fabs(dist) >= EPSILON)
+        if (fabs(dist) >= EPSILON) {
           phi = acos((y2-y1)/dist);
-        if (fabs(dy) >= EPSILON)
+        }
+        if (fabs(dy) >= EPSILON) {
           theta = acos((x2-x1)/dy);
+        }
 
         /* ---- Full description of bond i ---- */
         ofs << "#declare " << prefix << "_bond" << i
@@ -509,10 +517,12 @@ namespace OpenBabel
         /* ---- Calculate Phi and Theta ---- */
         phi = (double) 0.0;
         theta = (double) 0.0;
-        if (fabs(dist) >= EPSILON)
+        if (fabs(dist) >= EPSILON) {
           phi = acos((y2-y1)/dist);
-        if (fabs(dy) >= EPSILON)
+        }
+        if (fabs(dy) >= EPSILON) {
           theta = acos((x2-x1)/dy);
+        }
 
         /* ---- Begin of description of bond i (for a capped sticks model) ---- */
         ofs << "#declare " << prefix << "_bond" << i << " = object {" << endl;
@@ -779,8 +789,9 @@ namespace OpenBabel
   bool PovrayFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     // Model-type should be one of "bas", "spf" or "cas"
     model_type = "BAS"; // Default is ball-and-stick

@@ -79,14 +79,16 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   int PQRFormat::SkipObjects(int n, OBConversion* pConv)
   {
-    if (n == 0)
+    if (n == 0) {
       ++ n;
+    }
     istream &ifs = *pConv->GetInStream();
     char buffer[BUFF_SIZE];
     while (n && ifs.getline(buffer,BUFF_SIZE))
       {
-        if (EQn(buffer,"ENDMDL",6))
+        if (EQn(buffer,"ENDMDL",6)) {
           -- n;
+        }
       }
 
     return ifs.good() ? 1 : -1;
@@ -96,8 +98,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -115,11 +118,12 @@ namespace OpenBabel
     mol.BeginModify();
     while (ifs.good() && ifs.getline(buffer,BUFF_SIZE))
       {
-        if (EQn(buffer,"ENDMDL",6))
+        if (EQn(buffer,"ENDMDL",6)) {
           break;
+        }
         if (EQn(buffer,"END",3)) {
           // eat anything until the next ENDMDL
-          while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6));
+          while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6)) {}
           break;
         }
         if (EQn(buffer,"TER",3)) {
@@ -154,11 +158,13 @@ namespace OpenBabel
     mol.EndModify();
 
     /*Now assign hetatm bonds based on distance*/
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
 
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     FOR_ATOMS_OF_MOL(a, mol) {
       // WARNING: Atom index issue here
@@ -206,10 +212,11 @@ namespace OpenBabel
 
     OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
-    if (vs.size() == 11)//add element, Zhixiong Zhao
+    if (vs.size() == 11) { //add element, Zhixiong Zhao
       return atof(vs[8].c_str());
-    else if (vs.size() == 12)
+    } else if (vs.size() == 12) {
       return atof(vs[9].c_str());
+    }
 
     return 0.0;
   }
@@ -221,10 +228,11 @@ namespace OpenBabel
 
     OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
-    if (vs.size() == 11)
+    if (vs.size() == 11) {
       return atof(vs[9].c_str());
-    else if (vs.size() == 12)
+    } else if (vs.size() == 12) {
       return atof(vs[10].c_str());
+    }
 
     return 0.0;
   }
@@ -233,8 +241,9 @@ namespace OpenBabel
   /* ATOMFORMAT "(i5,1x,a4,a1,a3,1x,a1,i4,a1,3x,3f8.3,2f6.2,1x,i3)" */
   {
     string sbuf = &buffer[6];
-    if (sbuf.size() < 48)
+    if (sbuf.size() < 48) {
       return(false);
+    }
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
 
@@ -250,30 +259,36 @@ namespace OpenBabel
 
     /* element */
     string element;
-    if (sbuf.size() > 71)
+    if (sbuf.size() > 71) {
       element = sbuf.substr(70,2);
-    else
+    } else {
       element = "  ";
+    }
 
     //trim spaces on the right and left sides
-    while (!atmid.empty() && atmid[0] == ' ')
+    while (!atmid.empty() && atmid[0] == ' ') {
       atmid = atmid.substr(1,atmid.size()-1);
+    }
 
-    while (!atmid.empty() && atmid[atmid.size()-1] == ' ')
+    while (!atmid.empty() && atmid[atmid.size()-1] == ' ') {
       atmid = atmid.substr(0,atmid.size()-1);
+    }
 
     /* residue name */
 
     string resname = sbuf.substr(11,3);
-    if (resname == "   ")
+    if (resname == "   ") {
       resname = "UNK";
+    }
     else
       {
-        while (!resname.empty() && resname[0] == ' ')
+        while (!resname.empty() && resname[0] == ' ') {
           resname = resname.substr(1,resname.size()-1);
+        }
 
-        while (!resname.empty() && resname[resname.size()-1] == ' ')
+        while (!resname.empty() && resname[resname.size()-1] == ' ') {
           resname = resname.substr(0,resname.size()-1);
+        }
       }
 
     string type;
@@ -282,83 +297,97 @@ namespace OpenBabel
         type = atmid.substr(0,2);
         if (isdigit(type[0])) {
           // sometimes non-standard files have, e.g 11HH
-          if (!isdigit(type[1])) type = atmid.substr(1,1);
-          else type = atmid.substr(2,1);
+          if (!isdigit(type[1])) { type = atmid.substr(1,1); }
+          else { type = atmid.substr(2,1); }
         } else if ((sbuf[6] == ' ' &&
                     strncasecmp(type.c_str(), "Zn", 2) != 0 &&
                     strncasecmp(type.c_str(), "Fe", 2) != 0) ||
-                   isdigit(type[1]))    //type[1] is digit in Platon
+                   isdigit(type[1])) {  //type[1] is digit in Platon
           type = atmid.substr(0,1);     // one-character element
+        }
 
 
         if (resname.substr(0,2) == "AS" || resname[0] == 'N')
           {
-            if (atmid == "AD1")
+            if (atmid == "AD1") {
               type = "O";
-            if (atmid == "AD2")
+            }
+            if (atmid == "AD2") {
               type = "N";
+            }
           }
         if (resname.substr(0,3) == "HIS" || resname[0] == 'H')
           {
-            if (atmid == "AD1" || atmid == "AE2")
+            if (atmid == "AD1" || atmid == "AE2") {
               type = "N";
-            if (atmid == "AE1" || atmid == "AD2")
+            }
+            if (atmid == "AE1" || atmid == "AD2") {
               type = "C";
+            }
           }
         if (resname.substr(0,2) == "GL" || resname[0] == 'Q')
           {
-            if (atmid == "AE1")
+            if (atmid == "AE1") {
               type = "O";
-            if (atmid == "AE2")
+            }
+            if (atmid == "AE2") {
               type = "N";
+            }
           }
         // fix: #2002557
         if (atmid[0] == 'H' &&
             (atmid[1] == 'D' || atmid[1] == 'E' ||
-             atmid[1] == 'G' || atmid[1] == 'H')) // HD, HE, HG, HH, ..
+             atmid[1] == 'G' || atmid[1] == 'H')) { // HD, HE, HG, HH, ..
           type = "H";
+        }
       }
     else //must be hetatm record
       {
         if (isalpha(element[1]) && (isalpha(element[0]) || (element[0] == ' ')))
           {
-            if (isalpha(element[0]))
+            if (isalpha(element[0])) {
               type = element.substr(0,2);
-            else
+            } else {
               type = element.substr(1,1);
-            if (type.size() == 2)
+            }
+            if (type.size() == 2) {
               type[1] = tolower(type[1]);
+            }
           }
         else
           {
             if (isalpha(atmid[0]))
               {
-              if (atmid.size() > 2 && (atmid[2] == '\0' || atmid[2] == ' '))
+              if (atmid.size() > 2 && (atmid[2] == '\0' || atmid[2] == ' ')) {
                 type = atmid.substr(0,2);
-              else if (atmid[0] == 'A') // alpha prefix
+              } else if (atmid[0] == 'A') { // alpha prefix
                 type = atmid.substr(1, atmid.size() - 1);
-              else
+              } else {
                 type = atmid.substr(0,1);
               }
-            else if (atmid[0] == ' ')
+              }
+            else if (atmid[0] == ' ') {
               type = atmid.substr(1,1); // one char element
-            else
+            } else {
               type = atmid.substr(1,2);
+            }
 
             // Some cleanup steps
             if (atmid == resname)
               {
                 type = atmid;
-                if (type.size() == 2)
+                if (type.size() == 2) {
                   type[1] = tolower(type[1]);
+                }
               }
             else
               if (resname == "ADR" || resname == "COA" || resname == "FAD" ||
                   resname == "GPG" || resname == "NAD" || resname == "NAL" ||
                   resname == "NDP" || resname == "ABA")
                 {
-                  if (type.size() > 1)
+                  if (type.size() > 1) {
                     type = type.substr(0,1);
+                  }
                   //type.erase(1,type.size()-1);
                 }
               else
@@ -367,12 +396,14 @@ namespace OpenBabel
                     type = type.substr(1,1);
                   }
                 else
-                  if (type.size() > 1 && isdigit(type[1]))
+                  if (type.size() > 1 && isdigit(type[1])) {
                     type = type.substr(0,1);
+                  }
                   else
                     if (type.size() > 1 && isalpha(type[1])) {
-                      if (type[0] == 'O' && type[1] == 'H')
+                      if (type[0] == 'O' && type[1] == 'H') {
                         type = type.substr(0,1); // no "Oh" element (e.g. 1MBN)
+                      }
                       else if(isupper(type[1]))
                         {
                           type[1] = tolower(type[1]);
@@ -401,11 +432,13 @@ namespace OpenBabel
         || res->GetNumString() != resnum)
       {
         vector<OBResidue*>::iterator ri;
-        for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri))
+        for (res = mol.BeginResidue(ri) ; res ; res = mol.NextResidue(ri)) {
           if (res->GetName() == resname
               && res->GetNumString() == resnum
-              && static_cast<int>(res->GetChain()) == chain)
+              && static_cast<int>(res->GetChain()) == chain) {
             break;
+          }
+        }
 
         if (res == nullptr)
           {
@@ -416,8 +449,9 @@ namespace OpenBabel
           }
       }
 
-    if (!mol.AddAtom(atom))
+    if (!mol.AddAtom(atom)) {
       return(false);
+    }
     else
       {
         OBAtom *atom = mol.GetAtom(mol.NumAtoms());
@@ -434,8 +468,9 @@ namespace OpenBabel
   bool PQRFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -457,10 +492,11 @@ namespace OpenBabel
       ofs << buffer << endl;
       }
 
-    if (strlen(mol.GetTitle()) > 0)
+    if (strlen(mol.GetTitle()) > 0) {
       snprintf(buffer, BUFF_SIZE, "COMPND    %s ",mol.GetTitle());
-    else
+    } else {
       snprintf(buffer, BUFF_SIZE, "COMPND    UNNAMED");
+    }
     ofs << buffer << endl;
 
     snprintf(buffer, BUFF_SIZE, "AUTHOR    GENERATED BY OPEN BABEL %s",BABEL_VERSION);
@@ -473,21 +509,27 @@ namespace OpenBabel
     minX = minY = minZ = -999.0f;
     FOR_ATOMS_OF_MOL(a, mol)
       {
-        if (a->GetX() < minX)
+        if (a->GetX() < minX) {
           minX = a->GetX();
-        if (a->GetY() < minY)
+        }
+        if (a->GetY() < minY) {
           minY = a->GetY();
-        if (a->GetZ() < minZ)
+        }
+        if (a->GetZ() < minZ) {
           minZ = a->GetZ();
+        }
       }
 
     vector3 transV = VZero;
-    if (minX < -999.0)
+    if (minX < -999.0) {
       transV.SetX( -1.0*minX - 900.0 );
-    if (minY < -999.0)
+    }
+    if (minY < -999.0) {
       transV.SetY( -1.0*minY - 900.0 );
-    if (minZ < -999.0)
+    }
+    if (minZ < -999.0) {
       transV.SetZ( -1.0*minZ - 900.0 );
+    }
 
     // if minX, minY, or minZ was never changed, shift will be 0.0f
     // otherwise, move enough so that smallest coord is > -999.0f
@@ -502,8 +544,9 @@ namespace OpenBabel
         type_name[sizeof(type_name) - 1] = '\0';
 
         //two char. elements are on position 13 and 14 one char. start at 14
-        if (strlen(type_name) > 1)
+        if (strlen(type_name) > 1) {
           type_name[1] = toupper(type_name[1]);
+        }
         else
           {
             char tmp[10];
@@ -570,8 +613,9 @@ namespace OpenBabel
     for (i = 1; i <= mol.NumAtoms(); i ++)
       {
         atom = mol.GetAtom(i);
-        if (atom->GetExplicitDegree() == 0)
+        if (atom->GetExplicitDegree() == 0) {
           continue; // no need to write a CONECT record -- no bonds
+        }
 
         snprintf(buffer, BUFF_SIZE, "CONECT%5d", i);
         ofs << buffer;
