@@ -78,8 +78,9 @@ OpUnique theOpUnique("unique"); //Global instance
 bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
 
   if(pConv->IsFirstInput())
   {
@@ -87,13 +88,15 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion
     string descID("inchi"); // the default
     _trunc.clear();
     _inv = OptionText[0]=='~';   //has the parameter a leading ~ ?
-    if(_inv)
+    if(_inv) {
       clog << "The output has the duplicate structures" << endl;
+    }
 
-    if(OptionText[0+_inv]=='/')  //is parameter is /x?
+    if(OptionText[0+_inv]=='/') {  //is parameter is /x?
       _trunc = OptionText+_inv;
-    else if(OptionText[0+_inv]!='\0') // not empty?
+    } else if(OptionText[0+_inv]!='\0') { // not empty?
       descID = OptionText+_inv;
+    }
 
     _pDesc = OBDescriptor::FindType(descID.c_str());
     if(!_pDesc)
@@ -108,29 +111,34 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion
     _reportDup = !_inv; //do not report duplicates when they are the output
   }
 
-  if(!_pDesc)
+  if(!_pDesc) {
     return false;
+  }
   std::string s;
   _pDesc->GetStringValue(pmol, s);
 
-  if(!_trunc.empty())
+  if(!_trunc.empty()) {
     InChIFormat::EditInchi(s, _trunc);
+  }
   std::pair<UMap::iterator, bool> result = _inchimap.insert(make_pair(s, pmol->GetTitle()));
   bool ret = true;
   if(!s.empty() && !result.second)
   {
     // InChI is already present in set
     ++_ndups;
-    if(_reportDup)
+    if(_reportDup) {
       clog << "Removed " << pmol->GetTitle() << " - a duplicate of " << result.first->second
          << " (#" << _ndups << ")" << endl;
+    }
     //delete pOb;
     ret = false; //filtered out
   }
-  if(_inv)
+  if(_inv) {
     ret = !ret;
-  if(!ret)
+  }
+  if(!ret) {
     delete pOb;
+  }
   return ret;
 }
 
