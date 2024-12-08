@@ -1396,12 +1396,12 @@ namespace OpenBabel {
       }
       /* Do a quick check of geometry validity */
       if ((axis = init_axis_parameters(a, b, c)) == nullptr) {
-        if( verbose > 0 ) printf( "    no coherrent improper axis is defined by the points\n" ) ;
+        if( verbose > 0 ) { printf( "    no coherrent improper axis is defined by the points\n" ) ; }
         return nullptr;
       }
       axis->transform_atom = rotate_reflect_atom ;
       if( refine_symmetry_element( axis, 1 ) < 0 ){
-        if( verbose > 0 ) printf( "    refinement failed for the s%d axis\n", axis->order ) ;
+        if( verbose > 0 ) { printf( "    refinement failed for the s%d axis\n", axis->order ) ; }
         destroy_symmetry_element( axis ) ;
         return nullptr;
       }
@@ -1702,7 +1702,7 @@ namespace OpenBabel {
         {
           printf( "There is a plane of symmetry in the molecule\n" ) ;
         }
-        else printf( "There are %d planes of symmetry in the molecule\n", PlanesCount ) ;
+        else { printf( "There are %d planes of symmetry in the molecule\n", PlanesCount ) ; }
         printf( "     Residual          Direction of the normal           Distance\n" ) ;
         for( i = 0 ; i < PlanesCount ; i++ ){
           printf( "%3d %8.4e ", i, Planes[i]->maxdev ) ;
@@ -1744,7 +1744,7 @@ namespace OpenBabel {
         {
           printf( "There is a normal axis in the molecule\n" ) ;
         }
-        else printf( "There are %d normal axes in the molecule\n", NormalAxesCount ) ;
+        else { printf( "There are %d normal axes in the molecule\n", NormalAxesCount ) ; }
         printf( "     Residual  Order         Direction of the axis                         Supporting point\n" ) ;
         for( i = 0 ; i < NormalAxesCount ; i++ ){
           printf( "%3d %8.4e ", i, NormalAxes[i]->maxdev ) ;
@@ -1752,7 +1752,7 @@ namespace OpenBabel {
           {
             printf( "Inf " ) ;
           }
-          else printf( "%3d ", NormalAxes[i]->order ) ;
+          else { printf( "%3d ", NormalAxes[i]->order ) ; }
           printf( "(%11.8f,%11.8f,%11.8f) ",
                   NormalAxes[i]->direction[0], NormalAxes[i]->direction[1], NormalAxes[i]->direction[2] ) ;
           printf( "(%14.8f,%14.8f,%14.8f)\n",
@@ -1777,7 +1777,7 @@ namespace OpenBabel {
         {
           printf( "There is an improper axis in the molecule\n" ) ;
         }
-        else printf( "There are %d improper axes in the molecule\n", ImproperAxesCount ) ;
+        else { printf( "There are %d improper axes in the molecule\n", ImproperAxesCount ) ; }
         printf( "     Residual  Order         Direction of the axis                         Supporting point\n" ) ;
         for( i = 0 ; i < ImproperAxesCount ; i++ ){
           printf( "%3d %8.4e ", i, ImproperAxes[i]->maxdev ) ;
@@ -1785,7 +1785,7 @@ namespace OpenBabel {
           {
             printf( "Inf " ) ;
           }
-          else printf( "%3d ", ImproperAxes[i]->order ) ;
+          else { printf( "%3d ", ImproperAxes[i]->order ) ; }
           printf( "(%11.8f,%11.8f,%11.8f) ",
                   ImproperAxes[i]->direction[0], ImproperAxes[i]->direction[1], ImproperAxes[i]->direction[2] ) ;
           printf( "(%14.8f,%14.8f,%14.8f)\n",
@@ -1861,11 +1861,11 @@ namespace OpenBabel {
       SYMMETRY_ELEMENT * axis_b = *(SYMMETRY_ELEMENT**) b ;
       int                i, order_a, order_b ;
 
-      order_a = axis_a->order ; if( order_a == 0 ) order_a = 10000 ;
-      order_b = axis_b->order ; if( order_b == 0 ) order_b = 10000 ;
-      if( ( i = order_b - order_a ) != 0 ) return i ;
-      if( axis_a->maxdev > axis_b->maxdev ) return -1 ;
-      if( axis_a->maxdev < axis_b->maxdev ) return  1 ;
+      order_a = axis_a->order ; if( order_a == 0 ) { order_a = 10000 ; }
+      order_b = axis_b->order ; if( order_b == 0 ) { order_b = 10000 ; }
+      if( ( i = order_b - order_a ) != 0 ) { return i ; }
+      if( axis_a->maxdev > axis_b->maxdev ) { return -1 ; }
+      if( axis_a->maxdev < axis_b->maxdev ) { return  1 ; }
       return 0 ;
     }
 

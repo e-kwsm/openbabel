@@ -1503,7 +1503,7 @@ namespace OpenBabel {
           }
         }
 
-        if (DEBUG_INVERSIONS) print_vector("tlist 2", tlist2);
+        if (DEBUG_INVERSIONS) { print_vector("tlist 2", tlist2); }
 
         // Permute the flag
         if (OBStereo::NumInversions(tlist2) % 2)
@@ -1593,7 +1593,7 @@ namespace OpenBabel {
     static std::vector<Entry> compute(OBMol *mol, const std::vector<unsigned int> &symClasses,
         const Automorphisms &automorphisms)
     {
-      if (DEBUG_INVERSIONS) cout << "ENTER StereoInverted::compute()" << endl;
+      if (DEBUG_INVERSIONS) { cout << "ENTER StereoInverted::compute()" << endl; }
 
       // We need topological canonical labels for this
       std::vector<unsigned int> canon_labels;
@@ -1607,7 +1607,7 @@ namespace OpenBabel {
         Entry entry;
         entry.p = automorphisms[i];
 
-        if (DEBUG_INVERSIONS) cout << "----> Checking automorphism " << i+1 << endl;
+        if (DEBUG_INVERSIONS) { cout << "----> Checking automorphism " << i+1 << endl; }
 
         // Check the atoms
         std::vector<OBAtom*>::iterator ia;
@@ -1669,7 +1669,7 @@ namespace OpenBabel {
         result.push_back(entry);
       }
 
-      if (DEBUG_INVERSIONS) cout << "EXIT StereoInverted::compute()" << endl;
+      if (DEBUG_INVERSIONS) { cout << "EXIT StereoInverted::compute()" << endl; }
 
       return result;
     }
@@ -2762,8 +2762,8 @@ namespace OpenBabel {
     }
 
     double angle = (atan2(v2.y(),v2.x()) - atan2(v1.y(),v1.x())) * RAD_TO_DEG;
-    while (angle < -180.0) angle += 360.0;
-    while (angle > 180.0) angle -= 360.0;
+    while (angle < -180.0) { angle += 360.0; }
+    while (angle > 180.0) { angle -= 360.0; }
     return angle;
   }
   std::vector<OBTetrahedralStereo*> TetrahedralFrom2D(OBMol *mol,
@@ -2870,12 +2870,14 @@ namespace OpenBabel {
       if (!config.specified || (config.specified && config.winding==OBStereo::UnknownWinding)) {
         // unspecified or specified as unknown
         FOR_NBORS_OF_ATOM (nbr, center)
-          if (config.from == OBStereo::NoRef)
+          if (config.from == OBStereo::NoRef) {
             config.from = nbr->GetId();
-          else
+          } else {
             config.refs.push_back(nbr->GetId());
-        while (config.refs.size() < 3)
+          }
+        while (config.refs.size() < 3) {
           config.refs.push_back(OBStereo::ImplicitRef);
+        }
       } else {
 
         // config.specified

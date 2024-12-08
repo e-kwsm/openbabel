@@ -292,7 +292,7 @@ namespace OpenBabel
           if (this_side->GetAtomicNum() == 6 && this_side->GetHyb() == hyb && this_side->GetExplicitDegree() == (hyb + 1) ) {
             syms.clear();
             FOR_NBORS_OF_ATOM(nbr, this_side) {
-              if ( &(*nbr) == other_side ) continue;
+              if ( &(*nbr) == other_side ) { continue; }
               syms.insert(sym_classes[nbr->GetIdx() - 1]);
             }
             if (syms.size() == 1) // All of the rotated atoms have the same symmetry class

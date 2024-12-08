@@ -784,33 +784,38 @@ namespace OpenBabel
       d = nullptr;
 
       FOR_NBORS_OF_ATOM(nbr, b) {
-	if (a ==nullptr)
+	if (a ==nullptr) {
 	  a = (OBAtom*) &*nbr;
-	else if (c == nullptr)
+	} else if (c == nullptr) {
 	  c = (OBAtom*) &*nbr;
-	else
+	} else {
 	  d = (OBAtom*) &*nbr;
+	}
       }
 
       // skip this improper dihedral if atom b does not have 3 neighbors
-      if (a == nullptr || c == nullptr || d == nullptr)
+      if (a == nullptr || c == nullptr || d == nullptr) {
 	continue;
+      }
 
       // skip this improper dihedral if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ||
-	   _constraints.IsIgnored(c->GetIdx()) || _constraints.IsIgnored(d->GetIdx()) )
+	   _constraints.IsIgnored(c->GetIdx()) || _constraints.IsIgnored(d->GetIdx()) ) {
 	continue;
+      }
 
       // if there are any groups specified, check if the four improper-dihedral atoms are in a single intraGroup
       if (HasGroups()) {
 	bool validOOP = false;
 	for (unsigned int i=0; i < _intraGroup.size(); ++i) {
 	  if (_intraGroup[i].BitIsSet(a->GetIdx()) && _intraGroup[i].BitIsSet(b->GetIdx()) &&
-	      _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx()))
+	      _intraGroup[i].BitIsSet(c->GetIdx()) && _intraGroup[i].BitIsSet(d->GetIdx())) {
 	    validOOP = true;
+	  }
 	}
-	if (!validOOP)
+	if (!validOOP) {
 	  continue;
+	}
       }
 
       parameter = GetParameterOOP(a->GetType(), b->GetType(), c->GetType(), d->GetType(), _ffoopparams);

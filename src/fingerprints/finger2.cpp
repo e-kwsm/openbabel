@@ -137,8 +137,9 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
       PrintFpt(*itr,hash);
 		}
 	}
-	if(nbits)
+	if(nbits) {
 		Fold(fp, nbits);
+	}
 
 //	TRACE("%d after\n",fragset.size());
 	return true;
@@ -224,8 +225,9 @@ void fingerprint2::DoReverses()
 				fragset.erase(titr);
 				fragset.insert(t1);
 			}
-			else
+			else {
 				fragset.erase(t1);
+			}
 		}
 	}
 }
@@ -244,14 +246,16 @@ void fingerprint2::DoRings()
 		{
 			//rotate atoms in ring
 			rotate(t1.begin(),t1.begin()+2,t1.end());
-			if(t1>maxring)
+			if(t1>maxring) {
 				maxring=t1;
+			}
 
 			//reverse the direction around ring
 			vector<int> t2(t1);
 			reverse(t2.begin()+1, t2.end());
-			if(t2>maxring)
+			if(t2>maxring) {
 				maxring=t2;
+			}
 		}
 		fragset.insert(maxring);
 		//PrintFpt(maxring,0);
@@ -264,16 +268,18 @@ unsigned int fingerprint2::CalcHash(const vector<int>& frag)
 	//Something like... whole of fragment treated as a binary number modulus 1021
 	const int MODINT = 108; //2^32 % 1021
 	unsigned int hash=0;
-	for(unsigned i=0;i<frag.size();++i)
+	for(unsigned i=0;i<frag.size();++i) {
 		hash= (hash*MODINT + (frag[i] % 1021)) % 1021;
+	}
 	return hash;
 }
 
 void fingerprint2::PrintFpt(const vector<int>& f, int hash)
 {
 	unsigned int i;
-	for(i=0;i<f.size();++i)
+	for(i=0;i<f.size();++i) {
     _ss  << f[i] << " ";
+	}
   _ss << "<" << hash << ">" << endl;
 }
 
