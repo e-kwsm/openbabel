@@ -87,21 +87,27 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
       OB_ASSERT( ts->IsValid() );
-      if (!ts->IsValid())
+      if (!ts->IsValid()) {
         continue;
+      }
 
       OBTetrahedralStereo::Config config = ts->GetConfig();
       // convert atom ids to symmetry ids
-     if (mol.GetAtomById(config.center))
+     if (mol.GetAtomById(config.center)) {
         config.center = canlbls.at( mol.GetAtomById(config.center)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.from))
+     }
+      if (mol.GetAtomById(config.from)) {
         config.from = canlbls.at( mol.GetAtomById(config.from)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+      }
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral1.push_back(config);
     } else
@@ -115,14 +121,18 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert atom ids to symmetry ids
       config.begin = canlbls.at( mol.GetAtomById(config.begin)->GetIdx() - 1 );
       config.end = canlbls.at( mol.GetAtomById(config.end)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[3]))
+      }
+      if (mol.GetAtomById(config.refs[3])) {
         config.refs[3] = canlbls.at( mol.GetAtomById(config.refs[3])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       cistrans1.push_back(config);
     } else
@@ -131,21 +141,27 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
       OB_ASSERT( sp->IsValid() );
-      if (!sp->IsValid())
+      if (!sp->IsValid()) {
         continue;
+      }
 
       OBSquarePlanarStereo::Config config = sp->GetConfig();
       // convert atom ids to symmetry ids
-     if (mol.GetAtomById(config.center))
+     if (mol.GetAtomById(config.center)) {
         config.center = canlbls.at( mol.GetAtomById(config.center)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+     }
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[3]))
+      }
+      if (mol.GetAtomById(config.refs[3])) {
         config.refs[3] = canlbls.at( mol.GetAtomById(config.refs[3])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       squareplanar1.push_back(config);
     }
@@ -181,16 +197,21 @@ void genericSmilesCanonicalTest(const std::string &smiles)
 
       OBTetrahedralStereo::Config config = ts->GetConfig();
       // convert atom ids to symmetry ids
-      if (mol.GetAtomById(config.center))
+      if (mol.GetAtomById(config.center)) {
         config.center = canlbls.at( mol.GetAtomById(config.center)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.from))
+      }
+      if (mol.GetAtomById(config.from)) {
         config.from = canlbls.at( mol.GetAtomById(config.from)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+      }
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral2.push_back(config);
     }
@@ -204,14 +225,18 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert atom ids to symmetry ids
       config.begin = canlbls.at( mol.GetAtomById(config.begin)->GetIdx() - 1 );
       config.end = canlbls.at( mol.GetAtomById(config.end)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[3]))
+      }
+      if (mol.GetAtomById(config.refs[3])) {
         config.refs[3] = canlbls.at( mol.GetAtomById(config.refs[3])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       cistrans2.push_back(config);
     } else
@@ -223,16 +248,21 @@ void genericSmilesCanonicalTest(const std::string &smiles)
 
       OBSquarePlanarStereo::Config config = sp->GetConfig();
       // convert atom ids to symmetry ids
-      if (mol.GetAtomById(config.center))
+      if (mol.GetAtomById(config.center)) {
         config.center = canlbls.at( mol.GetAtomById(config.center)->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[0]))
+      }
+      if (mol.GetAtomById(config.refs[0])) {
         config.refs[0] = canlbls.at( mol.GetAtomById(config.refs[0])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[1]))
+      }
+      if (mol.GetAtomById(config.refs[1])) {
         config.refs[1] = canlbls.at( mol.GetAtomById(config.refs[1])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[2]))
+      }
+      if (mol.GetAtomById(config.refs[2])) {
         config.refs[2] = canlbls.at( mol.GetAtomById(config.refs[2])->GetIdx() - 1 );
-      if (mol.GetAtomById(config.refs[3]))
+      }
+      if (mol.GetAtomById(config.refs[3])) {
         config.refs[3] = canlbls.at( mol.GetAtomById(config.refs[3])->GetIdx() - 1 );
+      }
       cout << "Config with symmetry ids: " << config << endl;
       squareplanar2.push_back(config);
     }
@@ -243,8 +273,9 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   OB_ASSERT( tetrahedral1.size() == tetrahedral2.size() );
   for (unsigned int i = 0; i < tetrahedral1.size(); ++i) {
     for (unsigned int j = 0; j < tetrahedral2.size(); ++j) {
-      if (tetrahedral1[i].center == tetrahedral2[j].center)
+      if (tetrahedral1[i].center == tetrahedral2[j].center) {
         OB_ASSERT( tetrahedral1[i] == tetrahedral2[j] );
+      }
         if ( tetrahedral1[i] != tetrahedral2[j] ) {
           cout << "1 = " << tetrahedral1[i] << endl;
           cout << "2 = " << tetrahedral2[j] << endl;
@@ -255,18 +286,21 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   OB_ASSERT( cistrans1.size() == cistrans2.size() );
   for (unsigned int i = 0; i < cistrans1.size(); ++i) {
     for (unsigned int j = 0; j < cistrans2.size(); ++j) {
-      if ((cistrans1[i].begin == cistrans2[j].begin) && (cistrans1[i].end == cistrans2[j].end))
+      if ((cistrans1[i].begin == cistrans2[j].begin) && (cistrans1[i].end == cistrans2[j].end)) {
         OB_ASSERT( cistrans1[i] == cistrans2[j] );
-      if ((cistrans1[i].begin == cistrans2[j].end) && (cistrans1[i].end == cistrans2[j].begin))
+      }
+      if ((cistrans1[i].begin == cistrans2[j].end) && (cistrans1[i].end == cistrans2[j].begin)) {
         OB_ASSERT( cistrans1[i] == cistrans2[j] );
+      }
     }
   }
   // compare the square-planar structs
   OB_ASSERT( squareplanar1.size() == squareplanar2.size() );
   for (unsigned int i = 0; i < squareplanar1.size(); ++i) {
     for (unsigned int j = 0; j < squareplanar2.size(); ++j) {
-      if (squareplanar1[i].center == squareplanar2[j].center)
+      if (squareplanar1[i].center == squareplanar2[j].center) {
         OB_ASSERT( squareplanar1[i] == squareplanar2[j] );
+      }
         if ( squareplanar1[i] != squareplanar2[j] ) {
           cout << "1 = " << squareplanar1[i] << endl;
           cout << "2 = " << squareplanar2[j] << endl;

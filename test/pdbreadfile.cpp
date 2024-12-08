@@ -87,40 +87,47 @@ int pdbreadfile(int argc, char* argv[])
 
   // Test using ReadFile to read from PDB
   OpenBabel::OBMol obmol;
-  if (obconv.ReadFile(&obmol, TESTDATADIR + pdbfile))
+  if (obconv.ReadFile(&obmol, TESTDATADIR + pdbfile)) {
           cout << "ok 2!" << endl;
-  else
+  } else {
           cout << "not ok 2" << endl;
+  }
 
-  if (obmol.NumAtoms()==22)
+  if (obmol.NumAtoms()==22) {
           cout << "ok 3!" << endl;
-  else
+  } else {
           cout << "not ok 3" << endl;
+  }
 
-  if (obmol.GetAtom(10)->GetAtomicNum() == OBElements::Chlorine)
+  if (obmol.GetAtom(10)->GetAtomicNum() == OBElements::Chlorine) {
           cout << "ok 4!" << endl;
-  else
+  } else {
           cout << "not ok 4" << endl;
+  }
 
-  if (obmol.GetAtom(6)->GetAtomicNum() == OBElements::Nitrogen)
+  if (obmol.GetAtom(6)->GetAtomicNum() == OBElements::Nitrogen) {
           cout << "ok 5!" << endl;
-  else
+  } else {
           cout << "not ok 5" << endl;
+  }
 
-  if (obmol.GetAtom(12)->GetAtomicNum() == OBElements::Hydrogen)
+  if (obmol.GetAtom(12)->GetAtomicNum() == OBElements::Hydrogen) {
           cout << "ok 6!" << endl;
-  else
+  } else {
           cout << "not ok 6" << endl;
+  }
 
-  if (obmol.GetAtom(13)->GetAtomicNum() == OBElements::Hydrogen)
+  if (obmol.GetAtom(13)->GetAtomicNum() == OBElements::Hydrogen) {
           cout << "ok 7!" << endl;
-  else
+  } else {
           cout << "not ok 7" << endl;
+  }
 
-  if (obmol.GetAtom(14)->GetAtomicNum() == OBElements::Hydrogen)
+  if (obmol.GetAtom(14)->GetAtomicNum() == OBElements::Hydrogen) {
           cout << "ok 8!" << endl;
-  else
+  } else {
           cout << "not ok 8" << endl;
+  }
 
   // Test that there are no remaining molecules
   // (this test fails on Linux)
