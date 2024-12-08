@@ -36,8 +36,9 @@ using namespace OpenBabel;
 //outputs error and terminates if not consistent
 void checkResults(const string& file, const vector<string>& correctResults)
 {
-  if(correctResults.size() == 0)
+  if(correctResults.size() == 0) {
     return;
+  }
   OBMol mol;
   OBConversion conv(file);
   conv.SetOutFormat(conv.GetInFormat(), conv.GetInGzipped());
@@ -137,8 +138,9 @@ int gziptest(int argc, char* argv[])
 
   while(getline(ifs, line))
   {
-    if(line.length() == 0)
+    if(line.length() == 0) {
       continue; //ignore blank lines
+    }
     if(line[0] == '#')
     {
       checkResults(filepath, correctResults);

@@ -133,23 +133,26 @@ void testIsomorphismMask()
 
   // mask first ring
   OBBitVec mask;
-  for (int i = 0; i < 6; ++i)
+  for (int i = 0; i < 6; ++i) {
     mask.SetBitOn(i+1);
+  }
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
   OB_ASSERT( maps.size() == 1 );
 
   // mask second ring also
-  for (int i = 6; i < 10; ++i)
+  for (int i = 6; i < 10; ++i) {
     mask.SetBitOn(i+1);
+  }
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
   OB_ASSERT( maps.size() == 2 );
 
   // just mask last ring (atomIds 7-8, 10-13)
   mask.Clear();
-  for (int i = 10; i < 14; ++i)
+  for (int i = 10; i < 14; ++i) {
     mask.SetBitOn(i+1);
+  }
   mask.SetBitOn(7 + 1); mask.SetBitOn(8 + 1);
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
@@ -196,8 +199,9 @@ void testAutomorphismMask() {
   cout << maps.size() << endl;
   for (unsigned int i = 0; i < maps.size(); ++i) {
     OBIsomorphismMapper::Mapping::const_iterator j;
-    for (j = maps[i].begin(); j != maps[i].end(); ++j)
+    for (j = maps[i].begin(); j != maps[i].end(); ++j) {
       cout << j->second << " ";
+    }
     cout << endl;
   }
   OB_ASSERT( maps.size() == 8 );
@@ -205,11 +209,12 @@ void testAutomorphismMask() {
   // Verify that atom Id 6 does not occur anywhere in the mappings
   OBIsomorphismMapper::Mappings::const_iterator a;
   OBIsomorphismMapper::Mapping::const_iterator b;
-  for (a = maps.begin(); a != maps.end(); ++a)
+  for (a = maps.begin(); a != maps.end(); ++a) {
     for (b = a->begin(); b!= a->end(); ++b) {
       OB_ASSERT( b->first != 6 );
       OB_ASSERT( b->second != 6 );
     }
+  }
 }
 
 void testAutomorphismMask2()
@@ -227,8 +232,9 @@ void testAutomorphismMask2()
   Automorphisms _aut;
   OBBitVec _frag_atoms;
   FOR_ATOMS_OF_MOL(a, mol) {
-    if (a->GetAtomicNum() != OBElements::Hydrogen)
+    if (a->GetAtomicNum() != OBElements::Hydrogen) {
       _frag_atoms.SetBitOn(a->GetIdx());
+    }
   }
   FindAutomorphisms((OBMol*)&mol, _aut, _frag_atoms);
   OB_ASSERT( _aut.size() == 1 );
@@ -268,8 +274,9 @@ void testIsomorphism9()
   OBIsomorphismMapper::Mapping map;
   OBIsomorphismMapper::Mapping::const_iterator iter;
   map = maps[0];
-  for (iter=map.begin(); iter!=map.end(); ++iter)
+  for (iter=map.begin(); iter!=map.end(); ++iter) {
     OB_ASSERT( iter->first == iter->second);
+  }
 
   delete query;
   delete mapper;

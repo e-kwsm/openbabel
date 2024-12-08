@@ -19,8 +19,9 @@ void report_error(const char* msg, const char* file, int line, const char* func_
 template <typename T1, typename T2>
 void ob_compare(T1 a, T2 b, const char *expr, const char *file, int line, const char *func_name)
 {
-  if (!(a == b))
+  if (!(a == b)) {
     std::cout << file << ":" << line << ": " << expr << " [" << a << " == " << b << "] (FAIL)" << std::endl;
+  }
 }
 
 #define OB_ASSERT(exp) \

@@ -97,11 +97,12 @@ int invalidsmiles(int argc, char* argv[])
   while(mifs.good())
     {
       mol.Clear();
-      if (conv.Read(&mol))
+      if (conv.Read(&mol)) {
         cout << "not ok " << ++currentTest << " # invalid SMILES was parsed "
              << " but should have been rejected" << endl;
-      else
+      } else {
         cout << "ok " << ++currentTest << " # invalid SMILES rejected" << endl;
+      }
     }
 
   mifs.close();
