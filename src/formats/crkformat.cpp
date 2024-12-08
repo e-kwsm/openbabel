@@ -257,16 +257,17 @@ namespace OpenBabel
 
     while (ifs.getline(buffer,BUFF_SIZE))
       {
-        if (strstr(buffer,classTag) && foundClass == false)
+        if (strstr(buffer,classTag) && foundClass == false) {
           foundClass=true;
-        else if (strstr(buffer,classTag) && foundClass == true)
+        } else if (strstr(buffer,classTag) && foundClass == true) {
           break;
-        else if (strstr(buffer,"<Atom"))
+        } else if (strstr(buffer,"<Atom"))
           {
             atomID=0;
             char *tag=strstr(buffer,"ID=\"");
-            if (tag)
+            if (tag) {
               atomID=atoi(tag+4);
+            }
             if (atomID>0)
               {
                 inAtom=true;
@@ -274,7 +275,9 @@ namespace OpenBabel
                 atomX= atomY= atomZ= atomCharge =0.0;
               }
             else
+            {
               continue; // atomID <= 0
+            }
           }
         else if (strstr(buffer,"<Bond"))
           {
@@ -321,41 +324,50 @@ namespace OpenBabel
             if (inAtom)
               {
                 tag=strstr(buffer,"<X>");
-                if (tag)
+                if (tag) {
                   atomX=atof(tag+3);
+                }
                 tag=strstr(buffer,"<Y>");
-                if (tag)
+                if (tag) {
                   atomY=atof(tag+3);
+                }
                 tag=strstr(buffer,"<Z>");
-                if (tag)
+                if (tag) {
                   atomZ=atof(tag+3);
+                }
                 tag=strstr(buffer,"<Element>");
                 if (tag)
                   {
                     char element[3]="\0\0";
                     element[0]=tag[9];
-                    if (tag[10]>='a' && tag[10]<='z')
+                    if (tag[10]>='a' && tag[10]<='z') {
                       element[1]=tag[10];
+                    }
                     atomNumber=OBElements::GetAtomicNum(element);
                   }
                 tag=strstr(buffer,"<Charge>");
-                if (tag)
+                if (tag) {
                   atomCharge=atof(tag+8);
+                }
               }
             if (inBond)
               {
                 tag=strstr(buffer,"<From>");
-                if (tag)
+                if (tag) {
                   bondFrom=atoi(tag+6);
+                }
                 tag=strstr(buffer,"<To>");
-                if (tag)
+                if (tag) {
                   bondTo=atoi(tag+4);
+                }
                 tag=strstr(buffer,"<Order>");
-                if (tag)
+                if (tag) {
                   bondOrder=atof(tag+7);
+                }
                 tag=strstr(buffer,"<Style>");
-                if (tag)
+                if (tag) {
                   bondStyle=atoi(tag+7);
+                }
               }
           }
       }
@@ -365,10 +377,12 @@ namespace OpenBabel
         int fromIdx=0,toIdx=0;
         for(int i=0;i<numAtoms;i++)
           {
-            if (stbondFrom[n]==statomID[i])
+            if (stbondFrom[n]==statomID[i]) {
               fromIdx=i+1;
-            if (stbondTo[n]==statomID[i])
+            }
+            if (stbondTo[n]==statomID[i]) {
               toIdx=i+1;
+            }
           }
 
         if (fromIdx>0 && toIdx>0)
@@ -376,22 +390,26 @@ namespace OpenBabel
             OBAtom *from=mol.GetAtom(fromIdx),*to=mol.GetAtom(toIdx);
 
             int order=1;
-            if (stbondOrder[n]==2)
+            if (stbondOrder[n]==2) {
               order=2;
-            else if (stbondOrder[n]==3)
+            } else if (stbondOrder[n]==3) {
               order=3;
-            else if (stbondOrder[n]==1.5)
+            } else if (stbondOrder[n]==1.5) {
               order=5;
+            }
 
             OBBond bnd;
             bnd.Set(n+1,from,to,order,0);
 
-            if (stbondStyle[n]==1)
+            if (stbondStyle[n]==1) {
               bnd.SetWedge();
-            if (stbondStyle[n]==2)
+            }
+            if (stbondStyle[n]==2) {
               bnd.SetHash();
-            if (stbondOrder[n]==1.5)
+            }
+            if (stbondOrder[n]==1.5) {
               bnd.SetAromatic();
+            }
 
             if (!mol.AddBond(bnd))
               {
@@ -415,8 +433,9 @@ namespace OpenBabel
     if (ifs.peek() != EOF && ifs.good())
       {
         ifs.getline(buffer,BUFF_SIZE);
-        if (strstr(buffer, "</Property>") == nullptr)
+        if (strstr(buffer, "</Property>") == nullptr) {
           return false; // something messed up
+        }
       }
 
     return foundClass;
@@ -425,9 +444,11 @@ namespace OpenBabel
   void CRK2DFormat::WriteCRK(std::ostream &ofs,OBMol &mol,bool GroupCharges)
   {
     double groupCharge=0;
-    if (GroupCharges)
-      for(unsigned int n=1;n<=mol.NumAtoms();n++)
+    if (GroupCharges) {
+      for(unsigned int n=1;n<=mol.NumAtoms();n++) {
         groupCharge+=mol.GetAtom(n)->GetFormalCharge();
+      }
+    }
 
     ofs << "  <Group Charge=\"" << groupCharge << "\" Spin=\"0\">" << endl;
 
@@ -439,8 +460,9 @@ namespace OpenBabel
         double x=atm->GetX(),y=atm->GetY(),z=atm->GetZ();
         const char *element=OBElements::GetSymbol(atomnum);
         double charge=0;
-        if (!GroupCharges)
+        if (!GroupCharges) {
           charge=atm->GetFormalCharge();
+        }
 
         //ofs << ((int)atm) << endl;
 
@@ -449,8 +471,9 @@ namespace OpenBabel
         ofs << "    <Y>" << y << "</Y>" << endl;
         ofs << "    <Z>" << z << "</Z>" << endl;
         ofs << "    <Element>" << element << "</Element>" << endl;
-        if (charge!=0)
+        if (charge!=0) {
           ofs << "    <Charge>" << charge << "</Charge>" << endl;
+        }
         ofs << "   </Atom>" << endl;
       }
 
@@ -460,13 +483,16 @@ namespace OpenBabel
 
         int from=bnd->GetBeginAtom()->GetIdx(),to=bnd->GetEndAtom()->GetIdx();
         double order=bnd->GetBondOrder();
-        if (bnd->IsAromatic())
+        if (bnd->IsAromatic()) {
           order=1.5;
+        }
         int style=0;
-        if (bnd->IsHash())
+        if (bnd->IsHash()) {
           style=1;
-        if (bnd->IsWedge())
+        }
+        if (bnd->IsWedge()) {
           style=2;
+        }
 
         ofs << "   <Bond>" << endl;
         ofs << "    <From>" << from << "</From>" << endl;

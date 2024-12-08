@@ -198,22 +198,28 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
     const char* pc = pConv->IsOption("c");
     //alternative for obabel because -xc cannot take a parameter, because some other format uses it
     //similarly for -xr -xp
-    if(!pc)
+    if(!pc) {
       pc = pConv->IsOption("cols", OBConversion::GENOPTIONS);
+    }
     const char* pr = pConv->IsOption("r");
-    if(!pr)
+    if(!pr) {
       pr = pConv->IsOption("rows", OBConversion::GENOPTIONS);
-    if(pr)
+    }
+    if(pr) {
       _nrows = atoi(pr);
-    if(pc)
+    }
+    if(pc) {
       _ncols = atoi(pc);
-    if(pr && pc) // both specified: fixes maximum number objects to be output
+    }
+    if(pr && pc) { // both specified: fixes maximum number objects to be output
       _nmax = _nrows * _ncols;
+    }
 
     //explicit max number of objects
     const char* pmax =pConv->IsOption("N");
-    if(pmax)
+    if(pmax) {
       _nmax = atoi(pmax);
+    }
   }
 
   OBMoleculeFormat::DoOutputOptions(pOb, pConv);
@@ -238,10 +244,11 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
         _ncols = (int)ceil(sqrt(((double)nmols)));
       }
 
-      if(_nrows)
+      if(_nrows) {
         _ncols = (nmols-1) / _nrows + 1; //rounds up
-      else if(_ncols)
+      } else if(_ncols) {
         _nrows = (nmols-1) / _ncols + 1;
+      }
     }
 
     //output all collected molecules
@@ -251,8 +258,9 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
 
     //delete all the molecules
     vector<OBBase*>::iterator iter;
-    for(iter=_objects.begin();iter!=_objects.end(); ++iter)
+    for(iter=_objects.begin();iter!=_objects.end(); ++iter) {
       delete *iter;
+    }
     delete _ptext;//delete text, NULL or not
 
     _objects.clear();
@@ -265,8 +273,9 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
 bool SVGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if(!pmol)
+  if(!pmol) {
     return false;
+  }
   _objects.clear();
   _nmax =_nrows = _ncols = 1;
   _objects.push_back(pOb);
@@ -282,12 +291,14 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
 
   //Check for option for single mol in fixed size image
   const char* fixedpx = pConv->IsOption("P");
-  if(!fixedpx)
+  if(!fixedpx) {
     fixedpx= pConv->IsOption("px", OBConversion::GENOPTIONS);
+  }
   //If WriteMolecule called directly, e.g. from OBConversion::Write()
   //the default mode is a fixed image size of 200px square
-  if(!fixedpx && molecules.size()==1)
+  if(!fixedpx && molecules.size()==1) {
     fixedpx = "200";
+  }
   if(fixedpx)
   {
     _nmax = _nrows = _ncols = 1;
@@ -309,55 +320,69 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
     bondcolor = "gray";
   }
   const char* bcol = pConv->IsOption("B");
-  if(bcol && *bcol)
+  if(bcol && *bcol) {
     bondcolor = bcol;
-  if(bg && *bg)
+  }
+  if(bg && *bg) {
     background = bg;
+  }
 
-  if(!pConv->IsOption("x"))
+  if(!pConv->IsOption("x")) {
   ofs << "<?xml version=\"1.0\"?>\n";
+  }
 
   ofs << "<svg version=\"1.1\" id=\"topsvg\"\n"
          "xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"\n"
          "xmlns:cml=\"http://www.xml-cml.org/schema\" ";
   double vbwidth=100, vbheight=100;
-  if (_nrows>_ncols)
+  if (_nrows>_ncols) {
     vbwidth = (100*_ncols)/_nrows;
-  else if(_ncols>_nrows)
+  } else if(_ncols>_nrows) {
     vbheight = (100*_nrows)/_ncols;
+  }
 
-  if(fixedpx)//fixed size image
+  if(fixedpx) { //fixed size image
     ofs << "x=\"0\" y=\"0\" width=\"" << fixedpx << "px\" height=\"" << fixedpx <<"px\" ";
-  else
+  } else {
     ofs << "x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" ";
+  }
 
   ofs << "viewBox=\"0 0 " << vbwidth << ' ' << vbheight << "\">\n";
 
-  if (hasTable)
+  if (hasTable) {
     ofs << "<title>Multiple Molecules - Open Babel Depiction</title>\n";
-  else if(molecules.size() == 1)
+  } else if(molecules.size() == 1) {
     ofs << "<title>" << molecules[0]->GetTitle() << " - Open Babel Depiction</title>\n";
+  }
 
   // Draw the background unless transparent
-  if(!transparent)
+  if(!transparent) {
     ofs << "<rect x=\"0\" y=\"0\" width=\"" << vbwidth << "\" height=\"" << vbheight
         << "\" fill=\"" << background << "\"/>\n";
+  }
 
   unsigned opts = 0;
-  if(pConv->IsOption("u"))
+  if(pConv->IsOption("u")) {
     opts |= OBDepict::bwAtoms;
-  if(!pConv->IsOption("U"))
+  }
+  if(!pConv->IsOption("U")) {
    opts |= OBDepict::internalColor;
-  if(!pConv->IsOption("C"))
+  }
+  if(!pConv->IsOption("C")) {
     opts |= OBDepict::drawTermC;// on by default
-  if(pConv->IsOption("a"))
+  }
+  if(pConv->IsOption("a")) {
     opts |= OBDepict::drawAllC;
-  if(pConv->IsOption("W"))
+  }
+  if(pConv->IsOption("W")) {
     opts |= OBDepict::noWedgeHashGen;
-  if(pConv->IsOption("s"))
+  }
+  if(pConv->IsOption("s")) {
    opts |= OBDepict::asymmetricDoubleBond;
-  if(pConv->IsOption("X"))
+  }
+  if(pConv->IsOption("X")) {
     opts |= OBDepict::allExplicit;
+  }
 
   bool balldepict = false;
   if(pConv->IsOption("S")) {
@@ -385,8 +410,9 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(*iter);
 
-    if (!pmol)
+    if (!pmol) {
       continue;
+    }
     //*** Coordinate generation ***
     //Generate coordinates only if no existing 2D coordinates and we're not doing ball-and-stick style
     if( (pConv->IsOption("y") || !pmol->Has2D(true)) && (!pConv->IsOption("n") && !balldepict))
@@ -423,11 +449,12 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
         tokenize(vec, htxt);
         string highlight(vec.size()>1 ? vec[1] : "#f4f0ff");
         std::istringstream conditionText(vec[0]);
-        if(OBDescriptor::FilterCompare(*iter, conditionText, false))
+        if(OBDescriptor::FilterCompare(*iter, conditionText, false)) {
           //Still in outer <svg>, unfortunately
           molfs << "<rect x=\"" << innerX << "\" y=\"" << innerY
               << "\" width=\"" << cellsize << "\" height=\"" << cellsize
               << "\" fill=\"" << highlight << "\"/>\n";
+        }
       }
     }
 
@@ -444,10 +471,11 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
     painter.SetFontFamily("sans-serif");
     painter.SetPenColor(OBColor(bondcolor));
     depictor.SetBondColor(bondcolor);
-    if(pConv->IsOption("t"))
+    if(pConv->IsOption("t")) {
       painter.SetPenWidth(4);
-    else
+    } else {
       painter.SetPenWidth(2);
+    }
 
     molfs << "<g transform=\"translate(" << innerX << "," << innerY << ")\">\n";
 
@@ -455,15 +483,17 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
 
 
     //Draw atom indices if requested
-    if(pConv->IsOption("i"))
+    if(pConv->IsOption("i")) {
       depictor.AddAtomLabels(OBDepict::AtomIndex);
+    }
 
     painter.EndCanvas();
 
 
     //Embed CML of molecule if requested
-    if(pConv->IsOption("e"))
+    if(pConv->IsOption("e")) {
       EmbedCML(pmol, pConv, &molfs);
+    }
 
     molfs <<"</g>\n";
 
@@ -493,17 +523,20 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
   //Draw grid lines
   if(hasTable && pConv->IsOption("l"))
   {
-    for(int i=1; i<_nrows; ++i)
+    for(int i=1; i<_nrows; ++i) {
       ofs << " <line  stroke=\"gray\" stroke-width=\"0.1\" x1=\"0\" x2=\"100\""
           << " y1=\""  << i*cellsize << "\" y2=\""  << i*cellsize << "\"/>\n";
-    for(int i=1; i<_ncols; ++i)
+    }
+    for(int i=1; i<_ncols; ++i) {
       ofs << " <line  stroke=\"gray\" stroke-width=\"0.1\" y1=\"0\" y2=\"100\""
           << " x1=\""  << i*cellsize << "\" x2=\""  << i*cellsize << "\"/>\n";
+    }
   }
 
   //Insert javascript for zooming and panning
-  if(!pConv->IsOption("j"))
+  if(!pConv->IsOption("j")) {
     EmbedScript(ofs);
+  }
 
   ofs << "</svg>\n";
 return ret;
@@ -514,8 +547,9 @@ return ret;
 bool SVGFormat::EmbedScript(ostream& ofs)
 {
   ifstream ifs;
-  if(!ifs || OpenDatafile(ifs, "svgformat.script").empty())
+  if(!ifs || OpenDatafile(ifs, "svgformat.script").empty()) {
     return false;
+  }
   ofs << ifs.rdbuf(); //copy whole file
   return true;
 }

@@ -138,9 +138,11 @@ namespace OpenBabel
               {
                 atom = mol.NewAtom();
                 str = vs[0]; // Separate out the Symbol# into just Symbol ...
-                for (i = 0;i < str.size();i++)
-                  if (isdigit(str[i]))
+                for (i = 0;i < str.size();i++) {
+                  if (isdigit(str[i])) {
                     str[i] = '\0';
+                  }
+                }
 
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
                 x = atof((char*)vs[1].c_str());
@@ -148,7 +150,7 @@ namespace OpenBabel
                 z = atof((char*)vs[3].c_str());
                 atom->SetVector(x,y,z);
 
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
               }
           }
@@ -185,15 +187,17 @@ namespace OpenBabel
                 dipoleMoment->SetOrigin(fileformatInput);
                 mol.SetData(dipoleMoment);
               }
-            if (!ifs.getline(buffer,BUFF_SIZE)) break;
+            if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
           }
       }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
     if (!pConv->IsOption("s",OBConversion::INOPTIONS)
-        && !pConv->IsOption("b",OBConversion::INOPTIONS))
+        && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     mol.SetTitle(title);
@@ -204,7 +208,7 @@ namespace OpenBabel
   bool JaguarInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -239,7 +243,7 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr) return false;
+    if (pmol == nullptr) { return false; }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -265,9 +269,11 @@ namespace OpenBabel
               {
                 atom = mol.NewAtom();
                 str = vs[0]; // Separate out the Symbol# into just Symbol ...
-                for (i = 0;i < str.size();i++)
-                  if (isdigit(str[i]))
+                for (i = 0;i < str.size();i++) {
+                  if (isdigit(str[i])) {
                     str[i] = '\0';
+                  }
+                }
 
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
                 x = atof((char*)vs[1].c_str());
@@ -275,17 +281,19 @@ namespace OpenBabel
                 z = atof((char*)vs[3].c_str());
                 atom->SetVector(x,y,z);
 
-                if (!ifs.getline(buffer,BUFF_SIZE)) break;
+                if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
                 tokenize(vs,buffer);
               }
           }
       }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
     if (!pConv->IsOption("s",OBConversion::INOPTIONS)
-        && !pConv->IsOption("b",OBConversion::INOPTIONS))
+        && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     mol.SetTitle(title);

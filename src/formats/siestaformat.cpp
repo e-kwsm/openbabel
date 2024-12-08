@@ -181,8 +181,9 @@ namespace OpenBabel {
       vector<OBAtom*> toDelete;
       FOR_ATOMS_OF_MOL(a, *pmol)
         toDelete.push_back(&*a);
-      for (size_t i = 0; i < toDelete.size(); i++)
+      for (size_t i = 0; i < toDelete.size(); i++) {
         pmol->DeleteAtom(toDelete.at(i));
+      }
 
       // Store atom info
       int atomsIterated = 0;
@@ -242,7 +243,7 @@ namespace OpenBabel {
 
       // Input coordinates are fractional!
       if (strstr(buffer, "AtomicCoordinatesFormat") && !struct_out_found) {
-        if (strstr(buffer, "Fractional")) coordsAreFractional = true;
+        if (strstr(buffer, "Fractional")) { coordsAreFractional = true; }
       }
 
       // Input atom info
@@ -255,8 +256,9 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
+        for (size_t i = 0; i < toDelete.size(); i++) {
           pmol->DeleteAtom(toDelete.at(i));
+        }
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
@@ -300,15 +302,16 @@ namespace OpenBabel {
         // Check to see if they are fractional coordinates
         coordsAreFractional = false;
 
-        if (strstr(buffer, "fractional")) coordsAreFractional = true;
+        if (strstr(buffer, "fractional")) { coordsAreFractional = true; }
 
         // Clear old atoms from pmol. It was previously set from the input
         // section
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
+        for (size_t i = 0; i < toDelete.size(); i++) {
           pmol->DeleteAtom(toDelete.at(i));
+        }
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
@@ -340,7 +343,7 @@ namespace OpenBabel {
         latticeConstant = atof(vs.at(1).c_str());
 
         // TODO: Maybe check for other length units in the future?
-        if (strstr(buffer, "Ang")) coordsAreAngstrom = true;
+        if (strstr(buffer, "Ang")) { coordsAreAngstrom = true; }
       }
 
       // input lattice parameters. This will be overwritten if there are
@@ -384,13 +387,13 @@ namespace OpenBabel {
       if (strstr(buffer, "Final energy (eV):")) {
         // Loop through the pieces until we get to the total energy
         // We may need to add more energies to record in the future...
-        while (!strstr(buffer, "Total")) ifs.getline(buffer, BUFF_SIZE);
+        while (!strstr(buffer, "Total")) { ifs.getline(buffer, BUFF_SIZE); }
         tokenize(vs, buffer);
         pmol->SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
       }
 
       // We've reached the end!
-      if (strstr(buffer, "End of run:")) EOFReached = true;
+      if (strstr(buffer, "End of run:")) { EOFReached = true; }
     }
 
     if (!EOFReached) {
@@ -403,7 +406,7 @@ namespace OpenBabel {
     }
 
     // Delete the dynamically allocated cell if it was not set
-    if (!cellDataWasSet) delete cell;
+    if (!cellDataWasSet) { delete cell; }
 
     // Convert coords to cartesian if needed
     if (coordsAreFractional) {
@@ -413,7 +416,7 @@ namespace OpenBabel {
     }
 
     // set final unit cell
-    if (cellDataWasSet) pmol->SetData(cell);
+    if (cellDataWasSet) { pmol->SetData(cell); }
 
     pmol->EndModify();
 
