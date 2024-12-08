@@ -861,30 +861,29 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
 
                          t41Data = NewData(gd);
-         while( ReadSCFGrid( ifs, *t41Data ) ) {;
-}
+         while( ReadSCFGrid( ifs, *t41Data ) ) {}
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
-}
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
 
                          t41Data = NewData(gd);
-         while( ReadSumFragGrid( ifs, *t41Data ) ) {;
-}
+         while( ReadSumFragGrid( ifs, *t41Data ) ) {}
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
          } else {
            pmol->SetData( t41Data );
-}
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
@@ -892,7 +891,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
 
       string buf;
       // nuuc
-      while( buf != "Geometry" && ifs ) ifs >> buf; cout << buf << endl;
+      while( buf != "Geometry" && ifs ) { ifs >> buf; } cout << buf << endl;
       ifs >> buf; cout << buf << endl;
       if( buf != "nnuc" )
       {
@@ -905,7 +904,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
       buf  = "";
 
       // labels
-      while( buf != "Geometry" ) ifs >> buf; cout << buf << endl;
+      while( buf != "Geometry" ) { ifs >> buf; } cout << buf << endl;
       ifs >> buf; cout << buf << endl;
       if( buf != "labels" )
       {
@@ -927,7 +926,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
       }
       //coordinates
       buf = "";
-      while( buf != "Geometry" ) ifs >> buf; cout << buf << endl;
+      while( buf != "Geometry" ) { ifs >> buf; } cout << buf << endl;
       ifs >> buf; cout << buf << endl;
       if( buf != "xyznuc" )
       {
@@ -942,7 +941,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
       }
       //charge
       buf = "";
-      while( buf != "Geometry" ) ifs >> buf; cout << buf << endl;
+      while( buf != "Geometry" ) { ifs >> buf; } cout << buf << endl;
       ifs >> buf; cout << buf << endl;
       if( buf != "qtch" )
       {
@@ -957,7 +956,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
 
       // unit of length
       buf = "";
-      while( buf != "Geometry" ) ifs >> buf; cout << buf << endl;
+      while( buf != "Geometry" ) { ifs >> buf; } cout << buf << endl;
       ifs >> buf >> buf >> buf; cout << buf << endl;
       if( buf != "length" )
       {
@@ -1001,7 +1000,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
           atom->SetPartialCharge( atoms[ i ].charge );
       }
 
-      if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) pmol->ConnectTheDots();
+      if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) { pmol->ConnectTheDots(); }
       if (!pConv->IsOption( "s", OBConversion::INOPTIONS )
           && !pConv->IsOption( "b", OBConversion::INOPTIONS ) )
       {
@@ -1018,9 +1017,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     GridData gd;
     string buf;
     // Start_point
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "Start_point" ) return gd;
+    if( buf != "Start_point" ) { return gd; }
     eol( is );
     is >> gd.startPoint[ 0 ] >> gd.startPoint[ 1 ] >> gd.startPoint[ 2 ];
 
@@ -1029,35 +1028,35 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     gd.startPoint[ 2 ] *= BOHR_TO_ANGSTROM;
 
     // nr of points x
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf >> buf >> buf >> buf;
-    if( buf != "x" ) return gd;
+    if( buf != "x" ) { return gd; }
     eol( is );
     is >> gd.numPoints[ 0 ];
     // nr of points y
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf >> buf >> buf >> buf;
-    if( buf != "y" ) return gd;
+    if( buf != "y" ) { return gd; }
     eol( is );
     is >> gd.numPoints[ 1 ];
     // nr of points z
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf >> buf >> buf >> buf;
-    if( buf != "z" ) return gd;
+    if( buf != "z" ) { return gd; }
     eol( is );
     is >> gd.numPoints[ 2 ];
     // total nr of points
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf >> buf >> buf >> buf;
-    if( buf != "points" ) return gd;
+    if( buf != "points" ) { return gd; }
     eol( is );
     int n = 0;
     is >> n;
-    if( gd.numPoints[ 0 ] * gd.numPoints[ 1 ] * gd.numPoints[ 2 ] != n ) return gd;
+    if( gd.numPoints[ 0 ] * gd.numPoints[ 1 ] * gd.numPoints[ 2 ] != n ) { return gd; }
     //x-vector
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "x-vector" ) return gd;
+    if( buf != "x-vector" ) { return gd; }
     eol( is );
     is >> gd.xAxis[ 0 ] >> gd.xAxis[ 1 ] >> gd.xAxis[ 2 ];
 
@@ -1066,9 +1065,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     gd.xAxis[ 2 ] *= BOHR_TO_ANGSTROM;
 
     //y-vector
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "y-vector" ) return gd;
+    if( buf != "y-vector" ) { return gd; }
     eol( is );
     is >> gd.yAxis[ 0 ] >> gd.yAxis[ 1 ] >> gd.yAxis[ 2 ];
 
@@ -1077,9 +1076,9 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     gd.yAxis[ 2 ] *= BOHR_TO_ANGSTROM;
 
     //z-vector
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "z-vector" ) return gd;
+    if( buf != "z-vector" ) { return gd; }
     eol( is );
     is >> gd.zAxis[ 0 ] >> gd.zAxis[ 1 ] >> gd.zAxis[ 2 ];
 
@@ -1088,21 +1087,21 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     gd.zAxis[ 2 ] *= BOHR_TO_ANGSTROM;
 
     //nr of symmetries
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf >> buf >> buf;
-    if( buf != "symmetries" ) return gd;
+    if( buf != "symmetries" ) { return gd; }
     eol( is );
     is >> gd.numSymmetries;
     //labels ///@warning only one label supported
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "labels" ) return gd;
+    if( buf != "labels" ) { return gd; }
     eol( is );
     is >> buf; gd.labels.push_back( buf );
     //unrestricted
-    if( !NextTag( is, "Grid" ) ) return gd;
+    if( !NextTag( is, "Grid" ) ) { return gd; }
     is >> buf;
-    if( buf != "unrestricted" ) return gd;
+    if( buf != "unrestricted" ) { return gd; }
     eol( is );
     char c;
     is >> c;
@@ -1135,10 +1134,10 @@ bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
     //  read number = orbital id
     //  skip line
     //  read grid data
-    if( !is ) return false;
+    if( !is ) { return false; }
     string buf;
-    while( is >> buf ) if( buf.find( "SCF", 0 ) == 0 && buf.size() > 3 ) break;
-    if( !is ) return false;
+    while( is >> buf ) { if( buf.find( "SCF", 0 ) == 0 && buf.size() > 3 ) { break; } }
+    if( !is ) { return false; }
     // SCF_
     const string scf = buf;
     buf = "";
@@ -1150,18 +1149,20 @@ bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
             if( buf == scf ) // SCF_X_X
             {
                 is >> buf; // read tag on next line
-                if( IsNum( buf ) ) break; // break if (orbital) number
+                if( IsNum( buf ) ) { break; // break if (orbital) number
+                }
             }
         }
     }
-    if( !is ) return false; // eof -> return
+    if( !is ) { return false; // eof -> return
+    }
     // if we get here it means we are past the orbital number so read
     // read grid values
     const string label = scf + ' ' + buf; cout << label << endl;
     const int numPoints = t41Data.GetNumberOfPoints();
     vector< double > grid( numPoints );
     eol( is );
-    if( !is ) return false;
+    if( !is ) { return false; }
     for( int i = 0; i != numPoints; ++i )
     {
         is >> grid[ i ];
@@ -1171,13 +1172,15 @@ bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
     // ADF format order to OpenBabel GridData order!
     int voxels[3];
     t41Data.GetNumberOfPoints(voxels[0], voxels[1], voxels[2]);
-    for (int k = 0; k < voxels[2]; ++k)
-      for (int j = 0; j < voxels[1]; ++j)
+    for (int k = 0; k < voxels[2]; ++k) {
+      for (int j = 0; j < voxels[1]; ++j) {
         for (int i = 0; i < voxels[0]; ++i)
           {
             t41Data.SetValue(i, j, k,
                              grid[k*voxels[0]*voxels[1] + j*voxels[0] + i]);
           }
+      }
+    }
 
                 t41Data.SetAttribute( label );
     return true;
@@ -1186,21 +1189,21 @@ bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
 //------------------------------------------------------------------------------
 bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data ) const
 {
-        if( !is ) return false;
+        if( !is ) { return false; }
     string buf;
-    while( is >> buf ) if( buf.find( "SCF", 0 ) == 0 && buf.size() == 3 ) break;
-    if( !is ) return false;
+    while( is >> buf ) { if( buf.find( "SCF", 0 ) == 0 && buf.size() == 3 ) { break; } }
+    if( !is ) { return false; }
     // if tag = SCF read next line then skip line and read grid data
     const string scf = buf; // SCF
     is >> buf; // tag on line after SCF
     const string label = scf + ' ' + buf; cout << label << endl;
     eol( is );
-    if( !is ) return false;
+    if( !is ) { return false; }
     // read grid data
     const int numPoints = t41Data.GetNumberOfPoints();
     vector< double > grid( numPoints );
     int i = 0;
-    for( ; i != numPoints; ++i ) is >> grid[ i ];
+    for( ; i != numPoints; ++i ) { is >> grid[ i ]; }
 
     // Now to translate from a vector stored in z, y, x to one stored in xyz
     // ADF format order to OpenBabel GridData order!
@@ -1208,13 +1211,15 @@ bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data ) const
     // ADF format order to OpenBabel GridData order!
     int voxels[3];
     t41Data.GetNumberOfPoints(voxels[0], voxels[1], voxels[2]);
-    for (int k = 0; k < voxels[2]; ++k)
-      for (int j = 0; j < voxels[1]; ++j)
+    for (int k = 0; k < voxels[2]; ++k) {
+      for (int j = 0; j < voxels[1]; ++j) {
         for (int i = 0; i < voxels[0]; ++i)
           {
             t41Data.SetValue(i, j, k,
                              grid[k*voxels[0]*voxels[1] + j*voxels[0] + i]);
           }
+      }
+    }
 
                 t41Data.SetAttribute( label );
     return true;
@@ -1224,31 +1229,36 @@ bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data ) const
 //------------------------------------------------------------------------------
 bool OBT41Format::ReadSumFragGrid( istream& is, OBGridData& t41Data ) const
 {
-    if( !is ) return false;
+    if( !is ) { return false; }
     string buf;
-    while( is >> buf ) if( buf == "SumFrag" ) break; // look for SumFrag string
-    if( !is ) return false; // not found -> return
+    while( is >> buf ) { if( buf == "SumFrag" ) { break; // look for SumFrag string
+    }
+    }
+    if( !is ) { return false; // not found -> return
+    }
     const string sumfrag = buf; // found read next line then skip one line and read data
     is >> buf;
     const string label = sumfrag + ' ' + buf; cout << label << endl;
     eol( is );
-    if( !is ) return false;
+    if( !is ) { return false; }
     const int numPoints = t41Data.GetNumberOfPoints();
     vector< double > grid( numPoints );
     int i = 0;
-    for( ; i != numPoints; ++i ) is >> grid[ i ];
+    for( ; i != numPoints; ++i ) { is >> grid[ i ]; }
 
     // Now to translate from a vector stored in z, y, x to one stored in xyz
     // ADF format order to OpenBabel GridData order!
     int voxels[3];
     t41Data.GetNumberOfPoints(voxels[0], voxels[1], voxels[2]);
-    for (int k = 0; k < voxels[2]; ++k)
-      for (int j = 0; j < voxels[1]; ++j)
+    for (int k = 0; k < voxels[2]; ++k) {
+      for (int j = 0; j < voxels[1]; ++j) {
         for (int i = 0; i < voxels[0]; ++i)
           {
             t41Data.SetValue(i, j, k,
                              grid[k*voxels[0]*voxels[1] + j*voxels[0] + i]);
           }
+      }
+    }
 
                 t41Data.SetAttribute( label );
     return true;
