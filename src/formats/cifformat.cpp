@@ -823,7 +823,8 @@ namespace OpenBabel
                           else if(isalpha(mvAtom[i].mLabel[0])) { nbc=1; }
                         }
                       if(nbc>0) { mvAtom[i].mSymbol=mvAtom[i].mLabel.substr(0,nbc); }
-                      else { mvAtom[i].mSymbol="H";//Something wen wrong, no symbol ! }
+                      else { mvAtom[i].mSymbol="H";//Something wen wrong, no symbol !
+                      }
                     }
                 }
             }
