@@ -34,8 +34,9 @@ namespace OpenBabel
   void print_vector(const std::string &label, const std::vector<T> &v)
   {
     std::cout << label << ": ";
-    for (std::size_t i = 0; i < v.size(); ++i)
+    for (std::size_t i = 0; i < v.size(); ++i) {
       std::cout << v[i] << " ";
+    }
     std::cout << std::endl;
   }
 
@@ -77,14 +78,16 @@ namespace OpenBabel
 
       indices.push_back(mol->NumAtoms());
 
-      if (aromatic)
+      if (aromatic) {
         atom->SetAromatic();
+      }
       //else if (hCount == -1)
       //  atom->ForceImplH();
 
       if (hCount > -1) {
-        if (hCount == 0)
+        if (hCount == 0) {
           atom->SetSpinMultiplicity(2);
+        }
 
         for (int i = 0; i < hCount; ++i) {
           OBAtom *hydrogen = mol->NewAtom();
@@ -94,8 +97,9 @@ namespace OpenBabel
         }
       }
 
-      if (isotope > 0)
+      if (isotope > 0) {
         atom->SetIsotope(isotope);
+      }
 
       atom->SetFormalCharge(charge);
     }
@@ -113,12 +117,13 @@ namespace OpenBabel
 
       //std::cout << "addBond(" << source << ", " << target << ")" << std::endl;
 
-      if (isDown)
+      if (isDown) {
         upDown.push_back(IsDown);
-      else if (isUp)
+      } else if (isUp) {
         upDown.push_back(IsUp);
-      else
+      } else {
         upDown.push_back(IsNotUpDown);
+      }
 
       /*
       if (isUp || isDown) {
@@ -128,8 +133,9 @@ namespace OpenBabel
       */
 
       mol->AddBond(indices[source], indices[target], order);
-      if (order == 5)
+      if (order == 5) {
         mol->GetBond(mol->NumBonds() - 1)->SetAromatic();
+      }
     }
 
     void setChiral(int index, Smiley::Chirality chirality, const std::vector<int> &chiralNbrs)
@@ -145,11 +151,13 @@ namespace OpenBabel
       unsigned long center = indices[index] - 1;
       unsigned long from = indices[chiralNbrs[0]] - 1;
       std::vector<unsigned long> refs(chiralNbrs.size() - 1);
-      for (std::size_t i = 0; i < refs.size(); ++i)
-        if (chiralNbrs[i + 1] == Smiley::implicitHydrogen())
+      for (std::size_t i = 0; i < refs.size(); ++i) {
+        if (chiralNbrs[i + 1] == Smiley::implicitHydrogen()) {
           refs[i] = OBStereo::ImplicitRef;
-        else
+        } else {
           refs[i] = indices[chiralNbrs[i + 1]] - 1;
+        }
+      }
 
       //std::cout << "center: " << center << std::endl;
       //std::cout << "from: " << from << std::endl;
@@ -335,8 +343,9 @@ namespace OpenBabel
   bool SmileyFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (!pmol)
+    if (!pmol) {
       return false;
+    }
 
     // get the input stream
     istream& ifs = *pConv->GetInStream();
@@ -348,14 +357,16 @@ namespace OpenBabel
     // extract title
     std::size_t space_pos = smiles.find(" ");
     std::size_t tab_pos = smiles.find("\t");
-    if (space_pos != std::string::npos && tab_pos != std::string::npos)
+    if (space_pos != std::string::npos && tab_pos != std::string::npos) {
       space_pos = std::min(space_pos, tab_pos);
-    else if (tab_pos != std::string::npos)
+    } else if (tab_pos != std::string::npos) {
       space_pos = tab_pos;
+    }
 
     if (space_pos != std::string::npos) {
-      while (space_pos < smiles.size() && (smiles[space_pos] == ' ' || smiles[space_pos] == '\t'))
+      while (space_pos < smiles.size() && (smiles[space_pos] == ' ' || smiles[space_pos] == '\t')) {
         ++space_pos;
+      }
       pmol->SetTitle(smiles.substr(space_pos).c_str());
     }
 
@@ -369,16 +380,19 @@ namespace OpenBabel
     try {
       parser.parse(smiles);
     } catch (Smiley::Exception &e) {
-      if (e.type() == Smiley::Exception::SyntaxError)
+      if (e.type() == Smiley::Exception::SyntaxError) {
         std::cerr << "Syntax";
-      else
+      } else {
         std::cerr << "Semantics";
+      }
       std::cerr << "Error: " << e.what() << "." << std::endl;
       std::cerr << smiles << std::endl;
-      for (std::size_t i = 0; i < e.pos(); ++i)
+      for (std::size_t i = 0; i < e.pos(); ++i) {
         std::cerr << " ";
-      for (std::size_t i = 0; i < e.length(); ++i)
+      }
+      for (std::size_t i = 0; i < e.length(); ++i) {
         std::cerr << "^";
+      }
       std::cerr << std::endl;
     }
 
@@ -402,8 +416,9 @@ namespace OpenBabel
     OBAtom *unspecified = nullptr;
 
     FOR_BONDS_OF_ATOM (bond, atom) {
-      if (!bond->IsAromatic() && bond->GetBondOrder() == 2)
+      if (!bond->IsAromatic() && bond->GetBondOrder() == 2) {
         continue;
+      }
 
       OBAtom *nbr = bond->GetNbrAtom(atom);
       //std::cout << "atom: " << atom->GetIndex() << std::endl;
@@ -413,24 +428,28 @@ namespace OpenBabel
         case OpenBabelCallback::IsUp:
           if (nbr->GetIndex() < atom->GetIndex() && bond->GetBeginAtomIdx() < bond->GetEndAtomIdx()) {
             //std::cout << "below: " << nbr->GetIndex() << std::endl;
-            if (below)
+            if (below) {
               return false;
+            }
             below = nbr;
           } else {
             //std::cout << "above: " << nbr->GetIndex() << std::endl;
-            if (above)
+            if (above) {
               return false;
+            }
             above = nbr;
           }
           break;
         case OpenBabelCallback::IsDown:
           if (nbr->GetIndex() < atom->GetIndex() && bond->GetBeginAtomIdx() < bond->GetEndAtomIdx()) {
-            if (above)
+            if (above) {
               return false;
+            }
             above = nbr;
           } else {
-            if (below)
+            if (below) {
               return false;
+            }
             below = nbr;
           }
           break;
@@ -442,13 +461,15 @@ namespace OpenBabel
     }
 
     // at least 1 bond should be specified
-    if (!above && !below)
+    if (!above && !below) {
       return true;
+    }
 
-    if (above && unspecified)
+    if (above && unspecified) {
       below = unspecified;
-    else if (below && unspecified)
+    } else if (below && unspecified) {
       above = unspecified;
+    }
 
     aboveId = above ? above->GetId() : OBStereo::ImplicitRef;
     belowId = below ? below->GetId() : OBStereo::ImplicitRef;
@@ -459,8 +480,9 @@ namespace OpenBabel
   void SmileyFormat::CreateCisTrans(OBMol *mol, const std::vector<OpenBabelCallback::UpDown> &upDown)
   {
     FOR_BONDS_OF_MOL (doubleBond, mol) {
-      if (doubleBond->GetBondOrder() != 2 || doubleBond->IsAromatic())
+      if (doubleBond->GetBondOrder() != 2 || doubleBond->IsAromatic()) {
         continue;
+      }
 
       OBAtom *source = doubleBond->GetBeginAtom();
       OBAtom *target = doubleBond->GetEndAtom();
@@ -471,8 +493,9 @@ namespace OpenBabel
       // other neighbor, but not more than two other neighbors;
       int v1 = source->GetExplicitDegree();
       int v2 = target->GetExplicitDegree();
-      if (v1 < 2 || v1 > 3 || v2 < 2 || v2 > 3)
+      if (v1 < 2 || v1 > 3 || v2 < 2 || v2 > 3) {
         continue;
+      }
 
       unsigned long aboveSource = OBStereo::ImplicitRef;
       unsigned long belowSource = OBStereo::ImplicitRef;
@@ -481,8 +504,9 @@ namespace OpenBabel
         continue;
       }
 
-      if (aboveSource == OBStereo::ImplicitRef && belowSource == OBStereo::ImplicitRef)
+      if (aboveSource == OBStereo::ImplicitRef && belowSource == OBStereo::ImplicitRef) {
         continue;
+      }
 
       unsigned long aboveTarget = OBStereo::ImplicitRef;
       unsigned long belowTarget = OBStereo::ImplicitRef;
@@ -491,8 +515,9 @@ namespace OpenBabel
         continue;
       }
 
-      if (aboveTarget == OBStereo::ImplicitRef && belowTarget == OBStereo::ImplicitRef)
+      if (aboveTarget == OBStereo::ImplicitRef && belowTarget == OBStereo::ImplicitRef) {
         continue;
+      }
 
       //std::cout << "refs: " << aboveSource << " " << aboveTarget << " " << belowTarget << " " << belowSource << std::endl;
 

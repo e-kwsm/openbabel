@@ -748,8 +748,9 @@ namespace Smiley {
                 << "    index: " << index << std::endl
                 << "    chirality: " << chirality << std::endl
                 << "    nbrs: ";
-      for (std::size_t i = 0; i < nbrs.size(); ++i)
+      for (std::size_t i = 0; i < nbrs.size(); ++i) {
         std::cout << nbrs[i] << " ";
+      }
       std::cout << std::endl;
     }
 
@@ -775,12 +776,13 @@ namespace Smiley {
     void addOrganicSubsetAtom(int element, bool aromatic)
     {
       std::size_t pos = str.size();
-      if (element == 0)
+      if (element == 0) {
         str+= "*";
-      else if (aromatic)
+      } else if (aromatic) {
         str += "<a" + number2string(element) + ">";
-      else
+      } else {
         str += "<A" + number2string(element) + ">";
+      }
       std::cout << "addOrganicSubsetAtom: " << str.substr(pos) << std::endl;
     }
 
@@ -850,8 +852,9 @@ namespace Smiley {
           str += "x" + number2string(value);
           break;
         case AE_Charge:
-          if (value > 0)
+          if (value > 0) {
             str += "+";
+          }
           str += number2string(value);
           break;
         case AE_Chirality:
@@ -1046,9 +1049,10 @@ namespace Smiley {
           std::size_t open_pos = m_str.find(open, pos + 1);
           std::size_t close_pos = m_str.find(close, pos + 1);
           // syntax error when there is no closing bracket
-          if (close_pos == std::string::npos)
+          if (close_pos == std::string::npos) {
             throw Exception(Exception::SyntaxError, NoClosingAtomBracket,
                 "Could not find matching bracket", pos, m_str.size() - pos);
+          }
           if (open_pos > close_pos) {
             --indent;
             pos = close_pos;
@@ -1069,11 +1073,13 @@ namespace Smiley {
        */
       bool checkNextChar(char chr)
       {
-        if (m_pos + 1 >= m_str.size())
+        if (m_pos + 1 >= m_str.size()) {
           return false;
+        }
         bool match = m_str[m_pos + 1] == chr;
-        if (match)
+        if (match) {
           ++m_pos;
+        }
         return match;
       }
 
@@ -1081,8 +1087,9 @@ namespace Smiley {
       {
         for (std::size_t i = 0; i < m_chiralInfo.size(); ++i) {
           std::cout << "chiralNbrs for " << i << ": ";
-          for (std::size_t j = 0; j < m_chiralInfo[i].nbrs.size(); ++j)
+          for (std::size_t j = 0; j < m_chiralInfo[i].nbrs.size(); ++j) {
             std::cout << m_chiralInfo[i].nbrs[j] << " ";
+          }
           std::cout << std::endl;
         }
       }
@@ -1103,40 +1110,47 @@ namespace Smiley {
         for (std::size_t i = 0; i < m_chiralInfo[source].nbrs.size(); i++) {
           int nbr = m_chiralInfo[source].nbrs[i];
           if (nbr == target) {
-            if (m_exceptions & InvalidRingBond)
+            if (m_exceptions & InvalidRingBond) {
               throw Exception(Exception::SemanticsError, InvalidRingBond,
                   "Parallel ring bond", 0, 0);
-            else
+            } else {
               return; // ignore parallel bond
+            }
           }
         }
         // check for self-loop ring bonds
         if (source == target) {
-          if (m_exceptions & InvalidRingBond)
+          if (m_exceptions & InvalidRingBond) {
             throw Exception(Exception::SemanticsError, InvalidRingBond,
                 "Self-loop ring bond", 0, 0);
-          else
+          } else {
             return; // ignore self-loop
+          }
         }
 
-        if (rnum)
+        if (rnum) {
           m_callback.addBond(target, source, order, isUp, isDown);
-        else
+        } else {
           m_callback.addBond(source, target, order, isUp, isDown);
+        }
 
         if (!rnum) {
           m_chiralInfo[source].nbrs.push_back(target);
         } else {
-          for (std::size_t i = 0; i < m_chiralInfo.size(); ++i)
-            for (std::size_t j = 0; j < m_chiralInfo[i].nbrs.size(); ++j)
-              if (m_chiralInfo[i].nbrs[j] == -rnum)
+          for (std::size_t i = 0; i < m_chiralInfo.size(); ++i) {
+            for (std::size_t j = 0; j < m_chiralInfo[i].nbrs.size(); ++j) {
+              if (m_chiralInfo[i].nbrs[j] == -rnum) {
                 m_chiralInfo[i].nbrs[j] = target;
+              }
+            }
+          }
         }
 
-        if (m_chiralInfo[target].nbrs.size() && m_chiralInfo[target].nbrs.front() == implicitHydrogen())
+        if (m_chiralInfo[target].nbrs.size() && m_chiralInfo[target].nbrs.front() == implicitHydrogen()) {
           m_chiralInfo[target].nbrs.insert(m_chiralInfo[target].nbrs.begin(), source);
-        else
+        } else {
           m_chiralInfo[target].nbrs.push_back(source);
+        }
       }
 
       /**
@@ -1148,17 +1162,20 @@ namespace Smiley {
       void addAtom(int element, bool aromatic = false, int isotope = -1, int hCount = -1, int charge = 0, int atomClass = 0)
       {
         // check for [HH1]
-        if (element == H && hCount != 0)
+        if (element == H && hCount != 0) {
           throw Exception(Exception::SemanticsError, HydrogenHydrogenCount,
               "Hydrogen atoms can not have a hydrogen count", 0, 0);
+        }
 
-        if (m_mode == SmilesMode)
+        if (m_mode == SmilesMode) {
           m_callback.addAtom(element, aromatic, isotope, hCount, charge, atomClass);
-        else
+        } else {
           m_callback.addOrganicSubsetAtom(element, aromatic);
+        }
 
-        if (m_prev != -1)
+        if (m_prev != -1) {
           addBond(m_prev, m_index, m_bondOrder, m_isUp, m_isDown);
+        }
 
         m_prev = m_index;
         ++m_index;
@@ -1192,8 +1209,9 @@ namespace Smiley {
           ++m_pos;
           found_isotope = true;
         }
-        if (!found_isotope)
+        if (!found_isotope) {
           m_isotope = -1;
+        }
       }
 
       /**
@@ -1209,274 +1227,295 @@ namespace Smiley {
       {
         switch (m_str[m_pos]) {
           case 'H':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = He;
-            else if (checkNextChar('f'))
+            } else if (checkNextChar('f')) {
               m_element = Hf;
-            else if (checkNextChar('g'))
+            } else if (checkNextChar('g')) {
               m_element = Hg;
-            else if (checkNextChar('s'))
+            } else if (checkNextChar('s')) {
               m_element = Hs;
-            else if (checkNextChar('o'))
+            } else if (checkNextChar('o')) {
               m_element = Ho;
-            else if (!ignoreHydrogen)
+            } else if (!ignoreHydrogen) {
               m_element = H;
+            }
             break;
           case 'L':
-            if (checkNextChar('i'))
+            if (checkNextChar('i')) {
               m_element = Li;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = La;
-            else if (checkNextChar('u'))
+            } else if (checkNextChar('u')) {
               m_element = Lu;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Lr;
-            else if (checkNextChar('v'))
+            } else if (checkNextChar('v')) {
               m_element = Lv;
+            }
             break;
           case 'B':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = Be;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Br;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Ba;
-            else if (checkNextChar('i'))
+            } else if (checkNextChar('i')) {
               m_element = Bi;
-            else if (checkNextChar('h'))
+            } else if (checkNextChar('h')) {
               m_element = Bh;
-            else if (checkNextChar('k'))
+            } else if (checkNextChar('k')) {
               m_element = Bk;
-            else
+            } else {
               m_element = B;
+            }
             break;
           case 'C':
-            if (checkNextChar('l'))
+            if (checkNextChar('l')) {
               m_element = Cl;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Ca;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Cr;
-            else if (checkNextChar('o'))
+            } else if (checkNextChar('o')) {
               m_element = Co;
-            else if (checkNextChar('u'))
+            } else if (checkNextChar('u')) {
               m_element = Cu;
-            else if (checkNextChar('d'))
+            } else if (checkNextChar('d')) {
               m_element = Cd;
-            else if (checkNextChar('s'))
+            } else if (checkNextChar('s')) {
               m_element = Cs;
-            else if (checkNextChar('e'))
+            } else if (checkNextChar('e')) {
               m_element = Ce;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Cm;
-            else if (checkNextChar('f'))
+            } else if (checkNextChar('f')) {
               m_element = Cf;
-            else if (checkNextChar('n'))
+            } else if (checkNextChar('n')) {
               m_element = Cn;
-            else
+            } else {
               m_element = C;
+            }
             break;
           case 'N':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = Ne;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Na;
-            else if (checkNextChar('i'))
+            } else if (checkNextChar('i')) {
               m_element = Ni;
-            else if (checkNextChar('b'))
+            } else if (checkNextChar('b')) {
               m_element = Nb;
-            else if (checkNextChar('d'))
+            } else if (checkNextChar('d')) {
               m_element = Nd;
-            else if (checkNextChar('p'))
+            } else if (checkNextChar('p')) {
               m_element = Np;
-            else if (checkNextChar('o'))
+            } else if (checkNextChar('o')) {
               m_element = No;
-            else
+            } else {
               m_element = N;
+            }
             break;
           case 'O':
-            if (checkNextChar('s'))
+            if (checkNextChar('s')) {
               m_element = Os;
-            else
+            } else {
               m_element = O;
+            }
             break;
           case 'F':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = Fe;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Fr;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Fm;
-            else if (checkNextChar('l'))
+            } else if (checkNextChar('l')) {
               m_element = Fl;
-            else
+            } else {
               m_element = F;
+            }
             break;
           case 'M':
-            if (checkNextChar('n'))
+            if (checkNextChar('n')) {
               m_element = Mn;
-            else if (checkNextChar('o'))
+            } else if (checkNextChar('o')) {
               m_element = Mo;
-            else if (checkNextChar('t'))
+            } else if (checkNextChar('t')) {
               m_element = Mt;
-            else if (checkNextChar('d'))
+            } else if (checkNextChar('d')) {
               m_element = Md;
-            else if (checkNextChar('g'))
+            } else if (checkNextChar('g')) {
               m_element = Mg;
+            }
             break;
           case 'A':
-            if (checkNextChar('l'))
+            if (checkNextChar('l')) {
               m_element = Al;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Ar;
-            else if (checkNextChar('s'))
+            } else if (checkNextChar('s')) {
               m_element = As;
-            else if (checkNextChar('g'))
+            } else if (checkNextChar('g')) {
               m_element = Ag;
-            else if (checkNextChar('u'))
+            } else if (checkNextChar('u')) {
               m_element = Au;
-            else if (checkNextChar('t'))
+            } else if (checkNextChar('t')) {
               m_element = At;
-            else if (checkNextChar('c'))
+            } else if (checkNextChar('c')) {
               m_element = Ac;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Am;
+            }
             break;
           case 'S':
-            if (checkNextChar('i'))
+            if (checkNextChar('i')) {
               m_element = Si;
-            else if (checkNextChar('c'))
+            } else if (checkNextChar('c')) {
               m_element = Sc;
-            else if (checkNextChar('e'))
+            } else if (checkNextChar('e')) {
               m_element = Se;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Sr;
-            else if (checkNextChar('n'))
+            } else if (checkNextChar('n')) {
               m_element = Sn;
-            else if (checkNextChar('b'))
+            } else if (checkNextChar('b')) {
               m_element = Sb;
-            else if (checkNextChar('g'))
+            } else if (checkNextChar('g')) {
               m_element = Sg;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Sm;
-            else
+            } else {
               m_element = S;
+            }
             break;
           case 'P':
-            if (checkNextChar('d'))
+            if (checkNextChar('d')) {
               m_element = Pd;
-            else if (checkNextChar('t'))
+            } else if (checkNextChar('t')) {
               m_element = Pt;
-            else if (checkNextChar('b'))
+            } else if (checkNextChar('b')) {
               m_element = Pb;
-            else if (checkNextChar('o'))
+            } else if (checkNextChar('o')) {
               m_element = Po;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Pr;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Pm;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Pa;
-            else if (checkNextChar('u'))
+            } else if (checkNextChar('u')) {
               m_element = Pu;
-            else
+            } else {
               m_element = P;
+            }
             break;
           case 'K':
-            if (checkNextChar('r'))
+            if (checkNextChar('r')) {
               m_element = Kr;
-            else
+            } else {
               m_element = K;
+            }
             break;
           case 'T':
-            if (checkNextChar('i'))
+            if (checkNextChar('i')) {
               m_element = Ti;
-            else if (checkNextChar('c'))
+            } else if (checkNextChar('c')) {
               m_element = Tc;
-            else if (checkNextChar('e'))
+            } else if (checkNextChar('e')) {
               m_element = Te;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Ta;
-            else if (checkNextChar('l'))
+            } else if (checkNextChar('l')) {
               m_element = Tl;
-            else if (checkNextChar('b'))
+            } else if (checkNextChar('b')) {
               m_element = Tb;
-            else if (checkNextChar('m'))
+            } else if (checkNextChar('m')) {
               m_element = Tm;
-            else if (checkNextChar('h'))
+            } else if (checkNextChar('h')) {
               m_element = Th;
+            }
             break;
           case 'V':
             m_element = V;
             break;
           case 'Z':
-            if (checkNextChar('n'))
+            if (checkNextChar('n')) {
               m_element = Zn;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Zr;
+            }
             break;
           case 'G':
-            if (checkNextChar('a'))
+            if (checkNextChar('a')) {
               m_element = Ga;
-            else if (checkNextChar('e'))
+            } else if (checkNextChar('e')) {
               m_element = Ge;
-            else if (checkNextChar('d'))
+            } else if (checkNextChar('d')) {
               m_element = Gd;
+            }
             break;
           case 'R':
-            if (checkNextChar('b'))
+            if (checkNextChar('b')) {
               m_element = Rb;
-            else if (checkNextChar('u'))
+            } else if (checkNextChar('u')) {
               m_element = Ru;
-            else if (checkNextChar('h'))
+            } else if (checkNextChar('h')) {
               m_element = Rh;
-            else if (checkNextChar('e'))
+            } else if (checkNextChar('e')) {
               m_element = Re;
-            else if (checkNextChar('n'))
+            } else if (checkNextChar('n')) {
               m_element = Rn;
-            else if (checkNextChar('a'))
+            } else if (checkNextChar('a')) {
               m_element = Ra;
-            else if (checkNextChar('f'))
+            } else if (checkNextChar('f')) {
               m_element = Rf;
-            else if (checkNextChar('g'))
+            } else if (checkNextChar('g')) {
               m_element = Rg;
+            }
             break;
           case 'Y':
-            if (checkNextChar('b'))
+            if (checkNextChar('b')) {
               m_element = Yb;
-            else
+            } else {
               m_element = Y;
+            }
             break;
           case 'I':
-            if (checkNextChar('n'))
+            if (checkNextChar('n')) {
               m_element = In;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Ir;
-            else
+            } else {
               m_element = I;
+            }
             break;
           case 'X':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = Xe;
+            }
             break;
           case 'W':
             m_element = W;
             break;
           case 'D':
-            if (checkNextChar('b'))
+            if (checkNextChar('b')) {
               m_element = Db;
-            else if (checkNextChar('s'))
+            } else if (checkNextChar('s')) {
               m_element = Ds;
-            else if (checkNextChar('y'))
+            } else if (checkNextChar('y')) {
               m_element = Dy;
+            }
             break;
           case 'E':
-            if (checkNextChar('u'))
+            if (checkNextChar('u')) {
               m_element = Eu;
-            else if (checkNextChar('r'))
+            } else if (checkNextChar('r')) {
               m_element = Er;
-            else if (checkNextChar('s'))
+            } else if (checkNextChar('s')) {
               m_element = Es;
+            }
             break;
           case 'U':
             m_element = U;
@@ -1502,10 +1541,11 @@ namespace Smiley {
             m_aromatic = true;
             break;
           case 's':
-            if (checkNextChar('e'))
+            if (checkNextChar('e')) {
               m_element = Se;
-            else
+            } else {
               m_element = S;
+            }
             m_aromatic = true;
             break;
           case 'a':
@@ -1521,12 +1561,12 @@ namespace Smiley {
 
         int elem = m_element;
         bool arom = m_aromatic;
-        if (m_element != -1)
+        if (m_element != -1) {
           ++m_pos;
-        else if (m_mode == SmilesMode)
+        } else if (m_mode == SmilesMode) {
             throw Exception(Exception::SyntaxError, NoSymbolInBracketAtom,
                 "Bracket atom expression does not contain element symbol", m_pos, 1);
-        else if (m_mode == SmartsMode) {
+        } else if (m_mode == SmartsMode) {
           m_element = -1;
           m_aromatic = false;
         }
@@ -1546,8 +1586,9 @@ namespace Smiley {
       {
         m_chiralInfo.back().pos = m_pos;
 
-        if (m_str[m_pos] != '@')
+        if (m_str[m_pos] != '@') {
           return;
+        }
 
         // @@
         if (checkNextChar('@')) {
@@ -1558,13 +1599,14 @@ namespace Smiley {
         if (checkNextChar('T')) {
           // @TH1 & @TH2
           if (checkNextChar('H')) {
-            if (checkNextChar('1'))
+            if (checkNextChar('1')) {
               m_chiral = TH1;
-            else if (checkNextChar('2'))
+            } else if (checkNextChar('2')) {
               m_chiral = TH2;
-            else
+            } else {
               throw Exception(Exception::SyntaxError, InvalidChirality,
                   "Invalid chiral specified, expected 1 or 2", m_pos + 1, 1);
+            }
             ++m_pos;
             return;
           }
@@ -1581,9 +1623,10 @@ namespace Smiley {
               tb += m_str[m_pos + 1] - '0';
               ++m_pos;
             }
-            if (tb < 1 || tb > 20)
+            if (tb < 1 || tb > 20) {
               throw Exception(Exception::SyntaxError, InvalidChirality,
                   "Invalid chiral class specified, expected 1-20", pos + 1, m_pos == pos ? 1 : m_pos - pos);
+            }
 
             m_chiral = static_cast<Chirality>(tb + TB1 - 1);
             ++m_pos;
@@ -1595,41 +1638,46 @@ namespace Smiley {
         }
         // @AL1 & @AL2
         if (checkNextChar('A')) {
-          if (!checkNextChar('L'))
+          if (!checkNextChar('L')) {
             throw Exception(Exception::SyntaxError, InvalidChirality,
                 "Invalid chiral specifier, expected L", m_pos + 1, 1);
-          if (checkNextChar('1'))
+          }
+          if (checkNextChar('1')) {
             m_chiral = AL1;
-          else if (checkNextChar('2'))
+          } else if (checkNextChar('2')) {
             m_chiral = AL2;
-          else
+          } else {
             throw Exception(Exception::SyntaxError,  InvalidChirality,
                 "Invalid chiral specified, expected 1 or 2", m_pos + 1, 1);
+          }
           ++m_pos;
           return;
         }
         // @SP1, @SP2 & @SP3
         if (checkNextChar('S')) {
-          if (!checkNextChar('P'))
+          if (!checkNextChar('P')) {
             throw Exception(Exception::SyntaxError, InvalidChirality,
                 "Invalid chiral specifier, expected P", m_pos + 1, 1);
-          if (checkNextChar('1'))
+          }
+          if (checkNextChar('1')) {
             m_chiral = SP1;
-          else if (checkNextChar('2'))
+          } else if (checkNextChar('2')) {
             m_chiral = SP2;
-          else if (checkNextChar('3'))
+          } else if (checkNextChar('3')) {
             m_chiral = SP3;
-          else
+          } else {
             throw Exception(Exception::SyntaxError, InvalidChirality,
                 "Invalid chiral specified, expected 1, 2 or 3", m_pos + 1, 1);
+          }
           ++m_pos;
           return;
         }
         // @OH1 ... @OH30
         if (checkNextChar('O')) {
-          if (!checkNextChar('H'))
+          if (!checkNextChar('H')) {
             throw Exception(Exception::SyntaxError, InvalidChirality,
                 "Invalid chiral specifier, expected H", m_pos + 1, 1);
+          }
 
           std::size_t pos = m_pos;
           int oh = 0;
@@ -1642,9 +1690,10 @@ namespace Smiley {
             oh += m_str[m_pos + 1] - '0';
             ++m_pos;
           }
-          if (oh < 1 || oh > 30)
+          if (oh < 1 || oh > 30) {
             throw Exception(Exception::SyntaxError, InvalidChirality,
                 "Invalid chiral class specified, expected 1-30", pos + 1, m_pos == pos ? 1 : m_pos - pos);
+          }
 
           m_chiral = static_cast<Chirality>(oh + OH1 - 1);
           ++m_pos;
@@ -1662,13 +1711,15 @@ namespace Smiley {
        */
       void parseHydrogenCount()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseHydrogenCount(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         // [C] = [CH0]
         m_hCount = 0;
-        if (m_str[m_pos] != 'H')
+        if (m_str[m_pos] != 'H') {
           return;
+        }
         ++m_pos;
         if (std::isdigit(m_str[m_pos])) {
           m_hCount = m_str[m_pos] - '0';
@@ -1687,8 +1738,9 @@ namespace Smiley {
        */
       void parseCharge()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseCharge(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         if (m_str[m_pos] == '-') {
           if (checkNextChar('-')) {
@@ -1734,11 +1786,13 @@ namespace Smiley {
        */
       void parseClass()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseClass(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
-        if (m_str[m_pos] != ':')
+        if (m_str[m_pos] != ':') {
           return;
+        }
         bool found_number = false;
         while (std::isdigit(m_str[m_pos + 1])) {
           m_class *= 10;
@@ -1747,19 +1801,22 @@ namespace Smiley {
           found_number = true;
         }
         ++m_pos;
-        if (!found_number)
+        if (!found_number) {
           throw Exception(Exception::SyntaxError, NoAtomClass,
               "No atom class, expected number", m_pos + 1, 1);
+        }
       }
 
       bool parseCharDigit(char chr, int type, int defaultValue, int &parsedOp,
           bool firstPrimitive)
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseCharDigit(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
-        if (m_str[m_pos] != chr)
+        if (m_str[m_pos] != chr) {
           return false;
+        }
         ++m_pos;
         if (std::isdigit(m_str[m_pos])) {
           defaultValue = m_str[m_pos] - '0';
@@ -1773,14 +1830,16 @@ namespace Smiley {
       bool parseCharNumber(char chr, int type, int &parsedOp,
           bool firstPrimitive, bool noDefault = false)
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseCharNumber(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
-        if (m_str[m_pos] != chr)
+        if (m_str[m_pos] != chr) {
           return false;
+        }
 
         // check for element symbols
-        if (chr == 'D')
+        if (chr == 'D') {
           switch (m_str[m_pos + 1]) {
             case 'b':
             case 's':
@@ -1789,7 +1848,8 @@ namespace Smiley {
             default:
               break;
           }
-        if (chr == 'H')
+        }
+        if (chr == 'H') {
           switch (m_str[m_pos + 1]) {
             case 'e':
             case 'f':
@@ -1800,8 +1860,10 @@ namespace Smiley {
             default:
               break;
           }
-        if (chr == 'X' && m_str[m_pos + 1] == 'e')
+        }
+        if (chr == 'X' && m_str[m_pos + 1] == 'e') {
           return false;
+        }
 
         //++m_pos;
         bool found_number = false;
@@ -1816,8 +1878,9 @@ namespace Smiley {
         ++m_pos;
 
         //if (!found_number && noDefault); // throw   example: [#]
-        if (!found_number)
+        if (!found_number) {
           value = 1;
+        }
 
         processImplicitAnd(parsedOp, firstPrimitive);
         m_callback.atomPrimitive(type, value);
@@ -1838,8 +1901,9 @@ namespace Smiley {
 
       void processImplicitAnd(int &parsedOp, bool firstPrimitive)
       {
-        if (!parsedOp && !firstPrimitive)
+        if (!parsedOp && !firstPrimitive) {
           m_callback.operation(OP_AndHi);
+        }
         parsedOp = 0;
       }
 
@@ -1889,34 +1953,38 @@ namespace Smiley {
         std::size_t lastPos = std::string::npos;
 
         while (m_str[m_pos] != ']') {
-          if (lastPos == m_pos)
+          if (lastPos == m_pos) {
             throw Exception(Exception::SyntaxError, InvalidAtomPrimitive,
                 "Invalid atom primitive", m_pos, 1);
+          }
           isValidAtomExprChar();
           lastPos = m_pos;
 
           int chr = m_str[m_pos];
           switch (chr) {
             case '&':
-              if (first_primitive)
+              if (first_primitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary '&' without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_AndHi);
               ++m_pos;
               parsedOp = OP_AndHi;
               continue;
             case ';':
-              if (first_primitive)
+              if (first_primitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary ';' without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_AndLo);
               ++m_pos;
               parsedOp = OP_AndLo;
               continue;
             case ',':
-              if (first_primitive)
+              if (first_primitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary ',' without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_Or);
               ++m_pos;
               parsedOp = OP_Or;
@@ -1993,12 +2061,13 @@ namespace Smiley {
           std::pair<int, bool> symbol = parseSymbol(true);
           if (symbol.first != -1) {
             processImplicitAnd(parsedOp, first_primitive);
-            if (symbol.first == 0)
+            if (symbol.first == 0) {
               m_callback.atomPrimitive(AE_True, 1); // '*'
-            else if (symbol.second)
+            } else if (symbol.second) {
               m_callback.atomPrimitive(AE_AromaticElement, m_element);
-            else
+            } else {
               m_callback.atomPrimitive(AE_AliphaticElement, m_element);
+            }
             first_primitive = false;
           }
           // degree ::= 'D' | 'D' NUMBER
@@ -2082,8 +2151,9 @@ namespace Smiley {
        */
       void parseBracketAtom()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseBracketAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         std::size_t close = findMatchingBracket("[", "]", m_pos);
         ++m_pos;
@@ -2101,16 +2171,18 @@ namespace Smiley {
         parseClass();
 
         m_chiralInfo.back().chiral = static_cast<Chirality>(m_chiral);
-        if (m_hCount >= 1)
+        if (m_hCount >= 1) {
           m_chiralInfo.back().nbrs.push_back(implicitHydrogen());
+        }
         if (m_hCount > 1 && m_chiral && m_exceptions & InvalidChiralHydrogenCount) {
           throw Exception(Exception::SemanticsError, InvalidChiralHydrogenCount,
               "Chiral atoms can only have one hydrogen", m_chiralInfo.back().pos, 1);
         }
 
-        if (m_str[m_pos] != ']')
+        if (m_str[m_pos] != ']') {
           throw Exception(Exception::SyntaxError, TrailingCharInBracketAtom,
               "Bracket atom expression contains invalid trailing characters", m_pos, close - m_pos);
+        }
 
         addAtom(m_element, m_aromatic, m_isotope, m_hCount, m_charge, m_class);
       }
@@ -2123,22 +2195,25 @@ namespace Smiley {
        */
       bool parseOrganicSubsetAtom()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseOrganicSubsetAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         switch (m_str[m_pos]) {
           case 'B':
-            if (checkNextChar('r'))
+            if (checkNextChar('r')) {
               addAtom(Br);
-            else
+            } else {
               addAtom(B);
+            }
             ++m_pos;
             return true;
           case 'C':
-            if (checkNextChar('l'))
+            if (checkNextChar('l')) {
               addAtom(Cl);
-            else
+            } else {
               addAtom(C);
+            }
             ++m_pos;
             return true;
           case 'N':
@@ -2201,8 +2276,9 @@ namespace Smiley {
        */
       bool parseAtom()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseAtom(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         m_element = -1;
         m_isotope = -1;
@@ -2228,15 +2304,18 @@ namespace Smiley {
 
       void processBondPrimitive(int type, bool &firstPrimitive, int &parsedOp)
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "processBondPrimitive(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
         m_explicitBond = true;
         ++m_pos;
-        if (m_mode == SmilesMode)
+        if (m_mode == SmilesMode) {
           return;
+        }
         // implicit OR for bonds
-        if (!firstPrimitive && !parsedOp)
+        if (!firstPrimitive && !parsedOp) {
           m_callback.operation(OP_Or);
+        }
         m_callback.bondPrimitive(type);
         firstPrimitive = false;
         parsedOp = 0;
@@ -2249,16 +2328,18 @@ namespace Smiley {
        */
       void parseBond()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseBond(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         bool firstPrimitive = true;
         int parsedOp = 0;
         std::size_t lastPos = std::string::npos;
 
         while (lastPos != m_pos) {
-          if (m_pos >= m_str.size())
+          if (m_pos >= m_str.size()) {
             return;
+          }
           lastPos = m_pos;
 
           switch (m_str[m_pos]) {
@@ -2291,48 +2372,57 @@ namespace Smiley {
               processBondPrimitive(BE_Down, firstPrimitive, parsedOp);
               break;
             case '~':
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
+              }
               processBondPrimitive(BE_Any, firstPrimitive, parsedOp);
               break;
             case '@':
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
+              }
               processBondPrimitive(BE_Ring, firstPrimitive, parsedOp);
               break;
             case '&': // legal?
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
-              if (firstPrimitive)
+              }
+              if (firstPrimitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary '&' in bond expression without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_AndHi);
               parsedOp = OP_AndHi;
               ++m_pos;
               break;
             case ';': // legal?
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
-              if (firstPrimitive)
+              }
+              if (firstPrimitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary ';' in bond expression without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_AndLo);
               parsedOp = OP_AndLo;
               ++m_pos;
               break;
             case ',':
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
-              if (firstPrimitive)
+              }
+              if (firstPrimitive) {
                 throw Exception(Exception::SyntaxError, BinaryOpWithoutLeftOperand,
                     "Binary ',' in bond expression without left operand", m_pos, 1);
+              }
               m_callback.operation(OP_Or);
               parsedOp = OP_Or;
               ++m_pos;
               break;
             case '!':
-              if (m_mode == SmilesMode)
+              if (m_mode == SmilesMode) {
                 break;
+              }
               m_callback.operation(OP_Not);
               parsedOp = OP_Not;
               ++m_pos;
@@ -2361,8 +2451,9 @@ namespace Smiley {
       {
         for (typename std::map<int, std::vector<RingBondInfo> >::iterator i = m_ringBonds.begin(); i != m_ringBonds.end(); ++i) {
           std::cout << "    RingBond: index = " << i->first << std::endl;
-          for (std::size_t j = 0; j < i->second.size(); ++j)
+          for (std::size_t j = 0; j < i->second.size(); ++j) {
             std::cout << "        " << i->second[j].number << std::endl;
+          }
         }
       }
 
@@ -2378,13 +2469,15 @@ namespace Smiley {
         std::size_t j;
         bool found = false;
         for (; ringBond != m_ringBonds.end(); ++ringBond) {
-          for (j = 0; j < ringBond->second.size(); ++j)
+          for (j = 0; j < ringBond->second.size(); ++j) {
             if (ringBond->second[j].number == rnum) {
               found = true;
               break;
             }
-          if (found)
+          }
+          if (found) {
             break;
+          }
         }
         if (ringBond != m_ringBonds.end()) {
           // this is the second ringbond of a pair, make the bond
@@ -2393,17 +2486,20 @@ namespace Smiley {
             if (m_explicitBond && m_exceptions & ConflictingRingBonds) {
               if (ringBond->second[j].order != m_bondOrder ||
                   ringBond->second[j].isUp != m_isUp ||
-                  ringBond->second[j].isDown != m_isDown)
+                  ringBond->second[j].isDown != m_isDown) {
                 throw Exception(Exception::SemanticsError, ConflictingRingBonds,
                     "Conflicing ring bonds", pos, 1);
+              }
             }
             addBond(ringBond->first, m_prev, ringBond->second[j].order, ringBond->second[j].isUp, ringBond->second[j].isDown, rnum);
-          } else
+          } else {
             addBond(ringBond->first, m_prev, m_bondOrder, m_isUp, m_isDown, rnum);
+          }
           // remove the ringbond from the list so it can be reused
           ringBond->second.erase(ringBond->second.begin() + j);
-          if (ringBond->second.empty())
+          if (ringBond->second.empty()) {
             m_ringBonds.erase(ringBond);
+          }
         } else {
           // add the ringbond to the list
           m_ringBonds[m_prev].push_back(RingBondInfo(rnum, m_bondOrder, m_isUp, m_isDown, m_explicitBond, pos));
@@ -2421,8 +2517,9 @@ namespace Smiley {
        */
       void parseRingBond()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseRingBond(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         parseBond();
         if (std::isdigit(m_str[m_pos])) {
@@ -2430,12 +2527,14 @@ namespace Smiley {
           ++m_pos;
         } else if (m_str[m_pos] == '%') {
           std::size_t bond_pos = m_pos - 1;
-          if (m_pos + 2 >= m_str.size())
+          if (m_pos + 2 >= m_str.size()) {
             throw Exception(Exception::SyntaxError, InvalidRingBondNumber,
                 "Invalid ring bond, expected number", m_pos + 1, 2);
-          if (!std::isdigit(m_str[m_pos + 1]) || !std::isdigit(m_str[m_pos + 2]))
+          }
+          if (!std::isdigit(m_str[m_pos + 1]) || !std::isdigit(m_str[m_pos + 2])) {
             throw Exception(Exception::SyntaxError, InvalidRingBondNumber,
                 "Expected ring bond number", m_pos + 1, 2);
+          }
           int r = 10 * (m_str[m_pos + 1] - '0') + m_str[m_pos + 2] - '0';
           processRingBond(r, bond_pos);
           m_pos += 3;
@@ -2454,18 +2553,21 @@ namespace Smiley {
        */
       void parseChain()
       {
-        if (DEBUG)
+        if (DEBUG) {
           std::cout << "parseChain(" << m_str.substr(m_pos) << ")" << std::endl;
+        }
 
         while (true) {
           // check for dot ::= '.'?
           if (m_str[m_pos] == '.') {
-            if (m_index == 0)
+            if (m_index == 0) {
               throw Exception(Exception::SyntaxError, LeadingDot,
                   "Found dot '.' at beginning of pattern", 0, 1);
-            if (m_pos + 1 >= m_str.size())
+            }
+            if (m_pos + 1 >= m_str.size()) {
               throw Exception(Exception::SyntaxError, TrailingDot,
                   "Found dor '.' at ending of pattern", m_pos - 1, 1);
+            }
             ++m_pos;
             m_prev = -1;
           }
@@ -2473,32 +2575,39 @@ namespace Smiley {
           // check for closing branch ::= ')'*
           while (m_str[m_pos] == ')') {
             if (m_branches.size()) {
-              if (DEBUG)
+              if (DEBUG) {
                 std::cout << "    close branch: " << m_branches.back().index << " @pos " << m_pos << std::endl;
+              }
               m_prev = m_branches.back().index;
               m_branches.pop_back();
               ++m_pos;
-            } else
+            } else {
               throw Exception(Exception::SyntaxError, UnmatchedBranchClosing,
                   "Unmatched branch closing", 0, m_pos + 1);
-            if (m_pos >= m_str.size())
+            }
+            if (m_pos >= m_str.size()) {
               break;
+            }
           }
 
           // if there is a previous atom, check for bond ::= bond?
-          if (m_prev != -1)
+          if (m_prev != -1) {
             parseBond();
-          if (m_pos >= m_str.size())
+          }
+          if (m_pos >= m_str.size()) {
             break;
+          }
 
           // check atom ::= atom
-          if (!parseAtom() && m_str[m_pos] != '(')
+          if (!parseAtom() && m_str[m_pos] != '(') {
             throw Exception(Exception::SyntaxError, InvalidAtomExpr,
                 "Could not parse atom expression", m_pos);
-          else
+          } else {
             resetBondInfo();
-          if (m_pos >= m_str.size())
+          }
+          if (m_pos >= m_str.size()) {
             break;
+          }
 
           // check for ring bond ::= ring_bond*
           std::size_t pos = std::string::npos;
@@ -2506,24 +2615,27 @@ namespace Smiley {
             pos = m_pos;
             parseRingBond();
           }
-          if (m_pos >= m_str.size())
+          if (m_pos >= m_str.size()) {
             break;
+          }
 
           // check for branch opening ::= '('?
           pos = std::string::npos;
 		  while (pos != m_pos && m_pos < m_str.size()) {
             pos = m_pos;
             if (m_str[m_pos] == '(') {
-              if (DEBUG)
+              if (DEBUG) {
                 std::cout << "    open branch: " << m_prev << " @pos " << m_pos << std::endl;
+              }
               m_branches.push_back(BranchInfo(m_prev, m_pos));
               ++m_pos;
               parseChain();
             }
           }
 
-          if (m_pos >= m_str.size())
+          if (m_pos >= m_str.size()) {
             break;
+          }
 
           // check for termination
           bool terminate = false;
@@ -2537,8 +2649,9 @@ namespace Smiley {
             default:
               break;
           }
-          if (terminate)
+          if (terminate) {
             break;
+          }
         }
       }
 
@@ -2547,13 +2660,15 @@ namespace Smiley {
        */
       int processAlleneStereochemistry(ChiralInfo &chiralInfo)
       {
-        if (chiralInfo.nbrs.size() != 2)
+        if (chiralInfo.nbrs.size() != 2) {
           return -1;
+        }
         std::vector<int> &nbrs = chiralInfo.nbrs;
         int lft = nbrs[0];
         int rgt = nbrs[1];
-        if (m_chiralInfo[lft].nbrs.size() != 3 || m_chiralInfo[rgt].nbrs.size() != 3)
+        if (m_chiralInfo[lft].nbrs.size() != 3 || m_chiralInfo[rgt].nbrs.size() != 3) {
           return -1;
+        }
         // NC(F)=[C@AL1]=C(Cl)I     nbrs[1] = [ 0 2 3 ]  <-----------+
         // ^  ^   ^        ^  ^     nbrs[3] = [ 1 4 ]    <- chiral   +-- neigbors
         // 0  2   3        5  6     nbrs[4] = [ 3 5 6 ]  <-----------+
@@ -2562,10 +2677,11 @@ namespace Smiley {
         nbrs.insert(nbrs.end(), m_chiralInfo[lft].nbrs.begin(), m_chiralInfo[lft].nbrs.end() - 1);
         // copy [ 5 6 ] to nbrs[3]
         nbrs.insert(nbrs.end(), m_chiralInfo[rgt].nbrs.begin() + 1, m_chiralInfo[rgt].nbrs.end());
-        if (chiralInfo.chiral == AntiClockwise)
+        if (chiralInfo.chiral == AntiClockwise) {
           chiralInfo.chiral = AL1;
-        else if (chiralInfo.chiral == Clockwise)
+        } else if (chiralInfo.chiral == Clockwise) {
           chiralInfo.chiral = AL2;
+        }
         return 4;
       }
 
@@ -2575,8 +2691,9 @@ namespace Smiley {
       void processStereochemistry()
       {
         for (std::size_t i = 0; i < m_chiralInfo.size(); ++i) {
-          if (!m_chiralInfo[i].chiral)
+          if (!m_chiralInfo[i].chiral) {
             continue;
+          }
           int expectedValence = -1;
           switch (m_chiralInfo[i].chiral) {
             case Clockwise:
@@ -2632,16 +2749,18 @@ namespace Smiley {
               expectedValence = processAlleneStereochemistry(m_chiralInfo[i]);
               break;
             default:
-              if (m_chiralInfo[i].chiral >= TB1 && m_chiralInfo[i].chiral <= TB20)
+              if (m_chiralInfo[i].chiral >= TB1 && m_chiralInfo[i].chiral <= TB20) {
                 expectedValence = 5;
-              else if (m_chiralInfo[i].chiral >= OH1 && m_chiralInfo[i].chiral <= OH30)
+              } else if (m_chiralInfo[i].chiral >= OH1 && m_chiralInfo[i].chiral <= OH30) {
                 expectedValence = 6;
+              }
               break;
           }
 
-          if (m_chiralInfo[i].nbrs.size() != expectedValence && m_exceptions & InvalidChiralValence)
+          if (m_chiralInfo[i].nbrs.size() != expectedValence && m_exceptions & InvalidChiralValence) {
             throw Exception(Exception::SemanticsError, InvalidChiralValence,
                 "Invalid chiral valence", m_chiralInfo[i].pos, 1);
+          }
 
           m_callback.setChiral(i, static_cast<Chirality>(m_chiralInfo[i].chiral), m_chiralInfo[i].nbrs);
         }
@@ -2682,8 +2801,9 @@ namespace Smiley {
       {
         m_callback.clear();
 
-        if (str.empty())
+        if (str.empty()) {
           return;
+        }
 
         m_str = str;
         m_pos = 0;
@@ -2697,12 +2817,14 @@ namespace Smiley {
 
         parseChain();
 
-        if (m_branches.size())
+        if (m_branches.size()) {
           throw Exception(Exception::SyntaxError, UnmatchedBranchOpening,
               "Unmatched branch opening", m_branches.back().pos, m_str.size() - m_branches.back().pos);
-        if (m_ringBonds.size() && m_exceptions & UnmatchedRingBond)
+        }
+        if (m_ringBonds.size() && m_exceptions & UnmatchedRingBond) {
           throw Exception(Exception::SemanticsError, UnmatchedRingBond,
               "Unmatched ring bond", m_ringBonds.begin()->second[0].pos, 1);
+        }
 
         processStereochemistry();
       }
