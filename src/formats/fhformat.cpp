@@ -64,8 +64,9 @@ FenskeZmatFormat theFenskeZmatFormat;
 bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -77,8 +78,9 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     vector<OBInternalCoord*> vic;
     vic.push_back(nullptr);
-    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
+    for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i)) {
         vic.push_back(new OBInternalCoord);
+    }
 
     CartesianToInternal(vic,mol);
 
@@ -120,8 +122,9 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             continue;
         }
 
-        if (t < 0)
+        if (t < 0) {
             t += 360;
+        }
         snprintf(buffer, BUFF_SIZE, "%-2s%3d%6.3f%3d%8.3f%3d%6.1f\n",
                 type, a->GetIdx(), r, b->GetIdx(), w, c->GetIdx(), t);
         ofs << buffer;

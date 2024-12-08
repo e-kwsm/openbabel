@@ -99,14 +99,16 @@ namespace OpenBabel
     //   OBResidue *res;
 
     pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     ostream &ofs = *pConv->GetOutStream();
 
     int seq_count = 0;
     FOR_RESIDUES_OF_MOL(res,pmol) {
-      if (res->GetAtoms().size() < 3)
+      if (res->GetAtoms().size() < 3) {
         continue;
+      }
       seq.append(1, conv_3to1(res->GetName()));
       ++ seq_count;
       if (seq_count >= 60) {
@@ -115,10 +117,11 @@ namespace OpenBabel
       }
     }
     if(!pConv->IsOption("n")) {
-      if (strlen(pmol->GetTitle()) > 0)
+      if (strlen(pmol->GetTitle()) > 0) {
         ofs << ">" << pmol->GetTitle();
-      else
+      } else {
         ofs << ">Unknown molecule";
+      }
       ofs << " " << pmol->NumResidues() << " bp";
       ofs << "; generated with OpenBabel " << BABEL_VERSION << endl;
     }
@@ -199,8 +202,9 @@ namespace OpenBabel
     char tla_buf[4];
     strncpy(tla_buf, three.c_str(), 3);
     tla_buf[3] = 0;
-    for (int idx = 0; idx < 3; ++ idx)
+    for (int idx = 0; idx < 3; ++ idx) {
       tla_buf[idx] = (char)toupper(tla_buf[idx]);
+    }
 
     residue_lookup_map::const_iterator mx = residue_lookup.find(std::string(tla_buf));
     if (mx != residue_lookup.end())
@@ -464,20 +468,21 @@ namespace OpenBabel
               }
             if (sequence_type == FASTAFormat::UnknownSequence)
               { // attempt to determine the sequence type
-                if (line.find("RNA") != std::string::npos)
+                if (line.find("RNA") != std::string::npos) {
                   sequence_type = FASTAFormat::RNASequence;
-                else if (line.find("DNA") != std::string::npos)
+                } else if (line.find("DNA") != std::string::npos) {
                   sequence_type = FASTAFormat::DNASequence;
-                else if (line.find("gene") != std::string::npos)
+                } else if (line.find("gene") != std::string::npos) {
                   sequence_type = FASTAFormat::DNASequence;
-                else if (line.find("protein") != std::string::npos)
+                } else if (line.find("protein") != std::string::npos) {
                   sequence_type = FASTAFormat::ProteinSequence;
-                else if (line.find("peptide") != std::string::npos)
+                } else if (line.find("peptide") != std::string::npos) {
                   sequence_type = FASTAFormat::ProteinSequence;
-                else if (line.find("Protein") != std::string::npos)
+                } else if (line.find("Protein") != std::string::npos) {
                   sequence_type = FASTAFormat::ProteinSequence;
-                else if (line.find("Peptide") != std::string::npos)
+                } else if (line.find("Peptide") != std::string::npos) {
                   sequence_type = FASTAFormat::ProteinSequence;
+                }
               }
           }
         else
@@ -491,21 +496,24 @@ namespace OpenBabel
                     if (sequence_type == FASTAFormat::UnknownSequence)
                       { // attempt to determine the sequence type
                         // DNA/RNA == ABCDGHKMNRSTUVWY
-                        if (strchr("EFIJLOPQXZ*", current)) // Protein == ABCDEFGHIJKLMNOPQRSTUVWXYZ*
+                        if (strchr("EFIJLOPQXZ*", current)) { // Protein == ABCDEFGHIJKLMNOPQRSTUVWXYZ*
                           sequence_type = FASTAFormat::ProteinSequence;
-                        else if (current == 'U')
+                        } else if (current == 'U') {
                           sequence_na = FASTAFormat::RNASequence;
-                        else if (current == 'T')
+                        } else if (current == 'T') {
                           sequence_na = FASTAFormat::DNASequence;
+                        }
                       }
                   }
               }
           }
       }
-    if (sequence_type == FASTAFormat::UnknownSequence)
+    if (sequence_type == FASTAFormat::UnknownSequence) {
       sequence_type = sequence_na;
-    if (sequence_type == FASTAFormat::UnknownSequence)
+    }
+    if (sequence_type == FASTAFormat::UnknownSequence) {
       sequence_type = FASTAFormat::DNASequence;
+    }
 
     // We now have the sequence and know it's type
     double offset_x = 0, offset_Theta = 0;
@@ -535,8 +543,9 @@ namespace OpenBabel
             offset_x -= DNA_helix.unit_X;
             offset_Theta -= DNA_helix.unit_Theta;
             std::string rsequence;
-            for (std::string::const_reverse_iterator sx = sequence.rbegin(), sy = sequence.rend(); sx != sy; ++ sx)
+            for (std::string::const_reverse_iterator sx = sequence.rbegin(), sy = sequence.rend(); sx != sy; ++ sx) {
               rsequence.append(1, * sx);
+            }
             generate_sequence(rsequence, pmol, 2, DNA_pair_helix, IUPAC_DNA_codes, DNAPairResidues, offset_x, offset_Theta, serial_no, create_bonds, bond_orders);
           }
         }
@@ -551,8 +560,9 @@ namespace OpenBabel
   bool FASTAFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
     pmol->BeginModify();
     bool rv = ReadFASTASequence(pmol, UnknownSequence, pConv->GetInStream(),
                                 !pConv->IsOption("b",OBConversion::INOPTIONS),

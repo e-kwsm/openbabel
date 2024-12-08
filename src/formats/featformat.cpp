@@ -68,8 +68,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -85,8 +86,9 @@ namespace OpenBabel
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
 
-    if (!ifs.getline(buffer,BUFF_SIZE))
+    if (!ifs.getline(buffer,BUFF_SIZE)) {
       return(false);
+    }
     mol.SetTitle(buffer);
 
     double x,y,z;
@@ -94,8 +96,9 @@ namespace OpenBabel
     OBAtom *atom;
     for (i = 0; i < natoms;i++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           return(false);
+        }
         sscanf(buffer,"%30s %lf %lf %lf",
                type,
                &x,
@@ -117,10 +120,12 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
     return(true);
@@ -131,8 +136,9 @@ namespace OpenBabel
   bool FEATFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

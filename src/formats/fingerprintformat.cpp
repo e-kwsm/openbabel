@@ -128,8 +128,9 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
 
     bool hexoutput=false;
-    if(pConv->IsOption("h") || (pConv->GetOutputIndex()==1 && pConv->IsLast()))
+    if(pConv->IsOption("h") || (pConv->GetOutputIndex()==1 && pConv->IsLast())) {
       hexoutput=true;
+    }
 
     string fpid;
     int nbits=0;
@@ -150,22 +151,27 @@ namespace OpenBabel
       }
 
     p=pConv->IsOption("N");
-    if(p)
+    if(p) {
       nbits = atoi(p);
-    if(nbits<0)
+    }
+    if(nbits<0) {
       obErrorLog.ThrowError(__FUNCTION__,
       "The number of bits to fold to, in the-xN option, should be >=0", obWarning);
+    }
 
     vector<unsigned int> fptvec;
-    if(!pFP->GetFingerprint(pOb, fptvec, nbits))
+    if(!pFP->GetFingerprint(pOb, fptvec, nbits)) {
       return false;
+    }
 
-    if(pConv->IsOption("o"))
+    if(pConv->IsOption("o")) {
       return WriteHex(ofs, fptvec);
+    }
 
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if(pmol)
+    if(pmol) {
       ofs << ">" << pmol->GetTitle();
+    }
 
     // checkmol-type output
     if(pConv->IsOption("s") || pConv->IsOption("u"))
@@ -177,9 +183,10 @@ namespace OpenBabel
         return false;
       }
       string descr = pFP->DescribeBits(fptvec, pConv->IsOption("s") != nullptr);
-      if(descr=="")
+      if(descr=="") {
         obErrorLog.ThrowError(__FUNCTION__,
         "Bit descriptions are not available for this fingerprint type", obError, onceOnly);
+      }
 
       ofs << '\n' << descr;
       return true;
@@ -191,8 +198,9 @@ namespace OpenBabel
         for (i=0;i<fptvec.size();++i)
           {
             int wd = fptvec[i];
-            for(;wd;wd=wd<<1)//count bits set by shifting into sign bit until word==0
-              if(wd<0) ++bitsset;
+            for(;wd;wd=wd<<1) { //count bits set by shifting into sign bit until word==0
+              if(wd<0) { ++bitsset; }
+            }
           }
         ofs  << "   " << bitsset << " bits set ";
       }
@@ -201,16 +209,19 @@ namespace OpenBabel
       {
         //store the fingerprint and name of first molecule
         firstfp=fptvec;
-        if(pmol)
+        if(pmol) {
           firstname=pmol->GetTitle();
-        if(firstname.empty())
+        }
+        if(firstname.empty()) {
           firstname = "first mol";
+        }
       }
     else
       {
         ofs << "   Tanimoto from " << firstname << " = " << OBFingerprint::Tanimoto(firstfp, fptvec);
-        if(IsPossibleSubstructure(fptvec,firstfp))
+        if(IsPossibleSubstructure(fptvec,firstfp)) {
           ofs << "\nPossible superstructure of " << firstname;
+        }
       }
     ofs << endl;
 
@@ -226,8 +237,9 @@ namespace OpenBabel
   {
     //Returns false if Frag is definitely NOT a substructure of Mol
     unsigned int i;
-    for (i=0;i<Mol.size();++i)
-      if((Mol[i] & Frag[i]) ^ Frag[i]) return false;
+    for (i=0;i<Mol.size();++i) {
+      if((Mol[i] & Frag[i]) ^ Frag[i]) { return false; }
+    }
     return true;
   }
 
@@ -236,8 +248,9 @@ namespace OpenBabel
     for(int i=fptvec.size()-1;i>=0;i--)
     {
       ofs << hex << setfill('0') << setw(8) << fptvec[i] << " " ;
-      if((fptvec.size()-i)%6==0)
+      if((fptvec.size()-i)%6==0) {
         ofs <<endl;
+      }
     }
     ofs << dec << flush;
     return true;

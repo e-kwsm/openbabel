@@ -111,8 +111,9 @@ namespace OpenBabel
   bool EXYZFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -126,8 +127,9 @@ namespace OpenBabel
 
     unsigned int natoms;	// [ejk] assumed natoms could not be -ve
 
-    if (!ifs)
+    if (!ifs) {
       return false; // we're attempting to read past the end of the file
+    }
 
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
@@ -156,28 +158,32 @@ namespace OpenBabel
       }
     string readTitle(buffer);
     string::size_type location = readTitle.find("Energy");
-    if (location != notFound)
+    if (location != notFound) {
       readTitle.erase(location);
+    }
     Trim(readTitle);
 
     location = readTitle.find_first_not_of(" \t\n\r");
-    if (readTitle.find_first_not_of(" \t\n\r") != notFound)
+    if (readTitle.find_first_not_of(" \t\n\r") != notFound) {
       mol.SetTitle(readTitle);
-    else
+    } else {
       mol.SetTitle(title);
+    }
 
     string readKeywords(buffer);
     location = readKeywords.find("%PBC");   // file contains unitcell information behind the coords block
-    if (readKeywords.find("%PBC") != notFound)
+    if (readKeywords.find("%PBC") != notFound) {
         unitCell = true;
-    else
+    } else {
         unitCell = false;
+    }
 
     location = readKeywords.find("%VIRTUAL");   // file contains information about virtual atoms in the column next to the x,y,z values
-    if (readKeywords.find("%VIRTUAL") != notFound)
+    if (readKeywords.find("%VIRTUAL") != notFound) {
         virtualAtoms = true;
-    else
+    } else {
         virtualAtoms = false;
+    }
 
     mol.BeginModify();
 
@@ -228,8 +234,9 @@ namespace OpenBabel
         }
 
         atom->SetAtomicNum(atomicNum);
-        if (atomicNum == 0) // still strange, try using an atom type
+        if (atomicNum == 0) { // still strange, try using an atom type
           atom->SetType(vs[0]);
+        }
 
         // Read the atom coordinates
         char *endptr;
@@ -276,8 +283,9 @@ namespace OpenBabel
           string::size_type decimal = vs[4].find('.');
           if (decimal !=string::npos) { // period found
             double charge = strtod((char*)vs[4].c_str(),&endptr);
-            if (endptr != (char*)vs[4].c_str())
+            if (endptr != (char*)vs[4].c_str()) {
               atom->SetPartialCharge(charge);
+            }
           }
         } // attempt to parse charges
       }
@@ -416,10 +424,12 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -431,8 +441,9 @@ namespace OpenBabel
   bool EXYZFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -440,13 +451,15 @@ namespace OpenBabel
 
     string keyword = "%PBC";
 
-    if (string(mol.GetTitle()).find("%PBC") != notFound) keyword = ""; // title contains already right keyword
+    if (string(mol.GetTitle()).find("%PBC") != notFound) { keyword = ""; // title contains already right keyword
+    }
 
     ofs << mol.NumAtoms() << endl;
-    if (fabs(mol.GetEnergy()) > 1.0e-3) // nonzero energy field
+    if (fabs(mol.GetEnergy()) > 1.0e-3) { // nonzero energy field
         ofs << mol.GetTitle() << " " << mol.GetEnergy() << " "<<  keyword << endl;
-    else
+    } else {
         ofs << mol.GetTitle() << " " <<  keyword << endl;
+    }
 
     FOR_ATOMS_OF_MOL(atom, mol)
       {
