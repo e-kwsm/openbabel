@@ -311,8 +311,9 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
 
   OutAuxSizer->Add(m_pNoOutFile,0, wxLEFT|wxBOTTOM,5);
 #ifndef __WXMAC__
-  if(OBPlugin::GetPlugin(nullptr, "0xout")) //display checkbox only if extra output capability is present
+  if(OBPlugin::GetPlugin(nullptr, "0xout")) { //display checkbox only if extra output capability is present
     OutAuxSizer->Add(m_pDisplay,0,wxLEFT|wxBOTTOM,5);
+  }
 #endif
 
   OutFormatSizer->Add(m_pOutFormat,1,wxEXPAND);
@@ -461,8 +462,9 @@ void OBGUIFrame::OnSaveInputText(wxCommandEvent& WXUNUSED(event))
   if(dialog.ShowModal() == wxID_OK)
   {
     wxString filename = dialog.GetPath();
-    if(!filename.empty())
+    if(!filename.empty()) {
       m_pInText->SaveFile(filename);
+    }
   }
 }
 
@@ -484,13 +486,15 @@ void OBGUIFrame::OnHelp(wxCommandEvent& WXUNUSED(event))
   wxMimeTypesManager mimeType;
     wxFileType *c_type;
    c_type = mimeType.GetFileTypeFromExtension(_T("html"));
-    if(!c_type) return ; //Couldn't find association
+    if(!c_type) { return ; //Couldn't find association
+    }
 
     // 2) Get Open Message
     wxString command;
 
       command = c_type->GetOpenCommand(((OBGUIApp*)wxTheApp)->HelpFile);
-    if(!command) return; //No default program
+    if(!command) { return; //No default program
+    }
 
     // 3) Execute message
     wxExecute(command);
@@ -527,8 +531,9 @@ void OBGUIFrame::OnShowDataDir(wxCommandEvent& (event))
   wxString dir = wxGetenv(_T("BABEL_DATADIR"));
   wxDirDialog dia(this, _T("BABEL_DATADIR = ")+ dir, dir,
     wxDD_DEFAULT_STYLE | wxDD_DIR_MUST_EXIST);
-  if(dia.ShowModal()==wxID_OK)
+  if(dia.ShowModal()==wxID_OK) {
     wxSetEnv(_T("BABEL_DATADIR"), dia.GetPath());
+  }
 }
 
 ///////////////////////////////////////////
@@ -599,14 +604,15 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
   OBConversion Conv(&ss, &GUIostream);
 
   int iSel = m_pInFormat->GetSelection();
-  if((iSel)<0) return;
+  if((iSel)<0) { return; }
   int oSel = m_pOutFormat->GetSelection();
-  if((oSel)<0) return;
+  if((oSel)<0) { return; }
 
   OBFormat* pInFormat = nullptr;
   OBFormat* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(oSel);
-  if(m_pForceInFormat->IsChecked() || m_pInputHere->IsChecked())
+  if(m_pForceInFormat->IsChecked() || m_pInputHere->IsChecked()) {
     pInFormat = (OBFormat*)m_pInFormat->GetClientData(iSel);
+  }
   Conv.SetInAndOutFormats( pInFormat,pOutFormat);
 
   DoOptions(Conv);
@@ -616,8 +622,9 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
   wxString OutFileName = m_pOutFilename->GetValue();
   //If you are trying to output with no filename what you really wanted
   //was to output to the OutConsole
-  if(m_pNoOutFile->IsChecked() || OutFileName.IsEmpty())
+  if(m_pNoOutFile->IsChecked() || OutFileName.IsEmpty()) {
     m_pNoOutFile->SetValue(true);
+  }
   else
   {
     //If output filename has no path, use input path
@@ -630,16 +637,19 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
     stdOutputFileName = OutFileName.mb_str();
   }
   OBFormat* pOutFileFormat = Conv.FormatFromExt(OutFileName.mb_str());
-  if(!m_pNoOutFile->IsChecked() && pOutFileFormat && (pOutFileFormat!=pOutFormat))
+  if(!m_pNoOutFile->IsChecked() && pOutFileFormat && (pOutFileFormat!=pOutFormat)) {
     if(wxMessageBox(_T("The output file name extension does not correspond \
 with the output format.\nDo you wish to continue the conversion?"),
-      _T("Is the output filename correct?"), wxOK | wxCANCEL)!=wxOK)
+      _T("Is the output filename correct?"), wxOK | wxCANCEL)!=wxOK) {
       return;
+    }
+  }
 
   //Setup input file
   std::vector<std::string> FileList, OutputFileList;
-  if(!m_pInputHere->IsChecked())
+  if(!m_pInputHere->IsChecked()) {
     m_pInFilename->Expand(FileList);
+  }
 
   //redirect cerr & clog & cout
   std::stringstream smes("");
@@ -659,8 +669,9 @@ with the output format.\nDo you wish to continue the conversion?"),
 //	m_pOutText->Freeze();//Otherwise seems to be redrawn after each char from cout
 
   //2D depiction in svg (or other) format automatically sent to file
-  if(m_pDisplay->IsChecked() && !m_DisplayFile.empty())
+  if(m_pDisplay->IsChecked() && !m_DisplayFile.empty()) {
     Conv.AddOption("0xout", OBConversion::GENOPTIONS, m_DisplayFile.mb_str());
+  }
 
   int count = Conv.FullConvert(FileList, stdOutputFileName, OutputFileList);
 
@@ -680,8 +691,9 @@ with the output format.\nDo you wish to continue the conversion?"),
     {
       //Read back file and add to output console
       m_pOutText->Clear();
-      if(wxFile::Exists(wxString(OutputFileList[0].c_str(), wxConvUTF8))) //avoid error message with --split REC
+      if(wxFile::Exists(wxString(OutputFileList[0].c_str(), wxConvUTF8))) { //avoid error message with --split REC
         m_pOutText->LoadFile(wxString(OutputFileList[0].c_str(), wxConvUTF8));
+      }
       //m_pOutText->LoadFile(_T(OutputFileList));
     }
     else
@@ -709,12 +721,13 @@ with the output format.\nDo you wish to continue the conversion?"),
 void OBGUIFrame::OnInFormatInfo(wxCommandEvent& WXUNUSED(event))
 {
   int nSel=m_pInFormat->GetSelection();
-  if(nSel<0) return;
+  if(nSel<0) { return; }
   OBFormat* pFormat = (OBFormat*)m_pInFormat->GetClientData(nSel);
   wxString mes(pFormat->Description(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
-  if(!url.IsEmpty())
+  if(!url.IsEmpty()) {
     mes += _T("\nURL for specification: ") + url;
+  }
   wxMessageBox(mes, _T("Format info"));
 }
 
@@ -722,12 +735,13 @@ void OBGUIFrame::OnInFormatInfo(wxCommandEvent& WXUNUSED(event))
 void OBGUIFrame::OnOutFormatInfo(wxCommandEvent& WXUNUSED(event))
 {
   int nSel=m_pOutFormat->GetSelection();
-  if(nSel<0) return;
+  if(nSel<0) { return; }
   OBFormat* pFormat = (OBFormat*)m_pOutFormat->GetClientData(nSel);
   wxString mes(pFormat->Description(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
-  if(!url.IsEmpty())
+  if(!url.IsEmpty()) {
     mes += _T("\nURL for specification: ") + url;
+  }
   wxMessageBox(mes, _T("Format info"));
 }
 
@@ -758,23 +772,27 @@ void OBGUIFrame::DisplayInputFiles(wxArrayString filepatharray)
   }
   else
   {
-    if(!m_pInFilename->GetValue().empty())
+    if(!m_pInFilename->GetValue().empty()) {
       m_pInFilename->AppendText(_T(';'));
+    }
     startsel  = m_pInFilename->GetLastPosition();
   }
 
   for(i=0;i<filepatharray.GetCount();++i)
   {
-    if(i==1)
+    if(i==1) {
       endsel = m_pInFilename->GetLastPosition();
-    if(i!=0)
+    }
+    if(i!=0) {
       m_pInFilename->AppendText(_T(';'));
+    }
     wxFileName fnamewx(filepatharray[filepatharray.GetCount()-1-i]);
     fnamewx.MakeRelativeTo(m_InFileBasePath);
     m_pInFilename->AppendText(fnamewx.GetFullPath());
 
-    if(wxGetKeyState(WXK_CONTROL) && i==0)
+    if(wxGetKeyState(WXK_CONTROL) && i==0) {
       endsel = m_pInFilename->GetLastPosition();
+    }
   }
   m_pInFilename->SetSelection(startsel,endsel);
 
@@ -832,31 +850,38 @@ void OBGUIFrame::OnChangeFormat(wxCommandEvent& WXUNUSED(event))
   if(viewMenu->IsChecked(ID_SHOWAPIOPTIONS))
   {
     OBFormat* pAPI= OBConversion::FindFormat("obapi");
-    if(pAPI)
+    if(pAPI) {
       m_pAPIOptsPanel->Construct(pAPI->Description());
+    }
   }
 
-  if(viewMenu->IsChecked(ID_SHOWCONVOPTIONS))
+  if(viewMenu->IsChecked(ID_SHOWCONVOPTIONS)) {
     m_pConvOptsPanel->Construct(OBConversion::Description());
+  }
 
   OBFormat* pInFormat = (OBFormat*)m_pInFormat->GetClientData(m_pInFormat->GetSelection());
   OBFormat* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(m_pOutFormat->GetSelection());
-  if(!pInFormat || !pOutFormat)
+  if(!pInFormat || !pOutFormat) {
     return;
-  if(viewMenu->IsChecked(ID_SHOWOBJOPTIONS1)) //Single char
+  }
+  if(viewMenu->IsChecked(ID_SHOWOBJOPTIONS1)) { //Single char
     m_pGenOptsPanel->Construct(pOutFormat->TargetClassDescription(),nullptr,1);
-  if(viewMenu->IsChecked(ID_SHOWOBJOPTIONS2)) //Multi char
+  }
+  if(viewMenu->IsChecked(ID_SHOWOBJOPTIONS2)) { //Multi char
     m_pGenOptsPanel->Construct(pOutFormat->TargetClassDescription(),nullptr,2);
+  }
 
   if(viewMenu->IsChecked(ID_SHOWINOPTIONS))
   {
-    if(pInFormat && !m_pInOptsPanel->Construct(pInFormat->Description(),"input"))
+    if(pInFormat && !m_pInOptsPanel->Construct(pInFormat->Description(),"input")) {
       m_pInOptsPanel->Construct(pInFormat->Description(),"read");//try again
+    }
   }
   if(viewMenu->IsChecked(ID_SHOWOUTOPTIONS))
   {
-    if(pOutFormat && !m_pOutOptsPanel->Construct(pOutFormat->Description(),"output"))
+    if(pOutFormat && !m_pOutOptsPanel->Construct(pOutFormat->Description(),"output")) {
       m_pOutOptsPanel->Construct(pOutFormat->Description(), "write");//try again
+    }
   }
 
   CenterSizer->Fit(m_pOptsWindow);
@@ -884,8 +909,9 @@ bool OBGUIFrame::SetChoice(wxChoice* pChoice, const wxString& FileName)
   if(pos!=-1)
   {
     wxString ext = FileName.substr(pos+1);
-    if(FileName.substr(pos)==_T(".gz"))
+    if(FileName.substr(pos)==_T(".gz")) {
       pos = FileName.rfind('.',pos-1);
+    }
   }
   for(int iSel=0;iSel<pChoice->GetCount();iSel++)
   {
@@ -925,25 +951,26 @@ wxString OBGUIFrame::ShortenedPath(const wxString& path, const wxWindow& wnd, in
   */
   int txtwidth, txtheight, wndheight;
   wnd.GetTextExtent(path, &txtwidth, &txtheight);
-  if(wndwidth<0)
+  if(wndwidth<0) {
     wnd.GetClientSize(&wndwidth,&wndheight);
-  if(txtwidth <= wndwidth) return path;
+  }
+  if(txtwidth <= wndwidth) { return path; }
 
   // Set pos1 at the second separator or return unchanged string if not possible
   size_t pos1 = path.find_first_of(_T("/\\"));
-  if(pos1==wxNOT_FOUND || pos1+1 == path.length()) return path;
+  if(pos1==wxNOT_FOUND || pos1+1 == path.length()) { return path; }
   pos1= path.find_first_of(_T("/\\"), pos1+1);
-  if(pos1==wxNOT_FOUND || pos1+1 == path.length()) return path;
+  if(pos1==wxNOT_FOUND || pos1+1 == path.length()) { return path; }
 
   wxString tpath(path);
   size_t pos2 = pos1;
   while(txtwidth > wndwidth)
   {
     pos2= tpath.find_first_of(_T("/\\"), pos2+1);
-    if(pos2==wxNOT_FOUND || pos2+1 == tpath.length()) return path;
+    if(pos2==wxNOT_FOUND || pos2+1 == tpath.length()) { return path; }
     //pos2 now has next separator
     //Ensure that there is at least one further directory
-    if(tpath.find_first_of(_T("/\\"), pos2+1)==wxNOT_FOUND) return path;
+    if(tpath.find_first_of(_T("/\\"), pos2+1)==wxNOT_FOUND) { return path; }
 
     tpath.replace(pos1+1, pos2-pos1-1,_T("..."));
     pos2=pos1+4;
@@ -990,18 +1017,21 @@ void OBGUIFrame::GetAvailableFormats()
     for(itr=OBFormat::Begin("formats");itr!=OBFormat::End("formats");++itr)
     {
       OBFormat* pFormat = static_cast<OBFormat*>(itr->second);
-      if((pFormat->Flags() & NOTWRITABLE) && (pFormat->Flags() & NOTREADABLE))
+      if((pFormat->Flags() & NOTWRITABLE) && (pFormat->Flags() & NOTREADABLE)) {
         continue;
+      }
 
       std::string stxt;
       itr->second->Display(stxt, nullptr, itr->first);
       wxString txt(stxt.c_str(), wxConvUTF8);
       int pos = txt.find('[');
-      if(pos!=wxString::npos)
+      if(pos!=wxString::npos) {
         txt.erase(pos);
+      }
       //Check whether is in restricted set of formats, if this is in use
-      if(!m_ActiveFormats.Add(txt) && viewMenu->IsChecked(ID_RESTRICTFORMATS))
+      if(!m_ActiveFormats.Add(txt) && viewMenu->IsChecked(ID_RESTRICTFORMATS)) {
         continue;
+      }
       int n;
       if(!(pFormat->Flags() & NOTREADABLE))
       {
@@ -1072,13 +1102,15 @@ wxString CFilenames::SelectFilename()
   long n = GetInsertionPoint();
   int pos = fname.find(';',n);
   endsel=pos;
-  if(pos!=-1)
+  if(pos!=-1) {
     fname.erase(pos);
-  else
+  } else {
     endsel=GetLastPosition();
+  }
   pos = fname.rfind(';',n);
-  if(pos!=-1)
+  if(pos!=-1) {
     fname.erase(0,pos+1);
+  }
   SetSelection(pos+1,endsel);
 
   fname.Trim();
@@ -1172,15 +1204,17 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
     ToNextFile(delta);
     break;
   case WXK_TAB:
-    if(event.ShiftDown())
+    if(event.ShiftDown()) {
       ToNextFile(-1);
-    else
+    } else {
       ToNextFile(+1);
+    }
     break;
 
   case WXK_RETURN:
-    if(event.ShiftDown())
+    if(event.ShiftDown()) {
       SetValue(nameWithWildcard);
+    }
     else
     {
       nameWithWildcard = GetValue();
@@ -1204,8 +1238,9 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
         {
           if(i!=0)
           {
-            if(i==1)
+            if(i==1) {
               endsel = GetLastPosition();
+            }
             AppendText(_T(';'));
           }
           wxString name(filelist[i].c_str(), wxConvUTF8);
@@ -1233,8 +1268,9 @@ int  CFilenames::Expand(std::vector<std::string>& filelist)
     int nameend = txt.find(';',namestart);
     wxString name = txt.substr(namestart, nameend-namestart);
     name.Trim().Trim(false);
-    if(name.IsEmpty())
+    if(name.IsEmpty()) {
       break;
+    }
     wxFileName fn(name);
     namestart=nameend+1; // 0 at end
     fn.MakeAbsolute(frame->GetInFileBasePath());
@@ -1247,31 +1283,38 @@ int  CFilenames::Expand(std::vector<std::string>& filelist)
 bool CFilenames::ToNextFile(int delta)
 {
   wxString fname(GetValue());
-  if (fname.IsEmpty())
+  if (fname.IsEmpty()) {
     return false;
+  }
   long n = GetInsertionPoint();
   int pos;
   if(delta>0)
   {
     pos = fname.find(';',n);
-    if(pos==-1)
+    if(pos==-1) {
       pos=GetLastPosition();
-    else
+    } else {
       ++pos;
+    }
   }
   else
+  {
     pos = fname.rfind(';',n);
+  }
   if(pos!=-1)
   {
     SetInsertionPoint(pos);
     OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
     wxString nxtname = SelectFilename();
-    if(nxtname.IsEmpty())
+    if(nxtname.IsEmpty()) {
       return false;
+    }
     frame->DisplayInFile(nxtname);
     return true;
   }
   else
+  {
     return false;
+  }
 }
 //***********************************************
