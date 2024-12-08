@@ -75,12 +75,13 @@ public:
 
   int SkipObjects(int n, OBConversion* pConv) override
   {
-      if(n==0) n++;
+      if(n==0) { n++; }
       string temp;
       istream& ifs = *pConv->GetInStream();
       do {
-          if(ifs.good())
+          if(ifs.good()) {
             getline(ifs, temp);
+          }
         }while(ifs.good() && --n);
       return ifs.good() ? 1 : -1;
   }
@@ -168,7 +169,7 @@ private:
 
   for (i=0; i<MAXFRAGS; i++) {
     qx[i]=0;
-    for (j=0; j<4; j++) qa[i][j]=0;
+    for (j=0; j<4; j++) { qa[i][j]=0; }
   };
 
   };

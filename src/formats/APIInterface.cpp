@@ -48,8 +48,9 @@ public:
 			stringstream ss(txt);
 			int ilevel=-1;
 			ss >> ilevel;
-			if(ilevel>=0)
+			if(ilevel>=0) {
 				obErrorLog.SetOutputLevel((obMessageLevel)ilevel);
+			}
 		}
 		return true;
 	}

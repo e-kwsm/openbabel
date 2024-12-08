@@ -77,14 +77,16 @@ namespace OpenBabel
     unsigned int i, do_lower=5;
     for (i=0; i<strlen(s); i++)
       {
-        if (s[i]==' ')
+        if (s[i]==' ') {
           do_lower=5;
+        }
         if (s[i]=='=')
           {
             strncpy(tmp,&s[i-4],5);
             tmp[5]='\0';
-            if (strcmp(tmp,"file=")!=0)
+            if (strcmp(tmp,"file=")!=0) {
               do_lower=5;
+            }
           }
         else
           {
@@ -113,9 +115,11 @@ namespace OpenBabel
                           "gran","anne","prin","loca","dft=", //50-54
                           "cuto","preo"};         //55-56
     lowerit(s);
-    for (i=0; i<56; i++)
-      if (strstr(s, input_cards[i]) != nullptr)
+    for (i=0; i<56; i++) {
+      if (strstr(s, input_cards[i]) != nullptr) {
         return true;
+      }
+    }
     return false;
   }
 
@@ -138,12 +142,14 @@ namespace OpenBabel
         if (buffer[0]!='$')
           {
             tokenize(vs, buffer);
-            if (vs.size() < 1) return false; // timvdm 18/06/2008
+            if (vs.size() < 1) { return false; // timvdm 18/06/2008
+            }
             atom=mol.NewAtom();
             str=vs[0];
             if (input_style==0)
               {
-                if (vs.size() < 4) return false; // timvdm 18/06/2008
+                if (vs.size() < 4) { return false; // timvdm 18/06/2008
+                }
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
                 x=atof((char*) vs[1].c_str())*bohr_to_angstrom;
                 y=atof((char*) vs[2].c_str())*bohr_to_angstrom;
@@ -151,7 +157,8 @@ namespace OpenBabel
               }
             else
               {
-                if (vs.size() < 5) return false; // timvdm 18/06/2008
+                if (vs.size() < 5) { return false; // timvdm 18/06/2008
+                }
                 str.replace (0,2,"");
                 atom->SetAtomicNum(OBElements::GetAtomicNum(str.c_str()));
                 x=atof((char*) vs[2].c_str())*bohr_to_angstrom;
@@ -178,8 +185,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();

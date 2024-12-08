@@ -60,8 +60,9 @@ public:
 
   void SetRate(rate_type n, const double val)
   {
-    if(n<3)
+    if(n<3) {
       Rates[n] = val;
+    }
   }
 
   double GetLoRate(rate_type n) const
@@ -71,8 +72,9 @@ public:
 
   void SetLoRate(rate_type n, const double val)
   {
-    if(n<3)
+    if(n<3) {
       LoRates[n] = val;
+    }
   }
 
   double GetTroeParam(int n) const
@@ -82,8 +84,9 @@ public:
 
   void SetTroeParams(int n, const double val)
   {
-    if(n<4)
+    if(n<4) {
       TroeParams[n] = val;
+    }
   }
 
   void SetEfficiency(std::string id, double Eff)
@@ -100,16 +103,19 @@ public:
   {
     //Supply id empty to begin, then id is the*last* id
     std::map<std::string, double>::iterator itr;
-    if(id.empty())
+    if(id.empty()) {
       itr = Efficiencies.begin();
+    }
     else
     {
       itr = Efficiencies.find(id);
-      if(itr!=Efficiencies.end())
+      if(itr!=Efficiencies.end()) {
         ++itr;
+      }
     }
-    if(itr==Efficiencies.end())
+    if(itr==Efficiencies.end()) {
       return false;
+    }
     id    = itr->first;
     Eff = itr->second;
     return true;
@@ -150,8 +156,9 @@ public:
 
   void SetCoeff(unsigned n, const double val)
   {
-    if(n<14)
+    if(n<14) {
       Coeffs[n] = val;
+    }
   }
   double GetLoT() const {return LoT;}
   double GetMidT() const {return MidT;}

@@ -16,10 +16,12 @@ namespace OpenBabel
 
   CairoPainter::~CairoPainter()
   {
-    if (m_cairo)
+    if (m_cairo) {
       cairo_destroy(m_cairo);
-    if (m_surface)
+    }
+    if (m_surface) {
       cairo_surface_destroy(m_surface);
+    }
   }
 
   void CairoPainter::NewCanvas(double width, double height)
@@ -29,16 +31,17 @@ namespace OpenBabel
       // create new surface to paint on
       if(m_cropping) {
         double ratio = width / height;
-        if(ratio > 1.0)
+        if(ratio > 1.0) {
           m_height = m_height / ratio;
-        else
+        } else {
           m_width = m_width * ratio;
+        }
       }
       m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int> (m_width), static_cast<int> (m_height));
       m_cairo = cairo_create(m_surface);
-      if(m_transparent)
+      if(m_transparent) {
         cairo_set_source_rgba (m_cairo, 0.0, 0.0, 0.0, 0.0);
-      else {
+      } else {
         OBColor bg = OBColor(m_fillcolor);
         cairo_set_source_rgb (m_cairo, bg.red, bg.green, bg.blue);
       }
@@ -72,19 +75,22 @@ namespace OpenBabel
     }
 
     // Translate the over-scaled dimension into the centre
-    if (scale < scale_y)
+    if (scale < scale_y) {
       cairo_translate(m_cairo, 0 + cellwidth*(col-1), cellheight/2.0 - scale*height/2.0 + cellheight*(row-1));
-    else
+    } else {
       cairo_translate(m_cairo, cellwidth/2.0 - scale*width/2.0 + cellwidth*(col-1), 0 + cellheight*(row-1));
+    }
     cairo_scale(m_cairo, scale, scale); // Set a scaling transformation
   }
 
   bool CairoPainter::IsGood() const
   {
-    if (!m_cairo)
+    if (!m_cairo) {
       return false;
-    if (!m_surface)
+    }
+    if (!m_surface) {
       return false;
+    }
     return true;
   }
 
@@ -132,9 +138,10 @@ namespace OpenBabel
   void CairoPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
   {
     std::vector<std::pair<double,double> >::const_iterator i;
-    for (i = points.begin(); i != points.end(); ++i)
+    for (i = points.begin(); i != points.end(); ++i) {
       cairo_line_to(m_cairo, i->first, i->second); // note: when called without previous point,
                                                    //       this function behaves like cairo_move_to
+    }
     cairo_line_to(m_cairo, points.begin()->first, points.begin()->second);
     cairo_fill(m_cairo);
   }
@@ -169,8 +176,9 @@ namespace OpenBabel
 
   void CairoPainter::WriteImage(const std::string &filename)
   {
-    if (!m_cairo || !m_surface)
+    if (!m_cairo || !m_surface) {
       return;
+    }
 
     cairo_surface_write_to_png(m_surface, filename.c_str());
   }
@@ -178,8 +186,9 @@ namespace OpenBabel
   static cairo_status_t writeFunction(void* closure, const unsigned char* data, unsigned int length)
   {
     vector<char>* in = reinterpret_cast<vector<char>*>(closure);
-    for (unsigned int i = 0; i < length; ++i)
+    for (unsigned int i = 0; i < length; ++i) {
       in->push_back(data[i]);
+    }
     return CAIRO_STATUS_SUCCESS;
   }
 
@@ -190,12 +199,14 @@ namespace OpenBabel
 
   void CairoPainter::WriteImage(std::ostream& ofs)
   {
-    if (!m_cairo || !m_surface)
+    if (!m_cairo || !m_surface) {
       return;
+    }
     vector<char> in;
     cairo_surface_write_to_png_stream(m_surface, writeFunction, &in);
-    for (unsigned int i = 0; i < in.size(); ++i)
+    for (unsigned int i = 0; i < in.size(); ++i) {
       ofs << in.at(i);
+    }
   }
 
 }
