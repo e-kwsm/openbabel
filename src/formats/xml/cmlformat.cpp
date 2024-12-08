@@ -1243,12 +1243,14 @@ namespace OpenBabel
             string name((const char*)pname);
             const xmlChar* pvalue = xmlTextReaderConstValue(reader());
             string value;
-            if(pvalue)
+            if(pvalue) {
               value = (const char*)pvalue;
+            }
             vector<string> items;
             tokenize(items,value);
-            if(arr.size()<items.size())
+            if(arr.size()<items.size()) {
               arr.resize(items.size());
+            }
             unsigned int i;
             for(i=0;i<items.size();++i)
               {
@@ -1298,20 +1300,23 @@ namespace OpenBabel
     for(iSymbol=items.begin();iSymbol!=items.end();++iSymbol)
       {
         iNumber = iSymbol+1;
-        if(iNumber==items.end())
+        if(iNumber==items.end()) {
           return false;
+        }
         int n=atoi(iNumber->c_str());
         int atno, iso=0;
         atno = GetAtomicNumAndIsotope(iSymbol++->c_str(), &iso);
-        if(atno<=0 || n<=0)
+        if(atno<=0 || n<=0) {
           return false;
+        }
         int i;
         for(i=0;i<n;++i)
           {
             OBAtom* pAtom = pmol->NewAtom();
             pAtom->SetAtomicNum(atno);
-            if(iso)
+            if(iso) {
               pAtom->SetIsotope(iso);
+            }
           }
       }
     return true;
@@ -1327,33 +1332,36 @@ namespace OpenBabel
       {
         xmlTextReaderRead(reader());
         int typ = xmlTextReaderNodeType(reader());
-        if(typ==XML_READER_TYPE_SIGNIFICANT_WHITESPACE)
+        if(typ==XML_READER_TYPE_SIGNIFICANT_WHITESPACE) {
           continue;
+        }
         const char* pname = (const char*)xmlTextReaderConstLocalName(reader());
         if(typ==XML_READER_TYPE_END_ELEMENT)
           {
-            if(!strcmp(pname,"property"))//end of element
+            if(!strcmp(pname,"property")) {//end of element
               return;
-            else
+            } else {
               continue;
+            }
           }
         const char * pattr  = (const char*)xmlTextReaderGetAttribute(reader(), BAD_CAST "dictRef");
         xmlTextReaderRead(reader());
         const char* pvalue = (const char*)xmlTextReaderConstValue(reader());
         if(pattr && pvalue)
           {
-            if(!strcmp(pattr,"NasaLowT"))
+            if(!strcmp(pattr,"NasaLowT")) {
               pTD->SetLoT(atof(pvalue));
-            else if(!strcmp(pattr,"NasaHighT"))
+            } else if(!strcmp(pattr,"NasaHighT")) {
               pTD->SetHiT(atof(pvalue));
-            else if(!strcmp(pattr,"NasaMidT"))
+            } else if(!strcmp(pattr,"NasaMidT")) {
               pTD->SetMidT(atof(pvalue));
-            else if(!strcmp(pattr,"NasaCoeffs"))
+            } else if(!strcmp(pattr,"NasaCoeffs"))
               {
                 vector<string> vals;
                 tokenize(vals, pvalue);
-                for(int i=0;i<14;++i)
+                for(int i=0;i<14;++i) {
                   pTD->SetCoeff(i, atof(vals[i].c_str()));
+                }
               }
           }
       }
@@ -1489,8 +1497,9 @@ namespace OpenBabel
     const xmlChar* C_Z3orFRACT = C_Z3;
 
     _pxmlConv = XMLConversion::GetDerived(pConv,false);
-    if(!_pxmlConv)
+    if(!_pxmlConv) {
       return false;
+    }
 
     bool cml1 = _pxmlConv->IsOption("1");
     bool arrayform = _pxmlConv->IsOption("a");
@@ -1505,10 +1514,11 @@ namespace OpenBabel
         if(!_pxmlConv->IsOption("x"))
           {
             xmlTextWriterStartDocument(writer(), nullptr, nullptr, nullptr);
-            if(cml1)
+            if(cml1) {
               uri = BAD_CAST CML1NamespaceURI();
-            else
+            } else {
               uri=BAD_CAST NamespaceURI();// not the old CML2NamespaceURI();
+            }
           }
         //If more than one molecule to be output, write <cml> at start and </cml> at end.
         if(!_pxmlConv->IsLast())
@@ -1522,8 +1532,9 @@ namespace OpenBabel
     if(pmol==nullptr)
     {
         OBReaction* pReact = dynamic_cast<OBReaction*>(pOb);
-        if(!pReact)
+        if(!pReact) {
           return false;
+        }
         //Use CMLReact to convert OBReaction object
         OBFormat* pCMLRFormat = pConv->FindFormat("cmlr");
         if(!pCMLRFormat)
@@ -1562,12 +1573,14 @@ namespace OpenBabel
         {
           name.erase(0, pos+1);
           pos = name.rfind('.');
-          if(pos!=string::npos)
+          if(pos!=string::npos) {
             name.erase(pos);
+          }
         }
 
-        if(!isalpha(name[0])) //since ids have to start with a letter, add "id" to those that don't...
+        if(!isalpha(name[0])) { //since ids have to start with a letter, add "id" to those that don't...
           name = "id" + name;
+        }
         xmlTextWriterWriteAttribute(writer(), C_ID, BAD_CAST name.c_str());
         if(!isalpha(name[0])) //...and write <name> orig title </name>
           {
@@ -1578,15 +1591,18 @@ namespace OpenBabel
       }
 
     int TotalCharge = mol.GetTotalCharge();
-    if(TotalCharge!=0)
+    if(TotalCharge!=0) {
       xmlTextWriterWriteFormatAttribute(writer(), C_FORMALCHARGE, "%d", TotalCharge);
+    }
 
     int TotalSpin = mol.GetTotalSpinMultiplicity();
-    if(TotalSpin!=1)
+    if(TotalSpin!=1) {
       xmlTextWriterWriteFormatAttribute(writer(), C_SPINMULTIPLICITY, "%d", TotalSpin);
+    }
 
-    if(_pxmlConv->IsOption("m") && _pxmlConv->GetOutputIndex()==1) //only on first molecule
+    if(_pxmlConv->IsOption("m") && _pxmlConv->GetOutputIndex()==1) { //only on first molecule
       WriteMetadataList(mol);
+    }
 
     pUnitCell = nullptr;
     if (!cml1 && mol.HasData(OBGenericDataType::UnitCell))
@@ -1602,23 +1618,26 @@ namespace OpenBabel
     std::map<unsigned int, OBTetrahedralStereo::Config >::const_iterator tetStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
         if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           // Always get the clockwise version (it's the default anyway) as this has
           // a positive signed volume (i.e. CML atomParity of 1)
           OBTetrahedralStereo::Config cfg = ts->GetConfig(OBStereo::Clockwise);
-          if(cfg.specified)
+          if(cfg.specified) {
             tetStereos[cfg.center] = cfg;
+          }
         }
+      }
     }
 
     vector<string> atomIds;
     if(mol.NumAtoms()>0)
       {
         //if molecule has no bonds and atoms doesn't have coordinates, just output formula
-        if(numbonds==0 && UseFormulaWithNoBonds && !mol.Has2D())
+        if(numbonds==0 && UseFormulaWithNoBonds && !mol.Has2D()) {
           WriteFormula(mol);
+        }
         else
           {
             xmlTextWriterStartElementNS(writer(), prefix, C_ATOMARRAY, nullptr);
@@ -1635,8 +1654,9 @@ namespace OpenBabel
             for (patom = mol.BeginAtom(i);patom;patom = mol.NextAtom(i))
               {
                string el(OBElements::GetSymbol(patom->GetAtomicNum()));
-                if(el=="Xx")
+                if(el=="Xx") {
                   el="R";
+                }
 
                 int charge = patom->GetFormalCharge();
                 int spin = patom->GetSpinMultiplicity();
@@ -1664,12 +1684,15 @@ namespace OpenBabel
 
                 if(arrayform)
                   {
-                    if(charge)
+                    if(charge) {
                       anyChg = true;
-                    if(spin)
+                    }
+                    if(spin) {
                       anySpin = true;
-                    if(isotope)
+                    }
+                    if(isotope) {
                       anyIsotope = true;
+                    }
                     id << " " << atomIds[patom->GetIdx()];
                     eltyp << " " << el;
                     iso << " " << isotope;
@@ -1690,28 +1713,34 @@ namespace OpenBabel
                     if(!cml1)
                       {
                         xmlTextWriterWriteFormatAttribute(writer(), C_ELEMENTTYPE,"%s", el.c_str());
-                        if(isotope)
+                        if(isotope) {
                           xmlTextWriterWriteFormatAttribute(writer(), C_ISOTOPE,"%d", isotope);
+                        }
 
-                        if(charge)
+                        if(charge) {
                           xmlTextWriterWriteFormatAttribute(writer(), C_FORMALCHARGE,"%d", charge);
+                        }
 
-                        if(spin)
+                        if(spin) {
                           xmlTextWriterWriteFormatAttribute(writer(), C_SPINMULTIPLICITY,"%d", spin);
+                        }
 
                         xmlTextWriterWriteFormatAttribute(writer(), C_HYDROGENCOUNT,"%d", hcount);
 
-                        if(patom->HasData("label"))
+                        if(patom->HasData("label")) {
                             xmlTextWriterWriteFormatAttribute(writer(), C_LABEL,"%s",
                             patom->GetData("label")->GetValue().c_str());
+                        }
 
-                        if(patom->HasData("color"))
+                        if(patom->HasData("color")) {
                           xmlTextWriterWriteFormatAttribute(writer(), C_COLOR,"%s",
                           patom->GetData("color")->GetValue().c_str());
+                        }
 
-                        if(patom->HasData("radius"))
+                        if(patom->HasData("radius")) {
                           xmlTextWriterWriteFormatAttribute(writer(), C_RADIUS,"%s",
                           patom->GetData("radius")->GetValue().c_str());
+                        }
 
                         if(dim==2)
                           {
@@ -1733,16 +1762,18 @@ namespace OpenBabel
                             // According to http://cml.sourceforge.net/schema/cmlCore/HTMLDOCS/cmlCore.pdf,
                             // "if there are only 3 ligands, the current atom should be included
                             //  in the 4 atomRefs.".
-                            if (cfg.from == OBStereo::ImplicitRef) // e.g. for [S@@](Cl)(Br)I
+                            if (cfg.from == OBStereo::ImplicitRef) { // e.g. for [S@@](Cl)(Br)I
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.center)->GetIdx()]); // Add the central atom again
-                              else
+                              } else {
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.from)->GetIdx()]);
+                              }
 
                             for (OBStereo::RefIter ref = refs.begin(); ref!=refs.end(); ++ref) {
-                              if ( (OBStereo::Ref)*ref == OBStereo::ImplicitRef) // e.g. for Cl[S@@](Br)I
+                              if ( (OBStereo::Ref)*ref == OBStereo::ImplicitRef) { // e.g. for Cl[S@@](Br)I
                                 atomrefs.push_back(atomIds[mol.GetAtomById(cfg.center)->GetIdx()]); // Add the central atom again
-                              else
+                              } else {
                                 atomrefs.push_back(atomIds[mol.GetAtomById(*ref)->GetIdx()]);
+                              }
                             }
 
                             xmlTextWriterStartElementNS(writer(), prefix, C_ATOMPARITY, nullptr);
@@ -1809,14 +1840,17 @@ namespace OpenBabel
                     xmlTextWriterWriteFormatAttribute(writer(), C_ATOMID,"%s", id.str().c_str());
                     xmlTextWriterWriteFormatAttribute(writer(), C_ELEMENTTYPE,"%s", eltyp.str().c_str());
 
-                    if(anyIsotope)
+                    if(anyIsotope) {
                       xmlTextWriterWriteFormatAttribute(writer(), C_ISOTOPE,"%s", iso.str().c_str());
+                    }
 
-                    if(anyChg)
+                    if(anyChg) {
                       xmlTextWriterWriteFormatAttribute(writer(), C_FORMALCHARGE,"%s", chg.str().c_str());
+                    }
 
-                    if(anySpin)
+                    if(anySpin) {
                       xmlTextWriterWriteFormatAttribute(writer(), C_SPINMULTIPLICITY,"%s", spn.str().c_str());
+                    }
 
                     xmlTextWriterWriteFormatAttribute(writer(), C_HYDROGENCOUNT,"%s", hct.str().c_str());
 
@@ -1888,7 +1922,7 @@ namespace OpenBabel
     std::map<unsigned int, OBCisTransStereo* >::const_iterator ctStereo_cit;
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
         if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
           if(ct->GetConfig().specified) {
@@ -1897,6 +1931,7 @@ namespace OpenBabel
             ctStereos[dblbond] = ct;
           }
         }
+      }
     }
 
     if(mol.NumBonds()>0)
@@ -1913,10 +1948,11 @@ namespace OpenBabel
 
             if(!arrayform)
               {
-                if(bo==5 || (WriteAromaticBonds && pbond->IsAromatic())) //aromatic
+                if(bo==5 || (WriteAromaticBonds && pbond->IsAromatic())) { //aromatic
                   ord << 'A';
-                else
+                } else {
                   ord << bo;
+                }
 
                 ref1 = atomIds[pbond->GetBeginAtomIdx()];
                 ref2 = atomIds[pbond->GetEndAtomIdx()];
@@ -1928,13 +1964,15 @@ namespace OpenBabel
                           ref1.c_str(), ref2.c_str());
                     xmlTextWriterWriteFormatAttribute(writer(), C_ORDER,"%s", ord.str().c_str());
 
-                    if(pbond->HasData("color"))
+                    if(pbond->HasData("color")) {
                       xmlTextWriterWriteFormatAttribute(writer(), C_COLOR,"%s",
                           pbond->GetData("color")->GetValue().c_str());
+                    }
 
-                    if(pbond->HasData("label"))
+                    if(pbond->HasData("label")) {
                       xmlTextWriterWriteFormatAttribute(writer(), C_LABEL,"%s",
                           pbond->GetData("label")->GetValue().c_str());
+                    }
 
                     if( (ctStereo_cit=ctStereos.find(pbond->GetIdx())) != ctStereos.end() )
                       {
@@ -1986,10 +2024,11 @@ namespace OpenBabel
               }
             else
               {
-                if(bo==5 || (WriteAromaticBonds && pbond->IsAromatic())) //aromatic
+                if(bo==5 || (WriteAromaticBonds && pbond->IsAromatic())) { //aromatic
                   ord << " " << 'A';
-                else
+                } else {
                   ord << " " << bo;
+                }
 
                 ref1 += ' ' + atomIds[pbond->GetBeginAtomIdx()];
                 ref2 += ' ' + atomIds[pbond->GetEndAtomIdx()];
@@ -2030,21 +2069,25 @@ namespace OpenBabel
           {
             for (pbond = mol.BeginBond(ib);pbond;pbond = mol.NextBond(ib))
               {
-                if(pbond->GetBondOrder()==2 || pbond->IsWedge() || pbond->IsHash())
+                if(pbond->GetBondOrder()==2 || pbond->IsWedge() || pbond->IsHash()) {
                   WriteBondStereo(pbond, atomIds);
+                }
               }
           }
       }
 
     bool propertyListWritten=false;
-    if(mol.HasData(ThermoData))
+    if(mol.HasData(ThermoData)) {
       WriteThermo(mol, propertyListWritten);
+    }
 
-    if(_pxmlConv->IsOption("p"))
+    if(_pxmlConv->IsOption("p")) {
       WriteProperties(mol, propertyListWritten);
+    }
 
-    if(propertyListWritten)
+    if(propertyListWritten) {
       xmlTextWriterEndElement(writer());//propertList
+    }
 
     xmlTextWriterEndElement(writer());//molecule
 
@@ -2091,8 +2134,9 @@ namespace OpenBabel
     //mol is a copy
     static const xmlChar C_FORMULA[] = "formula";
     static const xmlChar C_CONCISE[] = "concise";
-    if(mol.NumAtoms()==1)
+    if(mol.NumAtoms()==1) {
       mol.AddHydrogens(false,false);
+    }
     xmlTextWriterStartElementNS(writer(), prefix, C_FORMULA, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_CONCISE,"%s", mol.GetSpacedFormula().c_str());
     xmlTextWriterEndElement(writer());//formula
@@ -2104,14 +2148,16 @@ namespace OpenBabel
     static const xmlChar C_BONDSTEREO[] = "bondStereo";
 
     char ch=0;
-    if(pbond->IsWedge())
+    if(pbond->IsWedge()) {
       ch='W';
-    else if(pbond->IsHash())
+    } else if(pbond->IsHash()) {
       ch='H';
+    }
 
-    if(ch)
+    if(ch) {
       //this line here because element may not be written with double bond
       xmlTextWriterStartElementNS(writer(), prefix, C_BONDSTEREO, nullptr);
+    }
     else
     {
       return; // TODO: This code has bit-rotted
@@ -2142,8 +2188,9 @@ namespace OpenBabel
       //        break;
       //      }
       //  }
-      if(!ud1 || !ud2)
+      if(!ud1 || !ud2) {
         return;
+      }
 
       xmlTextWriterStartElementNS(writer(), prefix, C_BONDSTEREO, nullptr);
       xmlTextWriterWriteFormatAttribute(writer(), C_ATOMREFS4, "%s %s %s %s",
@@ -2284,19 +2331,23 @@ namespace OpenBabel
     //Energy is output when it is not zero
     //This is the molecular energy, probably originally in Hartrees,
     // stored in OB as kcal/mol, but output here in kJ/mol
-    if(fabs(mol.GetEnergy()) > 1e-3)
+    if(fabs(mol.GetEnergy()) > 1e-3) {
       WriteScalarProperty(mol, "Energy", mol.GetEnergy() * CALSTOJOULES,
         "me:ZPE", "kJ/mol", "computational");
+    }
 
     //spinMultiplicity is written only when it is not 1
     int smult = mol.GetTotalSpinMultiplicity();
-    if(smult!=1)
+    if(smult!=1) {
       WriteScalarProperty(mol, "SpinMultiplicity", smult, "me:spinMultiplicity");
+    }
 
-    if(mol.HasData(OBGenericDataType::VibrationData))
+    if(mol.HasData(OBGenericDataType::VibrationData)) {
       WriteVibrationData(mol);
-    if(mol.HasData(OBGenericDataType::RotationData))
+    }
+    if(mol.HasData(OBGenericDataType::RotationData)) {
       WriteRotationData(mol);
+    }
   }
 
   void CMLFormat::WriteThermo(OBMol& mol, bool& propertyListWritten)
@@ -2342,8 +2393,9 @@ namespace OpenBabel
     xmlTextWriterStartElementNS(writer(), prefix, C_ARRAY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_DICTREF,"%s","NasaCoeffs");
     xmlTextWriterWriteFormatAttribute(writer(), C_SIZE,"%d",14);
-    for(int i=0;i<14;++i)
+    for(int i=0;i<14;++i) {
       xmlTextWriterWriteFormatString(writer()," %e", pThermoData->GetCoeff(i));
+    }
     xmlTextWriterEndElement(writer());//array
 
     xmlTextWriterEndElement(writer());//property
@@ -2362,16 +2414,18 @@ namespace OpenBabel
   string CMLFormat::GetMolID()
   {
     stringstream molID;
-    if(strlen(_pmol->GetTitle())==0)
+    if(strlen(_pmol->GetTitle())==0) {
       molID << "Mol #" << _pxmlConv->GetOutputIndex()+1;
-    else
+    } else {
       molID << _pmol->GetTitle();
+    }
 
     string fn(_pxmlConv->GetInFilename());
     //Get file name: remove path
     string::size_type pos = fn.rfind(getSeparator());
-    if(pos!=string::npos)
+    if(pos!=string::npos) {
       fn.erase(0,pos+1);
+    }
     molID << " (in " << fn << ')';
     return molID.str();
   }
@@ -2419,16 +2473,18 @@ namespace OpenBabel
     for (unsigned int i=0; i<vd->GetNumberOfFrequencies(); ++i)
     {
       double freq = vd->GetFrequencies()[i];
-      if(freq>0.0)
+      if(freq>0.0) {
         xmlTextWriterWriteFormatString(writer(),"%.2lf ", freq);
-      else
+      } else {
         imaginaryFrequency = -freq;
+      }
     }
     xmlTextWriterEndElement(writer());//array
     xmlTextWriterEndElement(writer());//property
 
-    if(imaginaryFrequency>0.0)
+    if(imaginaryFrequency>0.0) {
       WriteScalarProperty(mol, "ImaginaryFrequency", imaginaryFrequency, "me:imFreqs", "cm-1");
+    }
 
     return true;
   }
@@ -2451,9 +2507,11 @@ namespace OpenBabel
     xmlTextWriterStartElementNS(writer(), prefix, C_ARRAY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_UNITS,"%s","cm-1");
     const double WAVENUM_TO_GHZ=30.0;
-    for (unsigned int i=0; i<rd->GetRotConsts().size(); ++i)
-      if(rd->GetRotConsts()[i]!=0.0)
+    for (unsigned int i=0; i<rd->GetRotConsts().size(); ++i) {
+      if(rd->GetRotConsts()[i]!=0.0) {
         xmlTextWriterWriteFormatString(writer(),"%.3lf ", rd->GetRotConsts()[i]/WAVENUM_TO_GHZ);
+      }
+    }
     xmlTextWriterEndElement(writer());//array
     xmlTextWriterEndElement(writer());//property
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
@@ -2481,16 +2539,19 @@ namespace OpenBabel
 
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s",title);
-    if(dictref)
+    if(dictref) {
       xmlTextWriterWriteFormatAttribute(writer(), C_DICTREF,"%s",dictref);
+    }
     xmlTextWriterStartElementNS(writer(), prefix, C_SCALAR, nullptr);
-    if(units)
+    if(units) {
       xmlTextWriterWriteFormatAttribute(writer(), C_UNITS,"%s",units);
+    }
     if(convention)
     {
       xmlTextWriterWriteFormatAttribute(writer(), C_CONVENTION,"%s",convention);
-      if(strcmp(convention, "computational")==0)
+      if(strcmp(convention, "computational")==0) {
         xmlTextWriterWriteFormatAttribute(writer(), C_ZPEADDED,"%s","false");
+      }
     }
     xmlTextWriterWriteFormatString(writer(),"%.2lf ", value);
     xmlTextWriterEndElement(writer());//scalar
