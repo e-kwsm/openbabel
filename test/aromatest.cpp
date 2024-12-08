@@ -58,18 +58,20 @@ void NegativeTestCases(int &molCount, unsigned int &testCount)
     molCount++;
     bool found_non_aromatic = false;
     FOR_ATOMS_OF_MOL(atom, mol) {
-      if (atom->GetAtomicNum() == OBElements::Hydrogen)
+      if (atom->GetAtomicNum() == OBElements::Hydrogen) {
         continue;
+      }
       if (!atom->IsAromatic()) {
         found_non_aromatic = true;
         break;
       }
     }
-    if (found_non_aromatic)
+    if (found_non_aromatic) {
       cout << "ok " << ++testCount << "\n";
-    else
+    } else {
       cout << "not ok " << ++testCount << " # all atoms are aromatic in molecule " << molCount << " "
       << mol.GetTitle() << "\n";
+    }
   }
 }
 
@@ -141,17 +143,20 @@ int aromatest(int argc, char* argv[])
         molCount++;
         for (int N = 0; N < 2; ++N)
         {
-          if (N == 0)
+          if (N == 0) {
             mol.AddHydrogens();
-          else
+          } else {
             mol.DeleteHydrogens();
+          }
           FOR_ATOMS_OF_MOL(atom, mol)
           {
-            if (atom->GetAtomicNum() == OBElements::Hydrogen)
+            if (atom->GetAtomicNum() == OBElements::Hydrogen) {
               continue;
+            }
 
-            if (atom->IsAromatic())
+            if (atom->IsAromatic()) {
               cout << "ok " << ++testCount << "\n";
+            }
             else
             {
               cout << "not ok " << ++testCount << " # atom isn't aromatic!\n";

@@ -137,8 +137,9 @@ int addhtest(int argc, char* argv[])
 
   while(getline(ifs, line))
   {
-    if(line.length() == 0)
+    if(line.length() == 0) {
       continue; //ignore blank lines
+    }
     if(line[0] != '#')
     {
       stringstream str(line);

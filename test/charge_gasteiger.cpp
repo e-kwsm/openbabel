@@ -104,8 +104,9 @@ int charge_gasteiger(int argc, char* argv[])
       {
         mol.Clear();
         conv.Read(&mol);
-        if (mol.Empty())
+        if (mol.Empty()) {
           continue;
+        }
         if (!difs.getline(buffer,BUFF_SIZE))
           {
             cout << "Bail out! error reading reference data" << endl;
@@ -120,8 +121,9 @@ int charge_gasteiger(int argc, char* argv[])
 
         // compare the calculated energy to our reference data
         tokenize(vs, buffer);
-        if (vs.size() < 3)
+        if (vs.size() < 3) {
           return -1;
+        }
 
         dipoleMoment.SetX(atof(vs[0].c_str()));
         dipoleMoment.SetY(atof(vs[1].c_str()));
@@ -134,7 +136,9 @@ int charge_gasteiger(int argc, char* argv[])
                  << " for molecule " << mol.GetTitle() << '\n';
           }
         else
+        {
           cout << "ok " << ++currentTest << " # dipole\n";
+        }
 
         
         FOR_ATOMS_OF_MOL(atom, mol) {
@@ -171,16 +175,19 @@ int charge_gasteiger(int argc, char* argv[])
 void GenerateGasteigerCharges()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, amolecules_file.c_str()))
+  if (!SafeOpen(ifs, amolecules_file.c_str())) {
     return;
+  }
 
   std::ofstream rofs;
-  if (!SafeOpen(rofs, aresults_file.c_str()))
+  if (!SafeOpen(rofs, aresults_file.c_str())) {
     return;
+  }
 
   std::ofstream dofs;
-  if (!SafeOpen(dofs, adipole_file.c_str()))
+  if (!SafeOpen(dofs, adipole_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -205,8 +212,9 @@ void GenerateGasteigerCharges()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       if (pCM->ComputeCharges(mol)) {
         partialCharges = pCM->GetPartialCharges();

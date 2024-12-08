@@ -73,8 +73,9 @@ bool doMultiMoleculeFile(const std::string &filename)
   bool result = true;
   while (conv.Read(&mol, &ifs)) {
     bool res = doBuildMoleculeTest(mol);
-    if (!res)
+    if (!res) {
       result = res;
+    }
   }
 
   return result;

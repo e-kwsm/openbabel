@@ -105,8 +105,9 @@ int charge_mmff94(int argc, char* argv[])
       {
         mol.Clear();
         conv.Read(&mol);
-        if (mol.Empty())
+        if (mol.Empty()) {
           continue; //dkoes - this should totally be break
+        }
         if (!difs.getline(buffer,BUFF_SIZE))
           {
             cout << "Bail out! error reading reference data" << endl;
@@ -121,8 +122,9 @@ int charge_mmff94(int argc, char* argv[])
 
         // compare the calculated energy to our reference data
         tokenize(vs, buffer);
-        if (vs.size() < 3)
+        if (vs.size() < 3) {
           return -1;
+        }
 
         dipoleMoment.SetX(atof(vs[0].c_str()));
         dipoleMoment.SetY(atof(vs[1].c_str()));
@@ -135,7 +137,9 @@ int charge_mmff94(int argc, char* argv[])
                  << " for molecule " << mol.GetTitle() << '\n';
           }
         else
+        {
           cout << "ok " << ++currentTest << " # dipole\n";
+        }
 
         
         FOR_ATOMS_OF_MOL(atom, mol) {
@@ -175,16 +179,19 @@ int charge_mmff94(int argc, char* argv[])
 void GenerateMMFF94Charges()
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, molecules_file.c_str()))
+  if (!SafeOpen(ifs, molecules_file.c_str())) {
     return;
+  }
 
   std::ofstream rofs;
-  if (!SafeOpen(rofs, results_file.c_str()))
+  if (!SafeOpen(rofs, results_file.c_str())) {
     return;
+  }
 
   std::ofstream dofs;
-  if (!SafeOpen(dofs, dipole_file.c_str()))
+  if (!SafeOpen(dofs, dipole_file.c_str())) {
     return;
+  }
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
@@ -209,8 +216,9 @@ void GenerateMMFF94Charges()
     {
       mol.Clear();
       conv.Read(&mol);
-      if (mol.Empty())
+      if (mol.Empty()) {
         continue;
+      }
 
       if (pCM->ComputeCharges(mol)) {
         partialCharges = pCM->GetPartialCharges();
