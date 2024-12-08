@@ -118,8 +118,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -189,7 +190,8 @@ namespace OpenBabel
 
         if (checkKeywords.find("CARTESIAN COORDINATES (ANGSTROEM)") != notFound) {
             //        if(strstr(buffer,"CARTESIAN COORDINATES (ANGSTROEM)") != NULL) {
-            if (unitCell) break; // dont't overwrite unit cell coordinate informations
+            if (unitCell) { break; // dont't overwrite unit cell coordinate informations
+            }
             if (mol.NumAtoms() == 0) {
                 newMol = true;
             }
@@ -220,8 +222,9 @@ namespace OpenBabel
                     atom->SetVector(x,y,z); //set atom coordinates
                 }
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                     break;
+                }
                 tokenize(vs,buffer);
             }
             newMol = false;
@@ -243,12 +246,12 @@ namespace OpenBabel
             occ.resize(0);
             ifs.getline(buffer,BUFF_SIZE); // skip ---------------------
             ifs.getline(buffer,BUFF_SIZE); // skip empty line or look for spin informations
-            if (strstr(buffer, "SPIN UP ORBITALS") != nullptr) m_openShell = true;
+            if (strstr(buffer, "SPIN UP ORBITALS") != nullptr) { m_openShell = true; }
             ifs.getline(buffer,BUFF_SIZE); // skip headline
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
             while (strstr(buffer, "---------") == nullptr && vs.size() !=0) {
-                if (vs.size() != 4) break;
+                if (vs.size() != 4) { break; }
                 occ.push_back(atof(vs[1].c_str()));
                 energyEh.push_back(atof(vs[2].c_str()));
                 energyeV.push_back(atof(vs[3].c_str()));
@@ -265,7 +268,7 @@ namespace OpenBabel
                 ifs.getline(buffer,BUFF_SIZE);
                 tokenize(vs,buffer);
                 while (strstr(buffer, "---------") == nullptr && vs.size() >0) {
-                    if (vs.size() != 4) break;
+                    if (vs.size() != 4) { break; }
                     occB.push_back(atof(vs[1].c_str()));
                     energyBEh.push_back(atof(vs[2].c_str()));
                     energyBeV.push_back(atof(vs[3].c_str()));
@@ -304,14 +307,15 @@ namespace OpenBabel
                 atom = mol.GetAtom(atoi(vs[0].c_str())+1);  // Numbering starts from 0 in Orca
                 atom->SetPartialCharge(atof(vs[3].c_str()));
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                     break;
+                }
                 tokenize(vs,buffer);
             }
         }
         if (checkKeywords.find("FINAL SINGLE POINT ENERGY") != notFound) {
             tokenize(vs,buffer);
-            if (vs.size() == 5) mol.SetEnergy(atof(vs[4].c_str()));
+            if (vs.size() == 5) { mol.SetEnergy(atof(vs[4].c_str())); }
         }
 
         if (checkKeywords.find("VIBRATIONAL FREQUENCIES") != notFound) {
@@ -356,18 +360,21 @@ namespace OpenBabel
                 tokenize(vs,str);
                 while(vs.size() == nColumn+1) {
                     vector<double> x, y, z;
-                    for (unsigned int i = 1; i < vs.size(); i++)
+                    for (unsigned int i = 1; i < vs.size(); i++) {
                         x.push_back(atof(vs[i].c_str()));
+                    }
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);
-                    for (unsigned int i = 1; i < vs.size(); i++)
+                    for (unsigned int i = 1; i < vs.size(); i++) {
                         y.push_back(atof(vs[i].c_str()));
+                    }
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);
-                    for (unsigned int i = 1; i < vs.size(); i++)
+                    for (unsigned int i = 1; i < vs.size(); i++) {
                         z.push_back(atof(vs[i].c_str()));
+                    }
 
                     for (unsigned int i = 0; i < nColumn; i++) {
                         vib.push_back(vector<vector3>());
@@ -515,15 +522,18 @@ namespace OpenBabel
                 z = atof((char*)vs[3].c_str());
                 unitCellVectors.push_back(vector3 (x,y,z)); //set coordinates
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                     break;
+                }
                 tokenize(vs,buffer);
             }
-            if (unitCellVectors.size()!=4 )
+            if (unitCellVectors.size()!=4 ) {
                 break;      // structure incorrect
+            }
 
-            if (!ifs.getline(buffer,BUFF_SIZE))
+            if (!ifs.getline(buffer,BUFF_SIZE)) {
                 break;
+            }
 
             // look for coordinate information relating to the unit cell calculations
 
@@ -543,13 +553,15 @@ namespace OpenBabel
                     //set atomic number
                     atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
 
-                    if (!ifs.getline(buffer,BUFF_SIZE))
+                    if (!ifs.getline(buffer,BUFF_SIZE)) {
                         break;
+                    }
                     tokenize(vs,buffer);
                 }
             } // if "unit cell related coordinates"
-            if (mol.NumAtoms() != 0)
+            if (mol.NumAtoms() != 0) {
                 unitCell = true;
+            }
         } // if "unit cell information"
 
     } // while
@@ -577,7 +589,7 @@ namespace OpenBabel
         std::vector<OBOrbital> alphaOrbitals;
         int alphaHomo = 0, betaHomo = 0;
         for (unsigned int i = 0; i < energyEh.size(); i++) {
-            if (occ[i]>0) alphaHomo++;
+            if (occ[i]>0) { alphaHomo++; }
             OBOrbital orb;
             orb.SetData(energyEh[i], occ[i], " ");
             alphaOrbitals.push_back(orb);
@@ -588,7 +600,7 @@ namespace OpenBabel
             std::vector<OBOrbital> betaOrbitals;
 
             for (unsigned int i = 0; i < energyBEh.size(); i++) {
-                if (occ[i]>0) betaHomo++;
+                if (occ[i]>0) { betaHomo++; }
                 OBOrbital orb;
                 orb.SetData(energyBEh[i], occB[i], " ");
                 betaOrbitals.push_back(orb);
@@ -621,8 +633,9 @@ namespace OpenBabel
         if (UVWavelength.size() > 0) {
             // UV spectrum has been found
             etd->SetData(UVWavelength, UVForces);
-            if (UVEDipole.size() == UVWavelength.size())
+            if (UVEDipole.size() == UVWavelength.size()) {
                 etd->SetEDipole(UVEDipole);
+            }
             // additional CD spectrum has also been found
             if (CDWavelength.size() == UVWavelength.size()) {
                 etd->SetRotatoryStrengthsLength(CDStrengthsLength);
@@ -639,18 +652,21 @@ namespace OpenBabel
     }
 
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
 
 //    cout << "num conformers = " << mol.NumConformers() << endl;
     //cout << "Atom index 0 = " << mol.GetAtom(0)->GetX() << " " << mol.GetAtom(0)->GetY() << " " << mol.GetAtom(0)->GetZ() << endl;
-    if (hasPartialCharges)
+    if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
+    }
     mol.SetTitle(title);
     return(true);
   }
@@ -660,8 +676,9 @@ namespace OpenBabel
   bool OrcaInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -684,12 +701,15 @@ namespace OpenBabel
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else
+    {
       ofs << defaultKeywords << endl;
+    }
 
     ofs << "* xyz " << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << endl;
 

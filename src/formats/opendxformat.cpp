@@ -89,8 +89,9 @@ namespace OpenBabel
 bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream& ifs = *pConv->GetInStream();
 
@@ -99,27 +100,32 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     stringstream errorMsg;
 
-    if (!ifs)
+    if (!ifs) {
       return false; // We are attempting to read past the end of the file
+    }
 
     pmol->SetTitle(title);
 
     while (ifs.good() && ifs.getline(buffer,BUFF_SIZE)) {
-      if (buffer[0] == '#')
+      if (buffer[0] == '#') {
         continue; // comment line
-      if (EQn(buffer, "object", 6))
+      }
+      if (EQn(buffer, "object", 6)) {
         break;
+      }
     }
-    if (!ifs)
+    if (!ifs) {
       return false; // ran out of lines
+    }
 
     vector<string> vs;
     tokenize(vs, buffer);
 
     // Number of grid points (voxels)
     vector<int> voxels(3);
-    if (!EQn(buffer, "object", 6) || vs.size() != 8)
+    if (!EQn(buffer, "object", 6) || vs.size() != 8) {
       return false;
+    }
     else {
       voxels[0] = atoi(vs[5].c_str());
       voxels[1] = atoi(vs[6].c_str());
@@ -127,12 +133,14 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     }
 
     double x, y, z;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "origin", 6))
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "origin", 6)) {
       return false;
+    }
     else {
       tokenize(vs, buffer);
-      if (vs.size() != 4)
+      if (vs.size() != 4) {
         return false;
+      }
       x = atof(vs[1].c_str());
       y = atof(vs[2].c_str());
       z = atof(vs[3].c_str());
@@ -142,12 +150,14 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     // now three lines with the x, y, and z axes
     vector<vector3> axes;
     for (unsigned int i = 0; i < 3; ++i) {
-      if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "delta", 5))
+      if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "delta", 5)) {
         return false;
+      }
       else {
         tokenize(vs, buffer);
-        if (vs.size() != 4)
+        if (vs.size() != 4) {
           return false;
+        }
         x = atof(vs[1].c_str());
         y = atof(vs[2].c_str());
         z = atof(vs[3].c_str());
@@ -160,10 +170,12 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       object 2 class gridconnections counts nx ny nz
       object 3 class array type double rank 0 times n data follows
     */
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6))
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6)) {
       return false;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6))
+    }
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6)) {
       return false;
+    }
 
     pmol->BeginModify();
     pmol->SetDimension(3);
@@ -180,8 +192,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     while (ifs.getline(buffer, BUFF_SIZE))
     {
       ++line;
-      if (EQn(buffer, "attribute", 9))
+      if (EQn(buffer, "attribute", 9)) {
         break; // we're finished with reading data -- although we should probably have a voxel check in here too
+      }
 
       tokenize(vs, buffer);
       if (vs.size() == 0)
@@ -216,14 +229,18 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
      component "connections" value 2
      component "data" value 3
     */
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6))
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "object", 6)) {
       return false;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9))
+    }
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9)) {
       return false;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9))
+    }
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9)) {
       return false;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9))
+    }
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "component", 9)) {
       return false;
+    }
 
     // clean out any remaining blank lines
     std::streampos ipos;
@@ -242,8 +259,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
   bool OBOpenDXCubeFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
@@ -263,10 +281,11 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     // First some comments
     ofs << "# Data from Open Babel " << BABEL_VERSION << "\n";
     str = mol.GetTitle();
-    if (str.empty())
+    if (str.empty()) {
       ofs << "# Molecule Title: *****" << "\n";
-    else
+    } else {
       ofs << "# Molecule Title: " << str << "\n";
+    }
 
     int nx, ny, nz;
     double origin[3], xAxis[3], yAxis[3], zAxis[3];
@@ -317,17 +336,19 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         {
           value = gd->GetValue(i, j, k);
           snprintf(buffer, BUFF_SIZE," %12.5E", value);
-          if (count % 3 == 0)
+          if (count % 3 == 0) {
             ofs << buffer << "\n";
-          else
+          } else {
             ofs << buffer;
+          }
           count++;
         } // z-axis
       } // y-axis
     } // x-axis
 
-    if (count % 3 != 0)
+    if (count % 3 != 0) {
       ofs << "\n";
+    }
     ofs << "attribute \"dep\" string \"positions\"\n";
     ofs << "object \"regular positions regular connections\" class field\n";
     ofs << "component \"positions\" value 1\n";

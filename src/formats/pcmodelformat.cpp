@@ -69,8 +69,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -108,8 +109,9 @@ namespace OpenBabel
         else if (readingMol && strncmp(buffer,"AT ",3) == 0)
           {
             tokenize(vs,buffer, "\n\r\t ,:");
-            if (vs.size() < 3)
+            if (vs.size() < 3) {
               return false;
+            }
 
             atom = mol.NewAtom();
             temp = vs[2].c_str();
@@ -129,14 +131,16 @@ namespace OpenBabel
             parsingBonds = false;
             while(token < vs.size())
               {
-                if (vs[token] == "B")
+                if (vs[token] == "B") {
                   parsingBonds = true;
+                }
                 else if (vs[token][0] == 'C')
                   {
                     parsingBonds = false;
                     hasPartialCharges = true;
-                    if (vs[token].size() > 1)
+                    if (vs[token].size() > 1) {
                       temp = vs[token].substr(1,vs[token].size());
+                    }
                     else
                       {
                         token++;
@@ -150,12 +154,15 @@ namespace OpenBabel
                   {
                     bondNbr = atoi(vs[token++].c_str()); // advance to bond order
                     bondOrder = atoi(vs[token].c_str());
-                    if (bondOrder == 9)
+                    if (bondOrder == 9) {
                       bondOrder = 1;
+                    }
                     mol.AddBond(atom->GetIdx(), bondNbr, bondOrder, 0);
                   }
                 else
+                {
                   parsingBonds = false; // any other token
+                }
 
                 token++;
               } // end atom fields
@@ -173,8 +180,9 @@ namespace OpenBabel
     ifs.seekg(ipos);
 
     mol.EndModify();
-    if (hasPartialCharges)
+    if (hasPartialCharges) {
       mol.SetPartialChargesPerceived();
+    }
     mol.SetTitle(title);
     return(true);
   }
@@ -184,8 +192,9 @@ namespace OpenBabel
   bool PCModelFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

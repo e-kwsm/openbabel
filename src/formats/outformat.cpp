@@ -179,8 +179,9 @@ namespace OpenBabel
     }
 
     // if we assigned something above, let's try to find it
-    if (formatName.length())
+    if (formatName.length()) {
       pFormat = pConv->FindFormat(formatName);
+    }
 
     if (pFormat) {
       ifs.seekg (0, ios::beg); // reset the stream to the beginning
