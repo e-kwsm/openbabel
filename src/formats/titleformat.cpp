@@ -56,11 +56,15 @@ bool TitleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 	if(pConv->IsOption("t",OBConversion::INOPTIONS))
 	{
 		while( ifs && (ifs.peek()!='\t') && (ifs.peek()!='\n') && (ifs.peek()!=EOF))
+		{
 			title += ifs.get();
+		}
 		ifs.get(); //delimiter
 	}
 	else
+	{
 		ifs >> title;
+	}
 
 	pmol->SetTitle(Trim(title));
 	return true;
@@ -69,8 +73,9 @@ bool TitleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool TitleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   ostream &ofs = *pConv->GetOutStream();
 	ofs << pmol->GetTitle() << endl;

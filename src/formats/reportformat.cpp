@@ -197,8 +197,9 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(atom, mol) {
       if ((atom->GetAtomicNum() == OBElements::Carbon || atom->GetAtomicNum() == OBElements::Nitrogen)
         && atom->GetHvyDegree() > 2
-        && atom->IsChiral())
+        && atom->IsChiral()) {
         return true;
+      }
     }
 
     return false;
@@ -208,8 +209,9 @@ namespace OpenBabel
   bool ReportFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -293,7 +295,9 @@ namespace OpenBabel
       {
         ofs << "\n";
         if (min > mol.NumAtoms())
+        {
           break;
+        }
         atom = mol.GetAtom(min);
 
         snprintf(buffer,BUFF_SIZE,"%15s%4d",

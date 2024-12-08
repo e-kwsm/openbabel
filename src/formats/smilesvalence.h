@@ -43,10 +43,10 @@ static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool read
 {
   switch (elem) {
   case  5: // B
-    if (val <= 3) return 3;
+    if (val <= 3) { return 3; }
     break;
   case  6: // C
-    if (val <= 4) return 4;
+    if (val <= 4) { return 4; }
     break;
   case  7: // N
   case 15: // P
@@ -62,7 +62,7 @@ static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool read
     }
     break;
   case  8: // O
-    if (val <= 2) return 2;
+    if (val <= 2) { return 2; }
     break;
   case 16:  // S
     switch (val) {
@@ -82,7 +82,7 @@ static unsigned int SmilesValence(unsigned int elem, unsigned int val, bool read
   case 17:  // Cl
   case 35:  // Br
   case 53:  // I
-    if (val <= 1) return 1;
+    if (val <= 1) { return 1; }
     break;
   }
   return reading ? val : 0;

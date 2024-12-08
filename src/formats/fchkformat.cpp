@@ -150,8 +150,9 @@ namespace OpenBabel
   {
     OBMol * const pmol = dynamic_cast<OBMol*>(pOb);
 
-    if (!pmol)
+    if (!pmol) {
       return false;
+    }
 
     /* input stream */
     istream * const pifs = pConv->GetInStream();
@@ -291,14 +292,16 @@ namespace OpenBabel
         /* start of the "Atomic numbers" section */
         if (buff == strstr(buff, "Atomic numbers"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               Natoms,
                                               "number of atomic numbers",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             atomnos_found = true;
             continue;
@@ -307,14 +310,16 @@ namespace OpenBabel
         /* start of the "Current cartesian coordinates" section */
         if (buff == strstr(buff, "Current cartesian coordinates"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               3 * Natoms,
                                               "number of coordinates",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             coords_found = true;
             continue;
@@ -348,19 +353,22 @@ namespace OpenBabel
         /* start of the "NBond" section */
         if (buff == strstr(buff, "NBond"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_number(MxBond,
                                              "number of bonds to each atom",
-                                             lineno))
+                                             lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               Natoms,
                                               "number of bonds to each atom",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             nbond_found = true;
             continue;
@@ -369,19 +377,22 @@ namespace OpenBabel
         /* start of the "IBond" section */
         if (buff == strstr(buff, "IBond"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_number(MxBond,
                                              "number of bonds to each atom",
-                                             lineno))
+                                             lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               MxBond * Natoms,
                                               "number of bonds",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             ibond_found = true;
             continue;
@@ -390,14 +401,16 @@ namespace OpenBabel
         /* start of the "Cartesian Force Constants" section */
         if (buff == strstr(buff, "Cartesian Force Constants"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               (3 * Natoms) * (3 * Natoms + 1) / 2,
                                               "number of force constants",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             hessian_found = true;
             continue;
@@ -406,14 +419,16 @@ namespace OpenBabel
         /* start of the "Dipole Derivatives" section */
         if (buff == strstr(buff, "Dipole Derivatives"))
           {
-            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno))
+            if (!FCHKFormat::validate_number(Natoms, "number of atoms", lineno)) {
               return false;
+            }
 
             if (!FCHKFormat::validate_section(buff,
                                               9 * Natoms,
                                               "number of dipole derivatives",
-                                              lineno))
+                                              lineno)) {
               return false;
+            }
 
             dipder_found = true;
             continue;
@@ -525,8 +540,9 @@ namespace OpenBabel
         if (atomnos_found && Natoms > (int)atomnos.size())
           {
             if (!FCHKFormat::read_section(buff, atomnos, Natoms, &finished,
-                                          "atomic numbers", lineno))
+                                          "atomic numbers", lineno)) {
               return false;
+            }
 
             atomnos_found = !finished;
             continue;
@@ -536,8 +552,9 @@ namespace OpenBabel
         if (coords_found && 3 * Natoms > (int)coords.size())
           {
             if (!FCHKFormat::read_section(buff, coords, 3 * Natoms, &finished,
-                                          "coordinates", lineno, 16))
+                                          "coordinates", lineno, 16)) {
               return false;
+            }
 
             coords_found = !finished;
             continue;
@@ -547,8 +564,9 @@ namespace OpenBabel
         if (nbond_found && Natoms > (int)NBond.size())
           {
             if (!FCHKFormat::read_section(buff, NBond, Natoms, &finished,
-                                          "number of bonds to each atom", lineno))
+                                          "number of bonds to each atom", lineno)) {
               return false;
+            }
 
             nbond_found = !finished;
             continue;
@@ -558,8 +576,9 @@ namespace OpenBabel
         if (ibond_found && MxBond * Natoms > (int)IBond.size())
           {
             if (!FCHKFormat::read_section(buff, IBond, MxBond * Natoms, &finished,
-                                          "atom bonds", lineno))
+                                          "atom bonds", lineno)) {
               return false;
+            }
 
             ibond_found = !finished;
             continue;
@@ -572,8 +591,9 @@ namespace OpenBabel
             if (!FCHKFormat::read_section(buff, hessian,
                                           (3 * Natoms) * (3 * Natoms + 1) / 2,
                                           &finished,
-                                          "hessian", lineno))
+                                          "hessian", lineno)) {
               return false;
+            }
 
             hessian_found = !finished;
             continue;
@@ -585,8 +605,9 @@ namespace OpenBabel
             if (!FCHKFormat::read_section(buff, dipder,
                                           9 * Natoms,
                                           &finished,
-                                          "dipole derivatives", lineno))
+                                          "dipole derivatives", lineno)) {
               return false;
+            }
 
             dipder_found = !finished;
             continue;
@@ -598,8 +619,9 @@ namespace OpenBabel
             if (!FCHKFormat::read_section(buff, alphaorb,
                                           numAOrb,
                                           &finished,
-                                          "alpha orbital energies", lineno))
+                                          "alpha orbital energies", lineno)) {
               return false;
+            }
 
             alphaorb_found = !finished; // if we've read once, don't re-read
             continue;
@@ -611,8 +633,9 @@ namespace OpenBabel
             if (!FCHKFormat::read_section(buff, betaorb,
                                           numBOrb,
                                           &finished,
-                                          "beta orbital energies", lineno))
+                                          "beta orbital energies", lineno)) {
               return false;
+            }
 
             betaorb_found = !finished;
             continue;
@@ -750,14 +773,16 @@ namespace OpenBabel
 
           for (vector<string>::const_iterator it=vs.begin(); vs.end() != it; ++it)
             {
-              if (typeid(double) == typeid(T))
+              if (typeid(double) == typeid(T)) {
                 num = static_cast<T>(strtod((*it).c_str(), &endptr));
-              else
+              } else {
                 num = static_cast<T>(strtol((*it).c_str(), &endptr, 10));
+              }
 
               /* quit if the value cannot be read */
-              if (endptr == (*it).c_str())
+              if (endptr == (*it).c_str()) {
                 return false;
+              }
 
               v.push_back(num);
             }
@@ -772,14 +797,16 @@ namespace OpenBabel
       for (int column = 0; column < maxColumns; ++column) {
         substring = lineCopy.substr(column * width, width);
 
-        if (typeid(double) == typeid(T))
+        if (typeid(double) == typeid(T)) {
           num = static_cast<T>(strtod(substring.c_str(), &endptr));
-        else
+        } else {
           num = static_cast<T>(strtol(substring.c_str(), &endptr, 10));
+        }
 
         /* quit if the value cannot be read */
-        if (endptr == substring.c_str())
+        if (endptr == substring.c_str()) {
           break;
+        }
 
         v.push_back(num);
       }
@@ -949,8 +976,9 @@ namespace OpenBabel
       }
 
     if (!pConv->IsOption("s", OBConversion::INOPTIONS) &&
-        !pConv->IsOption("b", OBConversion::INOPTIONS))
+        !pConv->IsOption("b", OBConversion::INOPTIONS)) {
       pmol->PerceiveBondOrders();
+    }
   }
 
 } /* namespace OpenBabel */

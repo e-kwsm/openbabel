@@ -107,8 +107,9 @@ PainterFormat thePainterFormat;
 bool PainterFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   ostream& ofs = *pConv->GetOutStream();
 
@@ -141,8 +142,9 @@ bool PainterFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   CommandPainter painter(*pConv->GetOutStream());
   OBDepict depictor(&painter);
-  if(pConv->IsOption("M"))
+  if(pConv->IsOption("M")) {
     depictor.SetOption(OBDepict::noMargin);
+  }
   depictor.DrawMolecule(&workingmol);
 
   return true; //or false to stop converting

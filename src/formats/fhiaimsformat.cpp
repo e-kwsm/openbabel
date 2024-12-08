@@ -71,8 +71,9 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -89,14 +90,16 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     mol.BeginModify();
 
     while (ifs.getline(buffer,BUFF_SIZE)) {
-      if (buffer[0] == '#')
+      if (buffer[0] == '#') {
         continue; // comment line
+      }
 
       if (strstr(buffer, "atom") != nullptr) {
         // atom X Y Z element (in real-space Angstroms)
         tokenize(vs,buffer);
-        if (vs.size() < 5)
+        if (vs.size() < 5) {
           continue; // invalid line
+        }
         atom = mol.NewAtom();
         x = atof((char*)vs[1].c_str());
         y = atof((char*)vs[2].c_str());
@@ -110,8 +113,9 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       } else if (strstr(buffer, "lattice_vector") != nullptr) {
         // lattice_vector X Y Z (in real-space Angstroms)
         tokenize(vs,buffer);
-        if (vs.size() < 4)
+        if (vs.size() < 4) {
           continue;
+        }
 
         x = atof((char*)vs[1].c_str());
         y = atof((char*)vs[2].c_str());
@@ -120,10 +124,12 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       }
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -152,8 +158,9 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
         return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();

@@ -86,25 +86,35 @@ namespace OpenBabel
   static bool IsThiocarboxylSulfur(OBAtom* queryatom)
   {
     if (queryatom->GetAtomicNum() != OBElements::Sulfur)
+    {
       return(false);
+    }
     if (queryatom->GetHvyDegree() != 1)
+    {
       return(false);
+    }
 
     OBAtom *atom = nullptr;
     OBBond *bond;
     OBBondIterator i;
 
     for (bond = queryatom->BeginBond(i); bond; bond = queryatom->NextBond(i))
+    {
       if ((bond->GetNbrAtom(queryatom))->GetAtomicNum() == OBElements::Carbon)
       {
         atom = bond->GetNbrAtom(queryatom);
         break;
       }
+    }
     if (!atom)
+    {
       return(false);
+    }
     if (!(atom->CountFreeSulfurs() == 2)
       && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
+    {
       return(false);
+    }
 
     //atom is connected to a carbon that has a total
     //of 2 attached free sulfurs or 1 free oxygen and 1 free sulfur
@@ -146,9 +156,13 @@ namespace OpenBabel
       for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
+        {
           return "";
+        }
         if (!strncmp(buffer,"@<TRIPOS>",9))
+        {
           return string(buffer);
+        }
       }      
   }
   /////////////////////////////////////////////////////////////////
@@ -156,8 +170,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -179,7 +194,9 @@ namespace OpenBabel
     for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
+        {
           return(false);
+        }
         if (pConv->IsOption("c", OBConversion::INOPTIONS) != nullptr && EQn(buffer, "###########", 10))
           {
             char attr[32], val[32];
@@ -191,7 +208,9 @@ namespace OpenBabel
             mol.SetData(dd);
           }
         if (EQn(buffer,"@<TRIPOS>MOLECULE",17))
+        {
           break;
+        }
       }
 
     // OK, just read MOLECULE line

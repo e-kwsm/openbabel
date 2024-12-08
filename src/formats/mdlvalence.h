@@ -27,8 +27,9 @@ static unsigned int MDLValence(unsigned int elem, int q, unsigned int val)
   case 37:  // Rb
   case 55:  // Cs
   case 87:  // Fr
-    if (q == 0 && val <= 1)
+    if (q == 0 && val <= 1) {
       return 1;
+    }
     break;
 
   case  4:  // Be

@@ -52,17 +52,18 @@ const unsigned int inchi_avg_mass[MAX_AVG_MASS+1] = {0, 1, 4, 7, 9, 11, 12, 14, 
 
 static unsigned int GetInChIAtomicMass(unsigned int atomicnum)
 {
-  if (atomicnum < MAX_AVG_MASS)
+  if (atomicnum < MAX_AVG_MASS) {
     return inchi_avg_mass[atomicnum]; // the correct value
-  else // fallback to our internal values
+  } else { // fallback to our internal values
     return (unsigned int)(OBElements::GetMass(atomicnum) + 0.5);
+  }
 }
 
 /////////////////////////////////////////////////////////////////
 bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = pOb->CastAndClear<OBMol>();
-  if (pmol == nullptr) return false;
+  if (pmol == nullptr) { return false; }
   istream &ifs = *pConv->GetInStream();
 
   //Extract InChI from input stream even if it is split
@@ -70,8 +71,9 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   do
   {
     inchi = GetInChI(ifs);
-    if(inchi.empty())
+    if(inchi.empty()) {
       return false; //eof
+    }
   }while(inchi.size()<9); //ignore empty "InChI=" or "InChI=1/"
 
   // Save the original inchi to be used on output,
@@ -115,8 +117,9 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   if(pConv->IsOption("n",OBConversion::INOPTIONS))
   {
     string name;
-    if(getline(ifs, name))
+    if(getline(ifs, name)) {
       pmol->SetTitle(Trim(name));
+    }
   }
 
   //Option to add InChI text to title
@@ -142,8 +145,9 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     inchi_Atom* piat = &out.atom[i];
     unsigned int atomicnum = OBElements::GetAtomicNum(piat->elname);
     patom->SetAtomicNum(atomicnum);
-    if(piat->isotopic_mass)
+    if(piat->isotopic_mass) {
       patom->SetIsotope(piat->isotopic_mass - ISOTOPIC_SHIFT_FLAG + GetInChIAtomicMass(atomicnum));
+    }
 
     patom->SetSpinMultiplicity(piat->radical);
     patom->SetFormalCharge(piat->charge);
@@ -152,8 +156,9 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     int j;
     for(j=0;j<piat->num_bonds;++j)
     {
-      if (i < piat->neighbor[j]) // Only add the bond in one direction
+      if (i < piat->neighbor[j]) { // Only add the bond in one direction
         pmol->AddBond(i+1, piat->neighbor[j]+1, piat->bond_type[j]);
+      }
     }
 
     //Now use the implicit H info provided by InChI code to make explicit H in OBMol,
@@ -203,12 +208,13 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       }
       ct->refs = OBStereo::MakeRefs(stereo.neighbor[0], start, stereo.neighbor[3], end);
 
-      if(stereo.parity==INCHI_PARITY_EVEN)
+      if(stereo.parity==INCHI_PARITY_EVEN) {
         ct->shape = OBStereo::ShapeU;
-      else if(stereo.parity==INCHI_PARITY_ODD)
+      } else if(stereo.parity==INCHI_PARITY_ODD) {
         ct->shape = OBStereo::ShapeZ;
-      else
+      } else {
         ct->specified = false;
+      }
 
       OBCisTransStereo *obct = new OBCisTransStereo(pmol);
       obct->SetConfig(*ct);
@@ -223,17 +229,19 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       OBTetrahedralStereo::Config ts;
       ts.center = stereo.central_atom;
       ts.from = stereo.neighbor[0];
-      if (ts.from == ts.center) // Handle the case where there are only three neighbours
+      if (ts.from == ts.center) { // Handle the case where there are only three neighbours
         ts.from = OBStereo::ImplicitRef;
+      }
       ts.refs = OBStereo::MakeRefs(stereo.neighbor[1], stereo.neighbor[2],
                                    stereo.neighbor[3]);
 
-      if(stereo.parity==INCHI_PARITY_EVEN)
+      if(stereo.parity==INCHI_PARITY_EVEN) {
         ts.winding = OBStereo::Clockwise;
-      else if(stereo.parity==INCHI_PARITY_ODD)
+      } else if(stereo.parity==INCHI_PARITY_ODD) {
         ts.winding = OBStereo::AntiClockwise;
-      else
+      } else {
         ts.specified = false;
+      }
 
       OBTetrahedralStereo *obts = new OBTetrahedralStereo(pmol);
       obts->SetConfig(ts);
@@ -264,8 +272,9 @@ int InChIFormat::SkipObjects(int n, OBConversion* pConv)
   while(ifs.good() && n)
   {
     inchi = GetInChI(ifs);
-    if(inchi.size()>=8)//ignore empty "InChI=" or "InChI=1/"
+    if(inchi.size()>=8) { //ignore empty "InChI=" or "InChI=1/"
       --n;
+    }
   }
   return ifs.good() ? 1 : -1;
 }
@@ -281,7 +290,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   //Although the OBMol may be altered, it is restored before exit.
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr) return false;
+  if (pmol == nullptr) { return false; }
     OBMol& mol = *pmol;
 
   string ostring; //the inchi string
@@ -289,12 +298,14 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   inout.szInChI = nullptr; // We are going to test this value later
 
   stringstream molID;
-  if(strlen(mol.GetTitle())==0)
+  if(strlen(mol.GetTitle())==0) {
     molID << '#' << pConv->GetOutputIndex() << ' ';
-  else
+  } else {
     molID << mol.GetTitle() << ' ';
-  if(pConv->GetOutputIndex()==1)
+  }
+  if(pConv->GetOutputIndex()==1) {
     firstID=molID.str();
+  }
 
   //Use any existing InChI, probably from an InChIformat input,
   //in preference to determining it from the structure.
@@ -311,7 +322,8 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   else
   {
     //Determine InChI from the chemical structure
-    if(pmol->NumAtoms()==0) return true; // PR#2864334
+    if(pmol->NumAtoms()==0) { return true; // PR#2864334
+    }
 
     inchi_Input inp;
     memset(&inp,0,sizeof(inchi_Input));
@@ -320,8 +332,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     map<OBBond*, OBStereo::BondDirection> updown;
     map<OBBond*, OBStereo::Ref> from;
     map<OBBond*, OBStereo::Ref>::const_iterator from_cit;
-    if (mol.GetDimension() == 3 || (mol.GetDimension() == 2 && pConv->IsOption("s", pConv->OUTOPTIONS) != nullptr))
+    if (mol.GetDimension() == 3 || (mol.GetDimension() == 2 && pConv->IsOption("s", pConv->OUTOPTIONS) != nullptr)) {
       TetStereoToWedgeHash(mol, updown, from);
+    }
     set<OBBond*> unspec_ctstereo = GetUnspecifiedCisTrans(mol);
 
     OBAtom* patom;
@@ -346,23 +359,26 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         // Do each bond only once. If the bond is a stereobond
         // ensure that the BeginAtom is the 'from' atom.
         if( (from_cit==from.end() && patom->GetIdx() != pbond->GetBeginAtomIdx()) ||
-            (from_cit!=from.end() && from_cit->second != patom->GetId()) )
+            (from_cit!=from.end() && from_cit->second != patom->GetId()) ) {
           continue;
+        }
 
         iat.neighbor[nbonds]      = pbond->GetNbrAtomIdx(patom)-1;
         int bo = pbond->GetBondOrder();
-        if(bo==5)
+        if(bo==5) {
           bo=4;
+        }
         iat.bond_type[nbonds]     = bo;
 
         OBStereo::BondDirection stereo = OBStereo::NotStereo;
         if (mol.GetDimension()==2 && pConv->IsOption("s", pConv->OUTOPTIONS) == nullptr) {
-          if (pbond->IsWedge())
+          if (pbond->IsWedge()) {
             stereo = OBStereo::UpBond;
-          else if (pbond->IsHash())
+          } else if (pbond->IsHash()) {
             stereo = OBStereo::DownBond;
-          else if (pbond->IsWedgeOrHash())
+          } else if (pbond->IsWedgeOrHash()) {
             stereo = OBStereo::UnknownDir;
+          }
         } 
         else if (from_cit!=from.end()) { // It's a stereo bond
           stereo = updown[pbond];
@@ -386,8 +402,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             }
           }
           // Is it a double bond with unspecified stereochemistry?
-          if (unspec_ctstereo.find(pbond)!=unspec_ctstereo.end())
+          if (unspec_ctstereo.find(pbond)!=unspec_ctstereo.end()) {
             bondstereo2D = INCHI_BOND_STEREO_DOUBLE_EITHER;
+          }
           iat.bond_stereo[nbonds] = bondstereo2D;
         }
         nbonds++;
@@ -402,11 +419,14 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
           patom->GetIsotope() - GetInChIAtomicMass(patom->GetAtomicNum());
       }
       else
+      {
         iat.isotopic_mass = 0 ;
+      }
       iat.radical = patom->GetSpinMultiplicity();
       //InChI doesn't recognize spin miltiplicity of 4 or 5 (as used in OB for CH and C atom)
-      if(iat.radical>=4)
+      if(iat.radical>=4) {
         iat.radical=0;
+      }
       iat.charge  = patom->GetFormalCharge();
     }
 
@@ -430,27 +450,32 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
             // count number of implicit refs
             int num_implicit = 0;
-            if (config.from == OBStereo::ImplicitRef)
+            if (config.from == OBStereo::ImplicitRef) {
               num_implicit = 1;
+            }
             num_implicit += std::count(config.refs.begin(), config.refs.end(), OBStereo::ImplicitRef);
 
             // ignore invalid cases with more than 1 implicit ref
-            if (num_implicit > 1)
+            if (num_implicit > 1) {
               continue;
+            }
 
             if (num_implicit) {
               config = ts->GetConfig(OBStereo::ImplicitRef); // Make the 'from' atom the implicit ref
               stereo.neighbor[0] = stereo.central_atom;
-            } else
+            } else {
               stereo.neighbor[0] = OBAtomIdToInChIAtomId(mol, config.from);
+            }
 
-            for(int i=0; i<3; ++i)
+            for(int i=0; i<3; ++i) {
               stereo.neighbor[i + 1] = OBAtomIdToInChIAtomId(mol, config.refs[i]);
+            }
 
-            if (config.winding == OBStereo::Clockwise)
+            if (config.winding == OBStereo::Clockwise) {
               stereo.parity = INCHI_PARITY_EVEN;
-            else
+            } else {
               stereo.parity = INCHI_PARITY_ODD;
+            }
 
             stereoVec.push_back(stereo);
           }
@@ -471,27 +496,32 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             OBStereo::Refs refs = config.refs;
 
             // ignore invalid cases with 2 implicit refs on one side
-            if (refs[0] == OBStereo::ImplicitRef && refs[1] == OBStereo::ImplicitRef)
+            if (refs[0] == OBStereo::ImplicitRef && refs[1] == OBStereo::ImplicitRef) {
               continue;
-            if (refs[2] == OBStereo::ImplicitRef && refs[3] == OBStereo::ImplicitRef)
+            }
+            if (refs[2] == OBStereo::ImplicitRef && refs[3] == OBStereo::ImplicitRef) {
               continue;
+            }
 
             unsigned long start = refs[0];
-            if (refs[0]==OBStereo::ImplicitRef)
+            if (refs[0]==OBStereo::ImplicitRef) {
               start = refs[1];
+            }
             unsigned long end = refs[3];
-            if (refs[3]==OBStereo::ImplicitRef)
+            if (refs[3]==OBStereo::ImplicitRef) {
               end = refs[2];
+            }
 
             stereo.neighbor[0] = OBAtomIdToInChIAtomId(mol, start);
             stereo.neighbor[1] = OBAtomIdToInChIAtomId(mol, config.begin);
             stereo.neighbor[2] = OBAtomIdToInChIAtomId(mol, config.end);
             stereo.neighbor[3] = OBAtomIdToInChIAtomId(mol, end);
 
-            if (ts->IsTrans(start, end))
+            if (ts->IsTrans(start, end)) {
               stereo.parity = INCHI_PARITY_EVEN;
-            else
+            } else {
               stereo.parity = INCHI_PARITY_ODD;
+            }
 
             stereoVec.push_back(stereo);
           }
@@ -504,8 +534,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     inp.num_atoms = mol.NumAtoms();
     inp.num_stereo0D = (AT_NUM) stereoVec.size();
-    if(inp.num_stereo0D>0)
+    if(inp.num_stereo0D>0) {
       inp.stereo0D = &stereoVec[0];
+    }
 
     //inchi_Output inout; now declared in block above
     memset(&inout,0,sizeof(inchi_Output));
@@ -532,14 +563,16 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             if(pos!=string::npos)
             {
               mes.erase(pos,targ[i].size());
-              if(pos<mes.size() && mes[pos]==';')
+              if(pos<mes.size() && mes[pos]==';') {
                 mes[pos]=' ';
+              }
             }
           }
         }
         Trim(mes);
-        if(!mes.empty())
+        if(!mes.empty()) {
           obErrorLog.ThrowError("InChI code", molID.str() + ':' + mes, obWarning);
+        }
       }
 
       if(ret!=inchi_Ret_WARNING)
@@ -577,25 +610,29 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   if(pConv->IsOption("U"))
   {
-    if(pConv->GetOutputIndex()==1)
+    if(pConv->GetOutputIndex()==1) {
       allInchi.clear();
+    }
     //Just add to set and don't output, except at the end
     allInchi.insert(ostring);
 
     if(pConv->IsLast())
     {
       nSet::iterator itr;
-      for(itr=allInchi.begin();itr!=allInchi.end();++itr)
+      for(itr=allInchi.begin();itr!=allInchi.end();++itr) {
         ofs << *itr << endl;
+      }
     }
     return true;
   }
   else if(pConv->IsOption("u"))
   {
-    if(pConv->GetOutputIndex()==1)
+    if(pConv->GetOutputIndex()==1) {
       allInchi.clear();
-    if(!allInchi.insert(ostring).second)
+    }
+    if(!allInchi.insert(ostring).second) {
       return true; //no output if already in set
+    }
   }
 
   ofs << ostring << endl;
@@ -603,17 +640,21 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   // Note that inout.szInChI will still be NULL if this is an InChI->InChIKey conversion
   // and so the following section will not apply.
   if (inout.szInChI != nullptr) {
-    if (pConv->IsOption("a"))
+    if (pConv->IsOption("a")) {
       ofs << inout.szAuxInfo << endl;
+    }
 
-    if(pConv->IsOption("l"))
+    if(pConv->IsOption("l")) {
       //Display InChI log message. With multiple molecules, it appears only once
       obErrorLog.ThrowError("InChI log", inout.szLog, obError, onceOnly);
+    }
 
     if(pConv->IsOption("e"))
     {
       if(pConv->GetOutputIndex()==1)
+      {
         firstInchi = inout.szInChI;
+      }
       else
       {
         ofs << "Molecules " << firstID << "and " << molID.str();
@@ -632,13 +673,15 @@ char InChIFormat::CompareInchi(const string& Inchi1, const string& Inchi2)
   //Returns 0 if identical or an char identifying the layer where they first differed
   string s1(Inchi1), s2(Inchi2);
 
-  if(s1.size()<s2.size())
+  if(s1.size()<s2.size()) {
     s1.swap(s2);
+  }
   string::size_type pos;
   for(pos=0;pos<s1.size();++pos)
   {
-    if(pos==s2.size() || s1[pos]!=s2[pos])
+    if(pos==s2.size() || s1[pos]!=s2[pos]) {
       return s1[s1.rfind('/',pos)+1];
+    }
   }
   return 0;
 
@@ -717,11 +760,13 @@ string InChIFormat::InChIErrorMessage(const char ch)
 OBAtom* InChIFormat::GetCommonAtom(OBBond* pb1, OBBond* pb2)
 {
   OBAtom* pa1 = pb1->GetBeginAtom();
-  if(pa1==pb2->GetBeginAtom() || pa1==pb2->GetEndAtom())
+  if(pa1==pb2->GetBeginAtom() || pa1==pb2->GetEndAtom()) {
     return pa1;
+  }
   pa1 = pb1->GetEndAtom();
-  if(pa1==pb2->GetBeginAtom() || pa1==pb2->GetEndAtom())
+  if(pa1==pb2->GetBeginAtom() || pa1==pb2->GetEndAtom()) {
     return pa1;
+  }
   return nullptr; //not adjacent bonds
 }
 
@@ -770,8 +815,9 @@ char* InChIFormat::GetInChIOptions(OBConversion* pConv, bool Reading)
 #endif
 
   string sopts;
-  for (unsigned int i = 0; i < optsvec.size(); ++i)
+  for (unsigned int i = 0; i < optsvec.size(); ++i) {
     sopts += ch + optsvec[i];
+  }
   opts = new char[strlen(sopts.c_str())+1]; //has to be char, not const char
   return strcpy(opts, sopts.c_str());
   opts = new char[1];
@@ -790,10 +836,14 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
     {
       std::string::size_type pos = inchi.find('/', inchi.find('/')+1); //2nd /
       if(pos!=string::npos)
+      {
         inchi.erase(pos);
+      }
     }
     else if(*itr=="connect")
+    {
       RemoveLayer(inchi,"/h",true);
+    }
     else if(*itr=="nochg")
     {
       RemoveLayer(inchi,"/p");
@@ -806,9 +856,13 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
       RemoveLayer(inchi,"/s");
     }
     else if(*itr=="noEZ")
+    {
       RemoveLayer(inchi,"/b");
+    }
     else if(*itr=="noiso")
+    {
       RemoveLayer(inchi,"/i");
+    }
     else if(*itr=="nostereo")
     {
       RemoveLayer(inchi,"/t");
@@ -829,8 +883,9 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
 void InChIFormat::RemoveLayer (std::string& inchi, const std::string& str, bool all)
 {
   std::string::size_type pos = inchi.find(str);
-  if(pos!=string::npos)
+  if(pos!=string::npos) {
     inchi.erase(pos, (all ? string::npos : inchi.find('/', pos+1) - pos));
+  }
 }
 
 void InChIFormat::SaveInchi(OBMol* pmol, const std::string& s)

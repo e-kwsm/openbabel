@@ -115,24 +115,28 @@ void ConfabReport::WriteOutput(ostream& ofs)
     int bin_idx = 0;
     vector<int> bins(binvals.size());
     for(vector<double>::iterator it=rmsd.begin(); it!=rmsd.end(); ++it) {
-      while (*it > binvals[bin_idx])
+      while (*it > binvals[bin_idx]) {
         bin_idx++;
+      }
       bins[bin_idx]++;
     }
 
     vector<int> cumbins(bins);
-    for(int i=1; i<8; ++i)
+    for(int i=1; i<8; ++i) {
       cumbins[i] += cumbins[i-1];
+    }
 
     ofs << "..confs less than cutoffs: ";
     ofs << binvals[0];
-    for (int i=1; i < binvals.size(); i++)
+    for (int i=1; i < binvals.size(); i++) {
       ofs << " " << binvals[i];
+    }
     ofs << "\n";
 
     ofs << ".." << cumbins[0];
-    for (int i=1; i < cumbins.size(); i++)
+    for (int i=1; i < cumbins.size(); i++) {
       ofs << " " << cumbins[i];
+    }
     ofs << "\n";
 
     ofs << "..cutoff (" << rmsd_cutoff << ") passed = ";
@@ -141,7 +145,9 @@ void ConfabReport::WriteOutput(ostream& ofs)
       cutoff_passed++;
     }
     else
+    {
       ofs << " No\n";
+    }
     ofs << "\n";
   }
 }
@@ -149,8 +155,9 @@ void ConfabReport::WriteOutput(ostream& ofs)
 bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-  if (pmol == nullptr)
+  if (pmol == nullptr) {
       return false;
+  }
 
   ostream& ofs = *pConv->GetOutStream();
   bool firstMol = pConv->GetOutputIndex()==1;
@@ -174,8 +181,9 @@ bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       return false;
     }
     const char* pp = pConv->IsOption("r");
-    if (pp)
+    if (pp) {
       rmsd_cutoff = atof(pp);
+    }
 
     rconv.SetInStream(&rfs);
     rconv.SetInFormat(prFormat);
@@ -189,11 +197,12 @@ bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   string title = pmol->GetTitle();
   if (oldtitle != title) {
     
-    if (!firstMol)
+    if (!firstMol) {
       ofs << "..number of confs = " << rmsd.size() << "\n";
+    }
     WriteOutput(ofs);
     bool success = rconv.Read(&rmol);
-    if (!success) return false;
+    if (!success) { return false; }
     N++;
     while (rmol.GetTitle() != title) {
       ofs << "..Molecule " << N
@@ -201,7 +210,7 @@ bool ConfabReport::WriteMolecule(OBBase* pOb, OBConversion* pConv)
            << "\n..number of confs = 0\n";
       N++;
       success = rconv.Read(&rmol);
-      if (!success) return false;
+      if (!success) { return false; }
     }
     align.SetRefMol(rmol);
     ofs << "..Molecule " << N << "\n..title = " << rmol.GetTitle() << "\n";

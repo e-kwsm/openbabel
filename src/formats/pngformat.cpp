@@ -160,8 +160,9 @@ public:
         return false;
       }
       bool ret = ppng2->WriteChemObject(pConv);
-      if(pConv->IsLast())
+      if(pConv->IsLast()) {
         pConv->SetOutFormat(""); // report as output objects, not "PNG_files"
+      }
       return ret;
     }
   }
@@ -185,7 +186,9 @@ private:
     for(int i=0; i<4; ++i)
     {
       if(!ifs.get(ch))
+      {
         return 0;
+      }
       val = val * 0x100 + (unsigned char)ch;
     }
     return val;
@@ -252,8 +255,9 @@ bool PNGFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       //remove "file" from end of keyword
       transform(keyword.begin(),keyword.end(),keyword.begin(),::tolower);
       string::size_type pos = keyword.find("file");
-      if(pos!=string::npos)
+      if(pos!=string::npos) {
         keyword.erase(pos);
+      }
 
       OBFormat* pFormat = OBConversion::FindFormat(keyword.c_str());
       if(pFormat)
@@ -265,8 +269,9 @@ bool PNGFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
           //Copy it to a stringstream
           istreambuf_iterator<char> initer(ifs);
           ostreambuf_iterator<char> outiter(ss);
-          for (unsigned int i = 0; i < datalength; ++i)
+          for (unsigned int i = 0; i < datalength; ++i) {
             *outiter++ = *initer++;
+          }
         }
 
         else
@@ -351,11 +356,13 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     // Format name can have "file" at the end;
     // e.g. "molfile" is written in PNG chunk, but the format is "mol"
     string::size_type pos = formatID.find("file");
-    if(pos!=string::npos)
+    if(pos!=string::npos) {
       formatID.erase(pos);
+    }
   }
-  else //if no param on -xO option, format is input format
+  else { //if no param on -xO option, format is input format
     formatID = pConv->GetInFormat()->GetID();
+  }
   if(!conv2.SetOutFormat(OBConversion::FindFormat(formatID)))
   {
     obErrorLog.ThrowError("PNG Format","Format not found", obError);
@@ -366,10 +373,11 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   stringstream ss;
   ss.str("");
   const char* pid = pConv->IsOption("y");
-  if(pid && strlen(pid)==4)
+  if(pid && strlen(pid)==4) {
     ss << pid;
-  else
+  } else {
     ss  << "tEXt";
+  }
   ss  << formatID << '\0';
   bool ret = conv2.Write(pOb, &ss);
   if(ret)
@@ -384,8 +392,9 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     Write32(crc, ofs);
 
   }
-  else
+  else {
     obErrorLog.ThrowError("PNG Format","Failed when converting the molecule", obError);
+  }
 
   if(pConv->IsLast())
   {
@@ -395,8 +404,9 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     CopyOfInput.clear();
 
     // If there is an input PNG file, decrement output index to not count it
-    if(_hasInputPngFile)
+    if(_hasInputPngFile) {
       pConv->SetOutputIndex(pConv->GetOutputIndex()-1);
+    }
     // and report as output objects, not "PNG_files"
     pConv->SetOutFormat(formatID.c_str());
   }

@@ -204,23 +204,27 @@ string GetInChI(istream& is)
       }
       else
       {
-        if(ch=='>')
+        if(ch=='>') {
           afterelement=true; //look for whitespace after end of element
+        }
       }
     }
 
     else if(ch>=0 && isspace(ch))
     {
-      if(state==unquoted)
+      if(state==unquoted) {
         return result;
+      }
     }
 
     else if(isnic(ch))
     {
-      if(ch==qch && state!=match_inchi)
+      if(ch==qch && state!=match_inchi) {
         return result;
-      if(split_pos!=0)
+      }
+      if(split_pos!=0) {
         result.erase(split_pos);
+      }
       split_pos = result.size();
     }
 

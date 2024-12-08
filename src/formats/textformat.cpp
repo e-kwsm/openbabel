@@ -47,10 +47,11 @@ public:
               auditMsg,
               obAuditMsg);
 
-    if(ret) //Do transformation and return molecule
+    if(ret) { //Do transformation and return molecule
       return pConv->AddChemObject(pReact->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv))!=0;
-    else
+    } else {
         pConv->AddChemObject(nullptr);
+    }
     return false;
   }
 
@@ -59,8 +60,9 @@ public:
   {
     //It's really text, not a molecule.
     OBText* pText = dynamic_cast<OBText*>(pOb);
-    if (!pText)
+    if (!pText) {
       return false;
+    }
     string fileText(istreambuf_iterator<char>(*pConv->GetInStream()), istreambuf_iterator<char>());
     pText->SetText(fileText);
     return !fileText.empty();
@@ -79,8 +81,9 @@ public:
     else
     {
       ostream* ofs = pConv->GetOutStream();
-      if(ofs)
+      if(ofs) {
         *ofs << pText->GetText();
+      }
       return (bool)*ofs;
     }
   }

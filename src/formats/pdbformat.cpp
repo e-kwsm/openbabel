@@ -98,13 +98,17 @@ namespace OpenBabel
  	int PDBFormat::SkipObjects(int n, OBConversion* pConv)
   {
     if (n == 0)
+    {
       ++ n;
+    }
     istream &ifs = *pConv->GetInStream();
     char buffer[BUFF_SIZE];
     while (n && ifs.getline(buffer,BUFF_SIZE))
       {
         if (EQn(buffer,"ENDMDL",6))
+        {
           -- n;
+        }
       }
 
     return ifs.good() ? 1 : -1;
@@ -122,8 +126,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -150,7 +155,7 @@ namespace OpenBabel
         }
         if (EQn(buffer,"END",3)) {
           // eat anything until the next ENDMDL
-          while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6));
+          while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6)) {}
           ateend = true;
           break;
         }
@@ -243,11 +248,13 @@ namespace OpenBabel
     vector<OBGenericData*> vbonds = mol.GetAllData(OBGenericDataType::VirtualBondData);
     mol.DeleteData(vbonds);
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
+    }
 
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // EndModify() blows away the chains perception flag so we set it again here
     mol.SetChainsPerceived();
@@ -300,8 +307,9 @@ namespace OpenBabel
 
     char *errorCheckingEndPtr;
     *target = strtol(integerBuffer, &errorCheckingEndPtr, 10);
-    if (integerBuffer == errorCheckingEndPtr)
+    if (integerBuffer == errorCheckingEndPtr) {
       return(false);
+    }
     return(true);
   }
 
@@ -374,8 +382,9 @@ namespace OpenBabel
         // make sure we don't look at salt bridges or whatever, so cut the buffer short
         buffer[32] = '\0';
         tokenize(vs,buffer);
-        if( vs.empty() || vs.size() < 2)
+        if( vs.empty() || vs.size() < 2) {
           return false;
+        }
         vs.erase(vs.begin()); // remove "CONECT"
 
         startAtomSerialNumber = atoi(vs[0].c_str());
@@ -421,10 +430,10 @@ namespace OpenBabel
 
     if (mol.NumAtoms() < 9999)
       {
-        if (vs.size() > 1) boundedAtomsSerialNumbers[0] = atoi(vs[1].c_str());
-        if (vs.size() > 2) boundedAtomsSerialNumbers[1] = atoi(vs[2].c_str());
-        if (vs.size() > 3) boundedAtomsSerialNumbers[2] = atoi(vs[3].c_str());
-        if (vs.size() > 4) boundedAtomsSerialNumbers[3] = atoi(vs[4].c_str());
+        if (vs.size() > 1) { boundedAtomsSerialNumbers[0] = atoi(vs[1].c_str()); }
+        if (vs.size() > 2) { boundedAtomsSerialNumbers[1] = atoi(vs[2].c_str()); }
+        if (vs.size() > 3) { boundedAtomsSerialNumbers[2] = atoi(vs[3].c_str()); }
+        if (vs.size() > 4) { boundedAtomsSerialNumbers[3] = atoi(vs[4].c_str()); }
 
         unsigned int limit = 4;
         if (vs.size() <= 4)

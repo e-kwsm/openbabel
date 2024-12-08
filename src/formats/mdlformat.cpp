@@ -120,8 +120,9 @@ namespace OpenBabel
 
       int SkipObjects(int n, OBConversion* pConv) override
       {
-        if (n == 0)
+        if (n == 0) {
           n++;
+        }
         istream& ifs = *pConv->GetInStream();
         do {
          ignore(ifs, "$$$$\n");
@@ -261,8 +262,9 @@ namespace OpenBabel
     bool foundHYD = false, foundZCH = false, foundZBO = false;
 
     // Attempting to read past the end of the file -- don't bother
-    if ( !ifs.good() || ifs.peek() == EOF )
+    if ( !ifs.good() || ifs.peek() == EOF ) {
       return false;
+    }
 
     std::string line;
     //
@@ -279,8 +281,9 @@ namespace OpenBabel
 
     //Do not interpret a single (usually blank) line at end of file as
     //another molecule giving an unnecessary error message.
-    if ( !ifs.good() || ifs.peek() == EOF )
+    if ( !ifs.good() || ifs.peek() == EOF ) {
       return false;
+    }
 
     mol.SetTitle(line);
 
@@ -341,8 +344,9 @@ namespace OpenBabel
       return false;
     }
 
-    if (!line.empty())
+    if (!line.empty()) {
       comment = line;
+    }
 
     //
     // Connection Table (Ctab)
@@ -388,20 +392,22 @@ namespace OpenBabel
         }
     }
 
-    if(ReadUIntField((line.substr(6, 3)).c_str())>0)
+    if(ReadUIntField((line.substr(6, 3)).c_str())>0) {
       obErrorLog.ThrowError(__FUNCTION__,
         "WARNING: Problems reading the Count line of an MDL file\n"
         "There may be erroneous addition spaces or\n"
         "the file may contains Atom Lists, which are ignored\n",
         obWarning);
+    }
 
     std::map<OBAtom*, int> specified_valence;
     mol.BeginModify();
     if(line.find("V3000") != string::npos) {
       // V3000
       indexmap.clear();
-      if(!ReadV3000Block(ifs, mol, pConv, false))
+      if(!ReadV3000Block(ifs, mol, pConv, false)) {
         return false;
+      }
       //ifs.getline(buffer,BUFF_SIZE); //M END line
     } else {
       // V2000
@@ -469,8 +475,9 @@ namespace OpenBabel
         }
         massDiffs.push_back(massdiff);
         // charge
-        if (line.size() >= 38)
+        if (line.size() >= 38) {
           charge = ReadIntField(line.substr(36, 3).c_str());
+        }
         charges.push_back(charge);
         // stereo parity
         if (line.size() >= 41) {
