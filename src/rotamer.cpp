@@ -134,14 +134,12 @@ namespace OpenBabel
       {
         c = new double [3*NumAtoms()];
         cc = GetBaseCoordinateSet(k);
-        for (l=0 ; l<3*NumAtoms() ; ++l)
-        {
+        for (l=0 ; l<3*NumAtoms() ; ++l) {
 					c[l] = cc[l];
         }
         bc.push_back(c);
       }
-    if (NumBaseCoordinateSets())
-    {
+    if (NumBaseCoordinateSets()) {
 			new_rml->SetBaseCoordinateSets(bc,NumAtoms());
     }
 
@@ -174,21 +172,18 @@ namespace OpenBabel
   OBRotamerList::~OBRotamerList()
   {
     vector<unsigned char*>::iterator i;
-    for (i = _vrotamer.begin();i != _vrotamer.end();++i)
-    {
+    for (i = _vrotamer.begin();i != _vrotamer.end();++i) {
       delete [] *i;
     }
 
     vector<pair<OBAtom**,vector<int> > >::iterator j;
-    for (j = _vrotor.begin();j != _vrotor.end();++j)
-    {
+    for (j = _vrotor.begin();j != _vrotor.end();++j) {
       delete [] j->first;
     }
 
     //Delete the interal base coordinate list
     unsigned int k;
-    for (k=0 ; k<_c.size() ; ++k)
-    {
+    for (k=0 ; k<_c.size() ; ++k) {
       delete [] _c[k];
     }
   }
@@ -211,15 +206,13 @@ namespace OpenBabel
     //clear the old stuff out if necessary
     _vres.clear();
     vector<unsigned char*>::iterator j;
-    for (j = _vrotamer.begin();j != _vrotamer.end();++j)
-    {
+    for (j = _vrotamer.begin();j != _vrotamer.end();++j) {
       delete [] *j;
     }
     _vrotamer.clear();
 
     vector<pair<OBAtom**,vector<int> > >::iterator k;
-    for (k = _vrotor.begin();k != _vrotor.end();++k)
-    {
+    for (k = _vrotor.begin();k != _vrotor.end();++k) {
       delete [] k->first;
     }
     _vrotor.clear();
@@ -260,8 +253,7 @@ namespace OpenBabel
         ringRotors.clear();
 
         pSize = r->Size();
-        if (pSize < 4)
-        {
+        if (pSize < 4) {
           continue; // not rotatable
         }
 
@@ -278,8 +270,7 @@ namespace OpenBabel
           OBBond *bond = mol.GetBond(path[(j + pSize) % pSize], path[(j + pSize + 1) % pSize]);
           for (rotor = rl.BeginRotor(i);rotor;rotor = rl.NextRotor(i))
             {
-              if (bond != rotor->GetBond())
-              {
+              if (bond != rotor->GetBond()) {
                 continue; // no match at all
               }
 
@@ -303,10 +294,8 @@ namespace OpenBabel
 
     vector<double>::iterator n;
     vector<vector<double> >::iterator m;
-    for (m = _vres.begin();m != _vres.end();++m)
-    {
-      for (n = m->begin();n != m->end();++n)
-      {
+    for (m = _vres.begin();m != _vres.end();++m) {
+      for (n = m->begin();n != m->end();++n) {
         *n *= RAD_TO_DEG;
       }
     }
@@ -317,15 +306,13 @@ namespace OpenBabel
     //clear the old stuff out if necessary
     _vres.clear();
     vector<unsigned char*>::iterator j;
-    for (j = _vrotamer.begin();j != _vrotamer.end();++j)
-    {
+    for (j = _vrotamer.begin();j != _vrotamer.end();++j) {
       delete [] *j;
     }
     _vrotamer.clear();
 
     vector<pair<OBAtom**,vector<int> > >::iterator k;
-    for (k = _vrotor.begin();k != _vrotor.end();++k)
-    {
+    for (k = _vrotor.begin();k != _vrotor.end();++k) {
       delete [] k->first;
     }
     _vrotor.clear();
@@ -378,12 +365,10 @@ namespace OpenBabel
         v4.Set(c[idx],c[idx+1],c[idx+2]);
 
         angle = CalcTorsionAngle(v1,v2,v3,v4);
-        while (angle < 0.0)
-        {
+        while (angle < 0.0) {
           angle += 360.0;
         }
-        while (angle > 360.0)
-        {
+        while (angle > 360.0) {
           angle -= 360.0;
         }
         rot[size] = (unsigned char)rint(angle*res);
@@ -403,12 +388,10 @@ namespace OpenBabel
     for (i = 0;i < _vrotor.size();++i)
       {
         angle = _vres[i][arr[i+1]];
-        while (angle < 0.0)
-        {
+        while (angle < 0.0) {
           angle += 360.0;
         }
-        while (angle > 360.0)
-        {
+        while (angle > 360.0) {
           angle -= 360.0;
         }
         rot[i+1] = (unsigned char)rint(angle*res);
@@ -421,8 +404,7 @@ namespace OpenBabel
     unsigned int i;
     double angle,res=255.0/360.0;
 
-    if (arr.size() != (_vrotor.size() + 1))
-    {
+    if (arr.size() != (_vrotor.size() + 1)) {
       return; // wrong size key
     }
 
@@ -443,14 +425,12 @@ namespace OpenBabel
 
           // what angle are we trying to use with this key?
           angle = _vres[ path[i] ][arr[ path[i]+1 ]]*res;
-          while (angle < 0.0)
-          {
+          while (angle < 0.0) {
           	angle += 360.0;
           }
-        	while (angle > 360.0)
-               {
+        	while (angle > 360.0) {
           	angle -= 360.0;
-               }
+        	}
 
           // update the ring torsion for this setting
           _vringTors[j][i] = angle;
@@ -472,12 +452,10 @@ namespace OpenBabel
     for (i = 0;i < _vrotor.size();++i)
       {
         angle = _vres[i][arr[i+1]];
-        while (angle < 0.0)
-        {
+        while (angle < 0.0) {
           angle += 360.0;
         }
-        while (angle > 360.0)
-        {
+        while (angle > 360.0) {
           angle -= 360.0;
         }
         rot[i+1] = (unsigned char)rint(angle*res);
@@ -496,12 +474,10 @@ namespace OpenBabel
     for (i = 0;i < _vrotor.size();++i)
       {
         angle = _vres[i][(int)arr[i+1]];
-        while (angle < 0.0)
-        {
+        while (angle < 0.0) {
           angle += 360.0;
         }
-        while (angle > 360.0)
-        {
+        while (angle > 360.0) {
           angle -= 360.0;
         }
         rot[i+1] = (unsigned char)rint(angle*res);
@@ -529,8 +505,7 @@ namespace OpenBabel
 
     //transfer the conf list
     vector<double*>::iterator k;
-    for (k = clist.begin();k != clist.end();++k)
-    {
+    for (k = clist.begin();k != clist.end();++k) {
       delete [] *k;
     }
     clist = tmpclist;
@@ -554,8 +529,7 @@ namespace OpenBabel
         for (j = 0;j < _vrotor.size();++j)
           {
             angle = invres*((double)conf[j+1]);
-            if (angle > 180.0)
-            {
+            if (angle > 180.0) {
               angle -= 360.0;
             }
             SetRotorToAngle(c,_vrotor[j].first,angle,_vrotor[j].second);
@@ -572,8 +546,7 @@ namespace OpenBabel
   {
     double angle;
 
-    if (arr.size() != (_vrotor.size() + 1))
-    {
+    if (arr.size() != (_vrotor.size() + 1)) {
       return false; // wrong size key
     }
 
@@ -594,14 +567,12 @@ namespace OpenBabel
 
           // what angle are we trying to use with this key?
           angle = _vres[ path[i] ][arr[ path[i]+1 ]];
-          while (angle < 0.0)
-          {
+          while (angle < 0.0) {
           	angle += 360.0;
           }
-        	while (angle > 360.0)
-               {
+        	while (angle > 360.0) {
           	angle -= 360.0;
-               }
+        	}
 
           // update the ring torsion for this setting
           _vringTors[j][i] = angle;
@@ -625,10 +596,10 @@ namespace OpenBabel
         	angle = _vres[i][arr[i+1]];
         	while (angle < 0.0) {
           	angle += 360.0;
-		}
+        	}
         	while (angle > 360.0) {
           	angle -= 360.0;
-		}
+        	}
 	        SetRotorToAngle(c,_vrotor[i].first,angle,_vrotor[i].second);
 				} // set an angle
       } // for rotors
@@ -647,8 +618,7 @@ namespace OpenBabel
     unsigned int i,j;
 
     //Clear out old data
-    for (i=0 ; i<_c.size() ; ++i)
-    {
+    for (i=0 ; i<_c.size() ; ++i) {
       delete [] _c[i];
     }
     _c.clear();
@@ -660,8 +630,7 @@ namespace OpenBabel
       {
         c = new double [3*N];
         cc = bc[i];
-        for (j=0 ; j<3*N ; ++j)
-        {
+        for (j=0 ; j<3*N ; ++j) {
           c[j] = cc[j];
         }
         _c.push_back(c);
@@ -707,14 +676,13 @@ namespace OpenBabel
     c1mag = c1x*c1x + c1y*c1y + c1z*c1z;
     c2mag = c2x*c2x + c2y*c2y + c2z*c2z;
     if (c1mag*c2mag < 0.01) { costheta = 1.0; //avoid div by zero error
-    } else { costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
-    }
+    } else { costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag)); }
 
     if (costheta < -0.999999) { costheta = -0.999999; }
     if (costheta >  0.999999) { costheta =  0.999999; }
 
     if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0) { radang = -acos(costheta); }
-    else {                                   { radang = acos(costheta); }
+    else                                     { radang = acos(costheta); }
 
     //
     // now we have the torsion angle (radang) - set up the rot matrix
