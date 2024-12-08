@@ -1,24 +1,23 @@
 #include "obtest.h"
+#include <openbabel/atom.h>
+#include <openbabel/bond.h>
+#include <openbabel/elements.h>
+#include <openbabel/forcefield.h>
+#include <openbabel/generic.h>
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
-#include <openbabel/phmodel.h>
-#include <openbabel/elements.h>
-#include <openbabel/atom.h>
 #include <openbabel/obiter.h>
-#include <openbabel/bond.h>
-#include <openbabel/generic.h>
-#include <openbabel/forcefield.h>
+#include <openbabel/phmodel.h>
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
-#include <algorithm>
 
 using namespace std;
 using namespace OpenBabel;
 
-void test_Fix1912_PDBReading()
-{
+void test_Fix1912_PDBReading() {
   // Reading from a PDB file should set the residues
   // and mark chains as perceived
   OBMolPtr mol = OBTestUtil::ReadFile("00T_ideal_het.pdb");
@@ -30,13 +29,11 @@ void test_Fix1912_PDBReading()
   OB_COMPARE(res->GetChain(), 'A');
 }
 
-std::string remove_slashr(const char *smi)
-{
+std::string remove_slashr(const char *smi) {
   // Remove \r if present to normalise across platforms
   std::string ans;
   const char *p = smi;
-  while (*p)
-  {
+  while (*p) {
     if (*p != '\r')
       ans += *p;
     p++;
@@ -44,20 +41,20 @@ std::string remove_slashr(const char *smi)
   return ans;
 }
 
-struct CdxData
-{
+struct CdxData {
   const char *fname;
   const char *smi;
 };
 
 // Some basic reading of ChemDraw files
 // Note that we don't correctly read radicals - TODO
-// Also, converting ChemDraw doesn't work with the Read() interface, only Convert()
-void test_ChemDraw_Basic()
-{
+// Also, converting ChemDraw doesn't work with the Read() interface, only
+// Convert()
+void test_ChemDraw_Basic() {
   static const CdxData cdxData[] = {
       {"ethanol.cdx", "CCO\t\n"},
-      // cyclohexane -> benzene reaction, plus another cyclohexane drawn on its own
+      // cyclohexane -> benzene reaction, plus another cyclohexane drawn on its
+      // own
       {"molrxnmix.cdx", "C1CCCCC1>>c1ccccc1\t\nC1CCCCC1\t\n"},
       {"MeCN.cdx", "CC#N\t\n"},
       {"acetate.cdx", "CC(=O)[O-]\t\n"}};
@@ -69,8 +66,7 @@ void test_ChemDraw_Basic()
   std::stringstream outs;
   conv.SetOutStream(&outs);
 
-  for (int i = 0; i < size; ++i)
-  {
+  for (int i = 0; i < size; ++i) {
     std::string fname = OBTestUtil::GetFilename(cdxData[i].fname);
     std::ifstream ifs(fname.c_str(), imode);
     OB_REQUIRE(ifs.good());
@@ -83,16 +79,15 @@ void test_ChemDraw_Basic()
 }
 
 // Very basic test for cdxml
-void test_ChemDraw_XML_Basic()
-{
-  static const CdxData cdxmlData[] = {
-      {"methanol.cdxml", "CO\t8\n"},
-      {"gh2696_mols.cdxml", "[C@H]1(C2C=CC(C1)C2)C\t840\n"
-                            "c1ccccc1\t5\n"
-                            "c1cc(cs1)[C@H](CC)C\t23\n"
-                            "NC(C(=O)O)Cc1c[nH]c2c1cccc2\t523\n"
-                            "NC(C(=O)O)Cc1nc[nH]c1\t263\n"
-                            "C12CC3CC(C1)C1CC3CC2C1\t527\n"}};
+void test_ChemDraw_XML_Basic() {
+  static const CdxData cdxmlData[] = {{"methanol.cdxml", "CO\t8\n"},
+                                      {"gh2696_mols.cdxml",
+                                       "[C@H]1(C2C=CC(C1)C2)C\t840\n"
+                                       "c1ccccc1\t5\n"
+                                       "c1cc(cs1)[C@H](CC)C\t23\n"
+                                       "NC(C(=O)O)Cc1c[nH]c2c1cccc2\t523\n"
+                                       "NC(C(=O)O)Cc1nc[nH]c1\t263\n"
+                                       "C12CC3CC(C1)C1CC3CC2C1\t527\n"}};
 
   ios_base::openmode imode = ios_base::in;
   unsigned int size = sizeof(cdxmlData) / sizeof(CdxData);
@@ -101,8 +96,7 @@ void test_ChemDraw_XML_Basic()
   std::stringstream outs;
   conv.SetOutStream(&outs);
 
-  for (int i = 0; i < size; ++i)
-  {
+  for (int i = 0; i < size; ++i) {
     std::string fname = OBTestUtil::GetFilename(cdxmlData[i].fname);
     std::ifstream ifs(fname.c_str(), imode);
     OB_REQUIRE(ifs.good());
@@ -115,16 +109,16 @@ void test_ChemDraw_XML_Basic()
 }
 
 // A basic test of functionality
-void test_OBChemTsfm()
-{
+void test_OBChemTsfm() {
   OBMol mol;
   OBConversion conv;
   conv.SetInFormat("smi");
   conv.SetOutFormat("smi");
 
   // Notes to self: Problems with OBChemTsfm:
-  // tsfm.Init("Cl[C:1]-[C:2]", "[C:1]=[C:2]"); // TODO: Need to change the API to take const char
-  // Init should wipe the state so that OBChemTsfm can safely be reused
+  // tsfm.Init("Cl[C:1]-[C:2]", "[C:1]=[C:2]"); // TODO: Need to change the API
+  // to take const char Init should wipe the state so that OBChemTsfm can safely
+  // be reused
 
   conv.ReadString(&mol, "NCCBr");
   OBChemTsfm tsfm;
@@ -165,22 +159,18 @@ void test_OBChemTsfm()
 
 // Open Babel was previously disappearing triple bonds when provided with SMILES
 // containing a triple bond in an aromatic ring
-void test_AromaticTripleBond()
-{
-  const char *smis[] = {
-      "CCc1n[c]#[c]n1CC2CC(C(=O)O2)(c3ccccc3)c4ccccc4",
-      "CCc1nc#cn1CC2CC(C(=O)O2)(c3ccccc3)c4ccccc4"};
+void test_AromaticTripleBond() {
+  const char *smis[] = {"CCc1n[c]#[c]n1CC2CC(C(=O)O2)(c3ccccc3)c4ccccc4",
+                        "CCc1nc#cn1CC2CC(C(=O)O2)(c3ccccc3)c4ccccc4"};
 
   OBConversion conv;
   conv.SetInFormat("smi");
 
-  for (int i = 0; i < 2; ++i)
-  {
+  for (int i = 0; i < 2; ++i) {
     OBMol mol;
     conv.ReadString(&mol, smis[i]);
     bool hasTripleBond = false;
-    FOR_BONDS_OF_MOL(bond, mol)
-    {
+    FOR_BONDS_OF_MOL(bond, mol) {
       if (bond->GetBondOrder() == 3)
         hasTripleBond = true;
     }
@@ -188,12 +178,11 @@ void test_AromaticTripleBond()
   }
 }
 
-// A segfault was occuring when a Universal SMILES was output after an InChIfied SMILES.
-// This was due to short-circuit caching of InChIs on reading. The fix was to limit
-// the situations when the cached value was used, but also to delete the cached value
-// in this particular instance.
-void test_Issue135_UniversalSmiles()
-{
+// A segfault was occuring when a Universal SMILES was output after an InChIfied
+// SMILES. This was due to short-circuit caching of InChIs on reading. The fix
+// was to limit the situations when the cached value was used, but also to
+// delete the cached value in this particular instance.
+void test_Issue135_UniversalSmiles() {
   // Test writing U smiles after I smiles
   OBConversion conv;
   conv.SetInFormat("smi");
@@ -209,8 +198,7 @@ void test_Issue135_UniversalSmiles()
 }
 
 // Reading an InChI and then adding hydrogens messed up the structure
-void test_Issue134_InChI_addH()
-{
+void test_Issue134_InChI_addH() {
   OBConversion conv;
   conv.SetInFormat("inchi");
   OBMol mol;
@@ -222,20 +210,17 @@ void test_Issue134_InChI_addH()
   OB_COMPARE(res, "C[C@@H](N)O");
 }
 
-// Delete hydrogens should not remove charged or isotopic hydrogens or [H][H] or [Cu][H][Cu]
-// or hydrogens with assigned atom classes
-void test_Issue178_DeleteHydrogens()
-{
+// Delete hydrogens should not remove charged or isotopic hydrogens or [H][H] or
+// [Cu][H][Cu] or hydrogens with assigned atom classes
+void test_Issue178_DeleteHydrogens() {
   OBConversion conv;
   conv.SetInFormat("smi");
   OBMol mol;
   // Test DeleteHydrogens() and DeleteNonPolarHydrogens()
   static const char *smi[] = {"C[H]", "[H][H]", "C[1H]", "C[H]C", "C[H+]"};
   int numHs[] = {0, 2, 1, 1, 1};
-  for (int i = 0; i < 5; ++i)
-  {
-    for (int j = 0; j < 2; ++j)
-    {
+  for (int i = 0; i < 5; ++i) {
+    for (int j = 0; j < 2; ++j) {
       conv.ReadString(&mol, smi[i]);
       if (j == 0)
         mol.DeleteHydrogens();
@@ -251,8 +236,7 @@ void test_Issue178_DeleteHydrogens()
   // Test DeletePolarHydrogens()
   static const char *smiB[] = {"N[H]", "[H][H]", "N[1H]", "N[H]C", "N[H+]"};
   int numHsB[] = {0, 2, 1, 1, 1};
-  for (int i = 0; i < 5; ++i)
-  {
+  for (int i = 0; i < 5; ++i) {
     conv.ReadString(&mol, smiB[i]);
     mol.DeletePolarHydrogens();
     int myNumHs = 0;
@@ -262,7 +246,8 @@ void test_Issue178_DeleteHydrogens()
     OB_COMPARE(myNumHs, numHsB[i]);
   }
   // Test atom class
-  // Currently, the SMILES parser does not retain atom classes for hydrogens on reading so...
+  // Currently, the SMILES parser does not retain atom classes for hydrogens on
+  // reading so...
   conv.ReadString(&mol, "C[H]");
   OBPairInteger *ac = new OBPairInteger();
   ac->SetAttribute("Atom Class");
@@ -276,14 +261,12 @@ void test_Issue178_DeleteHydrogens()
   OB_COMPARE(myNumHs, 1);
 }
 
-void test_Issue305_NumRotors()
-{
+void test_Issue305_NumRotors() {
   OBMolPtr mol = OBTestUtil::ReadFile("regressiontest_numrotors.mol");
   OB_COMPARE(mol->NumRotors(), 9); // was returning 4
 }
 
-void test_PR329_Molfile_RGroups()
-{
+void test_PR329_Molfile_RGroups() {
   // There are several way to get an R Group into a mol file
   // 1. The existing use of atom maps on dummy atoms in SMILES
   OBConversion conv;
@@ -294,7 +277,9 @@ void test_PR329_Molfile_RGroups()
   std::string molfileWithRGP = conv.WriteString(&mol);
   obErrorLog.SetOutputLevel(obWarning);
   OB_ASSERT(molfileWithRGP.find("R#") != std::string::npos);
-  OB_ASSERT(molfileWithRGP.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
+  OB_ASSERT(
+      molfileWithRGP.find("M  RGP  2   2   1   5   2") !=
+      std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
   // Check negative case
   conv.ReadString(&mol, "C([*]CO[*]");
   std::string molfileb = conv.WriteString(&mol);
@@ -306,37 +291,44 @@ void test_PR329_Molfile_RGroups()
   conv.ReadString(&mol, molfileWithRGP);
   molfileb = conv.WriteString(&mol);
   OB_ASSERT(molfileb.find("R#") != std::string::npos);
-  OB_ASSERT(molfileb.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
+  OB_ASSERT(
+      molfileb.find("M  RGP  2   2   1   5   2") !=
+      std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
 
-  // 3. By reading a molfile that specifies the atom alias as Rn, where n is an integer
-  std::string molfileWithAlias = "\n"
-                                 " OpenBabel07211621152D\n"
-                                 "\n"
-                                 "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
-                                 "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
-                                 "    0.0000    1.0000    0.0000 *   0  0  0  0  0  0  0  0  0  0  0  0\n"
-                                 "  1  2  1  0  0  0  0\n"
-                                 "A    2\n"
-                                 "R1\n"
-                                 "M  END";
+  // 3. By reading a molfile that specifies the atom alias as Rn, where n is an
+  // integer
+  std::string molfileWithAlias =
+      "\n"
+      " OpenBabel07211621152D\n"
+      "\n"
+      "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
+      "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "    0.0000    1.0000    0.0000 *   0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "  1  2  1  0  0  0  0\n"
+      "A    2\n"
+      "R1\n"
+      "M  END";
   conv.SetInAndOutFormats("mol", "mol");
   conv.ReadString(&mol, molfileWithAlias);
   std::string molfile = conv.WriteString(&mol);
   OB_ASSERT(molfile.find("R#") != std::string::npos);
-  OB_ASSERT(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
+  OB_ASSERT(molfile.find("M  RGP  1   2   1") !=
+            std::string::npos); // i.e. atom 2 is labelled R1
   // Check negative case
-  molfileWithAlias = "\n"
-                     " OpenBabel07211621152D\n"
-                     "\n"
-                     "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
-                     "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
-                     "    0.0000    1.0000    0.0000 *   0  0  0  0  0  0  0  0  0  0  0  0\n"
-                     "  1  2  1  0  0  0  0\n"
-                     "A    2\n"
-                     "R\n"
-                     "M  END";
+  molfileWithAlias =
+      "\n"
+      " OpenBabel07211621152D\n"
+      "\n"
+      "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
+      "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "    0.0000    1.0000    0.0000 *   0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "  1  2  1  0  0  0  0\n"
+      "A    2\n"
+      "R\n"
+      "M  END";
   conv.SetInAndOutFormats("mol", "mol");
-  obErrorLog.SetOutputLevel(obError); // avoid warning "Alias R was not chemically interpreted"
+  obErrorLog.SetOutputLevel(
+      obError); // avoid warning "Alias R was not chemically interpreted"
   conv.ReadString(&mol, molfileWithAlias);
   obErrorLog.SetOutputLevel(obWarning);
   molfile = conv.WriteString(&mol);
@@ -344,34 +336,37 @@ void test_PR329_Molfile_RGroups()
   OB_ASSERT(molfile.find("M  RGP") == std::string::npos);
 
   // 4. By reading a molfile that specifies the element name as R1, etc.
-  std::string molfileWithRGroupElementName = "\n"
-                                             " OpenBabel07211621152D\n"
-                                             "\n"
-                                             "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
-                                             "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
-                                             "    0.0000    1.0000    0.0000 R1  0  0  0  0  0  0  0  0  0  0  0  0\n"
-                                             "  1  2  1  0  0  0  0\n"
-                                             "M  END";
+  std::string molfileWithRGroupElementName =
+      "\n"
+      " OpenBabel07211621152D\n"
+      "\n"
+      "  2  1  0  0  0  0  0  0  0  0999 V2000\n"
+      "    1.0000    0.0000    0.0000 C   0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "    0.0000    1.0000    0.0000 R1  0  0  0  0  0  0  0  0  0  0  0  0\n"
+      "  1  2  1  0  0  0  0\n"
+      "M  END";
   conv.SetInAndOutFormats("mol", "mol");
   conv.ReadString(&mol, molfileWithRGroupElementName);
   molfile = conv.WriteString(&mol);
   OB_ASSERT(molfile.find("R#") != std::string::npos);
-  OB_ASSERT(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
+  OB_ASSERT(molfile.find("M  RGP  1   2   1") !=
+            std::string::npos); // i.e. atom 2 is labelled R1
 }
 
-struct SmilesData
-{
+struct SmilesData {
   const char *inp;
   const char *out;
-  const char *out_hoption;      // if you specify -xh, i.e. "output explicit Hydrogens as such"
+  const char *out_hoption;      // if you specify -xh, i.e. "output explicit
+                                // Hydrogens as such"
   const char *out_addh_hoption; // if you add hydrogens and then specify "-xh"
-  const char *out_soption;      // if you specify -xs, create SMARTS for substructure searching
+  const char *out_soption; // if you specify -xs, create SMARTS for substructure
+                           // searching
 };
 
-void test_SMILES_Valence()
-{
+void test_SMILES_Valence() {
   static const SmilesData smilesData[] = {
-      {"[H]", "", "", "", "[#1]"}, // SMARTS perhaps should be [*H], but not implemented at the moment
+      {"[H]", "", "", "", "[#1]"}, // SMARTS perhaps should be [*H], but not
+                                   // implemented at the moment
       {"[H][H]", "", "", "", "[#1][#1]"},
       {"[HH]", "", "", "[H][H]", "[#1]"},
       {"C", "", "", "C([H])([H])([H])[H]", ""},
@@ -386,26 +381,30 @@ void test_SMILES_Valence()
       {"[CH2]([H])[H]", "C", "C([H])[H]", "C([H])([H])([H])[H]", "[C!H0!H1]"},
       {"[U][H]", "[UH]", "", "", "[U!H0]"},
       {"[UH2]", "", "", "[U]([H])[H]", "[U]"},
-      {"[C@@H](Br)(Cl)I", "", "", "[C@](Br)(Cl)(I)[H]", "[C](Br)(Cl)I"}, // Note: if OB supported it, SMARTS should be [C@@?](Br)(Cl)I
-      {"Br[C@@H](Cl)I", "", "", "Br[C@@](Cl)(I)[H]", "Br[C](Cl)I"},      // Note: if OB supported it, SMARTS should be Br[C@@?](Cl)I
+      {"[C@@H](Br)(Cl)I", "", "", "[C@](Br)(Cl)(I)[H]",
+       "[C](Br)(Cl)I"}, // Note: if OB supported it, SMARTS should be
+                        // [C@@?](Br)(Cl)I
+      {"Br[C@@H](Cl)I", "", "", "Br[C@@](Cl)(I)[H]",
+       "Br[C](Cl)I"}, // Note: if OB supported it, SMARTS should be
+                      // Br[C@@?](Cl)I
       {"[C@@](F)(Br)(Cl)I", "", "", "", ""},
       {"F[C@@](Br)(Cl)I", "", "", "", ""},
       {"[H][C@@](Br)(Cl)I", "[C@@H](Br)(Cl)I", "", "", "[C@@H](Br)(Cl)I"},
-      {"C[H:1]", "C", "C[H]", "C([H])([H])([H])[H]", "[C!H0]"}, // atom class only shown with -xa
+      {"C[H:1]", "C", "C[H]", "C([H])([H])([H])[H]",
+       "[C!H0]"}, // atom class only shown with -xa
       {"C[2H]", "", "", "C([2H])([H])([H])[H]", "C[2#1]"},
       {"c1ccccc1", "", "", "c1(c(c(c(c(c1[H])[H])[H])[H])[H])[H]", ""},
       {"c1cnccc1", "", "", "c1(c(nc(c(c1[H])[H])[H])[H])[H]", ""},
       {"c1c[nH]cc1", "", "", "c1(c(n(c(c1[H])[H])[H])[H])[H]", "c1cncc1"},
       {"F[I]F", "", "", "", "FIF"},
   };
-  unsigned int size = (unsigned int)(sizeof(smilesData) / sizeof(smilesData[0]));
-  for (unsigned int rep = 0; rep < 4; ++rep)
-  {
+  unsigned int size =
+      (unsigned int)(sizeof(smilesData) / sizeof(smilesData[0]));
+  for (unsigned int rep = 0; rep < 4; ++rep) {
     printf("Rep: %d\n", rep);
     OBConversion conv;
     OB_ASSERT(conv.SetInAndOutFormats("smi", "smi"));
-    switch (rep)
-    {
+    switch (rep) {
     case 1:
     case 2:
       conv.SetOptions("h", conv.OUTOPTIONS);
@@ -414,16 +413,14 @@ void test_SMILES_Valence()
       conv.SetOptions("s", conv.OUTOPTIONS);
       break;
     }
-    for (unsigned int i = 0; i < size; ++i)
-    {
+    for (unsigned int i = 0; i < size; ++i) {
       OBMol mol;
       OB_ASSERT(conv.ReadString(&mol, smilesData[i].inp));
       if (rep == 2)
         mol.AddHydrogens();
       std::string out = conv.WriteString(&mol, true);
       const char *mout;
-      switch (rep)
-      {
+      switch (rep) {
       case 0:
         mout = smilesData[i].out;
         break;
@@ -438,7 +435,8 @@ void test_SMILES_Valence()
         break;
       }
       std::string ans = mout[0] ? mout : smilesData[i].inp;
-      printf("  %d %s --> %s (%s)\n", i, smilesData[i].inp, ans.c_str(), out.c_str());
+      printf("  %d %s --> %s (%s)\n", i, smilesData[i].inp, ans.c_str(),
+             out.c_str());
       OB_COMPARE(out, ans);
     }
   }
@@ -452,9 +450,9 @@ void test_SMILES_Valence()
 }
 
 // make sure insertion code gets copied (it wasn't)
-void test_insertioncode()
-{
-  const char *pdb = "ATOM    266  HB2 ASP L  14      -2.604   8.021  19.867  1.00  0.00           H\n\
+void test_insertioncode() {
+  const char *pdb =
+      "ATOM    266  HB2 ASP L  14      -2.604   8.021  19.867  1.00  0.00           H\n\
 ATOM    267  CG  ASP L  14      -2.280   6.992  21.697  1.00 18.10           C\n\
 ATOM    268  OD1 ASP L  14      -1.109   7.431  21.698  1.00 18.97           O\n\
 ATOM    269  OD2 ASP L  14      -2.735   6.263  22.603  1.00 19.18           O\n\
@@ -476,9 +474,9 @@ ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n
 }
 
 // make sure icode is read by pdbqt
-void test_insertioncode_pdbqt()
-{
-  const char *pdb = "ATOM    266  HB2 ASP L  14      -2.604   8.021  19.867  1.00  0.00           H\n\
+void test_insertioncode_pdbqt() {
+  const char *pdb =
+      "ATOM    266  HB2 ASP L  14      -2.604   8.021  19.867  1.00  0.00           H\n\
 ATOM    267  CG  ASP L  14      -2.280   6.992  21.697  1.00 18.10           C\n\
 ATOM    268  OD1 ASP L  14      -1.109   7.431  21.698  1.00 18.97           O\n\
 ATOM    269  OD2 ASP L  14      -2.735   6.263  22.603  1.00 19.18           O\n\
@@ -500,8 +498,7 @@ ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n
 }
 
 // https://github.com/openbabel/openbabel/issues/1794
-void test_github_issue_1794()
-{
+void test_github_issue_1794() {
   OBMol mol;
   OBConversion conv;
   conv.SetInFormat("smi");
@@ -513,8 +510,7 @@ void test_github_issue_1794()
   OB_ASSERT(pFF->Setup(mol));
 }
 
-void test_github_issue_2111_impl(const std::string &smiles)
-{
+void test_github_issue_2111_impl(const std::string &smiles) {
   OBMol mol;
   OBConversion conv;
   conv.SetInAndOutFormats("smi", "inchi");
@@ -525,18 +521,21 @@ void test_github_issue_2111_impl(const std::string &smiles)
 }
 
 // https://github.com/openbabel/openbabel/issues/2111
-void test_github_issue_2111()
-{
-  test_github_issue_2111_impl("[H][C@@H](I)F"); // tetrahedral with 2 implicit refs
-  test_github_issue_2111_impl("[H]/N=C/F");     // cis/trans with 2 implicit refs on the left
-  test_github_issue_2111_impl("F/N=C/[H]");     // cis/trans with 2 implicit refs on the right
+void test_github_issue_2111() {
+  test_github_issue_2111_impl(
+      "[H][C@@H](I)F"); // tetrahedral with 2 implicit refs
+  test_github_issue_2111_impl(
+      "[H]/N=C/F"); // cis/trans with 2 implicit refs on the left
+  test_github_issue_2111_impl(
+      "F/N=C/[H]"); // cis/trans with 2 implicit refs on the right
 
   //
   // Tetrahedral
   //
 
   // example from bug report
-  test_github_issue_2111_impl("[C@@H]12C[C@H](OCC3=CC=CC=C3)[C@@H](COCC3=CC=CC=C3)[C@]1([H])O2");
+  test_github_issue_2111_impl(
+      "[C@@H]12C[C@H](OCC3=CC=CC=C3)[C@@H](COCC3=CC=CC=C3)[C@]1([H])O2");
 
   // implicit ref in all positions
   test_github_issue_2111_impl("[H][C@](C)(F)I");
@@ -555,8 +554,7 @@ void test_github_issue_2111()
   test_github_issue_2111_impl("F/N=C(/C)[H]");
 }
 
-void test_github_issue_2428_data_in_png()
-{
+void test_github_issue_2428_data_in_png() {
   ios_base::openmode imode = ios_base::in | ios_base::binary;
   OBConversion conv;
   OB_REQUIRE(conv.SetInAndOutFormats("png", "can"));
@@ -573,10 +571,12 @@ void test_github_issue_2428_data_in_png()
   OB_COMPARE(remove_slashr(out.c_str()), "c1cccnc1\t\n");
 }
 
-void test_bad_bondorders() // make sure N in aromatic rings get right bond orders
+void test_bad_bondorders() // make sure N in aromatic rings get right bond
+                           // orders
 {
   // from PDB 1U71
-  const char *pdb = "REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MXA A 187\n\
+  const char *pdb =
+      "REMARK 800 SITE_DESCRIPTION: BINDING SITE FOR RESIDUE MXA A 187\n\
 HET    MXA  A 187      24                                                       \n\
 HETNAM     MXA 6-(2,5-DIMETHOXY-BENZYL)-5-METHYL-PYRIDO[2,3-                    \n\
 HETNAM   2 MXA  D]PYRIMIDINE-2,4-DIAMINE                                        \n\
@@ -611,19 +611,16 @@ HETATM 1540  C6' MXA A 187      32.533  13.060   1.396  0.50 13.52           C  
   OBMol mol;
   conv.ReadString(&mol, pdb);
   // no nitrogens should have 4 bonds
-  for (OBAtomIterator it = mol.BeginAtoms(); it != mol.EndAtoms(); it++)
-  {
+  for (OBAtomIterator it = mol.BeginAtoms(); it != mol.EndAtoms(); it++) {
     OBAtom *a = *it;
-    if (a->GetAtomicNum() == 7)
-    {
+    if (a->GetAtomicNum() == 7) {
       OB_ASSERT((a->GetTotalValence() < 4));
     }
   }
 }
 
 // https://github.com/openbabel/openbabel/issues/2646
-void test_github_issue_2646()
-{
+void test_github_issue_2646() {
   const char *cml = "<?xml version=\"1.0\"?>\n\
 <molecule xmlns=\"http://www.xml-cml.org/schema\">\n\
   <atomArray>\n\
@@ -653,8 +650,7 @@ void test_github_issue_2646()
 }
 
 // https://github.com/openbabel/openbabel/issues/2677
-void test_github_issue_2677()
-{
+void test_github_issue_2677() {
   // Make sure that CorrectForPH doesn't mess up residues in pdb
   OBMolPtr mol = OBTestUtil::ReadFile("1DRF.pdb");
   OB_ASSERT(mol->HasChainsPerceived());
@@ -667,8 +663,7 @@ void test_github_issue_2677()
   OB_COMPARE(res_after->GetIdx(), res_before->GetIdx());
 }
 
-void test_SegCopySubstructure()
-{
+void test_SegCopySubstructure() {
   // Invalid memory access (atom->GetIdx()) detected in valgrind and sometimes
   // triggering a sefault.
   OBConversion conv;
@@ -689,22 +684,20 @@ void test_SegCopySubstructure()
   OBMol copy;
   std::vector<unsigned int> atomorder;
   atomorder.clear();
-  bool ok = mol.CopySubstructure(copy, &atomsToCopy, &bondsToExclude, 2, &atomorder);
+  bool ok =
+      mol.CopySubstructure(copy, &atomsToCopy, &bondsToExclude, 2, &atomorder);
   OB_ASSERT(ok);
   OB_COMPARE(4, copy.NumAtoms());
   OB_COMPARE(4, copy.NumBonds());
 }
 
-int regressionstest(int argc, char *argv[])
-{
+int regressionstest(int argc, char *argv[]) {
   int defaultchoice = 1;
 
   int choice = defaultchoice;
 
-  if (argc > 1)
-  {
-    if (sscanf(argv[1], "%d", &choice) != 1)
-    {
+  if (argc > 1) {
+    if (sscanf(argv[1], "%d", &choice) != 1) {
       printf("Couldn't parse that input as a number\n");
       return -1;
     }
@@ -716,8 +709,7 @@ int regressionstest(int argc, char *argv[])
   putenv(env);
 #endif
 
-  switch (choice)
-  {
+  switch (choice) {
   case 1:
     test_Issue135_UniversalSmiles();
     break;
