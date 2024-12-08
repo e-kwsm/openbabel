@@ -119,8 +119,9 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
   bool OptionsFound=false;
 
   std::string qualifiedOptions;
-  if(StartText)
+  if(StartText) {
     qualifiedOptions = StartText;
+  }
   qualifiedOptions += " options";
   p = strcasestr(p, qualifiedOptions.c_str());
   if(p)
@@ -133,7 +134,8 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
       bool ProvideExtraCheckbox=false;
 
       char* plinestart = p;
-      while(*p && *p!='\n' && !isalnum(*(p++))); //skip space and punctuation except \n
+      while(*p && *p!='\n' && !isalnum(*(p++))) { //skip space and punctuation except \n
+      }
       if(*p=='\n')
       {
         plinestart = ++p; //reset start of line
@@ -159,10 +161,11 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
         }
       }
 
-      if(!(*p--)) break;
+      if(!(*p--)) { break; }
       wxString oname;
-      while(isalnum(*p))
+      while(isalnum(*p)) {
         oname += *p++;
+      }
 
       //Filter on whether option is single or multicharacter
       //MultiCharFilter == 0 Display all options
@@ -172,11 +175,13 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
         || (MultiCharFilter==2 && oname.size()==1))
       {
         p =strchr(p,'\n');
-        if(p) ++p; //to next line
+        if(p) { ++p; //to next line
+        }
         continue;
       }
 
-      while(*p>=0 && isspace(*p++));//skip white space
+      while(*p>=0 && isspace(*p++)) { //skip white space
+      }
       while(ispunct(*(--p)) && *p != '-')
       {
         //If first non-white space character after option char is punctuation(except for '-')
@@ -200,20 +205,24 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
         if(endch)
         {
           char* ptemp = strchr(p, endch);
-          if(ptemp)
+          if(ptemp) {
             p=ptemp+1;
+          }
         }
-        while(isspace(*p++));//skip white space
-        if(!(*p)) break;
+        while(isspace(*p++)) { //skip white space
+        }
+        if(!(*p)) { break; }
       }
       p--; //so not to lose first char of caption
 
-      while(!isalnum(*(++p))); //skip space and punctuation
-      if(!(*p)) break;
+      while(!isalnum(*(++p))) { //skip space and punctuation
+      }
+      if(!(*p)) { break; }
       char* pCaption = p-1;
       p =strchr(p,'\n');
-      if(p)
+      if(p) {
         *p++ ='\0'; //mark end of this option's text
+      }
 
       if(ProvideEditCtl)
       {
@@ -228,8 +237,8 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
 
           //delete caption after default or after <default etc
           *pdef='\0';
-          while(isspace(*(--pdef)));
-          if(!strpbrk(pdef,"([<{-;")) pdef++ ;
+          while(isspace(*(--pdef))) { }
+          if(!strpbrk(pdef,"([<{-;")) { pdef++ ; }
           *pdef='\0';
         }
         wxStaticText* pEdCaption = new wxStaticText(parent,wxID_STATIC,wxString(pCaption, wxConvUTF8));
@@ -249,8 +258,9 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
             pEd = new wxTextCtrl(parent,wxID_ANY,wxEmptyString,
                 wxDefaultPosition,wxSize(EDWIDTH,18));
             OptionMap.push_back(std::make_pair(oname,pEd));
-            if(ProvideEditCtl)
+            if(ProvideEditCtl) {
               oname = _T(' ') + oname;//editboxes except the first have name preceded by one or more spaces
+            }
           }
           sizer->Add(pEd,0,wxEXPAND|wxTOP,ONE);
         }
@@ -269,8 +279,9 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
             pEd = new wxTextCtrl(parent,wxID_ANY,wxEmptyString,
                 wxDefaultPosition,wxSize(EDWIDTH,18));
             OptionMap.push_back(std::make_pair(oname,pEd));
-            if(ProvideEditCtl)
+            if(ProvideEditCtl) {
               oname = _T(' ') + oname;//editboxes except the first have name preceded by one or more spaces
+            }
             pEdSizer->Add(pEd,0);
           }
           pEdSizer->Add(pEdCaption,1,wxLEFT|wxALIGN_CENTER_VERTICAL,FOUR);
@@ -289,8 +300,9 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
         //by one of 'no' 'not' or 'none'
         char* pdef=strcasestr(pCaption,"default");
         bool SetChk=(pdef!=nullptr);
-        if(SetChk)
+        if(SetChk) {
           strcasecmp(pdef,"no") && !strcasecmp(pdef,"not") && strcasecmp(pdef,"none");
+        }
 
         char* por=strcasestr(pCaption," or");
         bool HasOr = (por && !strpbrk(por+3,"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"));
@@ -334,7 +346,8 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
   OMapType::iterator itr;
   for (itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
   {
-    if(itr->first.empty()) continue; //just a caption or a line
+    if(itr->first.empty()) { continue; //just a caption or a line
+    }
 
     wxString oname = itr->first;
     wxString txt;
@@ -345,7 +358,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
       if(!pChk->IsChecked())
       {
         // if a checkbox is not checked, ignore the subsidiary editboxes also
-        while(!(++itr)->first.empty()&& itr->first[0]==_T(' '));
+        while(!(++itr)->first.empty()&& itr->first[0]==_T(' ')) { }
         --itr;
         continue;
       }
@@ -355,8 +368,9 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
       wxRadioButton* pRadio = dynamic_cast<wxRadioButton*> (itr->second);
       if(pRadio)
       {
-        if(pRadio->GetValue())
+        if(pRadio->GetValue()) {
           continue;
+        }
       }
       else
       {
@@ -364,7 +378,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
         if(pText)
         {
           txt = pText->GetValue();
-          if(txt.IsEmpty()) continue;
+          if(txt.IsEmpty()) { continue; }
           oname = itr->first;
         }
       }
@@ -374,8 +388,9 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     OMapType::iterator itr2 = itr;
     while(++itr2!= OptionMap.end())
     {
-      if((itr2->first).empty() || itr2->first[0]!=_T(' ')) //subsequent editboxes have the name preceded by a space
+      if((itr2->first).empty() || itr2->first[0]!=_T(' ')) { //subsequent editboxes have the name preceded by a space
         break;
+      }
       txt = txt + _T(' ') + static_cast<wxTextCtrl*>(itr2->second)->GetValue();
       ++itr;
     }
@@ -393,8 +408,9 @@ char* DynOptionswx::strcasestr(const char* haystack, const char* needle)
   //Adapted from http://primates.ximian.com/~fejj/strlib.c
   register unsigned char *h, *n, *hc, *nc;
   size_t needlelen = strlen (needle);
-  if (needlelen == 0)
+  if (needlelen == 0) {
     return (char *) haystack;
+  }
 
   h=(unsigned char *)haystack;
   n=(unsigned char *)needle;
@@ -402,12 +418,15 @@ char* DynOptionswx::strcasestr(const char* haystack, const char* needle)
   {
     if (tolower(*h) == tolower(*n))
     {
-      for (hc = h + 1, nc = n + 1; *hc && *nc; hc++, nc++)
-        if (tolower(*hc) != tolower(*nc))
+      for (hc = h + 1, nc = n + 1; *hc && *nc; hc++, nc++) {
+        if (tolower(*hc) != tolower(*nc)) {
           break;
+        }
+      }
 
-      if (!*nc)
+      if (!*nc) {
         return (char*) h;
+      }
     }
     h++;
   }
