@@ -80,8 +80,9 @@ namespace OpenBabel {
   bool CASTEPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -129,8 +130,9 @@ namespace OpenBabel {
         vector<OBAtom*> toDelete;
         FOR_ATOMS_OF_MOL(a, *pmol)
           toDelete.push_back(&*a);
-        for (size_t i = 0; i < toDelete.size(); i++)
+        for (size_t i = 0; i < toDelete.size(); i++) {
           pmol->DeleteAtom(toDelete.at(i));
+        }
 
         // Load new atoms from molecule
         ifs.getline(buffer,BUFF_SIZE); // Title line 2

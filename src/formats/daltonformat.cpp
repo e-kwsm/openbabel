@@ -130,8 +130,9 @@ namespace OpenBabel
   bool DALTONInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;
@@ -202,8 +203,9 @@ namespace OpenBabel
       }
 
       // if input is in bohr, convert to angstrom
-      if (strstr(buffer, "Angstrom") == nullptr)
+      if (strstr(buffer, "Angstrom") == nullptr) {
         factor = BOHR_TO_ANGSTROM;
+      }
 
       while(atomtypes >= 0 && ifs.getline(buffer, BUFF_SIZE))
       {
@@ -259,8 +261,9 @@ namespace OpenBabel
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
     basisformat = BASIS; // Always assume BASIS format. We change it below otherwise
 
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -281,8 +284,9 @@ namespace OpenBabel
       basisset = keywords;
     }
 
-    if (writeatomicunit)
+    if (writeatomicunit) {
       factor *= ANGSTROM_TO_BOHR;
+    }
 
     // containers for atomtypes and charges
     std::vector<int> groupcounts;
@@ -320,7 +324,7 @@ namespace OpenBabel
     ofs << "AtomTypes=" << atomtypes;
     ofs << " Charge=" << mol.GetTotalCharge();
     ofs << " NoSymmetry";
-    if (!writeatomicunit) ofs << " Angstrom";
+    if (!writeatomicunit) { ofs << " Angstrom"; }
     ofs << endl;
 
     // now let us dump those atoms to the .mol file
@@ -354,8 +358,9 @@ namespace OpenBabel
   bool DALTONOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     istream &ifs = *pConv->GetInStream();
     OBMol &mol = *pmol;

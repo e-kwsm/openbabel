@@ -96,8 +96,9 @@ namespace OpenBabel {
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -140,8 +141,9 @@ namespace OpenBabel {
                 z = atof((char*)vs[7].c_str());
                 atom->SetVector(x,y,z);
 
-                if (!ifs.getline(buffer,BUFF_SIZE))
+                if (!ifs.getline(buffer,BUFF_SIZE)) {
                   break;
+                }
                 tokenize(vs,buffer);
               }
           }
@@ -163,7 +165,7 @@ namespace OpenBabel {
                 dipoleMoment->SetOrigin(fileformatInput);
                 mol.SetData(dipoleMoment);
               }
-            if (!ifs.getline(buffer,BUFF_SIZE)) break;
+            if (!ifs.getline(buffer,BUFF_SIZE)) { break; }
           }
           else if(strstr(buffer, "M U L L I K E N") != nullptr)
             {
@@ -187,8 +189,9 @@ namespace OpenBabel {
                     hasPartialCharges = true;
                   }
 
-                  if (!ifs.getline(buffer,BUFF_SIZE))
+                  if (!ifs.getline(buffer,BUFF_SIZE)) {
                     break;
+                  }
                   tokenize(vs,buffer);
                 }
             }
@@ -221,7 +224,7 @@ namespace OpenBabel {
                 }
                 ifs.getline(buffer,BUFF_SIZE);
               }
-              else break;
+              else { break; }
             }
             mol.SetEnergy(energy * EV_TO_KCAL_PER_MOL);
           }
@@ -233,10 +236,12 @@ namespace OpenBabel {
       return false;
     }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     mol.EndModify();
 
@@ -297,8 +302,9 @@ namespace OpenBabel {
   bool ADFInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -343,8 +349,9 @@ namespace OpenBabel {
         string keyBuffer;
         if (kfstream)
           {
-            while (getline(kfstream, keyBuffer))
+            while (getline(kfstream, keyBuffer)) {
               ofs << keyBuffer << endl;
+            }
           }
       }
     else if (keywords) {
@@ -399,8 +406,9 @@ namespace OpenBabel {
   bool ADFBandFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (!pmol)
+    if (!pmol) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -432,8 +440,9 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE); // *blank line*
         while (ifs.getline(buffer, BUFF_SIZE)) {
           tokenize(vs, buffer);
-          if (vs.size() < 4 || vs[0] == "VEC1")
+          if (vs.size() < 4 || vs[0] == "VEC1") {
             break;
+          }
 
           OBAtom* atom = mol.NewAtom();
           atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
@@ -450,8 +459,9 @@ namespace OpenBabel {
         for (int i = 0; i < 3; ++i) {
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
-          if (vs.size() < 5)
+          if (vs.size() < 5) {
             break;
+          }
 
           // These are in Bohrs
           double x = atof(vs[1].c_str()) * BOHR_TO_ANGSTROM;
@@ -460,8 +470,9 @@ namespace OpenBabel {
           vectors.push_back(vector3(x, y, z));
         }
 
-        while (vectors.size() < 3)
+        while (vectors.size() < 3) {
           vectors.push_back(vector3(0.0, 0.0, 0.0));
+        }
 
         // Build unit cell
         OBUnitCell* cell = new OBUnitCell;
@@ -477,8 +488,9 @@ namespace OpenBabel {
             tokenize(vs, buffer);
 
             // Line should be of size 7
-            if (vs.size() != 7)
+            if (vs.size() != 7) {
               break;
+            }
 
             // Units of the final column should be in kcal/mol
             mol.SetEnergy(atof(vs[6].c_str()));
@@ -535,8 +547,9 @@ namespace OpenBabel {
   bool ADFDftbFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (!pmol)
+    if (!pmol) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -563,14 +576,16 @@ namespace OpenBabel {
         if (strstr(buffer, "Index") && strstr(buffer, "Symbol")) {
           double lengthConversion = 1.0;
           // Check the units
-          if (strstr(buffer, "bohr"))
+          if (strstr(buffer, "bohr")) {
             lengthConversion = BOHR_TO_ANGSTROM;
+          }
 
           while (ifs.getline(buffer, BUFF_SIZE)) {
             tokenize(vs, buffer);
             // Should be of size 5
-            if (vs.size() < 5)
+            if (vs.size() < 5) {
               break;
+            }
 
             OBAtom* atom = mol.NewAtom();
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
@@ -586,15 +601,17 @@ namespace OpenBabel {
         if (strstr(buffer, "Lattice vectors")) {
           double lengthConversion = 1.0;
           // Check the units
-          if (strstr(buffer, "bohr"))
+          if (strstr(buffer, "bohr")) {
             lengthConversion = BOHR_TO_ANGSTROM;
+          }
 
           std::vector<vector3> vectors;
           for (short i = 0; i < 3; ++i) {
             ifs.getline(buffer, BUFF_SIZE);
             tokenize(vs, buffer);
-            if (vs.size() != 4)
+            if (vs.size() != 4) {
               break;
+            }
 
             double x = atof(vs[1].c_str()) * lengthConversion;
             double y = atof(vs[2].c_str()) * lengthConversion;
@@ -602,8 +619,9 @@ namespace OpenBabel {
             vectors.push_back(vector3(x, y, z));
           }
 
-          while (vectors.size() < 3)
+          while (vectors.size() < 3) {
             vectors.push_back(vector3(0.0, 0.0, 0.0));
+          }
 
           // Build unit cell
           OBUnitCell* cell = new OBUnitCell;
@@ -621,8 +639,9 @@ namespace OpenBabel {
             tokenize(vs, buffer);
 
             // Line should be of size 4
-            if (vs.size() != 4)
+            if (vs.size() != 4) {
               break;
+            }
 
             mol.SetEnergy(atof(vs[3].c_str()) * EV_TO_KCAL_PER_MOL);
             break;
@@ -705,7 +724,7 @@ private:
     bool NextTag( istream& is, const std::string& tag ) const
     {
         string buf = "";
-        while( is >> buf ) if( buf == tag ) return true;
+        while( is >> buf ) { if( buf == tag ) { return true; } }
         return false;
     }
 
@@ -805,10 +824,11 @@ bool OBT41Format::ReadMolecule( OBBase* pOb, OBConversion* pConv )
   istream& ifs = *pConv->GetInStream();
   // Check if the file is ASCII or Binary
   // Binary TAPE41 files start with "SUPERINDEX"
-  if (ifs.peek() == 'S')
+  if (ifs.peek() == 'S') {
     return ReadBinary(pOb, pConv);
-  else
+  } else {
     return ReadASCII(pOb, pConv);
+  }
 }
 
 bool OBT41Format::ReadBinary( OBBase* pOb, OBConversion* pConv )
@@ -820,7 +840,7 @@ bool OBT41Format::ReadBinary( OBBase* pOb, OBConversion* pConv )
 bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
 {
       OBMol* pmol = dynamic_cast< OBMol* >(pOb);
-      if (pmol == nullptr) return false;
+      if (pmol == nullptr) { return false; }
 
       istream& ifs = *pConv->GetInStream();
 
@@ -836,7 +856,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
          // If we don't find any legitimate data, we'll end and still have "OBGridData"
          // rather than a legitimate label
                          t41Data = NewData(gd);
-         while( ReadSCFOrbitalGrid( ifs, *t41Data ) );
+         while( ReadSCFOrbitalGrid( ifs, *t41Data ) ) {}
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
          } else

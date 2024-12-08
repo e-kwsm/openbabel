@@ -316,8 +316,9 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   }
   else{
     //Input Options
-    if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) )
+    if( !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) {
       pmol->ConnectTheDots();
+    }
 
     if( !pConv->IsOption( "s", OBConversion::INOPTIONS) &&
         !pConv->IsOption( "b", OBConversion::INOPTIONS ) ) {

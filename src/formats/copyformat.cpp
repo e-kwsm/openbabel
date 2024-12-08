@@ -68,8 +68,9 @@ public:
     if(len>0)
     {
       streampos curpos = ifs.tellg();
-      if(ifs.eof())
+      if(ifs.eof()) {
         ifs.clear();
+      }
       ifs.seekg(startpos);
 
       char* buf = new char[len+1];
@@ -84,10 +85,11 @@ public:
       //When no length recorded, copy the whole input stream
       //Seem to need to treat stringstreams differently
       stringstream* pss = dynamic_cast<stringstream*>(&ifs);
-      if(pss)
+      if(pss) {
         ofs << pss->str() << flush;
-      else
+      } else {
         ofs << ifs.rdbuf() << flush;
+      }
     }
     return true;
   }

@@ -75,8 +75,9 @@ namespace OpenBabel
   {
 
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -94,8 +95,9 @@ namespace OpenBabel
     while (strstr(buffer, "$coordinates") == nullptr &&
            strstr(buffer, "$cell vectors") == nullptr)
       {
-        if (ifs.peek() == EOF || !ifs.good())
+        if (ifs.peek() == EOF || !ifs.good()) {
           return false;
+        }
         ifs.getline(buffer,BUFF_SIZE);
       }
 
@@ -103,21 +105,24 @@ namespace OpenBabel
       {
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer); // we really need to check that it's 3 entries only
-	if (vs.size() < 3) return false; // timvdm 18/06/2008
+	if (vs.size() < 3) { return false; // timvdm 18/06/2008
+	}
         x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
         y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
         z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
         v1.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
-	if (vs.size() < 3) return false; // timvdm 18/06/2008
+	if (vs.size() < 3) { return false; // timvdm 18/06/2008
+	}
         x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
         y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
         z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
         v2.Set(x,y,z);
         ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs,buffer);
-	if (vs.size() < 3) return false; // timvdm 18/06/2008
+	if (vs.size() < 3) { return false; // timvdm 18/06/2008
+	}
         x = atof((char*)vs[0].c_str()) * BOHR_TO_ANGSTROM;
         y = atof((char*)vs[1].c_str()) * BOHR_TO_ANGSTROM;
         z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
@@ -135,11 +140,13 @@ namespace OpenBabel
 
     while (strstr(buffer, "$end") == nullptr)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE)) {
           break;
+        }
         tokenize(vs,buffer);
-        if (vs.size() != 4)
+        if (vs.size() != 4) {
           break;
+        }
         atom = mol.NewAtom();
         //set atomic number
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
@@ -149,10 +156,12 @@ namespace OpenBabel
         atom->SetVector(x,y,z); //set coordinates
       }
 
-    if (!pConv->IsOption("b",OBConversion::INOPTIONS))
+    if (!pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.ConnectTheDots();
-    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS))
+    }
+    if (!pConv->IsOption("s",OBConversion::INOPTIONS) && !pConv->IsOption("b",OBConversion::INOPTIONS)) {
       mol.PerceiveBondOrders();
+    }
 
     // clean out any remaining blank lines
     std::streampos ipos;
@@ -174,8 +183,9 @@ namespace OpenBabel
   bool DMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = dynamic_cast<OBMol*>(pOb);
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
