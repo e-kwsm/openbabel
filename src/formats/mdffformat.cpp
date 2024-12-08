@@ -110,8 +110,9 @@ namespace OpenBabel {
   bool MDFFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     OBMol* pmol = pOb->CastAndClear<OBMol>();
-    if (pmol == nullptr)
+    if (pmol == nullptr) {
       return false;
+    }
 
     // Move stream to EOF, some apps check ifs position to check for multimolecule files.
     // MDFF does not support this, and this parser makes its own streams.
@@ -238,19 +239,21 @@ namespace OpenBabel {
         vs.erase(find(vs.begin(), vs.end(), "!") ,vs.end());
         vs.erase(remove(vs.begin(), vs.end(), "="));
                 
-        if(vs.size() == 0)
+        if(vs.size() == 0) {
           continue;
+        }
         if(vs[0] == "qch")
         {
-          if(vs.size() - 1 != atom_t_prop.size())
+          if(vs.size() - 1 != atom_t_prop.size()) {
             obErrorLog.ThrowError(__FUNCTION__, "Number of charges for atom is wrong. Skipped", obWarning);
-          else
+          } else {
             for(int i = 0; i < atom_t_prop.size(); i++)
             {
               string tk = vs[i + 1];
               string str = tk.substr(tk.length() - 2) == "d0" ? tk.substr(0, tk.length() - 2) : tk;
               atom_t_prop[i].atom_charge = atof(tk.c_str());
             }  
+          }
         } 
       }
     }  
@@ -275,21 +278,24 @@ namespace OpenBabel {
         atom->SetAtomicNum(atom_t_prop[i].atom_etab_num);
         
         err_break = ( vs.size() < 4 ) || ( vs[0] != atom_t_prop[i].atom_symbol );
-        if (err_break)
+        if (err_break) {
           break;
+        }
 
         x = atof(vs[1].c_str());
         y = atof(vs[2].c_str());
         z = atof(vs[3].c_str());
         vector3 coords (x,y,z);
-        if (!cartesian)
+        if (!cartesian) {
           coords = cell->FractionalToCartesian( coords );
+        }
         atom->SetVector(coords);
         atom->SetFormalCharge(atom_t_prop[i].atom_charge);
         atomCount++;
       }
-      if (err_break)
+      if (err_break) {
         break;
+      }
     }
     
     if ( atomCount != totalAtoms_fl )
@@ -375,8 +381,9 @@ namespace OpenBabel {
     if (sortAtoms != nullptr)
     {
       indl.clear();
-      for(int i = 0; i < 200; i++)
+      for(int i = 0; i < 200; i++) {
         indl[i] = i;
+      }
     }
     
     if (sortAtomsList != nullptr)
@@ -384,8 +391,9 @@ namespace OpenBabel {
       indl.clear();
       vector<string> vs;
       tokenize(vs, sortAtomsList);
-      for(int i = 0; i < vs.size(); i++)
+      for(int i = 0; i < vs.size(); i++) {
         indl[OBElements::GetAtomicNum(vs[i].c_str())] = i;
+      }
     }
     
     map<aindx, OBAtom *> amap;
@@ -467,17 +475,19 @@ namespace OpenBabel {
       snprintf(buffer, BUFF_SIZE, "%-3s %26.19f %26.19f %26.19f", smb.c_str(),
                it->second->GetX(), it->second->GetY(), it->second->GetZ());
       
-      if(charge_smb.find(smb) == charge_smb.end() )
+      if(charge_smb.find(smb) == charge_smb.end() ) {
         charge_smb[smb] = it->second->GetFormalCharge();
-      else
-        if(charge_smb[smb] != it->second->GetFormalCharge())
+      } else
+        if(charge_smb[smb] != it->second->GetFormalCharge()) {
           charge_smb[smb] = NAN;
+        }
       
       ofs << buffer << endl;
     }
     
-    if (writeIONS == nullptr)
+    if (writeIONS == nullptr) {
       return true;
+    }
     
     //Write IONS.POT
     string path = pConv->GetOutFilename();
@@ -489,21 +499,23 @@ namespace OpenBabel {
     
     for(int i = 0; i < 4; i++)
     {  
-      if( (i == 0) || (i == 2) )
+      if( (i == 0) || (i == 2) ) {
         ofs_ions << " ! " ;
-      else if (i == 1)
+      } else if (i == 1) {
         ofs_ions << " mass = " ;
-      else if (i == 3)
+      } else if (i == 3) {
         ofs_ions << " qch = " ;
+      }
         
       for(int j = 0; j < atypes_def.size(); j++)
       {
-        if( (i == 0) || (i == 2) )
+        if( (i == 0) || (i == 2) ) {
           ofs_ions << atypes_def[j].first << "  ";
-        else if (i == 1)
+        } else if (i == 1) {
           ofs_ions << OBElements::GetMass(OBElements::GetAtomicNum(atypes_def[j].first.c_str())) << "d0 ";
-        else if (i == 3)
+        } else if (i == 3) {
           ofs_ions << charge_smb[atypes_def[j].first] << "d0 ";
+        }
       }
       ofs_ions << endl;
     }

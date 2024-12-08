@@ -502,8 +502,9 @@ namespace OpenBabel
         // valence
         if (line.size() >= 50) {
           int valence = ReadIntField(line.substr(48, 3).c_str());
-          if (valence != 0)
+          if (valence != 0) {
             specified_valence[patom] = valence == 15 ? 0 : valence;
+          }
         }
 
         if (line.size() >= 62) {
@@ -614,8 +615,9 @@ namespace OpenBabel
           stringstream errorMsg;
           errorMsg << "Failed to kekulize aromatic bonds in MOL file";
           std::string title = mol.GetTitle();
-          if (!title.empty())
+          if (!title.empty()) {
             errorMsg << " (title is " << title << ")";
+          }
           errorMsg << endl;
           obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
           // return false; Should we return false for a kekulization failure?
@@ -628,15 +630,19 @@ namespace OpenBabel
       //
       bool foundISO = false, foundCHG = false;
       while (std::getline(ifs, line)) {
-        if (line.substr(0, 4) == "$$$$")
+        if (line.substr(0, 4) == "$$$$") {
           return true;
-        if (line.substr(0, 6) == "M  END")
+        }
+        if (line.substr(0, 6) == "M  END") {
           break;
+        }
         if (line.substr(0, 6) == "S  SKP") {
           int i = ReadUIntField((line.substr(6, line.size() - 6)).c_str());
-          for(; i > 0; --i)
-            if (ifs.good()) // check for EOL, suggested by Dalke
+          for(; i > 0; --i) {
+            if (ifs.good()) { // check for EOL, suggested by Dalke
               std::getline(ifs, line);
+            }
+          }
         }
 
         if (line.substr(0, 3) == "A  " && line.size() > 3) { //alias
@@ -656,8 +662,9 @@ namespace OpenBabel
               //Delay the chemical interpretation until the rest of the molecule has been built
               //dkoes - only expand alias if referenced atom is wild card
               //this is necessary since this field is used to store atom names (at least in the PDB)              
-              if(at->GetAtomicNum() == 0)
+              if(at->GetAtomicNum() == 0) {
                 aliases.push_back(make_pair(ad, at));
+              }
             }
           }
           continue;
@@ -666,11 +673,13 @@ namespace OpenBabel
         if ((line.substr(0, 6) != "M  CHG") && (line.substr(0, 6) != "M  RAD") &&
             (line.substr(0, 6) != "M  ISO") && (line.substr(0, 6) != "M  ZCH") &&
             (line.substr(0, 6) != "M  HYD") && (line.substr(0, 6) != "M  ZBO") &&
-            (line.substr(0, 6) != "M  RGP"))
+            (line.substr(0, 6) != "M  RGP")) {
           continue;
+        }
         unsigned int n = 0;
-        if (line.size() >= 9)
+        if (line.size() >= 9) {
           n = ReadUIntField((line.substr(6, 3)).c_str()); //entries on this line
+        }
         if (n <= 0 || n > 99 || 6+n*8 > line.size()) { //catch ill-formed line
           obErrorLog.ThrowError(__FUNCTION__, "Error in line: Invalid number following 'M  CHG', 'M  ISO' or 'M  RAD' specification (must be an integer in range 1 to 8)\n" + line, obError);
           return false;
@@ -704,8 +713,9 @@ namespace OpenBabel
               at->SetFormalCharge(value);
               foundCHG = true;
             } else if (line.substr(3, 3) == "ISO") {
-              if (value)
+              if (value) {
                 at->SetIsotope(value);
+              }
               foundISO = true;
             } else if (line.substr(3, 3) == "ZCH") {
               // ZCH contains corrections to CHG, including zero values for atoms that
@@ -719,9 +729,9 @@ namespace OpenBabel
             } else if (line.substr(3, 3) == "RGP") {
               // Numbered R groups were already added to AliasData as R#. Now we
               // need to correct these to R1, etc.
-              if (!at->HasData(AliasDataType))
+              if (!at->HasData(AliasDataType)) {
                 obErrorLog.ThrowError(__FUNCTION__, "Invalid line: M RGP must only refer to pseudoatoms\n" + line, obWarning);
-              else {
+              } else {
                 AliasData* ad = static_cast<AliasData*>(at->GetData(AliasDataType));
                 char buffer[6];
                 snprintf(buffer, 6, "R%d", value);
@@ -734,15 +744,17 @@ namespace OpenBabel
       }
 
       // if no 'M  ISO' properties are found, use the mass differences from the atom block
-      if (!foundISO)
+      if (!foundISO) {
         FOR_ATOMS_OF_MOL (a, mol) {
           int massDifference = massDiffs.at(a->GetIndex());
-          if (massDifference)
+          if (massDifference) {
             a->SetIsotope((int)(OBElements::GetMass(a->GetAtomicNum()) + massDifference + 0.5));
+          }
         }
+      }
 
       // If no CHG, RAD, ZBO, ZCH or HYD properties are found, use the charges from the atom block
-      if (!foundCHG && !foundZCH && !foundZBO && !foundHYD)
+      if (!foundCHG && !foundZCH && !foundZBO && !foundHYD) {
         FOR_ATOMS_OF_MOL (a, mol) {
           charge = charges.at(a->GetIndex());
           switch (charge) {
@@ -755,22 +767,28 @@ namespace OpenBabel
             case 7: a->SetFormalCharge(-3); break;
           }
         }
+      }
     }
 
     // Set up the updown map we are going to use to derive stereo info
     FOR_BONDS_OF_MOL(bond, mol) {
       OBStereo::BondDirection bd = OBStereo::NotStereo;;
       unsigned int flag = bond->GetFlags();
-      if (flag & OBBond::Wedge)
+      if (flag & OBBond::Wedge) {
         bd = OBStereo::UpBond;
-      if (flag & OBBond::Hash)
+      }
+      if (flag & OBBond::Hash) {
         bd = OBStereo::DownBond;
-      if (flag & OBBond::WedgeOrHash)
+      }
+      if (flag & OBBond::WedgeOrHash) {
         bd = OBStereo::UnknownDir;
-      if (flag & OBBond::CisOrTrans && bond->GetBondOrder()==2)
+      }
+      if (flag & OBBond::CisOrTrans && bond->GetBondOrder()==2) {
         bd = OBStereo::UnknownDir;
-      if (bd != OBStereo::NotStereo)
+      }
+      if (bd != OBStereo::NotStereo) {
         updown[&*bond] = bd;
+      }
     }
 
     // Apply the MDL valence model (or ZBO valence model if ZBO/ZCH/HYD are present)
@@ -860,8 +878,9 @@ namespace OpenBabel
     }
 
     if (mol.Has3D()) {
-      if (!setDimension)
+      if (!setDimension) {
         mol.SetDimension(3);
+      }
       // use 3D coordinates to determine stereochemistry
       StereoFrom3D(&mol);
       OpenBabel::OBStereoFacade facade(&mol);
@@ -871,12 +890,14 @@ namespace OpenBabel
       } else {
         // Set stereo to unspecified for atom stereo parity 3 (1 & 2 determined from 3D coords)
         for (std::size_t i = 0; i < parities.size(); ++i) {
-          if (parities[i] != Unknown)
+          if (parities[i] != Unknown) {
             continue;
+          }
           unsigned long atomId = mol.GetAtom(i+1)->GetId();
           OBTetrahedralStereo *ts = facade.GetTetrahedralStereo(atomId);
-          if (!ts)
+          if (!ts) {
             continue;
+          }
           OBTetrahedralStereo::Config config = ts->GetConfig();
           config.specified = false;
           ts->SetConfig(config);
@@ -888,8 +909,9 @@ namespace OpenBabel
       map<OBBond*, OBStereo::BondDirection>::const_iterator bd_it;
       for(bd_it=updown.begin(); bd_it!=updown.end(); ++bd_it) {
         OBBond* bond = bd_it->first;
-        if (bond->GetBondOrder()!=2 || bd_it->second != OBStereo::UnknownDir)
+        if (bond->GetBondOrder()!=2 || bd_it->second != OBStereo::UnknownDir) {
           continue; // Only continue for those double bonds with UnknownDir
+        }
         OBCisTransStereo* ct = facade.GetCisTransStereo(bond->GetId());
         if (ct) {
           OBCisTransStereo::Config config = ct->GetConfig();
@@ -899,23 +921,27 @@ namespace OpenBabel
       }
     } else
     if (mol.Has2D()) {
-      if (!setDimension)
+      if (!setDimension) {
         mol.SetDimension(2);
+      }
       // use 2D coordinates + hash/wedge to determine stereochemistry
       StereoFrom2D(&mol, &updown);
       if (pConv->IsOption("s", OBConversion::INOPTIONS)) { // Use the parities for tet stereo instead
         TetStereoFromParity(mol, parities, true); // True means "delete existing TetStereo first"
       }
     } else { // 0D
-      if (!setDimension)
+      if (!setDimension) {
         mol.SetDimension(0);
+      }
       // Atom parities from the MOL file will be used to create tetrahedral stereochemistry
       // unless you specified the S option (but not s).
-      if (pConv->IsOption("s", OBConversion::INOPTIONS) || pConv->IsOption("S", OBConversion::INOPTIONS) == nullptr)
+      if (pConv->IsOption("s", OBConversion::INOPTIONS) || pConv->IsOption("S", OBConversion::INOPTIONS) == nullptr) {
         TetStereoFromParity(mol, parities);
+      }
       StereoFrom0D(&mol);
-      if (pConv->IsOption("S", OBConversion::INOPTIONS) == nullptr)
+      if (pConv->IsOption("S", OBConversion::INOPTIONS) == nullptr) {
         CisTransFromUpDown(&mol, &updown);
+      }
     }
 
     return true;
@@ -925,8 +951,9 @@ namespace OpenBabel
   {
     OBConversion obconv;
     bool ok = obconv.SetOutFormat("ascii");
-    if (!ok)
+    if (!ok) {
       return;
+    }
     obconv.AddOption("w", obconv.OUTOPTIONS, "78");
     obconv.AddOption("a", obconv.OUTOPTIONS, "2.0");
     std::string ascii = obconv.WriteString(pmol);
@@ -939,16 +966,19 @@ namespace OpenBabel
     while (*p) {
       mod += *p++;
       if (*p) {
-        if (*p != ' ' && *p != '\n')
+        if (*p != ' ' && *p != '\n') {
           lastNonBlank = mod.size(); // We will trim up to the last non-blank
-        if (*(p - 1) == '\n')
+        }
+        if (*(p - 1) == '\n') {
           mod += '.';
+        }
       }
     }
 
     OBPairData* pd;
-    if (pmol->HasData("ASCII depiction"))
+    if (pmol->HasData("ASCII depiction")) {
       pd = (OBPairData*)pmol->GetData("ASCII depiction");
+    }
     else {
       pd = new OBPairData();
       pmol->SetData(pd);
@@ -970,8 +1000,9 @@ namespace OpenBabel
           std::string alias = ad->GetAlias();
           const char* p = alias.c_str();
           // Rn or Rnn
-          if (p[0]=='R' && (isdigit(p[1]) && (p[2]=='\0' || (isdigit(p[2]) && p[3]=='\0'))))
+          if (p[0]=='R' && (isdigit(p[1]) && (p[2]=='\0' || (isdigit(p[2]) && p[3]=='\0')))) {
             return atoi(p+1);
+          }
         }
       }
       else {
@@ -981,8 +1012,9 @@ namespace OpenBabel
           OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
           if (acdata) {
             int ac = acdata->GetGenericValue();
-            if (ac >= 0) // Allow 0, why not?
+            if (ac >= 0) { // Allow 0, why not?
               return ac;
+            }
           }
         }
       }
@@ -994,8 +1026,9 @@ namespace OpenBabel
   // in which case return * or R# if it can be identified as an R Group
   static const char* AtomSymbol(OBMol* pmol, OBAtom* atom)
   {
-    if (atom->GetAtomicNum())
+    if (atom->GetAtomicNum()) {
       return OBElements::GetSymbol(atom->GetAtomicNum());
+    }
     return (GetNumberedRGroup(pmol, atom) == -1) ? "* " : "R#";
   }
 
@@ -1004,8 +1037,9 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(atom, mol) {
       if ((atom->GetAtomicNum() == OBElements::Carbon || atom->GetAtomicNum() == OBElements::Nitrogen)
           && atom->GetHvyDegree() > 2
-          && atom->IsChiral())
+          && atom->IsChiral()) {
         return true;
+      }
     }
 
     return false;
@@ -1017,10 +1051,11 @@ namespace OpenBabel
     if (gd)
     {
       int iflag = atoi(((OBPairData*)gd)->GetValue().c_str());
-      if (iflag == 0)
+      if (iflag == 0) {
        return false;
-      else if (iflag == 1)
+      } else if (iflag == 1) {
         return true;
+      }
       else
       {
         stringstream errorMsg;
@@ -1037,10 +1072,11 @@ namespace OpenBabel
     std::vector<OBGenericData*>::iterator data;
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
       OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
-      if (type != OBStereo::Tetrahedral) continue;
+      if (type != OBStereo::Tetrahedral) { continue; }
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
-      if (ts->GetConfig().specified)
+      if (ts->GetConfig().specified) {
         return true;
+      }
     }
     return false;
   }
@@ -1057,12 +1093,13 @@ namespace OpenBabel
     // Recommend using --gen2D or --gen3D
     if (mol.GetDimension()==0)
     {
-      if (pConv->IsOption("S", OBConversion::OUTOPTIONS))
+      if (pConv->IsOption("S", OBConversion::OUTOPTIONS)) {
         obErrorLog.ThrowError(__FUNCTION__, "No 2D or 3D coordinates exist. Any stereochemical information will"
                    " be lost. To generate 2D or 3D coordinates use --gen2D or --gen3D.", obWarning, onceOnly);
-      else
+      } else {
         obErrorLog.ThrowError(__FUNCTION__, "No 2D or 3D coordinates exist. Stereochemical information will"
                    " be stored using an Open Babel extension. To generate 2D or 3D coordinates instead use --gen2D or --gen3D.", obWarning, onceOnly);
+      }
     }
 
     bool alwaysSpecifyValence = pConv->IsOption("v");
@@ -1078,19 +1115,22 @@ namespace OpenBabel
 
     PerceiveStereo(&mol);
 
-    if (pConv->GetOutputIndex()==1)
+    if (pConv->GetOutputIndex()==1) {
       HasProperties = false;
+    }
 
     //
     // Header Block
     //
 
     string dimension("2D");
-    if(mol.GetDimension()==3)
+    if(mol.GetDimension()==3) {
       dimension = "3D";
+    }
 
-    if(pConv->IsOption("A"))
+    if(pConv->IsOption("A")) {
       AliasData::RevertToAliasForm(mol);
+    }
 
     // line 1: molecule name
     ofs << mol.GetTitle() <<  endl;
@@ -1102,8 +1142,9 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::CommentData)) {
       OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
       string comment = cd->GetData();
-      if(comment.size()>80)
+      if(comment.size()>80) {
         comment.erase(80); //truncate to 80 chars
+      }
       ofs << comment;
     }
     ofs << endl;
@@ -1113,8 +1154,9 @@ namespace OpenBabel
     //
 
     if(pConv->IsOption("3") || mol.NumAtoms() > 999 || mol.NumBonds() > 999) {
-      if (!WriteV3000(ofs, mol, pConv))
+      if (!WriteV3000(ofs, mol, pConv)) {
         return false;
+      }
     } else {
       //The rest of the function is the same as the original
       char buff[BUFF_SIZE];
@@ -1140,13 +1182,15 @@ namespace OpenBabel
       map<OBBond*, OBStereo::Ref> from;
       map<OBBond*, OBStereo::Ref>::const_iterator from_cit;
       GetParity(mol, parity);
-      if (mol.GetDimension() == 3 || (mol.GetDimension()==2 && !pConv->IsOption("w", pConv->OUTOPTIONS)))
+      if (mol.GetDimension() == 3 || (mol.GetDimension()==2 && !pConv->IsOption("w", pConv->OUTOPTIONS))) {
         TetStereoToWedgeHash(mol, updown, from);
+      }
 
       // Calculate up/downness of cis/trans bonds for 0D
       set<OBBond*> stereodbl;
-      if (mol.GetDimension() == 0 && !pConv->IsOption("S", OBConversion::OUTOPTIONS))
+      if (mol.GetDimension() == 0 && !pConv->IsOption("S", OBConversion::OUTOPTIONS)) {
         GetUpDown(mol, updown, stereodbl);
+      }
 
 
       // The counts line:
@@ -1181,8 +1225,9 @@ namespace OpenBabel
           default: charge = 0; break;
         }
         Parity stereo = NotStereo;
-        if (parity.find(atom) != parity.end())
+        if (parity.find(atom) != parity.end()) {
           stereo = parity[atom];
+        }
 
         
         int expval = atom->GetExplicitValence();
@@ -1190,10 +1235,11 @@ namespace OpenBabel
         int actual_impval = expval + atom->GetImplicitHCount();
         int valence;
         int spin = atom->GetSpinMultiplicity(); // the spin condition below is used for "M  RAD"
-        if (!alwaysSpecifyValence && actual_impval == impval && (spin == 0 || spin >= 4))
+        if (!alwaysSpecifyValence && actual_impval == impval && (spin == 0 || spin >= 4)) {
           valence = 0;
-        else
+        } else {
           valence = actual_impval == 0 ? 15 : actual_impval;
+        }
 
         aclass = 0;
         if (writeAtomClass) {
@@ -1233,20 +1279,23 @@ namespace OpenBabel
                (from_cit!=from.end() && from_cit->second == atom->GetId()) ) {
             int stereo = 0;
             if(mol.GetDimension() == 2 && pConv->IsOption("w", pConv->OUTOPTIONS) != nullptr) {
-                if (bond->IsWedge())
+                if (bond->IsWedge()) {
                   stereo = 1;
-                else if (bond->IsHash())
+                } else if (bond->IsHash()) {
                   stereo = 6;
-                else if (bond->IsWedgeOrHash())
+                } else if (bond->IsWedgeOrHash()) {
                   stereo = 4;
+                }
               }
 
             // For unspecified Cis/Trans double bonds, set the stereo to 3...
-            if (unspec_ctstereo.find(bond) != unspec_ctstereo.end())
+            if (unspec_ctstereo.find(bond) != unspec_ctstereo.end()) {
               stereo = 3;
+            }
             // For 3D (and 2D if "w" output option), set the stereo of the chiral centers.
-            if (updown.find(bond) != updown.end())
+            if (updown.find(bond) != updown.end()) {
               stereo = updown[bond];
+            }
 
             ofs << setw(3) << atom->GetIdx(); // begin atom number
             ofs << setw(3) << nbr->GetIdx(); // end atom number
@@ -1272,12 +1321,15 @@ namespace OpenBabel
       vector<pair<int,int> >::iterator zitr;
       vector<pair<int, int> > numberedRGroups;
       for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i)) {
-        if(atom->GetSpinMultiplicity()>0 && atom->GetSpinMultiplicity()<4)
+        if(atom->GetSpinMultiplicity()>0 && atom->GetSpinMultiplicity()<4) {
           rads.push_back(atom);
-        if(atom->GetIsotope())
+        }
+        if(atom->GetIsotope()) {
           isos.push_back(atom);
-        if(atom->GetFormalCharge())
+        }
+        if(atom->GetFormalCharge()) {
           chgs.push_back(atom);
+        }
 
         OBAtom *origatom = origmol.GetAtom(atom->GetIdx());
         // Get charge differences for ZCH, and hydrogen counts for HYD
@@ -1298,8 +1350,9 @@ namespace OpenBabel
         if (rgroupIdx == -1) {
           if (atom->HasData(AliasDataType)) {
             AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
-            if(!ad->IsExpanded()) //do nothing with an expanded alias
+            if(!ad->IsExpanded()) { //do nothing with an expanded alias
               ofs << "A  " << setw(3) << right << atom->GetIdx() << '\n' << ad->GetAlias() << endl;
+            }
           }
         }
         else {
@@ -1311,7 +1364,7 @@ namespace OpenBabel
         int counter = 0;
         for(itr=rads.begin();itr!=rads.end();++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  RAD" << setw(3) << min(static_cast<unsigned long int>(rads.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetSpinMultiplicity();
@@ -1322,7 +1375,7 @@ namespace OpenBabel
         int counter = 0;
         for(itr=isos.begin();itr!=isos.end();++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  ISO" << setw(3) << min(static_cast<unsigned long int>(isos.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetIsotope();
@@ -1333,7 +1386,7 @@ namespace OpenBabel
         int counter = 0;
         for (itr=chgs.begin(); itr != chgs.end(); ++itr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  CHG" << setw(3) << min(static_cast<unsigned long int>(chgs.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << (*itr)->GetIdx() << setw(4) << (*itr)->GetFormalCharge();
@@ -1344,7 +1397,7 @@ namespace OpenBabel
         int counter = 0;
         for (zitr=zchs.begin(); zitr != zchs.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  ZCH" << setw(3) << min(static_cast<unsigned long int>(zchs.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
@@ -1355,7 +1408,7 @@ namespace OpenBabel
         int counter = 0;
         for (zitr=hyds.begin(); zitr != hyds.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  HYD" << setw(3) << min(static_cast<unsigned long int>(hyds.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
@@ -1366,7 +1419,7 @@ namespace OpenBabel
         int counter = 0;
         for(vector<int>::iterator it = zbos.begin(); it != zbos.end(); ++it, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  ZBO" << setw(3) << min(static_cast<unsigned long int>(zbos.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << *it << setw(4) << 0;
@@ -1377,7 +1430,7 @@ namespace OpenBabel
         int counter = 0;
         for (zitr=numberedRGroups.begin(); zitr != numberedRGroups.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
-            if (counter > 0) ofs << endl;
+            if (counter > 0) { ofs << endl; }
             ofs << "M  RGP" << setw(3) << min(static_cast<unsigned long int>(numberedRGroups.size() - counter), static_cast<unsigned long int>(8));
           }
           ofs << setw(4) << zitr->first << setw(4) << zitr->second;
@@ -1390,8 +1443,9 @@ namespace OpenBabel
     //For SD files only, write properties unless option m
     if(pConv->IsOption("sd") && !pConv->IsOption("m"))
     {
-      if (pConv->IsOption("E"))
+      if (pConv->IsOption("E")) {
         GenerateAsciiDepiction(pmol);
+      }
 
       vector<OBGenericData*>::iterator k;
       vector<OBGenericData*> vdata = mol.GetData();
@@ -1415,9 +1469,11 @@ namespace OpenBabel
     //Unless option no$$$$ is set, $$$$ is always written between molecules and
     //at the end any if properties have been output in any molecule,
     //or if the sd option is set.
-    if(!pConv->IsOption("no$$$$"))
-      if(!pConv->IsLast()  || HasProperties  || pConv->IsOption("sd"))
+    if(!pConv->IsOption("no$$$$")) {
+      if(!pConv->IsLast()  || HasProperties  || pConv->IsOption("sd")) {
         ofs << "$$$$" << endl;
+      }
+    }
 
     return(true);
   }
@@ -1429,14 +1485,14 @@ namespace OpenBabel
     bool ret = true;
     do
       {
-        if(!ReadV3000Line(ifs,vs)) return false;
-        if(vs[1]=="END") return true;
+        if(!ReadV3000Line(ifs,vs)) { return false; }
+        if(vs[1]=="END") { return true; }
         if(vs[2]=="LINKNODE"){continue;} //not implemented
-        if(vs[2]!="BEGIN") return false;
+        if(vs[2]!="BEGIN") { return false; }
 
         if(vs[3]=="CTAB")
           {
-            if(!ReadV3000Line(ifs,vs) || vs[2]!="COUNTS") return false;
+            if(!ReadV3000Line(ifs,vs) || vs[2]!="COUNTS") { return false; }
             int natoms = ReadUIntField(vs[3].c_str());
             //int nbonds = ReadUIntField(vs[4].c_str());
             //int chiral = ReadUIntField(vs[7].c_str());
@@ -1444,19 +1500,20 @@ namespace OpenBabel
             mol.ReserveAtoms(natoms);
 
             ReadV3000Block(ifs,mol,pConv,true);//go for contained blocks
-            if(vs[2]!="END" && vs[3]!="CTAB") return false;
+            if(vs[2]!="END" && vs[3]!="CTAB") { return false; }
             ret= true;
           }
-        else if(vs[3]=="ATOM")
+        else if(vs[3]=="ATOM") {
           ret = ReadAtomBlock(ifs,mol,pConv);
-        else if(vs[3]=="BOND")
+        } else if(vs[3]=="BOND") {
           ret = ReadBondBlock(ifs,mol,pConv);
         //else if(vs[3]=="COLLECTION")
         //  ret = ReadCollectionBlock(ifs,mol,pConv);
-        else if(vs[3]=="RGROUP")
+        } else if(vs[3]=="RGROUP") {
           ret = ReadRGroupBlock(ifs,mol,pConv);
-        else
+        } else {
           ret =ReadUnimplementedBlock(ifs,mol,pConv,vs[3]);
+        }
         /*
           else if(vs[3]=="3D")
           //not currently implemented
@@ -1473,16 +1530,17 @@ namespace OpenBabel
   bool MDLFormat::ReadV3000Line(istream& ifs, vector<string>& vs)
   {
     char buffer[BUFF_SIZE];
-    if(!ifs.getline(buffer,BUFF_SIZE)) return false;
+    if(!ifs.getline(buffer,BUFF_SIZE)) { return false; }
     tokenize(vs,buffer," \t\n\r");
-    if (vs.size() < 2) return false; // timvdm 18/06/2008
-    if(vs[0]!="M" || (vs[1]!="V30" && vs[1]!="END")) return false;
+    if (vs.size() < 2) { return false; // timvdm 18/06/2008
+    }
+    if(vs[0]!="M" || (vs[1]!="V30" && vs[1]!="END")) { return false; }
 
     if(buffer[strlen(buffer)-1] == '-') //continuation char
       {
         //Read continuation line iteratively and add parsed tokens (without M V30) to vs
         vector<string> vsx;
-        if(!ReadV3000Line(ifs,vsx)) return false;
+        if(!ReadV3000Line(ifs,vsx)) { return false; }
         vs.insert(vs.end(),vsx.begin()+3,vsx.end());
       }
     return true;
@@ -1496,8 +1554,8 @@ namespace OpenBabel
     int obindex;
     for(obindex=1;;obindex++)
       {
-        if(!ReadV3000Line(ifs,vs)) return false;
-        if(vs[2]=="END") break;
+        if(!ReadV3000Line(ifs,vs)) { return false; }
+        if(vs[2]=="END") { break; }
 
         indexmap[ReadUIntField(vs[2].c_str())] = obindex;
         atom.SetVector(atof(vs[4].c_str()), atof(vs[5].c_str()), atof(vs[6].c_str()));
@@ -1525,7 +1583,7 @@ namespace OpenBabel
           for(itr=vs.begin()+8;itr!=vs.end();itr++)
             {
               string::size_type pos = (*itr).find('=');
-              if (pos==string::npos) return false;
+              if (pos==string::npos) { return false; }
               int val = ReadIntField((*itr).substr(pos+1).c_str());
 
               if((*itr).substr(0,pos)=="CHG")
@@ -1549,7 +1607,7 @@ namespace OpenBabel
                 }
               else if((*itr).substr(0,pos)=="MASS")
                 {
-                  if(val) atom.SetIsotope(val);
+                  if(val) { atom.SetIsotope(val); }
                 }
               else if((*itr).substr(0,pos)=="VAL")
                 {
@@ -1559,7 +1617,7 @@ namespace OpenBabel
               //Unknown properties ignored
             }
           }
-        if(!mol.AddAtom(atom)) return false;
+        if(!mol.AddAtom(atom)) { return false; }
         atom.Clear();
       }
     return true;
@@ -1570,13 +1628,13 @@ namespace OpenBabel
   {
     for(;;)
       {
-        if(!ReadV3000Line(ifs,vs)) return false;
-        if(vs[2]=="END") break;
+        if(!ReadV3000Line(ifs,vs)) { return false; }
+        if(vs[2]=="END") { break; }
 
         unsigned flag=0;
 
         int order = ReadUIntField(vs[3].c_str());
-        if(order==4) order=5;
+        if(order==4) { order=5; }
 
         int obstart = indexmap[ReadUIntField(vs[4].c_str())];
         int obend = indexmap[ReadUIntField(vs[5].c_str())];
@@ -1585,7 +1643,7 @@ namespace OpenBabel
         for(itr=vs.begin()+6;itr!=vs.end();itr++)
           {
             string::size_type pos = (*itr).find('=');
-            if (pos==string::npos) return false;
+            if (pos==string::npos) { return false; }
             int val = ReadUIntField((*itr).substr(pos+1).c_str());
 
             if((*itr).substr(0,pos)=="CFG")
@@ -1601,7 +1659,7 @@ namespace OpenBabel
                   }
               }
           }
-        if (!mol.AddBond(obstart,obend,order,flag)) return false;
+        if (!mol.AddBond(obstart,obend,order,flag)) { return false; }
       }
     return true;
   }
@@ -1614,10 +1672,12 @@ namespace OpenBabel
       blockname + " blocks are not currently implemented and their contents are ignored.", obWarning, onceOnly);
     for(;;)
     {
-      if(!ReadV3000Line(ifs,vs))
+      if(!ReadV3000Line(ifs,vs)) {
         return false;
-      if(vs[2]=="END")
+      }
+      if(vs[2]=="END") {
         break;
+      }
     }
     return true;
   }
@@ -1631,10 +1691,12 @@ namespace OpenBabel
       obWarning, onceOnly);
     for(;;)
     {
-      if(!ReadV3000Line(ifs,vs))
+      if(!ReadV3000Line(ifs,vs)) {
         return false;
-      if(vs[2]=="END" && vs[3]=="RGROUP")
+      }
+      if(vs[2]=="END" && vs[3]=="RGROUP") {
         break;
+      }
     }
     return true;
   }
@@ -1662,12 +1724,15 @@ namespace OpenBabel
                 << atom->GetY() << " "
                 << atom->GetZ()
                 << " 0";
-        if(atom->GetFormalCharge()!=0)
+        if(atom->GetFormalCharge()!=0) {
           ofs << " CHG=" << atom->GetFormalCharge();
-        if(atom->GetSpinMultiplicity()!=0)
+        }
+        if(atom->GetSpinMultiplicity()!=0) {
           ofs << " RAD=" << atom->GetSpinMultiplicity();
-        if(atom->GetIsotope()!=0)
+        }
+        if(atom->GetIsotope()!=0) {
           ofs << " MASS=" << atom->GetIsotope();
+        }
         ofs << endl;
       }
     ofs << "M  V30 END ATOM" <<endl;
@@ -1692,10 +1757,10 @@ namespace OpenBabel
                     << bond->GetEndAtomIdx();
                 //@todo do the following stereo chemistry properly
                 int cfg=0;
-                if(bond->IsWedge()) cfg=1;
-                if(bond->IsHash()) cfg=6;
-                if(bond->IsWedgeOrHash()) cfg=4;
-                if(cfg) ofs << " CFG=" << cfg;
+                if(bond->IsWedge()) { cfg=1; }
+                if(bond->IsHash()) { cfg=6; }
+                if(bond->IsWedgeOrHash()) { cfg=4; }
+                if(cfg) { ofs << " CFG=" << cfg; }
                 ofs << endl;
               }
           }
@@ -1727,11 +1792,13 @@ namespace OpenBabel
     std::set<OBCisTransStereo*> cistrans;
     FOR_BONDBFS_OF_MOL(b, mol) // Probably no real advantage in the BFS part
     {
-      if (b->GetBondOrder() != 2 || !facade.HasCisTransStereo(b->GetId())) continue;
+      if (b->GetBondOrder() != 2 || !facade.HasCisTransStereo(b->GetId())) { continue;
+      }
       OBCisTransStereo *ct = facade.GetCisTransStereo(b->GetId());
       OBCisTransStereo::Config cfg = ct->GetConfig();
-      if (ct->GetConfig().specified)
+      if (ct->GetConfig().specified) {
         cistrans.insert(ct);
+      }
     }
 
     // Initialise two opposite configurations for up/downness
@@ -1758,33 +1825,41 @@ namespace OpenBabel
 
         // ****************** START OF HANDLING ONE DOUBLE BOND ******************************
         std::vector<OBBond *> refbonds(4, nullptr);
-        if (cfg.refs[0] != OBStereo::ImplicitRef) // Could be a hydrogen
+        if (cfg.refs[0] != OBStereo::ImplicitRef) { // Could be a hydrogen
           refbonds[0] = mol.GetBond(mol.GetAtomById(cfg.refs[0]), mol.GetAtomById(cfg.begin));
-        if (cfg.refs[1] != OBStereo::ImplicitRef) // Could be a hydrogen
+        }
+        if (cfg.refs[1] != OBStereo::ImplicitRef) { // Could be a hydrogen
           refbonds[1] = mol.GetBond(mol.GetAtomById(cfg.refs[1]), mol.GetAtomById(cfg.begin));
+        }
 
-        if (cfg.refs[2] != OBStereo::ImplicitRef) // Could be a hydrogen
+        if (cfg.refs[2] != OBStereo::ImplicitRef) { // Could be a hydrogen
           refbonds[2] = mol.GetBond(mol.GetAtomById(cfg.refs[2]), mol.GetAtomById(cfg.end));
-        if (cfg.refs[3] != OBStereo::ImplicitRef) // Could be a hydrogen
+        }
+        if (cfg.refs[3] != OBStereo::ImplicitRef) { // Could be a hydrogen
           refbonds[3] = mol.GetBond(mol.GetAtomById(cfg.refs[3]), mol.GetAtomById(cfg.end));
+        }
 
         // If any of the bonds have been previously set, now set them all
         // in agreement
         use_alt_config = false;
-        for (int i=0; i<4; ++i)
-          if (updown.find(refbonds[i]) != updown.end()) // We have already set this one (conjugated bond)
+        for (int i=0; i<4; ++i) {
+          if (updown.find(refbonds[i]) != updown.end()) { // We have already set this one (conjugated bond)
             if (updown[refbonds[i]] != config[i])
             {
               use_alt_config = true;
               break;
             }
+          }
+        }
 
         // Set the configuration
         OBBond* dbl_bond = mol.GetBond(mol.GetAtomById(cfg.begin), mol.GetAtomById(cfg.end));
         stereodbl.insert(dbl_bond);
-        for(int i=0;i<4;i++)
-          if (refbonds[i] != nullptr)
+        for(int i=0;i<4;i++) {
+          if (refbonds[i] != nullptr) {
             updown[refbonds[i]] = use_alt_config ? alt_config[i] : config[i];
+          }
+        }
         // ******************** END OF HANDLING ONE DOUBLE BOND ******************************
 
         // Find any conjugated CT stereos and put them on the stack
@@ -1810,7 +1885,7 @@ namespace OpenBabel
   {
     // This loop sets the atom parity for each tet center
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
 
@@ -1825,50 +1900,60 @@ namespace OpenBabel
 
           unsigned long maxref = OBStereo::NoRef;
           // Search for an explicit Hydrogen in the cfg refs...
-          if (cfg.from != OBStereo::ImplicitRef && mol.GetAtomById(cfg.from)->GetAtomicNum() == OBElements::Hydrogen)
+          if (cfg.from != OBStereo::ImplicitRef && mol.GetAtomById(cfg.from)->GetAtomicNum() == OBElements::Hydrogen) {
             maxref = cfg.from;
-          else
-            for (OBStereo::RefIter ref_it = refs.begin(); ref_it != refs.end(); ++ref_it)
-              if ((*ref_it) != OBStereo::ImplicitRef && mol.GetAtomById(*ref_it)->GetAtomicNum() == OBElements::Hydrogen)
+          } else {
+            for (OBStereo::RefIter ref_it = refs.begin(); ref_it != refs.end(); ++ref_it) {
+              if ((*ref_it) != OBStereo::ImplicitRef && mol.GetAtomById(*ref_it)->GetAtomicNum() == OBElements::Hydrogen) {
                 maxref = *ref_it;
+              }
+            }
+          }
           // ...otherwise, find the maximum ref (note that ImplicitRef will be max if present)
-          if (maxref == OBStereo::NoRef)
+          if (maxref == OBStereo::NoRef) {
             maxref = std::max(*(std::max_element(refs.begin(), refs.end())), cfg.from);
+          }
 
           // Get a new cfg and refs looking towards the maxref
           cfg = ts->GetConfig(maxref, OBStereo::Clockwise, OBStereo::ViewTowards);
           int inversions = OBStereo::NumInversions(cfg.refs);
 
           // If they were in increasing order, inversions would be 0 or some even value
-          if (inversions % 2 == 0)
+          if (inversions % 2 == 0) {
             atomparity = Clockwise;
-          else
+          } else {
             atomparity = AntiClockwise;
+          }
         }
         parity[mol.GetAtomById(cfg.center)] = atomparity;
       }
+    }
   }
 
   void MDLFormat::TetStereoFromParity(OBMol& mol, vector<MDLFormat::Parity> &parity, bool deleteExisting)
   {
     if (deleteExisting) { // Remove any existing tet stereo
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral)
+      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
+        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
           mol.DeleteData(*data);
+        }
+      }
     }
 
     for (unsigned long i=0;i<parity.size();i++) {
-      if (parity[i] == NotStereo)
+      if (parity[i] == NotStereo) {
         continue;
+      }
 
       OBStereo::Refs refs;
       unsigned long towards = OBStereo::ImplicitRef;
       FOR_NBORS_OF_ATOM(nbr, mol.GetAtomById(i)) {
-        if (nbr->GetAtomicNum() != OBElements::Hydrogen)
+        if (nbr->GetAtomicNum() != OBElements::Hydrogen) {
           refs.push_back(nbr->GetId());
-        else
+        } else {
           towards = nbr->GetId(); // Look towards the H
+        }
       }
 
       sort(refs.begin(), refs.end());
@@ -1878,12 +1963,14 @@ namespace OpenBabel
       }
 
       OBStereo::Winding winding = OBStereo::Clockwise;
-      if (parity[i] == AntiClockwise)
+      if (parity[i] == AntiClockwise) {
         winding = OBStereo::AntiClockwise;
+      }
       OBTetrahedralStereo::Config cfg = OBTetrahedralStereo::Config(i, towards, refs,
                                                                     winding, OBStereo::ViewTowards);
-      if (parity[i] == Unknown)
+      if (parity[i] == Unknown) {
         cfg.specified = false;
+      }
 
       OBTetrahedralStereo *th = new OBTetrahedralStereo(&mol);
       th->SetConfig(cfg);
@@ -1894,18 +1981,18 @@ namespace OpenBabel
   int MDLFormat::ReadIntField(const char *s)
   {
     char *end;
-    if (s == nullptr) return 0;
+    if (s == nullptr) { return 0; }
     int n = strtol(s, &end, 10);
-    if (*end != '\0' && *end != ' ') return 0;
+    if (*end != '\0' && *end != ' ') { return 0; }
     return n;
   }
 
   unsigned int MDLFormat::ReadUIntField(const char *s)
   {
     char *end;
-    if (s == nullptr) return 0;
+    if (s == nullptr) { return 0; }
     int n = strtoul(s, &end, 10);
-    if (*end != '\0' && *end != ' ') return 0;
+    if (*end != '\0' && *end != ' ') { return 0; }
     return n;
   }
 
@@ -1913,8 +2000,9 @@ namespace OpenBabel
   {
     string line;
     while (std::getline(ifs, line)) {
-      if (line.substr(0, 4) == "$RXN")
+      if (line.substr(0, 4) == "$RXN") {
         return false; //Has read the first line of the next reaction in RXN format
+      }
 
       if (line.find("<") != string::npos) {
         size_t lt = line.find("<")+1;
@@ -1929,7 +2017,9 @@ namespace OpenBabel
             buff.append(line);
             buff += "\n";
           } else
+          {
             break;
+          }
         }
         Trim(buff);
 
@@ -1939,13 +2029,16 @@ namespace OpenBabel
         dp->SetOrigin(fileformatInput);
         mol.SetData(dp);
 
-        if(!strcasecmp(attr.c_str(),"NAME") && *mol.GetTitle()=='\0')
+        if(!strcasecmp(attr.c_str(),"NAME") && *mol.GetTitle()=='\0') {
           mol.SetTitle(buff);
+        }
       }
-      if (line.substr(0, 4) ==  "$$$$")
+      if (line.substr(0, 4) ==  "$$$$") {
         break;
-      if (line.substr(0, 4) == "$MOL")
+      }
+      if (line.substr(0, 4) == "$MOL") {
         break;
+      }
     }
     return true;
   }
@@ -1979,8 +2072,9 @@ namespace OpenBabel
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
+      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans) {
         continue;
+      }
 
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OBCisTransStereo::Config cfg = ct->GetConfig();
@@ -1995,29 +2089,35 @@ namespace OpenBabel
 
       FOR_BONDS_OF_ATOM(bi, a1) {
         OBBond *b = &(*bi);
-        if (b == dbl_bond) continue;  // skip the double bond we're working on
+        if (b == dbl_bond) { continue;  // skip the double bond we're working on
+        }
         if (a1_b1 == nullptr && updown->find(b) != updown->end())
         {
           a1_b1 = b;    // remember a stereo bond of Atom1
           a1_stereo = (*updown)[b];
         }
         else
+        {
           a1_b2 = b;    // remember a 2nd bond of Atom1
+        }
       }
 
       FOR_BONDS_OF_ATOM(bi, a2) {
         OBBond *b = &(*bi);
-        if (b == dbl_bond) continue;
+        if (b == dbl_bond) { continue; }
         if (a2_b1 == nullptr && updown->find(b) != updown->end())
         {
           a2_b1 = b;    // remember a stereo bond of Atom2
           a2_stereo = (*updown)[b];
         }
         else
+        {
           a2_b2 = b;    // remember a 2nd bond of Atom2
+        }
       }
 
-      if (a1_b1 == nullptr || a2_b1 == nullptr) continue; // No cis/trans
+      if (a1_b1 == nullptr || a2_b1 == nullptr) { continue; // No cis/trans
+      }
 
       cfg.specified = true;
 
@@ -2026,14 +2126,16 @@ namespace OpenBabel
       unsigned int fourth = (a2_b2 == nullptr) ? OBStereo::ImplicitRef : a2_b2->GetNbrAtom(a2)->GetId();
 
       // If a1_stereo==a2_stereo, this means cis for a1_b1 and a2_b1.
-      if (a1_stereo == a2_stereo)
+      if (a1_stereo == a2_stereo) {
         cfg.refs = OBStereo::MakeRefs(a1_b1->GetNbrAtom(a1)->GetId(), second,
                                       fourth, a2_b1->GetNbrAtom(a2)->GetId());
-      else
+      } else {
         cfg.refs = OBStereo::MakeRefs(a1_b1->GetNbrAtom(a1)->GetId(), second,
                                       a2_b1->GetNbrAtom(a2)->GetId(), fourth);
-      if (a1_stereo == OBStereo::UnknownDir || a2_stereo == OBStereo::UnknownDir)
+      }
+      if (a1_stereo == OBStereo::UnknownDir || a2_stereo == OBStereo::UnknownDir) {
         cfg.specified = false;
+      }
       // FIXME:: Handle specified unknown stereo on the dbl bond itself
 
       ct->SetConfig(cfg);
