@@ -20,13 +20,16 @@ namespace OpenBabel {
 
     bool operator==(const OBTetrahedralConfig &other) const
     {
-      if (center != other.center)
+      if (center != other.center) {
         return false;
-      if ((refs.size() != 3) || (other.refs.size() != 3))
+      }
+      if ((refs.size() != 3) || (other.refs.size() != 3)) {
         return false;
+      }
       // return true if either is unspecified (i.e. accidental)
-      if (!specified || !other.specified)
+      if (!specified || !other.specified) {
         return true;
+      }
 
       // Convert both Config's refs to same from, winding and view while
       // avoiding having an ImplicitRef in the 'from' position of either
@@ -47,8 +50,9 @@ namespace OpenBabel {
       if (!OBStereo::ContainsSameRefs(thisConfig.refs, otherConfig.refs)) {
         if (OBStereo::ContainsRef(thisConfig.refs, OBStereo::ImplicitRef)) {
           // if both refs already contain ImplicitRef, return false
-          if (OBStereo::ContainsRef(otherConfig.refs, OBStereo::ImplicitRef))
+          if (OBStereo::ContainsRef(otherConfig.refs, OBStereo::ImplicitRef)) {
             return false;
+          }
 
           // example: *this       = 23H
           //          otherConfig = 234 --> 23H
@@ -56,9 +60,11 @@ namespace OpenBabel {
           // for each ref in otherConfig
           for (unsigned int i = 0; i < otherConfig.refs.size(); ++i) {
             bool found = false;
-            for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j)
-              if (otherConfig.refs.at(i) == *j)
+            for (OBStereo::RefIter j = thisConfig.refs.begin(); j != thisConfig.refs.end(); ++j) {
+              if (otherConfig.refs.at(i) == *j) {
                 found = true;
+              }
+            }
 
             if (!found) {
               // the ref from otherConfig is not found in this config
@@ -69,8 +75,9 @@ namespace OpenBabel {
         } else
           if (OBStereo::ContainsRef(otherConfig.refs, OBStereo::ImplicitRef)) {
             // if both refs already contain ImplicitRef, return false
-            if (OBStereo::ContainsRef(thisConfig.refs, OBStereo::ImplicitRef))
+            if (OBStereo::ContainsRef(thisConfig.refs, OBStereo::ImplicitRef)) {
               return false;
+            }
 
             // example: *this       = 234
             //          otherConfig = 23H --> 234
@@ -79,14 +86,18 @@ namespace OpenBabel {
             for (unsigned int i = 0; i < thisConfig.refs.size(); ++i) {
               bool found = false;
               // for each refs in otherConfig
-              for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-                if (thisConfig.refs.at(i) == *j)
+              for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j) {
+                if (thisConfig.refs.at(i) == *j) {
                   found = true;
+                }
+              }
 
               if (!found) {
-                for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j)
-                  if (*j == OBStereo::ImplicitRef)
+                for (OBStereo::RefIter j = otherConfig.refs.begin(); j != otherConfig.refs.end(); ++j) {
+                  if (*j == OBStereo::ImplicitRef) {
                     *j = thisConfig.refs.at(i);
+                  }
+                }
                 break;
               }
             }
@@ -128,25 +139,30 @@ namespace OpenBabel {
 
     bool operator==(const OBCisTransConfig &other) const
     {
-      if ((begin != other.begin) && (begin != other.end))
+      if ((begin != other.begin) && (begin != other.end)) {
         return false;
-      if ((end != other.begin) && (end != other.end))
+      }
+      if ((end != other.begin) && (end != other.end)) {
         return false;
-      if ((refs.size() != 4) || (other.refs.size() != 4))
+      }
+      if ((refs.size() != 4) || (other.refs.size() != 4)) {
         return false;
+      }
 
       OBCisTransStereo::Config u1, u2;
       if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
         // find a ref that occurs in both
-        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i) {
           if (OBStereo::ContainsRef(other.refs, *i)) {
             u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
             u2 = OBTetraPlanarStereo::ToConfig(Convert(other), *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
           }
+        }
 
         // check if they actualy share an id...
-        if (u1.refs.empty())
+        if (u1.refs.empty()) {
           return false;
+        }
       } else {
         // normalize the other Config struct
         u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), refs.at(0), OBStereo::ShapeU); // refs[0] = u1.refs[0]
@@ -162,8 +178,9 @@ namespace OpenBabel {
         } else {
           return (u1.refs[3] == u2.refs[3]); // 1 H H 4
         }
-      } else
+      } else {
         return (u1.refs[2] == u2.refs[2]); // 1 2 3 4  &  1 H 3 4  &  1 2 3 H
+      }
 
       return false;
     }
@@ -195,23 +212,27 @@ namespace OpenBabel {
 
     bool operator==(const OBSquarePlanarConfig &other) const
     {
-      if (center != other.center)
+      if (center != other.center) {
         return false;
-      if ((refs.size() != 4) || (other.refs.size() != 4))
+      }
+      if ((refs.size() != 4) || (other.refs.size() != 4)) {
         return false;
+      }
 
       OBSquarePlanarStereo::Config u1, u2;
       if (!OBStereo::ContainsSameRefs(refs, other.refs)) {
         // find a ref that occurs in both
-        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i)
+        for (OBStereo::ConstRefIter i = refs.begin(); i != refs.end(); ++i) {
           if (OBStereo::ContainsRef(other.refs, *i)) {
             u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), *i, OBStereo::ShapeU); // refs[0] = u1.refs[0]
             u2 = OBTetraPlanarStereo::ToConfig(Convert(other), *i, OBStereo::ShapeU); // refs[0] = u2.refs[0]
           }
+        }
 
         // check if they actualy share an id...
-        if (u1.refs.empty())
+        if (u1.refs.empty()) {
           return false;
+        }
       } else {
         // normalize the other Config struct
         u1 = OBTetraPlanarStereo::ToConfig(Convert(*this), refs.at(0), OBStereo::ShapeU); // refs[0] = u1.refs[0]
@@ -227,8 +248,9 @@ namespace OpenBabel {
         } else {
           return (u1.refs[3] == u2.refs[3]); // 1 H H 4
         }
-      } else
+      } else {
         return (u1.refs[2] == u2.refs[2]); // 1 2 3 4  &  1 H 3 4  &  1 2 3 H
+      }
 
       return false;
     }
