@@ -6305,7 +6305,7 @@ namespace OpenBabel {
   std::string getAtomSymbol(TSimpleMolecule & sm, int atAtom, int atEx, int priority, string ndData) {
     //!  nepravil'no
     //For given atom AtAtom returns atom symbol with given prioritate. AtEx-do not take part into calculations
-    string result="";
+    string result;
     std::vector<string> collectedSymbols(15);
     //string collectedSymbols [] = new string [15];
     int nPrior=0;
@@ -6346,7 +6346,7 @@ namespace OpenBabel {
 
   std::string getAtomSymbol(TSimpleMolecule & sm, int atAtom) {
     bool test=false;
-    string result="";
+    string result;
 
     if (sm.getAtom(atAtom)->anum.length() > 0) test=true;
     if (test) result=sm.getAtom(atAtom)->anum; else result=aSymb[sm.getAtom(atAtom)->na];
@@ -6375,8 +6375,8 @@ namespace OpenBabel {
   int analizeParity(string data) {
     int result=0;  //Unknown parity
     int n,m,n1;
-    string s1="";
-    string s2="";
+    string s1;
+    string s2;
     bool test=true;
 
     n1=0;
@@ -6404,9 +6404,9 @@ namespace OpenBabel {
   int analizeParityBond(string data) {
     int result=0;  //Unknown parity
     int n,m;
-    string s1="";
-    string s2="";
-    string s3="";
+    string s1;
+    string s2;
+    string s3;
     bool test;
 
     n=data.length();
@@ -6447,10 +6447,10 @@ namespace OpenBabel {
 
 
   std::string changeParity(std::string data) {
-    string result="";
+    string result;
     int n,m,n1;
-    string s1="";
-    string s2="";
+    string s1;
+    string s2;
     bool test=true;
 
     n1=0;
@@ -6475,11 +6475,11 @@ namespace OpenBabel {
   };
 
   std::string changeParityBond(std::string data) {
-    string result="";
+    string result;
     int n,m;
-    string s1="";
-    string s2="";
-    string s3="";
+    string s1;
+    string s2;
+    string s3;
     bool test;
 
     n=data.length();
@@ -6521,8 +6521,8 @@ namespace OpenBabel {
 
     TEditedMolecule sm;
     int i,j,k,n,atn,n1,m;
-    string result="";
-    string data="";
+    string result;
+    string data;
     string as1,as2,s,s1,s2;
     std::vector<int> priority(4);
     std::vector<string> v(0);
@@ -6586,7 +6586,7 @@ namespace OpenBabel {
     };
 
     //meso-isomer handling
-    string ss="";
+    string ss;
     bool presentOtherStereo=false;
     if (anumStereo.size() > 1) for (i=0; i<(anumStereo.size()-1); i++) if (anumStereo[i] >= 0) {
           n=0;
@@ -6680,8 +6680,8 @@ namespace OpenBabel {
     int i,j,n,m,n1,n2,n3,n4,an1,an2,an3,an4,k;
     string s,s1,s2,as1,as2,as3,as4;
     bool testDouble,testParity;
-    string data="";
-    string result="";
+    string data;
+    string result;
 
     sm.readOBMol(pmol);
 

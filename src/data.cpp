@@ -450,8 +450,8 @@ namespace OpenBabel
     vector3 v;
 
     int bo;
-    string skipres = ""; // Residue Number to skip
-    string rname = "";
+    string skipres; // Residue Number to skip
+    string rname;
     //assign residue bonds
     for (a1 = mol.BeginAtom(i);a1;a1 = mol.NextAtom(i))
       {
