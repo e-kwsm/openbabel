@@ -243,5 +243,4 @@ void GenerateFormulaReference()
     }
 
 	cerr << " Molecular formula results written successfully" << endl;
-  return;
 }

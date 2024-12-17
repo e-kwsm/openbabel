@@ -229,5 +229,4 @@ void GenerateMMFF94Charges()
     }
 
 	cerr << "Charges written successfully" << endl;
-  return;
 }
