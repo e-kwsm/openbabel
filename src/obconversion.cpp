@@ -42,6 +42,7 @@ GNU General Public License for more details.
 #include <locale>
 #include <limits>
 #include <typeinfo>
+#include <utility>
 #include <iterator>
 
 #include <cstdlib>
@@ -258,7 +259,7 @@ namespace OpenBabel {
     RegisterOptionParam("f", nullptr, 1,GENOPTIONS);
     RegisterOptionParam("l", nullptr, 1,GENOPTIONS);
 
-    OpenInAndOutFiles(infile, outfile);
+    OpenInAndOutFiles(std::move(infile), std::move(outfile));
   }
 
   /////////////////////////////////////////////////

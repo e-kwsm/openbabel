@@ -29,6 +29,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/cistrans.h>
 
 #include <memory>
+#include <utility>
 
 #ifndef WIN32
 #include <cmath>
@@ -6385,7 +6386,7 @@ namespace OpenBabel {
   };
 
   std::string removeZeroeth(std::string instring) {
-    string result=instring;
+    string result=std::move(instring);
     int n;
 
     n=indexOf(result,",0");
@@ -6928,7 +6929,7 @@ namespace OpenBabel {
   };
 
   std::string addZeroeth(std::string instring, std::string stringAdd) {
-    string result=instring;
+    string result=std::move(instring);
     int n;
 
     n=indexOf(result,",,");

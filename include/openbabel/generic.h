@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <string>
 #include <vector>
 #include <map>
+#include <utility>
 
 #include <openbabel/math/spacegroup.h>
 #include <openbabel/obutil.h>
@@ -548,14 +549,14 @@ namespace OpenBabel
 
     OBConformerData &operator=(const OBConformerData &);
 
-    void SetDimension(std::vector<unsigned short> vd) { _vDimension = vd; }
-    void SetEnergies(std::vector<double> ve) { _vEnergies = ve; }
-    void SetForces(std::vector< std::vector< vector3 > > vf) {_vForces = vf;}
+    void SetDimension(std::vector<unsigned short> vd) { _vDimension = std::move(vd); }
+    void SetEnergies(std::vector<double> ve) { _vEnergies = std::move(ve); }
+    void SetForces(std::vector< std::vector< vector3 > > vf) {_vForces = std::move(vf);}
     void SetVelocities(std::vector< std::vector< vector3 > > vv)
-    { _vVelocity = vv; }
+    { _vVelocity = std::move(vv); }
     void SetDisplacements(std::vector< std::vector< vector3 > > vd)
-    { _vDisplace = vd; }
-    void SetData(std::vector<std::string> vdat) { _vData = vdat; }
+    { _vDisplace = std::move(vd); }
+    void SetData(std::vector<std::string> vdat) { _vData = std::move(vdat); }
 
     std::vector<unsigned short> GetDimension() { return _vDimension; }
     std::vector<double>         GetEnergies()  { return _vEnergies; }
@@ -586,9 +587,9 @@ namespace OpenBabel
     OBSymmetryData &operator=(const OBSymmetryData &);
 
     void SetData(std::string pg, std::string sg = "")
-    { _pointGroup = pg; _spaceGroup = sg; }
-    void SetPointGroup(std::string pg) { _pointGroup = pg; }
-    void SetSpaceGroup(std::string sg) { _spaceGroup = sg; }
+    { _pointGroup = std::move(pg); _spaceGroup = std::move(sg); }
+    void SetPointGroup(std::string pg) { _pointGroup = std::move(pg); }
+    void SetSpaceGroup(std::string sg) { _spaceGroup = std::move(sg); }
 
     std::string GetPointGroup() { return _pointGroup; }
     std::string GetSpaceGroup() { return _spaceGroup; }
@@ -906,7 +907,7 @@ namespace OpenBabel
     std::string  _mullikenSymbol; //!< symmetry designation
   public:
     void SetData(double energy, double occupation = 2.0, std::string symbol = "A")
-    { _energy = energy; _occupation = occupation; _mullikenSymbol = symbol; }
+    { _energy = energy; _occupation = occupation; _mullikenSymbol = std::move(symbol); }
 
     double GetEnergy() const        { return _energy; }
     double GetOccupation() const    { return _occupation; }
@@ -927,9 +928,9 @@ namespace OpenBabel
     OBOrbitalData & operator=(const OBOrbitalData &);
 
     void SetAlphaOrbitals(std::vector<OBOrbital> orbitalList)
-    { _alphaOrbitals = orbitalList; }
+    { _alphaOrbitals = std::move(orbitalList); }
     void SetBetaOrbitals(std::vector<OBOrbital> orbitalList)
-    { _betaOrbitals = orbitalList; }
+    { _betaOrbitals = std::move(orbitalList); }
     void SetHOMO(int alpha, int beta = 0)
     { _alphaHOMO = alpha; _betaHOMO = beta; }
     void SetOpenShell(bool openShell)
@@ -1017,7 +1018,7 @@ namespace OpenBabel
          {return new OBRotationData(*this);}
    void SetData(RType RotorType, std::vector<double> RotationalConstants, int SymmetryNumber)
    {
-     RotConsts = RotationalConstants;
+     RotConsts = std::move(RotationalConstants);
      type = RotorType;
      SymNum = SymmetryNumber;
    }
@@ -1168,7 +1169,7 @@ namespace OpenBabel
     
     void AddPartialCharge(std::vector<double> q)
     {
-      _PartialCharge = q;
+      _PartialCharge = std::move(q);
     }
 
     std::vector<double> GetPartialCharge()

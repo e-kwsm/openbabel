@@ -16,6 +16,7 @@ GNU General Public License for more details.
 #define OB_ALIAS_H
 
 #include <memory>
+#include <utility>
 #include <vector>
 #include <openbabel/generic.h>
 
@@ -73,7 +74,7 @@ public:
   std::string GetColor() const { return _color; }
 
   /// Assign a color to this alias
-  void SetColor(std::string color){ _color = color; }
+  void SetColor(std::string color){ _color = std::move(color); }
 
   bool IsExpanded()const { return !_expandedatoms.empty(); }
 
