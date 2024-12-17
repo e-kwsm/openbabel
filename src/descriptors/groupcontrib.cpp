@@ -102,9 +102,9 @@ namespace OpenBabel
       if (sp->Init(vs[0]))
       {
         if (heavy)
-          _contribsHeavy.push_back(pair<OBSmartsPattern*, double> (sp, atof(vs[1].c_str())));
+          _contribsHeavy.emplace_back(sp, atof(vs[1].c_str()));
         else
-          _contribsHydrogen.push_back(pair<OBSmartsPattern*, double> (sp, atof(vs[1].c_str())));
+          _contribsHydrogen.emplace_back(sp, atof(vs[1].c_str()));
       }
       else
       {
