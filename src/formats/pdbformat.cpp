@@ -901,7 +901,7 @@ namespace OpenBabel
     if (sbuf.size() < 48)
       return(false);
 
-    bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
+    bool hetatm = strncmp(buffer,"HETATM",6) == 0;
     bool elementFound = false; // true if correct element found in col 77-78
 
     /* serial number */
