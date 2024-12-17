@@ -231,10 +231,10 @@ namespace OpenBabel
       }
 
     str = mol.GetTitle();
-    if(xml_true==true) // <xml>
+    if(xml_true) // <xml>
       {
         ofs << "<molecule id=\"";
-        if(pre_true==true)ofs << name;
+        if (pre_true) ofs << name;
         if (str.empty())
           {
             ofs << pConv->GetOutputIndex() << "\">";
@@ -244,11 +244,11 @@ namespace OpenBabel
     else{
       if (str.empty())
         {
-          if (pre_true==true) {ofs << name << SEP_1;}
+          if (pre_true) {ofs << name << SEP_1;}
           ofs << "***" << pConv->GetOutputIndex()<< SEP_2;
         }
       else
-        { if (pre_true==true){ofs << name << SEP_1;}
+        { if (pre_true) {ofs << name << SEP_1;}
         ofs << str << SEP_2;
         }
     }
@@ -262,7 +262,7 @@ namespace OpenBabel
         //}
         //  else {otyp=MyType(str);}
         orig = atom->GetIdx();
-        if(xml_true==true){ ofs << "<atom type=\"" << otyp << "\">";}
+        if(xml_true) { ofs << "<atom type=\"" << otyp << "\">";}
         else ofs << otyp << SEP_0;
 
         vector<OBBond*>::iterator j; // iterate over its neighbours
@@ -289,11 +289,11 @@ namespace OpenBabel
                 layer[1][otyp]=layer[1][otyp]+1;
               } // end k
           } // end j
-        if(xml_true==true)PrintXML(layer,ofs);
+        if(xml_true) PrintXML(layer,ofs);
         else PrintLayer(layer,ofs);
         //ClearLayer(layer);
       } // end i
-    if(xml_true==true)ofs << "</molecule>";
+    if(xml_true) ofs << "</molecule>";
     ofs << endl;
     return(true);
   } // writemolecule

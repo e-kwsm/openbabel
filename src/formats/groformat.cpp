@@ -346,9 +346,9 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     ss >> v2z >> v3x >> v3y;
   }
 
-  if (!(v1x == 0.0 && v2y == 0.0 && v3z == 0.0 &&
-        v1y == 0.0 && v1z == 0.0 && v2x == 0.0 &&
-        v2z == 0.0 && v3x == 0.0 && v3y == 0.0)) {
+  if (v1x != 0.0 || v2y != 0.0 || v3z != 0.0 ||
+      v1y != 0.0 || v1z != 0.0 || v2x != 0.0 ||
+      v2z != 0.0 || v3x != 0.0 || v3y != 0.0) {
   // Set box vectors and convert nm to angstroms
   const vector3 v1(v1x*10,v1y*10,v1z*10);
   const vector3 v2(v2x*10,v2y*10,v2z*10);
