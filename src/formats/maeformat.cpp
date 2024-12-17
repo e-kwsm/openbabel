@@ -247,7 +247,7 @@ shared_ptr<IndexedBlock> MAEFormat::TranslateAtomBlock(OBMol* pmol)
     color.resize(num_atoms);
 
     for (unsigned int i=0; i<num_atoms; i++) {
-        const auto atom = pmol->GetAtom(i+1); // 1-based index
+        auto *const atom = pmol->GetAtom(i+1); // 1-based index
         x[i] = atom->x();
         y[i] = atom->y();
         z[i] = atom->z();
@@ -291,7 +291,7 @@ shared_ptr<IndexedBlock> MAEFormat::TranslateBondBlock(OBMol* pmol)
 
     const auto num_atoms = pmol->NumAtoms();
     for (unsigned int i=0; i<num_atoms; i++) {
-        const auto atom = pmol->GetAtom(i+1); // 1-based index
+        auto *const atom = pmol->GetAtom(i+1); // 1-based index
         for (nbr = atom->BeginNbrAtom(j); nbr; nbr = atom->NextNbrAtom(j)) {
             bond = (OBBond*) *j;
             from.push_back(atom->GetIdx());
