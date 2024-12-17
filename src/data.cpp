@@ -123,9 +123,9 @@ namespace OpenBabel
       }
   }
 
-  int OBAtomicHeatOfFormationTable::GetHeatOfFormation(std::string elem,
+  int OBAtomicHeatOfFormationTable::GetHeatOfFormation(const std::string& elem,
                                                        int charge,
-                                                       std::string meth,
+                                                       const std::string& meth,
                                                        double T,
                                                        double *dhof0,
                                                        double *dhofT,

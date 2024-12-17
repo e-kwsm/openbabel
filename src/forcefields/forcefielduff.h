@@ -106,7 +106,7 @@ namespace OpenBabel
     //!  But if you want, we give you the option.
     bool SetupElectrostatics();
     //! Same as OBForceField::GetParameter, but simpler
-    OBFFParameter* GetParameterUFF(std::string a, std::vector<OBFFParameter> &parameter);
+    OBFFParameter* GetParameterUFF(const std::string& a, std::vector<OBFFParameter> &parameter);
 
     // OBFFParameter vectors to contain the parameters
     std::vector<OBFFParameter> _ffparams;

@@ -31,7 +31,7 @@ class AliasTestExample {
   unsigned int _num_aliases;
   unsigned int _num_nonaliased;
 public:
-  AliasTestExample(const string smiles, const unsigned int num_aliases, const unsigned int num_nonaliased):
+  AliasTestExample(const string& smiles, const unsigned int num_aliases, const unsigned int num_nonaliased):
     _smiles(smiles), _num_aliases(num_aliases), _num_nonaliased(num_nonaliased) {};
 
   // this will create aliases in the molecule, then remove all atoms present in aliases,

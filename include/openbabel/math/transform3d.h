@@ -49,7 +49,7 @@ namespace OpenBabel
         }
 
       //! Constructs a matrix from row vectors
-      transform3d(vector3 row1,vector3 row2,vector3 row3,vector3 translation):
+      transform3d(const vector3& row1,const vector3& row2,const vector3& row3,const vector3& translation):
         matrix3x3(row1, row2, row3), vector3(translation)
         {
           Normalize();

@@ -40,7 +40,7 @@ using namespace OpenBabel;
 
   int currentTest = 0;
 
-void GenerateEnergies(string molecules_file, string results_file, string method, double epsilon = 1.0)
+void GenerateEnergies(const string& molecules_file, const string& results_file, const string& method, double epsilon = 1.0)
 {
   std::ifstream ifs;
   if (!SafeOpen(ifs, molecules_file.c_str()))
@@ -88,7 +88,7 @@ void GenerateEnergies(string molecules_file, string results_file, string method,
   return;
 }
 
-void TestFile(string filename, string results_file, string method, double epsilon = 1.0)
+void TestFile(const string& filename, const string& results_file, const string& method, double epsilon = 1.0)
 {
   std::ifstream mifs;
   if (!SafeOpen(mifs, filename.c_str()))

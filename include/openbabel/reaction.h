@@ -59,16 +59,16 @@ public:
     return static_cast<int> (_agents.size());
   }
 
-  void AddReactant(const std::shared_ptr<OBMol> sp)
+  void AddReactant(const std::shared_ptr<OBMol>& sp)
   { _reactants.push_back(sp); }
 
-  void AddProduct(const std::shared_ptr<OBMol> sp)
+  void AddProduct(const std::shared_ptr<OBMol>& sp)
   { _products.push_back(sp); }
 
-  void SetTransitionState(const std::shared_ptr<OBMol> sp)
+  void SetTransitionState(const std::shared_ptr<OBMol>& sp)
   { _ts = sp; }
 
-  void AddAgent(const std::shared_ptr<OBMol> sp)
+  void AddAgent(const std::shared_ptr<OBMol>& sp)
   { _agents.push_back(sp); }
 
   std::shared_ptr<OBMol> GetReactant(const unsigned i)

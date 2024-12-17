@@ -174,7 +174,7 @@ namespace OpenBabel
   struct Triangle {
     vector3 a, b, c;
     uint16_t col;
-    Triangle( vector3 x, vector3 y, vector3 z, uint16_t colour ) : a{x}, b{y}, c{z}, col{colour} {
+    Triangle( const vector3& x, const vector3& y, const vector3& z, uint16_t colour ) : a{x}, b{y}, c{z}, col{colour} {
     }
   };
 
@@ -222,7 +222,7 @@ namespace OpenBabel
     unsigned int order;
   };
 
-  static void map_sphere ( vector<Triangle> &triangles, vector3 origin, double r, uint16_t col )
+  static void map_sphere ( vector<Triangle> &triangles, const vector3& origin, double r, uint16_t col )
   {
     static constexpr std::size_t LongitudeSteps{ 144 };
     static constexpr std::size_t LatitudeSteps{LongitudeSteps / 2};
@@ -257,8 +257,8 @@ namespace OpenBabel
     }
   }
 
-  static void map_cylinder(vector<Triangle> &out, vector3 cylinder_origin,
-                           vector3 cylinder_direction_and_length, double radius,
+  static void map_cylinder(vector<Triangle> &out, const vector3& cylinder_origin,
+                           const vector3& cylinder_direction_and_length, double radius,
                            uint16_t color) {
     static constexpr uint32_t QuadsPerCylinder{128};
     static constexpr double AngleIncrease{2.0 * M_PI / QuadsPerCylinder};
