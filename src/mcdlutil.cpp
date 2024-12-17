@@ -3506,7 +3506,7 @@ namespace OpenBabel {
         at1 = getBond(i)->at[0];
         at2 = getBond(i)->at[1];
         int score = getAtom(at1)->gtd + getAtom(at2)->gtd;
-        vtmp.push_back(pair<int,int> (i, score));
+        vtmp.emplace_back(i, score);
       }
     // sort the rotatable bonds by GTD score
     sort(vtmp.begin(), vtmp.end(), CompareRotor);
