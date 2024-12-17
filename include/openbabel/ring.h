@@ -51,7 +51,7 @@ namespace OpenBabel
     OBRing()    {}
     //! Initialize a ring from a set of atom indexes @p path and with @p size
     OBRing(std::vector<int>& path, int size);
-    OBRing(std::vector<int>& path, OBBitVec set) : _path(path), _pathset(set) {}
+    OBRing(std::vector<int>& path, const OBBitVec& set) : _path(path), _pathset(set) {}
     OBRing(const OBRing &src);
     OBRing& operator=(const OBRing &src);
     //@}

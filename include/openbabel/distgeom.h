@@ -32,6 +32,7 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include <Eigen/Core>
+#include <utility>
 #include <LBFGS.h>
 
 namespace OpenBabel {
@@ -46,7 +47,7 @@ namespace OpenBabel {
     public:
     TetrahedralInfo(int center, std::vector<unsigned long> neighbors,
                     double lower_bound, double upper_bound) :
-                    c(center), nbrs(neighbors),
+                    c(center), nbrs(std::move(neighbors)),
                     lb(lower_bound), ub(upper_bound) {}
     int GetCenter() {
       return c;
@@ -104,7 +105,7 @@ namespace OpenBabel {
      * \brief Set the bounds matrix explicitly
      * \return Success or failure (e.g., bounds matrix does not match the number of atoms)
      */
-    bool SetBoundsMatrix(const Eigen::MatrixXf bounds);
+    bool SetBoundsMatrix(const Eigen::MatrixXf& bounds);
     float GetUpperBounds(int i, int j);
     float GetLowerBounds(int i, int j);
     unsigned int GetDimension() {return dim;};

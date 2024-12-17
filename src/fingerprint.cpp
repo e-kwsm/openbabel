@@ -310,7 +310,7 @@ namespace OpenBabel
   }
 
   //////////////////////////////////////////////////////////
-  string FastSearch::ReadIndexFile(string IndexFilename)
+  string FastSearch::ReadIndexFile(const string& IndexFilename)
   {
     ifstream ifs(IndexFilename.c_str(),ios::binary);
     if(ifs)

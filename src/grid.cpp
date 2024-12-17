@@ -129,17 +129,17 @@ namespace OpenBabel
     _values.resize(nx*ny*nz);
   }
 
-  void OBFloatGrid::SetXAxis(vector3 v)
+  void OBFloatGrid::SetXAxis(const vector3& v)
   {
     _xAxis = v;
   }
 
-  void OBFloatGrid::SetYAxis(vector3 v)
+  void OBFloatGrid::SetYAxis(const vector3& v)
   {
     _yAxis = v;
   }
 
-  void OBFloatGrid::SetZAxis(vector3 v)
+  void OBFloatGrid::SetZAxis(const vector3& v)
   {
     _zAxis = v;
   }

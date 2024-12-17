@@ -80,7 +80,7 @@ bool doMultiMoleculeFile(const std::string &filename)
   return result;
 }
 
-bool doSMILESBuilderTest(string smiles)
+bool doSMILESBuilderTest(const string& smiles)
 {
   cout << " SMILES " << smiles << endl;
 

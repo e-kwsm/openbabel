@@ -353,7 +353,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Set the title of this molecule to @p title
     void   SetTitle(std::string &title);
     //! Set the stochiometric formula for this molecule
-    void   SetFormula(std::string molFormula);
+    void   SetFormula(const std::string& molFormula);
     //! Set the heat of formation for this molecule (in kcal/mol)
     void   SetEnergy(double energy) { _energy = energy; }
     //! Set the dimension of this molecule (i.e., 0, 1 , 2, 3)
