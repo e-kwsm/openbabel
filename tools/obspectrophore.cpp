@@ -213,28 +213,14 @@ isValidValue(const char c, char* v)
 	switch (c)
 	{
 		case 'i':
-			if (o.empty())
-         {
-            return false;
-         }
-         else
-         {
-            return true;
-         }
+			return !o.empty();
 		case 'n':
-			if ((!o.compare("NO")) ||
+			return (!o.compare("NO")) ||
 					(!o.compare("ZEROMEAN")) ||
 					(!o.compare("UNITSTD")) ||
-					(!o.compare("ZEROMEANANDUNITSTD")))
-         {
-            return true;
-         }
-			else
-         {
-            return false;
-         }
+					(!o.compare("ZEROMEANANDUNITSTD"));
 		case 'a':
-			if ((!o.compare("1")) ||
+			return (!o.compare("1")) ||
 					(!o.compare("2")) ||
 					(!o.compare("5")) ||
 					(!o.compare("10")) ||
@@ -243,26 +229,12 @@ isValidValue(const char c, char* v)
 					(!o.compare("30")) ||
 					(!o.compare("36")) ||
 					(!o.compare("45")) ||
-					(!o.compare("60")))
-         {
-            return true;
-         }
-			else
-         {
-            return false;
-         }
+					(!o.compare("60"));
 		case 's':
-			if ((!o.compare("NO")) ||
+			return (!o.compare("NO")) ||
 					(!o.compare("UNIQUE")) ||
 					(!o.compare("MIRROR")) ||
-					(!o.compare("ALL")))
-         {
-            return true;
-         }
-         else
-         {
-            return false;
-         }
+					(!o.compare("ALL"));
 		case 'r':
 			// Check if real positive number
 			if (o.empty() || (o[0] == '-'))
