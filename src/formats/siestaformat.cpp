@@ -131,8 +131,8 @@ namespace OpenBabel {
     vector<string> directories;
     // Append more directories to this list in the future if there are
     // other common directories to find the .STRUCT_OUT file in.
-    directories.push_back(".");
-    directories.push_back("work");
+    directories.emplace_back(".");
+    directories.emplace_back("work");
     for (size_t i = 0; i < directories.size(); i++) {
       struct_name = path + directories.at(i) + "/" + fileName + ".STRUCT_OUT";
       ifs_struct_out.open(struct_name.c_str());

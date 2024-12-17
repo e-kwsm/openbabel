@@ -115,7 +115,7 @@ namespace OpenBabel
             x = atof((char*)vs[1].c_str());
             y = atof((char*)vs[2].c_str());
             z = atof((char*)vs[3].c_str());
-            atomPositions.push_back(vector3(x, y, z)); // we may have a movie or animation
+            atomPositions.emplace_back(x, y, z); // we may have a movie or animation
 
             ifs.getline(buffer, BUFF_SIZE);
             tokenize(vs, buffer);
@@ -160,7 +160,7 @@ namespace OpenBabel
             x = atof((char*)vs[1].c_str());
             y = atof((char*)vs[2].c_str());
             z = atof((char*)vs[3].c_str());
-            atomPositions.push_back(vector3(x, y, z));
+            atomPositions.emplace_back(x, y, z);
           }
         }
       }

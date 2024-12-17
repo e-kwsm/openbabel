@@ -370,8 +370,8 @@ namespace OpenBabel
                         z.push_back(atof(vs[i].c_str()));
 
                     for (unsigned int i = 0; i < nColumn; i++) {
-                        vib.push_back(vector<vector3>());
-                        vib[i].push_back(vector3(x[i], y[i], z[i]));
+                        vib.emplace_back();
+                        vib[i].emplace_back(x[i], y[i], z[i]);
                     }
 
 //                    std::cout <<" vib.size = "<< vib.size() << endl;
@@ -513,7 +513,7 @@ namespace OpenBabel
                 x = atof((char*)vs[1].c_str());
                 y = atof((char*)vs[2].c_str());
                 z = atof((char*)vs[3].c_str());
-                unitCellVectors.push_back(vector3 (x,y,z)); //set coordinates
+                unitCellVectors.emplace_back(x,y,z); //set coordinates
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
                     break;

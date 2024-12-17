@@ -469,7 +469,7 @@ namespace OpenBabel {
               x = atof(vs[3].c_str());
               y = atof(vs[4].c_str());
               z = atof(vs[5].c_str());
-              vib.push_back(vector3(x, y, z));
+              vib.emplace_back(x, y, z);
               ifs_out.getline(buffer,BUFF_SIZE);  // next displacement line
               tokenize(vs, buffer);
             }
@@ -494,7 +494,7 @@ namespace OpenBabel {
             x = atof(vs[0].c_str());
             y = atof(vs[1].c_str());
             z = atof(vs[2].c_str());
-            currXyz.push_back(vector3(x, y, z));
+            currXyz.emplace_back(x, y, z);
             ifs_out.getline(buffer, BUFF_SIZE);  // next line
             tokenize(vs, buffer);
           }
