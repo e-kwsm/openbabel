@@ -112,7 +112,7 @@ namespace OpenBabel {
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
     for (unsigned int a = 0; a < numAtoms; ++a)
-      vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
+      vi.emplace_back(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]);
 
     OBAlign align(mol, mol, false, false);
     align.SetRef(vi);
@@ -125,7 +125,7 @@ namespace OpenBabel {
       // create vector3 conformer
       std::vector<vector3> vj;
       for (unsigned int a = 0; a < numAtoms; ++a)
-        vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
+        vj.emplace_back(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]);
 
       // perform Kabsch alignment
       align.SetTarget(vj);
@@ -256,7 +256,7 @@ namespace OpenBabel {
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
     for (unsigned int a = 0; a < numAtoms; ++a)
-      vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
+      vi.emplace_back(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]);
 
     OBAlign align(mol, mol, false, false);
     align.SetRef(vi);
@@ -269,7 +269,7 @@ namespace OpenBabel {
       // create vector3 conformer
       std::vector<vector3> vj;
       for (unsigned int a = 0; a < numAtoms; ++a)
-        vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
+        vj.emplace_back(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]);
 
       // perform Kabsch alignment
       align.SetTarget(vj);
@@ -526,7 +526,7 @@ namespace OpenBabel {
     std::vector<ConformerScore> conformer_scores;
     for (unsigned int i = 0; i < conformers.size(); ++i) {
       double score = m_score->Score(m_mol, i, m_rotorKeys, conformers);
-      conformer_scores.push_back(ConformerScore(m_rotorKeys[i], score));
+      conformer_scores.emplace_back(m_rotorKeys[i], score);
     }
 
     // delete the conformers
@@ -941,7 +941,7 @@ namespace OpenBabel {
     for (i = 0; i < conformers.size(); ++i)
       {
         score = m_score->Score(m_mol, i, m_rotorKeys, conformers);
-        conformer_scores.push_back(ConformerScore(m_rotorKeys[i], score));
+        conformer_scores.emplace_back(m_rotorKeys[i], score);
       }
 
     // delete the conformers
