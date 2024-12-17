@@ -567,7 +567,7 @@ namespace OpenBabel
          {
          CIFColumnList  columns;
          CIFTagID::CIFCatName catid = CIFTagID::unread_CIFCatName;
-         while ( (token_peeked = lexer.next_token(token)) == true && token.type == CIFLexer::TagToken)
+         while ((token_peeked = lexer.next_token(token)) && token.type == CIFLexer::TagToken)
            { // Read in the tags
            CIFTagID::CIFDataName tagid = lexer.lookup_tag(token.as_text);
            columns.push_back(tagid);
