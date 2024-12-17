@@ -425,8 +425,6 @@ namespace OpenBabel
         unique_angle = 0;
       }
     }
-
-    return;
   }
 
   void OBMol::FindTorsions()
@@ -470,8 +468,6 @@ namespace OpenBabel
           torsions->SetData(torsion);
         torsion.Clear();
       }
-
-    return;
   }
 
   void OBMol::FindLargestFragment(OBBitVec &lf)
@@ -1188,8 +1184,6 @@ namespace OpenBabel
     }
 
     _internals = int_coord;
-
-    return;
   }
 
   //! Returns the total spin multiplicity -- if it has not previously been set
