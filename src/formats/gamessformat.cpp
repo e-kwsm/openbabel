@@ -586,7 +586,7 @@ namespace OpenBabel {
             numDisp = prevModeCount;
             for (unsigned int i=0; i < modeCount;  ++i) {
               if (i >= modeCount - newModes){
-                displacements[numDisp++].push_back(vector3(x[i], y[i], z[i]));
+                displacements[numDisp++].emplace_back(x[i], y[i], z[i]);
               }
             }
           }

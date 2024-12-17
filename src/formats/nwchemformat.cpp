@@ -666,7 +666,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             tokenize(vs,buffer);
             for(unsigned int i=1; i<vs.size(); ++i)
             {
-                vib.push_back(vector<vector3>());
+                vib.emplace_back();
                 freq.push_back(atof(vs[i].c_str()));
             }
             ifs->getline(buffer,BUFF_SIZE);     // blank line
@@ -692,7 +692,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                   // not sure how to recover if it's not true
                   for (unsigned int i = 0; i < freq.size(); i++)
                   {
-                    vib[i].push_back(vector3(x[i], y[i], z[i]));
+                    vib[i].emplace_back(x[i], y[i], z[i]);
                   }
                 }
             }// while vs.size() > 2

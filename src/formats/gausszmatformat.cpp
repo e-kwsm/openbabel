@@ -313,7 +313,7 @@ namespace OpenBabel
         }
 			}
 			else {
-        atomLines.push_back(buffer);
+        atomLines.emplace_back(buffer);
         vic.push_back(new OBInternalCoord);
       }
 		} // end while

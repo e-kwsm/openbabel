@@ -116,7 +116,7 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         x = atof((char*)vs[1].c_str());
         y = atof((char*)vs[2].c_str());
         z = atof((char*)vs[3].c_str());
-        lattice.push_back(vector3(x, y, z));
+        lattice.emplace_back(x, y, z);
       }
     }
 

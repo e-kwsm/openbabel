@@ -420,7 +420,7 @@ namespace OpenBabel
               for (unsigned int i = 0; i < modeCount - 1;  ++i) {
                 if (displacements.size() < prevModeCount + i + 1)
                   displacements.push_back(displacement);
-                displacements[prevModeCount + i].push_back(vector3(x[i], y[i], z[i]));
+                displacements[prevModeCount + i].emplace_back(x[i], y[i], z[i]);
               }
 
               // Next set of atoms
