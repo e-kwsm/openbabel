@@ -1999,7 +1999,7 @@ namespace OpenBabel
      */
 
     stringstream ss;
-    atomIDs.push_back("Error"); //atom idex stats at 1. atomIDs[0] is not used
+    atomIDs.emplace_back("Error"); //atom idex stats at 1. atomIDs[0] is not used
     for (unsigned int idx=1; idx<=mol.NumAtoms(); ++idx)
     {
       ss.str("");

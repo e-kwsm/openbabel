@@ -149,18 +149,18 @@ namespace OpenBabel
       for(int i = -p2; i < p2; ++i) {
         double ci = cos(i*theta);
         double si = sin(i*theta);
-        points.push_back(vector3( origin[0] + r * ci*cy , origin[1] + r*sy , origin[2] + r * si*cy));
-        points.push_back(vector3( origin[0] + r * ci*cy1, origin[1] + r*sy1, origin[2] + r * si*cy1));
+        points.emplace_back(origin[0] + r * ci*cy , origin[1] + r*sy , origin[2] + r * si*cy);
+        points.emplace_back(origin[0] + r * ci*cy1, origin[1] + r*sy1, origin[2] + r * si*cy1);
       }
     }
 
     for( int i=0 ; i < points.size()-2; i++ ) {
       // Order the points to obey the 'right-hand rule', so normals all face outwards
       if( i%2 == 0 ) {
-        triangles.push_back( Triangle( points[i], points[i+1], points[i+2], col ) );
+        triangles.emplace_back( points[i], points[i+1], points[i+2], col );
       }
       else {
-        triangles.push_back( Triangle( points[i+2], points[i+1], points[i], col ) );
+        triangles.emplace_back( points[i+2], points[i+1], points[i], col );
       }
     }
   }
