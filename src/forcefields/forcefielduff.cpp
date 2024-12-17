@@ -1714,7 +1714,7 @@ namespace OpenBabel {
 
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1])) {
-          _vexttyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[2]));
+          _vexttyp.emplace_back(sp,vs[2]);
         }
         else {
           delete sp;

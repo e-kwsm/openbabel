@@ -1000,7 +1000,7 @@ namespace OpenBabel
 		       (invalidResidues[i].second == resnos[idx2]) )
 		    addResidue = false;
 		if (addResidue)
-		  invalidResidues.push_back(pair<char,short>(chains[idx2], resnos[idx2]));
+		  invalidResidues.emplace_back(chains[idx2], resnos[idx2]);
 	      }
             }
           }

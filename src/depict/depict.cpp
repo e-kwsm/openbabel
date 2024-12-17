@@ -746,11 +746,11 @@ namespace OpenBabel
     orthogonalLine *= 0.5 * bondWidth;
     std::vector<std::pair<double,double> > points;
 
-    points.push_back(std::pair<double,double>(begin.x(), begin.y()));
-    points.push_back(std::pair<double,double>(end.x() + orthogonalLine.x(),
-                                              end.y() + orthogonalLine.y()));
-    points.push_back(std::pair<double,double>(end.x() - orthogonalLine.x(),
-                                              end.y() - orthogonalLine.y()));
+    points.emplace_back(begin.x(), begin.y());
+    points.emplace_back(end.x() + orthogonalLine.x(),
+                                              end.y() + orthogonalLine.y());
+    points.emplace_back(end.x() - orthogonalLine.x(),
+                                              end.y() - orthogonalLine.y());
     painter->DrawPolygon(points);
   }
 
@@ -1123,11 +1123,11 @@ namespace OpenBabel
     const vector3 orthogonalLine = cross(vb, VZ).normalize() * 0.5 * bondWidth;
     std::vector<std::pair<double,double> > points;
 
-    points.push_back(std::pair<double,double>(begin.x(), begin.y()));
-    points.push_back(std::pair<double,double>(end.x() + orthogonalLine.x(),
-                                              end.y() + orthogonalLine.y()));
-    points.push_back(std::pair<double,double>(end.x() - orthogonalLine.x(),
-                                              end.y() - orthogonalLine.y()));
+    points.emplace_back(begin.x(), begin.y());
+    points.emplace_back(end.x() + orthogonalLine.x(),
+                                              end.y() + orthogonalLine.y());
+    points.emplace_back(end.x() - orthogonalLine.x(),
+                                              end.y() - orthogonalLine.y());
     painter->DrawPolygon(points);
 
   }

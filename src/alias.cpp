@@ -161,7 +161,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   vector<pair<OBAtom*, unsigned> > otherAttachments;
   OBAtom* pAttach;
   while(firstAttachAtom && (pAttach = XxAtom->NextNbrAtom(bi)) ) // extra parentheses to minimize warnings
-    otherAttachments.push_back(make_pair(pAttach, (*bi)->GetBondOrder()));
+    otherAttachments.emplace_back(pAttach, (*bi)->GetBondOrder());
 
   //Copy coords of XxAtom to the first real atom in the fragment
   //so that the connecting bond is well defined for 2D case
@@ -283,7 +283,7 @@ bool AliasData::LoadFile(SmartsTable& smtable)
 
         std::shared_ptr<OBSmartsPattern> psp(new OBSmartsPattern);
         psp->Init(ssmarts.str());
-        smtable.push_back(make_pair(vec[0], psp));
+        smtable.emplace_back(vec[0], psp);
       }
     }
   }

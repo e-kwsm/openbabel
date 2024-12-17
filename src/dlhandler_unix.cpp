@@ -101,7 +101,7 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
     }
 
   if (paths.empty())
-    paths.push_back("./"); // defaults to current directory
+    paths.emplace_back("./"); // defaults to current directory
 
   /* Our old code used scandir. Replaced with readdir (below) as for example
    * Solaris pre 10 doesn't implement scandir.

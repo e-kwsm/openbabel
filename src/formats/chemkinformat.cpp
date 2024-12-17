@@ -835,7 +835,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
   {
     const char* title = (*itr)->GetTitle();
     if(strcmp(title, "M"))
-      species.push_back(title);
+      species.emplace_back(title);
     FOR_ATOMS_OF_MOL(atom, itr->get())
       elements.insert(OBElements::GetSymbol(atom->GetAtomicNum()));
   }

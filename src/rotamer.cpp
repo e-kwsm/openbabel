@@ -228,7 +228,7 @@ namespace OpenBabel
         atomlist[2] = mol.GetAtom(ref[2]);
         atomlist[3] = mol.GetAtom(ref[3]);
         mol.FindChildren(children,ref[1],ref[2]);
-        _vrotor.push_back(pair<OBAtom**,vector<int> > (atomlist,children));
+        _vrotor.emplace_back(atomlist,children);
         _vres.push_back(rotor->GetResolution());
       }
 
@@ -324,7 +324,7 @@ namespace OpenBabel
         atomlist[1] = mol.GetAtom(refatoms[1]);
         atomlist[2] = mol.GetAtom(refatoms[2]);
         atomlist[3] = mol.GetAtom(refatoms[3]);
-        _vrotor.push_back(pair<OBAtom**,vector<int> > (atomlist,children));
+        _vrotor.emplace_back(atomlist,children);
       }
 
   }

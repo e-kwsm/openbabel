@@ -280,7 +280,7 @@ int main(int argc,char *argv[])
 
                 case ':':
                   //e.g. -:c1ccccc1. SMILES passed as a file name and handled in OBConversion
-                  FileList.push_back(argv[arg]);
+                  FileList.emplace_back(argv[arg]);
                   break;
 
                 default: //single character general option
@@ -290,7 +290,7 @@ int main(int argc,char *argv[])
                 }
             }
           else //filenames
-              FileList.push_back(argv[arg]);
+              FileList.emplace_back(argv[arg]);
         }
     }
 

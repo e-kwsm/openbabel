@@ -388,7 +388,7 @@ namespace OpenBabel {
       sort(vtmp.begin(),vtmp.end(),CompareUnsigned);
       for (m = 100, k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
         id += *k * m;
-      vp2.push_back(pair<OBAtom*,unsigned int> (atom, id));
+      vp2.emplace_back(atom, id);
     }
 #if DEBUG2
     cout << "CreateNewClassVector: FINISH\n";
@@ -441,7 +441,7 @@ namespace OpenBabel {
       sort(vtmp.begin(),vtmp.end(),CompareUnsigned);
       for (m = 100, k = vtmp.begin(); k != vtmp.end(); ++k, m*=100)
         id += *k * m;
-      vp2.push_back(pair<OBAtom*,unsigned int> (atom, id));
+      vp2.emplace_back(atom, id);
     }
 #if DEBUG2
     cout << "CreateNewClassVector: FINISH\n";
@@ -560,7 +560,7 @@ namespace OpenBabel {
     for (atom = _pmol->BeginAtom(j); atom; atom = _pmol->NextAtom(j)) {
       int idx = atom->GetIdx();
       if (_frag_atoms.BitIsSet(idx))
-        symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, vgi[idx-1]));
+        symmetry_classes.emplace_back(atom, vgi[idx-1]);
       //else
       //  symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, OBGraphSym::NoSymmetryClass));
     }
@@ -629,7 +629,7 @@ namespace OpenBabel {
     for (OBAtom *atom = _pmol->BeginAtom(j); atom; atom = _pmol->NextAtom(j)) {
       int idx = atom->GetIdx();
       if (_frag_atoms.BitIsSet(idx))
-        symmetry_classes.push_back(pair<OBAtom*, unsigned int> (atom, symClasses[idx-1]));
+        symmetry_classes.emplace_back(atom, symClasses[idx-1]);
     }
 
     // The heart of the matter: Do extended sum-of-invariants until no further

@@ -148,7 +148,7 @@ namespace OpenBabel
   bool OBDiversePoses::AddPose(double* coords, double energy) {
     std::vector<vector3> vcoords, vcoords_hvy;
     for (unsigned int a = 0; a < natoms; ++a)
-      vcoords.push_back(vector3(coords[a*3], coords[a*3+1], coords[a*3+2]));
+      vcoords.emplace_back(coords[a*3], coords[a*3+1], coords[a*3+2]);
     return AddPose(vcoords, energy);
   }
 
@@ -205,7 +205,7 @@ namespace OpenBabel
           if (rmsd < cutoff)
             return false;
 
-          min_nodes.push_back(sib);
+          min_nodes.emplace_back(sib);
           min_nodes_rmsds.push_back(rmsd);
 
           if (!_percise) // Exit as soon as one is found
@@ -221,7 +221,7 @@ namespace OpenBabel
         // could still be rejected for addition to the tree.
         insert_pt.push_back(node);
         insert_level.push_back(level);
-        insert_data.push_back(PosePair(vcoords, energy));
+        insert_data.emplace_back(vcoords, energy);
         continue;
       }
 

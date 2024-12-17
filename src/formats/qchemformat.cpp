@@ -258,11 +258,11 @@ namespace OpenBabel
                 z = atof(vs[i+2].c_str());
 
                 if (i == 1)
-                  vib1.push_back(vector3(x, y, z));
+                  vib1.emplace_back(x, y, z);
                 else if (i == 4)
-                  vib2.push_back(vector3(x, y, z));
+                  vib2.emplace_back(x, y, z);
                 else if (i == 7)
-                  vib3.push_back(vector3(x, y, z));
+                  vib3.emplace_back(x, y, z);
               }
 
               if (!ifs.getline(buffer, BUFF_SIZE))
