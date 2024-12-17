@@ -37,7 +37,7 @@ private:
     Vector                    m_gradp;  // Old gradient
     Vector                    m_drt;    // Moving direction
 
-    inline void reset(int n)
+    void reset(int n)
     {
         const int m = m_param.m;
         m_s.resize(n, m);
@@ -79,7 +79,7 @@ public:
     /// \return Number of iterations used.
     ///
     template <typename Foo>
-    inline int minimize(Foo& f, Vector& x, Scalar& fx)
+    int minimize(Foo& f, Vector& x, Scalar& fx)
     {
         const int n = x.size();
         const int fpast = m_param.past;

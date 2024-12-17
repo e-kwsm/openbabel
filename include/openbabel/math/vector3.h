@@ -224,7 +224,7 @@ namespace OpenBabel
     bool CanBeNormalized () const;
 
     //! \return The length of the vector squared
-    inline double length_2 () const
+    double length_2 () const
     {
       return _vx*_vx + _vy*_vy + _vz*_vz;
     };
