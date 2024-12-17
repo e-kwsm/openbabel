@@ -204,5 +204,4 @@ void GenerateEnergies()
     }
 
 	cerr << " UFF force field energies written successfully" << endl;
-  return;
 }

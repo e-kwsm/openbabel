@@ -944,7 +944,6 @@ namespace OpenBabel
     _termini.first  = 0;
     _termini.second = 0;
     _radians        = 0.0;
-    return;
   }
 
   /*!
@@ -957,7 +956,6 @@ namespace OpenBabel
     _termini.first  = a;
     _termini.second = b;
     SortByIndex();
-    return;
   }
 
   /*!
@@ -970,7 +968,6 @@ namespace OpenBabel
     _termini.first  = atoms.second;
     _termini.second = atoms.third;
     SortByIndex();
-    return;
   }
 
   /*!
@@ -1050,7 +1047,6 @@ namespace OpenBabel
   void OBAngleData::Clear()
   {
     _angles.clear();
-    return;
   }
 
   /*!
@@ -1059,7 +1055,6 @@ namespace OpenBabel
   void OBAngleData::SetData(OBAngle &angle)
   {
     _angles.push_back(angle);
-    return;
   }
 
   /*!

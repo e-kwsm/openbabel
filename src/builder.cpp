@@ -1489,8 +1489,6 @@ namespace OpenBabel
     // Create the bonds between the two fragments
     for (vector<int>::iterator nbr_id=nbrs.begin(); nbr_id!=nbrs.end(); ++nbr_id)
       workMol.AddBond(p->GetIdx(), *nbr_id, 1, mol.GetBond(p->GetIdx(), *nbr_id)->GetFlags());
-
-    return;
   }
 
   bool OBBuilder::CorrectStereoBonds(OBMol &mol)

@@ -193,8 +193,6 @@ namespace OpenBabel
     OBGenericData *clone = d->Clone(this);
     if (clone)
       _vdata.push_back(clone);
-
-    return;
   }
 
   void OBBase::DeleteData(unsigned int dt)
