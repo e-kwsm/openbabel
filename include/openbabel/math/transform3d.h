@@ -35,7 +35,7 @@ namespace OpenBabel
   class OBAPI transform3d: private matrix3x3, private vector3
     {
     public:
-      transform3d(void): matrix3x3(), vector3()
+      transform3d(void)
         {
         }
 
@@ -44,7 +44,7 @@ namespace OpenBabel
           Normalize();
         }
 
-      transform3d(double s): matrix3x3(s), vector3()
+      transform3d(double s): matrix3x3(s)
         {
         }
 
