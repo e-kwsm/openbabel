@@ -16,6 +16,8 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
+
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -38,7 +40,7 @@ GNU General Public License for more details.
 #include <map>
 #include <set>
 
-#define NOCHARGE FLT_MAX
+static const float NOCHARGE = FLT_MAX;
 
 #ifdef _MSC_VER
  #pragma warning( disable : 4503 )
