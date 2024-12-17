@@ -484,7 +484,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     /*! Set the gradient for atom with index idx to grad
      */
-    void SetGradient(double *grad, int idx)
+    void SetGradient(const double *grad, int idx)
     {
       const int coordIdx = (idx - 1) * 3;
       for (unsigned int i = 0; i < 3; ++i) {
@@ -494,7 +494,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     /*! Add grad to the gradient for atom with index idx
      */
-    void AddGradient(double *grad, int idx)
+    void AddGradient(const double *grad, int idx)
     {
       const int coordIdx = (idx - 1) * 3;
       for (unsigned int i = 0; i < 3; ++i) {
@@ -1257,7 +1257,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  \param direction The search direction.
      *  \param step The step to take.
      */
-    void   LineSearchTakeStep(double *origCoords, double *direction, double step);
+    void   LineSearchTakeStep(const double *origCoords, double *direction, double step);
     /*! Perform steepest descent optimalization for steps steps or until convergence criteria is reached.
      *
      *  \param steps The number of steps.
@@ -1633,7 +1633,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param j pointer to j[3]
      * \param result pointer to result[3], will be set to i + j
      */
-    static void VectorAdd(double *i, double *j, double *result)
+    static void VectorAdd(const double *i, const double *j, double *result)
     {
       for (unsigned int c = 0; c < 3; ++c)
         result[c] = i[c] + j[c];
@@ -1644,7 +1644,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param n divide x,y,z with n
      * \param result pointer to result[3]
      */
-    static void VectorDivide(double *i, double n, double *result)
+    static void VectorDivide(const double *i, double n, double *result)
     {
       const double inv_n = 1.0 / n;
       result[0] = i[0] * inv_n;
@@ -1688,7 +1688,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param from pointer to i[3] to be copied from
      * \param to pointer to j[3] to be copied to
      */
-    static void VectorCopy(double *from, double *to)
+    static void VectorCopy(const double *from, double *to)
     {
       for (unsigned int c = 0; c < 3; ++c)
         to[c] = from[c];
@@ -1698,7 +1698,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param i pointer to i[3]
      * \return the vector length
      */
-    static double VectorLength(double *i)
+    static double VectorLength(const double *i)
     {
       return sqrt( i[0]*i[0] + i[1]*i[1] + i[2]*i[2] );
     }
@@ -1751,7 +1751,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param j pointer to j[3]
      * \return the dot product
      */
-    static double VectorDot(double *i, double *j)
+    static double VectorDot(const double *i, const double *j)
     {
       double result = 0.0;
       // Written as a loop for vectorization
@@ -1766,7 +1766,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param j pointer to j[3]
      * \param result the dot product (as a return value double[3])
      */
-    static void VectorCross(double *i, double *j, double *result)
+    static void VectorCross(const double *i, const double *j, double *result)
     {
       result[0] =   i[1]*j[2] - i[2]*j[1];
       result[1] = - i[0]*j[2] + i[2]*j[0];

@@ -734,7 +734,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
   // Utility function prototypes
   //tokenize and Trim declarations moved to base.h
   // Deprecated -- use OBMessageHandler class instead (docs in obutil.cpp)
-  OBAPI void ThrowError(char *str);
+  OBAPI void ThrowError(const char *str);
   // Deprecated -- use OBMessageHandler class instead (docs in obutil.cpp)
   OBAPI void ThrowError(std::string &str);
   //! Convert Cartesian XYZ to a set of OBInternalCoord coordinates
@@ -790,10 +790,10 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
 #ifndef __KCC
   extern "C"
   {
-    OBAPI void  get_rmat(double*,double*,double*,int);
+    OBAPI void  get_rmat(double*,const double*,const double*,int);
     OBAPI void  ob_make_rmat(double mat[3][3],double rmat[9]);
-    OBAPI void  qtrfit (double *r,double *f,int size,double u[3][3]);
-    OBAPI double superimpose(double*,double*,int);
+    OBAPI void  qtrfit (const double *r,const double *f,int size,double u[3][3]);
+    OBAPI double superimpose(const double*,double*,int);
   }
 #else
   OBAPI void get_rmat(double*,double*,double*,int);

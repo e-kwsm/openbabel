@@ -37,7 +37,7 @@ void print_matrix_f (double  *m, int rows, int cols);
 void print_matrix_ff(double **m, int rows, int cols);
 
 bool mult_matrix(std::vector<std::vector<double> > &c, std::vector<std::vector<double> > &a, std::vector<std::vector<double> > &b);
-bool mult_matrix_f (double  *c, double  *a, double  *b, int rows, int cols);
+bool mult_matrix_f (double  *c, const double  *a, const double  *b, int rows, int cols);
 bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols);
 
 bool invert_matrix(std::vector<std::vector<double> > &m, double &det);
@@ -46,10 +46,10 @@ bool invert_matrix_ff(double **m, double &det, int rows, int cols);
 
 bool convert_matrix_f (std::vector<std::vector<double> > &src, double  *dst);
 bool convert_matrix_ff(std::vector<std::vector<double> > &src, double **dst);
-bool convert_matrix_f (double  *src, std::vector<std::vector<double> > &dst, int rows, int cols);
+bool convert_matrix_f (const double  *src, std::vector<std::vector<double> > &dst, int rows, int cols);
 bool convert_matrix_ff(double **src, std::vector<std::vector<double> > &dst, int rows, int cols);
 bool convert_matrix_ff_f(double **src, double  *dst, int rows, int cols);
-bool convert_matrix_f_ff(double  *src, double **dst, int rows, int cols);
+bool convert_matrix_f_ff(const double  *src, double **dst, int rows, int cols);
 
 }
 
