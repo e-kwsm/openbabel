@@ -247,7 +247,7 @@ namespace OpenBabel {
           else
             for(int i = 0; i < atom_t_prop.size(); i++)
             {
-              string tk = vs[i + 1];
+              const string& tk = vs[i + 1];
               string str = tk.substr(tk.length() - 2) == "d0" ? tk.substr(0, tk.length() - 2) : tk;
               atom_t_prop[i].atom_charge = atof(tk.c_str());
             }  

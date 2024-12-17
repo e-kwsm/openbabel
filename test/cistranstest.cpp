@@ -29,7 +29,7 @@ void test_configStruct()
   OB_ASSERT( reference.shape == OBStereo::ShapeU );
 
   // test copying
-  OBCisTransStereo::Config referenceCopy = reference;
+  const OBCisTransStereo::Config& referenceCopy = reference;
   OB_ASSERT( reference == referenceCopy );
 
   // invalid begin id
