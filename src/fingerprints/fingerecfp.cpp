@@ -88,7 +88,7 @@ private:
   c -= a; c -= b; c ^= (b>>15); \
 }
 
-static unsigned int ECFPHash(unsigned char *ptr, unsigned int length)
+static unsigned int ECFPHash(const unsigned char *ptr, unsigned int length)
 {
   unsigned int a = 0;
   unsigned int b = 0;

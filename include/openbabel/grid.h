@@ -75,7 +75,7 @@ namespace OpenBabel
         (z>=_zmin) && (z<=_zmax);
     }
     //! \return true if the point falls within the box
-    bool PointIsInBox(double *c)
+    bool PointIsInBox(const double *c)
     {
       return (c[0]>=_xmin) && (c[0]<=_xmax) &&
         (c[1]>=_ymin) && (c[1]<=_ymax) &&
@@ -255,7 +255,7 @@ namespace OpenBabel
     //! \deprecated Will be removed.
     //! \sa SetVals(const std::vector<double> & vals)
     OB_DEPRECATED_MSG("Use vector version instead")
-    void SetVals(double *ptr)
+    void SetVals(const double *ptr)
     {
      for (int i = 0; i < _xdim*_ydim*_zdim; ++i)
        _values[i] = ptr[i];
@@ -283,7 +283,7 @@ namespace OpenBabel
     //! \return the value at the given point (rounding as needed)
     double Inject(double x,double y,double z);
     void IndexToCoords(int idx, double &x, double &y, double &z);
-    void CoordsToIndex(int*,double*);
+    void CoordsToIndex(int*,const double*);
     int CoordsToIndex(double x, double y, double z);
     //! \return the interpolated value for the given point
     double Interpolate(double,double,double);
@@ -322,7 +322,7 @@ namespace OpenBabel
     void Setup(OBMol &mol,OBMol &box, double cutoff,
                std::vector<bool> &use,double resolution = 0.5);
     std::vector<int> *GetProxVector(double,double,double);
-    std::vector<int> *GetProxVector(double*);
+    std::vector<int> *GetProxVector(const double*);
 
     bool LipoGrid()
     {

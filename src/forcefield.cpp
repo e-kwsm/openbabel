@@ -2543,7 +2543,7 @@ namespace OpenBabel
     return opt_step * scale;
   }
 
-  void OBForceField::LineSearchTakeStep(double* origCoords, double *direction, double step)
+  void OBForceField::LineSearchTakeStep(const double* origCoords, const double *direction, double step)
   {
     double *currentCoords = _mol.GetCoordinates();
 

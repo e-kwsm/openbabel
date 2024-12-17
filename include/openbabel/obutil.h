@@ -154,7 +154,7 @@ namespace OpenBabel
 #ifndef __KCC
   extern "C" {
   OBAPI void  rotate_coords(double*,double m[3][3],unsigned);
-  OBAPI double calc_rms(double*,double*,unsigned int);
+  OBAPI double calc_rms(const double*,const double*,unsigned int);
   }
 #else
   OBAPI void  rotate_coords(double*,double m[3][3],unsigned);

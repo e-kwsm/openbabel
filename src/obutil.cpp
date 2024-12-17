@@ -53,7 +53,7 @@ namespace OpenBabel
   //! Deprecated: use the OBMessageHandler class instead
   //! \deprecated Throw an error through the OpenBabel::OBMessageHandler class
   OB_DEPRECATED_MSG("use the OBMessageHandler class instead")
-  void ThrowError(char *str)
+  void ThrowError(const char *str)
   {
     obErrorLog.ThrowError("", str, obInfo);
   }
@@ -172,7 +172,7 @@ namespace OpenBabel
   }
 
   //! Calculate the RMS deviation between the first N coordinates of *r and *f
-  double calc_rms(double *r,double *f, unsigned int N)
+  double calc_rms(const double *r,const double *f, unsigned int N)
   {
     if (N == 0)
       return 0.0; // no RMS deviation between two empty sets
@@ -686,7 +686,7 @@ namespace OpenBabel
       }
   }
 
-  void qtrfit (double *r,double *f,int size, double u[3][3])
+  void qtrfit (const double *r,const double *f,int size, double u[3][3])
   {
     int i;
     double xxyx, xxyy, xxyz;
@@ -1103,7 +1103,7 @@ namespace OpenBabel
     return 1;
   }
 
-  double superimpose(double *r,double *f,int size)
+  double superimpose(const double *r,double *f,int size)
   {
     int i,j;
     double x,y,z,d2;
@@ -1197,7 +1197,7 @@ namespace OpenBabel
     return((double)sqrt(d2));
   }
 
-  void get_rmat(double *rvec,double *r,double *f,int size)
+  void get_rmat(double *rvec,const double *r,const double *f,int size)
   {
     int i,j;
     double x,d2;
