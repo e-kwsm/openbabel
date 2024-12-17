@@ -141,7 +141,7 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     while (n && ifs.getline(buffer,BUFF_SIZE))
     {
-      if (EQn(buffer,"ENDMDL",6)) {-- n;}
+      if (!strncmp(buffer,"ENDMDL",6)) {-- n;}
     }
 
     return ifs.good() ? 1 : -1;
@@ -176,7 +176,7 @@ namespace OpenBabel
       line = buffer;
       if (dlg) //if we have a dlg file, only care about the lines starting with "DOCKED: "
       {
-        if (!EQn(buffer,"DOCKED: ",8)) {continue;}
+        if (strncmp(buffer,"DOCKED: ",8)) {continue;}
         else
         {
           for (unsigned int i=0; i<BUFF_SIZE-8; i++)
@@ -200,22 +200,22 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obError);
         return false;
       }
-      if (EQn(buffer,"ROOT",4)) {continue;}
-      if (EQn(buffer,"ENDROOT",7)) {continue;}
-      if (EQn(buffer,"BRANCH",6)) {continue;}
-      if (EQn(buffer,"ENDBRANCH",9)) {continue;}
+      if (!strncmp(buffer,"ROOT",4)) {continue;}
+      if (!strncmp(buffer,"ENDROOT",7)) {continue;}
+      if (!strncmp(buffer,"BRANCH",6)) {continue;}
+      if (!strncmp(buffer,"ENDBRANCH",9)) {continue;}
 
-      if (EQn(buffer,"ENDMDL",6)) {break;}
-      if (EQn(buffer,"END_RES",7)) {break;}
+      if (!strncmp(buffer,"ENDMDL",6)) {break;}
+      if (!strncmp(buffer,"END_RES",7)) {break;}
 
-      if (EQn(buffer,"END",3))
+      if (!strncmp(buffer,"END",3))
       {
         // eat anything until the next ENDMDL
-        while (ifs.getline(buffer,BUFF_SIZE) && !EQn(buffer,"ENDMDL",6));
+        while (ifs.getline(buffer,BUFF_SIZE) && strncmp(buffer,"ENDMDL",6));
         break;
       }
 
-      if (EQn(buffer,"ATOM",4) || EQn(buffer,"HETATM",6))
+      if (!strncmp(buffer,"ATOM",4) || !strncmp(buffer,"HETATM",6))
       {
         if( ! parseAtomRecord(buffer,mol,chainNum))
         {
@@ -227,7 +227,7 @@ namespace OpenBabel
         }
         continue;
       }
-      if ((EQn(buffer,"REMARK",6)) || (EQn(buffer,"USER",4)))
+      if (!strncmp(buffer,"REMARK",6) || !strncmp(buffer,"USER",4))
       {
         stringstream sst;
         string buffstring=buffer;
@@ -1063,7 +1063,7 @@ namespace OpenBabel
     if (sbuf.size() < 48)
       return(false);
 
-    bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
+    bool hetatm = strncmp(buffer,"HETATM",6) == 0;
     bool elementFound = false; // true if correct element found in col 77-78
 
     /* serial number */
