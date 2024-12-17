@@ -121,7 +121,7 @@ namespace OpenBabel
 
         int score = gtd[bond->GetBeginAtomIdx()-1] + gtd[bond->GetEndAtomIdx()-1];
         // compute the GTD bond score as sum of atom GTD scores
-        vtmp.push_back(pair<OBBond*,int> (bond,score));
+        vtmp.emplace_back(bond,score);
       }
     }
 
@@ -896,8 +896,8 @@ namespace OpenBabel
 
     vals.clear();
     vector<pair<int,int> > vpr;
-    vpr.push_back(pair<int,int> (0,bond->GetBeginAtomIdx()));
-    vpr.push_back(pair<int,int> (0,bond->GetEndAtomIdx()));
+    vpr.emplace_back(0,bond->GetBeginAtomIdx());
+    vpr.emplace_back(0,bond->GetEndAtomIdx());
 
     delta = OB_DEFAULT_DELTA;
 
