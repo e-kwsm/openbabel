@@ -114,12 +114,18 @@ namespace OpenBabel
       Init();
 
     OBSmartsPattern *currentPattern;
-    OBBond *b1, *b2;
-    OBAtom *a1,*a2, *a3;
-    double angle, dist1, dist2;
+    OBBond *b1;
+    OBBond *b2;
+    OBAtom *a1;
+    OBAtom *a2;
+    OBAtom *a3;
+    double angle;
+    double dist1;
+    double dist2;
     vector<int> assignments;
     vector<vector<int> > mlist;
-    vector<vector<int> >::iterator matches, l;
+    vector<vector<int> >::iterator matches;
+    vector<vector<int> >::iterator l;
     vector<pair<OBSmartsPattern*, vector<int> > >::iterator i;
     unsigned int j;
 

@@ -105,7 +105,8 @@ namespace OpenBabel
     //Independent of sizeof(unsigned int)
     if(vec1.size()!=vec2.size())
       return -1; //different number of bits
-    int andbits=0, orbits=0;
+    int andbits=0;
+    int orbits=0;
     for (unsigned i=0;i<vec1.size();++i)
       {
         int andfp = vec1[i] & vec2[i];

@@ -505,9 +505,12 @@ namespace OpenBabel
   {
     StackType neighbour[4];
     StackType original;
-    int count,i,j;
+    int count;
+    int i;
+    int j;
     ByteCode *ptr;
-    bool done,found;
+    bool done;
+    bool found;
 
     if( curr != prev )
       {
@@ -762,7 +765,8 @@ namespace OpenBabel
   // validated
   OBChainsParser::OBChainsParser(void)
   {
-    int i, res = RESIDMIN;
+    int i;
+    int res = RESIDMIN;
 
     PDecisionTree = (ByteCode*)nullptr;
     for( i=0 ; i < AMINOMAX ; i++ )
@@ -858,7 +862,8 @@ namespace OpenBabel
   {
     char buffer[BUFF_SIZE];
     const char *symbol;
-    string atomid, name;
+    string atomid;
+    string name;
 
     OBAtom    *atom;
     OBResidue *residue;
@@ -1096,7 +1101,8 @@ namespace OpenBabel
   {
     int resid;
     unsigned int size;
-    unsigned int i, idx;
+    unsigned int i;
+    unsigned int idx;
 
     int resno = 1;
     int count = 0;
@@ -1145,9 +1151,11 @@ namespace OpenBabel
   ///@todo atom index
   unsigned int OBChainsParser::RecurseChain(OBMol &mol, unsigned int i, int c)
   {
-    OBAtom *atom, *nbr;
+    OBAtom *atom;
+    OBAtom *nbr;
     vector<OBBond *>::iterator b;
-    unsigned int result, index;
+    unsigned int result;
+    unsigned int index;
 
     atom = mol.GetAtom(i + 1);
 
@@ -1177,7 +1185,8 @@ namespace OpenBabel
   {
     ConstrainBackbone(mol, Peptide, MAXPEPTIDE);
 
-    unsigned int i, numAtoms = mol.NumAtoms();
+    unsigned int i;
+    unsigned int numAtoms = mol.NumAtoms();
 
     // Cyclic peptides have no NTer (1SKI)
     // timvdm 30/06/08
@@ -1230,9 +1239,12 @@ namespace OpenBabel
     OBAtom *nb = nullptr;
     OBAtom *nc = nullptr;
     OBAtom *nd = nullptr;
-    OBAtom *atom, *nbr;
-    bool change, result;
-    int i, count;
+    OBAtom *atom;
+    OBAtom *nbr;
+    bool change;
+    bool result;
+    int i;
+    int count;
     unsigned int idx;
 
     vector<OBAtom *>::iterator a;
@@ -1369,9 +1381,11 @@ namespace OpenBabel
     unsigned int na = 0;
     unsigned int nb = 0;
     unsigned int nc = 0;
-    OBAtom *atom, *nbr;
+    OBAtom *atom;
+    OBAtom *nbr;
     int count;
-    int j,k;
+    int j;
+    int k;
     unsigned int idx;
 
     j = k = 0; // ignore warning
@@ -1518,10 +1532,14 @@ namespace OpenBabel
   {
     ByteCode *ptr;
 
-    int AtomCount, BondCount;
-    int curr,prev,bond;
+    int AtomCount;
+    int BondCount;
+    int curr;
+    int prev;
+    int bond;
     int bcount;
-    int i,j;
+    int i;
+    int j;
 
     ptr    = (ByteCode *) tree;
     bcount = 0;
@@ -1534,7 +1552,8 @@ namespace OpenBabel
     AtomCount = 1;
     BondCount = 0;
 
-    OBAtom *atom, *nbr;
+    OBAtom *atom;
+    OBAtom *nbr;
     vector<OBBond *>::iterator b;
 
     while( ptr ) {
@@ -1642,7 +1661,8 @@ namespace OpenBabel
   {
     ConstrainBackbone(mol, Nucleotide, MAXNUCLEIC);
 
-    int i, max = mol.NumAtoms();
+    int i;
+    int max = mol.NumAtoms();
 
     /* Order Nucleic Backbone */
 
@@ -1668,9 +1688,11 @@ namespace OpenBabel
   {
     unsigned int neighbour[4];
     int count;
-    int j,k;
+    int j;
+    int k;
 
-    OBAtom *atom, *nbr;
+    OBAtom *atom;
+    OBAtom *nbr;
     vector<OBBond *>::iterator b;
 
     if (visits[i])
@@ -1818,8 +1840,10 @@ namespace OpenBabel
 
   bool OBChainsParser::DetermineHydrogens(OBMol &mol)
   {
-    OBAtom *atom, *nbr;
-    int idx,sidx;
+    OBAtom *atom;
+    OBAtom *nbr;
+    int idx;
+    int sidx;
 
     int max = mol.NumAtoms();
     for ( int i = 0 ; i < max ; i++ )

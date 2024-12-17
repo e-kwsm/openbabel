@@ -237,7 +237,15 @@ namespace OpenBabel
 
   vector3 OBBuilder::GetNewBondVector(OBAtom *atom, double length)
   {
-    vector3 bond1, bond2, bond3, bond4, bond5, v1, v2, v3, newbond;
+    vector3 bond1;
+    vector3 bond2;
+    vector3 bond3;
+    vector3 bond4;
+    vector3 bond5;
+    vector3 v1;
+    vector3 v2;
+    vector3 v3;
+    vector3 newbond;
 
     bond1 = VZero;
     bond2 = VZero;

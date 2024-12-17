@@ -158,7 +158,9 @@ namespace OpenBabel
 
   void OBFloatGrid::IndexToCoords(int idx, double &x, double &y, double &z)
   {
-    int grid_x, grid_y, grid_z;
+    int grid_x;
+    int grid_y;
+    int grid_z;
 
     grid_z = idx % _zdim;
     grid_x = static_cast<int>(idx / (_ydim * _zdim));
@@ -190,11 +192,29 @@ namespace OpenBabel
     if (_values.empty())
       return 0.0;
 
-    int n,igx,igy,igz;
+    int n;
+    int igx;
+    int igy;
+    int igz;
     double yzdim;
-    double gx,gy,gz,fgx,fgy,fgz;
-    double ax,ay,az,bx,by,bz;
-    double AyA,ByA,AyB,ByB,Az,Bz;
+    double gx;
+    double gy;
+    double gz;
+    double fgx;
+    double fgy;
+    double fgz;
+    double ax;
+    double ay;
+    double az;
+    double bx;
+    double by;
+    double bz;
+    double AyA;
+    double ByA;
+    double AyB;
+    double ByB;
+    double Az;
+    double Bz;
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
@@ -261,12 +281,33 @@ namespace OpenBabel
 
   double OBFloatGrid::InterpolateDerivatives(double x,double y,double z,double *derivatives)
   {
-    int n,igx,igy,igz;
+    int n;
+    int igx;
+    int igy;
+    int igz;
     double yzdim;
-    double gx,gy,gz,fgx,fgy,fgz;
-    double ax,ay,az,bx,by,bz;
-    double AyA,ByA,AyB,ByB,Az,Bz;
-    double energy,fx,fy,fz;
+    double gx;
+    double gy;
+    double gz;
+    double fgx;
+    double fgy;
+    double fgz;
+    double ax;
+    double ay;
+    double az;
+    double bx;
+    double by;
+    double bz;
+    double AyA;
+    double ByA;
+    double AyB;
+    double ByB;
+    double Az;
+    double Bz;
+    double energy;
+    double fx;
+    double fy;
+    double fz;
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
@@ -411,15 +452,22 @@ namespace OpenBabel
     _nzinc = (int) floor((_zmax - _zmin)/0.5);
     _maxinc = _nxinc*_nyinc*_nzinc;
 
-    int j,size = _nxinc*_nyinc*_nzinc;
+    int j;
+    int size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
     for (unsigned int num = 0; num < cell.size(); ++num)
       cell[num].resize(0);
 
     cutoff *= cutoff; //don't do sqrts
 
-    int k,l,m;
-    double x,y,z,dx_2,dy_2;
+    int k;
+    int l;
+    int m;
+    double x;
+    double y;
+    double z;
+    double dx_2;
+    double dy_2;
     double *c = mol.GetCoordinates();
     size = mol.NumAtoms()*3;
 
@@ -450,12 +498,19 @@ namespace OpenBabel
     _nzinc = (int) floor((_zmax - _zmin)/0.5);
     _maxinc = _nxinc*_nyinc*_nzinc;
 
-    int j,size = _nxinc*_nyinc*_nzinc;
+    int j;
+    int size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
     cutoff *= cutoff; //don't do sqrts
 
-    int k,l,m;
-    double x,y,z,dx_2,dy_2;
+    int k;
+    int l;
+    int m;
+    double x;
+    double y;
+    double z;
+    double dx_2;
+    double dy_2;
     double *c = mol.GetCoordinates();
     size = mol.NumAtoms()*3;
 
@@ -487,7 +542,10 @@ namespace OpenBabel
     x -= _xmin;
     y -= _ymin;
     z -= _zmin;
-    int i,j,k,idx;
+    int i;
+    int j;
+    int k;
+    int idx;
     i = (int) (x*_inc);
     j = (int) (y*_inc);
     k = (int) (z*_inc);
@@ -500,7 +558,9 @@ namespace OpenBabel
 
   vector<int> *OBProxGrid::GetProxVector(double *c)
   {
-    double x,y,z;
+    double x;
+    double y;
+    double z;
     x = c[0];
     y = c[1];
     z = c[2];

@@ -78,7 +78,8 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
   if((Flags() & NOTREADABLE) && (Flags() & NOTWRITABLE))
     return false;
 
-  bool justread=false, justwrite=false;
+  bool justread=false;
+  bool justwrite=false;
   //No output if formats is not readable or writable if this was requested
   if(param)
   {

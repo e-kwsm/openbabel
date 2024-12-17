@@ -102,7 +102,11 @@ namespace OpenBabel
   {
     unsigned int i;
     OBMol *mol = (OBMol*)fixed->GetParent();
-    vector3 v1,v2,v3,v4,v5;
+    vector3 v1;
+    vector3 v2;
+    vector3 v3;
+    vector3 v4;
+    vector3 v5;
     vector<int> children;
 
     obErrorLog.ThrowError(__FUNCTION__,
@@ -191,7 +195,8 @@ namespace OpenBabel
 
    bool OBBond::IsAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c;
+      OBAtom *n;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -223,7 +228,8 @@ namespace OpenBabel
 
    bool OBBond::IsPrimaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c;
+      OBAtom *n;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -257,7 +263,8 @@ namespace OpenBabel
 
    bool OBBond::IsSecondaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c;
+      OBAtom *n;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -291,7 +298,8 @@ namespace OpenBabel
 
    bool OBBond::IsTertiaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c;
+      OBAtom *n;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -422,7 +430,8 @@ namespace OpenBabel
 
   bool OBBond::IsEster()
   {
-    OBAtom *a1,*a2;
+    OBAtom *a1;
+    OBAtom *a2;
     a1 = a2 = nullptr;
 
     if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8)
@@ -481,8 +490,10 @@ namespace OpenBabel
   bool OBBond::IsDoubleBondGeometry()
   {
     double torsion;
-    OBAtom *nbrStart,*nbrEnd;
-    vector<OBBond*>::iterator i,j;
+    OBAtom *nbrStart;
+    OBAtom *nbrEnd;
+    vector<OBBond*>::iterator i;
+    vector<OBBond*>::iterator j;
     // We concentrate on sp2 atoms with valence up to 3 and ignore the rest (like sp1 or S,P)
     // As this is called from PerceiveBondOrders, GetHyb() may still be undefined.
     if (_bgn->GetHyb()==1 || _bgn->GetExplicitDegree()>3||
@@ -574,7 +585,8 @@ namespace OpenBabel
 
   double OBBond::GetEquibLength() const
   {
-    const OBAtom *begin, *end;
+    const OBAtom *begin;
+    const OBAtom *end;
 
     begin = GetBeginAtom();
     end = GetEndAtom();
@@ -596,7 +608,8 @@ namespace OpenBabel
   double OBBond::GetLength() const
   {
     double	d2;
-    const OBAtom *begin, *end;
+    const OBAtom *begin;
+    const OBAtom *end;
     begin = GetBeginAtom();
     end = GetEndAtom();
 

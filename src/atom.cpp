@@ -212,9 +212,12 @@ namespace OpenBabel
 
   bool OBAtom::IsOneThree(OBAtom *a1)
   {
-    OBAtom *atom1,*atom2;
-    OBBond *bond1,*bond2;
-    OBBondIterator i,j;
+    OBAtom *atom1;
+    OBAtom *atom2;
+    OBBond *bond1;
+    OBBond *bond2;
+    OBBondIterator i;
+    OBBondIterator j;
     atom1 = this;
     atom2 = a1;
 
@@ -228,9 +231,12 @@ namespace OpenBabel
 
   bool OBAtom::IsOneFour(OBAtom *a1)
   {
-    OBAtom *atom1,*atom2;
-    OBBond *bond1,*bond2;
-    OBBondIterator i,j;
+    OBAtom *atom1;
+    OBAtom *atom2;
+    OBBond *bond1;
+    OBBond *bond2;
+    OBBondIterator i;
+    OBBondIterator j;
     atom1 = this;
     atom2 = a1;
 
@@ -245,8 +251,12 @@ namespace OpenBabel
   bool OBAtom::IsAxial()
   {
     double tor;
-    OBAtom *a,*b,*c;
-    OBBondIterator i,j,k;
+    OBAtom *a;
+    OBAtom *b;
+    OBAtom *c;
+    OBBondIterator i;
+    OBBondIterator j;
+    OBBondIterator k;
 
     for (a = BeginNbrAtom(i);a;a = NextNbrAtom(i))
       if (a->GetHyb() == 3 && a->IsInRing() && !(*i)->IsInRing())
@@ -273,8 +283,10 @@ namespace OpenBabel
     **/
   bool OBAtom::HasAlphaBetaUnsat(bool includePandS)
   {
-    OBAtom *a1,*a2;
-    OBBondIterator i,j;
+    OBAtom *a1;
+    OBAtom *a2;
+    OBBondIterator i;
+    OBBondIterator j;
 
     for (a1 = BeginNbrAtom(i);a1;a1 = NextNbrAtom(i))
       if (includePandS || (a1->GetAtomicNum() != OBElements::Phosphorus && a1->GetAtomicNum() != OBElements::Sulfur))
@@ -558,10 +570,13 @@ namespace OpenBabel
     if (GetAtomicNum() != OBElements::Nitrogen)
       return(false);
 
-    OBAtom *nbratom,*atom;
-    OBBond *abbond,*bond;
+    OBAtom *nbratom;
+    OBAtom *atom;
+    OBBond *abbond;
+    OBBond *bond;
 
-    OBBondIterator i,j;
+    OBBondIterator i;
+    OBBondIterator j;
     atom = this;
     for (bond = BeginBond(i);bond;bond = NextBond(i))
       {
@@ -691,8 +706,10 @@ namespace OpenBabel
       }
 
     OBAtom *nbr = nullptr;
-    OBBond *bond1,*bond2;
-    OBBondIterator i,j;
+    OBBond *bond1;
+    OBBond *bond2;
+    OBBondIterator i;
+    OBBondIterator j;
 
     // searching for attached sulfur
     for (bond1 = atm->BeginBond(i); bond1; bond1 = atm->NextBond(i))
@@ -892,11 +909,15 @@ namespace OpenBabel
 
   double	  OBAtom::SmallestBondAngle()
   {
-    OBAtom *b, *c;
-    vector3 v1, v2;
-    double degrees, minDegrees;
+    OBAtom *b;
+    OBAtom *c;
+    vector3 v1;
+    vector3 v2;
+    double degrees;
+    double minDegrees;
     //    vector<OBAtom*>::iterator i;
-    OBBondIterator j,k;
+    OBBondIterator j;
+    OBBondIterator k;
 
     minDegrees = 360.0;
 
@@ -915,11 +936,15 @@ namespace OpenBabel
 
   double	  OBAtom::AverageBondAngle()
   {
-    OBAtom *b, *c;
-    vector3 v1, v2;
-    double degrees, avgDegrees;
+    OBAtom *b;
+    OBAtom *c;
+    vector3 v1;
+    vector3 v2;
+    double degrees;
+    double avgDegrees;
     //    vector<OBAtom*>::iterator i;
-    OBBondIterator j,k;
+    OBBondIterator j;
+    OBBondIterator k;
     int n=0;
 
     avgDegrees = 0.0;
@@ -1129,7 +1154,8 @@ namespace OpenBabel
 
   double OBAtom::GetAngle(OBAtom *b, OBAtom *c)
   {
-    vector3 v1,v2;
+    vector3 v1;
+    vector3 v2;
 
     v1 = this->GetVector() - b->GetVector();
     v2 = c->GetVector() - b->GetVector();
@@ -1202,7 +1228,8 @@ namespace OpenBabel
         return(false);
       }
 
-    double br1,br2;
+    double br1;
+    double br2;
     br1 = CorrectedBondRad(6,3);
     br2 = CorrectedBondRad(atom->GetAtomicNum(),atom->GetHyb());
     bond->SetLength(atom,br1+br2);
@@ -1295,7 +1322,9 @@ namespace OpenBabel
       targetAngle = 180.0 - (360.0 / MemberOfRingSize());
 
     //adjust attached acyclic bond lengths
-    double br1,br2, length;
+    double br1;
+    double br2;
+    double length;
     br1 = CorrectedBondRad(GetAtomicNum(),hyb);
     for (nbr = BeginNbrAtom(i);nbr;nbr = NextNbrAtom(i))
       if (!(*i)->IsInRing())
@@ -1315,8 +1344,19 @@ namespace OpenBabel
       {
         double angle;
         matrix3x3 m;
-        vector3 v1,v2,v3,v4,n,s;
-        OBAtom *r1,*r2,*r3,*a1,*a2,*a3,*a4;
+        vector3 v1;
+        vector3 v2;
+        vector3 v3;
+        vector3 v4;
+        vector3 n;
+        vector3 s;
+        OBAtom *r1;
+        OBAtom *r2;
+        OBAtom *r3;
+        OBAtom *a1;
+        OBAtom *a2;
+        OBAtom *a3;
+        OBAtom *a4;
         r1 = r2 = r3 = a1 = a2 = a3 = a4 = nullptr;
 
         //find ring atoms first

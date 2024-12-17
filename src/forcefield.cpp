@@ -468,8 +468,15 @@ namespace OpenBabel
     for (i = _constraints.begin(); i != _constraints.end(); ++i)
       if ( (i->type == OBFF_CONST_DISTANCE) || (i->type == OBFF_CONST_ANGLE) ||
            (i->type == OBFF_CONST_TORSION) ) {
-        vector3 da, db, dc, dd;
-        double delta, delta2, rab, theta, dE;
+        vector3 da;
+        vector3 db;
+        vector3 dc;
+        vector3 dd;
+        double delta;
+        double delta2;
+        double rab;
+        double theta;
+        double dE;
 
         switch (i->type) {
         case OBFF_CONST_DISTANCE:
@@ -1062,7 +1069,8 @@ namespace OpenBabel
 
     //Copy conformer information
     if (_mol.NumConformers() > 0) {
-      int k,l;
+      int k;
+      int l;
       vector<double*> conf;
       double* xyz = nullptr;
       for (k=0 ; k<_mol.NumConformers() ; ++k) {
@@ -1115,7 +1123,8 @@ namespace OpenBabel
 
     //Copy conformer information
     if (mol.NumConformers() > 1) {
-      int k,l;
+      int k;
+      int l;
       vector<double*> conf;
       double* xyz = nullptr;
       for (k=0 ; k<mol.NumConformers() ; ++k) {
@@ -1134,7 +1143,9 @@ namespace OpenBabel
 
   vector3 OBForceField::ValidateGradientError(vector3 &numgrad, vector3 &anagrad)
   {
-    double errx, erry, errz;
+    double errx;
+    double erry;
+    double errz;
 
     if (fabs(numgrad.x()) < 1.0)
       errx = numgrad.x() * fabs(numgrad.x() - anagrad.x()) * 100;
@@ -1312,8 +1323,11 @@ namespace OpenBabel
     std::vector<int> init_rotorKey(rl.Size() + 1, 0);
     std::vector<int> rotorKey(init_rotorKey);
 
-    unsigned int j, minj;
-    double currentE, minE, best_minE;
+    unsigned int j;
+    unsigned int minj;
+    double currentE;
+    double minE;
+    double best_minE;
 
     double *verybestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date
     double *bestconf = new double [_mol.NumAtoms() * 3]; // store the best conformer to date in the current permutation
@@ -1341,7 +1355,8 @@ namespace OpenBabel
                                      3,0,1,2, 3,0,2,1, 3,1,0,2, 3,1,2,0, 3,2,0,1, 3,2,1,0};
     const char factorial[5] = {0, 1, 2, 6, 24};
 
-    char num_rotors_to_permute, num_permutations;
+    char num_rotors_to_permute;
+    char num_permutations;
     if (permute)
       num_rotors_to_permute = (char)std::min<size_t> (4, vrotors.size());
     else
@@ -1549,7 +1564,9 @@ namespace OpenBabel
   void Reweight(std::vector< std::vector <double> > &rotorWeights,
                 std::vector<int> rotorKey, double bonus)
   {
-    double fraction, minWeight, maxWeight;
+    double fraction;
+    double minWeight;
+    double maxWeight;
     bool improve = (bonus > 0.0);
 
     for (unsigned int i = 1; i < rotorWeights.size() - 1; ++i) {
@@ -1664,7 +1681,9 @@ namespace OpenBabel
     rotorWeights.push_back(weightSet); // empty set for unused index 0
 
     double weight;
-    double bestE, worstE, currentE;
+    double bestE;
+    double worstE;
+    double currentE;
     std::vector<double> energies;
     // First off, we test out each rotor position. How good (or bad) is it?
     // This lets us pre-weight the search to a useful level
@@ -1911,7 +1930,8 @@ namespace OpenBabel
                   matrix[i][j] = 1.3 + 1.3*cos(DEG_TO_RAD*(180.0 - 120.0))
                     + 1.3*cos(DEG_TO_RAD*(180.0 - 120.0));
                 else {// maximum distance (torsion angle = 180)
-                  double delta_x, delta_y;
+                  double delta_x;
+                  double delta_y;
                   delta_x = 1.3 + 1.3*cos(DEG_TO_RAD*(180.0-120.0))
                     + 1.3*cos(DEG_TO_RAD*(180.0-120.0));
                   delta_y = 1.3*sin(DEG_TO_RAD*(180.0-120.0)) + 1.3*sin(DEG_TO_RAD*(180.0-120.0));
@@ -1946,7 +1966,9 @@ namespace OpenBabel
 
     // Triangle smoothing
     //FOR_ANGLES_OF_MOL(angle, _mol) {
-    int a, b, c;
+    int a;
+    int b;
+    int c;
     bool self_consistent = false;
     while (!self_consistent) {
       self_consistent = true;
@@ -1962,8 +1984,12 @@ namespace OpenBabel
               continue;
             c = _c->GetIdx() - 1;
 
-            double u_ab, u_bc, u_ac; // upper limits
-            double l_ab, l_bc, l_ac; // lower limits
+            double u_ab;
+            double u_bc;
+            double u_ac; // upper limits
+            double l_ab;
+            double l_bc;
+            double l_ac; // lower limits
 
             // get the upper and lower limits for ab, bc and ac
             if (b > a) {
@@ -2038,7 +2064,9 @@ namespace OpenBabel
         }
 
         srand(static_cast<unsigned int>(time(nullptr)));
-        double rand_ab, u_ab, l_ab;
+        double rand_ab;
+        double u_ab;
+        double l_ab;
         if (j > i) {
           u_ab = matrix[i][j];
           l_ab = matrix[j][i];
@@ -2124,7 +2152,9 @@ namespace OpenBabel
     }
 
     // Assign coordinates
-    double xa, ya, za;
+    double xa;
+    double ya;
+    double za;
     FOR_ATOMS_OF_MOL (a, _mol) {
       i = a->GetIdx() - 1;
 
@@ -2332,8 +2362,13 @@ namespace OpenBabel
   // }
   vector3 OBForceField::LineSearch(OBAtom *atom, vector3 &direction)
   {
-    double e_n1, e_n2, step;
-    vector3 old_xyz, orig_xyz, xyz_k, dir(0.0, 0.0, 0.0);
+    double e_n1;
+    double e_n2;
+    double step;
+    vector3 old_xyz;
+    vector3 orig_xyz;
+    vector3 xyz_k;
+    vector3 dir(0.0, 0.0, 0.0);
 
     // This needs several enhancements
     // 1) Switch to smarter line search method (e.g., Newton's method in 1D)
@@ -2398,7 +2433,9 @@ namespace OpenBabel
   //  (and is more correct anyway)
   double OBForceField::Newton2NumLineSearch(double *direction)
   {
-    double e_n1, e_n2, e_n3;
+    double e_n1;
+    double e_n2;
+    double e_n3;
     double *origCoords = new double [_ncoords];
 
     double opt_step = 0.0;
@@ -2501,7 +2538,11 @@ namespace OpenBabel
   double OBForceField::LineSearch(double *currentCoords, double *direction)
   {
     unsigned int numCoords = _mol.NumAtoms() * 3;
-    double e_n1, e_n2, step, alpha, tempStep;
+    double e_n1;
+    double e_n2;
+    double step;
+    double alpha;
+    double tempStep;
     double *lastStep = new double [numCoords];
 
     alpha = 0.0; // Scale factor along direction vector
@@ -2581,8 +2622,13 @@ namespace OpenBabel
 
   vector3 OBForceField::ValidateLineSearch(OBAtom *atom, vector3 &direction)
   {
-    double e_n1, e_n2, step;
-    vector3 old_xyz, orig_xyz, xyz_k, dir(0.0, 0.0, 0.0);
+    double e_n1;
+    double e_n2;
+    double step;
+    vector3 old_xyz;
+    vector3 orig_xyz;
+    vector3 xyz_k;
+    vector3 dir(0.0, 0.0, 0.0);
 
     step = 0.2;
     direction.normalize();
@@ -2630,7 +2676,8 @@ namespace OpenBabel
   {
     OBAtom *atom = new OBAtom;
     vector3 grad;
-    double e_n1, e_n2;
+    double e_n1;
+    double e_n2;
 
     atom->SetVector(9.0, 9.0, 0.0);
     e_n1 = atom->x() * atom->x() + 2 * (atom->y() * atom->y());
@@ -2672,9 +2719,15 @@ namespace OpenBabel
   void OBForceField::ValidateConjugateGradients(int steps)
   {
     OBAtom *atom = new OBAtom;
-    vector3 grad1, grad2, dir1, dir2;
-    double e_n1, e_n2;
-    double g2g2, g1g1, g2g1;
+    vector3 grad1;
+    vector3 grad2;
+    vector3 dir1;
+    vector3 dir2;
+    double e_n1;
+    double e_n2;
+    double g2g2;
+    double g1g1;
+    double g2g1;
     bool firststep;
 
     firststep = true;
@@ -2955,9 +3008,13 @@ namespace OpenBabel
       return 0;
 
     double e_n2;
-    double g2g2, g1g1, beta;
-    vector3 grad2, dir2;
-    vector3 grad1, dir1; // temporaries to perform dot product, etc.
+    double g2g2;
+    double g1g1;
+    double beta;
+    vector3 grad2;
+    vector3 dir2;
+    vector3 grad1;
+    vector3 dir1; // temporaries to perform dot product, etc.
     double maxgrad; // for convergence
 
     if (_ncoords != _mol.NumAtoms() * 3)
@@ -3076,8 +3133,14 @@ namespace OpenBabel
   //
   vector3 OBForceField::NumericalDerivative(OBAtom *atom, int terms)
   {
-    vector3 va, grad;
-    double e_orig, e_plus_delta, delta, dx, dy, dz;
+    vector3 va;
+    vector3 grad;
+    double e_orig;
+    double e_plus_delta;
+    double delta;
+    double dx;
+    double dy;
+    double dz;
 
     delta = 1.0e-5;
 
@@ -3192,8 +3255,15 @@ namespace OpenBabel
   //
   vector3 OBForceField::NumericalSecondDerivative(OBAtom *atom, int terms)
   {
-    vector3 va, grad;
-    double e_0, e_1, e_2, delta, dx, dy, dz;
+    vector3 va;
+    vector3 grad;
+    double e_0;
+    double e_1;
+    double e_2;
+    double delta;
+    double dx;
+    double dy;
+    double dz;
 
     delta = 1.0e-5;
 
@@ -3467,7 +3537,10 @@ namespace OpenBabel
   {
     _ncoords = _mol.NumAtoms() * 3;
     int velocityIdx;
-    double velocity, E_kin, E_kin2, factor;
+    double velocity;
+    double E_kin;
+    double E_kin2;
+    double factor;
 
     // E_kin = 0.5 * Ndf * R * T
     E_kin = _ncoords * GAS_CONSTANT * _temp;
@@ -3516,7 +3589,9 @@ namespace OpenBabel
 
     int coordIdx;
     double timestep2;
-    vector3 force, pos, accel;
+    vector3 force;
+    vector3 pos;
+    vector3 accel;
     _timestep = timestep;
     _temp = T;
 
@@ -3581,7 +3656,8 @@ namespace OpenBabel
 
   double OBForceField::VectorLengthDerivative(vector3 &a, vector3 &b)
   {
-    vector3 vab, drab;
+    vector3 vab;
+    vector3 drab;
     double rab;
 
     vab = a - b;
@@ -3637,8 +3713,10 @@ namespace OpenBabel
     // This is adapted from http://scidok.sulb.uni-saarland.de/volltexte/2007/1325/pdf/Dissertation_1544_Moll_Andr_2007.pdf
     // Many thanks to Andreas Moll and the BALLView developers for this
 
-    vector3 v1, v2;
-    vector3 n1, n2;
+    vector3 v1;
+    vector3 v2;
+    vector3 n1;
+    vector3 n2;
 
     // Calculate the vector between atom1 and atom2,
     // test if the vector has length larger than 0 and normalize it
@@ -3707,12 +3785,14 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // Bond vectors of the three atoms
-    double ij[3], jk[3];
+    double ij[3];
+    double jk[3];
     VectorSubtract(pos_i, pos_j, ij);
     VectorSubtract(pos_k, pos_j, jk);
 
     // length of the two bonds
-    double l_ij, l_jk;
+    double l_ij;
+    double l_jk;
     l_ij = VectorLength(ij);
     l_jk = VectorLength(jk);
 
@@ -3754,7 +3834,8 @@ namespace OpenBabel
       angle_ijk = RAD_TO_DEG * acos(cos_ijk);
     }
 
-    double t1[3], t2[3];
+    double t1[3];
+    double t2[3];
 
     VectorCross(ij, c1, t1);
     VectorNormalize(t1);
@@ -3777,12 +3858,14 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // Bond vectors of the three atoms
-    double ij[3], jk[3];
+    double ij[3];
+    double jk[3];
     VectorSubtract(pos_i, pos_j, ij);
     VectorSubtract(pos_k, pos_j, jk);
 
     // length of the two bonds
-    double l_ij, l_jk;
+    double l_ij;
+    double l_jk;
     l_ij = VectorLength(ij);
     l_jk = VectorLength(jk);
 
@@ -3829,7 +3912,9 @@ namespace OpenBabel
     vector3 delta;
 
     // normal vectors of the three planes:
-    vector3 an, bn, cn;
+    vector3 an;
+    vector3 bn;
+    vector3 cn;
 
     // calculate normalized bond vectors from central atom to outer atoms:
     delta = i - j;
@@ -3938,9 +4023,13 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // vector lengths of the three bonds:
-    double ji[3], jk[3], jl[3];
+    double ji[3];
+    double jk[3];
+    double jl[3];
     // normal vectors of the three planes:
-    double an[3], bn[3], cn[3];
+    double an[3];
+    double bn[3];
+    double cn[3];
 
     // calculate normalized bond vectors from central atom to outer atoms:
     VectorSubtract(pos_i, pos_j, ji);
@@ -4056,9 +4145,13 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // vector lengths of the three bonds:
-    double ji[3], jk[3], jl[3];
+    double ji[3];
+    double jk[3];
+    double jl[3];
     // normal vectors of the three planes:
-    double an[3], bn[3], cn[3];
+    double an[3];
+    double bn[3];
+    double cn[3];
 
     // calculate normalized bond vectors from central atom to outer atoms:
     VectorSubtract(pos_i, pos_j, ji);
@@ -4113,11 +4206,16 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // Bond vectors of the three atoms
-    vector3 ij, jk, kl;
+    vector3 ij;
+    vector3 jk;
+    vector3 kl;
     // length of the three bonds
-    double l_ij, l_jk, l_kl;
+    double l_ij;
+    double l_jk;
+    double l_kl;
     // angle between ijk and jkl:
-    double angle_ijk, angle_jkl;
+    double angle_ijk;
+    double angle_jkl;
 
     ij = j - i;
     jk = k - j;
@@ -4181,13 +4279,17 @@ namespace OpenBabel
     // Many thanks to Andreas Moll and the BALLView developers for this
 
     // Bond vectors of the three atoms
-    double ij[3], jk[3], kl[3];
+    double ij[3];
+    double jk[3];
+    double kl[3];
     VectorSubtract(pos_j, pos_i, ij);
     VectorSubtract(pos_k, pos_j, jk);
     VectorSubtract(pos_l, pos_k, kl);
 
     // length of the three bonds
-    double l_ij, l_jk, l_kl;
+    double l_ij;
+    double l_jk;
+    double l_kl;
     l_ij = VectorLength(ij);
     l_jk = VectorLength(jk);
     l_kl = VectorLength(kl);
@@ -4206,7 +4308,8 @@ namespace OpenBabel
     VectorDivide (kl, l_kl, kl);
 
     // angle between ijk and jkl:
-    double angle_ijk, angle_jkl;
+    double angle_ijk;
+    double angle_jkl;
 
     double cos_ijk = VectorDot(ij, jk);
     if (cos_ijk > 1.0) {
@@ -4272,7 +4375,9 @@ namespace OpenBabel
   double OBForceField::VectorTorsion(double *pos_i, double *pos_j, double *pos_k, double *pos_l)
   {
     // Bond vectors of the three atoms
-    double ij[3], jk[3], kl[3];
+    double ij[3];
+    double jk[3];
+    double kl[3];
     VectorSubtract(pos_j, pos_i, ij);
     VectorSubtract(pos_k, pos_j, jk);
     VectorSubtract(pos_l, pos_k, kl);
@@ -4306,7 +4411,8 @@ namespace OpenBabel
 
   bool OBForceField::IsInSameRing(OBAtom* a, OBAtom* b)
   {
-    bool a_in, b_in;
+    bool a_in;
+    bool b_in;
     vector<OBRing*> vr;
     vr = _mol.GetSSSR();
 
@@ -4336,7 +4442,10 @@ namespace OpenBabel
     OBFloatGrid fgrid;
     fgrid.Init(_mol, step, padding);
     vector3 min;
-    unsigned int xDim, yDim, zDim, xyzDim;
+    unsigned int xDim;
+    unsigned int yDim;
+    unsigned int zDim;
+    unsigned int xyzDim;
 
     min = fgrid.GetMin();
 
@@ -4362,11 +4471,15 @@ namespace OpenBabel
     double *pos = atom->GetCoordinate();
 
     vector3 coord;
-    double evdw, eele;
-    double distance, minDistance;
+    double evdw;
+    double eele;
+    double distance;
+    double minDistance;
 
     OBGridData *grid = new OBGridData;
-    vector3 xAxis, yAxis, zAxis;
+    vector3 xAxis;
+    vector3 yAxis;
+    vector3 zAxis;
     xAxis = vector3(step, 0.0, 0.0);
     yAxis = vector3(0.0, step, 0.0);
     zAxis = vector3(0.0, 0.0, step);
