@@ -32,7 +32,7 @@ template<class T>
 struct Order
 {
   Order(OBDescriptor* pDesc, bool rev) : _pDesc(pDesc), _rev(rev){}
-  bool operator()(std::pair<OBBase*,T> p1, std::pair<OBBase*,T> p2) const
+  bool operator()(const std::pair<OBBase*,T>& p1, const std::pair<OBBase*,T>& p2) const
   {
     return _rev ?
       _pDesc->Order(p2.second, p1.second) :

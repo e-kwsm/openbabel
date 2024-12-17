@@ -27,6 +27,7 @@ GNU General Public License for more details.
 #  define OB_EXTERN extern
 #endif
 
+#include <utility>
 #include <vector>
 #include <string>
 
@@ -79,7 +80,7 @@ namespace OpenBabel
       OBAtomAtomIterAdaptor() = default;
 
       OBAtomAtomIterAdaptor(Iter iter, const OBAtom *atom = nullptr)
-        : m_iter(iter), m_atom(atom)
+        : m_iter(std::move(iter)), m_atom(atom)
       {
       }
 

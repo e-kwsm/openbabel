@@ -86,12 +86,12 @@ public:
       TroeParams[n] = val;
   }
 
-  void SetEfficiency(std::string id, double Eff)
+  void SetEfficiency(const std::string& id, double Eff)
   {
     Efficiencies[id] = Eff;
   }
 
-  double GetEfficiency(std::string id)
+  double GetEfficiency(const std::string& id)
   {
     return Efficiencies[id]; //will be 0 if not found
   }

@@ -60,7 +60,7 @@ private:
   double _ionizations[TABLE_OF_ELEMENTS_SIZE + 1][9]; // Electron affinity + 8x ionizations of elements
   bool ParseParamFile();
   double GetNonperiodicJij(double J_i, double J_j, double R_ij, bool isSameAtom);
-  double GetPeriodicEwaldJij(double J_i, double J_j, vector3 dx, bool isSameAtom, matrix3x3 unitcell, matrix3x3 fourier, double cellVolume, int numNeighbors[]);
+  double GetPeriodicEwaldJij(double J_i, double J_j, const vector3& dx, bool isSameAtom, const matrix3x3& unitcell, const matrix3x3& fourier, double cellVolume, int numNeighbors[]);
 };
 
 }; //namespace OpenBabel

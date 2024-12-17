@@ -166,7 +166,7 @@ namespace OpenBabel
     */
   }
 
-  std::vector<vector3> OBBuilder::GetFragmentCoord(std::string smiles) {
+  std::vector<vector3> OBBuilder::GetFragmentCoord(const std::string& smiles) {
     if (_rigid_fragments_cache.count(smiles) > 0) {
       return _rigid_fragments_cache[smiles];
     }

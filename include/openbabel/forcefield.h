@@ -1023,7 +1023,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Print msg to the logfile.
      *  \param msg The message to print.
      */
-    void OBFFLog(std::string msg)
+    void OBFFLog(const std::string& msg)
     {
       if (!_logos)
         return;
