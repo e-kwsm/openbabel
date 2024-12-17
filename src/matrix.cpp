@@ -27,7 +27,8 @@ namespace OpenBabel
 
 void print_matrix(std::vector<std::vector<double> > &m)
 {
-    unsigned int i,j;
+    unsigned int i;
+    unsigned int j;
 
     for (i = 0; i < m.size(); ++i)
     {
@@ -39,7 +40,9 @@ void print_matrix(std::vector<std::vector<double> > &m)
 
 void print_matrix_f(double *m, int rows, int cols)
 {
-    int i,j,idx;
+    int i;
+    int j;
+    int idx;
 
     for (i = 0; i < rows; ++i)
     {

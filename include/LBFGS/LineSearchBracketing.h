@@ -59,8 +59,8 @@ public:
         const Scalar dg_test = param.ftol * dg_init;
 
         // Upper and lower end of the current line search range
-        Scalar step_lo = 0,
-               step_hi = std::numeric_limits<Scalar>::infinity();
+        Scalar step_lo = 0;
+        Scalar step_hi = std::numeric_limits<Scalar>::infinity();
 
         for( int iter = 0; iter < param.max_linesearch; iter++ )
         {

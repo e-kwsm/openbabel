@@ -133,7 +133,10 @@ namespace OpenBabel
   {
     int    found;
     double Ttol = 0.05; /* Kelvin */
-    double Vmodel, Vdhf, S0, HexpT;
+    double Vmodel;
+    double Vdhf;
+    double S0;
+    double HexpT;
     std::vector<OBAtomHOF>::iterator it;
     char desc[128];
 
@@ -333,7 +336,8 @@ namespace OpenBabel
       Init();
 
     bool rval;
-    string sto,sfrom;
+    string sto;
+    string sfrom;
     sfrom = from;
     rval = Translate(sto,sfrom);
     strncpy(to,(char*)sto.c_str(), OBATOM_TYPE_LEN - 1);
@@ -444,9 +448,12 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    OBAtom *a1,*a2;
-    OBResidue *r1,*r2;
-    vector<OBAtom*>::iterator i,j;
+    OBAtom *a1;
+    OBAtom *a2;
+    OBResidue *r1;
+    OBResidue *r2;
+    vector<OBAtom*>::iterator i;
+    vector<OBAtom*>::iterator j;
     vector3 v;
 
     int bo;
@@ -697,7 +704,8 @@ namespace OpenBabel
         {
           obErrorLog.ThrowError(__FUNCTION__, "Cannot open " + _filename + " defaulting to compiled data.", obDebug);
 
-          const char *p1,*p2;
+          const char *p1;
+          const char *p2;
           for (p1 = p2 = _dataptr;*p2 != '\0';++p2)
             if (*p2 == '\n')
               {

@@ -45,14 +45,16 @@ namespace OpenBabel
 bool OBDescriptor::Compare(OBBase* pOb, istream& optionText, bool noEval, string* param)
 {
   //Get comparison operator
-  char ch1=0, ch2=0;
+  char ch1=0;
+  char ch2=0;
   while (optionText && !ispunctU(ch1))
     optionText >> ch1;
   if(ispunctU(optionText.peek()))
     optionText >> ch2;
 
   //Get number
-  double filterval, val;
+  double filterval;
+  double val;
   optionText >> filterval;
   if (optionText)
   {
@@ -91,7 +93,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
 {
   for(;;)
   {
-    bool negate=false, retFromCompare, ret=false;
+    bool negate=false;
+    bool retFromCompare;
+    bool ret=false;
     char ch=0;
     optionText >> ch; //skips whitespace
     if(!optionText)
@@ -150,7 +154,8 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
         else
         {
           //just parse
-          char ch1,ch2=0;
+          char ch1;
+          char ch2=0;
           string svalue;
           ParsePredicate(optionText, ch1, ch2, svalue);
           //no existing data, not a descriptor result is false meaning "does not exist"
@@ -196,7 +201,8 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
 //////////////////////////////////////////////////////////////
 pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
 {
-  string descID, param;
+  string descID;
+  string param;
   descID.clear();
   char ch;
   optionText >> ch; //ignore leading white space
@@ -367,7 +373,8 @@ double OBDescriptor::GetStringValue(OBBase* pOb, string& svalue, string* param)
 
 bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bool, bool NoCompOK)
 {
-  char ch1=0, ch2=0;
+  char ch1=0;
+  char ch2=0;
   string sfilterval;
   double filterval = ParsePredicate(optionText, ch1, ch2, sfilterval);
   if(ch1==0 && NoCompOK)
@@ -390,7 +397,8 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
     if(sval[sval.size()-1]=='\"' || sval[sval.size()-1]=='\'')
       sval.erase(sval.size()-1);    
 
-    bool leading=false, trailing=false;
+    bool leading=false;
+    bool trailing=false;
     if(sfilterval[0]=='*')
     {
       leading=true;

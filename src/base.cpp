@@ -212,7 +212,8 @@ namespace OpenBabel
   void OBBase::DeleteData(vector<OBGenericData*> &vg)
   {
     vector<OBGenericData*> vdata;
-    OBDataIterator i,j;
+    OBDataIterator i;
+    OBDataIterator j;
 
     bool del;
     for (i = _vdata.begin();i != _vdata.end();++i)

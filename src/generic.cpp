@@ -615,12 +615,16 @@ namespace OpenBabel
       return ;
 
     // For each atom, we loop through: convert the coords back to inverse space, apply the transformations and create new atoms
-    vector3 baseV, uniqueV, updatedCoordinate;
+    vector3 baseV;
+    vector3 uniqueV;
+    vector3 updatedCoordinate;
     list<vector3> transformedVectors; // list of symmetry-defined copies of the atom
     list<vector3>::iterator transformIter;
-    list<OBAtom*>::iterator deleteIter, atomIter;
+    list<OBAtom*>::iterator deleteIter;
+    list<OBAtom*>::iterator atomIter;
     OBAtom *newAtom;
-    list<OBAtom*> atoms, atomsToDelete;
+    list<OBAtom*> atoms;
+    list<OBAtom*> atomsToDelete;
     char hash[22];
     set<string> coordinateSet;
 
@@ -1325,7 +1329,8 @@ namespace OpenBabel
     if(_torsions.empty())
       return(false);
 
-    vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > tmpquads,quads;
+    vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > tmpquads;
+    vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > quads;
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> >::iterator thisQuad;
     vector<OBTorsion>::iterator torsion;
 

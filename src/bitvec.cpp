@@ -322,7 +322,8 @@ namespace OpenBabel
   */
   void OBBitVec::FromString(const std::string & line, int new_bit_size)
   {
-    size_t startpos = 0, endpos = 0;
+    size_t startpos = 0;
+    size_t endpos = 0;
     std::vector<std::string> tokens;
 
     Clear();
@@ -591,7 +592,8 @@ namespace OpenBabel
   */
   std::istream & operator>> ( std::istream & is, OBBitVec & bv )
   {
-    size_t startpos = 0, endpos = 0;
+    size_t startpos = 0;
+    size_t endpos = 0;
     std::vector<std::string> tokens;
     std::string line;
 
@@ -660,7 +662,8 @@ namespace OpenBabel
   double Tanimoto(const OBBitVec & bv1, const OBBitVec & bv2)
   {
     OBBitVec bvtmp;
-    double andbits,orbits;
+    double andbits;
+    double orbits;
 
     bvtmp = bv1 & bv2;
     andbits = (double)bvtmp.CountBits();

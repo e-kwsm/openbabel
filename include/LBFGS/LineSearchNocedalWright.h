@@ -74,13 +74,16 @@ public:
         if(dg_init > 0)
             throw std::logic_error("the moving direction increases the objective function value");
 
-        const Scalar dg_test  =   param.ftol  * dg_init,
-                     dg_wolfe = - param.wolfe * dg_init;
+        const Scalar dg_test  =   param.ftol  * dg_init;
+        const Scalar dg_wolfe = - param.wolfe * dg_init;
 
         // ends of the line search range (step_lo > step_hi is allowed)
-        Scalar step_hi, step_lo = 0,
-                 fx_hi,   fx_lo = fx_init,
-                 dg_hi,   dg_lo = dg_init;
+        Scalar step_hi;
+        Scalar step_lo = 0;
+        Scalar fx_hi;
+        Scalar fx_lo = fx_init;
+        Scalar dg_hi;
+        Scalar dg_lo = dg_init;
 
         // STEP 1: Bracketing Phase
         //   Find a range guaranteed to contain a step satisfying strong Wolfe.

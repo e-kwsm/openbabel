@@ -269,8 +269,8 @@ bool AliasData::LoadFile(SmartsTable& smtable)
       //Convert SMILES with implicit H to SMARTS with explicit H.
       //Converting into and out of OBMol is a bit heavy, but saves
       //worrying about edge cases in a string parse.
-      stringstream ss('*'+vec[2]),// '*' added to SMILES because the superatom has to be attached
-                   ssmarts;
+      stringstream ss('*'+vec[2]); // '*' added to SMILES because the superatom has to be attached
+      stringstream ssmarts;
       OBConversion conv(&ss, &ssmarts);
       conv.AddOption("h",OBConversion::GENOPTIONS);//add explicit Hs...
       conv.AddOption("h");//...and output them to ensure the superatom itself is not substituted

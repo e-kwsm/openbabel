@@ -53,7 +53,11 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
         std::string term;
         kkTYPE kk;
     } energy_unit;
-    double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
+    double St = 0;
+    double Sr = 0;
+    double Sv = 0;
+    double Sconf = 0;
+    double Ssymm = 0;
     double Rgas      = 1.9872041; 
     int    RotSymNum = 1;
     OpenBabel::OBRotationData* rd;

@@ -219,7 +219,12 @@ namespace OpenBabel
      */
     inline void SetToAngle(double *coordinates, double setang)
     {
-      double /*dx,dy,dz,*/ sn,cs,t,ang,mag;
+      /*double dx,dy,dz;*/
+      double sn;
+      double cs;
+      double t;
+      double ang;
+      double mag;
       // compute the angle to rotate (radians)
       ang = setang - CalcTorsion(coordinates);
       // if the angle to rotate is too small, we're done

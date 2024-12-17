@@ -145,7 +145,8 @@ namespace OpenBabel {
     if (bond->GetBondOrder() != 1)
       return false;
 
-    OBAtom *Fe = nullptr, *C = nullptr;
+    OBAtom *Fe = nullptr;
+    OBAtom *C = nullptr;
 
     OBAtom *begin = bond->GetBeginAtom();
     if (begin->GetAtomicNum() == 26)
@@ -583,7 +584,8 @@ namespace OpenBabel {
         // Unspecified stereo centers have their own descriptor.
         if (nbrIndexes1.empty())
           return 2;
-        std::vector<unsigned long> refs1, refs2;
+        std::vector<unsigned long> refs1;
+        std::vector<unsigned long> refs2;
         for (std::size_t i = 0; i < nbrIndexes1.size(); ++i) {
           if (nbrIndexes1[i] < labels.size())
             refs1.push_back(labels[nbrIndexes1[i]]);

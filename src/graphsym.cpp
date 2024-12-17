@@ -205,9 +205,13 @@ namespace OpenBabel {
     gtd.clear();
     gtd.resize(_pmol->NumAtoms());
 
-    int gtdcount, natom;
-    OBBitVec used, curr, next;
-    OBAtom *atom, *atom1;
+    int gtdcount;
+    int natom;
+    OBBitVec used;
+    OBBitVec curr;
+    OBBitVec next;
+    OBAtom *atom;
+    OBAtom *atom1;
     OBBond *bond;
     vector<OBNodeBase*>::iterator ai;
     vector<OBBond*>::iterator j;
@@ -345,8 +349,10 @@ namespace OpenBabel {
   void OBGraphSymPrivate::CreateNewClassVector(std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
                                         std::vector<std::pair<OBAtom*,unsigned int> > &vp2)
   {
-    unsigned int m,id;
-    OBAtom *atom, *nbr;
+    unsigned int m;
+    unsigned int id;
+    OBAtom *atom;
+    OBAtom *nbr;
     vector<OBBond*>::iterator nbr_iter;
     vector<unsigned int>::iterator k;
     vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
@@ -399,8 +405,10 @@ namespace OpenBabel {
   void OBGraphSymPrivate::CreateNewClassVector(OBMol *mol, std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
       std::vector<std::pair<OBAtom*,unsigned int> > &vp2)
   {
-    int m,id;
-    OBAtom *atom, *nbr;
+    int m;
+    int id;
+    OBAtom *atom;
+    OBAtom *nbr;
     vector<OBBond*>::iterator nbr_iter;
     vector<unsigned int>::iterator k;
     vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
@@ -494,7 +502,8 @@ namespace OpenBabel {
    */
   int OBGraphSymPrivate::ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes)
   {
-    unsigned int nclasses1, nclasses2;
+    unsigned int nclasses1;
+    unsigned int nclasses2;
     vector<pair<OBAtom*,unsigned int> > tmp_classes;
 
     // How many classes are we starting with?  (The "renumber" part isn't relevant.)

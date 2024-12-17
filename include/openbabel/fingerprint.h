@@ -86,7 +86,8 @@ public:
   static double Tanimoto(const std::vector<unsigned int>& vec1, const unsigned int* p2)
   {
     ///If used for two vectors, vec1 and vec2, call as Tanimoto(vec1, &vec2[0]);
-    int andbits=0, orbits=0;
+    int andbits=0;
+    int orbits=0;
     unsigned int i;
     for (i=0;i<vec1.size();++i)
     {

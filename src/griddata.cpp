@@ -108,7 +108,9 @@ namespace OpenBabel {
 
   void OBGridData::GetAxes( double x[3], double y[3], double z[3] ) const
   {
-    vector3 v1, v2, v3;
+    vector3 v1;
+    vector3 v2;
+    vector3 v3;
     v1 = d->floatGrid.GetXAxis();
     v2 = d->floatGrid.GetYAxis();
     v3 = d->floatGrid.GetZAxis();
