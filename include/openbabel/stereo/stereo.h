@@ -475,7 +475,7 @@ namespace OpenBabel {
       /**
        * Ensure the maps are initialized and initialize them only once.
        */
-      inline void EnsureInit() { if (!m_init) InitMaps(); }
+      void EnsureInit() { if (!m_init) InitMaps(); }
       /**
        * Initialize @p m_tetrahedralMap and m_cistransMap to contain the
        * data objects. If @p m_perceive is true and chirality isn't perceived

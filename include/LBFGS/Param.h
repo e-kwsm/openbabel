@@ -179,7 +179,7 @@ public:
     /// An `std::invalid_argument` exception will be thrown if some parameter
     /// is invalid.
     ///
-    inline void check_param() const
+    void check_param() const
     {
         if(m <= 0)
             throw std::invalid_argument("'m' must be positive");

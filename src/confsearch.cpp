@@ -101,10 +101,10 @@ namespace OpenBabel
       typedef tree<PosePair>::iterator Tree_it;
       typedef tree<PosePair>::sibling_iterator Tree_sit;
       size_t GetSize();
-      inline int GetNRMSD() {
+      int GetNRMSD() {
         return n_rmsd;
       }
-      inline double GetCutoff() {
+      double GetCutoff() {
         return cutoff;
       }
 
