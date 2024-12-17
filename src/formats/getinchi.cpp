@@ -32,7 +32,7 @@ namespace OpenBabel
 bool isnic(char ch)
 {
   //This set of characters could be extended
-  static std::string nic("\"\'\\@<>!$%&{}[]");
+  static std::string nic(R"("'\@<>!$%&{}[])");
   return ch<0 || nic.find(ch)!=std::string::npos;
 };
 
