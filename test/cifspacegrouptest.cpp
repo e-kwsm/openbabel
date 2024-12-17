@@ -79,42 +79,42 @@ void testSpaceGroupTransformations()
   vector<string> trans_got;
 
   // Same transformation
-  trans_exp.push_back("x,y,z");
-  trans.push_back("x,y,z");
-  trans.push_back(" x , y , z ");
-  trans.push_back("x,y+1,z");
-  trans.push_back("x,y-1,z-1");
-  trans.push_back("x,y-1,z");
+  trans_exp.emplace_back("x,y,z");
+  trans.emplace_back("x,y,z");
+  trans.emplace_back(" x , y , z ");
+  trans.emplace_back("x,y+1,z");
+  trans.emplace_back("x,y-1,z-1");
+  trans.emplace_back("x,y-1,z");
   // Same transformation
-  trans_exp.push_back("x,-y,z");
-  trans.push_back("x,-y,z");
-  trans.push_back("x,1-y,z");
-  trans.push_back("x,-y+1,z");
+  trans_exp.emplace_back("x,-y,z");
+  trans.emplace_back("x,-y,z");
+  trans.emplace_back("x,1-y,z");
+  trans.emplace_back("x,-y+1,z");
   // Same transformation
-  trans_exp.push_back("x,-y,-z");
-  trans.push_back("x,-y,-z");
-  trans.push_back("x,1-y,1-z");
-  trans.push_back("x,-y+1,-z+1");
+  trans_exp.emplace_back("x,-y,-z");
+  trans.emplace_back("x,-y,-z");
+  trans.emplace_back("x,1-y,1-z");
+  trans.emplace_back("x,-y+1,-z+1");
   // Same transformation
-  trans_exp.push_back("x,-y,-y-z");
-  trans.push_back("x,-y,-z-y");
-  trans.push_back("x,1-y,-y+1-z");
-  trans.push_back("x,-y+1,-y-z+1");
+  trans_exp.emplace_back("x,-y,-y-z");
+  trans.emplace_back("x,-y,-z-y");
+  trans.emplace_back("x,1-y,-y+1-z");
+  trans.emplace_back("x,-y+1,-y-z+1");
   // Same transformation
-  trans_exp.push_back("x,-y,1/6-y-z");
-  trans.push_back("x,-y,-z-y+1/6");
-  trans.push_back("x,-y,-z-y+7/6");
-  trans.push_back("x,1-y,7/6-y+1-z");
-  trans.push_back("x,-y+1,-y-z+1+1/6");
-  trans.push_back("x,-y+1,-y+1/6-z+1");
+  trans_exp.emplace_back("x,-y,1/6-y-z");
+  trans.emplace_back("x,-y,-z-y+1/6");
+  trans.emplace_back("x,-y,-z-y+7/6");
+  trans.emplace_back("x,1-y,7/6-y+1-z");
+  trans.emplace_back("x,-y+1,-y-z+1+1/6");
+  trans.emplace_back("x,-y+1,-y+1/6-z+1");
   // Same transformation
-  trans_exp.push_back("x,3/4-y+z,5/6-y-z");
-  trans.push_back("x,3/4-y+z,-1/6-z-y");
-  trans.push_back("x,-y+3/4+z,-z-y-1/6");
-  trans.push_back("x,z-y+3/4,-z-y-7/6");
-  trans.push_back("x,1+z+3/4-y,-7/6-y-z");
-  trans.push_back("X , 3 / 4 - Y + 1 + z , - Y - Z - 1 / 6 ");
-  trans.push_back("x,z-y+1+3/4,-y-1/6-z+1");
+  trans_exp.emplace_back("x,3/4-y+z,5/6-y-z");
+  trans.emplace_back("x,3/4-y+z,-1/6-z-y");
+  trans.emplace_back("x,-y+3/4+z,-z-y-1/6");
+  trans.emplace_back("x,z-y+3/4,-z-y-7/6");
+  trans.emplace_back("x,1+z+3/4-y,-7/6-y-z");
+  trans.emplace_back("X , 3 / 4 - Y + 1 + z , - Y - Z - 1 / 6 ");
+  trans.emplace_back("x,z-y+1+3/4,-y-1/6-z+1");
 
   vector<string>::const_iterator i, iend;
   iend = trans.end();
