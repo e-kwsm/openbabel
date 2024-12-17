@@ -43,7 +43,7 @@ class OBAPI OBAtomTyper : public OBGlobalDataBase
 
 public:
     OBAtomTyper();
-    OBAtomTyper(const OBAtomTyper& rhs) {abort();}
+    OBAtomTyper(const OBAtomTyper& rhs) : OBGlobalDataBase(rhs) {abort();}
     ~OBAtomTyper();
 
     //swig is requiring these, but I can't figure out how to make it not, so definte with abort
