@@ -92,7 +92,7 @@ namespace OpenBabel
     pmol->BeginModify();
 
     int natoms = 0;
-    string title = "";
+    string title;
     char buffer[BUFF_SIZE];
     vector<string> vs;
     stringstream errorMsg;

@@ -180,7 +180,7 @@ private:
 {
     int  i,j,k,n,nn,icons[6],comma;
     char line[82],semis[100];
-    string result="";
+    string result;
 
     result="[";
     semis[0] = '\0';
@@ -504,15 +504,15 @@ private:
     std::vector<int> nchg(MAXFRAGS);
     std::vector<int> nrad(MAXFRAGS);
     int naStore,nbStore;
-    string constr="";
-    string frag="";
+    string constr;
+    string frag;
     string fragment [MAXFRAGS];
-    string line="";
-    string semis="";
+    string line;
+    string semis;
     int  comma;
     std::vector<int> ix(MAXFRAGS);
     int ia[MAXBONDS][4];
-    string data="";
+    string data;
     int z[MAXBONDS][4];
     //FRAGCON
     int nHydr[MAXFRAGS];
@@ -524,8 +524,8 @@ private:
     int nConn[MAXFRAGS];
     //string s;
     int l;//,m;
-    string astereo="";
-    string bstereo="";
+    string astereo;
+    string bstereo;
     string s1,s2;
     std::vector <int> eqList;
     std::vector <int>  bondStereoList;
@@ -959,21 +959,21 @@ private:
   unsigned int i, j, nt, n1, n2;//,n3, nfrag;
   bool test;
   OBAtom sa;
-  string mf="";
-  string s="";
-  string temp="";
-  string ss="";
-  string sstore="";
+  string mf;
+  string s;
+  string temp;
+  string ss;
+  string sstore;
   int m,n,k;
   std::vector <int> nHydr(MAXFRAGS);
-  string astereo="";
-  string bstereo="";
-  string chargestring="";
-  string radicalstring="";
+  string astereo;
+  string bstereo;
+  string chargestring;
+  string radicalstring;
   int nPrev;
-  string sa1="";
-  string sa2="";
-  string sF="";
+  string sa1;
+  string sa2;
+  string sF;
   std::vector <int> charges(MAXFRAGS);
   std::vector <int> radicals(MAXFRAGS);
   std::vector <int> fragIndex(MAXFRAGS);
@@ -987,7 +987,7 @@ private:
   int netradical=0;
   unsigned int nelements=0;
   int kk;
-  string value="";
+  string value;
   unsigned int acount, bcount, flags;
 
   std::vector <int> iA1(MAXBONDS);
@@ -1502,7 +1502,7 @@ bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   int dim=0;
   pmol->SetDimension(dim);
 
-  string line="";
+  string line;
     if(ifs.good()) getline(ifs, line);
 
   string molTitle=getMolTitle(line);

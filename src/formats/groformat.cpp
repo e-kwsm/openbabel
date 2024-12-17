@@ -109,7 +109,7 @@ public:
      See obconversion.cpp for details.*/
   int SkipObjects(int n, OBConversion* pConv) override
   {
-    string line = "";
+    string line;
     int natoms = 0;
     int nlines = 0;
 
@@ -150,14 +150,14 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   /** Parse the input stream and use the OpenBabel API to populate the OBMol **/
 
   char buffer[BUFF_SIZE];
-  string line = "";
+  string line;
   stringstream errorMsg;
 
   int natoms = 0;
-  string title = "";
+  string title;
   long int resid = 0; // 5
-  string resname = ""; //5
-  string atomtype = ""; //5
+  string resname; //5
+  string atomtype; //5
   //long int atomid = 0; //5
   double x = 0.0; // 8.3
   double y = 0.0; // 8.3
@@ -165,7 +165,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   double vx = 0.0; // 8.4
   double vy = 0.0; // 8.4
   double vz = 0.0; // 8.4
-  string tempstr = "";
+  string tempstr;
   long int residx = 0;
   OBAtom* atom;
   OBResidue* res = nullptr;
@@ -301,7 +301,7 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     // simbol map. Now such functionality is not implemented.
 
     // TODO: Make element perception optional and improve it
-    string element = "";
+    string element;
     if (atomtype[0] == 'C') {
       if (atomtype.find_first_of("aloru",1) == 1) {
         element.assign(atomtype,0,2);
@@ -397,7 +397,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   OBVectorData* vector;
   vector3 v;
   OBResidue* res;
-  string tempstr = "";
+  string tempstr;
   long int atIdx = 0;
   long int resIdx = 0;
 

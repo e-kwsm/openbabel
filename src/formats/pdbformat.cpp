@@ -181,7 +181,7 @@ namespace OpenBabel
         // crystal cells
         if (EQn(buffer,"CRYST1",6)) {
           float a, b, c, alpha, beta, gamma;
-          string group = "";
+          string group;
 
           sscanf (&(buffer[6]), "%9f%9f%9f%7f%7f%7f", &a, &b, &c,
                   &alpha, &beta, &gamma);

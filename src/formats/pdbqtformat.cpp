@@ -864,8 +864,8 @@ namespace OpenBabel
     for (unsigned int i = 0; i < all_pieces.size(); i++)
     {
       bool residue=false;
-      string res_name="";
-      string res_chain="";
+      string res_name;
+      string res_chain;
       int res_num=1;
       if (pConv->IsOption("s",OBConversion::OUTOPTIONS))
       {

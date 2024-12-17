@@ -45,7 +45,7 @@ int main(int argc,char **argv)
   char *type;
   int c;
   double step, padding, pchg;
-  string basename, filename = "", option;
+  string basename, filename, option;
 
   step    = 0.5;
   padding = 5.0;
