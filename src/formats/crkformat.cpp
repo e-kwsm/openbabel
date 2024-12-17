@@ -425,7 +425,7 @@ namespace OpenBabel
       for(unsigned int n=1;n<=mol.NumAtoms();n++)
         groupCharge+=mol.GetAtom(n)->GetFormalCharge();
 
-    ofs << "  <Group Charge=\"" << groupCharge << "\" Spin=\"0\">" << endl;
+    ofs << "  <Group Charge=\"" << groupCharge << R"(" Spin="0">)" << endl;
 
     for(unsigned int n=1;n<=mol.NumAtoms();n++)
       {
