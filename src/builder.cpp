@@ -92,7 +92,7 @@ namespace OpenBabel
       ss << "Ring fragment " << sp->GetSMARTS() << " in ring-fragments.txt has all zero coordinates. Ignoring fragment.";
       obErrorLog.ThrowError(__FUNCTION__, ss.str(), obError);
     } else
-      _ring_fragments.push_back(pair<OBSmartsPattern*, vector<vector3> > (sp, coords));
+      _ring_fragments.emplace_back(sp, coords);
   }
 
   void OBBuilder::LoadFragments()  {
@@ -1507,7 +1507,7 @@ namespace OpenBabel
           cistrans.push_back(ct);
           bond_id = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
                                 mol.GetAtomById(ct->GetConfig().end))->GetId();
-          sgunits.push_back(OBStereoUnit(OBStereo::CisTrans, bond_id));
+          sgunits.emplace_back(OBStereo::CisTrans, bond_id);
         }
       }
 
@@ -1641,7 +1641,7 @@ namespace OpenBabel
         if (th->GetConfig().specified) {
           tetra.push_back(th);
           atom_id = th->GetConfig().center;
-          sgunits.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom_id));
+          sgunits.emplace_back(OBStereo::Tetrahedral, atom_id);
         }
       }
 
@@ -1668,7 +1668,7 @@ namespace OpenBabel
 
       if (ringbonds == 3 || (ringbonds==4 && !OBBuilder::IsSpiroAtom(config.center, mol))) {
         bool rightstereo = (*origth)->GetConfig(OBStereo::Clockwise, OBStereo::ViewFrom) == config;
-        ringstereo.push_back(IsThisStereoRight(config.center, rightstereo));
+        ringstereo.emplace_back(config.center, rightstereo);
         if (!rightstereo)
           existswrongstereo = true;
       }
@@ -1699,7 +1699,7 @@ namespace OpenBabel
       if (inversion) {
         sgunits.clear();
         for (origth = nonringtetra.begin(); origth != nonringtetra.end(); ++origth)
-          sgunits.push_back(OBStereoUnit(OBStereo::Tetrahedral, (*origth)->GetConfig().center));
+          sgunits.emplace_back(OBStereo::Tetrahedral, (*origth)->GetConfig().center);
         nonringnewtetra = TetrahedralFrom3D(&mol, sgunits, false);
       }
     }

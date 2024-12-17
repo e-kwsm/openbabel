@@ -773,7 +773,7 @@ namespace OpenBabel {
             continue;
           // a closure bond is a bond not found while generating the FROM spanning tree.
           if (std::find(code.bonds.begin(), code.bonds.end(), &*bond) == code.bonds.end()) {
-            closures.push_back(std::make_pair(&*bond, code.labels[bond->GetNbrAtom(atom)->GetIndex()]));
+            closures.emplace_back(&*bond, code.labels[bond->GetNbrAtom(atom)->GetIndex()]);
           }
         }
 
@@ -932,7 +932,7 @@ namespace OpenBabel {
           }
 
           // Store the canonical code (and labels) for the ligand.
-          lcodes.push_back(std::make_pair(i, lbestCode));
+          lcodes.emplace_back(i, lbestCode);
         }
 
         // Sort the codes for the fragments. Each neighbor symmetry class is sorted separately.
@@ -1232,7 +1232,7 @@ namespace OpenBabel {
 
 
         if (state.identityCodes.size() < MAX_IDENTITY_NODES) {
-          state.identityCodes.push_back(FullCode());
+          state.identityCodes.emplace_back();
           state.identityCodes.back().labels.swap(fullcode.labels);
           state.identityCodes.back().code.swap(fullcode.code);
         } else {
