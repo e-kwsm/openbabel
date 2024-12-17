@@ -159,6 +159,5 @@ void GenerateFormalChargeReference()
     }
 
 	cerr << " Formal charge results written successfully" << endl;
-  return;
 }
 

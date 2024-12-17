@@ -225,5 +225,4 @@ void GenerateGasteigerCharges()
     }
 
 	cerr << "Charges written successfully" << endl;
-  return;
 }

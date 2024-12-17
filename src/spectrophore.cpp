@@ -1798,11 +1798,6 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    }
    delete[] ETA2;
    ETA2 = nullptr;
-
-   //
-   // Return
-   //
-   return;
 }
 
 
@@ -1892,8 +1887,6 @@ OBSpectrophore::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
 
 
    } // next column
-
-   return;
 }
 
 
@@ -1921,8 +1914,6 @@ OBSpectrophore::_luSolve(double** A, std::vector<int>& I, double* B, unsigned in
          B[k] -= A[k][i] * B[i];
       }
    }
-
-   return;
 }
 
 
@@ -1937,7 +1928,6 @@ OBSpectrophore::_swapRows(double** _pMatrix, unsigned int i, unsigned int j, uns
       _pMatrix[i][k] = _pMatrix[j][k];
       _pMatrix[j][k] = dummy;
    }
-   return;
 }
 
 
@@ -1949,7 +1939,6 @@ OBSpectrophore::_swapRows(double* _pMatrix, unsigned int i, unsigned int j)
    dummy = _pMatrix[i];
    _pMatrix[i] = _pMatrix[j];
    _pMatrix[j] = dummy;
-   return;
 }
 
 } // end namespace OpenBabel

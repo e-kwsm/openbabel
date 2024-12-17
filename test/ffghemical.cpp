@@ -204,5 +204,4 @@ void PGenerateEnergies()
     }
 
 	cerr << " Ghemical force field energies written successfully" << endl;
-  return;
 }
