@@ -196,7 +196,7 @@ int main(int argc,char **argv)
       // It is impossible to make a full match if the number of atoms is
       // different
       if (full )
-        impossible_match = (sp.NumAtoms() == mol.NumHvyAtoms()) ? false : true;
+        impossible_match = sp.NumAtoms() != mol.NumHvyAtoms();
       else
         impossible_match = false;
 
@@ -230,10 +230,7 @@ int main(int argc,char **argv)
 
           maplist = sp.GetUMapList();
 
-          if( maplist.size() == ntimes )
-            ntimes_matched = true;
-          else
-            ntimes_matched = false;
+          ntimes_matched = maplist.size() == ntimes;
         }
       else
         {  // ntimes == 0, we don't care about the number of matches
@@ -244,7 +241,7 @@ int main(int argc,char **argv)
       ////////////////////////////////////////////////////////////////
       // perform a set of tests to guess what to print out
 
-      if ( pattern_matched == true && ntimes_matched == true)
+      if ( pattern_matched && ntimes_matched)
         {
           if (!invert)
             {      // do something only when invert flag is off
