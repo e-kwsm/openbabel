@@ -269,6 +269,5 @@ void GenerateRingReference()
     }
 
   cerr << " Ring perception test results written successfully" << endl;
-  return;
 }
 

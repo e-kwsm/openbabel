@@ -205,5 +205,4 @@ void NGenerateEnergies()
     }
 
 	cerr << " GAFF force field energies written successfully" << endl;
-  return;
 }

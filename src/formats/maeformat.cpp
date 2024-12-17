@@ -150,8 +150,6 @@ void MAEFormat::checkEOF(OBConversion* pConv)
 
     // Keep track of the last position we're at
     m_in_location = pConv->GetInStream()->tellg();
-
-    return;
 }
 
 

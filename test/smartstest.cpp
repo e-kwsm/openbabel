@@ -286,6 +286,5 @@ void GenerateSmartsReference()
   }
 
   cerr << " SMARTS test results written successfully" << endl;
-  return;
 }
 

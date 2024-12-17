@@ -85,7 +85,6 @@ void GenerateEnergies(string molecules_file, string results_file, string method,
     }
 
 	cerr << " MMFF94 force field energies written successfully" << endl;
-  return;
 }
 
 void TestFile(string filename, string results_file, string method, double epsilon = 1.0)

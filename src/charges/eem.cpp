@@ -298,8 +298,6 @@ namespace OpenBabel
 
 
       } // next column
-
-    return;
   }
 
 
@@ -329,8 +327,6 @@ namespace OpenBabel
             B[k] -= A[k][i] * B[i];
           }
       }
-
-    return;
   }
 
   void
@@ -343,7 +339,6 @@ namespace OpenBabel
         _pMatrix[i][k] = _pMatrix[j][k];
         _pMatrix[j][k] = dummy;
       }
-    return;
   }
 
   void
@@ -353,7 +348,6 @@ namespace OpenBabel
     dummy = _pMatrix[i];
     _pMatrix[i] = _pMatrix[j];
     _pMatrix[j] = dummy;
-    return;
   }
 
 }//namespace

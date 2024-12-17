@@ -90,8 +90,6 @@ void OBPlugin::LoadAllPlugins()
     vec[2] = string("plugindefines.txt");
     pdef->MakeInstance(vec);
   }
-
-  return;
 }
 
 OBPlugin* OBPlugin::BaseFindType(PluginMapType& Map, const char* ID)
