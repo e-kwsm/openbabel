@@ -457,11 +457,11 @@ namespace OpenBabel {
           double x = atof(vs[1].c_str()) * BOHR_TO_ANGSTROM;
           double y = atof(vs[2].c_str()) * BOHR_TO_ANGSTROM;
           double z = atof(vs[3].c_str()) * BOHR_TO_ANGSTROM;
-          vectors.push_back(vector3(x, y, z));
+          vectors.emplace_back(x, y, z);
         }
 
         while (vectors.size() < 3)
-          vectors.push_back(vector3(0.0, 0.0, 0.0));
+          vectors.emplace_back(0.0, 0.0, 0.0);
 
         // Build unit cell
         OBUnitCell* cell = new OBUnitCell;
@@ -599,11 +599,11 @@ namespace OpenBabel {
             double x = atof(vs[1].c_str()) * lengthConversion;
             double y = atof(vs[2].c_str()) * lengthConversion;
             double z = atof(vs[3].c_str()) * lengthConversion;
-            vectors.push_back(vector3(x, y, z));
+            vectors.emplace_back(x, y, z);
           }
 
           while (vectors.size() < 3)
-            vectors.push_back(vector3(0.0, 0.0, 0.0));
+            vectors.emplace_back(0.0, 0.0, 0.0);
 
           // Build unit cell
           OBUnitCell* cell = new OBUnitCell;
@@ -894,7 +894,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
       for (unsigned int i = 0; i != numAtoms; ++i)
       {
           ifs >> buf; cout << buf << endl;
-          atoms.push_back( OBElements::GetAtomicNum( buf.c_str() ) );
+          atoms.emplace_back( OBElements::GetAtomicNum( buf.c_str() ) );
       }
       if( atoms.size() != numAtoms )
       {

@@ -265,12 +265,12 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             ztmp.push_back(strtod((char*)vs[l+1].c_str(), nullptr));
           }
 
-          one.push_back(vector3(xtmp[0],ytmp[0],ztmp[0]));
-          two.push_back(vector3(xtmp[1],ytmp[1],ztmp[1]));
-          three.push_back(vector3(xtmp[2],ytmp[2],ztmp[2]));
-          four.push_back(vector3(xtmp[3],ytmp[3],ztmp[3]));
-          five.push_back(vector3(xtmp[4],ytmp[4],ztmp[4]));
-          six.push_back(vector3(xtmp[5],ytmp[5],ztmp[5]));
+          one.emplace_back(xtmp[0],ytmp[0],ztmp[0]);
+          two.emplace_back(xtmp[1],ytmp[1],ztmp[1]);
+          three.emplace_back(xtmp[2],ytmp[2],ztmp[2]);
+          four.emplace_back(xtmp[3],ytmp[3],ztmp[3]);
+          five.emplace_back(xtmp[4],ytmp[4],ztmp[4]);
+          six.emplace_back(xtmp[5],ytmp[5],ztmp[5]);
 
           xtmp.clear();
           ytmp.clear();
