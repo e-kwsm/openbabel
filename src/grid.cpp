@@ -178,7 +178,7 @@ namespace OpenBabel
     return((gx*_ydim*_zdim) + (gy*_zdim) + gz);
   }
 
-  void OBFloatGrid::CoordsToIndex(int *idx,double *c)
+  void OBFloatGrid::CoordsToIndex(int *idx,const double *c)
   {
     idx[0]=static_cast<int>((c[0]-_xmin)*_inv_spa);
     idx[1]=static_cast<int>((c[1]-_ymin)*_inv_spa);
@@ -498,7 +498,7 @@ namespace OpenBabel
     return(&cell[idx]);
   }
 
-  vector<int> *OBProxGrid::GetProxVector(double *c)
+  vector<int> *OBProxGrid::GetProxVector(const double *c)
   {
     double x,y,z;
     x = c[0];

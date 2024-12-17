@@ -1054,7 +1054,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    init_axis_parameters( double a[3], double b[3], double c[3] )
+    init_axis_parameters( const double a[3], const double b[3], const double c[3] )
     {
       SYMMETRY_ELEMENT * axis ;
       int                i, order, sign ;
