@@ -1037,8 +1037,8 @@ namespace OpenBabel
     vector<vector<vector3> > confForces;
     for (unsigned int i = 0; i < _mol.NumAtoms(); ++i) {
       const int coordIdx = i * 3;
-      forces.push_back(vector3(_gradientPtr[coordIdx],
-                               _gradientPtr[coordIdx+1], _gradientPtr[coordIdx+2]));
+      forces.emplace_back(_gradientPtr[coordIdx],
+                               _gradientPtr[coordIdx+1], _gradientPtr[coordIdx+2]);
     }
     confForces.push_back(forces);
     cd->SetForces(confForces);

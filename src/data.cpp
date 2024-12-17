@@ -574,7 +574,7 @@ namespace OpenBabel
             s = (vs[1] < vs[2]) ? vs[1] + " " + vs[2] :
               vs[2] + " " + vs[1];
             bo = atoi(vs[3].c_str());
-            _vtmp.push_back(pair<string,int> (s,bo));
+            _vtmp.emplace_back(s,bo);
           }
 
         if (vs[0] == "ATOM" && vs.size() == 4)
