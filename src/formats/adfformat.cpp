@@ -704,7 +704,7 @@ private:
     ///Advance to next tag.
     bool NextTag( istream& is, const std::string& tag ) const
     {
-        string buf = "";
+        string buf;
         while( is >> buf ) if( buf == tag ) return true;
         return false;
     }

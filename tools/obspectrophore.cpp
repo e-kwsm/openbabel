@@ -26,7 +26,7 @@ OpenBabel::OBSpectrophore::StereoOption stringToStereoOption(char*);
 
 int main(int argc,char **argv)
 {
-	std::string ifile = "";
+	std::string ifile;
 	OpenBabel::OBSpectrophore::AccuracyOption accuracy = OpenBabel::OBSpectrophore::AngStepSize20;
 	OpenBabel::OBSpectrophore::StereoOption stereo = OpenBabel::OBSpectrophore::NoStereoSpecificProbes;
 	OpenBabel::OBSpectrophore::NormalizationOption normalization = OpenBabel::OBSpectrophore::NoNormalization;

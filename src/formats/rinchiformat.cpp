@@ -170,14 +170,14 @@ namespace OpenBabel
     std::sort(inchis[M_PRODUCTS].begin(), inchis[M_PRODUCTS].end());
     std::sort(inchis[M_AGENTS].begin(), inchis[M_AGENTS].end());
 
-    std::string reactants_string = "";
+    std::string reactants_string;
     const int rsize = inchis[M_REACTANTS].size();
     for (int i = 0; i < rsize; ++i) {
       if (i > 0)
         reactants_string += '!';
       reactants_string += inchis[M_REACTANTS][i];
     }
-    std::string products_string = "";
+    std::string products_string;
     const int psize = inchis[M_PRODUCTS].size();
     for (int i = 0; i < psize; ++i) {
       if (i > 0)

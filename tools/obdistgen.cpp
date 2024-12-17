@@ -42,7 +42,7 @@ int main(int argc,char **argv)
 {
   char *program_name= argv[0];
   int c;
-  string basename, filename = "";
+  string basename, filename;
 
   if (argc < 2) {
     cout << "Usage: obdistgen <filename>" << endl;

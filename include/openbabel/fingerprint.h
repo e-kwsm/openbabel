@@ -75,7 +75,7 @@ public:
   virtual std::string DescribeBits(const std::vector<unsigned int> /* fp */,
                                    bool /* bSet */ =true)
   {
-    std::string txt("");
+    std::string txt;
     return txt;
   }
 

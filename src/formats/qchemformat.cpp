@@ -372,7 +372,7 @@ namespace OpenBabel
 
     const char *keywords = pConv->IsOption("k",OBConversion::OUTOPTIONS);
     const char *keywordFile = pConv->IsOption("f",OBConversion::OUTOPTIONS);
-    string defaultKeywords = "";
+    string defaultKeywords;
 
     if(keywords)
       {
