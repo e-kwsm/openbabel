@@ -477,7 +477,7 @@ namespace OpenBabel {
        * select the final canonical code. In other words, the canonical labels
        * for a molecule are the labels with the greatest canonical code.
        */
-      inline bool operator>(const FullCode &other) const
+      bool operator>(const FullCode &other) const
       {
         return (code > other.code);
       }
@@ -529,17 +529,17 @@ namespace OpenBabel {
       /**
        * Add an atom to atoms. Used to add the initial atom.
        */
-      inline void add(OBAtom *atom) { atoms.push_back(atom); }
+      void add(OBAtom *atom) { atoms.push_back(atom); }
       /**
        * Add a bond to bonds. Used to add the ring closure bonds.
        */
-      inline void add(OBBond *bond) { bonds.push_back(bond); }
+      void add(OBBond *bond) { bonds.push_back(bond); }
       /**
        * Add an atom that is labeled "from" another atom. This function adds
        * the @p atom to atoms, adds bond between @p fromAtom and @p atom to
        * bonds and updates the @p from vector.
        */
-      inline void add(OBAtom *fromAtom, OBAtom *atom)
+      void add(OBAtom *fromAtom, OBAtom *atom)
       {
         from.push_back(labels[fromAtom->GetIndex()]);
         atoms.push_back(atom);
@@ -551,7 +551,7 @@ namespace OpenBabel {
        * this code is lower. This function is used to avoid completing a
        * labeling that will never result in a greatest canonical code.
        */
-      inline bool operator<(const FullCode &other) const
+      bool operator<(const FullCode &other) const
       {
         std::size_t numFrom = std::min(from.size(), other.code.size());
         for (std::size_t i = 0; i < numFrom; ++i) {
@@ -626,7 +626,7 @@ namespace OpenBabel {
     {
       const std::vector<unsigned int> &labels;
       SortStereoCenters(const std::vector<unsigned int> &_labels) : labels(_labels) {}
-      inline unsigned int getLabel(const StereoCenter &c) const
+      unsigned int getLabel(const StereoCenter &c) const
       {
         switch (c.indexes.size()) {
           case 2:
@@ -635,7 +635,7 @@ namespace OpenBabel {
             return labels[c.indexes[0]];
         }
       }
-      inline bool operator()(const StereoCenter &c1, const StereoCenter &c2) const
+      bool operator()(const StereoCenter &c1, const StereoCenter &c2) const
       {
         return (getLabel(c1) < getLabel(c2));
       }
@@ -666,7 +666,7 @@ namespace OpenBabel {
     {
       SortAtomsAscending(const std::vector<unsigned int> &_ranks) : ranks(_ranks) {}
       const std::vector<unsigned int> &ranks;
-      inline bool operator()(const OBAtom *a1, const OBAtom *a2) const
+      bool operator()(const OBAtom *a1, const OBAtom *a2) const
       {
         return ranks[a1->GetIndex()] < ranks[a2->GetIndex()];
       }
@@ -679,7 +679,7 @@ namespace OpenBabel {
     {
       SortAtomsDescending(const std::vector<unsigned int> &_ranks) : ranks(_ranks) {}
       const std::vector<unsigned int> &ranks;
-      inline bool operator()(const OBAtom *a1, const OBAtom *a2) const
+      bool operator()(const OBAtom *a1, const OBAtom *a2) const
       {
         return ranks[a1->GetIndex()] > ranks[a2->GetIndex()];
       }

@@ -217,7 +217,7 @@ namespace OpenBabel
      * @param coordinates The coordinates to rotate.
      * @param setang The new torsion angle in radians.
      */
-    inline void SetToAngle(double *coordinates, double setang)
+    void SetToAngle(double *coordinates, double setang)
     {
       double /*dx,dy,dz,*/ sn,cs,t,ang,mag;
       // compute the angle to rotate (radians)
