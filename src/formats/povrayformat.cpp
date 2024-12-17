@@ -292,7 +292,7 @@ namespace OpenBabel
 
     /* ---- Print of name of molecule (#\b depends on size of babel.inc!) ---- */
     ofs << "//Print name of molecule while rendering" << endl;
-    ofs << "#render \"\\b\\b " << mol.GetTitle() << "\\n\\n\"" << endl << endl;
+    ofs << R"(#render "\b\b )" << mol.GetTitle() << R"(\n\n")" << endl << endl;
 
   }
 
