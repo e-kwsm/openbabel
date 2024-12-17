@@ -137,7 +137,7 @@ int graphsymtest(int argc, char* argv[])
     genericGraphSymTest("C[C@H](O)N");
     genericGraphSymTest("Cl[C@@](CCl)(I)Br");
     genericGraphSymTest("Cl/C=C/F");
-    genericGraphSymTest("CCC[C@@H](O)CC\\C=C\\C=C\\C#CC#C\\C=C\\CO");
+    genericGraphSymTest(R"(CCC[C@@H](O)CC\C=C\C=C\C#CC#C\C=C\CO)");
     genericGraphSymTest("O1C=C[C@H]([C@H]1O2)c3c2cc(OC)c4c3OC(=O)C5=C4CCC(=O)5");
     genericGraphSymTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H](O)[C@@H](O)1");
     genericGraphSymTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H]2[C@@H]1c3c(O)c(OC)c(O)cc3C(=O)O2");
