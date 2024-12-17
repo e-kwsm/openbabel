@@ -163,7 +163,7 @@ namespace OpenBabel {
         Mapping map;
         map.reserve(state.queryPath.size());
         for (unsigned int k = 0; k < state.queryPath.size(); ++k)
-          map.push_back(std::make_pair(state.queryPath[k], state.queriedPath[k]));
+          map.emplace_back(state.queryPath[k], state.queriedPath[k]);
 
         return state.functor(map);
       }
@@ -493,7 +493,7 @@ namespace OpenBabel {
               MapNext(state, queryAtom, queriedAtom);
           } else {
             Mapping map;
-            map.push_back(std::make_pair(queryAtom->GetIndex(), queriedAtom->GetIndex()));
+            map.emplace_back(queryAtom->GetIndex(), queriedAtom->GetIndex());
             functor(map);
           }
         }

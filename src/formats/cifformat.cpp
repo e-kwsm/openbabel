@@ -1197,7 +1197,7 @@ namespace OpenBabel
                 // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
                 for (string::size_type pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
                   tmp.replace(pos, 1, 1, '_');
-                tit.push_back(ci_string(tmp.c_str()));
+                tit.emplace_back(tmp.c_str());
                 if(vv) obErrorLog.ThrowError(__FUNCTION__, " , "+tmp, obDebug);
               }
             map<ci_string,vector<string> > lp;

@@ -320,8 +320,8 @@ void test_QCP()
     vector<vector<double> > frag_a;
     vector<vector<double> > frag_b;
     for (int i=0; i<3; ++i) {
-      frag_a.push_back(vector<double>(7));
-      frag_b.push_back(vector<double>(7));
+      frag_a.emplace_back(7);
+      frag_b.emplace_back(7);
     }
 
     frag_a[0][0] =  -2.803;
@@ -370,8 +370,8 @@ void test_QCP()
 
     vector<vector3> ref, target;
     for(int i=0; i<7; ++i) {
-      ref.push_back(vector3(frag_a[0][i], frag_a[1][i], frag_a[2][i]));
-      target.push_back(vector3(frag_b[0][i], frag_b[1][i], frag_b[2][i]));
+      ref.emplace_back(frag_a[0][i], frag_a[1][i], frag_a[2][i]);
+      target.emplace_back(frag_b[0][i], frag_b[1][i], frag_b[2][i]);
     }
 
     OBAlign align(ref, target);

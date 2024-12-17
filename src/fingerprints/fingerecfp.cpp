@@ -198,7 +198,7 @@ static void ECFPPass(OpenBabel::OBMol &mol,
 
       unsigned int nidx = nptr->GetIdx();
 
-      nbrs.push_back(NborInfo(order,ainfo[nidx].e[pass-1]));
+      nbrs.emplace_back(order,ainfo[nidx].e[pass-1]);
       // for duplicate removal as described in paper (?)
       if (pass == 1)
         ptr->b[pass-1].push_back(bptr->GetIdx());
