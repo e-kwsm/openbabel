@@ -1037,7 +1037,7 @@ namespace OpenBabel
      }
    if (has_residue_information)
      pmol->SetChainsPerceived();
-   return (pmol->NumAtoms() > 0 ? true : false);
+   return pmol->NumAtoms() > 0;
  }
 
  ////////////////////////////////////////////////////////////////
