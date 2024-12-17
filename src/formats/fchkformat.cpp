@@ -653,7 +653,7 @@ namespace OpenBabel
       {
         if (NBond.empty() || IBond.empty())
           {
-            error_msg << "If MxBond is set, then the \"NBond\" and \"IBond\""
+            error_msg << R"(If MxBond is set, then the "NBond" and "IBond")"
                       << " sections *must* be supplied.";
             obErrorLog.ThrowError("FCHKFormat::ReadMolecule()",
                                   error_msg.str(),

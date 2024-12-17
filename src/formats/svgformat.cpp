@@ -327,9 +327,9 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
     vbheight = (100*_nrows)/_ncols;
 
   if(fixedpx)//fixed size image
-    ofs << "x=\"0\" y=\"0\" width=\"" << fixedpx << "px\" height=\"" << fixedpx <<"px\" ";
+    ofs << R"(x="0" y="0" width=")" << fixedpx << "px\" height=\"" << fixedpx <<"px\" ";
   else
-    ofs << "x=\"0\" y=\"0\" width=\"100%\" height=\"100%\" ";
+    ofs << R"(x="0" y="0" width="100%" height="100%" )";
 
   ofs << "viewBox=\"0 0 " << vbwidth << ' ' << vbheight << "\">\n";
 
@@ -340,7 +340,7 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
 
   // Draw the background unless transparent
   if(!transparent)
-    ofs << "<rect x=\"0\" y=\"0\" width=\"" << vbwidth << "\" height=\"" << vbheight
+    ofs << R"(<rect x="0" y="0" width=")" << vbwidth << "\" height=\"" << vbheight
         << "\" fill=\"" << background << "\"/>\n";
 
   unsigned opts = 0;
@@ -470,7 +470,7 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
     //*** Write molecule name ***
     if(!pConv->IsOption("d")) {
       if(hasTable) {
-        molfs << "<text text-anchor=\"middle\" font-size=\"" << 0.06*cellsize << "\""
+        molfs << R"(<text text-anchor="middle" font-size=")" << 0.06*cellsize << "\""
         << " fill =\"" << bondcolor << "\" font-family=\"sans-serif\"\n"
         << "x=\"" << innerX + cellsize * 0.5 << "\" y=\"" << innerY + cellsize - 2.0/nr << "\" >"
         << pmol->GetTitle() << "</text>\n";
@@ -494,10 +494,10 @@ bool SVGFormat::WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules)
   if(hasTable && pConv->IsOption("l"))
   {
     for(int i=1; i<_nrows; ++i)
-      ofs << " <line  stroke=\"gray\" stroke-width=\"0.1\" x1=\"0\" x2=\"100\""
+      ofs << R"( <line  stroke="gray" stroke-width="0.1" x1="0" x2="100")"
           << " y1=\""  << i*cellsize << "\" y2=\""  << i*cellsize << "\"/>\n";
     for(int i=1; i<_ncols; ++i)
-      ofs << " <line  stroke=\"gray\" stroke-width=\"0.1\" y1=\"0\" y2=\"100\""
+      ofs << R"( <line  stroke="gray" stroke-width="0.1" y1="0" y2="100")"
           << " x1=\""  << i*cellsize << "\" x2=\""  << i*cellsize << "\"/>\n";
   }
 

@@ -315,7 +315,7 @@ int smilestest(int argc, char* argv[])
     break;
   case 3:
     // Mixed
-    genericSmilesCanonicalTest("CCC[C@@H](O)CC\\C=C\\C=C\\C#CC#C\\C=C\\CO");
+    genericSmilesCanonicalTest(R"(CCC[C@@H](O)CC\C=C\C=C\C#CC#C\C=C\CO)");
     genericSmilesCanonicalTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H](O)[C@@H](O)1");
     genericSmilesCanonicalTest("OC[C@@H](O1)[C@@H](O)[C@H](O)[C@@H]2[C@@H]1c3c(O)c(OC)c(O)cc3C(=O)O2");
     genericSmilesCanonicalTest("CC(=O)OCCC(/C)=C\\C[C@H](C(C)=C)CCC=C");
