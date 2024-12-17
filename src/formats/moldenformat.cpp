@@ -293,7 +293,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                   istringstream is( lineBuffer );
                   double x, y, z;
                   is >> x >> y >> z;
-                  vib.push_back( vector3( x, y, z ) );
+                  vib.emplace_back( x, y, z );
                   getline( ifs, lineBuffer );
                   tokenize(vs, lineBuffer);
                 }

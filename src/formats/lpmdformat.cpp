@@ -242,8 +242,8 @@ bool LpmdFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
    double mass = atom->GetAtomicMass();
    double FX = AX/mass; double FY = AY/mass; double FZ = AZ/mass;
   }
-  forces.push_back(vector3(FX,FY,FZ));
-  veloci.push_back(vector3(VX,VY,VZ));
+  forces.emplace_back(FX,FY,FZ);
+  veloci.emplace_back(VX,VY,VZ);
  }
 
  OBConformerData * conformer = new OBConformerData();
@@ -303,9 +303,9 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   from_string<double>(cx, tokens.at(6), std::dec);
   from_string<double>(cy, tokens.at(7), std::dec);
   from_string<double>(cz, tokens.at(8), std::dec);
-  v.push_back(vector3(ax,ay,az));
-  v.push_back(vector3(bx,by,bz));
-  v.push_back(vector3(cx,cy,cz));
+  v.emplace_back(ax,ay,az);
+  v.emplace_back(bx,by,bz);
+  v.emplace_back(cx,cy,cz);
   myUC.SetData(v[0],v[1],v[2]);
   uc = &myUC;
  }
@@ -360,9 +360,9 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  else
  {
   std::vector < vector3 > empty;
-  empty.push_back(vector3(0,0,0));
-  empty.push_back(vector3(0,0,0));
-  empty.push_back(vector3(0,0,0));
+  empty.emplace_back(0,0,0);
+  empty.emplace_back(0,0,0);
+  empty.emplace_back(0,0,0);
   for(int i=0; i < mol.NumAtoms() ; ++i)
   {
    forceslist.push_back(empty);

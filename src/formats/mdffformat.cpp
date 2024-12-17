@@ -407,7 +407,7 @@ namespace OpenBabel {
       if( last_atom_smb != curr_atom_smb )
       {  
         last_atom_smb = curr_atom_smb;
-        atypes_def.push_back( pair<string, unsigned int>(curr_atom_smb, 0) );
+        atypes_def.emplace_back( curr_atom_smb, 0 );
       }
       atypes_def[atypes_def.size() - 1].second++;
     }

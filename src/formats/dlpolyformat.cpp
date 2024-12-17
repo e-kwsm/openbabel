@@ -244,7 +244,7 @@ namespace OpenBabel
         ok =  from_string<double>(x, tokens.at(0), std::dec);
         ok =  from_string<double>(y, tokens.at(1), std::dec);
         ok =  from_string<double>(z, tokens.at(2), std::dec);
-        forces.push_back( vector3( x,y,z ) );
+        forces.emplace_back( x,y,z );
         //std::cout << "ADDING FORCE " << x << ":" << y << ":" << z << std::endl;
       }
 
