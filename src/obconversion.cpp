@@ -45,6 +45,7 @@ GNU General Public License for more details.
 #include <iterator>
 
 #include <cstdlib>
+#include <utility>
 
 #include <openbabel/obconversion.h>
 //#include <openbabel/mol.h>
@@ -246,7 +247,7 @@ namespace OpenBabel {
 
   /// Convenience constructor.  Sets up streams from specified files.
   /// If format can not be determined from filename, a stream is not opened.
-  OBConversion::OBConversion(string infile, string outfile):
+  OBConversion::OBConversion(const string& infile, const string& outfile):
         pInput(nullptr), pOutput(nullptr),
         pInFormat(nullptr), pOutFormat(nullptr), Index(0), StartNumber(1),
         EndNumber(0), Count(-1), m_IsFirstInput(true), m_IsLast(true),
@@ -258,7 +259,7 @@ namespace OpenBabel {
     RegisterOptionParam("f", nullptr, 1,GENOPTIONS);
     RegisterOptionParam("l", nullptr, 1,GENOPTIONS);
 
-    OpenInAndOutFiles(infile, outfile);
+    OpenInAndOutFiles(std::move(infile), std::move(outfile));
   }
 
   /////////////////////////////////////////////////
@@ -757,7 +758,7 @@ namespace OpenBabel {
     return OBFormat::FindType(ID);
   }
 
-  OBFormat* OBConversion::FindFormat(const std::string ID)
+  OBFormat* OBConversion::FindFormat(const std::string& ID)
   {
     return OBFormat::FindType(ID.c_str());
   }
@@ -818,13 +819,13 @@ namespace OpenBabel {
     return FormatFromExt(filename, isgzip);
   }
 
-  OBFormat* OBConversion::FormatFromExt(const std::string filename)
+  OBFormat* OBConversion::FormatFromExt(const std::string& filename)
   {
     bool gzip;
     return FormatFromExt(filename.c_str(), gzip);
   }
 
-  OBFormat* OBConversion::FormatFromExt(const std::string filename, bool& isgzip)
+  OBFormat* OBConversion::FormatFromExt(const std::string& filename, bool& isgzip)
   {
     return FormatFromExt(filename.c_str(), isgzip);
   }
@@ -1043,7 +1044,7 @@ namespace OpenBabel {
   /// Writes the object pOb but does not delete it afterwards.
   /// The output stream is lastingly changed to point to the file
   /// Returns true if successful.
-  bool OBConversion::WriteFile(OBBase* pOb, string filePath)
+  bool OBConversion::WriteFile(OBBase* pOb, const string& filePath)
   {
     if(!pOutFormat)
     {
@@ -1078,7 +1079,7 @@ namespace OpenBabel {
   }
 
   ////////////////////////////////////////////
-  bool	OBConversion::ReadString(OBBase* pOb, std::string input)
+  bool	OBConversion::ReadString(OBBase* pOb, const std::string& input)
   {
     SetInStream(new stringstream(input), true);
     return Read(pOb);
@@ -1086,7 +1087,7 @@ namespace OpenBabel {
 
 
   ////////////////////////////////////////////
-  bool	OBConversion::ReadFile(OBBase* pOb, std::string filePath)
+  bool	OBConversion::ReadFile(OBBase* pOb, const std::string& filePath)
   {
     if(!pInFormat)
     {
@@ -1119,7 +1120,7 @@ namespace OpenBabel {
   }
 
   ////////////////////////////////////////////
-  bool OBConversion::OpenInAndOutFiles(std::string infilepath, std::string outfilepath)
+  bool OBConversion::OpenInAndOutFiles(const std::string& infilepath, const std::string& outfilepath)
   {
 
     if(!pInFormat)
@@ -1669,7 +1670,7 @@ Additional options :
     return opa[typ];
   }
 
-  void OBConversion::RegisterOptionParam(string name, OBFormat* pFormat,
+  void OBConversion::RegisterOptionParam(const string& name, OBFormat* pFormat,
                                          int numberParams, Option_type typ)
   {
     //Gives error message if the number of parameters conflicts with an existing registration
@@ -1692,7 +1693,7 @@ Additional options :
     OptionParamArray(typ)[name] = numberParams;
   }
 
-  int OBConversion::GetOptionParams(string name, Option_type typ)
+  int OBConversion::GetOptionParams(const string& name, Option_type typ)
   {
     //returns the number of parameters registered for the option, or 0 if not found
     map<string,int>::iterator pos;

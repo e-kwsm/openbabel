@@ -53,7 +53,7 @@ namespace OpenBabel
       return !(iss >> f >> t).fail();
     }
     
-    int LabelToAtomicNumber(std::string label);
+    int LabelToAtomicNumber(const std::string& label);
     
     std::stringstream errorMsg;
 
@@ -70,7 +70,7 @@ namespace OpenBabel
 
   }; // End DlpolyInputReader
   
-  int DlpolyInputReader::LabelToAtomicNumber(std::string label)
+  int DlpolyInputReader::LabelToAtomicNumber(const std::string& label)
   {
     /*
      * Given a string with the label for an atom return the atomic number
