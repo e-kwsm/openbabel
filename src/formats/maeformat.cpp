@@ -85,7 +85,7 @@ private:
     void setupReader(OBConversion* pConv);
     void checkEOF(OBConversion* pConv);
 
-    string m_in_filename = "";
+    string m_in_filename;
     int m_in_location = -1;
 
 

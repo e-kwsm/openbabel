@@ -313,7 +313,7 @@ namespace OpenBabel
 
   //############################## CIF CLASSES CODE ####################################################
   CIFData::CIFAtom::CIFAtom():
-    mLabel(""),mSymbol(""),mOccupancy(1.0f)
+    mOccupancy(1.0f)
   {}
 
   CIFData::CIFData()
@@ -1056,7 +1056,7 @@ namespace OpenBabel
   string CIFReadValue(istream &in,char &lastc)
   {
     bool vv=false;//very verbose ?
-    string value("");
+    string value;
     while(!isgraph(in.peek())) in.get(lastc);
     while(in.peek()=='#')
       {//discard these comments for now
@@ -1123,7 +1123,7 @@ namespace OpenBabel
   {
     bool vv=false;//very verbose ?
     char lastc=' ';
-    string block="";// Current block data
+    string block;// Current block data
     while(!in.eof())
       {
         while(!isgraph(in.peek()) && !in.eof()) in.get(lastc);

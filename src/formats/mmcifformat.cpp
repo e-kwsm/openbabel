@@ -501,7 +501,7 @@ namespace OpenBabel
 
    typedef map<string, unsigned> CIFasymmap;
    CIFasymmap asym_map;
-   string last_asym_id = "";
+   string last_asym_id;
    unsigned next_asym_no = 0;
    bool has_residue_information = false;
 
@@ -848,7 +848,7 @@ namespace OpenBabel
          case CIFTagID::atom_type: //Atoms oxidations
            {
            size_t column_idx = 0;
-           string atom_label = "";
+           string atom_label;
            double charge = 0;
            while (token.type == CIFLexer::ValueToken) // Read in the Fields
              {

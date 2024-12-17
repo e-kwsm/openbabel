@@ -270,7 +270,7 @@ namespace OpenBabel
     double factor = 1.0f;
     bool writeatomicunit = pConv->IsOption("a", OBConversion::OUTOPTIONS) != nullptr;
     const char *keywords = pConv->IsOption("k",OBConversion::OUTOPTIONS);
-    string atombasis_str = "";
+    string atombasis_str;
     string basisset = "6-31G*";
 
     if (pConv->IsOption("b",OBConversion::OUTOPTIONS)) {

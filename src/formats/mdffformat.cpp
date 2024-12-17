@@ -103,7 +103,7 @@ namespace OpenBabel {
     int atom_etab_num;
     string atom_symbol;
     double atom_charge;
-    atm_t_prop(): num_of_atoms(0), atom_symbol(""), atom_charge(0.0) {};
+    atm_t_prop(): num_of_atoms(0), atom_charge(0.0) {};
   };
   
 
@@ -400,7 +400,7 @@ namespace OpenBabel {
     
     //Set elements array
     vector< pair<string, unsigned int> > atypes_def;
-    string last_atom_smb = "";
+    string last_atom_smb;
     for(map<aindx, OBAtom *>::const_iterator it = amap.begin(); it != amap.end(); ++it)
     {
       string curr_atom_smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());

@@ -997,7 +997,7 @@ namespace OpenBabel {
     string defaultKeywords = " $CONTRL COORD=CART UNITS=ANGS $END";
 
     int a        = 0;
-    string s     = "";
+    string s;
     bool wrapped = false;
 
     vector<int> spacePositions;
