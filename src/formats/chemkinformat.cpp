@@ -655,7 +655,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
       //3-body efficiencies
       for(int i=0;i<toks.size()-1;++i)//also incremented in body to retrieve id,val pairs
       {
-        string sp(toks[i++]);
+        const string& sp(toks[i++]);
         pRD->SetEfficiency(sp, atof(toks[i].c_str()));
       }
     }

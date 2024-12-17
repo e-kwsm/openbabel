@@ -146,7 +146,7 @@ namespace OpenBabel {
                                        const RotorKeys &keys, const std::vector<double*> &conformers)
   {
     energy_nrequest++;
-    RotorKey cur_key = keys[index];
+    const RotorKey& cur_key = keys[index];
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);
@@ -188,7 +188,7 @@ namespace OpenBabel {
                                                  const RotorKeys &keys, const std::vector<double*> &conformers)
   {
     energy_nrequest++;
-    RotorKey cur_key = keys[index];
+    const RotorKey& cur_key = keys[index];
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);

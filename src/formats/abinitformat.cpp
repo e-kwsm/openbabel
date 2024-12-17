@@ -234,7 +234,7 @@ namespace OpenBabel
     for (int i = 0; i < numConformers; ++i) {
       double *coordinates = new double[natom * 3];
       for (int j = 0; j < natom; ++j) {
-        vector3 currentPosition = atomPositions[i*natom + j];
+        const vector3& currentPosition = atomPositions[i*natom + j];
         coordinates[j*3] = currentPosition.x();
         coordinates[j*3 + 1] = currentPosition.y();
         coordinates[j*3 + 2] = currentPosition.z();
