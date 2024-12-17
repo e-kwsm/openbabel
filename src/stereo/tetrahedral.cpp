@@ -115,7 +115,7 @@ namespace OpenBabel {
   //
 
   OBTetrahedralStereo::OBTetrahedralStereo(OBMol *mol) :
-      OBTetraNonPlanarStereo(mol), m_cfg(Config())
+      OBTetraNonPlanarStereo(mol)
   {
   }
 

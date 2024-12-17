@@ -531,7 +531,7 @@ namespace OpenBabel {
   {
     public:
       OBAutomorphismQueryAtom(unsigned int _symClass, const std::vector<unsigned int> &_symClasses)
-          : OBQueryAtom(), symClass(_symClass), symClasses(_symClasses)
+          : symClass(_symClass), symClasses(_symClasses)
       {
       }
 

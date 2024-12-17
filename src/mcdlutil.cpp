@@ -3913,7 +3913,7 @@ namespace OpenBabel {
     std::vector<int> queryAQTested;
     std::vector<int> queryBQTested;
     std::vector<int>* fIncludedList;
-    TEditedMolecule() : TSimpleMolecule() {
+    TEditedMolecule() {
       fIncludedList=nullptr;
 	  fIOPT10=false;
 	  fIOPT11=false;
