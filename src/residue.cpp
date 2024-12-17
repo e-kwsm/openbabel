@@ -832,7 +832,7 @@ namespace OpenBabel
   }
 
   OBResidue::OBResidue(const OBResidue &src) :
-    OBBase()
+    OBBase(src)
   {
     _chain    = src._chain;
     _aakey    = src._aakey;
