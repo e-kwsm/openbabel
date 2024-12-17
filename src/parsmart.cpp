@@ -2191,9 +2191,8 @@ namespace OpenBabel
               for (j = mlist.begin();j != mlist.end();++j)
                 vb[(*j)[0]] = true;
 
-            RSCACHE.push_back(std::pair<const Pattern*,
-                              std::vector<bool> > ((const Pattern*)expr->recur.recur,
-                                                   vb));
+            RSCACHE.emplace_back((const Pattern*)expr->recur.recur,
+                                                   vb);
 
             return(vb[atom->GetIdx()]);
           }
