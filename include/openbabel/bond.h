@@ -262,7 +262,7 @@ namespace OpenBabel
 
   inline OBAtom* OBAtomAtomIterAdaptor::operator*() const
   {
-    auto bond = *m_iter;
+    auto *bond = *m_iter;
     return m_atom != bond->GetBeginAtom() ? bond->GetBeginAtom() : bond->GetEndAtom();
   }
 
