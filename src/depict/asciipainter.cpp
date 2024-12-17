@@ -210,10 +210,10 @@ namespace OpenBabel
     for(int i=0; i<dx; ++i) {
       ans.append(d>=0 ? symbols.substr(1,1): symbols.substr(0,1));
       if (steep)
-        coords.push_back(pair<int,int>(y, x));
+        coords.emplace_back(y, x);
       else {
         int tmp_delta = d>=0 ? delta : 0; // Correction for / and \ in some cases
-        coords.push_back(pair<int,int>(x, y + tmp_delta));
+        coords.emplace_back(x, y + tmp_delta);
       }
       while (d >= 0) {
         y += sy;
@@ -224,7 +224,7 @@ namespace OpenBabel
     }
     ans.append(d>=0 ? symbols.substr(1,1): symbols.substr(0,1));
     int tmp_delta = d>=0 ? delta : 0; // Correction for / and \ in some cases
-    coords.push_back(pair<int,int>(x2, y2 + tmp_delta));
+    coords.emplace_back(x2, y2 + tmp_delta);
 
     // Correction for top end of vertical bars
     if (coords.size() > 1) {

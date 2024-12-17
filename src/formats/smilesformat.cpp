@@ -3284,8 +3284,8 @@ namespace OpenBabel {
       _ubonds.SetBitOn(bond1->GetIdx());
       int digit = GetUnusedIndex();
       int bo = (bond1->IsAromatic())? 1 : bond1->GetBondOrder();  // CJ: why was this line added?  bo is never used?
-      _vopen.push_back(OBBondClosureInfo(bond1->GetNbrAtom(atom), atom, bond1, digit, true));
-      vp_closures.push_back(OBBondClosureInfo(bond1->GetNbrAtom(atom), atom, bond1, digit, true));
+      _vopen.emplace_back(bond1->GetNbrAtom(atom), atom, bond1, digit, true);
+      vp_closures.emplace_back(bond1->GetNbrAtom(atom), atom, bond1, digit, true);
     }
 
 

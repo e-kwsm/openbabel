@@ -650,7 +650,7 @@ namespace OpenBabel
               //dkoes - only expand alias if referenced atom is wild card
               //this is necessary since this field is used to store atom names (at least in the PDB)              
               if(at->GetAtomicNum() == 0)
-                aliases.push_back(make_pair(ad, at));
+                aliases.emplace_back(ad, at);
             }
           }
           continue;
@@ -1276,13 +1276,13 @@ namespace OpenBabel
         // Get charge differences for ZCH, and hydrogen counts for HYD
         if (foundZBO || pConv->IsOption("H", pConv->OUTOPTIONS)) {
           if (foundZBO && origatom->GetFormalCharge() != atom->GetFormalCharge()) {
-            zchs.push_back(make_pair(origatom->GetIdx(), origatom->GetFormalCharge()));
+            zchs.emplace_back(origatom->GetIdx(), origatom->GetFormalCharge());
           }
           int hcount = atom->ExplicitHydrogenCount() + atom->GetImplicitHCount();
           int autohcount = HYDValence(origatom->GetAtomicNum(), origatom->GetFormalCharge(), origatom->GetExplicitValence())
                              - origatom->GetExplicitValence() + atom->ExplicitHydrogenCount();
           if (hcount != autohcount) {
-            hyds.push_back(make_pair(origatom->GetIdx(), atom->GetImplicitHCount()));
+            hyds.emplace_back(origatom->GetIdx(), atom->GetImplicitHCount());
           }
         }
 
@@ -1296,7 +1296,7 @@ namespace OpenBabel
           }
         }
         else {
-          numberedRGroups.push_back(make_pair(atom->GetIdx(), rgroupIdx));
+          numberedRGroups.emplace_back(atom->GetIdx(), rgroupIdx);
         }
       }
 
@@ -1958,7 +1958,7 @@ namespace OpenBabel
       at->SetAtomicNum(0);
       //The alias has now been added as a dummy atom with a AliasData object.
       //Delay the chemical interpretation until the rest of the molecule has been built
-      aliases.push_back(make_pair(ad, at));
+      aliases.emplace_back(ad, at);
       return false;
     }
     return true;
