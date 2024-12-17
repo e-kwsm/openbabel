@@ -1067,8 +1067,8 @@ namespace OpenBabel
   void OBDepictPrivateBallAndStick::DrawSimpleBond(OBAtom* beginAtom,
   OBAtom* endAtom, int order, bool crossed_bond)
   {
-    const vector3 begin = beginAtom->GetVector();
-    const vector3 end = endAtom->GetVector();
+    const vector3& begin = beginAtom->GetVector();
+    const vector3& end = endAtom->GetVector();
     const vector3 vb = (end - begin).normalize();
 
     // calculate the expected opacity and width
@@ -1117,8 +1117,8 @@ namespace OpenBabel
   inline void OBDepictPrivateBallAndStick::DrawWedge(OBAtom* beginAtom,
   OBAtom* endAtom)
   {
-    const vector3 begin = beginAtom->GetVector();
-    const vector3 end = endAtom->GetVector();
+    const vector3& begin = beginAtom->GetVector();
+    const vector3& end = endAtom->GetVector();
     const vector3 vb = end - begin;
     const vector3 orthogonalLine = cross(vb, VZ).normalize() * 0.5 * bondWidth;
     std::vector<std::pair<double,double> > points;
@@ -1135,8 +1135,8 @@ namespace OpenBabel
   inline void OBDepictPrivateBallAndStick::DrawHash(OBAtom* beginAtom,
   OBAtom* endAtom)
   {
-    const vector3 begin = beginAtom->GetVector();
-    const vector3 end = endAtom->GetVector();
+    const vector3& begin = beginAtom->GetVector();
+    const vector3& end = endAtom->GetVector();
     const vector3 vb = end - begin;
     const vector3 orthogonalLine = cross(vb, VZ).normalize() * 0.5 * bondWidth;
     const double lines[6] = { 0.20, 0.36, 0.52, 0.68, 0.84, 1.0 };
@@ -1223,10 +1223,10 @@ OBBitVec& drawnBonds)
 
   inline void OBDepictPrivateBallAndStick::DrawAromaticRingBond(OBAtom *prevAtom, OBAtom *beginAtom, OBAtom *endAtom, OBAtom *nextAtom, const vector3 &center, double dist)
   {
-    const vector3 prev  = prevAtom->GetVector();
-    const vector3 begin = beginAtom->GetVector();
-    const vector3 end   = endAtom->GetVector();
-    const vector3 next  = nextAtom->GetVector();
+    const vector3& prev  = prevAtom->GetVector();
+    const vector3& begin = beginAtom->GetVector();
+    const vector3& end   = endAtom->GetVector();
+    const vector3& next  = nextAtom->GetVector();
 
     const vector3 orthogonalLine = cross(end - begin, VZ).normalize();
     const vector3 offset = orthogonalLine * 0.5 * bondSpacing;

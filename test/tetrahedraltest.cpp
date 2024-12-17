@@ -21,7 +21,7 @@ void mtest_configStruct()
   OBTetrahedralStereo::Config reference(0, 1, OBStereo::MakeRefs(2, 3, 4), OBStereo::Clockwise, OBStereo::ViewFrom);
 
   // test copying
-  OBTetrahedralStereo::Config referenceCopy = reference;
+  const OBTetrahedralStereo::Config& referenceCopy = reference;
   OB_ASSERT( reference == referenceCopy );
   OB_ASSERT( referenceCopy == reference );
 

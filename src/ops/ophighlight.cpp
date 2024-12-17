@@ -76,7 +76,7 @@ bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConvers
   for(unsigned int vecIdx = 0; vecIdx < vec.size(); vecIdx += 2)
   {
     
-    std::string smarts = vec[vecIdx];
+    const std::string& smarts = vec[vecIdx];
     if(vecIdx + 1 == vec.size())
     {
       string msg = "No color specified for SMARTS string: " + smarts;
@@ -86,7 +86,7 @@ bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConvers
       pConv->SetOneObjectOnly(); //stop conversion
       return false;
     }
-    std::string color = vec[vecIdx + 1];
+    const std::string& color = vec[vecIdx + 1];
 
     bool match = false;
     //These are a vector of each mapping, each containing atom indxs.
