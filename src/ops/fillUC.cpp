@@ -80,7 +80,7 @@ vector3 fuzzyWrapFractionalCoordinate(vector3 coord) {
     z -= 1;
 #undef LIMIT
 
-    // Fuzzy logic from Francois-Xavier
+  // Fuzzy logic from Francois-Xavier
 #define EPSILON 1.0e-6
   if (x > 1 - EPSILON || x < EPSILON)
     x = 0.0;
