@@ -425,7 +425,7 @@ public:
   std::vector<double> &GetResolution() { return _torsionAngles; }
   /** @deprecated */
   OB_DEPRECATED
-  void SetNumCoords(int UNUSED(nc)){} ///@}
+  void SetNumCoords(int UNUSED(nc)) {} ///@}
 
   ; // Added to workaround https://github.com/swig/swig/issues/1636
 };

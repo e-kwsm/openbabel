@@ -173,8 +173,8 @@ public:
           return !islower(*p1);
 
         ++p1;
-        ++p2;       // iterate
-      }             // while loop
+        ++p2; // iterate
+      } // while loop
       return false; // identical
     }
   };
