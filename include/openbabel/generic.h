@@ -132,7 +132,7 @@ class OBPairTemplate : public OBGenericData // Note: no OBAPI should be used
 protected:
   ValueT _value; //!< The data for this key/value pair
 public:
-  OBPairTemplate() : OBGenericData("PairData", OBGenericDataType::PairData){};
+  OBPairTemplate() : OBGenericData("PairData", OBGenericDataType::PairData) {};
   OBGenericData *Clone(OBBase * /*parent*/) const override {
     return new OBPairTemplate<ValueT>(*this);
   }
@@ -778,7 +778,7 @@ protected:
 
 public:
   OBVibrationData()
-      : OBGenericData("VibrationData", OBGenericDataType::VibrationData){};
+      : OBGenericData("VibrationData", OBGenericDataType::VibrationData) {};
   virtual ~OBVibrationData() {}
   OBGenericData *Clone(OBBase *) const override {
     return new OBVibrationData(*this);
@@ -820,7 +820,7 @@ protected:
   std::vector<double> _vIntegration;
 
 public:
-  OBDOSData() : OBGenericData("DOSData", OBGenericDataType::DOSData){};
+  OBDOSData() : OBGenericData("DOSData", OBGenericDataType::DOSData) {};
   virtual ~OBDOSData() {}
   OBGenericData *Clone(OBBase *) const override { return new OBDOSData(*this); }
 
@@ -865,7 +865,7 @@ class OBAPI OBOrbitalData : public OBGenericData {
 public:
   OBOrbitalData()
       : OBGenericData("OrbitalData", OBGenericDataType::ElectronicData),
-        _alphaHOMO(0), _betaHOMO(0), _openShell(false){};
+        _alphaHOMO(0), _betaHOMO(0), _openShell(false) {};
   virtual ~OBOrbitalData() {}
   OBGenericData *Clone(OBBase *) const override {
     return new OBOrbitalData(*this);
@@ -977,7 +977,7 @@ public:
   enum RType { UNKNOWN, ASYMMETRIC, SYMMETRIC, LINEAR };
   OBRotationData()
       : OBGenericData("RotationData", OBGenericDataType::RotationData) {}
-  virtual ~OBRotationData(){};
+  virtual ~OBRotationData() {};
   OBGenericData *Clone(OBBase *) const override {
     return new OBRotationData(*this);
   }
@@ -1006,7 +1006,7 @@ protected:
 class OBAPI OBVectorData : public OBGenericData {
 public:
   OBVectorData() : OBGenericData("VectorData", OBGenericDataType::VectorData) {}
-  virtual ~OBVectorData(){};
+  virtual ~OBVectorData() {};
   OBGenericData *Clone(OBBase *) const override {
     return new OBVectorData(*this);
   }
@@ -1024,7 +1024,7 @@ protected:
 class OBAPI OBMatrixData : public OBGenericData {
 public:
   OBMatrixData() : OBGenericData("MatrixData", OBGenericDataType::MatrixData) {}
-  virtual ~OBMatrixData(){};
+  virtual ~OBMatrixData() {};
   OBGenericData *Clone(OBBase *) const override {
     return new OBMatrixData(*this);
   }
@@ -1043,14 +1043,14 @@ protected:
   double _x, _y, _z, _V;
 
 public:
-  OBFreeGridPoint(){};
+  OBFreeGridPoint() {};
   OBFreeGridPoint(double x, double y, double z, double V) {
     _x = x;
     _y = y;
     _z = z;
     _V = V;
   }
-  ~OBFreeGridPoint(){};
+  ~OBFreeGridPoint() {};
   double GetX() { return _x; }
   double GetY() { return _y; }
   double GetZ() { return _z; }
@@ -1108,8 +1108,8 @@ protected:
   std::vector<double> _PartialCharge;
 
 public:
-  OBPcharge(){};
-  ~OBPcharge(){};
+  OBPcharge() {};
+  ~OBPcharge() {};
 
   int NumPartialCharges() { return (int)_PartialCharge.size(); }
 
