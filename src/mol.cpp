@@ -881,7 +881,7 @@ namespace OpenBabel
     return(GetBond(GetAtom(bgn),GetAtom(end)));
   }
 
-  OBBond *OBMol::GetBond(OBAtom *bgn,OBAtom *end) const
+  OBBond *OBMol::GetBond(OBAtom *bgn,OBAtom *end)
   {
     OBAtom *nbr;
     vector<OBBond*>::iterator i;

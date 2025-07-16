@@ -110,7 +110,7 @@ namespace OpenBabel {
         std::vector<unsigned int> queryDepths, queriedDepths; // the terminal sets
       };
 
-      bool isInTerminalSet(const std::vector<unsigned int> &depths,
+      static bool isInTerminalSet(const std::vector<unsigned int> &depths,
           const OBBitVec &path, std::size_t i)
       {
         if (!depths[i])
@@ -125,7 +125,7 @@ namespace OpenBabel {
       /**
        * Check bonds around newly mapped atom.
        */
-      bool checkBonds(State &state, OBQueryAtom *queryAtom)
+      static bool checkBonds(State &state, OBQueryAtom *queryAtom)
       {
         const std::vector<OBQueryBond*> &bonds = queryAtom->GetBonds();
         for (unsigned int i = 0; i < bonds.size(); ++i) {
@@ -150,7 +150,7 @@ namespace OpenBabel {
       /**
        * Check if the current state is a full mapping of the query.
        */
-      bool checkForMap(State &state)
+      static bool checkForMap(State &state)
       {
         // store the mapping if all atoms are mapped
         if (state.queryPath.size() != state.query->NumAtoms())
@@ -171,7 +171,7 @@ namespace OpenBabel {
       /**
        * Match the candidate atoms and bonds.
        */
-      bool matchCandidate(State &state, OBQueryAtom *queryAtom, OBAtom *queriedAtom)
+      static bool matchCandidate(State &state, OBQueryAtom *queryAtom, OBAtom *queriedAtom)
       {
         if (!queryAtom->Matches(queriedAtom))
           return false;
@@ -270,7 +270,7 @@ namespace OpenBabel {
       }
 
 
-      Candidate NextCandidate(State &state, const Candidate &lastCandidate)
+      static Candidate NextCandidate(State &state, const Candidate &lastCandidate)
       {
         std::size_t lastQueryAtom = lastCandidate.queryAtom ? lastCandidate.queryAtom->GetIndex() : 0;
         std::size_t lastQueriedAtom = lastCandidate.queriedAtom ? lastCandidate.queriedAtom->GetIndex() + 1 : 0;
@@ -338,7 +338,7 @@ namespace OpenBabel {
 
       }
 
-      void Backtrack(State &state)
+      static void Backtrack(State &state)
       {
         if (DEBUG)
           cout << red << "backtrack... " << normal << state.queryPath.size()-1 << endl;

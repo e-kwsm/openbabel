@@ -737,7 +737,7 @@ namespace OpenBabel {
       mol.SetConformers(conformers);
   }
 
-  bool OBConformerSearch::IsUniqueKey(const RotorKeys &keys, const RotorKey &key) const
+  bool OBConformerSearch::IsUniqueKey(const RotorKeys &keys, const RotorKey &key)
   {
     for (unsigned int i = 0; i < keys.size(); ++i)
       if (keys[i] == key)

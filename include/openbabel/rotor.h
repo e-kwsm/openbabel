@@ -420,7 +420,7 @@ namespace OpenBabel
     void SetDelta(double) {}
     /** @deprecated Has no effect. */
     OB_DEPRECATED_MSG("Has no effect.")
-    double GetDelta() { return 10.0; }
+    static double GetDelta() { return 10.0; }
     /** @deprecated */
     OB_DEPRECATED
     OBBitVec &GetFixedAtoms() { return _fixedatoms; }

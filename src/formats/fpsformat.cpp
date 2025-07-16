@@ -63,7 +63,7 @@ namespace OpenBabel
     unsigned int Flags() override { return NOTREADABLE; }
     bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
   private:
-    string getTimeStr();
+    static string getTimeStr();
   private:
     int _nbits;
     OBFingerprint* _pFP;

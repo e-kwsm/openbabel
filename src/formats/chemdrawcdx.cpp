@@ -106,8 +106,8 @@ public:
   //Routines to display the structure of a cdx binary file
   OBText* WriteTree(const std::string& filename, unsigned wtoptions);
 private:
-  bool ParseEnums(std::map<CDXTag, std::string>& enummap, const std::string& filename);
-  std::string TagName(std::map<CDXTag, std::string>& enummap, CDXTag tag);
+  static bool ParseEnums(std::map<CDXTag, std::string>& enummap, const std::string& filename);
+  static std::string TagName(std::map<CDXTag, std::string>& enummap, CDXTag tag);
 
 private:
   std::istream& ifs;
@@ -170,11 +170,11 @@ public:
 private:
   enum graphicType {none, equilArrow};
   bool        TopLevelParse(CDXReader& cdxr, OBConversion* pConv,CDXObjectID ContainingGroup);
-  bool        DoFragment(CDXReader& cdxr, OBMol* pmol);
-  bool        DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
+  static bool DoFragment(CDXReader& cdxr, OBMol* pmol);
+  static bool DoFragmentImpl(CDXReader& cdxr, OBMol* pmol,
          map<CDXObjectID, unsigned>& atommap, map<OBBond*, OBStereo::BondDirection>& updown);
   bool        DoReaction(CDXReader& cdxr, OBMol* pReact);
-  std::string DoText(CDXReader& cdxr);
+  static std::string DoText(CDXReader& cdxr);
 
   std::vector<OBMol*> LookupMol(CDXObjectID id);
   graphicType         LookupGraphic(CDXObjectID id);

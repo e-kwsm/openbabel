@@ -212,9 +212,9 @@ namespace OpenBabel {
       /// @name Supported file format
       //@{
       // @brief Set and return the list of supported input format
-      std::vector<std::string> GetSupportedInputFormat();
+      static std::vector<std::string> GetSupportedInputFormat();
       // @brief Set and return the list of supported output format
-      std::vector<std::string> GetSupportedOutputFormat();
+      static std::vector<std::string> GetSupportedOutputFormat();
       //@}
 
       /// @name Conversion

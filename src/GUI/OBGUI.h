@@ -76,7 +76,7 @@ public:
   void OnSaveInputText(wxCommandEvent& event);
   void OnCopyToInput(wxCommandEvent& event);
   void OnAbout(wxCommandEvent& event);
-  void OnHelp(wxCommandEvent& event);
+  static void OnHelp(wxCommandEvent& event);
   void OnGetInputFile(wxCommandEvent& event);
   void OnGetOutputFile(wxCommandEvent& event);
   void OnInFormatInfo(wxCommandEvent& event);
@@ -155,13 +155,13 @@ private:
 
   /// Returns a file path name shortened (using /.../) so that will fit in a specified window
   /// The width in pixels can optionally be explicitly specified.
-  wxString ShortenedPath(const wxString& path, const wxWindow& wnd, int wndwidth=-1);
+  static wxString ShortenedPath(const wxString& path, const wxWindow& wnd, int wndwidth=-1);
 
   void GetAvailableFormats();
-  wxString GetFilter(wxChoice* pChoice);
+  static wxString GetFilter(wxChoice* pChoice);
 
-  bool SetChoice(wxChoice* pChoice, const wxString& FileName);
-  void MakeBold(wxWindow* pWnd);
+  static bool SetChoice(wxChoice* pChoice, const wxString& FileName);
+  static void MakeBold(wxWindow* pWnd);
   void MakePluginsMenu();
 };
 

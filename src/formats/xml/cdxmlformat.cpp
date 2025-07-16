@@ -91,7 +91,7 @@ public:
     void EnsureEndElement(void);
 
 private:
-  Boundary CalculateMoleculeBoundary(OBMol* pMol);
+  static Boundary CalculateMoleculeBoundary(OBMol* pMol);
   void CalculateCdxmlShift(OBMol* pMol);
   Coord2D TransformCdxmlCoord(OBAtom* pAtom);
 

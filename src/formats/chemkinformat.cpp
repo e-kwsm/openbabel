@@ -87,7 +87,7 @@ private:
   std::shared_ptr<OBMol> CheckSpecies(string& name, string& ln, bool MustBeKnown);
   bool              ReadThermo(OBConversion* pConv);
   bool              ReadStdThermo(const string& datafilename);
-  OBFormat*         GetThermoFormat();
+  static OBFormat*  GetThermoFormat();
   bool              CheckAllMolsHaveThermo();
   bool              WriteReactionLine(OBReaction* pReact, OBConversion* pConv);
   bool              WriteHeader(OBConversion* pConv);

@@ -87,7 +87,7 @@ namespace OpenBabel
         MAXSequence
       };
   private:
-    char conv_3to1(const string & three) const;
+    static char conv_3to1(const string & three);
   };
 
   FASTAFormat theFASTAFormat;
@@ -186,7 +186,7 @@ namespace OpenBabel
   residue_lookup_map residue_lookup;
 
   char
-  FASTAFormat::conv_3to1(const std::string & three) const
+  FASTAFormat::conv_3to1(const std::string & three)
   {
     char return_code = 'X';
     if (residue_lookup.empty())
