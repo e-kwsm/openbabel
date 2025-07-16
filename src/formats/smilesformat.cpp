@@ -2384,7 +2384,7 @@ namespace OpenBabel {
                                   vector<OBAtom*>&chiral_neighbors,
                                   vector<unsigned int> &symmetry_classes,
                                   std::string&);
-    int          GetSmilesValence(OBAtom *atom);
+    int          GetSmilesValence(OBAtom *atom) const;
     int          GetUnusedIndex();
     vector<OBBondClosureInfo>
     GetCanonClosureDigits(OBAtom *atom,
@@ -3349,7 +3349,7 @@ namespace OpenBabel {
    *       above.
    ***************************************************************************/
 
-  int OBMol2Cansmi::GetSmilesValence(OBAtom *atom)
+  int OBMol2Cansmi::GetSmilesValence(OBAtom *atom) const
   {
     int count = 0;
 

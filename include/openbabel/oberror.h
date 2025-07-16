@@ -130,7 +130,7 @@ namespace OpenBabel
       //! Set the maximum number of entries (or 0 for no limit)
       void SetMaxLogEntries(unsigned int max) { _maxEntries = max; }
       //! \return the current maximum number of entries (default = 0 for no limit)
-      unsigned int GetMaxLogEntries() { return _maxEntries; }
+      unsigned int GetMaxLogEntries() const { return _maxEntries; }
 
       //! Clear the current message log entirely
       void ClearLog() { _messageList.clear(); }

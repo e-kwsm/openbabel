@@ -385,10 +385,10 @@ namespace OpenBabel {
       nc=0; iz=0; nb=0; rl=0; currvalence=0; special=0; astereo=0; enumerator=0; fragIndex=0;
     };
     TSingleAtom * clone();
-    int encoder();
-    int chargeConversion();
-    int valencyConversion();
-    int allAtAtom();
+    int encoder() const;
+    int chargeConversion() const;
+    int valencyConversion() const;
+    int allAtAtom() const;
     void atomCopy(TSingleAtom * source);
     static bool atomEquivalent(TSingleAtom * structure, TSingleAtom * query,
                                int nHStr, int nHQuery, bool chargeSensitivity, bool isotopeSensitivity);
@@ -432,10 +432,10 @@ namespace OpenBabel {
       =4 - CIS/TRANS+Chain;
       =5 - CIS/TRANS+Ring;*/
     TSingleBond * clone();
-    int bondConversion();
+    int bondConversion() const;
     void bondCopy(TSingleBond * source);
     static bool bondEquivalent(TSingleBond * sBond, TSingleBond * qBond);
-    int getValence();
+    int getValence() const;
   };
   //-------------------------------------------------------------------
   TSingleAtom * TSingleAtom::clone() {
@@ -468,7 +468,7 @@ namespace OpenBabel {
     return result;
   };
 
-  int TSingleAtom::encoder() {
+  int TSingleAtom::encoder() const {
     // For given atom's number ATN in array ATOM returns a number from 1 to 32.
     //  Atoms with related properties have the same number. It is required to reduce
     //  the possible number of fragments in structure}
@@ -489,7 +489,7 @@ namespace OpenBabel {
     return 32;
   };
 
-  int TSingleAtom::chargeConversion() {
+  int TSingleAtom::chargeConversion() const {
 
     //  3 - if radical label present.
     //  2 - if charge <0
@@ -501,7 +501,7 @@ namespace OpenBabel {
     return 0;
   };
 
-  int TSingleAtom::valencyConversion() {
+  int TSingleAtom::valencyConversion() const {
 
     //for atom's number ATN in array ATOM returns some connected with valency value:
     // =2-Valence of ATN is less, then usual
@@ -523,7 +523,7 @@ namespace OpenBabel {
     return result;
   };
 
-  int TSingleAtom::allAtAtom() {
+  int TSingleAtom::allAtAtom() const {
     //Define a digital representation of atom, they include:
     //  a) Position of atom in the Periodic System
     //  b) Its charge
@@ -624,7 +624,7 @@ namespace OpenBabel {
     return result;
   };
 
-  int TSingleBond::getValence() {
+  int TSingleBond::getValence() const {
     int result=0;
     if (this->tb <=NBONDTYPES) result=bondValence[this->tb-1];
     return result;
@@ -674,7 +674,7 @@ namespace OpenBabel {
   };
 
 
-  int TSingleBond::bondConversion() {
+  int TSingleBond::bondConversion() const {
     //generate a code for bond's nuber BNB in array BOND. It is took into consi-
     //deration bond type and cycle size
     int b1,b2;

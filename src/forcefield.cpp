@@ -565,7 +565,7 @@ namespace OpenBabel
     _factor = factor;
   }
 
-  double OBFFConstraints::GetFactor()
+  double OBFFConstraints::GetFactor() const
   {
     return _factor;
   }

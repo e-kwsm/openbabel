@@ -198,8 +198,8 @@ namespace OpenBabel {
 	energy_ncompute = 0;
 	energy_nrequest = 0;
       }
-      long unsigned int GetNbEnergyCompute () {return energy_ncompute;}
-      long unsigned int GetNbEnergyRequest () {return energy_nrequest;}
+      long unsigned int GetNbEnergyCompute() const { return energy_ncompute; }
+      long unsigned int GetNbEnergyRequest() const { return energy_nrequest; }
       Preferred GetPreferred() { return LowScore; }
       Convergence GetConvergence() { return Lowest; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
@@ -223,8 +223,8 @@ namespace OpenBabel {
 	energy_ncompute = 0;
 	energy_nrequest = 0;
       }
-      long unsigned int GetNbEnergyCompute () {return energy_ncompute;}
-      long unsigned int GetNbEnergyRequest () {return energy_nrequest;}
+      long unsigned int GetNbEnergyCompute() const { return energy_ncompute; }
+      long unsigned int GetNbEnergyRequest() const { return energy_nrequest; }
       Preferred GetPreferred() { return LowScore; }
       Convergence GetConvergence() { return Lowest; }
       double Score(OBMol &mol, unsigned int index, const RotorKeys &keys,
@@ -361,37 +361,37 @@ namespace OpenBabel {
       void SetSharing (bool value = true)  {use_sharing = value;}
       
       /* @brief Get the targeted number of niches, for dynamic niche sharing */
-      int GetNbNiches () {return nb_niches;}
+      int GetNbNiches() const { return nb_niches; }
       
       /* @brief Set the targeted number of niches, for dynamic niche sharing */
       void SetNbNiches (int value) {nb_niches = value;}
       
       /* @brief Get niches radius, for dynamic niche sharing.*/
-      double GetNicheRadius () {return niche_radius;}
+      double GetNicheRadius() const { return niche_radius; }
       
       /* @brief Set niches radius, for dynamic niche sharing.*/
       void SetNicheRadius (double value) {niche_radius = value;}
       
       /* @brief Get the alpha sharing parameter */
-      double GetAlphaSharing () {return alpha_share;}
+      double GetAlphaSharing() const { return alpha_share; }
       
       /* @brief Set the alpha sharing parameter */
       void SetAlphaSharing (double value) {alpha_share = value;}
       
       /* @brief Get the sigma sharing parameter */
-      double GetSigmaSharing () {return sigma_share;}
+      double GetSigmaSharing() const { return sigma_share; }
       
       /* @brief Set the sigma sharing parameter */
       void SetSigmaSharing (double value) {sigma_share = value;}
       
       /* @brief Get the (uniform) crossover probability */
-      double GetCrossoverProbability () {return p_crossover;}
+      double GetCrossoverProbability() const { return p_crossover; }
       
       /* @brief Set the (uniform) crossover probability */
       void SetCrossoverProbability (double value) {p_crossover = value;}
       
       /* @brief Get the niche mating probability, for dynamic niche sharing */
-      double GetNicheMating () {return niche_mating;}
+      double GetNicheMating() const { return niche_mating; }
       
       /* @brief Set the (uniform) crossover probability */
       void SetNicheMating (double value) {niche_mating = value;}
@@ -400,7 +400,7 @@ namespace OpenBabel {
       void SetLocalOptRate (int value) {local_opt_rate = value;}
       
       /* @brief Get the local optimization rate*/
-      int  SetLocalOptRate() {return local_opt_rate;}
+      int SetLocalOptRate() const { return local_opt_rate; }
     
     private:
       /**

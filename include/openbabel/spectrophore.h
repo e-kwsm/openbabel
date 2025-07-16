@@ -584,11 +584,11 @@ while (obconversion.Read(&mol, &ifs))
          void _getBox(double**);
          void _setBox(void);
          void _getEnergies(double**, double*);
-         void _initiateSpectrophore(double*, double*);
-         void _rotateX(double**, double**, const double, const double);
-         void _rotateY(double**, double**, const double, const double);
-         void _rotateZ(double**, double**, const double, const double);
-         void _updateSpectrophore(double*, double*);
+         void _initiateSpectrophore(double*, double*) const;
+         void _rotateX(double**, double**, const double, const double) const;
+         void _rotateY(double**, double**, const double, const double) const;
+         void _rotateZ(double**, double**, const double, const double) const;
+         void _updateSpectrophore(double*, double*) const;
          void _calculateProperties(OpenBabel::OBMol*);
          void _solveMatrix(double**, double*, unsigned int);
          void _luDecompose(double**, std::vector<int>&, unsigned int);

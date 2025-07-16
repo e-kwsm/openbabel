@@ -442,7 +442,7 @@ namespace OpenBabel
     return true;
   }
 
-  double OBAlign::GetRMSD() {
+  double OBAlign::GetRMSD() const {
     if (!_ready) {
       obErrorLog.ThrowError(__FUNCTION__, "RMSD not available until you call Align()" , obError);
       return nan("");

@@ -79,15 +79,15 @@ namespace OpenBabel {
       std::vector<unsigned int> _canonLabels;
       OBStereoUnitSet _stereoUnits;
 
-      unsigned int GetHvyDegree(OBAtom *atom);
-      unsigned int GetHvyBondSum(OBAtom *atom);
-      void FindRingAtoms(OBBitVec &ring_atoms);
+      unsigned int GetHvyDegree(OBAtom *atom) const;
+      unsigned int GetHvyBondSum(OBAtom *atom) const;
+      void FindRingAtoms(OBBitVec &ring_atoms) const;
       void CreateNewClassVector(std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
-                                std::vector<std::pair<OBAtom*,unsigned int> > &vp2);
+                                std::vector<std::pair<OBAtom*,unsigned int> > &vp2) const;
       static void CreateNewClassVector(OBMol *mol, std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
                                        std::vector<std::pair<OBAtom*,unsigned int> > &vp2);
-      void GetGIVector(std::vector<unsigned int> &vid);
-      bool GetGTDVector(std::vector<int> &gtd);
+      void GetGIVector(std::vector<unsigned int> &vid) const;
+      bool GetGTDVector(std::vector<int> &gtd) const;
       static void CountAndRenumberClasses(std::vector<std::pair<OBAtom*,unsigned int> > &vp, unsigned int &count);
       int ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes);
       int CalculateSymmetry(std::vector<unsigned int> &symmetry_classes);
@@ -137,7 +137,7 @@ namespace OpenBabel {
    * Like OBAtom::GetHvyDegree(): Counts the number non-hydrogen
    * neighbors, but doesn't count atoms not in the fragment.
    */
-  unsigned int OBGraphSymPrivate::GetHvyDegree(OBAtom *atom)
+  unsigned int OBGraphSymPrivate::GetHvyDegree(OBAtom *atom) const
   {
     unsigned int count = 0;
     OBBond *bond;
@@ -164,7 +164,7 @@ namespace OpenBabel {
    * EXCEPT for aromatic N, where the difference between n and [nH] is
    * critical.
    */
-  unsigned int OBGraphSymPrivate::GetHvyBondSum(OBAtom *atom)
+  unsigned int OBGraphSymPrivate::GetHvyBondSum(OBAtom *atom) const
   {
     float count = 0.0f;
     OBBond *bond;
@@ -200,7 +200,7 @@ namespace OpenBabel {
    * (which happens to be the graph-theoretical distance) to that atom.
    * The name "Graph Theoretical Distance" is thus misleading.
    */
-  bool OBGraphSymPrivate::GetGTDVector(vector<int> &gtd)
+  bool OBGraphSymPrivate::GetGTDVector(vector<int> &gtd) const
   {
     gtd.clear();
     gtd.resize(_pmol->NumAtoms());
@@ -260,7 +260,7 @@ namespace OpenBabel {
    *
    * @return A bit vector where TRUE means it's a ring atom.
    */
-  void OBGraphSymPrivate::FindRingAtoms(OBBitVec &ring_atoms)
+  void OBGraphSymPrivate::FindRingAtoms(OBBitVec &ring_atoms) const
   {
     vector<OBRing*> sssRings;
     vector<OBRing*>::iterator ri;
@@ -291,7 +291,7 @@ namespace OpenBabel {
    * NOTE: This may need to be extended to include the bond-invariant properties,
    * particularly the size of all rings the bond is in (from a SSSR).
    */
-  void OBGraphSymPrivate::GetGIVector(vector<unsigned int> &vid)
+  void OBGraphSymPrivate::GetGIVector(vector<unsigned int> &vid) const
   {
     // Prepare the vector...
     vid.clear();
@@ -343,7 +343,7 @@ namespace OpenBabel {
    * corresponding primes.
    */
   void OBGraphSymPrivate::CreateNewClassVector(std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
-                                        std::vector<std::pair<OBAtom*,unsigned int> > &vp2)
+                                        std::vector<std::pair<OBAtom*,unsigned int> > &vp2) const
   {
     unsigned int m,id;
     OBAtom *atom, *nbr;

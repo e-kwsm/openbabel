@@ -131,7 +131,7 @@ struct WLNParser {
         murcko = false;
     }
 
-    bool error() {
+    bool error() const {
         fprintf(stderr,"Error: Character %c in %s\n",*ptr,orig);
         unsigned int len = (unsigned int)(ptr-orig)+22;
         for (unsigned int i=0; i<len; i++)
@@ -418,7 +418,7 @@ struct WLNParser {
             NMOBMolNewBond(mol,ring[size-1],ring[0],1,true);}
     }
 
-    void bridge(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
+    void bridge(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) const {
         src->SetImplicitHCount(0);
         dst->SetImplicitHCount(0);
         NMOBMolNewBond(mol,src,dst,1,true);
@@ -607,7 +607,7 @@ struct WLNParser {
         return size;
     }
 
-    int detect_peri(std::string wln_string, std::vector<int> &cycles, unsigned int &peri_atoms) {
+    int detect_peri(std::string wln_string, std::vector<int> &cycles, unsigned int &peri_atoms) const {
         bool peri = false;
         int peri_count = 0;
         int peri_index = 0;

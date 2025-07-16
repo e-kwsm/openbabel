@@ -303,7 +303,7 @@ namespace OpenBabel {
     }
 
     int
-    check_transform_order( SYMMETRY_ELEMENT *elem )
+    check_transform_order( SYMMETRY_ELEMENT *elem ) const
     {
       unsigned int i, j, k;
 
@@ -339,7 +339,7 @@ namespace OpenBabel {
     }
 
     int
-    same_transform( SYMMETRY_ELEMENT *a, SYMMETRY_ELEMENT *b )
+    same_transform( SYMMETRY_ELEMENT *a, SYMMETRY_ELEMENT *b ) const
     {
       unsigned int      i, j;
       int               code;
@@ -364,7 +364,7 @@ namespace OpenBabel {
     }
 
     SYMMETRY_ELEMENT *
-    alloc_symmetry_element( void )
+    alloc_symmetry_element( void ) const
     {
       SYMMETRY_ELEMENT * elem = (SYMMETRY_ELEMENT *)calloc( 1, sizeof( SYMMETRY_ELEMENT ) ) ;
       unsigned int i;
@@ -396,7 +396,7 @@ namespace OpenBabel {
     }
 
     int
-    check_transform_quality( SYMMETRY_ELEMENT *elem )
+    check_transform_quality( SYMMETRY_ELEMENT *elem ) const
     {
       unsigned int      i, j;
       OBAtom            symmetric ;
@@ -418,7 +418,7 @@ namespace OpenBabel {
     }
 
     double
-    eval_optimization_target_function( SYMMETRY_ELEMENT *elem, int *finish )
+    eval_optimization_target_function( SYMMETRY_ELEMENT *elem, int *finish ) const
     {
       unsigned int      i, j, k;
       OBAtom            symmetric ;
@@ -1551,7 +1551,7 @@ namespace OpenBabel {
     }
 
     void
-    report_planes( void )
+    report_planes( void ) const
     {
       int           i ;
 
@@ -1571,7 +1571,7 @@ namespace OpenBabel {
     }
 
     void
-    report_inversion_centers( void )
+    report_inversion_centers( void ) const
     {
       if( InversionCentersCount == 0 )
         printf( "There is no inversion center in the molecule\n" ) ;
@@ -1587,7 +1587,7 @@ namespace OpenBabel {
     }
 
     void
-    report_axes( void )
+    report_axes( void ) const
     {
       int           i ;
 
@@ -1614,7 +1614,7 @@ namespace OpenBabel {
     }
 
     void
-    report_improper_axes( void )
+    report_improper_axes( void ) const
     {
       int           i ;
 
@@ -1712,7 +1712,7 @@ namespace OpenBabel {
     }
 
     void
-    sort_symmetry_elements( void )
+    sort_symmetry_elements( void ) const
     {
       if( PlanesCount > 1 ){
         qsort( Planes, PlanesCount, sizeof( SYMMETRY_ELEMENT * ), compare_axes ) ;
@@ -1726,7 +1726,7 @@ namespace OpenBabel {
     }
 
     void
-    report_symmetry_elements_verbose( void )
+    report_symmetry_elements_verbose( void ) const
     {
       report_inversion_centers() ;
       report_axes() ;
@@ -1787,7 +1787,7 @@ namespace OpenBabel {
       SymmetryCode = symmetry_code ;
     }
 
-    const char *identify_point_group( void )
+    const char *identify_point_group( void ) const
     {
       unsigned int   i;
       int            last_matching = -1;

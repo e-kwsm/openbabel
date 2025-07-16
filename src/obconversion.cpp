@@ -1165,12 +1165,12 @@ namespace OpenBabel {
   }
 
   ////////////////////////////////////////////
-  bool OBConversion::IsLast()
+  bool OBConversion::IsLast() const
   {
     return m_IsLast;
   }
   ////////////////////////////////////////////
-  bool OBConversion::IsFirstInput()
+  bool OBConversion::IsFirstInput() const
   {
     return m_IsFirstInput;
   }

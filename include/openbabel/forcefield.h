@@ -256,7 +256,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
       {
       }
 
-    vector3 GetGradient(int a)
+    vector3 GetGradient(int a) const
     {
       if (a == ia)
         return grada;
@@ -347,7 +347,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! \name Methods to get information about set constraints
     //@{
     //! Get Constraint factor
-    double GetFactor();
+    double GetFactor() const;
     //! \returns the number of set constraints
     int Size() const;
     /*! The following constraint types are known: OBFF_CONST_IGNORE (ignore
@@ -788,7 +788,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     }
     /*! \return True if Cut-off distances are used.
      */
-    bool IsCutOffEnabled()
+    bool IsCutOffEnabled() const
     {
       return _cutoff;
     }
@@ -802,7 +802,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Get the VDW cut-off distance.
      *  \return The VDW cut-off distance in A.
      */
-    double GetVDWCutOff()
+    double GetVDWCutOff() const
     {
       return _rvdw;
     }
@@ -817,7 +817,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Get the Electrostatic cut-off distance.
      *  \return The electrostatic cut-off distance in A.
      */
-    double GetElectrostaticCutOff()
+    double GetElectrostaticCutOff() const
     {
       return _rele;
     }
@@ -831,7 +831,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      /* Get the dielectric permittivity used for electrostatic calculations
      * \rreturn The current relative permittivity
      */
-     double GetDielectricConstant()
+     double GetDielectricConstant() const
      {
        return _epsilon;
      }
@@ -847,7 +847,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Get the frequency by which non-bonded pairs are updated.
      *  \return The pair list update frequency.
      */
-    int GetUpdateFrequency()
+    int GetUpdateFrequency() const
     {
       return _pairfreq;
     }
@@ -1015,7 +1015,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     bool SetLogLevel(int level);
     /*! \return The log level.
      */
-    int GetLogLevel() { return _loglvl; }
+    int GetLogLevel() const { return _loglvl; }
     /*! Print msg to the logfile.
      *  \param msg The message to print.
      */
@@ -1212,7 +1212,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Get the LineSearchType.
      *  \return The current LineSearchType.
      */
-    int GetLineSearchType()
+    int GetLineSearchType() const
     {
       return _linesearch;
     }

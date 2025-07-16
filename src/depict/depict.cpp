@@ -69,7 +69,7 @@ namespace OpenBabel
       virtual void DrawRing(OBRing *ring, OBBitVec &drawnBonds);
       virtual void DrawAromaticRing(OBRing *ring, OBBitVec &drawnBonds);
 
-      bool HasLabel(OBAtom *atom);
+      bool HasLabel(OBAtom *atom) const;
       void SetWedgeAndHash(OBMol* mol);
 
       OBMol     *mol;
@@ -1034,7 +1034,7 @@ namespace OpenBabel
 
   }
 
-  bool OBDepictPrivate::HasLabel(OBAtom *atom)
+  bool OBDepictPrivate::HasLabel(OBAtom *atom) const
   {
     if (atom->GetAtomicNum() != OBElements::Carbon)
       return true;

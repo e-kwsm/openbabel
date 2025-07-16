@@ -463,7 +463,7 @@ OBSpectrophore::_getEnergies(double** c, double* e)
 
 
 void
-OBSpectrophore::_initiateSpectrophore(double* e, double* s)
+OBSpectrophore::_initiateSpectrophore(double* e, double* s) const
 {
     for (unsigned int i = 0; i < N_PROPERTIES * _numberOfProbes; ++i)
     {
@@ -474,7 +474,7 @@ OBSpectrophore::_initiateSpectrophore(double* e, double* s)
 
 
 void
-OBSpectrophore::_updateSpectrophore(double* ENERGY, double* SPHORE)
+OBSpectrophore::_updateSpectrophore(double* ENERGY, double* SPHORE) const
 {
     for (unsigned int i = 0; i < N_PROPERTIES * _numberOfProbes; ++i)
     {
@@ -643,7 +643,7 @@ OBSpectrophore::_getBox(double** c)
 
 
 void
-OBSpectrophore::_rotateX(double** oc, double** nc, const double c, const double s)
+OBSpectrophore::_rotateX(double** oc, double** nc, const double c, const double s) const
 {
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
@@ -656,7 +656,7 @@ OBSpectrophore::_rotateX(double** oc, double** nc, const double c, const double 
 
 
 void
-OBSpectrophore::_rotateY(double** oc, double** nc, const double c, const double s)
+OBSpectrophore::_rotateY(double** oc, double** nc, const double c, const double s) const
 {
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
@@ -669,7 +669,7 @@ OBSpectrophore::_rotateY(double** oc, double** nc, const double c, const double 
 
 
 void
-OBSpectrophore::_rotateZ(double** oc, double** nc, const double c, const double s)
+OBSpectrophore::_rotateZ(double** oc, double** nc, const double c, const double s) const
 {
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {

@@ -83,7 +83,7 @@ namespace OpenBabel
     //! Set the resolution (delta) of a torsional step in degrees
     void    SetDelta(double d)    {       _delta = d;           }
     //! \return the resolution (delta) of a torsional step in degrees
-    double  GetDelta()            {       return(_delta);       }
+    double  GetDelta() const { return _delta; }
     //! \return a reference to the dihedral angles to evaluate (in radians)
     std::vector<double>   &GetTorsionVals()    { return(_vals); }
     //! \return the text of the SMARTS pattern for this rule
@@ -522,7 +522,7 @@ namespace OpenBabel
      * @return True if this rotor list has any ring bonds.
      * @since version 2.4
      */
-    bool HasRingRotors()
+    bool HasRingRotors() const
     { return _ringRotors; }
 
     ///@name Setup
@@ -685,12 +685,12 @@ namespace OpenBabel
       state = st;
     }
 
-    int get_state()
+    int get_state() const
     {
       return state;
     }
 
-    unsigned int size()
+    unsigned int size() const
     {
       return resolution_size;
     }

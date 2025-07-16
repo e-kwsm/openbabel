@@ -644,12 +644,12 @@ namespace OpenBabel
     return 0;
   }
 
-  bool OBRing::IsMember(OBAtom *a)
+  bool OBRing::IsMember(OBAtom *a) const
   {
     return(_pathset.BitIsSet(a->GetIdx()));
   }
 
-  bool OBRing::IsMember(OBBond *b)
+  bool OBRing::IsMember(OBBond *b) const
   {
     return((_pathset.BitIsSet(b->GetBeginAtomIdx()))&&(_pathset.BitIsSet(b->GetEndAtomIdx())));
   }

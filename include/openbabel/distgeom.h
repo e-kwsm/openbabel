@@ -48,16 +48,16 @@ namespace OpenBabel {
                     double lower_bound, double upper_bound) :
                     c(center), nbrs(neighbors),
                     lb(lower_bound), ub(upper_bound) {}
-    int GetCenter() {
+    int GetCenter() const {
       return c;
     }
     std::vector<unsigned long> GetNeighbors() {
       return nbrs;
     }
-    double GetUpperBound() {
+    double GetUpperBound() const {
       return ub;
     }
-    double GetLowerBound() {
+    double GetLowerBound() const {
       return lb;
     }
   };
@@ -107,7 +107,7 @@ namespace OpenBabel {
     bool SetBoundsMatrix(const Eigen::MatrixXf bounds);
     float GetUpperBounds(int i, int j);
     float GetLowerBounds(int i, int j);
-    unsigned int GetDimension() {return dim;};
+    unsigned int GetDimension() const { return dim; }
     std::vector<TetrahedralInfo>  _stereo;       //!< Internal private data, including stereo info
   private:
     OBMol                     _mol;

@@ -122,7 +122,7 @@ private:
   void init();
   void initGlobals();
   void solve(int ntypes, int z[MAXBONDS][4], int depth);
-  string constring(int conntab [MAXBONDS][4], char * tstr);
+  string constring(int conntab [MAXBONDS][4], char * tstr) const;
   string intToStr(int k);
   string getMCDL(OBMol* pmol, bool includeCoordinates);
   void restoreFullMCDL(string value, OBMol* pmol);
@@ -176,7 +176,7 @@ private:
 
 
 /* Create descriptor connectivity string from connectivity table of fragments */
-  string MCDLFormat::constring(int conntab [MAXBONDS][4], char * tstr)
+  string MCDLFormat::constring(int conntab [MAXBONDS][4], char * tstr) const
 {
     int  i,j,k,n,nn,icons[6],comma;
     char line[82],semis[100];

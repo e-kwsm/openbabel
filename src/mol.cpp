@@ -521,7 +521,7 @@ namespace OpenBabel
   //! locates all atoms for which there exists a path to 'end'
   //! without going through 'bgn'
   //! children must not include 'end'
-  void OBMol::FindChildren(vector<OBAtom*> &children,OBAtom *bgn,OBAtom *end)
+  void OBMol::FindChildren(vector<OBAtom*> &children, OBAtom *bgn, OBAtom *end) const
   {
     OBBitVec used,curr,next;
 
@@ -557,7 +557,7 @@ namespace OpenBabel
   //! locates all atoms for which there exists a path to 'second'
   //! without going through 'first'
   //! children must not include 'second'
-  void OBMol::FindChildren(vector<int> &children,int first,int second)
+  void OBMol::FindChildren(vector<int> &children, int first, int second) const
   {
     int i;
     OBBitVec used,curr,next;
@@ -2598,7 +2598,7 @@ namespace OpenBabel
     return true;
   }
 
-  void OBMol::Align(OBAtom *a1,OBAtom *a2,vector3 &p1,vector3 &p2)
+  void OBMol::Align(OBAtom *a1, OBAtom *a2, vector3 &p1, vector3 &p2) const
   {
     vector<int> children;
 
