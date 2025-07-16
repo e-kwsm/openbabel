@@ -230,7 +230,7 @@ namespace OpenBabel {
        * @return The query bond between @p begin and @p end. If there is no
        * bond between @p begin and @p end, this function returns 0.
        */
-      OBQueryBond* GetBond(OBQueryAtom *begin, OBQueryAtom *end) const
+      static OBQueryBond* GetBond(OBQueryAtom *begin, OBQueryAtom *end)
       {
         for (unsigned int i = 0; i < begin->GetBonds().size(); ++i)
           if (begin->GetNbrs()[i] == end)

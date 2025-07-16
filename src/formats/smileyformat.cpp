@@ -316,8 +316,8 @@ namespace OpenBabel
       bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
 
     private:
-      void CreateCisTrans(OBMol *mol, const std::vector<OpenBabelCallback::UpDown> &upDown);
-      bool AssignNbrAtoms(const std::vector<OpenBabelCallback::UpDown> &upDown, OBAtom *atom,
+      static void CreateCisTrans(OBMol *mol, const std::vector<OpenBabelCallback::UpDown> &upDown);
+      static bool AssignNbrAtoms(const std::vector<OpenBabelCallback::UpDown> &upDown, OBAtom *atom,
           unsigned long &above, unsigned long &below);
 
   };

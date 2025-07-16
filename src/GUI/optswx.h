@@ -33,7 +33,7 @@ public:
 	bool Construct(const char* OptionsText, const char* StartText=nullptr, int MultiCharFilter=0);
 	int SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConversion::Option_type opttyp);
 private:
-	char* strcasestr(const char* haystack, const char* needle);
+	static char* strcasestr(const char* haystack, const char* needle);
 	wxWindow* parent;
 	wxSizer* sizer;
 	OMapType OptionMap;

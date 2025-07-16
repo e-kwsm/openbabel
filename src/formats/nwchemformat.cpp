@@ -72,18 +72,18 @@ namespace OpenBabel
     bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
 
   private:
-    void ReadCoordinates(istream* ifs, OBMol* molecule);
-    void ReadPartialCharges(istream* ifs, OBMol* molecule);
-    void ReadOrbitals(istream* ifs, OBMol* molecule);
-    void ReadMultipoleMoment(istream* ifs, OBMol* molecule);
+    static void ReadCoordinates(istream* ifs, OBMol* molecule);
+    static void ReadPartialCharges(istream* ifs, OBMol* molecule);
+    static void ReadOrbitals(istream* ifs, OBMol* molecule);
+    static void ReadMultipoleMoment(istream* ifs, OBMol* molecule);
 
-    void ReadFrequencyCalculation(istream* ifs, OBMol* molecule);
-    void ReadGeometryOptimizationCalculation(istream* ifs, OBMol* molecule);
-    void ReadSinglePointCalculation(istream* ifs, OBMol* molecule);
-    void ReadZTSCalculation(istream* ifs, OBMol* molecule);
-    void ReadTDDFTCalculation(istream* ifs, OBMol* molecule);
-    void ReadMEPCalculation(istream* ifs, OBMol* molecule);
-    void ReadNEBCalculation(istream* ifs, OBMol* molecule);
+    static void ReadFrequencyCalculation(istream* ifs, OBMol* molecule);
+    static void ReadGeometryOptimizationCalculation(istream* ifs, OBMol* molecule);
+    static void ReadSinglePointCalculation(istream* ifs, OBMol* molecule);
+    static void ReadZTSCalculation(istream* ifs, OBMol* molecule);
+    static void ReadTDDFTCalculation(istream* ifs, OBMol* molecule);
+    static void ReadMEPCalculation(istream* ifs, OBMol* molecule);
+    static void ReadNEBCalculation(istream* ifs, OBMol* molecule);
   };
 
 static const char* COORDINATES_PATTERN = "Output coordinates";

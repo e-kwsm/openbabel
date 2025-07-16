@@ -41,13 +41,13 @@ namespace OpenBabel
     void AssignComponentIds(bool wipe);
     void ClearInternalState();
     bool GetComponent(OBMol* mol, OBReactionRole rxnrole, unsigned int num);
-    unsigned int GetComponentId(OBAtom *atom);
-    OBReactionRole GetRole(OBAtom *atom);
+    static unsigned int GetComponentId(OBAtom *atom);
+    static OBReactionRole GetRole(OBAtom *atom);
     bool IsValid();
     unsigned int NumComponents(OBReactionRole rxnrole);
     bool ReassignComponent(OBReactionRole oldrole, unsigned int num, OBReactionRole newrole);
-    void SetComponentId(OBAtom* atom, unsigned int compid);
-    void SetRole(OBAtom* atom, OBReactionRole rxnrole);
+    static void SetComponentId(OBAtom* atom, unsigned int compid);
+    static void SetRole(OBAtom* atom, OBReactionRole rxnrole);
 
   private:
     OBMol* _mol;
@@ -57,8 +57,8 @@ namespace OpenBabel
     std::vector<unsigned int> _product_components;
     std::vector<unsigned int> _agent_components;
 
-    int GetId(const char* idtype, OBAtom *atom);
-    void SetId(const char* idtype, OBAtom* atom, int idval);
+    static int GetId(const char* idtype, OBAtom *atom);
+    static void SetId(const char* idtype, OBAtom* atom, int idval);
     void FindComponents();
     std::vector<unsigned int>* GetComponentIds(OBReactionRole rxnrole);
   };

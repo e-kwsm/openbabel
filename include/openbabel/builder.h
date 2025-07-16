@@ -52,7 +52,7 @@ namespace OpenBabel
        *         changed in this mol.
        *  \param stereoWarnings Warn if the stereochemistry is incorrect (default is true)
        */
-    bool Build(OBMol &mol, bool stereoWarnings = true);
+    static bool Build(OBMol &mol, bool stereoWarnings = true);
       //@}
 
       ///@name Setup build parameters
@@ -71,10 +71,10 @@ namespace OpenBabel
 
 
       //! Used by LoadFragments to check for invalid (all zero coordinates) fragments
-      void AddRingFragment(OBSmartsPattern *sp, const std::vector<vector3> &coords);
+      static void AddRingFragment(OBSmartsPattern *sp, const std::vector<vector3> &coords);
       //! Load fragment info from file, if is it has not already been done
-      void LoadFragments();
-      std::vector<vector3> GetFragmentCoord(std::string smiles);
+      static void LoadFragments();
+      static std::vector<vector3> GetFragmentCoord(std::string smiles);
 
       /*! Get the position for a new neighbour on atom.  Returns
        * non-finite vector if there is no reasonable location.

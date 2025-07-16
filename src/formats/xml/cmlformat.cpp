@@ -43,9 +43,9 @@ namespace OpenBabel
   class CMLFormat : public XMLMoleculeFormat
   {
   private:
-    const char* CML1NamespaceURI()const
+    static const char* CML1NamespaceURI()
       {return "http://cml.sourceforge.net/schema/cmlCore/HTMLDOCS/cmlCore.pdf";}
-    const char* CML2NamespaceURI()const{return "http://www.xml-cml.org/schema/cml2/core";}
+    static const char* CML2NamespaceURI(){return "http://www.xml-cml.org/schema/cml2/core";}
 
   public:
     //Constuctor used on startup which registers this format type ID
@@ -165,13 +165,13 @@ namespace OpenBabel
     bool DoBonds();
     bool DoHCounts();
     bool DoMolWideData();
-    bool ParseFormula(string& formula, OBMol* pmol);
+    static bool ParseFormula(string& formula, OBMol* pmol);
     void ReadNasaThermo();
 
-    void MakeAtomIds(OBMol& mol, vector<string>& atomIDs);
+    static void MakeAtomIds(OBMol& mol, vector<string>& atomIDs);
     void WriteFormula(OBMol mol); //passes copy of mol
     void WriteMetadataList(OBMol& mol);
-    string getTimestr();
+    static string getTimestr();
     void WriteBondStereo(OBBond* pbond, vector<string>& atomIDs);
     void WriteCrystal(OBMol& mol);
     void WriteProperties(OBMol& mol, bool& propertyListWritten);

@@ -89,9 +89,9 @@ namespace OpenBabel
     ////////////////////////////////////////////////////
     /// The "API" interface functions
     bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
-    void ClearLayer(int a[][LAYER_SIZE]);
-    void PrintLayer(int a[][LAYER_SIZE],ostream &ofs);
-    void PrintXML(int layer_a[][LAYER_SIZE],ostream &ofs);
+    static void ClearLayer(int a[][LAYER_SIZE]);
+    static void PrintLayer(int a[][LAYER_SIZE],ostream &ofs);
+    static void PrintXML(int layer_a[][LAYER_SIZE],ostream &ofs);
     int MyType(string a);
   };
   //***

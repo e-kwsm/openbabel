@@ -53,7 +53,7 @@ public:
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
       OBConversion* pConv=nullptr) override;
 private:
-  bool AddDataToSubstruct(OBMol* pmol,
+  static bool AddDataToSubstruct(OBMol* pmol,
         const std::vector<int>& atomIdxs,
         const std::string& attribute,
         const std::string& value);

@@ -56,8 +56,8 @@ public:
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
       OBConversion* pConv=nullptr) override;
-  bool NoNegativelyChargedNbr(OBAtom *atm);
-  bool NoPositivelyChargedNbr(OBAtom *atm);
+  static bool NoNegativelyChargedNbr(OBAtom *atm);
+  static bool NoPositivelyChargedNbr(OBAtom *atm);
 };
 
 /////////////////////////////////////////////////////////////////

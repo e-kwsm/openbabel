@@ -712,7 +712,7 @@ namespace Smiley {
     /**
      * The addAtom() method is invoked when an atom is completly parsed.
      */
-    void addAtom(int element, bool aromatic, int isotope, int hCount, int charge, int atomClass)
+    static void addAtom(int element, bool aromatic, int isotope, int hCount, int charge, int atomClass)
     {
       std::cout << "addAtom:" << std::endl
         << "    element: " << element << std::endl
@@ -728,7 +728,7 @@ namespace Smiley {
      * added (by calling addAtom()). Therefore are the bond indices always
      * valid.
      */
-    void addBond(int source, int target, int order, bool isUp, bool isDown)
+    static void addBond(int source, int target, int order, bool isUp, bool isDown)
     {
       std::cout << "addBond:" << std::endl
         << "    source: " << source << std::endl
@@ -742,7 +742,7 @@ namespace Smiley {
      * The setChiral() method is invoked at the end of parsing for each atom
      * that has a chirality specified.
      */
-    void setChiral(int index, Chirality chirality, const std::vector<int> &nbrs)
+    static void setChiral(int index, Chirality chirality, const std::vector<int> &nbrs)
     {
       std::cout << "setChiral:" << std::endl
                 << "    index: " << index << std::endl
@@ -784,7 +784,7 @@ namespace Smiley {
       std::cout << "addOrganicSubsetAtom: " << str.substr(pos) << std::endl;
     }
 
-    std::string number2string(int value)
+    static std::string number2string(int value)
     {
       std::stringstream ss;
       ss << value;

@@ -112,7 +112,7 @@ namespace OpenBabel
       /// Find the next true bit after \p last_bit_offset
       int NextBit(int last_bit_offset) const;
       /// Return the bit offset of the last bit (for iterating) i.e. -1
-      int EndBit() const {  return -1; }
+      static int EndBit() { return -1; }
       /// Return the number of words ( NOT the number of bits ).
       size_t GetSize() const    { return(_size);    }
       /// Return the number of bits which are set to 1 in the vector

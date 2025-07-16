@@ -114,8 +114,8 @@ namespace OpenBabel
   private:
     vector<unsigned int> firstfp;
     string firstname;
-    bool IsPossibleSubstructure(vector<unsigned int>Mol, vector<unsigned int>Frag);
-    bool WriteHex(ostream &ofs, vector<unsigned int> fptvec);
+    static bool IsPossibleSubstructure(vector<unsigned int>Mol, vector<unsigned int>Frag);
+    static bool WriteHex(ostream &ofs, vector<unsigned int> fptvec);
   };
 
   ////////////////////////////////////////////////////

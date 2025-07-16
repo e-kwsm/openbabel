@@ -54,7 +54,7 @@ namespace OpenBabel
     bool ReadLineCartesian(OBAtom *atom, vector<string> &tokens, double factor);
     bool ReadLineZmatrix(OBMol &mol, OBAtom *atom, vector<string> &tokens, double factor, int *zmatLineCount);
     double Rescale(string text);
-    bool IsUnits(string text);
+    static bool IsUnits(string text);
     /**
      * Converts a string to a numerical type
      * This purloined from: http://www.codeguru.com/forum/showthread.php?t=231054

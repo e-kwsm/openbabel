@@ -96,7 +96,7 @@ namespace OpenBabel
       bool SetPartialChargesBeforeAtomTyping();
       // GetParameterOOP for improper-dihedrals
       // This specialization is needed because improper-dihedral have different symmetry as dihedrals
-      OBFFParameter* GetParameterOOP(const char* a, const char* b, const char* c, const char* d,
+      static OBFFParameter* GetParameterOOP(const char* a, const char* b, const char* c, const char* d,
         std::vector<OBFFParameter> &parameter);
 
       // OBFFParameter vectors to contain the parameters

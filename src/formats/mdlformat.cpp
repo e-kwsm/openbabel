@@ -143,9 +143,9 @@ namespace OpenBabel
       bool ReadBondBlock(istream& ifs,OBMol& mol, OBConversion* pConv);
       bool ReadRGroupBlock(istream& ifs,OBMol& mol, OBConversion* pConv);
       bool ReadUnimplementedBlock(istream& ifs,OBMol& mol, OBConversion* pConv, string& blockname);
-      bool WriteV3000(ostream& ofs,OBMol& mol, OBConversion* pConv);
-      bool ReadPropertyLines(istream& ifs, OBMol& mol);
-      bool TestForAlias(const string& symbol, OBAtom* at, vector<pair<AliasData*,OBAtom*> >& aliases);
+      static bool WriteV3000(ostream& ofs,OBMol& mol, OBConversion* pConv);
+      static bool ReadPropertyLines(istream& ifs, OBMol& mol);
+      static bool TestForAlias(const string& symbol, OBAtom* at, vector<pair<AliasData*,OBAtom*> >& aliases);
 
     private:
       enum Parity {
@@ -153,15 +153,15 @@ namespace OpenBabel
       };
       typedef map<unsigned int, unsigned int> HYDMap;
       bool  HasProperties;
-      string GetTimeDate();
-      void GetUpDown(OBMol& mol, map<OBBond*, OBStereo::BondDirection> &updown, set<OBBond*> &stereodbl);
-      void GetParity(OBMol& mol, map<OBAtom*, Parity> &parity);
-      void TetStereoFromParity(OBMol& mol, vector<MDLFormat::Parity> &parity, bool deleteExisting=false);
-      void CisTransFromUpDown(OBMol *mol, std::map<OBBond*, OBStereo::BondDirection> *updown);
-      int ReadIntField(const char *s);
-      unsigned int ReadUIntField(const char *s);
+      static string GetTimeDate();
+      static void GetUpDown(OBMol& mol, map<OBBond*, OBStereo::BondDirection> &updown, set<OBBond*> &stereodbl);
+      static void GetParity(OBMol& mol, map<OBAtom*, Parity> &parity);
+      static void TetStereoFromParity(OBMol& mol, vector<MDLFormat::Parity> &parity, bool deleteExisting=false);
+      static void CisTransFromUpDown(OBMol *mol, std::map<OBBond*, OBStereo::BondDirection> *updown);
+      static int ReadIntField(const char *s);
+      static unsigned int ReadUIntField(const char *s);
      // Helper for 2.3 -- is this atom a metal
-      bool IsMetal(OBAtom *atom);// Temporary for 2.3.1 (because of binary compatibility)
+      static bool IsMetal(OBAtom *atom);// Temporary for 2.3.1 (because of binary compatibility)
       map<int,int> indexmap; //relates index in file to index in OBMol
       vector<string> vs;
   };

@@ -80,7 +80,7 @@ private:
 	void DoReverses();
 	void DoRings();
 
-	unsigned int CalcHash(const std::vector<int>& frag);
+	static unsigned int CalcHash(const std::vector<int>& frag);
 	void PrintFpt(const std::vector<int>& f, int hash=0);
 
 	Fset fragset;

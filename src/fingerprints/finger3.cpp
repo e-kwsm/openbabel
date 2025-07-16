@@ -274,7 +274,7 @@ public:
   }
 
 ///////////////////////////////////////////////////////////////////////////////////
-  bool ParseRDKitFormat(istringstream& ss, pattern& p)
+  static bool ParseRDKitFormat(istringstream& ss, pattern& p)
   {
     //rdkit format, e.g.
     //  14:('[S,s]-[S,s]',0), # S-S

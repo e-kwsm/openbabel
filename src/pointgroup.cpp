@@ -234,7 +234,7 @@ namespace OpenBabel {
     long                   StatOpt          ;
     long                   StatAccept       ;
 
-    bool equivalentAtoms(OBAtom &a1, OBAtom &a2)
+    static bool equivalentAtoms(OBAtom &a1, OBAtom &a2)
     {
       if (a1.GetAtomicNum() != a2.GetAtomicNum())
         return false;
@@ -385,7 +385,7 @@ namespace OpenBabel {
       return elem ;
     }
 
-    void
+    static void
     destroy_symmetry_element( SYMMETRY_ELEMENT *elem )
     {
       if (elem != nullptr) {
@@ -471,13 +471,13 @@ namespace OpenBabel {
       return target ;
     }
 
-    void
+    static void
     get_params( SYMMETRY_ELEMENT *elem, double values[] )
     {
       memcpy( values, &elem->distance, elem->nparam * sizeof( double ) ) ;
     }
 
-    void
+    static void
     set_params( SYMMETRY_ELEMENT *elem, double values[] )
     {
       memcpy( &elem->distance, values, elem->nparam * sizeof( double ) ) ;

@@ -69,7 +69,7 @@ namespace OpenBabel
     /// The "API" interface functions
     bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
 
-    string checkColumns(string tmp);
+    static string checkColumns(string tmp);
   };
 
   //Make an instance of the format class

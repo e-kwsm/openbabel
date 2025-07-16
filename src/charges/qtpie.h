@@ -62,9 +62,9 @@ public:
 
 private:
   Eigen::Vector3d GetParameters(unsigned int Z, int Q);
-  bool solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold = 1.e-6);
-  double CoulombInt(double a, double b, double R);
-  double OverlapInt(double a, double b, double R);
+  static bool solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold = 1.e-6);
+  static double CoulombInt(double a, double b, double R);
+  static double OverlapInt(double a, double b, double R);
 
   Eigen::MatrixXd Hardness; ///The hardness matrix
   Eigen::VectorXd Electronegativity, Voltage, Charge;

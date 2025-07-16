@@ -187,8 +187,8 @@ namespace OpenBabel
     std::vector<vector3> _targetmol_coords;
     Eigen::MatrixXd _result;
     Eigen::MatrixXd _mref, _mtarget;
-    void VectorsToMatrix(const std::vector<vector3> *pcoords, Eigen::MatrixXd &coords);
-    Eigen::Vector3d MoveToOrigin(Eigen::MatrixXd &coords);
+    static void VectorsToMatrix(const std::vector<vector3> *pcoords, Eigen::MatrixXd &coords);
+    static Eigen::Vector3d MoveToOrigin(Eigen::MatrixXd &coords);
     void SimpleAlign(const Eigen::MatrixXd &mtarget);
     void TheobaldAlign(const Eigen::MatrixXd &mtarget);
     // Generate a mapping from the permutation map to the index of

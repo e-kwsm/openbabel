@@ -59,9 +59,9 @@ namespace OpenBabel
     //	static bool FirstTime = true; Use new framework functions
     int MolCount; //was = 1;
 
-    void WriteSize(int,ostream&);
-    char *PadString(char*,int);
-    void WriteCSRHeader(ostream&,OBMol&);
+    static void WriteSize(int,ostream&);
+    static char *PadString(char*,int);
+    static void WriteCSRHeader(ostream&,OBMol&);
     void WriteCSRCoords(ostream&,OBMol&);
 
 

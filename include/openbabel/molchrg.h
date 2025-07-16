@@ -58,8 +58,8 @@ class OBAPI OBGastChrg
 {
   std::vector <GasteigerState*> _gsv; //!< vector of internal GasteigerState (for each atom)
 
-    void InitialPartialCharges(OBMol &);
-    bool GasteigerSigmaChi(OBAtom *,double &,double &,double &);
+    static void InitialPartialCharges(OBMol &);
+    static bool GasteigerSigmaChi(OBAtom *,double &,double &,double &);
 
 public:
     OBGastChrg()    {}

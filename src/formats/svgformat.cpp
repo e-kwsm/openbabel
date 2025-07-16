@@ -162,8 +162,8 @@ public:
   bool WriteMolecule(OBBase* pOb, OBConversion* pConv) override;
 
 private:
-  bool EmbedCML(OBMol* pmol, OBConversion* pConv, ostream* ofs);
-  bool EmbedScript(ostream& ofs);
+  static bool EmbedCML(OBMol* pmol, OBConversion* pConv, ostream* ofs);
+  static bool EmbedScript(ostream& ofs);
   bool WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules);
 private:
   int _ncols, _nrows, _nmax;
