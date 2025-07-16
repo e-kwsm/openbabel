@@ -38,7 +38,7 @@ public:
     OBConversion::RegisterFormat("paint",this);
   }
 
-  const char* Description() override //required
+  const char* Description() const override //required
   {
     return
     "Painter format\n"

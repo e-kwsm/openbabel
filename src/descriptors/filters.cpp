@@ -31,7 +31,7 @@ namespace OpenBabel {
 class MWFilter : public OBDescriptor {
 public:
   MWFilter(const char *ID) : OBDescriptor(ID){};
-  const char *Description() override { return "Molecular Weight filter"; }
+  const char *Description() const override { return "Molecular Weight filter"; }
   double Predict(OBBase *pOb, string * /*param*/ = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
@@ -45,7 +45,7 @@ MWFilter theMWFilter("MW");
 class RotatableBondsFilter : public OBDescriptor {
 public:
   RotatableBondsFilter(const char *ID) : OBDescriptor(ID){};
-  const char *Description() override { return "Rotatable bonds filter"; }
+  const char *Description() const override { return "Rotatable bonds filter"; }
   double Predict(OBBase *pOb, string * /*param*/ = nullptr) override {
     OBMol *pmol = dynamic_cast<OBMol *>(pOb);
     if (!pmol)
@@ -62,7 +62,7 @@ RotatableBondsFilter theRBFilter("rotors");
 class SmartsFilter : public OBDescriptor {
 public:
   SmartsFilter(const char *ID) : OBDescriptor(ID){};
-  const char *Description() override { return "SMARTS filter"; }
+  const char *Description() const override { return "SMARTS filter"; }
   bool Compare(OBBase *pOb, istream &optionText, bool noEval,
                std::string *param = nullptr) override;
 };
@@ -105,7 +105,7 @@ SmartsFilter secondSmartsFilter("s");
 class TitleFilter : public OBDescriptor {
 public:
   TitleFilter(const char *ID) : OBDescriptor(ID){};
-  const char *Description() override {
+  const char *Description() const override {
     return "For comparing a molecule's title";
   };
   bool Compare(OBBase *pOb, istream &optionText, bool noEval,
@@ -149,7 +149,7 @@ TitleFilter theTitleFilter("title");
 class FormulaDescriptor : public OBDescriptor {
 public:
   FormulaDescriptor(const char *ID) : OBDescriptor(ID){};
-  const char *Description() override { return "Chemical formula"; }
+  const char *Description() const override { return "Chemical formula"; }
 
   double GetStringValue(OBBase *pOb, std::string &svalue,
                         std::string * /*param*/ = nullptr) override {

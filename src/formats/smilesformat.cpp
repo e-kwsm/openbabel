@@ -127,7 +127,7 @@ namespace OpenBabel {
       OBConversion::RegisterOptionParam("x", this);
       OBConversion::RegisterOptionParam("C", this);	// "anti-canonical" form (random order)
     }
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "SMILES format\n"
@@ -222,7 +222,7 @@ namespace OpenBabel {
 
     ///////////////////////////////////////////////////////
 
-    const char* Description() override {
+    const char* Description() const override {
       return
         "Canonical SMILES format\n"
         "A canonical form of the SMILES linear text format\n"
@@ -2416,7 +2416,7 @@ namespace OpenBabel {
                                   vector<OBAtom*>&chiral_neighbors,
                                   vector<unsigned int> &symmetry_classes,
                                   std::string&);
-    int          GetSmilesValence(OBAtom *atom);
+    int          GetSmilesValence(OBAtom *atom) const;
     int          GetUnusedIndex();
     vector<OBBondClosureInfo>
     GetCanonClosureDigits(OBAtom *atom,
@@ -3386,7 +3386,7 @@ namespace OpenBabel {
    *       above.
    ***************************************************************************/
 
-  int OBMol2Cansmi::GetSmilesValence(OBAtom *atom)
+  int OBMol2Cansmi::GetSmilesValence(OBAtom *atom) const
   {
     int count = 0;
 
@@ -4287,7 +4287,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("fix",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "SMILES FIX format\n"

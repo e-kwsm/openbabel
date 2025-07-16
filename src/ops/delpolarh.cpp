@@ -27,7 +27,7 @@ class OpDelPolarH : public OBOp
 {
 public:
   OpDelPolarH(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Deletes hydrogen from polar atoms only"; }
+  const char* Description() const override { return "Deletes hydrogen from polar atoms only"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,

@@ -42,7 +42,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pqr",this, "chemical/x-pqr");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "PQR format\n"

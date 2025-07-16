@@ -60,7 +60,7 @@ public:
   }
 
 /////////////////////////////////////////////////////////////////////////////
-  const char* Description() override
+  const char* Description() const override
   {
     static string desc;
     //Read patterns file if it has not been done already,

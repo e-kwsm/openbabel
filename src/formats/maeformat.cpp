@@ -49,7 +49,7 @@ public:
 		OBConversion::RegisterFormat("maegz", this);
 	}
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Maestro format\n"

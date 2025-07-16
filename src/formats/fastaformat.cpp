@@ -49,7 +49,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("t", nullptr, 1, OBConversion::INOPTIONS);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "FASTA format\n"

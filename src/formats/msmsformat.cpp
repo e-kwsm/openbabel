@@ -57,7 +57,7 @@ public:
     }
 
     /// Return description.
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
         return
         "M.F. Sanner's MSMS input format\n"

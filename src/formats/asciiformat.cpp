@@ -43,7 +43,7 @@ public:
     OBConversion::RegisterFormat("ascii",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
     "ASCII format\n"

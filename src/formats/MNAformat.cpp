@@ -57,7 +57,7 @@ namespace OpenBabel
 				OBConversion::RegisterOptionParam(levels_option, this, 1);
 			}
 
-			const char* Description() override
+			const char* Description() const override
 			{
         stringstream ss;
 				ss <<

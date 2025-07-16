@@ -32,7 +32,7 @@ class OBLoader : public OBPlugin
 {
   MAKE_PLUGIN(OBLoader)
 public:
-  const char* TypeID() override { return "loaders"; }
+  const char* TypeID() const override { return "loaders"; }
 };
 
 #if defined(__CYGWIN__) || defined(__MINGW32__)
@@ -122,7 +122,7 @@ public:
       delete *iter;
   }
 
-  const char* Description() override { return "Makes plugin classes from a datafile"; }
+  const char* Description() const override { return "Makes plugin classes from a datafile"; }
 
   OBDefine* MakeInstance(const std::vector<std::string>& textlines) override
   {

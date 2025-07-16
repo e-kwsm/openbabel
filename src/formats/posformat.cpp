@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pos", this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "POS cartesian coordinates format\n"

@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("xyz", this, "chemical/x-xyz");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "XYZ cartesian coordinates format\n"

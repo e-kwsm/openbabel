@@ -35,7 +35,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("crk2d", this, "chemical/x-crk2d");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Chemical Resource Kit diagram(2D)\n"
@@ -138,7 +138,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("crk3d", this, "chemical/x-crk3d");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Chemical Resource Kit 3D format\n"

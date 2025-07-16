@@ -74,7 +74,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pdbqt",this, "chemical/x-pdbqt");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
 

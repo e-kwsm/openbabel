@@ -62,7 +62,7 @@ public:
     }
 
     /// Return description.
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
         return
         "Molden format\n"

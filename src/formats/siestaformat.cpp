@@ -36,7 +36,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("siesta",this);
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "SIESTA format\n"

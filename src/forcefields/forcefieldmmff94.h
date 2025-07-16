@@ -263,7 +263,7 @@ namespace OpenBabel
       }
 
       //! Get the description for this force field
-      const char* Description() override
+      const char* Description() const override
       {
         if (mmff94s)
           return "MMFF94s force field.";

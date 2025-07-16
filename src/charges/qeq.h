@@ -48,7 +48,7 @@ class QEqCharges : public OBChargeModel
 public:
   QEqCharges(void) : OBChargeModel("fake ID", false){};
   QEqCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Assign QEq (charge equilibration) partial charges (Rappe and Goddard, 1991)"; }
+  const char* Description() const override { return "Assign QEq (charge equilibration) partial charges (Rappe and Goddard, 1991)"; }
 
   /// \return whether partial charges were successfully assigned to this molecule
   bool ComputeCharges(OBMol &mol) override ;

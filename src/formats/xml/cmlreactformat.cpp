@@ -73,7 +73,7 @@ public:
   {return "http://www.xml-cml.org/schema";}
 
 
-  const char* Description() override
+  const char* Description() const override
   {
     return
       "CML Reaction format\n"

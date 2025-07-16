@@ -34,7 +34,7 @@ namespace OpenBabel
     SmartsDescriptor(const char* ID, const char* smarts, const char* descr)
       : OBDescriptor(ID, false), _smarts(smarts), _descr(descr){}
 
-    const char* Description() override
+    const char* Description() const override
     {
       //Adds the SMARTS string to the description
       static string txt;

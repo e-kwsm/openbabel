@@ -1216,7 +1216,7 @@ namespace OpenBabel
     return true;
   }
 
-  unsigned int OBTorsion::GetBondIdx()
+  unsigned int OBTorsion::GetBondIdx() const
   {
     return(_bc.first->GetBond(_bc.second)->GetIdx());
   }

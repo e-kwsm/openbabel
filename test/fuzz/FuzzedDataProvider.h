@@ -82,7 +82,7 @@ class FuzzedDataProvider {
   size_t ConsumeData(void *destination, size_t num_bytes);
 
   // Reports the remaining bytes available for fuzzed input.
-  size_t remaining_bytes() { return remaining_bytes_; }
+  size_t remaining_bytes() const { return remaining_bytes_; }
 
  private:
   FuzzedDataProvider(const FuzzedDataProvider &) = delete;

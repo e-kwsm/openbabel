@@ -30,7 +30,7 @@ public:
       OBConversion::RegisterFormat("txt",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "Title format\n"

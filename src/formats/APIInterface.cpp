@@ -31,7 +31,7 @@ public:
 		OBConversion::RegisterOptionParam("-errorlevel", this, 1, OBConversion::GENOPTIONS);
 	}
 
-	const char* Description() override {
+	const char* Description() const override {
     return
     "Interface to OBAPI internals\n"
     "API options, e.g. ---errorlevel 2\n"

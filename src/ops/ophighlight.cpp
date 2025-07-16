@@ -35,7 +35,7 @@ class OpHighlight : public OBOp
 {
 public:
   OpHighlight(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
+  const char* Description() const override { return
     "<param> Highlight substructures in 2D depictions\n"
     "Usage: --highlight \"SMARTS1 color1 [SMARTS2 color2 ...]\"\n"
     "\n"

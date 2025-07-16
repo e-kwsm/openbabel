@@ -45,7 +45,7 @@ namespace OpenBabel {
       }
 
       // Required
-      const char* Description() override {
+      const char* Description() const override {
         return
           "GAMESS Output\n"
           "Read Options e.g. -as\n"
@@ -93,7 +93,7 @@ namespace OpenBabel {
       }
 
       // Required
-      const char* Description() override {
+      const char* Description() const override {
         return
           "GAMESS Input\n"
           "Write Options e.g. -xk\n"

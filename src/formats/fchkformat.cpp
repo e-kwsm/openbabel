@@ -56,7 +56,7 @@ namespace OpenBabel
                                    "chemical/x-gaussian-checkpoint");
     }
 
-    const char * Description() override
+    const char * Description() const override
     {
       return "Gaussian formatted checkpoint file format\n"
              "A formatted text file containing the results of a Gaussian calculation\n"

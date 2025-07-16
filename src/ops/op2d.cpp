@@ -42,7 +42,7 @@ namespace OpenBabel
 {
 public:
   Op2D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override
+  const char* Description() const override
   {
     return "Generate 2D coordinates\n"
       "Uses RDKit http://www.rdkit.org";

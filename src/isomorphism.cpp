@@ -74,7 +74,7 @@ namespace OpenBabel {
         Candidate(OBQueryAtom *_queryAtom, OBAtom *_queriedAtom)
             : queryAtom(_queryAtom), queriedAtom(_queriedAtom) {}
 
-        bool operator==(const Candidate &other)
+        bool operator==(const Candidate &other) const
         {
           if (queryAtom != other.queryAtom)
             return false;

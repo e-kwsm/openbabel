@@ -507,7 +507,7 @@ namespace OpenBabel
     }
 
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "GAMESS-UK Input\n";
@@ -714,7 +714,7 @@ namespace OpenBabel
     GAMESSUKOutputFormat()
     { OBConversion::RegisterFormat("gukout",this, "chemical/x-gamess-output"); }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     { return "GAMESS-UK Output\n"; }
 
     const char* SpecificationURL() override {

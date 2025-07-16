@@ -256,7 +256,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! structure.
     virtual void EndModify(bool nukePerceivedData=true);
     //! \return The number of nested BeginModify() calls. Used internally.
-    int GetMod()           {      return(_mod);    }
+    int GetMod() const { return _mod; }
     //! Increase the number of nested BeginModify calls. Dangerous!
     //! Instead, properly use BeginModify as needed.
     void IncrementMod()    {      _mod++;          }
@@ -346,9 +346,9 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the Largest Set of Smallest Rings has been run (see OBRing class)
     std::vector<OBRing*> &GetLSSR();
     //! Get the current flag for whether formal charges are set with pH correction
-    bool AutomaticFormalCharge()   { return(_autoFormalCharge);  }
+    bool AutomaticFormalCharge() const { return _autoFormalCharge;  }
     //! Get the current flag for whether partial charges are auto-determined
-    bool AutomaticPartialCharge()  { return(_autoPartialCharge); }
+    bool AutomaticPartialCharge() const { return _autoPartialCharge; }
     //@}
 
 
@@ -415,7 +415,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Mark that distance calculations, etc., should apply periodic boundary conditions through the minimimum image convention.
     //! Does not automatically recalculate bonding.
     void   SetPeriodicMol(bool value = true){ SET_OR_UNSET_FLAG(OB_PERIODIC_MOL); }
-    bool   HasFlag(int flag)   { return (_flags & flag) ? true : false; }
+    bool   HasFlag(int flag) const { return (_flags & flag) ? true : false; }
     void   SetFlag(int flag)   { _flags |= flag; }
     void   UnsetFlag(int flag) { _flags &= (~(flag)); }
     void   SetFlags(int flags) { _flags = flags; }
@@ -543,9 +543,9 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Find all ring atoms and bonds. Does not need to call FindSSSR().
     void FindRingAtomsAndBonds();
     // documented in mol.cpp -- locates all atom indexes which can reach 'end'
-    void FindChildren(std::vector<int> & children,int bgnIdx,int endIdx);
+    void FindChildren(std::vector<int> & children, int bgnIdx, int endIdx) const;
     // documented in mol.cpp -- locates all atoms which can reach 'end'
-    void FindChildren(std::vector<OBAtom*>& children,OBAtom* bgn,OBAtom* end);
+    void FindChildren(std::vector<OBAtom*>& children, OBAtom* bgn, OBAtom* end) const;
     //! Find the largest fragment in OBMol
     //! (which may include multiple non-connected fragments)
     //! \param frag   Return (by reference) a bit vector indicating the atoms
@@ -555,7 +555,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Each vector<int> contains the atom numbers of a contig fragment
     void ContigFragList(std::vector<std::vector<int> >&);
     //! Aligns atom a on p1 and atom b along p1->p2 vector
-    void Align(OBAtom*,OBAtom*,vector3&,vector3&);
+    void Align(OBAtom*, OBAtom*, vector3&, vector3&) const;
     //! Adds single bonds based on atom proximity
     void ConnectTheDots();
     //! Attempts to perceive multiple bonds based on geometries
@@ -581,40 +581,40 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Are there any non-zero coordinates?
     bool HasNonZeroCoords();
     //! Has aromatic perception been performed?
-    bool HasAromaticPerceived()     { return(HasFlag(OB_AROMATIC_MOL)); }
+    bool HasAromaticPerceived() const { return HasFlag(OB_AROMATIC_MOL); }
     //! Has the smallest set of smallest rings (FindSSSR) been performed?
-    bool HasSSSRPerceived()         { return(HasFlag(OB_SSSR_MOL));     }
+    bool HasSSSRPerceived() const { return HasFlag(OB_SSSR_MOL); }
     //! Has the largest set of smallest rings (FindLSSR) been performed?
-    bool HasLSSRPerceived()         { return(HasFlag(OB_LSSR_MOL));     }
+    bool HasLSSRPerceived() const { return HasFlag(OB_LSSR_MOL); }
     //! Have ring atoms and bonds been assigned?
-    bool HasRingAtomsAndBondsPerceived(){return(HasFlag(OB_RINGFLAGS_MOL));}
+    bool HasRingAtomsAndBondsPerceived() const { return HasFlag(OB_RINGFLAGS_MOL); }
     //! Have atom types been assigned by OBAtomTyper?
-    bool HasAtomTypesPerceived()    { return(HasFlag(OB_ATOMTYPES_MOL));}
+    bool HasAtomTypesPerceived() const { return HasFlag(OB_ATOMTYPES_MOL); }
     //! Have ring types been assigned by OBRingTyper?
-    bool HasRingTypesPerceived()    { return(HasFlag(OB_RINGTYPES_MOL));}
+    bool HasRingTypesPerceived() const { return HasFlag(OB_RINGTYPES_MOL); }
     //! Has atom chirality been assigned?
-    bool HasChiralityPerceived()    { return(HasFlag(OB_CHIRALITY_MOL));}
+    bool HasChiralityPerceived() const { return HasFlag(OB_CHIRALITY_MOL); }
     //! Have atomic Gasteiger partial charges been assigned by OBGastChrg?
-    bool HasPartialChargesPerceived() { return(HasFlag(OB_PCHARGE_MOL));}
+    bool HasPartialChargesPerceived() const { return HasFlag(OB_PCHARGE_MOL); }
     //! Has atomic hybridization been assigned by OBAtomTyper?
-    bool HasHybridizationPerceived() { return(HasFlag(OB_HYBRID_MOL));  }
+    bool HasHybridizationPerceived() const { return HasFlag(OB_HYBRID_MOL); }
     //! Have ring "closure" bonds been assigned? (e.g., OBBond::IsClosure())
-    bool HasClosureBondsPerceived() { return(HasFlag(OB_CLOSURE_MOL));  }
+    bool HasClosureBondsPerceived() const { return HasFlag(OB_CLOSURE_MOL); }
     //! Have biomolecule chains and residues been assigned by OBChainsParser?
-    bool HasChainsPerceived() { return(HasFlag(OB_CHAINS_MOL));         }
+    bool HasChainsPerceived() const { return HasFlag(OB_CHAINS_MOL); }
     //! Have hydrogens been added to the molecule?
-    bool HasHydrogensAdded() { return(HasFlag(OB_H_ADDED_MOL));         }
+    bool HasHydrogensAdded() const { return HasFlag(OB_H_ADDED_MOL); }
     //! Has the molecule been corrected for pH by CorrectForPH?
-    bool IsCorrectedForPH() { return(HasFlag(OB_PH_CORRECTED_MOL));     }
+    bool IsCorrectedForPH() const { return HasFlag(OB_PH_CORRECTED_MOL); }
     //! Has total spin multiplicity been assigned?
-    bool HasSpinMultiplicityAssigned() { return(HasFlag(OB_ATOMSPIN_MOL)); }
+    bool HasSpinMultiplicityAssigned() const { return HasFlag(OB_ATOMSPIN_MOL); }
     //! Does this OBMol represent a reaction?
-    bool IsReaction()                  { return HasFlag(OB_REACTION_MOL); }
+    bool IsReaction() const { return HasFlag(OB_REACTION_MOL); }
     //! Is this molecule periodic? Should periodic boundary conditions be applied?
-    bool IsPeriodic() { return(HasFlag(OB_PERIODIC_MOL)); }
+    bool IsPeriodic() const { return HasFlag(OB_PERIODIC_MOL); }
 
     //! Are there any atoms in this molecule?
-    bool Empty()                       { return(_natoms == 0);          }
+    bool Empty() const { return _natoms == 0; }
     //@}
 
     //! \name Multiple conformer member functions

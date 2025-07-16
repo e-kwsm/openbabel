@@ -195,7 +195,7 @@ namespace OpenBabel
         OBConversion::RegisterFormat("smy", this);
       }
 
-      const char* Description() override  // required
+      const char* Description() const override  // required
       {
         return "SMILES format using Smiley parser\n\n"
 

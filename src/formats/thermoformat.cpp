@@ -40,7 +40,7 @@ public:
       OBConversion::RegisterFormat("tdd",this);
   }
 
-  const char* Description() override
+  const char* Description() const override
   {
     return
       "Thermo format\n"

@@ -48,7 +48,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("i", this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "MolPrint2D format\n"

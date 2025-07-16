@@ -46,7 +46,7 @@ class OpNewS : public OBOp
 {
 public:
   OpNewS(const char* ID) : OBOp(ID, false){}
-  const char* Description() override;
+  const char* Description() const override;
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*) override;
   std::vector<int> GetMatchAtoms(){ return firstmatch; }

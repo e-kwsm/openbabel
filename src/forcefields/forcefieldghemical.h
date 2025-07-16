@@ -130,7 +130,7 @@ namespace OpenBabel
       OBForceFieldGhemical &operator = (OBForceFieldGhemical &);
 
       //! Get the description for this force field
-      const char* Description() override
+      const char* Description() const override
       {
         return "Ghemical force field.";
       }

@@ -41,7 +41,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("report",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Open Babel report format\n"

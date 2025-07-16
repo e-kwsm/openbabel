@@ -35,7 +35,7 @@ public:
         OBConversion::RegisterFormat("prep",this);
     }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "Amber Prep format\n"

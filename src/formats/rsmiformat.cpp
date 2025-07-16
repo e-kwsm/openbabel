@@ -37,7 +37,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("rsmi",this);
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "Reaction SMILES format\n"

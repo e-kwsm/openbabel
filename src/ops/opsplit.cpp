@@ -30,7 +30,7 @@ class OpSplit : public OBOp
 {
 public:
   OpSplit(const char* ID) : OBOp(ID, false){};
-  const char* Description() override
+  const char* Description() const override
   {
     return "[param] split, each filename from param;default title\n"
            "param is an optional property or descriptor.\n"

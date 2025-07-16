@@ -244,10 +244,10 @@ namespace OpenBabel
     OBVirtualBond();
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBVirtualBond(*this); }
     OBVirtualBond(unsigned int, unsigned int, unsigned int,int stereo=0);
-    unsigned int GetBgn()    {      return(_bgn);    }
-    unsigned int GetEnd()    {      return(_end);    }
-    unsigned int GetOrder()  {      return(_ord);    }
-    int GetStereo() {      return(_stereo); }
+    unsigned int GetBgn()   const { return _bgn; }
+    unsigned int GetEnd()   const { return _end; }
+    unsigned int GetOrder() const { return _ord; }
+    int GetStereo() const { return _stereo; }
   };
 
   //! \class OBRingData generic.h <openbabel/generic.h>
@@ -620,7 +620,7 @@ namespace OpenBabel
     OBTorsion& operator=(const OBTorsion &);
 
     void Clear();
-    bool Empty()    {      return(_bc.first == 0 && _bc.second == 0);    }
+    bool Empty() const { return _bc.first == 0 && _bc.second == 0; }
 
     bool AddTorsion(OBAtom *a,OBAtom *b, OBAtom *c,OBAtom *d);
     bool AddTorsion(quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> &atoms);
@@ -631,7 +631,7 @@ namespace OpenBabel
     bool GetAngle(double &radians, unsigned int index =0);
     //! Gets the bond index of the central bond
     //! \return int bond index
-    unsigned int GetBondIdx();
+    unsigned int GetBondIdx() const;
     size_t GetSize() const    {      return _ads.size();    }
 
     //! Gets the two central atoms of ABCD torsion
@@ -935,10 +935,10 @@ namespace OpenBabel
     void SetOpenShell(bool openShell)
     { _openShell = openShell; }
 
-    bool IsOpenShell() { return _openShell; }
+    bool IsOpenShell() const { return _openShell; }
 
-    unsigned int GetAlphaHOMO() { return _alphaHOMO; }
-    unsigned int GetBetaHOMO() { return _betaHOMO; }
+    unsigned int GetAlphaHOMO() const { return _alphaHOMO; }
+    unsigned int GetBetaHOMO() const { return _betaHOMO; }
     std::vector<OBOrbital> GetAlphaOrbitals() { return _alphaOrbitals; }
     std::vector<OBOrbital> GetBetaOrbitals() { return _betaOrbitals; }
 
@@ -1086,10 +1086,10 @@ namespace OpenBabel
     OBFreeGridPoint() {};
     OBFreeGridPoint(double x,double y,double z,double V) { _x = x; _y = y; _z = z; _V = V; }
     ~OBFreeGridPoint() {};
-    double GetX() { return _x; }
-    double GetY() { return _y; }
-    double GetZ() { return _z; }
-    double GetV() { return _V; }
+    double GetX() const { return _x; }
+    double GetY() const { return _y; }
+    double GetZ() const { return _z; }
+    double GetV() const { return _V; }
     void SetX(double x) { _x = x; }
     void SetY(double y) { _y = y; }
     void SetZ(double z) { _z = z; }

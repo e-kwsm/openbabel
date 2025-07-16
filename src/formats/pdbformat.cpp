@@ -51,7 +51,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("n", this, 0, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override //required
+    const char* Description() const override //required
     {
       return
         "Protein Data Bank format\n"

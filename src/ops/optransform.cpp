@@ -25,7 +25,7 @@ GNU General Public License for more details.
 using namespace std;
 namespace OpenBabel
 {
-  const char* OpTransform::Description()
+  const char* OpTransform::Description() const
   {
     //Adds name of datafile containing SMARTS strings to the description
     static std::string txt;

@@ -36,7 +36,7 @@ class OBAPI OBDescriptor : public OBPlugin
   MAKE_PLUGIN(OBDescriptor)
 
 public:
-  const char* TypeID() override { return "descriptors"; }
+  const char* TypeID() const override { return "descriptors"; }
 
   /// \return the value of a numeric descriptor
   virtual double Predict(OBBase* /* pOb */, std::string* /* param */ =nullptr)

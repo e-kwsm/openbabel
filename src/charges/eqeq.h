@@ -50,7 +50,7 @@ class EQEqCharges : public OBChargeModel
 public:
   EQEqCharges(void) : OBChargeModel("fake ID", false){};
   EQEqCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Assign EQEq (charge equilibration) partial charges."; }
+  const char* Description() const override { return "Assign EQEq (charge equilibration) partial charges."; }
 
   /// \return whether partial charges were successfully assigned to this molecule
   bool ComputeCharges(OBMol &mol) override;

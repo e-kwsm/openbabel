@@ -63,10 +63,10 @@ public:
   virtual ~OBPlugin(){};
 
   ///Required description of a sub-type
-  virtual const char* Description() { return nullptr;} ;
+  virtual const char* Description() const { return nullptr;} ;
 
   ///Redefined by each plugin type: "formats", "fingerprints", etc.
-  virtual const char* TypeID(){ return "plugins"; }
+  virtual const char* TypeID() const { return "plugins"; }
 
   ///Write information on a plugin class to the string txt.
   ///Return false if not written.

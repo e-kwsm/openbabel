@@ -30,7 +30,7 @@ class NoCharges : public OBChargeModel
 {
 public:
   NoCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Clear all partial charges"; }
+  const char* Description() const override { return "Clear all partial charges"; }
 
   /// \return whether partial charges were successfully assigned to this molecule
   bool ComputeCharges(OBMol &mol) override;

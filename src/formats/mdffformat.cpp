@@ -47,7 +47,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("MDFF",this);      
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "MDFF format\n"

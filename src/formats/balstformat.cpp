@@ -34,7 +34,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("bs",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Ball and Stick format\n"

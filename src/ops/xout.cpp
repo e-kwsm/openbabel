@@ -32,7 +32,7 @@ public:
   ExtraFormat(OBConversion* pOrigConv, OBConversion* pExtraConv)
     : _pOrigConv(pOrigConv), _pExtraConv(pExtraConv){ }
 
-  const char* Description() override { return "Outputs to two formats"; }
+  const char* Description() const override { return "Outputs to two formats"; }
 
   bool WriteChemObject(OBConversion* pConv) override
   {
@@ -120,7 +120,7 @@ class OpExtraOut : public OBOp
 {
 public:
   OpExtraOut(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "<file.xxx> Additional file output\n"
+  const char* Description() const override { return "<file.xxx> Additional file output\n"
        "Mainly intended to be used to generate svg files for display from the GUI,\n"
        "but can also be used to output to two different formats:\n"
        "      obabel infile.sdf  -osmi  --0xout secondout.svg"; }

@@ -35,7 +35,7 @@ public:
     OBConversion::RegisterOptionParam(ID, nullptr, 1, OBConversion::GENOPTIONS);
   }
 
-  const char* Description() override { return "<method> Calculate partial charges by specified method"; }
+  const char* Description() const override { return "<method> Calculate partial charges by specified method"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,

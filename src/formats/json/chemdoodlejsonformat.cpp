@@ -41,7 +41,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       OBConversion::RegisterFormat("cdjson", this);
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
       "ChemDoodle JSON\n"

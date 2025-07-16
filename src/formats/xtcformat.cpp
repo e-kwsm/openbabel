@@ -72,7 +72,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("xtc",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "XTC format\n"
