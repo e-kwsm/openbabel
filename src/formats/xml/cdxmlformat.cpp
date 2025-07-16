@@ -93,7 +93,7 @@ public:
 private:
   Boundary CalculateMoleculeBoundary(OBMol* pMol);
   void CalculateCdxmlShift(OBMol* pMol);
-  Coord2D TransformCdxmlCoord(OBAtom* pAtom);
+  Coord2D TransformCdxmlCoord(OBAtom* pAtom) const;
 
 private:
   OBAtom _tempAtom; //!< A temporary atom as the atom tag is read
@@ -363,7 +363,7 @@ void ChemDrawXMLFormat::CalculateCdxmlShift(OBMol* pMol)
 
 // Given atom coordinates, and transform them to CDXML coordinates.
 // Transformation includes centering & y-inverse.
-Coord2D ChemDrawXMLFormat::TransformCdxmlCoord(OBAtom* pAtom)
+Coord2D ChemDrawXMLFormat::TransformCdxmlCoord(OBAtom* pAtom) const
 {
   const double xTransform = (this->xCdxmlShift + pAtom->GetX()) * this->_scale;
   const double yTransfrom = (this->yCdxmlShift - pAtom->GetY()) * this->_scale;

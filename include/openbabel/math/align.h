@@ -131,7 +131,7 @@ namespace OpenBabel
      * the reference. This function should only
      * be called after running the alignment (using Align()).
      */
-    double GetRMSD();
+    double GetRMSD() const;
     /**
      * Return the rotation matrix associated with the least squares
      * alignment. This function should only

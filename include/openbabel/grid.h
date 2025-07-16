@@ -68,14 +68,14 @@ namespace OpenBabel
     double GetZmax() const    { return(_zmax);    }
 
     //! \return whether the supplied XYZ coordinates fall within the box
-    bool PointIsInBox(double x,double y,double z)
+    bool PointIsInBox(double x, double y, double z) const
     {
       return (x>=_xmin) && (x<=_xmax) &&
         (y>=_ymin) && (y<=_ymax) &&
         (z>=_zmin) && (z<=_zmax);
     }
     //! \return true if the point falls within the box
-    bool PointIsInBox(double *c)
+    bool PointIsInBox(double *c) const
     {
       return (c[0]>=_xmin) && (c[0]<=_xmax) &&
         (c[1]>=_ymin) && (c[1]<=_ymax) &&
@@ -83,7 +83,7 @@ namespace OpenBabel
     }
 
     //! \return true if the point falls within the box
-    bool PointIsInBox(vector3 v)
+    bool PointIsInBox(vector3 v) const
     {
       return (v.x() >= _xmin) && (v.x() <=_xmax) &&
       (v.y()>=_ymin) && (v.y()<=_ymax) &&
@@ -156,7 +156,7 @@ namespace OpenBabel
     //! \deprecated Will be removed.
     //! \sa GetSpacing()
     OB_DEPRECATED_MSG("Use GetSpacing() instead")
-    void GetSpacing(double &s)
+    void GetSpacing(double &s) const
     {
       s=_spacing;
     }
@@ -174,7 +174,7 @@ namespace OpenBabel
     //! \deprecated May be removed in future.
     //! \sa GetXdim() \sa GetYdim() \sa GetZdim()
     OB_DEPRECATED_MSG("Use GetXdim(), GetYdim() or GetZdim() instead")
-    void GetDim(int *a)
+    void GetDim(int *a) const
     {
       a[0]=_xdim;
       a[1]=_ydim;
@@ -182,7 +182,7 @@ namespace OpenBabel
     }
 
     //! \return Position of the center of the grid.
-    vector3 GetMidpointVector()
+    vector3 GetMidpointVector() const
     {
       vector3 v;
       v.Set(_midx,_midy,_midz);
@@ -272,7 +272,7 @@ namespace OpenBabel
     }
 
     //! \return Position of the center of the grid.
-    vector3 Center()
+    vector3 Center() const
     {
       return vector3(_midx,_midy,_midz);
     }
@@ -324,11 +324,11 @@ namespace OpenBabel
     std::vector<int> *GetProxVector(double,double,double);
     std::vector<int> *GetProxVector(double*);
 
-    bool LipoGrid()
+    bool LipoGrid() const
     {
       return((_gridtype&OBLipoGrid) ? true : false);
     }
-    bool PolarGrid()
+    bool PolarGrid() const
     {
       return(_gridtype&OBPolarGrid);
     }

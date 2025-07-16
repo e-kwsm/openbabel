@@ -129,7 +129,7 @@ namespace OpenBabel
     }
     //! \brief Set c[0]..c[2] to the components of the vector
     //! \warning No error checking is performed
-    void Get(double *c)
+    void Get(double *c) const
     {
       c[0]=_vx;
       c[1]=_vy;

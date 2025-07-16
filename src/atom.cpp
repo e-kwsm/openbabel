@@ -752,7 +752,7 @@ namespace OpenBabel
     return(true);
   }
 
-  bool OBAtom::IsHeteroatom()
+  bool OBAtom::IsHeteroatom() const
   {
     switch(GetAtomicNum())
       {
@@ -1729,7 +1729,7 @@ namespace OpenBabel
   }
   */
 
-  bool OBAtom::IsHbondAcceptorSimple()
+  bool OBAtom::IsHbondAcceptorSimple() const
   {
     // Changes from Liu Zhiguo
     if (_ele == 8 || _ele == 9)
@@ -1871,7 +1871,7 @@ namespace OpenBabel
     return(false);
   }
 
-  bool OBAtom::IsMetal()
+  bool OBAtom::IsMetal() const
   {
     const unsigned NMETALS = 78;
     const int metals[NMETALS] = {

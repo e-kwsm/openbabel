@@ -83,12 +83,12 @@ namespace OpenBabel
     unsigned int GetRootAtom();
 
     //! \return Whether atom @p a is a member of this ring
-    bool   IsMember(OBAtom *a);
+    bool   IsMember(OBAtom *a) const;
     //! \return Whether both atoms in bond @p b are in this ring
     //! \todo This method uses implicit bonding -- bond info is not stored in OBRing
-    bool	 IsMember(OBBond *b);
+    bool	 IsMember(OBBond *b) const;
     //! \return Whether @p i as an atom index is in this ring
-    bool   IsInRing(int i)
+    bool   IsInRing(int i) const
     {
       return(_pathset.BitIsSet(i));
     }

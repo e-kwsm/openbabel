@@ -71,7 +71,7 @@ namespace OpenBabel
       }
       bool Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion*) override;
       
-      void DisplayConfig(OBConversion* pConv);
+      void DisplayConfig(OBConversion* pConv) const;
       void Run(OBConversion* pConv, OBMol* pmol);
       double rmsd_cutoff;
       double energy_cutoff;
@@ -173,7 +173,7 @@ namespace OpenBabel
 
   }
 
-  void OpConfab::DisplayConfig(OBConversion* pConv)
+  void OpConfab::DisplayConfig(OBConversion* pConv) const
   {
     cout << "..Input format = " << pConv->GetInFormat()->GetID() << endl;
     cout << "..Output format = " << pConv->GetOutFormat()->GetID() << endl;
