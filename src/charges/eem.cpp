@@ -58,11 +58,11 @@ namespace OpenBabel
     double _kappa;
 
     void _loadParameters();
-    void _solveMatrix(double**, double*, unsigned int);
-    void _luDecompose(double**, std::vector<int>&, unsigned int);
-    void _luSolve(double**, std::vector<int>&, double*, unsigned int);
-    void _swapRows(double*, unsigned int, unsigned int);
-    void _swapRows(double**, unsigned int, unsigned int, unsigned int);
+    static void _solveMatrix(double**, double*, unsigned int);
+    static void _luDecompose(double**, std::vector<int>&, unsigned int);
+    static void _luSolve(double**, std::vector<int>&, double*, unsigned int);
+    static void _swapRows(double*, unsigned int, unsigned int);
+    static void _swapRows(double**, unsigned int, unsigned int, unsigned int);
   };
 
 

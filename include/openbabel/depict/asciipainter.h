@@ -49,8 +49,8 @@ namespace OpenBabel
       //! @name ASCIIPainter specific
       //@{
       void Write(std::ostream &ofs);
-      int round(double r);
-      std::string Bresenham(int x, int y, int x2, int y2, std::vector<std::pair<int, int> > &coords);
+      static int round(double r);
+      static std::string Bresenham(int x, int y, int x2, int y2, std::vector<std::pair<int, int> > &coords);
       //@}
 
     private:

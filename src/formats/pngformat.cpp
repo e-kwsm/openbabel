@@ -178,7 +178,7 @@ private:
 
   //Read and write number consisting of 4 bytes with most significant bytes first.
   //Should be independent of compiler and platform.
-  unsigned long Read32(istream& ifs)
+  static unsigned long Read32(istream& ifs)
   {
     char ch;
     unsigned long val=0;
@@ -191,7 +191,7 @@ private:
     return val;
   }
 
-  void Write32(unsigned long val, ostream& ofs)
+  static void Write32(unsigned long val, ostream& ofs)
   {
     char p[4];
     for(int i=0; i<4; ++i)

@@ -107,7 +107,7 @@ namespace OpenBabel {
       return ifs ? 1 : -1;
     }
   private:
-    bool GetInchifiedSMILESMolecule(OBMol *mol, bool useFixedHRecMet);
+    static bool GetInchifiedSMILESMolecule(OBMol *mol, bool useFixedHRecMet);
   };
 
   //**************************************************
@@ -327,7 +327,7 @@ namespace OpenBabel {
     bool CapExternalBonds(OBMol &mol);
     int NumConnections(OBAtom *, bool isImplicitRef=false);
     void CreateCisTrans(OBMol &mol);
-    char SetRingClosureStereo(StereoRingBond rcstereo, OBBond* dbl_bond);
+    static char SetRingClosureStereo(StereoRingBond rcstereo, OBBond* dbl_bond);
     void InsertTetrahedralRef(OBMol &mol, unsigned long id);
     void InsertSquarePlanarRef(OBMol &mol, unsigned long id);
 
@@ -2395,16 +2395,16 @@ namespace OpenBabel {
     GetCanonClosureDigits(OBAtom *atom,
                           OBBitVec &frag_atoms,
                           vector<unsigned int> &canonical_order);
-    bool         IsSuppressedHydrogen(OBAtom *atom);
+    static bool  IsSuppressedHydrogen(OBAtom *atom);
     void         ToCansmilesString(OBCanSmiNode *node,
                                    std::string &buffer,
                                    OBBitVec &frag_atoms,
                                    vector<unsigned int> &symmetry_classes,
                                    vector<unsigned int> &canonical_order);
     bool         HasStereoDblBond(OBBond *, OBAtom *atom);
-    void MyFindChildren(OBMol &mol, vector<OBAtom*> &children, OBBitVec &seen, OBAtom *end);
+    static void MyFindChildren(OBMol &mol, vector<OBAtom*> &children, OBBitVec &seen, OBAtom *end);
     void GetOutputOrder(std::string &outorder);
-    bool         ParseInChI(OBMol &mol, vector<int> &atom_order);
+    static bool  ParseInChI(OBMol &mol, vector<int> &atom_order);
   };
 
 

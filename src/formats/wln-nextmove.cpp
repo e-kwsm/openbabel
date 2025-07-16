@@ -147,7 +147,7 @@ struct WLNParser {
         return aptr;
     }
 
-    void dec_h(OpenBabel::OBAtom* aptr, unsigned int count) {
+    static void dec_h(OpenBabel::OBAtom* aptr, unsigned int count) {
         unsigned int hcount = aptr->GetImplicitHCount();
         if (hcount > count)
             aptr->SetImplicitHCount(hcount-count);
@@ -155,7 +155,7 @@ struct WLNParser {
             aptr->SetImplicitHCount(0);
     }
 
-    void dec_q(OpenBabel::OBAtom* aptr, unsigned int count) {
+    static void dec_q(OpenBabel::OBAtom* aptr, unsigned int count) {
         int charge = aptr->GetFormalCharge();
         aptr->SetFormalCharge(charge-count);
     }
@@ -642,7 +642,7 @@ struct WLNParser {
             return 0;
     }
 
-    void AtomCharVector(int ptr_it, std::string wln_string,std::vector<int> &atom_vector, std::vector<char> &char_vector){
+    static void AtomCharVector(int ptr_it, std::string wln_string,std::vector<int> &atom_vector, std::vector<char> &char_vector){
         for (int i = 0; i <= ptr_it; i++) {
             if (isdigit(wln_string.at(i))) {
                 atom_vector.push_back(wln_string.at(i) - '0');
@@ -720,7 +720,7 @@ struct WLNParser {
         return true;
     }
 
-    void unsaturate(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
+    static void unsaturate(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
         OpenBabel::OBBond* bptr = src->GetBond(dst);
         if (bptr){
             bptr->SetBondOrder(2);}
@@ -728,7 +728,7 @@ struct WLNParser {
         NMOBAtomSetAromatic(dst,false);
     }
 
-    void unsaturate2(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
+    static void unsaturate2(OpenBabel::OBAtom* src, OpenBabel::OBAtom* dst) {
         OpenBabel::OBBond* bptr = src->GetBond(dst);
         if (bptr)
             bptr->SetBondOrder(3);
@@ -738,7 +738,7 @@ struct WLNParser {
         dst->SetImplicitHCount(0);
     }
 
-    bool atend(const char *ptr) {
+    static bool atend(const char *ptr) {
         switch (*ptr) {
             case '\0':
             case '\t':

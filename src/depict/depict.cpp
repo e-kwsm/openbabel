@@ -70,7 +70,7 @@ namespace OpenBabel
       virtual void DrawAromaticRing(OBRing *ring, OBBitVec &drawnBonds);
 
       bool HasLabel(OBAtom *atom);
-      void SetWedgeAndHash(OBMol* mol);
+      static void SetWedgeAndHash(OBMol* mol);
 
       OBMol     *mol;
       OBPainter *painter;

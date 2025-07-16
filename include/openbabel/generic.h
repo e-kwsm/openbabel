@@ -485,8 +485,7 @@ namespace OpenBabel
     //! \param frac Vector of fractional coordinates
     //! \return Fractional coordinates within cell boundaries (between 0 and 1).
     //! \todo Make OBUnitCell::WrapFractionalCoordinate static in the next ABI break
-    vector3 WrapFractionalCoordinate(vector3 frac);
-    vector3 WrapFractionalCoordinate(vector3 frac) const;
+    static vector3 WrapFractionalCoordinate(vector3 frac);
     //! Unwraps Cartesian coordinates near a reference location
     //! \param new_loc Cartesian coordinates of target
     //! \param ref_loc Cartesian coordinates of the reference location
@@ -498,8 +497,7 @@ namespace OpenBabel
     //! \param ref_loc Fractional coordinates of the reference location
     //! \return Unwrapped coordinates of new_loc near ref_loc
     //! \todo Add a simple test case/example, like unwrapNear(<0.9, 0.2, 0.2>, <0.3, 0.9, 0.2>) -> <-0.1, 1.2, 0.2>
-    vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc);
-    vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc) const;
+    static vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc);
     //! Applies the minimum image convention to a Cartesian displacement vector
     //! \param cart Displacement vector between two atoms in Cartesian coordinates
     //! \return Cartesian difference, wrapped within half the unit cell
@@ -508,8 +506,7 @@ namespace OpenBabel
     //! Applies the minimum image convention to a fractional displacement vector
     //! \param cart Displacement vector between two atoms in fractional coordinates
     //! \return Fractional difference, wrapped within half the unit cell (-0.5 to 0.5)
-    vector3 MinimumImageFractional(vector3 frac);
-    vector3 MinimumImageFractional(vector3 frac) const;
+    static vector3 MinimumImageFractional(vector3 frac);
 
     //! \return The numeric value of the given spacegroup
     int GetSpaceGroupNumber( std::string name = "" );
@@ -626,7 +623,7 @@ namespace OpenBabel
     bool AddTorsion(quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> &atoms);
 
     bool SetAngle(double radians, unsigned int index = 0);
-    bool SetData(OBBond * /*bond*/) { return false; }
+    static bool SetData(OBBond * /*bond*/) { return false; }
 
     bool GetAngle(double &radians, unsigned int index =0);
     //! Gets the bond index of the central bond

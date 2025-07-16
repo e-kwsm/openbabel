@@ -80,7 +80,7 @@ private:
     shared_ptr<Writer> m_writer;
 
     shared_ptr<IndexedBlock> TranslateAtomBlock(OBMol* pmol);
-    shared_ptr<IndexedBlock> TranslateBondBlock(OBMol* pmol);
+    static shared_ptr<IndexedBlock> TranslateBondBlock(OBMol* pmol);
 
     void setupReader(OBConversion* pConv);
     void checkEOF(OBConversion* pConv);

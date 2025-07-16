@@ -60,8 +60,8 @@ namespace OpenBabel
       void WriteImage(const std::string &filename);
       //@}
     private:
-      std::string RGBcode(OBColor color);
-      std::string MakeRGB(OBColor color);
+      static std::string RGBcode(OBColor color);
+      static std::string MakeRGB(OBColor color);
 
     private:
       std::ostream& m_ofs;

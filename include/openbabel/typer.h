@@ -77,7 +77,7 @@ public:
     ~OBAromaticTyper() {};
 
     //! Assign aromaticity flag to atoms and bonds
-    void AssignAromaticFlags(OBMol &);
+    static void AssignAromaticFlags(OBMol &);
 };
 
 //! Global OBAromaticTyper for detecting aromatic atoms and bonds

@@ -690,8 +690,8 @@ public:
     /// Read.
     bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
 
-    bool ReadASCII( OBBase* pOb, OBConversion* pConv);
-    bool ReadBinary( OBBase* pOb, OBConversion* pConv);
+    static bool ReadASCII( OBBase* pOb, OBConversion* pConv);
+    static bool ReadBinary( OBBase* pOb, OBConversion* pConv);
 
     /// Write: always returns false.
     bool WriteMolecule(OBBase*, OBConversion*) override
@@ -699,10 +699,10 @@ public:
 
 private:
     ///Utility function that eats all the remaining characters on the current and next line.
-    void eol( istream& is ) const { string s; getline( is, s ); getline( is, s ); }
+    static void eol( istream& is ) { string s; getline( is, s ); getline( is, s ); }
 
     ///Advance to next tag.
-    bool NextTag( istream& is, const std::string& tag ) const
+    static bool NextTag( istream& is, const std::string& tag )
     {
         string buf = "";
         while( is >> buf ) if( buf == tag ) return true;
@@ -710,7 +710,7 @@ private:
     }
 
     /// 3x3 Matrix - 3d vector inplace multiply.
-    void MatVecMul( const double xColumn[ 3 ],
+    static void MatVecMul( const double xColumn[ 3 ],
                     const double yColumn[ 3 ],
                     const double zColumn[ 3 ],
                     double v[ 3 ] )
@@ -764,18 +764,18 @@ private:
     typedef T41GridData GridData;
 
     ///Read grid data.
-    GridData ReadGridData( istream& is ) const;
+    static GridData ReadGridData( istream& is );
 
     ///Read SCF grids.
-    bool ReadSCFGrid( istream& is, OBGridData& t41Data ) const;
+    static bool ReadSCFGrid( istream& is, OBGridData& t41Data );
 
     ///Read SCF orbital grids.
-    bool ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const;
+    static bool ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data );
 
     ///Read SumFrag grids.
-    bool ReadSumFragGrid( istream& is, OBGridData& t41Data ) const;
+    static bool ReadSumFragGrid( istream& is, OBGridData& t41Data );
 
-                OBGridData *NewData(const GridData &gd);
+                static OBGridData *NewData(const GridData &gd);
 };
 
 //------------------------------------------------------------------------------
@@ -989,7 +989,7 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
 }
 
 //------------------------------------------------------------------------------
-OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
+OBT41Format::GridData OBT41Format::ReadGridData( istream& is )
 {
     GridData gd;
     string buf;
@@ -1103,7 +1103,7 @@ inline bool IsNum( const string& s )
     return isnum;
 }
 
-bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
+bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data )
 {
     //find next tag starting with 'SCF'
     //if tag starts with SCF_ check next line
@@ -1160,7 +1160,7 @@ bool OBT41Format::ReadSCFOrbitalGrid( istream& is, OBGridData& t41Data ) const
 }
 
 //------------------------------------------------------------------------------
-bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data ) const
+bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data )
 {
         if( !is ) return false;
     string buf;
@@ -1198,7 +1198,7 @@ bool OBT41Format::ReadSCFGrid( istream& is, OBGridData& t41Data ) const
 
 
 //------------------------------------------------------------------------------
-bool OBT41Format::ReadSumFragGrid( istream& is, OBGridData& t41Data ) const
+bool OBT41Format::ReadSumFragGrid( istream& is, OBGridData& t41Data )
 {
     if( !is ) return false;
     string buf;

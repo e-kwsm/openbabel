@@ -236,7 +236,7 @@ namespace OpenBabel
       /**
        * Delete all residues in @p mol
        */
-      void  ClearResidueInformation(OBMol &mol);
+      static void ClearResidueInformation(OBMol &mol);
       /**
        * Clear all private data vectors
        */
@@ -252,7 +252,7 @@ namespace OpenBabel
        * @param ptr Element id (from OpenBabel::ChainsAtomName)
        * @return The element number.
        */
-      int   IdentifyElement(char *ptr);
+      static int IdentifyElement(char *ptr);
       /**
        * Parse a pseudo smiles from OpenBabel::AminoAcids or OpenBabel::Nucleotides.
        * @param smiles The pseudo-smiles string.

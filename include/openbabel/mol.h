@@ -296,7 +296,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     OBBond      *GetBond(int a, int b) const;
     // The safer version of the above method
     //! \return the bond between the atoms @p bgn and @p end or NULL if none exists
-    OBBond      *GetBond(OBAtom* bgn, OBAtom* end) const;
+    static OBBond *GetBond(OBAtom* bgn, OBAtom* end) ;
     //! \return the residue indexed by @p idx, or NULL if none exists
     //! \warning Residue indexing may change. Use iterator methods instead.
     OBResidue   *GetResidue(int idx) const;
@@ -313,7 +313,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     double       GetTorsion(OBAtom* a,OBAtom* b,OBAtom* c,OBAtom* d);
     //! \return the angle (in degrees) between the three atoms @p a, @p b and @p c
     //!  (where  a-> b (vertex) -> c )
-    double GetAngle(OBAtom* a, OBAtom* b, OBAtom* c);
+    static double GetAngle(OBAtom* a, OBAtom* b, OBAtom* c);
     //! \return the size of the smallest ring if a and b are in the same ring, 0 otherwise
     //! \since version 2.4
     int AreInSameRing(OBAtom *a, OBAtom *b);
@@ -510,7 +510,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Correct for pH by applying the OBPhModel transformations
     bool CorrectForPH(double pH=7.4);
     // docs in mol.cpp
-    bool AssignSpinMultiplicity(bool NoImplicitH=false);
+    static bool AssignSpinMultiplicity(bool NoImplicitH=false);
 
     //! Put the specified molecular charge on appropriate atoms.
     //! Assumes all the hydrogen is explicitly included in the molecule.

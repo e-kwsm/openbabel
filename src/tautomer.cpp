@@ -341,7 +341,7 @@ namespace OpenBabel {
     }
 #endif
 
-    std::vector<Type> InitializeAtomTypes(OBMol *mol)
+    static std::vector<Type> InitializeAtomTypes(OBMol *mol)
     {
       std::vector<Type> types;
 
@@ -384,7 +384,7 @@ namespace OpenBabel {
       return types;
     }
 
-    std::vector<Type> InitializeBondTypes(OBMol *mol, const std::vector<Type> &atomTypes)
+    static std::vector<Type> InitializeBondTypes(OBMol *mol, const std::vector<Type> &atomTypes)
     {
       std::vector<Type> bondTypes;
 
@@ -400,7 +400,7 @@ namespace OpenBabel {
       return bondTypes;
     }
 
-    bool IsPropagationValid(OBMol *mol, const std::vector<Type> &atomTypes, const std::vector<Type> &bondTypes, int depth)
+    static bool IsPropagationValid(OBMol *mol, const std::vector<Type> &atomTypes, const std::vector<Type> &bondTypes, int depth)
     {
       FOR_ATOMS_OF_MOL (atom, mol) {
         // Count atom's bond types
@@ -445,7 +445,7 @@ namespace OpenBabel {
       return true;
     }
 
-    bool IsLeafNode(const std::vector<Type> &atomTypes) const
+    static bool IsLeafNode(const std::vector<Type> &atomTypes)
     {
       // Check to see if we are at a leaf node (i.e. no unassigned atoms left)
       for (std::size_t i = 0; i < atomTypes.size(); ++i)
@@ -657,7 +657,7 @@ namespace OpenBabel {
       return nullptr;
     }
 
-    bool HasTooManyHydrogensLeft(const std::vector<Type> &atomTypes, int numHydrogens) const
+    static bool HasTooManyHydrogensLeft(const std::vector<Type> &atomTypes, int numHydrogens)
     {
       // Check to ensure there are at least enough unassigned atoms left to assign hydrogens to
       return std::count(atomTypes.begin(), atomTypes.end(), Unassigned) < numHydrogens;

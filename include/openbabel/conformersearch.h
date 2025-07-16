@@ -414,14 +414,14 @@ namespace OpenBabel {
       /**
        * Check if a conformer key is unique.
        */
-      bool IsUniqueKey(const RotorKeys &keys, const RotorKey &key) const;
+      static bool IsUniqueKey(const RotorKeys &keys, const RotorKey &key);
       /**
        * Check the specified rotor key using the set filter.
        */
       bool IsGood(const RotorKey &key);
 
       //! @brief Genetic similarity measure, i.e. "distance" between two rotor keys.
-      int key_distance (const RotorKey &key1, const RotorKey &key2);      
+      static int key_distance (const RotorKey &key1, const RotorKey &key2);      
       //! @brief Make a local search on the best individual
       int local_opt ();
       //! @brief Produces one or two offsprings

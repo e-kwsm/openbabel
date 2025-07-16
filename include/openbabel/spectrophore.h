@@ -590,11 +590,11 @@ while (obconversion.Read(&mol, &ifs))
          void _rotateZ(double**, double**, const double, const double);
          void _updateSpectrophore(double*, double*);
          void _calculateProperties(OpenBabel::OBMol*);
-         void _solveMatrix(double**, double*, unsigned int);
-         void _luDecompose(double**, std::vector<int>&, unsigned int);
-         void _luSolve(double**, std::vector<int>&, double*, unsigned int);
-         void _swapRows(double*, unsigned int, unsigned int);
-         void _swapRows(double**, unsigned int, unsigned int, unsigned int);
+         static void _solveMatrix(double**, double*, unsigned int);
+         static void _luDecompose(double**, std::vector<int>&, unsigned int);
+         static void _luSolve(double**, std::vector<int>&, double*, unsigned int);
+         static void _swapRows(double*, unsigned int, unsigned int);
+         static void _swapRows(double**, unsigned int, unsigned int, unsigned int);
          //@}
 
    };

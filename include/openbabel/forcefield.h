@@ -459,12 +459,12 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
       use: torsion parameters, ...
     */
-    OBFFParameter* GetParameter(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
+    static OBFFParameter* GetParameter(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
     //! see GetParameter(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter)
-    OBFFParameter* GetParameter(const char* a, const char* b, const char* c, const char* d,
+    static OBFFParameter* GetParameter(const char* a, const char* b, const char* c, const char* d,
         std::vector<OBFFParameter> &parameter);
     //! Get index for vector<OBFFParameter> ...
-    int GetParameterIdx(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
+    static int GetParameterIdx(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
 
     /*! Calculate the potential energy function derivative numerically with
      *  repect to the coordinates of atom with index a (this vector is the gradient)
@@ -1430,7 +1430,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     /*! Get the current constraints.
      *  \return The current constrains stored in the force field.
      */
-    OBFFConstraints& GetConstraints();
+    static OBFFConstraints& GetConstraints();
     /*! Set the constraints.
      *  \param constraints The new constraints to be used.
      */
@@ -1442,11 +1442,11 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  makes sure the selected atom follows the mouse cursur.
      *  \param index The index for the atom to fix.
      */
-    void SetFixAtom(int index);
+    static void SetFixAtom(int index);
     /*! Undo last SetFixAtom. This function will not remove the fix atom
      *  constraint for this atom if set by Setup() or SetConstraints().
      */
-    void UnsetFixAtom();
+    static void UnsetFixAtom();
     /*! Ignore the atom until UnsetIgnoreAtom() is called. This function
      *  can be used in programs that allow the user to interact with a molecule
      *  that is being minimized without having to check if the atom is already
@@ -1455,11 +1455,11 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  created puching the other atoms away.
      *  \param index The index for the atom to ignore.
      */
-    void SetIgnoreAtom(int index);
+    static void SetIgnoreAtom(int index);
     /*! Undo last SetIgnoreAtom. This function will not remove the ignore atom
      *  constraint for this atom if set by Setup() or SetConstraints().
      */
-    void UnsetIgnoreAtom();
+    static void UnsetIgnoreAtom();
 
     //! internal function
     static bool IgnoreCalculation(int a, int b);
@@ -1479,7 +1479,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! (debugging)
     bool DetectExplosion();
     //! (debugging)
-    vector3 ValidateLineSearch(OBAtom *atom, vector3 &direction);
+    static vector3 ValidateLineSearch(OBAtom *atom, vector3 &direction);
     //! (debugging)
     void ValidateSteepestDescent(int steps);
     //! (debugging)
@@ -1495,7 +1495,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
       Calculate the error of the analytical gradient (debugging)
       \return  error = fabs(numgrad - anagrad) / anagrad * 100%
     */
-    vector3 ValidateGradientError(vector3 &numgrad, vector3 &anagrad);
+    static vector3 ValidateGradientError(vector3 &numgrad, vector3 &anagrad);
     //@}
 
     /////////////////////////////////////////////////////////////////////////

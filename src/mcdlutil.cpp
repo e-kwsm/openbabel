@@ -783,7 +783,7 @@ namespace OpenBabel {
   private:
     bool aromatic(int cycleSize, const std::vector<int> bondList, std::vector<int>& arom);
     void twoAtomUnitVector(int na1, int na2, double & xv, double & yv, const std::vector<int>atomDefine);
-    void defC(int& currNumDef, int baseCycle, int atomClean, std::vector<int>& cycleDefine,
+    static void defC(int& currNumDef, int baseCycle, int atomClean, std::vector<int>& cycleDefine,
                  std::vector<int>& atomDefine, std::vector<std::vector<int> >& atomCycle, std::vector<int>& dsATN,
                  std::vector<int>& dsTP,
                  std::vector<int>& dsSC, std::vector<int>& dsNA1, std::vector<int>& dsNA2);
@@ -3900,7 +3900,7 @@ namespace OpenBabel {
                        bool const* const* aeq, std::vector<int>& bqcounter, std::vector<int>& aqtested,
                        std::vector<int>& bstested, std::vector<int>& bqtested, std::vector<int>& astested,
                        const std::vector<int> ager, const neighbourlist *bsconn, TSimpleMolecule * smol);
-    bool allQueryPresent(const std::vector<int> qA, const std::vector<int> qB,
+    static bool allQueryPresent(const std::vector<int> qA, const std::vector<int> qB,
                          int nA, int nB);
   public:
     static int const NOOTHER_MASK=1;
@@ -5077,21 +5077,21 @@ namespace OpenBabel {
     //  virtual ~TemplateRedraw() {
     //    clear();
     //  };
-    bool isOverlapped(const std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested);
-    void arrangeFragments(std::vector<PartFragmentDefinition *>& list, int fragNo, double aspOptimal);
+    static bool isOverlapped(const std::vector<PartFragmentDefinition *> list, int fragNo, double xSuggested, double ySuggested);
+    static void arrangeFragments(std::vector<PartFragmentDefinition *>& list, int fragNo, double aspOptimal);
     void redrawFine(TSimpleMolecule& smIn);
     int  coordinatesPrepare(TEditedMolecule& sm, int kk, int anTemplateNo);
   private:
     static std::vector<TEditedMolecule *> queryData;
-    void clear();
-    bool internalBondsPresent(TEditedMolecule * mQuery, TSimpleMolecule * mStructure);
-    void rotateBondVertically(TSimpleMolecule * sm, const std::vector<int>bondList, int bondNo,
+    static void clear();
+    static bool internalBondsPresent(TEditedMolecule * mQuery, TSimpleMolecule * mStructure);
+    static void rotateBondVertically(TSimpleMolecule * sm, const std::vector<int>bondList, int bondNo,
                               double xuValue, double yuValue, double& c1, double& s1, double& xSize, double& ySize,
                               double& xCenter, double& yCenter, int& nVert);
-    void selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList);
-    void rescaleSingleFragment(TSimpleMolecule * sm, std::vector<int>* atomList, PartFragmentDefinition& pf, double offset);
-    void arrangeMolecules(std::vector<PartFragmentDefinition *>& extendedList, double aspOptimal);
-    bool loadTemplates();
+    static void selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList);
+    static void rescaleSingleFragment(TSimpleMolecule * sm, std::vector<int>* atomList, PartFragmentDefinition& pf, double offset);
+    static void arrangeMolecules(std::vector<PartFragmentDefinition *>& extendedList, double aspOptimal);
+    static bool loadTemplates();
   };
 
   //Initialization of static member variable

@@ -59,8 +59,8 @@ private:
   int _chargeCenter[TABLE_OF_ELEMENTS_SIZE + 1]; // Common charge of metallic ions
   double _ionizations[TABLE_OF_ELEMENTS_SIZE + 1][9]; // Electron affinity + 8x ionizations of elements
   bool ParseParamFile();
-  double GetNonperiodicJij(double J_i, double J_j, double R_ij, bool isSameAtom);
-  double GetPeriodicEwaldJij(double J_i, double J_j, vector3 dx, bool isSameAtom, matrix3x3 unitcell, matrix3x3 fourier, double cellVolume, int numNeighbors[]);
+  static double GetNonperiodicJij(double J_i, double J_j, double R_ij, bool isSameAtom);
+  static double GetPeriodicEwaldJij(double J_i, double J_j, vector3 dx, bool isSameAtom, matrix3x3 unitcell, matrix3x3 fourier, double cellVolume, int numNeighbors[]);
 };
 
 }; //namespace OpenBabel

@@ -123,16 +123,16 @@ private:
   void initGlobals();
   void solve(int ntypes, int z[MAXBONDS][4], int depth);
   string constring(int conntab [MAXBONDS][4], char * tstr);
-  string intToStr(int k);
+  static string intToStr(int k);
   string getMCDL(OBMol* pmol, bool includeCoordinates);
   void restoreFullMCDL(string value, OBMol* pmol);
   void setMCDL(const string lineToParse, OBMol* pmol, string & sout);
-  void assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
+  static void assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
     const std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
     std::vector <int>& bondOrder, int aPos, int nPrev, int nt, int acount, int bcount);
-  int indexOf(const string instring, const string substring, int fromPos=0);
-  int lastIndexOf(const string instring, const string substring);
-  bool parseFormula(const string formulaString, std::vector <int>& enumber);
+  static int indexOf(const string instring, const string substring, int fromPos=0);
+  static int lastIndexOf(const string instring, const string substring);
+  static bool parseFormula(const string formulaString, std::vector <int>& enumber);
   string getMolTitle(string & line);
 
 };

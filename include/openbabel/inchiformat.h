@@ -180,9 +180,9 @@ private:
   static void RemoveLayer (std::string& inchi, const std::string& str, bool all=false);
 
 private:
-  OBAtom* GetCommonAtom(OBBond* pb1, OBBond* pb2);
-  char* GetInChIOptions(OBConversion* pConv, bool Reading);
-  void SaveInchi(OBMol* pmol, const std::string& s);
+  static OBAtom* GetCommonAtom(OBBond* pb1, OBBond* pb2);
+  static char* GetInChIOptions(OBConversion* pConv, bool Reading);
+  static void SaveInchi(OBMol* pmol, const std::string& s);
 
   typedef std::set<std::string, InchiLess> nSet;
   nSet allInchi;

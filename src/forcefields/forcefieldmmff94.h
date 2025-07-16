@@ -129,7 +129,7 @@ namespace OpenBabel
       //!  Sets partial charges
       bool SetPartialCharges() override;
       //! \return The row of the element atom in the periodic table
-      int GetElementRow(OBAtom *atom);
+      static int GetElementRow(OBAtom *atom);
       //! \return The bond type (BTIJ)
       int GetBondType(OBAtom* a, OBAtom* b);
       //! \return The angle type (ATIJK)
@@ -161,41 +161,41 @@ namespace OpenBabel
       //! \return the level 5 equivalent atom type for type (mmffdef.par)
       int EqLvl5(int type);
       //! \return the canonical bond index
-      unsigned int GetCXB(int type, int a, int b);
+      static unsigned int GetCXB(int type, int a, int b);
       //! \return the canonical angle index
-      unsigned int GetCXA(int type, int a, int b, int c);
+      static unsigned int GetCXA(int type, int a, int b, int c);
       //! \return the canonical stretch-bend index
-      unsigned int GetCXS(int type, int a, int b, int c);
+      static unsigned int GetCXS(int type, int a, int b, int c);
       //! \return the canonical out-of-plane index
-      unsigned int GetCXO(int a, int b, int c, int d);
+      static unsigned int GetCXO(int a, int b, int c, int d);
       //! \return the canonical torsion index
-      unsigned int GetCXT(int type, int a, int b, int c, int d);
+      static unsigned int GetCXT(int type, int a, int b, int c, int d);
       //! \return the canonical bond-charge-increment index
-      unsigned int GetCXQ(int type, int a, int b);
+      static unsigned int GetCXQ(int type, int a, int b);
       //! \return the U value for the atom from table X page 631
-      double GetUParam(OBAtom* atom);
+      static double GetUParam(OBAtom* atom);
       //! \return the Z value for the atom from table VI page 628
-      double GetZParam(OBAtom* atom);
+      static double GetZParam(OBAtom* atom);
       //! \return the C value for the atom from table VI page 628
-      double GetCParam(OBAtom* atom);
+      static double GetCParam(OBAtom* atom);
       //! \return the V value for the atom from table X page 631
-      double GetVParam(OBAtom* atom);
+      static double GetVParam(OBAtom* atom);
       //! return the covalent radius from Blom and Haaland, value from etab if not available
-      double GetCovalentRadius(OBAtom* a);
+      static double GetCovalentRadius(OBAtom* a);
       //! return the bond length calculated with a modified version of the Schomaker-Stevenson rule
       double GetRuleBondLength(OBAtom* a, OBAtom* b);
       //! return the bond length from mmffbond.par, if not found, one is calculated with a modified version of the Schomaker-Stevenson rule
       double GetBondLength(OBAtom* a, OBAtom* b);
 
       //! Same as OBForceField::GetParameter, but takes (bond/angle/torsion) type in account and takes 0 as wildcart.
-      OBFFParameter* GetParameter1Atom(int a, std::vector<OBFFParameter> &parameter);
-      OBFFParameter* GetParameter2Atom(int a, int b, std::vector<OBFFParameter> &parameter);
-      OBFFParameter* GetParameter3Atom(int a, int b, int c, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetParameter1Atom(int a, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetParameter2Atom(int a, int b, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetParameter3Atom(int a, int b, int c, std::vector<OBFFParameter> &parameter);
 
       //! Same as OBForceField::GetParameter, but takes (bond/angle/torsion) type in account and takes 0 as wildcart.
-      OBFFParameter* GetTypedParameter2Atom(int ffclass, int a, int b, std::vector<OBFFParameter> &parameter);
-      OBFFParameter* GetTypedParameter3Atom(int ffclass, int a, int b, int c, std::vector<OBFFParameter> &parameter);
-      OBFFParameter* GetTypedParameter4Atom(int ffclass, int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetTypedParameter2Atom(int ffclass, int a, int b, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetTypedParameter3Atom(int ffclass, int a, int b, int c, std::vector<OBFFParameter> &parameter);
+      static OBFFParameter* GetTypedParameter4Atom(int ffclass, int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
 
 
       // OBFFParameter vectors to contain the parameters
