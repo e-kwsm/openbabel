@@ -120,17 +120,17 @@ namespace OpenBabel
     /** \brief Return the chemical element */
     std::string Element() { return _element; }
     /** \brief Return the formal charge */
-    int Charge()          { return _charge; }
+    int Charge() const    { return _charge; }
     /** \brief Return the method used for the measurement/calculation */
     std::string Method()  { return _method; }
     /** \brief Return specification of the measurement/calculation type */
     std::string Desc()    { return _desc; }
     /** \brief Return the temperature */
-    double T()            { return _T; }
+    double T() const      { return _T; }
     /** \brief Return the (energy) value */
-    double Value()        { return _value; }
+    double Value() const  { return _value; }
     /** \brief Return the multiplicity */
-    int Multiplicity()    { return _multiplicity; }
+    int Multiplicity() const { return _multiplicity; }
     /** \brief Return the (energy) unit */
     std::string Unit()    { return _unit; }
   };

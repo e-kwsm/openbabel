@@ -155,7 +155,7 @@ namespace OpenBabel
       //! Unsets the bitwise @p flag
       void UnsetFlag(int flag) { _flags &= (~(flag)); }
       //! \return True of the atom has the @p flag
-      bool HasFlag(int flag)  {  return((_flags & flag) ? true : false); }
+      bool HasFlag(int flag) const { return (_flags & flag) ? true : false; }
 
     public:
       enum StereoFlag {
@@ -445,7 +445,7 @@ namespace OpenBabel
       bool IsInRingSize(int) const;
       //! \return Is this atom an element in the 15th or 16th main groups
       //!  (i.e., N, O, P, S ...) ?
-      bool IsHeteroatom();
+      bool IsHeteroatom() const;
       //! \return Is this atom directly connected to the supplied OBAtom?
       bool IsConnected(OBAtom*);
       //! \return Is this atom related to the supplied OBAtom in
@@ -482,14 +482,14 @@ namespace OpenBabel
       //! \return Is this atom a hydrogen-bond acceptor  (considering also atom surrounding)
       bool IsHbondAcceptor();
       //! \return Is this atom a hydrogen-bond acceptor (old function)?
-      bool IsHbondAcceptorSimple();
+      bool IsHbondAcceptorSimple() const;
             //! \return Is this atom a hydrogen-bond donor?
       bool IsHbondDonor();
       //! \return Is this a hydrogen atom attached to a hydrogen-bond donor?
       bool IsHbondDonorH();
       //! \return Is this atom a metal?
       //! \since version 2.4
-      bool IsMetal();
+      bool IsMetal() const;
       //! \return Whether a neighboring atom (alpha) has an unsaturated bond
       //!   to a third atom (beta).
       //! \param includePandS Whether to include phosphorus and sulfur neighbors
