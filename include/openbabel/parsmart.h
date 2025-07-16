@@ -357,8 +357,8 @@ namespace OpenBabel
 
     friend class OBSSMatch;
   public:
-    OBSmartsMatcher() {}
-    virtual ~OBSmartsMatcher() {}
+    OBSmartsMatcher() = default;
+    virtual ~OBSmartsMatcher() = default;
 
     bool match(OBMol &mol, const Pattern *pat,std::vector<std::vector<int> > &mlist,bool single=false);
 

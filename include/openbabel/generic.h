@@ -75,7 +75,7 @@ namespace OpenBabel
   OBExternalBond(): _idx(0), _atom(nullptr), _bond(nullptr) {}
     OBExternalBond(OBAtom *,OBBond *,int);
     OBExternalBond(const OBExternalBond &);
-    ~OBExternalBond()   {}
+    ~OBExternalBond() = default;
 
     int     GetIdx()  const    {        return(_idx);    }
     OBAtom *GetAtom() const    {        return(_atom);   }
@@ -320,7 +320,7 @@ namespace OpenBabel
     OBUnitCell(const OBUnitCell &);
     OBGenericData* Clone(OBBase* /*parent*/) const override
     {return new OBUnitCell(*this);}
-    ~OBUnitCell()    {}
+    ~OBUnitCell() = default;
 
     OBUnitCell &operator=(const OBUnitCell &);
 
@@ -544,7 +544,7 @@ namespace OpenBabel
     OBConformerData();
     OBConformerData(const OBConformerData &);
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBConformerData(*this); }
-    ~OBConformerData()    {}
+    ~OBConformerData() = default;
 
     OBConformerData &operator=(const OBConformerData &);
 
@@ -581,7 +581,7 @@ namespace OpenBabel
     OBSymmetryData();
     OBSymmetryData(const OBSymmetryData &);
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBSymmetryData(*this); }
-    ~OBSymmetryData()    {}
+    ~OBSymmetryData() = default;
 
     OBSymmetryData &operator=(const OBSymmetryData &);
 
@@ -615,7 +615,7 @@ namespace OpenBabel
 
   public:
     OBTorsion(const OBTorsion &);
-    ~OBTorsion()      {}
+    ~OBTorsion() = default;
 
     OBTorsion& operator=(const OBTorsion &);
 
@@ -828,7 +828,7 @@ namespace OpenBabel
 
   public:
     OBVibrationData(): OBGenericData("VibrationData", OBGenericDataType::VibrationData){};
-    virtual ~OBVibrationData() {}
+    virtual ~OBVibrationData() = default;
     OBGenericData* Clone(OBBase*) const override
          {return new OBVibrationData(*this);}
 
@@ -873,7 +873,7 @@ namespace OpenBabel
 
   public:
     OBDOSData(): OBGenericData("DOSData", OBGenericDataType::DOSData){};
-    virtual ~OBDOSData() {}
+    virtual ~OBDOSData() = default;
     OBGenericData* Clone(OBBase*) const override
          {return new OBDOSData(*this);}
 
@@ -920,7 +920,7 @@ namespace OpenBabel
   public:
     OBOrbitalData(): OBGenericData("OrbitalData", OBGenericDataType::ElectronicData),
       _alphaHOMO(0), _betaHOMO(0), _openShell(false) {};
-    virtual ~OBOrbitalData() {}
+    virtual ~OBOrbitalData() = default;
     OBGenericData* Clone(OBBase*) const override
          {return new OBOrbitalData(*this);}
 
@@ -980,7 +980,7 @@ namespace OpenBabel
 
   public:
     OBElectronicTransitionData(): OBGenericData("ElectronicTransitionData", OBGenericDataType::ElectronicTransitionData) {}
-    virtual ~OBElectronicTransitionData() {}
+    virtual ~OBElectronicTransitionData() = default;
     OBGenericData* Clone(OBBase*) const override
          {return new OBElectronicTransitionData(*this);}
 
@@ -1012,7 +1012,7 @@ namespace OpenBabel
  public:
    enum RType{UNKNOWN, ASYMMETRIC, SYMMETRIC, LINEAR};
    OBRotationData(): OBGenericData("RotationData", OBGenericDataType::RotationData){}
-   virtual ~OBRotationData(){};
+   virtual ~OBRotationData() = default;
    OBGenericData* Clone(OBBase*) const override
          {return new OBRotationData(*this);}
    void SetData(RType RotorType, std::vector<double> RotationalConstants, int SymmetryNumber)
@@ -1041,7 +1041,7 @@ namespace OpenBabel
  {
  public:
    OBVectorData(): OBGenericData("VectorData", OBGenericDataType::VectorData){}
-   virtual ~OBVectorData(){};
+   virtual ~OBVectorData() = default;
    OBGenericData* Clone(OBBase*) const override
          {return new OBVectorData(*this);}
    void SetData(double x, double y, double z)
@@ -1062,7 +1062,7 @@ namespace OpenBabel
   {
   public:
     OBMatrixData(): OBGenericData("MatrixData", OBGenericDataType::MatrixData){}
-    virtual ~OBMatrixData(){};
+    virtual ~OBMatrixData() = default;
     OBGenericData* Clone(OBBase*) const override
           {return new OBMatrixData(*this);}
     void SetData(matrix3x3 data)
@@ -1083,9 +1083,9 @@ namespace OpenBabel
     double _x,_y,_z,_V;
     
   public:
-    OBFreeGridPoint() {};
+    OBFreeGridPoint() = default;
     OBFreeGridPoint(double x,double y,double z,double V) { _x = x; _y = y; _z = z; _V = V; }
-    ~OBFreeGridPoint() {};
+    ~OBFreeGridPoint() = default;
     double GetX() { return _x; }
     double GetY() { return _y; }
     double GetZ() { return _z; }
@@ -1107,11 +1107,8 @@ namespace OpenBabel
   protected:
     std::vector<OBFreeGridPoint*> _points;  //!< coordinates with accompanying float values
   public:
+    OBFreeGrid() = default;
 
-    OBFreeGrid() 
-    {
-    }
-    
     ~OBFreeGrid() 
     {
       //delete _points;
@@ -1158,8 +1155,8 @@ namespace OpenBabel
   protected:
     std::vector<double> _PartialCharge;
   public:
-    OBPcharge(){};
-    ~OBPcharge(){};
+    OBPcharge() = default;
+    ~OBPcharge() = default;
 
     int NumPartialCharges() 
     { 

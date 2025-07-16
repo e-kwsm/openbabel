@@ -159,7 +159,7 @@ namespace OpenBabel
       int _embedlevel;
 
     public:
-      ~XMLBaseFormat(){}
+      ~XMLBaseFormat() = default;
       virtual const char* NamespaceURI()const=0;
       virtual bool DoElement(const std::string& ElName){return false;};
       virtual bool EndElement(const std::string& ElName){return false;};
@@ -218,7 +218,7 @@ namespace OpenBabel
       OBMol* _pmol;
 
     public:
-      ~XMLMoleculeFormat(){}
+      ~XMLMoleculeFormat() = default;
       virtual bool ReadChemObject(OBConversion* pConv)
         {
           return OBMoleculeFormat::ReadChemObjectImpl(pConv, this);

@@ -48,7 +48,7 @@ namespace OpenBabel
 
     //! \name Constructors
     //@{
-    OBRing()    {}
+    OBRing() = default;
     //! Initialize a ring from a set of atom indexes @p path and with @p size
     OBRing(std::vector<int>& path, int size);
     OBRing(std::vector<int>& path, OBBitVec set) : _path(path), _pathset(set) {}
@@ -121,7 +121,7 @@ namespace OpenBabel
     OB_DEPRECATED std::vector<OBBond*> _bonds; //!< the internal list of closure bonds (deprecated)
     std::vector<OBRing*> _rlist; //!< the internal list of rings
   public:
-    OBRingSearch()    {}
+    OBRingSearch() = default;
     ~OBRingSearch();
 
     //! Sort ring sizes from smallest to largest
@@ -170,7 +170,7 @@ namespace OpenBabel
   public:
     //! Construct a search tree from a possible parent entry and atom entry
     OBRTree(OBAtom*,OBRTree*);
-    ~OBRTree()    {}
+    ~OBRTree() = default;
 
     //! \return the OBAtom::GetIdx() index of the atom in this node
     int  GetAtomIdx();

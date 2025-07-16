@@ -152,9 +152,7 @@ namespace OpenBabel
     /**
      * Destructor.
      */
-    ~OBRotor()
-      {
-      }
+    ~OBRotor() = default;
 
     ///@name Setup
     ///@{

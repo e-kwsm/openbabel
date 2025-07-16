@@ -148,9 +148,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Pointer to atom forces
     double force_a[3], force_b[3];
     //! Destructor
-    virtual ~OBFFCalculation2()
-    {
-    }
+    virtual ~OBFFCalculation2() = default;
     //! \return Setup pointers to atom positions and forces (To be called
     //!  while setting up calculations). Sets optimized to true.
     virtual void SetupPointers()
@@ -177,9 +175,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Pointer to atom forces
     double force_c[3];
     //! Destructor
-    virtual ~OBFFCalculation3()
-    {
-    }
+    virtual ~OBFFCalculation3() = default;
     //! \return Setup pointers to atom positions and forces (To be called
     //!  while setting up calculations). Sets optimized to true.
     void SetupPointers() override
@@ -208,9 +204,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! Pointer to atom forces
     double force_d[3];
     //! Destructor
-    virtual ~OBFFCalculation4()
-    {
-    }
+    virtual ~OBFFCalculation4() = default;
     //! \return Setup pointers to atom positions and forces (To be called
     //!  while setting up calculations). Sets optimized to true.
     void SetupPointers()
@@ -252,9 +246,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
         factor = 0.0;
       }
     //! Destructor
-    ~OBFFConstraint()
-      {
-      }
+    ~OBFFConstraint() = default;
 
     vector3 GetGradient(int a)
     {

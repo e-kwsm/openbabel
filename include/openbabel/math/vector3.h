@@ -55,12 +55,10 @@ namespace OpenBabel
       _vx(inV[0]), _vy(inV[1]), _vz(inV[2])
       {}
     //! Copy Constructor
-    vector3 (const vector3& v):
-      _vx(v._vx), _vy(v._vy), _vz(v._vz)
-        { }
+    vector3(const vector3 &v) = default;
 
     //! Destructor
-    ~vector3() { }
+    ~vector3() = default;
 
     //! A random access iterator over x, y, z
     typedef double* iterator;
@@ -139,13 +137,7 @@ namespace OpenBabel
     double operator[] ( unsigned int i) const;
 
     //! Assignment
-    vector3& operator= ( const vector3& v)
-      {
-        _vx = v._vx;
-        _vy = v._vy;
-        _vz = v._vz;
-        return *this;
-      }
+    vector3 &operator=(const vector3 &v) = default;
 
     //! \return the vector as a const double *
     const double *AsArray() const

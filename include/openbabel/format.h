@@ -49,7 +49,7 @@ class OBCONV OBFormat : public OBPlugin
   public:
 
     ///Default constructor. Registration via RegisterFormat(), not via constructor as in other plugins.
-    OBFormat(){}
+    OBFormat() = default;
 
     const char* TypeID() override { return "formats"; }
 
