@@ -214,8 +214,7 @@ namespace OpenBabel
     //! Delete the matching OBGenericData element.
     void DeleteData(OBGenericData *gd)
     {
-      std::vector<OBGenericData*>::iterator i;
-      for (i = _vdata.begin();i != _vdata.end();++i)
+      for (std::vector<OBGenericData*>::iterator i = _vdata.begin();i != _vdata.end();++i)
         if (*i == gd)
           {
             delete *i;
