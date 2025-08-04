@@ -1024,11 +1024,11 @@ namespace OpenBabel {
     vshared_fitnes.clear ();
     dtmp = 1.0 - min_score;
     if (max_flag)
-      for (std::vector<double>::iterator dit =  vscores.begin (); dit != vscores.end (); ++dit)
-        vshared_fitnes.push_back (*dit + dtmp);
+      for (double dit : vscores)
+        vshared_fitnes.push_back (dit + dtmp);
     else			// Minimization: invert score so best has 1.0, others lower values
-      for (std::vector<double>::iterator dit =  vscores.begin (); dit != vscores.end (); ++dit)
-        vshared_fitnes.push_back (1.0 / (*dit + dtmp));
+      for (double dit : vscores)
+        vshared_fitnes.push_back (1.0 / (dit + dtmp));
 
     // Use a vector to keep track of assigned indivivduals
     vshared.resize (pop_size);
@@ -1115,10 +1115,10 @@ namespace OpenBabel {
         // Divide each dynamic niche member score by the niche size: i.e. each niche member has the same
         // penalty, i.e. the order is unchanged whitin this niche.
         dtmp = 1.0 / ((double) dynamic_niches[iniche].size ());
-        for (std::vector<int>::iterator nit = dynamic_niches[iniche].begin (); nit != dynamic_niches[iniche].end (); ++nit)
+        for (int nit : dynamic_niches[iniche])
           {
-            vshared_fitnes[*nit] *= dtmp;
-            niche_map[*nit] = iniche;
+            vshared_fitnes[nit] *= dtmp;
+            niche_map[nit] = iniche;
           }
       }
 
