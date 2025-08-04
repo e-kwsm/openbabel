@@ -137,8 +137,8 @@ bool PNG2Format::WriteChemObject(OBConversion* pConv) // Taken from svgformat.cp
     }
 
     //delete all the molecules
-    for(vector<OBBase*>::iterator iter=_objects.begin();iter!=_objects.end(); ++iter)
-      delete *iter;
+    for(auto& _object : _objects)
+      delete _object;
 
     _objects.clear();
     _nmax = _ncols = _nrows = 0;
