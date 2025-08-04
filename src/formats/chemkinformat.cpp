@@ -502,24 +502,24 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
     toks[toks.size()-1].clear();
     bool HasRateData=false;
     n=0;
-    for(vector<string>::iterator itr=lastp.begin();itr!=lastp.end();++itr)
+    for(auto & itr : lastp)
     {
-      Trim(*itr);
+      Trim(itr);
       //copy species names and species names with multiplier (single digit) back into orig token
-      unsigned len = itr->size();
+      unsigned len = itr.size();
 
       //Separate products like 2C2H6 2O 2ETR 2H2 from rate params like 2E25 2E+12 -1 .00
-      if(isalpha((*itr)[0]) ||            //to be a product: 1st char is a letter or...
-        (len>=2 && isalpha((*itr)[1])     //both second char (it there is one) is a letter and
-        && (len<=2 || isalpha((*itr)[2])  //  third char(if there is one) is a letter
-        || toupper((*itr)[1])!='E')))     //  or the second char is not 'E'
+      if(isalpha(itr[0]) ||            //to be a product: 1st char is a letter or...
+        (len>=2 && isalpha(itr[1])     //both second char (it there is one) is a letter and
+        && (len<=2 || isalpha(itr[2])  //  third char(if there is one) is a letter
+        || toupper(itr[1])!='E')))     //  or the second char is not 'E'
       {
-        toks[toks.size()-1] += ' ' + *itr;
+        toks[toks.size()-1] += ' ' + itr;
         continue;
       }
 
       //Read in rate parameters
-      stringstream ss(*itr);
+      stringstream ss(itr);
       locale cLocale("C");
       ss.imbue(cLocale);
 
@@ -539,7 +539,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
       if(!ss)
       {
         //not numeric: put into comment (better than doing nothing)
-        pReact->SetComment(*itr);
+        pReact->SetComment(itr);
         break;
       }
       HasRateData=true;
@@ -552,15 +552,15 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
             "In " + ln + "\nNo rate data found.", obWarning);
 
     //Read in product species
-    for(vector<string>::iterator itr=toks.begin();itr!=toks.end();++itr)
+    for(auto & itr : toks)
     {
-      Trim(*itr);
-      if(isalpha((*itr)[0]))
+      Trim(itr);
+      if(isalpha(itr[0]))
       {
-        if(*itr == "m")
-          *itr="M";
+        if(itr == "m")
+          itr="M";
 
-        sp = CheckSpecies(*itr, ln, SpeciesListed);
+        sp = CheckSpecies(itr, ln, SpeciesListed);
         if(!sp.get())
         {
           ln.clear();
@@ -570,11 +570,11 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
       }
       else
       {
-        if(itr->size()>1 && isalpha((*itr)[1]))
+        if(itr.size()>1 && isalpha(itr[1]))
         {
           //species multiplier (single digit)
-          unsigned mult = atoi(itr->c_str());
-          string temp = itr->substr(1);
+          unsigned mult = atoi(itr.c_str());
+          string temp = itr.substr(1);
           sp = CheckSpecies(temp, ln, SpeciesListed);
           if(!sp.get())
           {
@@ -748,22 +748,22 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
   StdThermConv.SetInFormat(pThermFormat);
   StdThermConv.SetInStream(&stdthermo);
 
-  for(MolMap::iterator mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for(auto & mapitr : IMols)
   {
     //Look up each molecules's name in index, move the the returned seek position,
     //read the molecule and combine it with the one in Imols
-    OBMoleculeFormat::NameIndexType::iterator itr = index.find(mapitr->first);
+    OBMoleculeFormat::NameIndexType::iterator itr = index.find(mapitr.first);
     if(itr!=index.end())
     {
       OBMol thmol;
       stdthermo.seekg(itr->second);
       StdThermConv.Read(&thmol);
-      std::shared_ptr<OBMol> psnewmol(OBMoleculeFormat::MakeCombinedMolecule(mapitr->second.get(),&thmol));
+      std::shared_ptr<OBMol> psnewmol(OBMoleculeFormat::MakeCombinedMolecule(mapitr.second.get(),&thmol));
       IMols[thmol.GetTitle()] = psnewmol;
     }
     else
-      if(mapitr->first!="M")
-        missing += mapitr->first + ',';
+      if(mapitr.first!="M")
+        missing += mapitr.first + ',';
   }
   if(!missing.empty())
   {
@@ -777,9 +777,9 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
 //////////////////////////////////////////////////////////
 bool ChemKinFormat::CheckAllMolsHaveThermo()
 {
-  for(MolMap::iterator mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for(auto & mapitr : IMols)
   {
-    if(!mapitr->second->GetData(ThermoData) && mapitr->first!="M")
+    if(!mapitr.second->GetData(ThermoData) && mapitr.first!="M")
       return false;
   }
   return true;
@@ -846,8 +846,8 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
 
   ofs << "SPECIES\n";
   unsigned int maxlen=0;
-  for(vector<string>::iterator sitr= species.begin();sitr!=species.end();++sitr)
-    if(sitr->size()>maxlen) maxlen = sitr->size();
+  for(auto & s : species)
+    if(s.size()>maxlen) maxlen = s.size();
 
   unsigned int n=0;
   for(vector<string>::iterator sitr=species.begin();sitr!=species.end();++sitr, ++n)
@@ -879,11 +879,11 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
       ConvThermo.SetOutFormat(pFormat);
       ConvThermo.SetOutStream(&thermss);
       int ntherm=0;
-      for(MolSet::iterator itr= OMols.begin();itr!=OMols.end();++itr)
+      for(const auto& itr : OMols)
       {
-        const char* title = (*itr)->GetTitle();
+        const char* title = itr->GetTitle();
         if(strcmp(title, "M"))
-          if(ConvThermo.Write(itr->get()))
+          if(ConvThermo.Write(itr.get()))
             ++ntherm;
       }
 
