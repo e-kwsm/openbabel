@@ -1840,15 +1840,13 @@ namespace OpenBabel
         OBBitVec bv;
         std::vector<OBBitVec> vbv;
         std::vector<std::vector<int> > ulist;
-        std::vector<std::vector<int> >::iterator i;
-        std::vector<OBBitVec>::iterator j;
 
-        for (i = mlist.begin();i != mlist.end();++i)
+        for (std::vector<std::vector<int> >::iterator i = mlist.begin();i != mlist.end();++i)
           {
             ok = true;
             bv.Clear();
             bv.FromVecInt(*i);
-            for (j = vbv.begin();j != vbv.end() && ok;++j)
+            for (std::vector<OBBitVec>::iterator j = vbv.begin();j != vbv.end() && ok;++j)
               if ((*j) == bv)
                 ok = false;
 
@@ -1871,8 +1869,6 @@ namespace OpenBabel
   {
     bool ok;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
-    std::vector<std::pair<int,int> >::iterator j;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1880,10 +1876,10 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (std::vector<std::vector<int> >::iterator i = mlist.begin();i != mlist.end();++i)
       {
         ok = true;
-        for (j = pr.begin();j != pr.end() && ok;++j)
+        for (std::vector<std::pair<int,int> >::iterator j = pr.begin();j != pr.end() && ok;++j)
           if ((*i)[j->first] != j->second)
             ok = false;
 
@@ -1899,9 +1895,7 @@ namespace OpenBabel
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
   {
     bool ok;
-    std::vector<int>::iterator j;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
 
     OBSmartsMatcher matcher;
     matcher.match(mol,_pat,mlist);
@@ -1910,10 +1904,10 @@ namespace OpenBabel
     if (mlist.empty())
       return(false);
 
-    for (i = mlist.begin();i != mlist.end();++i)
+    for (std::vector<std::vector<int> >::iterator i = mlist.begin();i != mlist.end();++i)
       {
         ok = true;
-        for (j = i->begin();j != i->end();++j)
+        for (std::vector<int>::iterator j = i->begin();j != i->end();++j)
           if (!vres[*j])
             {
               ok = false;
@@ -2057,12 +2051,11 @@ namespace OpenBabel
     }
 
     if (pat->ischiral) {
-      std::vector<std::vector<int> >::iterator m;
       std::vector<std::vector<int> > tmpmlist;
 
       tmpmlist.clear();
       // iterate over the atom mappings
-      for (m = mlist.begin();m != mlist.end();++m) {
+      for (std::vector<std::vector<int> >::iterator m = mlist.begin();m != mlist.end();++m) {
 
         bool allStereoCentersMatch = true;
 
@@ -2233,18 +2226,16 @@ namespace OpenBabel
         case AE_RECUR:
           {
             //see if pattern has been matched
-            std::vector<std::pair<const Pattern*,std::vector<bool> > >::iterator i;
-            for (i = RSCACHE.begin();i != RSCACHE.end();++i)
+            for (std::vector<std::pair<const Pattern*,std::vector<bool> > >::iterator i = RSCACHE.begin();i != RSCACHE.end();++i)
               if (i->first == (Pattern*)expr->recur.recur)
                 return(i->second[atom->GetIdx()]);
 
             //perceive and match pattern
-            std::vector<std::vector<int> >::iterator j;
             std::vector<bool> vb(((OBMol*) atom->GetParent())->NumAtoms()+1);
             std::vector<std::vector<int> > mlist;
             if (match( *((OBMol *) atom->GetParent()),
                        (Pattern*)expr->recur.recur,mlist))
-              for (j = mlist.begin();j != mlist.end();++j)
+              for (std::vector<std::vector<int> >::iterator j = mlist.begin();j != mlist.end();++j)
                 vb[(*j)[0]] = true;
 
             RSCACHE.push_back(std::pair<const Pattern*,
@@ -2318,15 +2309,13 @@ namespace OpenBabel
     OBBitVec bv;
     std::vector<OBBitVec> vbv;
     std::vector<std::vector<int> > mlist;
-    std::vector<std::vector<int> >::iterator i;
-    std::vector<OBBitVec>::iterator j;
 
-    for (i = _mlist.begin();i != _mlist.end();++i)
+    for (std::vector<std::vector<int> >::iterator i = _mlist.begin();i != _mlist.end();++i)
       {
         ok = true;
         bv.Clear();
         bv.FromVecInt(*i);
-        for (j = vbv.begin();j != vbv.end() && ok;++j)
+        for (std::vector<OBBitVec>::iterator j = vbv.begin();j != vbv.end() && ok;++j)
           if ((*j) == bv)
             ok = false;
 
@@ -2343,12 +2332,9 @@ namespace OpenBabel
 
   void OBSmartsPattern::WriteMapList(ostream &ofs)
   {
-    std::vector<std::vector<int> >::iterator i;
-    std::vector<int>::iterator j;
-
-    for ( i = _mlist.begin() ; i != _mlist.end() ; ++i )
+    for (std::vector<std::vector<int> >::iterator  i = _mlist.begin() ; i != _mlist.end() ; ++i )
       {
-        for (j = (*i).begin();j != (*i).end();++j)
+        for (std::vector<int>::iterator j = (*i).begin();j != (*i).end();++j)
           ofs << *j << ' ' << ends;
         ofs << endl;
       }
@@ -2561,7 +2547,6 @@ namespace OpenBabel
   {
     size_t j,pos;
     std::string token,repstr;
-    std::vector<std::pair<std::string,std::string> >::iterator i;
 
     for (pos = 0,pos = s.find("$",pos);pos < s.size();pos = s.find("$",pos))
       //for (pos = 0,pos = s.find("$",pos);pos != std::string::npos;pos = s.find("$",pos))
@@ -2574,7 +2559,7 @@ namespace OpenBabel
           continue;
 
         token = s.substr(pos,j-pos);
-        for (i = vlex.begin();i != vlex.end();++i)
+        for (std::vector<std::pair<std::string,std::string> >::iterator i = vlex.begin();i != vlex.end();++i)
           if (token == i->first)
             {
               repstr = "(" + i->second + ")";
