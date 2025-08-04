@@ -267,8 +267,8 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            for (vector<OBBond*>::iterator i = cbonds.begin();i != cbonds.end();++i)
-              rs.AddRingFromClosure(*this,(OBBond*)*i);
+            for (auto& i : cbonds)
+              rs.AddRingFromClosure(*this,(OBBond*)i);
 
             rs.SortRings();
             rs.RemoveRedundant(-1); // -1 means LSSR
