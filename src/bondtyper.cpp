@@ -100,10 +100,10 @@ namespace OpenBabel
 
   OBBondTyper::~OBBondTyper()
   {
-    for (vector<pair<OBSmartsPattern*, vector<int> > >::iterator i = _fgbonds.begin();i != _fgbonds.end();++i)
+    for (auto& i : _fgbonds)
       {
-        delete i->first;
-        i->first = nullptr;
+        delete i.first;
+        i.first = nullptr;
       }
   }
 
@@ -121,22 +121,22 @@ namespace OpenBabel
     unsigned int j;
 
     // Loop through for all the functional groups and assign bond orders
-    for (vector<pair<OBSmartsPattern*, vector<int> > >::iterator i = _fgbonds.begin();i != _fgbonds.end();++i)
+    for (auto& i : _fgbonds)
       {
-        currentPattern = i->first;
-        assignments = i->second;
+        currentPattern = i.first;
+        assignments = i.second;
 
         if (currentPattern && currentPattern->Match(mol))
           {
             mlist = currentPattern->GetUMapList();
-            for (vector<vector<int> >::iterator matches = mlist.begin(); matches != mlist.end(); ++matches)
+            for (auto& matches : mlist)
               {
                 // Now loop through the bonds to assign from _fgbonds
                 for (j = 0; j < assignments.size(); j += 3)
                   {
                     // along the assignments vector: atomID1 atomID2 bondOrder
-                    a1 = mol.GetAtom((*matches)[ assignments[j] ]);
-                    a2 = mol.GetAtom((*matches)[ assignments[j+1 ] ]);
+                    a1 = mol.GetAtom(matches[ assignments[j] ]);
+                    a2 = mol.GetAtom(matches[ assignments[j+1 ] ]);
                     if (!a1 || !a2) continue;
 
                     b1 = a1->GetBond(a2);
@@ -156,10 +156,10 @@ namespace OpenBabel
     if (carbo.Match(mol))
       {
         mlist = carbo.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto& l : mlist)
           {
-            a1 = mol.GetAtom((*l)[0]);
-            a2 = mol.GetAtom((*l)[1]);
+            a1 = mol.GetAtom(l[0]);
+            a2 = mol.GetAtom(l[1]);
 
             angle = a2->AverageBondAngle();
             dist1 = a1->GetDistance(a2);
@@ -183,10 +183,10 @@ namespace OpenBabel
     if (thione.Match(mol))
       {
         mlist = thione.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto& l : mlist)
           {
-            a1 = mol.GetAtom((*l)[0]);
-            a2 = mol.GetAtom((*l)[1]);
+            a1 = mol.GetAtom(l[0]);
+            a2 = mol.GetAtom(l[1]);
 
             angle = a2->AverageBondAngle();
             dist1 = a1->GetDistance(a2);
@@ -210,11 +210,11 @@ namespace OpenBabel
     if (isocyanate.Match(mol))
       {
         mlist = isocyanate.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto& l : mlist)
           {
-            a1 = mol.GetAtom((*l)[0]);
-            a2 = mol.GetAtom((*l)[1]);
-            a3 = mol.GetAtom((*l)[2]);
+            a1 = mol.GetAtom(l[0]);
+            a2 = mol.GetAtom(l[1]);
+            a3 = mol.GetAtom(l[2]);
 
             angle = a2->AverageBondAngle();
             dist1 = a1->GetDistance(a2);
@@ -245,10 +245,10 @@ namespace OpenBabel
     if (oxime.Match(mol))
       {
         mlist = oxime.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto& l : mlist)
           {
-            a1 = mol.GetAtom((*l)[0]);
-            a2 = mol.GetAtom((*l)[1]);
+            a1 = mol.GetAtom(l[0]);
+            a2 = mol.GetAtom(l[1]);
 
             angle = a2->AverageBondAngle();
             dist1 = a1->GetDistance(a2);
@@ -271,10 +271,10 @@ namespace OpenBabel
     if (oxidopyr.Match(mol))
       {
         mlist = oxidopyr.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
+        for (auto& l : mlist)
           {
-            a1 = mol.GetAtom((*l)[0]);
-            a2 = mol.GetAtom((*l)[1]);
+            a1 = mol.GetAtom(l[0]);
+            a2 = mol.GetAtom(l[1]);
 
             angle = a2->AverageBondAngle();
             dist1 = a1->GetDistance(a2);
