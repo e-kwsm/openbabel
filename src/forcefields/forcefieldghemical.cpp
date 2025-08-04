@@ -74,19 +74,19 @@ namespace OpenBabel
       OBFFLog("------------------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFBondCalculationGhemical>::iterator i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
+    for (auto& i : _bondcalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s    %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).bt, (*i).rab, (*i).r0, (*i).kb, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s    %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.bt, i.rab, i.r0, i.kb, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -142,20 +142,20 @@ namespace OpenBabel
       OBFFLog("-----------------------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFAngleCalculationGhemical>::iterator i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
+    for (auto& i : _anglecalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).c->GetType(), (*i).theta, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.c->GetType(), i.theta, i.theta0, i.ka, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -220,21 +220,21 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFTorsionCalculationGhemical>::iterator i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
+    for (auto& i : _torsioncalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
-        AddGradient((*i).force_d, (*i).idx_d);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
+        AddGradient(i.force_d, i.idx_d);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                (*i).c->GetType(), (*i).d->GetType(), (*i).V, (*i).s, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                i.c->GetType(), i.d->GetType(), i.V, i.s, i.tor, i.n, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -988,11 +988,11 @@ namespace OpenBabel
       }
     }
 
-    for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
-      if (i->first->Match(_mol)) {
-        _mlist = i->first->GetMapList();
-        for (vector<vector<int> >::iterator j = _mlist.begin();j != _mlist.end();++j) {
-          _mol.GetAtom((*j)[0])->SetType(i->second);
+    for (const auto& i : _vexttyp) {
+      if (i.first->Match(_mol)) {
+        _mlist = i.first->GetMapList();
+        for (const auto& j : _mlist) {
+          _mol.GetAtom(j[0])->SetType(i.second);
         }
       }
     }
