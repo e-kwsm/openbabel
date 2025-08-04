@@ -822,8 +822,8 @@ namespace OpenBabel
       return(false);
 
     rlist = mol->GetSSSR();
-    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()) && static_cast<int>((*i)->PathSize()) == size)
+    for (auto& i : rlist)
+      if (i->IsInRing(GetIdx()) && static_cast<int>(i->PathSize()) == size)
         return(true);
 
     return(false);
@@ -844,8 +844,8 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()))
+    for (auto& i : rlist)
+      if (i->IsInRing(GetIdx()))
         count++;
 
     return((unsigned int)count);
@@ -865,9 +865,9 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
-      if ((*i)->IsInRing(GetIdx()))
-        return((*i)->Size());
+    for (auto& i : rlist)
+      if (i->IsInRing(GetIdx()))
+        return(i->Size());
 
     return(0);
   }
@@ -1069,8 +1069,8 @@ namespace OpenBabel
     if (test.Match(*mol))
       {
         mlist = test.GetUMapList();
-        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
-          if (GetIdx() == mol->GetAtom((*l)[0])->GetIdx())
+        for (auto& l : mlist)
+          if (GetIdx() == mol->GetAtom(l[0])->GetIdx())
             return true;
       }
     return false;
@@ -1230,13 +1230,13 @@ namespace OpenBabel
     children.push_back(a2->GetIdx());
 
     vector3 v;
-    for (vector<int>::iterator i = children.begin();i != children.end();++i)
+    for (int i : children)
       {
-        v = mol.GetAtom(*i)->GetVector();
+        v = mol.GetAtom(i)->GetVector();
         v -= a1->GetVector();
         v *= m;
         v += a1->GetVector();
-        mol.GetAtom(*i)->SetVector(v);
+        mol.GetAtom(i)->SetVector(v);
       }
 
   }
@@ -1272,8 +1272,8 @@ namespace OpenBabel
 
     //delete attached hydrogens
     mol->IncrementMod();
-    for (vector<OBAtom*>::iterator j = delatm.begin();j != delatm.end();++j)
-      mol->DeleteAtom(*j);
+    for (auto& j : delatm)
+      mol->DeleteAtom(j);
     mol->DecrementMod();
 
     double targetAngle;
