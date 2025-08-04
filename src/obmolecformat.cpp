@@ -529,13 +529,13 @@ namespace OpenBabel
         header.size = index.size();
         dofs.write((const char*)&header, sizeof(headertype));
 
-        for(NameIndexType::iterator itr=index.begin();itr!=index.end();++itr)
+        for(auto & itr : index)
           {
             //#chars; chars;  ofset(4bytes).
-            const char n = static_cast<char> (itr->first.size());
+            const char n = static_cast<char> (itr.first.size());
             dofs.put(n);
-            dofs.write(itr->first.c_str(),n);
-            dofs.write((const char*)&itr->second,sizeof(unsigned));
+            dofs.write(itr.first.c_str(),n);
+            dofs.write((const char*)&itr.second,sizeof(unsigned));
           }
       }
     else
