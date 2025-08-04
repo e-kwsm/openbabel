@@ -131,8 +131,8 @@ namespace OpenBabel
 
   void CairoPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
   {
-    for (std::vector<std::pair<double,double> >::const_iterator i = points.cbegin(); i != points.cend(); ++i)
-      cairo_line_to(m_cairo, i->first, i->second); // note: when called without previous point,
+    for (const auto& point : points)
+      cairo_line_to(m_cairo, point.first, point.second); // note: when called without previous point,
                                                    //       this function behaves like cairo_move_to
     cairo_line_to(m_cairo, points.begin()->first, points.begin()->second);
     cairo_fill(m_cairo);
