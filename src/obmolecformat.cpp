@@ -378,13 +378,13 @@ namespace OpenBabel
 
   bool OBMoleculeFormat::OutputDeferredMols(OBConversion* pConv)
   {
-    std::map<std::string, OBMol*>::iterator itr, lastitr;
+    std::map<std::string, OBMol*>::iterator lastitr;
     bool ret=false;
     int i=1;
     lastitr = IMols.end();
     --lastitr;
     pConv->SetOneObjectOnly(false);
-    for(itr=IMols.begin();itr!=IMols.end();++itr,++i)
+    for(std::map<std::string, OBMol*>::iterator itr=IMols.begin();itr!=IMols.end();++itr,++i)
       {
         if(!(itr->second)->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS), pConv))
           continue;
