@@ -1520,8 +1520,7 @@ namespace OpenBabel
           //mapping vs[7] not implemented
 
           //Atom properties
-          vector<string>::iterator itr;
-          for(itr=vs.begin()+8;itr!=vs.end();itr++)
+          for(vector<string>::iterator itr=vs.begin()+8;itr!=vs.end();itr++)
             {
               string::size_type pos = (*itr).find('=');
               if (pos==string::npos) return false;
