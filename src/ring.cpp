@@ -267,9 +267,7 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            vector<OBBond*>::iterator i;
-
-            for (i = cbonds.begin();i != cbonds.end();++i)
+            for (vector<OBBond*>::iterator i = cbonds.begin();i != cbonds.end();++i)
               rs.AddRingFromClosure(*this,(OBBond*)*i);
 
             rs.SortRings();
