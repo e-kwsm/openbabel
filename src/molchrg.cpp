@@ -308,8 +308,8 @@ namespace OpenBabel
 
   void OBGastChrg::GSVResize(int size)
   {
-    for (vector <GasteigerState*>::iterator i = _gsv.begin();i != _gsv.end();++i)
-      delete *i;
+    for (auto& i : _gsv)
+      delete i;
     _gsv.clear();
 
     for (int j = 0;j < size;++j)
