@@ -195,18 +195,15 @@ void testAutomorphismMask() {
   FindAutomorphisms(&mol, maps, mask);
   cout << maps.size() << endl;
   for (auto & map : maps) {
-    OBIsomorphismMapper::Mapping::const_iterator j;
-    for (j = map.begin(); j != map.end(); ++j)
+    for (OBIsomorphismMapper::Mapping::const_iterator j = map.begin(); j != map.end(); ++j)
       cout << j->second << " ";
     cout << endl;
   }
   OB_ASSERT( maps.size() == 8 );
 
   // Verify that atom Id 6 does not occur anywhere in the mappings
-  OBIsomorphismMapper::Mappings::const_iterator a;
-  OBIsomorphismMapper::Mapping::const_iterator b;
-  for (a = maps.begin(); a != maps.end(); ++a)
-    for (b = a->begin(); b!= a->end(); ++b) {
+  for (OBIsomorphismMapper::Mappings::const_iterator a = maps.begin(); a != maps.end(); ++a)
+    for (OBIsomorphismMapper::Mapping::const_iterator b = a->begin(); b!= a->end(); ++b) {
       OB_ASSERT( b->first != 6 );
       OB_ASSERT( b->second != 6 );
     }
@@ -266,9 +263,8 @@ void testIsomorphism9()
   OB_ASSERT(maps.size() == 1);
 
   OBIsomorphismMapper::Mapping map;
-  OBIsomorphismMapper::Mapping::const_iterator iter;
   map = maps[0];
-  for (iter=map.begin(); iter!=map.end(); ++iter)
+  for (OBIsomorphismMapper::Mapping::const_iterator iter=map.begin(); iter!=map.end(); ++iter)
     OB_ASSERT( iter->first == iter->second);
 
   delete query;
