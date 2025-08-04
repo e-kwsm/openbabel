@@ -467,9 +467,7 @@ namespace OpenBabel
 
   void OBFFConstraints::Setup(OBMol& mol)
   {
-    vector<OBFFConstraint>::iterator i;
-
-    for (i = _constraints.begin(); i != _constraints.end(); ++i) {
+    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i) {
       i->a = mol.GetAtom(i->ia);
       i->b = mol.GetAtom(i->ib);
       i->c = mol.GetAtom(i->ic);
@@ -479,11 +477,9 @@ namespace OpenBabel
 
   vector3 OBFFConstraints::GetGradient(int a)
   {
-    vector<OBFFConstraint>::iterator i;
-
     vector3 grad(0.0, 0.0, 0.0);
 
-    for (i = _constraints.begin(); i != _constraints.end(); ++i)
+    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i)
       grad += i->GetGradient(a);
 
     return grad;
@@ -506,10 +502,9 @@ namespace OpenBabel
 
   double OBFFConstraints::GetConstraintEnergy()
   {
-    vector<OBFFConstraint>::iterator i;
     double constraint_energy = 0.0;
 
-    for (i = _constraints.begin(); i != _constraints.end(); ++i)
+    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i)
       if ( (i->type == OBFF_CONST_DISTANCE) || (i->type == OBFF_CONST_ANGLE) ||
            (i->type == OBFF_CONST_TORSION) ) {
         vector3 da, db, dc, dd;
@@ -581,10 +576,9 @@ namespace OpenBabel
 
   void OBFFConstraints::DeleteConstraint(int index)
   {
-    vector<OBFFConstraint>::iterator i;
     int n = 0;
 
-    for (i = _constraints.begin(); i != _constraints.end(); ++n, ++i) {
+    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++n, ++i) {
       if (n == index) {
         if (i->type == OBFF_CONST_IGNORE)
           _ignored.SetBitOff(i->ia);
@@ -4634,13 +4628,10 @@ namespace OpenBabel
     vector<OBRing*> vr;
     vr = _mol.GetSSSR();
 
-    vector<OBRing*>::iterator i;
-    vector<int>::iterator j;
-
-    for (i = vr.begin();i != vr.end();++i) {
+    for (vector<OBRing*>::iterator i = vr.begin();i != vr.end();++i) {
       a_in = false;
       b_in = false;
-      for(j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
+      for(vector<int>::iterator j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
         if ((unsigned)(*j) == a->GetIdx())
           a_in = true;
         if ((unsigned)(*j) == b->GetIdx())
