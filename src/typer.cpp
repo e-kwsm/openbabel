@@ -116,16 +116,16 @@ namespace OpenBabel
 
   OBAtomTyper::~OBAtomTyper()
   {
-    for (vector<pair<OBSmartsPattern*,int> >::iterator i = _vinthyb.begin();i != _vinthyb.end();++i)
+    for (auto& i : _vinthyb)
       {
-        delete i->first;
-        i->first = nullptr;
+        delete i.first;
+        i.first = nullptr;
       }
 
-    for (vector<pair<OBSmartsPattern*,string> >::iterator j = _vexttyp.begin();j != _vexttyp.end();++j)
+    for (auto& j : _vexttyp)
       {
-        delete j->first;
-        j->first = nullptr;
+        delete j.first;
+        j.first = nullptr;
       }
 
   }
@@ -140,12 +140,12 @@ namespace OpenBabel
 
     mol.SetAtomTypesPerceived();
 
-    for (vector<pair<OBSmartsPattern*,string> >::iterator i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
+    for (const auto& i : _vexttyp) {
       std::vector<std::vector<int> > mlist;
-      if (i->first->Match(mol, mlist))
+      if (i.first->Match(mol, mlist))
       {
-        for (vector<vector<int> >::iterator j = mlist.begin(); j != mlist.end(); ++j)
-          mol.GetAtom((*j)[0])->SetType(i->second);
+        for (const auto& j : mlist)
+          mol.GetAtom(j[0])->SetType(i.second);
       }
     }
 
@@ -188,12 +188,12 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(k);atom;atom = mol.NextAtom(k))
       atom->SetHyb(0);
 
-    for (vector<pair<OBSmartsPattern*,int> >::iterator i = _vinthyb.begin(); i != _vinthyb.end(); ++i) {
+    for (const auto& i : _vinthyb) {
       std::vector<std::vector<int> > mlist;
-      if (i->first->Match(mol, mlist))
+      if (i.first->Match(mol, mlist))
       {
-        for (vector<vector<int> >::iterator j = mlist.begin(); j != mlist.end(); ++j)
-          mol.GetAtom((*j)[0])->SetHyb(i->second);
+        for (const auto& j : mlist)
+          mol.GetAtom(j[0])->SetHyb(i.second);
       }
     }
 
@@ -268,9 +268,9 @@ namespace OpenBabel
 
   OBRingTyper::~OBRingTyper()
   {
-    for (vector<pair<OBSmartsPattern*,string> >::iterator i = _ringtyp.begin();i != _ringtyp.end();++i) {
-      delete i->first;
-      i->first = nullptr;
+    for (auto& i : _ringtyp) {
+      delete i.first;
+      i.first = nullptr;
     }
   }
 
@@ -287,21 +287,21 @@ namespace OpenBabel
     vector<OBRing*> rlist = mol.GetSSSR();
 
     unsigned int member_count;
-    for (vector<pair<OBSmartsPattern*,string> >::iterator i2 = _ringtyp.begin();i2 != _ringtyp.end();++i2) { // for each ring type
+    for (auto& i2 : _ringtyp) { // for each ring type
       std::vector<std::vector<int> > mlist;
-      if (i2->first->Match(mol, mlist)) {
-        for (vector<vector<int> >::iterator j2 = mlist.begin();j2 != mlist.end();++j2) { // for each found match
+      if (i2.first->Match(mol, mlist)) {
+        for (auto& j2 : mlist) { // for each found match
 
-          for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i) { // for each ring
+          for (auto& i : rlist) { // for each ring
             member_count = 0;
 
-            for(vector<int>::iterator j = j2->begin(); j != j2->end(); ++j) { // for each atom in the match
-              if ((*i)->IsMember(mol.GetAtom(*j)))
+            for(int j : j2) { // for each atom in the match
+              if (i->IsMember(mol.GetAtom(j)))
                 member_count++;
             }
 
-            if ((*i)->Size() == member_count)
-              (*i)->SetType(i2->second);
+            if (i->Size() == member_count)
+              i->SetType(i2.second);
           }
         }
       }
@@ -815,12 +815,12 @@ namespace OpenBabel
       {
         //for every atom fill vector with ring pointer it's associated with
         ringAtoms.resize(mol.NumAtoms()+1);
-        for (vector<OBRing*>::iterator k = sssRings.begin();k != sssRings.end();++k)
+        for (auto& k : sssRings)
           {
-            tmp = (*k)->_path;
+            tmp = k->_path;
             for (int j : tmp)
               {
-                ringAtoms[j].push_back(*k);
+                ringAtoms[j].push_back(k);
               }
           }
       }
@@ -865,9 +865,9 @@ namespace OpenBabel
                   {
                     // try to find another root atom
                     // only loop over rings which contain rootAtom
-                    for(vector<OBRing*>::iterator k = ringAtoms[rootAtom].begin() ; k != ringAtoms[rootAtom].end(); ++k)
+                    for(auto& k : ringAtoms[rootAtom])
                       {
-                        ring = (*k);
+                        ring = k;
                         tmp = ring->_path;
 
                         bool checkThisRing = false;
