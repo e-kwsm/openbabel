@@ -264,8 +264,8 @@ void testIsomorphism9()
 
   OBIsomorphismMapper::Mapping map;
   map = maps[0];
-  for (OBIsomorphismMapper::Mapping::const_iterator iter=map.begin(); iter!=map.end(); ++iter)
-    OB_ASSERT( iter->first == iter->second);
+  for (const auto& iter : map)
+    OB_ASSERT( iter.first == iter.second);
 
   delete query;
   delete mapper;
