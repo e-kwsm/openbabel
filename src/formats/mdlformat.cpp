@@ -880,8 +880,7 @@ namespace OpenBabel
 
       // For unspecified cis/trans stereos, set their Configs to unspecified
       // This should really be done in CisTransFrom3D like in CisTransFrom2D but can't change the API now :-/
-      map<OBBond*, OBStereo::BondDirection>::const_iterator bd_it;
-      for(bd_it=updown.begin(); bd_it!=updown.end(); ++bd_it) {
+      for(map<OBBond*, OBStereo::BondDirection>::const_iterator bd_it=updown.cbegin(); bd_it!=updown.cend(); ++bd_it) {
         OBBond* bond = bd_it->first;
         if (bond->GetBondOrder()!=2 || bd_it->second != OBStereo::UnknownDir)
           continue; // Only continue for those double bonds with UnknownDir
@@ -1029,8 +1028,7 @@ namespace OpenBabel
 
     // Return true if and only if it has a specified tet stereocenter
     std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-    std::vector<OBGenericData*>::iterator data;
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
       OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
       if (type != OBStereo::Tetrahedral) continue;
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
@@ -1262,9 +1260,7 @@ namespace OpenBabel
       }
 
       vector<OBAtom*> rads, isos, chgs;
-      vector<OBAtom*>::iterator itr;
       vector<pair<int,int> > zchs, hyds;
-      vector<pair<int,int> >::iterator zitr;
       vector<pair<int, int> > numberedRGroups;
       for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i)) {
         if(atom->GetSpinMultiplicity()>0 && atom->GetSpinMultiplicity()<4)
@@ -1304,7 +1300,7 @@ namespace OpenBabel
 
       if (rads.size()) {
         int counter = 0;
-        for(itr=rads.begin();itr!=rads.end();++itr, counter++) {
+        for(vector<OBAtom*>::iterator itr=rads.begin();itr!=rads.end();++itr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  RAD" << setw(3) << min(static_cast<unsigned long int>(rads.size() - counter), static_cast<unsigned long int>(8));
@@ -1337,7 +1333,7 @@ namespace OpenBabel
       }
       if(zchs.size()) {
         int counter = 0;
-        for (zitr=zchs.begin(); zitr != zchs.end(); ++zitr, counter++) {
+        for (vector<pair<int,int> >::iterator zitr=zchs.begin(); zitr != zchs.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  ZCH" << setw(3) << min(static_cast<unsigned long int>(zchs.size() - counter), static_cast<unsigned long int>(8));
@@ -1348,7 +1344,7 @@ namespace OpenBabel
       }
       if(hyds.size()) {
         int counter = 0;
-        for (zitr=hyds.begin(); zitr != hyds.end(); ++zitr, counter++) {
+        for (vector<pair<int,int> >::iterator zitr=hyds.begin(); zitr != hyds.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  HYD" << setw(3) << min(static_cast<unsigned long int>(hyds.size() - counter), static_cast<unsigned long int>(8));
@@ -1370,7 +1366,7 @@ namespace OpenBabel
       }
       if(numberedRGroups.size()) {
         int counter = 0;
-        for (zitr=numberedRGroups.begin(); zitr != numberedRGroups.end(); ++zitr, counter++) {
+        for (vector<pair<int,int> >::iterator zitr=numberedRGroups.begin(); zitr != numberedRGroups.end(); ++zitr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  RGP" << setw(3) << min(static_cast<unsigned long int>(numberedRGroups.size() - counter), static_cast<unsigned long int>(8));
