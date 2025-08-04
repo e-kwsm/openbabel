@@ -1840,14 +1840,13 @@ namespace OpenBabel
           max = i;
       }
 
-    vector<int>::iterator j;
     vector<OBAtom*> delatoms;
     set<int> atomIndices;
     for (i = cfl.begin(); i != cfl.end(); ++i)
       {
         if (i->size() < threshold || (threshold == 0 && i != max))
           {
-            for (j = (*i).begin(); j != (*i).end(); ++j)
+            for (vector<int>::iterator j = (*i).begin(); j != (*i).end(); ++j)
               {
                 if (atomIndices.find( *j ) == atomIndices.end())
                   {
