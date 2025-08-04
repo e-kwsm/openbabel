@@ -87,20 +87,20 @@ namespace OpenBabel {
       OBFFLog("------------------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFBondCalculationUFF>::iterator i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
+    for (auto& i : _bondcalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
       }
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s  %4.2f%8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                 (*i).a->GetType(), (*i).b->GetType(),
-                 (*i).bt, (*i).rab, (*i).r0, (*i).kb, (*i).delta, (*i).energy);
+                 i.a->GetType(), i.b->GetType(),
+                 i.bt, i.rab, i.r0, i.kb, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -212,20 +212,20 @@ namespace OpenBabel {
       OBFFLog("-----------------------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFAngleCalculationUFF>::iterator i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
+    for (auto& i : _anglecalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s%8.3f  %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                 (*i).c->GetType(), (*i).theta * RAD_TO_DEG, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s%8.3f  %8.3f     %8.3f   %8.3f   %8.3f\n", i.a->GetType(), i.b->GetType(),
+                 i.c->GetType(), i.theta * RAD_TO_DEG, i.theta0, i.ka, i.delta, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -297,23 +297,23 @@ namespace OpenBabel {
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (vector<OBFFTorsionCalculationUFF>::iterator i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
+    for (auto& i : _torsioncalculations) {
 
-      i->template Compute<gradients>();
-      energy += i->energy;
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
-        AddGradient((*i).force_d, (*i).idx_d);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
+        AddGradient(i.force_d, i.idx_d);
       }
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%6.3f       %8.3f     %8.3f\n",
-                 (*i).a->GetType(), (*i).b->GetType(),
-                 (*i).c->GetType(), (*i).d->GetType(), (*i).V,
-                 (*i).tor * RAD_TO_DEG, (*i).energy);
+                 i.a->GetType(), i.b->GetType(),
+                 i.c->GetType(), i.d->GetType(), i.V,
+                 i.tor * RAD_TO_DEG, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -379,20 +379,20 @@ namespace OpenBabel {
       OBFFLog("----------------------------------------------------------\n");
     }
 
-    for (vector<OBFFOOPCalculationUFF>::iterator i = _oopcalculations.begin(); i != _oopcalculations.end(); ++i) {
-      i->template Compute<gradients>();
-      energy += i->energy;
+    for (auto & i : _oopcalculations) {
+      i.template Compute<gradients>();
+      energy += i.energy;
 
       if (gradients) {
-        AddGradient((*i).force_a, (*i).idx_a);
-        AddGradient((*i).force_b, (*i).idx_b);
-        AddGradient((*i).force_c, (*i).idx_c);
-        AddGradient((*i).force_d, (*i).idx_d);
+        AddGradient(i.force_a, i.idx_a);
+        AddGradient(i.force_b, i.idx_b);
+        AddGradient(i.force_c, i.idx_c);
+        AddGradient(i.force_d, i.idx_d);
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%8.3f   %8.3f     %8.3f\n", (*i).a->GetType(), (*i).b->GetType(), (*i).c->GetType(), (*i).d->GetType(),
-                 (*i).angle * RAD_TO_DEG, (*i).koop, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%8.3f   %8.3f     %8.3f\n", i.a->GetType(), i.b->GetType(), i.c->GetType(), i.d->GetType(),
+                 i.angle * RAD_TO_DEG, i.koop, i.energy);
         OBFFLog(_logbuf);
       }
     }
@@ -1723,11 +1723,11 @@ namespace OpenBabel {
       }
     }
 
-    for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
-      if (i->first->Match(_mol)) {
-        _mlist = i->first->GetMapList();
-        for (vector<vector<int> >::iterator j = _mlist.begin();j != _mlist.end();++j) {
-          _mol.GetAtom((*j)[0])->SetType(i->second);
+    for (const auto& i : _vexttyp) {
+      if (i.first->Match(_mol)) {
+        _mlist = i.first->GetMapList();
+        for (const auto& j : _mlist) {
+          _mol.GetAtom(j[0])->SetType(i.second);
         }
       }
     }
@@ -1772,6 +1772,22 @@ namespace OpenBabel {
     if (ifs)
       ifs.close();
 
+<<<<<<< HEAD
+||||||| parent of d99079533 (src/forcefields/forcefielduff.cpp)
+    // Free memory
+    for (vector<pair<OBSmartsPattern*,string> >::iterator i = _vexttyp.begin();i != _vexttyp.end();++i) {
+      sp = i->first;
+      delete sp;
+    }
+
+=======
+    // Free memory
+    for (auto& i : _vexttyp) {
+      sp = i.first;
+      delete sp;
+    }
+
+>>>>>>> d99079533 (src/forcefields/forcefielduff.cpp)
     return true;
   }
 
