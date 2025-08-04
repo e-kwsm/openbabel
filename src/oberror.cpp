@@ -193,9 +193,9 @@ namespace OpenBabel
     vector<string> results;
     OBError error;
 
-    for (deque<OBError>::iterator i = _messageList.begin(); i != _messageList.end(); ++i)
+    for (const auto& i : _messageList)
       {
-        error = (*i);
+        error = i;
         if (error.GetLevel() == level)
           results.push_back( error.message() );
       }
