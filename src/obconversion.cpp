@@ -1391,10 +1391,10 @@ namespace OpenBabel {
             if(FileList.size()>1 || OutputFileName.substr(0,2)=="*.")
               {
                 //multiple input files
-                vector<string>::iterator itr, tempitr;
+                vector<string>::iterator tempitr;
                 tempitr = FileList.end();
                 --tempitr;
-                for(itr=FileList.begin();itr!=FileList.end();++itr)
+                for(vector<string>::iterator itr=FileList.begin();itr!=FileList.end();++itr)
                   {
                     InFilename = *itr;
                     ifstream ifs;
