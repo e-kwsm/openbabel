@@ -1384,13 +1384,13 @@ namespace OpenBabel
     vr = _mol.GetSSSR();
 
     int n, index, ringsize, first_rj, prev_rj, pi_electrons, c60;
-    for (vector<OBRing*>::iterator ri = vr.begin();ri != vr.end();++ri) { // for each ring
-      ringsize = (*ri)->Size();
+    for (auto& ri : vr) { // for each ring
+      ringsize = ri->Size();
 
       n = 1;
       pi_electrons = 0;
       c60 = 0; // we have a special case to get c60 right (all atom type 37)
-      for(vector<int>::iterator rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) { // for each ring atom
+      for(vector<int>::iterator rj = ri->_path.begin();rj != ri->_path.end();++rj) { // for each ring atom
         index = *rj;
         ringatom = _mol.GetAtom(index);
 
@@ -1415,7 +1415,7 @@ namespace OpenBabel
 
         // does the current ring atom have a exocyclic double bond?
         FOR_NBORS_OF_ATOM (nbr, ringatom) {
-          if ((*ri)->IsInRing(nbr->GetIdx()))
+          if (ri->IsInRing(nbr->GetIdx()))
             continue;
 
           if (!nbr->IsAromatic()) {
@@ -1438,7 +1438,7 @@ namespace OpenBabel
 
         // is the atom N, O or S in 5 rings
         if (ringsize == 5 &&
-            ringatom->GetIdx() == (*ri)->GetRootAtom())
+            ringatom->GetIdx() == ri->GetRootAtom())
           pi_electrons += 2;
 
         n++;
@@ -1455,14 +1455,14 @@ namespace OpenBabel
       if (((pi_electrons == 6) && ((ringsize == 5) || (ringsize == 6)))
         || ((pi_electrons == 5) && (c60 == 5))) {
         // mark ring atoms as aromatic
-        for(vector<int>::iterator rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) {
-          if (!_mol.GetAtom(*rj)->IsAromatic())
+        for(int rj : ri->_path) {
+          if (!_mol.GetAtom(rj)->IsAromatic())
             done = true;
-          _mol.GetAtom(*rj)->SetAromatic();
+          _mol.GetAtom(rj)->SetAromatic();
         }
         // mark all ring bonds as aromatic
         FOR_BONDS_OF_MOL (bond, _mol)
-          if((*ri)->IsMember(&*bond))
+          if(ri->IsMember(&*bond))
             bond->SetAromatic();
       }
     }
@@ -3846,12 +3846,12 @@ namespace OpenBabel
         vr = _mol.GetSSSR();
         int n_count;
 
-        for (vector<OBRing*>::iterator ri = vr.begin();ri != vr.end();++ri) { // for each ring
+        for (auto& ri : vr) { // for each ring
           n_count = 0;
 
-          if ((*ri)->IsAromatic() && (*ri)->IsMember(&*atom) && ((*ri)->Size() == 5)) {
-            for(vector<int>::iterator rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) // for each ring atom
-              if (_mol.GetAtom(*rj)->GetAtomicNum() == OBElements::Nitrogen)
+          if (ri->IsAromatic() && ri->IsMember(&*atom) && (ri->Size() == 5)) {
+            for(int rj : ri->_path) // for each ring atom
+              if (_mol.GetAtom(rj)->GetAtomicNum() == OBElements::Nitrogen)
                 n_count++;
 
             if (n_count > 1)
@@ -3863,11 +3863,11 @@ namespace OpenBabel
 
         vector<OBRing*> vr;
         vr = _mol.GetSSSR();
-        for (vector<OBRing*>::iterator ri = vr.begin();ri != vr.end();++ri) // for each ring
-          if ((*ri)->IsAromatic() && (*ri)->IsMember(&*atom) && ((*ri)->Size() == 5)) {
+        for (auto& ri : vr) // for each ring
+          if (ri->IsAromatic() && ri->IsMember(&*atom) && (ri->Size() == 5)) {
             int n_count = 0;
-            for(vector<int>::iterator rj = (*ri)->_path.begin();rj != (*ri)->_path.end();++rj) // for each ring atom
-              if (_mol.GetAtom(*rj)->GetAtomicNum() == OBElements::Nitrogen && (_mol.GetAtom(*rj)->GetExplicitDegree() == 3))
+            for(int rj : ri->_path) // for each ring atom
+              if (_mol.GetAtom(rj)->GetAtomicNum() == OBElements::Nitrogen && (_mol.GetAtom(rj)->GetExplicitDegree() == 3))
                 n_count++;
 
             if (n_count) // coverity defensive testing
@@ -4184,7 +4184,7 @@ namespace OpenBabel
 
       ni = 1;
       failed = false;
-      for (vector<int>::iterator i = types.begin(); i != types.end();++i) {
+      for (int i : types) {
         if (ni > _mol.NumAtoms())
           continue;
 
@@ -4192,12 +4192,12 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (atoi(_mol.GetAtom(ni)->GetType()) == (*i))
+        if (atoi(_mol.GetAtom(ni)->GetType()) == i)
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
-                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
+                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), i);
         else {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
-                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
+                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), i);
           failed = true;
         }
 
@@ -4218,7 +4218,7 @@ namespace OpenBabel
       cout << "----------------------------------------" << endl;
 
       ni = 1;
-      for (vector<double>::iterator di = fcharges.begin(); di != fcharges.end(); ++di) {
+      for (double di : fcharges) {
         if (ni > _mol.NumAtoms())
           continue;
 
@@ -4226,10 +4226,10 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
-          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
+        if (fabs(di - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
+          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), di);
         else {
-          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
+          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), di);
           failed = true;
         }
 
@@ -4250,7 +4250,7 @@ namespace OpenBabel
       cout << "----------------------------------------" << endl;
 
       ni = 1;
-      for (vector<double>::iterator di = pcharges.begin(); di != pcharges.end(); ++di) {
+      for (double di : pcharges) {
         if (ni > _mol.NumAtoms())
           continue;
 
@@ -4258,10 +4258,10 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
-          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
+        if (fabs(di - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
+          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), di);
         else {
-          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
+          snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), di);
           failed = true;
         }
 
@@ -4648,14 +4648,14 @@ namespace OpenBabel
       if( !((atoi(a->GetType()) == 1) || (atoi(b->GetType()) == 1) || (atoi(c->GetType()) == 1) || (atoi(d->GetType()) == 1)) )
         return 0;
 
-      for (vector<OBRing*>::iterator ri = vr.begin();ri != vr.end();++ri) { // for each ring
-        if ((*ri)->IsAromatic())
+      for (auto & ri : vr) { // for each ring
+        if (ri->IsAromatic())
           continue;
 
-        if ((*ri)->Size() != 5)
+        if (ri->Size() != 5)
           continue;
 
-        if (!(*ri)->IsMember(a) || !(*ri)->IsMember(b) || !(*ri)->IsMember(c) || !(*ri)->IsMember(d))
+        if (!ri->IsMember(a) || !ri->IsMember(b) || !ri->IsMember(c) || !ri->IsMember(d))
           continue;
 
         return 5;
