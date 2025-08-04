@@ -125,9 +125,8 @@ namespace OpenBabel
         string txt(itr->second);
 
         vector<string> vec;
-        vector<string>::iterator it;
         tokenize(vec, txt,";");
-        for(it=vec.begin();it!=vec.end();++it) {
+        for(vector<string>::iterator it=vec.begin();it!=vec.end();++it) {
           string attr, val;
           string::size_type pos = it->find('=');
           if(pos==string::npos) {
