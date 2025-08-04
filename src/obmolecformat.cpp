@@ -357,8 +357,7 @@ namespace OpenBabel
     *pNewMol = *pMain; //Now copies all data
 
     //Copy some OBGenericData from the OBMol which did not provide the structure
-    vector<OBGenericData*>::iterator igd;
-    for(igd=pOther->BeginData();igd!=pOther->EndData();++igd)
+    for(vector<OBGenericData*>::iterator igd=pOther->BeginData();igd!=pOther->EndData();++igd)
       {
         //copy only if not already data of the same type from molecule already copied to pNewMol
         unsigned datatype = (*igd)->GetDataType();
