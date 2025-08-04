@@ -87,8 +87,8 @@ namespace OpenBabel
                                   << x2 << " " << y2;
     if (!dashes.empty()) {
       m_ofs << " dashes";
-      for (std::vector<double>::const_iterator it=dashes.cbegin(); it!=dashes.cend() ; ++it)
-        m_ofs << " " << *it;
+      for (double dashe : dashes)
+        m_ofs << " " << dashe;
 
     }
     m_ofs << endl;
