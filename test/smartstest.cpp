@@ -151,7 +151,7 @@ int smartstest(int argc, char* argv[])
       currentMol++;
       molPassed = true;
 
-      for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
+      for (auto& i : vsp)
         {
           if (!rifs.getline(buffer,BUFF_SIZE))
             {
@@ -161,8 +161,8 @@ int smartstest(int argc, char* argv[])
           res_line++;
 
           tokenize(vs,buffer);
-          (*i)->Match(mol);
-          mlist = (*i)->GetMapList();
+          i->Match(mol);
+          mlist = i->GetMapList();
           if (mlist.size() != vs.size())
             {
               cout << "not ok " << currentMol
@@ -170,7 +170,7 @@ int smartstest(int argc, char* argv[])
               cout << "# Expected " << vs.size() << " matches, found "
                    << mlist.size() << "\n";
               cout << "# Error with molecule " << mol.GetTitle();
-              cout << "#  on pattern " << (*i)->GetSMARTS() << "\n";
+              cout << "#  on pattern " << i->GetSMARTS() << "\n";
               if (mlist.size())
                 cout << "# First match: atom #" << mlist[0][0] << "\n";
               molPassed = false;
@@ -188,7 +188,7 @@ int smartstest(int argc, char* argv[])
                       cout << "# Expected " << vs[k] << " but found "
                            << mlist[k][0] << "\n";
                       cout << "# Molecule: " << mol.GetTitle() << "\n";
-                      cout << "# Pattern: " << (*i)->GetSMARTS() << "\n";
+                      cout << "# Pattern: " << i->GetSMARTS() << "\n";
                       molPassed = false;
                       break;
                     }
@@ -208,8 +208,8 @@ int smartstest(int argc, char* argv[])
   cout << "1.." << currentMol << endl;
 
   // clean up
-  for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i){
-    delete (*i);
+  for (auto& i : vsp){
+    delete i;
   }
 
   // Passed Test
@@ -264,22 +264,22 @@ void GenerateSmartsReference()
 
       if (mol.Empty())
         continue;
-      for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
+      for (auto& i : vsp)
         {
-          (*i)->Match(mol);
-          mlist = (*i)->GetMapList();
-          for (vector<vector<int> >::iterator j = mlist.begin();j != mlist.end();++j)
+          i->Match(mol);
+          mlist = i->GetMapList();
+          for (auto& j : mlist)
             {
-              sprintf(buffer,"%3d",*(j->begin()));
+              sprintf(buffer,"%3d",*(j.begin()));
               ofs << buffer;
             }
           ofs << endl;
         }
     }
 
-  for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
+  for (auto& i : vsp)
   {
-    delete (*i);
+    delete i;
   }
 
   cerr << " SMARTS test results written successfully" << endl;
