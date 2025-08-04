@@ -1003,8 +1003,6 @@ namespace OpenBabel {
     bool wrapped = false;
 
     vector<int> spacePositions;
-    std::vector<int>::reverse_iterator rit;
-    std::vector<OBGenericData*>::iterator i, j;
 
     struct local {
       static const bool cmpfn(const char& a, const char& b) {
@@ -1019,14 +1017,14 @@ namespace OpenBabel {
       OBSetData* gmsset = (OBSetData*) pmol->GetData("gamess");
 
       if (gmsset) {
-        for (i=gmsset->GetBegin(); i != gmsset->GetEnd(); ++i) {
+        for (std::vector<OBGenericData*>::iterator i=gmsset->GetBegin(); i != gmsset->GetEnd(); ++i) {
           OBSetData* cset = (OBSetData*) (*i);
 
           if (cset) {
             wrapped = false;
             a = 2 + cset->GetAttribute().length();
             ofs << " $" << cset->GetAttribute();
-            for (j=cset->GetBegin(); j != cset->GetEnd(); ++j) {
+            for (std::vector<OBGenericData*>::iterator j=cset->GetBegin(); j != cset->GetEnd(); ++j) {
               OBPairData* pd = (OBPairData*) (*j);
 
               if (pd) {
@@ -1058,7 +1056,7 @@ namespace OpenBabel {
                       }
 
                       // Try wrapping
-                      for (rit=spacePositions.rbegin(); rit != spacePositions.rend(); ++rit) {
+                      for (std::vector<int>::reverse_iterator rit=spacePositions.rbegin(); rit != spacePositions.rend(); ++rit) {
                         if (a + 1 + (*rit) <= 72) {
                           ofs << " " << s.substr(0, *rit)
                               << endl << "   ";
