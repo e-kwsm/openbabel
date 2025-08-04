@@ -2915,8 +2915,8 @@ namespace OpenBabel
       return;
 
     OBBitVec bv;
-    for (vector<OBAtom*>::iterator i = va.begin();i != va.end();++i)
-      bv |= (*i)->GetIdx();
+    for (const auto& i : va)
+      bv |= i->GetIdx();
 
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       if (!bv[atom->GetIdx()])
@@ -3263,11 +3263,11 @@ namespace OpenBabel
     if (!HasSSSRPerceived())
       FindSSSR();
     rlist = GetSSSR();
-    for (vector<OBRing*>::iterator ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
+    for (auto& ringit : rlist)
       {
-        if ((*ringit)->PathSize() == 5)
+        if (ringit->PathSize() == 5)
           {
-            path = (*ringit)->_path;
+            path = ringit->_path;
             torsions =
               ( fabs(GetTorsion(path[0], path[1], path[2], path[3])) +
                 fabs(GetTorsion(path[1], path[2], path[3], path[4])) +
@@ -3287,9 +3287,9 @@ namespace OpenBabel
                   }
               }
           }
-        else if ((*ringit)->PathSize() == 6)
+        else if (ringit->PathSize() == 6)
           {
-            path = (*ringit)->_path;
+            path = ringit->_path;
             torsions =
               ( fabs(GetTorsion(path[0], path[1], path[2], path[3])) +
                 fabs(GetTorsion(path[1], path[2], path[3], path[4])) +
@@ -3353,13 +3353,13 @@ namespace OpenBabel
     bool needs_kekulization = false; // are there any aromatic bonds?
     bool typed; // has this ring been typed?
     unsigned int loop, loopSize;
-    for (vector<OBRing*>::iterator ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
+    for (auto& ringit : rlist)
       {
         typed = false;
-        loopSize = (*ringit)->PathSize();
+        loopSize = ringit->PathSize();
         if (loopSize == 5 || loopSize == 6 || loopSize == 7)
           {
-            path = (*ringit)->_path;
+            path = ringit->_path;
             for(loop = 0; loop < loopSize; ++loop)
               {
                 atom = GetAtom(path[loop]);
@@ -3718,8 +3718,8 @@ namespace OpenBabel
 
   void OBMol::SetConformers(vector<double*> &v)
   {
-    for (vector<double*>::iterator i = _vconf.begin();i != _vconf.end();++i)
-      delete [] *i;
+    for (auto& i : _vconf)
+      delete[] i;
 
     _vconf = v;
     _c = _vconf.empty() ? nullptr : _vconf[0];
@@ -4010,7 +4010,7 @@ namespace OpenBabel
     vector<OBRing*> vr;
     vr = GetLSSR();
 
-    for (vector<OBRing*>::iterator i = vr.begin();i != vr.end();++i) {
+    for (auto& i : vr) {
       a_in = false;
       b_in = false;
       // Go through the path of the ring and see if a and/or b match
@@ -4023,7 +4023,7 @@ namespace OpenBabel
       }
 
       if (a_in && b_in)
-        return (*i)->Size();
+        return i->Size();
     }
 
     return 0;
