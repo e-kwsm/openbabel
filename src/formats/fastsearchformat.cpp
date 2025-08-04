@@ -308,8 +308,7 @@ const char* Description() override  // required
       else
       {
         //Do a substructure search for each target
-        vector<OBMol>::iterator iter;
-        for(iter=patternMols.begin();iter!=patternMols.end();++iter)
+        for(vector<OBMol>::iterator iter=patternMols.begin();iter!=patternMols.end();++iter)
           fs.Find(&*iter, SeekPositions, MaxCandidates);
         clog << SeekPositions.size() << " candidates from fingerprint search phase" << endl;
       }
