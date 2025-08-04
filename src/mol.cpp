@@ -1718,8 +1718,7 @@ namespace OpenBabel
     if (_nbonds+1 >= _vbond.size())
       {
         _vbond.resize(_nbonds+OBBondIncrement);
-        vector<OBBond*>::iterator i;
-        for (i = _vbond.begin(),i+=(_nbonds+1);i != _vbond.end();++i)
+        for (vector<OBBond*>::iterator i = _vbond.begin()+_nbonds+1;i != _vbond.end();++i)
           *i = nullptr;
       }
 #undef  OBBondIncrement
@@ -1768,8 +1767,7 @@ namespace OpenBabel
     if (_natoms+1 >= _vatom.size())
       {
         _vatom.resize(_natoms+OBAtomIncrement);
-        vector<OBAtom*>::iterator j;
-        for (j = _vatom.begin(),j+=(_natoms+1);j != _vatom.end();++j)
+        for (vector<OBAtom*>::iterator j = _vatom.begin()+_natoms+1;j != _vatom.end();++j)
           *j = nullptr;
       }
 #undef OBAtomIncrement
