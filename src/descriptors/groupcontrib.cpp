@@ -41,15 +41,15 @@ namespace OpenBabel
 
   OBGroupContrib::~OBGroupContrib()
   {
-    for (vector<pair<OBSmartsPattern*, double> >::iterator i = _contribsHeavy.begin();i != _contribsHeavy.end();++i) {
-      if (i->first != nullptr){
-        delete i->first;
+    for (auto& i : _contribsHeavy) {
+      if (i.first != nullptr){
+        delete i.first;
       }
     }
 
-    for (vector<pair<OBSmartsPattern*, double> >::iterator i = _contribsHydrogen.begin();i != _contribsHydrogen.end();++i) {
-      if (i->first != nullptr){
-        delete i->first;
+    for (auto& i : _contribsHydrogen) {
+      if (i.first != nullptr){
+        delete i.first;
       }
     }
 
@@ -150,14 +150,14 @@ namespace OpenBabel
 
     // atom contributions
     if (_debug) debugMessage << "Heavy atom contributions:" << endl;
-    for (vector<pair<OBSmartsPattern*, double> >::iterator i = _contribsHeavy.begin();i != _contribsHeavy.end();++i) {
-      if (i->first->Match(tmpmol)) {
-        _mlist = i->first->GetMapList();
-        for (vector<vector<int> >::iterator j = _mlist.begin();j != _mlist.end();++j) {
-          atomValues[(*j)[0] - 1] = i->second;
-          seenHeavy.SetBitOn((*j)[0]);
+    for (const auto& i : _contribsHeavy) {
+      if (i.first->Match(tmpmol)) {
+        _mlist = i.first->GetMapList();
+        for (const auto& j : _mlist) {
+          atomValues[j[0] - 1] = i.second;
+          seenHeavy.SetBitOn(j[0]);
 	        if (_debug)
-            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << endl;
+            debugMessage << j[0] << " = " << i.first->GetSMARTS() << " : " << i.second << endl;
         }
       }
     }
@@ -166,17 +166,17 @@ namespace OpenBabel
 
     // Hydrogen contributions - note that matches to hydrogens themselves are ignored
     if (_debug) debugMessage << "  Hydrogen contributions:" << endl;
-    for (vector<pair<OBSmartsPattern*, double> >::iterator i = _contribsHydrogen.begin();i != _contribsHydrogen.end();++i) {
-      if (i->first->Match(tmpmol)) {
-        _mlist = i->first->GetMapList();
-        for (vector<vector<int> >::iterator j = _mlist.begin();j != _mlist.end();++j) {
-          if (tmpmol.GetAtom((*j)[0])->GetAtomicNum() == OBElements::Hydrogen)
+    for (const auto& i : _contribsHydrogen) {
+      if (i.first->Match(tmpmol)) {
+        _mlist = i.first->GetMapList();
+        for (const auto& j : _mlist) {
+          if (tmpmol.GetAtom(j[0])->GetAtomicNum() == OBElements::Hydrogen)
             continue;
-          int Hcount = tmpmol.GetAtom((*j)[0])->GetExplicitDegree() - tmpmol.GetAtom((*j)[0])->GetHvyDegree();
-          hydrogenValues[(*j)[0] - 1] = i->second * Hcount;
-          seenHydrogen.SetBitOn((*j)[0]);
+          int Hcount = tmpmol.GetAtom(j[0])->GetExplicitDegree() - tmpmol.GetAtom(j[0])->GetHvyDegree();
+          hydrogenValues[j[0] - 1] = i.second * Hcount;
+          seenHydrogen.SetBitOn(j[0]);
           if (_debug)
-            debugMessage << (*j)[0] << " = " << i->first->GetSMARTS() << " : " << i->second << " Hcount " << Hcount << endl;
+            debugMessage << j[0] << " = " << i.first->GetSMARTS() << " : " << i.second << " Hcount " << Hcount << endl;
         }
       }
     }
