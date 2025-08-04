@@ -348,9 +348,9 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
 
       // For unspecified cis/trans stereos, set their Configs to unspecified
       OpenBabel::OBStereoFacade facade(pmol);
-      for (map<OBBond *, OBStereo::BondDirection>::const_iterator bd_it = updown.cbegin(); bd_it != updown.cend(); ++bd_it) {
-        OBBond *bond = bd_it->first;
-        if (bond->GetBondOrder() != 2 || bd_it->second != OBStereo::UnknownDir)
+      for (const auto& bd_it : updown) {
+        OBBond *bond = bd_it.first;
+        if (bond->GetBondOrder() != 2 || bd_it.second != OBStereo::UnknownDir)
           continue; // Only continue for those double bonds with UnknownDir
         OBCisTransStereo *ct = facade.GetCisTransStereo(bond->GetId());
         if (ct) {
