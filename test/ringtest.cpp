@@ -127,8 +127,8 @@ int ringtest(int argc, char* argv[])
       vb.resize(mol.NumBonds(),false);
       //check ring bonds
       tokenize(vs,buffer);
-      for (vector<string>::iterator i = vs.begin();i != vs.end();++i)
-        vb[atoi(i->c_str())] = true;
+      for (auto & i : vs)
+        vb[atoi(i.c_str())] = true;
 
       for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
         {
