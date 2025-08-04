@@ -139,10 +139,9 @@ namespace OpenBabel
 	    }
 	    BondType[BondString] = 0;
     }
-    map<string, int>::iterator intitr;
     int BondIndex=0;
     //Set the BondType integer
-    for(intitr=BondType.begin();intitr!=BondType.end();++intitr)
+    for(map<string, int>::iterator intitr=BondType.begin();intitr!=BondType.end();++intitr)
     {
 	    BondIndex++;
 	    BondType[intitr->first] = BondIndex;
@@ -182,7 +181,7 @@ namespace OpenBabel
     }
     int AngleIndex=0;
     //Set the AtomType integer
-    for(intitr=AngleType.begin();intitr!=AngleType.end();++intitr)
+    for(map<string, int>::iterator intitr=AngleType.begin();intitr!=AngleType.end();++intitr)
     {
 	    AngleIndex++;
 	    AngleType[intitr->first] = AngleIndex;
@@ -224,7 +223,7 @@ namespace OpenBabel
     }
     int DihedralIndex=0;
     //Set DihedralType integer
-    for(intitr=DihedralType.begin();intitr!=DihedralType.end();++intitr)
+    for(map<string, int>::iterator intitr=DihedralType.begin();intitr!=DihedralType.end();++intitr)
     {
 	    DihedralIndex++;
 	    DihedralType[intitr->first] = DihedralIndex;
