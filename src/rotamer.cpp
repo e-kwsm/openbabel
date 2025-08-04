@@ -329,8 +329,8 @@ namespace OpenBabel
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (char) 0;
 
-    vector<pair<OBAtom**,vector<int> > >::iterator i;
-    for (size=1,i = _vrotor.begin();i != _vrotor.end();++i,++size)
+    size=1;
+    for (vector<pair<OBAtom**,vector<int> > >::iterator i = _vrotor.begin();i != _vrotor.end();++i,++size)
       {
         idx = (i->first[0])->GetCoordinateIdx();
         v1.Set(c[idx],c[idx+1],c[idx+2]);
