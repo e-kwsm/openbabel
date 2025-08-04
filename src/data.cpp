@@ -134,14 +134,13 @@ namespace OpenBabel
     int    found;
     double Ttol = 0.05; /* Kelvin */
     double Vmodel, Vdhf, S0, HexpT;
-    std::vector<OBAtomHOF>::iterator it;
     char desc[128];
 
     found = 0;
     Vmodel = Vdhf = S0 = HexpT = 0;
     snprintf(desc,sizeof(desc),"%s(0K)",meth.c_str());
 
-    for(it = _atomhof.begin(); it != _atomhof.end(); ++it)
+    for(std::vector<OBAtomHOF>::iterator it = _atomhof.begin(); it != _atomhof.end(); ++it)
     {
         if ((0 == it->Element().compare(elem)) &&
             (it->Charge() == charge))
@@ -353,8 +352,7 @@ namespace OpenBabel
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
-        vector<vector<string> >::iterator i;
-        for (i = _table.begin();i != _table.end();++i)
+        for (vector<vector<string> >::iterator i = _table.begin();i != _table.end();++i)
           if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
             {
               to = (*i)[_to];
@@ -379,8 +377,7 @@ namespace OpenBabel
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
-        vector<vector<string> >::iterator i;
-        for (i = _table.begin();i != _table.end();++i)
+        for (vector<vector<string> >::iterator i = _table.begin();i != _table.end();++i)
           if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
             {
               return (*i)[_to];
@@ -650,9 +647,8 @@ namespace OpenBabel
       return(false);
 
     string s;
-    vector<string>::iterator i;
 
-    for (i = _resatoms[_resnum].begin();i != _resatoms[_resnum].end();i+=3)
+    for (vector<string>::iterator i = _resatoms[_resnum].begin();i != _resatoms[_resnum].end();i+=3)
       if (atmid == *i)
         {
           ++i;
