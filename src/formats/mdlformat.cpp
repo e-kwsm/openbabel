@@ -1382,9 +1382,8 @@ namespace OpenBabel
       if (pConv->IsOption("E"))
         GenerateAsciiDepiction(pmol);
 
-      vector<OBGenericData*>::iterator k;
       vector<OBGenericData*> vdata = mol.GetData();
-      for (k = vdata.begin();k != vdata.end();k++)
+      for (vector<OBGenericData*>::iterator k = vdata.begin();k != vdata.end();k++)
       {
         if ((*k)->GetDataType() == OBGenericDataType::PairData
             && (*k)->GetOrigin()!=local) //internal OBPairData is not written
