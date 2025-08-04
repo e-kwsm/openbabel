@@ -155,9 +155,9 @@ namespace OpenBabel
     if (rotamers)
       {
         unsigned int idx=0;
-        for (vector<unsigned char*>::const_iterator kk = _vrotamer.begin();kk != _vrotamer.end();++kk)
+        for (auto& kk : _vrotamer)
           {
-            memcpy(&rotamers[idx],(const unsigned char*)*kk,sizeof(unsigned char)*(NumRotors()+1));
+            memcpy(&rotamers[idx],(const unsigned char*)kk,sizeof(unsigned char)*(NumRotors()+1));
             idx += sizeof(unsigned char)*(NumRotors()+1);
           }
         new_rml->AddRotamers(rotamers,NumRotamers());
@@ -168,11 +168,11 @@ namespace OpenBabel
 
   OBRotamerList::~OBRotamerList()
   {
-    for (vector<unsigned char*>::iterator i = _vrotamer.begin();i != _vrotamer.end();++i)
-      delete [] *i;
+    for (auto& i : _vrotamer)
+      delete [] i;
 
-    for (vector<pair<OBAtom**,vector<int> > >::iterator j = _vrotor.begin();j != _vrotor.end();++j)
-      delete [] j->first;
+    for (auto& j : _vrotor)
+      delete [] j.first;
 
     //Delete the interal base coordinate list
     unsigned int k;
@@ -197,12 +197,12 @@ namespace OpenBabel
   {
     //clear the old stuff out if necessary
     _vres.clear();
-    for (vector<unsigned char*>::iterator j = _vrotamer.begin();j != _vrotamer.end();++j)
-      delete [] *j;
+    for (auto& j : _vrotamer)
+      delete [] j;
     _vrotamer.clear();
 
-    for (vector<pair<OBAtom**,vector<int> > >::iterator k = _vrotor.begin();k != _vrotor.end();++k)
-      delete [] k->first;
+    for (auto& k : _vrotor)
+      delete [] k.first;
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();
@@ -278,21 +278,21 @@ namespace OpenBabel
       } // finished with the rings
     } // if (ring rotors)
 
-    for (vector<vector<double> >::iterator m = _vres.begin();m != _vres.end();++m)
-      for (vector<double>::iterator n = m->begin();n != m->end();++n)
-        *n *= RAD_TO_DEG;
+    for (auto& m : _vres)
+      for (double& n : m)
+        n *= RAD_TO_DEG;
   }
 
   void OBRotamerList::Setup(OBMol &mol,unsigned char *ref,int nrotors)
   {
     //clear the old stuff out if necessary
     _vres.clear();
-    for (vector<unsigned char*>::iterator j = _vrotamer.begin();j != _vrotamer.end();++j)
-      delete [] *j;
+    for (auto& j : _vrotamer)
+      delete [] j;
     _vrotamer.clear();
 
-    for (vector<pair<OBAtom**,vector<int> > >::iterator k = _vrotor.begin();k != _vrotor.end();++k)
-      delete [] k->first;
+    for (auto& k : _vrotor)
+      delete [] k.first;
     _vrotor.clear();
     _vrings.clear();
     _vringTors.clear();
@@ -471,8 +471,8 @@ namespace OpenBabel
     vector<double*> tmpclist = CreateConformerList(mol);
 
     //transfer the conf list
-    for (vector<double*>::iterator k = clist.begin();k != clist.end();++k)
-      delete [] *k;
+    for (auto& k : clist)
+      delete [] k;
     clist = tmpclist;
   }
 
@@ -484,9 +484,9 @@ namespace OpenBabel
     unsigned char *conf;
     vector<double*> tmpclist;
 
-    for (vector<unsigned char*>::iterator i = _vrotamer.begin();i != _vrotamer.end();++i)
+    for (auto& i : _vrotamer)
       {
-        conf = *i;
+        conf = i;
         double *c = new double [mol.NumAtoms()*3];
         memcpy(c,_c[(int)conf[0]],sizeof(double)*mol.NumAtoms()*3);
 
@@ -663,9 +663,9 @@ namespace OpenBabel
     //
     tx = c[tor[1]];ty = c[tor[1]+1];tz = c[tor[1]+2];
     int j;
-    for (vector<int>::iterator i = atoms.begin();i != atoms.end();++i)
+    for (int i : atoms)
       {
-        j = ((*i)-1)*3;
+        j = (i-1)*3;
         c[j] -= tx;c[j+1] -= ty;c[j+2]-= tz;
         x = c[j]*m[0] + c[j+1]*m[1] + c[j+2]*m[2];
         y = c[j]*m[3] + c[j+1]*m[4] + c[j+2]*m[5];
