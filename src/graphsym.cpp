@@ -268,8 +268,7 @@ namespace OpenBabel {
     ring_atoms.Clear();
 
     sssRings = _pmol->GetSSSR();
-    for (vector<OBRing*>::iterator ri = sssRings.begin(); ri != sssRings.end(); ++ri) {
-      OBRing *ring = *ri;
+    for (const auto& ring : sssRings) {
       OBBitVec bvtmp = _frag_atoms & ring->_pathset;      // intersection: fragment and ring
       if (bvtmp == ring->_pathset)                        // all ring atoms in fragment?
         ring_atoms |= ring->_pathset;                     //   yes - add this ring's atoms
@@ -358,8 +357,8 @@ namespace OpenBabel {
     // mapping vector of idx-to-index for vp1.
     vector<int> idx2index(_pmol->NumAtoms() + 1, -1);  // natoms + 1
     int index = 0;
-    for (vector<pair<OBAtom*,unsigned int> >::iterator vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
-      int idx = vp_iter->first->GetIdx();
+    for (const auto& vp_iter : vp1) {
+      int idx = vp_iter.first->GetIdx();
       idx2index[idx] = index++;
     }
 
@@ -411,8 +410,8 @@ namespace OpenBabel {
     // mapping vector of idx-to-index for vp1.
     vector<int> idx2index(mol->NumAtoms() + 1, -1);  // natoms + 1
     int index = 0;
-    for (vector<pair<OBAtom*,unsigned int> >::iterator vp_iter = vp1.begin(); vp_iter != vp1.end(); ++vp_iter) {
-      int idx = vp_iter->first->GetIdx();
+    for (const auto& vp_iter : vp1) {
+      int idx = vp_iter.first->GetIdx();
       idx2index[idx] = index++;
     }
 
