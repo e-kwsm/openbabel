@@ -90,7 +90,6 @@ namespace OpenBabel
     double x,y,z;
     OBAtom *atom;
     vector<string> vs;
-    vector<string>::iterator j;
 
     for (i = 1; i <= natoms;i ++)
       {
@@ -108,7 +107,7 @@ namespace OpenBabel
         atom->SetVector(x,y,z); //set coordinates
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
 
-        for (j = vs.begin()+4;j != vs.end();++j)
+        for (vector<string>::iterator j = vs.begin()+4;j != vs.end();++j)
           mol.AddBond(atom->GetIdx(),atoi((char*)j->c_str()),1);
       }
 
