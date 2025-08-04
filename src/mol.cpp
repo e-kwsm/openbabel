@@ -3998,7 +3998,7 @@ namespace OpenBabel
       b_in = false;
       // Go through the path of the ring and see if a and/or b match
       // each node in the path
-      for(vector<int>::iterator j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
+      for(vector<int>::iterator j = i->_path.begin();j != i->_path.end();++j) {
         if ((unsigned)(*j) == a->GetIdx())
           a_in = true;
         if ((unsigned)(*j) == b->GetIdx())
