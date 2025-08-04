@@ -135,10 +135,8 @@ namespace OpenBabel
   }
   void ASCIIPainter::Write(std::ostream &ofs)
   {
-    vector<vector<char> >::iterator vvc_it;
-    vector<char>::iterator vc_it;
-    for(vvc_it=m_buf.begin();vvc_it!=m_buf.end();++vvc_it) {
-      for(vc_it=vvc_it->begin();vc_it!=vvc_it->end();++vc_it) {
+    for(vector<vector<char> >::iterator vvc_it=m_buf.begin();vvc_it!=m_buf.end();++vvc_it) {
+      for(vector<char>::iterator vc_it=vvc_it->begin();vc_it!=vvc_it->end();++vc_it) {
         ofs << *vc_it;
       }
       ofs << endl;
