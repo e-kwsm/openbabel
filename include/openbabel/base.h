@@ -234,8 +234,8 @@ class OBConversion; //used only as pointer
         {
           if (!_vdata.empty())
             {
-              for (std::vector<OBGenericData*>::iterator m = _vdata.begin();m != _vdata.end();m++)
-                delete *m;
+              for (auto& m : _vdata)
+                delete m;
               _vdata.clear();
             }
         }
