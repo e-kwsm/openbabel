@@ -104,9 +104,9 @@ public:
 
     // Iterate through _text and make instances of the plugins.
     // They will be deleted in the destructor.
-    for(vector<vector<string> >::iterator iter=_text.begin();iter!=_text.end();++iter) {
-      OBPlugin* pdef = FindDef((*iter)[0].c_str());
-      _instances.push_back(pdef->MakeInstance(*iter));
+    for(auto& iter : _text) {
+      OBPlugin* pdef = FindDef(iter[0].c_str());
+      _instances.push_back(pdef->MakeInstance(iter));
     }
 
     // return the locale to the original one
@@ -116,8 +116,8 @@ public:
 
   ~OBDefine() override
   {
-    for(std::vector<OBPlugin*>::iterator iter=_instances.begin();iter!=_instances.end();++iter)
-      delete *iter;
+    for(auto& iter : _instances)
+      delete iter;
   }
 
   const char* Description() override { return "Makes plugin classes from a datafile"; }
