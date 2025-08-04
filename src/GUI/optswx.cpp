@@ -87,16 +87,16 @@ DynOptionswx::~DynOptionswx()
 
 void DynOptionswx::Clear()
 {
-  for(OMapType::iterator itr=OptionMap.begin();itr!=OptionMap.end();++itr)
+  for(auto& itr : OptionMap)
   {
-    sizer->Detach(itr->second);
-    (itr->second)->Destroy();
+    sizer->Detach(itr.second);
+    itr.second->Destroy();
   }
   OptionMap.clear();
-  for(std::vector<wxSizer*>::iterator itrs=Sizers.begin();itrs!=Sizers.end();++itrs)
+  for(auto& Sizer : Sizers)
   {
-    sizer->Detach(*itrs);
-    delete *itrs;
+    sizer->Detach(Sizer);
+    delete Sizer;
   }
   Sizers.clear();
 }
