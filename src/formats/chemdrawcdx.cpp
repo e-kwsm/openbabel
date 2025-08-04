@@ -243,9 +243,9 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   }
 
   //At the end, output molecules that have not been used in a reaction
-  for(map<CDXObjectID, OBMol*>::iterator mapiter = _molmap.begin(); mapiter!=_molmap.end(); ++mapiter)
+  for(const auto& mapiter : _molmap)
   {
-    pmol = mapiter->second;
+    pmol = mapiter.second;
     if(!(pmol->GetFlags() & usedFlag) && strcmp(pmol->GetTitle(),"justplus"))
     {
       OBMol* ptmol = static_cast<OBMol*>(pmol->DoTransformations(
