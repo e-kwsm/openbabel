@@ -406,8 +406,7 @@ namespace OpenBabel
   bool OBMoleculeFormat::DeleteDeferredMols()
   {
     //Empties IMols, deteting the OBMol objects whose pointers are stored there
-    std::map<std::string, OBMol*>::iterator itr;
-    for(itr=IMols.begin();itr!=IMols.end();++itr)
+    for(std::map<std::string, OBMol*>::iterator itr=IMols.begin();itr!=IMols.end();++itr)
       {
         delete itr->second; //usually NULL
       }
