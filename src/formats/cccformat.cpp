@@ -110,11 +110,11 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             return(false);
         tokenize(vs,&buffer[60]);
 
-        for (vector<string>::iterator j = vs.begin();j != vs.end();++j)
-            if (!j->empty())
+        for (auto& v : vs)
+            if (!v.empty())
             {
                 //get the bond order
-                switch((char)(*j)[j->size()-1])
+                switch((char)v[v.size()-1])
                 {
                 case 'S':
                     order = 1;
@@ -128,8 +128,8 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
                 default:
                     order = 1;
                 }
-                (*j)[j->size()-1] = ' ';
-                end = atoi(j->c_str());
+                v[v.size()-1] = ' ';
+                end = atoi(v.c_str());
                 if (i>end)
                     mol.AddBond(i,end,order);
             }
