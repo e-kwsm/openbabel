@@ -1147,18 +1147,18 @@ namespace OpenBabel
         } else if (sp.Match(mol)) { // for all matches
           isMatchRigid = true;
           mlist = sp.GetUMapList();
-          for (vector<vector<int> >::iterator j = mlist.begin(); j != mlist.end(); ++j) {
+          for (auto& j : mlist) {
             // Have any atoms of this match already been added?
             bool alreadydone = false;
-            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
-              if (vfrag.BitIsSet(*k)) {
+            for (int k : j)
+              if (vfrag.BitIsSet(k)) {
                 alreadydone = true;
                 break;
               }
             if (alreadydone) continue;
 
-            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
-              vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
+            for (int k : j)
+              vfrag.SetBitOn(k); // Set vfrag for all atoms of fragment
 
             int counter=0;
             std::vector<vector3> coords = GetFragmentCoord(fragment_smiles);
@@ -1171,8 +1171,8 @@ namespace OpenBabel
             // add the bonds for the fragment
             for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) {
               OBAtom *atom1 = mol.GetAtom(*k);
-              for (vector<int>::iterator k2 = j.begin(); k2 != j.end(); ++k2) {
-                OBAtom *atom2 = mol.GetAtom(*k2);
+              for (int k2 : j) {
+                OBAtom *atom2 = mol.GetAtom(k2);
                 OBBond *bond = atom1->GetBond(atom2);
                 if (bond != nullptr) {
                   workMol.AddBond(*bond);
@@ -1205,18 +1205,18 @@ namespace OpenBabel
           if (i->first != nullptr && i->first->Match(fragment)) { // if match to fragment
             i->first->Match(mol);                        // match over mol
             mlist = i->first->GetUMapList();
-            for (vector<vector<int> >::iterator j = mlist.begin();j != mlist.end();++j) { // for all matches
+            for (auto& j : mlist) { // for all matches
               // Have any atoms of this match already been added?
               bool alreadydone = false;
-              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) { // for all atoms of the fragment
-                if (vfrag.BitIsSet(*k)) {
+              for (int k : j) { // for all atoms of the fragment
+                if (vfrag.BitIsSet(k)) {
                   alreadydone = true;
                   break;
                 }
               }
               if (alreadydone) continue;
-              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
-                vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
+              for (int k : j)
+                vfrag.SetBitOn(k); // Set vfrag for all atoms of fragment
 
               int counter = 0;
               for (vector<int>::iterator k = j.begin(); k != j.end(); ++k, ++counter) { // for all atoms of the fragment
@@ -1227,8 +1227,8 @@ namespace OpenBabel
               // add the bonds for the fragment
               for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) {
                 OBAtom *atom1 = mol.GetAtom(*k);
-                for (vector<int>::iterator k2 = j.begin(); k2 != j.end(); ++k2) {
-                  OBAtom *atom2 = mol.GetAtom(*k2);
+                for (int k2 : j) {
+                  OBAtom *atom2 = mol.GetAtom(k2);
                   OBBond *bond = atom1->GetBond(atom2);
                   if (bond != nullptr)
                     workMol.AddBond(*bond);
@@ -1461,10 +1461,10 @@ namespace OpenBabel
 
     // Apply rotation
     vector3 tmpvec;
-    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it) {
-      tmpvec = workMol.GetAtom(*match_it)->GetVector();
+    for (int match_it : match) {
+      tmpvec = workMol.GetAtom(match_it)->GetVector();
       tmpvec *= mat;
-      workMol.GetAtom(*match_it)->SetVector( tmpvec );
+      workMol.GetAtom(match_it)->SetVector( tmpvec );
     }
 
     // Rotate the new fragment 90 degrees to make a tetrahedron
@@ -1474,15 +1474,15 @@ namespace OpenBabel
     ang = vectorAngle(v1, v2); // Should be 90
     cp = cross(v1, v2);
     mat.RotAboutAxisByAngle(cp, ang);
-    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it) {
-      tmpvec = workMol.GetAtom(*match_it)->GetVector();
+    for (int match_it : match) {
+      tmpvec = workMol.GetAtom(match_it)->GetVector();
       tmpvec *= mat;
-      workMol.GetAtom(*match_it)->SetVector( tmpvec );
+      workMol.GetAtom(match_it)->SetVector( tmpvec );
     }
 
     // Translate to existing pivot location
-    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it)
-      workMol.GetAtom(*match_it)->SetVector( workMol.GetAtom(*match_it)->GetVector() + posp );
+    for (int match_it : match)
+      workMol.GetAtom(match_it)->SetVector( workMol.GetAtom(match_it)->GetVector() + posp );
 
     // Create the bonds between the two fragments
     for (int & nbr : nbrs)
