@@ -129,7 +129,6 @@ int smartstest(int argc, char* argv[])
   unsigned int res_line = 0;
   OBMol mol;
   vector<string> vs;
-  vector<OBSmartsPattern*>::iterator i;
   vector<vector<int> > mlist;
   unsigned int currentMol = 0; // each molecule is a separate test
   bool molPassed = true;
@@ -152,7 +151,7 @@ int smartstest(int argc, char* argv[])
       currentMol++;
       molPassed = true;
 
-      for (i = vsp.begin();i != vsp.end();++i)
+      for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
         {
           if (!rifs.getline(buffer,BUFF_SIZE))
             {
@@ -209,7 +208,7 @@ int smartstest(int argc, char* argv[])
   cout << "1.." << currentMol << endl;
 
   // clean up
-  for (i = vsp.begin();i != vsp.end();++i){
+  for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i){
     delete (*i);
   }
 
@@ -249,8 +248,6 @@ void GenerateSmartsReference()
 
   vector<int> vm;
   vector<vector<int> > mlist;
-  vector<vector<int> >::iterator j;
-  vector<OBSmartsPattern*>::iterator i;
   OBMol mol;
   OBConversion conv(&mifs, &cout);
 
@@ -267,11 +264,11 @@ void GenerateSmartsReference()
 
       if (mol.Empty())
         continue;
-      for (i = vsp.begin();i != vsp.end();++i)
+      for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
         {
           (*i)->Match(mol);
           mlist = (*i)->GetMapList();
-          for (j = mlist.begin();j != mlist.end();++j)
+          for (vector<vector<int> >::iterator j = mlist.begin();j != mlist.end();++j)
             {
               sprintf(buffer,"%3d",*(j->begin()));
               ofs << buffer;
@@ -280,7 +277,7 @@ void GenerateSmartsReference()
         }
     }
 
-  for (i = vsp.begin();i != vsp.end();++i)
+  for (vector<OBSmartsPattern*>::iterator i = vsp.begin();i != vsp.end();++i)
   {
     delete (*i);
   }
