@@ -194,8 +194,7 @@ bool OpLargest::ProcessVec(vector<OBBase*>& vec)
   //Add the selected mols to the vec for Deferred format to output
   vec.clear();
   vec.reserve(_selmap.size());
-  multimap<double, OBBase*>::reverse_iterator iter;
-  for(iter=_selmap.rbegin(); iter!=_selmap.rend(); ++iter)
+  for(multimap<double, OBBase*>::reverse_iterator iter=_selmap.rbegin(); iter!=_selmap.rend(); ++iter)
   {
     if(_addDescToTitle)
     {
