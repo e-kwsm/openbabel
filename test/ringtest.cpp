@@ -178,8 +178,8 @@ int ringtest(int argc, char* argv[])
             cout << "ok " << ++currentTest << " # correct SSSR count\n";
 
           count = 0;
-          for (vector<OBRing*>::iterator m = vr.begin();m != vr.end();++m)
-            if ((*m)->_pathset[atom->GetIdx()])
+          for (const auto & m : vr)
+            if (m->_pathset[atom->GetIdx()])
               count++;
 
           if (atoi(i->c_str()) != count)
