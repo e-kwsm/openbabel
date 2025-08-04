@@ -383,8 +383,8 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
   if(pConv && pConv->IsLast())
   {
-    for(vector<OBQuery*>::iterator qiter=queries.begin();qiter!=queries.end();++qiter)
-      delete *qiter;
+    for(auto& qiter : queries)
+      delete qiter;
     queries.clear();
   }
   return true;
