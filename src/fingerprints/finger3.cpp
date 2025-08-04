@@ -111,10 +111,10 @@ public:
     fp.resize(n/Getbitsperint());
 
     n=0; //bit position
-    for(vector<pattern>::iterator ppat=_pats.begin();ppat!=_pats.end();++ppat)
+    for(auto & ppat : _pats)
     {
-      if(ppat->numbits //ignore pattern if numbits==0
-        && ppat->obsmarts.Match(*pmol, ppat->numoccurrences==0))//do single match if all that's needed
+      if(ppat.numbits //ignore pattern if numbits==0
+        && ppat.obsmarts.Match(*pmol, ppat.numoccurrences==0))//do single match if all that's needed
       {
         /* Set bits in the fingerprint depending on the number of matches in the molecule
            and the parameters, numbits and numoccurrences, in the pattern.
@@ -131,8 +131,8 @@ public:
               2 matches to the pattern would give 0111
               3 or more matches to the pattern would give 1111
         */
-        int numMatches = ppat->obsmarts.GetUMapList().size();
-        int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp;
+        int numMatches = ppat.obsmarts.GetUMapList().size();
+        int num =  ppat.numbits, div = ppat.numoccurrences+1, ngrp;
 
         int i = n;
         while(num)
@@ -146,7 +146,7 @@ public:
           i++;
         }
       }
-      n += ppat->numbits;
+      n += ppat.numbits;
     }
 
     if(foldbits)
@@ -247,10 +247,10 @@ public:
   {
     //checkmol-type output with tab separated functional group names
     stringstream ss;
-    for(vector<pattern>::iterator ppat=_pats.begin();ppat!=_pats.end();++ppat)
+    for(auto & ppat : _pats)
     {
-      int n = ppat->bitindex;
-      int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp;
+      int n = ppat.bitindex;
+      int num =  ppat.numbits, div = ppat.numoccurrences+1, ngrp;
       while(num) //for each group of bits
       {
         ngrp = (num + div - 1) / div; //rounds up
@@ -258,7 +258,7 @@ public:
         num -= ngrp;
         if(GetBit(fp, n) == bSet)
         {
-          ss << ppat->description;
+          ss << ppat.description;
           if(div>0)
             ss << '*' << div+1;
           ss << '\t' ;
