@@ -579,9 +579,9 @@ namespace OpenBabel
         if (!preserve_original_index) {ofs << (new_order.find(child_atom))-> second;}
         else {ofs << child_atom;}
         ofs << endl;
-        for (set <unsigned int>::iterator it= (*tree.find(i)).second.rigid_with.begin() ; it != (*tree.find(i)).second.rigid_with.end(); ++it)
+        for (unsigned int it : (*tree.find(i)).second.rigid_with)
         {
-          OutputGroup(mol, ofs, (*tree.find(*it)).second.atoms, new_order, !preserve_original_index);
+          OutputGroup(mol, ofs, (*tree.find(it)).second.atoms, new_order, !preserve_original_index);
         }
       }
       unsigned int child=i;
