@@ -2919,7 +2919,7 @@ namespace OpenBabel
       return;
 
     OBBitVec bv;
-    for (i = va.begin();i != va.end();++i)
+    for (vector<OBAtom*>::iterator i = va.begin();i != va.end();++i)
       bv |= (*i)->GetIdx();
 
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
@@ -3261,14 +3261,13 @@ namespace OpenBabel
     //         (set all atoms with at least two bonds to sp2)
 
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator ringit;
     vector<int> path;
     double torsions = 0.0;
 
     if (!HasSSSRPerceived())
       FindSSSR();
     rlist = GetSSSR();
-    for (ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
+    for (vector<OBRing*>::iterator ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
       {
         if ((*ringit)->PathSize() == 5)
           {
@@ -3358,7 +3357,7 @@ namespace OpenBabel
     bool needs_kekulization = false; // are there any aromatic bonds?
     bool typed; // has this ring been typed?
     unsigned int loop, loopSize;
-    for (ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
+    for (vector<OBRing*>::iterator ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
       {
         typed = false;
         loopSize = (*ringit)->PathSize();
@@ -3723,8 +3722,7 @@ namespace OpenBabel
 
   void OBMol::SetConformers(vector<double*> &v)
   {
-    vector<double*>::iterator i;
-    for (i = _vconf.begin();i != _vconf.end();++i)
+    for (vector<double*>::iterator i = _vconf.begin();i != _vconf.end();++i)
       delete [] *i;
 
     _vconf = v;
@@ -4016,10 +4014,9 @@ namespace OpenBabel
     vector<OBRing*> vr;
     vr = GetLSSR();
 
-    vector<OBRing*>::iterator i;
     vector<int>::iterator j;
 
-    for (i = vr.begin();i != vr.end();++i) {
+    for (vector<OBRing*>::iterator i = vr.begin();i != vr.end();++i) {
       a_in = false;
       b_in = false;
       // Go through the path of the ring and see if a and/or b match
