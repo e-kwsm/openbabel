@@ -334,15 +334,14 @@ namespace OpenBabel
         if(mvItem.find("_cell_length_a"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_b"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_c"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.cbegin();
-            loop!=mvLoop.cend();++loop)
+        for(const auto& loop : mvLoop)
           {
-            if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_fract_z")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_x")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_y")!=loop->second.end()) empty_iucrjournal_block=false;
-            if(loop->second.find("_atom_site_Cartn_z")!=loop->second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_fract_x")!=loop.second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_fract_y")!=loop.second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_fract_z")!=loop.second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_Cartn_x")!=loop.second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_Cartn_y")!=loop.second.end()) empty_iucrjournal_block=false;
+            if(loop.second.find("_atom_site_Cartn_z")!=loop.second.end()) empty_iucrjournal_block=false;
           }
         if(empty_iucrjournal_block)
           {
@@ -632,15 +631,14 @@ namespace OpenBabel
           found = true;
         }
       else {
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.cbegin();
-            loop!=mvLoop.cend();++loop)
+        for(const auto& loop : mvLoop)
           {
             map<ci_string,vector<string> >::const_iterator pos;
             unsigned i, nb;
-            pos=loop->second.find("_space_group_symop_operation_xyz");
-            if (pos==loop->second.end())
-              pos=loop->second.find("_symmetry_equiv_pos_as_xyz");
-            if (pos!=loop->second.end())
+            pos=loop.second.find("_space_group_symop_operation_xyz");
+            if (pos==loop.second.end())
+              pos=loop.second.find("_symmetry_equiv_pos_as_xyz");
+            if (pos!=loop.second.end())
               {
                 nb=pos->second.size();
                 found = true;
@@ -743,16 +741,15 @@ namespace OpenBabel
   void CIFData::ExtractAtomicPositions()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.cbegin();
-        loop!=mvLoop.cend();++loop)
+    for(const auto& loop : mvLoop)
       {
         if(mvAtom.size()>0) break;// only extract ONE list of atoms, preferably fractional coordinates
         map<ci_string,vector<string> >::const_iterator posx,posy,posz,poslabel,possymbol,posoccup;
-        posx=loop->second.find("_atom_site_fract_x");
-        posy=loop->second.find("_atom_site_fract_y");
-        posz=loop->second.find("_atom_site_fract_z");
+        posx=loop.second.find("_atom_site_fract_x");
+        posy=loop.second.find("_atom_site_fract_y");
+        posz=loop.second.find("_atom_site_fract_z");
         unsigned int nb = 0;
-        if( (posx!=loop->second.end()) && (posy!=loop->second.end()) && (posz!=loop->second.end()))
+        if( (posx!=loop.second.end()) && (posy!=loop.second.end()) && (posz!=loop.second.end()))
           {
             nb=posx->second.size();
             mvAtom.resize(nb);
@@ -767,10 +764,10 @@ namespace OpenBabel
           }
         else
           {
-            posx=loop->second.find("_atom_site_Cartn_x");
-            posy=loop->second.find("_atom_site_Cartn_y");
-            posz=loop->second.find("_atom_site_Cartn_z");
-            if( (posx!=loop->second.end()) && (posy!=loop->second.end()) && (posz!=loop->second.end()))
+            posx=loop.second.find("_atom_site_Cartn_x");
+            posy=loop.second.find("_atom_site_Cartn_y");
+            posz=loop.second.find("_atom_site_Cartn_z");
+            if( (posx!=loop.second.end()) && (posy!=loop.second.end()) && (posz!=loop.second.end()))
               {
                 nb=posx->second.size();
                 mvAtom.resize(nb);
@@ -786,16 +783,16 @@ namespace OpenBabel
           }
         if(mvAtom.size()>0)
           {// Got the atoms, get names and symbols
-            possymbol=loop->second.find("_atom_site_type_symbol");
-            if(possymbol!=loop->second.end())
+            possymbol=loop.second.find("_atom_site_type_symbol");
+            if(possymbol!=loop.second.end())
               for(unsigned int i=0;i<nb;++i)
                 mvAtom[i].mSymbol=possymbol->second[i];
-            poslabel=loop->second.find("_atom_site_label");
-            if(poslabel!=loop->second.end())
+            poslabel=loop.second.find("_atom_site_label");
+            if(poslabel!=loop.second.end())
               for(unsigned int i=0;i<nb;++i)
                 {
                   mvAtom[i].mLabel=poslabel->second[i];
-                  if(possymbol==loop->second.end())
+                  if(possymbol==loop.second.end())
                     {// There was no symbol, use the labels to guess it
                       int nbc=0;
                       if(mvAtom[i].mLabel.size()==1)
@@ -810,8 +807,8 @@ namespace OpenBabel
                     }
                 }
             // Occupancy ?
-            posoccup=loop->second.find("_atom_site_occupancy");
-            if(posoccup!=loop->second.end())
+            posoccup=loop.second.find("_atom_site_occupancy");
+            if(posoccup!=loop.second.end())
               for(unsigned int i=0;i<nb;++i)
                 {
                   mvAtom[i].mOccupancy=CIFNumeric2Float(posoccup->second[i]);
@@ -846,14 +843,14 @@ namespace OpenBabel
   void CIFData::ExtractBonds()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.cbegin(); loop!=mvLoop.cend();++loop)
+    for(const auto& loop : mvLoop)
       {
         //if(mvBond.size()>0) break;// Only allow one bond list
         map<ci_string,vector<string> >::const_iterator poslabel1,poslabel2,posdist;
-        poslabel1=loop->second.find("_geom_bond_atom_site_label_1");
-        poslabel2=loop->second.find("_geom_bond_atom_site_label_2");
-        posdist=loop->second.find("_geom_bond_distance");
-        if( (poslabel1!=loop->second.end()) && (poslabel2!=loop->second.end()) && (posdist!=loop->second.end()))
+        poslabel1=loop.second.find("_geom_bond_atom_site_label_1");
+        poslabel2=loop.second.find("_geom_bond_atom_site_label_2");
+        posdist=loop.second.find("_geom_bond_distance");
+        if( (poslabel1!=loop.second.end()) && (poslabel2!=loop.second.end()) && (posdist!=loop.second.end()))
           {
             obErrorLog.ThrowError(__FUNCTION__, "Found _geom_bond* record...", obDebug);
             const unsigned long nb=poslabel1->second.size();
@@ -876,13 +873,13 @@ namespace OpenBabel
     map<ci_string,string>::const_iterator positem;
 
     map<std::string, double> lbl2ox;
-    for(map<set<ci_string>, map<ci_string, vector<string> > >::const_iterator loop=mvLoop.cbegin(); loop!=mvLoop.cend(); ++loop)
+    for(const auto& loop : mvLoop)
     {
       //if(mvBond.size()>0) break;// Only allow one bond list
       map<ci_string,vector<string> >::const_iterator pos_symbol, pos_ox_number, posdist;
-      pos_symbol    =loop->second.find("_atom_type_symbol");
-      pos_ox_number =loop->second.find("_atom_type_oxidation_number");
-      if( (pos_symbol != loop->second.end()) && (pos_ox_number != loop->second.end()) )
+      pos_symbol    =loop.second.find("_atom_type_symbol");
+      pos_ox_number =loop.second.find("_atom_type_oxidation_number");
+      if( (pos_symbol != loop.second.end()) && (pos_ox_number != loop.second.end()) )
       {
         obErrorLog.ThrowError(__FUNCTION__, " Found _atom_type* record with oxydation number...", obDebug);
         const unsigned long nl = pos_symbol->second.size();
