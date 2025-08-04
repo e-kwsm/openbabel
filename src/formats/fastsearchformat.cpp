@@ -262,8 +262,7 @@ const char* Description() override  // required
         //also because op names are case independent
         pConv->RemoveOption("S", OBConversion::GENOPTIONS);
 
-        multimap<double, unsigned long>::reverse_iterator itr;
-        for(itr=SeekposMap.rbegin();itr!=SeekposMap.rend();++itr)
+        for(multimap<double, unsigned long>::reverse_iterator itr=SeekposMap.rbegin();itr!=SeekposMap.rend();++itr)
           {
             datastream.seekg(itr->second);
 
