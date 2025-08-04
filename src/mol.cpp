@@ -1846,12 +1846,12 @@ namespace OpenBabel
       {
         if (i->size() < threshold || (threshold == 0 && i != max))
           {
-            for (vector<int>::iterator j = (*i).begin(); j != (*i).end(); ++j)
+            for (int j : *i)
               {
-                if (atomIndices.find( *j ) == atomIndices.end())
+                if (atomIndices.find( j ) == atomIndices.end())
                   {
-                    delatoms.push_back(GetAtom(*j));
-                    atomIndices.insert(*j);
+                    delatoms.push_back(GetAtom(j));
+                    atomIndices.insert(j);
                   }
               }
           }
