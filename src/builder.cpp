@@ -1077,9 +1077,6 @@ namespace OpenBabel
                     // These atoms have coordinates, but the fragment still has
                     // to be rotated and translated.
     vector3 molvec, moldir;
-    vector<vector<int> >::iterator j;
-    vector<int>::iterator k, k2;
-    vector<vector3>::iterator l;
     vector<vector<int> > mlist; // match list for fragments
 
     OBConversion conv;
@@ -1150,31 +1147,31 @@ namespace OpenBabel
         } else if (sp.Match(mol)) { // for all matches
           isMatchRigid = true;
           mlist = sp.GetUMapList();
-          for (j = mlist.begin(); j != mlist.end(); ++j) {
+          for (vector<vector<int> >::iterator j = mlist.begin(); j != mlist.end(); ++j) {
             // Have any atoms of this match already been added?
             bool alreadydone = false;
-            for (k = j->begin(); k != j->end(); ++k)
+            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
               if (vfrag.BitIsSet(*k)) {
                 alreadydone = true;
                 break;
               }
             if (alreadydone) continue;
 
-            for (k = j->begin(); k != j->end(); ++k)
+            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
               vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
 
-            int counter;
+            int counter=0;
             std::vector<vector3> coords = GetFragmentCoord(fragment_smiles);
-            for (k = j->begin(), counter=0; k != j->end(); ++k, ++counter) { // for all atoms of the fragment
+            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k, ++counter) { // for all atoms of the fragment
               // set coordinates for atoms
               OBAtom *atom = workMol.GetAtom(*k);
               atom->SetVector(coords[counter]);
             }
 
             // add the bonds for the fragment
-            for (k = j->begin(); k != j->end(); ++k) {
+            for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) {
               OBAtom *atom1 = mol.GetAtom(*k);
-              for (k2 = j->begin(); k2 != j->end(); ++k2) {
+              for (vector<int>::iterator k2 = j.begin(); k2 != j.end(); ++k2) {
                 OBAtom *atom2 = mol.GetAtom(*k2);
                 OBBond *bond = atom1->GetBond(atom2);
                 if (bond != nullptr) {
@@ -1208,29 +1205,29 @@ namespace OpenBabel
           if (i->first != nullptr && i->first->Match(fragment)) { // if match to fragment
             i->first->Match(mol);                        // match over mol
             mlist = i->first->GetUMapList();
-            for (j = mlist.begin();j != mlist.end();++j) { // for all matches
+            for (vector<vector<int> >::iterator j = mlist.begin();j != mlist.end();++j) { // for all matches
               // Have any atoms of this match already been added?
               bool alreadydone = false;
-              for (k = j->begin(); k != j->end(); ++k) { // for all atoms of the fragment
+              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) { // for all atoms of the fragment
                 if (vfrag.BitIsSet(*k)) {
                   alreadydone = true;
                   break;
                 }
               }
               if (alreadydone) continue;
-              for (k = j->begin(); k != j->end(); ++k)
+              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k)
                 vfrag.SetBitOn(*k); // Set vfrag for all atoms of fragment
 
-              int counter;
-              for (k = j->begin(), counter=0; k != j->end(); ++k, ++counter) { // for all atoms of the fragment
+              int counter = 0;
+              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k, ++counter) { // for all atoms of the fragment
                 // set coordinates for atoms
                 OBAtom *atom = workMol.GetAtom(*k);
                 atom->SetVector(i->second[counter]);
               }
               // add the bonds for the fragment
-              for (k = j->begin(); k != j->end(); ++k) {
+              for (vector<int>::iterator k = j.begin(); k != j.end(); ++k) {
                 OBAtom *atom1 = mol.GetAtom(*k);
-                for (k2 = j->begin(); k2 != j->end(); ++k2) {
+                for (vector<int>::iterator k2 = j.begin(); k2 != j.end(); ++k2) {
                   OBAtom *atom2 = mol.GetAtom(*k2);
                   OBBond *bond = atom1->GetBond(atom2);
                   if (bond != nullptr)
@@ -1403,15 +1400,14 @@ namespace OpenBabel
 
     // Set coords of new fragment to place the pivot at the origin
     vector3 posp_new;
-    vector<int>::iterator match_it;
-    int counter;
-    for (match_it=match.begin(), counter=0; match_it!=match.end(); ++match_it, ++counter)
+    int counter=0;
+    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it, ++counter)
       if (*match_it == pivot[0]) {
         posp_new = coords[counter];
         break;
       }
     counter = 0;
-    for (match_it=match.begin(), counter=0; match_it!=match.end(); ++match_it, ++counter)
+    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it, ++counter)
       workMol.GetAtom(*match_it)->SetVector( coords[counter] - posp_new );
 
     // Find vector that bisects existing angles at the pivot in each fragment
@@ -1465,7 +1461,7 @@ namespace OpenBabel
 
     // Apply rotation
     vector3 tmpvec;
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it) {
+    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it) {
       tmpvec = workMol.GetAtom(*match_it)->GetVector();
       tmpvec *= mat;
       workMol.GetAtom(*match_it)->SetVector( tmpvec );
@@ -1478,14 +1474,14 @@ namespace OpenBabel
     ang = vectorAngle(v1, v2); // Should be 90
     cp = cross(v1, v2);
     mat.RotAboutAxisByAngle(cp, ang);
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it) {
+    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it) {
       tmpvec = workMol.GetAtom(*match_it)->GetVector();
       tmpvec *= mat;
       workMol.GetAtom(*match_it)->SetVector( tmpvec );
     }
 
     // Translate to existing pivot location
-    for (match_it=match.begin(); match_it!=match.end(); ++match_it)
+    for (vector<int>::iterator match_it=match.begin(); match_it!=match.end(); ++match_it)
       workMol.GetAtom(*match_it)->SetVector( workMol.GetAtom(*match_it)->GetVector() + posp );
 
     // Create the bonds between the two fragments
