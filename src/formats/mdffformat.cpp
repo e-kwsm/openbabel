@@ -406,9 +406,9 @@ namespace OpenBabel {
     // the push_back and then dereferenced atypes_def[-1].
     bool first = true;
     string last_atom_smb;
-    for(map<aindx, OBAtom *>::const_iterator it = amap.cbegin(); it != amap.cend(); ++it)
+    for(const auto& it : amap)
     {
-      string curr_atom_smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());
+      string curr_atom_smb = OpenBabel::OBElements::GetSymbol(it.second->GetAtomicNum());
       if( first || last_atom_smb != curr_atom_smb )
       {
         first = false;
@@ -464,18 +464,17 @@ namespace OpenBabel {
     
     map<string, double> charge_smb;
 
-    for (map<aindx, OBAtom *>::const_iterator it  = amap.cbegin();
-                                              it != amap.cend(); ++it)
+    for (const auto& it : amap)
     {  
       // Print coordinates
-      string smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());
+      string smb = OpenBabel::OBElements::GetSymbol(it.second->GetAtomicNum());
       snprintf(buffer, BUFF_SIZE, "%-3s %26.19f %26.19f %26.19f", smb.c_str(),
-               it->second->GetX(), it->second->GetY(), it->second->GetZ());
+               it.second->GetX(), it.second->GetY(), it.second->GetZ());
       
       if(charge_smb.find(smb) == charge_smb.end() )
-        charge_smb[smb] = it->second->GetFormalCharge();
+        charge_smb[smb] = it.second->GetFormalCharge();
       else
-        if(charge_smb[smb] != it->second->GetFormalCharge())
+        if(charge_smb[smb] != it.second->GetFormalCharge())
           charge_smb[smb] = NAN;
       
       ofs << buffer << endl;
