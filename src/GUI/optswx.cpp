@@ -87,15 +87,13 @@ DynOptionswx::~DynOptionswx()
 
 void DynOptionswx::Clear()
 {
-  OMapType::iterator itr;
-  for(itr=OptionMap.begin();itr!=OptionMap.end();++itr)
+  for(OMapType::iterator itr=OptionMap.begin();itr!=OptionMap.end();++itr)
   {
     sizer->Detach(itr->second);
     (itr->second)->Destroy();
   }
   OptionMap.clear();
-  std::vector<wxSizer*>::iterator itrs;
-  for(itrs=Sizers.begin();itrs!=Sizers.end();++itrs)
+  for(std::vector<wxSizer*>::iterator itrs=Sizers.begin();itrs!=Sizers.end();++itrs)
   {
     sizer->Detach(*itrs);
     delete *itrs;
@@ -331,8 +329,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
 {
   //Now sets options directly in OBConversion
   int count=0;
-  OMapType::iterator itr;
-  for (itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
+  for (OMapType::iterator itr = OptionMap.begin(); itr != OptionMap.end(); ++itr)
   {
     if(itr->first.empty()) continue; //just a caption or a line
 
