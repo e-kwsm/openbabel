@@ -176,9 +176,9 @@ namespace OpenBabel
     //! \return the OBGenericData associate with the attribute name parameter.
     OBGenericData *GetData(const char *s)
     {
-      for (std::vector<OBGenericData*>::iterator i = _vdata.begin();i != _vdata.end();++i)
-        if ((*i)->GetAttribute() == s)
-          return(*i);
+      for (auto& i : _vdata)
+        if (i->GetAttribute() == s)
+          return i;
 
       return(nullptr);
     }
