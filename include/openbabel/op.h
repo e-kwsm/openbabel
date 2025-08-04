@@ -81,11 +81,11 @@ public:
   /// \return false indicating object should not be output, if any Do() returns false
   static bool DoOps(OBBase* pOb, OpMap* pOptions, OBConversion* pConv)
   {
-    for(OpMap::const_iterator itr=pOptions->cbegin();itr!=pOptions->cend();++itr)
+    for(const auto& itr : *pOptions)
     {
-      OBOp* pOp = FindType(itr->first.c_str());
+      OBOp* pOp = FindType(itr.first.c_str());
       if(pOp)
-        if(!pOp->Do(pOb, itr->second.c_str(), pOptions, pConv))
+        if(!pOp->Do(pOb, itr.second.c_str(), pOptions, pConv))
           return false; //Op has decided molecule should not be output
     }
     return true;
