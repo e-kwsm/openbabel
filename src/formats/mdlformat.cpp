@@ -1309,7 +1309,7 @@ namespace OpenBabel
       }
       if(isos.size()) {
         int counter = 0;
-        for(itr=isos.begin();itr!=isos.end();++itr, counter++) {
+        for(vector<OBAtom*>::iterator itr=isos.begin();itr!=isos.end();++itr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  ISO" << setw(3) << min(static_cast<unsigned long int>(isos.size() - counter), static_cast<unsigned long int>(8));
@@ -1320,7 +1320,7 @@ namespace OpenBabel
       }
       if(chgs.size()) {
         int counter = 0;
-        for (itr=chgs.begin(); itr != chgs.end(); ++itr, counter++) {
+        for (vector<OBAtom*>::iterator itr=chgs.begin(); itr != chgs.end(); ++itr, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  CHG" << setw(3) << min(static_cast<unsigned long int>(chgs.size() - counter), static_cast<unsigned long int>(8));
@@ -1581,8 +1581,7 @@ namespace OpenBabel
         int obstart = indexmap[ReadUIntField(vs[4].c_str())];
         int obend = indexmap[ReadUIntField(vs[5].c_str())];
 
-        vector<string>::iterator itr;
-        for(itr=vs.begin()+6;itr!=vs.end();itr++)
+        for(vector<string>::iterator itr=vs.begin()+6;itr!=vs.end();itr++)
           {
             string::size_type pos = (*itr).find('=');
             if (pos==string::npos) return false;
@@ -1788,15 +1787,14 @@ namespace OpenBabel
         // ******************** END OF HANDLING ONE DOUBLE BOND ******************************
 
         // Find any conjugated CT stereos and put them on the stack
-        set<OBCisTransStereo*>::iterator ChiralSearch;
-        for (ChiralSearch = cistrans.begin(); ChiralSearch != cistrans.end(); ChiralSearch++)
+        for (auto ChiralSearch : cistrans)
         {
           // Are any of the refs of cfg on stereo double bonds?
-          OBCisTransStereo::Config cscfg = (*ChiralSearch)->GetConfig();
+          OBCisTransStereo::Config cscfg = ChiralSearch->GetConfig();
           if (std::find(cfg.refs.begin(), cfg.refs.end(), cscfg.begin) != cfg.refs.end() ||
               std::find(cfg.refs.begin(), cfg.refs.end(), cscfg.end)   != cfg.refs.end())
           {
-            stack.push_back(*ChiralSearch);
+            stack.push_back(ChiralSearch);
             //stack.insert(stack.begin(), *ChiralSearch);
           }
         }
@@ -1976,13 +1974,12 @@ namespace OpenBabel
     // Create a vector of CisTransStereo objects for the molecule
 
     // Loop across the known cistrans bonds, updating them if necessary
-    std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
+    for (auto & data : stereoData) {
+      if (static_cast<OBStereoBase*>(data)->GetType() != OBStereo::CisTrans)
         continue;
 
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
       OBCisTransStereo::Config cfg = ct->GetConfig();
       OBAtom *a1 = mol->GetAtomById(cfg.begin);
       OBAtom *a2 = mol->GetAtomById(cfg.end);
