@@ -361,8 +361,6 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
 
   if(match && !inv && vec.size()>=2 && !vec[1].empty() && !nPatternAtoms)
   {
-    vector<vector<int> >::iterator iter;
-
     if (vec[1]=="extract" || (vec.size()>3 && vec[2]=="extract"))
     {
       //Delete all unmatched atoms. Use only the first match
@@ -374,7 +372,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
     // with multiple color parameters use the one corresponding to the query molecule, or the last
     if(imol>vec.size()-2)
       imol = vec.size()-2;
-    for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
+    for(vector<vector<int> >::iterator iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
        AddDataToSubstruct(pmol, *iter, "color", vec[imol+1]);
     return true;
   }
