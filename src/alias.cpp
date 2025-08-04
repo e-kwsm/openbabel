@@ -339,15 +339,15 @@ bool AliasData::AddAliases(OBMol* pmol)
   if(smtable.empty())
     LoadFile(smtable);
   set<int> AllExAtoms;
-  for(SmartsTable::iterator iter=smtable.begin();iter!=smtable.end();++iter)
+  for(auto& iter : smtable)
   {
-    if((*iter).second->Match(*pmol))
+    if(iter.second->Match(*pmol))
     {
-      vector<std::vector<int> > mlist = (*iter).second->GetUMapList();
+      vector<std::vector<int> > mlist = iter.second->GetUMapList();
       for(auto & imatch : mlist) //each match
       {
         AliasData* ad  = new AliasData;
-        ad->SetAlias((*iter).first);
+        ad->SetAlias(iter.first);
         //iatom==0 is the * that was added to the front of the SMILES, so start at 1
         for(unsigned iatom=1; iatom<imatch.size();++iatom)//each atom in match
         {
