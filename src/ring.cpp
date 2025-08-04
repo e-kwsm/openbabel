@@ -123,8 +123,8 @@ namespace OpenBabel
           {
             OBRingSearch rs;
             //search for all rings about closures
-            for (vector<OBBond*>::iterator i = cbonds.begin();i != cbonds.end();++i)
-              rs.AddRingFromClosure(*this,(OBBond*)*i);
+            for (auto & cbond : cbonds)
+              rs.AddRingFromClosure(*this,(OBBond*)cbond);
 
             rs.SortRings();
             rs.RemoveRedundant(frj);
@@ -387,17 +387,17 @@ namespace OpenBabel
     vector<OBAtom*> path1,path2;
     vector<OBAtom*>::iterator m,n;
 
-    for (vector<OBRTree*>::iterator i = t1.begin();i != t1.end();++i)
-      if (*i)
+    for (auto & i : t1)
+      if (i)
         {
           path1.clear();
-          (*i)->PathToRoot(path1);
+          i->PathToRoot(path1);
 
-          if (t2[(*i)->GetAtomIdx()])
+          if (t2[i->GetAtomIdx()])
             {
               pathok = true;
               path2.clear();
-              t2[(*i)->GetAtomIdx()]->PathToRoot(path2);
+              t2[i->GetAtomIdx()]->PathToRoot(path2);
 
               p1.clear();
               m = path1.begin();
@@ -428,13 +428,13 @@ namespace OpenBabel
         }
 
     //clean up OBRTree vectors
-    for (vector<OBRTree*>::iterator i = t1.begin();i != t1.end();++i)
-      if (*i)
-        delete *i;
+    for (auto & i : t1)
+      if (i)
+        delete i;
 
-    for (vector<OBRTree*>::iterator i = t2.begin();i != t2.end();++i)
-      if (*i)
-        delete *i;
+    for (auto & i : t2)
+      if (i)
+        delete i;
 
     // set parent for all rings
     for (auto & j : _rlist)
@@ -446,20 +446,20 @@ namespace OpenBabel
     vector<int> path;
     OBBitVec bv;
 
-    for (deque<int>::iterator i = d1.begin();i != d1.end();++i)
+    for (int i : d1)
       {
-        bv.SetBitOn(*i);
-        path.push_back(*i);
+        bv.SetBitOn(i);
+        path.push_back(i);
       }
 
-    for (deque<int>::iterator i = d2.begin();i != d2.end();++i)
+    for (int i : d2)
       {
-        bv.SetBitOn(*i);
-        path.push_back(*i);
+        bv.SetBitOn(i);
+        path.push_back(i);
       }
 
-    for (vector<OBRing*>::iterator j = _rlist.begin();j != _rlist.end();++j)
-      if (bv == (*j)->_pathset)
+    for (const auto & j : _rlist)
+      if (bv == j->_pathset)
         return(false);
 
     OBRing *ring = new OBRing(path, bv);
@@ -471,8 +471,8 @@ namespace OpenBabel
   //! Destructor -- free all rings created from this search
   OBRingSearch::~OBRingSearch()
   {
-    for (vector<OBRing*>::iterator i = _rlist.begin();i != _rlist.end();++i)
-      delete *i;
+    for (auto & i : _rlist)
+      delete i;
   }
 
   bool CompareRingSize(const OBRing *a,const OBRing *b)
@@ -482,8 +482,8 @@ namespace OpenBabel
 
   void OBRingSearch::WriteRings()
   {
-    for (vector<OBRing*>::iterator i = _rlist.begin();i != _rlist.end();++i)
-      cout << (*i)->_pathset << endl;
+    for (const auto & i : _rlist)
+      cout << i->_pathset << endl;
   }
 
   /* A recursive O(N) traversal of the molecule */
@@ -570,8 +570,8 @@ namespace OpenBabel
   bool OBRing::IsAromatic()
   {
     OBMol *mol = _parent;
-    for (vector<int>::iterator i = _path.begin();i != _path.end();++i)
-      if (!(mol->GetAtom(*i))->IsAromatic())
+    for (int i : _path)
+      if (!(mol->GetAtom(i))->IsAromatic())
         return(false);
 
     return(true);
@@ -606,25 +606,25 @@ namespace OpenBabel
     //  return 0;
 
     if (Size() == 6)
-      for (vector<int>::iterator i = _path.begin();i != _path.end();++i)
-        if (mol->GetAtom(*i)->GetAtomicNum() != OBElements::Carbon)
-	        return (*i);
+      for (int i : _path)
+        if (mol->GetAtom(i)->GetAtomicNum() != OBElements::Carbon)
+	        return i;
 
     if (Size() == 5)
-      for (vector<int>::iterator i = _path.begin();i != _path.end();++i) {
-        OBAtom *atom = mol->GetAtom(*i);
+      for (int i : _path) {
+        OBAtom *atom = mol->GetAtom(i);
         switch (atom->GetAtomicNum()) {
         case OBElements::Sulfur:
           if (atom->GetExplicitDegree() == 2)
-            return (*i);
+            return i;
           break;
         case OBElements::Oxygen:
           if (atom->GetExplicitDegree() == 2)
-            return (*i);
+            return i;
           break;
         case OBElements::Nitrogen:
           if (atom->GetExplicitValence() == atom->GetExplicitDegree())
-            return (*i);
+            return i;
           break;
         }
       }
