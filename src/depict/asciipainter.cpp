@@ -80,11 +80,10 @@ namespace OpenBabel
   void ASCIIPainter::DrawLine(double x1, double y1, double x2, double y2, const std::vector<double> & dashes)
   {
     vector<pair<int, int> > coords;
-    vector<pair<int, int> >::iterator vp_it;
     string symbols = Bresenham(round(x1*m_scale), round(y1*m_scale/m_aspect),
                                round(x2*m_scale), round(y2*m_scale/m_aspect), coords);
     string::iterator s_it = symbols.begin();
-    for(vp_it=coords.begin();vp_it!=coords.end();++vp_it,++s_it) {
+    for(vector<pair<int, int> >::iterator vp_it=coords.begin();vp_it!=coords.end();++vp_it,++s_it) {
       int x = vp_it->first;
       int y = vp_it->second;
       if (x>=0 && x<m_width && y>=0 && y<m_height)
