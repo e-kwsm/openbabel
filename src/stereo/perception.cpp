@@ -732,8 +732,8 @@ namespace OpenBabel {
       std::vector<OBBond*>::iterator j;
       for (OBAtom *nbr = atom->BeginNbrAtom(j); nbr; nbr = atom->NextNbrAtom(j)) {
         // check if we already have a neighbor with this symmetry class
-        for (std::vector<unsigned int>::iterator k = tlist.begin(); k != tlist.end(); ++k)
-          if (symClasses[nbr->GetIndex()] == *k) {
+        for (unsigned int k : tlist)
+          if (symClasses[nbr->GetIndex()] == k) {
             ischiral = false;
             // if so, might still be a para-stereocenter
             paraAtoms.push_back(atom->GetIdx());
@@ -1866,15 +1866,15 @@ namespace OpenBabel {
     // and make a map of the remaining ones
     std::map<unsigned long, OBTetrahedralStereo*> existingMap;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+    for (auto& data : stereoData) {
+      if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
         unsigned long center = ts->GetConfig().center;
         // check if the center is really stereogenic
         bool isStereogenic = false;
-        for (OBStereoUnitSet::const_iterator u = stereoUnits.cbegin(); u != stereoUnits.cend(); ++u) {
-          if ((*u).type == OBStereo::Tetrahedral)
-            if ((*u).id == center)
+        for (const auto& stereoUnit : stereoUnits) {
+          if (stereoUnit.type == OBStereo::Tetrahedral)
+            if (stereoUnit.id == center)
               isStereogenic = true;
         }
 
@@ -1889,20 +1889,20 @@ namespace OpenBabel {
       }
     }
 
-    for (OBStereoUnitSet::const_iterator u = stereoUnits.cbegin(); u != stereoUnits.cend(); ++u) {
+    for (const auto& u : stereoUnits) {
       // skip non-tetrahedral units
-      if ((*u).type != OBStereo::Tetrahedral)
+      if (u.type != OBStereo::Tetrahedral)
         continue;
       // if there already exists a OBTetrahedralStereo object for this
       // center, continue
-      if (existingMap.find((*u).id) != existingMap.end())
+      if (existingMap.find(u.id) != existingMap.end())
         continue;
 
-      OBAtom *center = mol->GetAtomById((*u).id);
+      OBAtom *center = mol->GetAtomById(u.id);
 
       OBTetrahedralStereo::Config config;
       config.specified = false;
-      config.center = (*u).id;
+      config.center = u.id;
       FOR_NBORS_OF_ATOM(nbr, center) {
         if (config.from == OBStereo::NoRef)
           config.from = nbr->GetId();
@@ -1941,9 +1941,9 @@ namespace OpenBabel {
     // and make a map of the remaining ones
     std::map<unsigned long, OBCisTransStereo*> existingMap;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto& data : stereoData) {
+      if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
         OBCisTransStereo::Config config = ct->GetConfig();
         // find the bond id from begin & end atom ids
         unsigned long id = OBStereo::NoRef;
@@ -1972,18 +1972,18 @@ namespace OpenBabel {
       }
     }
 
-    for (std::vector<unsigned long>::iterator i = bonds.begin(); i != bonds.end(); ++i) {
+    for (unsigned long i : bonds) {
       // If there already exists a OBCisTransStereo object for this
       // bond, leave it alone unless it's in a ring of small size
 
-      bool alreadyExists = (existingMap.find(*i) != existingMap.end());
-      OBBond *bond = mol->GetBondById(*i);
+      bool alreadyExists = (existingMap.find(i) != existingMap.end());
+      OBBond *bond = mol->GetBondById(i);
 
       OBCisTransStereo *ct;
       OBCisTransStereo::Config config;
       if (alreadyExists)
       {
-        ct = existingMap[*i];
+        ct = existingMap[i];
         config = ct->GetConfig();
       }
       else
@@ -2098,8 +2098,8 @@ namespace OpenBabel {
       if (stereoUnit.type == OBStereo::Tetrahedral)
         centers.push_back(stereoUnit.id);
 
-    for (std::vector<unsigned long>::iterator i = centers.begin(); i != centers.end(); ++i) {
-      OBAtom *center = mol->GetAtomById(*i);
+    for (unsigned long i : centers) {
+      OBAtom *center = mol->GetAtomById(i);
 
       // make sure we have at least 3 heavy atom neighbors
       // timvdm 28 Jun 2009: This is already checked in FindStereogenicUnits
@@ -2112,7 +2112,7 @@ namespace OpenBabel {
       }
 
       OBTetrahedralStereo::Config config;
-      config.center = *i;
+      config.center = i;
       FOR_NBORS_OF_ATOM(nbr, center) {
         if (config.from == OBStereo::NoRef)
           config.from = nbr->GetId();
@@ -2199,8 +2199,8 @@ namespace OpenBabel {
       if (stereoUnit.type == OBStereo::CisTrans)
         bonds.push_back(stereoUnit.id);
 
-    for (std::vector<unsigned long>::iterator i = bonds.begin(); i != bonds.end(); ++i) {
-      OBBond *bond = mol->GetBondById(*i);
+    for (unsigned long i : bonds) {
+      OBBond *bond = mol->GetBondById(i);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
 
@@ -2409,8 +2409,8 @@ namespace OpenBabel {
         centers.push_back(stereoUnit.id);
 
 
-    for (std::vector<unsigned long>::iterator i = centers.begin(); i != centers.end(); ++i) {
-      OBAtom *center = mol->GetAtomById(*i);
+    for (unsigned long i : centers) {
+      OBAtom *center = mol->GetAtomById(i);
 
       // make sure we have at least 3 heavy atom neighbors
       if (center->GetHvyDegree() < 3) {
@@ -2422,7 +2422,7 @@ namespace OpenBabel {
       }
 
       OBTetrahedralStereo::Config config;
-      config.center = *i;
+      config.center = i;
 
       // We assume the 'tip-only' convention. That is, wedge or hash bonds only
       // determine the stereochemistry at their thin end (the BeginAtom)
@@ -2669,8 +2669,8 @@ namespace OpenBabel {
       if (stereoUnit.type == OBStereo::CisTrans)
         bonds.push_back(stereoUnit.id);
 
-    for (std::vector<unsigned long>::iterator i = bonds.begin(); i != bonds.end(); ++i) {
-      OBBond *bond = mol->GetBondById(*i);
+    for (unsigned long i : bonds) {
+      OBBond *bond = mol->GetBondById(i);
       OBAtom *begin = bond->GetBeginAtom();
       OBAtom *end = bond->GetEndAtom();
 
