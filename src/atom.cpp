@@ -190,8 +190,7 @@ namespace OpenBabel
 
     _vdata.clear();
     //Copy all the OBGenericData, providing the new atom
-    vector<OBGenericData*>::iterator itr;
-    for(itr=src->BeginData();itr!=src->EndData();++itr)
+    for(vector<OBGenericData*>::iterator itr=src->BeginData();itr!=src->EndData();++itr)
       {
         OBGenericData* pCopiedData = (*itr)->Clone(this);
         SetData(pCopiedData);
@@ -814,7 +813,6 @@ namespace OpenBabel
   bool OBAtom::IsInRingSize(int size) const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (!mol->HasSSSRPerceived())
@@ -824,7 +822,7 @@ namespace OpenBabel
       return(false);
 
     rlist = mol->GetSSSR();
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
       if ((*i)->IsInRing(GetIdx()) && static_cast<int>((*i)->PathSize()) == size)
         return(true);
 
@@ -834,7 +832,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingCount() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
     unsigned int count=0;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
@@ -847,7 +844,7 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
       if ((*i)->IsInRing(GetIdx()))
         count++;
 
@@ -857,7 +854,6 @@ namespace OpenBabel
   unsigned int OBAtom::MemberOfRingSize() const
   {
     vector<OBRing*> rlist;
-    vector<OBRing*>::iterator i;
 
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
 
@@ -869,7 +865,7 @@ namespace OpenBabel
 
     rlist = mol->GetSSSR();
 
-    for (i = rlist.begin();i != rlist.end();++i)
+    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i)
       if ((*i)->IsInRing(GetIdx()))
         return((*i)->Size());
 
@@ -1067,14 +1063,13 @@ namespace OpenBabel
   {
     OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
     vector<vector<int> > mlist;
-    vector<vector<int> >::iterator l;
 
     OBSmartsPattern test;
     test.Init(pattern);
     if (test.Match(*mol))
       {
         mlist = test.GetUMapList();
-        for (l = mlist.begin(); l != mlist.end(); ++l)
+        for (vector<vector<int> >::iterator l = mlist.begin(); l != mlist.end(); ++l)
           if (GetIdx() == mol->GetAtom((*l)[0])->GetIdx())
             return true;
       }
@@ -1235,8 +1230,7 @@ namespace OpenBabel
     children.push_back(a2->GetIdx());
 
     vector3 v;
-    vector<int>::iterator i;
-    for (i = children.begin();i != children.end();++i)
+    for (vector<int>::iterator i = children.begin();i != children.end();++i)
       {
         v = mol.GetAtom(*i)->GetVector();
         v -= a1->GetVector();
@@ -1278,8 +1272,7 @@ namespace OpenBabel
 
     //delete attached hydrogens
     mol->IncrementMod();
-    vector<OBAtom*>::iterator j;
-    for (j = delatm.begin();j != delatm.end();++j)
+    for (vector<OBAtom*>::iterator j = delatm.begin();j != delatm.end();++j)
       mol->DeleteAtom(*j);
     mol->DecrementMod();
 
