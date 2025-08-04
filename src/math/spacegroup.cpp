@@ -77,8 +77,8 @@ namespace OpenBabel
 
   SpaceGroups::~SpaceGroups()
   {
-    for (set<SpaceGroup*>::iterator i= sgs.begin(), end = sgs.end(); i != end; ++i)
-      delete (*i);
+    for (auto& i : sgs)
+      delete i;
   }
 
   enum
@@ -148,8 +148,8 @@ namespace OpenBabel
 
   SpaceGroup::~SpaceGroup()
   {
-    for (list<transform3d*>::iterator i = m_transforms.begin(), end = m_transforms.end(); i != end; ++i)
-      delete *i;
+    for (auto& i : m_transforms)
+      delete i;
   }
 
   void SpaceGroup::SetHMName(const char *name_in)
@@ -341,10 +341,10 @@ namespace OpenBabel
         if (t.z() >= 1.)
           t.z() -= 1.;
         bool duplicate = false;
-        for (list<vector3>::iterator j = res.begin(), jend = res.end(); j != jend; ++j)
-          if (fabs(t.x() - (*j).x()) < prec &&
-              fabs(t.y() - (*j).y()) < prec &&
-              fabs(t.z() - (*j).z()) < prec)
+        for (const auto& j : res)
+          if (fabs(t.x() - j.x()) < prec &&
+              fabs(t.y() - j.y()) < prec &&
+              fabs(t.z() - j.z()) < prec)
             {
               duplicate = true;
               break;
@@ -470,14 +470,14 @@ namespace OpenBabel
     if (m_transforms.size() != sg.m_transforms.size())
       return false;
     set<string> s0, s1;
-    for (list<transform3d*>::const_iterator i = m_transforms.begin(), iend = m_transforms.end(); i != iend; ++i)
-      s0.insert((*i)->DescribeAsString());
-    for (list<transform3d*>::const_iterator i = sg.m_transforms.begin(), iend = sg.m_transforms.end(); i != iend; ++i)
-      s1.insert((*i)->DescribeAsString());
+    for (auto& i : m_transforms)
+      s0.insert(i->DescribeAsString());
+    for (auto& i : sg.m_transforms)
+      s1.insert(i->DescribeAsString());
     if (s0.size() != s1.size())
       return false;
-    for (set<string>::iterator j = s0.begin(), jend = s0.end(); j != jend; ++j)
-      if (s1.find(*j) == s1.end())
+    for (const auto& j : s0)
+      if (s1.find(j) == s1.end())
         return false;
     return true;
   }
@@ -489,14 +489,14 @@ namespace OpenBabel
     if (!m_transforms.size())
       return false;
     map <string, transform3d*>T;
-    for (list<transform3d*>::const_iterator i = m_transforms.cbegin(), iend = m_transforms.cend(); i != iend; ++i)
+    for (auto& i : m_transforms)
       {
-        if (T.find((*i)->DescribeAsString()) != T.end())
+        if (T.find(i->DescribeAsString()) != T.end())
           {
-            cerr << "Duplicated transform: " << (*i)->DescribeAsString() << endl;
+            cerr << "Duplicated transform: " << i->DescribeAsString() << endl;
             return false;
           }
-        T[(*i)->DescribeAsString()] = *i;
+        T[i->DescribeAsString()] = i;
       }
 		// calculate all products and check if they are in the group
 		map <string, transform3d*>::iterator end = T.end();
@@ -562,17 +562,17 @@ namespace OpenBabel
         }
         if (group->m_transforms.size())
           {// If transforms (symmetry operations) are listed, make sure they match the tabulated ones
-            for (list<const SpaceGroup*>::const_iterator i = _SpaceGroups.sgbi[found->m_id - 1].begin(), end = _SpaceGroups.sgbi[found->m_id - 1].end(); i!= end; ++i)
-              if ((**i) == *group)
-                return *i;
+            for (auto i : _SpaceGroups.sgbi[found->m_id - 1])
+              if (*i == *group)
+                return i;
             obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error (H-M symbol:"+group->m_HM+"), cannot match the list of transforms, please file a bug report.", obError);
             return nullptr;
           }
         else if (group->m_transforms.size() == 0)
           {// No transforms (symmetry operations) are listed, warn if HM symbol can match several spacegroups
             int n = 0;
-            for (list<const SpaceGroup*>::const_iterator i = _SpaceGroups.sgbi[group->m_id].cbegin(), end = _SpaceGroups.sgbi[group->m_id].cend(); i!= end; ++i)
-              if (RemoveWhiteSpaceUnderscore((*i)->m_HM) == stripped_hm)
+            for (auto& i : _SpaceGroups.sgbi[group->m_id])
+              if (RemoveWhiteSpaceUnderscore(i->m_HM) == stripped_hm)
                 n++;
             if (n > 1)
               obErrorLog.ThrowError(__FUNCTION__, "Ambiguous space group: HM symbol corresponds to several space groups.", obWarning);
@@ -585,9 +585,9 @@ namespace OpenBabel
       {
         if (group->m_transforms.size())
           {
-            for (list<const SpaceGroup*>::const_iterator i = _SpaceGroups.sgbi[group->m_id - 1].cbegin(), end = _SpaceGroups.sgbi[group->m_id - 1].cend(); i!= end; ++i)
-              if ((**i) == *group)
-                return *i;
+            for (auto& i : _SpaceGroups.sgbi[group->m_id - 1])
+              if (*i == *group)
+                return i;
           }
         else if (group->m_transforms.size() == 0)
           {
@@ -603,9 +603,9 @@ namespace OpenBabel
                                            +") with incomplete or wrong definition.", obWarning);
         return nullptr;
       }
-    for (set<SpaceGroup*>::iterator i = _SpaceGroups.sgs.begin(), end = _SpaceGroups.sgs.end(); i != end; ++i)
-      if (**i == *group)
-        return *i;
+    for (auto i : _SpaceGroups.sgs)
+      if (*i == *group)
+        return i;
     obErrorLog.ThrowError(__FUNCTION__, "Unknown space group error, please file a bug report.", obWarning);
     return nullptr;
 	}
