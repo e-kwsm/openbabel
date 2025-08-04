@@ -417,9 +417,8 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if(mol.GetDimension()==0)
     {
-      std::vector<OBGenericData*>::iterator data;
       std::vector<OBGenericData*> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-      for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+      for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
@@ -460,7 +459,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //Double bond stereo (still inside 0D section)
       //Currently does not handle cumulenes
-      for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+      for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
         if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(*data);
           OBCisTransStereo::Config config = ts->GetConfig();
@@ -585,8 +584,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if(pConv->IsLast())
     {
-      nSet::iterator itr;
-      for(itr=allInchi.begin();itr!=allInchi.end();++itr)
+      for(nSet::iterator itr=allInchi.begin();itr!=allInchi.end();++itr)
         ofs << *itr << endl;
     }
     return true;
@@ -783,9 +781,8 @@ char* InChIFormat::GetInChIOptions(OBConversion* pConv, bool Reading)
 bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
 {
   std::vector<std::string> vec;
-  std::vector<std::string>::iterator itr;
   tokenize(vec, spec, " \t/");
-  for(itr=vec.begin();itr!=vec.end();++itr)
+  for(std::vector<std::string>::iterator itr=vec.begin();itr!=vec.end();++itr)
   {
     if(*itr=="formula")
     {
