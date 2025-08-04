@@ -140,41 +140,41 @@ namespace OpenBabel
     Vmodel = Vdhf = S0 = HexpT = 0;
     snprintf(desc,sizeof(desc),"%s(0K)",meth.c_str());
 
-    for(std::vector<OBAtomHOF>::iterator it = _atomhof.begin(); it != _atomhof.end(); ++it)
+    for(auto& it : _atomhof)
     {
-        if ((0 == it->Element().compare(elem)) &&
-            (it->Charge() == charge))
+        if ((0 == it.Element().compare(elem)) &&
+            (it.Charge() == charge))
         {
-            double eFac = UnitNameToConversionFactor(it->Unit().c_str());
-            if (fabs(T - it->T()) < Ttol)
+            double eFac = UnitNameToConversionFactor(it.Unit().c_str());
+            if (fabs(T - it.T()) < Ttol)
             {
-                if (0 == it->Method().compare("exp"))
+                if (0 == it.Method().compare("exp"))
                 {
-                    if (0 == it->Desc().compare("H(0)-H(T)"))
+                    if (0 == it.Desc().compare("H(0)-H(T)"))
                     {
-                        HexpT += it->Value()*eFac;
+                        HexpT += it.Value()*eFac;
                         found++;
                     }
-                    else if (0 == it->Desc().compare("S0(T)"))
+                    else if (0 == it.Desc().compare("S0(T)"))
                     {
-                        S0 += it->Value();
+                        S0 += it.Value();
                         found++;
                     }
                 }
             }
-            else if (0 == it->T()) 
+            else if (0 == it.T()) 
             {
-                if ((0 == it->Method().compare(meth)) &&
-                    (0 == it->Desc().compare(desc)))
+                if ((0 == it.Method().compare(meth)) &&
+                    (0 == it.Desc().compare(desc)))
                 {
-                    Vmodel += it->Value()*eFac;
+                    Vmodel += it.Value()*eFac;
                     found++;
                 }
-                if (0 == it->Method().compare("exp"))
+                if (0 == it.Method().compare("exp"))
                 {
-                    if (0 == it->Desc().compare("DHf(T)"))
+                    if (0 == it.Desc().compare("DHf(T)"))
                     {
-                        Vdhf += it->Value()*eFac;
+                        Vdhf += it.Value()*eFac;
                         found++;
                     }
                 }
@@ -352,10 +352,10 @@ namespace OpenBabel
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
-        for (vector<vector<string> >::iterator i = _table.begin();i != _table.end();++i)
-          if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
+        for (const auto& i : _table)
+          if ((signed)i.size() > _from &&  i[_from] == from)
             {
-              to = (*i)[_to];
+              to = i[_to];
               return(true);
             }
       }
@@ -377,10 +377,10 @@ namespace OpenBabel
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
       {
-        for (vector<vector<string> >::iterator i = _table.begin();i != _table.end();++i)
-          if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
+        for (const auto& i : _table)
+          if ((signed)i.size() > _from &&  i[_from] == from)
             {
-              return (*i)[_to];
+              return i[_to];
             }
       }
 
