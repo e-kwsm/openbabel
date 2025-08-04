@@ -193,8 +193,8 @@ namespace OpenBabel
       return false;
     }
     mols = jreactants.Separate();
-    for(vector<OBMol>::iterator itr=mols.begin();itr!=mols.end();++itr)
-      pReact->AddReactant(std::shared_ptr<OBMol>(new OBMol(*itr)));
+    for(const auto& itr : mols)
+      pReact->AddReactant(std::shared_ptr<OBMol>(new OBMol(itr)));
 
     pos2 = rsmiles.find('>', pos+1);
     if(pos2==string::npos)
@@ -227,8 +227,8 @@ namespace OpenBabel
     }
     mols.clear();
     mols = jproducts.Separate();
-    for(vector<OBMol>::iterator itr=mols.begin();itr!=mols.end();++itr)
-      pReact->AddProduct(std::shared_ptr<OBMol>(new OBMol(*itr)));
+    for(const auto& itr : mols)
+      pReact->AddProduct(std::shared_ptr<OBMol>(new OBMol(itr)));
 
     return true;
   }
