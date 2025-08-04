@@ -272,9 +272,8 @@ namespace OpenBabel
     tx = c[tor[1]];
     ty = c[tor[1]+1];
     tz = c[tor[1]+2];
-    vector<int>::iterator i;
     int j;
-    for (i = atoms.begin();i != atoms.end();++i)
+    for (vector<int>::iterator i = atoms.begin();i != atoms.end();++i)
       {
         j = *i;
         c[j] -= tx;
