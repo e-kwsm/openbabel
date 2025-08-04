@@ -1055,8 +1055,8 @@ namespace OpenBabel
     std::map<OBBond*, OBStereo::Ref> from;
     TetStereoToWedgeHash(*mol, updown, from);
 
-    for(std::map<OBBond*, OBStereo::Ref>::const_iterator from_cit=from.cbegin();from_cit!=from.cend();++from_cit) {
-      OBBond* pbond = from_cit->first;
+    for(const auto& from_cit : from) {
+      OBBond* pbond = from_cit.first;
       if(updown[pbond]==OBStereo::UpBond)
         pbond->SetHash();
       else if(updown[pbond]==OBStereo::DownBond)
