@@ -4189,9 +4189,8 @@ namespace OpenBabel
     }
 
     // Update Stereo
-    std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = GetAllData(OBGenericDataType::StereoData);
-    for (data = stereoData.begin(); data != stereoData.end(); ++data) {
+    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
       if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
 
