@@ -385,12 +385,11 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
 
   //Do reactants
   vector<string> toks;
-  vector<string>::iterator itr;
   string temp = ln.substr(0, eqpos);
   tokenize(toks, temp, "+");
   //(ln is cleared later)
 
-  for(itr=toks.begin();itr!=toks.end();++itr)
+  for(vector<string>::iterator itr=toks.begin();itr!=toks.end();++itr)
   {
     Trim(*itr);
     if(itr==toks.begin())
@@ -503,7 +502,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
     toks[toks.size()-1].clear();
     bool HasRateData=false;
     n=0;
-    for(itr=lastp.begin();itr!=lastp.end();++itr)
+    for(vector<string>::iterator itr=lastp.begin();itr!=lastp.end();++itr)
     {
       Trim(*itr);
       //copy species names and species names with multiplier (single digit) back into orig token
@@ -553,7 +552,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
             "In " + ln + "\nNo rate data found.", obWarning);
 
     //Read in product species
-    for(itr=toks.begin();itr!=toks.end();++itr)
+    for(vector<string>::iterator itr=toks.begin();itr!=toks.end();++itr)
     {
       Trim(*itr);
       if(isalpha((*itr)[0]))
@@ -749,8 +748,7 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
   StdThermConv.SetInFormat(pThermFormat);
   StdThermConv.SetInStream(&stdthermo);
 
-  MolMap::iterator mapitr;
-  for(mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for(MolMap::iterator mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
   {
     //Look up each molecules's name in index, move the the returned seek position,
     //read the molecule and combine it with the one in Imols
@@ -779,8 +777,7 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
 //////////////////////////////////////////////////////////
 bool ChemKinFormat::CheckAllMolsHaveThermo()
 {
-  MolMap::iterator mapitr;
-  for(mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
+  for(MolMap::iterator mapitr=IMols.begin();mapitr!=IMols.end();++mapitr)
   {
     if(!mapitr->second->GetData(ThermoData) && mapitr->first!="M")
       return false;
@@ -830,8 +827,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
 
   set<string> elements;
   vector<string> species;
-  MolSet::iterator itr;
-  for(itr= OMols.begin();itr!=OMols.end();++itr)
+  for(MolSet::iterator itr= OMols.begin();itr!=OMols.end();++itr)
   {
     const char* title = (*itr)->GetTitle();
     if(strcmp(title, "M"))
@@ -849,13 +845,12 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
     obErrorLog.ThrowError(__FUNCTION__, "No element data available", obWarning);
 
   ofs << "SPECIES\n";
-  vector<string>::iterator sitr;
   unsigned int maxlen=0;
-  for(sitr= species.begin();sitr!=species.end();++sitr)
+  for(vector<string>::iterator sitr= species.begin();sitr!=species.end();++sitr)
     if(sitr->size()>maxlen) maxlen = sitr->size();
 
   unsigned int n=0;
-  for(sitr=species.begin();sitr!=species.end();++sitr, ++n)
+  for(vector<string>::iterator sitr=species.begin();sitr!=species.end();++sitr, ++n)
   {
     if(maxlen>0 && n > 80 / maxlen)
     {
@@ -884,7 +879,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
       ConvThermo.SetOutFormat(pFormat);
       ConvThermo.SetOutStream(&thermss);
       int ntherm=0;
-      for(itr= OMols.begin();itr!=OMols.end();++itr)
+      for(MolSet::iterator itr= OMols.begin();itr!=OMols.end();++itr)
       {
         const char* title = (*itr)->GetTitle();
         if(strcmp(title, "M"))
