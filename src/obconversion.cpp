@@ -1361,12 +1361,12 @@ namespace OpenBabel {
               }
 
             stringstream allinput;
-            for(vector<string>::iterator itr=FileList.begin();itr!=FileList.end();++itr)
+            for(auto& itr : FileList)
               {
-                ifstream ifs((*itr).c_str());
+                ifstream ifs(itr.c_str());
                 if(!ifs)
                   {
-                    obErrorLog.ThrowError(__FUNCTION__,"Cannot open " + *itr, obError);
+                    obErrorLog.ThrowError(__FUNCTION__,"Cannot open " + itr, obError);
                     continue;
                   }
                 allinput << ifs.rdbuf(); //Copy all file contents
