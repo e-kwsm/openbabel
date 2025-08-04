@@ -106,10 +106,10 @@ namespace OpenBabel
     map<string, int> AtomType;
     int AtomIndex=0;
     //Set AtomType integer
-    for(map<string, double>::iterator itr=AtomMass.begin();itr!=AtomMass.end();++itr)
+    for(const auto& itr : AtomMass)
     {
 	    AtomIndex++;
-	    AtomType[itr->first] = AtomIndex;
+	    AtomType[itr.first] = AtomIndex;
     }
 
     //Determine unique bonds
@@ -303,10 +303,10 @@ namespace OpenBabel
 
     //Write the atom types
     ofs << endl << endl << "Masses" << endl << endl;
-    for(map<string, double>::iterator itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for(const auto& itr : AtomMass)
     {
-	    double mass=itr->second;
-	    ofs << AtomType[itr->first] << " " << mass << " # " << itr->first << endl;
+	    double mass=itr.second;
+	    ofs << AtomType[itr.first] << " " << mass << " # " << itr.first << endl;
     }
     ofs << endl;
 
@@ -316,31 +316,31 @@ namespace OpenBabel
     //These are charges for the SPC water model
     const char *selectCharges = pConv->IsOption("q",OBConversion::OUTOPTIONS);
     map<string, double> AtomCharge;
-    for(map<string, double>::iterator itr=AtomMass.begin();itr!=AtomMass.end();++itr) 
+    for(const auto& itr : AtomMass)
     {
 	    if(selectCharges)
 	    {
 		    if(strcmp(selectCharges,"spce")==0)
 		    {
-			    if(itr->second == 15.9994)
-				    AtomCharge[itr->first] = -0.8472;
-			    if(itr->second == 1.00794) 
-				    AtomCharge[itr->first] =  0.4236;
+			    if(itr.second == 15.9994)
+				    AtomCharge[itr.first] = -0.8472;
+			    if(itr.second == 1.00794)
+				    AtomCharge[itr.first] =  0.4236;
 		    }
 		    else if(strcmp(selectCharges,"spc")==0)
 		    {
-			    if(itr->second == 15.9994)
-				    AtomCharge[itr->first] = -0.820;
-			    if(itr->second == 1.00794) 
-				    AtomCharge[itr->first] =  0.410;
+			    if(itr.second == 15.9994)
+				    AtomCharge[itr.first] = -0.820;
+			    if(itr.second == 1.00794)
+				    AtomCharge[itr.first] =  0.410;
 		    }
 	    }
 	    else
 	    {
-		    if(itr->second == 15.9994)
-			    AtomCharge[itr->first] = -0.820;
-		    if(itr->second == 1.00794) 
-			    AtomCharge[itr->first] =  0.410;
+		    if(itr.second == 15.9994)
+			    AtomCharge[itr.first] = -0.820;
+		    if(itr.second == 1.00794)
+			    AtomCharge[itr.first] =  0.410;
 	    }
 
     }
@@ -357,10 +357,10 @@ namespace OpenBabel
     snprintf(buffer,BUFF_SIZE,"#%3s %4s %4s %10s %10s %10s %10s\n",
 		    "idx","mol","type","charge","x","y","z");
     //ofs << buffer;
-    for(vector<OBMol>::iterator molitr=mols.begin();molitr!=mols.end();++molitr)
+    for(auto & mol : mols)
     {
 	    molcount++;
-	    FOR_ATOMS_OF_MOL(atom,*molitr) 
+	    FOR_ATOMS_OF_MOL(atom,mol)
 	    {
 		    int atomid=5;
 		    double charge=0.5;
