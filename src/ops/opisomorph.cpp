@@ -313,11 +313,11 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConversion* 
       mapper->MapUnique(pmol, mappings);
       if( (match = !mappings.empty()) ) // extra parens to indicate truth value
       {
-        for(OBIsomorphismMapper::Mappings::iterator ita=mappings.begin(); ita!=mappings.end();++ita)//each mapping
+        for(const auto& ita : mappings)//each mapping
         {
           vector<int> atomvec;
-          for(OBIsomorphismMapper::Mapping::iterator itb=ita->begin(); itb!=ita->end();++itb)//each atom index
-            atomvec.push_back(itb->second+1);
+          for(const auto & itb : ita)//each atom index
+            atomvec.push_back(itb.second+1);
           vecatomvec.push_back(atomvec);
           atomvec.clear();
         }
