@@ -186,9 +186,9 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
 
-    for(vector<unsigned int>::iterator itr=candidates.begin();itr!=candidates.end();++itr)
+    for(unsigned int itr : candidates)
       {
-        SeekPositions.push_back(_index.seekdata[*itr]);
+        SeekPositions.push_back(_index.seekdata[itr]);
       }
     return true;
   }
@@ -226,9 +226,9 @@ namespace OpenBabel
     }
   }
 
-  for(vector<unsigned int>::iterator itr=candidates.begin();itr!=candidates.end();++itr)
+  for(unsigned int itr : candidates)
     {
-      SeekPositions.push_back(_index.seekdata[*itr]);
+      SeekPositions.push_back(_index.seekdata[itr]);
     }
   return true;
 }
