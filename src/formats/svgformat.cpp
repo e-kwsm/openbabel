@@ -250,8 +250,8 @@ bool SVGFormat::WriteChemObject(OBConversion* pConv)
     ret = WriteSVG(pConv, _objects);
 
     //delete all the molecules
-    for(vector<OBBase*>::iterator iter=_objects.begin();iter!=_objects.end(); ++iter)
-      delete *iter;
+    for(auto& _object : _objects)
+      delete _object;
     delete _ptext;//delete text, NULL or not
 
     _objects.clear();
