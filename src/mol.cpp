@@ -2218,11 +2218,11 @@ namespace OpenBabel
     vector3 v;
     double hbrad = CorrectedBondRad(1, 0);
 
-    for (vector<pair<OBAtom*,int> >::iterator k = vhadd.begin();k != vhadd.end();++k)
+    for (auto& k : vhadd)
       {
-        atom = k->first;
+        atom = k.first;
         double bondlen = hbrad + CorrectedBondRad(atom->GetAtomicNum(), atom->GetHyb());
-        for (m = 0;m < k->second;++m)
+        for (m = 0;m < k.second;++m)
           {
             int badh = 0;
             for (n = 0;n < NumConformers();++n)
@@ -2316,12 +2316,12 @@ namespace OpenBabel
 
     //realloc memory in coordinate arrays for new hydroges
     double *tmpf;
-    for (vector<double*>::iterator j = _vconf.begin();j != _vconf.end();++j)
+    for (auto& j : _vconf)
       {
         tmpf = new double [(NumAtoms()+hcount)*3+10];
-        memcpy(tmpf,(*j),sizeof(double)*NumAtoms()*3);
-        delete []*j;
-        *j = tmpf;
+        memcpy(tmpf,j,sizeof(double)*NumAtoms()*3);
+        delete[] j;
+        j = tmpf;
       }
 
     IncrementMod();
@@ -2331,11 +2331,11 @@ namespace OpenBabel
     double hbrad = CorrectedBondRad(1,0);
 
     OBAtom *h;
-    for (vector<pair<OBAtom*,int> >::iterator k = vhadd.begin();k != vhadd.end();++k)
+    for (auto& k : vhadd)
       {
-        atom = k->first;
+        atom = k.first;
         double bondlen = hbrad + CorrectedBondRad(atom->GetAtomicNum(),atom->GetHyb());
-        for (m = 0;m < k->second;++m)
+        for (m = 0;m < k.second;++m)
           {
             for (n = 0;n < NumConformers();++n)
               {
@@ -2641,9 +2641,9 @@ namespace OpenBabel
     //rotate atoms
     vector3 v;
     OBAtom *atom;
-    for (vector<int>::iterator i = children.begin();i != children.end();++i)
+    for (int i : children)
       {
-        atom = GetAtom(*i);
+        atom = GetAtom(i);
         v = atom->GetVector();
         v -= a1->GetVector();
         v *= m;   //rotate the point
@@ -2792,8 +2792,8 @@ namespace OpenBabel
       DestroyBond(bond);
 
     //clear out the multiconformer data
-    for (vector<double*>::iterator k = _vconf.begin();k != _vconf.end();++k)
-      delete [] *k;
+    for (auto& k : _vconf)
+      delete[] k;
     _vconf.clear();
   }
 
@@ -2887,8 +2887,8 @@ namespace OpenBabel
     vector <OBAtom*> va;
     va.reserve(NumAtoms());
 
-    for (vector<int>::iterator i = v.begin(); i != v.end(); ++i)
-      va.push_back( GetAtom(*i) );
+    for (int i : v)
+      va.push_back( GetAtom(i) );
 
     this->RenumberAtoms(va);
   }
