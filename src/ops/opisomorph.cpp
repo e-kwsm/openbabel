@@ -372,8 +372,8 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConversi
     // with multiple color parameters use the one corresponding to the query molecule, or the last
     if(imol>vec.size()-2)
       imol = vec.size()-2;
-    for(vector<vector<int> >::iterator iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
-       AddDataToSubstruct(pmol, *iter, "color", vec[imol+1]);
+    for(auto & iter : *pMappedAtoms)//each match
+       AddDataToSubstruct(pmol, iter, "color", vec[imol+1]);
     return true;
   }
 
