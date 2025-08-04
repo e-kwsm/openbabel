@@ -120,8 +120,8 @@ bool OpHighlight::Do(OBBase* pOb, const char* OptionText, OpMap* pmap, OBConvers
 
     if(match)
     {
-      for(vector<vector<int> >::iterator iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
-         AddDataToSubstruct(pmol, *iter, "color", color);
+      for(const auto& iter : *pMappedAtoms)//each match
+         AddDataToSubstruct(pmol, iter, "color", color);
     }
   }
 
