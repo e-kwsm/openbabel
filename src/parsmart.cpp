@@ -2507,7 +2507,7 @@ namespace OpenBabel
     std::string token,repstr;
     std::vector<std::pair<std::string,std::string> >::iterator i;
 
-    for (pos = 0,pos = s.find("$",pos);pos < s.size();pos = s.find("$",pos))
+    for (pos = 0, pos = s.find('$', pos); pos < s.size(); pos = s.find('$', pos))
       //for (pos = 0,pos = s.find("$",pos);pos != std::string::npos;pos = s.find("$",pos))
       {
         pos++;

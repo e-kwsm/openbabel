@@ -109,7 +109,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
         double value = atof((*j)->GetValue().c_str());
         double T     = 0;
         {
-            size_t lh = term.find("(");
+            size_t lh = term.find('(');
             size_t rh = term.find("K)");
             double TT = atof(term.substr(lh+1,rh-lh-1).c_str());
             if (0 != TT)

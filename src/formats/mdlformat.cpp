@@ -1909,9 +1909,9 @@ namespace OpenBabel
       if (line.substr(0, 4) == "$RXN")
         return false; //Has read the first line of the next reaction in RXN format
 
-      if (line.find("<") != string::npos) {
-        size_t lt = line.find("<")+1;
-        size_t rt = line.find_last_of(">");
+      if (line.find('<') != string::npos) {
+        size_t lt = line.find('<')+1;
+        size_t rt = line.find_last_of('>');
         string attr = line.substr(lt, rt - lt);
 
         // sometimes we can hit more data than BUFF_SIZE, so we'll use a std::string

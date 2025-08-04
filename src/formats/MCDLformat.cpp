@@ -1472,7 +1472,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
   string result;
   n=line.find(ftitlestart);
   if (n != string::npos) {
-    k=line.find("}",n+ftitlestart.size());
+    k=line.find('}',n+ftitlestart.size());
     if (k != string::npos) {
     result=line.substr(n+ftitlestart.length(),k-n-ftitlestart.length());
     line=line.substr(0,n+1)+line.substr(k+1);

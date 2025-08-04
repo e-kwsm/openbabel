@@ -137,7 +137,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               string atomName;
               int atomId;
@@ -168,7 +168,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         if ( lineBuffer.find( "[GEOMETRIES] (XYZ)" ) != string::npos ) {
           while( getline( ifs, lineBuffer ) ) {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
 
               // should give us a number of atoms (i.e., this is an XYZ-format file)
               unsigned int natoms;
@@ -239,7 +239,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               double freq;
               is >> freq;
@@ -250,7 +250,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           while( getline( ifs, lineBuffer ) )
             {
               if( lineBuffer == "" ) continue;
-              if( lineBuffer.find( "[" ) != string::npos ) break;
+              if( lineBuffer.find( '[' ) != string::npos ) break;
               istringstream is( lineBuffer );
               double intens;
               is >> intens;
@@ -264,7 +264,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
             while ( getline( ifs, lineBuffer ) )
               {
                 if( lineBuffer == "" ) continue;
-                if( lineBuffer.find( "[" ) != string::npos ) break;
+                if( lineBuffer.find( '[' ) != string::npos ) break;
                 string atomName;
                 double x, y, z;
                 istringstream is( lineBuffer );

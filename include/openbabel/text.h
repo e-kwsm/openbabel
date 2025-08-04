@@ -78,7 +78,7 @@ public:
     }
 
     newpos = txt.rfind('\n', newpos); //to end of previous line
-    pos = txt.find("\n", newpos+1)+1; //to past end of line, or 0
+    pos = txt.find('\n', newpos+1)+1; //to past end of line, or 0
     return txt.substr(oldpos, newpos-oldpos);
   }
 

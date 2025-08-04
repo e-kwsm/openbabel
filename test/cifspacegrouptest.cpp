@@ -297,7 +297,7 @@ void testCIFMolecules()
 
   string smi = conv.WriteString(&mol);
   // never, never disconnected fragments from a molecule
-  OB_ASSERT(smi.find(".") == string::npos);
+  OB_ASSERT(smi.find('.') == string::npos);
 }
 
 void testCIFOutputFormat()

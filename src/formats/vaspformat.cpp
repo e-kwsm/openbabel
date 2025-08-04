@@ -181,7 +181,7 @@ namespace OpenBabel {
     path = pConv->GetInFilename();
     if (path.empty()) return false; // Should be using ReadFile, not Read!
     size_t found;
-    found = path.rfind("/");
+    found = path.rfind('/');
     path = path.substr(0, found);
     if (found == string::npos) path = "./"; // No "/" in path?
 
@@ -276,8 +276,8 @@ namespace OpenBabel {
       while (ifs_pot.getline(buffer,BUFF_SIZE)) {
         if (strstr(buffer,"VRHFIN")) {
           str = buffer;
-          size_t start = str.find("=") + 1;
-          size_t end = str.find(":");
+          size_t start = str.find('=') + 1;
+          size_t end = str.find(':');
           str = str.substr(start, end - start);
           // Clean up whitespace:
           for (unsigned int i = 0; i < str.size(); i++)

@@ -1592,7 +1592,7 @@ namespace OpenBabel
         if (pSG != nullptr)
           {
             // Do we have an extended HM symbol, with origin choice as ":1" or ":2" ? If so, remove it.
-            size_t n=pSG->GetHMName().find(":");
+            size_t n=pSG->GetHMName().find(':');
             if(n==string::npos)
               ofs << "_space_group_name_H-M_alt '" << pSG->GetHMName() << "'" << endl;
             else

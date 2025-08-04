@@ -776,7 +776,7 @@ namespace OpenBabel {
     string::size_type extPos = file.rfind('.');
     isgzip = false;
     if(extPos!=string::npos // period found
-       && (file.substr(extPos + 1, file.size())).find("/")==string::npos) // and period is after the last "/"
+       && (file.substr(extPos + 1, file.size())).find('/')==string::npos) // and period is after the last "/"
       {
         // only do this if we actually can read .gz files
         if (file.substr(extPos) == ".gz")

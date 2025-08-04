@@ -346,8 +346,8 @@ namespace OpenBabel
     std::getline(ifs, smiles);
 
     // extract title
-    std::size_t space_pos = smiles.find(" ");
-    std::size_t tab_pos = smiles.find("\t");
+    std::size_t space_pos = smiles.find(' ');
+    std::size_t tab_pos = smiles.find('\t');
     if (space_pos != std::string::npos && tab_pos != std::string::npos)
       space_pos = std::min(space_pos, tab_pos);
     else if (tab_pos != std::string::npos)

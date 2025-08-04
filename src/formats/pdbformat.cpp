@@ -603,7 +603,7 @@ namespace OpenBabel
           fixRhombohedralSpaceGroupWriter(tmpHM);
 
           // Do we have an extended HM symbol, with origin choice as ":1" or ":2" ? If so, remove it.
-          size_t n=tmpHM.find(":");
+          size_t n=tmpHM.find(':');
           if(n!=string::npos) tmpHM=tmpHM.substr(0, n);
 
           if (pConv->IsOption("o", OBConversion::OUTOPTIONS))

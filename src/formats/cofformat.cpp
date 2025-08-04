@@ -337,13 +337,13 @@ namespace OpenBabel
     std::string molname(tit);
     if(molname.empty())
       molname = pConv->GetTitle();
-    size_t nPos = molname.find_last_of(".");
+    size_t nPos = molname.find_last_of('.');
     if(nPos != std::string::npos)
       molname = molname.substr(0, nPos);
-    nPos = molname.find_last_of("\\");
+    nPos = molname.find_last_of('\\');
     if(nPos != std::string::npos)
       molname = molname.substr(nPos+1, molname.size());
-    nPos = molname.find_last_of("/");
+    nPos = molname.find_last_of('/');
     if(nPos != std::string::npos)
       molname = molname.substr(nPos+1, molname.size());
     if(molname.empty())
