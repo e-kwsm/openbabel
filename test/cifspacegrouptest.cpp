@@ -116,9 +116,7 @@ void testSpaceGroupTransformations()
   trans.push_back("X , 3 / 4 - Y + 1 + z , - Y - Z - 1 / 6 ");
   trans.push_back("x,z-y+1+3/4,-y-1/6-z+1");
 
-  vector<string>::const_iterator i, iend;
-  iend = trans.end();
-  for (i = trans.begin(); i != iend; ++i)
+  for (vector<string>::const_iterator i = trans.begin(), iend = trans.end(); i != iend; ++i)
     group.AddTransform(i->c_str());
 
   // Loop over symmetry operators
