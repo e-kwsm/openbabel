@@ -183,12 +183,12 @@ namespace OpenBabel
   void OBRotamerList::GetReferenceArray(unsigned char *ref)const
   {
     int j=0;
-    for (vector<pair<OBAtom**,vector<int> > >::const_iterator i = _vrotor.begin();i != _vrotor.end();++i)
+    for (const auto& i : _vrotor)
       {
-        ref[j++] = (unsigned char)(i->first[0])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[1])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[2])->GetIdx();
-        ref[j++] = (unsigned char)(i->first[3])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[0])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[1])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[2])->GetIdx();
+        ref[j++] = (unsigned char)(i.first[3])->GetIdx();
       }
   }
 
