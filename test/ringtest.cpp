@@ -222,7 +222,6 @@ void GenerateRingReference()
   vector<OBRing*> vr;
   vector<OBBond*>::iterator i;
   vector<OBNodeBase*>::iterator j;
-  vector<OBRing*>::iterator k;
   OBMol mol;
   OBConversion conv(&ifs, &cout);
 
@@ -256,7 +255,7 @@ void GenerateRingReference()
       for (atom = mol.BeginAtom(j);atom;atom = mol.NextAtom(j))
         {
           count = 0;
-          for (k = vr.begin();k != vr.end();++k)
+          for (vector<OBRing*>::iterator k = vr.begin();k != vr.end();++k)
             if ((*k)->_pathset[atom->GetIdx()])
               count++;
 
