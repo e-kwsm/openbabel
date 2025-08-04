@@ -1629,8 +1629,7 @@ namespace OpenBabel
     if (_natoms+1 >= _vatom.size())
       {
         _vatom.resize(_natoms+OBAtomIncrement);
-        vector<OBAtom*>::iterator j;
-        for (j = _vatom.begin(),j+=(_natoms+1);j != _vatom.end();++j)
+        for (vector<OBAtom*>::iterator j = _vatom.begin()+_natoms+1;j != _vatom.end();++j)
           *j = nullptr;
       }
 #undef OBAtomIncrement
