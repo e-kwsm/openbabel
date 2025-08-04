@@ -25,6 +25,7 @@ std::vector< std::vector<unsigned long> > getIdRingPaths(OBMol &mol)
   for (unsigned int i = 0; i < lssr.size(); ++i) {
     OBRing *ring = lssr[i];
     std::vector<unsigned long> idPath;
+    idPath.reserve(ring->_path.size());
     for (unsigned int j = 0; j < ring->_path.size(); ++j) {
       idPath.push_back(mol.GetAtom(ring->_path[j])->GetId());
     }

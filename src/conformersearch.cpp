@@ -111,6 +111,7 @@ namespace OpenBabel {
     // create the reference vector3 for conformer with index
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
+    vi.reserve(numAtoms);
     for (unsigned int a = 0; a < numAtoms; ++a)
       vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
 
@@ -124,6 +125,7 @@ namespace OpenBabel {
       double *conformer_j = conformers[j];
       // create vector3 conformer
       std::vector<vector3> vj;
+      vj.reserve(numAtoms);
       for (unsigned int a = 0; a < numAtoms; ++a)
         vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
 
@@ -255,6 +257,7 @@ namespace OpenBabel {
 
     double *conformer_i = conformers[index];
     std::vector<vector3> vi;
+    vi.reserve(numAtoms);
     for (unsigned int a = 0; a < numAtoms; ++a)
       vi.push_back(vector3(conformer_i[a*3], conformer_i[a*3+1], conformer_i[a*3+2]));
 
@@ -268,6 +271,7 @@ namespace OpenBabel {
       double *conformer_j = conformers[j];
       // create vector3 conformer
       std::vector<vector3> vj;
+      vj.reserve(numAtoms);
       for (unsigned int a = 0; a < numAtoms; ++a)
         vj.push_back(vector3(conformer_j[a*3], conformer_j[a*3+1], conformer_j[a*3+2]));
 

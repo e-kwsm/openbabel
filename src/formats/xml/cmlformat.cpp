@@ -425,6 +425,7 @@ namespace OpenBabel
         {
           const double WAVENUM_TO_GHZ=30.0;
           vector<double> rotConsts;
+          rotConsts.reserve(items.size());
           for(unsigned i=0;i<items.size();++i)
             rotConsts.push_back(atof(items[i].c_str()) * WAVENUM_TO_GHZ);
 

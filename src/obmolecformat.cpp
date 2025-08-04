@@ -423,6 +423,7 @@ namespace OpenBabel
 
     //Collect the molecules first, just for convenience
     vector<std::shared_ptr<OBMol> > mols;
+    mols.reserve(pReact->NumReactants());
     for(int i=0;i<pReact->NumReactants();i++)
       mols.push_back(pReact->GetReactant(i));
     for(int i=0;i<pReact->NumProducts();i++)

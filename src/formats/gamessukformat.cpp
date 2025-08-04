@@ -960,6 +960,7 @@ namespace OpenBabel
       for( int i=0; i<maxroot; i++ )
         {
           std::vector< vector3 > atoml;
+          atoml.reserve(natoms);
           for( int j=0; j < natoms; j++ )
             {
               atoml.push_back( vector3(0.0,0.0,0.0) );
@@ -1080,6 +1081,7 @@ namespace OpenBabel
       for( int i=0; i<maxroot; i++ )
         {
           std::vector< vector3 > atoml;
+          atoml.reserve(natoms);
           for( int j=0; j < natoms; j++ )
             {
               atoml.push_back( vector3(0.0,0.0,0.0) );
