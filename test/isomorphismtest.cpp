@@ -203,9 +203,9 @@ void testAutomorphismMask() {
 
   // Verify that atom Id 6 does not occur anywhere in the mappings
   for (const auto& a : maps)
-    for (OBIsomorphismMapper::Mapping::const_iterator b = a.begin(); b!= a.end(); ++b) {
-      OB_ASSERT( b->first != 6 );
-      OB_ASSERT( b->second != 6 );
+    for (const auto& b : a) {
+      OB_ASSERT( b.first != 6 );
+      OB_ASSERT( b.second != 6 );
     }
 }
 
