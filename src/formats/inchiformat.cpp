@@ -418,9 +418,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(mol.GetDimension()==0)
     {
       std::vector<OBGenericData*> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-        if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      for (auto & data : stereoData) {
+        if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::Tetrahedral) {
+          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
 
           if(config.specified) {
@@ -459,9 +459,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //Double bond stereo (still inside 0D section)
       //Currently does not handle cumulenes
-      for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-        if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-          OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(*data);
+      for (auto & data : stereoData) {
+        if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::CisTrans) {
+          OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(data);
           OBCisTransStereo::Config config = ts->GetConfig();
 
           if(config.specified) {
@@ -584,8 +584,8 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if(pConv->IsLast())
     {
-      for(nSet::iterator itr=allInchi.begin();itr!=allInchi.end();++itr)
-        ofs << *itr << endl;
+      for(const auto& itr : allInchi)
+        ofs << itr << endl;
     }
     return true;
   }
@@ -782,39 +782,39 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
 {
   std::vector<std::string> vec;
   tokenize(vec, spec, " \t/");
-  for(std::vector<std::string>::iterator itr=vec.begin();itr!=vec.end();++itr)
+  for(const auto & itr : vec)
   {
-    if(*itr=="formula")
+    if(itr=="formula")
     {
       std::string::size_type pos = inchi.find('/', inchi.find('/')+1); //2nd /
       if(pos!=string::npos)
         inchi.erase(pos);
     }
-    else if(*itr=="connect")
+    else if(itr=="connect")
       RemoveLayer(inchi,"/h",true);
-    else if(*itr=="nochg")
+    else if(itr=="nochg")
     {
       RemoveLayer(inchi,"/p");
       RemoveLayer(inchi,"/q");
     }
-    else if(*itr=="nosp3")
+    else if(itr=="nosp3")
     {
       RemoveLayer(inchi,"/t");
       RemoveLayer(inchi,"/m");
       RemoveLayer(inchi,"/s");
     }
-    else if(*itr=="noEZ")
+    else if(itr=="noEZ")
       RemoveLayer(inchi,"/b");
-    else if(*itr=="noiso")
+    else if(itr=="noiso")
       RemoveLayer(inchi,"/i");
-    else if(*itr=="nostereo")
+    else if(itr=="nostereo")
     {
       RemoveLayer(inchi,"/t");
       RemoveLayer(inchi,"/m");
       RemoveLayer(inchi,"/s");
       RemoveLayer(inchi,"/b");
     }
-    else if(!(*itr).empty())
+    else if(!itr.empty())
     {
       obErrorLog.ThrowError(__FUNCTION__,
       spec + " not recognized as a truncation specification",obError, onceOnly);
