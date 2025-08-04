@@ -1672,10 +1672,10 @@ namespace OpenBabel {
 
       // Mark all invalid stereo data as unspecified
       std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-        OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
+      for (auto &data : stereoData) {
+        OBStereo::Type type = ((OBStereoBase*)data)->GetType();
         if (type == OBStereo::Tetrahedral) {
-          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+          OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
           bool valid = true;
           if (!ts->IsValid())
@@ -1692,7 +1692,7 @@ namespace OpenBabel {
           }
         }
         if (type == OBStereo::CisTrans) {
-          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+          OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
           OBCisTransStereo::Config config = ct->GetConfig();
           bool valid = true;
           if (!ct->IsValid())
