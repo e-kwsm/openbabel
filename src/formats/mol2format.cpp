@@ -622,12 +622,12 @@ namespace OpenBabel
     if (pConv->IsOption("c", OBConversion::OUTOPTIONS) != nullptr) {
         vector<OBGenericData*> vdata = mol.GetData();
         ofs << endl;
-        for (vector<OBGenericData*>::iterator k = vdata.begin();k != vdata.end();++k) {
-            if ((*k)->GetDataType() == OBGenericDataType::PairData
-            && (*k)->GetOrigin()!=local //internal OBPairData is not written
-            && (*k)->GetAttribute()!="PartialCharges")
+        for (auto& k : vdata) {
+            if (k->GetDataType() == OBGenericDataType::PairData
+            && k->GetOrigin()!=local //internal OBPairData is not written
+            && k->GetAttribute()!="PartialCharges")
             {
-                ofs << "##########\t" << (*k)->GetAttribute() << ":\t" << ((OBPairData*)(*k))->GetValue() << endl;
+                ofs << "##########\t" << k->GetAttribute() << ":\t" << ((OBPairData*)k)->GetValue() << endl;
             }
         }
         ofs << endl;
