@@ -537,10 +537,10 @@ namespace OpenBabel
     rlist = mol->GetSSSR();
     OBRing* result = nullptr;
     size_t min_size = UINT_MAX;
-    for (vector<OBRing*>::iterator i = rlist.begin();i != rlist.end();++i) {
-      if ((*i)->IsMember((OBBond*)this) && (*i)->Size() < min_size) {
-        min_size = (*i)->Size();
-        result = *i;
+    for (auto& i : rlist) {
+      if (i->IsMember((OBBond*)this) && i->Size() < min_size) {
+        min_size = i->Size();
+        result = i;
       }
     }
     return result;
