@@ -341,8 +341,7 @@ bool AliasData::AddAliases(OBMol* pmol)
   if(smtable.empty())
     LoadFile(smtable);
   set<int> AllExAtoms;
-  SmartsTable::iterator iter;
-  for(iter=smtable.begin();iter!=smtable.end();++iter)
+  for(SmartsTable::iterator iter=smtable.begin();iter!=smtable.end();++iter)
   {
     if((*iter).second->Match(*pmol))
     {
