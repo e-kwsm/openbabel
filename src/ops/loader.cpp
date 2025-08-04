@@ -104,8 +104,7 @@ public:
 
     // Iterate through _text and make instances of the plugins.
     // They will be deleted in the destructor.
-    vector<vector<string> >::iterator iter;
-    for(iter=_text.begin();iter!=_text.end();++iter) {
+    for(vector<vector<string> >::iterator iter=_text.begin();iter!=_text.end();++iter) {
       OBPlugin* pdef = FindDef((*iter)[0].c_str());
       _instances.push_back(pdef->MakeInstance(*iter));
     }
@@ -117,8 +116,7 @@ public:
 
   ~OBDefine() override
   {
-    std::vector<OBPlugin*>::iterator iter;
-    for(iter=_instances.begin();iter!=_instances.end();++iter)
+    for(std::vector<OBPlugin*>::iterator iter=_instances.begin();iter!=_instances.end();++iter)
       delete *iter;
   }
 
