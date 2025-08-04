@@ -81,8 +81,7 @@ public:
   /// \return false indicating object should not be output, if any Do() returns false
   static bool DoOps(OBBase* pOb, OpMap* pOptions, OBConversion* pConv)
   {
-    OpMap::const_iterator itr;
-    for(itr=pOptions->begin();itr!=pOptions->end();++itr)
+    for(OpMap::const_iterator itr=pOptions->cbegin();itr!=pOptions->cend();++itr)
     {
       OBOp* pOp = FindType(itr->first.c_str());
       if(pOp)
