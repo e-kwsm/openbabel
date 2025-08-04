@@ -255,8 +255,8 @@ void GenerateRingReference()
       for (atom = mol.BeginAtom(j);atom;atom = mol.NextAtom(j))
         {
           count = 0;
-          for (vector<OBRing*>::iterator k = vr.begin();k != vr.end();++k)
-            if ((*k)->_pathset[atom->GetIdx()])
+          for (const auto& k : vr)
+            if (k->_pathset[atom->GetIdx()])
               count++;
 
           sprintf(buffer,"%3d",count);
