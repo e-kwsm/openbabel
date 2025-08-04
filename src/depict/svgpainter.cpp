@@ -133,8 +133,7 @@ namespace OpenBabel
   void SVGPainter::DrawPolygon(const std::vector<std::pair<double,double> > &points)
   {
     m_ofs << "<polygon points=\"";
-      std::vector<std::pair<double,double> >::const_iterator i;
-    for (i = points.begin(); i != points.end(); ++i)
+    for (std::vector<std::pair<double,double> >::const_iterator i = points.cbegin(); i != points.cend(); ++i)
       m_ofs << i->first << ' ' << i->second << ' ';
     m_ofs << "\"";
     m_ofs << " stroke-width=\"" << m_PenWidth << "\"";
