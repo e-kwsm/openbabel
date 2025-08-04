@@ -1361,8 +1361,7 @@ namespace OpenBabel {
               }
 
             stringstream allinput;
-            vector<string>::iterator itr;
-            for(itr=FileList.begin();itr!=FileList.end();++itr)
+            for(vector<string>::iterator itr=FileList.begin();itr!=FileList.end();++itr)
               {
                 ifstream ifs((*itr).c_str());
                 if(!ifs)
