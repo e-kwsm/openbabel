@@ -492,8 +492,6 @@ namespace OpenBabel
       size_t size;
     } header;
 
-    NameIndexType::iterator itr;
-
     ifstream indexstream;
     OpenDatafile(indexstream, datafilename + ".obindx");
     if(!indexstream)
@@ -531,7 +529,7 @@ namespace OpenBabel
         header.size = index.size();
         dofs.write((const char*)&header, sizeof(headertype));
 
-        for(itr=index.begin();itr!=index.end();++itr)
+        for(NameIndexType::iterator itr=index.begin();itr!=index.end();++itr)
           {
             //#chars; chars;  ofset(4bytes).
             const char n = static_cast<char> (itr->first.size());
@@ -544,7 +542,7 @@ namespace OpenBabel
       {
         //Read index data from file and put into hash_map
         indexstream.read((char*)&header,sizeof(headertype));
-        itr=index.begin(); // for hint
+        NameIndexType::iterator itr=index.begin(); // for hint
         for(unsigned int i=0;i<header.size;++i)
           {
             char len;
