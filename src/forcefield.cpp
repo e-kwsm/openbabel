@@ -467,11 +467,11 @@ namespace OpenBabel
 
   void OBFFConstraints::Setup(OBMol& mol)
   {
-    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i) {
-      i->a = mol.GetAtom(i->ia);
-      i->b = mol.GetAtom(i->ib);
-      i->c = mol.GetAtom(i->ic);
-      i->d = mol.GetAtom(i->id);
+    for (auto& i : _constraints) {
+      i.a = mol.GetAtom(i.ia);
+      i.b = mol.GetAtom(i.ib);
+      i.c = mol.GetAtom(i.ic);
+      i.d = mol.GetAtom(i.id);
     }
   }
 
@@ -479,8 +479,8 @@ namespace OpenBabel
   {
     vector3 grad(0.0, 0.0, 0.0);
 
-    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i)
-      grad += i->GetGradient(a);
+    for (auto& i : _constraints)
+      grad += i.GetGradient(a);
 
     return grad;
   }
@@ -504,68 +504,68 @@ namespace OpenBabel
   {
     double constraint_energy = 0.0;
 
-    for (vector<OBFFConstraint>::iterator i = _constraints.begin(); i != _constraints.end(); ++i)
-      if ( (i->type == OBFF_CONST_DISTANCE) || (i->type == OBFF_CONST_ANGLE) ||
-           (i->type == OBFF_CONST_TORSION) ) {
+    for (auto & i : _constraints)
+      if ( (i.type == OBFF_CONST_DISTANCE) || (i.type == OBFF_CONST_ANGLE) ||
+           (i.type == OBFF_CONST_TORSION) ) {
         vector3 da, db, dc, dd;
         double delta, delta2, rab, theta, dE;
 
-        switch (i->type) {
+        switch (i.type) {
         case OBFF_CONST_DISTANCE:
-          if (i->a == nullptr || (i->b) == nullptr)
+          if (i.a == nullptr || (i.b) == nullptr)
             break;
 
-          da = (i->a)->GetVector();
-          db = (i->b)->GetVector();
+          da = (i.a)->GetVector();
+          db = (i.b)->GetVector();
 
           rab = OBForceField::VectorLengthDerivative(da, db);
-          delta = rab - i->constraint_value;
+          delta = rab - i.constraint_value;
           delta2 = delta * delta;
-          constraint_energy += i->factor * delta2;
-          dE = 2.0 * i->factor * delta;
+          constraint_energy += i.factor * delta2;
+          dE = 2.0 * i.factor * delta;
 
-          i->grada = dE * da;
-          i->gradb = dE * db;
+          i.grada = dE * da;
+          i.gradb = dE * db;
           break;
         case OBFF_CONST_ANGLE:
-          if (i->a == nullptr || i->b == nullptr || i->c == nullptr)
+          if (i.a == nullptr || i.b == nullptr || i.c == nullptr)
             break;
 
-          da = (i->a)->GetVector();
-          db = (i->b)->GetVector();
-          dc = (i->c)->GetVector();
+          da = (i.a)->GetVector();
+          db = (i.b)->GetVector();
+          dc = (i.c)->GetVector();
 
           theta = OBForceField::VectorAngleDerivative(da, db, dc);
-          delta = theta - i->constraint_value;
+          delta = theta - i.constraint_value;
           delta2 = delta * delta;
-          constraint_energy += 0.0002 * i->factor * delta2;
-          dE = 0.0004 * i->factor * delta;
+          constraint_energy += 0.0002 * i.factor * delta2;
+          dE = 0.0004 * i.factor * delta;
 
-          i->grada = dE * da;
-          i->gradb = dE * db;
-          i->gradc = dE * dc;
+          i.grada = dE * da;
+          i.gradb = dE * db;
+          i.gradc = dE * dc;
           break;
         case OBFF_CONST_TORSION:
-          if (i->a == nullptr || i->b == nullptr || i->c == nullptr || i->d == nullptr)
+          if (i.a == nullptr || i.b == nullptr || i.c == nullptr || i.d == nullptr)
             break;
 
-          da = (i->a)->GetVector();
-          db = (i->b)->GetVector();
-          dc = (i->c)->GetVector();
-          dd = (i->d)->GetVector();
+          da = (i.a)->GetVector();
+          db = (i.b)->GetVector();
+          dc = (i.c)->GetVector();
+          dd = (i.d)->GetVector();
 
           theta = OBForceField::VectorTorsionDerivative(da, db, dc, dd);
           if (!isfinite(theta))
             theta = 1.0e-7;
 
-          theta = DEG_TO_RAD * (theta + 180.0 - i->constraint_value);
-          constraint_energy +=  0.001 * i->factor * (1.0 + cos(theta));
-          dE = 0.001 * i->factor * sin(theta);
+          theta = DEG_TO_RAD * (theta + 180.0 - i.constraint_value);
+          constraint_energy +=  0.001 * i.factor * (1.0 + cos(theta));
+          dE = 0.001 * i.factor * sin(theta);
 
-          i->grada = dE * da;
-          i->gradb = dE * db;
-          i->gradc = dE * dc;
-          i->gradd = dE * dd;
+          i.grada = dE * da;
+          i.gradb = dE * db;
+          i.gradc = dE * dc;
+          i.gradd = dE * dd;
           break;
         default:
           break;
@@ -4628,13 +4628,13 @@ namespace OpenBabel
     vector<OBRing*> vr;
     vr = _mol.GetSSSR();
 
-    for (vector<OBRing*>::iterator i = vr.begin();i != vr.end();++i) {
+    for (auto& i : vr) {
       a_in = false;
       b_in = false;
-      for(vector<int>::iterator j = (*i)->_path.begin();j != (*i)->_path.end();++j) {
-        if ((unsigned)(*j) == a->GetIdx())
+      for(int j : i->_path) {
+        if ((unsigned)j == a->GetIdx())
           a_in = true;
-        if ((unsigned)(*j) == b->GetIdx())
+        if ((unsigned)j == b->GetIdx())
           b_in = true;
       }
 
