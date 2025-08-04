@@ -101,7 +101,6 @@ int ringtest(int argc, char* argv[])
   OBMol mol;
   vector<OBBond*>::iterator j;
   vector<OBAtom*>::iterator k;
-  vector<OBRing*>::iterator m;
   OBConversion conv(&mifs, &cout);
   unsigned int currentTest = 0;
 
@@ -179,7 +178,7 @@ int ringtest(int argc, char* argv[])
             cout << "ok " << ++currentTest << " # correct SSSR count\n";
 
           count = 0;
-          for (m = vr.begin();m != vr.end();++m)
+          for (vector<OBRing*>::iterator m = vr.begin();m != vr.end();++m)
             if ((*m)->_pathset[atom->GetIdx()])
               count++;
 
