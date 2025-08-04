@@ -640,10 +640,10 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //output moleculeList
       xmlTextWriterStartElementNS(writer(), prefix, C_MOLECULELIST, nullptr);
-      for(MolMap::iterator mapitr=OMols.begin();mapitr!=OMols.end();++mapitr)
+      for(auto& mapitr : OMols)
       {
-        if(strcmp((mapitr->second)->GetTitle(), "M"))
-          pCMLFormat->WriteMolecule(mapitr->second.get(), _pxmlConv);
+        if(strcmp((mapitr.second)->GetTitle(), "M"))
+          pCMLFormat->WriteMolecule(mapitr.second.get(), _pxmlConv);
       }
       xmlTextWriterEndElement(writer());//moleculeList
 
