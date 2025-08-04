@@ -1385,18 +1385,18 @@ namespace OpenBabel
         GenerateAsciiDepiction(pmol);
 
       vector<OBGenericData*> vdata = mol.GetData();
-      for (vector<OBGenericData*>::iterator k = vdata.begin();k != vdata.end();k++)
+      for (auto& k : vdata)
       {
-        if ((*k)->GetDataType() == OBGenericDataType::PairData
-            && (*k)->GetOrigin()!=local) //internal OBPairData is not written
+        if (k->GetDataType() == OBGenericDataType::PairData
+            && k->GetOrigin()!=local) //internal OBPairData is not written
         {
           HasProperties = true;
           //Since partial charges are not output
           //in this format, don't need the annotation
-          if((*k)->GetAttribute()!="PartialCharges")
+          if(k->GetAttribute()!="PartialCharges")
           {
-            ofs << ">  <" << (*k)->GetAttribute() << ">" << endl;
-            ofs << ((OBPairData*)(*k))->GetValue() << endl << endl;
+            ofs << ">  <" << k->GetAttribute() << ">" << endl;
+            ofs << ((OBPairData*)k)->GetValue() << endl << endl;
           }
         }
       }
