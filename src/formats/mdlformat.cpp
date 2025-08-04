@@ -880,9 +880,9 @@ namespace OpenBabel
 
       // For unspecified cis/trans stereos, set their Configs to unspecified
       // This should really be done in CisTransFrom3D like in CisTransFrom2D but can't change the API now :-/
-      for(map<OBBond*, OBStereo::BondDirection>::const_iterator bd_it=updown.cbegin(); bd_it!=updown.cend(); ++bd_it) {
-        OBBond* bond = bd_it->first;
-        if (bond->GetBondOrder()!=2 || bd_it->second != OBStereo::UnknownDir)
+      for(auto bd_it : updown) {
+        OBBond* bond = bd_it.first;
+        if (bond->GetBondOrder()!=2 || bd_it.second != OBStereo::UnknownDir)
           continue; // Only continue for those double bonds with UnknownDir
         OBCisTransStereo* ct = facade.GetCisTransStereo(bond->GetId());
         if (ct) {
@@ -1028,10 +1028,10 @@ namespace OpenBabel
 
     // Return true if and only if it has a specified tet stereocenter
     std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-      OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
+    for (auto & data : stereoData) {
+      OBStereo::Type type = ((OBStereoBase*)data)->GetType();
       if (type != OBStereo::Tetrahedral) continue;
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(data);
       if (ts->GetConfig().specified)
         return true;
     }
