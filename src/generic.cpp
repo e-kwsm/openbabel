@@ -634,27 +634,26 @@ namespace OpenBabel
         atomsToDelete.push_back(&(*atom));
       }
     }
-    for (list<OBAtom*>::iterator deleteIter = atomsToDelete.begin(); deleteIter != atomsToDelete.end(); ++deleteIter) {
-      mol->DeleteAtom(*deleteIter);
+    for (auto& deleteIter : atomsToDelete) {
+      mol->DeleteAtom(deleteIter);
     }
 
     // Cross-check all transformations for duplicity
-    for (list<OBAtom*>::iterator atomIter = atoms.begin(); atomIter != atoms.end(); ++atomIter) {
-      uniqueV = (*atomIter)->GetVector();
+    for (auto& atom : atoms) {
+      uniqueV = atom->GetVector();
       uniqueV = CartesianToFractional(uniqueV);
       uniqueV = WrapFractionalCoordinate(uniqueV);
 
       transformedVectors = sg->Transform(uniqueV);
-      for (list<vector3>::iterator transformIter = transformedVectors.begin();
-        transformIter != transformedVectors.end(); ++transformIter) {
-        updatedCoordinate = WrapFractionalCoordinate(*transformIter);
+      for (auto& transformedVector : transformedVectors) {
+        updatedCoordinate = WrapFractionalCoordinate(transformedVector);
 
         // Check if the transformed coordinate is a duplicate of an atom
-        snprintf(hash, 22, "%03d,%.3f,%.3f,%.3f", (*atomIter)->GetAtomicNum(), updatedCoordinate.x(),
+        snprintf(hash, 22, "%03d,%.3f,%.3f,%.3f", atom->GetAtomicNum(), updatedCoordinate.x(),
                  updatedCoordinate.y(), updatedCoordinate.z());
         if (coordinateSet.insert(hash).second) {
           newAtom = mol->NewAtom();
-          newAtom->Duplicate(*atomIter);
+          newAtom->Duplicate(atom);
           newAtom->SetVector(FractionalToCartesian(updatedCoordinate));
         }
       } // end loop of transformed atoms
@@ -820,19 +819,19 @@ namespace OpenBabel
     //no other memeber data
     //memory management
 
-    for(vector<OBRing*>::iterator ring = _vr.begin();ring != _vr.end();++ring)
+    for(auto& ring : _vr)
       {
         OBRing *newring = new OBRing;
-        (*newring) = (**ring);	//copy data to new object
-        (*ring)    = newring;	//repoint new pointer to new copy of data
+        (*newring) = (*ring);	//copy data to new object
+        ring    = newring;	//repoint new pointer to new copy of data
       }
   }
 
   OBRingData::~OBRingData()
   {
-    for (vector<OBRing*>::iterator ring = _vr.begin();ring != _vr.end();++ring)
+    for (auto& ring : _vr)
       {
-        delete *ring;
+        delete ring;
       }
   }
 
@@ -853,23 +852,23 @@ namespace OpenBabel
     //member data
 
     //memory management
-    for(vector<OBRing*>::iterator ring = _vr.begin();ring != _vr.end();++ring)
+    for(auto& ring : _vr)
       {
-        delete &*ring;	//deallocate old rings to prevent memory leak
+        delete &ring;	//deallocate old rings to prevent memory leak
       }
 
     _vr.clear();
     _vr = src._vr;	//copy vector properties
 
-    for(vector<OBRing*>::iterator ring = _vr.begin();ring != _vr.end();++ring)
+    for(auto& ring : _vr)
       {
-        if(*ring == 0)
+        if(ring == 0)
           continue;
 
         //allocate and copy ring data
         OBRing *newring = new OBRing;
-        (*newring) = (**ring);
-        (*ring) = newring;	//redirect pointer
+        (*newring) = (*ring);
+        ring = newring;	//redirect pointer
       }
     return(*this);
   }
@@ -1098,11 +1097,11 @@ namespace OpenBabel
       }
 
     int angleIdx = 0;
-    for(vector<OBAngle>::iterator angle=_angles.begin(); angle!=_angles.end(); ++angle)
+    for(auto& angle : _angles)
       {
-        *angles[angleIdx++] = angle->_vertex->GetIdx();
-        *angles[angleIdx++] = angle->_termini.first->GetIdx();
-        *angles[angleIdx++] = angle->_termini.second->GetIdx();
+        *angles[angleIdx++] = angle._vertex->GetIdx();
+        *angles[angleIdx++] = angle._termini.first->GetIdx();
+        *angles[angleIdx++] = angle._termini.second->GetIdx();
       }
     return (unsigned int)_angles.size();
   }
@@ -1142,10 +1141,10 @@ namespace OpenBabel
 
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > torsions;
 
-    for(vector<triple<OBAtom*,OBAtom*,double> >::iterator ad = _ads.begin();ad != _ads.end();++ad)
+    for(auto& ad : _ads)
       {
-        abcd.first = ad->first;
-        abcd.fourth = ad->second;
+        abcd.first = ad.first;
+        abcd.fourth = ad.second;
         torsions.push_back(abcd);
       }
 
@@ -1317,11 +1316,11 @@ namespace OpenBabel
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > tmpquads,quads;
 
     //generate set of all 4 atom abcd's from torsion structure
-    for (vector<OBTorsion>::iterator torsion = _torsions.begin();torsion != _torsions.end();++torsion)
+    for (auto& torsion : _torsions)
       {
-        tmpquads = torsion->GetTorsions();
-        for(vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> >::iterator thisQuad = tmpquads.begin();thisQuad != tmpquads.end();++thisQuad)
-          quads.push_back(*thisQuad);
+        tmpquads = torsion.GetTorsions();
+        for(auto& tmpquad : tmpquads)
+          quads.push_back(tmpquad);
       }
 
     //fill array of torsion atoms
