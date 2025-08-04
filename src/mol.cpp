@@ -4186,9 +4186,9 @@ namespace OpenBabel
 
     // Update Stereo
     std::vector<OBGenericData*> stereoData = GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+    for (auto& data : stereoData) {
+      if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::CisTrans) {
+        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(data);
 
         // Check that the entirety of this cistrans cfg occurs in this substructure
         OBCisTransStereo::Config cfg = ct->GetConfig();
@@ -4241,8 +4241,8 @@ namespace OpenBabel
         newct->SetConfig(newcfg);
         newmol.SetData(newct);
       }
-      else if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *tet = dynamic_cast<OBTetrahedralStereo*>(*data);
+      else if (static_cast<OBStereoBase*>(data)->GetType() == OBStereo::Tetrahedral) {
+        OBTetrahedralStereo *tet = dynamic_cast<OBTetrahedralStereo*>(data);
         OBTetrahedralStereo::Config cfg = tet->GetConfig();
 
         // Check that the entirety of this tet cfg occurs in this substructure
