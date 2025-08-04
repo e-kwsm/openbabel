@@ -616,8 +616,7 @@ namespace OpenBabel
     bool use2d = _pxmlConv->IsOption("2", OBConversion::INOPTIONS);
 
     int nAtoms=_pmol->NumAtoms();//was 0
-    cmlArray::iterator AtomIter;
-    for(AtomIter=AtomArray.begin();AtomIter!=AtomArray.end();++AtomIter)
+    for(cmlArray::iterator AtomIter=AtomArray.begin();AtomIter!=AtomArray.end();++AtomIter)
       {
         //		OBAtom obatom;
         OBAtom* pAtom = _pmol->NewAtom();
@@ -628,8 +627,7 @@ namespace OpenBabel
         double x=0,y=0,z=0;
         bool using3=false, using2=false, usingFract=false;
 
-        vector<pair<string,string> >::iterator AttributeIter;
-        for(AttributeIter=AtomIter->begin();AttributeIter!=AtomIter->end();++AttributeIter)
+        for(vector<pair<string,string> >::iterator AttributeIter=AtomIter->begin();AttributeIter!=AtomIter->end();++AttributeIter)
           {
             string& attrname = AttributeIter->first;
             string& value    = AttributeIter->second;
@@ -833,11 +831,9 @@ namespace OpenBabel
   ///Interprets bonds from BondArray and writes then to an OBMol
   bool CMLFormat::DoBonds()
   {
-    vector<pair<string,string> >::iterator AttributeIter;
-    cmlArray::iterator BondIter;
     bool HaveWarned = false;
     bool needs_kekulization = false; // Have we have found an aromatic bond?
-    for(BondIter=BondArray.begin();BondIter!=BondArray.end();++BondIter)
+    for(cmlArray::iterator BondIter=BondArray.begin();BondIter!=BondArray.end();++BondIter)
       {
         int indx1=0,indx2=0, ord=0;
         unsigned int flag=0;
@@ -846,7 +842,7 @@ namespace OpenBabel
         string label;
         bool PossibleBond = false;
 
-        for(AttributeIter=BondIter->begin();AttributeIter!=BondIter->end();++AttributeIter)
+        for(vector<pair<string,string> >::iterator AttributeIter=BondIter->begin();AttributeIter!=BondIter->end();++AttributeIter)
           {
             string attrname = AttributeIter->first;
             string value    = AttributeIter->second;
@@ -1011,8 +1007,7 @@ namespace OpenBabel
   bool CMLFormat::DoMolWideData()
   {
     //Handle atomParity and bondStereo
-    vector<pair<string,string> >::iterator AttributeIter;
-    for(AttributeIter=molWideData.begin();AttributeIter!=molWideData.end();++AttributeIter)
+    for(vector<pair<string,string> >::iterator AttributeIter=molWideData.begin();AttributeIter!=molWideData.end();++AttributeIter)
       {
         string name  = AttributeIter->first;
         string value = AttributeIter->second;
@@ -1228,8 +1223,8 @@ namespace OpenBabel
   {
     vector<string> items;
     tokenize(items, formula);
-    vector<string>::iterator iSymbol, iNumber;
-    for(iSymbol=items.begin();iSymbol!=items.end();++iSymbol)
+    vector<string>::iterator iNumber;
+    for(vector<string>::iterator iSymbol=items.begin();iSymbol!=items.end();++iSymbol)
       {
         iNumber = iSymbol+1;
         if(iNumber==items.end())
@@ -2183,9 +2178,8 @@ namespace OpenBabel
     static const xmlChar C_SCALAR[]       = "scalar";
     static const xmlChar C_TITLE[]        = "title";
 
-    vector<OBGenericData*>::iterator k;
     vector<OBGenericData*> vdata = mol.GetData();
-    for (k = vdata.begin();k != vdata.end();++k)
+    for (vector<OBGenericData*>::iterator k = vdata.begin();k != vdata.end();++k)
       {
         if  ((*k)->GetDataType() == OBGenericDataType::PairData
           && (*k)->GetOrigin()   != local //internal OBPairData is not written
