@@ -318,8 +318,8 @@ namespace OpenBabel
 
   OBGastChrg::~OBGastChrg()
   {
-    for (vector <GasteigerState*>::iterator i = _gsv.begin();i != _gsv.end();++i)
-      delete *i;
+    for (auto& i : _gsv)
+      delete i;
   }
 
   GasteigerState::GasteigerState()
