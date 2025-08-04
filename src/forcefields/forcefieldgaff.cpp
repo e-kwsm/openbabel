@@ -66,7 +66,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Bond()
   {
-    vector<OBFFBondCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -76,7 +75,7 @@ namespace OpenBabel
       OBFFLog("------------------------------------------------------------------------\n");
     }
 
-    for (i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
+    for (vector<OBFFBondCalculationGaff>::iterator i = _bondcalculations.begin(); i != _bondcalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -135,7 +134,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Angle()
   {
-    vector<OBFFAngleCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -145,7 +143,7 @@ namespace OpenBabel
       OBFFLog("-----------------------------------------------------------------------------\n");
     }
 
-    for (i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
+    for (vector<OBFFAngleCalculationGaff>::iterator i = _anglecalculations.begin(); i != _anglecalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -207,7 +205,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Torsion()
   {
-    vector<OBFFTorsionCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -217,7 +214,7 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
+    for (vector<OBFFTorsionCalculationGaff>::iterator i = _torsioncalculations.begin(); i != _torsioncalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -309,7 +306,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_OOP()
   {
-    vector<OBFFOOPCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -319,7 +315,7 @@ namespace OpenBabel
       OBFFLog("----------------------------------------------------------------\n");
     }
 
-    for (i = _oopcalculations.begin(); i != _oopcalculations.end(); ++i) {
+    for (vector<OBFFOOPCalculationGaff>::iterator i = _oopcalculations.begin(); i != _oopcalculations.end(); ++i) {
 
       i->template Compute<gradients>();
       energy += i->energy;
@@ -380,7 +376,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_VDW()
   {
-    vector<OBFFVDWCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -392,7 +387,7 @@ namespace OpenBabel
     }
 
     unsigned int j = 0;
-    for (i = _vdwcalculations.begin(); i != _vdwcalculations.end(); ++i, ++j) {
+    for (vector<OBFFVDWCalculationGaff>::iterator i = _vdwcalculations.begin(); i != _vdwcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
         if (!_vdwpairs.BitIsSet(j))
@@ -448,7 +443,6 @@ namespace OpenBabel
   template<bool gradients>
   double OBForceFieldGaff::E_Electrostatic()
   {
-    vector<OBFFElectrostaticCalculationGaff>::iterator i;
     double energy = 0.0;
 
     IF_OBFF_LOGLVL_HIGH {
@@ -460,7 +454,7 @@ namespace OpenBabel
     }
 
     unsigned int j = 0;
-    for (i = _electrostaticcalculations.begin(); i != _electrostaticcalculations.end(); ++i, ++j) {
+    for (vector<OBFFElectrostaticCalculationGaff>::iterator i = _electrostaticcalculations.begin(); i != _electrostaticcalculations.end(); ++i, ++j) {
       // Cut-off check
       if (_cutoff)
         if (!_elepairs.BitIsSet(j))
@@ -1218,7 +1212,6 @@ namespace OpenBabel
   {
     vector<vector<int> > _mlist; //!< match list for atom typing
     vector<pair<std::unique_ptr<OBSmartsPattern>, string>> _vexttyp; //!< external atom type rules
-    vector<vector<int> >::iterator j;
     vector<string> vs;
     char buffer[150];
     OBAtom *atm, *a, *b;
@@ -1255,7 +1248,7 @@ namespace OpenBabel
     for (auto i = _vexttyp.begin(); i != _vexttyp.end(); ++i) {
       if (i->first->Match(_mol)) {
         _mlist = i->first->GetMapList();
-        for (j = _mlist.begin();j != _mlist.end();++j) {
+        for (vector<vector<int> >::iterator j = _mlist.begin();j != _mlist.end();++j) {
           _mol.GetAtom((*j)[0])->SetType(i->second);
         }
       }
