@@ -616,7 +616,7 @@ namespace OpenBabel
     bool use2d = _pxmlConv->IsOption("2", OBConversion::INOPTIONS);
 
     int nAtoms=_pmol->NumAtoms();//was 0
-    for(cmlArray::iterator AtomIter=AtomArray.begin();AtomIter!=AtomArray.end();++AtomIter)
+    for(auto& AtomIter : AtomArray)
       {
         //		OBAtom obatom;
         OBAtom* pAtom = _pmol->NewAtom();
@@ -627,10 +627,10 @@ namespace OpenBabel
         double x=0,y=0,z=0;
         bool using3=false, using2=false, usingFract=false;
 
-        for(vector<pair<string,string> >::iterator AttributeIter=AtomIter->begin();AttributeIter!=AtomIter->end();++AttributeIter)
+        for(auto& AttributeIter : AtomIter)
           {
-            string& attrname = AttributeIter->first;
-            string& value    = AttributeIter->second;
+            string& attrname = AttributeIter.first;
+            string& value    = AttributeIter.second;
 
             if(attrname=="id" || attrname=="atomId" || attrname=="atomID")//which one correct?
               {
@@ -833,7 +833,7 @@ namespace OpenBabel
   {
     bool HaveWarned = false;
     bool needs_kekulization = false; // Have we have found an aromatic bond?
-    for(cmlArray::iterator BondIter=BondArray.begin();BondIter!=BondArray.end();++BondIter)
+    for(auto& BondIter : BondArray)
       {
         int indx1=0,indx2=0, ord=0;
         unsigned int flag=0;
@@ -842,10 +842,10 @@ namespace OpenBabel
         string label;
         bool PossibleBond = false;
 
-        for(vector<pair<string,string> >::iterator AttributeIter=BondIter->begin();AttributeIter!=BondIter->end();++AttributeIter)
+        for(auto& AttributeIter : BondIter)
           {
-            string attrname = AttributeIter->first;
-            string value    = AttributeIter->second;
+            string attrname = AttributeIter.first;
+            string value    = AttributeIter.second;
             Trim(value);
 
 
@@ -2179,12 +2179,12 @@ namespace OpenBabel
     static const xmlChar C_TITLE[]        = "title";
 
     vector<OBGenericData*> vdata = mol.GetData();
-    for (vector<OBGenericData*>::iterator k = vdata.begin();k != vdata.end();++k)
+    for (auto& k : vdata)
       {
-        if  ((*k)->GetDataType() == OBGenericDataType::PairData
-          && (*k)->GetOrigin()   != local //internal OBPairData is not written
-          && (*k)->GetAttribute()!= "InChI" //InChI is output in <identifier>
-          && (*k)->GetAttribute()!= "PartialCharges")//annotation not needed since partial charges are not output in this format
+        if  (k->GetDataType() == OBGenericDataType::PairData
+          && k->GetOrigin()   != local //internal OBPairData is not written
+          && k->GetAttribute()!= "InChI" //InChI is output in <identifier>
+          && k->GetAttribute()!= "PartialCharges")//annotation not needed since partial charges are not output in this format
           {
             if(!propertyListWritten)
               {
@@ -2194,7 +2194,7 @@ namespace OpenBabel
 
             xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
             //Title is now on <property>. If the attribute name has a namespace, use dictRef instead.
-            string att((*k)->GetAttribute());
+            string att(k->GetAttribute());
             xmlTextWriterWriteFormatAttribute(writer(),
               (att.find(':')==string::npos) ? C_TITLE : C_DICTREF,
               "%s",att.c_str());
@@ -2202,7 +2202,7 @@ namespace OpenBabel
 
             //Title used to be on <scalar>...
             //xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s",(*k)->GetAttribute().c_str());
-            xmlTextWriterWriteFormatString(writer(),"%s", (static_cast<OBPairData*>(*k))->GetValue().c_str());
+            xmlTextWriterWriteFormatString(writer(),"%s", (static_cast<OBPairData*>(k))->GetValue().c_str());
             xmlTextWriterEndElement(writer());//scalar
             xmlTextWriterEndElement(writer());//property
           }
