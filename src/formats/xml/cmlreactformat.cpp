@@ -393,8 +393,7 @@ bool CMLReactFormat::WriteChemObject(OBConversion* pConv)
             return false;
         }
         unsigned int n=0;
-        MolMap::iterator mapitr;
-        for(mapitr=OMols.begin();mapitr!=OMols.end() && ret; ++mapitr)
+        for(MolMap::iterator mapitr=OMols.begin();mapitr!=OMols.end() && ret; ++mapitr)
         {
           pConv->SetOutputIndex(++n);      //we have to increment and
           pConv->SetLast(n==OMols.size()); //setLast manually because we are not using Convert()
@@ -641,8 +640,7 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       //output moleculeList
       xmlTextWriterStartElementNS(writer(), prefix, C_MOLECULELIST, nullptr);
-      MolMap::iterator mapitr;
-      for(mapitr=OMols.begin();mapitr!=OMols.end();++mapitr)
+      for(MolMap::iterator mapitr=OMols.begin();mapitr!=OMols.end();++mapitr)
       {
         if(strcmp((mapitr->second)->GetTitle(), "M"))
           pCMLFormat->WriteMolecule(mapitr->second.get(), _pxmlConv);
