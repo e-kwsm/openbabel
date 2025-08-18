@@ -329,7 +329,7 @@ namespace OpenBabel {
        */
       OBStereoBase(OBMol *mol) :
         OBGenericData("StereoData", OBGenericDataType::StereoData, perceived),
-        m_mol(mol), m_specified(true)
+        m_mol(mol) 
       {
       }
       /**
@@ -361,7 +361,7 @@ namespace OpenBabel {
       //@}
     private:
       OBMol *m_mol; //!< The parent molecule.
-      bool m_specified; //!< True if the stereochemistry is specified, false if unknown/unspecified.
+      bool m_specified{true}; //!< True if the stereochemistry is specified, false if unknown/unspecified.
   };
 
   // fwd decl
@@ -392,7 +392,7 @@ namespace OpenBabel {
        * OBMol::HasChiralityPerceived() flag is not set. (default is true)
        */
       OBStereoFacade(OBMol *mol, bool perceive = true) :
-          m_mol(mol), m_init(false), m_perceive(perceive)
+          m_mol(mol),  m_perceive(perceive)
       {
       }
 
@@ -484,7 +484,7 @@ namespace OpenBabel {
       void InitMaps();
 
       OBMol *m_mol;
-      bool m_init;
+      bool m_init{false};
       bool m_perceive;
       std::map<unsigned long, OBTetrahedralStereo*> m_tetrahedralMap;
       std::map<unsigned long, OBCisTransStereo*> m_cistransMap;

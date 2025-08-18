@@ -249,7 +249,7 @@ namespace OpenBabel
       /// "a parallel to x; b in the plane of y and z" (see _atom_sites_Cartn_transform_axes)
       std::vector<float> mCoordCart;
       /// Site occupancy, or -1
-      float mOccupancy;
+      float mOccupancy{1.0f};
       //charge from oxydation
       float mCharge;
     };
@@ -313,7 +313,7 @@ namespace OpenBabel
 
   //############################## CIF CLASSES CODE ####################################################
   CIFData::CIFAtom::CIFAtom():
-    mLabel(""),mSymbol(""),mOccupancy(1.0f)
+    mLabel(""),mSymbol("")
   {}
 
   CIFData::CIFData()

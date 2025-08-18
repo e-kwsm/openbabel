@@ -748,7 +748,7 @@ private:
     ///into an OBMol instance.
     struct T41GridData
     {
-        bool valid;
+        bool valid{ false };
         double startPoint[ 3 ];
         int numPoints[ 3 ];
         double xAxis[ 3 ];
@@ -757,7 +757,7 @@ private:
         int numSymmetries;
         std::vector< std::string > labels;
         bool unrestricted;
-        T41GridData() : valid( false ) {}
+        T41GridData()  {}
         operator bool() const { return valid; }
     };
 

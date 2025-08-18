@@ -46,17 +46,17 @@ namespace OpenBabel
      //@}
 
     private:
-      cairo_surface_t *m_surface;
-      cairo_t *m_cairo;
-      int m_fontPointSize;
-      int m_width;
-      int m_height;
-      double m_pen_width;
+      cairo_surface_t *m_surface{nullptr};
+      cairo_t *m_cairo{nullptr};
+      int m_fontPointSize{12};
+      int m_width{0};
+      int m_height{0};
+      double m_pen_width{1};
       std::string m_title;
-      int m_index;        // Index of current molecule in a table
+      int m_index{1};        // Index of current molecule in a table
       int m_ncols, m_nrows; // number of rows and columns
       std::string m_fillcolor, m_bondcolor;
-      bool m_transparent, m_cropping;
+      bool m_transparent{false}, m_cropping;
 
   };
 

@@ -36,7 +36,7 @@ class FastSearchFormat : public OBFormat
 {
 public:
 //Register this format type ID
-FastSearchFormat() : fsi(nullptr)
+FastSearchFormat()  
 {
   OBConversion::RegisterFormat("fs",this);
   //Specify the number of option taken by options
@@ -118,7 +118,7 @@ const char* Description() override  // required
     ///big data structure which will remain in memory after it is loaded
     //until the program ends.
     FastSearch fs;
-    FastSearchIndexer* fsi;
+    FastSearchIndexer* fsi{nullptr};
     streampos LastSeekpos; //used during update
     OBStopwatch sw; //used when preparing index
     int nmols; //number mols in data file

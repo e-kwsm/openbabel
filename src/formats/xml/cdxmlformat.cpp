@@ -52,7 +52,7 @@ struct Coord2D
 class ChemDrawXMLFormat : public XMLMoleculeFormat
 {
 public:
-	ChemDrawXMLFormat(): Order (-1)
+	ChemDrawXMLFormat() 
 	{
 		OBConversion::RegisterFormat("cdxml", this, "chemical/x-cdxml");
 		XMLConversion::RegisterXMLFormat(this, false, "http://www.camsoft.com/xml/cdxml.dtd");
@@ -97,7 +97,7 @@ private:
 
 private:
   OBAtom _tempAtom; //!< A temporary atom as the atom tag is read
-  int Begin, End, Order, Flag; // Data for current bond
+  int Begin, End, Order{-1}, Flag; // Data for current bond
   map <int, int> atoms; // maps chemdraw atom id to openbabel idx.
   int _offset; // used to ensure that atoms have different ids.
   double _scale; // current scale

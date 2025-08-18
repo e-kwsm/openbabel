@@ -25,7 +25,7 @@ using namespace std;
 namespace OpenBabel
 {
 
-  ASCIIPainter::ASCIIPainter(int width, int height, double aspect): m_width(width), m_height(height), m_aspect(aspect), m_scale(1)
+  ASCIIPainter::ASCIIPainter(int width, int height, double aspect): m_width(width), m_height(height), m_aspect(aspect) 
   {
     m_buf.clear();
     m_buf.reserve(m_height);

@@ -35,7 +35,7 @@ public:
 	fingerprintECFP(const char* ID, bool IsDefault=false,
                   unsigned int radius=4, bool keepdups = true)
 		: OBFingerprint(ID, IsDefault),
-      _radius(radius), _keepdups(keepdups), _flags(0){};
+      _radius(radius), _keepdups(keepdups) {};
 
 	const char* Description() override
 	{
@@ -62,7 +62,7 @@ private:
   stringstream _ss;
   unsigned int _radius;
   bool _keepdups;
-  unsigned int _flags;
+  unsigned int _flags{0};
 };
 
 //***********************************************

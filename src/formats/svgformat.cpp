@@ -29,7 +29,7 @@ namespace OpenBabel
 class SVGFormat : public OBFormat
 {
 public:
-  SVGFormat() : _ncols(0), _nrows(0), _nmax(0)
+  SVGFormat()  
   {
     OBConversion::RegisterFormat("svg",this);
     OBConversion::RegisterOptionParam("N", this, 1, OBConversion::OUTOPTIONS);
@@ -166,7 +166,7 @@ private:
   bool EmbedScript(ostream& ofs);
   bool WriteSVG(OBConversion* pConv, vector<OBBase*>& molecules);
 private:
-  int _ncols, _nrows, _nmax;
+  int _ncols{0}, _nrows{0}, _nmax{0};
   vector<OBBase*> _objects;
   OBText* _ptext;
   string::size_type _textpos;

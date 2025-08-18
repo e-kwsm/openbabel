@@ -32,14 +32,7 @@ namespace OpenBabel
 
 
 OBSpectrophore::OBSpectrophore(void)
-:  _resolution(3.0)
-,  _property(nullptr)
-,  _radii(nullptr)
-,  _oricoor(nullptr)
-,  _coor(nullptr)
-,  _beginProbe(0)
-,  _endProbe(0)
-,  _numberOfProbes(0)
+  
 {
    SetAccuracy(OBSpectrophore::AngStepSize20);
    SetStereo(OBSpectrophore::NoStereoSpecificProbes);
@@ -50,11 +43,8 @@ OBSpectrophore::OBSpectrophore(void)
 
 OBSpectrophore::OBSpectrophore(const OBSpectrophore& s)
 :  _resolution(s._resolution)
-,  _property(nullptr)
-,  _radii(nullptr)
-,  _oricoor(nullptr)
-,  _coor(nullptr)
-,  _beginProbe(s._beginProbe)
+,  
+  _beginProbe(s._beginProbe)
 ,  _endProbe(s._endProbe)
 ,  _numberOfProbes(s._numberOfProbes)
 ,  _spectro(s._spectro)

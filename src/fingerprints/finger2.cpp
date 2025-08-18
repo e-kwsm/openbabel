@@ -35,7 +35,7 @@ class fingerprint2 : public OBFingerprint
 {
 public:
 	fingerprint2(const char* ID, bool IsDefault=false)
-		: OBFingerprint(ID, IsDefault), _flags(0){};
+		: OBFingerprint(ID, IsDefault) {};
 
 	const char* Description() override
 	{ return "Indexes linear fragments up to 7 atoms."
@@ -86,7 +86,7 @@ private:
 	Fset fragset;
 	Fset ringset;
   stringstream _ss;
-  unsigned int _flags;
+  unsigned int _flags{0};
 
 };
 

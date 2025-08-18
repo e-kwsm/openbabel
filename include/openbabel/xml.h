@@ -135,13 +135,13 @@ namespace OpenBabel
       static XMLBaseFormat* _pDefault;
       OBConversion* _pConv;
       std::streampos  _requestedpos, _lastpos;
-      xmlTextReaderPtr _reader;
-      xmlTextWriterPtr _writer;
+      xmlTextReaderPtr _reader{nullptr};
+      xmlTextWriterPtr _writer{nullptr};
       xmlOutputBufferPtr _buf;
       //    xmlBufferPtr _buf;
-      bool _LookingForNamespace;
+      bool _LookingForNamespace{false};
     public:
-      bool _SkipNextRead;
+      bool _SkipNextRead{false};
     };
 
   //*************************************************

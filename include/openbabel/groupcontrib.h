@@ -52,7 +52,7 @@ public:
 
   //! constructor. Each instance provides an ID and a datafile.
   OBGroupContrib(const char* ID, const char* filename, const char* descr)
-    : OBDescriptor(ID, false), _filename(filename), _descr(descr), _debug(false){}
+    : OBDescriptor(ID, false), _filename(filename), _descr(descr) {}
 
   virtual ~OBGroupContrib();
 
@@ -72,7 +72,7 @@ public:
   const char* _descr;
   std::vector<std::pair<OBSmartsPattern*, double> > _contribsHeavy; //! heavy atom contributions
   std::vector<std::pair<OBSmartsPattern*, double> > _contribsHydrogen; //!  hydrogen contributions
-  bool _debug;
+  bool _debug{false};
 };
 
 /* The classes OBLogp, OBPSA and OBMR have been replaced by instances of
