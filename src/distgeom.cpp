@@ -242,7 +242,7 @@ namespace OpenBabel {
 
     // If we're in a unit cell, the maximum distance is 1/2 the longest body diagonal
     //   (remember that the unit cell wraps around)
-    OBUnitCell* pUC = (OBUnitCell*)_mol.GetData(OBGenericDataType::UnitCell);
+    OBUnitCell* pUC = dynamic_cast<OBUnitCell*>(_mol.GetData(OBGenericDataType::UnitCell));
     if (pUC != nullptr) {
       vector<vector3> cellVectors = pUC->GetCellVectors();
 
@@ -514,7 +514,7 @@ namespace OpenBabel {
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
           // OK, get the central bond (bc) and check all the bonded atoms for proper stereo
@@ -675,7 +675,7 @@ namespace OpenBabel {
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
           // OK, get the central bond (bc) and check all the bonded atoms for proper stereo
