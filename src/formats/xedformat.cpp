@@ -74,11 +74,11 @@ bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
-    int type_name, mass;
-    OBAtom *atom;
-    OBBond *bond;
+    int type_name = 0, mass = 0;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
     string str,str1;
 
     ttab.SetFromType("INT");

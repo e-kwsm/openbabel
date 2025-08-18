@@ -64,8 +64,8 @@ double InChIFilter::GetStringValue(OBBase* pOb, std::string& svalue, std::string
 bool InChIFilter::Compare(OBBase* pOb, istream& optionText, bool noEval, std::string*)
 {
   string InchiFilterString, inchi;
-  string::size_type filterpos=0, inchipos, len;
-  bool ret;
+  string::size_type filterpos=0, inchipos = 0, len = 0;
+  bool ret = false;
   bool matchornegate = ReadStringFromFilter(optionText, InchiFilterString);
   if(noEval)
     return false;

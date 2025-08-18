@@ -89,7 +89,7 @@ namespace OpenBabel
         return false;
       }
 
-    int ret;
+    int ret = 0;
     if(IsOption("c"))
       ret = xmlTextWriterSetIndent(_writer,0);
     else
@@ -129,7 +129,7 @@ namespace OpenBabel
   /// if this has not already been done.
   XMLConversion* XMLConversion::GetDerived(OBConversion* pConv, bool ForReading)
   {
-    XMLConversion* pxmlConv;
+    XMLConversion* pxmlConv = nullptr;
     if(!pConv->GetAuxConv())
       //Need to make an extended copy. It will be deleted by pConv's destructor
       pxmlConv =  new XMLConversion(pConv);
@@ -218,7 +218,7 @@ namespace OpenBabel
       string ElName((const char*)pname);
 
       //Pass the node on to the appropriate format class
-      bool ret;
+      bool ret = false;
       if(typ==XML_READER_TYPE_ELEMENT)
       {
         elementCnt++;
@@ -273,7 +273,7 @@ namespace OpenBabel
         targettyp = XML_READER_TYPE_END_ELEMENT;
       }
 
-    int result;
+    int result = 0;
     while((result = xmlTextReaderRead(_reader))==1)
       {
         if(xmlTextReaderNodeType(_reader)==targettyp

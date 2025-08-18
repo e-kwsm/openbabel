@@ -21,6 +21,7 @@ GNU General Public License for more details.
 #pragma warning (disable : 4786)
 #endif
 #include <cstdlib>
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/data.h>
 #include <openbabel/data_utilities.h>
@@ -98,9 +99,9 @@ namespace OpenBabel
 
   void OBAtomicHeatOfFormationTable::ParseLine(const char *line)
   {
-    char *ptr;
+    char *ptr = nullptr;
     vector<string> vs;
-    OBAtomHOF *oba;
+    OBAtomHOF *oba = nullptr;
 
     ptr = const_cast<char*>( strchr(line,'#'));
     if (nullptr != ptr)
@@ -131,9 +132,9 @@ namespace OpenBabel
                                                        double *dhofT,
                                                        double *S0T)
   {
-    int    found;
+    int    found = 0;
     double Ttol = 0.05; /* Kelvin */
-    double Vmodel, Vdhf, S0, HexpT;
+    double Vmodel = NAN, Vdhf = NAN, S0 = NAN, HexpT = NAN;
     std::vector<OBAtomHOF>::iterator it;
     char desc[128];
 
@@ -289,7 +290,7 @@ namespace OpenBabel
 
     string tmp = from;
 
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < _colnames.size();++i)
       if (tmp == _colnames[i])
         {
@@ -309,7 +310,7 @@ namespace OpenBabel
 
     string tmp = to;
 
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < _colnames.size();++i)
       if (tmp == _colnames[i])
         {
@@ -332,7 +333,7 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    bool rval;
+    bool rval = false;
     string sto,sfrom;
     sfrom = from;
     rval = Translate(sto,sfrom);
@@ -416,14 +417,14 @@ namespace OpenBabel
 
   void Toupper(string &s)
   {
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < s.size();++i)
       s[i] = toupper(s[i]);
   }
 
   void Tolower(string &s)
   {
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < s.size();++i)
       s[i] = tolower(s[i]);
   }
@@ -444,12 +445,12 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    OBAtom *a1,*a2;
-    OBResidue *r1,*r2;
+    OBAtom *a1 = nullptr,*a2 = nullptr;
+    OBResidue *r1 = nullptr,*r2 = nullptr;
     vector<OBAtom*>::iterator i,j;
     vector3 v;
 
-    int bo;
+    int bo = 0;
     string skipres = ""; // Residue Number to skip
     string rname = "";
     //assign residue bonds
@@ -493,7 +494,7 @@ namespace OpenBabel
           }
       }
 
-    int hyb;
+    int hyb = 0;
     string type;
 
     //types and hybridization
@@ -515,7 +516,7 @@ namespace OpenBabel
         //***valence rule for O-
         if (a1->GetAtomicNum() == OBElements::Oxygen && a1->GetExplicitDegree() == 1)
           {
-            OBBond *bond;
+            OBBond *bond = nullptr;
             bond = (OBBond*)*(a1->BeginBonds());
             if (bond->GetBondOrder() == 2)
               {
@@ -559,7 +560,7 @@ namespace OpenBabel
 
   void OBResidueData::ParseLine(const char *buffer)
   {
-    int bo;
+    int bo = 0;
     string s;
     vector<string> vs;
 
@@ -602,7 +603,7 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    unsigned int i;
+    unsigned int i = 0;
 
     for (i = 0;i < _resname.size();++i)
       if (_resname[i] == s)
@@ -620,7 +621,7 @@ namespace OpenBabel
     if (_resnum == -1)
       return(0);
 
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < _resbonds[_resnum].size();++i)
       if (_resbonds[_resnum][i].first == s)
         return(_resbonds[_resnum][i].second);
@@ -636,7 +637,7 @@ namespace OpenBabel
 
     s = (s1 < s2) ? s1 + " " + s2 : s2 + " " + s1;
 
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < _resbonds[_resnum].size();++i)
       if (_resbonds[_resnum][i].first == s)
         return(_resbonds[_resnum][i].second);
@@ -697,7 +698,7 @@ namespace OpenBabel
         {
           obErrorLog.ThrowError(__FUNCTION__, "Cannot open " + _filename + " defaulting to compiled data.", obDebug);
 
-          const char *p1,*p2;
+          const char *p1 = nullptr,*p2 = nullptr;
           for (p1 = p2 = _dataptr;*p2 != '\0';++p2)
             if (*p2 == '\n')
               {

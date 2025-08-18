@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <iostream>
 #include<openbabel/op.h>
@@ -106,7 +107,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, 
     }
   }  
   
-  OBUnitCell * old_cell;
+  OBUnitCell * old_cell = nullptr;
   if ( ! pmol->HasData(OBGenericDataType::UnitCell) )
     old_cell = nullptr;
   else         
@@ -128,7 +129,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, 
       }
     }
   }  
-  double a, b, c, alpha, beta, gamma;
+  double a = NAN, b = NAN, c = NAN, alpha = NAN, beta = NAN, gamma = NAN;
   if (old_cell != nullptr)
   {
     a = old_cell->GetA(); b = old_cell->GetB(); c = old_cell->GetC(); 

@@ -14,6 +14,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/math/matrix3x3.h>
@@ -377,7 +378,7 @@ namespace OpenBabel
 
             if(titleonproperty.find("ZPE")!=string::npos)
             {
-              double energy;
+              double energy = NAN;
               stringstream ss((const char*)pvalue);
               ss >> energy; //units are kJ/mol
               const double CALSTOJOULES = 4.1816;
@@ -506,7 +507,7 @@ namespace OpenBabel
         tokenize(items,value);
         if(arr.size()<items.size())
           arr.resize(items.size());
-        unsigned int i;
+        unsigned int i = 0;
         for(i=0;i<items.size();++i)
           {
             pair<string,string> nameAndvalue(name,items[i]);
@@ -654,7 +655,7 @@ namespace OpenBabel
               }
             else if(attrname=="elementType")
               {
-                int atno, iso=0;
+                int atno = 0, iso=0;
                 atno = GetAtomicNumAndIsotope(value.c_str(), &iso);
                 pAtom->SetAtomicNum(atno);
                 if(iso)
@@ -902,7 +903,7 @@ namespace OpenBabel
                   flag |= OBBond::Aromatic;
                   needs_kekulization = true;
                 } else {
-                  char* endptr;
+                  char* endptr = nullptr;
                   ord = strtol(value.c_str(), &endptr, 10);
                 }
               }
@@ -1027,7 +1028,7 @@ namespace OpenBabel
               {
                 vector<string> ids;
                 tokenize(ids, atrefsvalue);
-                int i;
+                int i = 0;
                 for(i=0;i<4;++i)
                   AtomRefIdx.push_back(AtomMap[ids[i]]);
               }
@@ -1118,7 +1119,7 @@ namespace OpenBabel
                   continue;
 
                 // Create the list of 4 atomrefs
-                OBStereo::Ref begin, end;
+                OBStereo::Ref begin = 0, end = 0;
                 begin = _pmol->GetAtom(AtomRefIdx[1])->GetId();
                 end =   _pmol->GetAtom(AtomRefIdx[2])->GetId();
                 OBStereo::Refs refs(4);
@@ -1183,7 +1184,7 @@ namespace OpenBabel
             tokenize(items,value);
             if(arr.size()<items.size())
               arr.resize(items.size());
-            unsigned int i;
+            unsigned int i = 0;
             for(i=0;i<items.size();++i)
               {
                 pair<string,string> nameAndvalue(name,items[i]);
@@ -1235,11 +1236,11 @@ namespace OpenBabel
         if(iNumber==items.end())
           return false;
         int n=atoi(iNumber->c_str());
-        int atno, iso=0;
+        int atno = 0, iso=0;
         atno = GetAtomicNumAndIsotope(iSymbol++->c_str(), &iso);
         if(atno<=0 || n<=0)
           return false;
-        int i;
+        int i = 0;
         for(i=0;i<n;++i)
           {
             OBAtom* pAtom = pmol->NewAtom();
@@ -1346,9 +1347,9 @@ namespace OpenBabel
   string CMLFormat::getTimestr()
   {
     const int TIME_STR_SIZE = 64;
-    time_t akttime;                              /* Systemtime                        */
+    time_t akttime = 0;                              /* Systemtime                        */
     char timestr[TIME_STR_SIZE + 1] = "";        /* Timestring                        */
-    size_t time_res;                             /* Result of strftime                */
+    size_t time_res = 0;                             /* Result of strftime                */
 
     /* ---- Get the system-time ---- */
     akttime = time((time_t *) nullptr);
@@ -1490,7 +1491,7 @@ namespace OpenBabel
       {
         string name(id);
         //If name is a filename with a path, remove path and extension
-        string::size_type pos;
+        string::size_type pos = 0;
         pos = name.find_last_of("/\\:");
         if(pos!=string::npos)
         {
@@ -1562,9 +1563,9 @@ namespace OpenBabel
 
             stringstream id, eltyp, iso, chg, spn, hct, x, y, z;
             bool anyChg=false, anySpin=false, anyIsotope=false;
-            double X, Y, Z; //atom coordinates
+            double X = NAN, Y = NAN, Z = NAN; //atom coordinates
 
-            OBAtom *patom;
+            OBAtom *patom = nullptr;
             vector<OBAtom*>::iterator i;
             for (patom = mol.BeginAtom(i);patom;patom = mol.NextAtom(i))
               {
@@ -1839,7 +1840,7 @@ namespace OpenBabel
 
         stringstream ord;
         string ref1, ref2;
-        OBBond *pbond;
+        OBBond *pbond = nullptr;
         vector<OBBond*>::iterator ib;
         for (pbond = mol.BeginBond(ib);pbond;pbond = mol.NextBond(ib))
           {
@@ -1876,7 +1877,7 @@ namespace OpenBabel
                         OBCisTransStereo::Config ct_cfg = ct->GetConfig();
 
                         // Find a non-implicit ref at either end of the dbl bond
-                        OBStereo::Ref beginref, endref;
+                        OBStereo::Ref beginref = 0, endref = 0;
                         beginref = (ct_cfg.refs[0] == OBStereo::ImplicitRef) ? ct_cfg.refs[1] : ct_cfg.refs[0];
                         endref =   (ct_cfg.refs[2] == OBStereo::ImplicitRef) ? ct_cfg.refs[3] : ct_cfg.refs[2];
                         char cis_or_trans = ct->IsCis(beginref, endref) ? 'C' : 'T';

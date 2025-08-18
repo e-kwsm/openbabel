@@ -55,7 +55,7 @@ namespace OpenBabel {
 /* DECODE A SIGNED INT32 STORED IN LITTLE ENDIAN FORMAT
    ==================================================== */
 int int32lemem(char *data)
-{ int value,intmino2;
+{ int value = 0,intmino2 = 0;
 
   value=(int)((unsigned char*)data)[0]+((int)((unsigned char*)data)[1]<<8)+
         ((int)((unsigned char*)data)[2]<<16)+((int)((unsigned char*)data)[3]<<24);
@@ -78,15 +78,15 @@ unsigned int uint32le(uint32 value)
 /* STORE AN INT32 IN LITTLE ENDIAN FORMAT
    ====================================== */
 void storeint32le(char *data,int32 value)
-{ int i;
+{ int i = 0;
 
   for (i=0;i<4;i++) data[i]=(value>>(i*8))&255; }
 
 /* CONVERT MAXIMALLY n CHARACTERS TO INTEGER
    ========================================= */
 int str_natoi(char *string,int number)
-{ char ch;
-  int i;
+{ char ch = 0;
+  int i = 0;
 
   for (i=0;i<number;i++) if (!string[i]) return(atoi(string));
   ch=string[number];
@@ -98,8 +98,8 @@ int str_natoi(char *string,int number)
 /* COPY MAXIMALLY n CHARACTERS AND TERMINATE WITH ZERO
    =================================================== */
 void str_ncopy(char *string1,char *string2,int len)
-{ int i;
-  char ch;
+{ int i = 0;
+  char ch = 0;
 
   for (i=0;i<len;i++)
   { ch=string2[i];
@@ -208,7 +208,7 @@ struct atomid                      /* The order of the fields is not important *
 /* SET POINTER TO DATA START
    ========================= */
 struct mobatom *mob_start(mobdata *mob)
-{ int termini;
+{ int termini = 0;
 
   termini=uint32le(mob[MOB_TERMINI]);
   return((struct mobatom*)(mob+termini+2)); }
@@ -232,7 +232,7 @@ void mob_setnext(struct mobatom **atomadd)
 /* GET ATOM ID
    =========== */
 void mob_getid(struct atomid *id,struct mobatom *atom)
-{ int idpos,links,flags,inscodealtloc;
+{ int idpos = 0,links = 0,flags = 0,inscodealtloc = 0;
 
   links=mob_links(atom);
   flags=int32le(atom->link[links]);
@@ -292,7 +292,7 @@ int mob_hasres(struct mobatom *atom,struct atomid *id2)
    atomsleft SPECIFIES THE NUMBER OF ATOMS LEFT
    TILL END OF STRUCTURE IS REACHED */
 int mob_reslen(struct mobatom *atom,int atomsleft)
-{ int i;
+{ int i = 0;
   struct atomid id;
 
   mob_getid(&id,atom);
@@ -365,18 +365,18 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   OBMol &mol = *pmol;
   //   const char* title = pConv->GetTitle();
 
-  bool hetatom;
+  bool hetatom = false;
   char buffer[8],resname[4],atomname[5];
   string str;
-  unsigned int i,j/*,m,q*/;
-  unsigned int /*resno,chainNum,*/link,linked,linktype,atoms,element,links,chain;
-  int /*samenames,*/reslen,charged;
-  unsigned int infosize,size;
-  mobdata *mob;
-  struct mobatom *srcatom,/**atom2,*/*resstart;
+  unsigned int i = 0,j/*,m,q*/ = 0;
+  unsigned int /*resno,chainNum,*/link = 0,linked = 0,linktype = 0,atoms = 0,element = 0,links = 0,chain = 0;
+  int /*samenames,*/reslen = 0,charged = 0;
+  unsigned int infosize = 0,size = 0;
+  mobdata *mob = nullptr;
+  struct mobatom *srcatom = nullptr,/**atom2,*/*resstart = nullptr;
   struct atomid id;
-  OBAtom *dstatom;
-  OBResidue *res;
+  OBAtom *dstatom = nullptr;
+  OBResidue *res = nullptr;
   bool has_residue_info = false;
 
   /* VERIFY FILE FORMAT */
@@ -483,16 +483,16 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   char buffer[32],/*resname[4],*/atomname[5];
   unsigned char double1[8]={0,0,0,0,0,0,0xf0,0x3f};
   //   char *str;
-  int i,j,/*m,q,*/pos;
-  int /*resno,chainNum,link,linktype,*/atoms,element,links/*,chain*/;
-  int /*samenames,reslen,*/bondorder,flags;
-  unsigned int /*infosize,*/size;
+  int i = 0,j = 0,/*m,q,*/pos = 0;
+  int /*resno,chainNum,link,linktype,*/atoms = 0,element = 0,links/*,chain*/ = 0;
+  int /*samenames,reslen,*/bondorder = 0,flags = 0;
+  unsigned int /*infosize,*/size = 0;
   //   mobdata *mob;
   //   struct mobatom *atom2,*resstart;
   //   struct atomid id;
-  OBAtom *srcatom,*linkedatom;
-  OBResidue *res;
-  OBBond *bond;
+  OBAtom *srcatom = nullptr,*linkedatom = nullptr;
+  OBResidue *res = nullptr;
+  OBBond *bond = nullptr;
   vector<OBAtom*>::iterator e;
   vector<OBBond*>::iterator iter;
 

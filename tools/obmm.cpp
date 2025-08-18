@@ -246,7 +246,7 @@ int main()
     }
 
     if (EQn(commandline, "addH", 4)) {
-      int num1, num2;
+      int num1 = 0, num2 = 0;
       num1 = mol.NumAtoms();
       mol.AddHydrogens(false, true);
       num2 = mol.NumAtoms();
@@ -260,7 +260,7 @@ int main()
     }
 
     if (EQn(commandline, "delH", 4)) {
-      int num1, num2;
+      int num1 = 0, num2 = 0;
       num1 = mol.NumAtoms();
       mol.DeleteHydrogens();
       num2 = mol.NumAtoms();

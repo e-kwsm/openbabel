@@ -325,7 +325,7 @@ void ChemDrawXMLFormat::EnsureEndElement(void)
 // Calculate boundary coordintates xMin, xMax, yMin, yMax of the molecule.
 Boundary ChemDrawXMLFormat::CalculateMoleculeBoundary(OBMol* pMol)
 {
-  OBAtom *patom;
+  OBAtom *patom = nullptr;
   vector<OBAtom *>::iterator i;
   vector<double> atomXs;
   vector<double> atomYs;
@@ -403,7 +403,7 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 	return false;
   OBMol &mol = *pmol;
 
-  OBBond *pbond;
+  OBBond *pbond = nullptr;
   vector<OBBond*>::iterator j;
   if(_pxmlConv->GetOutputIndex() == 1)
   {
@@ -429,9 +429,9 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   CalculateCdxmlShift(pmol);
   xmlTextWriterStartElement(writer(), C_MOLECULE);
 
-  OBAtom *patom;
+  OBAtom *patom = nullptr;
   vector<OBAtom*>::iterator i;
-  int n;
+  int n = 0;
 
   for (patom = mol.BeginAtom(i);patom;patom = mol.NextAtom(i))
   {

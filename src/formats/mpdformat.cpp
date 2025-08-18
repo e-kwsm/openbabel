@@ -203,9 +203,9 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    OBAtom *atom,*nbr,*nbr2; // define atom and neghbour atom pointers
+    OBAtom *atom = nullptr,*nbr = nullptr,*nbr2 = nullptr; // define atom and neghbour atom pointers
     string str,src,name;     // str used for output, src for handling
-    unsigned int orig,otyp;  // orig holds first index for removal from layer 2, otype for output
+    unsigned int orig = 0,otyp = 0;  // orig holds first index for removal from layer 2, otype for output
     //    char buffer[BUFF_SIZE];
     bool xml_true=false, pre_true=false, idx_true=false;
     ttab.SetFromType("INT");

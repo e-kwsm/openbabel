@@ -10,6 +10,7 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
  ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -138,8 +139,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     int molcharge = 0; // overall molecular charge.
@@ -362,8 +363,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     int atomcount = 0;

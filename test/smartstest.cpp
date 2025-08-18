@@ -105,7 +105,7 @@ int smartstest(int argc, char* argv[])
       cout << "Bail out! Cannot read in results file " << mresults_file << endl;
       return -1; // test failed
     }
-  unsigned int npats;
+  unsigned int npats = 0;
   rifs.getline(buffer,BUFF_SIZE);
   sscanf(buffer,"%d %*s",&npats);
 
@@ -125,7 +125,7 @@ int smartstest(int argc, char* argv[])
       return -1; // test failed
     }
 
-  unsigned int k;
+  unsigned int k = 0;
   unsigned int res_line = 0;
   OBMol mol;
   vector<string> vs;

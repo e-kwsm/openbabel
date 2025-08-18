@@ -56,7 +56,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
     double St = 0, Sr = 0, Sv = 0, Sconf = 0, Ssymm = 0;
     double Rgas      = 1.9872041; 
     int    RotSymNum = 1;
-    OpenBabel::OBRotationData* rd;
+    OpenBabel::OBRotationData* rd = nullptr;
     
     rd = (OpenBabel::OBRotationData*)mol.GetData("RotationData");
     if (nullptr != rd)

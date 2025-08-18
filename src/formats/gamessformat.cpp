@@ -14,6 +14,7 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
  ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -216,8 +217,8 @@ namespace OpenBabel {
 
     char buffer[BUFF_SIZE];
     string str, str1;
-    double x, y, z;
-    OBAtom* atom;
+    double x = NAN, y = NAN, z = NAN;
+    OBAtom* atom = nullptr;
     vector<string> vs;
     bool hasPartialCharges = false;
     int aHOMO = 0;
@@ -241,9 +242,9 @@ namespace OpenBabel {
 
     vector<double> frequencies, intensities, raman_intensities;
     vector< vector<vector3> > displacements;
-    int lowFreqModesBegin;           // the number of the first low frequency mode
-    int lowFreqModesEnd;             // the number of the last low frequency mode
-    int numFreq, numIntens, numDisp; // GAMESS prints rotations & transl., which we ignore
+    int lowFreqModesBegin = 0;           // the number of the first low frequency mode
+    int lowFreqModesEnd = 0;             // the number of the last low frequency mode
+    int numFreq = 0, numIntens = 0, numDisp = 0; // GAMESS prints rotations & transl., which we ignore
     numFreq = numIntens = numDisp = 0;
     int charge = 0;
     int mult   = 1;
@@ -320,7 +321,7 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         while (vs.size() == 6) {
-          int atomicNum;
+          int atomicNum = 0;
           /* For the included EFP1 potentials,
            * the atom name may start with "Z"
            * or have a non-zero nuclear charge
@@ -398,7 +399,7 @@ namespace OpenBabel {
               /* For the included EFP1 potentials,
                * the atom name may start with "Z"
                */
-              int atomicNum;
+              int atomicNum = 0;
               if (vs[0].substr(0, 1) == "Z")
                 atomicNum = OBElements::GetAtomicNum(vs[0].substr(1, 1).c_str());
               else
@@ -461,7 +462,7 @@ namespace OpenBabel {
         if (vs.size() == 4) {
           OBVectorData* dipoleMoment = new OBVectorData;
           dipoleMoment->SetAttribute("Dipole Moment");
-          double x, y, z;
+          double x = NAN, y = NAN, z = NAN;
           x = atof(vs[0].c_str());
           y = atof(vs[1].c_str());
           z = atof(vs[2].c_str());
@@ -567,7 +568,7 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         int modeCount = vs.size() - 3;
-        double massNormalization;
+        double massNormalization = NAN;
         vector<double> x, y, z;
         while (modeCount >= 1) {
           // 1/sqrt(atomic mass)
@@ -643,7 +644,7 @@ namespace OpenBabel {
 
       } else if (strstr(buffer, "INPUT CARD> $")) {
         string attr, value;
-        char* ptr;
+        char* ptr = nullptr;
 
         for ( ; ; ) {
           ptr = buffer + 14;
@@ -881,8 +882,8 @@ namespace OpenBabel {
 
     char buffer[BUFF_SIZE];
     string str, str1;
-    double x, y, z;
-    OBAtom* atom;
+    double x = NAN, y = NAN, z = NAN;
+    OBAtom* atom = nullptr;
     vector<string> vs;
     bool hasPartialCharges = false;
     string efragName; // used to save identifiers of EFRAG sections
@@ -946,7 +947,7 @@ namespace OpenBabel {
           tokenize(vs, buffer);
           if (vs.size() == 4) {
             atom = mol.NewAtom();
-            int atomicNum;
+            int atomicNum = 0;
             if (vs[0].substr(0, 1) == "Z"
                 || vs[0].substr(0, 1) == "z") {
 

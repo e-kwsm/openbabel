@@ -59,7 +59,7 @@ namespace OpenBabel
     if(isdigit(_alias[0]))
     {
       std::stringstream ss(_alias);
-      int iso;
+      int iso = 0;
       std::string el;
       ss >> iso >>el;
       unsigned int elemno = OBElements::GetAtomicNum(el.c_str());
@@ -165,7 +165,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   //++Make list of other attachments* of XxAtom
   // (Added later so that the existing bonding of the XXAtom are retained)
   vector<pair<OBAtom*, unsigned> > otherAttachments;
-  OBAtom* pAttach;
+  OBAtom* pAttach = nullptr;
   while(firstAttachAtom && (pAttach = XxAtom->NextNbrAtom(bi)) ) // extra parentheses to minimize warnings
     otherAttachments.push_back(make_pair(pAttach, (*bi)->GetBondOrder()));
 

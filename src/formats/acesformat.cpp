@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -125,8 +126,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     mol.BeginModify();
@@ -199,7 +200,7 @@ namespace OpenBabel
                 tokenize(vs,buffer);
 	        while(vs.size() > 2) {
                   for (unsigned int i = 1; i < vs.size(); i += 3) {
-	            double x, y, z;
+	            double x = NAN, y = NAN, z = NAN;
                     x = atof(vs[i+0].c_str());
                     y = atof(vs[i+1].c_str());
                     z = atof(vs[i+2].c_str());

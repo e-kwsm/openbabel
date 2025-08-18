@@ -1009,16 +1009,16 @@ namespace OpenBabel
 
   vector<OBBond*> OBResidue::GetBonds(bool exterior) const
   {
-    OBAtom         *atom;
+    OBAtom         *atom = nullptr;
     vector<OBBond*> bonds;
     OBBitVec        idxs;
-    unsigned int    sz;
+    unsigned int    sz = 0;
 
     sz = (unsigned int) _atoms.size();
     for ( unsigned int i = 0 ; i < sz ; ++i )
       {
         atom = _atoms[i];
-        OBBond *bond;
+        OBBond *bond = nullptr;
         vector<OBBond*>::iterator b;
         for (bond = atom->BeginBond(b) ; bond ; bond = atom->NextBond(b))
           {

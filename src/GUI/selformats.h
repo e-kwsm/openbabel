@@ -33,7 +33,7 @@ public:
 		topSizer->Fit(this);
 		topSizer->SetSizeHints(this);
 
-		unsigned i;
+		unsigned i = 0;
 		for(i=0;i<AllFormatsArray.GetCount();++i)
 		{
 			int pos = ActiveFormatsString.find(AllFormatsArray[i]+_T(';'));
@@ -43,7 +43,7 @@ public:
 	void OnOK(wxCommandEvent& WXUNUSED(event))
 	{
 		active.clear();
-		unsigned i;
+		unsigned i = 0;
 		for(i=0;i< pList->GetCount();++i)
 		{
 			if(pList->IsChecked(i))

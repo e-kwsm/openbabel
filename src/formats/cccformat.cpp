@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -88,8 +89,8 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
 
-    int end,order;
-    double x,y,z;
+    int end = 0,order = 0;
+    double x = NAN,y = NAN,z = NAN;
     OBAtom atom;
     vector3 v;
     vector<string> vs;

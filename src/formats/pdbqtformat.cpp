@@ -20,6 +20,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/obfunctions.h>
@@ -166,7 +167,7 @@ namespace OpenBabel
     int chainNum = 1;
     char buffer[BUFF_SIZE];
     string line, key, value;
-    OBPairData *dp;
+    OBPairData *dp = nullptr;
 
     mol.SetTitle(title);
     mol.SetChainsPerceived(); // It's a PDBQT file, we read all chain/res info.
@@ -332,12 +333,12 @@ namespace OpenBabel
     char the_res[10];
     char the_chain = ' ';
     char the_icode = ' ';
-    const char *element_name;
+    const char *element_name = nullptr;
     string element_name_string;
-    int res_num;
+    int res_num = 0;
     bool het=false;
 
-    OBResidue *res;
+    OBResidue *res = nullptr;
     strncpy(type_name, OBElements::GetSymbol(atom->GetAtomicNum()), sizeof(type_name));
     type_name[sizeof(type_name) - 1] = '\0';
     //two char. elements are on position 13 and 14 one char. start at 14
@@ -632,7 +633,7 @@ namespace OpenBabel
 
     unsigned int position=0;
     unsigned int atoms_moved=0;
-    bool fecund;
+    bool fecund = false;
     while (!((*tree.find(0)).second.done))
     {
       fecund=!((*tree.find(position)).second.done);
@@ -699,7 +700,7 @@ namespace OpenBabel
 
   static bool IsAmidine(OBBond* querybond)
   {
-    OBAtom *c, *n;
+    OBAtom *c = nullptr, *n = nullptr;
     c = n = nullptr;
 
     // Look for C-N bond
@@ -720,7 +721,7 @@ namespace OpenBabel
     if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
 
     // Make sure C is attached to =N
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator i;
     for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
     {
@@ -764,7 +765,7 @@ namespace OpenBabel
   bool FindBondedPiece(const vector<int>& root, const vector<int>& branched, unsigned int& root_atom, unsigned int& branch_atom,
     unsigned int& root_atom_rank, unsigned int& branch_atom_rank, const OBMol& mol, unsigned int & atoms_moved)
   {
-    OBBond* the_bond;
+    OBBond* the_bond = nullptr;
     for (unsigned int i=0; i < root.size(); i++)
     {
       for (unsigned int j=0; j < branched.size(); j++)
@@ -827,7 +828,7 @@ namespace OpenBabel
     const OBAtom ***db = (const OBAtom ***)b;
     unsigned int aIdx[2] = { (*da)[0]->GetIdx(), (*da)[1]->GetIdx() };
     unsigned int bIdx[2] = { (*db)[0]->GetIdx(), (*db)[1]->GetIdx() };
-    int cmp1;
+    int cmp1 = 0;
 
 
     cmp1 = ((aIdx[0] > bIdx[0]) - (aIdx[0] < bIdx[0]));
@@ -941,9 +942,9 @@ namespace OpenBabel
           int nRotBond=RotBond_count(mol);
           OBAtom ***rotBondTable = new OBAtom **[nRotBond];
           int rotBondId=0;
-          int bondAtomNum;
-          unsigned int end;
-          OBResidue *res;
+          int bondAtomNum = 0;
+          unsigned int end = 0;
+          OBResidue *res = nullptr;
           for (OBBondIterator it=mol.BeginBonds(); it != mol.EndBonds(); it++)
           {
             if (IsRotBond_PDBQT((*it)))
@@ -1003,7 +1004,7 @@ namespace OpenBabel
 
       // before we write any records, we should check to see if any coord < -1000
       // which will cause errors in the formatting
-      double minX, minY, minZ;
+      double minX = NAN, minY = NAN, minZ = NAN;
       minX = minY = minZ = -999.0f;
       FOR_ATOMS_OF_MOL(a, all_pieces.at(i))
       {
@@ -1209,7 +1210,7 @@ namespace OpenBabel
     {
       stringstream sst;
       sst.str(scharge);
-      double charge;
+      double charge = NAN;
       sst >> charge;
       if ( !sst.fail() )
       {

@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -73,12 +74,12 @@ namespace OpenBabel
     const char* title = pConv->GetTitle();
 
     // Right now only read in the first molecule
-    int i;
-    int max, bo;
+    int i = 0;
+    int max = 0, bo = 0;
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     ifs.getline(buffer, BUFF_SIZE);
@@ -174,13 +175,13 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i, file_num = 1;
+    unsigned int i = 0, file_num = 1;
     string str,str1;
     char buffer[BUFF_SIZE];
-    OBAtom *atom;
-    OBBond *bond;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
-    char bond_char;
+    char bond_char = 0;
 
     // make sure to escape titles in double quotes
     // PR#1501694

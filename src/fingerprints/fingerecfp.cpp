@@ -187,7 +187,7 @@ static void ECFPPass(OpenBabel::OBMol &mol,
       OpenBabel::OBAtom* nptr = bptr->GetNbrAtom(aptr);
       if (nptr->GetAtomicNum() == OBElements::Hydrogen)
         continue;
-      unsigned int order;
+      unsigned int order = 0;
       if (!bptr->IsAromatic()) {
         switch (bptr->GetBondOrder()) {
         case 2:  order = 2;  break;
@@ -254,7 +254,7 @@ bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int n
 	
   _ss.str("");
 
-  unsigned int pass;
+  unsigned int pass = 0;
 
   unsigned int count = pmol->NumAtoms();
   if (count == 0) return true;

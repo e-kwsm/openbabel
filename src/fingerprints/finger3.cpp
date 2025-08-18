@@ -99,7 +99,7 @@ public:
     //This fingerprint is constructed from a molecule with no explicit hydrogens.
     pmol->DeleteHydrogens();
 
-    unsigned int n;
+    unsigned int n = 0;
     //Read patterns file if it has not been done already
     if(_pats.empty())
       ReadPatternFile(_version);
@@ -133,7 +133,7 @@ public:
               3 or more matches to the pattern would give 1111
         */
         int numMatches = ppat->obsmarts.GetUMapList().size();
-        int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp;
+        int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp = 0;
 
         int i = n;
         while(num)
@@ -252,7 +252,7 @@ public:
     for(ppat=_pats.begin();ppat!=_pats.end();++ppat)
     {
       int n = ppat->bitindex;
-      int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp;
+      int num =  ppat->numbits, div = ppat->numoccurrences+1, ngrp = 0;
       while(num) //for each group of bits
       {
         ngrp = (num + div - 1) / div; //rounds up
@@ -292,7 +292,7 @@ public:
 
     //description is number + edited commment
     Trim(comment);
-    string::size_type pos;
+    string::size_type pos = 0;
     pos = comment.find("FIX");
     if(pos==string::npos)
       pos = comment.find("*NOTE*");
