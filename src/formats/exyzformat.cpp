@@ -471,7 +471,7 @@ namespace OpenBabel
         ofs << "Offset " << setw(15)
             << right << 0. << " " << setw(15) << 0. << " " << setw(15) << 0. << endl;
     } else {
-        OBUnitCell *uC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uC = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         matrix3x3 unitCellMatrix = uC->GetCellMatrix();
         vector3 offset = uC->GetOffset();
         ofs << right << "Vector1"
