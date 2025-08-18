@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -79,12 +80,12 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
     string temp, temp2;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<string> vs;
-    double x, y, z;
-    unsigned int token;
-    int bondNbr, bondOrder;
-    bool parsingBonds, readingMol = false;
+    double x = NAN, y = NAN, z = NAN;
+    unsigned int token = 0;
+    int bondNbr = 0, bondOrder = 0;
+    bool parsingBonds = false, readingMol = false;
     bool hasPartialCharges = false;
 
     ttab.SetFromType("PCM");
@@ -190,10 +191,10 @@ namespace OpenBabel
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator j;
     string type, temp;
-    int nbrIdx, atomIdx;
+    int nbrIdx = 0, atomIdx = 0;
 
     temp = mol.GetTitle();
     ofs << "{PCM " << temp.substr(0,60) << endl;

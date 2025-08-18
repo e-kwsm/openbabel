@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/conformersearch.h>
 #include <openbabel/math/align.h>
 #include <openbabel/forcefield.h>
@@ -355,7 +356,7 @@ namespace OpenBabel {
       (*m_logstream) << "Rotors:" << std::endl;
       while(r){
         OBBond* b = r->GetBond();
-        int at1,at2;
+        int at1 = 0,at2 = 0;
         at1 = b->GetBeginAtomIdx();
         at2 = b->GetEndAtomIdx();
         (*m_logstream) << at1 << "-" << at2 << "  ";
@@ -374,7 +375,7 @@ namespace OpenBabel {
       int rotcount = 1;
       while(it!=end_it){
         OBBond* b = m_mol.GetBond(it);
-        int at1,at2;
+        int at1 = 0,at2 = 0;
         at1 = b->GetBeginAtomIdx();
         at2 = b->GetEndAtomIdx();
         (*m_logstream) << at1 << "-" << at2 << "  ";
@@ -565,7 +566,7 @@ namespace OpenBabel {
     }
 
     // compute sum of all scores, this is a measure of convergence
-    double sum = 0.0, lowest, highest;
+    double sum = 0.0, lowest = NAN, highest = NAN;
     m_rotorKeys.clear();
     for (unsigned int i = 0; i < conformer_scores.size(); ++i) {
       switch (m_score->GetConvergence()) {
@@ -1137,7 +1138,7 @@ namespace OpenBabel {
     RotorKeys new_generation, offsprings;
     RotorKey key1, key2;
     unsigned int i = 0, j = 0, imax = 0, iniche = 0, nsize = 0, pop_size = 0, half_pop = 0, key_size = 0;
-    int ret_code = 0,  ninsert = 0, iround = 0, last_ninsert;
+    int ret_code = 0,  ninsert = 0, iround = 0, last_ninsert = 0;
     int dist = 0, dist_max = 0, dist_min = 0;
     double sum = 0.0, lowest = 0.0, highest = 0.0;
     std::vector<int>::iterator nit;

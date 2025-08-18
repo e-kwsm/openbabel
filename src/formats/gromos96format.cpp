@@ -124,8 +124,8 @@ namespace OpenBabel
     ofs << "TITLE\n" << mol.GetTitle() << "\nEND\n";
     ofs << "POSITION\n";
 
-    OBAtom *atom;
-    OBResidue *res;
+    OBAtom *atom = nullptr;
+    OBResidue *res = nullptr;
     vector<OBAtom*>::iterator i;
 
     for(atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))

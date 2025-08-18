@@ -157,7 +157,7 @@ private:
    };
 
   void MCDLFormat::initGlobals(){
-    int i,j;
+    int i = 0, j = 0;
 
     maxdepth=0;
     kflag=0;
@@ -178,7 +178,7 @@ private:
 /* Create descriptor connectivity string from connectivity table of fragments */
   string MCDLFormat::constring(int conntab [MAXBONDS][4], char * /*tstr*/)
 {
-    int  i,j,k,n,nn,icons[MAXBONDS],comma;
+    int  i = 0, j = 0, k = 0, n = 0, nn = 0, icons[MAXBONDS], comma = 0;
     char line[82],semis[100];
     string result="";
 
@@ -237,15 +237,15 @@ private:
 
   void MCDLFormat::solve(int ntypes, int z[MAXBONDS][4], int depth)
 {
-    int  i,dupnum,j,k,ktype,nn,nt;
-    bool iflag,newone;
+    int  i = 0,dupnum = 0,j = 0,k = 0,ktype = 0,nn = 0,nt = 0;
+    bool iflag = false,newone = false;
     int *  nsum[MAXBONDS];
     bool lflag[MAXFRAGS];
     char strg[MAXFRAGS+1];
     char * strngs[MAXFRAGS+1];
     char tstr[MAXFRAGS+1];
-    int  numdups = 0, dupfrag, jump;
-    bool jflag;
+    int  numdups = 0, dupfrag = 0, jump = 0;
+    bool jflag = false;
     int  ix[MAXFRAGS],conntab[MAXBONDS][4],cx[MAXFRAGS];
     int  mx[MAXFRAGS];
 
@@ -509,13 +509,13 @@ private:
     int  newone=0;
     std::vector<int> nchg(MAXFRAGS);
     std::vector<int> nrad(MAXFRAGS);
-    int naStore,nbStore;
+    int naStore = 0,nbStore = 0;
     string constr="";
     string frag="";
     string fragment [MAXFRAGS];
     string line="";
     string semis="";
-    int  comma;
+    int  comma = 0;
     std::vector<int> ix(MAXFRAGS);
     int ia[MAXBONDS][4];
     string data="";
@@ -529,7 +529,7 @@ private:
     int bonds[MAXBONDS][4];
     int nConn[MAXFRAGS];
     //string s;
-    int l;//,m;
+    int l = 0;//,m;
     string astereo="";
     string bstereo="";
     string s1,s2;
@@ -539,8 +539,8 @@ private:
     std::vector <int>  anumStereo;
     string as1,as2,as3,as4;
     string linestereo;
-    OBAtom *atom;
-    OBBond *bond;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
 
 /* read in fragments and find different types */
 /* ntypes: number of fragment types */
@@ -967,21 +967,21 @@ private:
   std::vector <int> nH(MAXFRAGS);
   std::vector <int> nF(MAXFRAGS);
 //  int nb;//,na;
-  unsigned int i, j, nt, n1, n2;//,n3, nfrag;
-  bool test;
+  unsigned int i = 0, j = 0, nt = 0, n1 = 0, n2 = 0;//,n3, nfrag;
+  bool test = false;
   OBAtom sa;
   string mf="";
   string s="";
   string temp="";
   string ss="";
   string sstore="";
-  int m,n,k;
+  int m = 0,n = 0,k = 0;
   std::vector <int> nHydr(MAXFRAGS);
   string astereo="";
   string bstereo="";
   string chargestring="";
   string radicalstring="";
-  int nPrev;
+  int nPrev = 0;
   string sa1="";
   string sa2="";
   string sF="";
@@ -997,9 +997,9 @@ private:
   int netcharge=0;
   int netradical=0;
   unsigned int nelements=0;
-  int kk;
+  int kk = 0;
   string value="";
-  unsigned int acount, bcount, flags;
+  unsigned int acount = 0, bcount = 0, flags = 0;
 
   std::vector <int> iA1(MAXBONDS);
   std::vector <int> iA2(MAXBONDS);
@@ -1389,7 +1389,7 @@ private:
   const std::vector <int> iA2, std::vector <int>& aCharges, std::vector <int>& charges,
   std::vector <int>& bondOrder, int aPos, int nPrev, int nt, int acount, int bcount){
   //set negative charges
-    int k,j,n;
+    int k = 0,j = 0,n = 0;
 
   //return;
 
@@ -1420,8 +1420,8 @@ private:
   };
 
   int MCDLFormat::lastIndexOf(const string instring, const string substring) {
-    int result,n;
-  bool test;
+    int result = 0,n = 0;
+  bool test = false;
 
   result=-1;
   test=true;
@@ -1442,9 +1442,9 @@ private:
 
 bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enumber) {
   //vector<string> items;
-  unsigned int i, n, k, n1, n2;//,j,nStart;
+  unsigned int i = 0, n = 0, k = 0, n1 = 0, n2 = 0;//,j,nStart;
   string s;
-  bool test;
+  bool test = false;
   string asym;
   string value=formulaString;
 
@@ -1509,7 +1509,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
 };
 
   string MCDLFormat::getMolTitle(string & line) {
-    string::size_type n,k;
+    string::size_type n = 0,k = 0;
   string result;
   n=line.find(ftitlestart);
   if (n != string::npos) {

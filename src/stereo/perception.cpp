@@ -23,6 +23,7 @@
  **********************************************************************/
 
 
+#include <cmath>
 #include <openbabel/stereo/tetrahedral.h>
 #include <openbabel/stereo/cistrans.h>
 #include <openbabel/mol.h>
@@ -720,7 +721,7 @@ namespace OpenBabel {
      * true Tetrahedral stereocenters:
      * - have four different symmetry classes for the ligands to the central atom
      */
-    bool ischiral;
+    bool ischiral = false;
     std::vector<OBAtom*>::iterator ia;
     for (OBAtom *atom = mol->BeginAtom(ia); atom; atom = mol->NextAtom(ia)) {
       if (!isPotentialTetrahedral(atom))
@@ -760,7 +761,7 @@ namespace OpenBabel {
      * true CisTrans stereocenters:
      * - each terminal has two different symmetry classes for it's ligands
      */
-    bool isCisTransBond;
+    bool isCisTransBond = false;
     std::vector<OBBond*>::iterator ib;
     for (OBBond *bond = mol->BeginBond(ib); bond; bond = mol->NextBond(ib)) {
       if (bond->IsInRing() && bond->IsAromatic())
@@ -965,7 +966,7 @@ namespace OpenBabel {
     }
     //cout << "=====================================================" << endl;
 
-    unsigned int numStereoUnits;
+    unsigned int numStereoUnits = 0;
     do {
       numStereoUnits = units.size();
       StartRule1(symClasses, rings, units, stereoAtoms);
@@ -1012,7 +1013,7 @@ namespace OpenBabel {
         case T1122:
           // rule 2a with 2 pairs
           {
-            unsigned int duplicatedSymClass1, duplicatedSymClass2;
+            unsigned int duplicatedSymClass1 = 0, duplicatedSymClass2 = 0;
             findDuplicatedSymmetryClasses(atom, symClasses, duplicatedSymClass1, duplicatedSymClass2);
             OBAtom *ligandAtom1 = findAtomWithSymmetryClass(atom, duplicatedSymClass1, symClasses);
             OBAtom *ligandAtom2 = findAtomWithSymmetryClass(atom, duplicatedSymClass2, symClasses);
@@ -1308,7 +1309,7 @@ namespace OpenBabel {
         // Translate the sorted indexes using the automorphism
         std::vector<unsigned long> tlist2;
         for (std::size_t j = 0; j < tlist1.size(); ++j) {
-          unsigned int t;
+          unsigned int t = 0;
           if (MapsTo(p, tlist1[j].first, t))
             tlist2.push_back(canon_labels[t]);
         }
@@ -1359,7 +1360,7 @@ namespace OpenBabel {
       // Translate the sorted indexes using the automorphism
       std::vector<unsigned long> tlist2;
       for (std::size_t j = 0; j < tlist1.size(); ++j) {
-        unsigned int t;
+        unsigned int t = 0;
         if (MapsTo(p, tlist1[j].first, t))
           tlist2.push_back(canon_labels[t]);
       }
@@ -1432,7 +1433,7 @@ namespace OpenBabel {
         if (DEBUG_INVERSIONS) {
           cout << "automorphism " << i+1 << "     ";
           for (std::size_t j = 0; j < mol->NumAtoms(); ++j) {
-            unsigned int t;
+            unsigned int t = 0;
             if (MapsTo(entry.p, j, t)) {
               if (t < 10) {
                 cout << " " << t << " ";
@@ -1687,7 +1688,7 @@ namespace OpenBabel {
               break;
             case T1122:
               {
-                unsigned int duplicatedSymClass1, duplicatedSymClass2;
+                unsigned int duplicatedSymClass1 = 0, duplicatedSymClass2 = 0;
                 findDuplicatedSymmetryClasses(atom, symClasses, duplicatedSymClass1, duplicatedSymClass2);
                 OBAtom *ligandAtom1 = findAtomWithSymmetryClass(atom, duplicatedSymClass1, symClasses);
                 OBAtom *ligandAtom2 = findAtomWithSymmetryClass(atom, duplicatedSymClass2, symClasses);
@@ -1989,7 +1990,7 @@ namespace OpenBabel {
       bool alreadyExists = (existingMap.find(*i) != existingMap.end());
       OBBond *bond = mol->GetBondById(*i);
 
-      OBCisTransStereo *ct;
+      OBCisTransStereo *ct = nullptr;
       OBCisTransStereo::Config config;
       if (alreadyExists)
       {
@@ -2264,7 +2265,7 @@ namespace OpenBabel {
           bondVecs.push_back(pos - end_vec);
       }
 
-      double tor02, tor03, tor12, tor13;
+      double tor02 = NAN, tor03 = NAN, tor12 = NAN, tor13 = NAN;
       if (uc) {
         vector3 v0 = begin->GetVector() + bondVecs[0];
         vector3 v1 = begin->GetVector() + bondVecs[1];
@@ -2517,7 +2518,7 @@ namespace OpenBabel {
           // First of all, handle the case of three wedge (or three hash) and one other bond
           //          by converting it into a single hash (or single wedge) and three planes
           if (wedgeAtoms.size() == 3 || hashAtoms.size() == 3) {
-            vector<OBAtom*> *pwedge, *phash;
+            vector<OBAtom*> *pwedge = nullptr, *phash = nullptr;
             if (wedgeAtoms.size() == 3) {
               pwedge = &wedgeAtoms; phash = &hashAtoms;
             }
@@ -2591,7 +2592,7 @@ namespace OpenBabel {
           // Check for ambiguous stereo based on the members of "order".
           // If the first is a wedge bond, then the next should be a plane/hash, then plane/wedge, then plane/hash
           // If not, then the stereo is considered ambiguous.
-          vector<OBAtom*> *pwedge, *phash;
+          vector<OBAtom*> *pwedge = nullptr, *phash = nullptr;
           if (wedge) {
             pwedge = &wedgeAtoms; phash = &hashAtoms;
           }
@@ -2895,8 +2896,8 @@ namespace OpenBabel {
             else
               implicit = true;
 
-            bool anticlockwise_order;
-            bool useup;
+            bool anticlockwise_order = false;
+            bool useup = false;
             if (implicit) {
               // Put the ref for the stereo bond second
               while (test_cfg.refs[1] != chosen->GetNbrAtom(center)->GetId())

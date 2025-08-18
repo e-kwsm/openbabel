@@ -44,7 +44,7 @@ using namespace OpenBabel;
 int main(int argc,char **argv)
 {
   char *program_name= argv[0];
-  int c;
+  int c = 0;
   string basename, filename = "", option, option2, ff = "MMFF94";
 
   list<string> argl(argv+1, argv+argc);

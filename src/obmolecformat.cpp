@@ -548,10 +548,10 @@ namespace OpenBabel
         itr=index.begin(); // for hint
         for(unsigned int i=0;i<header.size;++i)
           {
-            char len;
+            char len = 0;
             indexstream.get(len);
             string title(len, 0);
-            unsigned pos;
+            unsigned pos = 0;
             indexstream.read(&title[0],len);
             indexstream.read((char*)&pos,sizeof(unsigned));
             index.insert(itr, make_pair(title,pos));

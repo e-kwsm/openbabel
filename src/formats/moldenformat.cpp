@@ -26,6 +26,7 @@
 // STD
 #include <fstream>
 #include <string>
+#include <cmath>
 #include <vector>
 #include <sstream>
 #include <cstring>
@@ -140,10 +141,10 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               if( lineBuffer.find( "[" ) != string::npos ) break;
               istringstream is( lineBuffer );
               string atomName;
-              int atomId;
-              int atomicNumber;
-              int valenceCharge;
-              double x, y, z;
+              int atomId = 0;
+              int atomicNumber = 0;
+              int valenceCharge = 0;
+              double x = NAN, y = NAN, z = NAN;
               is >> atomName >> atomId >> valenceCharge >> x >> y >> z;
               OBAtom* atom = pmol->NewAtom();
               if( !atom ) break;
@@ -188,7 +189,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               }
 
               // next line should be the energy
-              double energy;
+              double energy = NAN;
               getline( ifs, lineBuffer );
               energy = atof(lineBuffer.c_str());
               if (fabs(energy) < 1.0e-8 ) {
@@ -206,7 +207,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                 if (vs.size() != 4)
                   break;
 
-                double x, y, z;
+                double x = NAN, y = NAN, z = NAN;
                 x = atof(vs[1].c_str());
                 y = atof(vs[2].c_str());
                 z = atof(vs[3].c_str());
@@ -241,7 +242,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               if( lineBuffer == "" ) continue;
               if( lineBuffer.find( "[" ) != string::npos ) break;
               istringstream is( lineBuffer );
-              double freq;
+              double freq = NAN;
               is >> freq;
               Frequencies.push_back( freq );
             }
@@ -252,7 +253,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               if( lineBuffer == "" ) continue;
               if( lineBuffer.find( "[" ) != string::npos ) break;
               istringstream is( lineBuffer );
-              double intens;
+              double intens = NAN;
               is >> intens;
               Intensities.push_back( intens );
             }
@@ -266,7 +267,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                 if( lineBuffer == "" ) continue;
                 if( lineBuffer.find( "[" ) != string::npos ) break;
                 string atomName;
-                double x, y, z;
+                double x = NAN, y = NAN, z = NAN;
                 istringstream is( lineBuffer );
                 is >> atomName >> x >> y >> z;
                 OBAtom* atom = pmol->NewAtom();
@@ -291,7 +292,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               while( ifs && vs.size() == 3)
                 {
                   istringstream is( lineBuffer );
-                  double x, y, z;
+                  double x = NAN, y = NAN, z = NAN;
                   is >> x >> y >> z;
                   vib.push_back( vector3( x, y, z ) );
                   getline( ifs, lineBuffer );

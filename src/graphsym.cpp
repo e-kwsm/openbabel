@@ -140,8 +140,8 @@ namespace OpenBabel {
   unsigned int OBGraphSymPrivate::GetHvyDegree(OBAtom *atom)
   {
     unsigned int count = 0;
-    OBBond *bond;
-    OBAtom *nbr;
+    OBBond *bond = nullptr;
+    OBAtom *nbr = nullptr;
 
     vector<OBBond*>::iterator bi;
     for (bond = atom->BeginBond(bi); bond; bond = atom->NextBond(bi)) {
@@ -167,8 +167,8 @@ namespace OpenBabel {
   unsigned int OBGraphSymPrivate::GetHvyBondSum(OBAtom *atom)
   {
     float count = 0.0f;
-    OBBond *bond;
-    OBAtom *nbr;
+    OBBond *bond = nullptr;
+    OBAtom *nbr = nullptr;
 
     vector<OBBond*>::iterator bi;
     for (bond = atom->BeginBond(bi); bond; bond = atom->NextBond(bi)) {
@@ -205,10 +205,10 @@ namespace OpenBabel {
     gtd.clear();
     gtd.resize(_pmol->NumAtoms());
 
-    int gtdcount, natom;
+    int gtdcount = 0, natom = 0;
     OBBitVec used, curr, next;
-    OBAtom *atom, *atom1;
-    OBBond *bond;
+    OBAtom *atom = nullptr, *atom1 = nullptr;
+    OBBond *bond = nullptr;
     vector<OBNodeBase*>::iterator ai;
     vector<OBBond*>::iterator j;
 
@@ -305,8 +305,8 @@ namespace OpenBabel {
     OBBitVec ring_atoms;
     FindRingAtoms(ring_atoms);
 
-    int i;
-    OBAtom *atom;
+    int i = 0;
+    OBAtom *atom = nullptr;
     vector<OBNodeBase*>::iterator ai;
     for (i=0, atom = _pmol->BeginAtom(ai); atom; atom = _pmol->NextAtom(ai)) {
       //    vid[i] = 0;
@@ -354,8 +354,8 @@ namespace OpenBabel {
   void OBGraphSymPrivate::CreateNewClassVector(std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
                                         std::vector<std::pair<OBAtom*,unsigned int> > &vp2)
   {
-    unsigned int m,id;
-    OBAtom *atom, *nbr;
+    unsigned int m = 0,id = 0;
+    OBAtom *atom = nullptr, *nbr = nullptr;
     vector<OBBond*>::iterator nbr_iter;
     vector<unsigned int>::iterator k;
     vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
@@ -408,8 +408,8 @@ namespace OpenBabel {
   void OBGraphSymPrivate::CreateNewClassVector(OBMol *mol, std::vector<std::pair<OBAtom*,unsigned int> > &vp1,
       std::vector<std::pair<OBAtom*,unsigned int> > &vp2)
   {
-    int m,id;
-    OBAtom *atom, *nbr;
+    int m = 0,id = 0;
+    OBAtom *atom = nullptr, *nbr = nullptr;
     vector<OBBond*>::iterator nbr_iter;
     vector<unsigned int>::iterator k;
     vector<pair<OBAtom*,unsigned int> >::iterator vp_iter;
@@ -503,7 +503,7 @@ namespace OpenBabel {
    */
   int OBGraphSymPrivate::ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes)
   {
-    unsigned int nclasses1, nclasses2;
+    unsigned int nclasses1 = 0, nclasses2 = 0;
     vector<pair<OBAtom*,unsigned int> > tmp_classes;
 
     // How many classes are we starting with?  (The "renumber" part isn't relevant.)
@@ -558,7 +558,7 @@ namespace OpenBabel {
   {
     vector<unsigned int> vgi;
     vector<OBNodeBase*>::iterator j;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
 
     // Get vector of graph invariants.  These are the starting "symmetry classes".
     GetGIVector(vgi);

@@ -18,6 +18,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************
 */
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -441,7 +442,7 @@ namespace OpenBabel {
   };
   //-------------------------------------------------------------------
   TSingleAtom * TSingleAtom::clone() {
-    TSingleAtom * result;
+    TSingleAtom * result = nullptr;
     result=new TSingleAtom();
 
     result->astereo=this->astereo;
@@ -474,7 +475,7 @@ namespace OpenBabel {
     // For given atom's number ATN in array ATOM returns a number from 1 to 32.
     //  Atoms with related properties have the same number. It is required to reduce
     //  the possible number of fragments in structure}
-    int i;
+    int i = 0;
 
     for (i=0; i<NEXACTATOMS; i++) if (exactAtom[i] == na) return i;
     for (i=0; i<NALKALYATOMS; i++) if (na == alkaly[i]) return 21;
@@ -511,7 +512,7 @@ namespace OpenBabel {
     // =0-usual valency
 
 
-    int k1,k2;
+    int k1 = 0,k2 = 0;
     int result=0;
 
     //Default hydrogen
@@ -531,7 +532,7 @@ namespace OpenBabel {
     //  b) Its charge
     //  c) Its valency}
 
-    int b1,b2,b3,w;
+    int b1 = 0,b2 = 0,b3 = 0,w = 0;
 
     b1=encoder();
     b2=chargeConversion();
@@ -564,7 +565,7 @@ namespace OpenBabel {
   bool TSingleAtom::atomEquivalent(TSingleAtom * structure, TSingleAtom * query,
                                    int nHStr, int nHQuery, bool chargeSensitivity, bool isotopeSensitivity) {
     bool result=false;
-    int i,j,k;
+    int i = 0,j = 0,k = 0;
 
     if (structure == nullptr || query == nullptr) return result;
     i=nHQuery;
@@ -612,7 +613,7 @@ namespace OpenBabel {
 
   //----------------  TSingleBond methods ----------------------
   TSingleBond * TSingleBond::clone() {
-    TSingleBond * result;
+    TSingleBond * result = nullptr;
     result=new TSingleBond();
 
     result->at[0]=this->at[0];
@@ -641,8 +642,8 @@ namespace OpenBabel {
     // 2-query bond and corresponding structure bond must be a Ring
     //Function has 'TRUE' value if bonds can be matched, FALSE otherwise
 
-    bool test1;
-    int bT,qBT,bD,qBD;
+    bool test1 = false;
+    int bT = 0,qBT = 0,bD = 0,qBD = 0;
     bool result=false;
 
     bT=sBond->tb; qBT=qBond->tb;
@@ -679,7 +680,7 @@ namespace OpenBabel {
   int TSingleBond::bondConversion() {
     //generate a code for bond's nuber BNB in array BOND. It is took into consi-
     //deration bond type and cycle size
-    int b1,b2;
+    int b1 = 0,b2 = 0;
 
     if (tb > 4) b1=0; else b1=tb;
     b2=7; //for other Switch value
@@ -805,8 +806,8 @@ namespace OpenBabel {
 
   int TSimpleMolecule::getNH(int atomNo) {
     int result=0;
-    TSingleAtom * atom;
-    int i,n;
+    TSingleAtom * atom = nullptr;
+    int i = 0,n = 0;
 
     if (atomNo >= nAtoms()) return result;
     atom=getAtom(atomNo);
@@ -824,14 +825,14 @@ namespace OpenBabel {
     //Bond BNumber has to have type=9 or 10
     int result=0;
     int an [4] = {0};
-    int j,m,k;
+    int j = 0,m = 0,k = 0;
     double x[3];
     double y[3];
-    double r,r1,r2;
-    bool testBad;
+    double r = NAN,r1 = NAN,r2 = NAN;
+    bool testBad = false;
     double tn [2];
-    bool rsn;
-    bool isInvert;
+    bool rsn = false;
+    bool isInvert = false;
 
     if ((getAtom(aNumber)->nb < 3) || (getAtom(aNumber)->nb > 4)) return result;
     for (j=0; j<getAtom(aNumber)->nb; j++) an[j]=getAtom(aNumber)->ac[j];
@@ -906,8 +907,8 @@ namespace OpenBabel {
     //the unit vector (Xv,Yv on output). The vector is best direction to add new fra-
     //gment to current structure. The procedure is used by TEMPLATE and MAKEPOLI}
 
-    double si,r1,r2,r3,s1,s2,s3,s4,x1,y1,y2;
-    int na1,na2,i;
+    double si = NAN,r1 = NAN,r2 = NAN,r3 = NAN,s1 = NAN,s2 = NAN,s3 = NAN,s4 = NAN,x1 = NAN,y1 = NAN,y2 = NAN;
+    int na1 = 0,na2 = 0,i = 0;
 
     na1=getBond(bn)->at[0];
     na2=getBond(bn)->at[1];
@@ -944,18 +945,18 @@ namespace OpenBabel {
     bool result=false;
     double centerX[3];
     double centerY[3];
-    unsigned int nBondNo;
-    neighbourlist* bk;
+    unsigned int nBondNo = 0;
+    neighbourlist* bk = nullptr;
     std::vector<int>bondList;
     std::vector<int>* blStore = nullptr;
-    bool testBad,testOK;
-    unsigned int m, j, n1, n2, n, k;
-    int rs;
-    double dist,x,y,minDist;
-    unsigned int i;
-    bool test;
-    int at;
-    double r1,r2,s1,s3;
+    bool testBad = false,testOK = false;
+    unsigned int m = 0, j = 0, n1 = 0, n2 = 0, n = 0, k = 0;
+    int rs = 0;
+    double dist = NAN,x = NAN,y = NAN,minDist = NAN;
+    unsigned int i = 0;
+    bool test = false;
+    int at = 0;
+    double r1 = NAN,r2 = NAN,s1 = NAN,s3 = NAN;
 
     if (bkExt != nullptr) {
       bk=bkExt;
@@ -1061,8 +1062,8 @@ namespace OpenBabel {
 
   bool TSimpleMolecule::unitVectorCoincident(int aN, double xV, double yV) {
     bool result=false;
-    int i, aT;
-    double r1,r2,s1;
+    int i = 0, aT = 0;
+    double r1 = NAN,r2 = NAN,s1 = NAN;
 
     for (i=0; i<getAtom(aN)->nb; i++) {
       aT=getAtom(aN)->ac[i];
@@ -1087,13 +1088,13 @@ namespace OpenBabel {
     double sc[4] = {0,1/2,1.7320508/2,1};
     double cc[4] = {1,1.7320508/2,1/2,0};
     double sQ3=sqrt(3.0)/2.0;
-    double si,r1,r2,r3,r4,s1,s2,s3,s4,fi;
+    double si = NAN,r1 = NAN,r2 = NAN,r3 = NAN,r4 = NAN,s1 = NAN,s2 = NAN,s3 = NAN,s4 = NAN,fi = NAN;
     double xm[3];  //Initial dimensions 1..3
     double ym[3];  //Initial dimensions 1..3
-    int i,i1,i2;
-    int nB1,aT,aT1;
+    int i = 0,i1 = 0,i2 = 0;
+    int nB1 = 0,aT = 0,aT1 = 0;
     bool mK[CONNMAX] = {false};
-    bool test;
+    bool test = false;
 
     nB1=1;
     if (getAtom(aN)->nb == 0) {
@@ -1275,9 +1276,9 @@ namespace OpenBabel {
 
   void TSimpleMolecule::setCoordinatesString(string value){
     //set back above prcedure
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    int i,n,k,kk;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    int i = 0,n = 0,k = 0,kk = 0;
     string s;
 
     clear();
@@ -1331,7 +1332,7 @@ namespace OpenBabel {
   };
 
   void TSimpleMolecule::addAtom(int na, int charge, double rx, double ry) {
-    TSingleAtom * sa;
+    TSingleAtom * sa = nullptr;
     sa=new TSingleAtom();
     sa->na=na;
     sa->nc=charge;
@@ -1345,7 +1346,7 @@ namespace OpenBabel {
   };
 
   void TSimpleMolecule::addBond(int tb, int at1, int at2){
-    TSingleBond * sb;
+    TSingleBond * sb = nullptr;
     sb=new TSingleBond();
     sb->tb=tb;
     sb->at[0]=at1;
@@ -1354,8 +1355,8 @@ namespace OpenBabel {
   };
 
   void TSimpleMolecule::moleculeCopy(TSimpleMolecule & source) {
-    TSingleAtom * sa;
-    TSingleBond * sb;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
 
     clear();
     for (int i=0; i<source.nAtoms(); i++) {
@@ -1371,7 +1372,7 @@ namespace OpenBabel {
 
   void TSimpleMolecule::deleteBond(int index) {
     std::vector<TSingleBond*> tempBond(nBonds());
-    int i,n;
+    int i = 0,n = 0;
 
     n=0;
     //bond deletion
@@ -1391,7 +1392,7 @@ namespace OpenBabel {
   void TSimpleMolecule::deleteAtom(int index) {
     std::vector<TSingleAtom*> tempAtom(nAtoms()-1);
     std::vector<TSingleBond*> tempBond(nBonds());
-    unsigned int i, n;
+    unsigned int i = 0, n = 0;
 
     n=0;
     //atom deletion
@@ -1426,8 +1427,8 @@ namespace OpenBabel {
 
   double TSimpleMolecule::bondLength(int index) {
     double result=1;
-    double x,y;
-    int k1,k2;
+    double x = NAN,y = NAN;
+    int k1 = 0,k2 = 0;
     k1=getBond(index)->at[0];
     k2=getBond(index)->at[1];
     x=getAtom(k1)->rx-getAtom(k2)->rx;
@@ -1450,8 +1451,8 @@ namespace OpenBabel {
     //zero, than atom with this number and all other, which is connected through
     //atom ATEX, don't include in LIST array. Boolean variable TEST has TRUE value
     //on output if between AT and ATEX exist cyclic bond, false otherwise}
-    int i,j,k,l;
-    bool test, test1;
+    int i = 0,j = 0,k = 0,l = 0;
+    bool test = false, test1 = false;
     list.resize(0);
 
     test=false;
@@ -1482,9 +1483,9 @@ namespace OpenBabel {
   }
 
   void TSimpleMolecule::readConnectionMatrix(const std::vector<int>iA1, const std::vector<int>iA2, int nAtoms, int nBonds) {
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    int i;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    int i = 0;
 
     clear();
     srand(30000);
@@ -1518,8 +1519,8 @@ namespace OpenBabel {
 
 
   void TSimpleMolecule::normalizeCoordinates(double aveBL) {
-    int i;
-    double d,xMin,yMin;
+    int i = 0;
+    double d = NAN,xMin = NAN,yMin = NAN;
 
     if (nAtoms() == 0) return;
 
@@ -1542,11 +1543,11 @@ namespace OpenBabel {
   };
 
   void TSimpleMolecule::readOBMol(OBMol * pmol) {
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    OBAtom * atom;
-    OBBond * bond;
-    int na,nb,i;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    OBAtom * atom = nullptr;
+    OBBond * bond = nullptr;
+    int na = 0,nb = 0,i = 0;
 
     // Stereo perception should not be triggered if this function is called
     // from MDLFormat::ReadMolecule->Alias::Expand->Alias::FromNameLookup->(MCDL)groupRedraw
@@ -1623,8 +1624,8 @@ namespace OpenBabel {
 
   void TSimpleMolecule::defineAtomConn() {
     //for each atom returns list of adjusted atoms in atomConnection
-    int i,n1, n2;
-    TSingleAtom * sa;
+    int i = 0,n1 = 0, n2 = 0;
+    TSingleAtom * sa = nullptr;
 
     for (i=0; i<nAtoms(); i++) {
       getAtom(i)->nb=0;
@@ -1652,7 +1653,7 @@ namespace OpenBabel {
 
   void TSimpleMolecule::defineBondConn(neighbourlist *bondConnection) {
     //for each atom returns list of adjusted bonds in bondConnection
-    int i,n1, n2;
+    int i = 0,n1 = 0, n2 = 0;
 
     for (i=0; i<nAtoms(); i++) bondConnection[i].nb=0;
     for (i=0; i<nBonds(); i++) {
@@ -1673,7 +1674,7 @@ namespace OpenBabel {
       with the ANUM, excluding bond BNUM. The bond's list is inserted into array
       L, TOTAL-number of components in the array. Array L1 contains atom's number
       which is connected with atom ANUM through corresponding bond in the array L.*/
-    int n,i;
+    int n = 0,i = 0;
 
     total=0;
     for (i=0; i<bk[anum].nb; i++) if (bk[anum].adjusted[i] != bnum) {
@@ -1704,8 +1705,8 @@ namespace OpenBabel {
     */
     int e[CONNMAX];
     int e1[CONNMAX];
-    int i,j,ncur;
-    int n;
+    int i = 0,j = 0,ncur = 0;
+    int n = 0;
 
     ncur=0;
     n=0;
@@ -1731,14 +1732,14 @@ namespace OpenBabel {
       to ring, array BONDLIST contains on output the bond's numbers, which are
       also assigned to the same ring */
 
-    int i,j,k,aA,i1,i2;
+    int i = 0,j = 0,k = 0,aA = 0,i1 = 0,i2 = 0;
     std::vector<int>pA(nBonds());
     std::vector<int>pB(nBonds());
     std::vector<int>oD(nBonds());
     std::vector<int>curBond(nBonds());
     std::vector<int>curAtom(nBonds());
-    bool test;
-    int nP;
+    bool test = false;
+    int nP = 0;
 
 
     for (j=0; j<nBonds(); j++) oD[j]=-1;
@@ -1792,8 +1793,8 @@ namespace OpenBabel {
       in the structure contains label, whether the bond is aromatic or not. On out-
       put function AROMATIC contains TRUE if the ring is aromatic, FALSE otherwise
     */
-    bool test;
-    int i,j,k,n,n1,m;
+    bool test = false;
+    int i = 0,j = 0,k = 0,n = 0,n1 = 0,m = 0;
     int doubleDetected[11];
     int atomDetected[11];
     bool result=false;
@@ -1877,9 +1878,9 @@ namespace OpenBabel {
     std::vector<int>ar1(nBonds());
     std::vector<std::vector<int> > cycleDescription;
 
-    int i,n,j,k;
-    int cycleSize;
-    neighbourlist *bk;
+    int i = 0,n = 0,j = 0,k = 0;
+    int cycleSize = 0;
+    neighbourlist *bk = nullptr;
 
     if (nBonds() == 0) return;
     bk=(neighbourlist *)calloc(nAtoms(), sizeof(adjustedlist));
@@ -1941,9 +1942,9 @@ namespace OpenBabel {
 
 
   void TSimpleMolecule::redrawMolecule() {
-    int i;
-    int atomClean;
-    int bondClean;
+    int i = 0;
+    int atomClean = 0;
+    int bondClean = 0;
     std::vector<int>listAtomClean(nAtoms());
     std::vector<int>listBondClean(nBonds());
 
@@ -1960,8 +1961,8 @@ namespace OpenBabel {
     /*Using atom's numbers NA1 and NA2 in the array ATOMS calculates the direction
       for bond between NA1 and NA2 (XV,YV on output). At this direction new
       substitutor may be added with optimal place.*/
-    double si,r1,r2,r3,s1,s2,s3,s4,x1,y1,y2;
-    int i,k;
+    double si = NAN,r1 = NAN,r2 = NAN,r3 = NAN,s1 = NAN,s2 = NAN,s3 = NAN,s4 = NAN,x1 = NAN,y1 = NAN,y2 = NAN;
+    int i = 0,k = 0;
 
     if ((getAtom(na1)->rx==getAtom(na2)->rx) && (getAtom(na1)->ry==getAtom(na2)->ry)) {
       xv=1;
@@ -2007,8 +2008,8 @@ namespace OpenBabel {
     // sive calls to the procedure are required together with DefA. After recursion
     // have been finished, the DEFINESEQUENCE array will be created. The procedure
     // analyze cyclic fragments
-    int aA,cN,maxAtDef,i,j,atDef;
-    bool test;
+    int aA = 0,cN = 0,maxAtDef = 0,i = 0,j = 0,atDef = 0;
+    bool test = false;
 
     test=true;
     while (test) {
@@ -2089,7 +2090,7 @@ namespace OpenBabel {
     // sive calls to the procedure are required together with DefC. After recursion
     //have been finished, the DEFINESEQUENCE array will be created. The procedure
     //analyze chain fragments
-    int i,j,k,rC;
+    int i = 0,j = 0,k = 0,rC = 0;
 
 
 
@@ -2143,7 +2144,7 @@ namespace OpenBabel {
     //atom with maximal number, then next and so on
     std::vector<int> bondUsed(ringSize);
     std::vector<int> newBondList(ringSize);
-    int i,j,n,m,currentAtom;
+    int i = 0,j = 0,n = 0,m = 0,currentAtom = 0;
 
     n=bondList[0];
     m=0;
@@ -2202,19 +2203,19 @@ namespace OpenBabel {
       SC-cycle size minus number of already defined atoms. The variable is taken
       into consideration for TP=2-4.
     */
-    bool test;
-    int cs;
-    int add,nb,k,k1,k2,l,i,j,baseCycle,lx,ly;
-    int currNumDef;
-    int atomSecond;
+    bool test = false;
+    int cs = 0;
+    int add = 0,nb = 0,k = 0,k1 = 0,k2 = 0,l = 0,i = 0,j = 0,baseCycle = 0,lx = 0,ly = 0;
+    int currNumDef = 0;
+    int atomSecond = 0;
 
-    double r,cf,fi,ux,uy,ux1,uy1,ux2,uy2,uvX,uvY,c,s;
-    double xCenterOld,yCenterOld,xCenterNew,yCenterNew,bondLengthOld,bondLengthNew;
-    neighbourlist *bk;
-    int n,n1,n2;
-    double r1;
-    bool isCycle,isChainFour;
-    int mm1,mm2,mAny,bnEx;
+    double r = NAN,cf = NAN,fi = NAN,ux = NAN,uy = NAN,ux1 = NAN,uy1 = NAN,ux2 = NAN,uy2 = NAN,uvX = NAN,uvY = NAN,c = NAN,s = NAN;
+    double xCenterOld = NAN,yCenterOld = NAN,xCenterNew = NAN,yCenterNew = NAN,bondLengthOld = NAN,bondLengthNew = NAN;
+    neighbourlist *bk = nullptr;
+    int n = 0,n1 = 0,n2 = 0;
+    double r1 = NAN;
+    bool isCycle = false,isChainFour = false;
+    int mm1 = 0,mm2 = 0,mAny = 0,bnEx = 0;
 
     //Lx,Ly,Button:integer;
 
@@ -2681,9 +2682,9 @@ namespace OpenBabel {
 
   void TSimpleMolecule::getMolfile(std::ostream & data) {
     char buff[BUFF_SIZE];
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    int charge,bondType,stereoType;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    int charge = 0,bondType = 0,stereoType = 0;
 
     data<<endl<<endl<<endl;  //three empty lines
     snprintf(buff,BUFF_SIZE,"%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d%3d V2000",nAtoms(),nBonds(),0,0,0,0,0,0,0,0,999);
@@ -2727,9 +2728,9 @@ namespace OpenBabel {
   //*******************************************************************************
 
   double TSimpleMolecule::atomDistanceMetric(int an) {
-    int i, n;
-    double r, rr;
-    double x1, y1, x2, y2, d, result;
+    int i = 0, n = 0;
+    double r = NAN, rr = NAN;
+    double x1 = NAN, y1 = NAN, x2 = NAN, y2 = NAN, d = NAN, result = NAN;
 
     if (getAtom(an)->nb == 0) return 0;
     result=0.01;
@@ -2751,7 +2752,7 @@ namespace OpenBabel {
   double xDistPoint(double x1, double y1, double x2, double y2, double x0, double y0) {
     //The function finds distance between FAtom AN and bond BN (including sign).
     // The bond is treated as segment, not as straight line!}
-    double d, r, r1, yMin, yMax, xMin, xMax, xx, yy, result;
+    double d = NAN, r = NAN, r1 = NAN, yMin = NAN, yMax = NAN, xMin = NAN, xMax = NAN, xx = NAN, yy = NAN, result = NAN;
 
     if (y1 < y2) {
       yMin=y1;
@@ -2790,8 +2791,8 @@ namespace OpenBabel {
   bool overlapped(double x1A, double y1A, double x2A, double y2A,
                   double x1B, double y1B, double x2B, double y2B, double delta) {
 
-    double a1, b1, c1, a2, b2, c2, r, cX, cY, x, y, r1, r2;
-    double xMin, xMax, yMin, yMax;
+    double a1 = NAN, b1 = NAN, c1 = NAN, a2 = NAN, b2 = NAN, c2 = NAN, r = NAN, cX = NAN, cY = NAN, x = NAN, y = NAN, r1 = NAN, r2 = NAN;
+    double xMin = NAN, xMax = NAN, yMin = NAN, yMax = NAN;
     bool result=false;
 
     r=y2A-y1A;
@@ -2907,8 +2908,8 @@ namespace OpenBabel {
 
 
   bool TSimpleMolecule::bondsOverlapped(int bN1, int bN2, double delta) {
-    double x1A,y1A,x2A,y2A,x1B,y1B,x2B,y2B;
-    bool result;
+    double x1A = NAN,y1A = NAN,x2A = NAN,y2A = NAN,x1B = NAN,y1B = NAN,x2B = NAN,y2B = NAN;
+    bool result = false;
 
     x1A=getAtom(getBond(bN1)->at[0])->rx;
     y1A=getAtom(getBond(bN1)->at[0])->ry;
@@ -2931,9 +2932,9 @@ namespace OpenBabel {
 
 
   int TSimpleMolecule::hasOverlapped(double delta, bool findFirst) {
-    int i, j;
-    bool test;
-    double r,xx,yy;
+    int i = 0, j = 0;
+    bool test = false;
+    double r = NAN,xx = NAN,yy = NAN;
     int result=0;
 
     for (i=1; i<(nBonds()-1); i++) for (j=i+1; j<nBonds(); j++) {
@@ -2957,7 +2958,7 @@ namespace OpenBabel {
   };
 
   bool TSimpleMolecule::checkOverlapped() {
-    bool result;
+    bool result = false;
     result=hasOverlapped(averageBondLength()/32,true)>0;
     return result;
   };
@@ -2974,11 +2975,11 @@ namespace OpenBabel {
     //the bond number CHB is used to divide the fragment into two parts. For lower
     //part flip is executed. Case CHB-ring bond-no effects}
 
-    int cHA1, cHA2, n;
-    bool test;
+    int cHA1 = 0, cHA2 = 0, n = 0;
+    bool test = false;
     std::vector<int>list1(listarSize());
-    double r, xc, yc, xo, yo, xn, yn;
-    int i;
+    double r = NAN, xc = NAN, yc = NAN, xo = NAN, yo = NAN, xn = NAN, yn = NAN;
+    int i = 0;
 
     if (cHB < 0) return;
 
@@ -3009,12 +3010,12 @@ namespace OpenBabel {
   };
 
   void TSimpleMolecule::bondEnlarge(int bN) {
-    double r;
+    double r = NAN;
     std::vector<int> list(listarSize());
-    int cHA1, cH1, cH2, n;
-    bool test;
-    double xc, yc, xc1, yc1;
-    int i;
+    int cHA1 = 0, cH1 = 0, cH2 = 0, n = 0;
+    bool test = false;
+    double xc = NAN, yc = NAN, xc1 = NAN, yc1 = NAN;
+    int i = 0;
 
     for (i=0; i<nAtoms(); i++) list[i]=i;
     cHA1=getBond(bN)->at[0];
@@ -3052,8 +3053,8 @@ namespace OpenBabel {
     int crAN[4];  //0-th element will not be used-translation from Delphi
     double crRx[4];
     double crRy[4];
-    int i;
-    double l1,l2;
+    int i = 0;
+    double l1 = NAN,l2 = NAN;
     int result=0;
 
     crAN[0]=sm.getBond(br)->at[0];
@@ -3085,7 +3086,7 @@ namespace OpenBabel {
 
   bool TSimpleMolecule::correctDblBondStereo() {
     TSimpleMolecule &sm = *this;
-    int i,j,an1,an2,bn1,bn2,n;
+    int i = 0,j = 0,an1 = 0,an2 = 0,bn1 = 0,bn2 = 0,n = 0;
     bool result = false;
 
     //Flip bonds to show Z/E orientation
@@ -3132,9 +3133,9 @@ namespace OpenBabel {
   }
 
   bool compareAtoms(int a1, int a2, const std::vector<std::vector<int> *> aeqList) {
-    std::vector<int> * l1;
-    std::vector<int> * l2;
-    unsigned int i;
+    std::vector<int> * l1 = nullptr;
+    std::vector<int> * l2 = nullptr;
+    unsigned int i = 0;
     bool result=false;
 
     if ((a1 < 0) || (a2 < 0) || (a1 >= aeqList.size()) || (a2 >= aeqList.size())) return result;
@@ -3158,14 +3159,14 @@ namespace OpenBabel {
       A contains the atom's codes, generated by ALLATATOM, array B-bond's codes,
       generated by BONDCONVERSION*/
 
-    int i,j,k,n,i1,i2,i3,jj;
+    int i = 0,j = 0,k = 0,n = 0,i1 = 0,i2 = 0,i3 = 0,jj = 0;
     std::vector<int> aDist(listarSize());
     std::vector<int> aList(listarSize());
     std::vector<int> atomoBond(listarSize());
     std::vector<int> * aPrev [3];
-    bool test,testOK;
-    int w2;
-    int l2,l3,tl1,tl2;
+    bool test = false,testOK = false;
+    int w2 = 0;
+    int l2 = 0,l3 = 0,tl1 = 0,tl2 = 0;
     std::vector<int> ab(listarSize());
     int result=0;
     //    String s;
@@ -3273,11 +3274,11 @@ namespace OpenBabel {
 
     std::vector<int> a(listarSize());
     std::vector<int> b(listarSize());
-    TSimpleMolecule * em;
-    int i,j,n;
-    neighbourlist *bk;
+    TSimpleMolecule * em = nullptr;
+    int i = 0,j = 0,n = 0;
+    neighbourlist *bk = nullptr;
     std::vector<std::vector<int> *> aeqList(0);
-    std::vector<int> * lL;
+    std::vector<int> * lL = nullptr;
 
 
     em= new TSimpleMolecule();
@@ -3331,7 +3332,7 @@ namespace OpenBabel {
   // (in the case where maxValues is [1111...]). Returns false when all possibilities
   // have been generated (true otherwise).
   bool incrementValues(std::vector<int>& currentValues, const std::vector<int> maxValues) {
-    unsigned int i, l;
+    unsigned int i = 0, l = 0;
     bool result=false;
 
     for (i=0; i<currentValues.size(); i++) {
@@ -3351,17 +3352,17 @@ namespace OpenBabel {
 
 
   int TSimpleMolecule::correctOverlapped() {
-    double r;
+    double r = NAN;
     TSimpleMolecule * smCopy=new TSimpleMolecule();
     TSimpleMolecule * bestStore=nullptr;
     TSimpleMolecule * tmpStore = new TSimpleMolecule();
-    int i, j, n, k, kk;
-    bool test;
-    int result;
+    int i = 0, j = 0, n = 0, k = 0, kk = 0;
+    bool test = false;
+    int result = 0;
     std::vector<int> currentValues(nBonds());
     std::vector<int> maxValues(nBonds());
     std::vector<int> rotBondList(nBonds());
-    int at1,at2;
+    int at1 = 0,at2 = 0;
 
 
     r=averageBondLength()/blDenominator;
@@ -3422,7 +3423,7 @@ namespace OpenBabel {
       vector<int> inner_bonds;
       vector<int> remainder;
       int n_rotors = setupRotorSearch(rotBondList, inner_bonds, remainder);
-      int kk_flip;
+      int kk_flip = 0;
 
       if (n_rotors > 0) {  // All possible combinations of rotations for the inner_bonds...
         int m_rotors = n_rotors <= nRotBondsMax ? n_rotors : nRotBondsMax;
@@ -3512,7 +3513,7 @@ namespace OpenBabel {
   int TSimpleMolecule::setupRotorSearch(const vector<int> &rotBondList, vector<int>& inner_bonds, vector<int>& remainder)
   {
     vector<pair<int,int> > vtmp; // pair of (bond_id, gtd_score)
-    int at1, at2;
+    int at1 = 0, at2 = 0;
     int n_rotors = 0;
 
     for (unsigned int i=0; i<rotBondList.size(); i++)
@@ -3548,7 +3549,7 @@ namespace OpenBabel {
   //*******************************************************************************
 
   void deleteIntElement(std::vector<int> * source, int index) {
-    unsigned int i, n;
+    unsigned int i = 0, n = 0;
     std::vector<int> temp(source->size()-1);
 
     n=0;
@@ -3581,8 +3582,8 @@ namespace OpenBabel {
     std::vector<int>bNumber(nAtoms);
 
 
-    int i,n,k;
-    int result;
+    int i = 0,n = 0,k = 0;
+    int result = 0;
 
     result=0;
     for (i=0; i<nAtoms; i++) {
@@ -3629,7 +3630,7 @@ namespace OpenBabel {
                              const std::vector<int> hydrogenValency,	const std::vector<int> bondAssignment, const std::vector<int> specialFlag,
                              std::vector<int>& bondOrder, int nAtoms, int nBonds, int & nAss) {
 
-    int i,k;
+    int i = 0,k = 0;
 
     nAss=0;
     for (i=0; i<nBonds; i++) if (bondOrder[i] == 0) {
@@ -3648,8 +3649,8 @@ namespace OpenBabel {
                         bool testExceedHydrogen, bool oddEvenCheck) {
 
     std::vector<int>nBondsValency(nAtoms);  //dynamically allocation
-    int i,k;
-    bool result;
+    int i = 0,k = 0;
+    bool result = false;
 
     nGtMax=0;
     nNEH=0;
@@ -3677,8 +3678,8 @@ namespace OpenBabel {
   };
 
   static bool incrementAssignment(std::vector<int>& bondAssignment, int nAss) {
-    int i,j;
-    bool result;
+    int i = 0,j = 0;
+    bool result = false;
 
     result=false;
     for (i=nAss-1; i>=0; i--) if (bondAssignment[i] == 1) {
@@ -3701,12 +3702,12 @@ namespace OpenBabel {
     std::vector<int>bondOrderStore(nBonds);
     std::vector<int>specialFlag(nBonds);
 
-    int i,j,k,n,nAss;
-    bool  test;
-    int nGtMax;  //number of atoms, for which maximal valency is exausted
-    int nNEH;    //bumber of atoms, for which number of calc and desirable hydrogens are disagree
-    int nOddEven;//Parity violation - atom with odd maximal valency has even valency and back
-    int result;
+    int i = 0,j = 0,k = 0,n = 0,nAss = 0;
+    bool  test = false;
+    int nGtMax = 0;  //number of atoms, for which maximal valency is exausted
+    int nNEH = 0;    //bumber of atoms, for which number of calc and desirable hydrogens are disagree
+    int nOddEven = 0;//Parity violation - atom with odd maximal valency has even valency and back
+    int result = 0;
 
     k=nAtoms;
     if (nBonds > k) k=nBonds;
@@ -3820,7 +3821,7 @@ namespace OpenBabel {
 
     std::vector<int> hVal(nAtoms);
     std::vector<int> maxVal(nAtoms);
-    int i,result;
+    int i = 0,result = 0;
 
     for (i=0; i<nAtoms; i++) {
       hVal[i]=hydrogenValency(aPosition[i]);
@@ -3847,10 +3848,10 @@ namespace OpenBabel {
     std::vector<int> maxVal(pmol->NumAtoms());
     std::vector<int>iA1(pmol->NumBonds());
     std::vector<int>iA2(pmol->NumBonds());
-    int nAtoms,nBonds;
-    int i,k,na;
-    OBAtom * sa;
-    OBBond * sb;
+    int nAtoms = 0,nBonds = 0;
+    int i = 0,k = 0,na = 0;
+    OBAtom * sa = nullptr;
+    OBBond * sb = nullptr;
     int result=0;
 
     pmol->AssignSpinMultiplicity();
@@ -3980,11 +3981,11 @@ namespace OpenBabel {
     //    =1 - Maxima number of atoms is reached
     //    =2 - Maximal number of bonds is reached
 
-    int i,j1,j2,na,k1,k2,j,nb,n1,n2;
+    int i = 0,j1 = 0,j2 = 0,na = 0,k1 = 0,k2 = 0,j = 0,nb = 0,n1 = 0,n2 = 0;
     int l1=0;
     int l2=0;
-    bool test;
-    double r1,r2,r3,r4,emBLength;
+    bool test = false;
+    double r1 = NAN,r2 = NAN,r3 = NAN,r4 = NAN,emBLength = NAN;
     TSingleAtom * sa=nullptr;
     TSingleBond * sb=nullptr;
     int result=0;
@@ -4228,21 +4229,21 @@ namespace OpenBabel {
 
 
   void TEditedMolecule::addAsTemplate(TEditedMolecule& fragmentMol, int thisAN, int smAN, int thisBN, int smBN, bool isAddition) {
-    int nAtomsOld,nBondsOld,naDef1,naDef,i;
-    bool test,test1,test2;
+    int nAtomsOld = 0,nBondsOld = 0,naDef1 = 0,naDef = 0,i = 0;
+    bool test = false,test1 = false,test2 = false;
     std::vector<int> list;
-    double r,scale,xOld,yOld,xNew,yNew,xCenter,yCenter;
-    double r1;
-    double r2;
-    double xu1;
-    double yu1;
-    double xu2;
-    double yu2;
-    double cAngle;
-    double rxTemp1,ryTemp1;
+    double r = NAN,scale = NAN,xOld = NAN,yOld = NAN,xNew = NAN,yNew = NAN,xCenter = NAN,yCenter = NAN;
+    double r1 = NAN;
+    double r2 = NAN;
+    double xu1 = NAN;
+    double yu1 = NAN;
+    double xu2 = NAN;
+    double yu2 = NAN;
+    double cAngle = NAN;
+    double rxTemp1 = NAN,ryTemp1 = NAN;
     int mouseButton=0;
-    int n;
-    double amin;
+    int n = 0;
+    double amin = NAN;
 
 
 
@@ -4410,10 +4411,10 @@ namespace OpenBabel {
 
     std::vector<int> list(listarSize());
     std::vector<int>  inverseList(listarSize());
-    int i,j,k;
-    bool test;
-    TSingleAtom * sa;
-    TSingleBond * sb;
+    int i = 0,j = 0,k = 0;
+    bool test = false;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
     TEditedMolecule * result=nullptr;
 
     if ((atomN < 0) || (atomN >= nAtoms())) return result;
@@ -4454,12 +4455,12 @@ namespace OpenBabel {
       -2 - unconnected fragments were detected
       -3 - an exception take place*/
 
-    TEditedMolecule * molecule1;
-    int i,j,k,l;
-    bool test,test1,test2,test3;
-    int aQ1,aQ2,bNQ;
-    int result;
-    bool whileCondition,whileCondition1;
+    TEditedMolecule * molecule1 = nullptr;
+    int i = 0,j = 0,k = 0,l = 0;
+    bool test = false,test1 = false,test2 = false,test3 = false;
+    int aQ1 = 0,aQ2 = 0,bNQ = 0;
+    int result = 0;
+    bool whileCondition = false,whileCondition1 = false;
 
     result=-1;
     if (sMol.nAtoms()==0) return result;
@@ -4644,8 +4645,8 @@ namespace OpenBabel {
     //the same atom is pointed after hydrogens have been removed from the structure
 
     //NB! QueryLabel should be array!}
-    int i,j,i1;
-    bool test,test1,test2;
+    int i = 0,j = 0,i1 = 0;
+    bool test = false,test1 = false,test2 = false;
 
     if (qEnumerator != nullptr) {
       if (qEnumerator->size() != nAtoms()) qEnumerator->resize(nAtoms());
@@ -4702,8 +4703,8 @@ namespace OpenBabel {
   void TEditedMolecule::atomBondChange() {
     //substitutes the semipolar bond with double. NBONDS-total number of bonds,
     //BOND-bond's attributes, ATOM-atom's attributes}
-    int i;
-    int ca,cb;
+    int i = 0;
+    int ca = 0,cb = 0;
 
     if (nBonds()==0) return;
     for (i=0; i<nBonds(); i++) {
@@ -4727,8 +4728,8 @@ namespace OpenBabel {
     //Subtitute stereo bonds with single. On output TEST has TRUE value, if at
     //least one stereo bond was detected in structure with bond attributes BOND
     //nd total number of bonds NBONDS
-    int i;
-    bool result;
+    int i = 0;
+    bool result = false;
 
     result=false;
     if ((nBonds()==0) || (fIOPT12==2)) return result;
@@ -4776,8 +4777,8 @@ namespace OpenBabel {
     //      in structure will be tested, FALSE otherwise. If TEST1=TRUE and TEST=
     //      FALSE it means, that last atom in structure had been unproperly assigned
     //      -backstep is required to reassign the atom.*/
-    int bns,bs,as1,as2,aq2,aq1;
-    bool whiletest;
+    int bns = 0,bs = 0,as1 = 0,as2 = 0,aq2 = 0,aq1 = 0;
+    bool whiletest = false;
 
     test=false;
     aq1=getBond(bnq)->at[0];      //first query atom, already assigned
@@ -4825,8 +4826,8 @@ namespace OpenBabel {
     //contains '1' if a structure atom may be associated with the query, '0' other-
     //wise. The same is true for bond's list QB. NA-total number of query atoms,
     //NB-total number of query bonds
-    int i;
-    bool test,whiletest;
+    int i = 0;
+    bool test = false,whiletest = false;
 
     i=0;
     if (nA<0) return false;
@@ -4852,15 +4853,15 @@ namespace OpenBabel {
   };
 
   bool TEditedMolecule::fragmentSearch(TEditedMolecule * molecule1, std::vector<int>* bondLabel) {
-    int cycleNumber;
-    int j,k,l,m,mm;
-    bool test;
-    bool test1;
-    bool test2,test3;
-    int aq1,aq2,as1,as2,j1,i1;
-    int ii;
+    int cycleNumber = 0;
+    int j = 0,k = 0,l = 0,m = 0,mm = 0;
+    bool test = false;
+    bool test1 = false;
+    bool test2 = false,test3 = false;
+    int aq1 = 0,aq2 = 0,as1 = 0,as2 = 0,j1 = 0,i1 = 0;
+    int ii = 0;
     bool result=false;
-    bool whiletest1,whiletest2;
+    bool whiletest1 = false,whiletest2 = false;
 
     if (molecule1 == nullptr || !fIsQueryPrepare) return result;
     if (molecule1->nAtoms()==0) return result;
@@ -5117,9 +5118,9 @@ namespace OpenBabel {
     std::ifstream ifs;
     string filename("templates.sdf");//("e:\\templates.sdf");
     TEditedMolecule sm;
-    TEditedMolecule * em;
-    int i,na1,na2;
-    bool test;
+    TEditedMolecule * em = nullptr;
+    int i = 0,na1 = 0,na2 = 0;
+    bool test = false;
     bool result=false;
 
     try {
@@ -5165,12 +5166,12 @@ namespace OpenBabel {
   TemplateRedraw::TemplateRedraw(){
     if(queryData.empty()) //Load internal and external templates only once
       {
-        unsigned int i, j;
-        TEditedMolecule * em;
-        TEditedMolecule * em1;
-        TEditedMolecule * em2;
+        unsigned int i = 0, j = 0;
+        TEditedMolecule * em = nullptr;
+        TEditedMolecule * em1 = nullptr;
+        TEditedMolecule * em2 = nullptr;
         TEditedMolecule sm;
-        bool test;
+        bool test = false;
 
         //Load external..
         loadTemplates();
@@ -5202,7 +5203,7 @@ namespace OpenBabel {
   bool TemplateRedraw::internalBondsPresent(TEditedMolecule * mQuery, TSimpleMolecule * mStructure) {
     std::vector<int> aList(mStructure->nAtoms());
     std::vector<int> bList(mStructure->nBonds());
-    unsigned int i, n1, n2;
+    unsigned int i = 0, n1 = 0, n2 = 0;
     bool result=false;
 
     for (i=0; i<aList.size(); i++) aList[i]=0;
@@ -5223,12 +5224,12 @@ namespace OpenBabel {
     //Dummy rotation of molecule
     //Two solution - when c2,s2 are used - are determined for cases of rotaition when Up and Down are counterchnged. Single solution would be enough
     std::vector<bool> atomList(sm->nAtoms(), false);
-    int i,n,n1,n2;
-    bool test;
-    double rX,rY,r;
+    int i = 0,n = 0,n1 = 0,n2 = 0;
+    bool test = false;
+    double rX = NAN,rY = NAN,r = NAN;
     std::vector<double> coorX(sm->nAtoms());
     std::vector<double> coorY(sm->nAtoms());
-    double xMin,xMax,yMin,yMax;
+    double xMin = NAN,xMax = NAN,yMin = NAN,yMax = NAN;
 
 
 
@@ -5298,20 +5299,20 @@ namespace OpenBabel {
 
   void TemplateRedraw::selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList) {
     //for each fragment in AtomList select optimal angle of rotation
-    double xMax;
-    double xSize;
-    double ySize;
-    double xCenter;
-    double yCenter;
-    double c;
-    double s;
-    int nVert;
-    double cMax,sMax,x,y;
+    double xMax = NAN;
+    double xSize = NAN;
+    double ySize = NAN;
+    double xCenter = NAN;
+    double yCenter = NAN;
+    double c = NAN;
+    double s = NAN;
+    int nVert = 0;
+    double cMax = NAN,sMax = NAN,x = NAN,y = NAN;
     std::vector<int> bondList(0);
     std::vector<int> bondListAll(0);
     std::vector<bool> atomCleaned(sm->nAtoms());
-    int i,j,n,n1,n2,w;
-    bool test;
+    int i = 0,j = 0,n = 0,n1 = 0,n2 = 0,w = 0;
+    bool test = false;
 
     if (atomList == nullptr) {
       for (i=0; i<sm->nAtoms(); i++) atomCleaned[i]=true;
@@ -5396,10 +5397,10 @@ namespace OpenBabel {
   };
 
   void TemplateRedraw::rescaleSingleFragment(TSimpleMolecule * sm, std::vector<int>* atomList, PartFragmentDefinition& pf, double offset) {
-    int i,n;
-    double xMin,xMax,yMin,yMax;
-    double scale,r1,r2;
-    double x,y;
+    int i = 0,n = 0;
+    double xMin = NAN,xMax = NAN,yMin = NAN,yMax = NAN;
+    double scale = NAN,r1 = NAN,r2 = NAN;
+    double x = NAN,y = NAN;
 
     xMin=RUNDEF;
     xMax=RUNDEF;
@@ -5455,10 +5456,10 @@ namespace OpenBabel {
     //checking if recteangles are overlapped from different fagments.
     Rect rect;
     Point p;
-    int i,j,n1,n2;
-    PartFragmentDefinition * ef;
-    PartFragmentDefinition * efTemp;
-    bool test, result;
+    int i = 0,j = 0,n1 = 0,n2 = 0;
+    PartFragmentDefinition * ef = nullptr;
+    PartFragmentDefinition * efTemp = nullptr;
+    bool test = false, result = false;
 
     result=false;
     ef=(PartFragmentDefinition *)list[fragNo];
@@ -5512,10 +5513,10 @@ namespace OpenBabel {
 
   void TemplateRedraw::arrangeFragments(std::vector<PartFragmentDefinition *>& list, int fragNo, double aspOptimal) {
     //!! Frag no zero-based!
-    double aspDelta,xNice,yNice,xMax,yMax,xMin,yMin,r,x,y,xNew,yNew;
-    PartFragmentDefinition * ef;
-    PartFragmentDefinition * efInterest;
-    int i;
+    double aspDelta = NAN,xNice = NAN,yNice = NAN,xMax = NAN,yMax = NAN,xMin = NAN,yMin = NAN,r = NAN,x = NAN,y = NAN,xNew = NAN,yNew = NAN;
+    PartFragmentDefinition * ef = nullptr;
+    PartFragmentDefinition * efInterest = nullptr;
+    int i = 0;
 
     ef=(PartFragmentDefinition *)list[0];
     xMax=ef->fragLeft+ef->fragWidth; yMax=ef->fragTop+ef->fragHeight;
@@ -5591,10 +5592,10 @@ namespace OpenBabel {
 
   void TemplateRedraw::arrangeMolecules(std::vector<PartFragmentDefinition *>& extendedList, double aspOptimal) {
 
-    unsigned int i, j;
-    PartFragmentDefinition * ef;
-    PartFragmentDefinition * efTemp;
-    double maxX,minY,minX,maxY,r,r1;
+    unsigned int i = 0, j = 0;
+    PartFragmentDefinition * ef = nullptr;
+    PartFragmentDefinition * efTemp = nullptr;
+    double maxX = NAN,minY = NAN,minX = NAN,maxY = NAN,r = NAN,r1 = NAN;
 
     if (extendedList.size() > 1) {
       //Search for Max Width and MaxHeight fragments
@@ -5648,22 +5649,22 @@ namespace OpenBabel {
   int TemplateRedraw::coordinatesPrepare(TEditedMolecule& sm, int kk, int anTemplateNo) {
 
     TEditedMolecule * em=nullptr;
-    int i, j, k, fragmentAN, templateAN;
-    int atomClean;
-    int bondClean;
+    int i = 0, j = 0, k = 0, fragmentAN = 0, templateAN = 0;
+    int atomClean = 0;
+    int bondClean = 0;
     std::vector<int> templateAtomNumber(0);
     std::vector<int> fragmentAtomNumber(0);
-    bool test,test1;
+    bool test = false,test1 = false;
     std::vector<TEditedMolecule *> groupsFind(0);
     TEditedMolecule tm;
-    TEditedMolecule * emTemplate;
+    TEditedMolecule * emTemplate = nullptr;
     std::vector<int> enumerator(0);
-    TSingleBond * sb;
-    int nFound;
-    TEditedMolecule * smFragment;
-    TEditedMolecule * smRest;
-    int naStore;
-    int result;
+    TSingleBond * sb = nullptr;
+    int nFound = 0;
+    TEditedMolecule * smFragment = nullptr;
+    TEditedMolecule * smRest = nullptr;
+    int naStore = 0;
+    int result = 0;
 
 
     sm.defineAtomConn();
@@ -5846,24 +5847,24 @@ namespace OpenBabel {
 
   void TemplateRedraw::redrawFine(TSimpleMolecule& smIn) {
 
-    int i,j,n;
+    int i = 0,j = 0,n = 0;
     std::vector<int> atomTested(smIn.nAtoms());
     std::vector<int> atomList;
     std::vector<StereoBondStore *> stereoBondList(0);
-    int w;
-    PartFragmentDefinition * pf;
+    int w = 0;
+    PartFragmentDefinition * pf = nullptr;
     std::vector<PartFragmentDefinition *> frList(0);
-    double xMin,xMax,yMin,yMax;
-    double oldBondLength,newBondLength;
+    double xMin = NAN,xMax = NAN,yMin = NAN,yMax = NAN;
+    double oldBondLength = NAN,newBondLength = NAN;
     std::vector<TEditedMolecule *> molList(0); //contains list of molecules...
-    TEditedMolecule * sm;
+    TEditedMolecule * sm = nullptr;
     TEditedMolecule smCopy;
     TEditedMolecule smCopy2;
-    int frCount,nA;
-    TSingleAtom * sA;
-    TSingleBond * sB;
-    StereoBondStore * sbs;
-    int nOverlapped, nOverlappedMin;
+    int frCount = 0,nA = 0;
+    TSingleAtom * sA = nullptr;
+    TSingleBond * sB = nullptr;
+    StereoBondStore * sbs = nullptr;
+    int nOverlapped = 0, nOverlappedMin = 0;
 
     //smIn will be clear-nothing
 
@@ -6063,7 +6064,7 @@ namespace OpenBabel {
   */
   void generateDiagram(OBMol * pmol, std::ostream & ofs) {
     TEditedMolecule sm;
-    OBAtom * atom;
+    OBAtom * atom = nullptr;
 
     sm.readOBMol(pmol);
     sm.refofs=&ofs;
@@ -6079,7 +6080,7 @@ namespace OpenBabel {
 
   void generateDiagram(OBMol * pmol) {
     TEditedMolecule sm;
-    OBAtom * atom;
+    OBAtom * atom = nullptr;
 
     sm.readOBMol(pmol);
 
@@ -6135,9 +6136,9 @@ namespace OpenBabel {
     TEditedMolecule sm;
     TEditedMolecule em;
     bool result=false;
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    int i;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    int i = 0;
 
     sm.readConnectionMatrix(iA1Query,iA2Query,nAtomsQuery,nBondsQuery);
     for (i=0; i<sm.nAtoms(); i++) {
@@ -6174,9 +6175,9 @@ namespace OpenBabel {
                        const std::vector<int> bondTypes,  std::vector<int>& eqList, int nAtoms, int nBonds) {
 
     TEditedMolecule sm;
-    TSingleAtom * sa;
-    TSingleBond * sb;
-    int i;
+    TSingleAtom * sa = nullptr;
+    TSingleBond * sb = nullptr;
+    int i = 0;
 
     sm.readConnectionMatrix(iA1,iA2,nAtoms,nBonds);
     for (i=0; i<sm.nAtoms(); i++) {
@@ -6208,7 +6209,7 @@ namespace OpenBabel {
     TEditedMolecule eMol;
     TEditedMolecule eFrag;
     OBAtom sa;
-    int i;
+    int i = 0;
 
     if (molecule == fragment) return;
     eMol.readOBMol(molecule);
@@ -6230,8 +6231,8 @@ namespace OpenBabel {
 
   void createStereoLists(OBMol * pmol, std::vector<int>& bondStereoList, std::vector<int>& atomStereoList, std::vector<int>& eqList) {
     TEditedMolecule sm;
-    int n,m,i,j,n1,n2;
-    bool test;
+    int n = 0,m = 0,i = 0,j = 0,n1 = 0,n2 = 0;
+    bool test = false;
 
     //checking if multiply stereocenters or acyclic double=bonds are present
     sm.readOBMol(pmol);
@@ -6293,8 +6294,8 @@ namespace OpenBabel {
 
   int compareStringsNumbers(string s1, string s2) {
 
-    int result;
-    unsigned int n, i;
+    int result = 0;
+    unsigned int n = 0, i = 0;
 
     n=s1.length();
     if (s2.length()>n) n=s2.length();
@@ -6318,8 +6319,8 @@ namespace OpenBabel {
     std::vector<string> collectedSymbols(15);
     //string collectedSymbols [] = new string [15];
     int nPrior=0;
-    int i,j,n;
-    bool test;
+    int i = 0,j = 0,n = 0;
+    bool test = false;
 
     //result=aSymb[sm.getAtom(atAtom)->na];
     //result="at="+intToStr(atAtom)+" nt="+intToStr(sm.nAtoms())+" na="+intToStr(sm.getAtom(atAtom)->na);
@@ -6371,7 +6372,7 @@ namespace OpenBabel {
 
   std::string removeZeroeth(std::string instring) {
     string result=instring;
-    int n;
+    int n = 0;
 
     n=indexOf(result,",0");
     while (n>=0) {
@@ -6383,7 +6384,7 @@ namespace OpenBabel {
 
   int analizeParity(string data) {
     int result=0;  //Unknown parity
-    int n,m,n1;
+    int n = 0,m = 0,n1 = 0;
     string s1="";
     string s2="";
     bool test=true;
@@ -6412,11 +6413,11 @@ namespace OpenBabel {
 
   int analizeParityBond(string data) {
     int result=0;  //Unknown parity
-    int n,m;
+    int n = 0,m = 0;
     string s1="";
     string s2="";
     string s3="";
-    bool test;
+    bool test = false;
 
     n=data.length();
     m=0;
@@ -6457,7 +6458,7 @@ namespace OpenBabel {
 
   std::string changeParity(std::string data) {
     string result="";
-    int n,m,n1;
+    int n = 0,m = 0,n1 = 0;
     string s1="";
     string s2="";
     bool test=true;
@@ -6485,11 +6486,11 @@ namespace OpenBabel {
 
   std::string changeParityBond(std::string data) {
     string result="";
-    int n,m;
+    int n = 0,m = 0;
     string s1="";
     string s2="";
     string s3="";
-    bool test;
+    bool test = false;
 
     n=data.length();
     m=0;
@@ -6529,14 +6530,14 @@ namespace OpenBabel {
   std::string getAtomMCDL(OBMol * pmol, int ntatoms, const std::vector<int> ix, const std::vector<int> aNumber, const std::vector<int> atomStereoList, const std::vector<int> eqList) {
 
     TEditedMolecule sm;
-    int i,j,k,n,atn,n1,m;
+    int i = 0,j = 0,k = 0,n = 0,atn = 0,n1 = 0,m = 0;
     string result="";
     string data="";
     string as1,as2,s,s1,s2;
     std::vector<int> priority(4);
     std::vector<string> v(0);
     std::vector<int> anumStereo(0);
-    bool testParity;
+    bool testParity = false;
 
     sm.readOBMol(pmol);
 
@@ -6669,7 +6670,7 @@ namespace OpenBabel {
 
   bool bondEquivalent(int bn1, int bn2, const std::vector<int> eqList, TSimpleMolecule & sm) {
     bool result=false;
-    int n1,n2,n3,n4;
+    int n1 = 0,n2 = 0,n3 = 0,n4 = 0;
 
     if ((bn1 >= sm.nBonds()) || (bn2 > sm.nBonds())) return result;
     n1=sm.getBond(bn1)->at[0];
@@ -6686,9 +6687,9 @@ namespace OpenBabel {
     TSimpleMolecule sm;
     std::vector<int> anumStereo(0);
     std::vector<string> v(0);
-    int i,j,n,m,n1,n2,n3,n4,an1,an2,an3,an4,k;
+    int i = 0,j = 0,n = 0,m = 0,n1 = 0,n2 = 0,n3 = 0,n4 = 0,an1 = 0,an2 = 0,an3 = 0,an4 = 0,k = 0;
     string s,s1,s2,as1,as2,as3,as4;
-    bool testDouble,testParity;
+    bool testDouble = false,testParity = false;
     string data="";
     string result="";
 
@@ -6914,7 +6915,7 @@ namespace OpenBabel {
 
   std::string addZeroeth(std::string instring, std::string stringAdd) {
     string result=instring;
-    int n;
+    int n = 0;
 
     n=indexOf(result,",,");
     while (n>=0) {
@@ -6926,7 +6927,7 @@ namespace OpenBabel {
 
 
   void setUpDownBonds(int atomNo, int parity, TSimpleMolecule & sm, std::vector<int>& iA1, std::vector<int>& iA2, std::vector<int>& stereoBonds) {
-    int i,k;
+    int i = 0,k = 0;
 
     for (i=0; i<sm.nBonds(); i++) if (stereoBonds[i] == -1) {
         if ((sm.getBond(i)->at[0] == atomNo) || (sm.getBond(i)->at[1] == atomNo)) {
@@ -6953,8 +6954,8 @@ namespace OpenBabel {
     TSimpleMolecule sm;
 
     string ss,s,temp;
-    int n1,atn;
-    bool threeCoor;
+    int n1 = 0,atn = 0;
+    bool threeCoor = false;
 
     if (astereo.length() == 0) return;
     sm.readConnectionMatrix(iA1,iA2,rx,ry,acount,bcount);
@@ -7018,7 +7019,7 @@ namespace OpenBabel {
   void implementBondStereo(const std::vector<int> iA1, const std::vector<int> iA2, std::vector<double>& rx, std::vector<double>& ry, int acount, int bcount, std::string bstereo) {
     TEditedMolecule sm;
     string ss,s,sF,sa1,sa2,temp;
-    int i,n1,n2,k,bn;
+    int i = 0,n1 = 0,n2 = 0,k = 0,bn = 0;
     bool hasStereo=false;
     bool coorChanged=false;
     if (bstereo.length() == 0) return;
@@ -7133,8 +7134,8 @@ namespace OpenBabel {
     int result=0;
 
     std::vector<int> bondList;
-    OBAtom * atom;
-    int i,n,at,atEx,nb;
+    OBAtom * atom = nullptr;
+    int i = 0,n = 0,at = 0,atEx = 0,nb = 0;
 
     sm.readOBMol(pmol);
     atomN--; //TSimpleMolecule: numeration of atoms is started from 0, while for OBMOl from 1;
@@ -7195,9 +7196,9 @@ namespace OpenBabel {
   //****************************************************************************
   bool parseFormula(const std::string formulaString, std::vector <int>& enumber, int & valency) {
     //vector<string> items;
-    int i,n,k,n1,n2;//,j,nStart;
+    int i = 0,n = 0,k = 0,n1 = 0,n2 = 0;//,j,nStart;
     string s;
-    bool test;
+    bool test = false;
     string asym;
     string value=formulaString;
 
@@ -7279,7 +7280,7 @@ namespace OpenBabel {
   //****************************************************************************
 
   void prepareTest(OBMol * pmol, std::ostream & ofs) {
-    TEditedMolecule * sm;
+    TEditedMolecule * sm = nullptr;
 
     sm=new TEditedMolecule();
     sm->refofs=&ofs;

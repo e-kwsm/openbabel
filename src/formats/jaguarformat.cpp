@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -114,9 +115,9 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    unsigned int i;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    unsigned int i = 0;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     mol.BeginModify();
@@ -177,7 +178,7 @@ namespace OpenBabel
               {
                 OBVectorData *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
-                double x, y, z;
+                double x = NAN, y = NAN, z = NAN;
                 x = atof(vs[1].c_str());
                 y = atof(vs[3].c_str());
                 z = atof(vs[5].c_str());
@@ -210,9 +211,9 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
 
     ofs << mol.GetTitle() << endl << endl;
     ofs << "&gen" << endl;
@@ -248,9 +249,9 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    unsigned int i;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    unsigned int i = 0;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     mol.BeginModify();

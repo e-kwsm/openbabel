@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -119,11 +120,11 @@ namespace OpenBabel {
     ifs.seekg (0, ios::end);
 
     char buffer[BUFF_SIZE];
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     unsigned int totalAtoms_fl = 0, totalTypes = 0;
     unsigned int totalAtoms = 0, atomCount = 0;
-    OBAtom *atom;
-    bool cartesian;
+    OBAtom *atom = nullptr;
+    bool cartesian = false;
     vector<string> vs;
     vector<atm_t_prop> atom_t_prop;
 

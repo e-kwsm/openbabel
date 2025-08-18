@@ -213,7 +213,7 @@ namespace OpenBabel
           atom->SetType(vs[0]);
 
         // Read the atom coordinates
-        char *endptr;
+        char *endptr = nullptr;
         double x = strtod((char*)vs[1].c_str(),&endptr);
         if (endptr == (char*)vs[1].c_str())
           {

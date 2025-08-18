@@ -128,7 +128,7 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     char buffer[BUFF_SIZE];
     vector3 vcenter,vmin,vmax,vmid,vdim;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     vmax.Set(-10E10,-10E10,-10E10);
     vmin.Set( 10E10, 10E10, 10E10);
@@ -169,7 +169,7 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     vdim /= 2.0;
 
     vector3 vtmp;
-    int j;
+    int j = 0;
     for (j = 1;j <= 8;j++)
     {
         switch(j)

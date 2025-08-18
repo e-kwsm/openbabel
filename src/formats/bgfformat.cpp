@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -90,7 +91,7 @@ namespace OpenBabel
         if (vs.size() != 7)
           continue; // something strange
 
-        double A, B, C, Alpha, Beta, Gamma;
+        double A = NAN, B = NAN, C = NAN, Alpha = NAN, Beta = NAN, Gamma = NAN;
         A = atof(vs[1].c_str());
         B = atof(vs[2].c_str());
         C = atof(vs[3].c_str());
@@ -107,8 +108,8 @@ namespace OpenBabel
 
     ttab.SetFromType("DRE");
     ttab.SetToType("INT");
-    OBAtom *atom;
-    double x,y,z,chrg;
+    OBAtom *atom = nullptr;
+    double x = NAN,y = NAN,z = NAN,chrg = NAN;
     for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
@@ -141,7 +142,7 @@ namespace OpenBabel
 
         atom->SetVector(x,y,z);
       }
-    unsigned int i;
+    unsigned int i = 0;
     vector<int> vtmp;
     vector<vector<int> > vcon;
     vector<vector<int> > vord;
@@ -152,7 +153,7 @@ namespace OpenBabel
         vord.push_back(vtmp);
       }
 
-    unsigned int bgn;
+    unsigned int bgn = 0;
     for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE) || EQn(buffer,"END",3))
@@ -186,7 +187,7 @@ namespace OpenBabel
             }
       }
 
-    unsigned int j;
+    unsigned int j = 0;
     for (i = 1;i <= mol.NumAtoms();i++)
       if (!vcon[i - 1].empty())
         for (j = 0;j < vcon[i - 1].size();j++)
@@ -214,8 +215,8 @@ namespace OpenBabel
     OBMol &mol = *pmol;
 
     vector<OBAtom*>::iterator i;
-    int max_val;
-    OBAtom *atom;
+    int max_val = 0;
+    OBAtom *atom = nullptr;
     char buffer[BUFF_SIZE];
     char elmnt_typ[8], dreid_typ[8], atm_sym[16], max_val_str[8];
 
@@ -273,7 +274,7 @@ namespace OpenBabel
       }
     ofs<< "FORMAT CONECT (a6,12i6)\n\n";
 
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator j;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       if (atom->GetExplicitDegree())

@@ -363,7 +363,7 @@ namespace OpenBabel {
 
     istream &ifs = *pConv->GetInStream();
     string ln, smiles, title;
-    string::size_type pos;
+    string::size_type pos = 0;
 
     //Ignore lines that start with #
     while(ifs && ifs.peek()=='#')
@@ -622,7 +622,7 @@ namespace OpenBabel {
     // Add the data stored inside the _tetrahedralMap to the atoms now after end
     // modify so they don't get lost.
     if(!_tetrahedralMap.empty()) {
-      OBAtom* atom;
+      OBAtom* atom = nullptr;
       map<OBAtom*, OBTetrahedralStereo::Config*>::iterator ChiralSearch;
       for(ChiralSearch = _tetrahedralMap.begin(); ChiralSearch != _tetrahedralMap.end(); ++ChiralSearch) {
         atom = ChiralSearch->first;
@@ -666,7 +666,7 @@ namespace OpenBabel {
     // Add the data stored inside the _squarePlanarMap to the atoms now after end
     // modify so they don't get lost.
     if(!_squarePlanarMap.empty()) {
-      OBAtom* atom;
+      OBAtom* atom = nullptr;
       map<OBAtom*, OBSquarePlanarStereo::Config*>::iterator ChiralSearch;
       for(ChiralSearch = _squarePlanarMap.begin(); ChiralSearch != _squarePlanarMap.end(); ++ChiralSearch) {
         atom = ChiralSearch->first;
@@ -818,7 +818,7 @@ namespace OpenBabel {
           }
 
           bool found = true;
-          bool stereo;
+          bool stereo = false;
           map<OBBond*, StereoRingBond>::iterator sb_it = _stereorbond.find(b);
           if (sb_it == _stereorbond.end()) // Not a ring closure
             // True/False for "up/down if moved to before the double bond C"
@@ -929,7 +929,7 @@ namespace OpenBabel {
 
   bool OBSmilesParser::ParseSimple(OBMol &mol)
   {
-    int element;
+    int element = 0;
     bool arom=false;
 
     switch(*_ptr)
@@ -1945,7 +1945,7 @@ namespace OpenBabel {
     if (_extbond.empty())
       return true;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<ExternalBond>::iterator bond;
     for (bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
       // create new dummy atom
@@ -1961,7 +1961,7 @@ namespace OpenBabel {
       OBBond *refbond = atom->GetBond(mol.GetAtom(bond->prev));
 
       //record external bond information
-      OBExternalBondData *xbd;
+      OBExternalBondData *xbd = nullptr;
       if (mol.HasData(OBGenericDataType::ExternalBondData)) {
         xbd = (OBExternalBondData*) mol.GetData(OBGenericDataType::ExternalBondData);
       } else {
@@ -1978,7 +1978,7 @@ namespace OpenBabel {
 
   bool OBSmilesParser::ParseExternalBond(OBMol &mol)
   {
-    int digit;
+    int digit = 0;
     char str[10];
 
     //*_ptr should == '&'
@@ -2043,7 +2043,7 @@ namespace OpenBabel {
 
     //check for dot disconnect closures
     vector<ExternalBond>::iterator bond;
-    int upDown, bondOrder;
+    int upDown = 0, bondOrder = 0;
     for (bond = _extbond.begin(); bond != _extbond.end(); ++bond) {
 
       if (bond->digit == digit) {
@@ -2126,7 +2126,7 @@ namespace OpenBabel {
     }
 
     vector<RingClosureBond>::iterator bond;
-    int upDown, bondOrder;
+    int upDown = 0, bondOrder = 0;
     for (bond = _rclose.begin(); bond != _rclose.end(); ++bond) {
       if (bond->digit == digit) {
         // Check for self-bonding, e.g. C11
@@ -2611,7 +2611,7 @@ namespace OpenBabel {
     // Has the symbol for this bond already been set?
     if (_isup.find(bond) == _isup.end()) // No it hasn't
     {
-      unsigned int endatom, centeratom;
+      unsigned int endatom = 0, centeratom = 0;
       if (dbl_bond_first) {
         if (atom->IsAromatic())
           FOR_BONDS_OF_ATOM (bond, atom)
@@ -3072,8 +3072,8 @@ namespace OpenBabel {
     curr |= end->GetIdx();
     children.clear();
 
-    int i;
-    OBAtom *atom,*nbr;
+    int i = 0;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     vector<OBBond*>::iterator j;
 
     for (;;)
@@ -3128,12 +3128,12 @@ namespace OpenBabel {
                                     OBCanSmiNode *node)
   {
     vector<OBBond*>::iterator i;
-    OBAtom *nbr, *atom;
+    OBAtom *nbr = nullptr, *atom = nullptr;
     vector<OBAtom *> sort_nbrs;
     vector<OBAtom *>::iterator ai;
-    OBBond *bond;
-    OBCanSmiNode *next;
-    int idx;
+    OBBond *bond = nullptr;
+    OBCanSmiNode *next = nullptr;
+    int idx = 0;
 
     atom = node->GetAtom();
 
@@ -3272,9 +3272,9 @@ namespace OpenBabel {
     vector<OBBond*> vbonds;
     vector<OBBond*>::iterator bi;
     vector<OBBond*>::iterator i;
-    OBBond *bond1, *bond2;
-    OBAtom *nbr1, *nbr2;
-    int nbr1_canorder, nbr2_canorder;
+    OBBond *bond1 = nullptr, *bond2 = nullptr;
+    OBAtom *nbr1 = nullptr, *nbr2 = nullptr;
+    int nbr1_canorder = 0, nbr2_canorder = 0;
 
     vp_closures.clear();
     vbonds.clear();
@@ -3573,7 +3573,7 @@ namespace OpenBabel {
     // Write child bonds, then recursively follow paths to child nodes
     // to print the SMILES for each child branch.
 
-    OBBond *bond;
+    OBBond *bond = nullptr;
     for (int i = 0;i < node->Size();i++) {
       bond = node->GetChildBond(i);
       if (i+1 < node->Size() || node->GetAtom() == _endatom)
@@ -3759,7 +3759,7 @@ namespace OpenBabel {
         // e.g. "1,2,3;2m" means replace the first component by "1,2,3"
         //                       but keep the next two unchanged
         if (*(it->rbegin()) == 'm') {
-          int mult;
+          int mult = 0;
           if (it->size()==1)
             mult = 1;
           else
@@ -3834,8 +3834,8 @@ namespace OpenBabel {
   void OBMol2Cansmi::CreateFragCansmiString(OBMol &mol, OBBitVec &frag_atoms, std::string &buffer)
   {
     //cout << "CreateFragCansmiString()" << endl;
-    OBAtom *atom;
-    OBCanSmiNode *root;
+    OBAtom *atom = nullptr;
+    OBCanSmiNode *root = nullptr;
     buffer[0] = '\0';
     vector<OBNodeBase*>::iterator ai;
     vector<unsigned int> symmetry_classes, canonical_order;
@@ -3961,7 +3961,7 @@ namespace OpenBabel {
 
       // It happens that the lowest canonically-numbered atom is usually
       // a good place to start the canonical SMILES.
-      OBAtom *root_atom;
+      OBAtom *root_atom = nullptr;
       unsigned int lowest_canorder = 999999;
       root_atom = nullptr;
 
@@ -4091,7 +4091,7 @@ namespace OpenBabel {
     else {
       // Not isomeric - be sure there are no Z coordinates, clear
       // all stereo-center and cis/trans information.
-      OBBond *bond;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator bi;
       for (bond = mol.BeginBond(bi); bond; bond = mol.NextBond(bi)) {
         bond->SetHash(false);
@@ -4117,7 +4117,7 @@ namespace OpenBabel {
     if (pConv->IsOption("O")) { // record smiles atom order info
       // This atom order data is useful not just for canonical SMILES
       // Could also save canonical bond order if anyone desires
-      OBPairData *canData;
+      OBPairData *canData = nullptr;
       if (!mol.HasData("SMILES Atom Order")) {
         // Create new OBPairData
         canData = new OBPairData;
@@ -4341,7 +4341,7 @@ namespace OpenBabel {
     }
     ofs << buffer << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<int>::iterator i;
     // Retrieve the canonical order of the molecule
     std::string orderString;
@@ -4349,8 +4349,8 @@ namespace OpenBabel {
     vector<string> canonical_order;
     tokenize(canonical_order, orderString);
 
-    int j;
-    int atomIdx;
+    int j = 0;
+    int atomIdx = 0;
     char coords[100];
     for (j = 0;j < mol.NumConformers();j++)
       {

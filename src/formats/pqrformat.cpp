@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -437,13 +438,13 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
     char type_name[10], padded_name[10];
     char the_res[10];
     char the_chain = ' ';
-    const char *element_name;
-    int res_num;
+    const char *element_name = nullptr;
+    int res_num = 0;
     bool het=true;
     int model_num = 0;
     if (!pConv->IsLast() || pConv->GetOutputIndex() > 1)
@@ -465,7 +466,7 @@ namespace OpenBabel
     // before we write any records, we should check to see if any coord < -1000
     // which will cause errors in the formatting
 
-    double minX, minY, minZ;
+    double minX = NAN, minY = NAN, minZ = NAN;
     minX = minY = minZ = -999.0f;
     FOR_ATOMS_OF_MOL(a, mol)
       {
@@ -489,8 +490,8 @@ namespace OpenBabel
     // otherwise, move enough so that smallest coord is > -999.0f
     mol.Translate(transV);
 
-    OBAtom *atom;
-    OBResidue *res;
+    OBAtom *atom = nullptr;
+    OBResidue *res = nullptr;
     for (i = 1; i <= mol.NumAtoms(); i++)
       {
         atom = mol.GetAtom(i);
@@ -561,7 +562,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator k;
     for (i = 1; i <= mol.NumAtoms(); i ++)
       {

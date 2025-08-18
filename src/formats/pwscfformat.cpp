@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -90,14 +91,14 @@ namespace OpenBabel {
     istream &ifs = *pConv->GetInStream();
 
     char buffer[BUFF_SIZE], tag[BUFF_SIZE];
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     double alat = 1.0;
     vector<string> vs;
     matrix3x3 ortho;
-    int atomicNum;
+    int atomicNum = 0;
     OBUnitCell *cell = new OBUnitCell();
     bool hasEnthalpy=false;
-    double enthalpy, pv;
+    double enthalpy = NAN, pv = NAN;
 
     pmol->BeginModify();
 
@@ -132,9 +133,9 @@ namespace OpenBabel {
         }
         // Add others if needed
 
-        double v11, v12, v13,
-          v21, v22, v23,
-          v31, v32, v33;
+        double v11 = NAN, v12 = NAN, v13 = NAN,
+          v21 = NAN, v22 = NAN, v23 = NAN,
+          v31 = NAN, v32 = NAN, v33 = NAN;
 
         ifs.getline(buffer,BUFF_SIZE); // v1
         tokenize(vs, buffer);
@@ -164,9 +165,9 @@ namespace OpenBabel {
       if (strstr(buffer, "crystal axes: (cart. coord. in units of a_0)") ||
           strstr(buffer, "crystal axes: (cart. coord. in units of alat)")) {
         double conv = alat * BOHR_TO_ANGSTROM;
-        double v11, v12, v13,
-          v21, v22, v23,
-          v31, v32, v33;
+        double v11 = NAN, v12 = NAN, v13 = NAN,
+          v21 = NAN, v22 = NAN, v23 = NAN,
+          v31 = NAN, v32 = NAN, v33 = NAN;
 
         ifs.getline(buffer,BUFF_SIZE); // v1
         tokenize(vs, buffer);

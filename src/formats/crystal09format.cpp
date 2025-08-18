@@ -17,6 +17,7 @@ GNU General Public License for more details.
 #include <string>
 #include <vector>
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -130,7 +131,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     // IF statement to input cartesian coordinates of primitive cell
     if ( line.find("CARTESIAN COORDINATES - PRIMITIVE CELL") != string::npos &&
          numAtoms == 0){
-      double x,y,z;
+      double x = NAN,y = NAN,z = NAN;
       // Skip Three Lines after match
       getline(ifs,line);
       getline(ifs,line);
@@ -200,7 +201,7 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     ///////////////-> VIBRATIONAL FREQUENCIES HERE <-/////////////////
     if ( line.find("MODES         EIGV          FREQUENCIES") != string::npos) {
 
-      double tmp1,tmp2;
+      double tmp1 = NAN,tmp2 = NAN;
 
       getline(ifs,line);//Skip First line
 

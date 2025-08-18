@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/data.h>
@@ -236,11 +237,11 @@ namespace OpenBabel
     if (pConv->IsOption("b",OBConversion::OUTOPTIONS))
     {
       // first, make begin.GetIdx < end.GetIdx
-      OBBond* bond;
-      OBAtom *atom;
+      OBBond* bond = nullptr;
+      OBAtom *atom = nullptr;
       vector<OBBond*>::iterator j;
       vector<OBNodeBase*>::iterator i;
-      OBAtom *bgn, *end;
+      OBAtom *bgn = nullptr, *end = nullptr;
       for (bond = mol.BeginBond(j); bond; bond = mol.NextBond(j))
         {
           if (bond->GetBeginAtomIdx() > bond->GetEndAtomIdx()) {
@@ -275,9 +276,9 @@ namespace OpenBabel
                                          string attribute,
                                          string buffer,int start)
   {
-    int i;
+    int i = 0;
     vector<string> vs;
-    OpenBabel::OBPairData *pd;
+    OpenBabel::OBPairData *pd = nullptr;
     string method;
 
     tokenize(vs,buffer);
@@ -312,10 +313,10 @@ namespace OpenBabel
     // Initiate correction database
     OpenBabel::OBAtomicHeatOfFormationTable *ahof = new OpenBabel::OBAtomicHeatOfFormationTable();
     OpenBabel::OBAtomIterator OBai;
-    OpenBabel::OBAtom *OBa;
+    OpenBabel::OBAtom *OBa = nullptr;
     char valbuf[128];
-    int ii,atomid,atomicnumber,found,foundall;
-    double dhofM0, dhofMT, S0MT, DeltaSMT;
+    int ii = 0,atomid = 0,atomicnumber = 0,found = 0,foundall = 0;
+    double dhofM0 = NAN, dhofMT = NAN, S0MT = NAN, DeltaSMT = NAN;
     double eFactor = HARTEE_TO_KCALPERMOL;
 
     // Now loop over atoms in order to correct the Delta H formation
@@ -344,7 +345,7 @@ namespace OpenBabel
 
     for (OBa = mol->BeginAtom(OBai); nullptr != OBa; OBa = mol->NextAtom(OBai))
       {
-          double dhfx0, dhfxT, S0xT;
+          double dhfx0 = NAN, dhfxT = NAN, S0xT = NAN;
         atomicnumber = OBa->GetAtomicNum();
         found = ahof->GetHeatOfFormation(OBElements::GetSymbol(atomicnumber),
                                          0,
@@ -436,8 +437,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1,str2,thermo_method;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs,vs2;
     int total_charge = 0;
     unsigned int spin_multiplicity = 1;
@@ -445,7 +446,7 @@ namespace OpenBabel
     string chargeModel; // descriptor for charges (e.g. "Mulliken")
 
     // Variable for G2/G3/G4 etc. calculations
-    double ezpe,Hcorr,Gcorr,E0,CV;
+    double ezpe = NAN,Hcorr = NAN,Gcorr = NAN,E0 = NAN,CV = NAN;
     bool ezpe_set=false,Hcorr_set=false,Gcorr_set=false,E0_set=false,CV_set=false;
     double temperature = 0; /* Kelvin */
     std::vector<double> Scomponents;
@@ -492,7 +493,7 @@ namespace OpenBabel
     // Orbital data
     std::vector<double> orbitals;
     std::vector<std::string> symmetries;
-    int aHOMO, bHOMO, betaStart;
+    int aHOMO = 0, bHOMO = 0, betaStart = 0;
     aHOMO = bHOMO = betaStart = -1;
 
     int i=0;
@@ -650,7 +651,7 @@ namespace OpenBabel
                 {
                   OBVectorData *dipoleMoment = new OBVectorData;
                   dipoleMoment->SetAttribute("Dipole Moment");
-                  double x, y, z;
+                  double x = NAN, y = NAN, z = NAN;
                   x = atof(vs[1].c_str());
                   y = atof(vs[3].c_str());
                   z = atof(vs[5].c_str());
@@ -689,7 +690,7 @@ namespace OpenBabel
         else if (strstr(buffer, "Exact polarizability") != nullptr)
             {
               // actual components XX, YX, YY, XZ, YZ, ZZ
-              double xx, xy, yy, xz, yz, zz;
+              double xx = NAN, xy = NAN, yy = NAN, xz = NAN, yz = NAN, zz = NAN;
               const char *ptr = buffer+strlen("Exact polarizability:   ");
               if (ptr &&
                   6 == sscanf(ptr, "%8lf%8lf%8lf%8lf%8lf%8lf",
@@ -836,7 +837,7 @@ namespace OpenBabel
               }
             else if (vs.size() > 5)
               {
-                double x,y,z;
+                double x = NAN,y = NAN,z = NAN;
                 if (3 == sscanf(buffer+32,"%10lf%10lf%10lf",&x,&y,&z))
                   {
                     esp->AddPoint(x,y,z,0);
@@ -856,7 +857,7 @@ namespace OpenBabel
               }
             else if (vs.size() > 6)
               {
-                double x,y,z;
+                double x = NAN,y = NAN,z = NAN;
                 if (3 == sscanf(buffer+32,"%10lf%10lf%10lf",&x,&y,&z))
                   {
                     esp->AddPoint(x,y,z,0);
@@ -865,8 +866,8 @@ namespace OpenBabel
           }
         else if (strstr(buffer, "Electrostatic Properties (Atomic Units)") != nullptr && !ESPisAdded)
           {
-            int i,np;
-            OpenBabel::OBFreeGridPoint *fgp;
+            int i = 0,np = 0;
+            OpenBabel::OBFreeGridPoint *fgp = nullptr;
             OpenBabel::OBFreeGridPointIterator fgpi;
             for(i=0; (i<5); i++)
               {
@@ -990,7 +991,7 @@ namespace OpenBabel
           ifs.getline(buffer, BUFF_SIZE); // actual displacement data
           tokenize(vs, buffer);
           vector<vector3> vib1, vib2, vib3;
-          double x, y, z;
+          double x = NAN, y = NAN, z = NAN;
           while(vs.size() >= 5) {
             for (unsigned int i = 2; i < vs.size()-2; i += 3) {
               x = atof(vs[i].c_str());
@@ -1052,8 +1053,8 @@ namespace OpenBabel
           {
             symmetries.clear();
             std::string label; // used as a temporary to remove "(" and ")" from labels
-            int iii,offset = 0;
-            bool bDoneSymm;
+            int iii = 0,offset = 0;
+            bool bDoneSymm = false;
 
             // Extract both Alpha and Beta symmetries
             ifs.getline(buffer, BUFF_SIZE); // skip the current line
@@ -1253,7 +1254,7 @@ namespace OpenBabel
         else if (strstr(buffer, "(0 K)") != nullptr)
           {
             /* This must be the last else */
-            int i,nsearch;
+            int i = 0,nsearch = 0;
             const char *search[] = { "CBS-QB3 (0 K)", "G2(0 K)", "G3(0 K)", "G4(0 K)", "W1BD (0 K)", "W1U  (0 K)" };
             const char *mymeth[] = { "CBS-QB3", "G2", "G3", "G4", "W1BD", "W1U" };
             const int myindex[] = { 3, 2, 2, 2, 3, 3 };

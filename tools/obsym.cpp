@@ -38,7 +38,7 @@ using namespace OpenBabel;
 int main(int argc,char **argv)
 {
   char *program_name= argv[0];
-  int c;
+  int c = 0;
   char *FileIn = nullptr;
 
   if (argc != 2) {
