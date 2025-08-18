@@ -109,7 +109,7 @@ int aromatest(int argc, char* argv[])
     }
   
   OBConversion conv(&ifs, &cout);
-  OBFormat* pFormat;
+  OBFormat* pFormat = nullptr;
   
   pFormat = conv.FormatFromExt("aromatics.smi");
   if (pFormat == nullptr)
@@ -129,7 +129,7 @@ int aromatest(int argc, char* argv[])
       return (-1);
     }
   
-  int molCount;
+  int molCount = 0;
 
   switch(choice) {
   case 1:

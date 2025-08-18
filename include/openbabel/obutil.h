@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #ifndef OB_UTIL_H
 #define OB_UTIL_H
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <string>
@@ -37,7 +38,7 @@ GNU General Public License for more details.
 #endif
 // Include C++ version for clock() and CLOCKS_PER_SEC (required for GCC 12+ with C++17)
 #include <ctime>
-#include <math.h>
+#include <cmath>
 
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
@@ -140,8 +141,8 @@ namespace OpenBabel
       _incr = incr;
 
       //array size needs to be large enough to account for fp error
-      int i;
-      double r;
+      int i = 0;
+      double r = NAN;
       _tbl = new double [static_cast<int>((_max/_incr)+10)];
       for (r = (_incr/2.0),i=0;r <= _max;r += _incr,++i)
         _tbl[i] = sqrt(r);

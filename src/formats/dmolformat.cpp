@@ -11,6 +11,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -85,8 +86,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector3 v1,v2,v3;
     vector<string> vs;
 
@@ -181,7 +182,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
 
     if (mol.HasData(OBGenericDataType::UnitCell))
@@ -207,7 +208,7 @@ namespace OpenBabel
 
     ofs << "$coordinates" << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     for(i = 1;i <= mol.NumAtoms(); i++)
       {
         atom = mol.GetAtom(i);

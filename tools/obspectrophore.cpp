@@ -31,7 +31,7 @@ int main(int argc,char **argv)
 	OpenBabel::OBSpectrophore::StereoOption stereo = OpenBabel::OBSpectrophore::NoStereoSpecificProbes;
 	OpenBabel::OBSpectrophore::NormalizationOption normalization = OpenBabel::OBSpectrophore::NoNormalization;
 	double resolution = 3.0;
-	int c;
+	int c = 0;
 	
 	opterr = 0;
 	std::string msg;

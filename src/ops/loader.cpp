@@ -194,7 +194,7 @@ OBPlugin* OBDefine::FindDef(const char* ID)
       string descr(pdescr);
       //Matches if the ID is before the last occurrence of "definable"
       //in the description on the same line.
-      string::size_type pos, pos2;
+      string::size_type pos = 0, pos2 = 0;
       pos= descr.rfind("definable");
       if(pos==string::npos)
         continue;

@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/elements.h>
@@ -100,7 +101,7 @@ namespace OpenBabel
   // TODO: Figure out how to consider periodicity, etc.
   void OBBond::SetLength(OBAtom *fixed, double length)
   {
-    unsigned int i;
+    unsigned int i = 0;
     OBMol *mol = (OBMol*)fixed->GetParent();
     vector3 v1,v2,v3,v4,v5;
     vector<int> children;
@@ -191,7 +192,7 @@ namespace OpenBabel
 
    bool OBBond::IsAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c = nullptr,*n = nullptr;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -210,7 +211,7 @@ namespace OpenBabel
       if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
 
       // Make sure C is attached to =O
-      OBBond *bond;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
@@ -223,7 +224,7 @@ namespace OpenBabel
 
    bool OBBond::IsPrimaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c = nullptr,*n = nullptr;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -245,7 +246,7 @@ namespace OpenBabel
       if (n->GetHvyDegree() != 1) return(false);
 
       // Make sure C is attached to =O
-      OBBond *bond;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
@@ -257,7 +258,7 @@ namespace OpenBabel
 
    bool OBBond::IsSecondaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c = nullptr,*n = nullptr;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -279,7 +280,7 @@ namespace OpenBabel
       if (n->GetHvyDegree() != 2) return(false);
 
       // Make sure C is attached to =O
-      OBBond *bond;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
@@ -291,7 +292,7 @@ namespace OpenBabel
 
    bool OBBond::IsTertiaryAmide()
    {
-      OBAtom *c,*n;
+      OBAtom *c = nullptr,*n = nullptr;
       c = n = nullptr;
 
       // Look for C-N bond
@@ -313,7 +314,7 @@ namespace OpenBabel
       if (n->GetHvyDegree() != 3) return(false);
 
       // Make sure C is attached to =O
-      OBBond *bond;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator i;
       for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
       {
@@ -422,7 +423,7 @@ namespace OpenBabel
 
   bool OBBond::IsEster()
   {
-    OBAtom *a1,*a2;
+    OBAtom *a1 = nullptr,*a2 = nullptr;
     a1 = a2 = nullptr;
 
     if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8)
@@ -442,7 +443,7 @@ namespace OpenBabel
     if (GetBondOrder() != 1)
       return(false);
 
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator i;
     for (bond = a1->BeginBond(i);bond;bond = a1->NextBond(i))
       if (bond->IsCarbonyl())
@@ -480,8 +481,8 @@ namespace OpenBabel
     and checking that they are close to 0 or 180 degrees */
   bool OBBond::IsDoubleBondGeometry()
   {
-    double torsion;
-    OBAtom *nbrStart,*nbrEnd;
+    double torsion = NAN;
+    OBAtom *nbrStart = nullptr,*nbrEnd = nullptr;
     vector<OBBond*>::iterator i,j;
     // We concentrate on sp2 atoms with valence up to 3 and ignore the rest (like sp1 or S,P)
     // As this is called from PerceiveBondOrders, GetHyb() may still be undefined.
@@ -574,7 +575,7 @@ namespace OpenBabel
 
   double OBBond::GetEquibLength() const
   {
-    const OBAtom *begin, *end;
+    const OBAtom *begin = nullptr, *end = nullptr;
 
     begin = GetBeginAtom();
     end = GetEndAtom();
@@ -595,8 +596,8 @@ namespace OpenBabel
 
   double OBBond::GetLength() const
   {
-    double	d2;
-    const OBAtom *begin, *end;
+    double	d2 = NAN;
+    const OBAtom *begin = nullptr, *end = nullptr;
     begin = GetBeginAtom();
     end = GetEndAtom();
 

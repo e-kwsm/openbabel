@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/obutil.h>
 #include <openbabel/depict/asciipainter.h>
 
@@ -171,7 +172,7 @@ namespace OpenBabel
       swap(x2, x);
       swap(y2, y);
     }
-    double slope;
+    double slope = NAN;
     if (x == x2)
       slope = 1e99;
     else

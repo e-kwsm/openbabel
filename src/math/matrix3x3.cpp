@@ -17,6 +17,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/math/matrix3x3.h>
@@ -445,7 +446,7 @@ namespace OpenBabel
   void matrix3x3::FillOrth(double Alpha,double Beta, double Gamma,
                            double A, double B, double C)
   {
-    double V;
+    double V = NAN;
 
     Alpha *= DEG_TO_RAD;
     Beta  *= DEG_TO_RAD;
@@ -549,11 +550,11 @@ namespace OpenBabel
   */
   void matrix3x3::jacobi(unsigned int n, double *a, double *d, double *v)
   {
-    double onorm, dnorm;
-    double b, dma, q, t, c, s;
-    double  atemp, vtemp, dtemp;
-    int i, j, k, l;
-    int nrot;
+    double onorm = NAN, dnorm = NAN;
+    double b = NAN, dma = NAN, q = NAN, t = NAN, c = NAN, s = NAN;
+    double  atemp = NAN, vtemp = NAN, dtemp = NAN;
+    int i = 0, j = 0, k = 0, l = 0;
+    int nrot = 0;
 
     int MAX_SWEEPS=50;
 

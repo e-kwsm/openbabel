@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #define M_PI 3.14159265358979323846
 #endif
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -119,7 +120,7 @@ namespace OpenBabel
   typedef std::basic_string<char, ci_char_traits> ci_string;
   int strnicmp(const char *s1, const char *s2, int len)
   {
-    unsigned char c1, c2;
+    unsigned char c1 = 0, c2 = 0;
     while (len)
       {
         c1 = *s1; c2 = *s2;
@@ -636,7 +637,7 @@ namespace OpenBabel
             loop!=mvLoop.end();++loop)
           {
             map<ci_string,vector<string> >::const_iterator pos;
-            unsigned i, nb;
+            unsigned i = 0, nb = 0;
             pos=loop->second.find("_space_group_symop_operation_xyz");
             if (pos==loop->second.end())
               pos=loop->second.find("_symmetry_equiv_pos_as_xyz");
@@ -912,9 +913,9 @@ namespace OpenBabel
   void CIFData::CalcMatrices()
   {
     if(mvLatticePar.size()==0) return;//:@todo: throw error
-    float a,b,c,alpha,beta,gamma;//direct space parameters
-    float aa,bb,cc,alphaa,betaa,gammaa;//reciprocal space parameters
-    float v;//volume of the unit cell
+    float a = NAN,b = NAN,c = NAN,alpha = NAN,beta = NAN,gamma = NAN;//direct space parameters
+    float aa = NAN,bb = NAN,cc = NAN,alphaa = NAN,betaa = NAN,gammaa = NAN;//reciprocal space parameters
+    float v = NAN;//volume of the unit cell
     a=mvLatticePar[0];
     b=mvLatticePar[1];
     c=mvLatticePar[2];
@@ -964,7 +965,7 @@ namespace OpenBabel
         else mOrthMatrixInvert[i][j]=0;
     for(long i=0;i<3;i++)
       {
-        float a;
+        float a = NAN;
         for(long j=i-1;j>=0;j--)
           {
             a=cm[j][i]/cm[i][i];
@@ -1102,7 +1103,7 @@ namespace OpenBabel
       }
     if((in.peek()=='\'') || (in.peek()=='\"'))
       {//QuotedString
-        char delim;
+        char delim = 0;
         in.get(delim);
         value="";
         while(!((lastc==delim)&&(!isgraph(in.peek()))) )
@@ -1274,7 +1275,7 @@ namespace OpenBabel
   float CIFNumeric2Float(const string &s)
   {
     if((s==".") || (s=="?")) return 0.0;
-    float v;
+    float v = NAN;
     const int n=sscanf(s.c_str(),"%f",&v);
     if(n!=1) return 0.0;
     return v;
@@ -1283,7 +1284,7 @@ namespace OpenBabel
   int CIFNumeric2Int(const string &s)
   {
     if((s==".") || (s=="?")) return 0;
-    int v;
+    int v = 0;
     const int n=sscanf(s.c_str(),"%d",&v);
     if(n!=1) return 0;
     return v;
@@ -1621,7 +1622,7 @@ namespace OpenBabel
     unsigned int i = 0;
     FOR_ATOMS_OF_MOL(atom, *pmol)
       {
-         double X, Y, Z; //atom coordinates
+         double X = NAN, Y = NAN, Z = NAN; //atom coordinates
          vector3 v = atom->GetVector();
          if (pUC != nullptr) {
            v = pUC->CartesianToFractional(v);
@@ -1632,7 +1633,7 @@ namespace OpenBabel
          Y = v.y();
          Z = v.z();
          string label_str;
-         double occup;
+         double occup = NAN;
 
          if (atom->HasData("_atom_site_occupancy"))
            {

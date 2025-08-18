@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -71,7 +72,7 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    OBAtom *atom,*a,*b,*c;
+    OBAtom *atom = nullptr,*a = nullptr,*b = nullptr,*c = nullptr;
     char type[16],buffer[BUFF_SIZE];
     vector<OBAtom*>::iterator i;
 
@@ -84,7 +85,7 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     ofs << endl << mol.NumAtoms() << endl;
 
-    double r,w,t;
+    double r = NAN,w = NAN,t = NAN;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
     {
         a = vic[atom->GetIdx()]->_a;

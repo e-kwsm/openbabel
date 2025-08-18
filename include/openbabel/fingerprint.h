@@ -87,7 +87,7 @@ public:
   {
     ///If used for two vectors, vec1 and vec2, call as Tanimoto(vec1, &vec2[0]);
     int andbits=0, orbits=0;
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0;i<vec1.size();++i)
     {
       int andfp = vec1[i] & p2[i];

@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <cstdlib>
 #include <openbabel/mol.h>
@@ -61,7 +62,7 @@ namespace OpenBabel
   {
     vector<string> vs;
     vector<int>    bovector;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
 
     if (buffer[0] != '#')
       {
@@ -113,15 +114,15 @@ namespace OpenBabel
     if (!_init)
       Init();
 
-    OBSmartsPattern *currentPattern;
-    OBBond *b1, *b2;
-    OBAtom *a1,*a2, *a3;
-    double angle, dist1, dist2;
+    OBSmartsPattern *currentPattern = nullptr;
+    OBBond *b1 = nullptr, *b2 = nullptr;
+    OBAtom *a1 = nullptr,*a2 = nullptr, *a3 = nullptr;
+    double angle = NAN, dist1 = NAN, dist2 = NAN;
     vector<int> assignments;
     vector<vector<int> > mlist;
     vector<vector<int> >::iterator matches, l;
     vector<pair<OBSmartsPattern*, vector<int> > >::iterator i;
-    unsigned int j;
+    unsigned int j = 0;
 
     // Loop through for all the functional groups and assign bond orders
     for (i = _fgbonds.begin();i != _fgbonds.end();++i)
@@ -208,7 +209,7 @@ namespace OpenBabel
       } // thione
 
     // Isocyanate N=C=O or Isothiocyanate
-    bool dist1OK;
+    bool dist1OK = false;
     OBSmartsPattern isocyanate; isocyanate.Init("[#8,#16;D1][#6D2][#7D2]");
     if (isocyanate.Match(mol))
       {

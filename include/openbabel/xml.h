@@ -199,8 +199,7 @@ namespace OpenBabel
           if(n==0)++n;
 
           //Skip n objects, returning -1 if not successful
-          int i;
-          for(i=0; i<n; ++i)
+          for(int i=0; i<n; ++i)
             if(_pxmlConv->SkipXML(EndTag())!=1)
               return -1;
 

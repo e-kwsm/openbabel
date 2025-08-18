@@ -212,7 +212,7 @@ void CheckValidResidue(OBConversion &conv,
       cout << endl;
     }
   else {
-    OBResidue *res;
+    OBResidue *res = nullptr;
     res = mol.GetResidue(0);
     cout << "ok " << testCount << " # " << res->GetName() << endl;
   }
@@ -259,7 +259,7 @@ void CheckValidDipeptide(OBConversion &conv,
       cout << res->GetName() << " ";
     cout << endl;
   } else {
-    OBResidue *res;
+    OBResidue *res = nullptr;
     res = mol.GetResidue(0);
     cout << "ok " << testCount << " # " << res->GetName();
     res = mol.GetResidue(1);

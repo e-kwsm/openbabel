@@ -16,6 +16,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <vector>
@@ -71,7 +72,7 @@ namespace OpenBabel
 
     // Create a 3xN matrix of the coords
     vector<vector3>::const_iterator it;
-    vector<vector3>::size_type colm;
+    vector<vector3>::size_type colm = 0;
     for (colm=0,it=pcoords->begin();colm<N;++colm,++it)
       coords.col(colm) = Eigen::Vector3d( it->AsArray() );
   }
@@ -111,7 +112,7 @@ namespace OpenBabel
     _frag_atoms.Clear();
     _frag_atoms.Resize(refmol.NumAtoms() + 1);
     _refmol_coords.resize(0);
-    OBAtom* atom;
+    OBAtom* atom = nullptr;
     int delta = 1;
     _newidx.resize(0);
 
@@ -137,7 +138,7 @@ namespace OpenBabel
   void OBAlign::SetTargetMol(const OBMol &targetmol) {
     _ptargetmol = &targetmol;
     _targetmol_coords.resize(0);
-    OBAtom const *atom;
+    OBAtom const *atom = nullptr;
     for (unsigned int i=1; i<=targetmol.NumAtoms(); ++i) {
       atom = targetmol.GetAtom(i);
       if (_includeH || atom->GetAtomicNum() != OBElements::Hydrogen)
@@ -164,8 +165,8 @@ namespace OpenBabel
   /* Newton-Raphson root finding */
   static double QCProot(const vector<double> &coeff, double guess, const double delta)
   {
-    int             i;
-    double          oldg;
+    int             i = 0;
+    double          oldg = NAN;
     double initialg = guess;
 
     for (i = 0; i < 50; ++i)
@@ -185,11 +186,11 @@ namespace OpenBabel
   {
     vector<double> coeff(4);
 
-    double          Sxx, Sxy, Sxz, Syx, Syy, Syz, Szx, Szy, Szz;
-    double          Szz2, Syy2, Sxx2, Sxy2, Syz2, Sxz2, Syx2, Szy2, Szx2,
-                    SyzSzymSyySzz2, Sxx2Syy2Szz2Syz2Szy2, Sxy2Sxz2Syx2Szx2,
-                    SxzpSzx, SyzpSzy, SxypSyx, SyzmSzy,
-                    SxzmSzx, SxymSyx, SxxpSyy, SxxmSyy;
+    double          Sxx = NAN, Sxy = NAN, Sxz = NAN, Syx = NAN, Syy = NAN, Syz = NAN, Szx = NAN, Szy = NAN, Szz = NAN;
+    double          Szz2 = NAN, Syy2 = NAN, Sxx2 = NAN, Sxy2 = NAN, Syz2 = NAN, Sxz2 = NAN, Syx2 = NAN, Szy2 = NAN, Szx2 = NAN,
+                    SyzSzymSyySzz2 = NAN, Sxx2Syy2Szz2Syz2Szy2 = NAN, Sxy2Sxz2Syx2Szx2 = NAN,
+                    SxzpSzx = NAN, SyzpSzy = NAN, SxypSyx = NAN, SyzmSzy = NAN,
+                    SxzmSzx = NAN, SxymSyx = NAN, SxxpSyy = NAN, SxxmSyy = NAN;
 
     Eigen::MatrixXd M_sqr = M.array().square();
 

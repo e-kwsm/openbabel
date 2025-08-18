@@ -62,7 +62,7 @@ public:
         const Scalar dg_test = param.ftol * dg_init;
         Scalar width;
 
-        int iter;
+        int iter = 0;
         for(iter = 0; iter < param.max_linesearch; iter++)
         {
             // x_{k+1} = x_k + step * d_k

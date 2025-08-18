@@ -624,8 +624,8 @@ namespace OpenBabel
            unsigned long chain_num = 1, residue_num = 1;
            unsigned int nbc=0;
            string residue_name, atom_label, atom_mol_label, tmpSymbol;
-           int atomicNum;
-           OBPairData *label;
+           int atomicNum = 0;
+           OBPairData *label = nullptr;
            while (token.type == CIFLexer::ValueToken) // Read in the Fields
              {
              if (column_idx == 0)
@@ -805,7 +805,7 @@ namespace OpenBabel
                  has_residue_information = true;
                  CIFResidueID res_id(chain_num, residue_num);
                  CIFResidueMap::const_iterator resx = ResidueMap.find(res_id);
-                 OBResidue * res;
+                 OBResidue * res = nullptr;
                  if (resx == ResidueMap.end())
                    {
                    ResidueMap[res_id] = pmol->NumResidues();

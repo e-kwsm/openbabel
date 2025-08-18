@@ -128,7 +128,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
 
   OBUnitCell *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
   SpaceGroup spacegroup;
-  const SpaceGroup* pSG;
+  const SpaceGroup* pSG = nullptr;
   map<string,string>::const_iterator itr;
 
   if(pOptions && pOptions->find("transformations") != pOptions->end())

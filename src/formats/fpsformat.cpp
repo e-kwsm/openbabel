@@ -170,9 +170,9 @@ string FPSFormat::getTimeStr()
 {
   //e.g. 2011-09-25T09:56:19
   const int TIME_STR_SIZE = 64;
-  time_t akttime;                              /* Systemtime                        */
+  time_t akttime = 0;                              /* Systemtime                        */
   char timestr[TIME_STR_SIZE + 1] = "";        /* Timestring                        */
-  size_t time_res;                             /* Result of strftime                */
+  size_t time_res = 0;                             /* Result of strftime                */
 
   /* ---- Get the system-time ---- */
   akttime = time((time_t *) nullptr);

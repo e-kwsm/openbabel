@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 /* ---- C includes ---- */
@@ -77,7 +78,7 @@ OpenBabel::vector3 my_center_coords(double *c, unsigned int size)
     {
       return(OpenBabel::VZero);
     }
-	unsigned int i;
+	unsigned int i = 0;
   double x=0.0, y=0.0, z=0.0;
   for (i = 0;i < size;++i)
     {
@@ -168,9 +169,9 @@ namespace OpenBabel
 
   void PovrayFormat::OutputHeader(ostream &ofs, OBMol &mol, string /*prefix*/)
   {
-    time_t akttime;                              /* Systemtime                        */
+    time_t akttime = 0;                              /* Systemtime                        */
     char timestr[TIME_STR_SIZE + 1] = "";        /* Timestring                        */
-    size_t time_res;                             /* Result of strftime                */
+    size_t time_res = 0;                             /* Result of strftime                */
 
     /* ---- Get the system-time ---- */
     akttime = time((time_t *) nullptr);
@@ -343,7 +344,7 @@ namespace OpenBabel
   {
     /* ---- Write all coordinates ---- */
     ofs << "//Coodinates of atoms 1 - " << mol.NumAtoms() << endl;
-    unsigned int i;
+    unsigned int i = 0;
     for(i = 1; i <= mol.NumAtoms(); ++i)
       {
 
@@ -387,10 +388,10 @@ namespace OpenBabel
     for(unsigned int i = 0; i < mol.NumBonds(); ++i)
       {
 
-        double x1,y1,z1,x2,y2,z2; /* Start and stop coordinates of a bond       */
-        double dist;              /* Distance between (x1|y1|z1) and (x2|y2|z2) */
-        double phi,theta;         /* Angles between (x1|y1|z1) and (x2|y2|z2)   */
-        double dy;                /* Distance between (x1|0|z1) and (x2|0|z2)   */
+        double x1 = NAN,y1 = NAN,z1 = NAN,x2 = NAN,y2 = NAN,z2 = NAN; /* Start and stop coordinates of a bond       */
+        double dist = NAN;              /* Distance between (x1|y1|z1) and (x2|y2|z2) */
+        double phi = NAN,theta = NAN;         /* Angles between (x1|y1|z1) and (x2|y2|z2)   */
+        double dy = NAN;                /* Distance between (x1|0|z1) and (x2|0|z2)   */
 
         /* ---- Get a pointer to ith atom ---- */
         OBBond *bond = mol.GetBond(i);
@@ -484,10 +485,10 @@ namespace OpenBabel
     for(unsigned int i = 0; i < mol.NumBonds(); ++i)
       {
 
-        double x1,y1,z1,x2,y2,z2; /* Start and stop coordinates of a bond       */
-        double dist;              /* Distance between (x1|y1|z1) and (x2|y2|z2) */
-        double phi,theta;         /* Angles between (x1|y1|z1) and (x2|y2|z2)   */
-        double dy;                /* Distance between (x1|0|z1) and (x2|0|z2)   */
+        double x1 = NAN,y1 = NAN,z1 = NAN,x2 = NAN,y2 = NAN,z2 = NAN; /* Start and stop coordinates of a bond       */
+        double dist = NAN;              /* Distance between (x1|y1|z1) and (x2|y2|z2) */
+        double phi = NAN,theta = NAN;         /* Angles between (x1|y1|z1) and (x2|y2|z2)   */
+        double dy = NAN;                /* Distance between (x1|0|z1) and (x2|0|z2)   */
 
         /* ---- Get a pointer to ith atom ---- */
         OBBond *bond = mol.GetBond(i);
@@ -807,7 +808,7 @@ namespace OpenBabel
     const char* title = pmol->GetTitle();
 
     static long num = 0;
-    double min_x, max_x, min_y, max_y, min_z, max_z; /* Edges of bounding box */
+    double min_x = NAN, max_x = NAN, min_y = NAN, max_y = NAN, min_z = NAN, max_z = NAN; /* Edges of bounding box */
 
     /* ---- We use mol_${num}_ as our prefix ---- */
     stringstream ss;

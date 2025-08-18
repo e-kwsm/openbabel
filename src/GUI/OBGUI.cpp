@@ -188,7 +188,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
 
   MakePluginsMenu();
 
-  bool chk;
+  bool chk = false;
   config.Read(_T("ShowConvOptions"),&chk,true);
   viewMenu->Check(ID_SHOWCONVOPTIONS,chk);
   config.Read(_T("ShowAPIOptions"),&chk,false);
@@ -282,7 +282,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
 
   m_pSplitter->SplitHorizontally(m_pMessages, m_pOutText, 20);
   m_pSplitter->SetMinimumPaneSize(20);
-  int messize;
+  int messize = 0;
   config.Read(_T("MessageWindowSize"),&messize,40);
   m_pSplitter->SetSashPosition(messize);
 
@@ -345,7 +345,7 @@ OBGUIFrame::OBGUIFrame(const wxString& title, wxPoint position, wxSize size)
   OutSizer->Add(OutFormatSizer,0, wxLEFT|wxTOP,5);
 
   //gap where checkbox used to be
-  int chkwidth,chkheight;
+  int chkwidth = 0,chkheight = 0;
   m_pForceInFormat->GetSize(&chkwidth, &chkheight);
   OutSizer->AddSpacer(chkheight+3);
 
@@ -411,7 +411,7 @@ void OBGUIFrame::OnSaveConfig(wxCommandEvent& /*event*/)
     //Save the window size, in and out formats, and various options, for use next time.
   wxConfig config(_T("OpenBabelGUI"));
 
-  int width, height, left, top;
+  int width = 0, height = 0, left = 0, top = 0;
   GetPosition(&left,&top);
   GetSize(&width, &height);
   config.Write(_T("Left"),left);
@@ -482,7 +482,7 @@ void OBGUIFrame::OnHelp(wxCommandEvent& WXUNUSED(event))
 {
 //  // 1) Get File Type
   wxMimeTypesManager mimeType;
-    wxFileType *c_type;
+    wxFileType *c_type = nullptr;
    c_type = mimeType.GetFileTypeFromExtension(_T("html"));
     if(!c_type) return ; //Couldn't find association
 
@@ -746,7 +746,7 @@ void OBGUIFrame::OnGetInputFile(wxCommandEvent& WXUNUSED(event))
 }
 void OBGUIFrame::DisplayInputFiles(wxArrayString filepatharray)
 {
-  int i, endsel=0, startsel=0;
+  int i = 0, endsel=0, startsel=0;
   if(!wxGetKeyState(WXK_CONTROL))
   {
     m_pInFilename->Clear();
@@ -923,7 +923,7 @@ wxString OBGUIFrame::ShortenedPath(const wxString& path, const wxWindow& wnd, in
   If the width is still too large or there are 3 or fewer separators,
   the path is returned unshortened.:
   */
-  int txtwidth, txtheight, wndheight;
+  int txtwidth = 0, txtheight = 0, wndheight = 0;
   wnd.GetTextExtent(path, &txtwidth, &txtheight);
   if(wndwidth<0)
     wnd.GetClientSize(&wndwidth,&wndheight);
@@ -1002,7 +1002,7 @@ void OBGUIFrame::GetAvailableFormats()
       //Check whether is in restricted set of formats, if this is in use
       if(!m_ActiveFormats.Add(txt) && viewMenu->IsChecked(ID_RESTRICTFORMATS))
         continue;
-      int n;
+      int n = 0;
       if(!(pFormat->Flags() & NOTREADABLE))
       {
         n = m_pInFormat->Append(txt,pFormat);
@@ -1068,7 +1068,7 @@ void CFilenames::OnDblClick(wxMouseEvent& /*event*/)
 wxString CFilenames::SelectFilename()
 {
   wxString fname(GetValue());
-  int endsel;
+  int endsel = 0;
   long n = GetInsertionPoint();
   int pos = fname.find(';',n);
   endsel=pos;
@@ -1123,7 +1123,7 @@ void OBGUIFrame::OnClickPlugin(wxCommandEvent& event)
   //Display message box with info on plugin class
   int nID = event.GetId();
   wxString plugintype;
-  wxMenu* parent;
+  wxMenu* parent = nullptr;
   wxMenuItem* item = listMenu->FindItem(nID, &parent);
   if(item)
   {
@@ -1199,7 +1199,7 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
         frame->DisplayMessage(mes);
 
         Clear();
-        int i, endsel=0;
+        int i = 0, endsel=0;
         for(i=0;i<filelist.size();++i)
         {
           if(i!=0)
@@ -1250,7 +1250,7 @@ bool CFilenames::ToNextFile(int delta)
   if (fname.IsEmpty())
     return false;
   long n = GetInsertionPoint();
-  int pos;
+  int pos = 0;
   if(delta>0)
   {
     pos = fname.find(';',n);

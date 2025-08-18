@@ -1416,7 +1416,7 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 	{
 	tree_node *dst=target.node;
 	tree_node *src=source.node;
-	tree_node *dst_prev_sibling;
+	tree_node *dst_prev_sibling = nullptr;
 	if(dst==0) { // must then be an end iterator
 		dst_prev_sibling=target.parent_->last_child;
 		assert(dst_prev_sibling);
@@ -1883,7 +1883,7 @@ unsigned int tree<T, tree_node_allocator>::index(sibling_iterator it) const
 template <class T, class tree_node_allocator>
 typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_allocator>::sibling(const iterator_base& it, unsigned int num)
    {
-   tree_node *tmp;
+   tree_node *tmp = nullptr;
    if(it.node->parent==0) {
       tmp=head->next_sibling;
       while(num) {

@@ -156,7 +156,7 @@ namespace OpenBabel
     _notVisited.SetBitOff(_ptr->GetIdx() - 1);
 
     vector<OBBond*>::iterator i;
-    OBAtom *a;
+    OBAtom *a = nullptr;
 
     for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
       {
@@ -176,7 +176,7 @@ namespace OpenBabel
     _notVisited.SetBitOff(_ptr->GetIdx() - 1);
 
     vector<OBBond*>::iterator i;
-    OBAtom *a;
+    OBAtom *a = nullptr;
 
     for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
       {
@@ -227,7 +227,7 @@ namespace OpenBabel
     if (_ptr)
       {
         vector<OBBond*>::iterator i;
-        OBAtom *a;
+        OBAtom *a = nullptr;
 
         for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
           if (_notVisited[a->GetIdx() - 1])
@@ -302,7 +302,7 @@ namespace OpenBabel
     _depth[_ptr->GetIdx()] = 1;
 
     vector<OBBond*>::iterator i;
-    OBAtom *a;
+    OBAtom *a = nullptr;
 
     for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
       {
@@ -327,7 +327,7 @@ namespace OpenBabel
     _depth[_ptr->GetIdx()] = 1;
 
     vector<OBBond*>::iterator i;
-    OBAtom *a;
+    OBAtom *a = nullptr;
 
     for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
       {
@@ -383,7 +383,7 @@ namespace OpenBabel
     if (_ptr)
       {
         vector<OBBond*>::iterator i;
-        OBAtom *a;
+        OBAtom *a = nullptr;
 
         for (a = _ptr->BeginNbrAtom(i); a; a = _ptr->NextNbrAtom(i))
           if (_notVisited[a->GetIdx() - 1])
@@ -1396,7 +1396,7 @@ namespace OpenBabel
     _pair.clear();
 
     bool foundPair = false;
-    OBAtom *a, *b;
+    OBAtom *a = nullptr, *b = nullptr;
     a = *_i;
     while (!foundPair) {
       b = _parent->NextAtom(_j);

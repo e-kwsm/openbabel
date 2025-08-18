@@ -77,8 +77,8 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    OBAtom *atom;
-    OBInternalCoord *coord;
+    OBAtom *atom = nullptr;
+    OBInternalCoord *coord = nullptr;
     vector<string> vs;
     vector<OBInternalCoord*> internals;
 

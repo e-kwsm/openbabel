@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #include <vector>
 #include <cstdlib>
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/chargemodel.h>
 #include <openbabel/mol.h>
@@ -134,8 +135,8 @@ namespace OpenBabel
       }
     double totalCharge(0.0);
     unsigned int i(0);
-    double hardness;
-    double electronegativity;
+    double hardness = NAN;
+    double electronegativity = NAN;
     for (OpenBabel::OBMolAtomIter atom(mol); atom; atom++, i++) {
 
       int n = atom->GetAtomicNum();
@@ -174,7 +175,7 @@ namespace OpenBabel
     CHI[_nAtoms] = totalCharge;
 
     // Complete ETA
-    OBAtom *rAtom, *cAtom;
+    OBAtom *rAtom = nullptr, *cAtom = nullptr;
     for (unsigned int r = 0; r < _nAtoms; ++r)
       {
         rAtom = mol.GetAtom(r+1); // Atom index
@@ -195,7 +196,7 @@ namespace OpenBabel
     // Solve the matrix equation
     _solveMatrix(ETA, &(CHI[0]), dim);    // CHI will contain the values
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     for (unsigned int i = 0; i < _nAtoms; ++i)
       {
         atom = mol.GetAtom(i+1); // atom index issue
@@ -226,7 +227,7 @@ namespace OpenBabel
   void
   EEMCharges::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
   {
-    unsigned int i, j, k, kMax, iMax;
+    unsigned int i = 0, j = 0, k = 0, kMax = 0, iMax = 0;
     std::vector<double> vScales(dim, 0);
     double maxVal = 0, dummy = 0;
     double * pRowi = nullptr;
@@ -307,7 +308,7 @@ namespace OpenBabel
   void
   EEMCharges::_luSolve(double** A, std::vector<int>& I, double* B, unsigned int dim)
   {
-    unsigned int i, k;
+    unsigned int i = 0, k = 0;
 
     for (i = 0; i < dim; ++i) _swapRows(B, i, I[i]);
 
@@ -336,7 +337,7 @@ namespace OpenBabel
   void
   EEMCharges::_swapRows(double** _pMatrix, unsigned int i, unsigned int j, unsigned int nCols)
   {
-    double dummy;
+    double dummy = NAN;
     for (unsigned int k = 0; k < nCols; ++k)         // loop over all columns
       {
         dummy = _pMatrix[i][k];
@@ -349,7 +350,7 @@ namespace OpenBabel
   void
   EEMCharges::_swapRows(double* _pMatrix, unsigned int i, unsigned int j)
   {
-    double dummy;
+    double dummy = NAN;
     dummy = _pMatrix[i];
     _pMatrix[i] = _pMatrix[j];
     _pMatrix[j] = dummy;

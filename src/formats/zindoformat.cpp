@@ -75,9 +75,9 @@ namespace OpenBabel
     OBMol &mol = *pmol;
 
     char buffer[BUFF_SIZE];
-    int orbitals, valenceE = 0;
+    int orbitals = 0, valenceE = 0;
     vector<OBAtom*>::iterator i;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     bool charged = (pmol->GetTotalCharge() == 0);
 
     bool cndoStyle = pConv->IsOption("c",OBConversion::OUTOPTIONS);

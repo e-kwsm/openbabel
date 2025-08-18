@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -127,8 +128,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     mol.BeginModify();
@@ -153,7 +154,7 @@ namespace OpenBabel
                 atom->SetVector(x,y,z); //set coordinates
 
                 //set atomic number
-                int n;
+                int n = 0;
                 atom->SetAtomicNum(0);
                 while (vs[1].length()!=0) { // recognize name with number
                     n = OBElements::GetAtomicNum(vs[1].c_str());
@@ -240,7 +241,7 @@ namespace OpenBabel
             if (vs.size() == 8) {
               OBVectorData *dipoleMoment = new OBVectorData;
               dipoleMoment->SetAttribute("Dipole Moment");
-              double x, y, z;
+              double x = NAN, y = NAN, z = NAN;
               x = atof(vs[5].c_str());
               y = atof(vs[6].c_str());
               z = atof(vs[7].c_str());

@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -99,8 +100,8 @@ namespace OpenBabel
 
   void CSRFormat::WriteCSRHeader(ostream &ofs,OBMol &mol)
   {
-    char *molnames;
-    int nmol, natom;
+    char *molnames = nullptr;
+    int nmol = 0, natom = 0;
 
     molnames = PadString((char*)mol.GetTitle(),100);
 
@@ -129,10 +130,10 @@ namespace OpenBabel
 
   void CSRFormat::WriteCSRCoords(ostream &ofs,OBMol &mol)
   {
-    int the_size,jconf;
-    double x,y,z,energy;
+    int the_size = 0,jconf = 0;
+    double x = NAN,y = NAN,z = NAN,energy = NAN;
     char title[100];
-    char *tag;
+    char *tag = nullptr;
 
     the_size = sizeof(int) + sizeof(double) + (80 * sizeof(char));
 
@@ -150,7 +151,7 @@ namespace OpenBabel
 
     WriteSize(mol.NumAtoms()*sizeof(double),ofs);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
@@ -185,7 +186,7 @@ namespace OpenBabel
 
   char* CSRFormat::PadString(char *input, int size)
   {
-    char *output;
+    char *output = nullptr;
 
     output = new char[size];
     memset(output, ' ', size);

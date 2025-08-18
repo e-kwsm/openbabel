@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -93,13 +94,13 @@ namespace OpenBabel {
     bool cellDataWasSet = false;
     bool EOFReached = false;
     char buffer[BUFF_SIZE];
-    double x,y,z,a,b,c,alpha,beta,gamma;
+    double x = NAN,y = NAN,z = NAN,a = NAN,b = NAN,c = NAN,alpha = NAN,beta = NAN,gamma = NAN;
     double latticeConstant = 1.0;
-    size_t size;
+    size_t size = 0;
     vector<string> vs;
     // The int is the species label, and the string is the atomic symbol
     map<int, string> atomTypeLabels;
-    int atomicNum, numAtoms, numSpecies;
+    int atomicNum = 0, numAtoms = 0, numSpecies = 0;
     matrix3x3 cellMatrix;
     OBUnitCell *cell = new OBUnitCell();
     pmol->BeginModify();
@@ -115,7 +116,7 @@ namespace OpenBabel {
       return false;
     }
 
-    size_t found;
+    size_t found = 0;
     found = filePath.rfind("/");
     string path = filePath.substr(0, found) + "/";
     if (found == string::npos) path = "./";

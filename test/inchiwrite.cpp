@@ -99,7 +99,7 @@ int main(int argc, char* argv[])
 
   //Compare ssout with the correct InChIs
   int nfail=0;
-  int n, skipped=0;
+  int n = 0, skipped=0;
   for(n=1;ssout;++n)
   {
     string correct = GetInChI(results);

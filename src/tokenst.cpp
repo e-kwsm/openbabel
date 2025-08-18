@@ -66,7 +66,7 @@ namespace OpenBabel
     if (!string)
       return nullptr;
 
-    size_t length;
+    size_t length = 0;
 
     length = strlen(string);
     if (length == 0)

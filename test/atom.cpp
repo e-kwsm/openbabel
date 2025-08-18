@@ -46,7 +46,7 @@ int atom(int argc, char* argv[])
   }
   cout << "# Unit tests for OBAtom \n";
 
-  double *coordPtr;
+  double *coordPtr = nullptr;
 
   OBAtom emptyAtom, testAtom1, testAtom2;
 

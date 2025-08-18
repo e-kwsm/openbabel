@@ -42,14 +42,14 @@ using namespace OpenBabel;
 //! \brief Find the molecule(s) with or without a given SMART pattern
 int main(int argc,char **argv)
 {
-  char c;
+  char c = 0;
   unsigned int ntimes=0; // number of times SMARTS matches in a molecule
   unsigned int numMatching = 0; // number of matching molecules (for -c flag)
   bool pattern_matched=false, ntimes_matched=true;
   bool count=false, invert=false, full=false, name_only=false;
   char *FileIn = nullptr, *Pattern = nullptr;
   char *program_name = argv[0];
-  char *iext;
+  char *iext = nullptr;
   bool useInFile = true;
 
   OBConversion conv(&cin,&cout);
@@ -179,7 +179,7 @@ int main(int argc,char **argv)
 
   OBMol mol;
 
-  bool impossible_match;
+  bool impossible_match = false;
 
   // Search for pattern
   for (c=0;;)

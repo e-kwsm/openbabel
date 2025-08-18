@@ -17,6 +17,7 @@ GNU General Public License for more details.
 
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/atom.h>
@@ -185,7 +186,7 @@ namespace OpenBabel
 
       min_nodes.clear();
       min_nodes_rmsds.clear();
-      double rmsd;
+      double rmsd = NAN;
       double min_rmsd = DBL_MAX;
 
       Tree_sit sib = poses.begin(node);
@@ -404,7 +405,7 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
            << static_cast<float>(nconfs * 100)/static_cast<float>(combinations) << "% of these\n";
     }
 
-    unsigned int combination;
+    unsigned int combination = 0;
     OBDiversePoses divposes(_mol, rmsd, false);
     std::vector<int> my_rotorkey(rotor_sizes.size() + 1, 0);
     unsigned int counter = 0;

@@ -214,7 +214,7 @@ namespace OpenBabel
     vector<OBGenericData*> vdata;
     OBDataIterator i,j;
 
-    bool del;
+    bool del = false;
     for (i = _vdata.begin();i != _vdata.end();++i)
       {
         del = false;

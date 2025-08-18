@@ -49,7 +49,7 @@ string sequence(OBMol &mol);
 int main(int argc,char **argv)
 {
   char *program_name= argv[0];
-  int c;
+  int c = 0;
   char *FileIn = nullptr;
 
   if (argc != 2)
@@ -168,7 +168,7 @@ int main(int argc,char **argv)
 
       cout << "num_rings        " << nrings(mol) << endl;
 
-      OBDescriptor* pDesc;
+      OBDescriptor* pDesc = nullptr;
       pDesc= OBDescriptor::FindType("logP");
       if(pDesc)
         cout << "logP             " << pDesc->Predict(&mol) << endl;
@@ -197,7 +197,7 @@ int main(int argc,char **argv)
 //! \return the number of size of the set of smallest rings (SSSR)
 int nrings(OBMol &mol)
 {
-  int nr;
+  int nr = 0;
   vector<OBRing*> vr;
   
   vr = mol.GetSSSR();

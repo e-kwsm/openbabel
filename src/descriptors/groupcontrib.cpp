@@ -70,7 +70,7 @@ namespace OpenBabel
 
   bool OBGroupContrib::ParseFile()
   {
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
 
     // open data file
     ifstream ifs;

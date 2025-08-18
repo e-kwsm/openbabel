@@ -109,9 +109,8 @@ bool fingerprint2::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbit
 	ringset.clear();
  
 	//identify fragments starting at every atom
-	OBAtom *patom;
 	vector<OBNodeBase*>::iterator i;
-	for (patom = pmol->BeginAtom(i);patom;patom = pmol->NextAtom(i))
+	for (OBAtom *patom = pmol->BeginAtom(i);patom;patom = pmol->NextAtom(i))
 	{
 		if(patom->GetAtomicNum() == OBElements::Hydrogen) continue;
 		vector<int> curfrag;
@@ -163,9 +162,8 @@ void fingerprint2::getFragments(vector<int> levels, vector<int> curfrag,
 	levels[patom->GetIdx()-1] = level;
 
 	vector<OBBond*>::iterator itr;
-	OBBond *pnewbond;
 //	PrintFpt(curfrag,(int)patom);
-	for (pnewbond = patom->BeginBond(itr);pnewbond;pnewbond = patom->NextBond(itr))
+	for (OBBond *pnewbond = patom->BeginBond(itr);pnewbond;pnewbond = patom->NextBond(itr))
 	{
 		if(pnewbond==pbond) continue; //don't retrace steps
 		OBAtom* pnxtat = pnewbond->GetNbrAtom(patom);
@@ -236,8 +234,7 @@ void fingerprint2::DoRings()
 	{
 		vector<int> t1(*itr); //temporary copy
 		vector<int> maxring(*itr); //the current largest vector
-		unsigned int i;
-		for(i=0;i<t1.size()/2;++i)
+		for(unsigned int i=0;i<t1.size()/2;++i)
 		{
 			//rotate atoms in ring
 			rotate(t1.begin(),t1.begin()+2,t1.end());
@@ -268,8 +265,7 @@ unsigned int fingerprint2::CalcHash(const vector<int>& frag)
 
 void fingerprint2::PrintFpt(const vector<int>& f, int hash)
 {
-	unsigned int i;
-	for(i=0;i<f.size();++i)
+  for(unsigned int i=0;i<f.size();++i)
     _ss  << f[i] << " ";
   _ss << "<" << hash << ">" << endl;
 }

@@ -14,6 +14,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/atom.h>
 #include <openbabel/babelconfig.h>
 #include <openbabel/bond.h>
@@ -154,7 +155,7 @@ bool ChemicalJSONFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
   pmol->ReserveAtoms(elementNumbers.Size());
 
   // Add atoms
-  double x, y, z;
+  double x = NAN, y = NAN, z = NAN;
   for (rapidjson::SizeType i = 0; i < elementNumbers.Size(); i++) {
     const rapidjson::Value &element = elementNumbers[i];
     OBAtom *patom = pmol->NewAtom();

@@ -49,7 +49,7 @@ bool AddDataToSubstruct(OBMol* pmol,
     pAtom->SetData(dp);
   }
 
-  OBBond* pBond;
+  OBBond* pBond = nullptr;
   vector<OBBond*>::iterator i;
   for(pBond = pmol->BeginBond(i); pBond; pBond = pmol->NextBond(i))
   {
@@ -86,7 +86,7 @@ bool MakeQueriesFromMolInFile(vector<OBQuery*>& queries, const std::string& file
     OBMol patternMol;
     patternMol.SetIsPatternStructure();
     OBConversion patternConv;
-    OBFormat* pFormat;
+    OBFormat* pFormat = nullptr;
     //Need to distinguish between filename and SMARTS. Not infallable...
     if( filename.empty() ||
         filename.find('.')==string::npos ||

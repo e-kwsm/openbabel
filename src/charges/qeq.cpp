@@ -19,6 +19,7 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include "qeq.h"
+#include <cmath>
 #include <openbabel/locale.h>
 #include <openbabel/atom.h>
 #include <openbabel/oberror.h>
@@ -128,7 +129,7 @@ namespace OpenBabel
     // Set the locale for number parsing to avoid locale issues: PR#1785463
     obLocale.SetLocale();
     Eigen::Vector3d P;
-    float radius;
+    float radius = NAN;
     while (ifs.getline(buffer, BUFF_SIZE)) {
       if (buffer[0] == '#')
         continue;
@@ -184,7 +185,7 @@ namespace OpenBabel
     //Read in atomic information from OpenBabel molecule and parameterize
 
     //Read in total number of atoms
-    int i, N = mol.NumAtoms();
+    int i = 0, N = mol.NumAtoms();
 
     Hardness = Eigen::MatrixXd::Zero(N+1, N+1);
     Voltage = Eigen::VectorXd::Zero(N+1);
@@ -222,8 +223,8 @@ namespace OpenBabel
     double SmallestGaussianExponent = BasisSet.minCoeff();
     double CoulMaxDistance = 2 * sqrt(-log(CoulombThreshold) / SmallestGaussianExponent);
 
-    int j;
-    double R, Coulomb;
+    int j = 0;
+    double R = NAN, Coulomb = NAN;
     FOR_ATOMS_OF_MOL(atom1, mol)
       {
         i = atom1->GetIdx() - 1;

@@ -95,7 +95,7 @@ namespace OpenBabel
   bool FASTAFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
     string seq;
-    OBMol* pmol;
+    OBMol* pmol = nullptr;
     //   OBResidue *res;
 
     pmol = dynamic_cast<OBMol*>(pOb);

@@ -89,10 +89,10 @@ int ringtest(int argc, char* argv[])
       return -1; // test failed
     }
 
-  unsigned int size;
-  OBBond *bond;
-  OBAtom *atom;
-  int count;
+  unsigned int size = 0;
+  OBBond *bond = nullptr;
+  OBAtom *atom = nullptr;
+  int count = 0;
   char buffer[BUFF_SIZE];
   vector<string> vs;
   vector<OBRing*> vr;
@@ -216,9 +216,9 @@ void GenerateRingReference()
   if (!SafeOpen(ofs,lresults_file.c_str()))
     return;
 
-  int count;
-  OBAtom *atom;
-  OBBond *bond;
+  int count = 0;
+  OBAtom *atom = nullptr;
+  OBBond *bond = nullptr;
   char buffer[BUFF_SIZE];
   vector<OBRing*> vr;
   vector<OBBond*>::iterator i;

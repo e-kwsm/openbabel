@@ -15,6 +15,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/op.h>
 #include <openbabel/mol.h>
@@ -158,7 +159,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
   
   //Save in map if descriptor val is better
   // than the current selection or otherwise delete
-  double val;
+  double val = NAN;
   if(_pDesc)
     val = _pDesc->Predict(pOb, &_param);
   else

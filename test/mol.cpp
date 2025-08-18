@@ -113,7 +113,7 @@ int mol(int argc, char* argv[])
       return(-1);
     }
   OBConversion conv(&ifs1, &cout);
-  OBFormat* pFormat;
+  OBFormat* pFormat = nullptr;
   
   pFormat = conv.FindFormat("XYZ");
   if (pFormat == nullptr)
@@ -136,8 +136,8 @@ int mol(int argc, char* argv[])
   
   // test bond insertion (PR#1665649)
   OBMol doubleBondMol;
-  OBAtom *a1, *a2;
-  OBBond *b;
+  OBAtom *a1 = nullptr, *a2 = nullptr;
+  OBBond *b = nullptr;
   doubleBondMol.BeginModify();
   a1 = doubleBondMol.NewAtom();
   a1->SetVector(0.0, 0.0, 0.0);

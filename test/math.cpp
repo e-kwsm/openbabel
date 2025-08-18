@@ -23,6 +23,7 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/math/matrix3x3.h>
 #include <openbabel/obutil.h>
@@ -168,10 +169,10 @@ void testBasics_matrix3x3()
   double d[3][3] = { { 1.0, 0.0, 0.0 },
                      { 0.0, 1.0, 0.0 },
                      { 0.0, 0.0, 1.0 } };
-  double x;
+  double x = NAN;
   matrix3x3 m1, m2, m3;
   vector3 v1, v2;
-  int i, j;
+  int i = 0, j = 0;
 
   // test constructors and operator=
   m1 = matrix3x3(1.0);
@@ -245,7 +246,7 @@ void testArithmeticOperators()
   VERIFY( compare( vec1 * -3.0, - vec1 - vec1 - vec1 ) );
   VERIFY( compare( 2.0 * vec1, vec1 + vec1 ) );
 
-  double a1, a2;
+  double a1 = NAN, a2 = NAN;
   do pickRandom(a1); while( a1 == 0.0 );
   pickRandom(a2);
   VERIFY( compare( vec1 * ( a1 + a2 ), vec1 * a1 + vec1 * a2 ) );
@@ -288,7 +289,7 @@ void testDistancesAnglesOrthogonality()
 
   VERIFY( compare( v1.distSq(v2), (v1-v2).length_2() ) );
 
-  double t;
+  double t = NAN;
   pickRandom(t);
   VERIFY( compare( fabs(t), Point2Plane( v1 + t * VY, v1, v1 + 5.0 * VX - 3.0 * VZ, v1 - VX + VZ ) ) );
 }
