@@ -762,7 +762,7 @@ namespace OpenBabel {
       if (selective) {
         // if this guy has, write it out
         if ((*it)->HasData("move")) {
-          OBPairData *cp = (OBPairData*)(*it)->GetData("move");
+          OBPairData *cp = dynamic_cast<OBPairData*>((*it)->GetData("move"));
           // seemingly ridiculous number of digits is written out
           // but sometimes you just don't want to change them
           ofs << " " << cp->GetValue().c_str();
