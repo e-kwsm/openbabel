@@ -638,7 +638,7 @@ namespace OpenBabel {
           tokenize(vs, ptr);
 
           if (vs.size() > 2) {
-            OBSetData* curset = (OBSetData*) gmsset->GetData(vs[0]);
+            OBSetData* curset = dynamic_cast<OBSetData*>( gmsset->GetData(vs[0]));
             if (!curset) {
               curset = new OBSetData();
               curset->SetAttribute(vs[0]);
@@ -702,8 +702,8 @@ namespace OpenBabel {
       pmol->SetData(gmsset);
 
       // If we have basis set data we should set our global pair data
-      OBSetData* cset = (OBSetData*) gmsset->GetData("CONTRL");
-      OBSetData* bset = (OBSetData*) gmsset->GetData("BASIS");
+      OBSetData* cset = dynamic_cast<OBSetData*>( gmsset->GetData("CONTRL"));
+      OBSetData* bset = dynamic_cast<OBSetData*>( gmsset->GetData("BASIS"));
 
       string model = "b3lyp";
       string basis;
@@ -712,31 +712,31 @@ namespace OpenBabel {
       if (cset) {
         OBPairData* pd = nullptr;
 
-        pd = (OBPairData*) cset->GetData("SCFTYP");
+        pd = dynamic_cast<OBPairData*>( cset->GetData("SCFTYP"));
         if (pd) {
           if(pd->GetValue() == "RHF")
             model = "rhf";
         }
 
-        pd = (OBPairData*) cset->GetData("DFTTYP");
+        pd = dynamic_cast<OBPairData*>( cset->GetData("DFTTYP"));
         if (pd) {
           if(pd->GetValue() == "BLYP")
             model = "b3lyp";
         }
 
-        pd = (OBPairData*) cset->GetData("MPLEVL");
+        pd = dynamic_cast<OBPairData*>( cset->GetData("MPLEVL"));
         if (pd) {
           if(pd->GetValue() == "2")
             model = "mp2";
         }
 
-        pd = (OBPairData*) cset->GetData("CCTYP");
+        pd = dynamic_cast<OBPairData*>( cset->GetData("CCTYP"));
         if (pd) {
           if (pd->GetValue() == "CCSD(T)")
             model = "ccsd(t)";
         }
 
-        pd = (OBPairData*) cset->GetData("RUNTYP");
+        pd = dynamic_cast<OBPairData*>( cset->GetData("RUNTYP"));
         if (pd) {
           string value = pd->GetValue();
           if (value == "GRADIENT"
@@ -752,8 +752,8 @@ namespace OpenBabel {
       }
 
       if (bset) {
-        OBPairData* gbasis = (OBPairData*) bset->GetData("GBASIS");
-        OBPairData* ngauss = (OBPairData*) bset->GetData("NGAUSS");
+        OBPairData* gbasis = dynamic_cast<OBPairData*>( bset->GetData("GBASIS"));
+        OBPairData* ngauss = dynamic_cast<OBPairData*>( bset->GetData("NGAUSS"));
 
         if (gbasis) {
           string value = gbasis->GetValue();
@@ -1014,18 +1014,18 @@ namespace OpenBabel {
       defaultKeywords = keywords;
 
     if (keywordsEnable) {
-      OBSetData* gmsset = (OBSetData*) pmol->GetData("gamess");
+      OBSetData* gmsset = dynamic_cast<OBSetData*>( pmol->GetData("gamess"));
 
       if (gmsset) {
         for (i=gmsset->GetBegin(); i != gmsset->GetEnd(); ++i) {
-          OBSetData* cset = (OBSetData*) (*i);
+          OBSetData* cset = dynamic_cast<OBSetData*> (*i);
 
           if (cset) {
             wrapped = false;
             a = 2 + cset->GetAttribute().length();
             ofs << " $" << cset->GetAttribute();
             for (j=cset->GetBegin(); j != cset->GetEnd(); ++j) {
-              OBPairData* pd = (OBPairData*) (*j);
+              OBPairData* pd = dynamic_cast<OBPairData*> (*j);
 
               if (pd) {
                 if (a + 2 + pd->GetAttribute().length() + pd->GetValue().length() > 72) {
