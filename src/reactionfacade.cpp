@@ -33,7 +33,7 @@ namespace OpenBabel
   class OBReactionFacadePrivate
   {
   public:
-    OBReactionFacadePrivate(OBMol *mol) : _mol(mol), _found_components(false)
+    OBReactionFacadePrivate(OBMol *mol) : _mol(mol)
     {
     }
     
@@ -51,7 +51,7 @@ namespace OpenBabel
 
   private:
     OBMol* _mol;
-    bool _found_components;
+    bool _found_components = false;
     std::vector<unsigned int> _unassigned_components;
     std::vector<unsigned int> _reactant_components;
     std::vector<unsigned int> _product_components;

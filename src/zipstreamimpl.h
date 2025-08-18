@@ -54,8 +54,7 @@ basic_zip_streambuf<charT, traits>::basic_zip_streambuf(ostream_reference ostrea
                                                         size_t buffer_size)
     : _ostream(ostream),
       _output_buffer(buffer_size, 0),
-      _buffer(buffer_size, 0),
-      _crc(0)
+      _buffer(buffer_size, 0)
 {
     _zip_stream.zalloc = (alloc_func) nullptr;
     _zip_stream.zfree = (free_func) nullptr;
@@ -304,12 +303,9 @@ basic_unzip_streambuf<charT, traits>::basic_unzip_streambuf(istream_reference is
                                                             int window_size,
                                                             size_t read_buffer_size,
                                                             size_t input_buffer_size)
-    : _is_gzip(false),
-      _istream(istream),
+    : _istream(istream),
       _input_buffer(input_buffer_size),
-      _buffer(read_buffer_size),
-      _crc(0),
-      _unzipped_component_bytes(0)
+      _buffer(read_buffer_size)
 {
   initialize(window_size);
 }
@@ -627,8 +623,7 @@ basic_zip_ostream<charT, traits>::basic_zip_ostream(ostream_reference ostream,
     basic_zip_streambuf<charT, traits>(ostream, level, strategy, window_size,
                                        memory_level, buffer_size),
     std::basic_ostream<charT, traits>(this),
-    _is_gzip(is_gzip),
-    _added_footer(false)
+    _is_gzip(is_gzip)
 {
 		if(_is_gzip)
         add_header();
@@ -748,9 +743,7 @@ basic_zip_istream<charT, traits>::basic_zip_istream(istream_reference istream,
                                                     size_t input_buffer_size)
     : basic_unzip_streambuf<charT, traits>(istream, window_size,
                                            read_buffer_size, input_buffer_size),
-      std::basic_istream<charT, traits>(this),
-      _gzip_crc(0),
-      _gzip_data_size(0)
+      std::basic_istream<charT, traits>(this)
 {
     if(this->get_zerr() == Z_OK)
       this->check_header();
