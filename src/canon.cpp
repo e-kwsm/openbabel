@@ -1682,7 +1682,7 @@ namespace OpenBabel {
       std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
       std::vector<OBGenericData*>::iterator data;
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-        OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
+        OBStereo::Type type = (dynamic_cast<OBStereoBase*>(*data))->GetType();
         if (type == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();

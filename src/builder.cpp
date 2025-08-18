@@ -1501,7 +1501,7 @@ namespace OpenBabel
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref bond_id;
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         if (ct->GetConfig().specified) {
           cistrans.push_back(ct);
@@ -1636,7 +1636,7 @@ namespace OpenBabel
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     OBStereo::Ref atom_id;
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *th = dynamic_cast<OBTetrahedralStereo*>(*data);
         if (th->GetConfig().specified) {
           tetra.push_back(th);
