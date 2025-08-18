@@ -86,7 +86,7 @@ namespace OpenBabel
       }
     else
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         snprintf(buffer, BUFF_SIZE,
                  " REFERENCE STRUCTURE = 00000   A,B,C =%8.3f%8.3f%8.3f",
                  uc->GetA(), uc->GetB(), uc->GetC());

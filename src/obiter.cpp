@@ -1024,7 +1024,7 @@ namespace OpenBabel
     if (!_parent->HasSSSRPerceived())
       _parent->FindSSSR();
 
-    _rings = (OBRingData *) _parent->GetData("SSSR");
+    _rings = dynamic_cast<OBRingData *>( _parent->GetData("SSSR"));
     if(_rings)
       _ptr = _rings->BeginRing(_i);
   }
@@ -1034,7 +1034,7 @@ namespace OpenBabel
     if (!_parent->HasSSSRPerceived())
       _parent->FindSSSR();
 
-    _rings = (OBRingData *) _parent->GetData("SSSR");
+    _rings = dynamic_cast<OBRingData *>( _parent->GetData("SSSR"));
     if (_rings)
       _ptr = _rings->BeginRing(_i);
   }
@@ -1114,7 +1114,7 @@ namespace OpenBabel
   OBMolAngleIter::OBMolAngleIter(OBMol *mol)
   {
     mol->FindAngles();
-    OBAngleData *ad = (OBAngleData *) mol->GetData(OBGenericDataType::AngleData);
+    OBAngleData *ad = dynamic_cast<OBAngleData *>( mol->GetData(OBGenericDataType::AngleData));
     ad->FillAngleArray(_vangle);
 
     _parent = mol;
@@ -1129,7 +1129,7 @@ namespace OpenBabel
   OBMolAngleIter::OBMolAngleIter(OBMol &mol)
   {
     mol.FindAngles();
-    OBAngleData *ad = (OBAngleData *) mol.GetData(OBGenericDataType::AngleData);
+    OBAngleData *ad = dynamic_cast<OBAngleData *>( mol.GetData(OBGenericDataType::AngleData));
     ad->FillAngleArray(_vangle);
 
     _parent = &mol;
@@ -1213,7 +1213,7 @@ namespace OpenBabel
   OBMolTorsionIter::OBMolTorsionIter(OBMol *mol)
   {
     mol->FindTorsions();
-    OBTorsionData *td = (OBTorsionData *) mol->GetData(OBGenericDataType::TorsionData);
+    OBTorsionData *td = dynamic_cast<OBTorsionData *>( mol->GetData(OBGenericDataType::TorsionData));
     td->FillTorsionArray(_vtorsion);
 
     _parent = mol;
@@ -1228,7 +1228,7 @@ namespace OpenBabel
   OBMolTorsionIter::OBMolTorsionIter(OBMol &mol)
   {
     mol.FindTorsions();
-    OBTorsionData *td = (OBTorsionData *) mol.GetData(OBGenericDataType::TorsionData);
+    OBTorsionData *td = dynamic_cast<OBTorsionData *>( mol.GetData(OBGenericDataType::TorsionData));
     td->FillTorsionArray(_vtorsion);
 
     _parent = &mol;

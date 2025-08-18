@@ -66,7 +66,7 @@ MMFF94Charges theMMFF94Charges("mmff94"); //Global instance
     m_formalCharges.clear();
     m_formalCharges.reserve(mol.NumAtoms());
     FOR_ATOMS_OF_MOL(atom, mol) {
-      OBPairData *chg = (OpenBabel::OBPairData*) atom->GetData("FFPartialCharge");
+      OBPairData *chg = dynamic_cast<OpenBabel::OBPairData*>( atom->GetData("FFPartialCharge"));
       if (chg)
         atom->SetPartialCharge(atof(chg->GetValue().c_str()));
       m_partialCharges.push_back(atom->GetPartialCharge());

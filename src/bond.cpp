@@ -610,7 +610,7 @@ namespace OpenBabel
     else
       {
         OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
-        OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *box = dynamic_cast<OBUnitCell*>(mol->GetData(OBGenericDataType::UnitCell));
         return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector())).length();
       }
   }

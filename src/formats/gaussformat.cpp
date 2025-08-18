@@ -154,15 +154,15 @@ namespace OpenBabel
         string basis;
         string method;
 
-        OBPairData *pd = (OBPairData *) pmol->GetData("model");
+        OBPairData *pd = dynamic_cast<OBPairData *>( pmol->GetData("model"));
         if(pd)
           model = pd->GetValue();
 
-        pd = (OBPairData *) pmol->GetData("basis");
+        pd = dynamic_cast<OBPairData *>( pmol->GetData("basis"));
         if(pd)
           basis = pd->GetValue();
 
-        pd = (OBPairData *) pmol->GetData("method");
+        pd = dynamic_cast<OBPairData *>( pmol->GetData("method"));
         if(pd)
           method = pd->GetValue();
 
@@ -218,7 +218,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
     // Translation vectors
-    OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
     if (uc && writeUnitCell) {
       uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 
@@ -289,7 +289,7 @@ namespace OpenBabel
             method.append(" ");
             method.append(vs[i]);
           }
-        pd = (OpenBabel::OBPairData *) mol->GetData(attribute);
+        pd = dynamic_cast<OpenBabel::OBPairData *>( mol->GetData(attribute));
         if (nullptr == pd)
           {
             pd = new OpenBabel::OBPairData();

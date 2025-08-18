@@ -252,7 +252,7 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::CommentData))
       {
         ofs << "\n" << "\n" << "COMMENTS" << "\n";
-        OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+        OBCommentData *cd = dynamic_cast<OBCommentData*>(mol.GetData(OBGenericDataType::CommentData));
         ofs << cd->GetData() << "\n";
       }
     ofs << "\n" << "\n";

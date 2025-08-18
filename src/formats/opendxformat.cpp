@@ -252,7 +252,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     string str;
     stringstream errorMsg;
 
-    OBGridData *gd = (OBGridData*)mol.GetData(OBGenericDataType::GridData);
+    OBGridData *gd = dynamic_cast<OBGridData*>(mol.GetData(OBGenericDataType::GridData));
     if (gd == nullptr) {
       errorMsg << "The molecule has no grid.";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);

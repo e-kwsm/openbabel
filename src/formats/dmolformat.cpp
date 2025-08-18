@@ -186,7 +186,7 @@ namespace OpenBabel
 
     if (mol.HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         vector<vector3> v = uc->GetCellVectors();
         vector3 v1;
 

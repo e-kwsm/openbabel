@@ -1020,7 +1020,7 @@ namespace OpenBabel
       OBAtom *extAtom = mol.GetAtom(intAtom->GetIdx());
 
       if (extAtom->HasData("FFAtomType")) {
-        OBPairData *data = (OBPairData*) extAtom->GetData("FFAtomType");
+        OBPairData *data = dynamic_cast<OBPairData*>( extAtom->GetData("FFAtomType"));
         data->SetValue(intAtom->GetType());
       } else {
         OBPairData *data = new OBPairData();
@@ -1045,7 +1045,7 @@ namespace OpenBabel
       out.str("");
       out << intAtom->GetPartialCharge();
       if (extAtom->HasData("FFPartialCharge")) {
-        OBPairData *data = (OBPairData*) extAtom->GetData("FFPartialCharge");
+        OBPairData *data = dynamic_cast<OBPairData*>( extAtom->GetData("FFPartialCharge"));
         data->SetValue(out.str());
       } else {
         OBPairData *data = new OBPairData();
@@ -1074,7 +1074,7 @@ namespace OpenBabel
 
     if (!mol.HasData(OBGenericDataType::ConformerData))
       mol.SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
+    OBConformerData *cd = dynamic_cast<OBConformerData*>( mol.GetData(OBGenericDataType::ConformerData));
     cd->SetEnergies(_energies);
 
     vector<vector3> forces;
@@ -1120,7 +1120,7 @@ namespace OpenBabel
 
       if (!mol.HasData(OBGenericDataType::ConformerData))
         mol.SetData(new OBConformerData);
-      OBConformerData *cd = (OBConformerData*) mol.GetData(OBGenericDataType::ConformerData);
+      OBConformerData *cd = dynamic_cast<OBConformerData*>( mol.GetData(OBGenericDataType::ConformerData));
       cd->SetEnergies(_energies);
 
       //mol.SetEnergies(_energies);

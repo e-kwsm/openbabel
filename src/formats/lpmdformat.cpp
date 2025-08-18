@@ -313,7 +313,7 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  if(mol.HasData(OBGenericDataType::UnitCell))
  {
   v.clear();
-  uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
   v = uc -> GetCellVectors();
  }
  else if(v.size()!=3)
@@ -353,7 +353,7 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
  //Fill velocities and forces.
  if(mol.HasData(OBGenericDataType::ConformerData))
  {
-  OBConformerData * conformer = (OBConformerData*)mol.GetData(OBGenericDataType::ConformerData);
+  OBConformerData * conformer = dynamic_cast<OBConformerData*>(mol.GetData(OBGenericDataType::ConformerData));
   forceslist = conformer->GetForces();
   velocilist = conformer->GetVelocities();
  }

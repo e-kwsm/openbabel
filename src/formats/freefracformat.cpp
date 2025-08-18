@@ -253,7 +253,7 @@ namespace OpenBabel
       ofs << "   1.00000   1.00000   1.00000  90.00000  90.00000  90.00000\n";
     else
       {
-        uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         snprintf(buffer, BUFF_SIZE,
                  "%10.5f%10.5f%10.5f%10.5f%10.5f%10.5f",
                  uc->GetA(), uc->GetB(), uc->GetC(),
