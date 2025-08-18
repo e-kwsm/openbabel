@@ -13,6 +13,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/obfunctions.h>
@@ -133,7 +134,7 @@ namespace OpenBabel
     int chainNum = 1;
     char buffer[BUFF_SIZE] = {0,};
     string line, key, value;
-    OBPairData *dp;
+    OBPairData *dp = nullptr;
 
     mol.SetTitle(title);
     // We need to prevent chains perception routines from running while
@@ -180,7 +181,7 @@ namespace OpenBabel
 
         // crystal cells
         if (EQn(buffer,"CRYST1",6)) {
-          float a, b, c, alpha, beta, gamma;
+          float a = NAN, b = NAN, c = NAN, alpha = NAN, beta = NAN, gamma = NAN;
           string group = "";
 
           sscanf (&(buffer[6]), "%9f%9f%9f%7f%7f%7f", &a, &b, &c,
@@ -298,7 +299,7 @@ namespace OpenBabel
 
     strncpy(integerBuffer, buffer+columnAsSpecifiedInPDB-1, 5);
 
-    char *errorCheckingEndPtr;
+    char *errorCheckingEndPtr = nullptr;
     *target = strtol(integerBuffer, &errorCheckingEndPtr, 10);
     if (integerBuffer == errorCheckingEndPtr)
       return(false);
@@ -349,7 +350,7 @@ namespace OpenBabel
 
     // Serial number of the first atom, read from column 7-11 of the
     // connect record, to which the other atoms connect to.
-    long int startAtomSerialNumber;
+    long int startAtomSerialNumber = 0;
     // A pointer to the first atom.
     OBAtom *firstAtom = nullptr;
     // Serial numbers of the atoms which bind to firstAtom, read from
@@ -512,14 +513,14 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
     char type_name[10] = {0,}, padded_name[10] = {0,};
     char the_res[10] = {0,};
     char segname[10] = {0,};
     char the_chain = ' ';
-    const char *element_name;
-    int res_num;
+    const char *element_name = nullptr;
+    int res_num = 0;
     char the_insertioncode = ' ';
     bool het=true;
     int model_num = 0;
@@ -640,7 +641,7 @@ namespace OpenBabel
     // before we write any records, we should check to see if any coord < -1000
     // which will cause errors in the formatting
 
-    double minX, minY, minZ;
+    double minX = NAN, minY = NAN, minZ = NAN;
     minX = minY = minZ = -999.0f;
     FOR_ATOMS_OF_MOL(a, mol)
       {
@@ -663,8 +664,8 @@ namespace OpenBabel
     // otherwise, move enough so that smallest coord is > -999.0f
     mol.Translate(transV);
 
-    OBAtom *atom;
-    OBResidue *res;
+    OBAtom *atom = nullptr;
+    OBResidue *res = nullptr;
     for (i = 1; i <= mol.NumAtoms(); i++)
       {
         atom = mol.GetAtom(i);
@@ -767,7 +768,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator k;
     for (i = 1; i <= mol.NumAtoms(); i ++)
       {

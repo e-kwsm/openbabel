@@ -10,6 +10,7 @@
   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
   GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -272,8 +273,8 @@ namespace OpenBabel
      */
     
     bool ok=false;
-    int Z;
-    double x,y,z;
+    int Z = 0;
+    double x = NAN,y = NAN,z = NAN;
 
     // 4th field is the atomic number
     ok = from_string<int>(Z, tokens.at(3), std::dec);
@@ -320,9 +321,9 @@ namespace OpenBabel
      * that are defined using internal coordinates
      */
 
-    double var;
+    double var = NAN;
     bool ok=false;
-    int n;
+    int n = 0;
 
     vic.push_back(new OBInternalCoord);
     atom->SetAtomicNum(LabelToAtomicNumber(tokens[0]));
@@ -441,7 +442,7 @@ namespace OpenBabel
     string line;
     vector<string> tokens;
     bool ok=false;
-    double var;
+    double var = NAN;
 
     // Now read in all the varibles
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE)) {
@@ -790,8 +791,8 @@ namespace OpenBabel
   bool GAMESSUKOutputFormat::ReadInitialCartesian( OBMol &mol, std::istream &ifs )
   {
     bool ok=false;
-    double x,y,z;
-    int n;
+    double x = NAN,y = NAN,z = NAN;
+    int n = 0;
 
     // Skip 3 lines
     ok = ifs.getline(buffer, BUFF_SIZE) &&
@@ -802,7 +803,7 @@ namespace OpenBabel
     // Create regex for the coords
     //                     ------label--------   -------charge-------- < seems enough for a match
     string pattern(" *\\* *[a-zA-Z]{1,2}[0-9]* *[0-9]{1,3}\\.[0-9]{1}");
-    bool iok;
+    bool iok = false;
 //#ifdef _MSC_VER
     regex myregex;
     try {
@@ -857,8 +858,8 @@ namespace OpenBabel
     bool GAMESSUKOutputFormat::ReadOptGeomXyz1( OBMol &mol, std::istream &ifs )
     {
       bool ok=false;
-      double x,y,z;
-      int n;
+      double x = NAN,y = NAN,z = NAN;
+      int n = 0;
       
       // Clear the Molecule as we're going to start from scratch again.
       mol.BeginModify();
@@ -905,8 +906,8 @@ namespace OpenBabel
     bool GAMESSUKOutputFormat::ReadOptGeomXyz2( OBMol &mol, std::istream &ifs )
     {
       bool ok=false;
-      double x,y,z;
-      int n;
+      double x = NAN,y = NAN,z = NAN;
+      int n = 0;
 
       // Clear the Molecule as we're going to start from scratch again.
       mol.BeginModify();
@@ -951,7 +952,7 @@ namespace OpenBabel
     {
 
       bool ok=false;
-      double dtmp,dtmp2;
+      double dtmp = NAN,dtmp2 = NAN;
 
       int ncols = 8; // Think this is always the case
       int natoms = mol.NumAtoms();
@@ -974,7 +975,7 @@ namespace OpenBabel
       
       ifs.getline(buffer, BUFF_SIZE); // skip "===============" line
 
-      int root7;
+      int root7 = 0;
       for ( int root1=0; root1 < maxroot; root1+=ncols )
         {
           root7 = root1 + ncols;
@@ -1070,12 +1071,12 @@ namespace OpenBabel
     {
 
       bool ok=false;
-      double dtmp;
+      double dtmp = NAN;
 
       int ncols = 9; // Think this is always the case
       int natoms = mol.NumAtoms();
       int maxroot = natoms*3;
-      int start,mycols;
+      int start = 0,mycols = 0;
 
       // Create data structures
       std::vector< double > frequencies, intensities;
@@ -1094,7 +1095,7 @@ namespace OpenBabel
       
       ifs.getline(buffer, BUFF_SIZE); // skip "===============" line
 
-      int root7;
+      int root7 = 0;
       for ( int root1=0; root1 < maxroot; root1+=ncols )
         {
           root7 = root1 + ncols;
@@ -1219,7 +1220,7 @@ namespace OpenBabel
       mol.EndModify();
 
       RunType_t RunType=UNKNOWN;
-      bool ok;
+      bool ok = false;
       std::string runt;
 
       while (ifs.good() && ifs.getline(buffer, BUFF_SIZE))

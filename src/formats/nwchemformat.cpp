@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -196,10 +197,10 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         return;
     vector<string> vs;
     char buffer[BUFF_SIZE];
-    double x, y, z;
+    double x = NAN, y = NAN, z = NAN;
     unsigned int natoms = molecule->NumAtoms();
     bool from_scratch = false;
-    double* coordinates;
+    double* coordinates = nullptr;
     if (natoms == 0)
         from_scratch = true;
     else
@@ -267,7 +268,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     vector<string> vs;
     matrix3x3 quadrupole;
     double dipole[3];
-    int charge;
+    int charge = 0;
     bool blank_line = false;
 
     ifs->getline(buffer, BUFF_SIZE); // -------
@@ -436,7 +437,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         return;
     for(unsigned int j=0;j<partial_charges.size();j++)
     {
-        OBAtom* atom;
+        OBAtom* atom = nullptr;
         if (from_scratch)
         {
             atom = molecule->NewAtom();
@@ -747,7 +748,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   {
     if (molecule == nullptr || ifs == nullptr)
         return;
-    double energy;
+    double energy = NAN;
     vector<string> vs;
     char buffer[BUFF_SIZE];
 
@@ -897,7 +898,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     vector<string> vs;
     vector<double*> beads;
     vector<double> energies;
-    unsigned int nbeads;
+    unsigned int nbeads = 0;
     while(ifs->getline(buffer, BUFF_SIZE))
     {
         if (strstr(buffer, NBEADS_PATTERN) != nullptr)
@@ -1020,7 +1021,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             }
             else
             {
-                int i;
+                int i = 0;
                 for(i=0; buffer[i] != '\0';i++);
                 ifs.seekg(-i, ios_base::cur);
                 break;

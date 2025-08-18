@@ -187,7 +187,7 @@ namespace OpenBabel
 
     if(hexoutput && pConv->GetOutputIndex()<=1)
       {
-        unsigned int i, bitsset=0;
+        unsigned int i = 0, bitsset=0;
         for (i=0;i<fptvec.size();++i)
           {
             int wd = fptvec[i];
@@ -225,7 +225,7 @@ namespace OpenBabel
   bool FingerprintFormat::IsPossibleSubstructure(vector<unsigned int>Mol, vector<unsigned int>Frag)
   {
     //Returns false if Frag is definitely NOT a substructure of Mol
-    unsigned int i;
+    unsigned int i = 0;
     for (i=0;i<Mol.size();++i)
       if((Mol[i] & Frag[i]) ^ Frag[i]) return false;
     return true;

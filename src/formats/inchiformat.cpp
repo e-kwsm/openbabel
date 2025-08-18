@@ -131,7 +131,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   //Translate the returned structure into OBMol
   pmol->SetDimension(0);
   pmol->BeginModify();
-  int i;
+  int i = 0;
   //Make all atoms first because we need pointers to later ones
   for(i=0;i<out.num_atoms;++i)
   {
@@ -150,7 +150,7 @@ bool InChIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     patom->SetFormalCharge(piat->charge);
 //    patom->SetVector(piat->x,piat->y,piat->z);
 
-    int j;
+    int j = 0;
     for(j=0;j<piat->num_bonds;++j)
     {
       if (i < piat->neighbor[j]) // Only add the bond in one direction
@@ -325,7 +325,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       TetStereoToWedgeHash(mol, updown, from);
     set<OBBond*> unspec_ctstereo = GetUnspecifiedCisTrans(mol);
 
-    OBAtom* patom;
+    OBAtom* patom = nullptr;
     vector<inchi_Atom> inchiAtoms(mol.NumAtoms());
     vector<OBNodeBase*>::iterator itr;
     for (patom = mol.BeginAtom(itr);patom;patom = mol.NextAtom(itr))
@@ -340,7 +340,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
       int nbonds = 0;
       vector<OBBond*>::iterator itr;
-      OBBond *pbond;
+      OBBond *pbond = nullptr;
       for (pbond = patom->BeginBond(itr);pbond;pbond = patom->NextBond(itr))
       {
         from_cit = from.find(pbond);
@@ -521,7 +521,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         string mes(inout.szMessage);
         if(pConv->IsOption("w"))
         {
-          string::size_type pos;
+          string::size_type pos = 0;
           string targ[4];
           targ[0] = "Omitted undefined stereo";
           targ[1] = "Charges were rearranged";
@@ -635,7 +635,7 @@ char InChIFormat::CompareInchi(const string& Inchi1, const string& Inchi2)
 
   if(s1.size()<s2.size())
     s1.swap(s2);
-  string::size_type pos;
+  string::size_type pos = 0;
   for(pos=0;pos<s1.size();++pos)
   {
     if(pos==s2.size() || s1[pos]!=s2[pos])
@@ -737,7 +737,7 @@ char* InChIFormat::GetInChIOptions(OBConversion* pConv, bool Reading)
     //without -xn option, the default is to write using these 'recommended' options
     tokenize(optsvec, "FixedH RecMet SPXYZ SAsXYZ Newps Fb Fnud");
   */
-  char* opts;
+  char* opts = nullptr;
   OBConversion::Option_type opttyp = Reading ? OBConversion::INOPTIONS : OBConversion::OUTOPTIONS;
   const char* copts = pConv->IsOption("X", opttyp);
   if(copts)

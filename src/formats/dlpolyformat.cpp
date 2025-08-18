@@ -10,6 +10,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -149,8 +150,8 @@ namespace OpenBabel
     //ifs.getline(buffer,BUFF_SIZE);
     //return true;
 
-    bool ok;
-    double x,y,z;
+    bool ok = false;
+    double x = NAN,y = NAN,z = NAN;
     ifs.getline(buffer,BUFF_SIZE);
     tokenize(tokens, buffer, " \t\n");
     ok = from_string<double>(x, tokens.at(0), std::dec);
@@ -190,10 +191,10 @@ namespace OpenBabel
   {
 
     std::string AtomLabel;
-    int AtomIndex,AtomicNumber=-1;
-    double x,y,z;
-    OBAtom *atom;
-    bool ok;
+    int AtomIndex = 0,AtomicNumber=-1;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
+    bool ok = false;
 
     // Line with AtomLabel, AtomIndex & AtomicNumber - only AtomLabel required
     if ( ! ifs.getline(buffer,BUFF_SIZE) ) return false;
@@ -292,7 +293,7 @@ namespace OpenBabel
   bool DlpolyConfigFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     
-    bool ok;
+    bool ok = false;
 
     // Reset data
     levcfg=0;
@@ -423,8 +424,8 @@ public:
   bool DlpolyHISTORYFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
     std::string tstitle;
-    bool ok;
-    int nstep,natms=0;
+    bool ok = false;
+    int nstep = 0,natms=0;
 
     levcfg=0;
     imcon=0;

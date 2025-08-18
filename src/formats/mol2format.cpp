@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -91,7 +92,7 @@ namespace OpenBabel
       return(false);
 
     OBAtom *atom = nullptr;
-    OBBond *bond;
+    OBBond *bond = nullptr;
     OBBondIterator i;
 
     for (bond = queryatom->BeginBond(i); bond; bond = queryatom->NextBond(i))
@@ -169,7 +170,7 @@ namespace OpenBabel
     char *comment = nullptr;
     string str,str1;
     vector<string> vstr;
-    int len;
+    int len = 0;
 
     // Prevent reperception
     mol.SetChainsPerceived();
@@ -196,8 +197,8 @@ namespace OpenBabel
       }
 
     // OK, just read MOLECULE line
-    int lcount;
-    int natoms,nbonds;
+    int lcount = 0;
+    int natoms = 0,nbonds = 0;
     bool hasPartialCharges = true;
     for (lcount=0;;lcount++)
       {
@@ -261,12 +262,12 @@ namespace OpenBabel
 
     mol.ReserveAtoms(natoms);
 
-    int i;
+    int i = 0;
     vector3 v;
     OBAtom atom;
-    double x,y,z,pcharge;
+    double x = NAN,y = NAN,z = NAN,pcharge = NAN;
     char temp_type[BUFF_SIZE], resname[BUFF_SIZE], atmid[BUFF_SIZE];
-    int elemno, resnum = -1;
+    int elemno = 0, resnum = -1;
     int isotope = 0;
     bool has_explicit_hydrogen = false;
     bool has_residue_information = false;
@@ -436,7 +437,7 @@ namespace OpenBabel
     if(nextrti != "@<TRIPOS>BOND")
       return false;
 
-    int start, end;
+    int start = 0, end = 0;
     bool needs_kekulization = false;
     for (i = 0; i < nbonds; i++)
       {
@@ -446,7 +447,7 @@ namespace OpenBabel
         sscanf(buffer,"%*d %d %d %1024s",&start,&end,temp_type);
         str = temp_type;
         unsigned int flags = 0;
-        int order;
+        int order = 0;
         if (str == "ar" || str == "AR" || str == "Ar") {
           order = 1;
           flags = OB_AROMATIC_BOND;
@@ -678,8 +679,8 @@ namespace OpenBabel
     ofs << endl;
     ofs << "@<TRIPOS>ATOM" << endl;
 
-    OBAtom *atom;
-    OBResidue *res;
+    OBAtom *atom = nullptr;
+    OBResidue *res = nullptr;
 
     vector<OBAtom*>::iterator i;
     std::map<int, int> labelcount;
@@ -744,7 +745,7 @@ namespace OpenBabel
     }
 
     ofs << "@<TRIPOS>BOND" << endl;
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
     string s1, s2;
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))

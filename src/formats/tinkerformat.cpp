@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -140,8 +141,8 @@ namespace OpenBabel
     pmol->SetTitle(title);
 
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
 
     for (int i = 1; i <= natoms; ++i)
     {
@@ -233,7 +234,7 @@ namespace OpenBabel
     ttab.SetFromType("INT");
 
     string str,str1;
-    int atomType;
+    int atomType = 0;
     FOR_ATOMS_OF_MOL(atom, pmol) {
       str = atom->GetType();
       atomType = 0; // Something is very wrong if this doesn't get set below
@@ -290,9 +291,9 @@ namespace OpenBabel
 
   int SetMM3Type(OBAtom *atom)
   {
-    OBAtom *b; // neighbor
+    OBAtom *b = nullptr; // neighbor
     OBBondIterator i, j;
-    int countNeighborO, countNeighborS, countNeighborN, countNeighborC;
+    int countNeighborO = 0, countNeighborS = 0, countNeighborN = 0, countNeighborC = 0;
     countNeighborO = countNeighborS = countNeighborN = countNeighborC = 0;
 
     // The MM2 typing isn't very good, so we do this ourselves for the most common atom types

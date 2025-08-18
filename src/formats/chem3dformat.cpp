@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/math/matrix3x3.h>
@@ -173,12 +174,12 @@ namespace OpenBabel
   bool CHEM3D1Format::ReadChem3d(istream &ifs,OBMol &mol,bool mmads,const char *type_key)
   {
     char buffer[BUFF_SIZE];
-    int natoms,i;
+    int natoms = 0,i = 0;
     char tmp[16],tmp1[16];
     char atomic_type[16];
     double exponent = 0.0;
     double divisor = 1.0;
-    double Alpha,Beta,Gamma,A,B,C;
+    double Alpha = NAN,Beta = NAN,Gamma = NAN,A = NAN,B = NAN,C = NAN;
     bool has_fractional = false, has_divisor = false;
     matrix3x3 m;
 
@@ -225,11 +226,11 @@ namespace OpenBabel
     ttab.SetToType("INT");
     ttab.SetFromType(type_key);
 
-    OBAtom *atom;
-    double x,y,z;
+    OBAtom *atom = nullptr;
+    double x = NAN,y = NAN,z = NAN;
     vector3 v;
 
-    unsigned int k;
+    unsigned int k = 0;
     for (i = 1; i <= natoms; i++)
       {
         ifs.getline(buffer,BUFF_SIZE);
@@ -276,8 +277,8 @@ namespace OpenBabel
 
   bool CHEM3D1Format::WriteChem3d(ostream &ofs,OBMol &mol, const char *mol_typ)
   {
-    int atnum;
-    int type_num;
+    int atnum = 0;
+    int type_num = 0;
     char buffer[BUFF_SIZE],type_name[16],ele_type[16];
 
     ofs << mol.NumAtoms();
@@ -292,7 +293,7 @@ namespace OpenBabel
 
     ttab.SetFromType("INT");
 
-    OBAtom *atom,*nbr;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
 

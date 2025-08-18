@@ -128,7 +128,7 @@ namespace OpenBabel
     void    SortRings()
     {
       std::vector<OBRing*>::iterator j;
-      int ring_id; // for each ring, assign a unique id to ensure a stable sort
+      int ring_id = 0; // for each ring, assign a unique id to ensure a stable sort
       
       for (j = _rlist.begin(), ring_id = 0; j != _rlist.end(); ++j, ++ring_id)
         (*j)->ring_id = ring_id;

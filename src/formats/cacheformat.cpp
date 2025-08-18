@@ -96,7 +96,7 @@ namespace OpenBabel
     ofs << "property rflag MoleculeEditor noUnit 0 1 HEX\n";
     ofs << "ID xyz_coordinates             anum sym	chrg rflag\n";
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     for(atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
@@ -124,7 +124,7 @@ namespace OpenBabel
     ofs << "ID rflag type bond_order\n";
 
     char bstr[16];
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
       {
@@ -157,7 +157,7 @@ namespace OpenBabel
     ofs << "ID dflag objCls1 objCls2 objID1 objID2\n";
 
 
-    int k;
+    int k = 0;
     for (bond = mol.BeginBond(j),k=1;bond;bond = mol.NextBond(j))
       {
         snprintf(buffer, BUFF_SIZE, "%3d 0xa1 atom bond %d %d\n",

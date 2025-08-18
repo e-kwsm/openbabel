@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -157,20 +158,20 @@ namespace OpenBabel {
     ifs.seekg (0, ios::end);
 
     char buffer[BUFF_SIZE], tag[BUFF_SIZE];
-    double x,y,z, scale;
+    double x = NAN,y = NAN,z = NAN, scale = NAN;
     unsigned int totalAtoms=0, atomIndex=0, atomCount=0;
-    OBAtom *atom;
-    bool cartesian;
+    OBAtom *atom = nullptr;
+    bool cartesian = false;
     string str, path;
     vector<string> vs;
     vector<unsigned int> numAtoms, atomTypes;
-    bool selective;    // is selective dynamics used?
+    bool selective = false;    // is selective dynamics used?
     string key, value; // store the info about constraints
-    OBPairData *cp;    // in this PairData
+    OBPairData *cp = nullptr;    // in this PairData
     bool hasEnthalpy=false;
     bool hasVibrations=false;
     bool needSymbolsInGeometryFile = false;
-    double enthalpy_eV, pv_eV;
+    double enthalpy_eV = NAN, pv_eV = NAN;
     vector<vector <vector3> > Lx;
     vector<double> Frequencies;
     vector<matrix3x3> dipGrad;
@@ -180,7 +181,7 @@ namespace OpenBabel {
     //    path = buffer;
     path = pConv->GetInFilename();
     if (path.empty()) return false; // Should be using ReadFile, not Read!
-    size_t found;
+    size_t found = 0;
     found = path.rfind("/");
     path = path.substr(0, found);
     if (found == string::npos) path = "./"; // No "/" in path?
@@ -391,7 +392,7 @@ namespace OpenBabel {
       ifs_dos.getline(buffer,BUFF_SIZE); // Junk
 
       // Get fermi level
-      double fermi;
+      double fermi = NAN;
       if (ifs_dos.getline(buffer,BUFF_SIZE)) { // startE endE res fermi ???
         tokenize(vs, buffer);
         fermi = atof(vs[3].c_str());
@@ -442,7 +443,7 @@ namespace OpenBabel {
         // Frequencies
         if (strstr(buffer, "Eigenvectors") && Frequencies.size() == 0) {
           hasVibrations = true;
-          double x, y, z;
+          double x = NAN, y = NAN, z = NAN;
           ifs_out.getline(buffer,BUFF_SIZE);  // dash line
           ifs_out.getline(buffer,BUFF_SIZE);  // blank line
           ifs_out.getline(buffer,BUFF_SIZE);  // blank line

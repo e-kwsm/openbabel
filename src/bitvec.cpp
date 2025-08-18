@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/bitvec.h>
@@ -216,9 +217,9 @@ namespace OpenBabel
   */
   int OBBitVec::NextBit(int last_bit_offset) const
   {
-    unsigned s;
-    int bit;
-    unsigned wrdcnt;
+    unsigned s = 0;
+    int bit = 0;
+    unsigned wrdcnt = 0;
     ++ last_bit_offset;
 
     wrdcnt = (unsigned)last_bit_offset >> WORDROLL;
@@ -402,7 +403,7 @@ namespace OpenBabel
   OBBitVec & OBBitVec::operator&= (const OBBitVec & bv)
   {
     unsigned min = (bv.GetSize() < _size) ? bv.GetSize() : _size;
-    unsigned i;
+    unsigned i = 0;
 
     for (i = 0;i < min;++i)
       _set[i] &= bv._set[i];
@@ -526,7 +527,7 @@ namespace OpenBabel
   {
     if (bv1.GetSize() < bv2.GetSize())
       { // bv1 smaller than bv2
-      unsigned i;
+      unsigned i = 0;
       for (i = 0; i < bv1.GetSize(); ++ i)
         if (bv1._set[i] != bv2._set[i])
           return false;
@@ -536,7 +537,7 @@ namespace OpenBabel
       }
     else
       { // bv2 smaller or equal than bv1
-      unsigned i;
+      unsigned i = 0;
       for (i = 0; i < bv2.GetSize(); ++ i)
         if (bv1._set[i] != bv2._set[i])
           return false;
@@ -660,7 +661,7 @@ namespace OpenBabel
   double Tanimoto(const OBBitVec & bv1, const OBBitVec & bv2)
   {
     OBBitVec bvtmp;
-    double andbits,orbits;
+    double andbits = NAN,orbits = NAN;
 
     bvtmp = bv1 & bv2;
     andbits = (double)bvtmp.CountBits();

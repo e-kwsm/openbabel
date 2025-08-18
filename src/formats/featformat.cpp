@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -77,7 +78,7 @@ namespace OpenBabel
     mol.SetTitle( pConv->GetTitle()); //default title is the filename
 
     char buffer[BUFF_SIZE];
-    int i,natoms;
+    int i = 0,natoms = 0;
 
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%d",&natoms);
@@ -89,9 +90,9 @@ namespace OpenBabel
       return(false);
     mol.SetTitle(buffer);
 
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     char type[32];
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     for (i = 0; i < natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
@@ -143,7 +144,7 @@ namespace OpenBabel
     ofs << mol.NumAtoms() << endl;
     ofs << mol.GetTitle() << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     for(atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {

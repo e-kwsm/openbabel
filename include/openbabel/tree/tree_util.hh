@@ -69,7 +69,7 @@ void print_subtree_bracketed(const tree<T>& t, typename tree<T>::iterator iRoot,
 		str << "(";
 		// child1, ..., childn
 		int siblingCount = t.number_of_siblings(t.begin(iRoot));
-		int siblingNum;
+		int siblingNum = 0;
 		typename tree<T>::sibling_iterator iChildren;
 		for (iChildren = t.begin(iRoot), siblingNum = 0; iChildren != t.end(iRoot); ++iChildren, ++siblingNum) {
 			// recursively print child

@@ -988,7 +988,7 @@ struct WLNParser {
         unsigned int loc = 0;
         unsigned int elem = 0;
         unsigned int hcount = 0;
-        OpenBabel::OBAtom* aptr;
+        OpenBabel::OBAtom* aptr = nullptr;
 
         // Ring Atom Assignment
         for (;;) {
@@ -2541,7 +2541,7 @@ struct WLNParser {
     int parse_inorganic_salt(unsigned int cation, unsigned int ccount,
                              unsigned int anion, unsigned int acharge)
     {
-        unsigned int acount;
+        unsigned int acount = 0;
         if (ptr[0]=='*' && ptr[1]>='2' && ptr[1]<='9' && !ptr[2]) {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
@@ -2559,7 +2559,7 @@ struct WLNParser {
             cation = 0;
         }
 
-        OpenBabel::OBAtom* temp;
+        OpenBabel::OBAtom* temp = nullptr;
 
         for (unsigned int i=0; i<acount; i++) {
             switch (anion) {
@@ -2633,7 +2633,7 @@ struct WLNParser {
     int parse_inorganic_salt1(unsigned int cation, unsigned int ccount,
                               unsigned int anion)
     {
-        unsigned int acount;
+        unsigned int acount = 0;
         if (ptr[0]=='*' && ptr[1]>='2' && ptr[1]<='9' && !ptr[2]) {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
@@ -2644,8 +2644,8 @@ struct WLNParser {
             prev = atom(cation,0);
         } else return 0;
 
-        OpenBabel::OBAtom* temp;
-        OpenBabel::OBAtom* temp2;
+        OpenBabel::OBAtom* temp = nullptr;
+        OpenBabel::OBAtom* temp2 = nullptr;
 
         for (unsigned int i=0; i<acount; i++) {
             switch (anion) {
@@ -2886,7 +2886,7 @@ struct WLNParser {
 
         if (!cation)
             return 0;
-        unsigned int count;
+        unsigned int count = 0;
         if (ptr[2]>='2' && ptr[2]<='9' && ptr[3]==' ') {
             count = ptr[2]-'0';
             ptr += 4;

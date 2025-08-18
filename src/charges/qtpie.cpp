@@ -19,6 +19,7 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include "qtpie.h"
+#include <cmath>
 #include <openbabel/locale.h>
 #include <openbabel/oberror.h>
 #include <openbabel/generic.h>
@@ -126,7 +127,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     // Set the locale for number parsing to avoid locale issues: PR#1785463
     obLocale.SetLocale();
     Eigen::Vector3d P;
-    float radius;
+    float radius = NAN;
 
     while (ifs.getline(buffer, BUFF_SIZE)) {
       if (buffer[0] == '#')
@@ -183,7 +184,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     //Read in atomic information from OpenBabel molecule and parameterize
 
     //Read in total number of atoms
-    int i, N = mol.NumAtoms();
+    int i = 0, N = mol.NumAtoms();
 
     Hardness = Eigen::MatrixXd::Zero(N+1, N+1);
     Voltage = Eigen::VectorXd::Zero(N+1);
@@ -225,8 +226,8 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     double SmallestGaussianExponent = BasisSet.minCoeff();
     double CoulMaxDistance = 2 * sqrt(-log(CoulombThreshold) / SmallestGaussianExponent);
 
-    int j;
-    double R, Coulomb;
+    int j = 0;
+    double R = NAN, Coulomb = NAN;
     FOR_ATOMS_OF_MOL(atom1, mol)
     {
 	i = atom1->GetIdx() - 1;
@@ -260,7 +261,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     //This matrix can be sparse, but I didn't get Eigen's SparseMatrix to
     //play well with this - jiahao@mit.edu 2010-04-20 eigen-2.0.12 r3691
     Eigen::MatrixXd Overlap = Eigen::MatrixXd::Zero(N,N);
-    double OverlapVal;
+    double OverlapVal = NAN;
     FOR_ATOMS_OF_MOL(atom1, mol)
     {
 	i = atom1->GetIdx() - 1;
@@ -285,7 +286,7 @@ QTPIECharges theQTPIECharges("qtpie"); //Global instance
     for (i=0; i<N; i++) OvNorm[i] = 1.0 / (1.0 + Overlap.row(i).sum());
 
     // Calculate voltages
-    double PotentialDiff, Norm, ThisVoltage, ThisOverlap;
+    double PotentialDiff = NAN, Norm = NAN, ThisVoltage = NAN, ThisOverlap = NAN;
     for (i=0; i<N; i++)
     {
 	Norm = OvNorm[i];

@@ -32,6 +32,7 @@
 #include <sstream>
 #include <cstring>
 
+#include <cmath>
 #include <openbabel/obconversion.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -106,8 +107,8 @@ namespace OpenBabel {
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     int charge = 0;
@@ -155,7 +156,7 @@ namespace OpenBabel {
               {
                 OBVectorData *dipoleMoment = new OBVectorData;
                 dipoleMoment->SetAttribute("Dipole Moment");
-                double x, y, z;
+                double x = NAN, y = NAN, z = NAN;
                 x = atof(vs[2].c_str());
                 y = atof(vs[3].c_str());
                 z = atof(vs[4].c_str());
@@ -1080,7 +1081,7 @@ OBT41Format::GridData OBT41Format::ReadGridData( istream& is ) const
     is >> buf;
     if( buf != "unrestricted" ) return gd;
     eol( is );
-    char c;
+    char c = 0;
     is >> c;
     gd.unrestricted = ( c == 'T' );
 

@@ -118,7 +118,7 @@ namespace OpenBabel
 
     stringstream errorMsg;
 
-    unsigned int natoms;	// [ejk] assumed natoms could not be -ve
+    unsigned int natoms = 0;	// [ejk] assumed natoms could not be -ve
 
     if (!ifs)
       return false; // we're attempting to read past the end of the file
@@ -213,7 +213,7 @@ namespace OpenBabel
           atom->SetType(vs[0]);
 
         // Read the atom coordinates
-        char *endptr;
+        char *endptr = nullptr;
         double x = strtod((char*)vs[1].c_str(),&endptr);
         if (endptr == (char*)vs[1].c_str())
           {

@@ -188,7 +188,7 @@ namespace OpenBabel
 
   void Kekulizer::AssignDoubleBonds()
   {
-    int bit;
+    int bit = 0;
     for (bit = doubleBonds->FirstBit(); bit != doubleBonds->EndBit(); bit = doubleBonds->NextBit(bit)) {
       m_mol->GetBond(bit)->SetBondOrder(2);
     }
@@ -354,7 +354,7 @@ namespace OpenBabel
     unsigned int count = needs_dbl_bond->CountBits();
 
     unsigned int total_handled = 0;
-    int idx;
+    int idx = 0;
     for (idx = needs_dbl_bond->FirstBit(); idx != needs_dbl_bond->EndBit(); idx = needs_dbl_bond->NextBit(idx)) {
       total_handled++;
       // If there is no additional bit available to match this bit, then terminate

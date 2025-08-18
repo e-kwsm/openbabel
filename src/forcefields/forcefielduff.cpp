@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ************************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/locale.h>
@@ -54,7 +55,7 @@ namespace OpenBabel {
     }
 
     vector3 vab, da, db;
-    double delta2, dE;
+    double delta2 = NAN, dE = NAN;
 
     if (gradients) {
       rab = OBForceField::VectorBondDerivative(pos_a, pos_b, force_a, force_b);
@@ -121,7 +122,7 @@ namespace OpenBabel {
     }
 
     vector3 da, db, dc;
-		double dE;
+		double dE = NAN;
 
     if (gradients) {
       theta = OBForceField::VectorAngleDerivative(pos_a, pos_b, pos_c, force_a, force_b, force_c);
@@ -141,7 +142,7 @@ namespace OpenBabel {
     if (!isfinite(theta))
       theta = 0.0; // doesn't explain why GetAngle is returning NaN but solves it for us
 
-    double cosT;
+    double cosT = NAN;
 
     switch (coord) {
     case 1: // sp -- linear case, minima at 180 degrees, max (amplitude 2*ka) at 0, 360
@@ -171,7 +172,7 @@ namespace OpenBabel {
     }
 
     if (gradients) {
-      double sinT;
+      double sinT = NAN;
 
       switch (coord) {
       case 1: // sp -- linear case
@@ -247,8 +248,8 @@ namespace OpenBabel {
     }
 
     vector3 da, db, dc, dd;
-    double cosine;
-    double dE;
+    double cosine = NAN;
+    double dE = NAN;
 
     if (gradients) {
       tor = OBForceField::VectorTorsionDerivative(pos_a, pos_b, pos_c, pos_d,
@@ -344,7 +345,7 @@ namespace OpenBabel {
     }
 
     vector3 da, db, dc, dd;
-    double dE;
+    double dE = NAN;
 
     if (gradients) {
       angle = OBForceField::VectorOOPDerivative(pos_a, pos_b, pos_c, pos_d,
@@ -416,7 +417,7 @@ namespace OpenBabel {
     }
 
     vector3 da, db;
-    double term6, term12, dE, term7, term13, rabSquared = 0.0;
+    double term6 = NAN, term12 = NAN, dE = NAN, term7 = NAN, term13 = NAN, rabSquared = 0.0;
 
     if (gradients) {
       rab = OBForceField::VectorDistanceDerivative(pos_a, pos_b, force_a, force_b);
@@ -507,7 +508,7 @@ namespace OpenBabel {
     }
 
     vector3 da, db;
-    double dE, rab2;
+    double dE = NAN, rab2 = NAN;
 
     if (gradients) {
       da = a->GetVector();
@@ -603,9 +604,9 @@ namespace OpenBabel {
 
   double CalculateBondDistance(OBFFParameter *i, OBFFParameter *j, double bondorder)
   {
-    double ri, rj;
-    double chiI, chiJ;
-    double rbo, ren;
+    double ri = NAN, rj = NAN;
+    double chiI = NAN, chiJ = NAN;
+    double rbo = NAN, ren = NAN;
     ri = i->_dpar[0];
     rj = j->_dpar[0];
     chiI = i->_dpar[8];
@@ -624,7 +625,7 @@ namespace OpenBabel {
 
   bool OBForceFieldUFF::SetupVDWCalculation(OBAtom *a, OBAtom *b, OBFFVDWCalculationUFF &vdwcalc)
   {
-    OBFFParameter *parameterA, *parameterB;
+    OBFFParameter *parameterA = nullptr, *parameterB = nullptr;
     parameterA = GetParameterUFF(a->GetType(), _ffparams);
     parameterB = GetParameterUFF(b->GetType(), _ffparams);
 
@@ -664,7 +665,7 @@ namespace OpenBabel {
 
   int GetCoordination(OBAtom *b, int ipar)
   {
-    int coordination;
+    int coordination = 0;
 
     // Work out coordination
     // including possible hypervalent compounds
@@ -739,9 +740,9 @@ namespace OpenBabel {
 
   bool OBForceFieldUFF::SetupCalculations()
   {
-    OBFFParameter *parameterA, *parameterB, *parameterC;
-    OBAtom *a, *b, *c, *d;
-    double bondorder;
+    OBFFParameter *parameterA = nullptr, *parameterB = nullptr, *parameterC = nullptr;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr, *d = nullptr;
+    double bondorder = NAN;
     OBFFBondCalculationUFF bondcalc;
     OBFFAngleCalculationUFF anglecalc;
     OBFFTorsionCalculationUFF torsioncalc;
@@ -760,7 +761,7 @@ namespace OpenBabel {
 
     // Clear and reset any 5-coordinate axial/equatorial marks (i.e., strange coordination)
     // Now should fit standard VSEPR rules, although we can't easily handle lone pairs
-    int coordination;
+    int coordination = 0;
     FOR_ATOMS_OF_MOL(atom, _mol) {
       // remove any previous designation
       atom->DeleteData("UFF_AXIAL_ATOM");
@@ -782,8 +783,8 @@ namespace OpenBabel {
 
       if (GetCoordination(&*atom, parameterB->_ipar[0]) == 5) { // we need to do work for trigonal-bipy!
         // First, find the two largest neighbors
-        OBAtom *largestNbr, *current, *secondLargestNbr = nullptr;
-        double largestRadius;
+        OBAtom *largestNbr = nullptr, *current = nullptr, *secondLargestNbr = nullptr;
+        double largestRadius = NAN;
         OBBondIterator i;
         largestNbr = atom->BeginNbrAtom(i);
         // work out the radius
@@ -845,8 +846,8 @@ namespace OpenBabel {
       } // end work for 5-coordinate angles
       if (GetCoordination(&*atom, parameterB->_ipar[0]) == 7) { // pentagonal bipyramidal
         // First, find the two largest neighbors
-        OBAtom *largestNbr, *current, *secondLargestNbr = nullptr;
-        double largestRadius;
+        OBAtom *largestNbr = nullptr, *current = nullptr, *secondLargestNbr = nullptr;
+        double largestRadius = NAN;
         OBBondIterator i;
         largestNbr = atom->BeginNbrAtom(i);
         // work out the radius
@@ -975,9 +976,9 @@ namespace OpenBabel {
     IF_OBFF_LOGLVL_LOW
       OBFFLog("SETTING UP ANGLE CALCULATIONS...\n");
 
-    double sinT0;
-		double rab, rbc, rac;
-		OBBond *bondPtr;
+    double sinT0 = NAN;
+		double rab = NAN, rbc = NAN, rac = NAN;
+		OBBond *bondPtr = nullptr;
     FOR_ANGLES_OF_MOL(angle, _mol) {
       b = _mol.GetAtom((*angle)[0] + 1);
       a = _mol.GetAtom((*angle)[1] + 1);
@@ -1048,7 +1049,7 @@ namespace OpenBabel {
       } else if (coordination == 7) { // pentagonal bipyramidal
         // This doesn't work so well because it's hard to classify between
         // axial-equatorial (90 degrees) and proximal equatorial (~72 degrees).
-        double currentTheta;
+        double currentTheta = NAN;
         currentTheta =  a->GetAngle(&*b, &*c);
 
         anglecalc.c0 = 1.0;
@@ -1195,10 +1196,10 @@ namespace OpenBabel {
     IF_OBFF_LOGLVL_LOW
       OBFFLog("SETTING UP TORSION CALCULATIONS...\n");
 
-    double torsiontype;
+    double torsiontype = NAN;
     double phi0 = 0.0;
 
-    double vi, vj;
+    double vi = NAN, vj = NAN;
     FOR_TORSIONS_OF_MOL(t, _mol) {
       a = _mol.GetAtom((*t)[0] + 1);
       b = _mol.GetAtom((*t)[1] + 1);
@@ -1346,7 +1347,7 @@ namespace OpenBabel {
     IF_OBFF_LOGLVL_LOW
       OBFFLog("SETTING UP OOP CALCULATIONS...\n");
 
-    double phi;
+    double phi = NAN;
     // The original Rappe paper in JACS isn't very clear about the parameters
     // The following was adapted from Towhee
     FOR_ATOMS_OF_MOL(atom, _mol) {
@@ -1534,7 +1535,7 @@ namespace OpenBabel {
     //
     // Electrostatic Calculations
     //
-    OBAtom *a, *b;
+    OBAtom *a = nullptr, *b = nullptr;
 
     IF_OBFF_LOGLVL_LOW
       OBFFLog("SETTING UP ELECTROSTATIC CALCULATIONS...\n");
@@ -1703,7 +1704,7 @@ namespace OpenBabel {
     vector<pair<OBSmartsPattern*,string> > _vexttyp; //!< external atom type rules
     vector<vector<int> >::iterator j;
     vector<pair<OBSmartsPattern*,string> >::iterator i;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
     vector<string> vs;
     char buffer[BUFF_SIZE];
 
@@ -1748,7 +1749,7 @@ namespace OpenBabel {
       if (a->GetAtomicNum() == 15) {
         // loop through all the neighbors and see if we have a metal coordination
         bool organomet = false;
-        int nbrElement;
+        int nbrElement = 0;
         FOR_NBORS_OF_ATOM (nbr, &*a) {
           nbrElement = nbr->GetAtomicNum();
           if ( (nbrElement >= 21 && nbrElement <= 31) // Sc to Ga
@@ -1793,7 +1794,7 @@ namespace OpenBabel {
 
   double OBForceFieldUFF::Energy(bool gradients)
   {
-    double energy;
+    double energy = NAN;
 
     IF_OBFF_LOGLVL_MEDIUM
       OBFFLog("\nE N E R G Y\n\n");
@@ -1839,7 +1840,7 @@ namespace OpenBabel {
   {
     vector3 numgrad, anagrad, err;
     bool passed = true; // set to false if any component fails
-    int coordIdx;
+    int coordIdx = 0;
 
     OBFFLog("\nV A L I D A T E   G R A D I E N T S\n\n");
     OBFFLog("ATOM IDX      NUMERICAL GRADIENT           ANALYTICAL GRADIENT        REL. ERROR (%)   \n");

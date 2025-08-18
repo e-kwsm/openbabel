@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -79,7 +80,7 @@ namespace OpenBabel
     ofs << mol.GetTitle() << endl;
     ofs << " " << mol.NumAtoms() << " " << mol.NumBonds() << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     for(atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
@@ -91,7 +92,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
 
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
 
     for(bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
@@ -117,11 +118,11 @@ namespace OpenBabel
     const char* title = pConv->GetTitle();
 
     char buffer[BUFF_SIZE];
-    unsigned int natoms, nbonds;
-    unsigned int bgn, end, order;
+    unsigned int natoms = 0, nbonds = 0;
+    unsigned int bgn = 0, end = 0, order = 0;
     vector<string> vs;
-    OBAtom *atom;
-    double x, y, z;
+    OBAtom *atom = nullptr;
+    double x = NAN, y = NAN, z = NAN;
 
     mol.SetDimension(2);
     mol.BeginModify();

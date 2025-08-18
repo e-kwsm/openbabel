@@ -67,14 +67,14 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   // 4 is fast      (OBBuilder + FF cleanup)
   // 5 is fastest   (only OBBuilder)
   // 6 is DistanceGeometry
-  int speed;
+  int speed = 0;
   bool useDistGeom = false;
 
   if (!OptionText)
     OptionText = "";
 
   // first try converting OptionText to an integer
-  char *endptr;
+  char *endptr = nullptr;
   speed = strtol(OptionText, &endptr, 10);
   if (endptr == OptionText) { // not a number
     speed = 3; // we'll default to balanced

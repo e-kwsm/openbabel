@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #ifdef _WIN32
@@ -250,7 +251,7 @@ namespace OpenBabel
     stringstream errorMsg;
     string clearError; // empty string to clear the warning buffer
 
-    int i, natoms, nbonds;
+    int i = 0, natoms = 0, nbonds = 0;
     //char buffer[BUFF_SIZE];
     string comment;
     string r1, r2;
@@ -406,12 +407,12 @@ namespace OpenBabel
     } else {
       // V2000
       mol.ReserveAtoms(natoms);
-      double x,y,z;
+      double x = NAN,y = NAN,z = NAN;
       string symbol;
       //
       // Atom Block
       //
-      int massdiff, charge, stereo;
+      int massdiff = 0, charge = 0, stereo = 0;
       vector<int> massDiffs, charges;
       Parity parity;
       for (i = 0; i < natoms; ++i) {
@@ -520,7 +521,7 @@ namespace OpenBabel
       //
       stereo = 0;
       bool needs_kekulization = false; // Have we have found an aromatic bond?
-      unsigned int begin, end, order, flag;
+      unsigned int begin = 0, end = 0, order = 0, flag = 0;
       for (i = 0;i < nbonds; ++i) {
         flag = 0;
         if (!std::getline(ifs, line)) {
@@ -676,7 +677,7 @@ namespace OpenBabel
           int number = ReadUIntField((line.substr(pos,3)).c_str());
           int value = ReadUIntField((line.substr(pos+4,3)).c_str());
           if (line.substr(3, 3) == "ZBO") {
-            OBBond *bo;
+            OBBond *bo = nullptr;
             if (number == 0 || (bo = mol.GetBond(number-1)) == nullptr) {
               obErrorLog.ThrowError(__FUNCTION__, "Error in line:\n" + line, obError);
               return false;
@@ -684,7 +685,7 @@ namespace OpenBabel
             bo->SetBondOrder(value);
             foundZBO = true;
           } else {
-            OBAtom *at;
+            OBAtom *at = nullptr;
             if (number == 0 || (at = mol.GetAtom(number)) == nullptr) {
               obErrorLog.ThrowError(__FUNCTION__, "Error in line:\n" + line, obError);
               return false;
@@ -794,7 +795,7 @@ namespace OpenBabel
         // So, if the valence field was specified use that, otherwise
         // use the implicit valence adjusted by any M RAD.
         std::map<OBAtom*, int>::const_iterator mit = specified_valence.find(&*atom);
-        unsigned int impval;
+        unsigned int impval = 0;
         if (mit != specified_valence.end()) {
           impval = mit->second;
           if (impval < expval) {
@@ -808,7 +809,7 @@ namespace OpenBabel
           impval = MDLValence(elem, charge, expval);
           // adjust for M RAD
           int mult = atom->GetSpinMultiplicity();
-          int delta;
+          int delta = 0;
           switch (mult) {
           case 0:
             delta = 0; break;
@@ -939,7 +940,7 @@ namespace OpenBabel
       }
     }
 
-    OBPairData* pd;
+    OBPairData* pd = nullptr;
     if (pmol->HasData("ASCII depiction"))
       pd = (OBPairData*)pmol->GetData("ASCII depiction");
     else {
@@ -1158,7 +1159,7 @@ namespace OpenBabel
                mol.NumAtoms(), mol.NumBonds(), chiralFlag);
       ofs << buff;
 
-      OBAtom *atom;
+      OBAtom *atom = nullptr;
       vector<OBAtom*>::iterator i;
       unsigned int aclass = 0;
       int charge = 0;
@@ -1181,7 +1182,7 @@ namespace OpenBabel
         int expval = atom->GetExplicitValence();
         int impval = MDLValence(atom->GetAtomicNum(), atom->GetFormalCharge(), expval);
         int actual_impval = expval + atom->GetImplicitHCount();
-        int valence;
+        int valence = 0;
         int spin = atom->GetSpinMultiplicity(); // the spin condition below is used for "M  RAD"
         if (!alwaysSpecifyValence && actual_impval == impval && (spin == 0 || spin >= 4))
           valence = 0;
@@ -1209,8 +1210,8 @@ namespace OpenBabel
         ofs << buff << endl;
       }
 
-      OBAtom *nbr;
-      OBBond *bond;
+      OBAtom *nbr = nullptr;
+      OBBond *bond = nullptr;
       vector<OBBond*>::iterator j;
       int bondline = 0;
       vector<int> zbos;
@@ -1495,7 +1496,7 @@ namespace OpenBabel
   {
     OBAtom atom;
     bool chiralWatch=false;
-    int obindex;
+    int obindex = 0;
     for(obindex=1;;obindex++)
       {
         if(!ReadV3000Line(ifs,vs)) return false;
@@ -1654,7 +1655,7 @@ namespace OpenBabel
         << " 0 0 " << chiralFlag << endl;
 
     ofs << "M  V30 BEGIN ATOM" <<endl;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     int index=1;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
@@ -1679,8 +1680,8 @@ namespace OpenBabel
     ofs << "M  V30 BEGIN BOND" <<endl;
     //so the bonds come out sorted
     index=1;
-    OBAtom *nbr;
-    OBBond *bond;
+    OBAtom *nbr = nullptr;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
@@ -1713,8 +1714,8 @@ namespace OpenBabel
   {
     char td[11];
     //returns MMDDYYHHmm
-    struct tm* ts;
-    time_t long_time;
+    struct tm* ts = nullptr;
+    time_t long_time = 0;
     time( &long_time );
     ts = localtime( &long_time );
     snprintf(td, 11, "%02d%02d%02d%02d%02d", ts->tm_mon+1, ts->tm_mday,
@@ -1739,7 +1740,7 @@ namespace OpenBabel
     }
 
     // Initialise two opposite configurations for up/downness
-    bool use_alt_config;
+    bool use_alt_config = false;
     vector<OBStereo::BondDirection> config(4), alt_config(4);
     config[0] = OBStereo::UpBond;   config[3] = config[0];
     config[1] = OBStereo::DownBond; config[2] = config[1];
@@ -1897,7 +1898,7 @@ namespace OpenBabel
 
   int MDLFormat::ReadIntField(const char *s)
   {
-    char *end;
+    char *end = nullptr;
     if (s == nullptr) return 0;
     int n = strtol(s, &end, 10);
     if (*end != '\0' && *end != ' ') return 0;
@@ -1906,7 +1907,7 @@ namespace OpenBabel
 
   unsigned int MDLFormat::ReadUIntField(const char *s)
   {
-    char *end;
+    char *end = nullptr;
     if (s == nullptr) return 0;
     int n = strtoul(s, &end, 10);
     if (*end != '\0' && *end != ' ') return 0;

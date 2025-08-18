@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #ifndef OB_ROTOR_H
 #define OB_ROTOR_H
 
+#include <cmath>
 #include <openbabel/parsmart.h>
 #include <openbabel/typer.h>
 #include <openbabel/bitvec.h>
@@ -219,7 +220,7 @@ namespace OpenBabel
      */
     inline void SetToAngle(double *coordinates, double setang)
     {
-      double /*dx,dy,dz,*/ sn,cs,t,ang,mag;
+      double /*dx,dy,dz,*/ sn = NAN,cs = NAN,t = NAN,ang = NAN,mag = NAN;
       // compute the angle to rotate (radians)
       ang = setang - CalcTorsion(coordinates);
       // if the angle to rotate is too small, we're done

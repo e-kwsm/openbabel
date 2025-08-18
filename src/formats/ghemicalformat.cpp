@@ -12,6 +12,7 @@
   GNU General Public License for more details.
  ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -81,16 +82,16 @@ namespace OpenBabel
     OBMol &mol = *pmol;
     const char* title = pConv->GetTitle();
 
-    int i;
-    int natoms, nbonds;
+    int i = 0;
+    int natoms = 0, nbonds = 0;
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
     char bobuf[100];
     string bostr;
-    int bgn,end,order;
+    int bgn = 0,end = 0,order = 0;
     bool hasPartialCharges = false;
 
     mol.BeginModify();
@@ -233,7 +234,7 @@ namespace OpenBabel
     // Bond definitions
     ofs << "!Bonds " << mol.NumBonds() << '\n';
 
-    char bond_char;
+    char bond_char = 0;
     FOR_BONDS_OF_MOL(bond, mol)
     {
       switch(bond->GetBondOrder())

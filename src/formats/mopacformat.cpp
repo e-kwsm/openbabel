@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -78,12 +79,12 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
     vector<double> charges;
     bool hasPartialCharges = false;
-    double energy;
+    double energy = NAN;
     OBVectorData *dipoleMoment = nullptr;
     bool readingVibrations = false;
     vector< vector<vector3> > displacements; // vibrational displacements
@@ -356,7 +357,7 @@ namespace OpenBabel
               delete dipoleMoment;
 
               dipoleMoment = new OBVectorData;
-              double x, y, z;
+              double x = NAN, y = NAN, z = NAN;
               x = atof(vs[1].c_str());
               y = atof(vs[2].c_str());
               z = atof(vs[3].c_str());
@@ -647,8 +648,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str, atomLabel, elementSymbol;
-    double x,y,z, isotopeMass;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN, isotopeMass = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     // Translation vectors (if present)
@@ -878,7 +879,7 @@ namespace OpenBabel
     const char* title= pConv->GetTitle();
 
     char buffer[BUFF_SIZE];
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     vector<OBInternalCoord*> vic;
@@ -969,7 +970,7 @@ namespace OpenBabel
     OBMol &mol = *pmol;
 
     char type[16], buffer[BUFF_SIZE];
-    OBAtom *a,*b,*c;
+    OBAtom *a = nullptr,*b = nullptr,*c = nullptr;
 
     vector<OBInternalCoord*> vic;
     vic.push_back(nullptr);
@@ -1004,7 +1005,7 @@ namespace OpenBabel
     ofs << mol.GetTitle() << endl;
     ofs << endl; // comment
 
-    double r,w,t;
+    double r = NAN,w = NAN,t = NAN;
     FOR_ATOMS_OF_MOL (atom, mol) {
       a = vic[atom->GetIdx()]->_a;
       b = vic[atom->GetIdx()]->_b;

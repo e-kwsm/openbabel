@@ -20,6 +20,7 @@ GNU General Public License for more details.
 
 #include <sstream>
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -126,7 +127,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       voxels[2] = atoi(vs[7].c_str());
     }
 
-    double x, y, z;
+    double x = NAN, y = NAN, z = NAN;
     if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "origin", 6))
       return false;
     else {
@@ -172,7 +173,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     gd->SetAttribute("OpenDX");
 
     // get all values as one vector<double>
-    char *endptr;
+    char *endptr = nullptr;
     vector<double> values;
     int n = voxels[0]*voxels[1]*voxels[2];
     int line = 0;
@@ -268,7 +269,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     else
       ofs << "# Molecule Title: " << str << "\n";
 
-    int nx, ny, nz;
+    int nx = 0, ny = 0, nz = 0;
     double origin[3], xAxis[3], yAxis[3], zAxis[3];
     gd->GetAxes(xAxis, yAxis, zAxis);
     gd->GetNumberOfPoints(nx, ny, nz);
@@ -307,7 +308,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     ofs << buffer << "\n";
 
     // The cube(s)
-    double value;
+    double value = NAN;
     unsigned int count = 1;
     for (int i = 0; i < nx; ++i)
     {

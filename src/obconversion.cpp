@@ -808,13 +808,13 @@ namespace OpenBabel {
 
   OBFormat* OBConversion::FormatFromExt(const char* filename)
   {
-    bool isgzip;
+    bool isgzip = false;
     return FormatFromExt(filename, isgzip);
   }
 
   OBFormat* OBConversion::FormatFromExt(const std::string filename)
   {
-    bool gzip;
+    bool gzip = false;
     return FormatFromExt(filename.c_str(), gzip);
   }
 
@@ -1240,7 +1240,7 @@ namespace OpenBabel {
     //If name without the extensions are the same issue warning and return true;
     //Otherwise return true
     string inname1, inname2;
-    string::size_type pos;
+    string::size_type pos = 0;
     pos = infile.rfind('.');
     if(pos != string::npos)
       inname1 = infile.substr(0,pos);
@@ -1763,7 +1763,7 @@ Additional options :
 
     //counts objects only between the values of -f and -l options
     int nfirst=1, nlast=numeric_limits<int>::max();
-    const char* p;
+    const char* p = nullptr;
     if( (p=IsOption("f", GENOPTIONS)) ) // extra parens to indicate truth value
       nfirst=atoi(p);
     if( (p=IsOption("l", GENOPTIONS)) ) // extra parens to indicate truth value

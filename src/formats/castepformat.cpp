@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -91,12 +92,12 @@ namespace OpenBabel {
     bool hasPressureData = false;
     bool hasVolumeData = false;
     bool hasEnthalpyData = false;
-    double pressure, volume, enthalpy;
+    double pressure = NAN, volume = NAN, enthalpy = NAN;
     char buffer[BUFF_SIZE], tag[BUFF_SIZE];
-    double x,y,z,a,b,c,alpha,beta,gamma;
+    double x = NAN,y = NAN,z = NAN,a = NAN,b = NAN,c = NAN,alpha = NAN,beta = NAN,gamma = NAN;
     vector<string> vs;
     matrix3x3 ortho;
-    int atomicNum;
+    int atomicNum = 0;
     OBUnitCell *cell = new OBUnitCell();
     pmol->BeginModify();
 
@@ -190,8 +191,8 @@ namespace OpenBabel {
     // Set energy/enthalpy/pv etc
     if (hasEnthalpyData) {
       if (hasVolumeData && hasPressureData) {
-        double energy, pv;
-        double enthalpy_ev, pv_ev;
+        double energy = NAN, pv = NAN;
+        double enthalpy_ev = NAN, pv_ev = NAN;
         pv = volume * pressure * GPA_A3_TO_KCAL_PER_MOL;
         energy = enthalpy - pv;
 

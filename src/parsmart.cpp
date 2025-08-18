@@ -192,7 +192,7 @@ namespace OpenBabel
 
   static AtomExpr *CopyAtomExpr( AtomExpr *expr )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->type = expr->type;
@@ -248,7 +248,7 @@ namespace OpenBabel
 
   static AtomExpr *BuildAtomPred( int type )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->leaf.type = type;
@@ -258,7 +258,7 @@ namespace OpenBabel
 
   static AtomExpr *BuildAtomLeaf( int type, int val )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->leaf.type = type;
@@ -268,7 +268,7 @@ namespace OpenBabel
 
   static AtomExpr *BuildAtomNot( AtomExpr *expr )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->mon.type = AE_NOT;
@@ -278,7 +278,7 @@ namespace OpenBabel
 
   static AtomExpr *BuildAtomBin( int op, AtomExpr *lft, AtomExpr *rgt )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->bin.type = op;
@@ -289,7 +289,7 @@ namespace OpenBabel
 
   static AtomExpr *BuildAtomRecurs( Pattern *pat )
   {
-    AtomExpr *result;
+    AtomExpr *result = nullptr;
 
     result = new AtomExpr;
     result->recur.type = AE_RECUR;
@@ -314,7 +314,7 @@ namespace OpenBabel
 
   static BondExpr *CopyBondExpr( BondExpr *expr )
   {
-    BondExpr *result;
+    BondExpr *result = nullptr;
 
     result = new BondExpr;
     result->type = expr->type;
@@ -397,7 +397,7 @@ namespace OpenBabel
 
   static BondExpr *BuildBondLeaf( int type )
   {
-    BondExpr *result;
+    BondExpr *result = nullptr;
 
     result = new BondExpr;
     result->type = type;
@@ -406,7 +406,7 @@ namespace OpenBabel
 
   static BondExpr *BuildBondNot( BondExpr *expr )
   {
-    BondExpr *result;
+    BondExpr *result = nullptr;
 
     result = new BondExpr;
     result->mon.type = BE_NOT;
@@ -416,7 +416,7 @@ namespace OpenBabel
 
   static BondExpr *BuildBondBin( int op, BondExpr *lft, BondExpr *rgt )
   {
-    BondExpr *result;
+    BondExpr *result = nullptr;
 
     result = new BondExpr;
     result->bin.type = op;
@@ -436,7 +436,7 @@ namespace OpenBabel
 
   static Pattern *AllocPattern( void )
   {
-    Pattern *ptr;
+    Pattern *ptr = nullptr;
 
     ptr = new Pattern;
     if( !ptr ) {
@@ -460,7 +460,7 @@ namespace OpenBabel
 
   static int CreateAtom( Pattern *pat, AtomExpr *expr, int part,int vb)
   {
-    int index,size;
+    int index = 0,size = 0;
 
     if (!pat)
       return -1; // should never happen
@@ -492,7 +492,7 @@ namespace OpenBabel
 
   static int CreateBond( Pattern *pat, BondExpr *expr, int src, int dst )
   {
-    int index,size;
+    int index = 0,size = 0;
 
     if (!pat)
       return -1; // should never happen
@@ -523,10 +523,10 @@ namespace OpenBabel
 
   static Pattern *CopyPattern( Pattern *pat )
   {
-    Pattern *result;
-    AtomExpr *aexpr;
-    BondExpr *bexpr;
-    int i;
+    Pattern *result = nullptr;
+    AtomExpr *aexpr = nullptr;
+    BondExpr *bexpr = nullptr;
+    int i = 0;
 
     result = AllocPattern();
     result->parts = pat->parts;
@@ -547,7 +547,7 @@ namespace OpenBabel
 
   static void FreePattern( Pattern *pat )
   {
-    int i;
+    int i = 0;
 
     if( pat )
       {
@@ -656,8 +656,8 @@ namespace OpenBabel
 
   AtomExpr *OBSmartsPattern::ParseComplexAtomPrimitive( void )
   {
-    Pattern *pat;
-    int index;
+    Pattern *pat = nullptr;
+    int index = 0;
 
     switch( *LexPtr++ )
       {
@@ -1176,7 +1176,7 @@ namespace OpenBabel
   {
     AtomExpr *expr1 = nullptr;
     AtomExpr *expr2 = nullptr;
-    char *prev;
+    char *prev = nullptr;
 
     switch( level )
       {
@@ -1276,7 +1276,7 @@ namespace OpenBabel
   {
     BondExpr *expr1 = nullptr;
     BondExpr *expr2 = nullptr;
-    char *prev;
+    char *prev = nullptr;
 
     switch( level )
       {
@@ -1376,9 +1376,9 @@ namespace OpenBabel
                                 int prev, int part )
   {
     int vb = 0;
-    AtomExpr *aexpr;
-    BondExpr *bexpr;
-    int index;
+    AtomExpr *aexpr = nullptr;
+    BondExpr *bexpr = nullptr;
+    int index = 0;
 
     aexpr = nullptr;
     bexpr = nullptr;
@@ -1584,7 +1584,7 @@ namespace OpenBabel
 
   static void MarkGrowBonds(Pattern *pat)
   {
-    int i;
+    int i = 0;
     OBBitVec bv;
 
     for (i = 0;i < pat->bcount;++i)
@@ -1599,7 +1599,7 @@ namespace OpenBabel
 
   static int GetChiralFlag(AtomExpr *expr)
   {
-    int tmp1,tmp2;
+    int tmp1 = 0,tmp2 = 0;
 
     switch (expr->type)
       {
@@ -1636,7 +1636,7 @@ namespace OpenBabel
   Pattern *OBSmartsPattern::ParseSMARTSPart( Pattern *result, int part )
   {
     ParseState stat;
-    int i,flag;
+    int i = 0,flag = 0;
 
     for( i=0; i<100; i++ ) {
       stat.closure[i] = -1;
@@ -1677,7 +1677,7 @@ namespace OpenBabel
 
   Pattern *OBSmartsPattern::ParseSMARTSPattern( void )
   {
-    Pattern *result;
+    Pattern *result = nullptr;
     result = AllocPattern();
 
     while( *LexPtr == '(' )
@@ -1711,7 +1711,7 @@ namespace OpenBabel
 
   Pattern *OBSmartsPattern::ParseSMARTSString( char *ptr )
   {
-    Pattern *result;
+    Pattern *result = nullptr;
 
     if( !ptr || !*ptr )
       return nullptr;
@@ -1725,7 +1725,7 @@ namespace OpenBabel
 
   Pattern *OBSmartsPattern::ParseSMARTSRecord( char *ptr )
   {
-    char *src;
+    char *src = nullptr;
 
     src = ptr;
     while( *src && !isspace(*src) )
@@ -1823,7 +1823,7 @@ namespace OpenBabel
     if((mtype == AllUnique) && mlist.size() > 1)
     {
     	//uniquify
-         bool ok;
+         bool ok = false;
         OBBitVec bv;
         std::vector<OBBitVec> vbv;
         std::vector<std::vector<int> > ulist;
@@ -1856,7 +1856,7 @@ namespace OpenBabel
                                         std::vector<std::pair<int,int> > &pr,
                                         bool single)
   {
-    bool ok;
+    bool ok = false;
     std::vector<std::vector<int> > mlist;
     std::vector<std::vector<int> >::iterator i;
     std::vector<std::pair<int,int> >::iterator j;
@@ -1885,7 +1885,7 @@ namespace OpenBabel
 
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
   {
-    bool ok;
+    bool ok = false;
     std::vector<int>::iterator j;
     std::vector<std::vector<int> > mlist;
     std::vector<std::vector<int> >::iterator i;
@@ -1920,13 +1920,13 @@ namespace OpenBabel
   void OBSmartsMatcher::SetupAtomMatchTable(std::vector<std::vector<bool> > &ttab,
                            const Pattern *pat, OBMol &mol)
   {
-    int i;
+    int i = 0;
 
     ttab.resize(pat->acount);
     for (i = 0;i < pat->acount;++i)
       ttab[i].resize(mol.NumAtoms()+1);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     std::vector<OBAtom*>::iterator j;
     for (i = 0;i < pat->acount;++i)
       for (atom = mol.BeginAtom(j);atom;atom = mol.NextAtom(j))
@@ -1937,7 +1937,7 @@ namespace OpenBabel
   void OBSmartsMatcher::FastSingleMatch(OBMol &mol, const Pattern *pat,
                               std::vector<std::vector<int> > &mlist)
   {
-    OBAtom *atom,*a1,*nbr;
+    OBAtom *atom = nullptr,*a1 = nullptr,*nbr = nullptr;
     std::vector<OBAtom*>::iterator i;
 
     OBBitVec bv(mol.NumAtoms()+1);
@@ -1952,7 +1952,7 @@ namespace OpenBabel
         vi.resize(pat->bcount);
       }
 
-    int bcount;
+    int bcount = 0;
     for (atom = mol.BeginAtom(i);atom;atom=mol.NextAtom(i))
       if (EvalAtomExpr(pat->atom[0].expr,atom))
         {
@@ -2092,7 +2092,7 @@ namespace OpenBabel
             smartsConfig.from = OBStereo::ImplicitRef;
           else
             smartsConfig.from = mol.GetAtom( (*m)[nbrs.at(0)] )->GetId();
-          OBStereo::Ref firstref;
+          OBStereo::Ref firstref = 0;
           if (nbrs.at(1) == SmartsImplicitRef)
             firstref = OBStereo::ImplicitRef;
           else
@@ -2289,7 +2289,7 @@ namespace OpenBabel
     if (_mlist.empty() || _mlist.size() == 1)
       return(_mlist);
 
-    bool ok;
+    bool ok = false;
     OBBitVec bv;
     std::vector<OBBitVec> vbv;
     std::vector<std::vector<int> > mlist;
@@ -2360,7 +2360,7 @@ namespace OpenBabel
 	  OBSmartsMatcher matcher;
     if (bidx == -1)
       {
-        OBAtom *atom;
+        OBAtom *atom = nullptr;
         std::vector<OBAtom*>::iterator i;
         for (atom = _mol->BeginAtom(i);atom;atom = _mol->NextAtom(i))
           if (matcher.EvalAtomExpr(_pat->atom[0].expr,atom))
@@ -2390,7 +2390,7 @@ namespace OpenBabel
 
         AtomExpr *aexpr = _pat->atom[dst].expr;
         BondExpr *bexpr = _pat->bond[bidx].expr;
-        OBAtom *atom,*nbr;
+        OBAtom *atom = nullptr,*nbr = nullptr;
         std::vector<OBBond*>::iterator i;
 
         atom = _mol->GetAtom(_map[src]);
@@ -2416,7 +2416,7 @@ namespace OpenBabel
 
   static int GetExprOrder(BondExpr *expr)
   {
-    int tmp1,tmp2;
+    int tmp1 = 0,tmp2 = 0;
 
     switch( expr->type )
       {
@@ -2455,7 +2455,7 @@ namespace OpenBabel
 
   static int GetExprCharge(AtomExpr *expr)
   {
-    int tmp1,tmp2;
+    int tmp1 = 0,tmp2 = 0;
 
     switch( expr->type )
       {
@@ -2490,7 +2490,7 @@ namespace OpenBabel
 
   static int GetExprAtomicNum(AtomExpr *expr)
   {
-    int tmp1,tmp2;
+    int tmp1 = 0,tmp2 = 0;
 
     switch( expr->type )
       {
@@ -2534,7 +2534,7 @@ namespace OpenBabel
 
   void SmartsLexReplace(std::string &s,std::vector<std::pair<std::string,std::string> > &vlex)
   {
-    size_t j,pos;
+    size_t j = 0,pos = 0;
     std::string token,repstr;
     std::vector<std::pair<std::string,std::string> >::iterator i;
 

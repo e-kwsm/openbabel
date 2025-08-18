@@ -26,6 +26,7 @@ GNU General Public License for more details.
 #include <openbabel/obconversion.h>
 #include <openbabel/groupcontrib.h>
 #include <openbabel/obutil.h>
+#include <cmath>
 #include <cstdlib>
 
 #include <cstdio>
@@ -67,7 +68,7 @@ int logp_psa(int argc, char* argv[])
   
   OBDescriptor* obLogP = OBDescriptor::FindType("logP");
   OBDescriptor* obPSA  = OBDescriptor::FindType("TPSA");
-  double logP, psa;
+  double logP = NAN, psa = NAN;
 
   cout << "ok 1\n"; // for loading tests
   

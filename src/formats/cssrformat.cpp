@@ -100,11 +100,11 @@ namespace OpenBabel
     snprintf(buffer, BUFF_SIZE, "%4d   1 %s\n",mol.NumAtoms(), mol.GetTitle());
     ofs << buffer << endl << endl;
 
-    OBAtom *atom,*nbr;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
     vector<int> vtmp(106,0);
-    int bonds;
+    int bonds = 0;
 
     for(atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {

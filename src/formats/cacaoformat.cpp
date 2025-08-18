@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -83,8 +84,8 @@ namespace OpenBabel
     mol.SetTitle( pConv->GetTitle()); //default title is the filename
 
     char buffer[BUFF_SIZE];
-    int natoms;
-    double A,B,C,Alpha,Beta,Gamma;
+    int natoms = 0;
+    double A = NAN,B = NAN,C = NAN,Alpha = NAN,Beta = NAN,Gamma = NAN;
     matrix3x3 m;
 
     ifs.getline(buffer,BUFF_SIZE);
@@ -115,9 +116,9 @@ namespace OpenBabel
     uc->SetOrigin(fileformatInput);
     mol.SetData(uc);
 
-    int i;
-    double x,y,z;
-    OBAtom *atom;
+    int i = 0;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector3 v;
 
     mol.BeginModify();
@@ -172,7 +173,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     char buffer[BUFF_SIZE];
     vector<OBAtom*>::iterator i;
 
@@ -211,13 +212,13 @@ namespace OpenBabel
     // Roundtrip testing shows that some atoms are NULL
     //  which causes segfaults when dereferencing later
     //   (e.g. in the last "segment" of this routine)
-    double sum,r;
+    double sum = NAN,r = NAN;
 
     OBAtom dummy1,dummy2;
     dummy1.SetVector(0.0,0.0,1.0);
     dummy2.SetVector(1.0,0.0,0.0);
 
-    OBAtom *atom,*a1,*a2,*ref;
+    OBAtom *atom = nullptr,*a1 = nullptr,*a2 = nullptr,*ref = nullptr;
     vector<OBAtom*>::iterator ai;
 
     vit.push_back(nullptr);
@@ -234,7 +235,7 @@ namespace OpenBabel
       }
     }
 
-    unsigned int i,j;
+    unsigned int i = 0,j = 0;
     for (i = 2;i <= mol.NumAtoms();i++)
       {
         ref = nullptr;
@@ -267,7 +268,7 @@ namespace OpenBabel
           vit[i]->_c = &dummy1;
       }
 
-    OBAtom *a,*b,*c;
+    OBAtom *a = nullptr,*b = nullptr,*c = nullptr;
     vector3 v1,v2;
     for (i = 2;i <= mol.NumAtoms();i++)
       {
@@ -335,7 +336,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     vector3 v;
     char tmptype[16],buffer[BUFF_SIZE];
 

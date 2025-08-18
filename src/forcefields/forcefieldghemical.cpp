@@ -16,6 +16,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/locale.h>
@@ -41,7 +42,7 @@ namespace OpenBabel
       return;
     }
 
-    double delta2;
+    double delta2 = NAN;
 
     if (gradients) {
       rab = OBForceField::VectorBondDerivative(pos_a, pos_b, force_a, force_b);
@@ -106,7 +107,7 @@ namespace OpenBabel
       return;
     }
 
-    double delta2;
+    double delta2 = NAN;
 
     if (gradients) {
       theta = OBForceField::VectorAngleDerivative(pos_a, pos_b, pos_c, force_a, force_b, force_c);
@@ -421,8 +422,8 @@ namespace OpenBabel
 
   bool OBForceFieldGhemical::SetupCalculations()
   {
-    OBFFParameter *parameter;
-    OBAtom *a, *b, *c, *d;
+    OBFFParameter *parameter = nullptr;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr, *d = nullptr;
 
     IF_OBFF_LOGLVL_LOW
       OBFFLog("\nS E T T I N G   U P   C A L C U L A T I O N S\n\n");
@@ -433,7 +434,7 @@ namespace OpenBabel
       OBFFLog("SETTING UP BOND CALCULATIONS...\n");
 
     OBFFBondCalculationGhemical bondcalc;
-    int bondtype;
+    int bondtype = 0;
 
     _bondcalculations.clear();
 
@@ -568,8 +569,8 @@ namespace OpenBabel
       OBFFLog("SETTING UP TORSION CALCULATIONS...\n");
 
     OBFFTorsionCalculationGhemical torsioncalc;
-    int torsiontype;
-    int s;
+    int torsiontype = 0;
+    int s = 0;
 
     _torsioncalculations.clear();
 
@@ -689,7 +690,7 @@ namespace OpenBabel
       OBFFLog("SETTING UP VAN DER WAALS CALCULATIONS...\n");
 
     OBFFVDWCalculationGhemical vdwcalc;
-    OBFFParameter *parameter_a, *parameter_b;
+    OBFFParameter *parameter_a = nullptr, *parameter_b = nullptr;
 
     _vdwcalculations.clear();
 
@@ -965,7 +966,7 @@ namespace OpenBabel
     vector<pair<OBSmartsPattern*,string> > _vexttyp; //!< external atom type rules
     vector<vector<int> >::iterator j;
     vector<pair<OBSmartsPattern*,string> >::iterator i;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
     vector<string> vs;
     char buffer[80];
 
@@ -1045,8 +1046,8 @@ namespace OpenBabel
 
   bool OBForceFieldGhemical::SetPartialCharges()
   {
-    OBAtom *a, *b;
-    int bondtype;
+    OBAtom *a = nullptr, *b = nullptr;
+    int bondtype = 0;
 
     _mol.SetAutomaticPartialCharge(false);
     _mol.SetPartialChargesPerceived();
@@ -1110,7 +1111,7 @@ namespace OpenBabel
   OBFFParameter* OBForceFieldGhemical::GetParameterGhemical(int type, const char* a, const char* b, const char* c, const char* d,
                                                             vector<OBFFParameter> &parameter)
   {
-    OBFFParameter *par;
+    OBFFParameter *par = nullptr;
     if (a == nullptr)
       return nullptr;
 
@@ -1176,7 +1177,7 @@ namespace OpenBabel
   bool OBForceFieldGhemical::ValidateGradients ()
   {
     vector3 numgrad, anagrad, err;
-    int coordIdx;
+    int coordIdx = 0;
 
     bool passed = true; // set to false if any component fails
 

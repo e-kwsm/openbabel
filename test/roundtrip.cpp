@@ -42,8 +42,8 @@ using namespace OpenBabel;
 int main(int argc,char *argv[])
 {
   OBConversion conv;
-  OBFormat* pFormat1;
-  OBFormat* pFormat2;
+  OBFormat* pFormat1 = nullptr;
+  OBFormat* pFormat2 = nullptr;
 
   if (argc != 3)
     {
@@ -80,7 +80,7 @@ int main(int argc,char *argv[])
       return(-1);
     }
 
-  OBAtom *atom1, *atom2;
+  OBAtom *atom1 = nullptr, *atom2 = nullptr;
   OBConversion conv1(&inFileStream1, &cout), conv2(&inFileStream2, &cout);
 
   if (! conv1.SetInAndOutFormats(pFormat1, pFormat2))

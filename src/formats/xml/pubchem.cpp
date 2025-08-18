@@ -13,6 +13,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/xml.h>
 #include <openbabel/mol.h>
@@ -111,7 +112,7 @@ bool PubChemFormat::DoElement(const string& name)
 	}
 	if(name=="PC-Element")
 	{
-		int AtNumber;
+		int AtNumber = 0;
 		if(!_pxmlConv->GetContentInt(AtNumber) || !AtNumber)
 			return false;
 		AtNum.push_back(AtNumber);
@@ -123,19 +124,19 @@ bool PubChemFormat::DoElement(const string& name)
 	}
 	else if(name=="PC-Bonds_aid1_E")
 	{
-		int indx;
+		int indx = 0;
 		if(_pxmlConv->GetContentInt(indx))
 			BondBeginAtIndx.push_back(indx);
 	}
 	else if(name=="PC-Bonds_aid2_E")
 	{
-		int indx;
+		int indx = 0;
 		if(_pxmlConv->GetContentInt(indx))
 			BondEndAtIndx.push_back(indx);
 	}
 	else if(name=="PC-BondType")
 	{
-		int order;
+		int order = 0;
 		if(_pxmlConv->GetContentInt(order))
 			BondOrder.push_back(order);
 	}
@@ -150,7 +151,7 @@ bool PubChemFormat::DoElement(const string& name)
 
 	else if(name=="PC-Coordinates_aid_E")
 	{
-		int indx;
+		int indx = 0;
 		if(_pxmlConv->GetContentInt(indx))
 			CoordIndx.push_back(indx);
 	}
@@ -158,7 +159,7 @@ bool PubChemFormat::DoElement(const string& name)
 	{
 		if(ConformerIndx)
 			return true; //currently only one conformer is read
-		double x;
+		double x = NAN;
 		if(_pxmlConv->GetContentDouble(x))
 			Coordx.push_back(x);
 	}
@@ -166,7 +167,7 @@ bool PubChemFormat::DoElement(const string& name)
 	{
 		if(ConformerIndx)
 			return true; //currently only one conformer is read
-		double y;
+		double y = NAN;
 		if(_pxmlConv->GetContentDouble(y))
 			Coordy.push_back(y);
 	}
@@ -174,7 +175,7 @@ bool PubChemFormat::DoElement(const string& name)
 	{
 		if(ConformerIndx)
 			return true; //currently only one conformer is read
-		double z;
+		double z = NAN;
 		if(_pxmlConv->GetContentDouble(z))
 			Coordz.push_back(z);
 	}
@@ -183,7 +184,7 @@ bool PubChemFormat::DoElement(const string& name)
 
 bool PubChemFormat::EndElement(const string& name)
 {
-  unsigned int i;
+  unsigned int i = 0;
 	if(name=="PC-Atoms")
 	{
 		for(i=0;i<AtNum.size();++i)

@@ -18,6 +18,7 @@ GNU General Public License for more details.
  * 30th January 2007
  */
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -92,12 +93,12 @@ namespace OpenBabel
 
     /** Parse the input stream and use the OpenBabel API to populate the OBMol **/
     char buf[BUFF_SIZE];
-    unsigned int atoms, bonds, tmp;
-    float scale, dtmp;
+    unsigned int atoms = 0, bonds = 0, tmp = 0;
+    float scale = NAN, dtmp = NAN;
     bool atom_input = false, bond_input = false;
     string type;
     //int from, to;
-    double X,Y,Z;
+    double X = NAN,Y = NAN,Z = NAN;
     vector<string> vs;
 
     // read in one at a time

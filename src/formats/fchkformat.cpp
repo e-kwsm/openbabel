@@ -162,8 +162,8 @@ namespace OpenBabel
     /* help variables */
     char buff[BUFF_SIZE];
     unsigned int lineno = 0;
-    int  intvar;
-    bool finished;
+    int  intvar = 0;
+    bool finished = false;
     bool atomnos_found = false;
     bool coords_found = false;
     bool nbond_found = false;
@@ -723,7 +723,7 @@ namespace OpenBabel
   bool FCHKFormat::read_int(const char * const line, int * const num)
   {
     vector<string>  vs;
-    char * endptr;
+    char * endptr = nullptr;
 
     tokenize(vs, line);
     *num = strtol(vs.back().c_str(), &endptr, 10);
@@ -745,7 +745,7 @@ namespace OpenBabel
 
       if (0 < vs.size())
         {
-          char * endptr;
+          char * endptr = nullptr;
           T num;
 
           for (vector<string>::const_iterator it=vs.begin(); vs.end() != it; ++it)
@@ -766,7 +766,7 @@ namespace OpenBabel
       // fixed width records (e.g., coordinates = 16 characters)
       string lineCopy(line), substring;
       T num;
-      char * endptr;
+      char * endptr = nullptr;
       int maxColumns = 80 / width;
 
       for (int column = 0; column < maxColumns; ++column) {
@@ -800,7 +800,7 @@ namespace OpenBabel
                                     const char * const desc,
                                     const unsigned int lineno)
   {
-    int intvar;
+    int intvar = 0;
     stringstream error_msg;
 
     if (!FCHKFormat::read_int(line, &intvar))
@@ -915,7 +915,7 @@ namespace OpenBabel
   {
     pmol->ReserveAtoms(Natoms);
 
-    OBAtom * atom;
+    OBAtom * atom = nullptr;
     for (unsigned int a = 0; Natoms > a; ++a)
       {
         atom = pmol->NewAtom();

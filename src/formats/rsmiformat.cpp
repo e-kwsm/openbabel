@@ -145,7 +145,7 @@ namespace OpenBabel
     }
 
     string ln, rsmiles, title, s;
-    string::size_type pos, pos2;
+    string::size_type pos = 0, pos2 = 0;
 
     //Ignore lines that start with # or /
     while ((ifs && ifs.peek()=='#') || ifs.peek()=='/')

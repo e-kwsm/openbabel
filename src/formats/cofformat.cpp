@@ -152,7 +152,7 @@ namespace OpenBabel
           atom->SetType(elem);
 
         //-set charge
-        char *endptr;
+        char *endptr = nullptr;
         double charge = strtod((char*)vs[4+offset].c_str(),&endptr);
         atom->SetPartialCharge(charge);
 
@@ -197,7 +197,7 @@ namespace OpenBabel
           }
         }
 
-        char *endptr;
+        char *endptr = nullptr;
         double order = strtod((char*)vs[3].c_str(),&endptr);
         int iorder = -1;
         unsigned int flags = 0;
@@ -240,8 +240,8 @@ namespace OpenBabel
     //-update neighbour bonds information for each atom.
     vector<OBAtom*>::iterator apos;
     vector<OBBond*>::iterator bpos;
-    OBAtom* patom;
-    OBBond* pbond;
+    OBAtom* patom = nullptr;
+    OBBond* pbond = nullptr;
 
     for (patom = pmol->BeginAtom(apos); patom; patom = pmol->NextAtom(apos))
     {
@@ -412,9 +412,9 @@ namespace OpenBabel
     }
 
     int nbonds = mol.NumBonds();
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
-    int i1, i2;
+    int i1 = 0, i2 = 0;
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
     {
       i1 = bond->GetBeginAtomIdx();

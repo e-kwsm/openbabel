@@ -13,6 +13,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -82,8 +83,8 @@ namespace OpenBabel
     bool hasPartialCharges = false;
     char buffer[BUFF_SIZE];
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     mol.BeginModify();
@@ -119,7 +120,7 @@ namespace OpenBabel
                 if (vs.size() >= 7)
                   {
                     //parse cell values
-                    double A,B,C,Alpha,Beta,Gamma;
+                    double A = NAN,B = NAN,C = NAN,Alpha = NAN,Beta = NAN,Gamma = NAN;
                     A = atof((char*)vs[1].c_str());
                     B = atof((char*)vs[2].c_str());
                     C = atof((char*)vs[3].c_str());

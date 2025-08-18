@@ -167,9 +167,9 @@ bool GROFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   double vz = 0.0; // 8.4
   string tempstr = "";
   long int residx = 0;
-  OBAtom* atom;
+  OBAtom* atom = nullptr;
   OBResidue* res = nullptr;
-  OBVectorData* velocity;
+  OBVectorData* velocity = nullptr;
 
   if (!ifs || ifs.peek() == EOF) {
     return false; // Trying to read past end of the file
@@ -394,7 +394,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   /** Write the representation of the OBMol molecule to the output stream **/
 
-  OBVectorData* vector;
+  OBVectorData* vector = nullptr;
   vector3 v;
   OBResidue* res = nullptr;
   string tempstr = "";

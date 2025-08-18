@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -84,7 +85,7 @@ namespace OpenBabel
 
     // Get Title
     char buffer[BUFF_SIZE];
-    int natoms;
+    int natoms = 0;
     vector<vector<pair<int,int> > > connections;
 
     if (ifs.getline(buffer,BUFF_SIZE))
@@ -117,11 +118,11 @@ namespace OpenBabel
 
     // Get Type Bonds, BondOrder, X, Y, Z
 
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     vector3 v;
     char temp_type[10];
-    int i,j;
-    double charge;
+    int i = 0,j = 0;
+    double charge = NAN;
     OBAtom atom;
 
     ttab.SetFromType("MMD");
@@ -182,7 +183,7 @@ namespace OpenBabel
     dp->SetOrigin(fileformatInput);
     mol.SetData(dp);
 
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator bi;
     for (bond = mol.BeginBond(bi);bond;bond = mol.NextBond(bi))
       if (bond->GetBondOrder() == 5 && !bond->IsInRing())
@@ -221,8 +222,8 @@ namespace OpenBabel
             mol.NumAtoms(),mol.GetTitle(),4.184*mol.GetEnergy());
     ofs << buffer << endl;
 
-    int type,k;
-    OBAtom *atom,*nbr;
+    int type = 0,k = 0;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     string from,to;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;

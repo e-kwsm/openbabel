@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/bond.h>
@@ -42,7 +43,7 @@ namespace OpenBabel
       return;
     }
 
-    double delta2;
+    double delta2 = NAN;
 
     if (gradients) {
       rab = OBForceField::VectorBondDerivative(pos_a, pos_b, force_a, force_b);
@@ -107,7 +108,7 @@ namespace OpenBabel
       return;
     }
 
-    double delta2;
+    double delta2 = NAN;
 
     if (gradients) {
       theta = OBForceField::VectorAngleDerivative(pos_a, pos_b, pos_c, force_a, force_b, force_c);
@@ -253,7 +254,7 @@ namespace OpenBabel
   OBFFParameter* OBForceFieldGaff::GetParameterOOP(const char* a, const char* b, const char* c, const char* d,
         std::vector<OBFFParameter> &parameter)
   {
-    OBFFParameter *par;
+    OBFFParameter *par = nullptr;
     if (a == nullptr || b == nullptr || c == nullptr || d == nullptr )
       return nullptr;
     string _a(a);
@@ -521,8 +522,8 @@ namespace OpenBabel
 
   bool OBForceFieldGaff::SetupCalculations()
   {
-    OBFFParameter *parameter;
-    OBAtom *a, *b, *c, *d;
+    OBFFParameter *parameter = nullptr;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr, *d = nullptr;
 
     IF_OBFF_LOGLVL_LOW
       OBFFLog("\nS E T T I N G   U P   C A L C U L A T I O N S\n\n");
@@ -906,8 +907,8 @@ namespace OpenBabel
       OBFFLog("SETTING UP VAN DER WAALS CALCULATIONS...\n");
 
     OBFFVDWCalculationGaff vdwcalc;
-    OBFFParameter *parameter_a, *parameter_b;
-    double Ra, Rb, Ea, Eb;
+    OBFFParameter *parameter_a = nullptr, *parameter_b = nullptr;
+    double Ra = NAN, Rb = NAN, Ea = NAN, Eb = NAN;
 
     _vdwcalculations.clear();
 
@@ -1219,12 +1220,12 @@ namespace OpenBabel
     vector<pair<OBSmartsPattern*,string> > _vexttyp; //!< external atom type rules
     vector<vector<int> >::iterator j;
     vector<pair<OBSmartsPattern*,string> >::iterator i;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
     vector<string> vs;
     char buffer[150];
-    OBAtom *atm, *a, *b;
+    OBAtom *atm = nullptr, *a = nullptr, *b = nullptr;
     OBBitVec visited;
-    int BO;
+    int BO = 0;
 
     SetPartialChargesBeforeAtomTyping();
     _mol.SetAtomTypesPerceived();
@@ -1482,7 +1483,7 @@ namespace OpenBabel
   bool OBForceFieldGaff::ValidateGradients ()
   {
     vector3 numgrad, anagrad, err;
-    int coordIdx;
+    int coordIdx = 0;
 
     bool passed = true; // set to false if any component fails
 

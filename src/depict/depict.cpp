@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/mol.h>
 #include <openbabel/bond.h>
 #include <openbabel/ring.h>
@@ -332,7 +333,7 @@ namespace OpenBabel
 
     for (unsigned int l = 0; l < indexes.size(); ++l) {
       OBAtom *begin = mol->GetAtom(indexes[l]);
-      OBAtom *end;
+      OBAtom *end = nullptr;
       if (l+1 < indexes.size())
         end = mol->GetAtom(indexes[l+1]);
       else
@@ -386,7 +387,7 @@ namespace OpenBabel
 
     double width=0.0, height=0.0;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     OBBondIterator j;
     OBAtomIterator i;
 
@@ -403,7 +404,7 @@ namespace OpenBabel
       for (OBBond *bond = mol->BeginBond(j); bond; bond = mol->NextBond(j))
         bondLengthSum += bond->GetLength();
       const double averageBondLength = bondLengthSum / mol->NumBonds();
-      double f;
+      double f = NAN;
       if(mol->NumBonds()>0) {
         f = d->bondLength / averageBondLength;
       } else if(mol->NumAtoms()>1){
@@ -411,9 +412,9 @@ namespace OpenBabel
            use the minimum atom distance as a substitute for average bond length. */
         f = DBL_MAX;
         OBAtomIterator i2;
-        OBAtom *atom2;
+        OBAtom *atom2 = nullptr;
         vector3 a1pos;
-        double currdist;
+        double currdist = NAN;
         for (atom = d->mol->BeginAtom(i); atom; atom = d->mol->NextAtom(i)) {
           a1pos = atom->GetVector();
           for (atom2 = d->mol->BeginAtom(i2); atom2; atom2 = d->mol->NextAtom(i2)) {
@@ -431,9 +432,9 @@ namespace OpenBabel
         atom->SetVector(atom->GetX() * f, - atom->GetY() * f, atom->GetZ());
 
       // find min/max values
-      double min_x, max_x;
-      double min_y, max_y;
-      double min_z, max_z;
+      double min_x = NAN, max_x = NAN;
+      double min_y = NAN, max_y = NAN;
+      double min_z = NAN, max_z = NAN;
       atom = d->mol->BeginAtom(i);
       if (atom != nullptr) {
         min_x = max_x = atom->GetX();
@@ -449,7 +450,7 @@ namespace OpenBabel
         }
       }
 
-      double margin;
+      double margin = NAN;
       if (d->options & noMargin)
         margin = 5.0;
       else
@@ -482,7 +483,7 @@ namespace OpenBabel
       std::vector<int> indexes = ring->_path;
       for (unsigned int l = 0; l < indexes.size(); ++l) {
         OBAtom *begin = d->mol->GetAtom(indexes[l]);
-        OBAtom *end;
+        OBAtom *end = nullptr;
         if (l+1 < indexes.size())
           end = d->mol->GetAtom(indexes[l+1]);
         else
@@ -545,7 +546,7 @@ namespace OpenBabel
 
     vector<pair<OBAtom*,double> > zsortedAtoms;
     vector<int> zsorted;
-    unsigned int a;
+    unsigned int a = 0;
     for (a = 0, atom = d->mol->BeginAtom(i) ; atom ; atom = d->mol->NextAtom(i), ++a)
       {
         pair<OBAtom*,double> entry(atom, atom->GetVector().z());
@@ -576,7 +577,7 @@ namespace OpenBabel
       else if(d->options & bwAtoms)
         d->painter->SetPenColor(d->bondColor);
       else {
-        double r, g, b;
+        double r = NAN, g = NAN, b = NAN;
         OBElements::GetRGB(atom->GetAtomicNum(), &r, &g, &b);
         d->painter->SetPenColor(OBColor(r, g, b));
       }
@@ -662,7 +663,7 @@ namespace OpenBabel
       }
 
       if (!written) {
-        const char* atomSymbol;
+        const char* atomSymbol = nullptr;
         if(atom->GetAtomicNum() == OBElements::Hydrogen && atom->GetIsotope()>1)
           atomSymbol = atom->GetIsotope()==2 ? "D" : "T";
         else
@@ -715,7 +716,7 @@ namespace OpenBabel
     // What we do is just join up the opposite ends of each of the wedge strokes
     // to create a zig-zag bond
 
-    double oldx, oldy, newx, newy;
+    double oldx = NAN, oldy = NAN, newx = NAN, newy = NAN;
     oldx = begin.x();
     oldy = begin.y();
     int sign = 1;
@@ -948,7 +949,7 @@ namespace OpenBabel
 
     std::string str, subscript;
     // compute the horizontal starting position
-    double xOffset, yOffset, yOffsetSubscript;
+    double xOffset = NAN, yOffset = NAN, yOffsetSubscript = NAN;
     switch (alignment) {
       case Right:
         xOffset = 0.5 * painter->GetFontMetrics(label.substr(0, 1)).width -
@@ -1241,7 +1242,7 @@ OBBitVec& drawnBonds)
 
   void OBDepictPrivateBallAndStick::DrawAtom(OBAtom *atom)
   {
-    double r, g, b;
+    double r = NAN, g = NAN, b = NAN;
     OBElements::GetRGB(atom->GetAtomicNum(), &r, &g, &b);
     OBColor atomColor = OBColor(r, g, b);
     double opacity = 1.0;

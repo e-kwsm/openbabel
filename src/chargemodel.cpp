@@ -33,7 +33,7 @@ namespace OpenBabel
 
   void OBChargeModel::FillChargeVectors(OBMol &mol)
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator itr;
     m_partialCharges.clear();
     m_partialCharges.reserve(mol.NumAtoms());

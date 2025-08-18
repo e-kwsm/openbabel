@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -80,7 +81,7 @@ namespace OpenBabel
     OBMol &mol = *pmol;
     const char* title = pConv->GetTitle();
 
-    int i;
+    int i = 0;
     int natoms = 0, nbonds = 0;
     char buffer[BUFF_SIZE];
 
@@ -99,8 +100,8 @@ namespace OpenBabel
     ttab.SetFromType("ALC");
 
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     for (i = 1; i <= natoms; i ++)
@@ -128,7 +129,7 @@ namespace OpenBabel
 
     char bobuf[100];
     string bostr;
-    int bgn,end,order;
+    int bgn = 0,end = 0,order = 0;
 
     for (i = 0; i < nbonds; i++)
       {
@@ -174,7 +175,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
     char bond_string[10];
 
@@ -183,7 +184,7 @@ namespace OpenBabel
              mol.NumBonds());
     ofs << buffer << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     string str,str1;
     for(i = 1;i <= mol.NumAtoms(); i++)
       {
@@ -201,7 +202,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
 
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
 
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))

@@ -76,12 +76,12 @@ namespace OpenBabel
     OBMol &mol = *pmol;
 
     char buffer[BUFF_SIZE];
-    int w, h, x, y; 	// to calculate the geometry
-    int bondtype;		// type of bond
+    int w = 0, h = 0, x = 0, y = 0; 	// to calculate the geometry
+    int bondtype = 0;		// type of bond
     int conv_factor = 50;	// please adjust
     int natoms = 0;		// number of additional (non-carbon) atoms
-    OBAtom *atom, *atom1, *atom2;
-    OBBond *bond;
+    OBAtom *atom = nullptr, *atom1 = nullptr, *atom2 = nullptr;
+    OBBond *bond = nullptr;
 
     ofs << "Chemtool Version 1.4" << endl;
 

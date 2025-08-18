@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -103,7 +104,7 @@ namespace OpenBabel
 
   int Swab(int i)
   {
-    unsigned char tmp[4],c;
+    unsigned char tmp[4],c = 0;
     memcpy(tmp,(char*)&i,sizeof(int));
     c = tmp[0];
     tmp[0] = tmp[3];
@@ -126,7 +127,7 @@ namespace OpenBabel
     new_rml->_type = _type;
 
     //Set base coordinates
-    unsigned int k,l;
+    unsigned int k = 0,l = 0;
     vector<double*> bc;
     double *c = nullptr;
     double *cc = nullptr;
@@ -178,14 +179,14 @@ namespace OpenBabel
       delete [] j->first;
 
     //Delete the interal base coordinate list
-    unsigned int k;
+    unsigned int k = 0;
     for (k=0 ; k<_c.size() ; ++k)
       delete [] _c[k];
   }
 
   void OBRotamerList::GetReferenceArray(unsigned char *ref)const
   {
-    int j;
+    int j = 0;
 		vector<pair<OBAtom**,vector<int> > >::const_iterator i;
     for (j=0,i = _vrotor.begin();i != _vrotor.end();++i)
       {
@@ -213,12 +214,12 @@ namespace OpenBabel
     _vringTors.clear();
 
     //create the new list
-    OBRotor *rotor;
+    OBRotor *rotor = nullptr;
     vector<OBRotor*>::iterator i;
     vector<int> children;
 
     int ref[4];
-    OBAtom **atomlist;
+    OBAtom **atomlist = nullptr;
     for (rotor = rl.BeginRotor(i);rotor;rotor = rl.NextRotor(i))
       {
         atomlist = new OBAtom* [4];
@@ -237,7 +238,7 @@ namespace OpenBabel
       // go through rings
       // for each step of the path, see if there's a matching rotor
       vector<int> path;
-      int pSize;
+      int pSize = 0;
       vector<double> ringTorsions;
       vector<int> ringRotors;
       FOR_RINGS_OF_MOL(r, mol)
@@ -307,11 +308,11 @@ namespace OpenBabel
     _vringTors.clear();
 
     //create the new list
-    int i;
+    int i = 0;
     vector<int> children;
 
     int refatoms[4];
-    OBAtom **atomlist;
+    OBAtom **atomlist = nullptr;
     for (i = 0; i < nrotors; ++i)
       {
         atomlist = new OBAtom* [4];
@@ -332,8 +333,8 @@ namespace OpenBabel
   void OBRotamerList::AddRotamer(double *c)
   {
     // TODO: consider implementing periodic boundary conditions
-    int idx,size;
-    double angle,res=255.0/360.0;
+    int idx = 0,size = 0;
+    double angle = NAN,res=255.0/360.0;
     vector3 v1,v2,v3,v4;
 
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
@@ -364,8 +365,8 @@ namespace OpenBabel
 
   void OBRotamerList::AddRotamer(int *arr)
   {
-    unsigned int i;
-    double angle,res=255.0/360.0;
+    unsigned int i = 0;
+    double angle = NAN,res=255.0/360.0;
 
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (unsigned char)arr[0];
@@ -384,8 +385,8 @@ namespace OpenBabel
 
   void OBRotamerList::AddRotamer(std::vector<int> arr)
   {
-    unsigned int i;
-    double angle,res=255.0/360.0;
+    unsigned int i = 0;
+    double angle = NAN,res=255.0/360.0;
 
     if (arr.size() != (_vrotor.size() + 1))
       return; // wrong size key
@@ -443,8 +444,8 @@ namespace OpenBabel
 
   void OBRotamerList::AddRotamer(unsigned char *arr)
   {
-    unsigned int i;
-    double angle,res=255.0/360.0;
+    unsigned int i = 0;
+    double angle = NAN,res=255.0/360.0;
 
     unsigned char *rot = new unsigned char [_vrotor.size()+1];
     rot[0] = (unsigned char)arr[0];
@@ -463,8 +464,8 @@ namespace OpenBabel
 
   void OBRotamerList::AddRotamers(unsigned char *arr,int nrotamers)
   {
-    unsigned int size;
-    int i;
+    unsigned int size = 0;
+    int i = 0;
 
     size = (unsigned int)_vrotor.size()+1;
     for (i = 0;i < nrotamers;++i)
@@ -489,9 +490,9 @@ namespace OpenBabel
   //! Create a conformer list using the internal base set of coordinates
   vector<double*> OBRotamerList::CreateConformerList(OBMol& mol)
   {
-    unsigned int j;
-    double angle,invres=360.0/255.0;
-    unsigned char *conf;
+    unsigned int j = 0;
+    double angle = NAN,invres=360.0/255.0;
+    unsigned char *conf = nullptr;
     vector<double*> tmpclist;
     vector<unsigned char*>::iterator i;
 
@@ -518,7 +519,7 @@ namespace OpenBabel
   //! \since version 2.2
   bool OBRotamerList::SetCurrentCoordinates(OBMol &mol, std::vector<int> arr)
   {
-    double angle;
+    double angle = NAN;
 
     if (arr.size() != (_vrotor.size() + 1))
       return false; // wrong size key
@@ -584,7 +585,7 @@ namespace OpenBabel
   //Copies the coordinates in bc, NOT the pointers, into the object
   void OBRotamerList::SetBaseCoordinateSets(vector<double*> bc, unsigned int N)
   {
-    unsigned int i,j;
+    unsigned int i = 0,j = 0;
 
     //Clear out old data
     for (i=0 ; i<_c.size() ; ++i)
@@ -612,10 +613,10 @@ namespace OpenBabel
   //! \todo This code is identical to OBMol::SetTorsion() and should be combined
   void SetRotorToAngle(double *c, OBAtom **ref,double ang,vector<int> atoms)
   {
-    double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
-    double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
-    double c1mag,c2mag,radang,costheta,m[9];
-    double x,y,z,mag,rotang,sn,cs,t,tx,ty,tz;
+    double v1x = NAN,v1y = NAN,v1z = NAN,v2x = NAN,v2y = NAN,v2z = NAN,v3x = NAN,v3y = NAN,v3z = NAN;
+    double c1x = NAN,c1y = NAN,c1z = NAN,c2x = NAN,c2y = NAN,c2z = NAN,c3x = NAN,c3y = NAN,c3z = NAN;
+    double c1mag = NAN,c2mag = NAN,radang = NAN,costheta = NAN,m[9];
+    double x = NAN,y = NAN,z = NAN,mag = NAN,rotang = NAN,sn = NAN,cs = NAN,t = NAN,tx = NAN,ty = NAN,tz = NAN;
 
     int tor[4];
     tor[0] = ref[0]->GetCoordinateIdx();
@@ -673,7 +674,7 @@ namespace OpenBabel
     //now the matrix is set - time to rotate the atoms
     //
     tx = c[tor[1]];ty = c[tor[1]+1];tz = c[tor[1]+2];
-    vector<int>::iterator i;int j;
+    vector<int>::iterator i;int j = 0;
     for (i = atoms.begin();i != atoms.end();++i)
       {
         j = ((*i)-1)*3;
@@ -688,8 +689,8 @@ namespace OpenBabel
 
   int PackCoordinate(double c[3],double max[3])
   {
-    int tmp;
-    double cf;
+    int tmp = 0;
+    double cf = NAN;
     cf = c[0];
     tmp  = ((int)(cf*max[0])) << 20;
     cf = c[1];
@@ -701,7 +702,7 @@ namespace OpenBabel
 
   void UnpackCoordinate(double c[3],double max[3],int tmp)
   {
-    double cf;
+    double cf = NAN;
     cf = (double)(tmp>>20);
     c[0] = cf;
     c[0] *= max[0];

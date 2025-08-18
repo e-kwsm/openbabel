@@ -101,7 +101,7 @@ namespace OpenBabel
       DeleteData("SSSR");
     }
 
-    OBRing *ring;
+    OBRing *ring = nullptr;
     vector<OBRing*>::iterator j;
 
     //get Fr�rejacque taking int account multiple possible spanning graphs
@@ -111,7 +111,7 @@ namespace OpenBabel
         vector<OBRing*> vr;
         FindRingAtomsAndBonds();
 
-        OBBond *bond;
+        OBBond *bond = nullptr;
         vector<OBBond*> cbonds;
         vector<OBBond*>::iterator k;
 
@@ -248,7 +248,7 @@ namespace OpenBabel
       DeleteData("LSSR");
     }
 
-    OBRing *ring;
+    OBRing *ring = nullptr;
     vector<OBRing*>::iterator j;
 
     //get frerejaque taking int account multiple possible spanning graphs
@@ -258,7 +258,7 @@ namespace OpenBabel
         vector<OBRing*> vr;
         FindRingAtomsAndBonds();
 
-        OBBond *bond;
+        OBBond *bond = nullptr;
         vector<OBBond*> cbonds;
         vector<OBBond*>::iterator k;
 
@@ -306,7 +306,7 @@ namespace OpenBabel
       return (int)FindRingAtomsAndBonds2(mol);
 
     int frj = 0;
-    OBBond *bond;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
     for (bond = mol.BeginBond(j);bond;bond = mol.NextBond(j))
       if (bond->IsClosure()) // bond->HasFlag(OB_CLOSURE_BOND)?
@@ -316,7 +316,7 @@ namespace OpenBabel
 
   void OBRingSearch::RemoveRedundant(int frj)
   {
-    int i,j;
+    int i = 0,j = 0;
 
     //remove identical rings
     for (i = _rlist.size()-1;i > 0;i--)
@@ -386,7 +386,7 @@ namespace OpenBabel
     BuildOBRTreeVector(cbond->GetBeginAtom(), nullptr, t1, bv1);
     BuildOBRTreeVector(cbond->GetEndAtom(), nullptr, t2, bv2);
 
-    bool pathok;
+    bool pathok = false;
     deque<int> p1,p2;
     vector<OBAtom*> path1,path2;
     vector<OBAtom*>::iterator m,n;
@@ -500,7 +500,7 @@ namespace OpenBabel
   static int FindRings(OBAtom *atom, int *avisit, unsigned char *bvisit,
                        unsigned int &frj, int depth)
   {
-    OBBond *bond;
+    OBBond *bond = nullptr;
     int result = -1;
     vector<OBBond*>::iterator k;
     for(bond = atom->BeginBond(k);bond;bond=atom->NextBond(k)) {
@@ -700,8 +700,8 @@ namespace OpenBabel
   {
     vt[atom->GetIdx()] = new OBRTree (atom,prv);
 
-    int i;
-    OBAtom *nbr;
+    int i = 0;
+    OBAtom *nbr = nullptr;
     OBMol *mol = (OBMol*)atom->GetParent();
     OBBitVec curr,used,next;
     vector<OBBond*>::iterator j;

@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -77,8 +78,8 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     OBMol &mol = *pmol;
     const char* title = pConv->GetTitle();
 
-    int i;
-    int natoms;
+    int i = 0;
+    int natoms = 0;
     char buffer[BUFF_SIZE];
 
     ifs.getline(buffer,BUFF_SIZE);
@@ -91,8 +92,8 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     mol.BeginModify();
 
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector<string> vs;
 
     for (i = 1; i <= natoms; i ++)
@@ -143,13 +144,13 @@ bool UniChemFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
 
     ofs << mol.GetTitle() << endl;
     ofs << mol.NumAtoms() << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     string str,str1;
     for(i = 1;i <= mol.NumAtoms(); i++)
     {

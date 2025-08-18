@@ -22,6 +22,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/spectrophore.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -269,15 +270,15 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    _initiateSpectrophore(&(ENERGY[0]), &(SPHORE[0]));
 
    // Rotate
-   double psi;
-   double cos_psi;
-   double sin_psi;
-   double theta;
-   double cos_theta;
-   double sin_theta;
-   double phi;
-   double cos_phi;
-   double sin_phi;
+   double psi = NAN;
+   double cos_psi = NAN;
+   double sin_psi = NAN;
+   double theta = NAN;
+   double cos_theta = NAN;
+   double sin_theta = NAN;
+   double phi = NAN;
+   double cos_phi = NAN;
+   double sin_phi = NAN;
 
    for (unsigned int i = 0; i < _rotationStepList.size(); ++i)
    {
@@ -356,7 +357,7 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    // Normalisation
    double mean[N_PROPERTIES];
    double std[N_PROPERTIES];
-   unsigned int m;
+   unsigned int m = 0;
    for (unsigned int i(0); i < N_PROPERTIES; ++i)
    {
       mean[i] = 0.0;
@@ -409,10 +410,10 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
 void
 OBSpectrophore::_getEnergies(double** c, double* e)
 {
-   double d;
-   double x2;
-   double y2;
-   double z2;
+   double d = NAN;
+   double x2 = NAN;
+   double y2 = NAN;
+   double z2 = NAN;
 
    // Distance between atom and each boxpoint
    for (unsigned int boxPoint = 0; boxPoint < 12; ++boxPoint)
@@ -445,7 +446,7 @@ OBSpectrophore::_getEnergies(double** c, double* e)
       e[i] = 0.0;
    }
 
-   unsigned int index;
+   unsigned int index = 0;
    for (unsigned int prop = 0; prop < N_PROPERTIES; ++prop)
    {
       for (unsigned int boxPoint = 0; boxPoint < 12; ++boxPoint)
@@ -488,7 +489,7 @@ void
 OBSpectrophore::_getMoleculeData(OpenBabel::OBMol* mol)
 {
    unsigned int a(0);
-   unsigned int n;
+   unsigned int n = 0;
    for (OpenBabel::OBMolAtomIter atom(mol); atom; ++atom)
    {
       // Coordinates
@@ -708,7 +709,7 @@ OBSpectrophore::_orient(void)
     // Determine atom that is furthest away from origin
     double maxDistance(0.0);
     int maxAtom(0);
-    double d;
+    double d = NAN;
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
         d = _oricoor[i][0]*_oricoor[i][0] +  _oricoor[i][1]*_oricoor[i][1] + _oricoor[i][2]*_oricoor[i][2];
@@ -721,8 +722,8 @@ OBSpectrophore::_orient(void)
 
     // Rotate all atoms along z-axis
     double angle(-atan2(_oricoor[maxAtom][1], _oricoor[maxAtom][0]));
-    double x;
-    double y;
+    double x = NAN;
+    double y = NAN;
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
         x = cos(angle) * _oricoor[i][0] - sin(angle) * _oricoor[i][1];
@@ -733,7 +734,7 @@ OBSpectrophore::_orient(void)
 
     // Rotate all atoms along y-axis to place the maxAtom on z
     angle = -atan2(_oricoor[maxAtom][0], _oricoor[maxAtom][2]);
-    double z;
+    double z = NAN;
     for (unsigned int i = 0; i < _nAtoms; ++i)
     {
         x = cos(angle) * _oricoor[i][0] + sin(angle) * _oricoor[i][2];
@@ -1490,9 +1491,9 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    }
    double totalCharge(0.0);
    unsigned int i(0);
-   unsigned int n;
-   double hardness;
-   double electronegativity;
+   unsigned int n = 0;
+   double hardness = NAN;
+   double electronegativity = NAN;
    for (OpenBabel::OBMolAtomIter atom(mol); atom; ++atom)
    {
       n = (unsigned int) atom->GetAtomicNum();
@@ -1598,7 +1599,7 @@ OBSpectrophore::_calculateProperties(OpenBabel::OBMol* mol)
    CHI[_nAtoms] = totalCharge;
 
    // Complete ETA
-   double d;
+   double d = NAN;
    for (unsigned int r = 0; r < _nAtoms; ++r)
    {
       for (unsigned int c = r + 1; c < _nAtoms; ++c)
@@ -1819,7 +1820,7 @@ OBSpectrophore::_solveMatrix(double** A, double* B, unsigned int dim)
 void
 OBSpectrophore::_luDecompose(double** A, std::vector<int>& I, unsigned int dim)
 {
-   unsigned int i, j, k, kMax, iMax;
+   unsigned int i = 0, j = 0, k = 0, kMax = 0, iMax = 0;
    std::vector<double> vScales(dim, 0);
    double maxVal = 0, dummy = 0;
    double * pRowi = nullptr;
@@ -1929,7 +1930,7 @@ OBSpectrophore::_luSolve(double** A, std::vector<int>& I, double* B, unsigned in
 void
 OBSpectrophore::_swapRows(double** _pMatrix, unsigned int i, unsigned int j, unsigned int nCols)
 {
-   double dummy;
+   double dummy = NAN;
    for (unsigned int k = 0; k < nCols; ++k)         // loop over all columns
    {
       dummy = _pMatrix[i][k];
@@ -1944,7 +1945,7 @@ OBSpectrophore::_swapRows(double** _pMatrix, unsigned int i, unsigned int j, uns
 void
 OBSpectrophore::_swapRows(double* _pMatrix, unsigned int i, unsigned int j)
 {
-   double dummy;
+   double dummy = NAN;
    dummy = _pMatrix[i];
    _pMatrix[i] = _pMatrix[j];
    _pMatrix[j] = dummy;

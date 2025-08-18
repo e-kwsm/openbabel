@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <sstream>
 #include <cstdlib>
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -159,7 +160,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                             "Problem reading the Gassian cube file: The third line must contain the number of atoms and the origin of the cube.", obWarning);
       return false;
     }
-    char *endptr;
+    char *endptr = nullptr;
     nAtoms = strtol(static_cast<const char*>(vs.at(0).c_str()), &endptr, 10);
     if (endptr == static_cast<const char*>(vs.at(0).c_str()))
     {
@@ -582,7 +583,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       return false;
     }
 
-    int nx, ny, nz;
+    int nx = 0, ny = 0, nz = 0;
     double origin[3], xAxis[3], yAxis[3], zAxis[3];
     gd->GetAxes(xAxis, yAxis, zAxis);
     gd->GetNumberOfPoints(nx, ny, nz);
@@ -630,7 +631,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     for (unsigned int l = 0; l < grids.size(); ++l)
     {
       gd = static_cast<OBGridData*>(grids[l]);
-      int mx, my, mz;
+      int mx = 0, my = 0, mz = 0;
       gd->GetNumberOfPoints(mx, my, mz);
 
       if ((nx != mx) || (ny != my) || (nz != mz))
@@ -643,7 +644,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     }
 
     // The cube(s)
-    double value;
+    double value = NAN;
     unsigned int count = 1;
     for (int i = 0; i < nx; ++i)
     {

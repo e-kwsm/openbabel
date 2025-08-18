@@ -180,7 +180,7 @@ private:
   //Should be independent of compiler and platform.
   unsigned long Read32(istream& ifs)
   {
-    char ch;
+    char ch = 0;
     unsigned long val=0;
     for(int i=0; i<4; ++i)
     {
@@ -275,7 +275,7 @@ bool PNGFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
           Bytef* pCompTxt = new Bytef[datalength];
           ifs.read((char*)pCompTxt, datalength);
           --datalength; //for compression method byte
-          uLongf uncompLen;
+          uLongf uncompLen = 0;
           Bytef* pUncTxt = new Bytef[datalength*6];//guess uncompressed length. NASTY!
           if(*pCompTxt!=0 /*compression method*/
             || uncompress(pUncTxt, &uncompLen, pCompTxt+1, datalength)!=Z_OK)

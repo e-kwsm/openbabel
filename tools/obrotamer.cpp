@@ -56,7 +56,7 @@ int main(int argc,char *argv[])
     }
   
   OBConversion conv(&ifs, &cout);
-  OBFormat* pFormat;
+  OBFormat* pFormat = nullptr;
   
   pFormat = conv.FormatFromExt(argv[1]);
   if (pFormat == nullptr)

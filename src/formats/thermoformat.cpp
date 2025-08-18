@@ -13,6 +13,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #ifdef WIN32
 #pragma warning (disable : 4786)
@@ -75,7 +76,7 @@ bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   double DefaultMidT = 1500;
   char ln[BUFF_SIZE];
-  unsigned int i;
+  unsigned int i = 0;
 
   //find line with 1 in col 80
   do
@@ -84,9 +85,9 @@ bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       return false;
   }while(ln[79]!='1');
 
-  char phase, nam[25], dum[7], elname[3];
+  char phase = 0, nam[25], dum[7], elname[3];
   elname[2]=0;
-  int elnum;
+  int elnum = 0;
   double Coeff[14];
 
   sscanf(ln,"%18s%6s",nam,dum);
@@ -127,7 +128,7 @@ bool ThermoFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       }
     }
   }
-  double LoT, HiT, MidT=0;
+  double LoT = NAN, HiT = NAN, MidT=0;
   /* int nc = */sscanf(p,"%c%10lf%10lf10%lf",&phase, &LoT, &HiT, &MidT);
   pND->SetPhase(phase);
   pND->SetLoT(LoT);
@@ -167,7 +168,7 @@ bool ThermoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     return false;
   }
   ostream &ofs = *pConv->GetOutStream();
-  unsigned int i;
+  unsigned int i = 0;
 #if defined(_MSC_VER) && (_MSC_VER < 1900)
   unsigned oldf = _set_output_format(_TWO_DIGIT_EXPONENT);
 #endif

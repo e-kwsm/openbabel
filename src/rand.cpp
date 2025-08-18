@@ -94,9 +94,9 @@ namespace OpenBabel
 
   static unsigned int isqrt( unsigned int val )
   {
-    unsigned int temp;
-    unsigned int rem;
-    int i,result;
+    unsigned int temp = 0;
+    unsigned int rem = 0;
+    int i = 0,result = 0;
 
     i = 16;
     while( !(val&((unsigned int)3<<30)) && i )
@@ -134,8 +134,8 @@ namespace OpenBabel
 
   static int IsOddPrime( unsigned int x )
   {
-    unsigned int root;
-    unsigned int i;
+    unsigned int root = 0;
+    unsigned int i = 0;
 
     root = isqrt(x);
     for( i=2; i<MAXPRIMES-1; i++ )
@@ -202,9 +202,9 @@ namespace OpenBabel
 
   static void DoubleMultiply( unsigned int x, unsigned int y, DoubleType *z )
   {
-    unsigned int x0, x1, x2, x3;
-    unsigned int hx, lx;
-    unsigned int hy, ly;
+    unsigned int x0 = 0, x1 = 0, x2 = 0, x3 = 0;
+    unsigned int hx = 0, lx = 0;
+    unsigned int hy = 0, ly = 0;
 
     hx = HiPart(x);
     lx = LoPart(x);
@@ -257,9 +257,9 @@ namespace OpenBabel
 
   static unsigned int DoubleModulus( DoubleType *n,  unsigned int d )
   {
-    unsigned int d1, d0;
-    unsigned int r1, r0;
-    unsigned int m,s;
+    unsigned int d1 = 0, d0 = 0;
+    unsigned int r1 = 0, r0 = 0;
+    unsigned int m = 0,s = 0;
 
     s = LeadingZeros(d);
     if( s > 0 )
@@ -298,9 +298,9 @@ namespace OpenBabel
   static int DeterminePotency( unsigned int m, unsigned int a )
   {
     DoubleType d;
-    unsigned int k;
-    unsigned int b;
-    int s;
+    unsigned int k = 0;
+    unsigned int b = 0;
+    int s = 0;
 
     b = a-1;
     k = b;
@@ -316,9 +316,9 @@ namespace OpenBabel
 
   static int DetermineFactors( unsigned int x, unsigned int *factors )
   {
-    unsigned int *ptr;
-    unsigned int half;
-    unsigned int i;
+    unsigned int *ptr = nullptr;
+    unsigned int half = 0;
+    unsigned int i = 0;
 
     half = x/2;
     ptr = factors;
@@ -338,9 +338,9 @@ namespace OpenBabel
 
   static unsigned int DetermineIncrement( unsigned int m )
   {
-    unsigned int hi,lo;
-    unsigned int half;
-    unsigned int i;
+    unsigned int hi = 0,lo = 0;
+    unsigned int half = 0;
+    unsigned int i = 0;
 
     /* 1/2 + sqrt(3)/6 */
     hi = (int)floor(0.7886751345948*m+0.5);
@@ -372,12 +372,12 @@ namespace OpenBabel
                          unsigned int *pc )
   {
     unsigned int fact[MAXFACT];
-    unsigned int a=0, c;
-    unsigned int b;
-    int pot,best;
-    int count;
-    int flag;
-    int i;
+    unsigned int a=0, c = 0;
+    unsigned int b = 0;
+    int pot = 0,best = 0;
+    int count = 0;
+    int flag = 0;
+    int i = 0;
 
     do
       {
@@ -429,8 +429,8 @@ namespace OpenBabel
   static void GenerateSequence( unsigned int p, unsigned int m,
                          unsigned int a, unsigned int c )
   {
-    unsigned int i;
-    unsigned int x;
+    unsigned int i = 0;
+    unsigned int x = 0;
     DoubleType d;
 
     x = 0;  /* seed */

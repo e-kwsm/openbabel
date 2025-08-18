@@ -131,7 +131,7 @@ namespace OpenBabel
     bool hasNonInchi = false;
     OBMol mol;
     for (int part = 0; part <= 2; ++part) {
-      unsigned int N;
+      unsigned int N = 0;
       switch (part) {
       case M_REACTANTS: N = facade.NumComponents(REACTANT); break;
       case M_PRODUCTS: N = facade.NumComponents(PRODUCT); break;
