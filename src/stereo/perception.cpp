@@ -2099,7 +2099,7 @@ namespace OpenBabel {
       const OBStereoUnitSet &stereoUnits, bool addToMol)
   {
     std::vector<OBTetrahedralStereo*> configs;
-    OBUnitCell *uc = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol->GetData(OBGenericDataType::UnitCell));
     obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::TetrahedralFrom3D", obAuditMsg);
 
     // find all tetrahedral centers
@@ -2201,7 +2201,7 @@ namespace OpenBabel {
       const OBStereoUnitSet &stereoUnits, bool addToMol)
   {
     std::vector<OBCisTransStereo*> configs;
-    OBUnitCell *uc = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol->GetData(OBGenericDataType::UnitCell));
     obErrorLog.ThrowError(__FUNCTION__, "Ran OpenBabel::CisTransFrom3D", obAuditMsg);
 
     // find all cis/trans bonds
@@ -2394,7 +2394,7 @@ namespace OpenBabel {
     v2 = c->GetVector() - b->GetVector();
     if (a->IsPeriodic()) {  // Adapted from OBAtom.GetAngle
       OBMol *mol = (OBMol*)a->GetParent();
-      OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+      OBUnitCell *box = dynamic_cast<OBUnitCell*>(mol->GetData(OBGenericDataType::UnitCell));
       v1 = box->MinimumImageCartesian(v1);
       v2 = box->MinimumImageCartesian(v2);
     }
@@ -2783,7 +2783,7 @@ namespace OpenBabel {
     std::set <unsigned long> tetcenters;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
         tetcenters.insert(cfg.center);
@@ -2791,9 +2791,9 @@ namespace OpenBabel {
 
     // This loop sets one bond of each tet stereo to up or to down (2D only)
     std::set <OBBond *> alreadyset;
-    OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
 
@@ -2957,7 +2957,7 @@ namespace OpenBabel {
     set<OBBond*> unspec_ctstereo;
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo::Config cfg = ct->GetConfig();
         if (!cfg.specified) {
@@ -2971,7 +2971,7 @@ namespace OpenBabel {
   void StereoRefToImplicit(OBMol& mol, OBStereo::Ref atomId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+      OBStereo::Type datatype = (dynamic_cast<OBStereoBase*>(*data))->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
         // Maybe I should just unset the stereochemistry if this happens?
@@ -3000,7 +3000,7 @@ namespace OpenBabel {
   void ImplicitRefToStereo(OBMol& mol, OBStereo::Ref centerId, OBStereo::Ref newId) {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+      OBStereo::Type datatype = (dynamic_cast<OBStereoBase*>(*data))->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
         // Maybe I should just unset the stereochemistry if this happens?
