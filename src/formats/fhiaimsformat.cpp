@@ -177,7 +177,7 @@ bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     }
 
     if (mol.HasData(OBGenericDataType::UnitCell)) {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         ofs << "#\n";
         ofs << "# unit cell\n";
         ofs << "#\n";
