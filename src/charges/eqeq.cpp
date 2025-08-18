@@ -133,7 +133,7 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::UnitCell))
     {
       // Get unit cell and calculate its Fourier transform + volume
-      obuc = (OBUnitCell *) mol.GetData(OBGenericDataType::UnitCell);
+      obuc = dynamic_cast<OBUnitCell *>( mol.GetData(OBGenericDataType::UnitCell));
       unitcell = obuc->GetCellMatrix();
       fourier = (2 * PI * unitcell.inverse()).transpose();
       cellVolume = obuc->GetCellVolume();
