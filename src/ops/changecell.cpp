@@ -110,7 +110,7 @@ bool OpChangeCell::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, 
   if ( ! pmol->HasData(OBGenericDataType::UnitCell) )
     old_cell = nullptr;
   else         
-    old_cell = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+    old_cell = dynamic_cast<OBUnitCell*>(pmol->GetData(OBGenericDataType::UnitCell));
   
   if (old_cell == nullptr)
   {

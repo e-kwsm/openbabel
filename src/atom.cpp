@@ -1113,7 +1113,7 @@ namespace OpenBabel
       }
     else
       {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *box = dynamic_cast<OBUnitCell*>(GetParent()->GetData(OBGenericDataType::UnitCell));
         return (box->MinimumImageCartesian(this->GetVector() - b->GetVector())).length();
       }
   }
@@ -1137,7 +1137,7 @@ namespace OpenBabel
     v2 = c->GetVector() - b->GetVector();
     if (IsPeriodic())
       {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *box = dynamic_cast<OBUnitCell*>(GetParent()->GetData(OBGenericDataType::UnitCell));
         v1 = box->MinimumImageCartesian(v1);
         v2 = box->MinimumImageCartesian(v2);
       }

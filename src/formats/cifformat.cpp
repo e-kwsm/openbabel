@@ -1580,7 +1580,7 @@ namespace OpenBabel
     OBUnitCell *pUC = nullptr;
     if (pmol->HasData(OBGenericDataType::UnitCell))
       {
-        pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+        pUC = dynamic_cast<OBUnitCell*>(pmol->GetData(OBGenericDataType::UnitCell));
         ofs << "_cell_length_a " << pUC->GetA() << endl
             << "_cell_length_b " << pUC->GetB() << endl
             << "_cell_length_c " << pUC->GetC() << endl
@@ -1682,7 +1682,7 @@ namespace OpenBabel
           std::string sym_key;
           int symmetry_num = 555;
           if (bond->IsPeriodic()) {
-              OBUnitCell *box = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+              OBUnitCell *box = dynamic_cast<OBUnitCell*>(pmol->GetData(OBGenericDataType::UnitCell));
               vector3 begin, end_orig, end_expected, uc_direction;
               // Use consistent coordinates with the X Y Z written in the _atom_site_* loop earlier
               begin = box->CartesianToFractional(bond->GetBeginAtom()->GetVector());

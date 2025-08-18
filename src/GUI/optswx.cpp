@@ -301,12 +301,12 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           pChk = new wxRadioButton(parent,wxID_ANY,wxString(pCaption, wxConvUTF8),
                 wxDefaultPosition, wxDefaultSize, style);
           NextIsRadio = HasOr;
-          ((wxRadioButton*)pChk)->SetValue(SetChk);
+          (dynamic_cast<wxRadioButton*>(pChk))->SetValue(SetChk);
         }
         else
         {
           pChk = new wxCheckBox(parent,wxID_ANY,wxString(pCaption, wxConvUTF8));
-          ((wxCheckBox*)pChk)->SetValue(SetChk);
+          (dynamic_cast<wxCheckBox*>(pChk))->SetValue(SetChk);
         }
 
         OptionMap.push_back(std::make_pair(oname,pChk));

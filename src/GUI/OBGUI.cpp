@@ -489,7 +489,7 @@ void OBGUIFrame::OnHelp(wxCommandEvent& WXUNUSED(event))
     // 2) Get Open Message
     wxString command;
 
-      command = c_type->GetOpenCommand(((OBGUIApp*)wxTheApp)->HelpFile);
+      command = c_type->GetOpenCommand((dynamic_cast<OBGUIApp*>(wxTheApp))->HelpFile);
     if(!command) return; //No default program
 
     // 3) Execute message
