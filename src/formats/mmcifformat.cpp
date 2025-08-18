@@ -1139,7 +1139,7 @@ namespace OpenBabel
    ofs << endl;
    if (pmol->HasData(OBGenericDataType::UnitCell))
      {
-     OBUnitCell * pCell = (OBUnitCell * )pmol->GetData(OBGenericDataType::UnitCell);
+     OBUnitCell * pCell = dynamic_cast<OBUnitCell *>(pmol->GetData(OBGenericDataType::UnitCell));
      ofs << "##########" << endl;
      ofs << "## CELL ##" << endl;
      ofs << "##########" << endl;
