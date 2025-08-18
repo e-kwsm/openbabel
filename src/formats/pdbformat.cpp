@@ -597,7 +597,7 @@ namespace OpenBabel
     // and Z value (supposed to be 1)
     if (pmol->HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *pUC = dynamic_cast<OBUnitCell*>(pmol->GetData(OBGenericDataType::UnitCell));
         if(pUC->GetSpaceGroup()){
           string tmpHM=pUC->GetSpaceGroup()->GetHMName();
           fixRhombohedralSpaceGroupWriter(tmpHM);

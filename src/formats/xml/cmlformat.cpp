@@ -1306,7 +1306,7 @@ namespace OpenBabel
 
     if(mol.HasData(OBGenericDataType::CommentData))
     {
-      OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+      OBCommentData *cd = dynamic_cast<OBCommentData*>(mol.GetData(OBGenericDataType::CommentData));
       xmlTextWriterStartElement(writer(), C_METADATA);
       xmlTextWriterWriteAttribute(writer(), C_NAME, BAD_CAST "dc:description");
       xmlTextWriterWriteAttribute(writer(), C_CONTENT, BAD_CAST cd->GetData().c_str());
@@ -1537,7 +1537,7 @@ namespace OpenBabel
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
       for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+        if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           // Always get the clockwise version (it's the default anyway) as this has
           // a positive signed volume (i.e. CML atomParity of 1)
@@ -1823,7 +1823,7 @@ namespace OpenBabel
     if (mol.GetDimension()!=3) {
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
       for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+        if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
           if(ct->GetConfig().specified) {
             unsigned int dblbond = mol.GetBond(mol.GetAtomById(ct->GetConfig().begin),
@@ -2102,7 +2102,7 @@ namespace OpenBabel
     static const xmlChar C_SPACEGROUP[]  = "spaceGroup";
     static const xmlChar C_TRANSFORM3[]  = "transform3";
 
-    pUnitCell = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    pUnitCell = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
 
     xmlTextWriterStartElementNS(writer(), prefix, C_CRYSTAL, nullptr);
     //	xmlTextWriterWriteFormatAttribute(writer(), C_z,"%d", number of molecules per cell);
@@ -2339,7 +2339,7 @@ namespace OpenBabel
     static const xmlChar C_UNITS[]        = "units";
     static const xmlChar C_TITLE[]        = "title";
 
-    OBVibrationData* vd = (OBVibrationData*)mol.GetData(OBGenericDataType::VibrationData);
+    OBVibrationData* vd = dynamic_cast<OBVibrationData*>(mol.GetData(OBGenericDataType::VibrationData));
 
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s","Vibrational Frequencies");
@@ -2376,7 +2376,7 @@ namespace OpenBabel
     static const xmlChar C_UNITS[]        = "units";
     static const xmlChar C_TITLE[]        = "title";
 
-    OBRotationData* rd = (OBRotationData*)mol.GetData(OBGenericDataType::RotationData);
+    OBRotationData* rd = dynamic_cast<OBRotationData*>(mol.GetData(OBGenericDataType::RotationData));
 
     xmlTextWriterStartElementNS(writer(), prefix, C_PROPERTY, nullptr);
     xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s","Rotational Constants");

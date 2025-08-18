@@ -943,7 +943,7 @@ namespace OpenBabel
 
     OBPairData* pd;
     if (pmol->HasData("ASCII depiction"))
-      pd = (OBPairData*)pmol->GetData("ASCII depiction");
+      pd = dynamic_cast<OBPairData*>(pmol->GetData("ASCII depiction"));
     else {
       pd = new OBPairData();
       pmol->SetData(pd);
@@ -1011,7 +1011,7 @@ namespace OpenBabel
     OBGenericData*  gd = mol.GetData("MOL Chiral Flag");
     if (gd)
     {
-      int iflag = atoi(((OBPairData*)gd)->GetValue().c_str());
+      int iflag = atoi((dynamic_cast<OBPairData*>(gd))->GetValue().c_str());
       if (iflag == 0)
        return false;
       else if (iflag == 1)
@@ -1031,7 +1031,7 @@ namespace OpenBabel
     std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
     std::vector<OBGenericData*>::iterator data;
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
+      OBStereo::Type type = (dynamic_cast<OBStereoBase*>(*data))->GetType();
       if (type != OBStereo::Tetrahedral) continue;
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       if (ts->GetConfig().specified)
@@ -1095,7 +1095,7 @@ namespace OpenBabel
 
     // line 3: comment
     if (mol.HasData(OBGenericDataType::CommentData)) {
-      OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+      OBCommentData *cd = dynamic_cast<OBCommentData*>(mol.GetData(OBGenericDataType::CommentData));
       string comment = cd->GetData();
       if(comment.size()>80)
         comment.erase(80); //truncate to 80 chars
@@ -1401,7 +1401,7 @@ namespace OpenBabel
           if((*k)->GetAttribute()!="PartialCharges")
           {
             ofs << ">  <" << (*k)->GetAttribute() << ">" << endl;
-            ofs << ((OBPairData*)(*k))->GetValue() << endl << endl;
+            ofs << (dynamic_cast<OBPairData*>(*k))->GetValue() << endl << endl;
           }
         }
       }
@@ -1825,7 +1825,7 @@ namespace OpenBabel
     // This loop sets the atom parity for each tet center
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-      if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
 
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
@@ -1868,7 +1868,7 @@ namespace OpenBabel
     if (deleteExisting) { // Remove any existing tet stereo
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
       for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
-        if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral)
+        if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral)
           mol.DeleteData(*data);
     }
 

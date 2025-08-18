@@ -97,15 +97,15 @@ namespace OpenBabel
       string basis;
       string method;
 
-      OBPairData *pd = (OBPairData *) pmol->GetData("model");
+      OBPairData *pd = dynamic_cast<OBPairData *>( pmol->GetData("model"));
       if(pd)
         model = pd->GetValue();
 
-      pd = (OBPairData *) pmol->GetData("basis");
+      pd = dynamic_cast<OBPairData *>( pmol->GetData("basis"));
       if(pd)
         basis = pd->GetValue();
 
-      pd = (OBPairData *) pmol->GetData("method");
+      pd = dynamic_cast<OBPairData *>( pmol->GetData("method"));
       if(pd)
         method = pd->GetValue();
 

@@ -34,7 +34,7 @@ void testTetrahedralStereo1()
   OB_REQUIRE( stereoData.size() == 1 );
 
   // convert to tetrahedral data
-  OB_REQUIRE( ((OBStereoBase*)stereoData[0])->GetType() == OBStereo::Tetrahedral );
+  OB_REQUIRE( (dynamic_cast<OBStereoBase*>(stereoData[0])->GetType() == OBStereo::Tetrahedral );
   OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(stereoData[0]);
   OB_REQUIRE( ts );
 
@@ -82,7 +82,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
   for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
@@ -105,7 +105,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral1.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
@@ -126,7 +126,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       cistrans1.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
@@ -173,7 +173,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   CanonicalLabels(&mol, symclasses, canlbls);
   cout << "mol.NumAtoms = " << mol.NumAtoms() << endl;
   for (std::vector<OBGenericData*>::iterator data = stereoData.begin(); data != stereoData.end(); ++data) {
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
@@ -194,7 +194,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       tetrahedral2.push_back(config);
     }
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
@@ -215,7 +215,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       cout << "Config with symmetry ids: " << config << endl;
       cistrans2.push_back(config);
     } else
-    if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
+    if ((dynamic_cast<OBStereoBase*>(*data))->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );

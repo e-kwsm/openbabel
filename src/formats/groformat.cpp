@@ -436,7 +436,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         << setw(8) << atom->y()/10
         << setw(8) << atom->z()/10;
     if (atom->GetData("Velocity")) {
-      vector = (OBVectorData*) atom->GetData("Velocity");
+      vector = dynamic_cast<OBVectorData*>( atom->GetData("Velocity"));
       v = vector->GetData();
       ofs.precision(4);
       ofs << setw(8) << v.x()
@@ -448,7 +448,7 @@ bool GROFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   // On the last line of the file goes periodic box specification
   if (pmol->HasData(OBGenericDataType::UnitCell)) {
-    OBUnitCell* cell = (OBUnitCell*) pmol->GetData(OBGenericDataType::UnitCell);
+    OBUnitCell* cell = dynamic_cast<OBUnitCell*>( pmol->GetData(OBGenericDataType::UnitCell));
     matrix3x3 m = cell->GetCellMatrix();
     vector3 v1 = m.GetRow(0);
     vector3 v2 = m.GetRow(1);

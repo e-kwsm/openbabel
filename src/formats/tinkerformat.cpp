@@ -261,7 +261,7 @@ namespace OpenBabel
       }
       if (mmffTypes) {
         // Override the MM2 typing
-        OBPairData *type = (OpenBabel::OBPairData*)atom->GetData("FFAtomType");
+        OBPairData *type = dynamic_cast<OpenBabel::OBPairData*>(atom->GetData("FFAtomType"));
         if (type) {
           str1 = type->GetValue();
           atomType = stoi(str1);

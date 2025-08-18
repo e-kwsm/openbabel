@@ -185,7 +185,7 @@ namespace OpenBabel
       ofs << "CELL 1.,1.,1.,90.,90.,90.\n";
     else
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         snprintf(buffer, BUFF_SIZE, "CELL %f,%f,%f,%f,%f,%f\n",
                  uc->GetA(), uc->GetB(), uc->GetC(),
                  uc->GetAlpha(), uc->GetBeta(), uc->GetGamma());

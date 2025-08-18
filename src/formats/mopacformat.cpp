@@ -815,7 +815,7 @@ namespace OpenBabel
         ofs << buffer << "\n";
       }
 
-    OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
     if (uc && writeUnitCell) {
       //      uc->FillUnitCell(&mol); // complete the unit cell with symmetry-derived atoms
 

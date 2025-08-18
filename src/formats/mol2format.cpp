@@ -628,7 +628,7 @@ namespace OpenBabel
             && (*k)->GetOrigin()!=local //internal OBPairData is not written
             && (*k)->GetAttribute()!="PartialCharges")
             {
-                ofs << "##########\t" << (*k)->GetAttribute() << ":\t" << ((OBPairData*)(*k))->GetValue() << endl;
+                ofs << "##########\t" << (*k)->GetAttribute() << ":\t" << (dynamic_cast<OBPairData*>(*k))->GetValue() << endl;
             }
         }
         ofs << endl;
@@ -645,7 +645,7 @@ namespace OpenBabel
     ofs << buffer << endl;
     ofs << "SMALL" << endl; // TODO: detect if we have protein, biopolymer, etc.
 
-    OBPairData *dp = (OBPairData*)mol.GetData("PartialCharges");
+    OBPairData *dp = dynamic_cast<OBPairData*>(mol.GetData("PartialCharges"));
     if (dp != nullptr) {
         // Tripos spec says:
         // NO_CHARGES, DEL_RE, GASTEIGER, GAST_HUCK, HUCKEL, PULLMAN,
@@ -671,7 +671,7 @@ namespace OpenBabel
     if (mol.HasData(OBGenericDataType::CommentData))
       {
         ofs << "****\n"; // comment line printed, so we need to add "no status bits set"
-        OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+        OBCommentData *cd = dynamic_cast<OBCommentData*>(mol.GetData(OBGenericDataType::CommentData));
         ofs << cd->GetData();
       }
 

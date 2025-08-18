@@ -382,7 +382,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         ofs << buffer;
       }
 
-    OBVibrationData *vib = (OBVibrationData *) mol.GetData(OBGenericDataType::VibrationData);
+    OBVibrationData *vib = dynamic_cast<OBVibrationData *>( mol.GetData(OBGenericDataType::VibrationData));
     if (vib && vib->GetNumberOfFrequencies() > 0) {
       ofs << "[FREQ]" << endl;
       vector<double> frequencies = vib->GetFrequencies();

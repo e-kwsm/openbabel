@@ -58,7 +58,7 @@ bool extract_thermochemistry(OpenBabel::OBMol  &mol,
     int    RotSymNum = 1;
     OpenBabel::OBRotationData* rd;
     
-    rd = (OpenBabel::OBRotationData*)mol.GetData("RotationData");
+    rd = dynamic_cast<OpenBabel::OBRotationData*>(mol.GetData("RotationData"));
     if (nullptr != rd)
     {
         RotSymNum = rd->GetSymmetryNumber();

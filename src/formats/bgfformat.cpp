@@ -217,7 +217,7 @@ namespace OpenBabel
     // write unit cell if available
     if (mol.HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
         // e.g. CRYSTX    49.30287   49.23010   25.45631   90.00008   89.99995   57.10041
         snprintf(buffer, BUFF_SIZE,
                  "CRYSTX%12.5f%12.5f%12.5f%12.5f%12.5f%12.5f",
