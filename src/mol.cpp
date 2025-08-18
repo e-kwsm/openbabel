@@ -326,7 +326,7 @@ namespace OpenBabel
         v4 = d->GetVector();
         // Then redefine the positions based on proximity to the previous atom
         // to build a continuous chain of expanded Cartesian coordinates
-        OBUnitCell *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
+        OBUnitCell *unitCell = dynamic_cast<OBUnitCell *>( GetData(OBGenericDataType::UnitCell));
         v2 = unitCell->UnwrapCartesianNear(v2, v1);
         v3 = unitCell->UnwrapCartesianNear(v3, v2);
         v4 = unitCell->UnwrapCartesianNear(v4, v3);
@@ -933,7 +933,7 @@ namespace OpenBabel
       SetData(rd);
     }
 
-    rd = (OBRingData *) GetData("SSSR");
+    rd = dynamic_cast<OBRingData *>( GetData("SSSR"));
     rd->SetOrigin(perceived);
     return(rd->GetData());
   }
@@ -950,7 +950,7 @@ namespace OpenBabel
       SetData(rd);
     }
 
-    rd = (OBRingData *) GetData("LSSR");
+    rd = dynamic_cast<OBRingData *>( GetData("LSSR"));
     rd->SetOrigin(perceived);
     return(rd->GetData());
   }
@@ -1103,7 +1103,7 @@ namespace OpenBabel
   string OBMol::GetFormula()
   {
     string attr = "Formula";
-    OBPairData *dp = (OBPairData *) GetData(attr);
+    OBPairData *dp = dynamic_cast<OBPairData *>( GetData(attr));
 
     if (dp != nullptr) // we already set the formula (or it was read from a file)
       return dp->GetValue();
@@ -1125,7 +1125,7 @@ namespace OpenBabel
   void OBMol::SetFormula(string molFormula)
   {
     string attr = "Formula";
-    OBPairData *dp = (OBPairData *) GetData(attr);
+    OBPairData *dp = dynamic_cast<OBPairData *>( GetData(attr));
     if (dp == nullptr)
       {
         dp = new OBPairData;
@@ -1397,7 +1397,7 @@ namespace OpenBabel
     // Copy the stereo
     std::vector<OBGenericData*> vdata = src.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+      OBStereo::Type datatype = (dynamic_cast<OBStereoBase*>(*data))->GetType();
       if (datatype == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo *nct = new OBCisTransStereo(this);
@@ -1503,9 +1503,9 @@ namespace OpenBabel
         _vconf.clear();
 
         //Destroy rotamer list if necessary
-        if ((OBRotamerList *)GetData(OBGenericDataType::RotamerList))
+        if (dynamic_cast<OBRotamerList *>(GetData(OBGenericDataType::RotamerList)))
           {
-            delete (OBRotamerList *)GetData(OBGenericDataType::RotamerList);
+            delete dynamic_cast<OBRotamerList *>(GetData(OBGenericDataType::RotamerList));
             DeleteData(OBGenericDataType::RotamerList);
           }
       }
@@ -1638,7 +1638,7 @@ namespace OpenBabel
         for (i = BeginData();i != EndData();++i)
           if ((*i)->GetDataType() == OBGenericDataType::VirtualBondData)
             {
-              vb = (OBVirtualBond*)*i;
+              vb = dynamic_cast<OBVirtualBond*>(*i);
               if (vb->GetBgn() > _natoms || vb->GetEnd() > _natoms)
                 continue;
               if (obatom->GetIdx() == static_cast<unsigned int>(vb->GetBgn())
@@ -1767,7 +1767,7 @@ namespace OpenBabel
         for (i = BeginData();i != EndData();++i)
           if ((*i)->GetDataType() == OBGenericDataType::VirtualBondData)
             {
-              vb = (OBVirtualBond*)*i;
+              vb = dynamic_cast<OBVirtualBond*>(*i);
               if (vb->GetBgn() > _natoms || vb->GetEnd() > _natoms)
                 continue;
               if (obatom->GetIdx() == static_cast<unsigned int>(vb->GetBgn())
@@ -2401,7 +2401,7 @@ namespace OpenBabel
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      OBStereo::Type datatype = ((OBStereoBase*)*data)->GetType();
+      OBStereo::Type datatype = (dynamic_cast<OBStereoBase*>(*data))->GetType();
 
       if (datatype != OBStereo::CisTrans && datatype != OBStereo::Tetrahedral) {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -3035,7 +3035,7 @@ namespace OpenBabel
               {
                 atom1 = vector3(c[idx1*3], c[idx1*3+1], c[idx1*3+2]);
                 atom2 = vector3(c[idx2*3], c[idx2*3+1], c[idx2*3+2]);
-                OBUnitCell *unitCell = (OBUnitCell * ) GetData(OBGenericDataType::UnitCell);
+                OBUnitCell *unitCell = dynamic_cast<OBUnitCell *>( GetData(OBGenericDataType::UnitCell));
                 wrapped_coords = unitCell->MinimumImageCartesian(atom1 - atom2);
                 d2 = wrapped_coords.length_2();
               }
@@ -3673,7 +3673,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    OBConformerData *cd = dynamic_cast<OBConformerData*>( GetData(OBGenericDataType::ConformerData));
     cd->SetEnergies(energies);
   }
 
@@ -3681,7 +3681,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    OBConformerData *cd = dynamic_cast<OBConformerData*>( GetData(OBGenericDataType::ConformerData));
     vector<double> energies = cd->GetEnergies();
 
     return energies;
@@ -3691,7 +3691,7 @@ namespace OpenBabel
   {
     if (!HasData(OBGenericDataType::ConformerData))
       SetData(new OBConformerData);
-    OBConformerData *cd = (OBConformerData*) GetData(OBGenericDataType::ConformerData);
+    OBConformerData *cd = dynamic_cast<OBConformerData*>( GetData(OBGenericDataType::ConformerData));
     vector<double> energies = cd->GetEnergies();
 
     if (((unsigned int)ci >= energies.size()) || (ci < 0))
@@ -4120,7 +4120,7 @@ namespace OpenBabel
 
     // If the parent is set to periodic, then also apply boundary conditions to the fragments
     if (IsPeriodic()) {
-      OBUnitCell* parent_uc = (OBUnitCell*)GetData(OBGenericDataType::UnitCell);
+      OBUnitCell* parent_uc = dynamic_cast<OBUnitCell*>(GetData(OBGenericDataType::UnitCell));
       newmol.SetData(parent_uc->Clone(nullptr));
       newmol.SetPeriodicMol();
     }
