@@ -590,7 +590,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
 /////////////////////////////////////////////
 bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
 {
-  OBRateData* pRD = (OBRateData*)pReact->GetData("Rate data");
+  OBRateData* pRD = dynamic_cast<OBRateData*>(pReact->GetData("Rate data"));
 
   while(ifs)
   {
