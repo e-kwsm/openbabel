@@ -124,7 +124,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
     return false;
   }
 
-  OBUnitCell *pUC = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+  OBUnitCell *pUC = dynamic_cast<OBUnitCell*>(pmol->GetData(OBGenericDataType::UnitCell));
   SpaceGroup spacegroup;
   const SpaceGroup* pSG;
   map<string,string>::const_iterator itr;
