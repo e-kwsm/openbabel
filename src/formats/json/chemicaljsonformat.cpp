@@ -299,7 +299,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   rapidjson::Value nmrShifts(rapidjson::kArrayType);
 
   std::string chargeMethod = "Gasteiger"; // that's the default
-  OBPairData *dp = (OBPairData *)pmol->GetData("PartialCharges");
+  OBPairData *dp = dynamic_cast<OBPairData *>(pmol->GetData("PartialCharges"));
   if (dp != nullptr)
     chargeMethod = dp->GetValue();
 
@@ -381,7 +381,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
 
   // unit cells
   if (pmol->HasData(OBGenericDataType::UnitCell)) {
-    OBUnitCell *uc = (OBUnitCell *)pmol->GetData(OBGenericDataType::UnitCell);
+    OBUnitCell *uc = dynamic_cast<OBUnitCell *>(pmol->GetData(OBGenericDataType::UnitCell));
     if (uc != nullptr) {
       rapidjson::Value unitCell(rapidjson::kObjectType);
       unitCell.AddMember("a", uc->GetA(), al);
@@ -415,7 +415,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   // vibrations
   if (pmol->HasData(OBGenericDataType::VibrationData)) {
     OBVibrationData *vib =
-        (OBVibrationData *)pmol->GetData(OBGenericDataType::VibrationData);
+        dynamic_cast<OBVibrationData *>(pmol->GetData(OBGenericDataType::VibrationData));
     if (vib != nullptr) {
       rapidjson::Value vibrations(rapidjson::kObjectType);
 
@@ -478,8 +478,8 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   // check for electronic spectra (UV/Vis, CD)
   if (pmol->HasData(OBGenericDataType::ElectronicData)) {
     OBElectronicTransitionData *edata =
-        (OBElectronicTransitionData *)pmol->GetData(
-            OBGenericDataType::ElectronicTransitionData);
+        dynamic_cast<OBElectronicTransitionData *>(pmol->GetData(
+            OBGenericDataType::ElectronicTransitionData));
 
     if (edata != nullptr) {
       rapidjson::Value electronic(rapidjson::kObjectType);
@@ -529,7 +529,7 @@ bool ChemicalJSONFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   // look for conformer energies
   if (pmol->HasData(OBGenericDataType::ConformerData)) {
     OBConformerData *cd =
-        (OBConformerData *) pmol->GetData(OBGenericDataType::ConformerData);
+        dynamic_cast<OBConformerData *>( pmol->GetData(OBGenericDataType::ConformerData));
     vector<double> energies = cd->GetEnergies();
     rapidjson::Value confEnergies(rapidjson::kArrayType);
     for (auto i = energies.begin(); i != energies.end(); ++i) {
