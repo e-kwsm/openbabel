@@ -191,7 +191,7 @@ namespace OpenBabel
     int idval = 0;
     OBGenericData *data = atom->GetData(idtype);
     if (data) {
-      OBPairInteger *pi = (OBPairInteger*)data;
+      OBPairInteger *pi = dynamic_cast<OBPairInteger*>(data);
       idval = pi->GetGenericValue();
     }
     return idval;
@@ -303,7 +303,7 @@ namespace OpenBabel
     OBGenericData *data = atom->GetData(idtype);
     OBPairInteger *pi;
     if (data) {
-      pi = (OBPairInteger*)data;
+      pi = dynamic_cast<OBPairInteger*>(data);
       pi->SetValue(idval);
     }
     else {
