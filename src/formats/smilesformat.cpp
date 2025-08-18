@@ -1937,7 +1937,7 @@ namespace OpenBabel {
       //record external bond information
       OBExternalBondData *xbd;
       if (mol.HasData(OBGenericDataType::ExternalBondData)) {
-        xbd = (OBExternalBondData*) mol.GetData(OBGenericDataType::ExternalBondData);
+        xbd = dynamic_cast<OBExternalBondData*>( mol.GetData(OBGenericDataType::ExternalBondData));
       } else {
         xbd = new OBExternalBondData;
         xbd->SetOrigin(fileformatInput);
@@ -2480,7 +2480,7 @@ namespace OpenBabel {
   {
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
     for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data) {
-      if (((OBStereoBase*)*data)->GetType() != OBStereo::CisTrans)
+      if ((dynamic_cast<OBStereoBase*>(*data))->GetType() != OBStereo::CisTrans)
         continue;
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       if (ct && ct->GetConfig().specified) {
@@ -4095,7 +4095,7 @@ namespace OpenBabel {
       }
       else {
         // Recanonicalizing - update existing new OBPairData
-        canData = (OBPairData *)mol.GetData("SMILES Atom Order");
+        canData = dynamic_cast<OBPairData *>(mol.GetData("SMILES Atom Order"));
       }
       std::string atmorder;
       m2s.GetOutputOrder(atmorder);
@@ -4181,7 +4181,7 @@ namespace OpenBabel {
 
     OBBitVec fragatoms(pmol->NumAtoms());
 
-    OBPairData *dp = (OBPairData *) pmol->GetData("SMILES_Fragment");
+    OBPairData *dp = dynamic_cast<OBPairData *>( pmol->GetData("SMILES_Fragment"));
     const char* ppF = pConv->IsOption("F");
     if (dp) {
       fragatoms.FromString(dp->GetValue(), pmol->NumAtoms());
