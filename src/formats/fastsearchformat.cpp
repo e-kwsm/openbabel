@@ -578,7 +578,7 @@ const char* Description() override  // required
         pConv->AddOption("e", OBConversion::INOPTIONS);
 
       OBConversion patternConv;
-      OBFormat* pFormat;
+      OBFormat* pFormat = nullptr;
       //Interpret as a filename if possible
       string& txt =vec [0];
       if( txt.empty() ||
@@ -594,12 +594,12 @@ const char* Description() override  // required
         //for the fingerprint phase, but allow more generality in the SMARTS phase.
         for(;;)
         {
-          string::size_type pos1, pos2;
+          string::size_type pos1 = 0, pos2 = 0;
           pos1 = txt.find("[#");
           if(pos1==string::npos)
             break;
           pos2 = txt.find(']');
-          int atno;
+          int atno = 0;
           if(pos2!=string::npos &&  (atno = atoi(txt.substr(pos1+2, pos2-pos1-2).c_str())) && atno>0)
             txt.replace(pos1, pos2-pos1+1, OBElements::GetSymbol(atno));
           else
@@ -609,7 +609,7 @@ const char* Description() override  // required
           }
         }
 
-        bool hasTildeBond;
+        bool hasTildeBond = false;
         if( (hasTildeBond = (txt.find('~')!=string::npos)) ) // extra parens to indicate truth value
         {
           //Find ~ bonds and make versions of query molecule with a single and aromatic bonds

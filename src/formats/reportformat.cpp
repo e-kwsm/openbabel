@@ -18,6 +18,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -262,8 +263,8 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////
   void ReportFormat::WriteCharges(ostream &ofs,OBMol &mol)
   {
-    unsigned int i;
-    OBAtom *atom;
+    unsigned int i = 0;
+    OBAtom *atom = nullptr;
     char buffer[BUFF_SIZE];
 
     for(i = 1;i <= mol.NumAtoms(); i++)
@@ -281,12 +282,12 @@ namespace OpenBabel
   void ReportFormat::WriteDistanceMatrix(ostream &ofs,OBMol &mol)
   {
     int columns = 7;
-    unsigned int max, min = 1;
-    unsigned int i,j;
+    unsigned int max = 0, min = 1;
+    unsigned int i = 0,j = 0;
     string type;
-    OBAtom *atom, *atom2;
+    OBAtom *atom = nullptr, *atom2 = nullptr;
     char buffer[BUFF_SIZE];
-    double dst;
+    double dst = NAN;
 
     max = columns;
     while (max <= mol.NumAtoms() + columns)
@@ -350,8 +351,8 @@ namespace OpenBabel
   void ReportFormat::WriteTorsions(ostream &ofs,OBMol &mol)
   {
     vector<OBBond*>::iterator bi1,bi2,bi3;
-    OBBond* bond;
-    OBAtom *a,*b,*c,*d;
+    OBBond* bond = nullptr;
+    OBAtom *a = nullptr,*b = nullptr,*c = nullptr,*d = nullptr;
     char buffer[BUFF_SIZE];
 
     //loop through all bonds generating torsions
@@ -381,9 +382,9 @@ namespace OpenBabel
 
   void ReportFormat::WriteAngles(ostream &ofs,OBMol &mol)
   {
-    OBAtom *a, *b, *c;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr;
     char buffer[BUFF_SIZE];
-    double ang;
+    double ang = NAN;
 
     FOR_ANGLES_OF_MOL(angle, mol)
     {
@@ -402,7 +403,7 @@ namespace OpenBabel
 
   void ReportFormat::WriteChiral(ostream &ofs,OBMol &mol)
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     char buffer[BUFF_SIZE];
 

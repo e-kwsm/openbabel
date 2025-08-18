@@ -11,6 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -104,15 +105,15 @@ namespace OpenBabel
     // ....
     // )
     unsigned int openParens = 0; // the count of "open parentheses" tags
-    unsigned int startBondAtom, endBondAtom, bondOrder;
+    unsigned int startBondAtom = 0, endBondAtom = 0, bondOrder = 0;
     bool atomRecord = false;
     bool bondRecord = false;
     OBAtom *atom = nullptr;
 //    OBBond *bond;
     vector<string> vs;
-    const SpaceGroup *sg;
+    const SpaceGroup *sg = nullptr;
     bool setSpaceGroup = false;
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     vector3 translationVectors[3];
     int numTranslationVectors = 0;
 

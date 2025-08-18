@@ -11,6 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -84,17 +85,17 @@ namespace OpenBabel
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
-    OBAtom *a;
-    OBAtom *b;
-    OBAtom *c;
-    OBAtom *d;
+    OBAtom *a = nullptr;
+    OBAtom *b = nullptr;
+    OBAtom *c = nullptr;
+    OBAtom *d = nullptr;
 
     char buffer[BUFF_SIZE];
 
 
     //Very basic atom typing by element only
     //TODO: The maps should become smarts strings instead of element names
-    double ThisMass;
+    double ThisMass = NAN;
     string ThisAtom;
     map<string, double> AtomMass;
     FOR_ATOMS_OF_MOL(atom, mol)
@@ -256,7 +257,7 @@ namespace OpenBabel
     //It may be necessary to set the boxlength to enforce
     //a density.
     const char *boxLn = pConv->IsOption("d",OBConversion::OUTOPTIONS);
-    double xlo,xhi;
+    double xlo = NAN,xhi = NAN;
     char BoxString[BUFF_SIZE];
     if(boxLn)
     {

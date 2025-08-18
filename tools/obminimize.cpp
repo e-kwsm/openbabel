@@ -38,7 +38,7 @@ using namespace OpenBabel;
 int main(int argc,char **argv)
 {
   char *program_name= argv[0];
-  int c;
+  int c = 0;
   int steps = 2500;
   double crit = 1e-6;
   bool sd = false;
@@ -49,7 +49,7 @@ int main(int argc,char **argv)
   double rele = 10.0;
   int freq = 10;
   string basename, filename = "", option, option2, ff = "MMFF94";
-  char *oext;
+  char *oext = nullptr;
   OBConversion conv;
   OBFormat *format_out = conv.FindFormat("pdb"); // default output format
 

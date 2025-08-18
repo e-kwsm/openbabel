@@ -421,7 +421,7 @@ void test_SMILES_Valence()
       if (rep == 2)
         mol.AddHydrogens();
       std::string out = conv.WriteString(&mol, true);
-      const char *mout;
+      const char *mout = nullptr;
       switch (rep)
       {
       case 0:

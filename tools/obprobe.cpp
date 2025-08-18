@@ -24,6 +24,7 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/base.h>
 #include <openbabel/mol.h>
@@ -42,9 +43,9 @@ using namespace OpenBabel;
 int main(int argc,char **argv)
 {
   char *program_name = argv[0];
-  char *type;
-  int c;
-  double step, padding, pchg;
+  char *type = nullptr;
+  int c = 0;
+  double step = NAN, padding = NAN, pchg = NAN;
   string basename, filename = "", option;
 
   step    = 0.5;

@@ -186,10 +186,10 @@ namespace OpenBabel
         iss.imbue(cLocale);
 
         string row;
-        int i;
-        size_t j;
-        bool neg;
-        double *t;
+        int i = 0;
+        size_t j = 0;
+        bool neg = false;
+        double *t = nullptr;
         for (i = 0; i < 3; i++)
           {
             getline(iss, row, ',');
@@ -202,7 +202,7 @@ namespace OpenBabel
                   case '0':
                   case '.': // anticipating something like 0.5 or .3333
                     {
-                      char *end;
+                      char *end = nullptr;
                       switch (i)
                         {
                         case 0:
@@ -509,7 +509,7 @@ namespace OpenBabel
 		// calculate all products and check if they are in the group
 		map <string, transform3d*>::iterator j, k, end = T.end();
     string s;
-    bool has_inverse;
+    bool has_inverse = false;
 		for (j = T.begin(); j != end; ++j)
 		  {
         has_inverse = false;

@@ -107,8 +107,8 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
    * Solaris pre 10 doesn't implement scandir.
    */
 
-  DIR *dp;
-  struct dirent *entry;
+  DIR *dp = nullptr;
+  struct dirent *entry = nullptr;
 
   string currentPath;
   for (unsigned int i = 0; i < paths.size(); ++i)

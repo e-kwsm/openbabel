@@ -287,8 +287,8 @@ namespace OpenBabel
         std::stringstream input(iter->second);
         std::string segment;
         while (std::getline(input, segment, ',')){
-          int p1, p2;
-          char additional;
+          int p1 = 0, p2 = 0;
+          char additional = 0;
           int converted = sscanf(segment.c_str(), "%d-%d%c", &p1, &p2, &additional);
           if (converted==2 && p1>0 && p2>0){
             if (p1>pmol->NumAtoms() || p2>pmol->NumAtoms()){

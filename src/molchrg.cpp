@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -75,11 +76,11 @@ namespace OpenBabel
     dp->SetOrigin(perceived);
     mol.SetData(dp);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     GSVResize(mol.NumAtoms()+1);
-    double a,b,c;
+    double a = NAN,b = NAN,c = NAN;
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
         if (!GasteigerSigmaChi(atom,a,b,c))
@@ -87,11 +88,11 @@ namespace OpenBabel
         _gsv[atom->GetIdx()]->SetValues(a,b,c,atom->GetPartialCharge());
       }
 
-    double alpha,charge,denom;
-    unsigned j;
-    int iter;
-    OBBond *bond;
-    OBAtom *src,*dst;
+    double alpha = NAN,charge = NAN,denom = NAN;
+    unsigned j = 0;
+    int iter = 0;
+    OBBond *bond = nullptr;
+    OBAtom *src = nullptr,*dst = nullptr;
     vector<OBBond*>::iterator k;
     alpha = 1.0;
     for(iter = 0;iter < OB_GASTEIGER_ITERS;++iter)
@@ -143,7 +144,7 @@ namespace OpenBabel
   //! All other atoms are set to have their initial charge from their formal charge
   void OBGastChrg::InitialPartialCharges(OBMol &mol)
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
@@ -162,7 +163,7 @@ namespace OpenBabel
 
   bool OBGastChrg::GasteigerSigmaChi(OBAtom *atom,double &a,double &b,double &c )
   {
-    int count;
+    int count = 0;
     double val[3] = {0.0,0.0,0.0};
 
     switch(atom->GetAtomicNum())

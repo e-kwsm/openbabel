@@ -18,6 +18,7 @@ GNU General Public License for more details.
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
 #include <openbabel/elements.h>
+#include <cmath>
 #include <cstdlib>
 
 using namespace std;
@@ -76,10 +77,10 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     const char* title = pConv->GetTitle();
 
     char buffer[BUFF_SIZE];
-    OBAtom *atom;
-    double x,y,z, border;
+    OBAtom *atom = nullptr;
+    double x = NAN,y = NAN,z = NAN, border = NAN;
     double factor = 1.0;
-    int bgn, end, order;
+    int bgn = 0, end = 0, order = 0;
     vector<string> vs;
     bool foundTitle = false;
     bool foundBonds = false;
@@ -172,7 +173,7 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    unsigned int i;
+    unsigned int i = 0;
     char buffer[BUFF_SIZE];
 
     if (strlen(mol.GetTitle()) > 0)
@@ -180,7 +181,7 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     ofs << "$coord 1.0" << endl;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     for(i = 1;i <= mol.NumAtoms(); i++)
     {
         atom = mol.GetAtom(i);

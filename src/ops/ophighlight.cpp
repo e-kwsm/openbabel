@@ -147,7 +147,7 @@ bool OpHighlight::AddDataToSubstruct(OBMol* pmol,
     pAtom->SetData(dp);
   }
 
-  OBBond* pBond;
+  OBBond* pBond = nullptr;
   vector<OBBond*>::iterator i;
   for(pBond = pmol->BeginBond(i); pBond; pBond = pmol->NextBond(i))
   {

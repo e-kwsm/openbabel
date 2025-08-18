@@ -215,9 +215,9 @@ namespace OpenBabel
       return false;
     }
     FOR_ATOMS_OF_MOL(atom, _mol) {
-      OBGenericData *data;
-      OBPairInteger *pi;
-      int val;
+      OBGenericData *data = nullptr;
+      OBPairInteger *pi = nullptr;
+      int val = 0;
 
       data = atom->GetData("rxncomp");
       if (!data) {
@@ -301,7 +301,7 @@ namespace OpenBabel
   {
     // Note: this replaces any existing data
     OBGenericData *data = atom->GetData(idtype);
-    OBPairInteger *pi;
+    OBPairInteger *pi = nullptr;
     if (data) {
       pi = (OBPairInteger*)data;
       pi->SetValue(idval);

@@ -11,6 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -146,10 +147,10 @@ namespace OpenBabel
       mol.SetTitle(defaultTitle);
 
     vector3 v1, v2, v3;
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     vector<string> vs;
-    OBAtom *atom;
-    int atomicNum;
+    OBAtom *atom = nullptr;
+    int atomicNum = 0;
     bool setCellVectors = false;
     // go through remaining lines, particularly looking for cell vectors
     mol.BeginModify();

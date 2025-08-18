@@ -47,10 +47,10 @@ namespace OpenBabel
   string transform3d::DescribeAsString() const
     {
       ostringstream r;
-      int n, i, j;
+      int n = 0, i = 0, j = 0;
       const matrix3x3 *m = static_cast <const matrix3x3 *> (this);
       const vector3 *v = static_cast <const vector3 *> (this);
-      bool neg, first;
+      bool neg = false, first = false;
       for (i = 0; i < 3; i++)
         {
           if (i)

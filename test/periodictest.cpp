@@ -53,8 +53,8 @@ private:
 
 PeriodicTester::PeriodicTester() {
   // Builds a made-up test molecule that straddles periodic boundaries
-  OBAtom* a;
-  OBBond* b;
+  OBAtom* a = nullptr;
+  OBBond* b = nullptr;
 
   tmol.BeginModify();
   a = tmol.NewAtom();
@@ -75,7 +75,7 @@ PeriodicTester::PeriodicTester() {
   atom_list.push_back(a);
 
   for (int i=0; i<3; ++i) {
-    OBAtom *a1, *a2;
+    OBAtom *a1 = nullptr, *a2 = nullptr;
     a1 = atom_list[i];
     a2 = atom_list[i+1];
     b = tmol.NewBond();

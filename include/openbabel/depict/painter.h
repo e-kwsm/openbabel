@@ -50,7 +50,7 @@ namespace OpenBabel
       if (color[0]=='#')
       {
         std::stringstream ss(color.substr(1));
-        unsigned c;
+        unsigned c = 0;
         ss >> std::hex >> c;
         *this = OBColor((c/0x10000)/256.0, ((c%0x10000)/0x100/256.0), (c%0x100)/256.0);
         return;

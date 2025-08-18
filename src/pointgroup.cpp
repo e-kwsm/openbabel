@@ -18,6 +18,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -251,11 +252,11 @@ namespace OpenBabel {
     int
     establish_pairs( SYMMETRY_ELEMENT *elem )
     {
-      unsigned int      i, j, best_j;
+      unsigned int      i = 0, j = 0, best_j = 0;
       char *            atom_used = (char *)calloc( _mol->NumAtoms(), 1 ) ;
-      double            distance, best_distance ;
+      double            distance = NAN, best_distance  = NAN;
       OBAtom            symmetric;
-      OBAtom            *atom;
+      OBAtom            *atom = nullptr;
 
       PairedAtoms.clear();
 
@@ -305,7 +306,7 @@ namespace OpenBabel {
     int
     check_transform_order( SYMMETRY_ELEMENT *elem )
     {
-      unsigned int i, j, k;
+      unsigned int i = 0, j = 0, k = 0;
 
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         if( elem->transform[i] == i )   /* Identity transform is Ok for any order */
@@ -341,8 +342,8 @@ namespace OpenBabel {
     int
     same_transform( SYMMETRY_ELEMENT *a, SYMMETRY_ELEMENT *b )
     {
-      unsigned int      i, j;
-      int               code;
+      unsigned int      i = 0, j = 0;
+      int               code = 0;
 
       if( ( a->order != b->order ) || ( a->nparam != b->nparam ) || ( a->transform_atom != b->transform_atom ) )
         return 0 ;
@@ -367,7 +368,7 @@ namespace OpenBabel {
     alloc_symmetry_element( void )
     {
       SYMMETRY_ELEMENT * elem = (SYMMETRY_ELEMENT *)calloc( 1, sizeof( SYMMETRY_ELEMENT ) ) ;
-      unsigned int i;
+      unsigned int i = 0;
 
       if (elem == nullptr){
         //        fprintf( stderr, "Out of memory allocating symmetry element\n" ) ;
@@ -398,9 +399,9 @@ namespace OpenBabel {
     int
     check_transform_quality( SYMMETRY_ELEMENT *elem )
     {
-      unsigned int      i, j;
+      unsigned int      i = 0, j = 0;
       OBAtom            symmetric ;
-      double            r, max_r ;
+      double            r = NAN, max_r  = NAN;
 
       for( i = 0, max_r = 0 ; i < _mol->NumAtoms() ; i++ ){
         j = elem->transform[i] ;
@@ -420,9 +421,9 @@ namespace OpenBabel {
     double
     eval_optimization_target_function( SYMMETRY_ELEMENT *elem, int *finish )
     {
-      unsigned int      i, j, k;
+      unsigned int      i = 0, j = 0, k = 0;
       OBAtom            symmetric ;
-      double            target, r, maxr ;
+      double            target = NAN, r = NAN, maxr  = NAN;
 
       if( elem->nparam >= 4 ){
         for( k = 0, r = 0 ; k < DIMENSION ; k++ ){
@@ -490,11 +491,11 @@ namespace OpenBabel {
       double            grad  [ MAXPARAM ] ;
       double            force [ MAXPARAM ] ;
       double            step  [ MAXPARAM ] ;
-      double            f, fold, fnew, fnew2, fdn, fup, snorm ;
-      double            a, b, x ;
+      double            f = NAN, fold = NAN, fnew = NAN, fnew2 = NAN, fdn = NAN, fup = NAN, snorm  = NAN;
+      double            a = NAN, b = NAN, x  = NAN;
       int               vars  = elem->nparam ;
       int               cycle = 0 ;
-      int               i, finish ;
+      int               i = 0, finish  = 0;
       int               hits = 0 ;
 
       if( vars > MAXPARAM ){
@@ -607,7 +608,7 @@ namespace OpenBabel {
     int
     refine_symmetry_element( SYMMETRY_ELEMENT *elem, int build_table )
     {
-      int               i ;
+      int               i  = 0;
 
 
       if( build_table && (establish_pairs( elem ) < 0) ){
@@ -685,8 +686,8 @@ namespace OpenBabel {
     init_mirror_plane( int i, int j )
     {
       SYMMETRY_ELEMENT * plane = alloc_symmetry_element() ;
-      double             dx[ DIMENSION ], midpoint[ DIMENSION ], rab, r ;
-      int                k ;
+      double             dx[ DIMENSION ], midpoint[ DIMENSION ], rab = NAN, r  = NAN;
+      int                k  = 0;
 
       if( verbose > 0 ) printf( "Trying mirror plane for atoms %d,%d\n", i, j ) ;
       StatTotal++ ;
@@ -735,9 +736,9 @@ namespace OpenBabel {
       SYMMETRY_ELEMENT * plane = alloc_symmetry_element() ;
       double             d0[ DIMENSION ], d1[ DIMENSION ], d2[ DIMENSION ] ;
       double             p[ DIMENSION ] ;
-      double             r, s0, s1, s2 ;
-      double *           d ;
-      unsigned int       i, j, k;
+      double             r = NAN, s0 = NAN, s1 = NAN, s2  = NAN;
+      double *           d  = nullptr;
+      unsigned int       i = 0, j = 0, k = 0;
 
       if( verbose > 0 ) printf( "Trying whole-molecule mirror plane\n" ) ;
       StatTotal++ ;
@@ -829,8 +830,8 @@ namespace OpenBabel {
     init_inversion_center( void )
     {
       SYMMETRY_ELEMENT * center = alloc_symmetry_element() ;
-      int                k ;
-      double             r ;
+      int                k  = 0;
+      double             r  = NAN;
 
       if( verbose > 0 ) printf( "Trying inversion center at the center of something\n" ) ;
       StatTotal++ ;
@@ -869,8 +870,8 @@ namespace OpenBabel {
       double             angle = axis->order ? 2*M_PI/axis->order : 1.0 ;
       double             a_sin = sin( angle ) ;
       double             a_cos = cos( angle ) ;
-      double             dot ;
-      int                i ;
+      double             dot  = NAN;
+      int                i  = 0;
 
       if( DIMENSION != 3 ){
         //        fprintf( stderr, "Catastrophe in rotate_atom!\n" ) ;
@@ -909,8 +910,8 @@ namespace OpenBabel {
     {
       SYMMETRY_ELEMENT * axis = alloc_symmetry_element() ;
       double             dir[ DIMENSION ], rel[ DIMENSION ] ;
-      double             s ;
-      unsigned int       i, k;
+      double             s  = NAN;
+      unsigned int       i = 0, k = 0;
 
       if( verbose > 0 ) printf( "Trying infinity axis\n" ) ;
       StatTotal++ ;
@@ -968,10 +969,10 @@ namespace OpenBabel {
     SYMMETRY_ELEMENT *
     init_c2_axis( int i, int j, const double support[ DIMENSION ] )
     {
-      SYMMETRY_ELEMENT * axis ;
-      int                k ;
-      double             ris, rjs ;
-      double             r, center[ DIMENSION ] ;
+      SYMMETRY_ELEMENT * axis  = nullptr;
+      int                k  = 0;
+      double             ris = NAN, rjs  = NAN;
+      double             r = NAN, center[ DIMENSION ] ;
 
       if( verbose > 0 )
         printf( "Trying c2 axis for the pair (%d,%d) with the support (%g,%g,%g)\n",
@@ -1056,10 +1057,10 @@ namespace OpenBabel {
     SYMMETRY_ELEMENT *
     init_axis_parameters( double a[3], double b[3], double c[3] )
     {
-      SYMMETRY_ELEMENT * axis ;
-      int                i, order, sign ;
-      double             ra, rb, rc, rab, rbc, rac, r ;
-      double             angle ;
+      SYMMETRY_ELEMENT * axis  = nullptr;
+      int                i = 0, order = 0, sign  = 0;
+      double             ra = NAN, rb = NAN, rc = NAN, rab = NAN, rbc = NAN, rac = NAN, r  = NAN;
+      double             angle  = NAN;
 
       ra = rb = rc = rab = rbc = rac = 0 ;
       for( i = 0 ; i < DIMENSION ; i++ ){
@@ -1161,7 +1162,7 @@ namespace OpenBabel {
     SYMMETRY_ELEMENT *
     init_higher_axis( int ia, int ib, int ic )
     {
-      SYMMETRY_ELEMENT * axis ;
+      SYMMETRY_ELEMENT * axis  = nullptr;
       double             a[ DIMENSION ], b[ DIMENSION ], c[ DIMENSION ] ;
 
       if( verbose > 0 ) printf( "Trying cn axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ;
@@ -1205,8 +1206,8 @@ namespace OpenBabel {
       double             angle = 2*M_PI/axis->order ;
       double             a_sin = sin( angle ) ;
       double             a_cos = cos( angle ) ;
-      double             dot ;
-      int                i ;
+      double             dot  = NAN;
+      int                i  = 0;
 
       if( DIMENSION != 3 ){
         //        fprintf( stderr, "Catastrophe in rotate_reflect_atom!\n" ) ;
@@ -1243,11 +1244,11 @@ namespace OpenBabel {
     SYMMETRY_ELEMENT *
     init_improper_axis( int ia, int ib, int ic )
     {
-      SYMMETRY_ELEMENT * axis ;
+      SYMMETRY_ELEMENT * axis  = nullptr;
       double             a[ DIMENSION ], b[ DIMENSION ], c[ DIMENSION ] ;
       double             centerpoint[ DIMENSION ] ;
-      double             r ;
-      int                i ;
+      double             r  = NAN;
+      int                i  = 0;
 
       if( verbose > 0 ) printf( "Trying an axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ;
       StatTotal++ ;
@@ -1301,10 +1302,10 @@ namespace OpenBabel {
     void
     find_center_of_something( void )
     {
-      unsigned int       i, j;
+      unsigned int       i = 0, j = 0;
       double             coord_sum[ DIMENSION ] ;
-      double             r ;
-      OBAtom             *atom;
+      double             r  = NAN;
+      OBAtom             *atom = nullptr;
 
       for( j = 0 ; j < DIMENSION ; j++ )
         coord_sum[j] = 0 ;
@@ -1335,8 +1336,8 @@ namespace OpenBabel {
     void
     find_planes(void)
     {
-      unsigned int i, j;
-      SYMMETRY_ELEMENT * plane ;
+      unsigned int i = 0, j = 0;
+      SYMMETRY_ELEMENT * plane  = nullptr;
 
       plane = init_ultimate_plane() ;
       if (plane != nullptr) {
@@ -1369,7 +1370,7 @@ namespace OpenBabel {
     void
     find_inversion_centers(void)
     {
-      SYMMETRY_ELEMENT * center ;
+      SYMMETRY_ELEMENT * center  = nullptr;
 
       if ((center = init_inversion_center()) != nullptr) {
         InversionCenters = (SYMMETRY_ELEMENT **) calloc( 1, sizeof( SYMMETRY_ELEMENT* ) ) ;
@@ -1381,7 +1382,7 @@ namespace OpenBabel {
     void
     find_infinity_axis(void)
     {
-      SYMMETRY_ELEMENT * axis ;
+      SYMMETRY_ELEMENT * axis  = nullptr;
 
       if ((axis = init_ultimate_axis()) != nullptr) {
         NormalAxesCount++ ;
@@ -1397,12 +1398,12 @@ namespace OpenBabel {
     void
     find_c2_axes(void)
     {
-      unsigned int       i, j, k, l;
+      unsigned int       i = 0, j = 0, k = 0, l = 0;
       double             center[ DIMENSION ] ;
       double *           distances = (double*)calloc( _mol->NumAtoms(), sizeof( double ) ) ;
-      double             r ;
-      SYMMETRY_ELEMENT * axis ;
-      OBAtom           *a1, *a2, *a3, *a4;
+      double             r  = NAN;
+      SYMMETRY_ELEMENT * axis  = nullptr;
+      OBAtom           *a1 = nullptr, *a2 = nullptr, *a3 = nullptr, *a4 = nullptr;
 
       if (distances == nullptr) {
         //        fprintf( stderr, "Out of memory in find_c2_axes()\n" ) ;
@@ -1498,8 +1499,8 @@ namespace OpenBabel {
     void
     find_higher_axes(void)
     {
-      unsigned int i, j, k;
-      SYMMETRY_ELEMENT * axis ;
+      unsigned int i = 0, j = 0, k = 0;
+      SYMMETRY_ELEMENT * axis  = nullptr;
 
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         for( j = i + 1 ; j < _mol->NumAtoms() ; j++ ){
@@ -1530,8 +1531,8 @@ namespace OpenBabel {
     void
     find_improper_axes(void)
     {
-      unsigned int i, j, k;
-      SYMMETRY_ELEMENT * axis ;
+      unsigned int i = 0, j = 0, k = 0;
+      SYMMETRY_ELEMENT * axis  = nullptr;
 
       for( i = 0 ; i < _mol->NumAtoms() ; i++ ){
         for( j = i + 1 ; j < _mol->NumAtoms() ; j++ ){
@@ -1553,7 +1554,7 @@ namespace OpenBabel {
     void
     report_planes( void )
     {
-      int           i ;
+      int           i  = 0;
 
       if( PlanesCount == 0 )
         printf( "There are no planes of symmetry in the molecule\n" ) ;
@@ -1589,7 +1590,7 @@ namespace OpenBabel {
     void
     report_axes( void )
     {
-      int           i ;
+      int           i  = 0;
 
       if( NormalAxesCount == 0 )
         printf( "There are no normal axes in the molecule\n" ) ;
@@ -1616,7 +1617,7 @@ namespace OpenBabel {
     void
     report_improper_axes( void )
     {
-      int           i ;
+      int           i  = 0;
 
       if( ImproperAxesCount == 0 )
         printf( "There are no improper axes in the molecule\n" ) ;
@@ -1701,7 +1702,7 @@ namespace OpenBabel {
     {
       SYMMETRY_ELEMENT * axis_a = *(SYMMETRY_ELEMENT**) a ;
       SYMMETRY_ELEMENT * axis_b = *(SYMMETRY_ELEMENT**) b ;
-      int                i, order_a, order_b ;
+      int                i = 0, order_a = 0, order_b  = 0;
 
       order_a = axis_a->order ; if( order_a == 0 ) order_a = 10000 ;
       order_b = axis_b->order ; if( order_b == 0 ) order_b = 10000 ;
@@ -1737,7 +1738,7 @@ namespace OpenBabel {
     void
     summarize_symmetry_elements( void )
     {
-      int          i ;
+      int          i  = 0;
 
       NormalAxesCounts   = (int*) calloc( MaxAxisOrder+1, sizeof( int ) ) ;
       ImproperAxesCounts = (int*) calloc( MaxAxisOrder+1, sizeof( int ) ) ;
@@ -1750,7 +1751,7 @@ namespace OpenBabel {
     void
     report_symmetry_elements_brief( void )
     {
-      int          i ;
+      int          i  = 0;
       char *       symmetry_code = (char*)calloc( 1, 10*(PlanesCount+NormalAxesCount+ImproperAxesCount+InversionCentersCount+2) ) ;
       char         buf[ 100 ] ;
 
@@ -1789,7 +1790,7 @@ namespace OpenBabel {
 
     const char *identify_point_group( void )
     {
-      unsigned int   i;
+      unsigned int   i = 0;
       int            last_matching = -1;
       int            matching_count = 0;
 
@@ -1823,7 +1824,7 @@ namespace OpenBabel {
       if (PairedAtoms.size() == 0)
         return;
 
-      OBAtom *a, *b, symmetric;
+      OBAtom *a = nullptr, *b = nullptr, symmetric;
       for (unsigned int idx = 0; idx < PairedAtoms.size(); ++idx) {
           std::pair<int, int> atomPair = PairedAtoms[idx];
           a = _mol->GetAtom(atomPair.first + 1); // ATOM INDEX ISSUE
@@ -2193,7 +2194,7 @@ namespace OpenBabel {
       }
 
     // Copy back to the molecule
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     FOR_ATOMS_OF_MOL(a, d->_mol)
       {
         atom = mol->GetAtom(a->GetIdx());

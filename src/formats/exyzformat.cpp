@@ -122,7 +122,7 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
 
     stringstream errorMsg;
-    bool unitCell,virtualAtoms;
+    bool unitCell = false,virtualAtoms = false;
 
 
     unsigned int natoms = 0;	// [ejk] assumed natoms could not be -ve
@@ -233,7 +233,7 @@ namespace OpenBabel
           atom->SetType(vs[0]);
 
         // Read the atom coordinates
-        char *endptr;
+        char *endptr = nullptr;
         double x = strtod((char*)vs[1].c_str(),&endptr);
         if (endptr == (char*)vs[1].c_str())
           {
@@ -310,7 +310,7 @@ namespace OpenBabel
                 return(false);
             }
             // Read the vectors of the unit cell
-            char *endptr;
+            char *endptr = nullptr;
             double x = strtod((char*)vs[1].c_str(),&endptr);
             if (endptr == (char*)vs[1].c_str())
             {
@@ -368,7 +368,7 @@ namespace OpenBabel
             return(false);
         }
         // Read the origin (center) vector of the unit cell
-        char *endptr;
+        char *endptr = nullptr;
         double x = strtod((char*)vs[1].c_str(),&endptr);
         if (endptr == (char*)vs[1].c_str())
         {

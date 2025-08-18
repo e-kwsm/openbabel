@@ -16,6 +16,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/oberror.h>
 #include <openbabel/generic.h>
@@ -52,7 +53,7 @@ bool OBDescriptor::Compare(OBBase* pOb, istream& optionText, bool noEval, string
     optionText >> ch2;
 
   //Get number
-  double filterval, val;
+  double filterval = NAN, val = NAN;
   optionText >> filterval;
   if (optionText)
   {
@@ -91,7 +92,7 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
 {
   for(;;)
   {
-    bool negate=false, retFromCompare, ret=false;
+    bool negate=false, retFromCompare = false, ret=false;
     char ch=0;
     optionText >> ch; //skips whitespace
     if(!optionText)
@@ -150,7 +151,7 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
         else
         {
           //just parse
-          char ch1,ch2=0;
+          char ch1 = 0,ch2=0;
           string svalue;
           ParsePredicate(optionText, ch1, ch2, svalue);
           //no existing data, not a descriptor result is false meaning "does not exist"
@@ -198,7 +199,7 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
 {
   string descID, param;
   descID.clear();
-  char ch;
+  char ch = 0;
   optionText >> ch; //ignore leading white space
   optionText.unsetf(ios::skipws);
   for(;;)
@@ -288,7 +289,7 @@ double OBDescriptor::ParsePredicate(istream& optionText, char& ch1, char& ch2, s
 bool OBDescriptor::ReadStringFromFilter(istream& optionText, string& result)
 {
   bool ret=true;
-  char ch;
+  char ch = 0;
 
   if(optionText >> ch)
   {
@@ -377,7 +378,7 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
   }
 
   stringstream ss(sval);
-  double val;
+  double val = NAN;
   if((ss >> val) && !IsNan(filterval))
     //Do a numerical comparison if both values are numbers
     return DoComparison(ch1, ch2, val, filterval);
@@ -416,7 +417,7 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
 void OBDescriptor::AddProperties(OBBase* pOb, const string& DescrList)
 {
   stringstream ss(DescrList);
-  OBDescriptor* pDescr;
+  OBDescriptor* pDescr = nullptr;
   while(ss)
   {
     pair<string,string> spair = GetIdentifier(ss);
@@ -466,7 +467,7 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       delim = ' ';
 
     string values;
-    OBDescriptor* pDescr;
+    OBDescriptor* pDescr = nullptr;
     while(ss)
     {
       string thisvalue;

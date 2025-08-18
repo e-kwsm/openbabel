@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/math/matrix3x3.h>
 #include <openbabel/mol.h>
@@ -134,7 +135,7 @@ namespace OpenBabel
       {
         return(VZero);
       }
-		unsigned int i;
+		unsigned int i = 0;
     double x=0.0, y=0.0, z=0.0;
     for (i = 0;i < size;++i)
       {
@@ -159,7 +160,7 @@ namespace OpenBabel
   //!  Operates on the first "size" coordinates in the array.
   void rotate_coords(double *c,double m[3][3],unsigned int size)
   {
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     for (unsigned int i = 0;i < size;++i)
       {
         x = c[i*3]*m[0][0] + c[i*3+1]*m[0][1] + c[i*3+2]*m[0][2];
@@ -194,10 +195,10 @@ namespace OpenBabel
   //! that the 3rd atom is the pivot around which atoms rotate
   void SetRotorToAngle(double *c,vector<int> &tor,double ang,vector<int> &atoms)
   {
-    double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
-    double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
-    double c1mag,c2mag,radang,costheta,m[9];
-    double x,y,z,mag,rotang,sn,cs,t,tx,ty,tz;
+    double v1x = NAN,v1y = NAN,v1z = NAN,v2x = NAN,v2y = NAN,v2z = NAN,v3x = NAN,v3y = NAN,v3z = NAN;
+    double c1x = NAN,c1y = NAN,c1z = NAN,c2x = NAN,c2y = NAN,c2z = NAN,c3x = NAN,c3y = NAN,c3z = NAN;
+    double c1mag = NAN,c2mag = NAN,radang = NAN,costheta = NAN,m[9];
+    double x = NAN,y = NAN,z = NAN,mag = NAN,rotang = NAN,sn = NAN,cs = NAN,t = NAN,tx = NAN,ty = NAN,tz = NAN;
 
     //
     //calculate the torsion angle
@@ -273,7 +274,7 @@ namespace OpenBabel
     ty = c[tor[1]+1];
     tz = c[tor[1]+2];
     vector<int>::iterator i;
-    int j;
+    int j = 0;
     for (i = atoms.begin();i != atoms.end();++i)
       {
         j = *i;
@@ -362,7 +363,7 @@ namespace OpenBabel
   {
     if (s.empty())
       return;
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < s.size();++i)
       if (isalpha(s[i]) && !isdigit(s[i]))
         s[i] = toupper(s[i]);
@@ -371,7 +372,7 @@ namespace OpenBabel
   //! Shift the supplied char* to uppercase
   void ToUpper(char *cptr)
   {
-    char *c;
+    char *c = nullptr;
     for (c = cptr;*c != '\0';++c)
       if (isalpha(*c) && !isdigit(*c))
         *c = toupper(*c);
@@ -382,7 +383,7 @@ namespace OpenBabel
   {
     if (s.empty())
       return;
-    unsigned int i;
+    unsigned int i = 0;
     for (i = 0;i < s.size();++i)
       if (isalpha(s[i]) && !isdigit(s[i]))
         s[i] = tolower(s[i]);
@@ -391,7 +392,7 @@ namespace OpenBabel
   //! Shift the supplied char* to lowercase
   void ToLower(char *cptr)
   {
-    char *c;
+    char *c = nullptr;
     for (c = cptr;*c != '\0';++c)
       if (isalpha(*c) && !isdigit(*c))
         *c = tolower(*c);
@@ -404,7 +405,7 @@ namespace OpenBabel
   {
     if (start >= s.size())
       return;
-    unsigned int i;
+    unsigned int i = 0;
     for (i = start; i < s.size();++i)
       if (isalpha(s[i]) && !isdigit(s[i])) {
         if (isupper(s[i])) s[i] = tolower(s[i]);
@@ -415,7 +416,7 @@ namespace OpenBabel
   //! Shift the supplied char*: lowercase to upper, and upper to lower
   void InvertCase(char *cptr)
   {
-    char *c;
+    char *c = nullptr;
     for (c = cptr;*c != '\0';++c)
       if (isalpha(*c) && !isdigit(*c)) {
         if (isupper(*c)) *c = tolower(*c);
@@ -447,9 +448,9 @@ namespace OpenBabel
   {
     vector3 n,nn,v1,v2,v3,avec,bvec,cvec;
     double dst = 0.0, ang = 0.0, tor = 0.0;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
-    unsigned int index;
+    unsigned int index = 0;
 
     if (vic.empty())
       return;
@@ -549,8 +550,8 @@ namespace OpenBabel
   //! \todo Consider lengths, angles, and torsions for periodic systems
   void CartesianToInternal(std::vector<OBInternalCoord*> &vic,OBMol &mol)
   {
-    double r,sum;
-    OBAtom *atom,*nbr,*ref;
+    double r = NAN,sum = NAN;
+    OBAtom *atom = nullptr,*nbr = nullptr,*ref = nullptr;
     vector<OBAtom*>::iterator i,j,m;
 
     obErrorLog.ThrowError(__FUNCTION__,
@@ -616,9 +617,9 @@ namespace OpenBabel
       }
 
     //fill in geometries
-    unsigned int k;
+    unsigned int k = 0;
     vector3 v1,v2;
-    OBAtom *a,*b,*c;
+    OBAtom *a = nullptr,*b = nullptr,*c = nullptr;
     for (k = 2;k <= mol.NumAtoms();++k)
       {
         atom = mol.GetAtom(k);
@@ -642,8 +643,8 @@ namespace OpenBabel
       }
 
     //check for linear geometries and try to correct if possible
-    bool done;
-    double ang;
+    bool done = false;
+    double ang = NAN;
     for (k = 2;k <= mol.NumAtoms();++k)
       {
         ang = fabs(vic[k]->_ang);
@@ -688,13 +689,13 @@ namespace OpenBabel
 
   void qtrfit (double *r,double *f,int size, double u[3][3])
   {
-    int i;
-    double xxyx, xxyy, xxyz;
-    double xyyx, xyyy, xyyz;
-    double xzyx, xzyy, xzyz;
+    int i = 0;
+    double xxyx = NAN, xxyy = NAN, xxyz = NAN;
+    double xyyx = NAN, xyyy = NAN, xyyz = NAN;
+    double xzyx = NAN, xzyy = NAN, xzyz = NAN;
     double d[4],q[4];
     double c[16],v[16];
-    double rx,ry,rz,fx,fy,fz;
+    double rx = NAN,ry = NAN,rz = NAN,fx = NAN,fy = NAN,fz = NAN;
 
     /* generate the upper triangle of the quadratic form matrix */
 
@@ -801,7 +802,7 @@ namespace OpenBabel
    */
   int SolveQuadratic(double A,double B,double C)
   {
-    double Descr, Temp, TwoA;
+    double Descr = NAN, Temp = NAN, TwoA = NAN;
 
     if( IsZero(A) )
       return( SolveLinear(B,C) );
@@ -846,9 +847,9 @@ namespace OpenBabel
 
   int SolveCubic(double A,double B,double C,double D)
   {
-    double TwoA, ThreeA, BOver3A;
-    double Temp, POver3, QOver2;
-    double Desc, Rho, Psi;
+    double TwoA = NAN, ThreeA = NAN, BOver3A = NAN;
+    double Temp = NAN, POver3 = NAN, QOver2 = NAN;
+    double Desc = NAN, Rho = NAN, Psi = NAN;
 
 
     if( IsZero(A) )
@@ -914,11 +915,11 @@ namespace OpenBabel
   	Finally, the eigenvalues are sorted in order that the largest principal moment aligns to the 
   	new x-axis
   	*/
-    double onorm, dnorm; 
-    double b, dma, q, t, c, s,d[3];
-    double atemp, vtemp, dtemp,v[3][3];
+    double onorm = NAN, dnorm = NAN; 
+    double b = NAN, dma = NAN, q = NAN, t = NAN, c = NAN, s = NAN,d[3];
+    double atemp = NAN, vtemp = NAN, dtemp = NAN,v[3][3];
     double r1[3],r2[3],v1[3],v2[3],v3[3];
-    int i, j, k, l;
+    int i = 0, j = 0, k = 0, l = 0;
 
     memset((char*)d,'\0',sizeof(double)*3);
 
@@ -1105,8 +1106,8 @@ namespace OpenBabel
 
   double superimpose(double *r,double *f,int size)
   {
-    int i,j;
-    double x,y,z,d2;
+    int i = 0,j = 0;
+    double x = NAN,y = NAN,z = NAN,d2 = NAN;
     double mat[3][3],rmat[3][3],mat2[3][3],roots[3];
 
     /* make inertial cross tensor */
@@ -1199,8 +1200,8 @@ namespace OpenBabel
 
   void get_rmat(double *rvec,double *r,double *f,int size)
   {
-    int i,j;
-    double x,d2;
+    int i = 0,j = 0;
+    double x = NAN,d2 = NAN;
     double mat[3][3],rmat[3][3],mat2[3][3],roots[3];
 
     /* make inertial cross tensor */

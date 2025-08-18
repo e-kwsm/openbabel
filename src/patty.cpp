@@ -74,12 +74,12 @@ namespace OpenBabel
 
   void patty::read_rules(const string &infile)
   {
-    ifstream ifs, ifs1, *ifsP;
+    ifstream ifs, ifs1, *ifsP = nullptr;
     vector<string> vs;
     char buffer[BUFF_SIZE];
     char tmp_str[BUFF_SIZE];
     string patty_dir;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
 
     ifs.open(infile.c_str());
     ifsP= &ifs;
@@ -137,8 +137,8 @@ namespace OpenBabel
     vector<string> vs;
     char buffer[BUFF_SIZE];
     char tmp_str[BUFF_SIZE];
-    unsigned int i;
-    OBSmartsPattern *sp;
+    unsigned int i = 0;
+    OBSmartsPattern *sp = nullptr;
 
     for ( i = 0 ; i < rules.size() ; i++ )
       {
@@ -234,7 +234,7 @@ namespace OpenBabel
 
   int patty::type_to_int(const string &type, bool failOnUndefined)
   {
-    int result;
+    int result = 0;
 
     switch(toupper(type.c_str()[0]))
       {

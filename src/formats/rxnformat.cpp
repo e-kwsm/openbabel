@@ -177,7 +177,7 @@ bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     const char* type[3] = {"a reactant", "a product", "an agent"};
     OBReactionRole role;
-    unsigned int num_components;
+    unsigned int num_components = 0;
     for(unsigned int N=0; N<3; N++) {
       switch(N) {
       case 0:
@@ -295,7 +295,7 @@ bool RXNFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     HandleAgent handleagent = ReadAgentOption(pConv->IsOption("G"));
     bool hasAgent = rxnfacade.NumComponents(AGENT) > 0;
-    bool agentInReactants, agentInProducts;
+    bool agentInReactants = false, agentInProducts = false;
     if (hasAgent && (handleagent==BOTH_REACT_AND_PROD || handleagent==AS_REACT))
       agentInReactants = true;
     else

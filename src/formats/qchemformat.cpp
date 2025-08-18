@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
+#include <cmath>
 #include <cstdlib>
 
 using namespace std;
@@ -117,8 +118,8 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE], tag[BUFF_SIZE];
     string str,str1;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     //  OBInternalCoord *coord; CM
     vector<string> vs;
     vector<OBInternalCoord *> internals; // If we get a z-matrix

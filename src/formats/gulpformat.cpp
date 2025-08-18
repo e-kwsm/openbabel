@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -87,13 +88,13 @@ namespace OpenBabel {
 
     bool coordsAreFractional = false;
     char buffer[BUFF_SIZE], tag[BUFF_SIZE];
-    double x,y,z,a,b,c,alpha,beta,gamma;
+    double x = NAN,y = NAN,z = NAN,a = NAN,b = NAN,c = NAN,alpha = NAN,beta = NAN,gamma = NAN;
     vector<string> vs;
     matrix3x3 ortho;
-    int atomicNum;
+    int atomicNum = 0;
     OBUnitCell *cell = new OBUnitCell();
     bool hasEnthalpy=false;
-    double enthalpy_eV, pv_eV;
+    double enthalpy_eV = NAN, pv_eV = NAN;
 
     pmol->BeginModify();
 

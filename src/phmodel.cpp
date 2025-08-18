@@ -68,7 +68,7 @@ namespace OpenBabel
   void OBPhModel::ParseLine(const char *buffer)
   {
     vector<string> vs;
-    OBSmartsPattern *sp;
+    OBSmartsPattern *sp = nullptr;
 
     if (buffer[0] == '#')
       return;
@@ -135,7 +135,7 @@ namespace OpenBabel
       std::vector<std::vector<int> > mlist;
       if (i->first->Match(mol, mlist, OBSmartsPattern::AllUnique))
       {
-        unsigned int k;
+        unsigned int k = 0;
         vector<vector<int> >::iterator j;
 
         for (j = mlist.begin(); j != mlist.end(); ++j)
@@ -227,9 +227,9 @@ namespace OpenBabel
         return(false);
 
     //find atoms to be deleted
-    unsigned int i,j;
-    int vb;
-    bool found;
+    unsigned int i = 0,j = 0;
+    int vb = 0;
+    bool found = false;
     for (i = 0;i < _bgn.NumAtoms();++i)
       if ((vb = _bgn.GetVectorBinding(i)))
         {
@@ -246,7 +246,7 @@ namespace OpenBabel
         }
 
     //find elements to be changed
-    int ele;
+    int ele = 0;
     for (i = 0;i < _bgn.NumAtoms();++i)
       // Allow single-atom transformations without vector bindings
       if ((vb = _bgn.GetVectorBinding(i)) || _bgn.NumAtoms() == 1)
@@ -262,7 +262,7 @@ namespace OpenBabel
         }
 
     //find charges to modify
-    int chrg;
+    int chrg = 0;
     for (i = 0;i < _bgn.NumAtoms();++i)
       // Allow single-atom transformations without vector bindings
       // PR#2802980.
@@ -277,8 +277,8 @@ namespace OpenBabel
 
     //find bonds to be modified
     //find bonds to be modified
-    int bsrc,bdst,bord,bvb1,bvb2;
-    int esrc,edst,eord,evb1,evb2;
+    int bsrc = 0,bdst = 0,bord = 0,bvb1 = 0,bvb2 = 0;
+    int esrc = 0,edst = 0,eord = 0,evb1 = 0,evb2 = 0;
 
     for (i = 0;i < _bgn.NumBonds();++i)
       {
@@ -339,7 +339,7 @@ namespace OpenBabel
 
     if (!_vbond.empty()) //modify bond orders
       {
-        OBBond *bond;
+        OBBond *bond = nullptr;
         vector<vector<int> >::iterator i;
         vector<pair<pair<int,int>,int> >::iterator j;
         for (i = mlist.begin();i != mlist.end();++i)

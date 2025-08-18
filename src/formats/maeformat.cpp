@@ -283,8 +283,8 @@ shared_ptr<IndexedBlock> MAEFormat::TranslateBondBlock(OBMol* pmol)
 
     vector<int> from, to, order;
 
-    OBAtom *nbr;
-    OBBond *bond;
+    OBAtom *nbr = nullptr;
+    OBBond *bond = nullptr;
     vector<OBBond*>::iterator j;
     int bondline = 0;
     vector<int> zbos;

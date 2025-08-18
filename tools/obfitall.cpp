@@ -31,6 +31,7 @@ GNU General Public License for more details.
 #define USING_OBDLL
 #endif
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/mol.h>
 #include <openbabel/atom.h>
@@ -164,8 +165,8 @@ int main(int argc,char **argv)
 
   // set the translation vector
   vector3 tvref(0,0,0);
-  OBAtom *atom;
-  unsigned int c;
+  OBAtom *atom = nullptr;
+  unsigned int c = 0;
 
   tvref = mass_c(refatoms, molref);
   // center the molecule
@@ -215,7 +216,7 @@ int main(int argc,char **argv)
           // Find the matching atoms
 	    
           // Looping over all matches to find best match
-          double rmsd;
+          double rmsd = NAN;
           double best_rmsd = 999.999;
           vector <int> best_mvatoms;
 
@@ -338,7 +339,7 @@ vector3 mass_c( vector<int> &aindex, OBMol &mol)
 {
     vector3 center(0,0,0);
     vector< int >::iterator j;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
 
     for(j= aindex.begin(); j != aindex.end(); ++j)
     {

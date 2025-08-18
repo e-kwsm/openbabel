@@ -19,6 +19,7 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include "eqeq.h"
+#include <cmath>
 #include <openbabel/locale.h>
 #include <openbabel/oberror.h>
 #include <openbabel/atom.h>
@@ -41,7 +42,7 @@ namespace OpenBabel
   // function / data file.
   bool EQEqCharges::ParseParamFile()
   {
-    int atomicNumber, i;
+    int atomicNumber = 0, i = 0;
     vector<string> vs;
     char buffer[BUFF_SIZE];
 
@@ -83,15 +84,15 @@ namespace OpenBabel
   //! \return whether partial charges were successfully assigned to this molecule
   bool EQEqCharges::ComputeCharges(OBMol &mol)
   {
-    int i, j, a, c, N = mol.NumAtoms();
-    double cellVolume;
+    int i = 0, j = 0, a = 0, c = 0, N = mol.NumAtoms();
+    double cellVolume = NAN;
     Eigen::VectorXf chi(N), J(N), b(N), x(N);
     Eigen::MatrixXf J_ij(N, N), A(N, N);
-    OBUnitCell *obuc;
+    OBUnitCell *obuc = nullptr;
     matrix3x3 unitcell, fourier;
     vector3 dx;
     int numNeighbors[3];
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
 
     // If parameters have not yet been loaded, do that
     if (!_paramFileLoaded)
@@ -205,7 +206,7 @@ namespace OpenBabel
     if (isSameAtom)
       return J_i;
 
-    double a_ij, E_0ij;
+    double a_ij = NAN, E_0ij = NAN;
     a_ij = sqrt(J_i * J_j) / k;
     E_0ij = exp(-a_ij * a_ij * R_ij * R_ij) * (2 * a_ij - a_ij * a_ij * R_ij - 1 / R_ij); // Orbital overlap term
 
@@ -215,8 +216,8 @@ namespace OpenBabel
   //! Calculates a lumped charge coefficient that incorporates neighboring unit cells
   double EQEqCharges::GetPeriodicEwaldJij(double J_i, double J_j, vector3 dx, bool isSameAtom, matrix3x3 unitcell, matrix3x3 fourier, double cellVolume, int numNeighbors[])
   {
-    int u, v, w;
-    double R_ij, a_ij, h_2, orbital = 0.0, alpha = 0.0, beta = 0.0;
+    int u = 0, v = 0, w = 0;
+    double R_ij = NAN, a_ij = NAN, h_2 = NAN, orbital = 0.0, alpha = 0.0, beta = 0.0;
     vector3 uvw, rlv;
 
     // Calculate unit-cell-independent data

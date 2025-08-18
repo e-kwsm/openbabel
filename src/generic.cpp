@@ -619,7 +619,7 @@ namespace OpenBabel
     list<vector3> transformedVectors; // list of symmetry-defined copies of the atom
     list<vector3>::iterator transformIter;
     list<OBAtom*>::iterator deleteIter, atomIter;
-    OBAtom *newAtom;
+    OBAtom *newAtom = nullptr;
     list<OBAtom*> atoms, atomsToDelete;
     char hash[22];
     set<string> coordinateSet;
@@ -991,7 +991,7 @@ namespace OpenBabel
   */
   void OBAngle::SortByIndex()
   {
-    OBAtom *tmp;
+    OBAtom *tmp = nullptr;
 
     if(_termini.first->GetIdx() > _termini.second->GetIdx())
       {

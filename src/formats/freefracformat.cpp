@@ -11,6 +11,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -155,7 +156,7 @@ namespace OpenBabel
       return(false);
 
     //parse cell values
-    double A, B, C, Alpha, Beta, Gamma;
+    double A = NAN, B = NAN, C = NAN, Alpha = NAN, Beta = NAN, Gamma = NAN;
     string temp; // used to trim ending (xx) data from strings
 
     A = atof(vs[0].c_str());
@@ -172,10 +173,10 @@ namespace OpenBabel
     mol.BeginModify();
 
     string str;
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     vector3 v;
-    int atomicNum;
-    OBAtom *atom;
+    int atomicNum = 0;
+    OBAtom *atom = nullptr;
 
     while(ifs.getline(buffer,BUFF_SIZE))
       {

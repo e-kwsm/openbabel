@@ -153,9 +153,9 @@ namespace OpenBabel
     unsigned int words = _index.header.words;
     unsigned int* nextp = &_index.fptdata[0];
     unsigned int* ppat0 = &vecwords[0];
-    unsigned int* p;
-    unsigned int* ppat;
-    unsigned int i;
+    unsigned int* p = nullptr;
+    unsigned int* ppat = nullptr;
+    unsigned int i = 0;
     for(i=0;i<dataSize; ++i) //speed critical section
       {
         p=nextp;
@@ -208,9 +208,9 @@ namespace OpenBabel
   unsigned int words = _index.header.words;
   unsigned int* nextp = &_index.fptdata[0]; // start of next FP in index
   unsigned int* ppat0 = &vecwords[0];       // start of target FP
-  unsigned int* p;                          // current position in index
-  unsigned int* ppat;                       // current position in target FP
-  unsigned int i; // need address of this, can't be register
+  unsigned int* p = nullptr;                          // current position in index
+  unsigned int* ppat = nullptr;                       // current position in target FP
+  unsigned int i = 0; // need address of this, can't be register
   for(i=0;i<dataSize; ++i) //speed critical section
   {
     p=nextp;
@@ -245,8 +245,8 @@ namespace OpenBabel
     unsigned int words = _index.header.words;
     unsigned int dataSize = _index.header.nEntries;
     unsigned int* nextp = &_index.fptdata[0];
-    unsigned int* p;
-    unsigned int i;
+    unsigned int* p = nullptr;
+    unsigned int i = 0;
     for(i=0;i<dataSize; ++i) //speed critical section
       {
         p=nextp;
@@ -267,7 +267,7 @@ namespace OpenBabel
       {
         //initialise the multimap with nCandidate zero entries
         SeekposMap.clear();
-        int i;
+        int i = 0;
         for(i=0;i<nCandidates;++i)
           SeekposMap.insert(pair<const double, unsigned long>(0,0));
       }
@@ -280,8 +280,8 @@ namespace OpenBabel
     unsigned int words = _index.header.words;
     unsigned int dataSize = _index.header.nEntries;
     unsigned int* nextp = &_index.fptdata[0];
-    unsigned int* p;
-    unsigned int i;
+    unsigned int* p = nullptr;
+    unsigned int i = 0;
     for(i=0;i<dataSize; ++i) //speed critical section
       {
         p=nextp;

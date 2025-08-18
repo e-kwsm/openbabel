@@ -26,6 +26,7 @@ GNU General Public License for more details.
 #include <openbabel/mol.h>
 #include <openbabel/obconversion.h>
 #include <openbabel/data_utilities.h>
+#include <cmath>
 #include <cstdlib>
 #ifndef _MSC_VER
   #include <unistd.h>
@@ -61,7 +62,7 @@ int main(int argc,char **argv)
     cout << endl;
     exit(-1);
   } else {
-    int i;
+    int i = 0;
     for (i = 1; i < argc; ) {
       option = argv[i];
 
@@ -125,7 +126,7 @@ int main(int argc,char **argv)
   OBMol mol;
   if ((conv.Read(&mol, &ifs)) && ! mol.Empty())
   {
-      double temperature, DeltaHf0, DeltaHfT, DeltaGfT, DeltaSfT, S0T, CVT, CPT, ZPVE;
+      double temperature = NAN, DeltaHf0 = NAN, DeltaHfT = NAN, DeltaGfT = NAN, DeltaSfT = NAN, S0T = NAN, CVT = NAN, CPT = NAN, ZPVE = NAN;
       std::vector<double> Scomponents;
       
       printf("obthermo - extract thermochemistry data from quantum chemistry logfiles\n");

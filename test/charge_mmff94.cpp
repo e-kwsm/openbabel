@@ -84,7 +84,7 @@ int charge_mmff94(int argc, char* argv[])
   vector3 dipoleMoment, result;
   
   std::vector<double> partialCharges;
-  OBChargeModel *pCM;
+  OBChargeModel *pCM = nullptr;
 
   switch(choice) {
   case 1:

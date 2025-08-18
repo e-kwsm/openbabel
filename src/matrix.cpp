@@ -16,6 +16,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/matrix.h>
 #include <cstdio>
@@ -27,7 +28,7 @@ namespace OpenBabel
 
 void print_matrix(std::vector<std::vector<double> > &m)
 {
-    unsigned int i,j;
+    unsigned int i = 0,j = 0;
 
     for (i = 0; i < m.size(); ++i)
     {
@@ -39,7 +40,7 @@ void print_matrix(std::vector<std::vector<double> > &m)
 
 void print_matrix_f(double *m, int rows, int cols)
 {
-    int i,j,idx;
+    int i = 0,j = 0,idx = 0;
 
     for (i = 0; i < rows; ++i)
     {
@@ -52,7 +53,7 @@ void print_matrix_f(double *m, int rows, int cols)
 
 void print_matrix_ff(double **m, int rows, int cols)
 {
-    int i,j;
+    int i = 0,j = 0;
 
     for (i = 0; i < rows; ++i)
     {
@@ -66,7 +67,7 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
 		 std::vector<std::vector<double> > &a,
 		 std::vector<std::vector<double> > &b)
 {
-    unsigned int i,j,k;
+    unsigned int i = 0,j = 0,k = 0;
 
     if (a.size() != b.size())
         return(false);
@@ -89,7 +90,7 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
 
 bool mult_matrix_f(double *c, double *a, double *b, int rows, int cols)
 {
-    int i,j,k,idx;
+    int i = 0,j = 0,k = 0,idx = 0;
 
     for ( i = 0 ; i < rows ; i++ )
     {
@@ -107,7 +108,7 @@ bool mult_matrix_f(double *c, double *a, double *b, int rows, int cols)
 
 bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols)
 {
-    int i,j,k;
+    int i = 0,j = 0,k = 0;
 
     for ( i = 0 ; i < rows ; i++ )
         for ( j = 0; j < cols ; j++ )
@@ -122,8 +123,8 @@ bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols)
 
 bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
 {
-    int  i, j, k, m, n, row = 0, col = 0;
-    double tempo, big, pvt;
+    int  i = 0, j = 0, k = 0, m = 0, n = 0, row = 0, col = 0;
+    double tempo = NAN, big = NAN, pvt = NAN;
 
     vector<int> pvt_ind;
     vector<vector<int> > index;
@@ -220,8 +221,8 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
 
 bool invert_matrix_f(double *mat, double &det, int rows, int cols)
 {
-    int  i, j, k, m, n, row = 0, col = 0, idx1, idx2;
-    double tempo, big, pvt;
+    int  i = 0, j = 0, k = 0, m = 0, n = 0, row = 0, col = 0, idx1 = 0, idx2 = 0;
+    double tempo = NAN, big = NAN, pvt = NAN;
 
     vector<int> pvt_ind;
     vector<vector<int> > index;
@@ -330,8 +331,8 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
 
 bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
 {
-    int  i, j, k, m, n, row = 0, col = 0;
-    double tempo, big, pvt;
+    int  i = 0, j = 0, k = 0, m = 0, n = 0, row = 0, col = 0;
+    double tempo = NAN, big = NAN, pvt = NAN;
 
     vector<int> pvt_ind;
     vector<vector<int> > index;
@@ -425,7 +426,7 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
 
 bool convert_matrix_f(std::vector<std::vector<double> > &src, double *dst)
 {
-  unsigned int i, j, idx = 0;
+  unsigned int i = 0, j = 0, idx = 0;
 
     for ( i = 0 ; i < src.size() ; i++ )
       for ( j = 0 ; j < src[i].size() ; j++ )
@@ -436,7 +437,7 @@ bool convert_matrix_f(std::vector<std::vector<double> > &src, double *dst)
 
 bool convert_matrix_ff(std::vector<std::vector<double> > &src, double **dst)
 {
-    unsigned int i, j;
+    unsigned int i = 0, j = 0;
 
     for ( i = 0 ; i < src.size() ; i++ )
         for ( j = 0 ; j < src[i].size() ; j++ )
@@ -448,7 +449,7 @@ bool convert_matrix_ff(std::vector<std::vector<double> > &src, double **dst)
 bool convert_matrix_f(double *src, std::vector<std::vector<double> > &dst,
 		      int rows, int cols)
 {
-    int i, j, idx;
+    int i = 0, j = 0, idx = 0;
 
     dst.resize(rows);
     for ( i = 0 ; i < rows ; i++ )
@@ -465,7 +466,7 @@ bool convert_matrix_f(double *src, std::vector<std::vector<double> > &dst,
 bool convert_matrix_ff(double **src, std::vector<std::vector<double> > &dst,
 		       int rows, int cols)
 {
-    int i, j;
+    int i = 0, j = 0;
 
     dst.resize(rows);
     for ( i = 0 ; i < rows ; i++ )
@@ -480,7 +481,7 @@ bool convert_matrix_ff(double **src, std::vector<std::vector<double> > &dst,
 
 bool convert_matrix_f_ff(double *src, double **dst, int rows, int cols)
 {
-    int i, j, idx;
+    int i = 0, j = 0, idx = 0;
 
     for ( i = 0 ; i < rows ; i++ )
     {
@@ -494,7 +495,7 @@ bool convert_matrix_f_ff(double *src, double **dst, int rows, int cols)
 
 bool convert_matrix_ff_f(double **src, double *dst, int rows, int cols)
 {
-    int i, j, idx;
+    int i = 0, j = 0, idx = 0;
 
     for ( i = 0 ; i < rows ; i++ )
     {

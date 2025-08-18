@@ -12,6 +12,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/obmolecformat.h>
 #include <openbabel/mol.h>
@@ -243,9 +244,9 @@ namespace OpenBabel
     double stbondOrder[MAX_BONDS];
 
     bool inAtom=false,inBond=false;
-    int atomID,atomNumber;
-    double atomX,atomY,atomZ,atomCharge;
-    int bondFrom,bondTo,bondStyle;
+    int atomID = 0,atomNumber = 0;
+    double atomX = NAN,atomY = NAN,atomZ = NAN,atomCharge = NAN;
+    int bondFrom = 0,bondTo = 0,bondStyle = 0;
     double bondOrder = 0.0f;
     char buffer[BUFF_SIZE];//was global
 
@@ -313,7 +314,7 @@ namespace OpenBabel
           }
         else
           {
-            char *tag;
+            char *tag = nullptr;
             if (inAtom)
               {
                 tag=strstr(buffer,"<X>");

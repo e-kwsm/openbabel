@@ -73,7 +73,7 @@ int main(int argc,char *argv[])
 
   //Save name of program without its path (and .exe)
   string pn(argv[0]);
-  string::size_type pos;
+  string::size_type pos = 0;
 #ifdef _WIN32
   pos = pn.find(".exe");
   if(pos!=string::npos)
@@ -85,8 +85,8 @@ int main(int argc,char *argv[])
   else
     program_name=argv[0]+pos+1;
 
-  const char* p;
-  int arg;
+  const char* p = nullptr;
+  int arg = 0;
   for (arg = 1; arg < argc; ++arg)
     {
       if (argv[arg])
@@ -167,7 +167,7 @@ int main(int argc,char *argv[])
                     // First assume first arg is a plugin type and
                     // param is a subtype, like babel -L ops gen3D
                     // or first arg is a plugin ID, like babel -L cml
-                    OBPlugin* plugin;
+                    OBPlugin* plugin = nullptr;
                     if ((OBPlugin::GetPlugin("plugins", argv[arg+1]) &&
                          (plugin = OBPlugin::GetPlugin(argv[arg+1], param))) ||
                         (plugin = OBPlugin::GetPlugin(nullptr, argv[arg+1])))

@@ -818,10 +818,10 @@ template <class charT, class traits>
 int
 basic_unzip_streambuf<charT, traits>::check_header(void)
 {
-    int method; /* method byte */
-    int flags;  /* flags byte */
-    uInt len;
-    int c;
+    int method = 0; /* method byte */
+    int flags = 0;  /* flags byte */
+    uInt len = 0;
+    int c = 0;
     int err=0;
     z_stream &zip_stream = this->get_zip_stream();
 

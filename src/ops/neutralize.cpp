@@ -83,7 +83,7 @@ bool OpNeutralize::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, 
   FOR_ATOMS_OF_MOL(atmit, pmol) {
     OBAtom* atm = &*atmit;
     int chg = atm->GetFormalCharge();
-    unsigned char hcount;
+    unsigned char hcount = 0;
     switch(chg) {
     case 1:
       hcount = atm->GetImplicitHCount();

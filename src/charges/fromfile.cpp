@@ -17,6 +17,7 @@
 	GNU General Public License for more details.
  ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/chargemodel.h>
 #include <openbabel/mol.h>
@@ -56,7 +57,7 @@ namespace OpenBabel
 
 	bool read_file( const char *file, std::map< std::string, double> &q_by_name ) {
 		char name[17];
-		double q;
+		double q = NAN;
 
 		FILE *fin = fopen( file, "r" );
 
@@ -103,7 +104,7 @@ namespace OpenBabel
 		{
 			OBAtom *a = mol.GetAtom(i);
 
-			OBResidue *res;
+			OBResidue *res = nullptr;
 			double q   = 0.;
 			bool found = false;
 			std::string atomID;

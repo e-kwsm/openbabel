@@ -11,6 +11,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/obmolecformat.h>
@@ -83,14 +84,14 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     string str;
-    double x,y,z;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    OBAtom *atom = nullptr;
     vector3 translationVectors[3];
     int numTranslationVectors = 0;
     vector<string> vs;
     vector<vector3> atomPositions;
     bool createdAtoms = false;
-    int atomicNum;
+    int atomicNum = 0;
 
     mol.BeginModify();
 

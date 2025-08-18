@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <openbabel/math/matrix3x3.h>
 #include <openbabel/obutil.h>
 #include <openbabel/generic.h>
+#include <cmath>
 #include <cstdlib>
 
 using namespace std;
@@ -55,7 +56,7 @@ int unitcell(int argc, char* argv[])
     cout << "# Testing unit cell transformations ..." << endl;
     cout << "1..12" << endl;
 
-    double a, b, c, alpha, beta, gamma;
+    double a = NAN, b = NAN, c = NAN, alpha = NAN, beta = NAN, gamma = NAN;
     vector3 v1, v2, v3, v4, v5, v6, v7, v8, v9;
     vector3 coords1, coords2, tmpcoords;
     double x = 0.0, y = 0.0, z = 0.0;

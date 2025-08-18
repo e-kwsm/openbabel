@@ -23,6 +23,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <cmath>
 #include <fstream>
 #include <cstdlib>
 
@@ -110,7 +111,7 @@ int ffgaff(int argc, char* argv[])
   pFF->SetLogFile(&cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
-  double energy;
+  double energy = NAN;
   while(mifs)
     {
       mol.Clear();

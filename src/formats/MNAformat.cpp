@@ -287,7 +287,7 @@ namespace OpenBabel
 	// Cyclic atoms come before acyclic, then in MNA type order
 	bool MNAcmp(OBAtom const * const A, OBAtom const * const B)
 	{
-		bool altb;
+		bool altb = false;
 
 
 		if (A->IsInRing())

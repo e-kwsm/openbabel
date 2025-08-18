@@ -12,6 +12,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/math/matrix3x3.h>
@@ -84,7 +85,7 @@ namespace OpenBabel
 
     char buffer[BUFF_SIZE];
     //  int natoms; CM
-    double A,B,C,Alpha,Beta,Gamma;
+    double A = NAN,B = NAN,C = NAN,Alpha = NAN,Beta = NAN,Gamma = NAN;
     matrix3x3 m;
 
     ifs.getline(buffer,BUFF_SIZE);
@@ -112,9 +113,9 @@ namespace OpenBabel
     mol.SetData(uc);
 
     //  int i; CM
-    double x,y,z;
-    char type[16], *j;
-    OBAtom *atom;
+    double x = NAN,y = NAN,z = NAN;
+    char type[16], *j = nullptr;
+    OBAtom *atom = nullptr;
     vector3 v;
 
     //skip until FVAR found

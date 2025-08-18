@@ -16,6 +16,7 @@ GNU General Public License for more details.
 
 #include <map>
 #include <algorithm>
+#include <cmath>
 #include <openbabel/babelconfig.h>
 #include <openbabel/json.h>
 #include <openbabel/obmolecformat.h>
@@ -391,7 +392,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
             dim = 3;
           }
           for (rapidjson::SizeType i = 0; i < cAids.Size(); i++) {
-            double x, y, z = 0;
+            double x = NAN, y = NAN, z = 0;
             x = conf["x"][i].GetDouble();
             y = conf["y"][i].GetDouble();
             if (dim == 3) {

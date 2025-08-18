@@ -17,6 +17,7 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -29,7 +30,7 @@ namespace OpenBabel
 {
   void OBGrid::Init(OBMol &box)
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     for (atom = box.BeginAtom(i); atom; atom = box.NextAtom(i)) {
@@ -158,7 +159,7 @@ namespace OpenBabel
 
   void OBFloatGrid::IndexToCoords(int idx, double &x, double &y, double &z)
   {
-    int grid_x, grid_y, grid_z;
+    int grid_x = 0, grid_y = 0, grid_z = 0;
 
     grid_z = idx % _zdim;
     grid_x = static_cast<int>(idx / (_ydim * _zdim));
@@ -190,11 +191,11 @@ namespace OpenBabel
     if (_values.empty())
       return 0.0;
 
-    int n,igx,igy,igz;
-    double yzdim;
-    double gx,gy,gz,fgx,fgy,fgz;
-    double ax,ay,az,bx,by,bz;
-    double AyA,ByA,AyB,ByB,Az,Bz;
+    int n = 0,igx = 0,igy = 0,igz = 0;
+    double yzdim = NAN;
+    double gx = NAN,gy = NAN,gz = NAN,fgx = NAN,fgy = NAN,fgz = NAN;
+    double ax = NAN,ay = NAN,az = NAN,bx = NAN,by = NAN,bz = NAN;
+    double AyA = NAN,ByA = NAN,AyB = NAN,ByB = NAN,Az = NAN,Bz = NAN;
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
@@ -261,12 +262,12 @@ namespace OpenBabel
 
   double OBFloatGrid::InterpolateDerivatives(double x,double y,double z,double *derivatives)
   {
-    int n,igx,igy,igz;
-    double yzdim;
-    double gx,gy,gz,fgx,fgy,fgz;
-    double ax,ay,az,bx,by,bz;
-    double AyA,ByA,AyB,ByB,Az,Bz;
-    double energy,fx,fy,fz;
+    int n = 0,igx = 0,igy = 0,igz = 0;
+    double yzdim = NAN;
+    double gx = NAN,gy = NAN,gz = NAN,fgx = NAN,fgy = NAN,fgz = NAN;
+    double ax = NAN,ay = NAN,az = NAN,bx = NAN,by = NAN,bz = NAN;
+    double AyA = NAN,ByA = NAN,AyB = NAN,ByB = NAN,Az = NAN,Bz = NAN;
+    double energy = NAN,fx = NAN,fy = NAN,fz = NAN;
 
     if( x<=_xmin || x>=_xmax
         || y<=_ymin || y>=_ymax
@@ -411,19 +412,19 @@ namespace OpenBabel
     _nzinc = (int) floor((_zmax - _zmin)/0.5);
     _maxinc = _nxinc*_nyinc*_nzinc;
 
-    int j,size = _nxinc*_nyinc*_nzinc;
+    int j = 0,size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
     for (unsigned int num = 0; num < cell.size(); ++num)
       cell[num].resize(0);
 
     cutoff *= cutoff; //don't do sqrts
 
-    int k,l,m;
-    double x,y,z,dx_2,dy_2;
+    int k = 0,l = 0,m = 0;
+    double x = NAN,y = NAN,z = NAN,dx_2 = NAN,dy_2 = NAN;
     double *c = mol.GetCoordinates();
     size = mol.NumAtoms()*3;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i),j=0;atom;atom = mol.NextAtom(i),j+=3)
       if (PointIsInBox(c[j],c[j+1],c[j+2]))
@@ -450,16 +451,16 @@ namespace OpenBabel
     _nzinc = (int) floor((_zmax - _zmin)/0.5);
     _maxinc = _nxinc*_nyinc*_nzinc;
 
-    int j,size = _nxinc*_nyinc*_nzinc;
+    int j = 0,size = _nxinc*_nyinc*_nzinc;
     cell.resize(size);
     cutoff *= cutoff; //don't do sqrts
 
-    int k,l,m;
-    double x,y,z,dx_2,dy_2;
+    int k = 0,l = 0,m = 0;
+    double x = NAN,y = NAN,z = NAN,dx_2 = NAN,dy_2 = NAN;
     double *c = mol.GetCoordinates();
     size = mol.NumAtoms()*3;
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     for (atom = mol.BeginAtom(i),j=0;atom;atom = mol.NextAtom(i),j+=3)
       if (use[atom->GetIdx()])
@@ -487,7 +488,7 @@ namespace OpenBabel
     x -= _xmin;
     y -= _ymin;
     z -= _zmin;
-    int i,j,k,idx;
+    int i = 0,j = 0,k = 0,idx = 0;
     i = (int) (x*_inc);
     j = (int) (y*_inc);
     k = (int) (z*_inc);
@@ -500,7 +501,7 @@ namespace OpenBabel
 
   vector<int> *OBProxGrid::GetProxVector(double *c)
   {
-    double x,y,z;
+    double x = NAN,y = NAN,z = NAN;
     x = c[0];
     y = c[1];
     z = c[2];

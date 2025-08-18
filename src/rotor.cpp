@@ -17,6 +17,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
+#include <cmath>
 #include <openbabel/babelconfig.h>
 
 #include <openbabel/mol.h>
@@ -65,7 +66,7 @@ namespace OpenBabel
     SetEvalAtoms(mol);
     AssignTorVals(mol);
 
-    OBRotor *rotor;
+    OBRotor *rotor = nullptr;
     vector<OBRotor*>::iterator i;
     for (rotor = BeginRotor(i);rotor;rotor = NextRotor(i))
       if (!rotor->Size())
@@ -155,7 +156,7 @@ namespace OpenBabel
       return false;
 
     // deprecated fixed atoms
-    OBAtom *a1,*a2,*a3;
+    OBAtom *a1 = nullptr,*a2 = nullptr,*a3 = nullptr;
     vector<OBBond*>::iterator i;
 
     a1 = bond->GetBeginAtom();
@@ -190,10 +191,10 @@ namespace OpenBabel
     dffv.clear();
     dffv.resize(mol.NumAtoms());
 
-    int dffcount,natom;
+    int dffcount = 0,natom = 0;
     OBBitVec used,curr,next;
-    OBAtom *atom,*atom1;
-    OBBond *bond;
+    OBAtom *atom = nullptr,*atom1 = nullptr;
+    OBBond *bond = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
 
@@ -243,7 +244,7 @@ namespace OpenBabel
     vector<unsigned int> sym_classes;
     gs.GetSymmetry(sym_classes);
 
-    OBRotor *rotor;
+    OBRotor *rotor = nullptr;
     vector<OBRotor*>::iterator i;
     std::set<unsigned int> syms;
     for (rotor = BeginRotor(i);rotor;rotor = NextRotor(i)) {
@@ -253,7 +254,7 @@ namespace OpenBabel
       int N_fold_symmetry = 1;
       for (int here=0; here <= 1; ++here) { // Try each side of the bond in turn
 
-        OBAtom *this_side, *other_side;
+        OBAtom *this_side = nullptr, *other_side = nullptr;
         if (here == 0) {
           this_side = begin; other_side = end;
         }
@@ -288,10 +289,10 @@ namespace OpenBabel
 
   bool OBRotorList::SetEvalAtoms(OBMol &mol)
   {
-    int j;
-    OBBond *bond;
-    OBAtom *a1,*a2;
-    OBRotor *rotor;
+    int j = 0;
+    OBBond *bond = nullptr;
+    OBAtom *a1 = nullptr,*a2 = nullptr;
+    OBRotor *rotor = nullptr;
     vector<OBRotor*>::iterator i;
     OBBitVec eval,curr,next;
     vector<OBBond*>::iterator k;
@@ -348,7 +349,7 @@ namespace OpenBabel
       // query the rotor database
       int ref[4];
       vector<double> angles;
-      double delta;
+      double delta = NAN;
       _rr.GetRotorIncrements(mol, bond, ref, angles, delta);
       rotor->SetTorsionValues(angles);
 
@@ -382,7 +383,7 @@ namespace OpenBabel
 
   bool OBRotorList::SetRotAtoms(OBMol &mol)
   {
-    OBRotor *rotor;
+    OBRotor *rotor = nullptr;
     vector<int> rotatoms;
     vector<OBRotor*>::iterator i;
 
@@ -413,7 +414,7 @@ namespace OpenBabel
   void OBRotorList::SetRotAtomsByFix(OBMol &mol)
   {
     int ref[4];
-    OBRotor *rotor;
+    OBRotor *rotor = nullptr;
     vector<int> rotatoms;
     vector<int>::iterator j;
     vector<OBRotor*>::iterator i;
@@ -514,9 +515,9 @@ namespace OpenBabel
 
   double OBRotor::CalcTorsion(double *c)
   {
-    double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
-    double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
-    double c1mag,c2mag,ang,costheta;
+    double v1x = NAN,v1y = NAN,v1z = NAN,v2x = NAN,v2y = NAN,v2z = NAN,v3x = NAN,v3y = NAN,v3z = NAN;
+    double c1x = NAN,c1y = NAN,c1z = NAN,c2x = NAN,c2y = NAN,c2z = NAN,c3x = NAN,c3y = NAN,c3z = NAN;
+    double c1mag = NAN,c2mag = NAN,ang = NAN,costheta = NAN;
 
     //
     //calculate the torsion angle
@@ -564,7 +565,7 @@ namespace OpenBabel
   double OBRotor::CalcBondLength(double *c)
   {
     // compute the difference
-    double dx, dy, dz;
+    double dx = NAN, dy = NAN, dz = NAN;
     dx = c[_torsion[1]  ] - c[_torsion[2]  ];
     dy = c[_torsion[1]+1] - c[_torsion[2]+1];
     dz = c[_torsion[1]+2] - c[_torsion[2]+2];
@@ -575,7 +576,7 @@ namespace OpenBabel
 
   void OBRotor::SetRotor(double *c,int idx,int prev)
   {
-    double ang,sn,cs,t,dx,dy,dz,mag;
+    double ang = NAN,sn = NAN,cs = NAN,t = NAN,dx = NAN,dy = NAN,dz = NAN,mag = NAN;
 
     if (prev == -1)
       ang = _torsionAngles[idx] - CalcTorsion(c);
@@ -604,7 +605,7 @@ namespace OpenBabel
   // used in combination with Precompute(double *coordinates)
   void OBRotor::Set(double *coordinates, int idx)
   {
-    double ang,sn,cs,t;
+    double ang = NAN,sn = NAN,cs = NAN,t = NAN;
 
     // compute the rotation angle
     ang = _torsionAngles[idx] - _refang;
@@ -613,7 +614,7 @@ namespace OpenBabel
     cs = cos(ang);
     t = 1 - cs;
 
-    double x,y,z,tx,ty,tz,m[9];
+    double x = NAN,y = NAN,z = NAN,tx = NAN,ty = NAN,tz = NAN,m[9];
 
     // compute the bond vector
     x = coordinates[_torsion[1]]   - coordinates[_torsion[2]];
@@ -645,7 +646,7 @@ namespace OpenBabel
     tx = coordinates[_torsion[1]];
     ty = coordinates[_torsion[1]+1];
     tz = coordinates[_torsion[1]+2];
-    unsigned int i, j;
+    unsigned int i = 0, j = 0;
     for (i = 0; i < _rotatoms.size(); ++i)
       {
         j = _rotatoms[i];
@@ -664,7 +665,7 @@ namespace OpenBabel
   // used in combination with Set
   void OBRotor::Precalc(vector<double*> &cv)
   {
-    double *c,ang;
+    double *c = nullptr,ang = NAN;
     vector<double*>::iterator i;
     vector<double>::iterator j;
     vector<double> cs,sn,t;
@@ -693,7 +694,7 @@ namespace OpenBabel
 
   void OBRotor::Set(double *c,double sn,double cs,double t,double invmag)
   {
-    double x,y,z,tx,ty,tz,m[9];
+    double x = NAN,y = NAN,z = NAN,tx = NAN,ty = NAN,tz = NAN,m[9];
 
     x = c[_torsion[1]]   - c[_torsion[2]];
     y = c[_torsion[1]+1] - c[_torsion[2]+1];
@@ -725,7 +726,7 @@ namespace OpenBabel
     tx = c[_torsion[1]];
     ty = c[_torsion[1]+1];
     tz = c[_torsion[1]+2];
-    unsigned int i, j;
+    unsigned int i = 0, j = 0;
     for (i = 0; i < _rotatoms.size(); ++i)
       {
         j = _rotatoms[i];
@@ -809,9 +810,9 @@ namespace OpenBabel
 
   void OBRotorRules::ParseLine(const char *buffer)
   {
-    int i;
+    int i = 0;
     int ref[4];
-    double delta;
+    double delta = NAN;
     vector<double> vals;
     vector<string> vs;
     vector<string>::iterator j;
@@ -899,8 +900,8 @@ namespace OpenBabel
 
     delta = OB_DEFAULT_DELTA;
 
-    int j;
-    OBSmartsPattern *sp;
+    int j = 0;
+    OBSmartsPattern *sp = nullptr;
     vector<vector<int> > map;
     vector<OBRotorRule*>::iterator i;
     for (i = _vr.begin();i != _vr.end();++i)
@@ -923,7 +924,7 @@ namespace OpenBabel
         vals = (*i)->GetTorsionVals();
         delta = (*i)->GetDelta();
 
-        OBAtom *a1,*a2,*a3,*a4,*r;
+        OBAtom *a1 = nullptr,*a2 = nullptr,*a3 = nullptr,*a4 = nullptr,*r = nullptr;
         a1 = mol.GetAtom(ref[0]);
         a4 = mol.GetAtom(ref[3]);
         if (a1->GetAtomicNum() == OBElements::Hydrogen && a4->GetAtomicNum() == OBElements::Hydrogen)
@@ -993,7 +994,7 @@ namespace OpenBabel
       }
 
     //***didn't match any rules - assign based on hybridization***
-    OBAtom *a1,*a2,*a3,*a4;
+    OBAtom *a1 = nullptr,*a2 = nullptr,*a3 = nullptr,*a4 = nullptr;
     a2 = bond->GetBeginAtom();
     a3 = bond->GetEndAtom();
     vector<OBBond*>::iterator k;

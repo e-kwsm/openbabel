@@ -23,6 +23,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <cmath>
 #include <fstream>
 
 #include "obtest.h"
@@ -122,7 +123,7 @@ void TestFile(string filename, string results_file, string method, double epsilo
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
   pFF->SetDielectricConstant(epsilon);
 
-  double energy;
+  double energy = NAN;
   while(mifs)
     {
       mol.Clear();
