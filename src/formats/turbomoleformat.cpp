@@ -24,7 +24,7 @@ GNU General Public License for more details.
 #include <openbabel/generic.h>
 
 
-const double AAU = 0.5291772108;  // �ngstr�m per bohr (CODATA 2002)
+const double AAU = 0.5291772108;  // ångström per bohr (CODATA 2002)
 
 using namespace std;
 namespace OpenBabel

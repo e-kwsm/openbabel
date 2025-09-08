@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("The OpenBabel Project")]
 [assembly: AssemblyProduct("OBDotNet")]
-[assembly: AssemblyCopyright("Copyright © 2016 The OpenBabel Project")]
+[assembly: AssemblyCopyright("Copyright Â© 2016 The OpenBabel Project")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
