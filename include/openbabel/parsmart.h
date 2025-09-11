@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #ifndef OB_PARSMART_H
 #define OB_PARSMART_H
 
+#include <array>
 #include <string>
 #include <vector>
 
@@ -133,7 +134,7 @@ namespace OpenBabel
   typedef struct
   {
     BondExpr *closord[100];
-    int       closure[100];
+    std::array<int, 100> closure;
     int       closindex;
   } ParseState;
 

@@ -22,6 +22,7 @@ General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <array>
 #include <iosfwd>
 #include <sstream>
 #include <string>
@@ -107,7 +108,7 @@ namespace OpenBabel
     {
     protected:
       //! Count of messages at each message level
-      unsigned int           _messageCount[5];
+      std::array<unsigned int, 5> _messageCount;
 
     public:
       OBMessageHandler();
