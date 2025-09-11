@@ -646,23 +646,19 @@ namespace OpenBabel
     }
 
     unsigned int bsize = mol.NumBonds()+1;
-    unsigned char *bvisit = (unsigned char*)malloc(bsize);
-    memset(bvisit,0,bsize);
+    std::vector<unsigned char> bvisit(bsize, 0);
 
     unsigned int acount = mol.NumAtoms();
     unsigned int asize = (unsigned int)((acount+1)*sizeof(int));
-    int *avisit = (int*)malloc(asize);
-    memset(avisit,0,asize);
+    std::vector<int> avisit(asize, 0);
 
     unsigned int frj = 0;
     for(unsigned int i=1; i<=acount; i++ )
       if(avisit[i] == 0) {
         avisit[i] = 1;
         OBAtom *atom = mol.GetAtom(i);
-        FindRings(atom,avisit,bvisit,frj,1);
+        FindRings(atom, avisit.data(), bvisit.data(), frj, 1);
       }
-    free(avisit);
-    free(bvisit);
     return frj;
   }
 
