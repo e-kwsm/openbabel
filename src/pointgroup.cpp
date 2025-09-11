@@ -26,6 +26,7 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <iostream>
 
+#include <array>
 #include <string>
 #include <cmath>
 #include <cstring>
@@ -146,8 +147,8 @@ namespace OpenBabel {
       int     nparam ;        /*   4 for inversion and planes, 7 for axes              */
       double  maxdev ;        /*   Largest error associated with the element            */
       double  distance ;
-      double  normal[ DIMENSION ] ;
-      double  direction[ DIMENSION ] ;
+      std::array<double, DIMENSION> normal;
+      std::array<double, DIMENSION> direction;
     };
 
     typedef _SYMMETRY_ELEMENT_ SYMMETRY_ELEMENT;
@@ -200,7 +201,7 @@ namespace OpenBabel {
     double                 MinOptStep            ;
     double                 GradientStep          ;
     double                 OptChangeThreshold    ;
-    double                 CenterOfSomething[ DIMENSION ];
+    std::array<double, DIMENSION> CenterOfSomething;
     double *               DistanceFromCenter    ;
     int                    verbose               ;
     int                    MaxOptCycles          ;
@@ -1427,7 +1428,7 @@ namespace OpenBabel {
                - vector3(CenterOfSomething[0], CenterOfSomething[1], CenterOfSomething[2])).length();
 
           if( r > 5*TolerancePrimary ){ /* It's Ok to use CenterOfSomething */
-            if ((axis = init_c2_axis(i, j, CenterOfSomething)) != nullptr) {
+            if ((axis = init_c2_axis(i, j, CenterOfSomething.data())) != nullptr) {
               NormalAxesCount++ ;
               NormalAxes = (SYMMETRY_ELEMENT **) realloc( NormalAxes, sizeof( SYMMETRY_ELEMENT* ) * NormalAxesCount ) ;
               if (NormalAxes == nullptr) {
