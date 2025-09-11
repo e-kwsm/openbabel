@@ -21,6 +21,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <array>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -389,7 +390,7 @@ protected:
       OBFormat* 	  pInFormat;
       OBFormat*	  pOutFormat;
 
-      std::map<std::string,std::string> OptionsArray[3];
+      std::array<std::map<std::string, std::string>, 3> OptionsArray;
 
       int		  Index;
       unsigned int	  StartNumber;
