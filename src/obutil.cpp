@@ -196,7 +196,8 @@ namespace OpenBabel
   {
     double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
     double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
-    double c1mag,c2mag,radang,costheta,m[9];
+    double c1mag,c2mag,radang,costheta;
+    std::array<double, 9> m;
     double x,y,z,mag,rotang,sn,cs,t,tx,ty,tz;
 
     //
@@ -770,7 +771,7 @@ namespace OpenBabel
 
 
 
-  static double Roots[4];
+  static std::array<double, 4> Roots;
 
 #define ApproxZero 1E-7
 #define IsZero(x)  ((double)fabs(x)<ApproxZero)
@@ -1082,9 +1083,9 @@ namespace OpenBabel
 
   static int get_roots_3_3(double mat[3][3], double roots[3])
   {
-    double rmat[9];
+    std::array<double, 9> rmat;
 
-    ob_make_rmat(mat,rmat);
+    ob_make_rmat(mat, rmat.data());
 
     mat[0][0]=rmat[0];
     mat[0][1]=rmat[3];
