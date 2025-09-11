@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #define MaxMonoBond 20
 
 #include <openbabel/babelconfig.h>
+#include <array>
 #include <vector>
 
 namespace OpenBabel
@@ -267,8 +268,8 @@ namespace OpenBabel
       void *PDecisionTree; //!< ByteCode decision tree for peptides
       void *NDecisionTree; //!< ByteCode decision tree for nucleotides
 
-      int   ResMonoAtom[MaxMonoAtom];
-      int   ResMonoBond[MaxMonoBond];
+      std::array<int, MaxMonoAtom> ResMonoAtom;
+      std::array<int, MaxMonoBond> ResMonoBond;
 
       std::vector<unsigned short> bitmasks;
       std::vector<bool>           visits;   //!< mark visits to prevent looping
