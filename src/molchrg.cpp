@@ -163,7 +163,7 @@ namespace OpenBabel
   bool OBGastChrg::GasteigerSigmaChi(OBAtom *atom,double &a,double &b,double &c )
   {
     int count;
-    double val[3] = {0.0,0.0,0.0};
+    std::array<double, 3> val = {0.0, 0.0, 0.0};
 
     switch(atom->GetAtomicNum())
       {
