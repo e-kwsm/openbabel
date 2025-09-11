@@ -34,6 +34,7 @@ Altered by: Geoffrey Hutchison 2005 for Open Babel project
 #ifndef _ZIPSTREAM_H_
 #define _ZIPSTREAM_H_
 
+#include <array>
 #include <vector>
 #include <string>
 #include <streambuf>
@@ -57,7 +58,7 @@ namespace zlib_stream {
 
 namespace detail
 {
-    const int gz_magic[2] = {0x1f, 0x8b}; /* gzip magic header */
+    const std::array<int, 2> gz_magic = {0x1f, 0x8b}; /* gzip magic header */
 
     /* gzip flag byte */
     const int gz_ascii_flag =  0x01; /* bit 0 set: file probably ascii text */
@@ -308,7 +309,7 @@ typedef basic_zip_istream<char> zip_istream;
 //! Helper function to check whether stream is compressed or not.
 inline bool isGZip(std::istream &is)
 {
-    const int gz_magic[2] = {0x1f, 0x8b};
+    const std::array<int, 2> gz_magic = {0x1f, 0x8b};
 
     int c1 = (int) is.get();
     if(c1 != gz_magic[0])
