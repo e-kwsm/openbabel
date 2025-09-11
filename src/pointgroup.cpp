@@ -487,10 +487,10 @@ namespace OpenBabel {
     void
     optimize_transformation_params( SYMMETRY_ELEMENT *elem )
     {
-      double            values[ MAXPARAM ] ;
-      double            grad  [ MAXPARAM ] ;
-      double            force [ MAXPARAM ] ;
-      double            step  [ MAXPARAM ] ;
+      std::array<double, MAXPARAM> values;
+      std::array<double, MAXPARAM> grad;
+      std::array<double, MAXPARAM> force;
+      std::array<double, MAXPARAM> step;
       double            f, fold, fnew, fnew2, fdn, fup, snorm ;
       double            a, b, x ;
       int               vars  = elem->nparam ;
@@ -521,13 +521,13 @@ namespace OpenBabel {
             break ;
           }
         }
-        get_params( elem, values ) ;
+        get_params( elem, values.data() ) ;
         for( i = 0 ; i < vars ; i++ ){
           values[i] -= GradientStep ;
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
           fdn        = eval_optimization_target_function(elem, nullptr);
           values[i] += 2*GradientStep ;
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
           fup        = eval_optimization_target_function(elem, nullptr);
           values[i] -= GradientStep ;
           grad[i]    = ( fup - fdn ) / ( 2 * GradientStep ) ;
@@ -552,7 +552,7 @@ namespace OpenBabel {
           for( i = 0 ; i < vars ; i++ ){
             values[i] += step[i] ;
           }
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
           fnew = eval_optimization_target_function(elem, nullptr);
           if( fnew < f )
             break ;
@@ -560,13 +560,13 @@ namespace OpenBabel {
             values[i] -= step[i] ;
             step  [i] /= 2 ;
           }
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
           snorm /= 2 ;
         } while( snorm > MinOptStep ) ;
         if( (snorm > MinOptStep) && (snorm < MaxOptStep / 2) ){  /* try to do quadratic interpolation */
           for( i = 0 ; i < vars ; i++ )
             values[i] += step[i] ;
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
           fnew2 = eval_optimization_target_function(elem, nullptr);
           if( verbose > 1 ) printf( "        interpolation base points: %g, %g, %g\n", f, fnew, fnew2 ) ;
           for( i = 0 ; i < vars ; i++ )
@@ -593,7 +593,7 @@ namespace OpenBabel {
                 values[i] += step[i] ;
             }
           }
-          set_params( elem, values ) ;
+          set_params( elem, values.data() ) ;
         }
       } while( snorm > MinOptStep && ++cycle < MaxOptCycles ) ;
       f = eval_optimization_target_function(elem, nullptr);
@@ -686,7 +686,8 @@ namespace OpenBabel {
     init_mirror_plane( int i, int j )
     {
       SYMMETRY_ELEMENT * plane = alloc_symmetry_element() ;
-      double             dx[ DIMENSION ], midpoint[ DIMENSION ], rab, r ;
+      std::array<double, DIMENSION> dx, midpoint;
+      double             rab, r ;
       int                k ;
 
       if( verbose > 0 ) printf( "Trying mirror plane for atoms %d,%d\n", i, j ) ;
@@ -734,8 +735,8 @@ namespace OpenBabel {
     init_ultimate_plane( void )
     {
       SYMMETRY_ELEMENT * plane = alloc_symmetry_element() ;
-      double             d0[ DIMENSION ], d1[ DIMENSION ], d2[ DIMENSION ] ;
-      double             p[ DIMENSION ] ;
+      std::array<double, DIMENSION> d0, d1, d2;
+      std::array<double, DIMENSION> p;
       double             r, s0, s1, s2 ;
       double *           d ;
       unsigned int       i, j, k;
@@ -775,9 +776,9 @@ namespace OpenBabel {
         s2 += d2[k] ;
       }
       d = nullptr;
-      if( s0 >= s1 && s0 >= s2 ) d = d0 ;
-      if( s1 >= s0 && s1 >= s2 ) d = d1 ;
-      if( s2 >= s0 && s2 >= s1 ) d = d2 ;
+      if( s0 >= s1 && s0 >= s2 ) d = d0.data() ;
+      if( s1 >= s0 && s1 >= s2 ) d = d1.data() ;
+      if( s2 >= s0 && s2 >= s1 ) d = d2.data() ;
       if (d == nullptr) {
         fprintf( stderr, "Catastrophe in init_ultimate_plane(): %g, %g and %g have no ordering!\n", s0, s1, s2 ) ;
         destroy_symmetry_element(plane);
@@ -866,7 +867,7 @@ namespace OpenBabel {
     static void
     rotate_atom( SYMMETRY_ELEMENT *axis, OBAtom *from, OBAtom *to )
     {
-      double             x[3], y[3], a[3], b[3], c[3] ;
+      std::array<double, 3> x, y, a, b, c ;
       double             angle = axis->order ? 2*M_PI/axis->order : 1.0 ;
       double             a_sin = sin( angle ) ;
       double             a_cos = cos( angle ) ;
@@ -909,7 +910,7 @@ namespace OpenBabel {
     init_ultimate_axis(void)
     {
       SYMMETRY_ELEMENT * axis = alloc_symmetry_element() ;
-      double             dir[ DIMENSION ], rel[ DIMENSION ] ;
+      std::array<double, DIMENSION> dir, rel ;
       double             s ;
       unsigned int       i, k;
 
@@ -972,7 +973,8 @@ namespace OpenBabel {
       SYMMETRY_ELEMENT * axis ;
       int                k ;
       double             ris, rjs ;
-      double             r, center[ DIMENSION ] ;
+      double             r;
+      std::array<double, DIMENSION> center ;
 
       if( verbose > 0 )
         printf( "Trying c2 axis for the pair (%d,%d) with the support (%g,%g,%g)\n",
@@ -1163,7 +1165,7 @@ namespace OpenBabel {
     init_higher_axis( int ia, int ib, int ic )
     {
       SYMMETRY_ELEMENT * axis ;
-      double             a[ DIMENSION ], b[ DIMENSION ], c[ DIMENSION ] ;
+      std::array<double, DIMENSION> a, b, c ;
 
       if( verbose > 0 ) printf( "Trying cn axis for the triplet (%d,%d,%d)\n", ia, ib, ic ) ;
       StatTotal++ ;
@@ -1181,7 +1183,7 @@ namespace OpenBabel {
       c[1] = _mol->GetAtom(ic+1)->y() - CenterOfSomething[1];
       c[2] = _mol->GetAtom(ic+1)->z() - CenterOfSomething[2];
 
-      if ((axis = init_axis_parameters(a, b, c)) == nullptr) {
+      if ((axis = init_axis_parameters(a.data(), b.data(), c.data())) == nullptr) {
         if( verbose > 0 ) printf( "    no coherrent axis is defined by the points\n" ) ;
         return nullptr;
       }
@@ -1202,7 +1204,7 @@ namespace OpenBabel {
     static void
     rotate_reflect_atom( SYMMETRY_ELEMENT *axis, OBAtom *from, OBAtom *to )
     {
-      double             x[3], y[3], a[3], b[3], c[3] ;
+      std::array<double, 3> x, y, a, b, c ;
       double             angle = 2*M_PI/axis->order ;
       double             a_sin = sin( angle ) ;
       double             a_cos = cos( angle ) ;
@@ -1245,8 +1247,8 @@ namespace OpenBabel {
     init_improper_axis( int ia, int ib, int ic )
     {
       SYMMETRY_ELEMENT * axis ;
-      double             a[ DIMENSION ], b[ DIMENSION ], c[ DIMENSION ] ;
-      double             centerpoint[ DIMENSION ] ;
+      std::array<double, DIMENSION> a, b, c ;
+      std::array<double, DIMENSION> centerpoint ;
       double             r ;
       int                i ;
 
@@ -1282,7 +1284,7 @@ namespace OpenBabel {
       for( i = 0 ; i < DIMENSION ; i++ )
         b[i] = 2*r*centerpoint[i] - b[i] ;
       /* Do a quick check of geometry validity */
-      if ((axis = init_axis_parameters(a, b, c)) == nullptr) {
+      if ((axis = init_axis_parameters(a.data(), b.data(), c.data())) == nullptr) {
         if( verbose > 0 ) printf( "    no coherrent improper axis is defined by the points\n" ) ;
         return nullptr;
       }
@@ -1303,7 +1305,7 @@ namespace OpenBabel {
     find_center_of_something( void )
     {
       unsigned int       i, j;
-      double             coord_sum[ DIMENSION ] ;
+      std::array<double, DIMENSION> coord_sum ;
       double             r ;
       OBAtom             *atom;
 
@@ -1399,7 +1401,7 @@ namespace OpenBabel {
     find_c2_axes(void)
     {
       unsigned int       i, j, k, l;
-      double             center[ DIMENSION ] ;
+      std::array<double, DIMENSION> center ;
       double *           distances = (double*)calloc( _mol->NumAtoms(), sizeof( double ) ) ;
       double             r ;
       SYMMETRY_ELEMENT * axis ;
@@ -1479,7 +1481,7 @@ namespace OpenBabel {
               center[1] = (a3->y() + a4->y()) / 2.0;
               center[2] = (a3->z() + a4->z()) / 2.0;
 
-              if ((axis = init_c2_axis(i, j, center)) != nullptr) {
+              if ((axis = init_c2_axis(i, j, center.data())) != nullptr) {
                 NormalAxesCount++ ;
                 NormalAxes = (SYMMETRY_ELEMENT **) realloc( NormalAxes, sizeof( SYMMETRY_ELEMENT* ) * NormalAxesCount ) ;
                 if (NormalAxes == nullptr) {
