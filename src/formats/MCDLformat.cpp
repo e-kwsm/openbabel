@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 
 #include <openbabel/mcdlutil.h>
+#include <array>
 #include <cstdlib>
 
 using namespace std;
@@ -114,7 +115,7 @@ private:
   int nbonds;
   string  finalstr;
 
-  int qx [MAXFRAGS];
+  std::array<int, MAXFRAGS> qx;
   int qa [MAXBONDS][4];
 //  int HVal[NELEMMAX];
 
@@ -240,14 +241,14 @@ private:
     int  i,dupnum,j,k,ktype,nn,nt;
     bool iflag,newone;
     int *  nsum[MAXBONDS];
-    bool lflag[MAXFRAGS];
+    std::array<bool, MAXFRAGS> lflag;
     char strg[MAXFRAGS+1];
     char * strngs[MAXFRAGS+1];
     char tstr[MAXFRAGS+1];
     int  numdups = 0, dupfrag, jump;
     bool jflag;
-    int  ix[MAXFRAGS],conntab[MAXBONDS][4],cx[MAXFRAGS];
-    int  mx[MAXFRAGS];
+    int conntab[MAXBONDS][4];
+    std::array<int, MAXFRAGS> ix, cx, mx;
 
     // depth = recursion level — bail before any allocation so the early
     // return path doesn't leak strngs[]/nsum[] (each call allocs ~800B).
@@ -505,14 +506,14 @@ private:
     int  ia1=0;
     int  chgflag=0;
     int  radicalflag=0;
-    int  icons[96];
+    std::array<int, 96> icons;
     int  newone=0;
     std::vector<int> nchg(MAXFRAGS);
     std::vector<int> nrad(MAXFRAGS);
     int naStore,nbStore;
     string constr="";
     string frag="";
-    string fragment [MAXFRAGS];
+    std::array<string, MAXFRAGS> fragment;
     string line="";
     string semis="";
     int  comma;
@@ -521,13 +522,13 @@ private:
     string data="";
     int z[MAXBONDS][4];
     //FRAGCON
-    int nHydr[MAXFRAGS];
-    string aSymb [MAXFRAGS];
-    int aCharge[MAXFRAGS];
-    int aRadical[MAXFRAGS];
+    std::array<int, MAXFRAGS> nHydr;
+    std::array<string, MAXFRAGS> aSymb;
+    std::array<int, MAXFRAGS> aCharge;
+    std::array<int, MAXFRAGS> aRadical;
     std::vector<int> aNumber(MAXFRAGS);
     int bonds[MAXBONDS][4];
-    int nConn[MAXFRAGS];
+    std::array<int, MAXFRAGS> nConn;
     //string s;
     int l;//,m;
     string astereo="";
