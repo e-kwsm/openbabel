@@ -162,7 +162,6 @@ namespace OpenBabel {
       MinOptStep            = 1e-6;
       GradientStep          = 1e-7;
       OptChangeThreshold    = 1e-10;
-      DistanceFromCenter    = nullptr;
       verbose               = -1;
       MaxOptCycles          = 500;
       OptChangeHits         = 5;
@@ -202,7 +201,7 @@ namespace OpenBabel {
     double                 GradientStep          ;
     double                 OptChangeThreshold    ;
     std::array<double, DIMENSION> CenterOfSomething;
-    double *               DistanceFromCenter    ;
+    std::vector<double>    DistanceFromCenter    ;
     int                    verbose               ;
     int                    MaxOptCycles          ;
     int                    OptChangeHits         ;
@@ -1319,8 +1318,8 @@ namespace OpenBabel {
       if( verbose > 0 )
         printf( "Center of something is at %15.10f, %15.10f, %15.10f\n",
                 CenterOfSomething[0], CenterOfSomething[1], CenterOfSomething[2] ) ;
-      DistanceFromCenter = (double *) calloc( _mol->NumAtoms(), sizeof( double ) ) ;
-      if (DistanceFromCenter == nullptr) {
+      DistanceFromCenter.resize( _mol->NumAtoms(), 0 ) ;
+      if (DistanceFromCenter.empty()) {
         //        fprintf( stderr, "Unable to allocate array for the distances\n" ) ;
         return;
       }
