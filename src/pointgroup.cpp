@@ -142,7 +142,7 @@ namespace OpenBabel {
   public:
     struct _SYMMETRY_ELEMENT_ {
       void    (*transform_atom)( struct _SYMMETRY_ELEMENT_ *el, OBAtom *from, OBAtom *to ) ;
-      int *   transform ;     /*   Correspondence table for the transformation         */
+      std::vector<int> transform ;  /*   Correspondence table for the transformation         */
       int     order ;         /*   Applying transformation this many times is identity */
       int     nparam ;        /*   4 for inversion and planes, 7 for axes              */
       double  maxdev ;        /*   Largest error associated with the element            */
@@ -374,8 +374,8 @@ namespace OpenBabel {
         //        fprintf( stderr, "Out of memory allocating symmetry element\n" ) ;
         return nullptr;
       }
-      elem->transform = (int*)calloc( _mol->NumAtoms(), sizeof( int ) ) ;
-      if (elem->transform == nullptr){
+      elem->transform.resize(_mol->NumAtoms(), 0) ;
+      if (elem->transform.empty()){
         //        fprintf( stderr, "Out of memory allocating transform table for symmetry element\n" ) ;
         free(elem);
         return nullptr;
@@ -390,8 +390,7 @@ namespace OpenBabel {
     destroy_symmetry_element( SYMMETRY_ELEMENT *elem )
     {
       if (elem != nullptr) {
-        if (elem->transform != nullptr)
-          free( elem->transform ) ;
+        elem->transform.clear() ;
         free( elem ) ;
       }
     }
