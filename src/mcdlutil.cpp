@@ -48,7 +48,7 @@ namespace OpenBabel {
 
   typedef struct adjustedlist{
     int nb;
-    int adjusted[CONNMAX];
+    std::array<int, CONNMAX> adjusted;
   } adjustedlist;
 
   typedef adjustedlist neighbourlist;
@@ -940,10 +940,10 @@ namespace OpenBabel {
 
   bool TSimpleMolecule::threeBondResolve(int an, int bondExcluded, double& xv, double& yv, neighbourlist* bkExt) {
     //Addition from 16 April 2006
-    int bondNoList [3];
+    std::array<int, 3> bondNoList;
     bool result=false;
-    double centerX[3];
-    double centerY[3];
+    std::array<double, 3> centerX;
+    std::array<double, 3> centerY;
     unsigned int nBondNo;
     neighbourlist* bk;
     std::vector<int>bondList;
@@ -1084,12 +1084,12 @@ namespace OpenBabel {
     //bond's array BOND and bond-connection matrix invariants CONN) unit vector
     //is calculated (XV, YV) on output. Unit vector shows the best direction to
     //make new bond}
-    double sc[4] = {0,1/2,1.7320508/2,1};
-    double cc[4] = {1,1.7320508/2,1/2,0};
+    std::array<double, 4> sc = {0, 1/2, 1.7320508/2, 1};
+    std::array<double, 4> cc = {1, 1.7320508/2, 1/2, 0};
     double sQ3=sqrt(3.0)/2.0;
     double si,r1,r2,r3,r4,s1,s2,s3,s4,fi;
-    double xm[3];  //Initial dimensions 1..3
-    double ym[3];  //Initial dimensions 1..3
+    std::array<double, 3> xm;  //Initial dimensions 1..3
+    std::array<double, 3> ym;  //Initial dimensions 1..3
     int i,i1,i2;
     int nB1,aT,aT1;
     bool mK[CONNMAX] = {false};
@@ -1702,15 +1702,15 @@ namespace OpenBabel {
       3) On output NPrev is changed so new number of component in PREVBOND
       is lighted}
     */
-    int e[CONNMAX];
-    int e1[CONNMAX];
+    std::array<int, CONNMAX> e;
+    std::array<int, CONNMAX> e1;
     int i,j,ncur;
     int n;
 
     ncur=0;
     n=0;
     for (i=0; i<nPrev; i++) {
-      newB(bk,prevBond[i],prevAtom[i],n,e,e1);
+      newB(bk,prevBond[i],prevAtom[i],n,e.data(),e1.data());
       if (n != 0) for (j=0; j<n; j++) if (alreadyDefined[e[j]]<0) {
             curBond[ncur]=e[j];
             curAtom[ncur]=e1[j];
@@ -1794,8 +1794,8 @@ namespace OpenBabel {
     */
     bool test;
     int i,j,k,n,n1,m;
-    int doubleDetected[11];
-    int atomDetected[11];
+    std::array<int, 11> doubleDetected;
+    std::array<int, 11> atomDetected;
     bool result=false;
 
     if ((cycleSize<5) || (cycleSize>6)) return result;
@@ -3049,9 +3049,9 @@ namespace OpenBabel {
       one side of strait line (Z), 2-if at different side (E) and 0 if I1 or I2
       is collinear with BR */
 
-    int crAN[4];  //0-th element will not be used-translation from Delphi
-    double crRx[4];
-    double crRy[4];
+    std::array<int, 4> crAN;  //0-th element will not be used-translation from Delphi
+    std::array<double, 4> crRx;
+    std::array<double, 4> crRy;
     int i;
     double l1,l2;
     int result=0;
