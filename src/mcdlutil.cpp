@@ -56,7 +56,7 @@ namespace OpenBabel {
 #define nRotBondsMax 10     //Determines no. rotating bonds that are systematically searched in correctOverlapped
 
   //Hydrogen valencies. Zero dummy element is the first
-	const int hVal[NELEMMCDL] = {
+	const std::array<int, NELEMMCDL> hVal = {
     0,1,0,0,0,3,4,3,2,1,
     0,0,0,3,4,3,2,1,0,0,
     0,0,0,0,0,0,0,0,0,0,
@@ -70,7 +70,7 @@ namespace OpenBabel {
     0,0,0,0,1,0,0,0,0,0,
     0,0,0,0,0,0,0,0,0,0,0};
 
-	const int maxVal[NELEMMCDL] = {
+	const std::array<int, NELEMMCDL> maxVal = {
     0,1,0,1,2,4,4,5,3,1,
     0,1,2,4,4,6,6,7,0,1,
     2,3,4,5,6,7,6,4,4,2,
@@ -84,7 +84,7 @@ namespace OpenBabel {
     3,3,1,1,1,0,0,0,0,0,
     0,8,1,8,5,0,0,0,0,0,0};
 
-  const int chargeVal[NELEMMCDL] = {  //0 - dummy
+  const std::array<int, NELEMMCDL> chargeVal = {  //0 - dummy
     0,-1,-1,-1,-1,-1,-1, 1, 1, 1,-1, //Ne
     -1,-1,-1,-1, 1, 1, 1,-1,-1,-1, //Ca
     -1,-1,-1,-1,-1,-1,-1,-1,-1,-1, //Zn
@@ -99,7 +99,7 @@ namespace OpenBabel {
     -1,-1,-1,-1,-1,-1,-1,-1,-1};
 
 
-  const string aSymb[NELEMMCDL] = {"0",
+  const std::array<string, NELEMMCDL> aSymb = {"0",
                                    "H" ,"He","Li","Be","B" ,"C" ,"N" ,"O" ,"F" ,"Ne",
                                    "Na","Mg","Al","Si","P" ,"S" ,"Cl","Ar","K" ,"Ca",
                                    "Sc","Ti","V" ,"Cr","Mn","Fe","Co","Ni","Cu","Zn",
@@ -115,29 +115,29 @@ namespace OpenBabel {
 
 
 #define NEXACTATOMS 21
-  const int exactAtom[NEXACTATOMS]={6,14,5,50,82,8,16,34,52,7,15,33,51,9,17,35,53,32,13,26,80};
+  const std::array<int, NEXACTATOMS> exactAtom={6,14,5,50,82,8,16,34,52,7,15,33,51,9,17,35,53,32,13,26,80};
 #define NALKALYATOMS 5
-  const int alkaly[NALKALYATOMS] ={3,11,19,37,55};
+  const std::array<int, NALKALYATOMS> alkaly ={3,11,19,37,55};
 #define NALKALYEARTHATOMS 5
-  const int alkalyEarth[NALKALYEARTHATOMS] ={4,12,20,38,56};
+  const std::array<int, NALKALYEARTHATOMS> alkalyEarth ={4,12,20,38,56};
 #define NTRIVALENTATOMS 31
-  const int trivalent[NTRIVALENTATOMS] ={21,31,39,49,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,81,89,90,91,92,93,94,95,96,97,98,99};
+  const std::array<int, NTRIVALENTATOMS> trivalent ={21,31,39,49,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,81,89,90,91,92,93,94,95,96,97,98,99};
 #define NTITANATOMS 3
-  const int titan[NTITANATOMS] ={22,40,72};
+  const std::array<int, NTITANATOMS> titan ={22,40,72};
 #define NVANADIUMATOMS 3
-  const int vanadium[NVANADIUMATOMS] ={23,41,73};
+  const std::array<int, NVANADIUMATOMS> vanadium ={23,41,73};
 #define NCHROMIUMATOMS 3
-  const int cromium[NCHROMIUMATOMS] ={24,42,74};
+  const std::array<int, NCHROMIUMATOMS> cromium ={24,42,74};
 #define NMANGANESEATOMS 3
-  const int manganeze[NMANGANESEATOMS] ={25,43,75};
+  const std::array<int, NMANGANESEATOMS> manganeze ={25,43,75};
 #define NLIKEFEATOMS 2
-  const int likeFe[NLIKEFEATOMS] ={27,28};
+  const std::array<int, NLIKEFEATOMS> likeFe ={27,28};
 #define NPLATINUMATOMS 6
-  const int platinum[NPLATINUMATOMS] ={44,45,46,76,77,78};
+  const std::array<int, NPLATINUMATOMS> platinum ={44,45,46,76,77,78};
 #define NCOPPERATOMS 3
-  const int copper[NCOPPERATOMS] ={29,47,79};
+  const std::array<int, NCOPPERATOMS> copper ={29,47,79};
 #define NZINKATOMS 2
-  const int zink[NZINKATOMS] ={30,48};
+  const std::array<int, NZINKATOMS> zink ={30,48};
 
 #define NMETALS 78
 #define NHALOGENS 5
@@ -153,28 +153,28 @@ namespace OpenBabel {
 #define HETERO_ATOM 114
 #define ANY_BOND 8
 
-  const int possibleAromatic [NAROMMAX] = {7,8,15,16,33,34,51,52,HETERO_ATOM};
-  const int metals[NMETALS] = {
+  const std::array<int, NAROMMAX> possibleAromatic  = {7,8,15,16,33,34,51,52,HETERO_ATOM};
+  const std::array<int, NMETALS> metals = {
     3,4,11,12,13,19,20,21,22,23,24,25,26,27,28,29,
     30,31,37,38,39,40,41,42,43,44,45,46,47,48,49,50,55,56,57,58,59,60,61,62,63,
     64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,87,88,89,90,91,
     92,93,94,95,96,97,98,99,100,101,102,103};
 
   //#define A B   ??? -
-  const int lightMetals[NLIGHT_METALS] = {
+  const std::array<int, NLIGHT_METALS> lightMetals = {
     3,4,11,12,13,19,20,21,22,23,24,25,26,27,28,29,30,31,37,38};
-  const int heavyMetals[NHEAVY_METALS] = {
+  const std::array<int, NHEAVY_METALS> heavyMetals = {
     39,40,41,42,43,44,45,46,47,48,49,50,55,56,57,58,59,60,61,62,63,
     64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,87,88,89,90,91,
     92,93,94,95,96,97,98,99,100,101,102,103};
-  const int halogens[NHALOGENS] = {9,17,35,53,85};
-  const int hetero[NHETERO] = {7,8,14,15,16,33,34,51,52,84};
+  const std::array<int, NHALOGENS> halogens = {9,17,35,53,85};
+  const std::array<int, NHETERO> hetero = {7,8,14,15,16,33,34,51,52,84};
 
 #define RUNDEF -1.2345678E9
 #define DEFAULTBONDLENGTH 1.44
 #define NDATABASE_MOLECULES 148
 
-  const string strData[NDATABASE_MOLECULES]= {
+  const std::array<string, NDATABASE_MOLECULES> strData= {
     "05A53816506A53810000A00008692A99998857A6567442806020101030401050203050504",
     "06A25008659A74998659A99994330A74990000A25000000A00004330100203030405060106060406020305010305020104",
     "06A48805837A48800000A00007834A90467987A59523994A999962970802010103040106040502060503050302",
@@ -327,7 +327,7 @@ namespace OpenBabel {
 
 #define NBONDTYPES 11
 
-  const int bondValence[NBONDTYPES] = {1,2,3,1,1,0,0,0,1,1,1};
+  const std::array<int, NBONDTYPES> bondValence = {1,2,3,1,1,0,0,0,1,1,1};
 
   const string fsastart="{SA:";
   const string fsbstart="{SB:";
@@ -371,7 +371,7 @@ namespace OpenBabel {
     /*Special=0 - no special definition
       =1 - no other atoms, except explicitly defined, can
       be connected with the atom (query structure)*/
-    short int ac[CONNMAX];
+    std::array<short int, CONNMAX> ac;
     /*atom's numbers in array ATOM, which are
       connected with the atom selected*/
     short int astereo;   /*=0 - no stereo, =1 - R, = 2 -S,  = 3 - unknown*/
