@@ -23,6 +23,7 @@ GNU General Public License for more details.
 #include <openbabel/generic.h>
 
 
+#include <array>
 // Required for imaginary frequencies detection
 #include <cmath>
 // Required for TS detection in ZTS calculation
@@ -272,7 +273,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     char buffer[BUFF_SIZE];
     vector<string> vs;
     matrix3x3 quadrupole;
-    double dipole[3];
+    std::array<double, 3> dipole;
     int charge;
     bool blank_line = false;
 
@@ -293,7 +294,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             {
                 molecule->SetTotalCharge(charge);
                 OBVectorData* dipole_moment = new OBVectorData;
-                dipole_moment->SetData(vector3(dipole));
+                dipole_moment->SetData(vector3(dipole.data()));
                 dipole_moment->SetAttribute("Dipole Moment");
                 molecule->SetData(dipole_moment);
                 OBMatrixData* quadrupole_moment = new OBMatrixData;
@@ -316,7 +317,8 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (vs[0][0] == '2')
         {
             double value = atof(vs[4].c_str());
-            unsigned int i[2], j = 0;
+            std::array<unsigned int, 2> i;
+            unsigned int j = 0;
             for (unsigned int k = 0 ; k<3; k++)
             {
                 if (vs[k+1][0] == '2')
