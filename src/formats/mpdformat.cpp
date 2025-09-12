@@ -27,11 +27,11 @@ GNU General Public License for more details.
 #include <cstdlib>
 
 
-#define LAYER_DEPTH 2 // cannot increase past 2 without adding more *nbr atom pointers and loops
-#define LAYER_SIZE 184 // number of types needed for types system used
-#define SEP_0 ";"  // separator between types
-#define SEP_1 "-"  // separator for data layer-freq-type
-#define SEP_2 '\t' // separator for atoms
+static const unsigned LAYER_DEPTH = 2; // cannot increase past 2 without adding more *nbr atom pointers and loops
+static const unsigned LAYER_SIZE = 184; // number of types needed for types system used
+const char SEP_0 = ';';   // separator between types
+const char SEP_1 = '-';   // separator for data layer-freq-type
+const char SEP_2 = '\t';  // separator for atoms
 
 using namespace std;
 namespace OpenBabel
