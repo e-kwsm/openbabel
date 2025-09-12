@@ -30,12 +30,9 @@ GNU General Public License for more details.
 #ifndef THREAD_LOCAL
 #ifdef SWIG
 # define THREAD_LOCAL
-# elif (__cplusplus >= 201103L)
+#else
 //this is required for correct multi-threading
 #  define THREAD_LOCAL thread_local
-# else
-#  define THREAD_LOCAL
-# endif
 #endif
 
 #include <math.h>
