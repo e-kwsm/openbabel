@@ -41,7 +41,7 @@ GNU General Public License for more details.
 
 #define DEBUG 0
 
-#define MAX_IDENTITY_NODES 50
+const unsigned MAX_IDENTITY_NODES = 50;
 
 using namespace std;
 
