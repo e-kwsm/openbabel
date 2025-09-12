@@ -64,20 +64,19 @@ namespace OpenBabel
       0xF0000000,0xE0000000,0xC0000000,0x80000000
     };
 
-#ifndef LowBit
-#define LowBit(set, bit)                                        \
-  {int m;                                                       \
-    if (set != 0)                                               \
-      {                                                         \
-        bit = 31;                                               \
-        if (set != 0x80000000) {                                \
-          if ((m = (set & 0x0000ffff))!=0) {set = m; bit -= 16;}   \
-          if ((m = (set & 0x00ff00ff))!=0) {set = m; bit -= 8;}    \
-          if ((m = (set & 0x0f0f0f0f))!=0) {set = m; bit -= 4;}    \
-          if ((m = (set & 0x33333333))!=0) {set = m; bit -= 2;}    \
-          if ((m = (set & 0x55555555))!=0) {set = m; bit -= 1;}}}  \
+void LowBit(unsigned set, int &bit) {
+  {int m;
+    if (set != 0)
+      {
+        bit = 31;
+        if (set != 0x80000000) {
+          if ((m = (set & 0x0000ffff))!=0) {set = m; bit -= 16;}
+          if ((m = (set & 0x00ff00ff))!=0) {set = m; bit -= 8;}
+          if ((m = (set & 0x0f0f0f0f))!=0) {set = m; bit -= 4;}
+          if ((m = (set & 0x33333333))!=0) {set = m; bit -= 2;}
+          if ((m = (set & 0x55555555))!=0) {set = m; bit -= 1;}}}
     else bit = -1;}
-#endif
+}
 
   /** Set the \p bit_offset 'th bit to 1
     Increases the size of this bit vector if necessary
