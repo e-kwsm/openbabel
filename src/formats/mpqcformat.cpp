@@ -24,7 +24,7 @@ using namespace std;
 namespace OpenBabel
 {
 
-#define BOHR_TO_ANGSTROM 0.529177249
+const double BOHR_TO_ANGSTROM = 0.529177249;
 
   class MPQCFormat : public OBMoleculeFormat
   {
