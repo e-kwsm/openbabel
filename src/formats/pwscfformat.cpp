@@ -23,10 +23,10 @@ GNU General Public License for more details.
 #include <cstdlib>
 
 
-#define RYDBERG_TO_KCAL_PER_MOL 313.755026
-#define RYDBERG_TO_ELECTRON_VOLT 13.60569193
-#define BOHR_TO_ANGSTROM .529177
-#define EV_TO_KCAL_PER_MOL 23.060538
+const double RYDBERG_TO_KCAL_PER_MOL = 313.755026;
+const double RYDBERG_TO_ELECTRON_VOLT = 13.60569193;
+const double BOHR_TO_ANGSTROM = .529177;
+const double EV_TO_KCAL_PER_MOL = 23.060538;
 
 using namespace std;
 namespace OpenBabel {
