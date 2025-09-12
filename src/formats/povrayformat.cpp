@@ -35,13 +35,13 @@ GNU General Public License for more details.
 #include <algorithm>
 
 /* ---- Max. length of a atom-label ---- */
-#define StrLen 32
+static const unsigned StrLen = 32;
 
 /* ---- Define max. length of domainname ---- */
-#define MAXDOMAINNAMELEN 256
+static const unsigned MAXDOMAINNAMELEN = 256;
 
 /* ---- Maximal radius of an atom. Needed for bounding box ---- */
-#define MAXRADIUS (double) 3.0
+const double MAXRADIUS = 3.0;
 
 /* ---- Define index of first atom if needed ---- */
 #ifndef MIN_ATOM
@@ -49,10 +49,10 @@ GNU General Public License for more details.
 #endif
 
 /* ---- Size of time-string ---- */
-#define TIME_STR_SIZE 64
+static const unsigned TIME_STR_SIZE = 64;
 
 /* ---- if x < = EPSILON then x = 0.0 ---- */
-#define EPSILON (double) 1e-4
+const double EPSILON = 1e-4;
 
 /* ---- Define makro for calculating x^2 ---- */
 #ifdef SQUARE
