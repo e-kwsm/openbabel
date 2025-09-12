@@ -66,7 +66,7 @@ const double EPSILON = 1e-4;
 #endif
 
 /* ---- Convert RAD to DEG ---- */
-#define RAD2DEG(r) (((double) 180.0 * r) / PI)
+double RAD2DEG(double r) { return (180.0 * r) / PI; }
 
 //! \return the geometric centroid to an array of coordinates in double* format
 // Note: Based on center_coords from obutil.cpp. This function is declared in matrix3x3.h but there is no function
