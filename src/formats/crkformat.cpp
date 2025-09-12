@@ -231,12 +231,12 @@ namespace OpenBabel
   {
     bool foundClass=false;
 
-#define MAX_ATOMS 1000
+    static unsigned MAX_ATOMS = 1000;
 
     int numAtoms=0;
     int statomID[MAX_ATOMS];
 
-#define MAX_BONDS 1000
+    static unsigned MAX_BONDS = 1000;
 
     int numBonds=0;
     int stbondFrom[MAX_BONDS],stbondTo[MAX_BONDS],stbondStyle[MAX_BONDS];
