@@ -48,7 +48,7 @@ GNU General Public License for more details.
 #include <string>
 
 //#define DEBUG 1
-#define IMPLICIT_CIS_RING_SIZE 8
+const unsigned int IMPLICIT_CIS_RING_SIZE = 8;
 
 using namespace std;
 
