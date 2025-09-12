@@ -21,8 +21,8 @@ GNU General Public License for more details.
 #ifndef OB_CHAINS_H
 #define OB_CHAINS_H
 
-#define MaxMonoAtom 20
-#define MaxMonoBond 20
+static const unsigned int MaxMonoAtom = 20;
+static const unsigned int MaxMonoBond = 20;
 
 #include <openbabel/babelconfig.h>
 #include <vector>
