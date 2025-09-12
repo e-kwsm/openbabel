@@ -26,7 +26,7 @@ GNU General Public License for more details.
 
 using namespace std;
 
-#define RINCHI_VERSION_STRING "RInChI=1.00.1S/"
+const char *const RINCHI_VERSION_STRING = "RInChI=1.00.1S/";
 
 namespace OpenBabel
 {
@@ -120,9 +120,9 @@ namespace OpenBabel
     stringstream ss;
     inchiconv.SetOutStream(&ss);
 
-#define M_REACTANTS 0
-#define M_PRODUCTS 1
-#define M_AGENTS 2
+    static const unsigned int M_REACTANTS = 0;
+    static const unsigned int M_PRODUCTS = 1;
+    static const unsigned int M_AGENTS = 2;
 
     OBReactionFacade facade(pmol);
 
