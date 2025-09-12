@@ -27,8 +27,8 @@ GNU General Public License for more details.
 #include <cmath>
 // Required for TS detection in ZTS calculation
 #include <algorithm>
-#define HARTREE_TO_KCAL 627.509469
-#define AU_TO_ANGSTROM 0.529177249
+const double HARTREE_TO_KCAL = 627.509469;
+const double AU_TO_ANGSTROM = 0.529177249;
 #define EV_TO_NM(x) 1239.84193/x
 
 using namespace std;
