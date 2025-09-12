@@ -123,9 +123,9 @@ namespace OpenBabel
   static_assert(std::ranges::range<OBAtomAtomRange>);
 #endif
 
+  static const unsigned int OBATOM_TYPE_LEN = 6;
   // Class OBAtom
   // class introduction in atom.cpp
- #define OBATOM_TYPE_LEN 6
  class OBAPI OBAtom: public OBBase
     {
     protected:
