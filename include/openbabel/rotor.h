@@ -37,10 +37,6 @@ namespace OpenBabel
 {
   class OBRing;
 
-#ifndef SQUARE
-#define SQUARE(x) ((x)*(x))
-#endif
-
   //! \class OBRotorRule rotor.h <openbabel/rotor.h>
   //! \brief A rule for torsional conformer searching, defined by a SMARTS pattern
   //!
