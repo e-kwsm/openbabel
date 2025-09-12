@@ -27,7 +27,7 @@ GNU General Public License for more details.
 #include<openbabel/generic.h>
 #include <cstdlib>
 
-#define CONFAB_VER "1.1.0"
+const char *const CONFAB_VER = "1.1.0";
 
 namespace OpenBabel
 {
