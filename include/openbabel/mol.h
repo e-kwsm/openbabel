@@ -41,6 +41,7 @@ GNU General Public License for more details.
 #include <math.h>
 #include <float.h>
 
+#include <cstring>
 #include <vector>
 #include <string>
 #include <map>
@@ -767,13 +768,9 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
 #define BUFF_SIZE 32768
 #endif
 
-#ifndef EQ
-#define EQ(a,b) (!strcmp((a), (b)))
-#endif
+inline int EQ(const char* a, const char* b) { return !strcmp(a, b); }
 
-#ifndef EQn
-#define EQn(a,b,n) (!strncmp((a), (b), (n)))
-#endif
+inline int EQn(const char* a, const char* b, size_t n) { return !strncmp(a, b, n); }
 
 template<typename T>
 T SQUARE(T x) { return x * x; }
