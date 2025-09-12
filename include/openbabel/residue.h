@@ -231,42 +231,65 @@ namespace OpenBabel {
   /////////////////////////////////////////////////////////////////////////////
   // Amino Acid Property Definitions
   /////////////////////////////////////////////////////////////////////////////
-#define IS_ACIDIC(x)      ((x) & ((AA_ASP)|(AA_GLU)))
-#define IS_ACYCLIC(x)     ((x) & ((AA_ALA)|(AA_GLY)|(AA_LEU)|(AA_SER)|  \
-                                  (AA_VAL)|(AA_THR)|(AA_LYS)|(AA_ASP)|  \
-                                  (AA_ILE)|(AA_ASN)|(AA_GLU)|(AA_GLN)|  \
-                                  (AA_CYS)|(AA_MET)))
-#define IS_ALIPHATIC(x)   ((x) & ((AA_ALA)|(AA_GLY)|(AA_ILE)|(AA_LEU)|  \
-                                  (AA_VAL)))
-#define IS_AROMATIC(x)    ((x) & ((AA_HIS)|(AA_PHE)|(AA_TRP)|(AA_TYR)))
-#define IS_BASIC(x)       ((x) & ((AA_ARG)|(AA_HIS)|(AA_LYS)))
-#define IS_BURIED(x)      ((x) & ((AA_ALA)|(AA_CYS)|(AA_ILE)|(AA_LEU)|  \
-                                  (AA_MET)|(AA_PHE)|(AA_TRP)|(AA_VAL)))
-#define IS_CHARGED(x)     ((x) & ((AA_ASP)|(AA_GLU)|(AA_ARG)|(AA_HIS)|  \
-                                  (AA_LYS)))
-#define IS_CYCLIC(x)      ((x) & ((AA_HIS)|(AA_PHE)|(AA_PRO)|(AA_TRP)|  \
-                                  (AA_TYR)))
-#define IS_HYDROPHOBIC(x) ((x) & ((AA_ALA)|(AA_LEU)|(AA_VAL)|(AA_ILE)|  \
-                                  (AA_PRO)|(AA_PHE)|(AA_MET)|(AA_TRP)))
-#define IS_LARGE(x)       ((x) & ((AA_ARG)|(AA_PHE)|(AA_GLN)|(AA_TYR)|  \
-                                  (AA_HIS)|(AA_LEU)|(AA_LYS)|(AA_ILE)|  \
-                                  (AA_GLU)|(AA_MET)|(AA_TRP)))
-#define IS_MEDIUM(x)      ((x) & ((AA_VAL)|(AA_THR)|(AA_ASP)|(AA_ASN)|  \
-                                  (AA_PRO)|(AA_CYS)))
-#define IS_NEGATIVE(x)    ((x) & ((AA_ASP)|(AA_GLU)))
-#define IS_NEUTRAL(x)     ((x) & ((AA_ALA)|(AA_GLY)|(AA_LEU)|(AA_SER)|  \
-                                  (AA_VAL)|(AA_THR)|(AA_PHE)|(AA_GLN)|  \
-                                  (AA_TYR)|(AA_HIS)|(AA_CYS)|(AA_MET)|  \
-                                  (AA_TRP)|(AA_ILE)|(AA_ASN)|(AA_PRO)))
-#define IS_POLAR(x)       ((x) & ((AA_ASP)|(AA_ILE)|(AA_ASN)|(AA_GLU)|  \
-                                  (AA_SER)|(AA_THR)|(AA_ARG)|(AA_GLN)|  \
-                                  (AA_CYS)|(AA_HIS)))
-#define IS_POSITIVE(x)    ((x) & ((AA_ARG)|(AA_HIS)|(AA_LYS)))
-#define IS_SMALL(x)       ((x) & ((AA_ALA)|(AA_GLY)|(AA_SER)))
-#define IS_SURFACE(x)     ((x) & ((AA_THR)|(AA_LYS)|(AA_ASP)|(AA_ILE)|  \
-                                  (AA_ASN)|(AA_GLU)|(AA_PRO)|(AA_ARG)|  \
-                                  (AA_GLY)|(AA_SER)|(AA_GLN)|(AA_TYR)|  \
-                                  (AA_HIS)))
+  inline unsigned int IS_ACIDIC(unsigned int x) {
+    return x & (AA_ASP | AA_GLU);
+  }
+  inline unsigned int IS_ACYCLIC(unsigned int x) {
+    return x & (AA_ALA | AA_GLY | AA_LEU | AA_SER | AA_VAL | AA_THR | AA_LYS |
+                AA_ASP | AA_ILE | AA_ASN | AA_GLU | AA_GLN | AA_CYS | AA_MET);
+  }
+  inline unsigned int IS_ALIPHATIC(unsigned int x) {
+    return x & (AA_ALA | AA_GLY | AA_ILE | AA_LEU | AA_VAL);
+  }
+  inline unsigned int IS_AROMATIC(unsigned int x) {
+    return x & (AA_HIS | AA_PHE | AA_TRP | AA_TYR);
+  }
+  inline unsigned int IS_BASIC(unsigned int x) {
+    return x & (AA_ARG | AA_HIS | AA_LYS);
+  }
+  inline unsigned int IS_BURIED(unsigned int x) {
+    return x & (AA_ALA | AA_CYS | AA_ILE | AA_LEU | AA_MET | AA_PHE | AA_TRP |
+                AA_VAL);
+  }
+  inline unsigned int IS_CHARGED(unsigned int x) {
+    return x & (AA_ASP | AA_GLU | AA_ARG | AA_HIS | AA_LYS);
+  }
+  inline unsigned int IS_CYCLIC(unsigned int x) {
+    return x & (AA_HIS | AA_PHE | AA_PRO | AA_TRP | AA_TYR);
+  }
+  inline unsigned int IS_HYDROPHOBIC(unsigned int x) {
+    return x & (AA_ALA | AA_LEU | AA_VAL | AA_ILE | AA_PRO | AA_PHE | AA_MET |
+                AA_TRP);
+  }
+  inline unsigned int IS_LARGE(unsigned int x) {
+    return x & (AA_ARG | AA_PHE | AA_GLN | AA_TYR | AA_HIS | AA_LEU | AA_LYS |
+                AA_ILE | AA_GLU | AA_MET | AA_TRP);
+  }
+  inline unsigned int IS_MEDIUM(unsigned int x) {
+    return x & (AA_VAL | AA_THR | AA_ASP | AA_ASN | AA_PRO | AA_CYS);
+  }
+  inline unsigned int IS_NEGATIVE(unsigned int x) {
+    return x & (AA_ASP | AA_GLU);
+  }
+  inline unsigned int IS_NEUTRAL(unsigned int x) {
+    return x & (AA_ALA | AA_GLY | AA_LEU | AA_SER | AA_VAL | AA_THR | AA_PHE |
+                AA_GLN | AA_TYR | AA_HIS | AA_CYS | AA_MET | AA_TRP | AA_ILE |
+                AA_ASN | AA_PRO);
+  }
+  inline unsigned int IS_POLAR(unsigned int x) {
+    return x & (AA_ASP | AA_ILE | AA_ASN | AA_GLU | AA_SER | AA_THR | AA_ARG |
+                AA_GLN | AA_CYS | AA_HIS);
+  }
+  inline unsigned int IS_POSITIVE(unsigned int x) {
+    return x & (AA_ARG | AA_HIS | AA_LYS);
+  }
+  inline unsigned int IS_SMALL(unsigned int x) {
+    return x & (AA_ALA | AA_GLY | AA_SER);
+  }
+  inline unsigned int IS_SURFACE(unsigned int x) {
+    return x & (AA_THR | AA_LYS | AA_ASP | AA_ILE | AA_ASN | AA_GLU | AA_PRO |
+                AA_ARG | AA_GLY | AA_SER | AA_GLN | AA_TYR | AA_HIS);
+  }
 
   //! Residue property definitions
   namespace OBAminoAcidProperty
