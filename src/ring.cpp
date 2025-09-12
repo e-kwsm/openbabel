@@ -708,7 +708,7 @@ namespace OpenBabel
     curr |= atom->GetIdx();
     used = bv|curr;
 
-#define OB_RTREE_CUTOFF 20
+    const int OB_RTREE_CUTOFF = 20;
 
     int level=0;
     for (;;)
@@ -733,7 +733,6 @@ namespace OpenBabel
         if (level > OB_RTREE_CUTOFF)
           break;
       }
-#undef OB_RTREE_CUTOFF
   }
 
   OBRTree::OBRTree(OBAtom *atom,OBRTree *prv)
