@@ -773,7 +773,7 @@ namespace OpenBabel
   static double Roots[4];
 
 const double ApproxZero = 1E-7;
-#define IsZero(x)  ((double)fabs(x)<ApproxZero)
+bool IsZero(double x) { return fabs(x) < ApproxZero; }
 #ifndef PI
 #define PI         3.14159265358979323846226433
 #endif
