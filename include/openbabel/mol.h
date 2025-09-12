@@ -775,9 +775,7 @@ inline int EQn(const char* a, const char* b, size_t n) { return !strncmp(a, b, n
 template<typename T>
 T SQUARE(T x) { return x * x; }
 
-#ifndef IsUnsatType
-#define IsUnsatType(x)  (EQ(x,"Car") || EQ(x,"C2") || EQ(x,"Sox") || EQ(x,"Sac") || EQ(x,"Pac") || EQ(x,"So2"))
-#endif
+inline int IsUnsatType(const char* x) { return EQ(x,"Car") || EQ(x,"C2") || EQ(x,"Sox") || EQ(x,"Sac") || EQ(x,"Pac") || EQ(x,"So2"); }
 
 #ifndef __KCC
   extern "C"
