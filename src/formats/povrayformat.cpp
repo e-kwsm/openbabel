@@ -54,12 +54,6 @@ static const unsigned TIME_STR_SIZE = 64;
 /* ---- if x < = EPSILON then x = 0.0 ---- */
 const double EPSILON = 1e-4;
 
-/* ---- Define makro for calculating x^2 ---- */
-#ifdef SQUARE
-#undef SQUARE
-#endif
-#define SQUARE(x) ((x) * (x))
-
 /* ---- Define PI (if needed) ---- */
 #ifndef PI
 #define PI ((double) 3.1415926535897932384626433)
