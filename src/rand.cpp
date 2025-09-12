@@ -42,14 +42,13 @@ GNU General Public License for more details.
 #endif
 #endif
 
-#define IsEven(x) (((x)&1)==0)
-#define IsOdd(x)  (((x)&1)!=0)
+bool IsEven(unsigned int x) { return (x & 1) == 0; }
+bool IsOdd(unsigned int x)  { return (x & 1) != 0; }
 
-#define BothEven(x,y) IsEven((x)|(y))
-#define IsPrime(x)    (!IsEven((x))&&IsOddPrime((x)))
+bool BothEven(unsigned int x, unsigned int y) { return IsEven(x | y); }
 
-#define HiPart(x)   (x>>16)
-#define LoPart(x)   ((x)&0xffff)
+unsigned int HiPart(unsigned int x) { return x >> 16; }
+unsigned int LoPart(unsigned int x) { return x & 0xffff; }
 
 /* The maximum number of unique prime factors of a 32 bit number */
 /* 2*3*5*7*11*13*17*19*23*29 = 6469693230 > 2^32 = 4294967296    */
@@ -146,6 +145,8 @@ namespace OpenBabel
         return false;
     return true;
   }
+
+  static bool IsPrime(unsigned int x) { return !IsEven(x) && IsOddPrime(x); }
 
   static bool RelativelyPrime( unsigned int x, unsigned int y )
   {
