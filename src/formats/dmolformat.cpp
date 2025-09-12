@@ -26,8 +26,8 @@ using namespace std;
 namespace OpenBabel
 {
 
-#define BOHR_TO_ANGSTROM 0.529177249
-#define ANGSTROM_TO_BOHR 1.889725989
+const double BOHR_TO_ANGSTROM = 0.529177249;
+const double ANGSTROM_TO_BOHR = 1.889725989;
 
 
   class DMolFormat : public OBMoleculeFormat
