@@ -40,7 +40,7 @@ namespace OpenBabel {
   static const int MAXCHARS=1000;
   static const int MAX_DEPTH=10;
   static const int NELEMMAX=120;
-  #define NELEMMCDL 121
+  static const unsigned int NELEMMCDL = 121;
 
   // Return valency by hydrogen for given atomic position in the Periodic Table
   OBMCDL int hydrogenValency(int na);
