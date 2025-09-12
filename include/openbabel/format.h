@@ -28,16 +28,18 @@ namespace OpenBabel
   class OBConversion;
 
   ///For OBFormat::Flags()
-#define NOTREADABLE     0x01
-#define READONEONLY     0x02
-#define READBINARY      0x04
-#define ZEROATOMSOK     0x08
-#define NOTWRITABLE     0x10
-#define WRITEONEONLY    0x20
-#define WRITEBINARY     0x40
-#define READXML         0x80
-#define DEPICTION2D     0x100
-#define DEFAULTFORMAT   0x4000
+  enum {
+    NOTREADABLE   = 0x01,
+    READONEONLY   = 0x02,
+    READBINARY    = 0x04,
+    ZEROATOMSOK   = 0x08,
+    NOTWRITABLE   = 0x10,
+    WRITEONEONLY  = 0x20,
+    WRITEBINARY   = 0x40,
+    READXML       = 0x80,
+    DEPICTION2D   = 0x100,
+    DEFAULTFORMAT = 0x4000
+  };
 
   /// @brief Base class for file formats.
   // class introduction in obconversion.cpp
