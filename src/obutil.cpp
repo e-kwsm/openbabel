@@ -774,12 +774,9 @@ namespace OpenBabel
 
 #define ApproxZero 1E-7
 #define IsZero(x)  ((double)fabs(x)<ApproxZero)
-#ifndef PI
-#define PI         3.14159265358979323846226433
-#endif
 #define OneThird      (1.0/3.0)
-#define FourThirdsPI  (4.0*PI/3.0)
-#define TwoThirdsPI   (2.0*PI/3.0)
+#define FourThirdsPI  (4.0*M_PI/3.0)
+#define TwoThirdsPI   (2.0*M_PI/3.0)
 
   /*FUNCTION */
   /* receives: the co-efficients for a general

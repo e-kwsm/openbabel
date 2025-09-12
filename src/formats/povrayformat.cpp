@@ -60,13 +60,8 @@ GNU General Public License for more details.
 #endif
 #define SQUARE(x) ((x) * (x))
 
-/* ---- Define PI (if needed) ---- */
-#ifndef PI
-#define PI ((double) 3.1415926535897932384626433)
-#endif
-
 /* ---- Convert RAD to DEG ---- */
-#define RAD2DEG(r) (((double) 180.0 * r) / PI)
+#define RAD2DEG(r) (((double) 180.0 * r) / M_PI)
 
 //! \return the geometric centroid to an array of coordinates in double* format
 // Note: Based on center_coords from obutil.cpp. This function is declared in matrix3x3.h but there is no function
