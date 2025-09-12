@@ -64,24 +64,22 @@ vector3 fuzzyWrapFractionalCoordinate (vector3 coord)
     if (y < 0) y += 1;
     if (z < 0) z += 1;
 
-#define LIMIT 0.999999
+    const double LIMIT = 0.999999;
     if (x > LIMIT)
       x -= 1;
     if (y > LIMIT)
       y -= 1;
     if (z > LIMIT)
       z -= 1;
-#undef LIMIT
 
     // Fuzzy logic from Francois-Xavier
-#define EPSILON 1.0e-6
+    const double EPSILON = 1.0e-6;
     if (x > 1 - EPSILON || x < EPSILON)
       x = 0.0;
     if (y > 1 - EPSILON || y < EPSILON)
       y = 0.0;
     if (z > 1 - EPSILON || z < EPSILON)
       z = 0.0;
-#undef EPSILON
 
     return vector3(x, y, z);
 }
