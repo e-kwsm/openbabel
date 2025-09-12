@@ -772,14 +772,14 @@ namespace OpenBabel
 
   static double Roots[4];
 
-#define ApproxZero 1E-7
+const double ApproxZero = 1E-7;
 #define IsZero(x)  ((double)fabs(x)<ApproxZero)
 #ifndef PI
 #define PI         3.14159265358979323846226433
 #endif
-#define OneThird      (1.0/3.0)
-#define FourThirdsPI  (4.0*PI/3.0)
-#define TwoThirdsPI   (2.0*PI/3.0)
+const double OneThird     = (1.0/3.0);
+const double FourThirdsPI = (4.0*PI/3.0);
+const double TwoThirdsPI  = (2.0*PI/3.0);
 
   /*FUNCTION */
   /* receives: the co-efficients for a general
@@ -894,7 +894,7 @@ namespace OpenBabel
   }
 
 
-#define MAX_SWEEPS 50
+  const int MAX_SWEEPS = 50;
 
   void ob_make_rmat(double a[3][3],double rmat[9])
   {
