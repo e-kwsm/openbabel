@@ -226,7 +226,7 @@ namespace OpenBabel {
     AA_CYS = (1 << 18),
     AA_MET = (1 << 19),
     AA_TRP = (1 << 20)
-  }
+  };
 
   /////////////////////////////////////////////////////////////////////////////
   // Amino Acid Property Definitions
