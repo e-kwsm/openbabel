@@ -73,9 +73,9 @@ public:
 
 }
 
-#define OB_GASTEIGER_DENOM  20.02
-#define OB_GASTEIGER_DAMP   0.5
-#define OB_GASTEIGER_ITERS  6
+const double OB_GASTEIGER_DENOM = 20.02;
+const double OB_GASTEIGER_DAMP  = 0.5;
+const int OB_GASTEIGER_ITERS = 6;
 
 #endif // OB_MOLCHRG_H
 
