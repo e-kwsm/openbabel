@@ -51,7 +51,6 @@ namespace OpenBabel {
 
   typedef adjustedlist neighbourlist;
 
-#define PI 3.141592653589793238462
 #define blDenominator 4.0   //Controls bond legth in bondEnlarge
 #define nRotBondsMax 10     //Determines no. rotating bonds that are systematically searched in correctOverlapped
 
@@ -1222,8 +1221,8 @@ namespace OpenBabel {
           r2=getAtom(aT)->ry-getAtom(aN)->ry;
           s1=sqrt(r1*r1+r2*r2);
           r1=r1/s1; r2=r2/s1;
-          xV= r1*cos(150*PI/180)+r2*sin(150*PI/180);
-          yV=-r1*sin(150*PI/180)+r2*cos(150*PI/180);
+          xV= r1*cos(150*M_PI/180)+r2*sin(150*M_PI/180);
+          yV=-r1*sin(150*M_PI/180)+r2*cos(150*M_PI/180);
         } else {
           xV=sqrt(2.0)/2.0; //other case - Pi/4 to horizont angle
           yV=-xV;
@@ -1232,7 +1231,7 @@ namespace OpenBabel {
 
       //checking if coincided xV and uV with existing bonds
       if (unitVectorCoincident(aN,xV,yV)) {
-        fi=15*PI/180.0;
+        fi=15*M_PI/180.0;
         r3=cos(fi);
         r4=sin(fi);
         r1= xV*r3+yV*r4;
@@ -1242,7 +1241,7 @@ namespace OpenBabel {
           r2=xV*r4+yV*r3;
         };
         if (unitVectorCoincident(aN,r1,r2)) {
-          fi=7.5*PI/180.0;
+          fi=7.5*M_PI/180.0;
           r3=cos(fi);
           r4=sin(fi);
           r1= xV*r3+yV*r4;
@@ -2416,7 +2415,7 @@ namespace OpenBabel {
               };
 
               if ((ux==0) && (uy==0)) ux=1;
-              fi=(k-nb-1)*PI/(double)k;
+              fi=(k-nb-1)*M_PI/(double)k;
               //Addition for fluorine chain fragments...
               isChainFour=false;
               n=0; mm1=-1; mm2=-1; mAny=-1;
@@ -2450,7 +2449,7 @@ namespace OpenBabel {
               };
               if (isChainFour) {
                 n=0;
-                fi=PI/3;
+                fi=M_PI/3;
                 ux1= ux*cos(fi)+uy*sin(fi);
                 uy1=-ux*sin(fi)+uy*cos(fi);
                 cf=sqrt(ux1*ux1+uy1*uy1);
@@ -2461,7 +2460,7 @@ namespace OpenBabel {
                 getAtom(mm1)->ry=getAtom(k1)->ry+uy1;
                 atomDefine[mm1]=1;
                 if (mm2 >= 0) {
-                  fi=-PI/3;
+                  fi=-M_PI/3;
                   ux1= ux*cos(fi)+uy*sin(fi);
                   uy1=-ux*sin(fi)+uy*cos(fi);
                   cf=sqrt(ux1*ux1+uy1*uy1);
@@ -2478,7 +2477,7 @@ namespace OpenBabel {
                     ux=ux+(getAtom(k1)->rx-getAtom(k2)->rx);
                     uy=uy+(getAtom(k1)->ry-getAtom(k2)->ry);
                   };
-                fi=PI/6;
+                fi=M_PI/6;
                 for (j=0; j<getAtom(k1)->nb; j++) {
                   n1=getAtom(k1)->ac[j];
                   if (atomDefine[n1] == 0) {
@@ -2495,7 +2494,7 @@ namespace OpenBabel {
                   };
                 };
               } else if (isCycle) {
-                if (k == 4) fi=PI/6; else fi=PI/3;
+                if (k == 4) fi=M_PI/6; else fi=M_PI/3;
                 ux1= ux*cos(fi)+uy*sin(fi);
                 uy1=-ux*sin(fi)+uy*cos(fi);
                 cf=sqrt(ux1*ux1+uy1*uy1);
@@ -2539,7 +2538,7 @@ namespace OpenBabel {
                 //End pyrophosphate
                 if (k==2) { //120 degrees fragment}
                   if ((ux1==0) && (uy1==0)) ux1=1;
-                  fi=PI/3;
+                  fi=M_PI/3;
                   cf=uy*ux1-ux*uy1;
                   if (cf != 0) fi=fi*cf/abs(cf);
                 };
@@ -2556,7 +2555,7 @@ namespace OpenBabel {
             } else {                   //cyclic fragment}
 
               if ((ux==0) && (uy==0)) ux=1;
-              fi=(k-nb-2)*PI/(double)k;
+              fi=(k-nb-2)*M_PI/(double)k;
               ux1=ux*cos(fi)+uy*sin(fi);
               uy1=-ux*sin(fi)+uy*cos(fi);
               cf=sqrt(ux1*ux1+uy1*uy1);
@@ -2565,10 +2564,10 @@ namespace OpenBabel {
               };
               nb=dsSC[i];
               cs=nb+1;
-              cf=1/(2*sin(PI/(double)cs));
+              cf=1/(2*sin(M_PI/(double)cs));
               ux=getAtom(dsNA1[i])->rx+cf*ux1;
               uy=getAtom(dsNA1[i])->ry+cf*uy1;
-              fi=2*PI/(double)cs;
+              fi=2*M_PI/(double)cs;
               ux1=getAtom(dsNA1[i])->rx-ux;
               uy1=getAtom(dsNA1[i])->ry-uy;
               //coordinates of all atoms for the cycle under study are calculated}
@@ -2594,14 +2593,14 @@ namespace OpenBabel {
             nb=dsSC[i];
             cs=nb+2;
             fi=sqrt(ux1*ux1+uy1*uy1);
-            cf=fi/(2*sin(PI/(double)cs)/cos(PI/(double)cs));
+            cf=fi/(2*sin(M_PI/(double)cs)/cos(M_PI/(double)cs));
             add=0;
           } else {     //angle calc. for polycycle
             r=sqrt(ux1*ux1+uy1*uy1);
             add=(int)ceil(r);
             nb=dsSC[i];
             cs=nb+2+add;
-            cf=r/(2*sin(PI*(nb+1)/(double)cs));
+            cf=r/(2*sin(M_PI*(nb+1)/(double)cs));
             r=r/2.0;
             cf=sqrt(cf*cf-r*r);
           };
@@ -2609,7 +2608,7 @@ namespace OpenBabel {
           uy=(getAtom(dsNA1[i])->ry+getAtom(dsNA2[i])->ry)/2.0+uy*cf;
           ux1=getAtom(dsNA1[i])->rx-ux;
           uy1=getAtom(dsNA1[i])->ry-uy;
-          fi=2*PI/(double)cs;
+          fi=2*M_PI/(double)cs;
           ux2=ux+ux1*cos((1.0+add)*fi)+uy1*sin((1.0+add)*fi);
           uy2=uy-ux1*sin((1.0+add)*fi)+uy1*cos((1.0+add)*fi);
           if ((abs(getAtom(dsNA2[i])->rx-ux2)<0.01) && (abs(getAtom(dsNA2[i])->ry-uy2)<0.01)) fi=-fi;
@@ -4322,11 +4321,11 @@ namespace OpenBabel {
       if (isAddition) { //addition of fragment
         this->unitVector(thisAN,xu1,yu1);
         if (xu1 > -0.999) r=yu1/(1+xu1); else if (yu1 > 0) r=1E9; else r=-1E9;
-        cAngle=2*180*atan(r)/PI;
+        cAngle=2*180*atan(r)/M_PI;
         if (true) {
           cAngle=(int)(cAngle/30);
           cAngle=30*cAngle;
-          r=cAngle*PI/180;
+          r=cAngle*M_PI/180;
           xu1=cos(r);
           yu1=sin(r);
         }
@@ -4346,11 +4345,11 @@ namespace OpenBabel {
           } else {xu1=1; yu1=0;}
         } else this->unitVector(thisAN,xu1,yu1);
         if (xu1 > -0.999) r=yu1/(1+xu1); else if (yu1 > 0) r=1E9; else r=-1E9;
-        cAngle=2*180*atan(r)/PI;
+        cAngle=2*180*atan(r)/M_PI;
         if (true) {
           cAngle=(int)(cAngle/30);
           cAngle=30*cAngle;
-          r=cAngle*PI/180;
+          r=cAngle*M_PI/180;
           xu1=cos(r);
           yu1=sin(r);
         }
@@ -5859,8 +5858,8 @@ namespace OpenBabel {
     //smIn will be clear-nothing
 
 	for (int i=0; i<smIn.nAtoms(); i++) {
-	  smIn.getAtom(i)->rx=cos(2*PI*i/smIn.nAtoms());
-	  smIn.getAtom(i)->ry=-sin(2*PI*i/smIn.nAtoms());
+	  smIn.getAtom(i)->rx=cos(2*M_PI*i/smIn.nAtoms());
+	  smIn.getAtom(i)->ry=-sin(2*M_PI*i/smIn.nAtoms());
 	};
 	smIn.defineAtomConn();
 	smIn.allAboutCycles();
