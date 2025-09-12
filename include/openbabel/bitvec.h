@@ -33,11 +33,11 @@ GNU General Public License for more details.
 #endif
 
 // Use uint32_t
-#define SETWORD 32
+static const unsigned int SETWORD = 32;
 // SETWORD = 2 ^ WORDROLL
-#define WORDROLL 5
+static const unsigned int WORDROLL = 5;
 // WORDMASK = SETWORD - 1
-#define WORDMASK 31
+static const unsigned int WORDMASK = 31;
 
 #define WORDSIZE_OF_BITSIZE( bit_size ) ( ( bit_size >> WORDROLL ) + (( bit_size & WORDMASK ) ? 1 : 0) )
 
