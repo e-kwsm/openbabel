@@ -1614,7 +1614,7 @@ namespace OpenBabel
     _atomIds[id] = obatom;
     obatom->SetId(id);
 
-#define OBAtomIncrement 100
+    const unsigned int OBAtomIncrement = 100;
 
     if (_natoms+1 >= _vatom.size())
       {
@@ -1623,7 +1623,6 @@ namespace OpenBabel
         for (j = _vatom.begin(),j+=(_natoms+1);j != _vatom.end();++j)
           *j = nullptr;
       }
-#undef OBAtomIncrement
 
 
     _vatom[_natoms] = obatom;
@@ -1695,7 +1694,7 @@ namespace OpenBabel
     _bondIds[id] = pBond;
     pBond->SetId(id);
 
-#define OBBondIncrement 100
+    const unsigned int OBBondIncrement = 100;
     if (_nbonds+1 >= _vbond.size())
       {
         _vbond.resize(_nbonds+OBBondIncrement);
@@ -1703,7 +1702,6 @@ namespace OpenBabel
         for (i = _vbond.begin(),i+=(_nbonds+1);i != _vbond.end();++i)
           *i = nullptr;
       }
-#undef  OBBondIncrement
 
     _vbond[_nbonds] = (OBBond*)pBond;
     _nbonds++;
@@ -1744,7 +1742,7 @@ namespace OpenBabel
     obatom->SetId(id);
     _atomIds[id] = obatom;
 
-#define OBAtomIncrement 100
+    const unsigned int OBAtomIncrement = 100;
 
     if (_natoms+1 >= _vatom.size())
       {
@@ -1753,7 +1751,6 @@ namespace OpenBabel
         for (j = _vatom.begin(),j+=(_natoms+1);j != _vatom.end();++j)
           *j = nullptr;
       }
-#undef OBAtomIncrement
 
     _vatom[_natoms] = (OBAtom*)obatom;
     _natoms++;
@@ -2544,7 +2541,7 @@ namespace OpenBabel
         bond->SetId(_bondIds.size());
         _bondIds.push_back(bond);
 
-#define OBBondIncrement 100
+        const unsigned int OBBondIncrement = 100;
         if (_nbonds+1 >= _vbond.size())
           {
             _vbond.resize(_nbonds+OBBondIncrement);
@@ -2552,7 +2549,6 @@ namespace OpenBabel
             for (i = _vbond.begin(),i+=(_nbonds+1);i != _vbond.end();++i)
               *i = nullptr;
           }
-#undef  OBBondIncrement
 
         _vbond[_nbonds] = (OBBond*)bond;
         _nbonds++;
