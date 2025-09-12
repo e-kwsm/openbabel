@@ -41,11 +41,6 @@ GNU General Public License for more details.
 #endif
 #endif
 
-#ifndef True
-#define True   1
-#define False  0
-#endif
-
 #define IsEven(x) (((x)&1)==0)
 #define IsOdd(x)  (((x)&1)!=0)
 
@@ -131,7 +126,7 @@ namespace OpenBabel
       return 0;
   }
 
-  static int IsOddPrime( unsigned int x )
+  static bool IsOddPrime( unsigned int x )
   {
     unsigned int root;
     unsigned int i;
@@ -140,21 +135,21 @@ namespace OpenBabel
     for( i=2; i<MAXPRIMES-1; i++ )
       {
         if( (x%primes[i]) == 0 )
-          return False;
+          return false;
         if( (unsigned int) primes[i] >= root )
-          return True;
+          return true;
       }
 
     for( i=primes[MAXPRIMES-1]; i<=root; i+=2 )
       if( (x%i) == 0 )
-        return False;
-    return True;
+        return false;
+    return true;
   }
 
-  static int RelativelyPrime( unsigned int x, unsigned int y )
+  static bool RelativelyPrime( unsigned int x, unsigned int y )
   {
     if( BothEven(x,y) )
-      return False;
+      return false;
 
     if( IsEven(x) )
       {
@@ -375,7 +370,7 @@ namespace OpenBabel
     unsigned int b;
     int pot,best;
     int count;
-    int flag;
+    bool flag;
     int i;
 
     do
@@ -390,11 +385,11 @@ namespace OpenBabel
           {
             for( b=m-2; b>0; b-- )
               {
-                flag = True;
+                flag = true;
                 for( i=0; i<count; i++ )
                   if( b%fact[i] )
                     {
-                      flag = False;
+                      flag = false;
                       break;
                     }
 
