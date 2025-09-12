@@ -32,10 +32,10 @@ GNU General Public License for more details.
 
 #include <openbabel/math/matrix3x3.h>
 
-#define BOHR2ANGSTROM 0.5291772083
-#define HARTREE2INVCM 219474.631371
-#define AMU2AU 1822.88848
-#define REDDIPSTR2INT 974.864
+const double BOHR2ANGSTROM = 0.5291772083;
+const double HARTREE2INVCM = 219474.631371;
+const double AMU2AU = 1822.88848;
+const double REDDIPSTR2INT = 974.864;
 
 using namespace std;
 
