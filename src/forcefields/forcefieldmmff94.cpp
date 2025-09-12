@@ -36,10 +36,6 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <openbabel/ring.h>
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
 #include <iomanip>
 #include "forcefieldmmff94.h"
 

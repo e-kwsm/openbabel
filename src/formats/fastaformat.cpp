@@ -327,9 +327,6 @@ namespace OpenBabel
   extern ResidueRecord DNAResidues[IUPAC_DNA_max];
   extern ResidueRecord DNAPairResidues[IUPAC_DNA_max];
   extern ResidueRecord ProteinResidues[IUPAC_Protein_max];
-#ifndef M_PI
-#define M_PI 3.1415926535897932384626433832795028841971694
-#endif
   struct HelixParameters
   {
     double unit_X; // distance along the x-axis added for each unit

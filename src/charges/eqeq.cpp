@@ -135,7 +135,7 @@ namespace OpenBabel
       // Get unit cell and calculate its Fourier transform + volume
       obuc = (OBUnitCell *) mol.GetData(OBGenericDataType::UnitCell);
       unitcell = obuc->GetCellMatrix();
-      fourier = (2 * PI * unitcell.inverse()).transpose();
+      fourier = (2 * M_PI * unitcell.inverse()).transpose();
       cellVolume = obuc->GetCellVolume();
 
       // Get the number of radial unit cells to use in x, y, and z
@@ -259,10 +259,10 @@ namespace OpenBabel
       }
     }
     // Fourier normalization
-    beta *= 4.0 * PI / cellVolume;
+    beta *= 4.0 * M_PI / cellVolume;
 
     // Combine and return final J_ij, with modifier if the atoms are the same
-    return lambda * k / 2.0 * (alpha + beta + orbital) + (isSameAtom? J_i - lambda * k / (eta * sqrt(PI)) : 0);
+    return lambda * k / 2.0 * (alpha + beta + orbital) + (isSameAtom? J_i - lambda * k / (eta * sqrt(M_PI)) : 0);
   }
 
 }//namespace
