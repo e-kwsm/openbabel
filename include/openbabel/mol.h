@@ -116,7 +116,7 @@ namespace OpenBabel
   if (value) SetFlag(X); \
   else     UnsetFlag(X);
 
-#define OB_CURRENT_CONFORMER	 -1
+const int OB_CURRENT_CONFORMER = -1;
 
 enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
 
