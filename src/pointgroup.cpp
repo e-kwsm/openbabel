@@ -35,8 +35,8 @@ GNU General Public License for more details.
 #define M_PI 3.1415926535897932384626433832795028841971694
 #endif
 
-#define	DIMENSION 3
-#define MAXPARAM  7
+static const unsigned int DIMENSION = 3;
+static const unsigned int MAXPARAM  = 7;
 
 namespace OpenBabel {
 
