@@ -48,18 +48,20 @@ namespace OpenBabel
   typedef std::vector<OBAtom*>::iterator OBAtomIterator;
 
   //ATOM Property Macros (flags)
+  enum {
   //! Atom is in a 4-membered ring
-#define OB_4RING_ATOM     (1<<1)
+  OB_4RING_ATOM    = 1 << 1,
   //! Atom is in a 3-membered ring
-#define OB_3RING_ATOM     (1<<2)
+  OB_3RING_ATOM    = 1 << 2,
   //! Atom is aromatic
-#define OB_AROMATIC_ATOM  (1<<3)
+  OB_AROMATIC_ATOM = 1 << 3,
   //! Atom is in a ring
-#define OB_RING_ATOM      (1<<4)
+  OB_RING_ATOM     = 1 << 4,
   //! Atom is an electron donor
-#define OB_DONOR_ATOM     (1<<7)
+  OB_DONOR_ATOM    = 1 << 7,
   //! Atom is an electron acceptor
-#define OB_ACCEPTOR_ATOM  (1<<8)
+  OB_ACCEPTOR_ATOM = 1 << 8
+  };
 
 #define SET_OR_UNSET_FLAG(X) \
   if (value) SetFlag(X); \
