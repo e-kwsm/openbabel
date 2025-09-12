@@ -39,7 +39,7 @@ static const unsigned int WORDROLL = 5;
 // WORDMASK = SETWORD - 1
 static const unsigned int WORDMASK = 31;
 
-#define WORDSIZE_OF_BITSIZE( bit_size ) ( ( bit_size >> WORDROLL ) + (( bit_size & WORDMASK ) ? 1 : 0) )
+inline unsigned int WORDSIZE_OF_BITSIZE(unsigned int bit_size) { return ( bit_size >> WORDROLL ) + (( bit_size & WORDMASK ) ? 1 : 0); }
 
 #ifndef STARTWORDS
 #define STARTWORDS 10
