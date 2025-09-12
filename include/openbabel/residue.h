@@ -205,26 +205,28 @@ namespace OpenBabel {
   // Amino Acid Definitions
   ///////////////////////////////////////////////////////////////////////////////
 
-#define AA_ALA (1<<1)
-#define AA_GLY (1<<2)
-#define AA_LEU (1<<3)
-#define AA_SER (1<<4)
-#define AA_VAL (1<<5)
-#define AA_THR (1<<6)
-#define AA_LYS (1<<7)
-#define AA_ASP (1<<8)
-#define AA_ILE (1<<9)
-#define AA_ASN (1<<10)
-#define AA_GLU (1<<11)
-#define AA_PRO (1<<12)
-#define AA_ARG (1<<13)
-#define AA_PHE (1<<14)
-#define AA_GLN (1<<15)
-#define AA_TYR (1<<16)
-#define AA_HIS (1<<17)
-#define AA_CYS (1<<18)
-#define AA_MET (1<<19)
-#define AA_TRP (1<<20)
+  enum {
+    AA_ALA = (1 << 1),
+    AA_GLY = (1 << 2),
+    AA_LEU = (1 << 3),
+    AA_SER = (1 << 4),
+    AA_VAL = (1 << 5),
+    AA_THR = (1 << 6),
+    AA_LYS = (1 << 7),
+    AA_ASP = (1 << 8),
+    AA_ILE = (1 << 9),
+    AA_ASN = (1 << 10),
+    AA_GLU = (1 << 11),
+    AA_PRO = (1 << 12),
+    AA_ARG = (1 << 13),
+    AA_PHE = (1 << 14),
+    AA_GLN = (1 << 15),
+    AA_TYR = (1 << 16),
+    AA_HIS = (1 << 17),
+    AA_CYS = (1 << 18),
+    AA_MET = (1 << 19),
+    AA_TRP = (1 << 20)
+  }
 
   /////////////////////////////////////////////////////////////////////////////
   // Amino Acid Property Definitions
