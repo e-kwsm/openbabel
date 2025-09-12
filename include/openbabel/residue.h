@@ -197,9 +197,9 @@ namespace OpenBabel {
   // Global Definitions
   ///////////////////////////////////////////////////////////////////////////////
 
-#define MAXSETNO 40
-#define MAXELEM  29
-#define MAXRES   54
+  static const unsigned MAXSETNO = 40;
+  static const unsigned MAXELEM  = 29;
+  static const unsigned MAXRES   = 54;
 
   ///////////////////////////////////////////////////////////////////////////////
   // Amino Acid Definitions
