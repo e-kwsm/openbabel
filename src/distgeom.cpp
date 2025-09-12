@@ -46,10 +46,10 @@ GNU General Public License for more details.
 
 using namespace std;
 
-#define DIST12_TOL   0.01f
-#define DIST13_TOL   0.03f
-#define DIST14_TOL   0.05f
-#define DIST15_TOL   0.07f
+const float DIST12_TOL = 0.01f;
+const float DIST13_TOL = 0.03f;
+const float DIST14_TOL = 0.05f;
+const float DIST15_TOL = 0.07f;
 
 #pragma warning(disable : 4244) // warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
 #pragma warning(disable : 4305) // warning C4305: '*=' : truncation from 'double' to 'float'
