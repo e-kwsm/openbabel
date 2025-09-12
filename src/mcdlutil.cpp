@@ -41,7 +41,7 @@ using namespace std;
 
 namespace OpenBabel {
 
-#define CONNMAX 15
+  static const unsigned int CONNMAX = 15;
 
   // Forward declarations
   class TEditedMolecule;
@@ -53,9 +53,9 @@ namespace OpenBabel {
 
   typedef adjustedlist neighbourlist;
 
-#define PI 3.141592653589793238462
-#define blDenominator 4.0   //Controls bond legth in bondEnlarge
-#define nRotBondsMax 10     //Determines no. rotating bonds that are systematically searched in correctOverlapped
+  const double PI = 3.141592653589793238462;
+  const double blDenominator = 4.0; //Controls bond legth in bondEnlarge
+  const int nRotBondsMax = 10;      //Determines no. rotating bonds that are systematically searched in correctOverlapped
 
   //Hydrogen valencies. Zero dummy element is the first
 	const int hVal[NELEMMCDL] = {
