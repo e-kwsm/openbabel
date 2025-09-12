@@ -38,7 +38,7 @@ GNU General Public License for more details.
 #include <map>
 #include <set>
 
-#define NOCHARGE FLT_MAX
+const float NOCHARGE = FLT_MAX;
 
 #ifdef _MSC_VER
  #pragma warning( disable : 4503 )
