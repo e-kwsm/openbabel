@@ -29,7 +29,7 @@ GNU General Public License for more details.
 #include <algorithm>
 const double HARTREE_TO_KCAL = 627.509469;
 const double AU_TO_ANGSTROM = 0.529177249;
-#define EV_TO_NM(x) 1239.84193/x
+double EV_TO_NM(double x) { return 1239.84193 / x; }
 
 using namespace std;
 namespace OpenBabel
