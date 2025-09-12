@@ -42,6 +42,8 @@ extern "C" int strncasecmp(const char *s1, const char *s2, size_t n);
 
 using namespace std;
 
+const double ONE_OVER_SQRT3  = 0.57735026918962576451; // 1/sqrt(3)
+const double SQRT_TWO_THIRDS = 0.81649658092772603272; // sqrt(2/3)
 
 namespace OpenBabel
 {
@@ -1443,8 +1445,6 @@ namespace OpenBabel
                 s.normalize();
                 n = cross(v1,v2);
                 n.normalize();
-                const double ONE_OVER_SQRT3  = 0.57735026918962576451; // 1/sqrt(3)
-                const double SQRT_TWO_THIRDS = 0.81649658092772603272; // sqrt(2/3)
                 s *= ONE_OVER_SQRT3;
                 n *= SQRT_TWO_THIRDS;
                 s += n;
@@ -1497,8 +1497,8 @@ namespace OpenBabel
                     s.normalize();
                     n = cross(v1,v2);
                     n.normalize();
-                    s *= ONE_OVER_SQRT3; //1/sqrt(3)
-                    n *= SQRT_TWO_THIRDS; //sqrt(2/3)
+                    s *= ONE_OVER_SQRT3;
+                    n *= SQRT_TWO_THIRDS;
                     s += n;
                     s.normalize();
                     n = cross(s,v3);
