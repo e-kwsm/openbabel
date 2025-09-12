@@ -37,18 +37,20 @@ namespace OpenBabel
   class OBRing;
 
   //BOND Property Macros (flags)
-  //! An aromatic bond (regardless of bond order)
-#define OB_AROMATIC_BOND  (1<<1)
+  enum {
+  //! An aromatic bond (regardless of bond order
+  OB_AROMATIC_BOND = 1 << 1,
   //! A solid black wedge in 2D representations -- i.e., "up" from the 2D plane
-#define OB_WEDGE_BOND     (1<<2)
+  OB_WEDGE_BOND    = 1 << 2,
   //! A dashed "hash" bond in 2D representations -- i.e., "down" from the 2D plane
-#define OB_HASH_BOND      (1<<3)
+  OB_HASH_BOND     = 1 << 3,
   //! A bond in a ring
-#define OB_RING_BOND      (1<<4)
+  OB_RING_BOND     = 1 << 4,
   //! A bond which "closes" a ring when walking the molecular graph
-#define OB_CLOSURE_BOND   (1<<10)
+  OB_CLOSURE_BOND  = 1 << 10,
   // 11-16 currently unused
-#define OB_WEDGE_OR_HASH_BOND     (1<<11)
+  OB_WEDGE_OR_HASH_BOND = 1 << 11
+  };
 
 #define SET_OR_UNSET_FLAG(X) \
   if (value) SetFlag(X); \
