@@ -781,9 +781,8 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
 #define EQn(a,b,n) (!strncmp((a), (b), (n)))
 #endif
 
-#ifndef SQUARE
-#define SQUARE(x) ((x)*(x))
-#endif
+template<typename T>
+T SQUARE(T x) { return x * x; }
 
 #ifndef IsUnsatType
 #define IsUnsatType(x)  (EQ(x,"Car") || EQ(x,"C2") || EQ(x,"Sox") || EQ(x,"Sac") || EQ(x,"Pac") || EQ(x,"So2"))
