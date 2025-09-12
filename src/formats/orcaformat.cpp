@@ -32,7 +32,7 @@ GNU General Public License for more details.
 
 #include <iomanip>
 
-#define notFound string::npos
+const auto notFound = std::string::npos;
 using namespace std;
 namespace OpenBabel
 {
