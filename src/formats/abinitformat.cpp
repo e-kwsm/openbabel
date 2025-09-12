@@ -27,8 +27,8 @@ using namespace std;
 namespace OpenBabel
 {
 
-#define BOHR_TO_ANGSTROM 0.5291772108
-#define ANGSTROM_TO_BOHR 1.0 / BOHR_TO_ANGSTROM
+const double BOHR_TO_ANGSTROM = 0.5291772108;
+const double ANGSTROM_TO_BOHR = 1.0 / BOHR_TO_ANGSTROM;
 
 
   class ABINITFormat : public OBMoleculeFormat
