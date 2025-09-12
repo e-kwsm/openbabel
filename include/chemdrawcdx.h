@@ -49,7 +49,7 @@ typedef INT32  CDXObjectID; // signed for now, due to mac compiler bug?
 const CDXObjectID kCDXUndefinedId = (CDXObjectID)-1;
 
 const int kCDX_HeaderStringLen = 8;
-#define kCDX_HeaderString "VjCD0100"
+const char *const kCDX_HeaderString = "VjCD0100";
 #define kCDX_Signature	   QUADCONST('V','j','C','D')
 #define kCDX_HeaderLength 28
 
