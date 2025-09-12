@@ -51,11 +51,11 @@ unsigned int LoPart(unsigned int x) { return x & 0xffff; }
 
 /* The maximum number of unique prime factors of a 32 bit number */
 /* 2*3*5*7*11*13*17*19*23*29 = 6469693230 > 2^32 = 4294967296    */
-#define MAXFACT    10
+static unsigned int MAXFACT = 10;
 
 namespace OpenBabel
 {
-#define MAXPRIMES  256
+  static const int MAXPRIMES = 256;
   static int primes[MAXPRIMES] = {
     1,    2,    3,    5,    7,   11,   13,   17,   19,   23,
     29,   31,   37,   41,   43,   47,   53,   59,   61,   67,
