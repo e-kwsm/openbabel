@@ -23,8 +23,8 @@ GNU General Public License for more details.
 
 #include <cstdlib>
 
-#define EV_TO_KCAL_PER_MOL 23.060538
-#define GPA_A3_TO_KCAL_PER_MOL 0.14383639
+const double EV_TO_KCAL_PER_MOL = 23.060538;
+const double GPA_A3_TO_KCAL_PER_MOL = 0.14383639;
 
 using namespace std;
 namespace OpenBabel {
