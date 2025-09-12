@@ -19,7 +19,7 @@ GNU General Public License for more details.
 #include <openbabel/elements.h>
 #include <vector>
 
-#define NUMELEMENTS 118
+static const unsigned int NUMELEMENTS = 118;
 
 // Use the C++ preprocessor to turn a CSV into separate arrays per column
 // - FYI, the "#B" means put the B in quotes. In you do it directly (i.e. "B")
