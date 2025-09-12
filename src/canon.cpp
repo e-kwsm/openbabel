@@ -41,7 +41,7 @@ GNU General Public License for more details.
 
 #define DEBUG 0
 
-#define MAX_IDENTITY_NODES 50
+const unsigned MAX_IDENTITY_NODES = 50;
 
 // Maximum CanonicalLabelsRecursive() depth. The labeling recurses roughly once
 // per atom along a path, and on pathological inputs (very long chains, large
