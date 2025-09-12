@@ -69,45 +69,47 @@ namespace OpenBabel
 
   // Class OBMol
   //MOL Property Macros (flags) -- 32+ bits
+  enum {
   //! Smallest Set of Smallest Rings (SSSR) done. See OBRing and OBMol::FindSSSR
-#define OB_SSSR_MOL              (1<<1)
+  OB_SSSR_MOL                  = (1<<1),
   //! Ring flags have been set: See OBRing::FindRingAtomsAndBonds
-#define OB_RINGFLAGS_MOL         (1<<2)
+  OB_RINGFLAGS_MOL             = (1<<2),
   //! Aromatic flags have been set for atoms and bonds
-#define OB_AROMATIC_MOL          (1<<3)
+  OB_AROMATIC_MOL              = (1<<3),
   //! Atom typing has been performed. See OBAtomTyper
-#define OB_ATOMTYPES_MOL         (1<<4)
+  OB_ATOMTYPES_MOL             = (1<<4),
   //! Chirality detection has been performed.
-#define OB_CHIRALITY_MOL         (1<<5)
+  OB_CHIRALITY_MOL             = (1<<5),
   //! Partial charges have been set or percieved
-#define OB_PCHARGE_MOL           (1<<6)
+  OB_PCHARGE_MOL               = (1<<6),
   //! Atom hybridizations have been set. See OBAtomTyper
-#define OB_HYBRID_MOL            (1<<8)
+  OB_HYBRID_MOL                = (1<<8),
   //! Ring "closure" bonds have been set. See OBBond::IsClosure
-#define OB_CLOSURE_MOL           (1<<11)
+  OB_CLOSURE_MOL               = (1<<11),
   //! Hyrdogen atoms have been added where needed. See OBMol::AddHydrogens
-#define OB_H_ADDED_MOL           (1<<12)
+  OB_H_ADDED_MOL               = (1<<12),
   //! pH correction for hydrogen addition has been performed.
-#define OB_PH_CORRECTED_MOL      (1<<13)
+  OB_PH_CORRECTED_MOL          = (1<<13),
   //! Biomolecular chains and residues have been set. See OBChainsParser
-#define OB_CHAINS_MOL            (1<<15)
+  OB_CHAINS_MOL                = (1<<15),
   //! Total charge on this molecule has been set. See OBMol::SetTotalCharge
-#define OB_TCHARGE_MOL		       (1<<16)
+  OB_TCHARGE_MOL               = (1<<16),
   //! Total spin on this molecule has been set. See OBMol::SetTotalSpinMultiplicity
-#define OB_TSPIN_MOL             (1<<17)
+  OB_TSPIN_MOL                 = (1<<17),
   //! Ring typing has been performed. See OBRingTyper
-#define OB_RINGTYPES_MOL         (1<<18)
+  OB_RINGTYPES_MOL             = (1<<18),
   //! A pattern, not a complete molecule.
-#define OB_PATTERN_STRUCTURE     (1<<19)
+  OB_PATTERN_STRUCTURE         = (1<<19),
   //! Largest Set of Smallest Rings (LSSR) done. See OBRing and OBMol::FindLSSR
-#define OB_LSSR_MOL              (1<<20)
+  OB_LSSR_MOL                  = (1<<20),
   //! SpinMultiplicities on atoms have been set in OBMol::AssignSpinMultiplicity()
-#define OB_ATOMSPIN_MOL          (1<<21)
+  OB_ATOMSPIN_MOL              = (1<<21),
   //! Treat as reaction
-#define OB_REACTION_MOL          (1<<22)
+  OB_REACTION_MOL              = (1<<22),
   //! Molecule is repeating in a periodic unit cell
-#define OB_PERIODIC_MOL          (1<<23)
+  OB_PERIODIC_MOL              = (1<<23)
   // flags 24-32 unspecified
+  };
 
 #define SET_OR_UNSET_FLAG(X) \
   if (value) SetFlag(X); \
