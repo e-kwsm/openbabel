@@ -62,9 +62,9 @@ namespace OpenBabel
 
   // Used by other code for reading files
 #ifdef WIN32
-  #define FILE_SEP_CHAR "\\"
+  const char *const FILE_SEP_CHAR = "\\";
 #else
-#define FILE_SEP_CHAR "/"
+  const char *const FILE_SEP_CHAR = "/";
 #endif
 
 
