@@ -32,10 +32,6 @@
 #define MAXID 20
 #define MAXABS INT_MAX-2
 
-#ifndef SQR
-#define SQR(x) ((x)*(x))
-#endif
-
 #define FIRSTIDX 9
 /* note that magicints[FIRSTIDX-1] == 0 */
 #define LASTIDX (sizeof(magicints) / sizeof(*magicints))
@@ -831,9 +827,9 @@ namespace OpenBabel
           is_smaller = 0;
         while (is_small && run < 8*3) {
           if (is_smaller == -1 && (
-                                   SQR(thiscoord[0] - prevcoord[0]) +
-                                   SQR(thiscoord[1] - prevcoord[1]) +
-                                   SQR(thiscoord[2] - prevcoord[2]) >= smaller * smaller)) {
+                                   SQUARE(thiscoord[0] - prevcoord[0]) +
+                                   SQUARE(thiscoord[1] - prevcoord[1]) +
+                                   SQUARE(thiscoord[2] - prevcoord[2]) >= smaller * smaller)) {
             is_smaller = 0;
           }
 
