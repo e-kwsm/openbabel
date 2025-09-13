@@ -29,10 +29,10 @@
 #include <algorithm>
 #include <vector>
 
-#define MAXID 20
-#define MAXABS INT_MAX-2
+static const unsigned int MAXID = 20;
+const int MAXABS = INT_MAX - 2;
 
-#define FIRSTIDX 9
+const int FIRSTIDX = 9;
 /* note that magicints[FIRSTIDX-1] == 0 */
 #define LASTIDX (sizeof(magicints) / sizeof(*magicints))
 
