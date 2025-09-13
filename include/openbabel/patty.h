@@ -24,14 +24,16 @@ GNU General Public License for more details.
 
 namespace OpenBabel
 {
-#define PT_CATION      1
-#define PT_ANION       2
-#define PT_ACCEPTOR    3
-#define PT_POLAR       4
-#define PT_DONOR       5
-#define PT_HYDROPHOBIC 6
-#define PT_OTHER       7
-#define PT_METAL	   8
+enum {
+PT_CATION      = 1,
+PT_ANION       = 2,
+PT_ACCEPTOR    = 3,
+PT_POLAR       = 4,
+PT_DONOR       = 5,
+PT_HYDROPHOBIC = 6,
+PT_OTHER       = 7,
+PT_METAL       = 8
+};
 
 // class introduction in patty.cpp
 class OBAPI OB_DEPRECATED patty
