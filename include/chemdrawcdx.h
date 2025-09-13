@@ -571,20 +571,20 @@ enum CDXTextJustification {
 	kCDXTextJustification_BestInitial
 };
 
-#define kCDXTagType_Unknown			"unknown"
-#define kCDXTagType_Query			"query"
-#define kCDXTagType_Rxn				"reaction"
-#define kCDXTagType_Stereo			"stereo"
-#define kCDXTagType_Number			"number"
-#define kCDXTagType_Heading			"heading"
-#define kCDXTagType_IDTerm			"idterm"
-#define kCDXTagType_BracketUsage	"bracketusage"
-#define kCDXTagType_PolymerRepeat	"polymerrepeat"
-#define kCDXTagType_PolymerFlip		"polymerflip"
-#define kCDXTagType_Deviation		"deviation"
-#define kCDXTagType_Distance		"distance"
-#define kCDXTagType_Angle			"angle"
-#define kCDXTagType_Rf				"rf"
+const char *const kCDXTagType_Unknown       = "unknown";
+const char *const kCDXTagType_Query         = "query";
+const char *const kCDXTagType_Rxn           = "reaction";
+const char *const kCDXTagType_Stereo        = "stereo";
+const char *const kCDXTagType_Number        = "number";
+const char *const kCDXTagType_Heading       = "heading";
+const char *const kCDXTagType_IDTerm        = "idterm";
+const char *const kCDXTagType_BracketUsage  = "bracketusage";
+const char *const kCDXTagType_PolymerRepeat = "polymerrepeat";
+const char *const kCDXTagType_PolymerFlip   = "polymerflip";
+const char *const kCDXTagType_Deviation     = "deviation";
+const char *const kCDXTagType_Distance      = "distance";
+const char *const kCDXTagType_Angle         = "angle";
+const char *const kCDXTagType_Rf            = "rf";
 
 enum CDXPositioningType {
 	kCDXPositioningType_Auto = 0,
