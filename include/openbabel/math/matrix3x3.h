@@ -26,14 +26,6 @@ GNU General Public License for more details.
 #include <openbabel/math/vector3.h> // includes rand.h, which includes <math.h>
 #include <openbabel/oberror.h>
 
-#ifndef RAD_TO_DEG
-#define RAD_TO_DEG (180.0/M_PI)
-#endif
-
-#ifndef DEG_TO_RAD
-#define DEG_TO_RAD (M_PI/180.0)
-#endif
-
 namespace OpenBabel
 {
   class OBRandom; // class introduction in rand.h
