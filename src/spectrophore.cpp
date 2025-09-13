@@ -478,7 +478,7 @@ OBSpectrophore::_updateSpectrophore(double* ENERGY, double* SPHORE)
 {
     for (unsigned int i = 0; i < N_PROPERTIES * _numberOfProbes; ++i)
     {
-        SPHORE[i] = MIN(ENERGY[i], SPHORE[i]);
+        SPHORE[i] = std::min<double>(ENERGY[i], SPHORE[i]);
     }
 }
 
@@ -582,12 +582,12 @@ OBSpectrophore::_getBox(double** c)
    double zp(c[0][2] + _radii[0]);
    for (unsigned int i = 1; i < _nAtoms; ++i)
    {
-      xm = MIN(c[i][0] - _radii[i], xm);
-      xp = MAX(c[i][0] + _radii[i], xp);
-      ym = MIN(c[i][1] - _radii[i], ym);
-      yp = MAX(c[i][1] + _radii[i], yp);
-      zm = MIN(c[i][2] - _radii[i], zm);
-      zp = MAX(c[i][2] + _radii[i], zp);
+      xm = std::min<double>(c[i][0] - _radii[i], xm);
+      xp = std::max<double>(c[i][0] + _radii[i], xp);
+      ym = std::min<double>(c[i][1] - _radii[i], ym);
+      yp = std::max<double>(c[i][1] + _radii[i], yp);
+      zm = std::min<double>(c[i][2] - _radii[i], zm);
+      zp = std::max<double>(c[i][2] + _radii[i], zp);
    }
    xm -= _resolution;
    xp += _resolution;
