@@ -73,18 +73,14 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 #define IF_OBFF_LOGLVL_HIGH   if(_loglvl >= OBFF_LOGLVL_HIGH)
 
   //! The type of line search to be used for optimization -- simple or Newton numeric
-  struct LineSearchType
+  enum class LineSearchType
   {
-    enum {
-      Simple, Newton2Num
-    };
+    Simple, Newton2Num
   };
   /*
-  struct ConstraintType
+  enum class ConstraintType
   {
-    enum {
-      Ignore, Atom, AtomX, AtomY, AtomZ, Distance, Angle, Torsion, Chiral
-    };
+    Ignore, Atom, AtomX, AtomY, AtomZ, Distance, Angle, Torsion, Chiral
   };
   */
 
