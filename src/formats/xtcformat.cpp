@@ -775,7 +775,7 @@ namespace OpenBabel
       xdr_int(xdrs, &smallidx);
       maxidx = std::min<int>(LASTIDX, smallidx + 8) ;
       minidx = maxidx - 8; /* often this equal smallidx */
-      smaller = magicints[std::max(FIRSTIDX, smallidx-1)] / 2;
+      smaller = magicints[std::max<int>(FIRSTIDX, smallidx-1)] / 2;
       small_ = magicints[smallidx] / 2;
       sizesmall[0] = sizesmall[1] = sizesmall[2] = magicints[smallidx];
       larger = magicints[maxidx] / 2;
@@ -951,7 +951,7 @@ namespace OpenBabel
       xdr_int(xdrs, &smallidx);
       maxidx = std::min<int>(LASTIDX, smallidx + 8) ;
       minidx = maxidx - 8; /* often this equal smallidx */
-      smaller = magicints[std::max(FIRSTIDX, smallidx-1)] / 2;
+      smaller = magicints[std::max<int>(FIRSTIDX, smallidx-1)] / 2;
       small_ = magicints[smallidx] / 2;
       sizesmall[0] = sizesmall[1] = sizesmall[2] = magicints[smallidx] ;
       larger = magicints[maxidx];
