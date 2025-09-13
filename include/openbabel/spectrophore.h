@@ -40,7 +40,7 @@ GNU General Public License for more details.
 
 
 
-#define N_PROPERTIES 4
+static const unsigned int N_PROPERTIES = 4;
 
 
 
