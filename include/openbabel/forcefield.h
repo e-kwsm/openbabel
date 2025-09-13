@@ -34,35 +34,43 @@ namespace OpenBabel
   class OBGridData;
 
   // log levels
-#define OBFF_LOGLVL_NONE	0   //!< no output
-#define OBFF_LOGLVL_LOW		1   //!< SteepestDescent progress... (no output from Energy())
-#define OBFF_LOGLVL_MEDIUM	2   //!< individual energy terms
-#define OBFF_LOGLVL_HIGH	3   //!< individual calculations and parameters
+  enum {
+    OBFF_LOGLVL_NONE   = 0, //!< no output
+    OBFF_LOGLVL_LOW    = 1, //!< SteepestDescent progress... (no output from Energy())
+    OBFF_LOGLVL_MEDIUM = 2, //!< individual energy terms
+    OBFF_LOGLVL_HIGH   = 3  //!< individual calculations and parameters
+  };
 
   // terms
-#define OBFF_ENERGY		(1 << 0)   //!< all terms
-#define OBFF_EBOND		(1 << 1)   //!< bond term
-#define OBFF_EANGLE		(1 << 2)   //!< angle term
-#define OBFF_ESTRBND		(1 << 3)   //!< strbnd term
-#define OBFF_ETORSION		(1 << 4)   //!< torsion term
-#define OBFF_EOOP		(1 << 5)   //!< oop term
-#define OBFF_EVDW		(1 << 6)   //!< vdw term
-#define OBFF_EELECTROSTATIC	(1 << 7)   //!< electrostatic term
+  enum {
+    OBFF_ENERGY         = 1 << 0, //!< all terms
+    OBFF_EBOND          = 1 << 1, //!< bond term
+    OBFF_EANGLE         = 1 << 2, //!< angle term
+    OBFF_ESTRBND        = 1 << 3, //!< strbnd term
+    OBFF_ETORSION       = 1 << 4, //!< torsion term
+    OBFF_EOOP           = 1 << 5, //!< oop term
+    OBFF_EVDW           = 1 << 6, //!< vdw term
+    OBFF_EELECTROSTATIC = 1 << 7, //!< electrostatic term
+  };
 
   // constraint types
-#define OBFF_CONST_IGNORE	(1 << 0)   //!< ignore the atom while setting up calculations
-#define OBFF_CONST_ATOM		(1 << 1)   //!< fix the atom position
-#define OBFF_CONST_ATOM_X	(1 << 2)   //!< fix the x coordinate of the atom position
-#define OBFF_CONST_ATOM_Y	(1 << 3)   //!< fix the y coordinate of the atom position
-#define OBFF_CONST_ATOM_Z	(1 << 4)   //!< fix the z coordinate of the atom position
-#define OBFF_CONST_DISTANCE	(1 << 5)   //!< constrain distance length
-#define OBFF_CONST_ANGLE	(1 << 6)   //!< constrain angle
-#define OBFF_CONST_TORSION	(1 << 7)   //!< constrain torsion
-#define OBFF_CONST_CHIRAL	(1 << 8)   //!< constrain chiral volume
+  enum {
+    OBFF_CONST_IGNORE   = 1 << 0, //!< ignore the atom while setting up calculations
+    OBFF_CONST_ATOM     = 1 << 1, //!< fix the atom position
+    OBFF_CONST_ATOM_X   = 1 << 2, //!< fix the x coordinate of the atom position
+    OBFF_CONST_ATOM_Y   = 1 << 3, //!< fix the y coordinate of the atom position
+    OBFF_CONST_ATOM_Z   = 1 << 4, //!< fix the z coordinate of the atom position
+    OBFF_CONST_DISTANCE = 1 << 5, //!< constrain distance length
+    OBFF_CONST_ANGLE    = 1 << 6, //!< constrain angle
+    OBFF_CONST_TORSION  = 1 << 7, //!< constrain torsion
+    OBFF_CONST_CHIRAL   = 1 << 8, //!< constrain chiral volume
+  };
 
   // mode arguments for SteepestDescent, ConjugateGradients, ...
-#define OBFF_NUMERICAL_GRADIENT  	(1 << 0)  //!< use numerical gradients
-#define OBFF_ANALYTICAL_GRADIENT	(1 << 1)  //!< use analytical gradients
+  enum {
+    OBFF_NUMERICAL_GRADIENT  = 1 << 0, //!< use numerical gradients
+    OBFF_ANALYTICAL_GRADIENT = 1 << 1, //!< use analytical gradients
+  };
 
 const double KCAL_TO_KJ = 4.1868;
 const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 K^-1 (2018 CODATA recommended value)
