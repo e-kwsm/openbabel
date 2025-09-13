@@ -607,8 +607,8 @@ enum CDXPageDefinition {
 	kCDXPageDefinition_UserDefined
 };
 
-#define kCDXLineHeight_Variable  0
-#define kCDXLineHeight_Automatic 1
+const int kCDXLineHeight_Variable  = 0;
+const int kCDXLineHeight_Automatic = 1;
 
 enum CDXGraphicType {
 	kCDXGraphicType_Undefined = 0,
