@@ -196,7 +196,7 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
     ss << "The molecule" << pmol->GetTitle()
        << " does not have the same dimensions as the reference molecule "
        << _refMol.GetTitle() << " and is ignored.";
-       obErrorLog.ThrowError(__FUNCTION__, ss.str().c_str(), obError);
+       obErrorLog.ThrowError(__FUNCTION__, ss.str(), obError);
     return false;
   }
 

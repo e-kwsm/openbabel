@@ -112,7 +112,7 @@ namespace OpenBabel
               return false;
 
             atom = mol.NewAtom();
-            temp = vs[2].c_str();
+            temp = vs[2];
             ttab.SetToType("INT");
             ttab.Translate(temp2, temp);
             atom->SetType(temp2);

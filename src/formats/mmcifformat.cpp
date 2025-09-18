@@ -656,7 +656,7 @@ namespace OpenBabel
                // valid symbol
                // This is not guaranteed to work still, as the CIF standard
                // allows about any string...
-               tmpSymbol=token.as_text.c_str();
+               tmpSymbol=token.as_text;
                if ((tmpSymbol.size()==1) && isalpha(tmpSymbol[0]))
                  {
                  nbc=1;

@@ -140,7 +140,7 @@ bool OpFillUC::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConver
     {
       if (iter == vec.begin()) // Warn user about converting only once
         obErrorLog.ThrowError(__FUNCTION__, "Converting to P 1 cell using available symmetry transformations." , obWarning);
-      spacegroup.AddTransform(iter->c_str());
+      spacegroup.AddTransform(*iter);
     }
 
     pSG = &spacegroup;

@@ -1144,7 +1144,7 @@ namespace OpenBabel
             for (string::size_type pos = tag.find('.'); pos != string::npos; pos = tag.find('.', ++ pos))
               tag.replace(pos, 1, 1, '_');
             value=CIFReadValue(in,lastc);
-            mvData[block].mvItem[ci_string(tag.c_str())]=value;
+            mvData[block].mvItem[ci_string(tag.cbegin(), tag.cend())]=value;
             if(vv)
             {
               stringstream ss;
@@ -1197,7 +1197,7 @@ namespace OpenBabel
                 // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
                 for (string::size_type pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
                   tmp.replace(pos, 1, 1, '_');
-                tit.push_back(ci_string(tmp.c_str()));
+                tit.push_back(ci_string(tmp.cbegin(), tmp.cend()));
                 if(vv) obErrorLog.ThrowError(__FUNCTION__, " , "+tmp, obDebug);
               }
             map<ci_string,vector<string> > lp;
@@ -1222,7 +1222,7 @@ namespace OpenBabel
                   }
                 //in>>tmp;
                 tmp=CIFReadValue(in,lastc);
-                if(ci_string(tmp.c_str())=="loop_")
+                if(ci_string(tmp.cbegin(), tmp.cend())=="loop_")
                   {//go back and continue
                     in.clear();
                     in.seekg(pos0,std::ios::beg);
@@ -1643,7 +1643,7 @@ namespace OpenBabel
          if (atom->HasData("_atom_site_label"))
            {
              OBPairData *label = dynamic_cast<OBPairData *> (atom->GetData("_atom_site_label"));
-             label_str = label->GetValue().c_str();
+             label_str = label->GetValue();
            }
          else
            {

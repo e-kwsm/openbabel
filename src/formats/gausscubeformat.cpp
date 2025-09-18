@@ -427,7 +427,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         vgd.push_back(new OBGridData);
         stringstream cubeTitle;
         cubeTitle << "MO " << cubeNumber;
-        vgd.at(vgd.size()-1)->SetAttribute(cubeTitle.str().c_str());
+        vgd.at(vgd.size()-1)->SetAttribute(cubeTitle.str());
       }
       // Now if we have lots of cubes we need to read in more line(s)
       while (vgd.size() < nCubes)
@@ -462,7 +462,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           vgd.push_back(new OBGridData);
           stringstream cubeTitle;
           cubeTitle << "MO " << cubeNumber;
-          vgd.at(vgd.size()-1)->SetAttribute(cubeTitle.str().c_str());
+          vgd.at(vgd.size()-1)->SetAttribute(cubeTitle.str());
         }
       }
     }
@@ -470,7 +470,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     {
       // only one cube
       vgd.push_back(new OBGridData);
-      vgd.at(0)->SetAttribute(cubeTitle.c_str());
+      vgd.at(0)->SetAttribute(cubeTitle);
     }
 
     // get all values as one vector<double>
