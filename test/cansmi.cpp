@@ -64,7 +64,7 @@ int cansmi(int argc, char* argv[])
 
   cout << endl << "# Testing Canonical SMILES Generation ...  \n";
   
-  std::ifstream mifs(bsmilestypes_file.c_str());
+  std::ifstream mifs(bsmilestypes_file);
   if (!mifs)
     {
       cout << "Bail out! Cannot read test data " << bsmilestypes_file << endl;

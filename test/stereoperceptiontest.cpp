@@ -16,7 +16,7 @@ std::string test_singleTetrahedral(const std::string &file,
   conv.SetOutFormat("can");
 
   const std::string filename = OBTestUtil::GetFilename(file);
-  ifstream ifs(filename.c_str());
+  ifstream ifs(filename);
   if (!ifs) {
     cerr << "Could not open " << filename << endl;
     return std::string();

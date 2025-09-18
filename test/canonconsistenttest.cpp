@@ -13,7 +13,7 @@ using namespace OpenBabel;
 bool mdoMultiMoleculeFile(const std::string &filename)
 {
   std::ifstream ifs;
-  ifs.open(filename.c_str());
+  ifs.open(filename);
   OB_REQUIRE( ifs );
 
   OBMol mol;
