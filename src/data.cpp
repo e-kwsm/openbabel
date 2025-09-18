@@ -114,8 +114,8 @@ namespace OpenBabel
                                   stoi(vs[1]),
                                   vs[2],
                                   vs[3],
-                                  atof(vs[4].c_str()),
-                                  atof(vs[5].c_str()),
+                                  stod(vs[4]),
+                                  stod(vs[5]),
                                   stoi(vs[6]),
                                   vs[7]);
             _atomhof.push_back(*oba);

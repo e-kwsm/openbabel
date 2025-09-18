@@ -1096,8 +1096,8 @@ namespace OpenBabel
         tokenize(vs, buffer," -\n\t");
         parameter.clear();
         parameter._a = vs[0]; //KNDSYM
-        parameter._dpar.push_back(atof(vs[1].c_str())); // AMASS
-        parameter._dpar.push_back(atof(vs[2].c_str())); // ATPOL [A^3]
+        parameter._dpar.push_back(stod(vs[1])); // AMASS
+        parameter._dpar.push_back(stod(vs[2])); // ATPOL [A^3]
         _ffpropparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
@@ -1109,8 +1109,8 @@ namespace OpenBabel
         parameter.clear();
         parameter._a = vs[0]; // IBT
         parameter._b = vs[1]; // JBT
-        parameter._dpar.push_back(atof(vs[2].c_str())); // RK [kcal/mol/(A^2)]
-        parameter._dpar.push_back(atof(vs[3].c_str())); // REQ [A]
+        parameter._dpar.push_back(stod(vs[2])); // RK [kcal/mol/(A^2)]
+        parameter._dpar.push_back(stod(vs[3])); // REQ [A]
         _ffbondparams.push_back(parameter);
         ifs.getline(buffer, BUFF_SIZE);
       }
