@@ -15,7 +15,7 @@ std::shared_ptr<OBMol> GetMol(const std::string &filename)
 
   // Create the OBConversion object.
   OBConversion conv;
-  OBFormat *format = conv.FormatFromExt(filename.c_str());
+  OBFormat *format = conv.FormatFromExt(filename);
   if (!format || !conv.SetInFormat(format)) {
     std::cout << "Could not find input format for file " << filename << std::endl;
     return mol;
