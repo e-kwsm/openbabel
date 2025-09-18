@@ -322,7 +322,7 @@ int main(int argc,char *argv[])
   if (!gotOutType)
     {
       //check there is a valid output format, but the extension will be re-interpreted in OBConversion
-      pOutFormat = Conv.FormatFromExt(OutputFileName.c_str(), outGzip);
+      pOutFormat = Conv.FormatFromExt(OutputFileName, outGzip);
       if (OutputFileName.empty() || pOutFormat==nullptr)
         {
           cerr << "Missing or unknown output file or format spec or possibly a misplaced option.\n"
