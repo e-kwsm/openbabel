@@ -197,7 +197,7 @@ const char* Description() override  // required
 
     //Input format is currently fs; set it appropriately
     bool isgzip = false;
-    if(!pConv->SetInAndOutFormats(pConv->FormatFromExt(datafilename.c_str(), isgzip), pConv->GetOutFormat()))
+    if(!pConv->SetInAndOutFormats(pConv->FormatFromExt(datafilename, isgzip), pConv->GetOutFormat()))
       return false;
 
     if (isgzip)
