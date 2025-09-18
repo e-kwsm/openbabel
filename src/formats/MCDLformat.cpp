@@ -1051,12 +1051,12 @@ private:
         //total charge processing
         if (s.at(s.length()-1) == '+') netcharge=1; else netcharge=-1;
         s=s.substr(0,s.length()-1);
-        n1=atoi(s.c_str());
+        n1=stoi(s);
         netcharge=netcharge*n1;
       } else if (s.at(s.length()-1) == '*') {
         //radical processing
         s=s.substr(0,s.length()-1);
-        n1=atoi(s.c_str());
+        n1=stoi(s);
         netradical=n1;
       };
       value=value.substr(n+1,value.length());
@@ -1142,7 +1142,7 @@ private:
         mf=mf.substr(1,mf.length());
         test=(mf.at(0)>='0') && (mf.at(0)<='9');
       };
-      n1=atoi(temp.c_str());
+      n1=stoi(temp);
     };
     //do not change n1==nFrag!!!
     nt=nt+n1;
@@ -1151,7 +1151,7 @@ private:
     while (n2>0) {
       if (n2<(mf.length()-2)) {
         ss=mf.substr(mf.length()-1,mf.length());
-        k=atoi(ss.c_str())+1;//Integer.parseInt(ss)+1;
+        k=stoi(ss)+1;//Integer.parseInt(ss)+1;
       } else k=2;
       mf=mf.substr(0,n2+1)+intToStr(k);
       n2=lastIndexOf(mf,"HH");
@@ -1166,7 +1166,7 @@ private:
       } else temp="1";
       mf=mf.substr(0,n2);
     };
-    n2=atoi(temp.c_str());//Integer.parseInt(temp);
+    n2=stoi(temp);//Integer.parseInt(temp);
     //do not change n2 - number of hydrogens...
 
     nH[nelements]=n2;
@@ -1199,9 +1199,9 @@ private:
       n2=1;
       if (indexOf(s,"-") > 0) n2=-1;
       s=s.substr(0,s.length()-1);
-      n1=atoi(s.c_str());
+      n1=stoi(s);
       n1=n1*n2;
-      n2=atoi(sa1.c_str());
+      n2=stoi(sa1);
       // n2 is read straight from the input; reject out-of-range
       // indices rather than writing past the charges[] allocation.
       if (n2 >= 1 && n2 <= MAXFRAGS)
@@ -1225,7 +1225,7 @@ private:
       n2=1;
       if (indexOf(s,"-") > 0) n2=-1;
       s=s.substr(0,s.length()-1);
-      n2=atoi(sa1.c_str());
+      n2=stoi(sa1);
       if (n2 >= 1 && n2 <= MAXFRAGS)
         radicals[n2-1]=1;
     };
@@ -1329,7 +1329,7 @@ private:
         s=mf;
         mf="";
       };
-      n1=atoi(s.c_str());
+      n1=stoi(s);
       bcount++;
       bondOrders[bcount-1]=0;
       iA1[bcount-1]=nt-1;
@@ -1446,7 +1446,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
             if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
             s=value.substr(n1,n2+1);
-            k=atoi(s.c_str());
+            k=stoi(s);
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
           };
           enumber[i]=enumber[i]+k;
@@ -1469,7 +1469,7 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
             if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
             s=value.substr(n1,n2+1);
-      k=atoi(s.c_str());
+      k=stoi(s);
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
           };
           enumber[i]=enumber[i]+k;

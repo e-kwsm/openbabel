@@ -153,7 +153,7 @@ namespace OpenBabel
           tokenize(vs, buffer);
           if (vs.size() != 2)
             continue;
-          natom = atoi(vs[1].c_str());
+          natom = stoi(vs[1]);
         }
         else if (strstr(buffer, "rprim")) {
           numTranslationVectors = 0;
@@ -180,7 +180,7 @@ namespace OpenBabel
         else if (strstr(buffer, "Symmetries")) {
           tokenize(vs, buffer, "()");
           // Should be something like (#160)
-          symmetryCode = atoi(vs[1].substr(1).c_str());
+          symmetryCode = stoi(vs[1].substr(1));
         }
         else if (strstr(buffer, "typat")) {
           atomTypes.clear();
@@ -188,7 +188,7 @@ namespace OpenBabel
 	    while( n<=natom){
 	      tokenize(vs, buffer);
 	      for (unsigned int i = 1; i < vs.size(); ++i) {
-		atomTypes.push_back(atoi(vs[i].c_str()));
+		atomTypes.push_back(stoi(vs[i]));
 	      }
 	      n+=vs.size();
 	      ifs.getline(buffer,BUFF_SIZE);
