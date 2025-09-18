@@ -684,7 +684,7 @@ namespace OpenBabel
                    {// Use first number found as formal charge
                    if (isdigit(tmpSymbol[i]) && (charge==0))
                      {
-                     charge=atoi(tmpSymbol.substr(i,1).c_str());
+                     charge=stoi(tmpSymbol.substr(i,1));
                      }
                    if ('-'==tmpSymbol[i])
                      {
@@ -930,7 +930,7 @@ namespace OpenBabel
          case CIFTagID::_space_group_IT_number:
          case CIFTagID::_symmetry_Int_Tables_number:
            space_group_name.assign(token.as_text);
-           space_group.SetId(atoi(space_group_name.c_str()));
+           space_group.SetId(stoi(space_group_name));
            break;
          case CIFTagID::_space_group_name_Hall:
          case CIFTagID::_symmetry_space_group_name_Hall:

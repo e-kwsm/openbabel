@@ -222,7 +222,7 @@ namespace OpenBabel {
     totalAtoms = 0;
     for (size_t i = 0; i < atom_t_prop.size(); ++i) 
     {  
-      int currentCount = atoi(vs.at(i).c_str());
+      int currentCount = stoi(vs.at(i));
       atom_t_prop[i].num_of_atoms =  currentCount;
       totalAtoms += currentCount;
     }

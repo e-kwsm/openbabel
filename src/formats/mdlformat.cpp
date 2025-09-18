@@ -1009,7 +1009,7 @@ namespace OpenBabel
     OBGenericData*  gd = mol.GetData("MOL Chiral Flag");
     if (gd)
     {
-      int iflag = atoi(((OBPairData*)gd)->GetValue().c_str());
+      int iflag = stoi(((OBPairData*)gd)->GetValue());
       if (iflag == 0)
        return false;
       else if (iflag == 1)

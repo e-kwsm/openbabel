@@ -220,7 +220,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                     // Sometimes people call this an XYZ file, but it's actually Unichem
                     // i.e., the first column is the atomic number, not a symbol
                     // so we'll try to convert this to an element number
-                    atomicNum = atoi(vs[0].c_str());
+                    atomicNum = stoi(vs[0]);
                   }
 
                   OBAtom* atom = pmol->NewAtom();

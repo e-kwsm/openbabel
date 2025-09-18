@@ -243,9 +243,9 @@ namespace OpenBabel
               coord->_tor = atof(vs[6].c_str());
               vic.push_back(coord);
 
-              indices.push_back(atoi(vs[8].c_str()));
-              indices.push_back(atoi(vs[9].c_str()));
-              indices.push_back(atoi(vs[10].c_str()));
+              indices.push_back(stoi(vs[8]));
+              indices.push_back(stoi(vs[9]));
+              indices.push_back(stoi(vs[10]));
 
               // symbol in column 1
               atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));
@@ -280,7 +280,7 @@ namespace OpenBabel
             tokenize(vs, buffer);
             if (vs.size() < 9)
               continue;
-            alphaHOMO = atoi(vs[8].c_str());
+            alphaHOMO = stoi(vs[8]);
           }
         else if (strstr(buffer, "EIGENVALUES") != nullptr)
           {
@@ -312,7 +312,7 @@ namespace OpenBabel
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (atom != nullptr)
                   atom->SetPartialCharge(atof(vs[2].c_str()));
                 charges.push_back(atof(vs[2].c_str()));
@@ -334,7 +334,7 @@ namespace OpenBabel
             while (vs.size() > 0 && strstr(vs[0].c_str(), "DIPOLE") == nullptr)
               {
                 if (vs.size() < 3) break;
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (atom != nullptr)
                   atom->SetPartialCharge(atof(vs[2].c_str()));
                 charges.push_back(atof(vs[2].c_str()));
@@ -908,9 +908,9 @@ namespace OpenBabel
       coord->_tor = atof(vs[5].c_str());
       vic.push_back(coord);
 
-      indices.push_back(atoi(vs[7].c_str()));
-      indices.push_back(atoi(vs[8].c_str()));
-      indices.push_back(atoi(vs[9].c_str()));
+      indices.push_back(stoi(vs[7]));
+      indices.push_back(stoi(vs[8]));
+      indices.push_back(stoi(vs[9]));
 
       atom->SetAtomicNum(OBElements::GetAtomicNum(vs[0].c_str()));
     }
