@@ -400,7 +400,7 @@ const char* Description() override  // required
 
                 //Read in existing index
                 idxok=false;
-                ifstream ifs(indexname.c_str(),ifstream::binary);
+                ifstream ifs(indexname, ifstream::binary);
                 if(ifs.good())
                   {
                     pidx = new FptIndex;

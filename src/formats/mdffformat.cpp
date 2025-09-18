@@ -137,7 +137,7 @@ namespace OpenBabel {
 
     // Open files
     string posff_filename = pConv->GetInFilename(); 
-    ifstream ifs_posff (posff_filename.c_str());
+    ifstream ifs_posff (posff_filename);
     if (!ifs_posff) {
       return false; // No geometry file?
     }
