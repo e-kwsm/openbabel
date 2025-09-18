@@ -77,7 +77,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
         atom->SetVector(coords);
         atom->SetAtomicNum(OBElements::GetAtomicNum(vs[3].c_str()));
         atom->SetPartialCharge(atof(vs[5].c_str()));
-        atom->SetIsotope(atoi(vs[7].c_str()));
+        atom->SetIsotope(stoi(vs[7]));
       }
     } else if (line.find("   mode   ") != std::string::npos) {
       // Normal modes and vibrational frequencies

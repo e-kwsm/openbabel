@@ -119,7 +119,7 @@ namespace OpenBabel
         //set atomic number
         ttab.SetToType("ATN");
         ttab.Translate(str,vs[1]);
-        atom->SetAtomicNum(atoi(str.c_str()));
+        atom->SetAtomicNum(stoi(str));
         //set type
         ttab.SetToType("INT");
         ttab.Translate(str,vs[1]);

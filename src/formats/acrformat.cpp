@@ -149,7 +149,7 @@ namespace OpenBabel
       } else if (bond_input) {
 	if (vs.size() < 2) return false; // timvdm 18/06/2008
         // add to pmol
-        if (!pmol->AddBond(atoi((char*)vs[0].c_str()) + 1, atoi((char*)vs[1].c_str()) + 1,
+        if (!pmol->AddBond(stoi(vs[0]) + 1, stoi(vs[1]) + 1,
                            1 /* bond order not specified in Carine, use PerceiveBondOrder later */))
           {
             obErrorLog.ThrowError(__FUNCTION__, "addition of bond between " + vs[0] + " and " + vs[1] + " failed", obError);

@@ -181,7 +181,7 @@ namespace OpenBabel {
               tokenize(vs,buffer);
               while (vs.size() >= 3)
                 {
-                  atom = mol.GetAtom(atoi(vs[0].c_str()));
+                  atom = mol.GetAtom(stoi(vs[0]));
                   if (atom) {
                     atom->SetPartialCharge(atof(vs[2].c_str()));
                     hasPartialCharges = true;
@@ -197,7 +197,7 @@ namespace OpenBabel {
             tokenize(vs, buffer);
             if (vs.size() > 3) // Net Charge: ##
               {
-                charge = atoi(vs[2].c_str());
+                charge = stoi(vs[2]);
               }
           }
         else if (strstr(buffer, "Bond Energy") != nullptr)

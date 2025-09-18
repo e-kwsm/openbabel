@@ -153,25 +153,25 @@ namespace OpenBabel
 
         if (EQn(buffer,"CONECT",6))
           {
-            bgn = atoi((char*)vs[1].c_str()) - 1;
+            bgn = stoi(vs[1]) - 1;
             if (bgn < 1 || bgn > mol.NumAtoms())
               continue;
             for (i = 2;i < vs.size();i++)
               {
-                vcon[bgn].push_back(atoi((char*)vs[i].c_str()));
+                vcon[bgn].push_back(stoi(vs[i]));
                 vord[bgn].push_back(1);
               }
           }
         else
           if (EQn(buffer,"ORDER",5))
             {
-              bgn = atoi((char*)vs[1].c_str()) - 1;
+              bgn = stoi(vs[1]) - 1;
               if (bgn < 1 || bgn > mol.NumAtoms())
                 continue;
               if (vs.size() > vord[bgn].size()+2)
                 continue;
               for (i = 2;i < vs.size();i++)
-                vord[bgn][i-2] = atoi((char*)vs[i].c_str());
+                vord[bgn][i-2] = stoi(vs[i]);
             }
       }
 
