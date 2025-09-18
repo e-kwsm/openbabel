@@ -156,7 +156,7 @@ int main(int argc,char **argv)
 		exit(1);
 	}
 	OpenBabel::OBConversion obconversion;
-	OpenBabel::OBFormat *format = obconversion.FormatFromExt(ifile.c_str());
+	OpenBabel::OBFormat *format = obconversion.FormatFromExt(ifile);
 	if (!format)
 	{
 		msg = "Could not find file format for ";
