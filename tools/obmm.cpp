@@ -321,7 +321,7 @@ int main(int argc,char **argv)
 
       ifstream ifs;
       OBConversion conv;
-      OBFormat *format_in = conv.FormatFromExt(vs[1].c_str());
+      OBFormat *format_in = conv.FormatFromExt(vs[1]);
 
       if (!format_in || !conv.SetInFormat(format_in)) {
         cout << "could not detect format." << endl;
@@ -368,7 +368,7 @@ int main(int argc,char **argv)
 
       ofstream ofs;
       OBConversion conv;
-      OBFormat *format_out = conv.FormatFromExt(vs[1].c_str());
+      OBFormat *format_out = conv.FormatFromExt(vs[1]);
 
       if (!format_out || !conv.SetOutFormat(format_out)) {
         cout << "could not detect format." << endl;
