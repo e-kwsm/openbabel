@@ -141,7 +141,7 @@ namespace OpenBabel
           obErrorLog.ThrowError(__FUNCTION__, " Could not parse SMARTS from contribution data file", obInfo);
         }
       } else if (vs.size() == 3) { // XYZ coordinates
-        vector3 coord(atof(vs[0].c_str()), atof(vs[1].c_str()), atof(vs[2].c_str()));
+        vector3 coord(stod(vs[0]), stod(vs[1]), stod(vs[2]));
         coords.push_back(coord);
       }
     }
@@ -185,7 +185,7 @@ namespace OpenBabel
     while (ifs.getline(buffer, BUFF_SIZE)) {
       tokenize(vs, buffer);
       if (vs.size() == 4) { // XYZ coordinates
-        vector3 coord(atof(vs[1].c_str()), atof(vs[2].c_str()), atof(vs[3].c_str()));
+        vector3 coord(stod(vs[1]), stod(vs[2]), stod(vs[3]));
         if (fabs(coord.x()) > 10e-8 ||
             fabs(coord.y()) > 10e-8 ||
             fabs(coord.z()) > 10e-8)
