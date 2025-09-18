@@ -88,7 +88,7 @@ int main(int argc, char **argv)
 
   // Find Input filetype
   OBConversion conv;
-  OBFormat *format_in = conv.FormatFromExt(filename.c_str());
+  OBFormat *format_in = conv.FormatFromExt(filename);
 
   if (!format_in || !conv.SetInFormat(format_in)) {
     cerr << program_name << ": cannot read input format!" << endl;

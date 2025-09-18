@@ -83,7 +83,7 @@ int main(int argc,char **argv)
 
   // Find Input filetype
   OBConversion conv;
-  OBFormat *format_in = conv.FormatFromExt(filename.c_str());
+  OBFormat *format_in = conv.FormatFromExt(filename);
   OBFormat *format_out = conv.FindFormat("sdf");
 
   if (!format_in || !format_out || !conv.SetInAndOutFormats(format_in, format_out)) {
