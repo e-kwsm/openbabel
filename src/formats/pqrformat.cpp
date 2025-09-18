@@ -419,7 +419,7 @@ namespace OpenBabel
         OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
         res->AddAtom(atom);
-        res->SetSerialNum(atom, atoi(serno.c_str()));
+        res->SetSerialNum(atom, stoi(serno));
         res->SetAtomID(atom, sbuf.substr(6,4));
         res->SetHetAtom(atom, hetatm);
 

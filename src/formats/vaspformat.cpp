@@ -295,7 +295,7 @@ namespace OpenBabel {
     // coordinates
     totalAtoms = 0;
     for (unsigned int i = 0; i < vs.size(); i++) {
-      int currentCount = atoi(vs.at(i).c_str());
+      int currentCount = stoi(vs.at(i));
       numAtoms.push_back(currentCount);
       totalAtoms += currentCount;
     }
@@ -450,7 +450,7 @@ namespace OpenBabel {
           while (!strstr(buffer, "Eigenvectors")) {
             vector<vector3> vib;
             tokenize(vs, buffer);
-            int freqnum = atoi(vs[0].c_str());
+            int freqnum = stoi(vs[0]);
             if (vs[1].size() == 1 && vs[1].compare("f") == 0) {
               // Real frequency
               Frequencies.push_back(atof(vs[7].c_str()));

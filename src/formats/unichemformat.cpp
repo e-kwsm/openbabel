@@ -109,7 +109,7 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         atom->SetVector(x,y,z); //set coordinates
 
         //set atomic number
-        atom->SetAtomicNum(atoi((char*)vs[0].c_str()));
+        atom->SetAtomicNum(stoi(vs[0]));
     }
     if (!pConv->IsOption("b",OBConversion::INOPTIONS))
       mol.ConnectTheDots();

@@ -135,7 +135,7 @@ namespace OpenBabel
       if (nonNumber != string::npos)
         spaceGroupNumber.erase(nonNumber);
       // Finally get the space group from the file
-      spaceGroup = atoi(spaceGroupNumber.c_str());
+      spaceGroup = stoi(spaceGroupNumber);
     }
 
     location = readTitle.find_first_not_of(" \t\n\r");

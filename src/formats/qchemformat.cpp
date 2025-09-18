@@ -183,7 +183,7 @@ namespace OpenBabel
             int nbAtomRead = 0;
             while (vs.size() >= 3)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 ++nbAtomRead;
                 if (atom)
                   atom->SetPartialCharge(atof(vs[2].c_str()));
@@ -206,7 +206,7 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (vs.size() >= 5)
               {
-                atom = mol.GetAtom(atoi(vs[2].c_str()));
+                atom = mol.GetAtom(stoi(vs[2]));
                 OBPairData *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 
@@ -291,8 +291,8 @@ namespace OpenBabel
             tokenize(vs, buffer, ", \t\n");
             if (vs.size() == 2)
               {
-                charge = atoi(vs[0].c_str());
-                spin = atoi(vs[1].c_str());
+                charge = stoi(vs[0]);
+                spin = stoi(vs[1]);
               }
           } // end (OPTIMIZATION CONVERGED)
       } // end while
