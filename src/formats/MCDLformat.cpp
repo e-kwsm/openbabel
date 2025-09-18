@@ -1519,7 +1519,7 @@ bool MCDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   string molTitle=getMolTitle(line);
 
-  if (molTitle.length() > 0) pmol->SetTitle(molTitle.c_str());
+  if (molTitle.length() > 0) pmol->SetTitle(molTitle);
   if (line.length() > 0) setMCDL(line,pmol,molTitle);
 
   pmol->EndModify();
