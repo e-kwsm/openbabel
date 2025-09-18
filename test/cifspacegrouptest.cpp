@@ -119,7 +119,7 @@ void testSpaceGroupTransformations()
   vector<string>::const_iterator i, iend;
   iend = trans.end();
   for (i = trans.begin(); i != iend; ++i)
-    group.AddTransform(i->c_str());
+    group.AddTransform(*i);
 
   // Loop over symmetry operators
   transform3dIterator ti;

@@ -232,7 +232,7 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         while (!strstr(buffer, "%endblock ChemicalSpeciesLabel")) {
-          atomTypeLabels[atoi(vs.at(0).c_str())] = vs.at(2).c_str();
+          atomTypeLabels[atoi(vs.at(0).c_str())] = vs.at(2);
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
         }

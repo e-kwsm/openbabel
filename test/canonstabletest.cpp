@@ -34,7 +34,7 @@ int canonstabletest(int argc, char *argv[])
 
   std::string line;
   while (std::getline(ifs, line)) {
-    OB_REQUIRE( conv.ReadString(&mol, line.c_str()) );
+    OB_REQUIRE( conv.ReadString(&mol, line) );
 
     std::vector<OBAtom*> atoms;
     FOR_ATOMS_OF_MOL(atom, mol)

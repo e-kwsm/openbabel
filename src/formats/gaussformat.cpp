@@ -1162,7 +1162,7 @@ namespace OpenBabel
                 OBPairData *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 
-                string shift = vs[4].c_str();
+                string shift = vs[4];
                 nmrShift->SetValue(shift);
 
                 atom->SetData(nmrShift);

@@ -828,7 +828,7 @@ namespace OpenBabel
         /* ---- Convert the unique molecule-number to a string and set the prefix ---- */
         ostringstream numStr;
         numStr << num << ends;
-        prefix += numStr.str().c_str();
+        prefix += numStr.str();
       }
 
     /* ---- Print positions and descriptions of all atoms ---- */
