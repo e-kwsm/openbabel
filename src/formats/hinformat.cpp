@@ -115,7 +115,7 @@ namespace OpenBabel
         z = atof((char*)vs[9].c_str());
         atom->SetVector(x,y,z);
 
-        max = 11 + 2 * atoi((char *)vs[10].c_str());
+        max = 11 + 2 * stoi(vs[10]);
         for (i = 11; i < max; i+=2)
           {
             switch(((char*)vs[i+1].c_str())[0]) // First char in next token
@@ -136,7 +136,7 @@ namespace OpenBabel
                 bo = 1;
                 break;
               }
-            mol.AddBond(mol.NumAtoms(), atoi((char *)vs[i].c_str()), bo);
+            mol.AddBond(mol.NumAtoms(), stoi(vs[i]), bo);
           }
         ifs.getline(buffer, BUFF_SIZE);
       }

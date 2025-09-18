@@ -587,8 +587,8 @@ namespace OpenBabel
             tokenize(vs, buffer, " \t\n");
             if (vs.size() == 6)
               {
-                total_charge = atoi(vs[2].c_str());
-                spin_multiplicity = atoi(vs[5].c_str());
+                total_charge = stoi(vs[2]);
+                spin_multiplicity = stoi(vs[5]);
               }
 
             ifs.getline(buffer,BUFF_SIZE);
@@ -608,13 +608,13 @@ namespace OpenBabel
                 x = atof((char*)vs[3+corr].c_str());
                 y = atof((char*)vs[4+corr].c_str());
                 z = atof((char*)vs[5+corr].c_str());
-                int atomicNum = atoi((char*)vs[1].c_str());
+                int atomicNum = stoi(vs[1]);
 
                 if (atomicNum > 0) // translation vectors are "-2"
                   {
                     if (natoms == 0) { // first time reading the molecule, create each atom
                       atom = mol.NewAtom();
-                      atom->SetAtomicNum(atoi((char*)vs[1].c_str()));
+                      atom->SetAtomicNum(stoi(vs[1]));
                     }
                     coordinates.push_back(x);
                     coordinates.push_back(y);
@@ -742,7 +742,7 @@ namespace OpenBabel
             while (vs.size() >= 3 &&
                    strstr(buffer, "Sum of ") == nullptr)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
                 atom->SetPartialCharge(atof(vs[2].c_str()));
@@ -790,7 +790,7 @@ namespace OpenBabel
             while (vs.size() >= 8 &&
                    strstr(buffer, "Tot ") == nullptr)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
                 atom->SetPartialCharge(atof(vs[2].c_str()));
@@ -921,7 +921,7 @@ namespace OpenBabel
             while (vs.size() >= 3 &&
                    strstr(buffer, "-----") == nullptr)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
                 atom->SetPartialCharge(atof(vs[2].c_str()));
@@ -953,7 +953,7 @@ namespace OpenBabel
             while (vs.size() >= 3 &&
                    strstr(buffer, "=====") == nullptr)
               {
-                atom = mol.GetAtom(atoi(vs[1].c_str()));
+                atom = mol.GetAtom(stoi(vs[1]));
                 if (!atom)
                   break;
                 atom->SetPartialCharge(atof(vs[2].c_str()));
@@ -1026,7 +1026,7 @@ namespace OpenBabel
              RotorType = OBRotationData::UNKNOWN;
           ifs.getline(buffer,BUFF_SIZE); //symmetry number
           tokenize(vs, buffer);
-          RotSymNum = atoi(vs[3].c_str());
+          RotSymNum = stoi(vs[3]);
         }
 
         else if(strstr(buffer, "Rotational constant"))
@@ -1042,8 +1042,8 @@ namespace OpenBabel
           tokenize(vs, buffer);
           if (vs.size() == 6) {
             // # alpha electrons # beta electrons
-            aHOMO = atoi(vs[0].c_str());
-            bHOMO = atoi(vs[3].c_str());
+            aHOMO = stoi(vs[0]);
+            bHOMO = stoi(vs[3]);
           }
         }
         else if(strstr(buffer, "rbital symmetries")) // orbital symmetries
@@ -1158,7 +1158,7 @@ namespace OpenBabel
             tokenize(vs, buffer);
             if (vs.size() >= 4)
               {
-                atom = mol.GetAtom(atoi(vs[0].c_str()));
+                atom = mol.GetAtom(stoi(vs[0]));
                 OBPairData *nmrShift = new OBPairData();
                 nmrShift->SetAttribute("NMR Isotropic Shift");
 

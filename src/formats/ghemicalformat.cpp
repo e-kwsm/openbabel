@@ -121,7 +121,7 @@ namespace OpenBabel
       if (vs.size() < 2)
         return(false);
       atom = mol.NewAtom();
-      atom->SetAtomicNum(atoi(vs[1].c_str()));
+      atom->SetAtomicNum(stoi(vs[1]));
     }
 
     // Get !Bonds line with number

@@ -260,13 +260,13 @@ namespace OpenBabel {
       if (strstr(buffer, "ICHARG=")) {
         tokenize(vs, (strstr(buffer, "ICHARG=")));
         if (vs.size() >= 2)
-          charge = atoi(vs[1].c_str());
+          charge = stoi(vs[1]);
       }
 
       if (strstr(buffer, "MULT ")) {
         tokenize(vs, (strstr(buffer, "MULT ")));
         if (vs.size() >= 3)
-          mult = atoi(vs[2].c_str());
+          mult = stoi(vs[2]);
       }
 
       if (strstr(buffer, "ATOMIC                      COORDINATES (BOHR)") != nullptr) {
@@ -275,7 +275,7 @@ namespace OpenBabel {
        tokenize(vs, buffer);
        while (vs.size() == 5) {
          // Parse the current one
-         int atomicNum = atoi(vs[1].c_str());
+         int atomicNum = stoi(vs[1]);
          x = atof((char*) vs[2].c_str()) * BOHR_TO_ANGSTROM;
          y = atof((char*) vs[3].c_str()) * BOHR_TO_ANGSTROM;
          z = atof((char*) vs[4].c_str()) * BOHR_TO_ANGSTROM;
@@ -359,7 +359,7 @@ namespace OpenBabel {
         tokenize(vs, buffer);
         while (vs.size() == 5) {
           // Parse the current one
-          int atomicNum = atoi(vs[1].c_str());
+          int atomicNum = stoi(vs[1]);
           x = atof((char*) vs[2].c_str());
           y = atof((char*) vs[3].c_str());
           z = atof((char*) vs[4].c_str());
@@ -467,7 +467,7 @@ namespace OpenBabel {
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs, buffer);
         while (vs.size() == 4) {
-          atom = mol.GetAtom(atoi(vs[0].c_str()));
+          atom = mol.GetAtom(stoi(vs[0]));
           atom->SetPartialCharge(atof(vs[2].c_str()));
 
           if (!ifs.getline(buffer, BUFF_SIZE))
@@ -482,7 +482,7 @@ namespace OpenBabel {
         tokenize(vs, buffer);
         // atom number, atomic symbol, mulliken pop, charge
         while (vs.size() >= 4) {
-          int atomNb = atoi(vs[0].c_str());
+          int atomNb = stoi(vs[0]);
           if (!atomNb)
             break;
           atom = mol.GetAtom(atomNb);
@@ -496,16 +496,16 @@ namespace OpenBabel {
       } else if (strstr(buffer, "NUMBER OF OCCUPIED ORBITALS") != nullptr) {
         tokenize(vs, buffer);
         if (vs.size() == 7)      // alpha
-          aHOMO = atoi(vs[6].c_str());
+          aHOMO = stoi(vs[6]);
         else if (vs.size() == 8) // beta
-          bHOMO = atoi(vs[7].c_str());
+          bHOMO = stoi(vs[7]);
 
       } else if (strstr(buffer, "TAKEN AS ROTATIONS AND TRANSLATIONS") != nullptr) {
         tokenize(vs, buffer);
         if (vs.size() < 4)
           break;
-        lowFreqModesBegin = atoi(vs[1].c_str());
-        lowFreqModesEnd   = atoi(vs[3].c_str());
+        lowFreqModesBegin = stoi(vs[1]);
+        lowFreqModesEnd   = stoi(vs[3]);
 
       } else if (strstr(buffer, "TOTAL ENERGY      =") != nullptr) {
         tokenize(vs, buffer);
@@ -561,7 +561,7 @@ namespace OpenBabel {
         vector<double> x, y, z;
         while (modeCount >= 1) {
           // 1/sqrt(atomic mass)
-          atom = mol.GetAtom(atoi(vs[0].c_str()));
+          atom = mol.GetAtom(stoi(vs[0]));
           massNormalization = 1 / sqrt( atom->GetAtomicMass() );
 
           x.clear();
@@ -895,7 +895,7 @@ namespace OpenBabel {
           if (vs.size() == 5) {
             atom = mol.NewAtom();
             // Parse the current one
-            atom->SetAtomicNum(atoi(vs[1].c_str()));
+            atom->SetAtomicNum(stoi(vs[1]));
             x = atof((char*) vs[2].c_str());
             y = atof((char*) vs[3].c_str());
             z = atof((char*) vs[4].c_str());
@@ -912,7 +912,7 @@ namespace OpenBabel {
           tokenize(vs, buffer);
           if (vs.size() == 5) {
             atom = mol.NewAtom();
-            atom->SetAtomicNum(atoi(vs[1].c_str()));
+            atom->SetAtomicNum(stoi(vs[1]));
             x = atof((char*) vs[2].c_str());
             y = atof((char*) vs[3].c_str());
             z = atof((char*) vs[4].c_str());
