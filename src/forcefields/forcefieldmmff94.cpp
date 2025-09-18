@@ -942,9 +942,9 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
       parameter._dpar.push_back(atof(vs[3].c_str()));  // kb
       parameter._dpar.push_back(atof(vs[4].c_str()));  // r0
       _ffbondparams.push_back(parameter);
@@ -977,8 +977,8 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
       parameter._dpar.push_back(atof(vs[2].c_str()));  // r0-ref
       parameter._dpar.push_back(atof(vs[3].c_str()));  // kb-ref
       _ffbndkparams.push_back(parameter);
@@ -1011,10 +1011,10 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
       parameter._dpar.push_back(atof(vs[4].c_str()));  // ka
       parameter._dpar.push_back(atof(vs[5].c_str()));  // theta0
       _ffangleparams.push_back(parameter);
@@ -1047,10 +1047,10 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
       parameter._dpar.push_back(atof(vs[4].c_str()));  // kbaIJK
       parameter._dpar.push_back(atof(vs[5].c_str()));  // kbaKJI
       _ffstrbndparams.push_back(parameter);
@@ -1083,9 +1083,9 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
-      parameter.c = atoi(vs[2].c_str());
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
+      parameter.c = stoi(vs[2]);
       parameter._dpar.push_back(atof(vs[3].c_str()));  // kbaIJK
       parameter._dpar.push_back(atof(vs[4].c_str()));  // kbaKJI
       _ffdfsbparams.push_back(parameter);
@@ -1118,10 +1118,10 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
-      parameter.b = atoi(vs[1].c_str());
-      parameter.c = atoi(vs[2].c_str());
-      parameter.d = atoi(vs[3].c_str());
+      parameter.a = stoi(vs[0]);
+      parameter.b = stoi(vs[1]);
+      parameter.c = stoi(vs[2]);
+      parameter.d = stoi(vs[3]);
       parameter._dpar.push_back(atof(vs[4].c_str()));  // koop
       _ffoopparams.push_back(parameter);
     }
@@ -1153,11 +1153,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
-      parameter.c = atoi(vs[3].c_str());
-      parameter.d = atoi(vs[4].c_str());
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
+      parameter.c = stoi(vs[3]);
+      parameter.d = stoi(vs[4]);
       parameter._dpar.push_back(atof(vs[5].c_str()));  // v1
       parameter._dpar.push_back(atof(vs[6].c_str()));  // v2
       parameter._dpar.push_back(atof(vs[7].c_str()));  // v3
@@ -1191,7 +1191,7 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str());
+      parameter.a = stoi(vs[0]);
       parameter._dpar.push_back(atof(vs[1].c_str()));  // alpha-i
       parameter._dpar.push_back(atof(vs[2].c_str()));  // N-i
       parameter._dpar.push_back(atof(vs[3].c_str()));  // A-i
@@ -1232,9 +1232,9 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[0].c_str()));  // FF class
-      parameter.a = atoi(vs[1].c_str());
-      parameter.b = atoi(vs[2].c_str());
+      parameter._ipar.push_back(stoi(vs[0]));  // FF class
+      parameter.a = stoi(vs[1]);
+      parameter.b = stoi(vs[2]);
       parameter._dpar.push_back(atof(vs[3].c_str()));  // bci
       _ffchgparams.push_back(parameter);
     }
@@ -1266,7 +1266,7 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[1].c_str());
+      parameter.a = stoi(vs[1]);
       parameter._dpar.push_back(atof(vs[2].c_str()));  // pbci
       parameter._dpar.push_back(atof(vs[3].c_str()));  // fcadj
       _ffpbciparams.push_back(parameter);
@@ -1299,15 +1299,15 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter.a = atoi(vs[0].c_str()); // atom type
-      parameter._ipar.push_back(atoi(vs[1].c_str()));  // at.no
-      parameter._ipar.push_back(atoi(vs[2].c_str()));  // crd
-      parameter._ipar.push_back(atoi(vs[3].c_str()));  // val
-      parameter._ipar.push_back(atoi(vs[4].c_str()));  // pilp
-      parameter._ipar.push_back(atoi(vs[5].c_str()));  // mltb
-      parameter._ipar.push_back(atoi(vs[6].c_str()));  // arom
-      parameter._ipar.push_back(atoi(vs[7].c_str()));  // linh
-      parameter._ipar.push_back(atoi(vs[8].c_str()));  // sbmb
+      parameter.a = stoi(vs[0]); // atom type
+      parameter._ipar.push_back(stoi(vs[1]));  // at.no
+      parameter._ipar.push_back(stoi(vs[2]));  // crd
+      parameter._ipar.push_back(stoi(vs[3]));  // val
+      parameter._ipar.push_back(stoi(vs[4]));  // pilp
+      parameter._ipar.push_back(stoi(vs[5]));  // mltb
+      parameter._ipar.push_back(stoi(vs[6]));  // arom
+      parameter._ipar.push_back(stoi(vs[7]));  // linh
+      parameter._ipar.push_back(stoi(vs[8]));  // sbmb
 
       if (parameter._ipar[3])
         _ffpropPilp.SetBitOn(parameter.a);
@@ -1348,11 +1348,11 @@ namespace OpenBabel
       tokenize(vs, buffer);
 
       parameter.clear();
-      parameter._ipar.push_back(atoi(vs[1].c_str()));  // level 1
-      parameter._ipar.push_back(atoi(vs[2].c_str()));  // level 2
-      parameter._ipar.push_back(atoi(vs[3].c_str()));  // level 3
-      parameter._ipar.push_back(atoi(vs[4].c_str()));  // level 4
-      parameter._ipar.push_back(atoi(vs[5].c_str()));  // level 5
+      parameter._ipar.push_back(stoi(vs[1]));  // level 1
+      parameter._ipar.push_back(stoi(vs[2]));  // level 2
+      parameter._ipar.push_back(stoi(vs[3]));  // level 3
+      parameter._ipar.push_back(stoi(vs[4]));  // level 4
+      parameter._ipar.push_back(stoi(vs[5]));  // level 5
       _ffdefparams.push_back(parameter);
     }
 
@@ -4078,17 +4078,17 @@ namespace OpenBabel
 
         if (atomfound) {
           if (n) {
-            types.push_back(atoi(vs[2].c_str()));
-            types.push_back(atoi(vs[5].c_str()));
-            types.push_back(atoi(vs[8].c_str()));
-            types.push_back(atoi(vs[11].c_str()));
+            types.push_back(stoi(vs[2]));
+            types.push_back(stoi(vs[5]));
+            types.push_back(stoi(vs[8]));
+            types.push_back(stoi(vs[11]));
           } else {
             if (vs.size() > 2)
-              types.push_back(atoi(vs[2].c_str()));
+              types.push_back(stoi(vs[2]));
             if (vs.size() > 5)
-              types.push_back(atoi(vs[5].c_str()));
+              types.push_back(stoi(vs[5]));
             if (vs.size() > 8)
-              types.push_back(atoi(vs[8].c_str()));
+              types.push_back(stoi(vs[8]));
 
             atomfound = false;
           }

@@ -1138,7 +1138,7 @@ namespace OpenBabel
         parameter._b = vs[1]; //JPT
         parameter._c = vs[2]; //KPT
         parameter._d = vs[3]; //LPT
-        parameter._ipar.push_back(atoi(vs[4].c_str())); // IDIVF
+        parameter._ipar.push_back(stoi(vs[4])); // IDIVF
         parameter._dpar.push_back(atof(vs[5].c_str())); // PK
         parameter._dpar.push_back(atof(vs[6].c_str())); // GAMMA [degrees]
         parameter._dpar.push_back(atof(vs[7].c_str())); // PN

@@ -595,8 +595,8 @@ namespace OpenBabel
       if (EQn(buffer, "bond4", 5))
         continue;
       if (EQn(buffer, "bond", 4)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
         parameter._dpar.push_back(atof(vs[4].c_str()));
         parameter._dpar.push_back(atof(vs[3].c_str()));
 
@@ -608,16 +608,16 @@ namespace OpenBabel
       if (EQn(buffer, "angle4", 6))
         continue;
       if (EQn(buffer, "angle", 5)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter.c = atoi(vs[3].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter.c = stoi(vs[3]);
         parameter._dpar.push_back(atof(vs[5].c_str()));
         parameter._dpar.push_back(atof(vs[4].c_str()));
         _ffangleparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "strbnd", 6)) {
-        parameter.a = atoi(vs[1].c_str());
+        parameter.a = stoi(vs[1]);
         parameter._dpar.push_back(atof(vs[2].c_str()));
         _ffstretchbendparams.push_back(parameter);
         continue;
@@ -625,10 +625,10 @@ namespace OpenBabel
       if (EQn(buffer, "torsion4", 8))
         continue;
       if (EQn(buffer, "torsion", 7)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
-        parameter.c = atoi(vs[3].c_str());
-        parameter.d = atoi(vs[4].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
+        parameter.c = stoi(vs[3]);
+        parameter.d = stoi(vs[4]);
         parameter._dpar.push_back(atof(vs[5].c_str()));
         parameter._dpar.push_back(atof(vs[8].c_str()));
         parameter._dpar.push_back(atof(vs[11].c_str()));
@@ -636,30 +636,30 @@ namespace OpenBabel
         continue;
       }
       if (EQn(buffer, "opbend", 6)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
         parameter._dpar.push_back(atof(vs[3].c_str()));
         _ffoutplanebendparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "vdwpr", 5)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
         parameter._dpar.push_back(atof(vs[3].c_str()));
         parameter._dpar.push_back(atof(vs[4].c_str()));
         _ffvdwprparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "vdw", 3)) {
-        parameter.a = atoi(vs[1].c_str());
+        parameter.a = stoi(vs[1]);
         parameter._dpar.push_back(atof(vs[2].c_str()));
         parameter._dpar.push_back(atof(vs[3].c_str()));
         _ffvdwparams.push_back(parameter);
         continue;
       }
       if (EQn(buffer, "dipole", 6)) {
-        parameter.a = atoi(vs[1].c_str());
-        parameter.b = atoi(vs[2].c_str());
+        parameter.a = stoi(vs[1]);
+        parameter.b = stoi(vs[2]);
         parameter._dpar.push_back(atof(vs[3].c_str()));
         parameter._dpar.push_back(atof(vs[4].c_str()));
         _ffdipoleparams.push_back(parameter);
