@@ -43,11 +43,11 @@ using namespace OpenBabel;
 void GenerateEnergies(string molecules_file, string results_file, string method, double epsilon = 1.0)
 {
   std::ifstream ifs;
-  if (!SafeOpen(ifs, molecules_file.c_str()))
+  if (!SafeOpen(ifs, molecules_file))
     return;
 
   std::ofstream ofs;
-  if (!SafeOpen(ofs, results_file.c_str()))
+  if (!SafeOpen(ofs, results_file))
     return;
 
   OBMol mol;
@@ -91,14 +91,14 @@ void GenerateEnergies(string molecules_file, string results_file, string method,
 void TestFile(string filename, string results_file, string method, double epsilon = 1.0)
 {
   std::ifstream mifs;
-  if (!SafeOpen(mifs, filename.c_str()))
+  if (!SafeOpen(mifs, filename))
     {
       cout << "Bail out! Cannot read file " << filename << endl;
       return;
     }
 
   std::ifstream rifs;
-  if (!SafeOpen(rifs, results_file.c_str()))
+  if (!SafeOpen(rifs, results_file))
     {
       cout << "Bail out! Cannot read file " << results_file << endl;
       return;

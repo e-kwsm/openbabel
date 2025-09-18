@@ -66,7 +66,7 @@ int iterators(int argc, char* argv[])
   cout << endl << "# Testing iterators...  \n";
   
   std::ifstream mifs;
-  if (!SafeOpen(mifs, jsmilestypes_file.c_str()))
+  if (!SafeOpen(mifs, jsmilestypes_file))
     {
       cout << "Bail out! Cannot read test data " << jsmilestypes_file << endl;
       return -1; // test failed

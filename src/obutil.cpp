@@ -347,14 +347,14 @@ namespace OpenBabel
   //! to the default OBMessageHandler error log if it fails.
   bool SafeOpen(std::ifstream &fs, const string &filename)
   {
-    return(SafeOpen(fs, filename.c_str()));
+    return(SafeOpen(fs, filename));
   }
 
   //! Safely open the supplied filename and return an ofstream, throwing an error
   //! to the default OBMessageHandler error log if it fails.
   bool SafeOpen(std::ofstream &fs, const string &filename)
   {
-    return(SafeOpen(fs, filename.c_str()));
+    return(SafeOpen(fs, filename));
   }
 
   //! Shift the supplied string to uppercase
