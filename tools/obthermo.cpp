@@ -107,7 +107,7 @@ int main(int argc,char **argv)
     exit (-1);
   }
   // Find Input filetype
-  OBFormat *format_in = conv.FormatFromExt(filename.c_str());
+  OBFormat *format_in = conv.FormatFromExt(filename);
 
   if (!format_in || !conv.SetInFormat(format_in)) {
     cerr << program_name << ": cannot read input format in file \"" << filename << "\"" << endl;
