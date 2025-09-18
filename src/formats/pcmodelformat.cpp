@@ -119,7 +119,7 @@ namespace OpenBabel
 
             ttab.SetToType("ATN");
             ttab.Translate(temp2, temp);
-            atom->SetAtomicNum(atoi(temp2.c_str()));
+            atom->SetAtomicNum(stoi(temp2));
             x = atof(vs[3].c_str());
             y = atof(vs[4].c_str());
             z = atof(vs[5].c_str());
@@ -148,8 +148,8 @@ namespace OpenBabel
                 else if (parsingBonds && token < vs.size() - 1 &&
                          isdigit(vs[token][0]))
                   {
-                    bondNbr = atoi(vs[token++].c_str()); // advance to bond order
-                    bondOrder = atoi(vs[token].c_str());
+                    bondNbr = stoi(vs[token++]); // advance to bond order
+                    bondOrder = stoi(vs[token]);
                     if (bondOrder == 9)
                       bondOrder = 1;
                     mol.AddBond(atom->GetIdx(), bondNbr, bondOrder, 0);

@@ -121,9 +121,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     if (!EQn(buffer, "object", 6) || vs.size() != 8)
       return false;
     else {
-      voxels[0] = atoi(vs[5].c_str());
-      voxels[1] = atoi(vs[6].c_str());
-      voxels[2] = atoi(vs[7].c_str());
+      voxels[0] = stoi(vs[5]);
+      voxels[1] = stoi(vs[6]);
+      voxels[2] = stoi(vs[7]);
     }
 
     double x, y, z;

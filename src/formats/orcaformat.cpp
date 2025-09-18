@@ -300,7 +300,7 @@ namespace OpenBabel
 
             tokenize(vs,buffer);
             if (vs.size() == 5) {
-                mol.SetTotalCharge (atoi(vs[4].c_str()));
+                mol.SetTotalCharge (stoi(vs[4]));
             }
 
             // get Multiplicity
@@ -308,7 +308,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
             if (vs.size() == 4) {
-                mol.SetTotalSpinMultiplicity(atoi(vs[3].c_str()));
+                mol.SetTotalSpinMultiplicity(stoi(vs[3]));
             }
         }
         if (checkKeywords.find("MULLIKEN ATOMIC CHARGES") != notFound) {
@@ -321,7 +321,7 @@ namespace OpenBabel
             while (vs.size() == 4)
             { // atom number, atomic symbol,:,  charge
 
-                atom = mol.GetAtom(atoi(vs[0].c_str())+1);  // Numbering starts from 0 in Orca
+                atom = mol.GetAtom(stoi(vs[0])+1);  // Numbering starts from 0 in Orca
                 atom->SetPartialCharge(atof(vs[3].c_str()));
 
                 if (!ifs.getline(buffer,BUFF_SIZE))

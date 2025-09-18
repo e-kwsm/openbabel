@@ -178,7 +178,7 @@ namespace OpenBabel
             // size should be 5 -- need a test here
             if (vs.size() != 5) return false; // timvdm 18/06/2008
             vs[3].erase(0,1); // "6 => remove the first " character
-            unsigned int atomicNum = atoi(vs[3].c_str());
+            unsigned int atomicNum = stoi(vs[3]);
             if (atomicNum == 0)
               atomicNum = 1; // hydrogen ?
 
@@ -211,21 +211,21 @@ namespace OpenBabel
             tokenize(vs, buffer);
             if (vs.size() < 4) return false; // timvdm 18/06/2008
             vs[3].erase(vs[3].length()-1,1);
-            startBondAtom = atoi(vs[3].c_str());
+            startBondAtom = stoi(vs[3]);
             continue;
           }
           else if (strstr(buffer, "Atom2") != nullptr) {
             tokenize(vs, buffer);
             if (vs.size() < 4) return false; // timvdm 18/06/2008
             vs[3].erase(vs[3].length()-1,1);
-            endBondAtom = atoi(vs[3].c_str());
+            endBondAtom = stoi(vs[3]);
             continue;
           }
           else if (strstr(buffer, "Type") != nullptr) {
             tokenize(vs, buffer);
             if (vs.size() < 4) return false; // timvdm 18/06/2008
             vs[3].erase(vs[3].length()-1,1);
-            bondOrder = atoi(vs[3].c_str());
+            bondOrder = stoi(vs[3]);
             if (bondOrder == 4) // triple bond?
               bondOrder = 3;
             else if (bondOrder == 8) // aromatic?

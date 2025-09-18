@@ -219,13 +219,13 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         {
             // set atomic number
             OBAtom* atom = molecule->NewAtom();
-            atom->SetAtomicNum(atoi(vs[2].c_str()));
+            atom->SetAtomicNum(stoi(vs[2]));
             atom->SetVector(x,y,z);
         }
         else
         {
             // check atomic number
-            if ((i>=natoms) || (molecule->GetAtom(i+1)->GetAtomicNum() != atoi(vs[2].c_str())))
+            if ((i>=natoms) || (molecule->GetAtom(i+1)->GetAtomicNum() != stoi(vs[2])))
             {
                 delete[] coordinates;
                 return;
@@ -302,7 +302,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         }
         blank_line = false;
         if (vs[0][0] == '0')
-            charge = atoi(vs[4].c_str());
+            charge = stoi(vs[4]);
         else if (vs[0][0] == '1')
             for (unsigned int i = 0; i < 3; i++)
                 if (vs[i+1][0] == '1')
@@ -415,7 +415,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     unsigned int i = 1;
     while (vs.size() >= 4)
     {
-        int charge = atoi(vs[2].c_str());
+        int charge = stoi(vs[2]);
         if (!from_scratch)
         {
             if (i > natoms)
@@ -805,7 +805,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             //  0      1      2                     3
             if (vs.size() < 4)
                 break;
-            current_bead = atoi(vs[3].c_str()) - 1;
+            current_bead = stoi(vs[3]) - 1;
             // Bead index in array starts from 0
             // but in log it starts from 1
         }
@@ -856,7 +856,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             //   0    1     2    3   4             5     6   7
             if (vs.size() < 8)
                 break;
-            nbeads = atoi(vs[7].c_str());
+            nbeads = stoi(vs[7]);
             beads.reserve(nbeads);
             energies.reserve(nbeads);
             for (unsigned int i = 0;i<nbeads;i++)
@@ -907,7 +907,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             // 0   1     2    3       4        5
             if (vs.size() < 6)
                 break; // Line with number of beads is incomplete
-            nbeads = atoi(vs[5].c_str());
+            nbeads = stoi(vs[5]);
             beads.reserve(nbeads);
         }// @ Number of replicas
         else if (strstr(buffer, ZTS_CONVERGED_PATTERN) != nullptr)
@@ -926,7 +926,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             unsigned int vsize = vs.size();
             while (vsize > 7)
             {
-                unsigned int bead_number = atoi(vs[vsize-5].c_str());
+                unsigned int bead_number = stoi(vs[vsize-5]);
                 double bead_energy = atof(vs[vsize-1].c_str()) * HARTREE_TO_KCAL;
                 ifs->getline(buffer, BUFF_SIZE); // natoms
                 if (atoi(buffer) != natoms)
