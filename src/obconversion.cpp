@@ -815,12 +815,12 @@ namespace OpenBabel {
   OBFormat* OBConversion::FormatFromExt(const std::string filename)
   {
     bool gzip;
-    return FormatFromExt(filename.c_str(), gzip);
+    return FormatFromExt(filename, gzip);
   }
 
   OBFormat* OBConversion::FormatFromExt(const std::string filename, bool& isgzip)
   {
-    return FormatFromExt(filename.c_str(), isgzip);
+    return FormatFromExt(filename, isgzip);
   }
 
   OBFormat* OBConversion::FormatFromMIME(const char* MIME)
@@ -1042,7 +1042,7 @@ namespace OpenBabel {
     if(!pOutFormat)
     {
       //attempt to autodetect format
-      pOutFormat = FormatFromExt(filePath.c_str(), outFormatGzip);
+      pOutFormat = FormatFromExt(filePath, outFormatGzip);
       if(!pOutFormat)
         return false;
     }
@@ -1085,7 +1085,7 @@ namespace OpenBabel {
     if(!pInFormat)
     {
       //attempt to auto-detect file format from extension
-      pInFormat = FormatFromExt(filePath.c_str(), inFormatGzip);
+      pInFormat = FormatFromExt(filePath, inFormatGzip);
       if(!pInFormat)
         return false;
     }
@@ -1119,7 +1119,7 @@ namespace OpenBabel {
     if(!pInFormat)
     {
       //attempt to auto-detect file format from extension
-      pInFormat = FormatFromExt(infilepath.c_str(), inFormatGzip);
+      pInFormat = FormatFromExt(infilepath, inFormatGzip);
     }
     ifstream *ifs = new ifstream(infilepath.c_str(),ios_base::in|ios_base::binary);  //always open in binary mode
     if(!ifs || !ifs->good())
@@ -1137,7 +1137,7 @@ namespace OpenBabel {
     if(!pOutFormat)
     {
       //attempt to autodetect format
-      pOutFormat = FormatFromExt(outfilepath.c_str(), outFormatGzip);
+      pOutFormat = FormatFromExt(outfilepath, outFormatGzip);
     }
     ofstream *ofs = new ofstream(outfilepath.c_str(),ios_base::out|ios_base::binary);//always open in binary mode
     if(!ofs || !ofs->good())
@@ -1556,7 +1556,7 @@ namespace OpenBabel {
       }
     else if(!SetFormat)
       {
-        pInFormat = FormatFromExt(InFilename.c_str(), inFormatGzip);
+        pInFormat = FormatFromExt(InFilename, inFormatGzip);
         if (pInFormat == nullptr)
           {
             string::size_type pos = InFilename.rfind('.');

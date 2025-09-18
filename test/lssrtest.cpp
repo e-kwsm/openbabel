@@ -90,7 +90,7 @@ bool doShuffleTestMultiFile(const std::string &filename)
   // read a smiles string
   OBMol mol;
   OBConversion conv;
-  OBFormat *format = conv.FormatFromExt(file.c_str());
+  OBFormat *format = conv.FormatFromExt(file);
   OB_REQUIRE( format );
   OB_REQUIRE( conv.SetInFormat(format) );
 
@@ -146,7 +146,7 @@ bool verifyLSSR(const std::string &filename, const LSSR &ref)
   // read a smiles string
   OBMol mol;
   OBConversion conv;
-  OBFormat *format = conv.FormatFromExt(file.c_str());
+  OBFormat *format = conv.FormatFromExt(file);
   OB_REQUIRE( format );
   OB_REQUIRE( conv.SetInFormat(format) );
 

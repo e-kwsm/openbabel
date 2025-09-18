@@ -57,7 +57,7 @@ struct OBTestUtil
     OB_REQUIRE( ifs );
 
     OpenBabel::OBConversion conv;
-    OpenBabel::OBFormat *format = conv.FormatFromExt(file.c_str());
+    OpenBabel::OBFormat *format = conv.FormatFromExt(file);
     OB_REQUIRE(format);
     OB_REQUIRE(conv.SetInFormat(format));
 

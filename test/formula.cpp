@@ -91,7 +91,7 @@ int formula(int argc, char* argv[])
       return -1; // test failed
     }
 
-  OBFormat *format = conv.FormatFromExt(filename.c_str());
+  OBFormat *format = conv.FormatFromExt(filename);
 
   std::ifstream rifs;
   if (check) {

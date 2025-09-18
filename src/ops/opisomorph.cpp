@@ -90,7 +90,7 @@ bool MakeQueriesFromMolInFile(vector<OBQuery*>& queries, const std::string& file
     //Need to distinguish between filename and SMARTS. Not infallable...
     if( filename.empty() ||
         filename.find('.')==string::npos ||
-        !(pFormat = patternConv.FormatFromExt(filename.c_str())) ||
+        !(pFormat = patternConv.FormatFromExt(filename)) ||
         !patternConv.SetInFormat(pFormat) ||
         !patternConv.ReadFile(&patternMol, filename) ||
         patternMol.NumAtoms()==0)

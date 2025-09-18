@@ -92,7 +92,7 @@ void countGraphSymClassesTest(const std::string &filename, int numberOfClasses)
   std::string file = OBTestUtil::GetFilename(filename);
   OBMol mol;
   OBConversion conv;
-  OBFormat *format = conv.FormatFromExt(file.c_str());
+  OBFormat *format = conv.FormatFromExt(file);
   OB_REQUIRE( format );
   OB_REQUIRE( conv.SetInFormat(format) );
   OB_REQUIRE( conv.ReadFile(&mol, file) );

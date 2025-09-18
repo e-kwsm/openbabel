@@ -144,7 +144,7 @@ int addhtest(int argc, char* argv[])
       stringstream str(line);
       string fname;
       str >> fname; 
-      OBFormat *format = conv.FormatFromExt(fname.c_str());
+      OBFormat *format = conv.FormatFromExt(fname);
       conv.SetInFormat(format);
 
       #ifdef TESTDATADIR

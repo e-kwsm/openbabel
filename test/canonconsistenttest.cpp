@@ -18,7 +18,7 @@ bool mdoMultiMoleculeFile(const std::string &filename)
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
-  OBFormat *format = conv.FormatFromExt(filename.c_str());
+  OBFormat *format = conv.FormatFromExt(filename);
   OBFormat *canSMI = conv.FindFormat("can");
   OBFormat *smi    = conv.FindFormat("smi");
   OB_REQUIRE(format);

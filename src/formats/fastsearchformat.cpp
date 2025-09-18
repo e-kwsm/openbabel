@@ -583,7 +583,7 @@ const char* Description() override  // required
       string& txt =vec [0];
       if( txt.empty() ||
           txt.find('.')==string::npos ||
-          !(pFormat = patternConv.FormatFromExt(txt.c_str())) ||
+          !(pFormat = patternConv.FormatFromExt(txt)) ||
           !patternConv.SetInFormat(pFormat) ||
           !patternConv.ReadFile(&patternMol, txt) ||
           patternMol.NumAtoms()==0)

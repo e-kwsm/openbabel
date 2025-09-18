@@ -66,7 +66,7 @@ bool doMultiMoleculeFile(const std::string &filename)
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
-  OBFormat *format = conv.FormatFromExt(file.c_str());
+  OBFormat *format = conv.FormatFromExt(file);
   OB_REQUIRE(format);
   OB_REQUIRE(conv.SetInFormat(format));
 

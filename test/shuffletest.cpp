@@ -152,7 +152,7 @@ bool doShuffleTestFile(const std::string &filename)
   // read a smiles string
   OBMol mol;
   OBConversion canConv, smiConv;
-  OBFormat *format = canConv.FormatFromExt(file.c_str());
+  OBFormat *format = canConv.FormatFromExt(file);
   OB_REQUIRE( format );
   OB_REQUIRE( canConv.SetInFormat(format) );
   OB_REQUIRE( canConv.ReadFile(&mol, file) );
@@ -193,7 +193,7 @@ bool doShuffleTestOnMultiFile(const std::string &filename)
   // read a smiles string
   OBMol mol;
   OBConversion canConv;
-  OBFormat *format = canConv.FormatFromExt(file.c_str());
+  OBFormat *format = canConv.FormatFromExt(file);
   OB_REQUIRE( format );
   OB_REQUIRE( canConv.SetInFormat(format) );
   OB_REQUIRE( canConv.SetOutFormat("can") );
