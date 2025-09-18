@@ -109,7 +109,7 @@ namespace OpenBabel
               //set atomic number
               atomicNum = OBElements::GetAtomicNum(vs[0].c_str());
               if (atomicNum == 0) {
-                atomicNum = atoi(vs[0].c_str());
+                atomicNum = stoi(vs[0]);
               }
               atom->SetAtomicNum(atomicNum);
             }
@@ -141,7 +141,7 @@ namespace OpenBabel
           ifs.getline(buffer, BUFF_SIZE);
           tokenize(vs, buffer);
           if (vs.size() < 2) return false;
-          int numAtoms = atoi(vs[0].c_str());
+          int numAtoms = stoi(vs[0]);
           for (int a = 0; a < numAtoms; ++a) {
             if (!ifs.getline(buffer,BUFF_SIZE))
               break;
@@ -154,7 +154,7 @@ namespace OpenBabel
               //set atomic number
               atomicNum = OBElements::GetAtomicNum(vs[0].c_str());
               if (atomicNum == 0) {
-                atomicNum = atoi(vs[0].c_str());
+                atomicNum = stoi(vs[0]);
               }
               atom->SetAtomicNum(atomicNum);
             }

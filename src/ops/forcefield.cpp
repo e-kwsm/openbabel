@@ -217,7 +217,7 @@ namespace OpenBabel
 
     iter = pmap->find("steps");
     if(iter!=pmap->end())
-      steps = atoi(iter->second.c_str());
+      steps = stoi(iter->second);
 
     iter = pmap->find("epsilon");
     if(iter!=pmap->end())
@@ -233,7 +233,7 @@ namespace OpenBabel
 
     iter = pmap->find("pf");
     if(iter!=pmap->end()) {
-      freq = atoi(iter->second.c_str());
+      freq = stoi(iter->second);
       if (freq < 1)
         freq = 10; // don't divide by zero
     }

@@ -402,7 +402,7 @@ int main(int argc,char **argv)
         continue;
       }
 
-      pFF->SteepestDescent(atoi(vs[1].c_str()), OBFF_ANALYTICAL_GRADIENT);
+      pFF->SteepestDescent(stoi(vs[1]), OBFF_ANALYTICAL_GRADIENT);
       pFF->UpdateCoordinates(mol);
 
       continue;
@@ -415,7 +415,7 @@ int main(int argc,char **argv)
         continue;
       }
 
-      pFF->ConjugateGradients(atoi(vs[1].c_str()), OBFF_ANALYTICAL_GRADIENT);
+      pFF->ConjugateGradients(stoi(vs[1]), OBFF_ANALYTICAL_GRADIENT);
       pFF->UpdateCoordinates(mol);
 
       continue;

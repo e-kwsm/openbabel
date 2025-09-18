@@ -6020,7 +6020,7 @@ namespace OpenBabel {
         smCopy.getAtom(i)->ry=smCopy.getAtom(i)->ry*oldBondLength/newBondLength;
       };
     for (i=0; i<smCopy.nAtoms(); i++) {
-      n=atoi(smCopy.getAtom(i)->anum.c_str());
+      n=stoi(smCopy.getAtom(i)->anum);
       if (n >= 0) {
         smIn.getAtom(n)->rx=smCopy.getAtom(i)->rx;
         smIn.getAtom(n)->ry=smCopy.getAtom(i)->ry;
@@ -6974,7 +6974,7 @@ namespace OpenBabel {
           threeCoor=(indexOf(s,"-1") > 0);
           temp=s.substr(0,n1);
           s=s.substr(n1+1);
-          atn=atoi(temp.c_str())-1;  //one-based-has to be corrected to zero-based
+          atn=stoi(temp)-1;  //one-based-has to be corrected to zero-based
           n1=indexOf(s,",");
           if (n1 > 0) s=s.substr(n1+1);
           n1=indexOf(s,",");
@@ -7040,8 +7040,8 @@ namespace OpenBabel {
           n1=indexOf(temp,"d");
           if (n1 < 0) n1=indexOf(temp,"D");
           if (n1 > 0) {
-            n2=atoi(temp.substr(0,n1).c_str());
-            n1=atoi(temp.substr(n1+1).c_str());
+            n2=stoi(temp.substr(0,n1));
+            n1=stoi(temp.substr(n1+1));
             //search for bond...
             bn=-1;
             for (i=0; i<sm.nBonds(); i++) if (((sm.getBond(i)->at[0] == (n1-1)) && (sm.getBond(i)->at[1] == (n2-1))) || ((sm.getBond(i)->at[0] == (n2-1)) && (sm.getBond(i)->at[1] == (n1-1)))) {
@@ -7062,7 +7062,7 @@ namespace OpenBabel {
               sa1=s.substr(0,k);
               s=s.substr(k+1);
               try {
-                n1=atoi(sa1.c_str());
+                n1=stoi(sa1);
                 if (n1 == 0) {
                   n1=-1;
                   sa1="00";//"zz";
@@ -7076,7 +7076,7 @@ namespace OpenBabel {
               sa2=s.substr(0,k);
               s=s.substr(k+1);
               try {
-                n2=atoi(sa2.c_str());
+                n2=stoi(sa2);
                 if (n2 == 0) {
                   n2=-1;
                   sa2="00";//"zz";
@@ -7215,7 +7215,7 @@ namespace OpenBabel {
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
                 if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
                 s=value.substr(n1,n2+1);
-                k=atoi(s.c_str());
+                k=stoi(s);
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
               };
             enumber[i]=enumber[i]+k;
@@ -7239,7 +7239,7 @@ namespace OpenBabel {
                 while ((n2<(value.length()-1)) && (value.at(n2)>='0') && (value.at(n2)<='9')) n2++;
                 if (! ((value.at(n2)>='0') && (value.at(n2)<='9'))) n2--;
                 s=value.substr(n1,n2+1);
-                k=atoi(s.c_str());
+                k=stoi(s);
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
               };
             enumber[i]=enumber[i]+k;

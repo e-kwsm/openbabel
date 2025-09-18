@@ -720,11 +720,11 @@ namespace OpenBabel
               {
                 //Actually adding H atoms to the structure is deferred until the explicit
                 //structure is complete, because hydrogenCount may include explicit H, bug#3014855
-                hcount = atoi(value.c_str());
+                hcount = stoi(value);
 
                /* int nhvy = nAtoms;
                   int i;
-                  for(i=0;i<atoi(value.c_str());++i)
+                  for(i=0;i<stoi(value);++i)
                     {
                       OBAtom* hatom = _pmol->NewAtom();
                       hatom->SetAtomicNum(1);
@@ -736,7 +736,7 @@ namespace OpenBabel
               }
 
             else if(attrname=="formalCharge")
-              pAtom->SetFormalCharge(atoi(value.c_str()));
+              pAtom->SetFormalCharge(stoi(value));
 
             else if(attrname=="label")
               {
@@ -763,7 +763,7 @@ namespace OpenBabel
               }
 
             else if(attrname=="spinMultiplicity")
-              pAtom->SetSpinMultiplicity(atoi(value.c_str()));
+              pAtom->SetSpinMultiplicity(stoi(value));
 
             /*else if(attrname=="atomRefs4")//from atomParity element (but there is no such thing!)
               {
@@ -796,7 +796,7 @@ namespace OpenBabel
                 pAtom->SetSpinMultiplicity(spin);
               }
             else if(attrname=="isotopeNumber" || attrname=="isotope")
-              pAtom->SetIsotope(atoi(value.c_str()));
+              pAtom->SetIsotope(stoi(value));
 
           } //each attribute
 
@@ -1036,7 +1036,7 @@ namespace OpenBabel
             if(!(nextname=="centralAtomOrBond"))
               return false;
 
-            int Idx = atoi(AttributeIter->second.c_str());
+            int Idx = stoi(AttributeIter->second);
             if(name=="atomParity")
               {
                 OBAtom* patom = _pmol->GetAtom(Idx);
@@ -1058,7 +1058,7 @@ namespace OpenBabel
                   refs.push_back(id);
                 }
 
-                int parity = atoi(value.c_str());
+                int parity = stoi(value);
                 OBStereo::Winding winding = OBStereo::Clockwise; // parity > 0
                 if (parity < 0)
                   winding = OBStereo::AntiClockwise;

@@ -112,7 +112,7 @@ namespace OpenBabel
         energy_cutoff = atof(iter->second.c_str());
       iter = pmap->find("conf");
       if(iter!=pmap->end())
-        conf_cutoff = atoi(iter->second.c_str());
+        conf_cutoff = stoi(iter->second);
       iter = pmap->find("verbose");
       if(iter!=pmap->end())
         verbose = true;

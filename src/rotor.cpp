@@ -858,7 +858,7 @@ namespace OpenBabel
         temp_buffer[sizeof(temp_buffer) - 1] = '\0';
         //reference atoms
         for (i = 0;i < 4;++i)
-          ref[i] = atoi(vs[i+1].c_str())-1;
+          ref[i] = stoi(vs[i+1])-1;
         //possible torsions
         vals.clear();
         delta = OB_DEFAULT_DELTA;
