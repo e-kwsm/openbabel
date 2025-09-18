@@ -182,7 +182,7 @@ namespace OpenBabel
                 if (checkNAtoms.find("Number of atoms") != notFound) {
                     tokenize(vs,buffer);
                     if (vs.size() > 4)
-                        nAtoms = atoi((char*)vs[4].c_str());
+                        nAtoms = stoi(vs[4]);
                     // CVE-2022-46289/46290: clamp to a sane range so a malformed
                     // header cannot drive the confCoords allocation/write below
                     // out of bounds.
