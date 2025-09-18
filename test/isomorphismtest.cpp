@@ -118,7 +118,7 @@ void testIsomorphismMask()
   OBMol mol;
   OBConversion conv;
   conv.SetInFormat("cml");
-  std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml").c_str());
+  std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml"));
   OB_REQUIRE( ifs );
   conv.Read(&mol, &ifs);
 
@@ -170,7 +170,7 @@ void testAutomorphismMask() {
   OBMol mol;
   OBConversion conv;
   conv.SetInFormat("cml");
-  std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml").c_str());
+  std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml"));
   OB_REQUIRE( ifs );
   conv.Read(&mol, &ifs);
 
@@ -220,7 +220,7 @@ void testAutomorphismMask2()
   OBConversion conv;
 
   conv.SetInFormat("sdf");
-  std::ifstream ifs(OBTestUtil::GetFilename("progesterone.sdf").c_str());
+  std::ifstream ifs(OBTestUtil::GetFilename("progesterone.sdf"));
   OB_REQUIRE( ifs );
   OB_REQUIRE( conv.Read(&mol, &ifs) );
 
