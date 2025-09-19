@@ -1087,10 +1087,10 @@ namespace OpenBabel
     string xstr = sbuf.substr(24,8);
     string ystr = sbuf.substr(32,8);
     string zstr = sbuf.substr(40,8);
-    vector3 v(atof(xstr.c_str()),atof(ystr.c_str()),atof(zstr.c_str()));
+    vector3 v(stod(xstr),stod(ystr),stod(zstr));
     atom.SetVector(v);
 
-    double occupancy = atof(sbuf.substr(48, 6).c_str());
+    double occupancy = stod(sbuf.substr(48, 6));
     OBPairFloatingPoint* occup = new OBPairFloatingPoint;
     occup->SetAttribute("_atom_site_occupancy");
     if (occupancy <= 0.0 || occupancy > 1.0){

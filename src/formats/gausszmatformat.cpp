@@ -314,7 +314,7 @@ namespace OpenBabel
 			if (readVariables) {
 			  tokenize(vs, buffer, "= \t\n");
 			  if (vs.size() >= 2) {
-          variables[vs[0]] = atof(vs[1].c_str());
+          variables[vs[0]] = stod(vs[1]);
           foundVariables = true;
           //          cerr << "var: " << vs[0] << " " << vs[1] << endl;
         }

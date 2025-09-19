@@ -190,7 +190,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               // next line should be the energy
               double energy;
               getline( ifs, lineBuffer );
-              energy = atof(lineBuffer.c_str());
+              energy = stod(lineBuffer);
               if (fabs(energy) < 1.0e-8 ) {
                 obErrorLog.ThrowError(__FUNCTION__,
                                       "Problems reading an XYZ geometry: The second line should contain the energy.", obWarning);
@@ -207,9 +207,9 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
                   break;
 
                 double x, y, z;
-                x = atof(vs[1].c_str());
-                y = atof(vs[2].c_str());
-                z = atof(vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
                 vector3 point(x, y, z);
                 coordinates.push_back(point);
 

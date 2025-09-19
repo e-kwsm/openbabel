@@ -605,9 +605,9 @@ namespace OpenBabel
             while (vs.size()>4)
               {
                 int corr = vs.size()==5 ? -1 : 0; //g94; later versions have an extra column
-                x = atof((char*)vs[3+corr].c_str());
-                y = atof((char*)vs[4+corr].c_str());
-                z = atof((char*)vs[5+corr].c_str());
+                x = stod(vs[3+corr]);
+                y = stod(vs[4+corr]);
+                z = stod(vs[5+corr]);
                 int atomicNum = stoi(vs[1]);
 
                 if (atomicNum > 0) // translation vectors are "-2"
@@ -649,9 +649,9 @@ namespace OpenBabel
                   OBVectorData *dipoleMoment = new OBVectorData;
                   dipoleMoment->SetAttribute("Dipole Moment");
                   double x, y, z;
-                  x = atof(vs[1].c_str());
-                  y = atof(vs[3].c_str());
-                  z = atof(vs[5].c_str());
+                  x = stod(vs[1]);
+                  y = stod(vs[3]);
+                  z = stod(vs[5]);
                   dipoleMoment->SetData(x, y, z);
                   dipoleMoment->SetOrigin(fileformatInput);
                   mol.SetData(dipoleMoment);
@@ -669,12 +669,12 @@ namespace OpenBabel
                   double Q[3][3];
                   OpenBabel::OBMatrixData *quadrupoleMoment = new OpenBabel::OBMatrixData;
 
-                  Q[0][0] = atof(vs[1].c_str());
-                  Q[1][1] = atof(vs[3].c_str());
-                  Q[2][2] = atof(vs[5].c_str());
-                  Q[1][0] = Q[0][1] = atof(vs2[1].c_str());
-                  Q[2][0] = Q[0][2] = atof(vs2[3].c_str());
-                  Q[2][1] = Q[1][2] = atof(vs2[5].c_str());
+                  Q[0][0] = stod(vs[1]);
+                  Q[1][1] = stod(vs[3]);
+                  Q[2][2] = stod(vs[5]);
+                  Q[1][0] = Q[0][1] = stod(vs2[1]);
+                  Q[2][0] = Q[0][2] = stod(vs2[3]);
+                  Q[2][1] = Q[1][2] = stod(vs2[5]);
                   matrix3x3 quad(Q);
 
                   quadrupoleMoment->SetAttribute("Traceless Quadrupole Moment");
@@ -745,8 +745,8 @@ namespace OpenBabel
                 atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
-                atom->SetPartialCharge(atof(vs[2].c_str()));
-                MPA_q.push_back(atof(vs[2].c_str()));
+                atom->SetPartialCharge(stod(vs[2]));
+                MPA_q.push_back(stod(vs[2]));
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;
                 tokenize(vs,buffer);
 
@@ -793,9 +793,9 @@ namespace OpenBabel
                 atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
-                atom->SetPartialCharge(atof(vs[2].c_str()));
-                HPA_q.push_back(atof(vs[2].c_str()));
-                CM5_q.push_back(atof(vs[7].c_str()));
+                atom->SetPartialCharge(stod(vs[2]));
+                HPA_q.push_back(stod(vs[2]));
+                CM5_q.push_back(stod(vs[7]));
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;
                 tokenize(vs,buffer);
 
@@ -829,8 +829,8 @@ namespace OpenBabel
               esp = new OpenBabel::OBFreeGrid();
             if (vs.size() == 8)
               {
-                esp->AddPoint(atof(vs[5].c_str()),atof(vs[6].c_str()),
-                              atof(vs[7].c_str()),0);
+                esp->AddPoint(stod(vs[5]),stod(vs[6]),
+                              stod(vs[7]),0);
               }
             else if (vs.size() > 5)
               {
@@ -849,8 +849,8 @@ namespace OpenBabel
               esp = new OpenBabel::OBFreeGrid();
             if (vs.size() == 9)
               {
-                esp->AddPoint(atof(vs[6].c_str()),atof(vs[7].c_str()),
-                              atof(vs[8].c_str()),0);
+                esp->AddPoint(stod(vs[6]),stod(vs[7]),
+                              stod(vs[8]),0);
               }
             else if (vs.size() > 6)
               {
@@ -881,7 +881,7 @@ namespace OpenBabel
                 tokenize(vs,buffer);
                 if (vs.size() >= 2)
                   {
-                    fgp->SetV(atof(vs[2].c_str()));
+                    fgp->SetV(stod(vs[2]));
                     i++;
                   }
               }
@@ -924,8 +924,8 @@ namespace OpenBabel
                 atom = mol.GetAtom(stoi(vs[0]));
                 if (!atom)
                   break;
-                atom->SetPartialCharge(atof(vs[2].c_str()));
-                ESP_q.push_back(atof(vs[2].c_str()));
+                atom->SetPartialCharge(stod(vs[2]));
+                ESP_q.push_back(stod(vs[2]));
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;
                 tokenize(vs,buffer);
               }
@@ -956,7 +956,7 @@ namespace OpenBabel
                 atom = mol.GetAtom(stoi(vs[1]));
                 if (!atom)
                   break;
-                atom->SetPartialCharge(atof(vs[2].c_str()));
+                atom->SetPartialCharge(stod(vs[2]));
 
                 if (!ifs.getline(buffer,BUFF_SIZE)) break;
                 tokenize(vs,buffer);
@@ -967,19 +967,19 @@ namespace OpenBabel
           //The info should appear only once as several blocks starting with this line
           tokenize(vs, buffer);
           for(unsigned int i=2; i<vs.size(); ++i)
-            Frequencies.push_back(atof(vs[i].c_str()));
+            Frequencies.push_back(stod(vs[i]));
           ifs.getline(buffer,BUFF_SIZE); //Red. masses
           ifs.getline(buffer,BUFF_SIZE); //Frc consts
           ifs.getline(buffer,BUFF_SIZE); //IR Inten
           tokenize(vs, buffer);
           for(unsigned int i=3; i<vs.size(); ++i)
-            Intensities.push_back(atof(vs[i].c_str()));
+            Intensities.push_back(stod(vs[i]));
 
           ifs.getline(buffer, BUFF_SIZE); // column labels or Raman intensity
           if(strstr(buffer, "Raman Activ")) {
             tokenize(vs, buffer);
             for(unsigned int i=3; i<vs.size(); ++i)
-              RamanActivities.push_back(atof(vs[i].c_str()));
+              RamanActivities.push_back(stod(vs[i]));
             ifs.getline(buffer, BUFF_SIZE); // Depolar (P)
 
             while (strstr(buffer, "Atom") == nullptr)
@@ -991,9 +991,9 @@ namespace OpenBabel
           double x, y, z;
           while(vs.size() >= 5) {
             for (unsigned int i = 2; i < vs.size()-2; i += 3) {
-              x = atof(vs[i].c_str());
-              y = atof(vs[i+1].c_str());
-              z = atof(vs[i+2].c_str());
+              x = stod(vs[i]);
+              y = stod(vs[i+1]);
+              z = stod(vs[i+2]);
 
               if (i == 2)
                 vib1.push_back(vector3(x, y, z));
@@ -1034,7 +1034,7 @@ namespace OpenBabel
           tokenize(vs, buffer);
           RotConsts.clear();
           for (unsigned int i=3; i<vs.size(); ++i)
-            RotConsts.push_back(atof(vs[i].c_str()));
+            RotConsts.push_back(stod(vs[i]));
         }
 
         else if(strstr(buffer, "alpha electrons")) // # of electrons / orbital
@@ -1094,7 +1094,7 @@ namespace OpenBabel
             if (vs[0].find("Beta") !=string::npos && betaStart == 0) // mark where we switch from alpha to beta
               betaStart = orbitals.size();
             for (unsigned int i = 4; i < vs.size(); ++i) {
-              orbitals.push_back(atof(vs[i].c_str()));
+              orbitals.push_back(stod(vs[i]));
             }
             ifs.getline(buffer, BUFF_SIZE);
           }
@@ -1104,8 +1104,8 @@ namespace OpenBabel
           // The above line appears for each state, so just append the info to the vectors
           tokenize(vs, buffer);
           if (vs.size() >= 9) {
-            double wavelength = atof(vs[6].c_str());
-            double force = atof(vs[8].substr(2).c_str()); // remove the "f=" part
+            double wavelength = stod(vs[6]);
+            double force = stod(vs[8].substr(2)); // remove the "f=" part
             Forces.push_back(force);
             Wavelengths.push_back(wavelength);
           }
@@ -1117,7 +1117,7 @@ namespace OpenBabel
           ifs.getline(buffer, BUFF_SIZE); // First entry
           tokenize(vs, buffer);
           while (vs.size() == 5) {
-            double s = atof(vs[4].c_str());
+            double s = stod(vs[4]);
             EDipole.push_back(s);
             ifs.getline(buffer, BUFF_SIZE);
             tokenize(vs, buffer);
@@ -1128,7 +1128,7 @@ namespace OpenBabel
           ifs.getline(buffer, BUFF_SIZE); // First entry
           tokenize(vs, buffer);
           while (vs.size() == 5) {
-            double s = atof(vs[4].c_str());
+            double s = stod(vs[4]);
             RotatoryStrengthsVelocity.push_back(s);
             ifs.getline(buffer, BUFF_SIZE);
             tokenize(vs, buffer);
@@ -1139,7 +1139,7 @@ namespace OpenBabel
           ifs.getline(buffer, BUFF_SIZE); // First entry
           tokenize(vs, buffer);
           while (vs.size() == 5) {
-            double s = atof(vs[4].c_str());
+            double s = stod(vs[4]);
             RotatoryStrengthsLength.push_back(s);
             ifs.getline(buffer, BUFF_SIZE);
             tokenize(vs, buffer);
@@ -1171,7 +1171,7 @@ namespace OpenBabel
         else if (strstr(buffer, "SCF Done:") != nullptr)
           {
             tokenize(vs,buffer);
-            mol.SetEnergy(atof(vs[4].c_str()) * HARTEE_TO_KCALPERMOL);
+            mol.SetEnergy(stod(vs[4]) * HARTEE_TO_KCALPERMOL);
             confEnergies.push_back(mol.GetEnergy());
           }
 /* Temporarily commented out until the handling of energy in OBMol is sorted out
@@ -1183,7 +1183,7 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE); //Headers
             ifs.getline(buffer,BUFF_SIZE); //Total energy; what we want
             tokenize(vs,buffer);
-            mol.SetEnergy(atof(vs[1].c_str()));
+            mol.SetEnergy(stod(vs[1]));
             confEnergies.push_back(mol.GetEnergy());
             }
 */
@@ -1194,19 +1194,19 @@ namespace OpenBabel
         else if (strstr(buffer, "Zero-point correction=") != nullptr)
           {
             tokenize(vs,buffer);
-            ezpe = atof(vs[2].c_str());
+            ezpe = stod(vs[2]);
             ezpe_set = true;
           }
         else if (strstr(buffer, "Thermal correction to Enthalpy=") != nullptr)
           {
             tokenize(vs,buffer);
-            Hcorr = atof(vs[4].c_str());
+            Hcorr = stod(vs[4]);
             Hcorr_set = true;
           }
         else if (strstr(buffer, "Thermal correction to Gibbs Free Energy=") != nullptr)
           {
             tokenize(vs,buffer);
-            Gcorr = atof(vs[6].c_str());
+            Gcorr = stod(vs[6]);
             Gcorr_set = true;
           }
         else if (strstr(buffer, "CV") != nullptr)
@@ -1218,7 +1218,7 @@ namespace OpenBabel
               {
                   if (vs[0].compare("Total") == 0)
                   {
-                      CV = atof(vs[2].c_str());
+                      CV = stod(vs[2]);
                       CV_set = true;
                   }
               }
@@ -1227,26 +1227,26 @@ namespace OpenBabel
               tokenize(vs,buffer);
               if ((vs.size() == 4) && (vs[0].compare("Translational") == 0) )
               {
-                  Scomponents.push_back(atof(vs[3].c_str()));
+                  Scomponents.push_back(stod(vs[3]));
               }
               ifs.getline(buffer,BUFF_SIZE); //Rotational
               tokenize(vs,buffer);
               if ((vs.size() == 4) && (vs[0].compare("Rotational") == 0))
               {
-                  Scomponents.push_back(atof(vs[3].c_str()));
+                  Scomponents.push_back(stod(vs[3]));
               }
               ifs.getline(buffer,BUFF_SIZE); //Vibrational
               tokenize(vs,buffer);
               if ((vs.size() == 4) && (vs[0].compare("Vibrational") == 0))
               {
-                  Scomponents.push_back(atof(vs[3].c_str()));
+                  Scomponents.push_back(stod(vs[3]));
               }
           }
         else if (strstr(buffer,"Temperature=") != nullptr &&
                  strstr(buffer,"Pressure=") != nullptr)
           {
               tokenize(vs,buffer);
-              temperature = atof(vs[1].c_str());
+              temperature = stod(vs[1]);
           }
         else if (strstr(buffer, "(0 K)") != nullptr)
           {
@@ -1262,7 +1262,7 @@ namespace OpenBabel
                 if (strstr(buffer, search[i]) != nullptr)
                   {
                     tokenize(vs,buffer);
-                    E0 = atof(vs[myindex[i]].c_str());
+                    E0 = stod(vs[myindex[i]]);
                     E0_set = 1;
                     thermo_method = mymeth[i];
                     break;

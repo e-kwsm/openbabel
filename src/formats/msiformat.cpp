@@ -151,9 +151,9 @@ namespace OpenBabel
           ifs.getline(buffer,BUFF_SIZE); // next line should be translation vector
           tokenize(vs,buffer);
             while (vs.size() == 6) {
-              x = atof((char*)vs[3].erase(0,1).c_str());
-              y = atof((char*)vs[4].c_str());
-              z = atof((char*)vs[5].c_str());
+              x = stod(vs[3].erase(0,1));
+              y = stod(vs[4]);
+              z = stod(vs[5]);
 
               if (numTranslationVectors < 3)
                 translationVectors[numTranslationVectors++].Set(x, y, z);
@@ -198,9 +198,9 @@ namespace OpenBabel
               continue;
             vs[3].erase(0,1); // remove ( character
             vs[5].erase(vs[5].length()-2, 2); // remove trailing )) characters
-            atom->SetVector(atof(vs[3].c_str()),
-                            atof(vs[4].c_str()),
-                            atof(vs[5].c_str()));
+            atom->SetVector(stod(vs[3]),
+                            stod(vs[4]),
+                            stod(vs[5]));
             continue;
           }
         } // end of atom records
