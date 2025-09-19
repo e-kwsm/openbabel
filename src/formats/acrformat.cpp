@@ -137,9 +137,9 @@ namespace OpenBabel
       if (atom_input) {
 	if (vs.size() < 9) return false; // timvdm 18/06/2008
         type = vs[1];
-        X = atof((char*)vs[6].c_str())/scale;
-        Y = atof((char*)vs[7].c_str())/scale;
-        Z = atof((char*)vs[8].c_str())/scale;
+        X = stod(vs[6])/scale;
+        Y = stod(vs[7])/scale;
+        Z = stod(vs[8])/scale;
 
         OBAtom* a = pmol->NewAtom();
         if (*(type.c_str()) != '*')

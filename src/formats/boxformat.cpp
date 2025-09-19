@@ -90,7 +90,7 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             string x = sbuf.substr(24,8);
             string y = sbuf.substr(32,8);
             string z = sbuf.substr(40,8);
-            vector3 v(atof(x.c_str()),atof(y.c_str()),atof(z.c_str()));
+            vector3 v(stod(x),stod(y),stod(z));
             atom.SetVector(v);
             if (!mol.AddAtom(atom))
                 return(false);

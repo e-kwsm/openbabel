@@ -97,9 +97,9 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
                 coord->_b = mol.GetAtom(stoi(vs[5]));
             if (mol.NumAtoms() > 3)
                 coord->_c = mol.GetAtom(stoi(vs[6]));
-            coord->_dst = atof(vs[7].c_str());
-            coord->_ang = atof(vs[8].c_str());
-            coord->_tor = atof(vs[9].c_str());
+            coord->_dst = stod(vs[7]);
+            coord->_ang = stod(vs[8]);
+            coord->_tor = stod(vs[9]);
             internals.push_back(coord);
 
             atom->SetAtomicNum(OBElements::GetAtomicNum(vs[1].c_str()));

@@ -91,12 +91,12 @@ namespace OpenBabel
           continue; // something strange
 
         double A, B, C, Alpha, Beta, Gamma;
-        A = atof(vs[1].c_str());
-        B = atof(vs[2].c_str());
-        C = atof(vs[3].c_str());
-        Alpha = atof(vs[4].c_str());
-        Beta  = atof(vs[5].c_str());
-        Gamma = atof(vs[6].c_str());
+        A = stod(vs[1]);
+        B = stod(vs[2]);
+        C = stod(vs[3]);
+        Alpha = stod(vs[4]);
+        Beta  = stod(vs[5]);
+        Gamma = stod(vs[6]);
         OBUnitCell *uc = new OBUnitCell;
         uc->SetOrigin(fileformatInput);
         uc->SetData(A, B, C, Alpha, Beta, Gamma);
