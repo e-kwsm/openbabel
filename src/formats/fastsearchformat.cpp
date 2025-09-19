@@ -251,9 +251,9 @@ const char* Description() override  // required
             double MaxTani = 1.1;
             size_t pos = txt.find(',');
             if( pos != string::npos ) {
-              MaxTani = atof( txt.substr( pos + 1 ).c_str() );
+              MaxTani = stod( txt.substr( pos + 1 ) );
             }
-            double MinTani = atof( txt.substr( 0, pos ).c_str() );
+            double MinTani = stod( txt.substr( 0, pos ) );
             fs.FindSimilar(&patternMols[0], SeekposMap, MinTani, MaxTani);
           }
 

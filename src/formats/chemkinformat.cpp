@@ -617,7 +617,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
       unsigned n;
       for(n=0;n<3 && (n+1)<toks.size();++n)
       {
-        double val = atof(toks[n+1].c_str());
+        double val = stod(toks[n+1]);
         if(n==0)
           val /= pow(AUnitsFactor, pReact->NumReactants());
         else if(n==2)
@@ -629,7 +629,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
     {
       pRD->ReactionType = OBRateData::TROE;
       for(int i=0;i<4 && (i+1)<(int)toks.size();++i)
-        pRD->SetTroeParams(i, atof(toks[i+1].c_str()));
+        pRD->SetTroeParams(i, stod(toks[i+1]));
     }
 
     else if(!strcasecmp(toks[0].c_str(),"DUPLICATE"))
@@ -649,7 +649,7 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
       for(int i=0;i<toks.size()-1;++i)//also incremented in body to retrieve id,val pairs
       {
         string sp(toks[i++]);
-        pRD->SetEfficiency(sp, atof(toks[i].c_str()));
+        pRD->SetEfficiency(sp, stod(toks[i]));
       }
     }
   }
