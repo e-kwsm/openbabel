@@ -209,9 +209,9 @@ namespace OpenBabel
             int i=0;
             while (vs.size() == 4) {
 
-                x = atof((char*)vs[1].c_str());
-                y = atof((char*)vs[2].c_str());
-                z = atof((char*)vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
 
                 if (newMol){
                     atom = mol.NewAtom();
@@ -269,9 +269,9 @@ namespace OpenBabel
             tokenize(vs,buffer);
             while (strstr(buffer, "---------") == nullptr && vs.size() !=0) {
                 if (vs.size() != 4) break;
-                occ.push_back(atof(vs[1].c_str()));
-                energyEh.push_back(atof(vs[2].c_str()));
-                energyeV.push_back(atof(vs[3].c_str()));
+                occ.push_back(stod(vs[1]));
+                energyEh.push_back(stod(vs[2]));
+                energyeV.push_back(stod(vs[3]));
                 ifs.getline(buffer,BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -286,9 +286,9 @@ namespace OpenBabel
                 tokenize(vs,buffer);
                 while (strstr(buffer, "---------") == nullptr && vs.size() >0) {
                     if (vs.size() != 4) break;
-                    occB.push_back(atof(vs[1].c_str()));
-                    energyBEh.push_back(atof(vs[2].c_str()));
-                    energyBeV.push_back(atof(vs[3].c_str()));
+                    occB.push_back(stod(vs[1]));
+                    energyBEh.push_back(stod(vs[2]));
+                    energyBeV.push_back(stod(vs[3]));
                     ifs.getline(buffer,BUFF_SIZE);
                     tokenize(vs,buffer);
                 }
@@ -322,7 +322,7 @@ namespace OpenBabel
             { // atom number, atomic symbol,:,  charge
 
                 atom = mol.GetAtom(stoi(vs[0])+1);  // Numbering starts from 0 in Orca
-                atom->SetPartialCharge(atof(vs[3].c_str()));
+                atom->SetPartialCharge(stod(vs[3]));
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
                     break;
@@ -331,7 +331,7 @@ namespace OpenBabel
         }
         if (checkKeywords.find("FINAL SINGLE POINT ENERGY") != notFound) {
             tokenize(vs,buffer);
-            if (vs.size() == 5) mol.SetEnergy(atof(vs[4].c_str()));
+            if (vs.size() == 5) mol.SetEnergy(stod(vs[4]));
         }
 
         if (checkKeywords.find("VIBRATIONAL FREQUENCIES") != notFound) {
@@ -350,7 +350,7 @@ namespace OpenBabel
             tokenize(vs, buffer);
             while (vs.size() > 1)
             {
-                FrequenciesAll.push_back(atof(vs[1].c_str()));
+                FrequenciesAll.push_back(stod(vs[1]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs, buffer);
             }
@@ -377,17 +377,17 @@ namespace OpenBabel
                 while(vs.size() == nColumn+1) {
                     vector<double> x, y, z;
                     for (unsigned int i = 1; i < vs.size(); i++)
-                        x.push_back(atof(vs[i].c_str()));
+                        x.push_back(stod(vs[i]));
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);
                     for (unsigned int i = 1; i < vs.size(); i++)
-                        y.push_back(atof(vs[i].c_str()));
+                        y.push_back(stod(vs[i]));
                     ifs.getline(buffer, BUFF_SIZE);
                     str = checkColumns (string(buffer));
                     tokenize(vs,str);
                     for (unsigned int i = 1; i < vs.size(); i++)
-                        z.push_back(atof(vs[i].c_str()));
+                        z.push_back(stod(vs[i]));
 
                     for (unsigned int i = 0; i < nColumn; i++) {
                         vib.push_back(vector<vector3>());
@@ -431,10 +431,10 @@ namespace OpenBabel
             tokenize(vs,buffer);
 
             while (vs.size() >= 6) {
-                //                std::cout << (atof(vs[1].c_str())) << endl;
-                //                std::cout << (atof(vs[2].c_str())) << endl;
-                Frequencies.push_back(atof(vs[1].c_str()));
-                Intensities.push_back(atof(vs[2].c_str()));
+                //                std::cout << (stod(vs[1])) << endl;
+                //                std::cout << (stod(vs[2])) << endl;
+                Frequencies.push_back(stod(vs[1]));
+                Intensities.push_back(stod(vs[2]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -451,7 +451,7 @@ namespace OpenBabel
             tokenize(vs,buffer);
 
             while (vs.size() == 4 ) {
-                RamanActivities.push_back(atof(vs[2].c_str()));
+                RamanActivities.push_back(stod(vs[2]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -472,8 +472,8 @@ namespace OpenBabel
 
             while (vs.size() == 8) {
                 UVForces.push_back(0.0);        // ORCA doesn't have these values
-                UVWavelength.push_back(atof(vs[2].c_str()));
-                UVEDipole.push_back(atof(vs[3].c_str()));
+                UVWavelength.push_back(stod(vs[2]));
+                UVEDipole.push_back(stod(vs[3]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -493,8 +493,8 @@ namespace OpenBabel
 
             while (vs.size() >= 7) {
                 UVForces.push_back(0.0);        // ORCA doesn't have these values
-                UVWavelength.push_back(atof(vs[2].c_str()));
-                UVEDipole.push_back(atof(vs[3].c_str()));
+                UVWavelength.push_back(stod(vs[2]));
+                UVEDipole.push_back(stod(vs[3]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -515,8 +515,8 @@ namespace OpenBabel
 
             while (vs.size() == 7) {
                 CDVelosity.push_back(0.0);        // ORCA doesn't calculate these values
-                CDWavelength.push_back(atof(vs[2].c_str()));
-                CDStrengthsLength.push_back(atof(vs[3].c_str()));
+                CDWavelength.push_back(stod(vs[2]));
+                CDStrengthsLength.push_back(stod(vs[3]));
                 ifs.getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -530,9 +530,9 @@ namespace OpenBabel
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs,buffer);
             while (vs.size() == 4) {
-                x = atof((char*)vs[1].c_str());
-                y = atof((char*)vs[2].c_str());
-                z = atof((char*)vs[3].c_str());
+                x = stod(vs[1]);
+                y = stod(vs[2]);
+                z = stod(vs[3]);
                 unitCellVectors.push_back(vector3 (x,y,z)); //set coordinates
 
                 if (!ifs.getline(buffer,BUFF_SIZE))
@@ -555,9 +555,9 @@ namespace OpenBabel
                 tokenize(vs,buffer);
                 while (vs.size() >= 4) { // sometime there are additional infos in the line
                     atom = mol.NewAtom();
-                    x = atof((char*)vs[1].c_str());
-                    y = atof((char*)vs[2].c_str());
-                    z = atof((char*)vs[3].c_str());
+                    x = stod(vs[1]);
+                    y = stod(vs[2]);
+                    z = stod(vs[3]);
                     atom->SetVector(x,y,z); //set coordinates
 
                     //set atomic number

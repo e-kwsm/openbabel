@@ -212,9 +212,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     unsigned int i=0;
     while (vs.size() == 6)
     {
-        x = atof((char*)vs[3].c_str());
-        y = atof((char*)vs[4].c_str());
-        z = atof((char*)vs[5].c_str());
+        x = stod(vs[3]);
+        y = stod(vs[4]);
+        z = stod(vs[5]);
         if (from_scratch)
         {
             // set atomic number
@@ -306,10 +306,10 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (vs[0][0] == '1')
             for (unsigned int i = 0; i < 3; i++)
                 if (vs[i+1][0] == '1')
-                    dipole[i] = atof(vs[4].c_str());
+                    dipole[i] = stod(vs[4]);
         else if (vs[0][0] == '2')
         {
-            double value = atof(vs[4].c_str());
+            double value = stod(vs[4]);
             unsigned int i[2], j = 0;
             for (unsigned int k = 0 ; k<3; k++)
             {
@@ -353,7 +353,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             //   0     1    2    3                  4        5                    6    7
             if (vs.size() < 8)
                 break;
-            wavelengths.push_back(EV_TO_NM(atof(vs[6].c_str())));
+            wavelengths.push_back(EV_TO_NM(stod(vs[6])));
         }
         else if (strstr(buffer, OSCILATOR_STRENGTH_PATTERN) != nullptr)
         {
@@ -366,7 +366,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 //   0        1         2                                3
                 if (vs.size() < 4)
                     break;
-                oscilator_strengths.push_back(atof(vs[3].c_str()));
+                oscilator_strengths.push_back(stod(vs[3]));
             }
         }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
@@ -425,7 +425,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         }
         else
             charges.push_back(charge);
-        partial_charges.push_back(atof(vs[3].c_str()) - charge);
+        partial_charges.push_back(stod(vs[3]) - charge);
         ifs->getline(buffer,BUFF_SIZE);
         tokenize(vs, buffer);
     }
