@@ -866,11 +866,11 @@ namespace OpenBabel
           {
             if (i == (signed)(vs.size()-2) && vs[i] == "Delta")
               {
-                delta = atof(vs[i+1].c_str());
+                delta = stod(vs[i+1]);
                 i += 2;
               }
             else
-              vals.push_back(DEG_TO_RAD*atof(vs[i].c_str()));
+              vals.push_back(DEG_TO_RAD*stod(vs[i]));
           }
 
         if (vals.empty())
