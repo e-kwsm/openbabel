@@ -480,7 +480,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             if (vs.size() < 5)
                 break; // Orbital data is broken
 
-            double energy = atof(vs[4].c_str()) * HARTREE_TO_KCAL;
+            double energy = stod(vs[4]) * HARTREE_TO_KCAL;
             double occupation = atof(vs[2].c_str()+4); // Start from symbol after '='
             string symbol;
             if (vs.size() > 5)
@@ -557,7 +557,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     tokenize(vs, buffer);
                     molecule->SetConformer(molecule->NumConformers() - 1);
                     if (vs.size() > 2) // @ NStep   Energy...
-                        energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
+                        energies.push_back(stod(vs[2]) * HARTREE_TO_KCAL);
                 }
                 else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
                     ReadMultipoleMoment(ifs, molecule);
@@ -613,7 +613,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             tokenize(vs, buffer);
             molecule->SetConformer(molecule->NumConformers() - 1);
             if (vs.size() > 2) // @ NStep   Energy...
-                energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
+                energies.push_back(stod(vs[2]) * HARTREE_TO_KCAL);
         }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
             ReadMultipoleMoment(ifs, molecule);
@@ -667,7 +667,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             for(unsigned int i=1; i<vs.size(); ++i)
             {
                 vib.push_back(vector<vector3>());
-                freq.push_back(atof(vs[i].c_str()));
+                freq.push_back(stod(vs[i]));
             }
             ifs->getline(buffer,BUFF_SIZE);     // blank line
             ifs->getline(buffer,BUFF_SIZE);
@@ -676,15 +676,15 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             {
                 vector<double> x, y, z;
                 for (unsigned int i = 1; i < vs.size(); i++)
-                    x.push_back(atof(vs[i].c_str()));
+                    x.push_back(stod(vs[i]));
                 ifs->getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
                 for (unsigned int i = 1; i < vs.size(); i++)
-                    y.push_back(atof(vs[i].c_str()));
+                    y.push_back(stod(vs[i]));
                 ifs->getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
                 for (unsigned int i = 1; i < vs.size(); i++)
-                    z.push_back(atof(vs[i].c_str()));
+                    z.push_back(stod(vs[i]));
                 ifs->getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
                 if (x.size() == y.size() && y.size() == z.size()) {
@@ -712,8 +712,8 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             tokenize(vs,buffer);
             while (vs.size() == 7)
             {
-                if (abs(atof(vs[1].c_str())) > 10.0)
-                    Intensities.push_back(atof(vs[5].c_str()));
+                if (abs(stod(vs[1])) > 10.0)
+                    Intensities.push_back(stod(vs[5]));
                 ifs->getline(buffer, BUFF_SIZE);
                 tokenize(vs,buffer);
             }
@@ -756,7 +756,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         if (strstr(buffer, DFT_ENERGY_PATTERN) != nullptr || strstr(buffer, SCF_ENERGY_PATTERN) != nullptr)
         {
             tokenize(vs, buffer);
-            energy = atof(vs[4].c_str()) * HARTREE_TO_KCAL;
+            energy = stod(vs[4]) * HARTREE_TO_KCAL;
         }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
             ReadOrbitals(ifs, molecule);
@@ -821,7 +821,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 cerr << "Current bead out of range: " << current_bead << " of " << nbeads << endl;
                 break;
             }
-            energies[current_bead] = atof(vs[3].c_str());
+            energies[current_bead] = stod(vs[3]);
         }
         else if (strstr(buffer, GRADIENT_PATTERN) != nullptr)
         {
@@ -844,9 +844,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     cerr << "Current bead out of range: " << current_bead << " of " << nbeads << endl;
                     break;
                 }
-                beads[current_bead][i*3] = atof(vs[2].c_str())*AU_TO_ANGSTROM;
-                beads[current_bead][1+i*3] = atof(vs[3].c_str())*AU_TO_ANGSTROM;
-                beads[current_bead][2+i*3] = atof(vs[4].c_str())*AU_TO_ANGSTROM;
+                beads[current_bead][i*3] = stod(vs[2])*AU_TO_ANGSTROM;
+                beads[current_bead][1+i*3] = stod(vs[3])*AU_TO_ANGSTROM;
+                beads[current_bead][2+i*3] = stod(vs[4])*AU_TO_ANGSTROM;
             }
         }
         else if (strstr(buffer, NEB_NBEADS_PATTERN) != nullptr)
@@ -927,7 +927,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             while (vsize > 7)
             {
                 unsigned int bead_number = stoi(vs[vsize-5]);
-                double bead_energy = atof(vs[vsize-1].c_str()) * HARTREE_TO_KCAL;
+                double bead_energy = stod(vs[vsize-1]) * HARTREE_TO_KCAL;
                 ifs->getline(buffer, BUFF_SIZE); // natoms
                 if (atoi(buffer) != natoms)
                     break; // table contains geometry of different molecule
@@ -943,9 +943,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                         break; // molecule has no such atom or table row incomplete
 
                     unsigned int atom_idx = i*3;
-                    bead[atom_idx] = atof(vs[1].c_str()); // X
-                    bead[atom_idx+1] = atof(vs[2].c_str()); // Y
-                    bead[atom_idx+2] = atof(vs[3].c_str()); // Z
+                    bead[atom_idx] = stod(vs[1]); // X
+                    bead[atom_idx+1] = stod(vs[2]); // Y
+                    bead[atom_idx+2] = stod(vs[3]); // Z
                 }
                 beads.push_back(bead);
                 energies.push_back(bead_energy);
