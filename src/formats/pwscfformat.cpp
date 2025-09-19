@@ -106,13 +106,13 @@ namespace OpenBabel {
       // Older version of pwscf may use this for alat
       if (strstr(buffer, "lattice parameter (a_0)")) {
         tokenize(vs, buffer);
-        alat = atof(vs.at(4).c_str());
+        alat = stod(vs.at(4));
       }
 
       // Newer versions will use this for alat instead
       if (strstr(buffer, "lattice parameter (alat)")) {
         tokenize(vs, buffer);
-        alat = atof(vs.at(4).c_str());
+        alat = stod(vs.at(4));
       }
 
       // Unit cell info
@@ -138,21 +138,21 @@ namespace OpenBabel {
 
         ifs.getline(buffer,BUFF_SIZE); // v1
         tokenize(vs, buffer);
-        v11 = atof(vs.at(0).c_str()) * conv;
-        v12 = atof(vs.at(1).c_str()) * conv;
-        v13 = atof(vs.at(2).c_str()) * conv;
+        v11 = stod(vs.at(0)) * conv;
+        v12 = stod(vs.at(1)) * conv;
+        v13 = stod(vs.at(2)) * conv;
 
         ifs.getline(buffer,BUFF_SIZE); // v2
         tokenize(vs, buffer);
-        v21 = atof(vs.at(0).c_str()) * conv;
-        v22 = atof(vs.at(1).c_str()) * conv;
-        v23 = atof(vs.at(2).c_str()) * conv;
+        v21 = stod(vs.at(0)) * conv;
+        v22 = stod(vs.at(1)) * conv;
+        v23 = stod(vs.at(2)) * conv;
 
         ifs.getline(buffer,BUFF_SIZE); // v3
         tokenize(vs, buffer);
-        v31 = atof(vs.at(0).c_str()) * conv;
-        v32 = atof(vs.at(1).c_str()) * conv;
-        v33 = atof(vs.at(2).c_str()) * conv;
+        v31 = stod(vs.at(0)) * conv;
+        v32 = stod(vs.at(1)) * conv;
+        v33 = stod(vs.at(2)) * conv;
 
         // Build unit cell
         cell->SetData(vector3(v11,v12,v13),
@@ -170,21 +170,21 @@ namespace OpenBabel {
 
         ifs.getline(buffer,BUFF_SIZE); // v1
         tokenize(vs, buffer);
-        v11 = atof(vs.at(3).c_str()) * conv;
-        v12 = atof(vs.at(4).c_str()) * conv;
-        v13 = atof(vs.at(5).c_str()) * conv;
+        v11 = stod(vs.at(3)) * conv;
+        v12 = stod(vs.at(4)) * conv;
+        v13 = stod(vs.at(5)) * conv;
 
         ifs.getline(buffer,BUFF_SIZE); // v2
         tokenize(vs, buffer);
-        v21 = atof(vs.at(3).c_str()) * conv;
-        v22 = atof(vs.at(4).c_str()) * conv;
-        v23 = atof(vs.at(5).c_str()) * conv;
+        v21 = stod(vs.at(3)) * conv;
+        v22 = stod(vs.at(4)) * conv;
+        v23 = stod(vs.at(5)) * conv;
 
         ifs.getline(buffer,BUFF_SIZE); // v3
         tokenize(vs, buffer);
-        v31 = atof(vs.at(3).c_str()) * conv;
-        v32 = atof(vs.at(4).c_str()) * conv;
-        v33 = atof(vs.at(5).c_str()) * conv;
+        v31 = stod(vs.at(3)) * conv;
+        v32 = stod(vs.at(4)) * conv;
+        v33 = stod(vs.at(5)) * conv;
 
         // Build unit cell
         cell->SetData(vector3(v11,v12,v13),
@@ -221,9 +221,9 @@ namespace OpenBabel {
         int size = vs.size();
         while (size == 4) {
           atomicNum = OBElements::GetAtomicNum(vs[0].c_str());
-          x = atof((char*)vs[1].c_str());
-          y = atof((char*)vs[2].c_str());
-          z = atof((char*)vs[3].c_str());
+          x = stod(vs[1]);
+          y = stod(vs[2]);
+          z = stod(vs[3]);
           // Add atom
           OBAtom *atom = pmol->NewAtom();
           atom->SetAtomicNum(atomicNum);
@@ -245,13 +245,13 @@ namespace OpenBabel {
       // Free energy
       if (strstr(buffer, "Final energy =")) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[3].c_str()) * RYDBERG_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(stod(vs[3]) * RYDBERG_TO_KCAL_PER_MOL);
       }
 
       // H - PV = U energy
       if (strstr(buffer, "!    total energy              =")) {
         tokenize(vs, buffer);
-        pmol->SetEnergy(atof(vs[4].c_str()) * RYDBERG_TO_KCAL_PER_MOL);
+        pmol->SetEnergy(stod(vs[4]) * RYDBERG_TO_KCAL_PER_MOL);
       }
 
       // Enthalphy
@@ -259,7 +259,7 @@ namespace OpenBabel {
         tokenize(vs, buffer);
 
         hasEnthalpy = true;
-        enthalpy = atof(vs.at(3).c_str()) * RYDBERG_TO_KCAL_PER_MOL;
+        enthalpy = stod(vs.at(3)) * RYDBERG_TO_KCAL_PER_MOL;
         pv = enthalpy - pmol->GetEnergy();
       }
     }

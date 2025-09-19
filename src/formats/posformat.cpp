@@ -162,25 +162,25 @@ namespace OpenBabel
         tokenize(vs,buffer);
         if (vs.size() != 5)
           continue;
-        v1.SetX(atof(vs[2].c_str()));
-        v1.SetY(atof(vs[3].c_str()));
-        v1.SetZ(atof(vs[4].c_str()));
+        v1.SetX(stod(vs[2]));
+        v1.SetY(stod(vs[3]));
+        v1.SetZ(stod(vs[4]));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
         if (vs.size() != 5)
           continue;
-        v2.SetX(atof(vs[2].c_str()));
-        v2.SetY(atof(vs[3].c_str()));
-        v2.SetZ(atof(vs[4].c_str()));
+        v2.SetX(stod(vs[2]));
+        v2.SetY(stod(vs[3]));
+        v2.SetZ(stod(vs[4]));
 
         ifs.getline(buffer, BUFF_SIZE);
         tokenize(vs,buffer);
         if (vs.size() != 5)
           continue;
-        v3.SetX(atof(vs[2].c_str()));
-        v3.SetY(atof(vs[3].c_str()));
-        v3.SetZ(atof(vs[4].c_str()));
+        v3.SetX(stod(vs[2]));
+        v3.SetY(stod(vs[3]));
+        v3.SetZ(stod(vs[4]));
 
         setCellVectors = true;
       }
@@ -197,9 +197,9 @@ namespace OpenBabel
           // check to see if first column is number or element symbol
           // (PCModel has files of the form X Y Z symbol)
           atomicNum = OBElements::GetAtomicNum(vs[0].c_str());
-          x = atof(vs[4].c_str());
-          y = atof(vs[5].c_str());
-          z = atof(vs[6].c_str());
+          x = stod(vs[4]);
+          y = stod(vs[5]);
+          z = stod(vs[6]);
           atom->SetVector(x,y,z);
           atom->SetAtomicNum(atomicNum);
         }

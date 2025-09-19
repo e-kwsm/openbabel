@@ -414,7 +414,7 @@ namespace OpenBabel
           vector< vector< vector3 > > vLx;
           vector<double> vFrequencies, vIntensities;
           for(unsigned i=0;i<items.size();++i)
-            vFrequencies.push_back(atof(items[i].c_str()));
+            vFrequencies.push_back(stod(items[i]));
 
           OBVibrationData* vd = new OBVibrationData;
           vd->SetData(vLx, vFrequencies, vIntensities);
@@ -427,7 +427,7 @@ namespace OpenBabel
           const double WAVENUM_TO_GHZ=30.0;
           vector<double> rotConsts;
           for(unsigned i=0;i<items.size();++i)
-            rotConsts.push_back(atof(items[i].c_str()) * WAVENUM_TO_GHZ);
+            rotConsts.push_back(stod(items[i]) * WAVENUM_TO_GHZ);
 
           OBRotationData* rd = new OBRotationData;
           rd->SetData(OBRotationData::UNKNOWN, rotConsts, 1);//rotor type and symmetry number unknown
@@ -1287,7 +1287,7 @@ namespace OpenBabel
                 vector<string> vals;
                 tokenize(vals, pvalue);
                 for(int i=0;i<14;++i)
-                  pTD->SetCoeff(i, atof(vals[i].c_str()));
+                  pTD->SetCoeff(i, stod(vals[i]));
               }
           }
       }

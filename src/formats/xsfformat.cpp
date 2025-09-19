@@ -113,9 +113,9 @@ namespace OpenBabel
               }
               atom->SetAtomicNum(atomicNum);
             }
-            x = atof((char*)vs[1].c_str());
-            y = atof((char*)vs[2].c_str());
-            z = atof((char*)vs[3].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[2]);
+            z = stod(vs[3]);
             atomPositions.push_back(vector3(x, y, z)); // we may have a movie or animation
 
             ifs.getline(buffer, BUFF_SIZE);
@@ -130,9 +130,9 @@ namespace OpenBabel
           while (numTranslationVectors < 3 && ifs.getline(buffer,BUFF_SIZE)) {
             tokenize(vs,buffer); // we really need to check that it's 3 entries only
             if (vs.size() < 3) return false; // timvdm 18/06/2008
-            x = atof((char*)vs[0].c_str());
-            y = atof((char*)vs[1].c_str());
-            z = atof((char*)vs[2].c_str());
+            x = stod(vs[0]);
+            y = stod(vs[1]);
+            z = stod(vs[2]);
             translationVectors[numTranslationVectors++].Set(x, y, z);
           }
         }
@@ -158,9 +158,9 @@ namespace OpenBabel
               }
               atom->SetAtomicNum(atomicNum);
             }
-            x = atof((char*)vs[1].c_str());
-            y = atof((char*)vs[2].c_str());
-            z = atof((char*)vs[3].c_str());
+            x = stod(vs[1]);
+            y = stod(vs[2]);
+            z = stod(vs[3]);
             atomPositions.push_back(vector3(x, y, z));
           }
         }
