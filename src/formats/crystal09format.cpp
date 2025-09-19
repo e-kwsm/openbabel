@@ -156,9 +156,9 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         else {
           OBAtom * atom = pmol->NewAtom();
           atom->SetAtomicNum(stoi(vs[1]));
-          x = strtod ((char*)vs[3].c_str(), nullptr);
-          y = strtod ((char*)vs[4].c_str(), nullptr);
-          z = strtod ((char*)vs[5].c_str(), nullptr);
+          x = stod(vs[3]);
+          y = stod(vs[4]);
+          z = stod(vs[5]);
           atom->SetVector(x,y,z);
           numAtoms++;
         }
@@ -172,23 +172,23 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       //First Line to Parse use SetX
       getline(ifs,line);
       tokenize(vs,line);
-      xvec.SetX(strtod((char*)vs[0].c_str(), nullptr));
-      yvec.SetX(strtod((char*)vs[1].c_str(), nullptr));
-      zvec.SetX(strtod((char*)vs[2].c_str(), nullptr));
+      xvec.SetX(stod(vs[0]));
+      yvec.SetX(stod(vs[1]));
+      zvec.SetX(stod(vs[2]));
 
       //Second Line to Parse use SetY
       getline(ifs,line);
       tokenize(vs,line);
-      xvec.SetY(strtod((char*)vs[0].c_str(), nullptr));
-      yvec.SetY(strtod((char*)vs[1].c_str(), nullptr));
-      zvec.SetY(strtod((char*)vs[2].c_str(), nullptr));
+      xvec.SetY(stod(vs[0]));
+      yvec.SetY(stod(vs[1]));
+      zvec.SetY(stod(vs[2]));
 
       //Third Line to Parse use SetZ
       getline(ifs,line);
       tokenize(vs,line);
-      xvec.SetZ(strtod((char*)vs[0].c_str(), nullptr));
-      yvec.SetZ(strtod((char*)vs[1].c_str(), nullptr));
-      zvec.SetZ(strtod((char*)vs[2].c_str(), nullptr));
+      xvec.SetZ(stod(vs[0]));
+      yvec.SetZ(stod(vs[1]));
+      zvec.SetZ(stod(vs[2]));
 
       //Declare a pointer for the UnitCell Data. Set the Unit Cell for
       //OBUnitCell and OBMol
@@ -221,8 +221,8 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
           }
         }
         else {
-          tmp1 = strtod((char*)vs[3].c_str(), nullptr);
-          tmp2 = strtod((char*)vs[7].c_str(), nullptr);
+          tmp1 = stod(vs[3]);
+          tmp2 = stod(vs[7]);
           freq.push_back(tmp1);
           intensity.push_back(tmp2);
         }
@@ -250,19 +250,19 @@ bool Crystal09Format::ReadMolecule(OBBase* pOb, OBConversion* pConv)
           getline(ifs,line);
           tokenize(vs,line);
           for(int l=0; l<6; l++){
-            xtmp.push_back(strtod((char*)vs[l+4].c_str(), nullptr));
+            xtmp.push_back(stod(vs[l+4]));
           }
 
           getline(ifs,line);
           tokenize(vs,line);
           for(int l=0; l<6; l++){
-            ytmp.push_back(strtod((char*)vs[l+1].c_str(), nullptr));
+            ytmp.push_back(stod(vs[l+1]));
           }
 
           getline(ifs,line);
           tokenize(vs,line);
           for(int l=0; l<6; l++){
-            ztmp.push_back(strtod((char*)vs[l+1].c_str(), nullptr));
+            ztmp.push_back(stod(vs[l+1]));
           }
 
           one.push_back(vector3(xtmp[0],ytmp[0],ztmp[0]));

@@ -682,17 +682,17 @@ namespace OpenBabel
             if ((using3     && attrname=="x3") ||
                 (using2     && attrname=="x2") ||
                 (usingFract && attrname=="xFract")) {
-              x=strtod(value.c_str(),nullptr);
+              x=stod(value);
             }
             else if ((using3     && attrname=="y3") ||
                      (using2     && attrname=="y2") ||
                      (usingFract && attrname=="yFract")) {
-              y=strtod(value.c_str(),nullptr);
+              y=stod(value);
             }
             else if ((using3     && attrname=="z3") ||
                      (using2     && attrname=="z2") ||
                      (usingFract && attrname=="zFract")) {
-              z=strtod(value.c_str(),nullptr);
+              z=stod(value);
             }
             else if(using2 && attrname=="xy2")
               {
@@ -700,8 +700,8 @@ namespace OpenBabel
                 tokenize(vals,value);
                 if(vals.size()==2)
                   {
-                    x=strtod(vals[0].c_str(),nullptr);
-                    y=strtod(vals[1].c_str(),nullptr);
+                    x=stod(vals[0]);
+                    y=stod(vals[1]);
                   }
               }
             else if(using3 && attrname=="xyz3")
@@ -710,9 +710,9 @@ namespace OpenBabel
                 tokenize(vals,value);
                 if(vals.size()==3)
                   {
-                    x=strtod(vals[0].c_str(),nullptr);
-                    y=strtod(vals[1].c_str(),nullptr);
-                    z=strtod(vals[2].c_str(),nullptr);
+                    x=stod(vals[0]);
+                    y=stod(vals[1]);
+                    z=stod(vals[2]);
                   }
               }
 

@@ -93,7 +93,7 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obWarning);
       }
       else {
-        double pH = strtod(itr->second.c_str(), nullptr);
+        double pH = stod(itr->second);
         if(!AddHydrogens(false, true, pH))
           ret=false;
       }

@@ -243,7 +243,7 @@ namespace OpenBabel
      TokenType type;
      string as_text;
      double  as_number() const
-       { return strtod(as_text.c_str(), nullptr); }
+       { return stod(as_text); }
      unsigned long  as_unsigned() const
        { return strtoul(as_text.c_str(), nullptr, 10); }
      };
