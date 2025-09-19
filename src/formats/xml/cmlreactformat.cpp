@@ -710,7 +710,7 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
 
     if(!isalpha(id[0])) //since ids have to start with a letter, add "id" to those that don't...
       id = "id" + id;
-    spmol->SetTitle(id.c_str());//ensure that molecule title is the same as id
+    spmol->SetTitle(id);//ensure that molecule title is the same as id
 
     mapitr = mmap.find(id);
     if(mapitr==mmap.end())

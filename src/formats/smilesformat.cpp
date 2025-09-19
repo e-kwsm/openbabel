@@ -379,7 +379,7 @@ namespace OpenBabel {
         smiles = ln.substr(0,pos);
         title = ln.substr(pos+1);
         Trim(title);
-        pmol->SetTitle(title.c_str());
+        pmol->SetTitle(title);
       }
       else
         smiles = ln;

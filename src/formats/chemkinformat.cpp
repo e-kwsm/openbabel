@@ -675,7 +675,7 @@ std::shared_ptr<OBMol> ChemKinFormat::CheckSpecies(string& name, string& ln, boo
       // There was no REACTIONS section in input file and probably no SPECIES section.
       // Unknown species that appear in a reaction can be made here with just a name.
       std::shared_ptr<OBMol> sp(new OBMol);
-      sp->SetTitle(name.c_str());
+      sp->SetTitle(name);
       return sp;
     }
   }
@@ -935,7 +935,7 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
 
     //If reactant has no title use its formula
     if(*psMol->GetTitle()=='\0')
-      psMol->SetTitle(psMol->GetSpacedFormula(1,"").c_str());
+      psMol->SetTitle(psMol->GetSpacedFormula(1,""));
 
     //write species name but, if M, only if (+M) is not going to be output
     if(mstring.empty() || strcasecmp(psMol->GetTitle(),"M"))
@@ -974,7 +974,7 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
 
     //If product has no title use its formula
     if(*psMol->GetTitle()=='\0')
-      psMol->SetTitle(psMol->GetSpacedFormula(1,"").c_str());
+      psMol->SetTitle(psMol->GetSpacedFormula(1,""));
 
     //write species name but, if M, only if (+M) is not going to be output
     if(mstring.empty() || strcasecmp(psMol->GetTitle(),"M"))

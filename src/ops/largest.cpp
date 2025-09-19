@@ -201,7 +201,7 @@ bool OpLargest::ProcessVec(vector<OBBase*>& vec)
     {
       std::stringstream ss;
       ss << iter->second->GetTitle() << ' ' << iter->first;
-      iter->second->SetTitle(ss.str().c_str());
+      iter->second->SetTitle(ss.str());
     }
     vec.push_back(iter->second);
   }

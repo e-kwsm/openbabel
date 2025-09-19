@@ -176,7 +176,7 @@ namespace OpenBabel
         title += OBDescriptor::GetValues(this, itr->second);
         if(ispunct(title[0]))
           title[0]=' ';//a leading punct char is used only as a separator, not at start
-        SetTitle(Trim(title).c_str());
+        SetTitle(Trim(title));
       }
 
 

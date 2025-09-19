@@ -165,7 +165,7 @@ bool MAEFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     pmol->BeginModify();
     pmol->SetDimension(3);
-    pmol->SetTitle(m_next_mae->getStringProperty(CT_TITLE).c_str());
+    pmol->SetTitle(m_next_mae->getStringProperty(CT_TITLE));
 
     const auto atom_data = m_next_mae->getIndexedBlock(ATOM_BLOCK);
     // All atoms are gauranteed to have these three field names:

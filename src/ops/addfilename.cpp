@@ -52,7 +52,7 @@ bool OpAddFileName::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBC
   if(pos!=std::string::npos)
     fname.erase(0, pos+1);
   fname = " " + fname;
-  pOb->SetTitle((pOb->GetTitle() + fname).c_str());
+  pOb->SetTitle(pOb->GetTitle() + fname);
   return true;
 }
 }//namespace

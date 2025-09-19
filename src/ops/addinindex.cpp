@@ -47,7 +47,7 @@ bool OpAddInIndex::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBCo
   {
     std::stringstream ss;
     ss << pOb->GetTitle() << ' ' << count+1;
-    pOb->SetTitle(ss.str().c_str());
+    pOb->SetTitle(ss.str());
   }
   return true;
 }

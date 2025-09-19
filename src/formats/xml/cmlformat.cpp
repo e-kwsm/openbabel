@@ -321,7 +321,7 @@ namespace OpenBabel
     else if(name=="name")
       {
         if(_pmol)
-          _pmol->SetTitle(_pxmlConv->GetContent().c_str());
+          _pmol->SetTitle(_pxmlConv->GetContent());
       }
     else if(name=="formula")
       {

@@ -356,7 +356,7 @@ namespace OpenBabel
     if (space_pos != std::string::npos) {
       while (space_pos < smiles.size() && (smiles[space_pos] == ' ' || smiles[space_pos] == '\t'))
         ++space_pos;
-      pmol->SetTitle(smiles.substr(space_pos).c_str());
+      pmol->SetTitle(smiles.substr(space_pos));
     }
 
     pmol->BeginModify();

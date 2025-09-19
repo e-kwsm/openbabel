@@ -186,7 +186,7 @@ namespace OpenBabel
     if(pConv->IsOption("addoutindex", OBConversion::GENOPTIONS)) {
       stringstream ss;
       ss << pOb->GetTitle() << " " << pConv->GetOutputIndex();
-      pOb->SetTitle(ss.str().c_str());
+      pOb->SetTitle(ss.str());
     }
 
     OBMol* pmol = dynamic_cast<OBMol*> (pOb);

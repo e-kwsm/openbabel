@@ -132,7 +132,7 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
       {
         std::stringstream ss;
         ss << (*iter)->GetTitle() << ' ' << valiter->second;
-        (*iter)->SetTitle(ss.str().c_str());
+        (*iter)->SetTitle(ss.str());
       }
     }
   }
@@ -163,7 +163,7 @@ bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
       {
         std::stringstream ss;
         ss << (*iter)->GetTitle() << ' ' << valiter->second;
-        (*iter)->SetTitle(ss.str().c_str());
+        (*iter)->SetTitle(ss.str());
       }
     }
   }
