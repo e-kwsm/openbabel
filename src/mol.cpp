@@ -174,7 +174,7 @@ namespace OpenBabel
     Trim(_title);
   }
 
-  void  OBMol::SetTitle(std::string &title)
+  void  OBMol::SetTitle(const std::string &title)
   {
     _title = title;
     Trim(_title);
