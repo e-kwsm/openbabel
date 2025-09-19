@@ -104,14 +104,14 @@ namespace OpenBabel
 
     itr = pOptions->find("title"); //Replaces title
     if(itr!=pOptions->end())
-      SetTitle(itr->second.c_str());
+      SetTitle(itr->second);
 
     itr = pOptions->find("addtotitle"); //Appends text to title
     if(itr!=pOptions->end())
       {
         string title(GetTitle());
         title += itr->second;
-        SetTitle(title.c_str());
+        SetTitle(title);
       }
 
     //Add an extra property to the molecule.
