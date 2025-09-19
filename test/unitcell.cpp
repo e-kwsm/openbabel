@@ -122,28 +122,28 @@ int unitcell(int argc, char* argv[])
 	return(-1);
       }
 
-    if ( IsNear(a, atof(vs[0].c_str()), 1.0e-3) )
+    if ( IsNear(a, stod(vs[0]), 1.0e-3) )
       cout << "ok " << currTest++ << " # a distance" << endl;
     else
       cout << "not ok " << currTest++ << " # a distance" << endl;
-    if ( IsNear(b, atof(vs[1].c_str()), 1.0e-3) )
+    if ( IsNear(b, stod(vs[1]), 1.0e-3) )
       cout << "ok " << currTest++ << " # b distance" << endl;
     else
       cout << "not ok " << currTest++ << " # b distance" << endl;
-    if ( IsNear(c, atof(vs[2].c_str()), 1.0e-3) )
+    if ( IsNear(c, stod(vs[2]), 1.0e-3) )
       cout << "ok " << currTest++ << " # c distance" << endl;
     else
       cout << "not ok " << currTest++ << " # c distance" << endl;
 
-    if ( IsNear(alpha, atof(vs[3].c_str()), 1.0e-3) )
+    if ( IsNear(alpha, stod(vs[3]), 1.0e-3) )
       cout << "ok " << currTest++ << " # alpha angle" << endl;
     else
       cout << "not ok " << currTest++ << " # alpha angle" << alpha << endl;
-    if ( IsNear(beta, atof(vs[4].c_str()), 1.0e-3) )
+    if ( IsNear(beta, stod(vs[4]), 1.0e-3) )
       cout << "ok " << currTest++ << " # beta angle" << endl;
     else
       cout << "not ok " << currTest++ << " # beta angle " << beta << endl;
-    if ( IsNear(gamma, atof(vs[5].c_str()), 1.0e-3) )
+    if ( IsNear(gamma, stod(vs[5]), 1.0e-3) )
       cout << "ok " << currTest++ << " # gamma angle" << endl;
     else
       cout << "not ok " << currTest++ << " # gamma angle: " << gamma << endl;
@@ -205,15 +205,15 @@ int unitcell(int argc, char* argv[])
 
     tmpcoords = cell2.WrapCartesianCoordinate(coords1);
     // cout << "Wrapped cartesian : " << tmpcoords << endl;
-    if ( IsNear(tmpcoords[0], atof(vs[0].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[0], stod(vs[0]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped cartesian x" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped cartesian x" << endl;
-    if ( IsNear(tmpcoords[1], atof(vs[1].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[1], stod(vs[1]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped cartesian y" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped cartesian y" << endl;
-    if ( IsNear(tmpcoords[2], atof(vs[2].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[2], stod(vs[2]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped cartesian z" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped cartesian z" << endl;
@@ -229,15 +229,15 @@ int unitcell(int argc, char* argv[])
       }
     tmpcoords = cell2.WrapFractionalCoordinate(coords2);
     // cout << "Wrapped fractional: " << tmpcoords << endl;
-    if ( IsNear(tmpcoords[0], atof(vs[0].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[0], stod(vs[0]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped fractional x" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped fractional x" << endl;
-    if ( IsNear(tmpcoords[1], atof(vs[1].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[1], stod(vs[1]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped fractional y" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped fractional y" << endl;
-    if ( IsNear(tmpcoords[2], atof(vs[2].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[2], stod(vs[2]), 1.0e-3) )
       cout << "ok " << currTest++ << " # wrapped fractional z" << endl;
     else
       cout << "not ok " << currTest++ << " # wrapped fractional z" << endl;
@@ -253,15 +253,15 @@ int unitcell(int argc, char* argv[])
       }
     tmpcoords = cell2.CartesianToFractional(coords1);
     // cout << "cart2frac: " << tmpcoords << endl;
-    if ( IsNear(tmpcoords[0], atof(vs[0].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[0], stod(vs[0]), 1.0e-3) )
       cout << "ok " << currTest++ << " # cart2frac x" << endl;
     else
       cout << "not ok " << currTest++ << " # cart2frac x" << endl;
-    if ( IsNear(tmpcoords[1], atof(vs[1].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[1], stod(vs[1]), 1.0e-3) )
       cout << "ok " << currTest++ << " # cart2frac y" << endl;
     else
       cout << "not ok " << currTest++ << " # cart2frac y" << endl;
-    if ( IsNear(tmpcoords[2], atof(vs[2].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[2], stod(vs[2]), 1.0e-3) )
       cout << "ok " << currTest++ << " # cart2frac z" << endl;
     else
       cout << "not ok " << currTest++ << " # cart2frac z" << endl;
@@ -277,15 +277,15 @@ int unitcell(int argc, char* argv[])
       }
     tmpcoords = cell2.FractionalToCartesian(coords1);
     // cout << "frac2cart: " << tmpcoords << endl;
-    if ( IsNear(tmpcoords[0], atof(vs[0].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[0], stod(vs[0]), 1.0e-3) )
       cout << "ok " << currTest++ << " # frac2cart x" << endl;
     else
       cout << "not ok " << currTest++ << " # frac2cart x" << endl;
-    if ( IsNear(tmpcoords[1], atof(vs[1].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[1], stod(vs[1]), 1.0e-3) )
       cout << "ok " << currTest++ << " # frac2cart y" << endl;
     else
       cout << "not ok " << currTest++ << " # frac2cart y" << endl;
-    if ( IsNear(tmpcoords[2], atof(vs[2].c_str()), 1.0e-3) )
+    if ( IsNear(tmpcoords[2], stod(vs[2]), 1.0e-3) )
       cout << "ok " << currTest++ << " # frac2cart z" << endl;
     else
       cout << "not ok " << currTest++ << " # frac2cart z" << endl;
