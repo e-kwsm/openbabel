@@ -4042,7 +4042,7 @@ namespace OpenBabel
     }
 
 
-    SetLogFile(&ofs);
+    SetLogFile(ofs);
     SetLogLevel(OBFF_LOGLVL_HIGH);
 
     for (unsigned int c=1;; c++) {

@@ -125,7 +125,7 @@ int main(int argc,char **argv)
     cerr << program_name << ": could not find forcefield 'MMFF94'." <<endl;
     exit (-1);
   }
-  pFF->SetLogFile(&cerr);
+  pFF->SetLogFile(cerr);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
   OBMol mol;

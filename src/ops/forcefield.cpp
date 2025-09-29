@@ -105,7 +105,7 @@ namespace OpenBabel
       pmol->AddHydrogens(false, false);
 
     // set some force field variables
-    pFF->SetLogFile(&clog);
+    pFF->SetLogFile(clog);
     pFF->SetLogLevel(log ? OBFF_LOGLVL_MEDIUM : OBFF_LOGLVL_NONE);
 
     pFF->SetDielectricConstant(epsilon);
@@ -263,7 +263,7 @@ namespace OpenBabel
       pFF->SetLineSearchType(LineSearchType::Newton2Num);
 
     // set some force field variables
-    pFF->SetLogFile(&clog);
+    pFF->SetLogFile(clog);
     pFF->SetLogLevel(log ? OBFF_LOGLVL_LOW : OBFF_LOGLVL_NONE);
     pFF->SetVDWCutOff(rvdw);
     pFF->SetElectrostaticCutOff(rele);

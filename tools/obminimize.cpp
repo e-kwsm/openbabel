@@ -192,7 +192,7 @@ int main(int argc,char **argv)
   }
 
   // set some force field variables
-  pFF->SetLogFile(&cerr);
+  pFF->SetLogFile(cerr);
   pFF->SetLogLevel(OBFF_LOGLVL_LOW);
   pFF->SetVDWCutOff(rvdw);
   pFF->SetElectrostaticCutOff(rele);

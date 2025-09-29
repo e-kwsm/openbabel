@@ -63,7 +63,7 @@ void GenerateEnergies(string molecules_file, string results_file, string method,
   OBForceField* pFF = OBForceField::FindForceField(method);
   OB_REQUIRE(pFF != nullptr);
 
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
   pFF->SetDielectricConstant(epsilon);
 
@@ -118,7 +118,7 @@ void TestFile(string filename, string results_file, string method, double epsilo
   OBForceField* pFF = OBForceField::FindForceField(method);
   OB_REQUIRE(pFF != nullptr);
 
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
   pFF->SetDielectricConstant(epsilon);
 
