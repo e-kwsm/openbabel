@@ -28,6 +28,7 @@ GNU General Public License for more details.
 #include <openbabel/plugin.h>
 #include <openbabel/bitvec.h>
 #include <float.h>
+#include <functional>
 
 namespace OpenBabel
 {
@@ -530,7 +531,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     bool 	_validSetup; //!< was the last call to Setup successful
     double	*_gradientPtr; //!< pointer to the gradients (used by AddGradient(), minimization functions, ...)
     // logging variables
-    std::ostream* _logos; //!< Output for logfile
+    std::reference_wrapper<std::ostream> _logos = std::cout; //!< Output for logfile
     char 	_logbuf[BUFF_SIZE+1]; //!< Temporary buffer for logfile output
     int 	_loglvl; //!< Log level for output
     int 	_origLogLevel;
@@ -987,6 +988,8 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  \param pos Stream (when pos is 0, std::cout wil be used).
      *  \return True if successful.
      */
+    bool SetLogFile(std::ostream &pos);
+    [[deprecated]]
     bool SetLogFile(std::ostream *pos);
     /*! Set the log level (OBFF_LOGLVL_NONE, OBFF_LOGLVL_LOW, OBFF_LOGLVL_MEDIUM, OBFF_LOGLVL_HIGH).
      *  Inline if statements for logging are available:
@@ -1021,20 +1024,14 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      */
     void OBFFLog(std::string msg)
     {
-      if (!_logos)
-        return;
-
-      *_logos << msg;
+      _logos.get() << msg;
     }
     /*! Print msg to the logfile.
      *  \param msg The message to print.
      */
     void OBFFLog(const char *msg)
     {
-      if (!_logos)
-        return;
-
-      *_logos << msg;
+      _logos.get() << msg;
     }
     //@}
 

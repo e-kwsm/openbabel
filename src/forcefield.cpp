@@ -793,14 +793,18 @@ namespace OpenBabel
     }
   }
 
+  bool OBForceField::SetLogFile(ostream& pos)
+  {
+    _logos = pos;
+    return true;
+  }
+
   bool OBForceField::SetLogFile(ostream* pos)
   {
     if(pos)
-      _logos = pos;
+      return SetLogFile(*pos);
     else
-      _logos = &cout;
-
-    return true;
+      return SetLogFile(cout);
   }
 
   //////////////////////////////////////////////////////////////////////////////////
