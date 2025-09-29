@@ -1545,13 +1545,13 @@ namespace OpenBabel {
     return Count;
   }
 
-  bool OBConversion::OpenAndSetFormat(bool SetFormat, ifstream* is, stringstream* ss)
+  bool OBConversion::OpenAndSetFormat(bool SetFormat, ifstream& is, stringstream* ss)
   {
     //Opens file using InFilename and sets pInFormat if requested
     if(ss && InFilename[0]=='-')
       {
         //InFilename is actually  -:SMILES
-        is->setstate(ios::failbit); // do not use the input filestream...
+        is.setstate(ios::failbit); // do not use the input filestream...
         InFilename.erase(0, 2);
         if(SetFormat || SetInFormat("smi"))
           {
@@ -1576,14 +1576,20 @@ namespace OpenBabel {
       }
 
     ios_base::openmode imode = ios_base::in|ios_base::binary;
-    is->open(InFilename.c_str(), imode);
-    if(!is->good())
+    is.open(InFilename.c_str(), imode);
+    if(!is.good())
       {
         obErrorLog.ThrowError(__FUNCTION__, "Cannot open " + InFilename, obError);
         return false;
       }
 
     return true;
+  }
+
+  bool OBConversion::OpenAndSetFormat(bool SetFormat, ifstream* is, stringstream* ss)
+  {
+    assert(is != nullptr);
+    return OpenAndSetFormat(SetFormat, *is, ss);
   }
 
   ///////////////////////////////////////////////
