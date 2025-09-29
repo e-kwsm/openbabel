@@ -298,16 +298,22 @@ namespace OpenBabel
   }
 
   /////////////////////////////////////////////////////////
-  string FastSearch::ReadIndex(istream* pIndexstream)
+  string FastSearch::ReadIndex(istream& Indexstream)
   {
     //Reads fs index from istream into member variables
-    _index.Read(pIndexstream);
+    _index.Read(Indexstream);
 
     _pFP = _index.CheckFP();
     if(!_pFP)
       *(_index.header.datafilename) = '\0';
 
     return _index.header.datafilename; //will be empty on error
+  }
+
+  string FastSearch::ReadIndex(istream* pIndexstream)
+  {
+    assert(pIndexstream != nullptr);
+    ReadIndex(*pIndexstream);
   }
 
   //////////////////////////////////////////////////////////
