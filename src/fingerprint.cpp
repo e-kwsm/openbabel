@@ -18,6 +18,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <cassert>
 #include <vector>
 #include <algorithm>
 #include <iosfwd>
@@ -323,12 +324,12 @@ namespace OpenBabel
   }
 
   //////////////////////////////////////////////////////////
-  bool FptIndex::Read(istream* pIndexstream)
+  bool FptIndex::Read(istream& Indexstream)
   {
 //    pIndexstream->read((char*)&(header), sizeof(FptIndexHeader));
 //    pIndexstream->seekg(header.headerlength);//allows header length to be changed
 
-    if(!ReadHeader(pIndexstream))
+    if(!ReadHeader(Indexstream))
       {
         *(header.datafilename) = '\0';
         return false;
@@ -338,19 +339,19 @@ namespace OpenBabel
     fptdata.resize(nwords);
     seekdata.resize(header.nEntries);
 
-    pIndexstream->read((char*)&(fptdata[0]), sizeof(unsigned int) * nwords);
+    Indexstream.read((char*)&(fptdata[0]), sizeof(unsigned int) * nwords);
     if(header.seek64) 
       {
-    	pIndexstream->read((char*)&(seekdata[0]), sizeof(unsigned long) * header.nEntries);
+    	Indexstream.read((char*)&(seekdata[0]), sizeof(unsigned long) * header.nEntries);
       }
     else 
       { //legacy format
 	 vector<unsigned int> tmp(header.nEntries);
-         pIndexstream->read((char*)&(tmp[0]), sizeof(unsigned int) * header.nEntries);
+         Indexstream.read((char*)&(tmp[0]), sizeof(unsigned int) * header.nEntries);
 	 std::copy(tmp.begin(),tmp.end(),seekdata.begin());
       }
 
-    if(pIndexstream->fail())
+    if(Indexstream.fail())
       {
         *(header.datafilename) = '\0';
         return false;
@@ -358,17 +359,29 @@ namespace OpenBabel
     return true;
   }
 
+  bool FptIndex::Read(istream* pIndexstream)
+  {
+    assert(pIndexstream != nullptr);
+    return Read(*pIndexstream);
+  }
+
   //////////////////////////////////////////////////////////
+  bool FptIndex::ReadHeader(istream& Indexstream)
+  {
+    Indexstream.read( (char*)&header.headerlength, sizeof(unsigned) );
+    Indexstream.read( (char*)&header.nEntries,     sizeof(unsigned) );
+    Indexstream.read( (char*)&header.words,        sizeof(unsigned) );
+    Indexstream.read( (char*)&header.fpid,         sizeof(header.fpid) );
+    Indexstream.read( (char*)&header.seek64,       sizeof(header.seek64) );
+    Indexstream.read( (char*)&header.datafilename, sizeof(header.datafilename) );
+    return !Indexstream.fail();
+ }
+
   bool FptIndex::ReadHeader(istream* pIndexstream)
   {
-    pIndexstream->read( (char*)&header.headerlength, sizeof(unsigned) );
-    pIndexstream->read( (char*)&header.nEntries,     sizeof(unsigned) );
-    pIndexstream->read( (char*)&header.words,        sizeof(unsigned) );
-    pIndexstream->read( (char*)&header.fpid,         sizeof(header.fpid) );
-    pIndexstream->read( (char*)&header.seek64,       sizeof(header.seek64) );
-    pIndexstream->read( (char*)&header.datafilename, sizeof(header.datafilename) );
-    return !pIndexstream->fail();
- }
+    assert(pIndexstream != nullptr);
+    return ReadHeader(*pIndexstream);
+  }
 
   //////////////////////////////////////////////////////////
   OBFingerprint* FptIndex::CheckFP()
