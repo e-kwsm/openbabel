@@ -372,6 +372,8 @@ protected:
 //      static FMapType& FormatsMIMEMap();///<contains MIME and pointer to all OBFormat classes
       typedef std::map<std::string,int> OPAMapType;
       static OPAMapType& OptionParamArray(Option_type typ);
+      bool             OpenAndSetFormat(bool SetFormat, std::ifstream& is, std::stringstream* ss=nullptr);
+      [[deprecated]]
       bool             OpenAndSetFormat(bool SetFormat, std::ifstream* is, std::stringstream* ss=nullptr);
 
       std::string	  InFilename, OutFilename; //OutFileName added v2.4.0
