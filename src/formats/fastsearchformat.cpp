@@ -162,7 +162,7 @@ const char* Description() override  // required
         return false;
       }
 
-    string datafilename = fs.ReadIndex(&ifs);
+    string datafilename = fs.ReadIndex(ifs);
     if(datafilename.empty())
       {
         errorMsg << "Difficulty reading from index " << indexname << endl;
@@ -404,7 +404,7 @@ const char* Description() override  // required
                 if(ifs.good())
                   {
                     pidx = new FptIndex;
-                    idxok = pidx->Read(&ifs);
+                    idxok = pidx->Read(ifs);
                   }
               }//ifs closed here
 
