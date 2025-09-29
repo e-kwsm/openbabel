@@ -99,6 +99,10 @@ public:
 
   ///As ListAsVector but sent to an ostream with a default of cout if not specified
   static void List(const char* PluginID, const char* param=nullptr, std::ostream& os=std::cout);
+  // disambiguation
+  static void List(const char* PluginID, const char* param=nullptr) {
+    List(PluginID, param, std::cout);
+  }
   ///As ListAsVector but sent to an ostream with a default of cout if not specified
   [[deprecated]]
   static void List(const char* PluginID, const char* param=nullptr, std::ostream* os=&std::cout);
