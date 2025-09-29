@@ -310,12 +310,6 @@ namespace OpenBabel
     return _index.header.datafilename; //will be empty on error
   }
 
-  string FastSearch::ReadIndex(istream* pIndexstream)
-  {
-    assert(pIndexstream != nullptr);
-    ReadIndex(*pIndexstream);
-  }
-
   //////////////////////////////////////////////////////////
   string FastSearch::ReadIndexFile(string IndexFilename)
   {
@@ -365,12 +359,6 @@ namespace OpenBabel
     return true;
   }
 
-  bool FptIndex::Read(istream* pIndexstream)
-  {
-    assert(pIndexstream != nullptr);
-    return Read(*pIndexstream);
-  }
-
   //////////////////////////////////////////////////////////
   bool FptIndex::ReadHeader(istream& Indexstream)
   {
@@ -382,12 +370,6 @@ namespace OpenBabel
     Indexstream.read( (char*)&header.datafilename, sizeof(header.datafilename) );
     return !Indexstream.fail();
  }
-
-  bool FptIndex::ReadHeader(istream* pIndexstream)
-  {
-    assert(pIndexstream != nullptr);
-    return ReadHeader(*pIndexstream);
-  }
 
   //////////////////////////////////////////////////////////
   OBFingerprint* FptIndex::CheckFP()
