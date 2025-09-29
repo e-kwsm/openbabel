@@ -71,7 +71,7 @@ int main()
     cerr << "Error: MMFF94 force field not found. Ensure Open Babel plugins are installed." << endl;
     return 1;
   }
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   pFF->SetLogLevel(OBFF_LOGLVL_LOW);
 
   OBMol mol;

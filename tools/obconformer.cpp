@@ -76,7 +76,7 @@ int main(int argc, char* argv[]) {
     return -1;
   }
 
-  pFF->SetLogFile(&cerr);
+  pFF->SetLogFile(cerr);
   pFF->SetLogLevel(OBFF_LOGLVL_LOW);
 
   OBMol mol;
