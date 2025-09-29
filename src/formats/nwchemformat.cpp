@@ -73,39 +73,17 @@ namespace OpenBabel
 
   private:
     void ReadCoordinates(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadCoordinates(istream* ifs, OBMol* molecule);
     void ReadPartialCharges(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadPartialCharges(istream* ifs, OBMol* molecule);
     void ReadOrbitals(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadOrbitals(istream* ifs, OBMol* molecule);
     void ReadMultipoleMoment(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadMultipoleMoment(istream* ifs, OBMol* molecule);
 
     void ReadFrequencyCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadFrequencyCalculation(istream* ifs, OBMol* molecule);
     void ReadGeometryOptimizationCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadGeometryOptimizationCalculation(istream* ifs, OBMol* molecule);
     void ReadSinglePointCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadSinglePointCalculation(istream* ifs, OBMol* molecule);
     void ReadZTSCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadZTSCalculation(istream* ifs, OBMol* molecule);
     void ReadTDDFTCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadTDDFTCalculation(istream* ifs, OBMol* molecule);
     void ReadMEPCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadMEPCalculation(istream* ifs, OBMol* molecule);
     void ReadNEBCalculation(istream& ifs, OBMol* molecule);
-    [[deprecated]]
-    void ReadNEBCalculation(istream* ifs, OBMol* molecule);
   };
 
 static const char* COORDINATES_PATTERN = "Output coordinates";
@@ -197,13 +175,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             break;
   }
 
-  [[deprecated]]
-  static void GotoCalculationEnd(istream* ifs)
-  {
-    assert(ifs != nullptr);
-    GotoCalculationEnd(*ifs);
-  }
-
 
   //////////////////////////////////////////////////////
   /**
@@ -277,13 +248,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         return;
     }
     molecule->AddConformer(coordinates);
-  }
-
-  void NWChemOutputFormat::ReadCoordinates(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-      return;
-    ReadCoordinates(*ifs, molecule);
   }
 
 //////////////////////////////////////////////////////
@@ -362,13 +326,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     }
   }
 
-  void NWChemOutputFormat::ReadMultipoleMoment(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadMultipoleMoment(*ifs, molecule);
-  }
-
   //////////////////////////////////////////////////////
   /**
   Method reads UV Spectra from input stream (ifs)
@@ -420,13 +377,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     OBElectronicTransitionData* et_data = new OBElectronicTransitionData;
     et_data->SetData(wavelengths, oscilator_strengths);
     molecule->SetData(et_data);
-  }
-
-  void NWChemOutputFormat::ReadTDDFTCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadTDDFTCalculation(*ifs, molecule);
   }
 
   //////////////////////////////////////////////////////
@@ -500,13 +450,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     }
   }
 
-  void NWChemOutputFormat::ReadPartialCharges(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadPartialCharges(*ifs, molecule);
-  }
-
 
   //////////////////////////////////////////////////////
   /**
@@ -576,13 +519,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   delete orbital_data;
   }
 
-  void NWChemOutputFormat::ReadOrbitals(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadOrbitals(*ifs, molecule);
-  }
-
 
   //////////////////////////////////////////////////////
   /**
@@ -642,13 +578,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     molecule->SetEnergies(energies);
   }
 
-  void NWChemOutputFormat::ReadMEPCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadMEPCalculation(*ifs, molecule);
-  }
-
 
   //////////////////////////////////////////////////////
   /**
@@ -697,13 +626,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     old_energies.reserve(old_energies.size() + energies.size());
     old_energies.insert(old_energies.end(), energies.begin(), energies.end());
     molecule->SetEnergies(old_energies);
-  }
-
-  void NWChemOutputFormat::ReadGeometryOptimizationCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadGeometryOptimizationCalculation(*ifs, molecule);
   }
 
   //////////////////////////////////////////////////////
@@ -813,13 +735,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     molecule->SetData(vibration_data);
   }
 
-  void NWChemOutputFormat::ReadFrequencyCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadFrequencyCalculation(*ifs, molecule);
-  }
-
   /////////////////////////////////////////////////////////////////
   /**
   Method reads single point energy and all avalible data from input
@@ -857,13 +772,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     if (energy == 0)
         return;
     molecule->SetEnergy(energy);
-  }
-
-  void NWChemOutputFormat::ReadSinglePointCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadSinglePointCalculation(*ifs, molecule);
   }
 
   /**
@@ -969,13 +877,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         delete beads[i];
   }
 
-  void NWChemOutputFormat::ReadNEBCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadNEBCalculation(*ifs, molecule);
-  }
-
   /////////////////////////////////////////////////////////////////
   /**
   Method reads beads and their energies from ZTS calculation from
@@ -1077,13 +978,6 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     // Something went wrong. Do some cleanup and exit
     for(unsigned int i = 0; i < beads.size();i++)
         delete beads[i];
-  }
-
-  void NWChemOutputFormat::ReadZTSCalculation(istream* ifs, OBMol* molecule)
-  {
-    if (ifs == nullptr)
-        return;
-    ReadZTSCalculation(*ifs, molecule);
   }
 
   /////////////////////////////////////////////////////////////////
