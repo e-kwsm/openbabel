@@ -1399,7 +1399,7 @@ namespace OpenBabel {
                   {
                     InFilename = *itr;
                     ifstream ifs;
-                    if(!OpenAndSetFormat(CommonInFormat, &ifs, &ssIn))
+                    if(!OpenAndSetFormat(CommonInFormat, ifs, &ssIn))
                       continue;
                     if(ifs)
                       pIs = &ifs;
@@ -1456,7 +1456,7 @@ namespace OpenBabel {
               {
                 //Single input file
                 InFilename = FileList[0];
-                if(!OpenAndSetFormat(CommonInFormat, &is, &ssIn))
+                if(!OpenAndSetFormat(CommonInFormat, is, &ssIn))
                   return 0;
                 if(is)
                   pIs =&is;
