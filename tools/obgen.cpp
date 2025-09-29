@@ -118,7 +118,7 @@ int main(int argc,char **argv)
 
       //mol.AddHydrogens(false, true); // hydrogens must be added before Setup(mol) is called
 
-      pFF->SetLogFile(&cerr);
+      pFF->SetLogFile(cerr);
       pFF->SetLogLevel(OBFF_LOGLVL_LOW);
 
       //pFF->GenerateCoordinates();

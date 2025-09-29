@@ -107,7 +107,7 @@ int main(int argc, char **argv)
     cerr << program_name << ": could not find forcefield '" << ff << "'." <<endl;
     exit(-1);
   }
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   if (verbose)
     pFF->SetLogLevel(OBFF_LOGLVL_HIGH);
   else

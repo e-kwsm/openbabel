@@ -106,7 +106,7 @@ int ffuff(int argc, char* argv[])
     return -1; // test failed
   }
 
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
   double energy;
@@ -183,7 +183,7 @@ void GenerateEnergies()
     return;
   }
 
-  pFF->SetLogFile(&cout);
+  pFF->SetLogFile(cout);
   pFF->SetLogLevel(OBFF_LOGLVL_NONE);
 
   for (;ifs;)
