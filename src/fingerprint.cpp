@@ -321,7 +321,7 @@ namespace OpenBabel
   {
     ifstream ifs(IndexFilename.c_str(),ios::binary);
     if(ifs)
-      return ReadIndex(&ifs);
+      return ReadIndex(ifs);
     else
     {
       string dum;
