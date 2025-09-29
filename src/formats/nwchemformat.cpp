@@ -72,6 +72,8 @@ namespace OpenBabel
     bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;
 
   private:
+    void ReadCoordinates(istream& ifs, OBMol* molecule);
+    [[deprecated]]
     void ReadCoordinates(istream* ifs, OBMol* molecule);
     void ReadPartialCharges(istream* ifs, OBMol* molecule);
     void ReadOrbitals(istream* ifs, OBMol* molecule);
@@ -190,9 +192,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   If "molecule" contain geometry which incompatible with read
   data method returns without changes.
   */
-  void NWChemOutputFormat::ReadCoordinates(istream* ifs, OBMol* molecule)
+  void NWChemOutputFormat::ReadCoordinates(istream& ifs, OBMol* molecule)
   {
-    if (molecule == nullptr || ifs == nullptr)
+    if (molecule == nullptr)
         return;
     vector<string> vs;
     char buffer[BUFF_SIZE];
@@ -204,10 +206,10 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         from_scratch = true;
     else
         coordinates = new double[3*natoms];
-    ifs->getline(buffer,BUFF_SIZE);	// blank
-    ifs->getline(buffer,BUFF_SIZE);	// column headings
-    ifs->getline(buffer,BUFF_SIZE);	// ---- ----- ----
-    ifs->getline(buffer,BUFF_SIZE);
+    ifs.getline(buffer,BUFF_SIZE);	// blank
+    ifs.getline(buffer,BUFF_SIZE);	// column headings
+    ifs.getline(buffer,BUFF_SIZE);	// ---- ----- ----
+    ifs.getline(buffer,BUFF_SIZE);
     tokenize(vs,buffer);
     unsigned int i=0;
     while (vs.size() == 6)
@@ -235,7 +237,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             coordinates[i*3+2] = z;
             i++;
         }
-        if (!ifs->getline(buffer,BUFF_SIZE))
+        if (!ifs.getline(buffer,BUFF_SIZE))
           break;
         tokenize(vs,buffer);
     }
@@ -248,6 +250,13 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         return;
     }
     molecule->AddConformer(coordinates);
+  }
+
+  void NWChemOutputFormat::ReadCoordinates(istream* ifs, OBMol* molecule)
+  {
+    if (ifs == nullptr)
+      return;
+    ReadCoordinates(*ifs, molecule);
   }
 
 //////////////////////////////////////////////////////
