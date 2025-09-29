@@ -446,7 +446,7 @@ namespace OpenBabel
 
   }
 
-  bool ReadFASTASequence(OBMol * pmol, int seq_type, std::istream * in, bool create_bonds, bool bond_orders,
+  bool ReadFASTASequence(OBMol * pmol, int seq_type, std::istream & in, bool create_bonds, bool bond_orders,
                          bool singleStrand, const char *turns = nullptr)
   {
     /*
@@ -456,9 +456,9 @@ namespace OpenBabel
     std::string line, sequence;
 
     FASTAFormat::SequenceType sequence_type = (FASTAFormat::SequenceType)seq_type, sequence_na = FASTAFormat::UnknownSequence;
-    while (!in->eof())
+    while (!in.eof())
       { // We have a new line to fetch into 'line'
-        getline( * in, line);
+        getline(in, line);
         if (line[0] == '>')
           { // comment data
             if (pmol->GetTitle()[0] == 0)
@@ -548,6 +548,13 @@ namespace OpenBabel
         break;
       }
     return (pmol->NumAtoms() > 0 ? true : false);
+  }
+
+  [[deprecated]]
+  bool ReadFASTASequence(OBMol * pmol, int seq_type, std::istream * in, bool create_bonds, bool bond_orders,
+                         bool singleStrand, const char *turns = nullptr) {
+    assert(in != nullptr);
+    ReadFASTASequence(pmol, seq_type, *in, create_bonds, bond_orders, singleStrand, turns);
   }
 
   /////////////////////////////////////////////////////////////////
