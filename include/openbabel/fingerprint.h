@@ -153,14 +153,8 @@ struct OBFPRT FptIndex
   std::vector<unsigned int> fptdata;
   std::vector<unsigned long> seekdata;
   bool Read(std::istream& pIndexstream);
-  [[deprecated]]
-  bool Read(std::istream* pIndexstream);
   bool ReadIndex(std::istream& pIndexstream);
-  [[deprecated]]
-  bool ReadIndex(std::istream* pIndexstream);
   bool ReadHeader(std::istream& pIndexstream);
-  [[deprecated]]
-  bool ReadHeader(std::istream* pIndexstream);
 
   /// \return A pointer to FP used or NULL and an error message
   OBFingerprint* CheckFP();
@@ -175,8 +169,6 @@ public:
   /// \brief Loads an index from a file and returns the name of the datafile
   std::string ReadIndexFile(std::string IndexFilename);
   std::string ReadIndex(std::istream& pIndexstream);
-  [[deprecated]]
-  std::string ReadIndex(std::istream* pIndexstream);
 
   virtual ~FastSearch(){};
 
