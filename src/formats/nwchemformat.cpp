@@ -75,8 +75,14 @@ namespace OpenBabel
     void ReadCoordinates(istream& ifs, OBMol* molecule);
     [[deprecated]]
     void ReadCoordinates(istream* ifs, OBMol* molecule);
+    void ReadPartialCharges(istream& ifs, OBMol* molecule);
+    [[deprecated]]
     void ReadPartialCharges(istream* ifs, OBMol* molecule);
+    void ReadOrbitals(istream& ifs, OBMol* molecule);
+    [[deprecated]]
     void ReadOrbitals(istream* ifs, OBMol* molecule);
+    void ReadMultipoleMoment(istream& ifs, OBMol* molecule);
+    [[deprecated]]
     void ReadMultipoleMoment(istream* ifs, OBMol* molecule);
 
     void ReadFrequencyCalculation(istream* ifs, OBMol* molecule);
@@ -267,9 +273,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   section in nwo file. (Line after "Multipole analysis of the density")
   Stream will be set to the end of multipole moment section.
   */
-  void NWChemOutputFormat::ReadMultipoleMoment(istream* ifs, OBMol* molecule)
+  void NWChemOutputFormat::ReadMultipoleMoment(istream& ifs, OBMol* molecule)
   {
-    if (ifs == nullptr || molecule == nullptr)
+    if (molecule == nullptr)
         return;
 
     char buffer[BUFF_SIZE];
@@ -279,12 +285,12 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     int charge;
     bool blank_line = false;
 
-    ifs->getline(buffer, BUFF_SIZE); // -------
-    ifs->getline(buffer, BUFF_SIZE); // blank
-    ifs->getline(buffer, BUFF_SIZE); // Header
-    ifs->getline(buffer, BUFF_SIZE); // -------
+    ifs.getline(buffer, BUFF_SIZE); // -------
+    ifs.getline(buffer, BUFF_SIZE); // blank
+    ifs.getline(buffer, BUFF_SIZE); // Header
+    ifs.getline(buffer, BUFF_SIZE); // -------
 
-    while (ifs->getline(buffer, BUFF_SIZE))
+    while (ifs.getline(buffer, BUFF_SIZE))
     {
         tokenize(vs, buffer);
         // L   x y z        total         alpha         beta         nuclear
@@ -333,6 +339,13 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else
             return;
     }
+  }
+
+  void NWChemOutputFormat::ReadMultipoleMoment(istream* ifs, OBMol* molecule)
+  {
+    if (ifs == nullptr)
+        return;
+    ReadMultipoleMoment(*ifs, molecule);
   }
 
   //////////////////////////////////////////////////////
@@ -399,9 +412,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   data incompatible with read charges then "molecule"
   wont be changed.
   */
-  void NWChemOutputFormat::ReadPartialCharges(istream* ifs, OBMol* molecule)
+  void NWChemOutputFormat::ReadPartialCharges(istream& ifs, OBMol* molecule)
   {
-    if (molecule == nullptr || ifs == nullptr)
+    if (molecule == nullptr)
         return;
     vector<string> vs;
     char buffer[BUFF_SIZE];
@@ -412,11 +425,11 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
 
     if (natoms == 0)
         from_scratch = true;
-    ifs->getline(buffer,BUFF_SIZE); // ---- ----- ----
-    ifs->getline(buffer,BUFF_SIZE);	// blank
-    ifs->getline(buffer,BUFF_SIZE);	// column headings
-    ifs->getline(buffer,BUFF_SIZE);	// ---- ----- ----
-    ifs->getline(buffer,BUFF_SIZE);
+    ifs.getline(buffer,BUFF_SIZE); // ---- ----- ----
+    ifs.getline(buffer,BUFF_SIZE);	// blank
+    ifs.getline(buffer,BUFF_SIZE);	// column headings
+    ifs.getline(buffer,BUFF_SIZE);	// ---- ----- ----
+    ifs.getline(buffer,BUFF_SIZE);
     tokenize(vs, buffer);
 
     // N Symbol    Charge     PartialCharge+Charge   ShellCharges
@@ -435,7 +448,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else
             charges.push_back(charge);
         partial_charges.push_back(atof(vs[3].c_str()) - charge);
-        ifs->getline(buffer,BUFF_SIZE);
+        ifs.getline(buffer,BUFF_SIZE);
         tokenize(vs, buffer);
     }
 
@@ -459,6 +472,13 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
     }
   }
 
+  void NWChemOutputFormat::ReadPartialCharges(istream* ifs, OBMol* molecule)
+  {
+    if (ifs == nullptr)
+        return;
+    ReadPartialCharges(*ifs, molecule);
+  }
+
 
   //////////////////////////////////////////////////////
   /**
@@ -468,18 +488,18 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
   section in nwo file. (Line after "... Molecular Orbital Analysis")
   Stream will be set at next line after end of orbital section.
   */
-  void NWChemOutputFormat::ReadOrbitals(istream* ifs, OBMol* molecule)
+  void NWChemOutputFormat::ReadOrbitals(istream& ifs, OBMol* molecule)
   {
-    if (ifs == nullptr || molecule == nullptr)
+    if (molecule == nullptr)
         return;
     vector<string> vs;
     char buffer[BUFF_SIZE];
     vector<OBOrbital> orbitals;
     OBOrbitalData* orbital_data = new OBOrbitalData;
-    ifs->getline(buffer, BUFF_SIZE); // ---------
-    ifs->getline(buffer, BUFF_SIZE); // blank line
+    ifs.getline(buffer, BUFF_SIZE); // ---------
+    ifs.getline(buffer, BUFF_SIZE); // blank line
 
-    while (ifs->getline(buffer,BUFF_SIZE))
+    while (ifs.getline(buffer,BUFF_SIZE))
     {
         if (strstr(buffer, ORBITAL_START_PATTERN))
         {
@@ -500,10 +520,10 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             orbital.SetData(energy, occupation, symbol);
             orbitals.push_back(orbital);
 
-            ifs->getline(buffer, BUFF_SIZE); // MO Center ...
-            ifs->getline(buffer, BUFF_SIZE); // Table header
-            ifs->getline(buffer,BUFF_SIZE); // ----------
-            while (ifs->getline(buffer,BUFF_SIZE))
+            ifs.getline(buffer, BUFF_SIZE); // MO Center ...
+            ifs.getline(buffer, BUFF_SIZE); // Table header
+            ifs.getline(buffer,BUFF_SIZE); // ----------
+            while (ifs.getline(buffer,BUFF_SIZE))
                 if (strlen(buffer) < 2) // If blank line detected
                     break;
         }// if Vector ...
@@ -512,8 +532,8 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             orbital_data->SetAlphaOrbitals(orbitals);
             orbital_data->SetOpenShell(true);
             orbitals.clear();
-            ifs->getline(buffer, BUFF_SIZE); // ---------
-            ifs->getline(buffer, BUFF_SIZE); // blank line
+            ifs.getline(buffer, BUFF_SIZE); // ---------
+            ifs.getline(buffer, BUFF_SIZE); // blank line
         }// if beta orbital section found
         else
         {
@@ -526,6 +546,13 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         }
     }
   delete orbital_data;
+  }
+
+  void NWChemOutputFormat::ReadOrbitals(istream* ifs, OBMol* molecule)
+  {
+    if (ifs == nullptr)
+        return;
+    ReadOrbitals(*ifs, molecule);
   }
 
 
