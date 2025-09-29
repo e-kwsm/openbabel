@@ -152,8 +152,14 @@ struct OBFPRT FptIndex
   FptIndexHeader header;
   std::vector<unsigned int> fptdata;
   std::vector<unsigned long> seekdata;
+  bool Read(std::istream& pIndexstream);
+  [[deprecated]]
   bool Read(std::istream* pIndexstream);
+  bool ReadIndex(std::istream& pIndexstream);
+  [[deprecated]]
   bool ReadIndex(std::istream* pIndexstream);
+  bool ReadHeader(std::istream& pIndexstream);
+  [[deprecated]]
   bool ReadHeader(std::istream* pIndexstream);
 
   /// \return A pointer to FP used or NULL and an error message
