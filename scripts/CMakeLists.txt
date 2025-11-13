@@ -74,16 +74,16 @@ if (DO_PYTHON_BINDINGS)
       # Don't link against Python library on Mac
       set_target_properties(bindings_python PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
       if(BINDINGS_ONLY)
-        target_link_libraries(bindings_python ${BABEL_SYSTEM_LIBRARY})
+        target_link_libraries(bindings_python PRIVATE ${BABEL_SYSTEM_LIBRARY})
       else()
-        target_link_libraries(bindings_python ${BABEL_LIBRARY})
+        target_link_libraries(bindings_python PRIVATE ${BABEL_LIBRARY})
       endif()
     else()
       # Link against Python library on Linux and Windows
       if(BINDINGS_ONLY)
-        target_link_libraries(bindings_python ${Python_LIBRARIES} ${BABEL_SYSTEM_LIBRARY})
+        target_link_libraries(bindings_python PRIVATE ${Python_LIBRARIES} ${BABEL_SYSTEM_LIBRARY})
       else()
-        target_link_libraries(bindings_python ${Python_LIBRARIES} ${BABEL_LIBRARY})
+        target_link_libraries(bindings_python PRIVATE ${Python_LIBRARIES} ${BABEL_LIBRARY})
       endif()
     endif()
 
@@ -201,9 +201,9 @@ include_directories(
 
     add_library(bindings_java MODULE ${openbabel_SOURCE_DIR}/scripts/java/openbabel-java.cpp)
     if(BINDINGS_ONLY)
-      target_link_libraries(bindings_java ${JNI_LIBRARIES} ${BABEL_SYSTEM_LIBRARY})
+      target_link_libraries(bindings_java PRIVATE ${JNI_LIBRARIES} ${BABEL_SYSTEM_LIBRARY})
     else()
-      target_link_libraries(bindings_java ${JNI_LIBRARIES} ${BABEL_LIBRARY})
+      target_link_libraries(bindings_java PRIVATE ${JNI_LIBRARIES} ${BABEL_LIBRARY})
     endif()
 
     set_target_properties(bindings_java PROPERTIES
@@ -262,9 +262,9 @@ if (DO_R_BINDINGS)
 	 add_library(bindings_R MODULE ${openbabel_SOURCE_DIR}/scripts/R/openbabel-R.cpp)
 	 set(R_EXTRA_LINK_FLAGS "-Wl,--unresolved-symbols=ignore-all")
 	 if(BINDINGS_ONLY)
-		 target_link_libraries(bindings_R ${BABEL_SYSTEM_LIBRARY} ${R_EXTRA_LINK_FLAGS})
+		 target_link_libraries(bindings_R PRIVATE ${BABEL_SYSTEM_LIBRARY} ${R_EXTRA_LINK_FLAGS})
 	 else()
-		 target_link_libraries(bindings_R ${BABEL_LIBRARY} ${R_EXTRA_LINK_FLAGS})
+		 target_link_libraries(bindings_R PRIVATE ${BABEL_LIBRARY} ${R_EXTRA_LINK_FLAGS})
 	 endif()
 
 	 set_target_properties(bindings_R PROPERTIES

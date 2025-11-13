@@ -38,7 +38,7 @@ foreach(format ${formats})
   add_library(${format} ${PLUGIN_TYPE} ${format}.cpp
     ${${format}_additional_sources}
     "${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h")
-  target_link_libraries(${format} ${libs} openbabel)
+  target_link_libraries(${format} PRIVATE ${libs} openbabel)
   install(TARGETS ${format}
                   RUNTIME DESTINATION ${BIN_INSTALL_DIR}
                   LIBRARY DESTINATION ${OB_PLUGIN_INSTALL_DIR}

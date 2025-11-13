@@ -292,7 +292,7 @@ if(BUILD_SHARED)
   foreach(plugingroup descriptors fingerprints forcefields ops charges)
     add_library(plugin_${plugingroup} ${PLUGIN_TYPE} ${${plugingroup}}
       "${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h")
-    target_link_libraries(plugin_${plugingroup} ${libs} openbabel)
+    target_link_libraries(plugin_${plugingroup} PRIVATE ${libs} openbabel)
     install(TARGETS plugin_${plugingroup}
       RUNTIME DESTINATION ${BIN_INSTALL_DIR}
       LIBRARY DESTINATION ${OB_PLUGIN_INSTALL_DIR}
