@@ -41,7 +41,7 @@ CHECK_FUNCTION_EXISTS(${GETOPT} GETOPT_FOUND)
 if(BUILD_SHARED)
   foreach(tool ${tools})
     add_executable(${tool} ${tool}.cpp)
-    target_link_libraries(${tool} ${BABEL_LIBRARY})
+    target_link_libraries(${tool} PRIVATE ${BABEL_LIBRARY})
     install(TARGETS ${tool}
                     RUNTIME DESTINATION bin
                     LIBRARY DESTINATION lib${LIB_SUFFIX}
