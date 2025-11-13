@@ -177,7 +177,7 @@ else()
 endif()
 
 add_executable(test_runner ${srclist} obtest.cpp)
-target_link_libraries(test_runner ${libs})
+target_link_libraries(test_runner PRIVATE ${libs})
 set_target_properties(test_runner PROPERTIES ENABLE_EXPORTS TRUE)
 
 if(NOT BUILD_SHARED AND NOT BUILD_MIXED)
