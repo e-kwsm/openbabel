@@ -307,7 +307,7 @@ if(MINGW)
   set (CMAKE_EXE_LINKER_FLAGS "-Wl,--enable-auto-import ${CMAKE_EXE_LINKER_FLAGS}")
 endif()
 
-find_package(Boost COMPONENTS program_options iostreams)
+find_package(Boost CONFIG COMPONENTS program_options iostreams)
   if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
  endif()
