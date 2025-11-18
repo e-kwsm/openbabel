@@ -898,7 +898,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
 bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
 {
   //Get rate data so that we know what kind of reaction it is
-  OBRateData* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
+  OBRateData* pRD = dynamic_cast<OBRateData*>(pReact->GetData(RateData));
 
   //If -0 option set, omit reactions with zero rates. However, number of reactions converted remains the same.
   if(pConv->IsOption("0"))

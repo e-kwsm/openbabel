@@ -108,7 +108,7 @@ namespace OpenBabel
       || pmol->IsReaction()
       || (pFormat->Flags()&ZEROATOMSOK && (*pmol->GetTitle() || pmol->HasData(1)))))
     {
-      ptmol = static_cast<OBMol*>(pmol->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv));
+      ptmol = dynamic_cast<OBMol*>(pmol->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv));
       if(ptmol && (pConv->IsOption("j",OBConversion::GENOPTIONS)
                 || pConv->IsOption("join",OBConversion::GENOPTIONS)))
       {

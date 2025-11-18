@@ -249,7 +249,7 @@ bool ChemDrawBinaryXFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     pmol = mapiter->second;
     if(!(pmol->GetFlags() & usedFlag) && strcmp(pmol->GetTitle(),"justplus"))
     {
-      OBMol* ptmol = static_cast<OBMol*>(pmol->DoTransformations(
+      OBMol* ptmol = dynamic_cast<OBMol*>(pmol->DoTransformations(
                     pConv->GetOptions(OBConversion::GENOPTIONS),pConv));
       if(!ptmol)
         delete pmol;

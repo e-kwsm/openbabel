@@ -629,7 +629,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     for (unsigned int l = 0; l < grids.size(); ++l)
     {
-      gd = static_cast<OBGridData*>(grids[l]);
+      gd = dynamic_cast<OBGridData*>(grids[l]);
       int mx, my, mz;
       gd->GetNumberOfPoints(mx, my, mz);
 
@@ -654,7 +654,7 @@ bool OBGaussianCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
           // The cube files are stored in staggered z
           for (unsigned int l = 0; l < grids.size(); ++l)
           {
-            value = static_cast<OBGridData*>(grids[l])->GetValue(i, j, k);
+            value = dynamic_cast<OBGridData*>(grids[l])->GetValue(i, j, k);
             snprintf(buffer, BUFF_SIZE," %12.5E", value);
             if (count % 6 == 0)
               ofs << buffer << endl;

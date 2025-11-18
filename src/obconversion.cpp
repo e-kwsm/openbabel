@@ -1807,7 +1807,7 @@ Additional options :
       }
     static string s;
     s =itr->first;
-    pFormat = static_cast<OBFormat*>(itr->second);
+    pFormat = dynamic_cast<OBFormat*>(itr->second);
     if(pFormat)
       {
         string description(pFormat->Description());

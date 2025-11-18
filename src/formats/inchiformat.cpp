@@ -420,7 +420,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       std::vector<OBGenericData*>::iterator data;
       std::vector<OBGenericData*> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-        if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
+        if (dynamic_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
           OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
           OBTetrahedralStereo::Config config = ts->GetConfig();
 
@@ -461,7 +461,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       //Double bond stereo (still inside 0D section)
       //Currently does not handle cumulenes
       for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-        if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
+        if (dynamic_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
           OBCisTransStereo *ts = dynamic_cast<OBCisTransStereo*>(*data);
           OBCisTransStereo::Config config = ts->GetConfig();
 
