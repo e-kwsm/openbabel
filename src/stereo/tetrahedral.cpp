@@ -197,7 +197,7 @@ namespace OpenBabel {
 
   OBGenericData* OBTetrahedralStereo::Clone(OBBase *mol) const
   {
-    OBTetrahedralStereo *data = new OBTetrahedralStereo(static_cast<OBMol*>(mol));
+    OBTetrahedralStereo *data = new OBTetrahedralStereo(dynamic_cast<OBMol*>(mol));
     data->SetConfig(m_cfg);
     return data;
   }

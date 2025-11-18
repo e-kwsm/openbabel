@@ -263,7 +263,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConversi
     {
       // Target is in a file. Add extra targets if any supplied
       for(unsigned i=0;i<ExtraMols.size();++i)
-        queries.push_back(CompileMoleculeQuery(static_cast<OBMol*>(ExtraMols[i])));
+        queries.push_back(CompileMoleculeQuery(dynamic_cast<OBMol*>(ExtraMols[i])));
       ExtraMols.clear();
     }
 

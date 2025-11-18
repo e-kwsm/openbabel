@@ -717,7 +717,7 @@ namespace OpenBabel
               if (!at->HasData(AliasDataType))
                 obErrorLog.ThrowError(__FUNCTION__, "Invalid line: M RGP must only refer to pseudoatoms\n" + line, obWarning);
               else {
-                AliasData* ad = static_cast<AliasData*>(at->GetData(AliasDataType));
+                AliasData* ad = dynamic_cast<AliasData*>(at->GetData(AliasDataType));
                 char buffer[6];
                 snprintf(buffer, 6, "R%d", value);
                 ad->SetAlias(buffer);
@@ -960,7 +960,7 @@ namespace OpenBabel
     if (atom->GetAtomicNum() == 0) { // Must be a pseudoatom
       if(atom->HasData(AliasDataType)) {
         // must have an alias Rn or Rnn
-        AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
+        AliasData* ad = dynamic_cast<AliasData*>(atom->GetData(AliasDataType));
         if(!ad->IsExpanded()) { //do nothing with an expanded alias
           std::string alias = ad->GetAlias();
           const char* p = alias.c_str();
@@ -1292,7 +1292,7 @@ namespace OpenBabel
         int rgroupIdx = GetNumberedRGroup(pmol, atom);
         if (rgroupIdx == -1) {
           if (atom->HasData(AliasDataType)) {
-            AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
+            AliasData* ad = dynamic_cast<AliasData*>(atom->GetData(AliasDataType));
             if(!ad->IsExpanded()) //do nothing with an expanded alias
               ofs << "A  " << setw(3) << right << atom->GetIdx() << '\n' << ad->GetAlias() << endl;
           }
@@ -1996,7 +1996,7 @@ namespace OpenBabel
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
+      if (dynamic_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
         continue;
 
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);

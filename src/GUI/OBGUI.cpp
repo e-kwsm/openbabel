@@ -989,7 +989,7 @@ void OBGUIFrame::GetAvailableFormats()
     OBFormat::PluginIterator itr;
     for(itr=OBFormat::Begin("formats");itr!=OBFormat::End("formats");++itr)
     {
-      OBFormat* pFormat = static_cast<OBFormat*>(itr->second);
+      OBFormat* pFormat = dynamic_cast<OBFormat*>(itr->second);
       if((pFormat->Flags() & NOTWRITABLE) && (pFormat->Flags() & NOTREADABLE))
         continue;
 
@@ -1060,7 +1060,7 @@ END_EVENT_TABLE()
 void CFilenames::OnDblClick(wxMouseEvent& /*event*/)
 {
   //extract double-clicked filename
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  OBGUIFrame* frame = dynamic_cast<OBGUIFrame*>(GetParent()->GetParent());
   wxASSERT(frame);
   frame->DisplayInFile(SelectFilename());
 }
@@ -1161,7 +1161,7 @@ void OBGUIFrame::OnClickPlugin(wxCommandEvent& event)
 void CFilenames::OnKeyPress(wxKeyEvent& event)
 {
   int delta=1;
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  OBGUIFrame* frame = dynamic_cast<OBGUIFrame*>(GetParent()->GetParent());
   switch (event.GetKeyCode())
   {
   case 313:
@@ -1225,7 +1225,7 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
 int  CFilenames::Expand(std::vector<std::string>& filelist)
 {
   //Adds full path names of all input files to filelist, expanding wildcards they are present.
-  OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+  OBGUIFrame* frame = dynamic_cast<OBGUIFrame*>(GetParent()->GetParent());
   int namestart=0, count=0;
   wxString txt(GetValue());
   do //for each filename
@@ -1264,7 +1264,7 @@ bool CFilenames::ToNextFile(int delta)
   if(pos!=-1)
   {
     SetInsertionPoint(pos);
-    OBGUIFrame* frame = static_cast<OBGUIFrame*>(GetParent()->GetParent());
+    OBGUIFrame* frame = dynamic_cast<OBGUIFrame*>(GetParent()->GetParent());
     wxString nxtname = SelectFilename();
     if(nxtname.IsEmpty())
       return false;

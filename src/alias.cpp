@@ -332,7 +332,7 @@ void AliasData::RevertToAliasForm(OBMol& mol)
     {
       acted=false;
       AliasData* ad = nullptr;
-      if((ad = (static_cast<AliasData*>(a->GetData(AliasDataType)))) && ad->IsExpanded())
+      if((ad = (dynamic_cast<AliasData*>(a->GetData(AliasDataType)))) && ad->IsExpanded())
       {
         ad->DeleteExpandedAtoms(mol);
         acted = true;

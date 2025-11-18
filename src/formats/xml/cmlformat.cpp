@@ -2208,7 +2208,7 @@ namespace OpenBabel
 
             //Title used to be on <scalar>...
             //xmlTextWriterWriteFormatAttribute(writer(), C_TITLE,"%s",(*k)->GetAttribute().c_str());
-            xmlTextWriterWriteFormatString(writer(),"%s", (static_cast<OBPairData*>(*k))->GetValue().c_str());
+            xmlTextWriterWriteFormatString(writer(),"%s", (dynamic_cast<OBPairData*>(*k))->GetValue().c_str());
             xmlTextWriterEndElement(writer());//scalar
             xmlTextWriterEndElement(writer());//property
           }
@@ -2242,7 +2242,7 @@ namespace OpenBabel
     static const xmlChar C_DICTREF[]      = "dictRef";
     static const xmlChar C_SIZE[]         = "size";
 
-    OBNasaThermoData* pThermoData = static_cast<OBNasaThermoData*>(mol.GetData(ThermoData));
+    OBNasaThermoData* pThermoData = dynamic_cast<OBNasaThermoData*>(mol.GetData(ThermoData));
 
     if(!propertyListWritten)
       {

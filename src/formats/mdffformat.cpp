@@ -355,7 +355,7 @@ namespace OpenBabel {
     
     if(mol.HasData(OBGenericDataType::UnitCell))
     {
-      OBUnitCell *uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
+      OBUnitCell *uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       uc->FillUnitCell(&mol);
     }            
 
@@ -433,7 +433,7 @@ namespace OpenBabel {
     else
     {
       // there is a unit cell, write it out
-      uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
+      uc = dynamic_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
       for (vector<vector3>::const_iterator i = cell.begin();
            i != cell.end(); ++i) {

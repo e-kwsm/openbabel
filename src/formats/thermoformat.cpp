@@ -164,7 +164,7 @@ bool ThermoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
   OBMol* pmol = dynamic_cast<OBMol*>(pOb);
   string title(pmol->GetTitle());
-  OBNasaThermoData* pND = static_cast<OBNasaThermoData*>(pmol->GetData(ThermoData));
+  OBNasaThermoData* pND = dynamic_cast<OBNasaThermoData*>(pmol->GetData(ThermoData));
   if(!pND)
   {
     obErrorLog.ThrowError(__FUNCTION__,"No thermo data in " + title, obWarning);

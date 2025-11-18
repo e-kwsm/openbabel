@@ -736,7 +736,7 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
 
 bool CMLReactFormat::WriteRateData(OBReaction* pReact, xmlChar* altprefix)
 {
-  OBRateData* pRD = static_cast<OBRateData*>(pReact->GetData(RateData));
+  OBRateData* pRD = dynamic_cast<OBRateData*>(pReact->GetData(RateData));
   if(!pRD || pRD->GetRate(OBRateData::A)==0)
     return false; //nothing written
 

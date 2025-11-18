@@ -280,7 +280,7 @@ namespace OpenBabel
       // Add on additional lines
       else
       {
-        dp = static_cast<OBPairData*>(mol.GetData(key));
+        dp = dynamic_cast<OBPairData*>(mol.GetData(key));
         line = dp->GetValue();
         line += '\n';
         line += value;
@@ -897,7 +897,7 @@ namespace OpenBabel
         ofs << "REMARK  Name = " << mol.GetTitle(true) << endl;
         std::vector<OBGenericData*> pairData = mol.GetAllData(OBGenericDataType::PairData);
         for (std::vector<OBGenericData*>::iterator data = pairData.begin(); data != pairData.end(); ++data) {
-          OBPairData *pd = static_cast<OBPairData*>(*data);
+          OBPairData *pd = dynamic_cast<OBPairData*>(*data);
           string attr = pd->GetAttribute();
 
           // filter to make sure we are writing pdb fields only

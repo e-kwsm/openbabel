@@ -104,7 +104,7 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
     if(itr!=pmap->end())
     {
       //There is an -s option; check it is ok
-      _pOpIsoM = static_cast<OpNewS*>(OBOp::FindType("s"));
+      _pOpIsoM = dynamic_cast<OpNewS*>(OBOp::FindType("s"));
       _stext = itr->second; //get its parameter(s)
       if(!_pOpIsoM || _stext.empty())
       {

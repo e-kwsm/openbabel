@@ -68,7 +68,7 @@ OBFormat* OBFormat::FormatFromMIME(const char* MIME)
   if(FormatsMIMEMap().find(MIME) == FormatsMIMEMap().end())
     return nullptr;
   else
-    return static_cast<OBFormat*>(FormatsMIMEMap()[MIME]);
+    return dynamic_cast<OBFormat*>(FormatsMIMEMap()[MIME]);
 }
 
 //////////////////////////////////////////////////////////

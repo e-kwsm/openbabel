@@ -376,7 +376,7 @@ int DynOptionswx::SetOptions(OpenBabel::OBConversion& Conv, OpenBabel::OBConvers
     {
       if((itr2->first).empty() || itr2->first[0]!=_T(' ')) //subsequent editboxes have the name preceded by a space
         break;
-      txt = txt + _T(' ') + static_cast<wxTextCtrl*>(itr2->second)->GetValue();
+      txt = txt + _T(' ') + dynamic_cast<wxTextCtrl*>(itr2->second)->GetValue();
       ++itr;
     }
     txt.Trim(true); txt.Trim(false);
