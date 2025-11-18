@@ -173,7 +173,7 @@ bool TurbomoleFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     if (mol.HasData(OBGenericDataType::UnitCell)) {
       const auto *const uc =
-          static_cast<OBUnitCell *>(mol.GetData(OBGenericDataType::UnitCell));
+          dynamic_cast<OBUnitCell *>(mol.GetData(OBGenericDataType::UnitCell));
       const auto &cell = uc->GetCellVectors();
       ofs << "$periodic 3\n"
           << "$lattice\n";

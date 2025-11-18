@@ -119,7 +119,7 @@ namespace OpenBabel
   {
     //Since the class contains OBAtom pointers, the new copy use
     //these from the new molecule, newparent
-    OBMol* newmol = static_cast<OBMol*>(newparent);
+    OBMol* newmol = dynamic_cast<OBMol*>(newparent);
 
     OBRotamerList *new_rml = new OBRotamerList;
     new_rml->_attr = _attr;

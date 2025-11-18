@@ -50,7 +50,7 @@ public:
     FOR_ATOMS_OF_MOL(a, mol)
     {
       AliasData* ad = nullptr;
-      if ( static_cast<AliasData*>(a->GetData(AliasDataType)) )
+      if ( dynamic_cast<AliasData*>(a->GetData(AliasDataType)) )
         alias_count++;
       else
         nonaliased_count++;

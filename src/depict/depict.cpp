@@ -634,7 +634,7 @@ namespace OpenBabel
       //For unexpanded aliases use appropriate form of alias instead of element symbol, Hs, etc
       AliasData* ad = nullptr;
       if (d->aliasMode && atom->HasData(AliasDataType))
-        ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
+        ad = dynamic_cast<AliasData*>(atom->GetData(AliasDataType));
       if(ad && !ad->IsExpanded())
       {
         ss <<ad->GetAlias(rightAligned);

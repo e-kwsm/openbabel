@@ -1873,7 +1873,7 @@ namespace OpenBabel {
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
+      if (dynamic_cast<OBStereoBase*>(*data)->GetType() == OBStereo::Tetrahedral) {
         OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         unsigned long center = ts->GetConfig().center;
         // check if the center is really stereogenic
@@ -1951,7 +1951,7 @@ namespace OpenBabel {
     std::vector<OBGenericData*>::iterator data;
     std::vector<OBGenericData*> stereoData = mol->GetAllData(OBGenericDataType::StereoData);
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
-      if (static_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
+      if (dynamic_cast<OBStereoBase*>(*data)->GetType() == OBStereo::CisTrans) {
         OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo::Config config = ct->GetConfig();
         // find the bond id from begin & end atom ids

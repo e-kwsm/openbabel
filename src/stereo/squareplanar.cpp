@@ -217,7 +217,7 @@ namespace OpenBabel {
 
   OBGenericData* OBSquarePlanarStereo::Clone(OBBase *mol) const
   {
-    OBSquarePlanarStereo *data = new OBSquarePlanarStereo(static_cast<OBMol*>(mol));
+    OBSquarePlanarStereo *data = new OBSquarePlanarStereo(dynamic_cast<OBMol*>(mol));
     data->SetConfig(m_cfg);
     return data;
   }

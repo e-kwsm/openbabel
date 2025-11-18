@@ -339,7 +339,7 @@ namespace OpenBabel {
 
   OBGenericData* OBCisTransStereo::Clone(OBBase *mol) const
   {
-    OBCisTransStereo *data = new OBCisTransStereo(static_cast<OBMol*>(mol));
+    OBCisTransStereo *data = new OBCisTransStereo(dynamic_cast<OBMol*>(mol));
     data->SetConfig(m_cfg);
     return data;
   }

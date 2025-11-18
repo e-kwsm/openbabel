@@ -415,7 +415,7 @@ const char* Description() override  // required
                 stringstream errorMsg;
                 errorMsg << "Trouble opening or reading " << indexname << endl;
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-                static_cast<ofstream *>(pOs)->close(); // close the file before quitting
+                dynamic_cast<ofstream *>(pOs)->close(); // close the file before quitting
                 delete pOs;
                 delete pidx; // remove possible memory leak
                 return false;
