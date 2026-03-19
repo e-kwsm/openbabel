@@ -262,7 +262,7 @@ namespace OpenBabel
       ifs.getline(buffer,BUFF_SIZE);
     }
 
-    return(true);
+    return true;
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -301,8 +301,8 @@ namespace OpenBabel
     char *errorCheckingEndPtr;
     *target = strtol(integerBuffer, &errorCheckingEndPtr, 10);
     if (integerBuffer == errorCheckingEndPtr)
-      return(false);
-    return(true);
+      return false;
+    return true;
   }
 
   //! Read a CONECT record
@@ -390,7 +390,7 @@ namespace OpenBabel
                      << "  columns 7-11 should contain the serial number of an atom.\n"
                      << "  THIS CONECT RECORD WILL BE IGNORED." << endl;
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
       }
 
@@ -416,7 +416,7 @@ namespace OpenBabel
                  << "  No atom was found with this serial number.\n"
                  << "  THIS CONECT RECORD WILL BE IGNORED." << endl;
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-        return(false);
+        return false;
       }
 
     if (mol.NumAtoms() < 9999)
@@ -441,7 +441,7 @@ namespace OpenBabel
         // exit gracefully.
         boundedAtomsSerialNumbersValid[0] = readIntegerFromRecord(buffer, 12, boundedAtomsSerialNumbers+0);
         if (boundedAtomsSerialNumbersValid[0] == false)
-          return(true);
+          return true;
         boundedAtomsSerialNumbersValid[1] = readIntegerFromRecord(buffer, 17, boundedAtomsSerialNumbers+1);
         boundedAtomsSerialNumbersValid[2] = readIntegerFromRecord(buffer, 22, boundedAtomsSerialNumbers+2);
         boundedAtomsSerialNumbersValid[3] = readIntegerFromRecord(buffer, 27, boundedAtomsSerialNumbers+3);
@@ -474,7 +474,7 @@ namespace OpenBabel
                      << "  However, an atom with serial #" << boundedAtomsSerialNumbers[k] << " was not found.\n"
                      << "  THIS CONECT RECORD WILL BE IGNORED." << endl;
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
 
         // Figure the bond order
@@ -498,7 +498,7 @@ namespace OpenBabel
         }
 
       }
-    return(true);
+    return true;
   }
 
   //////////////////////////////////////////////////////////////////////////////
@@ -825,7 +825,7 @@ namespace OpenBabel
 	  ofs << "END\n";
 	}
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -899,7 +899,7 @@ namespace OpenBabel
   {
     string sbuf = &buffer[6];
     if (sbuf.size() < 48)
-      return(false);
+      return false;
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
     bool elementFound = false; // true if correct element found in col 77-78
@@ -1168,7 +1168,7 @@ namespace OpenBabel
       }
 
     if (!mol.AddAtom(atom))
-      return(false);
+      return false;
     else {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
@@ -1177,7 +1177,7 @@ namespace OpenBabel
       res->SetAtomID(atom, sbuf.substr(6,4));
       res->SetHetAtom(atom, hetatm);
 
-      return(true);
+      return true;
     }
   } // end reading atom records
 

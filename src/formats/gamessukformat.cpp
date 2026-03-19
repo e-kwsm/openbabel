@@ -175,7 +175,7 @@ namespace OpenBabel
                        << "Could not read zmat line: " << line;
               obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() ,
                                     obWarning);
-              return (false);
+              return false;
             }
 
         } // End ReadMode ZMATRIX
@@ -188,7 +188,7 @@ namespace OpenBabel
                        << "Could not read xyz line: " << line;
               obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() ,
                                     obWarning);
-              return (false);
+              return false;
             }
 
         } // End ReadMode CARTESIAN
@@ -703,7 +703,7 @@ namespace OpenBabel
     ofs << endl;
     ofs << "enter" << endl;
 
-    return(true);
+    return true;
   } //End WriteMolecule
 
 

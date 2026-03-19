@@ -294,12 +294,12 @@ namespace OpenBabel
       if (tmp == _colnames[i])
         {
           _from = i;
-          return(true);
+          return true;
         }
 
     obErrorLog.ThrowError(__FUNCTION__, "Requested type column not found", obInfo);
 
-    return(false);
+    return false;
   }
 
   bool OBTypeTable::SetToType(const char* to)
@@ -314,12 +314,12 @@ namespace OpenBabel
       if (tmp == _colnames[i])
         {
           _to = i;
-          return(true);
+          return true;
         }
 
     obErrorLog.ThrowError(__FUNCTION__, "Requested type column not found", obInfo);
 
-    return(false);
+    return false;
   }
 
   //! Translates atom types (to, from), checking for size of destination
@@ -339,7 +339,7 @@ namespace OpenBabel
     strncpy(to,(char*)sto.c_str(), OBATOM_TYPE_LEN - 1);
     to[OBATOM_TYPE_LEN - 1] = '\0';
 
-    return(rval);
+    return rval;
   }
 
   bool OBTypeTable::Translate(string &to, const string &from)
@@ -348,7 +348,7 @@ namespace OpenBabel
       Init();
 
     if (from == "")
-      return(false);
+      return false;
 
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
@@ -358,14 +358,14 @@ namespace OpenBabel
           if ((signed)(*i).size() > _from &&  (*i)[_from] == from)
             {
               to = (*i)[_to];
-              return(true);
+              return true;
             }
       }
 
     // Throw an error, copy the string and return false
     obErrorLog.ThrowError(__FUNCTION__, "Cannot perform atom type translation: table cannot find requested types.", obWarning);
     to = from;
-    return(false);
+    return false;
   }
 
   std::string OBTypeTable::Translate(const string &from)
@@ -374,7 +374,7 @@ namespace OpenBabel
       Init();
 
     if (from.empty())
-      return("");
+      return "";
 
     if (_from >= 0 && _to >= 0 &&
         _from < (signed)_table.size() && _to < (signed)_table.size())
@@ -389,7 +389,7 @@ namespace OpenBabel
 
     // Throw an error, copy the string and return false
     obErrorLog.ThrowError(__FUNCTION__, "Cannot perform atom type translation: table cannot find requested types.", obWarning);
-    return("");
+    return "";
   }
 
   std::string OBTypeTable::GetFromType()
@@ -554,7 +554,7 @@ namespace OpenBabel
           {}
       }
 
-    return(true);
+    return true;
   }
 
   void OBResidueData::ParseLine(const char *buffer)
@@ -608,30 +608,30 @@ namespace OpenBabel
       if (_resname[i] == s)
         {
           _resnum = i;
-          return(true);
+          return true;
         }
 
     _resnum = -1;
-    return(false);
+    return false;
   }
 
   int OBResidueData::LookupBO(const string &s)
   {
     if (_resnum == -1)
-      return(0);
+      return 0;
 
     unsigned int i;
     for (i = 0;i < _resbonds[_resnum].size();++i)
       if (_resbonds[_resnum][i].first == s)
         return(_resbonds[_resnum][i].second);
 
-    return(0);
+    return 0;
   }
 
   int OBResidueData::LookupBO(const string &s1, const string &s2)
   {
     if (_resnum == -1)
-      return(0);
+      return 0;
     string s;
 
     s = (s1 < s2) ? s1 + " " + s2 : s2 + " " + s1;
@@ -641,13 +641,13 @@ namespace OpenBabel
       if (_resbonds[_resnum][i].first == s)
         return(_resbonds[_resnum][i].second);
 
-    return(0);
+    return 0;
   }
 
   bool OBResidueData::LookupType(const string &atmid,string &type,int &hyb)
   {
     if (_resnum == -1)
-      return(false);
+      return false;
 
     string s;
     vector<string>::iterator i;
@@ -659,10 +659,10 @@ namespace OpenBabel
           type = *i;
           ++i;
           hyb = atoi((*i).c_str());
-          return(true);
+          return true;
         }
 
-    return(false);
+    return false;
   }
 
   void OBGlobalDataBase::Init()
@@ -685,7 +685,7 @@ namespace OpenBabel
     if (fn_open == "")
       string fn_open = OpenDatafile(ifs, _filename, _subdir);
 
-    if (fn_open != "" && (ifs))
+    if (fn_open != "" && ifs)
       {
         while(ifs.getline(charBuffer,BUFF_SIZE))
           ParseLine(charBuffer);

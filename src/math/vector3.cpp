@@ -168,7 +168,7 @@ namespace OpenBabel
     vv.y() = - v1.x()*v2.z() + v1.z()*v2.x() ;
     vv.z() =   v1.x()*v2.y() - v1.y()*v2.x() ;
 
-    return ( vv ) ;
+    return vv ;
   }
 
 
@@ -205,7 +205,7 @@ namespace OpenBabel
       dp = 0.9999999;
 
 
-    return((RAD_TO_DEG * acos(dp)));
+    return(RAD_TO_DEG * acos(dp));
   }
 
   /*!  This function calculates the torsion angle of three vectors, represented

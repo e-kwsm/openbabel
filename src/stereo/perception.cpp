@@ -2400,7 +2400,7 @@ namespace OpenBabel {
     }
     if (IsNearZero(v1.length(), 1.0e-3)
       || IsNearZero(v2.length(), 1.0e-3)) {
-        return(0.0);
+        return 0.0;
     }
 
     double angle = (atan2(v2.y(),v2.x()) - atan2(v1.y(),v1.x())) * RAD_TO_DEG;

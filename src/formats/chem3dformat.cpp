@@ -189,7 +189,7 @@ namespace OpenBabel
     if (mmads)
       {
         if (vs.empty())
-          return(false);
+          return false;
         natoms = atoi((char*)vs[0].c_str());
         if (vs.size() == 2)
           mol.SetTitle(vs[1]);
@@ -218,7 +218,7 @@ namespace OpenBabel
       }
 
     if (!natoms)
-      return(false);
+      return false;
     divisor = pow(10.0,exponent);
     mol.ReserveAtoms(natoms);
 
@@ -247,7 +247,7 @@ namespace OpenBabel
 
         tokenize(vs,buffer);
         if (vs.empty())
-          return(false);
+          return false;
 
         atom = mol.NewAtom();
         ttab.Translate(tmp1,tmp);
@@ -271,7 +271,7 @@ namespace OpenBabel
 
     mol.PerceiveBondOrders();
 
-    return(true);
+    return true;
   }
 
   bool CHEM3D1Format::WriteChem3d(ostream &ofs,OBMol &mol, const char *mol_typ)
@@ -326,7 +326,7 @@ namespace OpenBabel
           }
         ofs << endl;
       }
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

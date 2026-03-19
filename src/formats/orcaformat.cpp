@@ -672,7 +672,7 @@ namespace OpenBabel
     if (hasPartialCharges)
       mol.SetPartialChargesPerceived();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -725,7 +725,7 @@ namespace OpenBabel
 
     ofs << "*" << endl;
 
-    return(true);
+    return true;
   }
 
 // small function to avoid wrong parsing
@@ -741,13 +741,13 @@ namespace OpenBabel
                      regex_constants::extended);
       //iok = true;
     } catch (regex_error ex) {
-        return (checkBuffer); // do nothing
+        return checkBuffer; // do nothing
       //iok = false;
     }
     while (regex_search (checkBuffer,pm,myregex)) {
         checkBuffer.insert(pm.position(0)+1, " ");
     }
-    return (checkBuffer);
+    return checkBuffer;
   }
 /*#else
   string OrcaOutputFormat::checkColumns(string checkBuffer)

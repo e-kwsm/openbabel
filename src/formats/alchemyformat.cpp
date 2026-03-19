@@ -91,7 +91,7 @@ namespace OpenBabel
         ifs.getline(buffer,BUFF_SIZE);
         sscanf(buffer," %d %*s %d", &natoms, &nbonds);
         if (!natoms)
-          return(false);
+          return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -106,10 +106,10 @@ namespace OpenBabel
     for (i = 1; i <= natoms; i ++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         tokenize(vs,buffer);
         if (vs.size() < 5)
-          return(false);
+          return false;
         atom = mol.NewAtom();
         x = atof((char*)vs[2].c_str());
         y = atof((char*)vs[3].c_str());
@@ -133,7 +133,7 @@ namespace OpenBabel
     for (i = 0; i < nbonds; i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         sscanf(buffer," %*d%d%d%99s",&bgn,&end,bobuf);
         bostr = bobuf;
         order = 1;
@@ -159,7 +159,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -230,7 +230,7 @@ namespace OpenBabel
                  bond_string);
         ofs << buffer << endl;
       }
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

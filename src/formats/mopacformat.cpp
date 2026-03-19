@@ -496,7 +496,7 @@ namespace OpenBabel
 
     mol.SetTitle(title);
 
-    return(true);
+    return true;
   }
 
   //************************************************************
@@ -756,7 +756,7 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -829,7 +829,7 @@ namespace OpenBabel
       }
     }
 
-    return(true);
+    return true;
   }
 
   //************************************************************
@@ -955,7 +955,7 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
     mol.SetTitle(title);
 
-    return(true);
+    return true;
   }
 
   /////////////////////////////////////////////////////////////////
@@ -1031,7 +1031,7 @@ namespace OpenBabel
       ofs << buffer;
     }
 
-    return(true);
+    return true;
   }
 
 

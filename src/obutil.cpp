@@ -93,7 +93,7 @@ namespace OpenBabel
   //! Comparison for nan (not a number)
   bool IsNan(const double &a)
   {
-    return ((a) != (a));
+    return (a != a);
   }
 
   //! Tests whether its argument can be squared without triggering an overflow or
@@ -122,7 +122,7 @@ namespace OpenBabel
       }
 
     dst += ext;
-    return(dst);
+    return dst;
   }
 
   //! \return the geometric centroid to an array of coordinates in double* format
@@ -132,7 +132,7 @@ namespace OpenBabel
   {
     if (size == 0)
       {
-        return(VZero);
+        return VZero;
       }
 		unsigned int i;
     double x=0.0, y=0.0, z=0.0;
@@ -152,7 +152,7 @@ namespace OpenBabel
         c[i*3+2] -= z;
       }
     vector3 v(x,y,z);
-    return(v);
+    return v;
   }
 
   //! Rotates the coordinate set *c by the transformation matrix m[3][3]
@@ -311,10 +311,10 @@ namespace OpenBabel
         error += filename;
         error += "\' in read mode";
         obErrorLog.ThrowError(__FUNCTION__, error, obError);
-        return(false);
+        return false;
       }
 
-    return(true);
+    return true;
   }
 
 
@@ -337,10 +337,10 @@ namespace OpenBabel
         error += filename;
         error += "\' in write mode";
         obErrorLog.ThrowError(__FUNCTION__, error, obError);
-        return(false);
+        return false;
       }
 
-    return(true);
+    return true;
   }
 
   //! Safely open the supplied filename and return an ifstream, throwing an error
@@ -789,9 +789,9 @@ namespace OpenBabel
   int SolveLinear(double A,double B)
   {
     if( IsZero(A) )
-      return( 0 );
+      return 0 ;
     Roots[0] = -B/A;
-    return( 1 );
+    return 1 ;
   }
 
   /*FUNCTION */
@@ -810,7 +810,7 @@ namespace OpenBabel
     Temp = TwoA*C;
     Descr = B*B - (Temp+Temp);
     if( Descr<0.0 )
-      return( 0 );
+      return 0 ;
 
     if( Descr>0.0 )
       {
@@ -823,10 +823,10 @@ namespace OpenBabel
         Roots[0] = Temp/A;
         Roots[1] = C/Temp;
 
-        return( 2 );
+        return 2 ;
       }
     Roots[0] = -B/TwoA;
-    return( 1 );
+    return 1 ;
   }
 
   /*FUNCTION */
@@ -876,7 +876,7 @@ namespace OpenBabel
         Roots[0] = Temp*cos( Psi )-BOver3A;
         Roots[1] = Temp*cos( Psi+TwoThirdsPI )-BOver3A;
         Roots[2] = Temp*cos( Psi+FourThirdsPI )-BOver3A;
-        return( 3 );
+        return 3 ;
       }
 
     if( Desc> 0.0 )
@@ -884,13 +884,13 @@ namespace OpenBabel
         Temp = CubeRoot( -QOver2 );
         Roots[0] = Temp+Temp-BOver3A;
         Roots[1] = -Temp-BOver3A;
-        return( 2 );
+        return 2 ;
       }
 
     Desc = sqrt( Desc );
     Roots[0] = CubeRoot(Desc-QOver2)-CubeRoot(Desc+QOver2) - BOver3A;
 
-    return( 1 );
+    return 1 ;
   }
 
 

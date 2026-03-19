@@ -86,7 +86,7 @@ namespace OpenBabel
     mol.BeginModify();
 
     if (!ifs.getline(buffer,BUFF_SIZE))
-      return(false);
+      return false;
     mol.SetTitle(buffer);
 
     double x,y,z;
@@ -95,7 +95,7 @@ namespace OpenBabel
     for (i = 0; i < natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         sscanf(buffer,"%30s %lf %lf %lf",
                type,
                &x,
@@ -123,7 +123,7 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -155,7 +155,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

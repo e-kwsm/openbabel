@@ -85,7 +85,7 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%d", &natoms);
     if (!natoms)
-        return(false);
+        return false;
 
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
@@ -98,10 +98,10 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     for (i = 1; i <= natoms; i ++)
     {
         if (!ifs.getline(buffer,BUFF_SIZE))
-            return(false);
+            return false;
         tokenize(vs,buffer);
         if (vs.size() != 4)
-            return(false);
+            return false;
         atom = mol.NewAtom();
         x = atof((char*)vs[1].c_str());
         y = atof((char*)vs[2].c_str());
@@ -128,7 +128,7 @@ bool UniChemFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -163,7 +163,7 @@ bool UniChemFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         ofs << buffer << endl;
     }
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

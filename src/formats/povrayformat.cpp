@@ -75,7 +75,7 @@ OpenBabel::vector3 my_center_coords(double *c, unsigned int size)
 {
   if (size == 0)
     {
-      return(OpenBabel::VZero);
+      return OpenBabel::VZero;
     }
 	unsigned int i;
   double x=0.0, y=0.0, z=0.0;
@@ -89,7 +89,7 @@ OpenBabel::vector3 my_center_coords(double *c, unsigned int size)
   y /= (double) size;
   z /= (double) size;
   OpenBabel::vector3 v(x,y,z);
-  return(v);
+  return v;
 }
 
 
@@ -902,7 +902,7 @@ namespace OpenBabel
     num++;
 
     /* ---- Everything is ok! ---- */
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

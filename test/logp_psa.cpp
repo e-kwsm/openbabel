@@ -122,7 +122,7 @@ int logp_psa(int argc, char* argv[])
     cout << "not ok 7 # " << psa << '\n';
   }
 
-  return(0);
+  return 0;
 }
 
 

@@ -467,12 +467,12 @@ namespace OpenBabel
     vector<OBRing*>::iterator j;
     for (j = _rlist.begin();j != _rlist.end();++j)
       if (bv == (*j)->_pathset)
-        return(false);
+        return false;
 
     OBRing *ring = new OBRing(path, bv);
     _rlist.push_back(ring);
 
-    return(true);
+    return true;
   }
 
   //! Destructor -- free all rings created from this search
@@ -583,9 +583,9 @@ namespace OpenBabel
     vector<int>::iterator i;
     for (i = _path.begin();i != _path.end();++i)
       if (!(mol->GetAtom(*i))->IsAromatic())
-        return(false);
+        return false;
 
-    return(true);
+    return true;
   }
 
   void OBRing::SetType(char *type)
@@ -783,7 +783,7 @@ namespace OpenBabel
     norm1.normalize();
     norm2= norm1;
     norm2 *= -1.0;
-    return(true);
+    return true;
   }
 
 } // end namespace OpenBabel

@@ -101,14 +101,14 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: Cannot read the first line.", obWarning);
-        return(false);
+        return false;
       }
 
     if (sscanf(buffer, "%d", &natoms) == 0 || !natoms)
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: The first line must contain the number of atoms.", obWarning);
-        return(false);
+        return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -120,7 +120,7 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: Could not read the second line (title/comments).", obWarning);
-        return(false);
+        return false;
       }
     string readTitle(buffer);
     Trim(readTitle);
@@ -225,7 +225,7 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

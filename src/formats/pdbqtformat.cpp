@@ -291,7 +291,7 @@ namespace OpenBabel
     if (!mol.NumAtoms())
     { // skip the rest of this processing
       mol.EndModify();
-      return(false);
+      return false;
     }
 
     resdat.AssignBonds(mol);
@@ -321,7 +321,7 @@ namespace OpenBabel
     ifs.seekg(ipos);
 
     mol.SetPartialChargesPerceived();
-    return(true);
+    return true;
   }
 
   /////////////////////////////////////////////////////////////////////////
@@ -686,15 +686,15 @@ namespace OpenBabel
   static bool IsImide(OBBond* querybond)
   {
     if (querybond->GetBondOrder() != 2)
-      return(false);
+      return false;
 
     OBAtom* bgn = querybond->GetBeginAtom();
     OBAtom* end = querybond->GetEndAtom();
     if ((bgn->GetAtomicNum() == 6 && end->GetAtomicNum() == 7) ||
       (bgn->GetAtomicNum() == 7 && end->GetAtomicNum() == 6))
-      return(true);
+      return true;
 
-    return(false);
+    return false;
   }
 
   static bool IsAmidine(OBBond* querybond)
@@ -715,8 +715,8 @@ namespace OpenBabel
       c = end;
       n =bgn;
     }
-    if (!c || !n) return(false);
-    if (querybond->GetBondOrder() != 1) return(false);
+    if (!c || !n) return false;
+    if (querybond->GetBondOrder() != 1) return false;
     if (n->GetTotalDegree() != 3) return false; // must be a degree 3 nitrogen
 
     // Make sure C is attached to =N
@@ -724,11 +724,11 @@ namespace OpenBabel
     vector<OBBond*>::iterator i;
     for (bond = c->BeginBond(i); bond; bond = c->NextBond(i))
     {
-      if (IsImide(bond)) return(true);
+      if (IsImide(bond)) return true;
     }
 
     // Return
-    return(false);
+    return false;
   }
 
 
@@ -1101,7 +1101,7 @@ namespace OpenBabel
   {
     string sbuf = &buffer[6];
     if (sbuf.size() < 48)
-      return(false);
+      return false;
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
     bool elementFound = false; // true if correct element found in col 77-78
@@ -1259,7 +1259,7 @@ namespace OpenBabel
     }
 
     if (!mol.AddAtom(atom))
-      return(false);
+      return false;
     else
     {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
@@ -1268,7 +1268,7 @@ namespace OpenBabel
       res->SetSerialNum(atom, atoi(serno.c_str()));
       res->SetAtomID(atom, sbuf.substr(6,4));
       res->SetHetAtom(atom, hetatm);
-      return(true);
+      return true;
     }
   } // end reading atom records
 

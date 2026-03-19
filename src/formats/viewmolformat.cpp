@@ -93,7 +93,7 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         if (strstr(buffer, "$title") != nullptr)
         {
             if (!ifs.getline(buffer,BUFF_SIZE))
-                return (false);
+                return false;
             mol.SetTitle(buffer);
             foundTitle = true;
 	    ifs.getline(buffer,BUFF_SIZE);
@@ -152,7 +152,7 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     if (!foundTitle)
         mol.SetTitle(title);
-    return(true);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -189,7 +189,7 @@ bool ViewMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
     ofs << "$end" << endl;
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

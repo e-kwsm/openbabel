@@ -133,7 +133,7 @@ namespace OpenBabel
                 if (strstr(buffer, "angstrom") != nullptr)
                   bohr = false;
                 if (!ifs.getline(buffer,BUFF_SIZE))
-                  return(false);
+                  return false;
               }
             ifs.getline(buffer,BUFF_SIZE); // Now we're on the atoms
             tokenize(vs,buffer);
@@ -176,7 +176,7 @@ namespace OpenBabel
 
     mol.SetTitle(title);
 
-    return(true);
+    return true;
   }
 
   bool MPQCInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
@@ -207,7 +207,7 @@ namespace OpenBabel
       }
 
     ofs << "\n\n\n";
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

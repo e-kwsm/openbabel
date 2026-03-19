@@ -65,25 +65,25 @@ namespace OpenBabel
           switch (n)
             {
               case 2:
-                r << ((neg)? "1/6": "1/6+");
+                r << (neg? "1/6": "1/6+");
                 break;
               case 3:
-                r << ((neg)? "1/4": "1/4+");
+                r << (neg? "1/4": "1/4+");
                 break;
               case 4:
-                r << ((neg)? "1/3": "1/3+");
+                r << (neg? "1/3": "1/3+");
                 break;
               case 6:
-                r << ((neg)? "1/2": "1/2+");
+                r << (neg? "1/2": "1/2+");
                 break;
               case 8:
-                r << ((neg)? "2/3": "2/3+");
+                r << (neg? "2/3": "2/3+");
                 break;
               case 9:
-                r << ((neg)? "3/4": "3/4+");
+                r << (neg? "3/4": "3/4+");
                 break;
               case 10:
-                r << ((neg)? "5/6": "5/6+");
+                r << (neg? "5/6": "5/6+");
                 break;
             }
             first = true;
@@ -94,13 +94,13 @@ namespace OpenBabel
                   switch (j)
                     {
                       case 0:
-                        r << ((neg)? "-x": (first? "x": "+x"));
+                        r << (neg? "-x": (first? "x": "+x"));
                         break;
                      case 1:
-                        r << ((neg)? "-y": (first? "y": "+y"));
+                        r << (neg? "-y": (first? "y": "+y"));
                         break;
                      case 2:
-                        r << ((neg)? "-z": (first? "z": "+z"));
+                        r << (neg? "-z": (first? "z": "+z"));
                         break;
                     }
                   first = false;

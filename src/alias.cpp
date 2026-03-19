@@ -215,7 +215,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   //and attach it to the first atom of the fragment.
   mol.GetAtom(newFragIdx)->CloneData(this);
 
-  delete(XxAtom);
+  delete XxAtom;
   return true;
 }
 

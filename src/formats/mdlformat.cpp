@@ -274,7 +274,7 @@ namespace OpenBabel
       errorMsg << "WARNING: Problems reading a MDL file\n";
       errorMsg << "Cannot read title line\n";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-      return(false);
+      return false;
     }
 
     //Do not interpret a single (usually blank) line at end of file as
@@ -361,7 +361,7 @@ namespace OpenBabel
       errorMsg << "Cannot read atom and bond count\n";
       errorMsg << "Expected standard 6 character atom and bond count\n";
       obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-      return(false);
+      return false;
     }
 
     natoms = ReadUIntField((line.substr(0, 3)).c_str());
@@ -1412,7 +1412,7 @@ namespace OpenBabel
       if(!pConv->IsLast()  || HasProperties  || pConv->IsOption("sd"))
         ofs << "$$$$" << endl;
 
-    return(true);
+    return true;
   }
 
 

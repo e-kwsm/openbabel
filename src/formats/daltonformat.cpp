@@ -157,7 +157,7 @@ namespace OpenBabel
       {
         basisformat = INTGRL;
         cout << "Cannot read INTGRL format" << endl;
-        return(false);
+        return false;
       }
       if (strstr(buffer, "ATOMBASIS") != nullptr)
       {
@@ -185,14 +185,14 @@ namespace OpenBabel
       else
       {
         cout << "AtomTypes not specified in file." << endl;
-        return(false);
+        return false;
       }
 
       // then check if there is a NoSymmetry line. otherwise bail out
       if (strstr(buffer, "NoSymmetry") == nullptr)
       {
         cout << "Only molecules with NoSymmetry can be read" << endl;
-        return(false);
+        return false;
       }
 
       if (strstr(buffer, "Charge") != nullptr)
@@ -219,7 +219,7 @@ namespace OpenBabel
         if (strstr(buffer, "ZMAT") != nullptr)
         {
            cout << "ZMAT format not supported" << endl;
-           return(false);
+           return false;
         }
         tokenize(vs,buffer);
         if(vs.size() == 4)
@@ -248,7 +248,7 @@ namespace OpenBabel
     // by EndModify
     mol.SetTotalCharge(molcharge);
 
-    return(true);
+    return true;
   }
 
   // ---
@@ -345,7 +345,7 @@ namespace OpenBabel
                atom->GetZ()*factor);
       ofs << buffer << endl;
     }
-    return(true);
+    return true;
   }
 
   // ---
@@ -408,6 +408,6 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
     }
 
-    return(true);
+    return true;
   }
 } //namespace OpenBabel

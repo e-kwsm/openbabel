@@ -347,387 +347,387 @@ namespace OpenBabel
 
         switch( ch1 )
           {
-          case(' '):
+          case ' ':
 
             if( ch2 == ' ' )
               {
                 switch( ch3 )
                   {
-                  case('A'):  return( 24 );
-                  case('C'):  return( 25 );
-                  case('G'):  return( 26 );
-                  case('T'):  return( 27 );
-                  case('U'):  return( 28 );
-                  case('I'):  return( 30 );
+                  case 'A':  return 24 ;
+                  case 'C':  return 25 ;
+                  case 'G':  return 26 ;
+                  case 'T':  return 27 ;
+                  case 'U':  return 28 ;
+                  case 'I':  return 30 ;
                   }
               }
             else if( ch2 == '+' )
               {
                 if( ch3 == 'U' )
-                  return( 29 );
+                  return 29 ;
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'G' )
-                  return( 39 );
+                  return 39 ;
               }
 
             break;
 
-          case('0'):
+          case '0':
 
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
-                  return( 33 );
+                  return 33 ;
                 else if( ch3 == 'G' )
-                  return( 38 );
+                  return 38 ;
               }
 
             break;
 
-          case('1'):
+          case '1':
 
             if( ch2 == 'M' )
               {
                 if( ch3 == 'A' )
-                  return( 31 );
+                  return 31 ;
                 else if( ch3 == 'G' )
-                  return( 34 );
+                  return 34 ;
               }
 
             break;
 
-          case('2'):
+          case '2':
 
             if( ch2 == 'M' )
               if( ch3 == 'G' )
-                return( 35 );
+                return 35 ;
 
             break;
 
-          case('5'):
+          case '5':
 
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
-                  return( 32 );
+                  return 32 ;
                 else if( ch3 == 'U' )
-                  return( 41 );
+                  return 41 ;
               }
 
             break;
 
-          case('7'):
+          case '7':
 
             if( ch2 == 'M' )
               if( ch3 == 'G' )
-                return( 37 );
+                return 37 ;
 
             break;
 
-          case('A'):
+          case 'A':
 
             if( ch2 == 'L' )
               {
                 if( ch3 == 'A' )
-                  return(  0 );
+                  return 0 ;
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'P' )
-                  return(  7 );
+                  return 7 ;
                 else if( ch3 == 'N' )
-                  return(  9 );
+                  return 9 ;
                 else if( ch3 == 'X' )
-                  return( 20 );
+                  return 20 ;
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'G' )
-                  return( 12 );
+                  return 12 ;
               }
             else if( ch2 == 'C' )
               {
                 if( ch3 == 'E' )
-                  return( 44 );
+                  return 44 ;
               }
             else if( ch2 == 'D' )
               {
                 if( ch3 == 'E' )
-                  return( 24 );    /* "ADE" -> "  A" */
+                  return 24 ;    /* "ADE" -> "  A" */
               }
 
             break;
 
-          case('C'):
+          case 'C':
 
             if( ch2 == 'Y' )
               {
                 if( ch3 == 'S' )
-                  return( 17 );
+                  return 17 ;
                 else if( ch3 == 'H' )
-                  return( 17 );    /* "CYH" -> "CYS" */
+                  return 17 ;    /* "CYH" -> "CYS" */
                 else if( ch3 == 'T' )
-                  return( 25 );    /* "CYT" -> "  C" */
+                  return 25 ;    /* "CYT" -> "  C" */
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == 'A' )
-                  return( 51 );
+                  return 51 ;
               }
             else if( ch2 == 'P' )
               {
                 if( ch3 == 'R' )
-                  return( 11 );    /* "CPR" -> "PRO" */
+                  return 11 ;    /* "CPR" -> "PRO" */
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'H' )
-                  return( 17 );    /* "CSH" -> "CYS" */
+                  return 17 ;    /* "CSH" -> "CYS" */
                 else if( ch3 == 'M' )
-                  return( 17 );    /* "CSM" -> "CYS" */
+                  return 17 ;    /* "CSM" -> "CYS" */
               }
 
             break;
 
-          case('D'):
+          case 'D':
 
             if( ch2 == 'O' )
               {
                 if( ch3 == 'D' )
-                  return( 47 );
+                  return 47 ;
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'O' )
-                  return( 47 );    /* "D2O" -> "DOD" */
+                  return 47 ;    /* "D2O" -> "DOD" */
               }
 
             break;
 
-          case('F'):
+          case 'F':
 
             if( ch2 == 'O' )
               if( ch3 == 'R' )
-                return( 45 );
+                return 45 ;
 
             break;
 
-          case('G'):
+          case 'G':
 
             if( ch2 == 'L' )
               {
                 if( ch3 == 'Y' )
-                  return(  1 );
+                  return 1 ;
                 else if( ch3 == 'U' )
-                  return( 10 );
+                  return 10 ;
                 else if( ch3 == 'N' )
-                  return( 14 );
+                  return 14 ;
                 else if( ch3 == 'X' )
-                  return( 21 );
+                  return 21 ;
               }
             else if( ch2 == 'U' )
               {
                 if( ch3 == 'A' )
-                  return( 26 );    /* "GUA" -> "  G" */
+                  return 26 ;    /* "GUA" -> "  G" */
               }
 
             break;
 
-          case('H'):
+          case 'H':
 
             if( ch2 == 'I' )
               {
                 if( ch3 == 'S' )
-                  return( 16 );
+                  return 16 ;
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == 'H' )
-                  return( 46 );
+                  return 46 ;
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'P' )
-                  return( 23 );
+                  return 23 ;
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'O' )
-                  return( 46 );    /* "H20" -> "HOH" */
+                  return 46 ;    /* "H20" -> "HOH" */
                 else if( ch3 == 'U' )
-                  return( 40 );
+                  return 40 ;
               }
 
             break;
 
-          case('I'):
+          case 'I':
 
             if( ch2 == 'L' )
               if( ch3 == 'E' )
-                return(  8 );
+                return 8 ;
 
             break;
 
-          case('L'):
+          case 'L':
 
             if( ch2 == 'E' )
               {
                 if( ch3 == 'U' )
-                  return(  2 );
+                  return 2 ;
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'S' )
-                  return(  6 );
+                  return 6 ;
               }
 
             break;
 
-          case('M'):
+          case 'M':
 
             if( ch2 == 'E' )
               {
                 if( ch3 == 'T' )
-                  return( 18 );
+                  return 18 ;
               }
             else if( ch2 == '2' )
               {
                 if( ch3 == 'G' )
-                  return( 36 );
+                  return 36 ;
               }
 
             break;
 
-          case('N'):
+          case 'N':
 
             if( ch2 == 'A' )
               {
                 if( ch3 == 'D' )
-                  return( 50 );
+                  return 50 ;
                 else if( ch3 == 'P' )
-                  return( 52 );
+                  return 52 ;
               }
             else if( ch2 == 'D' )
               {
                 if( ch3 == 'P' )
-                  return( 53 );
+                  return 53 ;
               }
 
             break;
 
-          case('P'):
+          case 'P':
 
             if( ch2 == 'R' )
               {
                 if( ch3 == 'O' )
-                  return( 11 );
+                  return 11 ;
               }
             else if( ch2 == 'H' )
               {
                 if( ch3 == 'E' )
-                  return( 13 );
+                  return 13 ;
               }
             else if( ch2 == 'C' )
               {
                 if( ch3 == 'A' )
-                  return( 22 );
+                  return 22 ;
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == '4' )
-                  return( 49 );
+                  return 49 ;
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'U' )
-                  return( 42 );
+                  return 42 ;
               }
 
             break;
 
-          case('S'):
+          case 'S':
 
             if( ch2 == 'E' )
               {
                 if( ch3 == 'R' )
-                  return(  3 );
+                  return 3 ;
               }
             else if( ch2 == 'O' )
               {
                 if( ch3 == '4' )
-                  return( 48 );
+                  return 48 ;
                 else if( ch3 == 'L' )
-                  return( 46 );    /* "SOL" -> "HOH" */
+                  return 46 ;    /* "SOL" -> "HOH" */
               }
             else if( ch2 == 'U' )
               {
                 if( ch3 == 'L' )
-                  return( 48 );    /* "SUL" -> "SO4" */
+                  return 48 ;    /* "SUL" -> "SO4" */
               }
 
             break;
 
-          case('T'):
+          case 'T':
 
             if( ch2 == 'H' )
               {
                 if( ch3 == 'R' )
-                  return(  5 );
+                  return 5 ;
                 else if( ch3 == 'Y' )
-                  return( 27 );    /* "THY" -> "  T" */
+                  return 27 ;    /* "THY" -> "  T" */
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'R' )
-                  return( 15 );
+                  return 15 ;
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'P' )
-                  return( 19 );
+                  return 19 ;
                 else if( ch3 == 'Y' )
-                  return( 19 );    /* "TRY" -> "TRP" */
+                  return 19 ;    /* "TRY" -> "TRP" */
               }
             else if( ch2 == 'I' )
               {
                 if( ch3 == 'P' )
-                  return( 46 );    /* "TIP" -> "HOH" */
+                  return 46 ;    /* "TIP" -> "HOH" */
               }
 
             break;
 
-          case('U'):
+          case 'U':
 
             if( ch2 == 'N' )
               {
                 if( ch3 == 'K' )
-                  return( 43 );
+                  return 43 ;
               }
             else if( ch2 == 'R' )
               {
                 if( ch3 == 'A' )
-                  return( 28 );    /* "URA" -> "  U" */
+                  return 28 ;    /* "URA" -> "  U" */
                 else if( ch3 == 'I' )
-                  return( 28 );    /* "URI" -> "  U" */
+                  return 28 ;    /* "URI" -> "  U" */
               }
 
             break;
 
-          case('V'):
+          case 'V':
 
             if( ch2 == 'A' )
               if( ch3 == 'L' )
-                return(  4 );
+                return 4 ;
 
             break;
 
-          case('W'):
+          case 'W':
 
             if( ch2 == 'A' )
               if( ch3 == 'T' )
-                return( 46 );    /* "WAT" -> "HOH" */
+                return 46 ;    /* "WAT" -> "HOH" */
 
             break;
           }

@@ -1388,7 +1388,7 @@ namespace OpenBabel {
         double d = sqrt(d2);
         if (d > ub) {
           double u2 = ub * ub;
-          preFactor = 4.0 * (((d2)/u2) - 1.0) * (d/u2);
+          preFactor = 4.0 * ((d2/u2) - 1.0) * (d/u2);
         } else if(d < lb) {
           double l2 = lb * lb;
           double l2d2 = d2 + l2;
@@ -1484,7 +1484,7 @@ namespace OpenBabel {
         double d = sqrt(d2);
         if (d > ub) {
           double u2 = ub * ub;
-          preFactor = 4.0 * (((d2)/u2) - 1.0) * (d/u2);
+          preFactor = 4.0 * ((d2/u2) - 1.0) * (d/u2);
         } else if(d < lb) {
           double l2 = lb * lb;
           double l2d2 = d2 + l2;

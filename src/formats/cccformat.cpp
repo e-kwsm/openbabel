@@ -97,7 +97,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     for (int i = 1;i <= natoms;i++)
     {
         if (!ifs.getline(buffer,BUFF_SIZE))
-            return(false);
+            return false;
         atom.Clear();
         element[0] = buffer[0];
         element[1] = (buffer[1] != ' ') ? buffer[1]:'\0';
@@ -107,7 +107,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
         atom.SetVector(v);
 
         if (!mol.AddAtom(atom))
-            return(false);
+            return false;
         tokenize(vs,&buffer[60]);
         vector<string>::iterator j;
 
@@ -137,7 +137,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     }
 
     mol.EndModify();
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

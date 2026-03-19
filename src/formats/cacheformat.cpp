@@ -169,7 +169,7 @@ namespace OpenBabel
       }
 
     ofs << "property_flags:\n";
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

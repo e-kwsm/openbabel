@@ -135,7 +135,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

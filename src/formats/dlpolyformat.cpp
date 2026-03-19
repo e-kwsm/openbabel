@@ -332,9 +332,9 @@ namespace OpenBabel
     mol.EndModify();
 
     if ( mol.NumAtoms() == 0 )
-      return(false);
+      return false;
     else
-      return(true);
+      return true;
 
   } // End ReadMolecule
 
@@ -380,7 +380,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    return(true);
+    return true;
     
   } //End WriteMolecule
   
@@ -504,9 +504,9 @@ public:
     mol.EndModify();
     
     if ( mol.NumAtoms() == 0 )
-      return(false);
+      return false;
     else
-      return(true);
+      return true;
 
   } // End ReadMolecule
 

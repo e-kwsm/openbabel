@@ -134,14 +134,14 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an E-XYZ file: Cannot read the first line.", obWarning);
-        return(false);
+        return false;
       }
 
     if (sscanf(buffer, "%d", &natoms) == 0 || !natoms)
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an E-XYZ file: The first line must contain the number of atoms.", obWarning);
-        return(false);
+        return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -153,7 +153,7 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an EXYZ file: Could not read the second line (title/comments/keywords).", obWarning);
-        return(false);
+        return false;
       }
     string readTitle(buffer);
     string::size_type location = readTitle.find("Energy");
@@ -195,7 +195,7 @@ namespace OpenBabel
                      << " atoms, and therefore " << natoms+2 << " lines in the file.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         tokenize(vs,buffer);
         if (vs.size() < 4) // ignore extra columns which some applications add
@@ -207,7 +207,7 @@ namespace OpenBabel
                      << "However, OpenBabel found " << vs.size() << " items.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
 
         // Atom Type: get the atomic number from the element table, using
@@ -244,7 +244,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         double y = strtod((char*)vs[2].c_str(),&endptr);
         if (endptr == (char*)vs[2].c_str())
@@ -256,7 +256,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         double z = strtod((char*)vs[3].c_str(),&endptr);
         if (endptr == (char*)vs[3].c_str())
@@ -268,7 +268,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         atom->SetVector(x,y,z); //set coordinates
 
@@ -287,7 +287,7 @@ namespace OpenBabel
                  << "Expecting unitcell information because of keyword %PBC " << endl
                  << " but nothing more found ";
         obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-        return(false);
+        return false;
     }
     if (unitCell) {
         OBUnitCell *unitCellInfo = new OBUnitCell;
@@ -298,7 +298,7 @@ namespace OpenBabel
                          << "Expecting unitcell information because of keyword %PBC " << endl
                          << " but nothing found ";
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-                return(false);
+                return false;
             }
             tokenize(vs,buffer);
             if (vs.size() != 4) { // assume that unit cell vectors are given
@@ -307,7 +307,7 @@ namespace OpenBabel
                          << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << endl
                          << "However, OpenBabel found " << vs.size() << " items.";
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-                return(false);
+                return false;
             }
             // Read the vectors of the unit cell
             char *endptr;
@@ -321,7 +321,7 @@ namespace OpenBabel
                          << "OpenBabel could not interpret item #1 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-                return(false);
+                return false;
             }
             double y = strtod((char*)vs[2].c_str(),&endptr);
             if (endptr == (char*)vs[2].c_str())
@@ -333,7 +333,7 @@ namespace OpenBabel
                          << "OpenBabel could not interpret item #2 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-                return(false);
+                return false;
             }
             double z = strtod((char*)vs[3].c_str(),&endptr);
             if (endptr == (char*)vs[3].c_str())
@@ -345,7 +345,7 @@ namespace OpenBabel
                          << "OpenBabel could not interpret item #3 as a number.";
 
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-                return(false);
+                return false;
             }
             unitCellMatrix.SetRow(i-1, vector3(x,y,z));
         }
@@ -356,7 +356,7 @@ namespace OpenBabel
                      << "Expecting unitcell information because of keyword %PBC " << endl
                      << " looking for center information but nothing found ";
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
         }
         tokenize(vs,buffer);
         if (vs.size() != 4) { // assume that unit cell vectors are given
@@ -365,7 +365,7 @@ namespace OpenBabel
                      << "According to the specifications (keyword %PBC), this line should contain exactly 4 entries, separated by white space." << endl
                      << "However, OpenBabel found " << vs.size() << " items.";
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
         }
         // Read the origin (center) vector of the unit cell
         char *endptr;
@@ -378,7 +378,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
         }
         double y = strtod((char*)vs[2].c_str(),&endptr);
         if (endptr == (char*)vs[2].c_str())
@@ -389,7 +389,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
         }
         double z = strtod((char*)vs[3].c_str(),&endptr);
         if (endptr == (char*)vs[3].c_str())
@@ -400,7 +400,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
         }
         unitCellInfo->SetOffset(vector3(x,y,z));
         mol.SetData(unitCellInfo);
@@ -424,7 +424,7 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -489,7 +489,7 @@ namespace OpenBabel
             << right << offset.GetX() << " " << setw(15) << offset.GetY() << " "
             << setw(15) << offset.GetZ() << endl;
     }
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -86,9 +86,9 @@ namespace OpenBabel
   static bool IsThiocarboxylSulfur(OBAtom* queryatom)
   {
     if (queryatom->GetAtomicNum() != OBElements::Sulfur)
-      return(false);
+      return false;
     if (queryatom->GetHvyDegree() != 1)
-      return(false);
+      return false;
 
     OBAtom *atom = nullptr;
     OBBond *bond;
@@ -101,14 +101,14 @@ namespace OpenBabel
         break;
       }
     if (!atom)
-      return(false);
+      return false;
     if (!(atom->CountFreeSulfurs() == 2)
       && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
-      return(false);
+      return false;
 
     //atom is connected to a carbon that has a total
     //of 2 attached free sulfurs or 1 free oxygen and 1 free sulfur
-    return(true);
+    return true;
   }
 
   static bool IsOxygenOrSulfur(OBAtom *atom)
@@ -179,7 +179,7 @@ namespace OpenBabel
     for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         if (pConv->IsOption("c", OBConversion::INOPTIONS) != nullptr && EQn(buffer, "###########", 10))
           {
             char attr[32], val[32];
@@ -202,7 +202,7 @@ namespace OpenBabel
     for (lcount=0;;lcount++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         if (EQn(buffer,"@<TRIPOS>ATOM",13))
           {
             foundAtomLine = true;
@@ -256,7 +256,7 @@ namespace OpenBabel
         mol.EndModify();
         mol.Clear();
         obErrorLog.ThrowError(__FUNCTION__, "Unable to read Mol2 format file. No atoms found.", obWarning);
-        return(false);
+        return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -275,7 +275,7 @@ namespace OpenBabel
     for (i = 0;i < natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         sscanf(buffer," %*s %1024s %lf %lf %lf %1024s %d %1024s %lf",
                atmid, &x,&y,&z, temp_type, &resnum, resname, &pcharge);
 
@@ -368,7 +368,7 @@ namespace OpenBabel
         if (str1 == "Cu" || str1 == "Fe")
           atom.SetFormalCharge((int)pcharge);
         if (!mol.AddAtom(atom))
-          return(false);
+          return false;
         if (!IsNearZero(pcharge))
           hasPartialCharges = true;
 
@@ -414,7 +414,7 @@ namespace OpenBabel
           for(int i = 0; i < num; i++) 
           {
             if (!ifs.getline(buffer,BUFF_SIZE))
-              return(false);
+              return false;
             if(strncmp(buffer, "charge", 6) == 0)
             {
               int charge = 0;
@@ -441,7 +441,7 @@ namespace OpenBabel
     for (i = 0; i < nbonds; i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
 
         sscanf(buffer,"%*d %d %d %1024s",&start,&end,temp_type);
         str = temp_type;
@@ -596,7 +596,7 @@ namespace OpenBabel
     ifs.seekg(pos); // go back to the end of the molecule
     */
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -766,7 +766,7 @@ namespace OpenBabel
     // NO trailing blank line (PR#1868929).
     //    ofs << endl;
 
-    return(true);
+    return true;
   }
 
   int MOL2Format::SkipObjects(int n, OBConversion* pConv)

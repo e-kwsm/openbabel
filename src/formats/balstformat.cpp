@@ -80,9 +80,9 @@ namespace OpenBabel
     char buffer[BUFF_SIZE];
 
     if (!ifs.getline(buffer,BUFF_SIZE))
-      return(false);
+      return false;
     if (!ifs.getline(buffer,BUFF_SIZE))
-      return(false);
+      return false;
     sscanf(buffer,"%d",&natoms);
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
@@ -95,10 +95,10 @@ namespace OpenBabel
     for (i = 1; i <= natoms;i ++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         tokenize(vs,buffer);
         if (vs.size() < 4)
-          return(false);
+          return false;
         if (vs[0].size() > 1)
           vs[0][1] = tolower(vs[0][1]);
         atom = mol.NewAtom();
@@ -124,7 +124,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -174,7 +174,7 @@ namespace OpenBabel
         ofs << endl;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -96,11 +96,11 @@ namespace OpenBabel
       ;
 
     if (!EQn(buffer,"CELL",4))
-      return(false);
+      return false;
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
     if (vs.size() != 7)
-      return(false);
+      return false;
 
     //parse cell values
     A = atof((char*)vs[1].c_str());
@@ -125,10 +125,10 @@ namespace OpenBabel
     for (i = 1; i <= natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         tokenize(vs,buffer," \n\t,");
         if (vs.size() < 4)
-          return(false);
+          return false;
         atom = mol.NewAtom();
 
         x = atof((char*)vs[1].c_str());
@@ -157,7 +157,7 @@ namespace OpenBabel
     ifs.seekg(ipos);
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -202,7 +202,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    return(true);
+    return true;
   }
 
   //! \todo Make this method bulletproof. Currently it causes segfaults sometimes
@@ -340,7 +340,7 @@ namespace OpenBabel
     char tmptype[16],buffer[BUFF_SIZE];
 
     if (mol.Empty())
-      return(false);
+      return false;
 
     //translate first atom to origin
     v = mol.GetAtom(1)->GetVector();
@@ -380,7 +380,7 @@ namespace OpenBabel
           *j = nullptr;
         }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

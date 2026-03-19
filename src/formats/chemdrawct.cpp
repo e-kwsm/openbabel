@@ -102,7 +102,7 @@ namespace OpenBabel
                  bond->GetBondOrder(), bond->GetBondOrder());
         ofs << buffer << endl;
       }
-    return(true);
+    return true;
   }
 
   bool ChemDrawFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
@@ -137,9 +137,9 @@ namespace OpenBabel
 
     for (unsigned int i = 1; i <= natoms; i ++)
       {
-        if (!ifs.getline(buffer,BUFF_SIZE)) return(false);
+        if (!ifs.getline(buffer,BUFF_SIZE)) return false;
         tokenize(vs,buffer);
-        if (vs.size() != 4) return(false);
+        if (vs.size() != 4) return false;
         atom = mol.NewAtom();
 
         x = atof((char*)vs[0].c_str());
@@ -153,10 +153,10 @@ namespace OpenBabel
     if (nbonds != 0)
       for (unsigned int i = 0; i < nbonds; i++)
         {
-          if (!ifs.getline(buffer,BUFF_SIZE)) return(false);
+          if (!ifs.getline(buffer,BUFF_SIZE)) return false;
           tokenize(vs,buffer);
-          if (vs.size() != 4) return(false);
-          if (!sscanf(buffer,"%d%d%d%*d",&bgn,&end,&order)) return (false);
+          if (vs.size() != 4) return false;
+          if (!sscanf(buffer,"%d%d%d%*d",&bgn,&end,&order)) return false;
           mol.AddBond(bgn,end,order);
         }
 
@@ -171,7 +171,7 @@ namespace OpenBabel
     ifs.seekg(ipos);
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
 

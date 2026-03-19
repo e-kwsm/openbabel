@@ -111,5 +111,5 @@ int main(int argc,char *argv[])
       conv.Write(&mol);
     } // while reading molecules
   
-  return(0);
+  return 0;
 }

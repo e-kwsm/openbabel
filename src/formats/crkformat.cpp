@@ -88,7 +88,7 @@ namespace OpenBabel
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
         obErrorLog.ThrowError(__FUNCTION__, "File is empty!", obError);
-        return(false);
+        return false;
       }
     if (!strstr(buffer,"<Property"))
       {
@@ -187,7 +187,7 @@ namespace OpenBabel
     if (!ifs.getline(buffer,BUFF_SIZE))
       {
         obErrorLog.ThrowError(__FUNCTION__, "File is empty!", obError);
-        return(false);
+        return false;
       }
     if (!strstr(buffer,"<Property"))
       {
