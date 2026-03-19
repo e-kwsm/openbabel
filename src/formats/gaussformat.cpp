@@ -268,7 +268,7 @@ namespace OpenBabel
 
     // file should end with a blank line
     ofs << endl;
-    return(true);
+    return true;
   }
 
   static void add_unique_pairdata_to_mol(OpenBabel::OBMol *mol,
@@ -636,7 +636,7 @@ namespace OpenBabel
               return false;
             }
             // malloc / memcpy
-            double *tmpCoords = new double [(natoms)*3];
+            double *tmpCoords = new double [natoms*3];
             memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
             vconf.push_back(tmpCoords);
             coordinates.clear();
@@ -1417,7 +1417,7 @@ namespace OpenBabel
     mol.SetTotalSpinMultiplicity(spin_multiplicity);
 
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

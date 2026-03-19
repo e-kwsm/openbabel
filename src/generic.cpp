@@ -983,7 +983,7 @@ namespace OpenBabel
     atoms.first  = _vertex;
     atoms.second = _termini.first;
     atoms.third  = _termini.second;
-    return(atoms);
+    return atoms;
   }
 
   /*!
@@ -1070,7 +1070,7 @@ namespace OpenBabel
   bool OBAngleData::FillAngleArray(std::vector<std::vector<unsigned int> > &angles)
   {
     if(_angles.empty())
-      return(false);
+      return false;
 
     vector<OBAngle>::iterator angle;
 
@@ -1087,7 +1087,7 @@ namespace OpenBabel
         angles[ct][2] = angle->_termini.second->GetIdx() - 1;
       }
 
-    return(true);
+    return true;
   }
 
   /*!
@@ -1159,7 +1159,7 @@ namespace OpenBabel
         torsions.push_back(abcd);
       }
 
-    return(torsions);
+    return torsions;
   }
 
   /*!
@@ -1195,11 +1195,11 @@ namespace OpenBabel
   bool OBTorsion::SetAngle(double radians,unsigned int index)
   {
     if(index >= _ads.size())
-      return(false);
+      return false;
 
     _ads[index].third = radians;
 
-    return(true);
+    return true;
   }
 
   /*!
@@ -1246,7 +1246,7 @@ namespace OpenBabel
   bool OBTorsion::AddTorsion(OBAtom *a,OBAtom *b, OBAtom *c,OBAtom *d)
   {
     if(!Empty() && (b != _bc.first || c != _bc.second))
-      return(false);
+      return false;
 
     if(Empty())
       {
@@ -1257,7 +1257,7 @@ namespace OpenBabel
     triple<OBAtom*,OBAtom*,double> ad(a,d,0.0);
     _ads.push_back(ad);
 
-    return(true);
+    return true;
   }
 
   /*!
@@ -1266,7 +1266,7 @@ namespace OpenBabel
   bool OBTorsion::AddTorsion(quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> &atoms)
   {
     if(!Empty() && (atoms.second != _bc.first || atoms.third != _bc.second))
-      return(false);
+      return false;
 
     if(Empty())
       {
@@ -1277,7 +1277,7 @@ namespace OpenBabel
     triple<OBAtom*,OBAtom*,double> ad(atoms.first,atoms.fourth,0.0);
     _ads.push_back(ad);
 
-    return(true);
+    return true;
   }
 
   //\!brief OBTorsionData ctor
@@ -1323,7 +1323,7 @@ namespace OpenBabel
   bool OBTorsionData::FillTorsionArray(std::vector<std::vector<unsigned int> > &torsions)
   {
     if(_torsions.empty())
-      return(false);
+      return false;
 
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> > tmpquads,quads;
     vector<quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> >::iterator thisQuad;
@@ -1353,7 +1353,7 @@ namespace OpenBabel
         torsions[ct][3] = thisQuad->fourth->GetIdx()-1;
       }
 
-    return(true);
+    return true;
   }
 
 

@@ -59,7 +59,7 @@ namespace OpenBabel
     // find the rotatable bonds
     FindRotors(mol, sampleRingBonds);
     if (!Size())
-      return(false);
+      return false;
 
     // set the atoms that should be evaluated when this rotor changes
     SetEvalAtoms(mol);
@@ -82,7 +82,7 @@ namespace OpenBabel
     if (_removesym)
       RemoveSymVals(mol);
 
-    return(true);
+    return true;
   }
 
   bool OBRotorList::FindRotors(OBMol &mol, bool sampleRingBonds)
@@ -161,7 +161,7 @@ namespace OpenBabel
     a1 = bond->GetBeginAtom();
     a2 = bond->GetEndAtom();
     if (!_fixedatoms[a1->GetIdx()] || !_fixedatoms[a2->GetIdx()])
-      return(false);
+      return false;
 
     bool isfixed=false;
     for (a3 = a1->BeginNbrAtom(i);a3;a3 = a1->NextNbrAtom(i))
@@ -172,7 +172,7 @@ namespace OpenBabel
         }
 
     if (!isfixed)
-      return(false);
+      return false;
 
     isfixed = false;
     for (a3 = a2->BeginNbrAtom(i);a3;a3 = a2->NextNbrAtom(i))
@@ -182,7 +182,7 @@ namespace OpenBabel
           break;
         }
 
-    return(isfixed);
+    return isfixed;
   }
 
   bool GetDFFVector(OBMol &mol,vector<int> &dffv,OBBitVec &bv)
@@ -234,7 +234,7 @@ namespace OpenBabel
         dffv[atom->GetIdx()-1] = dffcount;
       }
 
-    return(true);
+    return true;
   }
 
   void OBRotorList::RemoveSymVals(OBMol &mol)
@@ -335,7 +335,7 @@ namespace OpenBabel
         rotor->SetEvalAtoms(eval);
       }
 
-    return(true);
+    return true;
   }
 
   bool OBRotorList::AssignTorVals(OBMol &mol)
@@ -407,7 +407,7 @@ namespace OpenBabel
         rotor->SetDihedralAtoms(ref);
       }
 
-    return(true);
+    return true;
   }
 
   void OBRotorList::SetRotAtomsByFix(OBMol &mol)
@@ -558,7 +558,7 @@ namespace OpenBabel
     else
       ang = acos(costheta);
 
-    return(ang);
+    return ang;
   }
 
   double OBRotor::CalcBondLength(double *c)

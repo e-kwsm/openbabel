@@ -153,7 +153,7 @@ namespace OpenBabel
       //! Sets the bitwise @p flag
       void SetFlag(int flag)  { _flags |= flag;   }
       //! Unsets the bitwise @p flag
-      void UnsetFlag(int flag) { _flags &= (~(flag)); }
+      void UnsetFlag(int flag) { _flags &= (~flag); }
       //! \return True of the atom has the @p flag
       bool HasFlag(int flag)  {  return((_flags & flag) ? true : false); }
 

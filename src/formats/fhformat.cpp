@@ -127,7 +127,7 @@ bool FenskeZmatFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         ofs << buffer;
     }
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

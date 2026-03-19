@@ -2515,7 +2515,7 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator& tree<T, tree_node_a
 	{
 	while(num>0) {
 		--(*this);
-		--(num);
+		--num;
 		}
 	return (*this);
 	}
@@ -2525,7 +2525,7 @@ typename tree<T, tree_node_allocator>::fixed_depth_iterator& tree<T, tree_node_a
 	{
 	while(num>0) {
 		++(*this);
-		--(num);
+		--num;
 		}
 	return *this;
 	}

@@ -93,11 +93,11 @@ namespace OpenBabel
       ;
 
     if (!EQn(buffer,"CELL",4))
-      return(false);
+      return false;
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
     if (vs.size() != 8)
-      return(false);
+      return false;
 
     //parse cell values
     A = atof((char*)vs[2].c_str());
@@ -157,7 +157,7 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -408,14 +408,14 @@ namespace OpenBabel {
       {
         mol.Clear();
         ClearStereoMaps();
-        return(false);
+        return false;
       }
 
     ClearStereoMaps();
 
     mol.SetAutomaticFormalCharge(false);
 
-    return(true);
+    return true;
   }
 
   bool OBSmilesParser::ParseSmiles(OBMol &mol, const std::string &smiles)
@@ -688,7 +688,7 @@ namespace OpenBabel {
 
     CreateCisTrans(mol);
 
-    return(true);
+    return true;
   }
 
   bool OBSmilesParser::IsUp(OBBond *bond)
@@ -1057,7 +1057,7 @@ namespace OpenBabel {
 
     _hcount.push_back(-1); // implicit hydrogen count
 
-    return(true);
+    return true;
   }
 
   bool OBSmilesParser::ParseComplex(OBMol &mol)
@@ -1214,7 +1214,7 @@ namespace OpenBabel {
           }
         break;
 
-      case('S'):
+      case 'S':
         _ptr++;
         switch(*_ptr)
           {
@@ -1343,7 +1343,7 @@ namespace OpenBabel {
             element = 79;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1361,7 +1361,7 @@ namespace OpenBabel {
             element = 66;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1379,7 +1379,7 @@ namespace OpenBabel {
             element = 63;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1397,7 +1397,7 @@ namespace OpenBabel {
             element = 32;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1459,7 +1459,7 @@ namespace OpenBabel {
             element = 116;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1486,7 +1486,7 @@ namespace OpenBabel {
             element =  109;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1519,7 +1519,7 @@ namespace OpenBabel {
             element = 44;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
@@ -1555,18 +1555,18 @@ namespace OpenBabel {
             element = 117;
             break;
           default:
-            return(false);
+            return false;
           }
         break;
 
-      case('U'):  element = 92;
+      case 'U':  element = 92;
         break;
-      case('V'):  element = 23;
+      case 'V':  element = 23;
         break;
-      case('W'):  element = 74;
+      case 'W':  element = 74;
         break;
 
-      case('X'):
+      case 'X':
         _ptr++;
         if (*_ptr == 'e')
           {
@@ -1574,11 +1574,11 @@ namespace OpenBabel {
           }
         else
           {
-            return(false);
+            return false;
           }
         break;
 
-      case('Y'):
+      case 'Y':
         _ptr++;
         if (*_ptr == 'b')
           {
@@ -1591,7 +1591,7 @@ namespace OpenBabel {
           }
         break;
 
-      case('Z'):
+      case 'Z':
         _ptr++;
         switch(*_ptr)
           {
@@ -1860,12 +1860,12 @@ namespace OpenBabel {
             break;
 
           default:
-            return(false);
+            return false;
           }
       }
 
     if (!*_ptr || *_ptr != ']')
-      return(false); // we should have a trailing ']' now
+      return false; // we should have a trailing ']' now
 
     if (charge) {
       atom->SetFormalCharge(charge);
@@ -1937,7 +1937,7 @@ namespace OpenBabel {
 
     chiralWatch=false;
     squarePlanarWatch = false;
-    return(true);
+    return true;
   }
 
   bool OBSmilesParser::CapExternalBonds(OBMol &mol)
@@ -2078,7 +2078,7 @@ namespace OpenBabel {
     _order = 0;
     _updown = ' ';
 
-    return(true);
+    return true;
 
   }
 
@@ -2212,7 +2212,7 @@ namespace OpenBabel {
     _order = 0;
     _updown = ' ';
 
-    return(true);
+    return true;
   }
 
   // NumConnections finds the number of connections already made to
@@ -2505,7 +2505,7 @@ namespace OpenBabel {
         }
       else ++j;
 
-    return(idx);
+    return idx;
   }
 
   void OBMol2Cansmi::CreateCisTrans(OBMol &mol)
@@ -3224,7 +3224,7 @@ namespace OpenBabel {
       BuildCanonTree(mol, frag_atoms, canonical_order, next);
     }
 
-    return(true);
+    return true;
   }
 
 
@@ -3340,7 +3340,7 @@ namespace OpenBabel {
       }
     }
 
-    return(vp_closures);
+    return vp_closures;
   }
 
 
@@ -3397,7 +3397,7 @@ namespace OpenBabel {
             || nbr->GetExplicitDegree() != 1)
         count++;
     }
-    return(count);
+    return count;
   }
 
 
@@ -3695,7 +3695,7 @@ namespace OpenBabel {
 
         startpos = endpos+1;
       }
-    return(true);
+    return true;
   }
 
   // Returns canonical label order
@@ -4363,7 +4363,7 @@ namespace OpenBabel {
           ofs << coords << endl;
         }
       }
-    return(true);
+    return true;
   }
 
 } // end namespace OpenBabel

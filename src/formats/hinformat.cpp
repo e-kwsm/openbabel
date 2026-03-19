@@ -159,7 +159,7 @@ namespace OpenBabel
     mol.SetTitle(title);
     mol.SetPartialChargesPerceived();
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -227,7 +227,7 @@ namespace OpenBabel
         ofs << endl;
       }
     ofs << "endmol " << file_num << endl;
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

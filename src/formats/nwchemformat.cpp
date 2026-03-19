@@ -1066,7 +1066,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         mol.DeleteConformer(nconformers - 1);
 
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -1100,7 +1100,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
 
     ofs << "end\n";
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

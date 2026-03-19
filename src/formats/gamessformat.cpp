@@ -295,7 +295,7 @@ namespace OpenBabel {
        // Done with reading atoms
        natoms = mol.NumAtoms();
        // malloc / memcpy
-       double* tmpCoords = new double [(natoms)*3];
+       double* tmpCoords = new double [natoms*3];
        memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
        vconf.push_back(tmpCoords);
        coordinates.clear();
@@ -419,7 +419,7 @@ namespace OpenBabel {
         // Done with reading atoms
         natoms = mol.NumAtoms();
         // malloc / memcpy
-        double* tmpCoords = new double [(natoms)*3];
+        double* tmpCoords = new double [natoms*3];
         memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
         vconf.push_back(tmpCoords);
         coordinates.clear();
@@ -856,7 +856,7 @@ namespace OpenBabel {
 
     mol.SetTitle(title);
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -977,7 +977,7 @@ namespace OpenBabel {
     if (hasPartialCharges)
       mol.SetPartialChargesPerceived();
 
-    return(true);
+    return true;
   }
 
 
@@ -1153,7 +1153,7 @@ namespace OpenBabel {
 
     ofs << " $END" << endl << endl << endl;
 
-    return(true);
+    return true;
   }
 
 } // namespace OpenBabel

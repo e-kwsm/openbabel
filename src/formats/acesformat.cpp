@@ -259,7 +259,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -290,7 +290,7 @@ namespace OpenBabel
 
     ofs << "\n*ACES2(__ADD_SETUP_HERE__)\n\n";
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel
