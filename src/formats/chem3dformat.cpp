@@ -81,7 +81,7 @@ namespace OpenBabel
     OBMol &mol = *pmol;
     mol.SetTitle( pConv->GetTitle()); //default title is the filename
 
-    return(ReadChem3d(ifs,mol,false,"MM2"));
+    return (ReadChem3d(ifs,mol,false,"MM2"));
   }
 
   ////////////////////////////////////////////////////////////////
@@ -96,7 +96,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    return(WriteChem3d(ofs,mol,"MM2"));
+    return (WriteChem3d(ofs,mol,"MM2"));
   }
 
   //***********************************************************
@@ -150,7 +150,7 @@ namespace OpenBabel
     OBMol &mol = *pmol;
     mol.SetTitle( pConv->GetTitle()); //default title is the filename
 
-    return(CHEM3D1Format::ReadChem3d(ifs,mol,false,"C3D"));
+    return (CHEM3D1Format::ReadChem3d(ifs,mol,false,"C3D"));
   }
 
   ////////////////////////////////////////////////////////////////
@@ -165,7 +165,7 @@ namespace OpenBabel
     ostream &ofs = *pConv->GetOutStream();
     OBMol &mol = *pmol;
 
-    return(CHEM3D1Format::WriteChem3d(ofs,mol,"C3D"));
+    return (CHEM3D1Format::WriteChem3d(ofs,mol,"C3D"));
   }
 
   //****************************************************************

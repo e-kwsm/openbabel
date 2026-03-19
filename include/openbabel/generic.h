@@ -58,9 +58,9 @@ namespace OpenBabel
     void          SetData(const char *d)
     {_data = d; Trim(_data);     }
     const std::string &GetData()              const
-    {        return(_data);      }
+    {        return (_data);      }
     const std::string &GetValue()             const override
-    {        return(_data);      }
+    {        return (_data);      }
   };
 
   //! \class OBExternalBond generic.h <openbabel/generic.h>
@@ -77,9 +77,9 @@ namespace OpenBabel
     OBExternalBond(const OBExternalBond &);
     ~OBExternalBond()   {}
 
-    int     GetIdx()  const    {        return(_idx);    }
-    OBAtom *GetAtom() const    {        return(_atom);   }
-    OBBond *GetBond() const    {        return(_bond);   }
+    int     GetIdx()  const    {        return (_idx);    }
+    OBAtom *GetAtom() const    {        return (_atom);   }
+    OBBond *GetBond() const    {        return (_bond);   }
     void SetIdx(int idx)       {        _idx = idx;      }
     void SetAtom(OBAtom *atom) {        _atom = atom;    }
     void SetBond(OBBond *bond) {        _bond = bond;    }
@@ -100,7 +100,7 @@ namespace OpenBabel
     void SetData(OBAtom*,OBBond*,int);
     std::vector<OBExternalBond> *GetData()
       {
-        return(&_vexbnd);
+        return (&_vexbnd);
       }
   };
 
@@ -120,7 +120,7 @@ namespace OpenBabel
     void    SetValue(const char *v)        {      _value = v;    }
     void    SetValue(const std::string &v) {      _value = v;    }
     const std::string &GetValue() const override
-    {      return(_value);    }
+    {      return (_value);    }
   };
 
   //! \class OBPairTemplate generic.h <openbabel/generic.h>
@@ -137,7 +137,7 @@ namespace OpenBabel
     OBGenericData* Clone(OBBase* /*parent*/) const override
       {return new OBPairTemplate<ValueT>(*this);}
     void SetValue(const ValueT t)             { _value = t;     }
-    virtual const ValueT &GetGenericValue() const    { return(_value); }
+    virtual const ValueT &GetGenericValue() const    { return (_value); }
   };
 
   //! Store arbitrary key/value integer data like OBPairData
@@ -180,7 +180,7 @@ namespace OpenBabel
 
       for (i = _vdata.begin();i != _vdata.end();++i)
         if ((*i)->GetAttribute() == s)
-          return(*i);
+          return (*i);
 
       return nullptr;
     }
@@ -192,7 +192,7 @@ namespace OpenBabel
 
       for (i = _vdata.begin();i != _vdata.end();++i)
         if ((*i)->GetAttribute() == s)
-          return(*i);
+          return (*i);
 
       return nullptr;
     }
@@ -200,7 +200,7 @@ namespace OpenBabel
     //! Gets the entire set.
     virtual const std::vector<OBGenericData *> &GetData() const //now virtual and const
     {
-      return(_vdata);
+      return (_vdata);
     }
 
     //! Get the begin iterator.
@@ -244,10 +244,10 @@ namespace OpenBabel
     OBVirtualBond();
     OBGenericData* Clone(OBBase* /*parent*/) const override { return new OBVirtualBond(*this); }
     OBVirtualBond(unsigned int, unsigned int, unsigned int,int stereo=0);
-    unsigned int GetBgn()    {      return(_bgn);    }
-    unsigned int GetEnd()    {      return(_end);    }
-    unsigned int GetOrder()  {      return(_ord);    }
-    int GetStereo() {      return(_stereo); }
+    unsigned int GetBgn()    {      return (_bgn);    }
+    unsigned int GetEnd()    {      return (_end);    }
+    unsigned int GetOrder()  {      return (_ord);    }
+    int GetStereo() {      return (_stereo); }
   };
 
   //! \class OBRingData generic.h <openbabel/generic.h>
@@ -279,13 +279,13 @@ namespace OpenBabel
     }
     std::vector<OBRing*> &GetData()
       {
-        return(_vr);
+        return (_vr);
       }
 
     std::vector<OBRing*>::iterator BeginRings()
-      { return(_vr.begin()); }
+      { return (_vr.begin()); }
     std::vector<OBRing*>::iterator EndRings()
-      { return(_vr.end()); }
+      { return (_vr.end()); }
     OBRing *BeginRing(std::vector<OBRing*>::iterator &i);
     OBRing *NextRing(std::vector<OBRing*>::iterator &i);
   };
@@ -403,12 +403,12 @@ namespace OpenBabel
     vector3 GetOffset() const;
 
     //! \return the text representation of the space group for this unit cell
-    const SpaceGroup* GetSpaceGroup() { return(_spaceGroup); }
-    const SpaceGroup* GetSpaceGroup() const { return(_spaceGroup); }
+    const SpaceGroup* GetSpaceGroup() { return (_spaceGroup); }
+    const SpaceGroup* GetSpaceGroup() const { return (_spaceGroup); }
 
     //! \return the text representation of the space group for this unit cell
-    const std::string GetSpaceGroupName() { return(_spaceGroupName); }
-    const std::string GetSpaceGroupName() const { return(_spaceGroupName); }
+    const std::string GetSpaceGroupName() { return (_spaceGroupName); }
+    const std::string GetSpaceGroupName() const { return (_spaceGroupName); }
 
     //! \return lattice type (based on the @p spacegroup)
     LatticeType GetLatticeType( int spacegroup );
@@ -620,7 +620,7 @@ namespace OpenBabel
     OBTorsion& operator=(const OBTorsion &);
 
     void Clear();
-    bool Empty()    {      return(_bc.first == 0 && _bc.second == 0);    }
+    bool Empty()    {      return (_bc.first == 0 && _bc.second == 0);    }
 
     bool AddTorsion(OBAtom *a,OBAtom *b, OBAtom *c,OBAtom *d);
     bool AddTorsion(quad<OBAtom*,OBAtom*,OBAtom*,OBAtom*> &atoms);
@@ -638,13 +638,13 @@ namespace OpenBabel
     //!   \return pair<OBAtom*,OBAtom*>
     std::pair<OBAtom*,OBAtom*>                  GetBC()
       {
-        return(_bc);
+        return (_bc);
       }
     //! Gets the vector of distal atoms of ABCD torsion
     //! \return vector of A,D atom pointers and a double
     std::vector<triple<OBAtom*,OBAtom*,double> > GetADs()
     {
-      return(_ads) ;
+      return (_ads) ;
     }
 
     bool IsProtonRotor();
@@ -732,7 +732,7 @@ namespace OpenBabel
     //! \return angle in radians
     double GetAngle() const
     {
-      return(_radians);
+      return (_radians);
     }
     //! Sets the OBAngle to @p radians
     //! \param angle in radians
@@ -760,7 +760,7 @@ namespace OpenBabel
     /** \return a vector<OBAngle> **/
     std::vector<OBAngle> GetData() const
       {
-        return(_angles);
+        return (_angles);
       }
 
   public:
@@ -1140,13 +1140,13 @@ namespace OpenBabel
     OBFreeGridPoint *BeginPoint(OBFreeGridPointIterator &i)
     {
       i = _points.begin();
-      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
+      return ((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
     }
 
     OBFreeGridPoint *NextPoint(OBFreeGridPointIterator &i)
     {
       ++i;
-      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
+      return ((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
     }
     
     void Clear();

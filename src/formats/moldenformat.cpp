@@ -177,12 +177,12 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
               if (sscanf(lineBuffer.c_str(), "%d", &natoms) == 0 || !natoms) {
                 obErrorLog.ThrowError(__FUNCTION__,
                                       "Problems reading an XYZ geometry: The first line must contain the number of atoms.", obWarning);
-//                return(false);
+//                return (false);
               }
               if (pmol->NumAtoms() != 0 && pmol->NumAtoms() != natoms) {
                 obErrorLog.ThrowError(__FUNCTION__,
                                       "Problems reading an XYZ geometry: The first line must contain the number of atoms.", obWarning);
-//                return(false);
+//                return (false);
               } else if (pmol->NumAtoms() == 0) {
                 createAtoms = true;
               }

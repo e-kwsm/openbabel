@@ -179,12 +179,12 @@ namespace OpenBabel
      OBGenericData& OBGenericData::operator = (const OBGenericData &src)
      {
      if(this == &src)
-     return(*this);
+     return (*this);
 
      _type = src._type;
      _attr = src._attr;
 
-     return(*this);
+     return (*this);
      }
   */
 
@@ -272,7 +272,7 @@ namespace OpenBabel
   OBUnitCell & OBUnitCell::operator=(const OBUnitCell &src)
   {
     if(this == &src)
-      return(*this);
+      return (*this);
 
     _mOrtho = src._mOrtho;
     _mOrient = src._mOrient;
@@ -282,7 +282,7 @@ namespace OpenBabel
     _spaceGroupName = src._spaceGroupName;
     _lattice = src._lattice;
 
-    return(*this);
+    return (*this);
   }
 
   //! Implements <a href="http://qsar.sourceforge.net/dicts/blue-obelisk/index.xhtml#calculateOrthogonalisationMatrix">blue-obelisk:calculateOrthogonalisationMatrix</a>
@@ -763,13 +763,13 @@ namespace OpenBabel
   OBSymmetryData & OBSymmetryData::operator=(const OBSymmetryData &src)
   {
     if(this == &src)
-      return(*this);
+      return (*this);
 
     _pointGroup = src._pointGroup;
     _spaceGroup = src._spaceGroup;
     _source = src._source;
 
-    return(*this);
+    return (*this);
   }
 
   OBConformerData::OBConformerData() :
@@ -787,7 +787,7 @@ namespace OpenBabel
   OBConformerData & OBConformerData::operator=(const OBConformerData &src)
   {
     if(this == &src)
-      return(*this);
+      return (*this);
 
     _source = src._source;
 
@@ -798,7 +798,7 @@ namespace OpenBabel
     _vDisplace = src._vDisplace;
     _vData = src._vData;
 
-    return(*this);
+    return (*this);
   }
 
   //
@@ -850,7 +850,7 @@ namespace OpenBabel
   {
     //on identity, return
     if(this == &src)
-      return(*this);
+      return (*this);
 
     //chain to base class
     OBGenericData::operator =(src);
@@ -877,7 +877,7 @@ namespace OpenBabel
         (*newring) = (**ring);
         (*ring) = newring;	//redirect pointer
       }
-    return(*this);
+    return (*this);
   }
 
   OBRing *OBRingData::BeginRing(std::vector<OBRing*>::iterator &i)
@@ -925,14 +925,14 @@ namespace OpenBabel
   OBAngle& OBAngle::operator = (const OBAngle &src)
   {
     if (this == &src)
-      return(*this);
+      return (*this);
 
     _vertex         = src._vertex;
     _termini.first  = src._termini.first;
     _termini.second = src._termini.second;
     _radians        = src._radians;
 
-    return(*this);
+    return (*this);
   }
 
   /*!
@@ -1036,12 +1036,12 @@ namespace OpenBabel
   OBAngleData& OBAngleData::operator =(const OBAngleData &src)
   {
     if (this == &src)
-      return(*this);
+      return (*this);
 
     _source = src._source;
     _angles = src._angles;
 
-    return(*this);
+    return (*this);
   }
 
   /*!
@@ -1168,12 +1168,12 @@ namespace OpenBabel
   OBTorsion& OBTorsion::operator =(const OBTorsion &src)
   {
     if (this == &src)
-      return(*this);
+      return (*this);
 
     _bc  = src._bc;
     _ads = src._ads;
 
-    return(*this);
+    return (*this);
   }
 
   /*!
@@ -1218,7 +1218,7 @@ namespace OpenBabel
 
   unsigned int OBTorsion::GetBondIdx()
   {
-    return(_bc.first->GetBond(_bc.second)->GetIdx());
+    return (_bc.first->GetBond(_bc.second)->GetIdx());
   }
 
   /*!
@@ -1295,14 +1295,14 @@ namespace OpenBabel
   OBTorsionData& OBTorsionData::operator =(const OBTorsionData &src)
   {
     if (this == &src)
-      return(*this);
+      return (*this);
 
     OBGenericData::operator =(src);
 
     _source = src._source;
     _torsions = src._torsions;
 
-    return(*this);
+    return (*this);
   }
 
   void OBTorsionData::Clear()

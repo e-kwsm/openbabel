@@ -656,7 +656,7 @@ namespace OpenBabel
             LexPtr--;
             return nullptr;
           }
-        return( GenerateElement(index) );
+        return ( GenerateElement(index) );
 
       case '$':
         if( *LexPtr != '(' )
@@ -672,7 +672,7 @@ namespace OpenBabel
             return nullptr;
           }
         LexPtr++;
-        return( BuildAtomRecurs(pat) );
+        return ( BuildAtomRecurs(pat) );
 
       case '*':
         return BuildAtomPred(AE_TRUE);
@@ -844,17 +844,17 @@ namespace OpenBabel
         if( *LexPtr == 'a' )
           {
             LexPtr++;
-            return( GenerateElement(31) );
+            return ( GenerateElement(31) );
           }
         else if( *LexPtr == 'd' )
           {
             LexPtr++;
-            return( GenerateElement(64) );
+            return ( GenerateElement(64) );
           }
         else if( *LexPtr == 'e' )
           {
             LexPtr++;
-            return( GenerateElement(32) );
+            return ( GenerateElement(32) );
           }
         break;
 
@@ -862,22 +862,22 @@ namespace OpenBabel
         if( *LexPtr == 'e' )
           {
             LexPtr++;
-            return( GenerateElement( 2) );
+            return ( GenerateElement( 2) );
           }
         else if( *LexPtr == 'f' )
           {
             LexPtr++;
-            return( GenerateElement(72) );
+            return ( GenerateElement(72) );
           }
         else if( *LexPtr == 'g' )
           {
             LexPtr++;
-            return( GenerateElement(80) );
+            return ( GenerateElement(80) );
           }
         else if( *LexPtr == 'o' )
           {
             LexPtr++;
-            return( GenerateElement(67) );
+            return ( GenerateElement(67) );
           }
         else if( isdigit(*LexPtr) )
           {
@@ -892,43 +892,43 @@ namespace OpenBabel
         if( *LexPtr == 'n' )
           {
             LexPtr++;
-            return( GenerateElement(49) );
+            return ( GenerateElement(49) );
           }
         else if( *LexPtr == 'r' )
           {
             LexPtr++;
-            return( GenerateElement(77) );
+            return ( GenerateElement(77) );
           }
-        return( GenerateElement(53) );
+        return ( GenerateElement(53) );
 
       case 'K':
         if( *LexPtr == 'r' )
           {
             LexPtr++;
-            return( GenerateElement(36) );
+            return ( GenerateElement(36) );
           }
-        return( GenerateElement(19) );
+        return ( GenerateElement(19) );
 
       case 'L':
         if( *LexPtr == 'a' )
           {
             LexPtr++;
-            return( GenerateElement( 57) );
+            return ( GenerateElement( 57) );
           }
         else if( *LexPtr == 'i' )
           {
             LexPtr++;
-            return( GenerateElement(  3) );
+            return ( GenerateElement(  3) );
           }
         else if( *LexPtr == 'r' )
           {
             LexPtr++;
-            return( GenerateElement(103) );
+            return ( GenerateElement(103) );
           }
         else if( *LexPtr == 'u' )
           {
             LexPtr++;
-            return( GenerateElement( 71) );
+            return ( GenerateElement( 71) );
           }
         break;
 
@@ -936,71 +936,71 @@ namespace OpenBabel
         if( *LexPtr == 'd' )
           {
             LexPtr++;
-            return( GenerateElement(101) );
+            return ( GenerateElement(101) );
           }
         else if( *LexPtr == 'g' )
           {
             LexPtr++;
-            return( GenerateElement( 12) );
+            return ( GenerateElement( 12) );
           }
         else if( *LexPtr == 'n' )
           {
             LexPtr++;
-            return( GenerateElement( 25) );
+            return ( GenerateElement( 25) );
           }
         else if( *LexPtr == 'o' )
           {
             LexPtr++;
-            return( GenerateElement( 42) );
+            return ( GenerateElement( 42) );
           }
         break;
 
       case 'N':
         switch( *LexPtr++ )
           {
-          case 'a':  return( GenerateElement( 11) );
-          case 'b':  return( GenerateElement( 41) );
-          case 'd':  return( GenerateElement( 60) );
-          case 'e':  return( GenerateElement( 10) );
-          case 'i':  return( GenerateElement( 28) );
-          case 'o':  return( GenerateElement(102) );
-          case 'p':  return( GenerateElement( 93) );
+          case 'a':  return ( GenerateElement( 11) );
+          case 'b':  return ( GenerateElement( 41) );
+          case 'd':  return ( GenerateElement( 60) );
+          case 'e':  return ( GenerateElement( 10) );
+          case 'i':  return ( GenerateElement( 28) );
+          case 'o':  return ( GenerateElement(102) );
+          case 'p':  return ( GenerateElement( 93) );
           }
         LexPtr--;
-        return( GenerateAromElem(7,false) );
+        return ( GenerateAromElem(7,false) );
 
       case 'O':
         if( *LexPtr == 's' )
           {
             LexPtr++;
-            return( GenerateElement(76) );
+            return ( GenerateElement(76) );
           }
-        return( GenerateAromElem(8,false) );
+        return ( GenerateAromElem(8,false) );
 
       case 'P':
         switch( *LexPtr++ )
           {
-          case 'a':  return( GenerateElement(91) );
-          case 'b':  return( GenerateElement(82) );
-          case 'd':  return( GenerateElement(46) );
-          case 'm':  return( GenerateElement(61) );
-          case 'o':  return( GenerateElement(84) );
-          case 'r':  return( GenerateElement(59) );
-          case 't':  return( GenerateElement(78) );
-          case 'u':  return( GenerateElement(94) );
+          case 'a':  return ( GenerateElement(91) );
+          case 'b':  return ( GenerateElement(82) );
+          case 'd':  return ( GenerateElement(46) );
+          case 'm':  return ( GenerateElement(61) );
+          case 'o':  return ( GenerateElement(84) );
+          case 'r':  return ( GenerateElement(59) );
+          case 't':  return ( GenerateElement(78) );
+          case 'u':  return ( GenerateElement(94) );
           }
         LexPtr--;
-        return( GenerateElement(15) );
+        return ( GenerateElement(15) );
 
       case 'R':
         switch( *LexPtr++ )
           {
-          case 'a':  return( GenerateElement(88) );
-          case 'b':  return( GenerateElement(37) );
-          case 'e':  return( GenerateElement(75) );
-          case 'h':  return( GenerateElement(45) );
-          case 'n':  return( GenerateElement(86) );
-          case 'u':  return( GenerateElement(44) );
+          case 'a':  return ( GenerateElement(88) );
+          case 'b':  return ( GenerateElement(37) );
+          case 'e':  return ( GenerateElement(75) );
+          case 'h':  return ( GenerateElement(45) );
+          case 'n':  return ( GenerateElement(86) );
+          case 'u':  return ( GenerateElement(44) );
           }
         LexPtr--;
         if( isdigit(*LexPtr) )
@@ -1017,41 +1017,41 @@ namespace OpenBabel
       case 'S':
         switch( *LexPtr++ )
           {
-          case 'b':  return( GenerateElement(51) );
-          case 'c':  return( GenerateElement(21) );
-          case 'e':  return( GenerateElement(34) );
-          case 'i':  return( GenerateElement(14) );
-          case 'm':  return( GenerateElement(62) );
-          case 'n':  return( GenerateElement(50) );
-          case 'r':  return( GenerateElement(38) );
+          case 'b':  return ( GenerateElement(51) );
+          case 'c':  return ( GenerateElement(21) );
+          case 'e':  return ( GenerateElement(34) );
+          case 'i':  return ( GenerateElement(14) );
+          case 'm':  return ( GenerateElement(62) );
+          case 'n':  return ( GenerateElement(50) );
+          case 'r':  return ( GenerateElement(38) );
           }
         LexPtr--;
-        return( GenerateAromElem(16,false) );
+        return ( GenerateAromElem(16,false) );
 
       case 'T':
         switch( *LexPtr++ )
           {
-          case 'a':  return( GenerateElement(73) );
-          case 'b':  return( GenerateElement(65) );
-          case 'c':  return( GenerateElement(43) );
-          case 'e':  return( GenerateElement(52) );
-          case 'h':  return( GenerateElement(90) );
-          case 'i':  return( GenerateElement(22) );
-          case 'l':  return( GenerateElement(81) );
-          case 'm':  return( GenerateElement(69) );
+          case 'a':  return ( GenerateElement(73) );
+          case 'b':  return ( GenerateElement(65) );
+          case 'c':  return ( GenerateElement(43) );
+          case 'e':  return ( GenerateElement(52) );
+          case 'h':  return ( GenerateElement(90) );
+          case 'i':  return ( GenerateElement(22) );
+          case 'l':  return ( GenerateElement(81) );
+          case 'm':  return ( GenerateElement(69) );
           }
         LexPtr--;
         break;
 
-      case 'U':  return( GenerateElement(92) );
-      case 'V':  return( GenerateElement(23) );
-      case 'W':  return( GenerateElement(74) );
+      case 'U':  return ( GenerateElement(92) );
+      case 'V':  return ( GenerateElement(23) );
+      case 'W':  return ( GenerateElement(74) );
 
       case 'X':
         if( *LexPtr == 'e' )
           {
             LexPtr++;
-            return( GenerateElement(54) );
+            return ( GenerateElement(54) );
           }
         else if( isdigit(*LexPtr) )
           {
@@ -1068,9 +1068,9 @@ namespace OpenBabel
         if( *LexPtr == 'b' )
           {
             LexPtr++;
-            return( GenerateElement(70) );
+            return ( GenerateElement(70) );
           }
-        return( GenerateElement(39) );
+        return ( GenerateElement(39) );
 
       case 'Z':
         if( *LexPtr == 'n' )
@@ -1225,9 +1225,9 @@ namespace OpenBabel
             LexPtr++;
             if( !(expr1=ParseAtomExpr(3)) )
               return nullptr;
-            return( BuildAtomNot(expr1) );
+            return ( BuildAtomNot(expr1) );
           }
-        return( ParseComplexAtomPrimitive() );
+        return ( ParseComplexAtomPrimitive() );
       }
     return nullptr;
   }
@@ -1627,7 +1627,7 @@ namespace OpenBabel
     if( result )
       {
         if( flag )
-          return(SMARTSError(result));
+          return (SMARTSError(result));
         else
           {
             MarkGrowBonds(result);
@@ -1761,9 +1761,9 @@ namespace OpenBabel
         //Do matching on a copy of mol with explicit hydrogens
         OBMol tmol = mol;
         tmol.AddHydrogens(false,false);
-        return(matcher.match(tmol,_pat,_mlist,single));
+        return (matcher.match(tmol,_pat,_mlist,single));
       }
-    return(matcher.match(mol,_pat,_mlist,single));
+    return (matcher.match(mol,_pat,_mlist,single));
   }
 
   bool OBSmartsPattern::HasMatch(OBMol &mol) const
@@ -1851,7 +1851,7 @@ namespace OpenBabel
           return true;
       }
 
-    return((_mlist.empty()) ? false:true);
+    return ((_mlist.empty()) ? false:true);
   }
 
   bool OBSmartsPattern::RestrictedMatch(OBMol &mol,OBBitVec &vres, bool single)
@@ -1885,7 +1885,7 @@ namespace OpenBabel
           return true;
       }
 
-    return((_mlist.empty()) ? false:true);
+    return ((_mlist.empty()) ? false:true);
   }
 
   void OBSmartsMatcher::SetupAtomMatchTable(std::vector<std::vector<bool> > &ttab,
@@ -2106,7 +2106,7 @@ namespace OpenBabel
       mlist = tmpmlist;
     }
 
-    return(!mlist.empty());
+    return (!mlist.empty());
   }
 
   bool OBSmartsMatcher::EvalAtomExpr(AtomExpr *expr,OBAtom *atom)
@@ -2182,7 +2182,7 @@ namespace OpenBabel
             std::vector<std::pair<const Pattern*,std::vector<bool> > >::iterator i;
             for (i = RSCACHE.begin();i != RSCACHE.end();++i)
               if (i->first == (Pattern*)expr->recur.recur)
-                return(i->second[atom->GetIdx()]);
+                return (i->second[atom->GetIdx()]);
 
             //perceive and match pattern
             std::vector<std::vector<int> >::iterator j;
@@ -2197,7 +2197,7 @@ namespace OpenBabel
                               std::vector<bool> > ((const Pattern*)expr->recur.recur,
                                                    vb));
 
-            return(vb[atom->GetIdx()]);
+            return (vb[atom->GetIdx()]);
           }
 
         default:
@@ -2258,7 +2258,7 @@ namespace OpenBabel
   std::vector<std::vector<int> > &OBSmartsPattern::GetUMapList()
   {
     if (_mlist.empty() || _mlist.size() == 1)
-      return(_mlist);
+      return (_mlist);
 
     bool ok;
     OBBitVec bv;
@@ -2284,7 +2284,7 @@ namespace OpenBabel
       }
 
     _mlist = mlist;
-    return(_mlist);
+    return (_mlist);
   }
 
   void OBSmartsPattern::WriteMapList(ostream &ofs)

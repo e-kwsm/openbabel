@@ -2278,7 +2278,7 @@ namespace OpenBabel {
 
     int Size()
     {
-      return(_child_nodes.empty() ? 0 : _child_nodes.size());
+      return (_child_nodes.empty() ? 0 : _child_nodes.size());
     }
 
     void SetParent(OBAtom *a)
@@ -2290,27 +2290,27 @@ namespace OpenBabel {
 
     OBAtom *GetAtom()
     {
-      return(_atom);
+      return (_atom);
     }
 
     OBAtom *GetParent()
     {
-      return(_parent);
+      return (_parent);
     }
 
     OBAtom *GetChildAtom(int i)
     {
-      return(_child_nodes[i]->GetAtom());
+      return (_child_nodes[i]->GetAtom());
     }
 
     OBBond *GetChildBond(int i)
     {
-      return(_child_bonds[i]);
+      return (_child_bonds[i]);
     }
 
     OBCanSmiNode *GetChildNode(int i)
     {
-      return(_child_nodes[i]);
+      return (_child_nodes[i]);
     }
   };
 

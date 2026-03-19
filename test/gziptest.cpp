@@ -122,7 +122,7 @@ int gziptest(int argc, char* argv[])
   if (!ifs)
     {
       cout << "Bail out! Cannot read gzip.in!" << endl;
-      return(-1);
+      return (-1);
     }
   
   //gzip.in specifies what files to read and their canonical smiles

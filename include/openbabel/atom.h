@@ -149,13 +149,13 @@ namespace OpenBabel
       unsigned long                 _id;        //!< unique id
 
       //! \return All flags
-      int  GetFlag() const    {  return(_flags);  }
+      int  GetFlag() const    {  return (_flags);  }
       //! Sets the bitwise @p flag
       void SetFlag(int flag)  { _flags |= flag;   }
       //! Unsets the bitwise @p flag
       void UnsetFlag(int flag) { _flags &= (~flag); }
       //! \return True of the atom has the @p flag
-      bool HasFlag(int flag)  {  return((_flags & flag) ? true : false); }
+      bool HasFlag(int flag)  {  return ((_flags & flag) ? true : false); }
 
     public:
       enum StereoFlag {
@@ -227,14 +227,14 @@ namespace OpenBabel
       //! \name Methods to retrieve atomic information
       //@{
       //! \return the formal charge for this atom
-      int          GetFormalCharge()  const { return(_fcharge);    }
+      int          GetFormalCharge()  const { return (_fcharge);    }
       //! \return the atomic number for this atom
-      unsigned int GetAtomicNum()     const { return((unsigned int)_ele); }
+      unsigned int GetAtomicNum()     const { return ((unsigned int)_ele); }
       //! \return the isotope for this atom, if specified, or 0 for unspecified
-      unsigned short int GetIsotope() const { return(_isotope);    }
+      unsigned short int GetIsotope() const { return (_isotope);    }
       //! \return the atomic spin, e.g., 0 (default) for normal atoms - note that this value is a convention,
       //!   2 for radical  1 or 3 for carbene
-      int          GetSpinMultiplicity() const { return(_spinmultiplicity); }
+      int          GetSpinMultiplicity() const { return (_spinmultiplicity); }
       //! \return the atomic mass of this atom given by standard IUPAC
       //!  average molar mass
       double     GetAtomicMass()    const;
@@ -242,12 +242,12 @@ namespace OpenBabel
       //! (default of 0 gives the most abundant isotope)
       double     GetExactMass()     const;
       //! \return the internal atom index (e.g., inside an OBMol)
-      unsigned int GetIdx()           const { return((int)_idx);  }
+      unsigned int GetIdx()           const { return ((int)_idx);  }
       unsigned int GetIndex() const { return _idx - 1; }
       unsigned long GetId() const { return _id; }
       //! \return the index into a pointer-driven array as used by
       //!   GetCoordPtr() or SetCoordPtr()
-      unsigned int GetCoordinateIdx() const { return((int)_cidx); }
+      unsigned int GetCoordinateIdx() const { return ((int)_cidx); }
       //! \return The number of explicit bonds to this atom
       unsigned int GetExplicitDegree() const { return (unsigned int)_vbond.size(); }
       //! \return The total number of bonds to this atom including bonds to implicit hydrogens
@@ -268,27 +268,27 @@ namespace OpenBabel
       char        *GetType();
 
       //! \return the x coordinate
-      double      GetX() const   {        return(x());    }
+      double      GetX() const   {        return (x());    }
       //! \return the y coordinate
-      double      GetY() const  {        return(y());    }
+      double      GetY() const  {        return (y());    }
       //! \return the z coordinate
-      double      GetZ() const  {        return(z());    }
+      double      GetZ() const  {        return (z());    }
 
       // These methods check to see if there is a coordinate pointer
       // or an internal vector (e.g., SetCoordPtr())
       //! \return the x coordinate
       double      x() const {
-        if (_c)            return((*_c)[_cidx]);
+        if (_c)            return ((*_c)[_cidx]);
         else               return _v.x();
       }
       //! \return the y coordinate
       double      y() const {
-        if (_c)            return((*_c)[_cidx+1]);
+        if (_c)            return ((*_c)[_cidx+1]);
         else               return _v.y();
       }
       //! \return the z coordinate
       double      z() const {
-        if (_c)            return((*_c)[_cidx+2]);
+        if (_c)            return ((*_c)[_cidx+2]);
         else               return _v.z();
       }
       //! \return the coordinates as a double* or NULL if none.
@@ -296,7 +296,7 @@ namespace OpenBabel
       //! See SetCoordPtr() for more. If no coordinate pointer is used
       //! (e.g., only vector3), NULL will be returned.
       double     *GetCoordinate(){
-        if (_c)          return(&(*_c)[_cidx]);
+        if (_c)          return (&(*_c)[_cidx]);
         else             return nullptr;
       }
       //! \return the coordinates as a vector3 object
@@ -308,7 +308,7 @@ namespace OpenBabel
       //! \return the residue which contains this atom, or NULL if none exists
       OBResidue *GetResidue();
       //! \return the molecule which contains this atom, or NULL if none exists
-      OBMol     *GetParent()        {return((OBMol*)_parent);}
+      OBMol     *GetParent()        {return ((OBMol*)_parent);}
       //! Create a vector for a new bond from this atom, with length given by the supplied parameter
       //! \return success or failure
       bool       GetNewBondVector(vector3 &v,double length);
@@ -321,10 +321,10 @@ namespace OpenBabel
       //@{
       //! \return An iterator to the beginning of the bonds to this atom
       OBBondIterator BeginBonds()
-        { return(_vbond.begin()); }
+        { return (_vbond.begin()); }
       //! \return An iterator to the end of the bonds to this atom
       OBBondIterator EndBonds()
-        { return(_vbond.end());   }
+        { return (_vbond.end());   }
       //! \return A range over the bonds to this atom. This range can be used in a range-based for loop.
       OBAtomBondRange GetBonds() const { return {_vbond.begin(), _vbond.end()}; }
       //! Set the iterator @p i to the beginning of the bonds
@@ -424,7 +424,7 @@ namespace OpenBabel
        */
       std::pair<int, int> LewisAcidBaseCounts() const;
       //! \return Is there any residue information?
-      bool HasResidue()    { return(_residue != nullptr);    }
+      bool HasResidue()    { return (_residue != nullptr);    }
       //! \return Is this a HETATM in a residue (returns false if not in a residue)
       //! \since version 2.4
       bool IsHetAtom() {
@@ -504,11 +504,11 @@ namespace OpenBabel
       //! \return Whether this atom is connected to any bond with order >1
       bool HasNonSingleBond();
       //! \return Does this atom have a single bond
-      bool HasSingleBond()    {        return(HasBondOfOrder(1));    }
+      bool HasSingleBond()    {        return (HasBondOfOrder(1));    }
       //! \return Does this atom have a double bond
-      bool HasDoubleBond()    {        return(HasBondOfOrder(2));    }
+      bool HasDoubleBond()    {        return (HasBondOfOrder(2));    }
       //! \return Does this atom have an aromatic bond
-      bool HasAromaticBond()  {        return(HasBondOfOrder(5));    }
+      bool HasAromaticBond()  {        return (HasBondOfOrder(5));    }
       //! \return Whether this atom matches the first atom in a given SMARTS pattern
       bool MatchesSMARTS(const char *);
       //@}

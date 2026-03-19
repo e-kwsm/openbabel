@@ -152,12 +152,12 @@ namespace OpenBabel
       //! \name Bond data request methods
       //@{
       //! \return The unique bond index in a molecule.
-      unsigned int     GetIdx()           const { return(_idx);  }
+      unsigned int     GetIdx()           const { return (_idx);  }
       unsigned long GetId()           const { return _id; }
       //! \return The bond order for the bond
-      unsigned int     GetBondOrder()     const { return(_order); }
+      unsigned int     GetBondOrder()     const { return (_order); }
       //! \return The set of property flags defined for this bond.
-      unsigned int     GetFlags()         const { return(_flags);      }
+      unsigned int     GetFlags()         const { return (_flags);      }
       //! \return The atom index for the end atom in this bond (from OBAtom::GetIdx()
       unsigned int     GetBeginAtomIdx()  const
         { return (_bgn ? _bgn->GetIdx() : 0); }
@@ -165,22 +165,22 @@ namespace OpenBabel
       unsigned int     GetEndAtomIdx()    const
         { return (_end ? _end->GetIdx() : 0); }
       //! \return The "beginning" atom for this bond
-      OBAtom *GetBeginAtom()    { return(_bgn);    }
+      OBAtom *GetBeginAtom()    { return (_bgn);    }
       const OBAtom *GetBeginAtom() const
-        { return(_bgn);    }
+        { return (_bgn);    }
       //! \return The "end" atom for this bond
-      OBAtom *GetEndAtom()      { return(_end);    }
+      OBAtom *GetEndAtom()      { return (_end);    }
       const OBAtom *GetEndAtom() const
-        { return(_end);    }
+        { return (_end);    }
       //! \return The neighboring atom to @p ptr (i.e., the end if @p ptr is the start)
       /** \warning If @p ptr is not part of the bond, the beginning atom
           will always be returned **/
       OBAtom *GetNbrAtom(OBAtom *ptr)
         {
-          return((ptr != _bgn)? _bgn : _end);
+          return ((ptr != _bgn)? _bgn : _end);
         }
       //! \return The enclosing OBMol for this bond, or NULL if none is defined.
-      OBMol  *GetParent()                 {return(_parent);}
+      OBMol  *GetParent()                 {return (_parent);}
       //! \return The expected "equilibrium" length based on the covalent radii and bond order
       /** Length is given in Angstroms **/
       double  GetEquibLength() const;
@@ -238,21 +238,21 @@ namespace OpenBabel
       bool IsClosure();
       /** \return Whether this bond is a "wedge" in 2D representations
           (i.e., goes in a positive Z direction from the beginning to end atoms) **/
-      bool IsWedge() {    return(HasFlag(OB_WEDGE_BOND));    }
+      bool IsWedge() {    return (HasFlag(OB_WEDGE_BOND));    }
       /** \return Whether this bond is a "hash" in 2D representations
           (i.e., goes in a negative Z direction from the beginning to end atoms) **/
-      bool IsHash()  {    return(HasFlag(OB_HASH_BOND));     }
+      bool IsHash()  {    return (HasFlag(OB_HASH_BOND));     }
       /**
        * @return True if this bond is either a wedge or hash.
        * @note: This is a separate bond type
        * @since version 2.3
        */
-      bool IsWedgeOrHash() const { return(HasFlag(WedgeOrHash)); }
+      bool IsWedgeOrHash() const { return (HasFlag(WedgeOrHash)); }
       /**
        * @return True if this bond is either a cis or trans.
        * @since version 2.3
        */
-      bool IsCisOrTrans() const { return(HasFlag(CisOrTrans)); }
+      bool IsCisOrTrans() const { return (HasFlag(CisOrTrans)); }
 
       //! \return whether the geometry around this bond "looks" unsaturated
       bool IsDoubleBondGeometry();

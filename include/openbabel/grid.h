@@ -55,17 +55,17 @@ namespace OpenBabel
     virtual void Init(OBMol &box);
 
     //! \return the minimum x point of the grid
-    double GetXmin() const    { return(_xmin);    }
+    double GetXmin() const    { return (_xmin);    }
     //! \return the minimum y point of the grid
-    double GetYmin() const    { return(_ymin);    }
+    double GetYmin() const    { return (_ymin);    }
     //! \return the minimum z point of the grid
-    double GetZmin() const    { return(_zmin);    }
+    double GetZmin() const    { return (_zmin);    }
     //! \return the maximum x point of the grid
-    double GetXmax() const    { return(_xmax);    }
+    double GetXmax() const    { return (_xmax);    }
     //! \return the maximum y point of the grid
-    double GetYmax() const    { return(_ymax);    }
+    double GetYmax() const    { return (_ymax);    }
     //! \return the maximum z point of the grid
-    double GetZmax() const    { return(_zmax);    }
+    double GetZmax() const    { return (_zmax);    }
 
     //! \return whether the supplied XYZ coordinates fall within the box
     bool PointIsInBox(double x,double y,double z)
@@ -151,7 +151,7 @@ namespace OpenBabel
     }
 
     //! \return The grid spacing.
-    double GetSpacing() const { return(_spacing); }
+    double GetSpacing() const { return (_spacing); }
     //! Get the grid spacing.
     //! \deprecated Will be removed.
     //! \sa GetSpacing()
@@ -161,15 +161,15 @@ namespace OpenBabel
       s=_spacing;
     }
     //! \return Inverse of the grid spacing.
-    double GetScale() const   { return(_inv_spa); }
+    double GetScale() const   { return (_inv_spa); }
     //! \return Half of the spacing between grid points.
-    double GetHalfSpace() const {return(_halfSpace);}
+    double GetHalfSpace() const {return (_halfSpace);}
     //! \return Size of the grid in the x dimension.
-    int GetXdim() const       { return(_xdim);    }
+    int GetXdim() const       { return (_xdim);    }
     //! \return Size of the grid in the y dimension.
-    int GetYdim() const       { return(_ydim);    }
+    int GetYdim() const       { return (_ydim);    }
     //! \return Size of the grid in the z dimension.
-    int GetZdim() const       { return(_zdim);    }
+    int GetZdim() const       { return (_zdim);    }
     //! Get the x, y and z dimensions (must pass an double[3] at least).
     //! \deprecated May be removed in future.
     //! \sa GetXdim() \sa GetYdim() \sa GetZdim()
@@ -241,7 +241,7 @@ namespace OpenBabel
     //! \deprecated Will be removed.
     //! \sa GetDataVector()
     OB_DEPRECATED_MSG("Use GetDataVector instead")
-    double *GetVals()    {        return(&_values[0]);    }
+    double *GetVals()    {        return (&_values[0]);    }
 
     //! \return Value at the point in the grid specified by i, j and k.
     double GetValue(int i, int j, int k)
@@ -326,11 +326,11 @@ namespace OpenBabel
 
     bool LipoGrid()
     {
-      return((_gridtype&OBLipoGrid) ? true : false);
+      return ((_gridtype&OBLipoGrid) ? true : false);
     }
     bool PolarGrid()
     {
-      return(_gridtype&OBPolarGrid);
+      return (_gridtype&OBPolarGrid);
     }
     void SetGridType(int gridtype)
     {

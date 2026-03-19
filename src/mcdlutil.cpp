@@ -3494,7 +3494,7 @@ namespace OpenBabel {
   // Comparison function for sort in setupRotorSearch
   bool CompareRotor(const pair<int, int> &a, const pair<int, int> &b)
   {
-    return(a.second < b.second);   //inside->out
+    return (a.second < b.second);   //inside->out
   }
 
   int TSimpleMolecule::setupRotorSearch(const vector<int> &rotBondList, vector<int>& inner_bonds, vector<int>& remainder)

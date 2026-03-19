@@ -119,17 +119,17 @@ namespace OpenBabel {
    */
   inline bool CompareUnsigned(const unsigned int &a,const unsigned int &b)
   {
-    return(a<b);
+    return (a<b);
   }
 
   inline bool ComparePairFirst(const std::pair<OBAtom*,unsigned int> &a,const std::pair<OBAtom*,unsigned int> &b)
   {
-    return(a.first->GetIdx() < b.first->GetIdx());
+    return (a.first->GetIdx() < b.first->GetIdx());
   }
 
   inline bool ComparePairSecond(const std::pair<OBAtom*,unsigned int> &a,const std::pair<OBAtom*,unsigned int> &b)
   {
-    return(a.second < b.second);
+    return (a.second < b.second);
   }
 
 
@@ -183,7 +183,7 @@ namespace OpenBabel {
     if (atom->GetAtomicNum() == 7 && atom->IsAromatic() && atom->GetTotalDegree() == 3) {
       count += 1.0f;         // [nH] - add another bond
     }
-    return(int(count + 0.5));     // round to nearest int
+    return (int(count + 0.5));     // round to nearest int
   }
 
   /**

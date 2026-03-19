@@ -110,7 +110,7 @@ int mol(int argc, char* argv[])
   if (!ifs1)
     {
       cout << "Bail out! Cannot read input file!" << endl;
-      return(-1);
+      return (-1);
     }
   OBConversion conv(&ifs1, &cout);
   OBFormat* pFormat;
@@ -119,7 +119,7 @@ int mol(int argc, char* argv[])
   if (pFormat == nullptr)
     {
       cout << "Bail out! Cannot read file format!" << endl;
-      return(-1);
+      return (-1);
     }
   if (! conv.SetInAndOutFormats(pFormat, pFormat))
     {

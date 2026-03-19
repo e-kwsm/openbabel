@@ -106,7 +106,7 @@ namespace OpenBabel
   bool OBBase::HasData(const char *s)
   {
     string temp(s);
-    return(HasData(temp));
+    return (HasData(temp));
   }
 
 
@@ -154,7 +154,7 @@ namespace OpenBabel
     OBDataIterator i;
     for (i = _vdata.begin();i != _vdata.end();++i)
       if ((*i)->GetDataType() == dt)
-        return(*i);
+        return (*i);
     return nullptr;
   }
 

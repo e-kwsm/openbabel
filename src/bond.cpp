@@ -342,17 +342,17 @@ namespace OpenBabel
       }
 
     if (!a1 || !a2)
-      return(false);
+      return (false);
     if (GetBondOrder() != 1)
-      return(false);
+      return (false);
 
     OBBond *bond;
     vector<OBBond*>::iterator i;
     for (bond = a1->BeginBond(i);bond;bond = a1->NextBond(i))
       if (bond->IsCarbonyl())
-        return(true);
+        return (true);
 
-    return(false);
+    return (false);
   }
 
   bool OBBond::IsPrimaryAmide()
@@ -373,18 +373,18 @@ namespace OpenBabel
       }
 
     if (!a1 || !a2)
-      return(false);
+      return (false);
     if (GetBondOrder() != 1)
-      return(false);
+      return (false);
 
     OBBond *bond;
     vector<OBBond*>::iterator i;
     for (bond = a1->BeginBond(i);bond;bond = a1->NextBond(i))
       if (bond->IsCarbonyl())
         if (a2->GetHvyDegree() == 2)
-          return(true);
+          return (true);
 
-    return(false);
+    return (false);
   }
 
   bool OBBond::IsSecondaryAmide()
@@ -405,18 +405,18 @@ namespace OpenBabel
       }
 
     if (!a1 || !a2)
-      return(false);
+      return (false);
     if (GetBondOrder() != 1)
-      return(false);
+      return (false);
 
     OBBond *bond;
     vector<OBBond*>::iterator i;
     for (bond = a1->BeginBond(i);bond;bond = a1->NextBond(i))
       if (bond->IsCarbonyl())
         if (a2->GetHvyDegree() == 3)
-          return(true);
+          return (true);
 
-    return(false);
+    return (false);
   }
 */
 
@@ -605,7 +605,7 @@ namespace OpenBabel
         d2 = SQUARE(begin->GetX() - end->GetX());
         d2 += SQUARE(begin->GetY() - end->GetY());
         d2 += SQUARE(begin->GetZ() - end->GetZ());
-        return(sqrt(d2));
+        return (sqrt(d2));
       }
     else
       {
@@ -621,45 +621,45 @@ namespace OpenBabel
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   bool OBBond::HasData(const char *s)
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   bool OBBond::HasData(unsigned int dt)
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetDataType() == dt)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   OBGenericData *OBBond::GetData(string &s)
@@ -669,9 +669,9 @@ namespace OpenBabel
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(*i);
+  return (*i);
 
-  return(NULL);
+  return (NULL);
   }
 
   OBGenericData *OBBond::GetData(const char *s)
@@ -681,9 +681,9 @@ namespace OpenBabel
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(*i);
+  return (*i);
 
-  return(NULL);
+  return (NULL);
   }
 
   OBGenericData *OBBond::GetData(unsigned int dt)
@@ -691,8 +691,8 @@ namespace OpenBabel
   vector<OBGenericData*>::iterator i;
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetDataType() == dt)
-  return(*i);
-  return(NULL);
+  return (*i);
+  return (NULL);
   }
 
   void OBBond::DeleteData(unsigned int dt)

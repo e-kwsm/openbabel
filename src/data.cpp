@@ -398,9 +398,9 @@ namespace OpenBabel
       Init();
 
     if (_from > 0 && _from < (signed)_table.size())
-      return( _colnames[_from] );
+      return ( _colnames[_from] );
     else
-      return( _colnames[0] );
+      return ( _colnames[0] );
   }
 
   std::string OBTypeTable::GetToType()
@@ -409,9 +409,9 @@ namespace OpenBabel
       Init();
 
     if (_to > 0 && _to < (signed)_table.size())
-      return( _colnames[_to] );
+      return ( _colnames[_to] );
     else
-      return( _colnames[0] );
+      return ( _colnames[0] );
   }
 
   void Toupper(string &s)
@@ -623,7 +623,7 @@ namespace OpenBabel
     unsigned int i;
     for (i = 0;i < _resbonds[_resnum].size();++i)
       if (_resbonds[_resnum][i].first == s)
-        return(_resbonds[_resnum][i].second);
+        return (_resbonds[_resnum][i].second);
 
     return 0;
   }
@@ -639,7 +639,7 @@ namespace OpenBabel
     unsigned int i;
     for (i = 0;i < _resbonds[_resnum].size();++i)
       if (_resbonds[_resnum][i].first == s)
-        return(_resbonds[_resnum][i].second);
+        return (_resbonds[_resnum][i].second);
 
     return 0;
   }

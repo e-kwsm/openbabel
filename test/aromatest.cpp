@@ -105,7 +105,7 @@ int aromatest(int argc, char* argv[])
   if (!ifs)
     {
       cout << "Bail out! Cannot read input file!" << endl;
-      return(-1);
+      return (-1);
     }
   
   OBConversion conv(&ifs, &cout);
@@ -115,7 +115,7 @@ int aromatest(int argc, char* argv[])
   if (pFormat == nullptr)
     {
       cout << "Bail out! Cannot read file format!" << endl;
-      return(-1);
+      return (-1);
     }
   
   // Finally, we can do some work!

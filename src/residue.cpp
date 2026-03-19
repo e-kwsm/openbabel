@@ -876,7 +876,7 @@ namespace OpenBabel
         _insertioncode = src._insertioncode;
       }
 
-    return(*this);
+    return (*this);
   }
 
   ///////////////////////////////////////////////////////////////////////////////
@@ -1095,17 +1095,17 @@ namespace OpenBabel
 
   unsigned int OBResidue::GetIdx(void) const
   {
-    return(_idx);
+    return (_idx);
   }
 
   unsigned int OBResidue::GetResKey(void) const
   {
-    return(_reskey);
+    return (_reskey);
   }
 
   char OBResidue::GetInsertionCode(void) const
   {
-    return(_insertioncode);
+    return (_insertioncode);
   }
 
   string OBResidue::GetAtomID(OBAtom *atom) const

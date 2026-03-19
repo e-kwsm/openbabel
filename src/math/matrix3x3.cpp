@@ -277,7 +277,7 @@ namespace OpenBabel
     y() = vv.y();
     z() = vv.z();
 
-    return(*this);
+    return (*this);
   }
 
   /*! This method checks if the absolute value of the determinant is smaller than 1e-6. If
@@ -339,7 +339,7 @@ namespace OpenBabel
 
   double matrix3x3::determinant(void) const
   {
-    return( ele[0][0] * (ele[1][1] * ele[2][2] - ele[1][2] * ele[2][1])
+    return ( ele[0][0] * (ele[1][1] * ele[2][2] - ele[1][2] * ele[2][1])
           + ele[0][1] * (ele[1][2] * ele[2][0] - ele[1][0] * ele[2][2])
           + ele[0][2] * (ele[1][0] * ele[2][1] - ele[1][1] * ele[2][0]) );
   }
@@ -349,7 +349,7 @@ namespace OpenBabel
     true. */
   bool matrix3x3::isSymmetric(void) const
   {
-    return( IsApprox( ele[0][1], ele[1][0], 1e-6 )
+    return ( IsApprox( ele[0][1], ele[1][0], 1e-6 )
          && IsApprox( ele[0][2], ele[2][0], 1e-6 )
          && IsApprox( ele[1][2], ele[2][1], 1e-6 ) );
   }
@@ -359,7 +359,7 @@ namespace OpenBabel
    * by this function is 1e-6. */
   bool matrix3x3::isDiagonal(void) const
   {
-    return( IsNegligible( ele[1][0], ele[0][0], 1e-6 )
+    return ( IsNegligible( ele[1][0], ele[0][0], 1e-6 )
          && IsNegligible( ele[2][0], ele[0][0], 1e-6 )
          && IsNegligible( ele[0][1], ele[1][1], 1e-6 )
          && IsNegligible( ele[2][1], ele[1][1], 1e-6 )

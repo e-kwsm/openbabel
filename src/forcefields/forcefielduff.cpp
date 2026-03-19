@@ -619,7 +619,7 @@ namespace OpenBabel {
     // From equation 2
     // NOTE: See http://towhee.sourceforge.net/forcefields/uff.html
     // There is a typo in the published paper
-    return(ri + rj + rbo - ren);
+    return (ri + rj + rbo - ren);
   }
 
   bool OBForceFieldUFF::SetupVDWCalculation(OBAtom *a, OBAtom *b, OBFFVDWCalculationUFF &vdwcalc)

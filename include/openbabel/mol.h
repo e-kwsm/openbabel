@@ -250,7 +250,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! structure.
     virtual void EndModify(bool nukePerceivedData=true);
     //! \return The number of nested BeginModify() calls. Used internally.
-    int GetMod()           {      return(_mod);    }
+    int GetMod()           {      return (_mod);    }
     //! Increase the number of nested BeginModify calls. Dangerous!
     //! Instead, properly use BeginModify as needed.
     void IncrementMod()    {      _mod++;          }
@@ -262,18 +262,18 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \name Data retrieval methods
     //@{
     //! \return the entire set of flags. (Internal use, mainly.)
-    int          GetFlags() const         { return(_flags); }
+    int          GetFlags() const         { return (_flags); }
     //! \return the title of this molecule (often the filename)
     //! \param replaceNewlines whether to replace any newline characters with spaces
     const char  *GetTitle(bool replaceNewlines = true) const;
     //! \return the number of atoms (i.e. OBAtom children)
-    unsigned int NumAtoms() const         {  return(_natoms); }
+    unsigned int NumAtoms() const         {  return (_natoms); }
     //! \return the number of bonds (i.e. OBBond children)
-    unsigned int NumBonds() const         {  return(_nbonds); }
+    unsigned int NumBonds() const         {  return (_nbonds); }
     //! \return the number of non-hydrogen atoms
     unsigned int NumHvyAtoms() const;
     //! \return the number of residues (i.e. OBResidue substituents)
-    unsigned int NumResidues() const      { return(static_cast<unsigned int> (_residue.size())); }
+    unsigned int NumResidues() const      { return (static_cast<unsigned int> (_residue.size())); }
     //! \return the number of rotatable bonds. If sampleRingBonds is true, will include rotors within rings (see OBBond::IsRotor() for details)
     unsigned int NumRotors(bool sampleRingBonds=false);
 
@@ -334,15 +334,15 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the dimensionality of coordinates (i.e., 0 = unknown or no coord, 2=2D, 3=3D)
     unsigned short int GetDimension() const { return _dimension; }
     //! \return the set of all atomic coordinates. See OBAtom::GetCoordPtr for more
-    double      *GetCoordinates() { return(_c); }
+    double      *GetCoordinates() { return (_c); }
     //! \return the Smallest Set of Smallest Rings has been run (see OBRing class)
     std::vector<OBRing*> &GetSSSR();
     //! \return the Largest Set of Smallest Rings has been run (see OBRing class)
     std::vector<OBRing*> &GetLSSR();
     //! Get the current flag for whether formal charges are set with pH correction
-    bool AutomaticFormalCharge()   { return(_autoFormalCharge);  }
+    bool AutomaticFormalCharge()   { return (_autoFormalCharge);  }
     //! Get the current flag for whether partial charges are auto-determined
-    bool AutomaticPartialCharge()  { return(_autoPartialCharge); }
+    bool AutomaticPartialCharge()  { return (_autoPartialCharge); }
     //@}
 
 
@@ -575,46 +575,46 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Are there any non-zero coordinates?
     bool HasNonZeroCoords();
     //! Has aromatic perception been performed?
-    bool HasAromaticPerceived()     { return(HasFlag(OB_AROMATIC_MOL)); }
+    bool HasAromaticPerceived()     { return (HasFlag(OB_AROMATIC_MOL)); }
     //! Has the smallest set of smallest rings (FindSSSR) been performed?
-    bool HasSSSRPerceived()         { return(HasFlag(OB_SSSR_MOL));     }
+    bool HasSSSRPerceived()         { return (HasFlag(OB_SSSR_MOL));     }
     //! Has the largest set of smallest rings (FindLSSR) been performed?
-    bool HasLSSRPerceived()         { return(HasFlag(OB_LSSR_MOL));     }
+    bool HasLSSRPerceived()         { return (HasFlag(OB_LSSR_MOL));     }
     //! Have ring atoms and bonds been assigned?
-    bool HasRingAtomsAndBondsPerceived(){return(HasFlag(OB_RINGFLAGS_MOL));}
+    bool HasRingAtomsAndBondsPerceived(){return (HasFlag(OB_RINGFLAGS_MOL));}
     //! Have atom types been assigned by OBAtomTyper?
-    bool HasAtomTypesPerceived()    { return(HasFlag(OB_ATOMTYPES_MOL));}
+    bool HasAtomTypesPerceived()    { return (HasFlag(OB_ATOMTYPES_MOL));}
     //! Have ring types been assigned by OBRingTyper?
-    bool HasRingTypesPerceived()    { return(HasFlag(OB_RINGTYPES_MOL));}
+    bool HasRingTypesPerceived()    { return (HasFlag(OB_RINGTYPES_MOL));}
     //! Has atom chirality been assigned?
-    bool HasChiralityPerceived()    { return(HasFlag(OB_CHIRALITY_MOL));}
+    bool HasChiralityPerceived()    { return (HasFlag(OB_CHIRALITY_MOL));}
     //! Have atomic Gasteiger partial charges been assigned by OBGastChrg?
-    bool HasPartialChargesPerceived() { return(HasFlag(OB_PCHARGE_MOL));}
+    bool HasPartialChargesPerceived() { return (HasFlag(OB_PCHARGE_MOL));}
     //! Has atomic hybridization been assigned by OBAtomTyper?
-    bool HasHybridizationPerceived() { return(HasFlag(OB_HYBRID_MOL));  }
+    bool HasHybridizationPerceived() { return (HasFlag(OB_HYBRID_MOL));  }
     //! Have ring "closure" bonds been assigned? (e.g., OBBond::IsClosure())
-    bool HasClosureBondsPerceived() { return(HasFlag(OB_CLOSURE_MOL));  }
+    bool HasClosureBondsPerceived() { return (HasFlag(OB_CLOSURE_MOL));  }
     //! Have biomolecule chains and residues been assigned by OBChainsParser?
-    bool HasChainsPerceived() { return(HasFlag(OB_CHAINS_MOL));         }
+    bool HasChainsPerceived() { return (HasFlag(OB_CHAINS_MOL));         }
     //! Have hydrogens been added to the molecule?
-    bool HasHydrogensAdded() { return(HasFlag(OB_H_ADDED_MOL));         }
+    bool HasHydrogensAdded() { return (HasFlag(OB_H_ADDED_MOL));         }
     //! Has the molecule been corrected for pH by CorrectForPH?
-    bool IsCorrectedForPH() { return(HasFlag(OB_PH_CORRECTED_MOL));     }
+    bool IsCorrectedForPH() { return (HasFlag(OB_PH_CORRECTED_MOL));     }
     //! Has total spin multiplicity been assigned?
-    bool HasSpinMultiplicityAssigned() { return(HasFlag(OB_ATOMSPIN_MOL)); }
+    bool HasSpinMultiplicityAssigned() { return (HasFlag(OB_ATOMSPIN_MOL)); }
     //! Does this OBMol represent a reaction?
     bool IsReaction()                  { return HasFlag(OB_REACTION_MOL); }
     //! Is this molecule periodic? Should periodic boundary conditions be applied?
-    bool IsPeriodic() { return(HasFlag(OB_PERIODIC_MOL)); }
+    bool IsPeriodic() { return (HasFlag(OB_PERIODIC_MOL)); }
 
     //! Are there any atoms in this molecule?
-    bool Empty()                       { return(_natoms == 0);          }
+    bool Empty()                       { return (_natoms == 0);          }
     //@}
 
     //! \name Multiple conformer member functions
     //@{
     //! \return the number of conformers in this molecule
-    int     NumConformers()    { return((_vconf.empty())?0:static_cast<int> (_vconf.size())); }
+    int     NumConformers()    { return ((_vconf.empty())?0:static_cast<int> (_vconf.size())); }
     //! Set the entire set of conformers for this molecule to @p v
     void    SetConformers(std::vector<double*> &v);
     //! Add a new set of coordinates @p f as a new conformer
@@ -628,7 +628,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! Delete the conformer @p nconf
     void    DeleteConformer(int nconf);
     //! \return the coordinates to conformer @p i
-    double  *GetConformer(int i)       {  return(_vconf[i]);      }
+    double  *GetConformer(int i)       {  return (_vconf[i]);      }
     //! Set the entire set of conformer energies
     void    SetEnergies(std::vector<double> &energies);
     //! Set the entire set of conformer energies
@@ -640,14 +640,14 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     //! \return the array of coordinates for the first conformer
     double  *BeginConformer(std::vector<double*>::iterator&i)
     { i = _vconf.begin();
-      return((i == _vconf.end()) ? nullptr:*i); }
+      return ((i == _vconf.end()) ? nullptr:*i); }
     //! Advance the iterator to the next confomer, if possible
     //! \return The array of coordinates for the next conformer, or NULL if none exist
     double  *NextConformer(std::vector<double*>::iterator&i)
     { ++i;
-      return((i == _vconf.end()) ? nullptr:*i); }
+      return ((i == _vconf.end()) ? nullptr:*i); }
     //! \return the entire set of conformers for this molecule as a vector of floating point arrays
-    std::vector<double*> &GetConformers() {   return(_vconf);     }
+    std::vector<double*> &GetConformers() {   return (_vconf);     }
     //@}
 
     //! \name Iterator methods
@@ -696,14 +696,14 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     OBResidue *BeginResidue(OBResidueIterator &i)
     {
       i = _residue.begin();
-      return((i == _residue.end()) ? nullptr:*i);
+      return ((i == _residue.end()) ? nullptr:*i);
     }
     //! Advance the iterator @p i to the next residue in the molecule
     //! \return the next residue (if any, or NULL if not possible)
     OBResidue *NextResidue(OBResidueIterator &i)
     {
       ++i;
-      return((i == _residue.end()) ? nullptr:*i);
+      return ((i == _residue.end()) ? nullptr:*i);
     }
     //! Set the iterator to the beginning of the internal coordinate list
     //! \return the first internal coordinate record, or NULL if none exist
@@ -711,7 +711,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     OBInternalCoord *BeginInternalCoord(std::vector<OBInternalCoord*>::iterator &i)
     {
       i = _internals.begin();
-      return((i == _internals.end()) ? nullptr:*i);
+      return ((i == _internals.end()) ? nullptr:*i);
     }
     //! Advance the iterator to the next internal coordinate record
     //! \return the next first internal coordinate record, or NULL if none exist
@@ -719,7 +719,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     OBInternalCoord *NextInternalCoord(std::vector<OBInternalCoord*>::iterator &i)
     {
       ++i;
-      return((i == _internals.end()) ? nullptr:*i);
+      return ((i == _internals.end()) ? nullptr:*i);
     }
     //@}
 

@@ -82,7 +82,7 @@ namespace OpenBabel
 
       conv->Write(&mol);
       }
-      return(1);
+      return (1);
       }
       \endcode
 
@@ -183,7 +183,7 @@ namespace OpenBabel
   const char *OBMol::GetTitle(bool replaceNewlines) const
   {
     if (!replaceNewlines || _title.find('\n')== string::npos )
-      return(_title.c_str());
+      return (_title.c_str());
 
     //Only multiline titles use the following to replace newlines by spaces
     static string title;
@@ -193,12 +193,12 @@ namespace OpenBabel
       title.replace( j, 1, " ");
     }
 
-    return(title.c_str());
+    return (title.c_str());
   }
 
   bool SortVVInt(const vector<int> &a,const vector<int> &b)
   {
-    return(a.size() > b.size());
+    return (a.size() > b.size());
   }
 
   bool SortAtomZ(const pair<OBAtom*,double> &a, const pair<OBAtom*,double> &b)
@@ -213,7 +213,7 @@ namespace OpenBabel
 
   double OBMol::GetTorsion(int a,int b,int c,int d)
   {
-    return(GetTorsion((OBAtom*)_vatom[a-1],
+    return (GetTorsion((OBAtom*)_vatom[a-1],
                       (OBAtom*)_vatom[b-1],
                       (OBAtom*)_vatom[c-1],
                       (OBAtom*)_vatom[d-1]));
@@ -310,7 +310,7 @@ namespace OpenBabel
   {
     if (!IsPeriodic())
       {
-        return(CalcTorsionAngle(a->GetVector(),
+        return (CalcTorsionAngle(a->GetVector(),
                                 b->GetVector(),
                                 c->GetVector(),
                                 d->GetVector()));
@@ -330,7 +330,7 @@ namespace OpenBabel
         v2 = unitCell->UnwrapCartesianNear(v2, v1);
         v3 = unitCell->UnwrapCartesianNear(v3, v2);
         v4 = unitCell->UnwrapCartesianNear(v4, v3);
-        return(CalcTorsionAngle(v1, v2, v3, v4));
+        return (CalcTorsionAngle(v1, v2, v3, v4));
       }
   }
 
@@ -677,12 +677,12 @@ namespace OpenBabel
 
   static bool OBComparePairSecond(const pair<OBAtom*,unsigned int> &a,const pair<OBAtom*,unsigned int> &b)
   {
-    return(a.second < b.second);
+    return (a.second < b.second);
   }
 
   static bool OBComparePairFirst(const pair<OBAtom*,unsigned int> &a,const pair<OBAtom*,unsigned int> &b)
   {
-    return(a.first->GetIdx() < b.first->GetIdx());
+    return (a.first->GetIdx() < b.first->GetIdx());
   }
 
   //! counts the number of unique symmetry classes in a list
@@ -835,7 +835,7 @@ namespace OpenBabel
         return nullptr;
       }
 
-    return((OBAtom*)_vatom[idx-1]);
+    return ((OBAtom*)_vatom[idx-1]);
   }
 
   OBAtom *OBMol::GetAtomById(unsigned long id) const
@@ -845,7 +845,7 @@ namespace OpenBabel
       return nullptr;
     }
 
-    return((OBAtom*)_atomIds[id]);
+    return ((OBAtom*)_atomIds[id]);
   }
 
   OBAtom *OBMol::GetFirstAtom() const
@@ -863,7 +863,7 @@ namespace OpenBabel
         return nullptr;
       }
 
-    return((OBBond*)_vbond[idx]);
+    return ((OBBond*)_vbond[idx]);
   }
 
   OBBond *OBMol::GetBondById(unsigned long id) const
@@ -873,12 +873,12 @@ namespace OpenBabel
       return nullptr;
     }
 
-    return((OBBond*)_bondIds[id]);
+    return ((OBBond*)_bondIds[id]);
   }
 
   OBBond *OBMol::GetBond(int bgn, int end) const
   {
-    return(GetBond(GetAtom(bgn),GetAtom(end)));
+    return (GetBond(GetAtom(bgn),GetAtom(end)));
   }
 
   OBBond *OBMol::GetBond(OBAtom *bgn,OBAtom *end) const
@@ -890,7 +890,7 @@ namespace OpenBabel
 
     for (nbr = bgn->BeginNbrAtom(i);nbr;nbr = bgn->NextNbrAtom(i))
       if (nbr == end)
-        return((OBBond *)*i);
+        return ((OBBond *)*i);
 
     return nullptr; //just to keep the SGI compiler happy
   }
@@ -939,7 +939,7 @@ namespace OpenBabel
       SetData(rd);
     }
     rd->SetOrigin(perceived);
-    return(rd->GetData());
+    return (rd->GetData());
   }
 
   vector<OBRing*> &OBMol::GetLSSR()
@@ -957,7 +957,7 @@ namespace OpenBabel
       SetData(rd);
     }
     rd->SetOrigin(perceived);
-    return(rd->GetData());
+    return (rd->GetData());
   }
 
   double OBMol::GetMolWt(bool implicitH)
@@ -1156,7 +1156,7 @@ namespace OpenBabel
   int OBMol::GetTotalCharge()
   {
     if(HasFlag(OB_TCHARGE_MOL))
-      return(_totalCharge);
+      return (_totalCharge);
     else // calculate from atomic formal charges (seems the best default)
       {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -1206,7 +1206,7 @@ namespace OpenBabel
   unsigned int OBMol::GetTotalSpinMultiplicity()
   {
     if (HasFlag(OB_TSPIN_MOL))
-      return(_totalSpin);
+      return (_totalSpin);
     else // calculate from atomic spin information (assuming high-spin case)
       {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -1348,7 +1348,7 @@ namespace OpenBabel
     if (src.HasChiralityPerceived())
       SetChiralityPerceived();
 
-    return(*this);
+    return (*this);
   }
 
   OBMol &OBMol::operator+=(const OBMol &source)
@@ -1437,7 +1437,7 @@ namespace OpenBabel
 
     EndModify();
 
-    return(*this);
+    return (*this);
   }
 
   bool OBMol::Clear()
@@ -1488,7 +1488,7 @@ namespace OpenBabel
     _mod = 0;
 
     // Clean up generic data via the base class
-    return(OBBase::Clear());
+    return (OBBase::Clear());
   }
 
   void OBMol::BeginModify()
@@ -2091,7 +2091,7 @@ namespace OpenBabel
   */
   bool OBMol::AddHydrogens(bool polaronly, bool correctForPH, double pH)
   {
-    return(AddNewHydrogens(polaronly ? PolarHydrogen : AllHydrogen, correctForPH, pH));
+    return (AddNewHydrogens(polaronly ? PolarHydrogen : AllHydrogen, correctForPH, pH));
   }
 
   static bool AtomIsNSOP(OBAtom *atom)
@@ -2294,12 +2294,12 @@ namespace OpenBabel
 
   bool OBMol::AddPolarHydrogens()
   {
-    return(AddNewHydrogens(PolarHydrogen));
+    return (AddNewHydrogens(PolarHydrogen));
   }
 
   bool OBMol::AddNonPolarHydrogens()
   {
-    return(AddNewHydrogens(NonPolarHydrogen));
+    return (AddNewHydrogens(NonPolarHydrogen));
   }
 
   bool OBMol::AddHydrogens(OBAtom *atom)
@@ -2438,7 +2438,7 @@ namespace OpenBabel
   bool OBMol::DeleteAtom(OBAtom *atom, bool destroyAtom)
   {
     if (atom->GetAtomicNum() == OBElements::Hydrogen)
-      return(DeleteHydrogen(atom));
+      return (DeleteHydrogen(atom));
 
     BeginModify();
     //don't need to do anything with coordinates b/c
@@ -2831,7 +2831,7 @@ namespace OpenBabel
 
     hasX = hasY = hasZ = false;
     //    if (this->_c == NULL) **Test removed** Prevented function use during molecule construction
-    //      return(false);
+    //      return (false);
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       {
         if (!hasX && !IsNearZero(atom->x()))

@@ -45,14 +45,14 @@ int main(int argc,char *argv[])
       cout << "Usage: obrotamer <file>" << endl;
       cout << "  Outputs the number of rotable bonds and generate a random"
            << " rotamer" << endl;
-      return(-1);
+      return (-1);
     }
 
   ifstream ifs(argv[1]);
   if (!ifs)
     {
       cerr << "Error! Cannot read input file!" << endl;
-      return(-1);
+      return (-1);
     }
   
   OBConversion conv(&ifs, &cout);
@@ -62,7 +62,7 @@ int main(int argc,char *argv[])
   if (pFormat == nullptr)
     {
       cerr << "Error! Cannot read file format!" << endl;
-      return(-1);
+      return (-1);
     }
   
   // Finally, we can do some work!

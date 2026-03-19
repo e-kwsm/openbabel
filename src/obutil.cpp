@@ -69,13 +69,13 @@ namespace OpenBabel
   // returns True if a < b, False otherwise.
   bool OBCompareInt(const int &a,const int &b)
   {
-    return(a<b);
+    return (a<b);
   }
 
   // Comparison function (for sorting unsigned ints) returns a < b
   bool OBCompareUnsigned(const unsigned int &a,const unsigned int &b)
   {
-    return(a<b);
+    return (a<b);
   }
 
   //! Comparison for doubles: returns fabs(a - b) < epsilon
@@ -104,7 +104,7 @@ namespace OpenBabel
     const double max_squarable_double = 1e150;
     const double min_squarable_double = 1e-150;
     double abs_a = fabs(a);
-    return(abs_a < max_squarable_double && abs_a > min_squarable_double);
+    return (abs_a < max_squarable_double && abs_a > min_squarable_double);
   }
 
   //! Utility function: replace the last extension in string &src with new extension char *ext.
@@ -186,7 +186,7 @@ namespace OpenBabel
       }
 
     d2 /= (double) N;
-    return(sqrt(d2));
+    return (sqrt(d2));
   }
 
   //! Rotate the coordinates of 'atoms'
@@ -347,14 +347,14 @@ namespace OpenBabel
   //! to the default OBMessageHandler error log if it fails.
   bool SafeOpen(std::ifstream &fs, const string &filename)
   {
-    return(SafeOpen(fs, filename.c_str()));
+    return (SafeOpen(fs, filename.c_str()));
   }
 
   //! Safely open the supplied filename and return an ofstream, throwing an error
   //! to the default OBMessageHandler error log if it fails.
   bool SafeOpen(std::ofstream &fs, const string &filename)
   {
-    return(SafeOpen(fs, filename.c_str()));
+    return (SafeOpen(fs, filename.c_str()));
   }
 
   //! Shift the supplied string to uppercase
@@ -804,7 +804,7 @@ namespace OpenBabel
     double Descr, Temp, TwoA;
 
     if( IsZero(A) )
-      return( SolveLinear(B,C) );
+      return ( SolveLinear(B,C) );
 
     TwoA = A+A;
     Temp = TwoA*C;
@@ -853,7 +853,7 @@ namespace OpenBabel
 
     if( IsZero(A) )
       {
-        return( SolveQuadratic(B,C,D) );
+        return ( SolveQuadratic(B,C,D) );
       }
 
     TwoA = A+A;
@@ -1194,7 +1194,7 @@ namespace OpenBabel
 
     d2 /= (double) size;
 
-    return((double)sqrt(d2));
+    return ((double)sqrt(d2));
   }
 
   void get_rmat(double *rvec,double *r,double *f,int size)

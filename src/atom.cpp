@@ -155,7 +155,7 @@ namespace OpenBabel
     _residue = nullptr;
     _id = NoId;
 
-    return(OBBase::Clear());
+    return (OBBase::Clear());
   }
 
   OBAtom &OBAtom::operator=(OBAtom &src)
@@ -166,7 +166,7 @@ namespace OpenBabel
       _idx = src.GetIdx();
       Duplicate(&src);
     }
-    return(*this);
+    return (*this);
   }
 
   void OBAtom::Duplicate(OBAtom *src)
@@ -256,7 +256,7 @@ namespace OpenBabel
               if (c != a && c->IsInRing())
                 {
                   tor = fabs(((OBMol*)GetParent())->GetTorsion(this,a,b,c));
-                  return(tor > 55.0 && tor < 75.0);
+                  return (tor > 55.0 && tor < 75.0);
                 }
 
     return false;
@@ -376,19 +376,19 @@ namespace OpenBabel
   vector3 &OBAtom::GetVector()
   {
     if (!_c)
-      return(_v);
+      return (_v);
 
     _v.Set((*_c)[_cidx],(*_c)[_cidx+1],(*_c)[_cidx+2]);
-    return(_v);
+    return (_v);
   }
 
   const vector3 &OBAtom::GetVector() const
   {
     if (!_c)
-      return(_v);
+      return (_v);
 
     _v.Set((*_c)[_cidx],(*_c)[_cidx+1],(*_c)[_cidx+2]);
-    return(_v);
+    return (_v);
   }
 
   void OBAtom::SetVector()
@@ -489,7 +489,7 @@ namespace OpenBabel
     if (_ele == 1 && _isotope == 2)
       snprintf(_type, 6, "%s", "D");
 
-    return(_type);
+    return (_type);
   }
 
   unsigned int OBAtom::GetHyb() const
@@ -499,7 +499,7 @@ namespace OpenBabel
     if (mol && !mol->HasHybridizationPerceived())
       atomtyper.AssignHyb(*mol);
 
-    return(_hyb);
+    return (_hyb);
   }
 
 
@@ -525,15 +525,15 @@ namespace OpenBabel
       if (bond->GetNbrAtom((OBAtom*)this)->IsHeteroatom())
         count++;
 
-    return((unsigned int)count);
+    return ((unsigned int)count);
   }
 
   double OBAtom::GetPartialCharge()
   {
     if (!GetParent())
-      return(_pcharge);
+      return (_pcharge);
     if (!((OBMol*)GetParent())->AutomaticPartialCharge())
-      return(_pcharge);
+      return (_pcharge);
 
     if (!((OBMol*)GetParent())->HasPartialChargesPerceived())
       {
@@ -549,7 +549,7 @@ namespace OpenBabel
         gc.AssignPartialCharges(*((OBMol*)GetParent()));
       }
 
-    return(_pcharge);
+    return (_pcharge);
   }
 
   //! Returns true if nitrogen is part of an amide
@@ -851,7 +851,7 @@ namespace OpenBabel
       if ((*i)->IsInRing(GetIdx()))
         count++;
 
-    return((unsigned int)count);
+    return ((unsigned int)count);
   }
 
   unsigned int OBAtom::MemberOfRingSize() const
@@ -871,7 +871,7 @@ namespace OpenBabel
 
     for (i = rlist.begin();i != rlist.end();++i)
       if ((*i)->IsInRing(GetIdx()))
-        return((*i)->Size());
+        return ((*i)->Size());
 
     return 0;
   }
@@ -1109,7 +1109,7 @@ namespace OpenBabel
   {
     if (!IsPeriodic())
       {
-        return(( this->GetVector() - b->GetVector() ).length());
+        return (( this->GetVector() - b->GetVector() ).length());
       }
     else
       {
@@ -1121,12 +1121,12 @@ namespace OpenBabel
   double OBAtom::GetDistance(int b)
   {
     OBMol *mol = (OBMol*)GetParent();
-    return( this->GetDistance(mol->GetAtom(b)) );
+    return ( this->GetDistance(mol->GetAtom(b)) );
   }
 
   double OBAtom::GetDistance(vector3 *v)
   {
-    return(( this->GetVector() - *v ).length());
+    return (( this->GetVector() - *v ).length());
   }
 
   double OBAtom::GetAngle(OBAtom *b, OBAtom *c)
@@ -1147,13 +1147,13 @@ namespace OpenBabel
         return 0.0;
     }
 
-    return(vectorAngle(v1, v2));
+    return (vectorAngle(v1, v2));
   }
 
   double OBAtom::GetAngle(int b, int c)
   {
     OBMol *mol = (OBMol*)GetParent();
-    return(this->GetAngle(mol->GetAtom(b), mol->GetAtom(c)));
+    return (this->GetAngle(mol->GetAtom(b), mol->GetAtom(c)));
   }
 
   bool OBAtom::GetNewBondVector(vector3 &v,double length)
@@ -1254,7 +1254,7 @@ namespace OpenBabel
                           "Ran OpenBabel::SetHybridizationAndGeometry",
                           obAuditMsg);
 
-    //if (hyb == GetHyb()) return(true);
+    //if (hyb == GetHyb()) return (true);
     if (GetAtomicNum() == 1)
       return false;
     if (hyb == 0 && GetHvyDegree() > 1)
@@ -1607,45 +1607,45 @@ namespace OpenBabel
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   bool OBAtom::HasData(const char *s)
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   bool OBAtom::HasData(unsigned int dt)
   //returns true if the generic attribute/value pair exists
   {
   if (_vdata.empty())
-  return(false);
+  return (false);
 
   vector<OBGenericData*>::iterator i;
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetDataType() == dt)
-  return(true);
+  return (true);
 
-  return(false);
+  return (false);
   }
 
   OBGenericData *OBAtom::GetData(string &s)
@@ -1655,9 +1655,9 @@ namespace OpenBabel
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(*i);
+  return (*i);
 
-  return(NULL);
+  return (NULL);
   }
 
   OBGenericData *OBAtom::GetData(const char *s)
@@ -1667,9 +1667,9 @@ namespace OpenBabel
 
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetAttribute() == s)
-  return(*i);
+  return (*i);
 
-  return(NULL);
+  return (NULL);
   }
 
   OBGenericData *OBAtom::GetData(unsigned int dt)
@@ -1677,8 +1677,8 @@ namespace OpenBabel
   vector<OBGenericData*>::iterator i;
   for (i = _vdata.begin();i != _vdata.end();++i)
   if ((*i)->GetDataType() == dt)
-  return(*i);
-  return(NULL);
+  return (*i);
+  return (NULL);
   }
 
   void OBAtom::DeleteData(unsigned int dt)

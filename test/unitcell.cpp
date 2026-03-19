@@ -69,12 +69,12 @@ int unitcell(int argc, char* argv[])
     if (!SafeOpen(ifs, punitcell_file.c_str()))
       {
 	cout << "Bail out! Couldn't open test file 'unitcell.txt'" << endl;
-        return(-1);
+        return (-1);
       }
     if (!SafeOpen(results, presults_file.c_str()))
       {
 	cout << "Bail out! Couldn't open test file 'unitcell_results.txt'" << endl;
-        return(-1);
+        return (-1);
       }
 
     // Get cell vectors
@@ -119,7 +119,7 @@ int unitcell(int argc, char* argv[])
       {
 	cout << "Bail out! Cannot parse results file 'unitcell_results.txt'" 
 	     << endl;
-	return(-1);
+	return (-1);
       }
 
     if ( IsNear(a, atof(vs[0].c_str()), 1.0e-3) )
@@ -200,7 +200,7 @@ int unitcell(int argc, char* argv[])
       {
 	cout << "Bail out! Cannot parse results file 'unitcell_results.txt'" 
 	     << endl;
-	return(-1);
+	return (-1);
       }
 
     tmpcoords = cell2.WrapCartesianCoordinate(coords1);
@@ -225,7 +225,7 @@ int unitcell(int argc, char* argv[])
       {
 	cout << "Bail out! Cannot parse results file 'unitcell_results.txt'" 
 	     << endl;
-	return(-1);
+	return (-1);
       }
     tmpcoords = cell2.WrapFractionalCoordinate(coords2);
     // cout << "Wrapped fractional: " << tmpcoords << endl;
@@ -249,7 +249,7 @@ int unitcell(int argc, char* argv[])
       {
 	cout << "Bail out! Cannot parse results file 'unitcell_results.txt'" 
 	     << endl;
-	return(-1);
+	return (-1);
       }
     tmpcoords = cell2.CartesianToFractional(coords1);
     // cout << "cart2frac: " << tmpcoords << endl;
@@ -273,7 +273,7 @@ int unitcell(int argc, char* argv[])
       {
 	cout << "Bail out! Cannot parse results file 'unitcell_results.txt'" 
 	     << endl;
-	return(-1);
+	return (-1);
       }
     tmpcoords = cell2.FractionalToCartesian(coords1);
     // cout << "frac2cart: " << tmpcoords << endl;

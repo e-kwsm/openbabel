@@ -48,20 +48,20 @@ int main(int argc,char *argv[])
   if (argc != 3)
     {
       cout << "Usage: roundtrip <file1> <file2>" << endl;
-      return(-1);
+      return (-1);
     }
 
   pFormat1 = conv.FormatFromExt(argv[1]);
   if (pFormat1 == nullptr)
     {
       cerr << argv[0] << ": Cannot read file #1 format!" << endl;
-      return(-1);
+      return (-1);
     }
   pFormat2 = conv.FormatFromExt(argv[2]);
   if (pFormat2 == nullptr)
     {
       cerr << argv[0] << ": Cannot read file #2 format!" << endl;
-      return(-1);
+      return (-1);
     }
 
   // Finally, we can do some work!
@@ -72,12 +72,12 @@ int main(int argc,char *argv[])
   if (!inFileStream1)
     {
       cerr << argv[0] << ": Cannot read input file #1!" << endl;
-      return(-1);
+      return (-1);
     }
   else if (!inFileStream2)
     {
       cerr << argv[0] << ": Cannot read input file #2!" << endl;
-      return(-1);
+      return (-1);
     }
 
   OBAtom *atom1, *atom2;
@@ -114,7 +114,7 @@ int main(int argc,char *argv[])
         {
           cout << " ** ERROR ** molecule " << molCount 
                << " in file #1 has no atoms!" << endl;
-          return(-1);
+          return (-1);
         }
 
       if (p1 && strncasecmp(p1 + 1, "CML", 3) != 0
@@ -122,7 +122,7 @@ int main(int argc,char *argv[])
         {
           cout << " ** ERROR ** molecule " << molCount 
                << " in file #2 has no atoms!" << endl;
-          return(-1);
+          return (-1);
         }
 
       if (p1 && strncasecmp(p1 + 1, "BOX", 3) == 0)
@@ -130,7 +130,7 @@ int main(int argc,char *argv[])
           if (mol.NumAtoms() != 8)
             {
               cout << " *** ERROR *** BOX file #1 without 8 atoms!" << endl;
-              return(-1);
+              return (-1);
             }
           return 0;
         }
@@ -140,7 +140,7 @@ int main(int argc,char *argv[])
           if (mol2.NumAtoms() != 8)
             {
               cout << " *** ERROR *** BOX file #2 without 8 atoms!" << endl;
-              return(-1);
+              return (-1);
             }
           return 0;
         }
@@ -152,7 +152,7 @@ int main(int argc,char *argv[])
             {
               cout << " ** ERROR ** SMILES Number of heavy atoms differ: "
                    << mol.NumHvyAtoms() << " and " << mol2.NumHvyAtoms() << endl;
-              return(-1);
+              return (-1);
             }
           return 0;
         }
@@ -163,7 +163,7 @@ int main(int argc,char *argv[])
               cout << " ** ERROR ** Number of atoms differ: " << mol.NumAtoms()
                    << " and " << mol2.NumAtoms()
                    << " in molecule " << molCount << endl;
-              return(-1);
+              return (-1);
             }
         }
     
@@ -177,7 +177,7 @@ int main(int argc,char *argv[])
               cout << " ** ERROR ** Elements for atom " << i << " differ: " <<
                 atom1->GetAtomicNum() << " and " << atom2->GetAtomicNum()
                    << " in molecule " << molCount << endl;
-              return(-1);
+              return (-1);
             }
 	
           if ( (p1 && strncasecmp(p1 + 1, "SMI", 3) == 0)
@@ -188,7 +188,7 @@ int main(int argc,char *argv[])
               {
                 cout << " ** ERROR ** Coordinates for atom " << i << " differ" 
                      << " in molecule " << molCount << endl;
-                return(-1);
+                return (-1);
               }
         }
 

@@ -124,7 +124,7 @@ int addhtest(int argc, char* argv[])
   if (!ifs)
     {
       cout << "Bail out! Cannot read " << infile << endl;
-      return(-1);
+      return (-1);
     }
   
   //gzip.in specifies what files to read and their canonical smiles

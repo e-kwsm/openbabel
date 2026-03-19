@@ -1307,9 +1307,9 @@ namespace OpenBabel
       return false;
 
     if( mask < 0 )
-      return(atom->GetAtomicNum() == static_cast<unsigned int>(-mask));
+      return (atom->GetAtomicNum() == static_cast<unsigned int>(-mask));
     else
-      return(((bitmasks[atom->GetIdx()-1]&mask) == 0) ? false : true);
+      return (((bitmasks[atom->GetIdx()-1]&mask) == 0) ? false : true);
   }
 
   bool OBChainsParser::Match2Constraints(Template *tmpl, OBAtom *na, OBAtom *nb)
@@ -1624,7 +1624,7 @@ namespace OpenBabel
               j = ptr->assign.bflags[i];
               flags[ResMonoBond[i]] = j;
             }
-          return( ptr->assign.resid );
+          return ( ptr->assign.resid );
           break;
 
         default:  /* Illegal Instruction! */
@@ -2250,7 +2250,7 @@ namespace OpenBabel
             prev = next;
           }
       }
-    return( ptr-1 );
+    return ( ptr-1 );
   }
 
 } // end namespace OpenBabel

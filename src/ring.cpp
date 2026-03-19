@@ -485,7 +485,7 @@ namespace OpenBabel
 
   bool CompareRingSize(const OBRing *a,const OBRing *b)
   {
-    return(a->Size() == b->Size() ? a->ring_id < b->ring_id : a->Size() < b->Size()); // ensure stable sort
+    return (a->Size() == b->Size() ? a->ring_id < b->ring_id : a->Size() < b->Size()); // ensure stable sort
   }
 
   void OBRingSearch::WriteRings()
@@ -606,7 +606,7 @@ namespace OpenBabel
     if (mol && !mol->HasRingTypesPerceived())
       ringtyper.AssignTypes(*((OBMol*)GetParent()));
 
-    return(_type);
+    return (_type);
   }
 
   unsigned int OBRing::GetRootAtom()
@@ -646,12 +646,12 @@ namespace OpenBabel
 
   bool OBRing::IsMember(OBAtom *a)
   {
-    return(_pathset.BitIsSet(a->GetIdx()));
+    return (_pathset.BitIsSet(a->GetIdx()));
   }
 
   bool OBRing::IsMember(OBBond *b)
   {
-    return((_pathset.BitIsSet(b->GetBeginAtomIdx()))&&(_pathset.BitIsSet(b->GetEndAtomIdx())));
+    return ((_pathset.BitIsSet(b->GetBeginAtomIdx()))&&(_pathset.BitIsSet(b->GetEndAtomIdx())));
   }
 
   OBRing::OBRing(vector<int> &path,int size) : _path(path)
@@ -683,7 +683,7 @@ namespace OpenBabel
   {
     //on identity, return
     if(this == &src)
-      return(*this);
+      return (*this);
 
     //no base class
 
@@ -693,7 +693,7 @@ namespace OpenBabel
     _parent = src._parent; //note, this may not be what you want
     _type[0] = '\0';
 
-    return(*this);
+    return (*this);
   }
 
   void BuildOBRTreeVector(OBAtom *atom,OBRTree *prv,vector<OBRTree*> &vt,OBBitVec &bv)
@@ -753,7 +753,7 @@ namespace OpenBabel
 
   int OBRTree::GetAtomIdx()
   {
-    return(_atom->GetIdx());
+    return (_atom->GetIdx());
   }
 
   bool OBRing::findCenterAndNormal(vector3 & center, vector3 &norm1, vector3 &norm2)

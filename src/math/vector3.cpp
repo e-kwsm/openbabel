@@ -121,7 +121,7 @@ namespace OpenBabel
 
   bool vector3::IsApprox(const vector3 & other, const double & precision) const
   {
-    return( distSq( other )
+    return ( distSq( other )
             <= precision * precision
                * std::min( length_2(), other.length_2() ) );
   }
@@ -136,7 +136,7 @@ namespace OpenBabel
   bool vector3::CanBeNormalized () const
   {
     if( _vx == 0.0 && _vy == 0.0 && _vz == 0.0 ) return false;
-    return( CanBeSquared(_vx)
+    return ( CanBeSquared(_vx)
          && CanBeSquared(_vy)
          && CanBeSquared(_vz) );
   }
@@ -157,7 +157,7 @@ namespace OpenBabel
 #else
     (*this) /= length();
 #endif
-    return(*this);
+    return (*this);
   }
 
   OBAPI vector3 cross ( const vector3& v1, const vector3& v2 )
@@ -205,7 +205,7 @@ namespace OpenBabel
       dp = 0.9999999;
 
 
-    return(RAD_TO_DEG * acos(dp));
+    return (RAD_TO_DEG * acos(dp));
   }
 
   /*!  This function calculates the torsion angle of three vectors, represented
@@ -249,7 +249,7 @@ namespace OpenBabel
     vector3 b1xb2 = cross(b1, b2);
     torsion = - atan2(dot(rb2 * b1, b2xb3), dot(b1xb2, b2xb3));
 
-    return(torsion * RAD_TO_DEG);
+    return (torsion * RAD_TO_DEG);
   }
 
   /*! \brief Construct a unit vector orthogonal to *this.

@@ -74,7 +74,7 @@ int multicmltest(int argc, char* argv[])
   if (!ifs)
     {
       cout << "Bail out! Cannot read c3.cml!" << endl;
-      return(-1);
+      return (-1);
     }
   
   OBMol mol;

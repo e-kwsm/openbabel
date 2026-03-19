@@ -64,16 +64,16 @@ int int32lemem(char *data)
   return value; }
 
 int int32le(int32 value)
-{ return(int32lemem((char*)&value)); }
+{ return (int32lemem((char*)&value)); }
 
 /* DECODE AN UNSIGNED INT32 STORED IN LITTLE ENDIAN FORMAT
    ======================================================= */
 unsigned int uint32lemem(char *data)
-{ return((int)((unsigned char*)data)[0]+((int)((unsigned char*)data)[1]<<8)+
+{ return ((int)((unsigned char*)data)[0]+((int)((unsigned char*)data)[1]<<8)+
          ((int)((unsigned char*)data)[2]<<16)+((int)((unsigned char*)data)[3]<<24)); }
 
 unsigned int uint32le(uint32 value)
-{ return(uint32lemem((char*)&value)); }
+{ return (uint32lemem((char*)&value)); }
 
 /* STORE AN INT32 IN LITTLE ENDIAN FORMAT
    ====================================== */
@@ -88,7 +88,7 @@ int str_natoi(char *string,int number)
 { char ch;
   int i;
 
-  for (i=0;i<number;i++) if (!string[i]) return(atoi(string));
+  for (i=0;i<number;i++) if (!string[i]) return (atoi(string));
   ch=string[number];
   string[number]=0;
   i=atoi(string);
@@ -211,20 +211,20 @@ struct mobatom *mob_start(mobdata *mob)
 { int termini;
 
   termini=uint32le(mob[MOB_TERMINI]);
-  return((struct mobatom*)(mob+termini+2)); }
+  return ((struct mobatom*)(mob+termini+2)); }
 
 /* GET SIZE OF ATOM
    ================ */
 int mob_atomlen(struct mobatom *atom)
-{ return(4+mob_links(atom)+atom->header[MOB_IDLEN]); }
+{ return (4+mob_links(atom)+atom->header[MOB_IDLEN]); }
 
 int mob_atomsize(struct mobatom *atom)
-{ return(mob_atomlen(atom)*sizeof(mobdata)); }
+{ return (mob_atomlen(atom)*sizeof(mobdata)); }
 
 /* MOVE POINTER TO NEXT ATOM OF YASARA OBJECT STRUCTURE
    ==================================================== */
 struct mobatom *mob_next(struct mobatom *atom)
-{ return((struct mobatom *) ((char *) atom + mob_atomsize(atom))); }
+{ return ((struct mobatom *) ((char *) atom + mob_atomsize(atom))); }
 
 void mob_setnext(struct mobatom **atomadd)
 { *atomadd=mob_next(*atomadd); }
@@ -285,7 +285,7 @@ int mob_hasres(struct mobatom *atom,struct atomid *id2)
 { struct atomid id1;
 
   mob_getid(&id1,atom);
-  return(mob_issameres(&id1,id2)); }
+  return (mob_issameres(&id1,id2)); }
 
 /* GET LENGTH OF RESIDUE
    =====================

@@ -224,7 +224,7 @@ namespace OpenBabel
     wrdcnt = (unsigned)last_bit_offset >> WORDROLL;
 
     if (wrdcnt >= GetSize())
-      return(-1);
+      return (-1);
 
     if (_set[wrdcnt] != 0)
       {
@@ -233,7 +233,7 @@ namespace OpenBabel
           {
             LowBit(s,bit);
             if (bit != -1)
-              return(bit + (wrdcnt << WORDROLL));
+              return (bit + (wrdcnt << WORDROLL));
           }
       }
     ++ wrdcnt;
@@ -246,12 +246,12 @@ namespace OpenBabel
             LowBit(s, bit);
 
             if (bit != -1)
-              return(bit + (wrdcnt << WORDROLL));
+              return (bit + (wrdcnt << WORDROLL));
           }
         ++ wrdcnt;
       }
 
-    return(-1);
+    return (-1);
   }
   // Used by CountBits
   const unsigned nibble_bit_count[0x10] =
@@ -392,7 +392,7 @@ namespace OpenBabel
   {
     _set = bv._set;
     _size = _set.size();
-    return(*this);
+    return (*this);
   }
 
   /** Assign this vector to the result of And-ing it with \p bv
@@ -409,7 +409,7 @@ namespace OpenBabel
     for (;i < _size;++i)
       _set[i] = 0;
 
-    return(*this);
+    return (*this);
   }
 
   /** Assign this vector to the result of Or-ing it with \p bv
@@ -424,7 +424,7 @@ namespace OpenBabel
     for (unsigned i = 0;i < bv.GetSize(); ++i)
       _set[i] |= bv._set[i];
 
-    return(*this);
+    return (*this);
   }
 
   /** Assign this vector to the result of Exclusive-or-ing it with \p bv
@@ -439,7 +439,7 @@ namespace OpenBabel
     for (unsigned i = 0;i < bv.GetSize(); ++i)
       _set[i] ^= bv._set[i];
 
-    return(*this);
+    return (*this);
   }
 
   /** Unset bits in this vector which are set in \p bv
@@ -454,7 +454,7 @@ namespace OpenBabel
     OBBitVec tmp(*this);
     tmp ^= bv;
     *this &= tmp;
-    return(*this);
+    return (*this);
   }
 
   /** Append vector \p bv to the end if this vector
@@ -464,7 +464,7 @@ namespace OpenBabel
   OBBitVec & OBBitVec::operator+= (const OBBitVec & bv)
   {
     _set.insert(_set.end(), bv._set.begin(), bv._set.end());
-    return(*this);
+    return (*this);
   }
 
   /** Return a bit vector of the results of Or-ing each bit in \p bv1 with the corresponding bit in \p bv2
@@ -667,7 +667,7 @@ namespace OpenBabel
     bvtmp = bv1 | bv2;
     orbits  = (double)bvtmp.CountBits();
 
-    return(andbits/orbits);
+    return (andbits/orbits);
   }
 
 } // end namespace OpenBabel

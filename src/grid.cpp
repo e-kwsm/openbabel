@@ -153,7 +153,7 @@ namespace OpenBabel
         || y<=_ymin || y>=_ymax
         || z<=_zmin || z>=_zmax ) return 0.0;
 
-    return(_values[CoordsToIndex(x, y, z)]);
+    return (_values[CoordsToIndex(x, y, z)]);
   }
 
   void OBFloatGrid::IndexToCoords(int idx, double &x, double &y, double &z)
@@ -175,7 +175,7 @@ namespace OpenBabel
     int gy=static_cast<int>((y-_ymin)*_inv_spa);
     int gz=static_cast<int>((z-_zmin)*_inv_spa);
 
-    return((gx*_ydim*_zdim) + (gy*_zdim) + gz);
+    return ((gx*_ydim*_zdim) + (gy*_zdim) + gz);
   }
 
   void OBFloatGrid::CoordsToIndex(int *idx,double *c)
@@ -245,7 +245,7 @@ namespace OpenBabel
         bz*_values[static_cast<int>(n+1+_zdim+yzdim)];
     Bz=ay*AyB+by*ByB;
 
-    return(ax*Az+bx*Bz);
+    return (ax*Az+bx*Bz);
   }
 
   std::vector<double> OBFloatGrid::GetDataVector()
@@ -495,7 +495,7 @@ namespace OpenBabel
     if (idx >= _maxinc)
       return nullptr;
 
-    return(&cell[idx]);
+    return (&cell[idx]);
   }
 
   vector<int> *OBProxGrid::GetProxVector(double *c)
@@ -505,7 +505,7 @@ namespace OpenBabel
     y = c[1];
     z = c[2];
 
-    return( GetProxVector(x, y, z) );
+    return ( GetProxVector(x, y, z) );
   }
 
 } // end namespace OpenBabel
