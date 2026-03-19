@@ -127,7 +127,7 @@ namespace OpenBabel
       }
     if(orbits==0)
       return 0.0;
-    return((double)andbits/(double)orbits);
+    return ((double)andbits/(double)orbits);
   }
 
   //*****************************************************************

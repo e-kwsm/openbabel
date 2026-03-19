@@ -224,9 +224,9 @@ namespace OpenBabel
     std::string  &GetSMARTS()               {      return _str;    }
 #endif
     //! \return If the SMARTS pattern is an empty expression (e.g., invalid)
-    bool         Empty() const     {      return(_pat == nullptr);    }
+    bool         Empty() const     {      return (_pat == nullptr);   }
     //! \return If the SMARTS pattern is a valid expression
-    bool         IsValid() const   {      return(_pat != nullptr);    }
+    bool         IsValid() const   {      return (_pat != nullptr);   }
 
     //! \return the number of atoms in the SMARTS pattern
     unsigned int NumAtoms()   const
@@ -253,7 +253,7 @@ namespace OpenBabel
     //! \return the vector binding of the atom @p idx in the internal pattern
     int          GetVectorBinding(int idx) const
     {
-      return(_pat->atom[idx].vb);
+      return (_pat->atom[idx].vb);
     }
     //@}
 
@@ -299,17 +299,17 @@ namespace OpenBabel
     //! \see GetUMapList()
     std::vector<std::vector<int> > &GetMapList()
       {
-        return(_mlist);
+        return (_mlist);
       }
     //! \return An iterator over the (non-unique) match list, starting at the beginning
     std::vector<std::vector<int> >::iterator BeginMList()
       {
-        return(_mlist.begin());
+        return (_mlist.begin());
       }
     //! \return An iterator over the non-unique match list, set to the end
     std::vector<std::vector<int> >::iterator EndMList()
       {
-        return(_mlist.end());
+        return (_mlist.end());
       }
 
     //! \return the entire list of unique matches for this pattern

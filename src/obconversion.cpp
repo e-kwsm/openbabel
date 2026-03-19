@@ -759,7 +759,7 @@ namespace OpenBabel {
   //////////////////////////////////////////////////
   const char* OBConversion::GetTitle() const
   {
-    return(InFilename.c_str());
+    return (InFilename.c_str());
   }
 
   void OBConversion::SetMoreFilesToCome()

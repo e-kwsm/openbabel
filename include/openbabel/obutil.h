@@ -69,7 +69,7 @@ namespace OpenBabel
     double Lap()
     {
       stop= clock();
-      return((stop - start) / (double) CLOCKS_PER_SEC);
+      return ((stop - start) / (double) CLOCKS_PER_SEC);
     }
 #else
     //! Mark the start of "stopwatch" timing
@@ -81,7 +81,7 @@ namespace OpenBabel
     double Lap()
     {
       gettimeofday(&stop, nullptr);
-      return((stop.tv_sec - start.tv_sec)
+      return ((stop.tv_sec - start.tv_sec)
              + (stop.tv_usec - start.tv_usec)/1000000.0);
     }
 #endif
@@ -89,7 +89,7 @@ namespace OpenBabel
     //! \return The time since calling OBStopwatch::Start() in seconds.
     double Elapsed()
     {
-      return(Lap());
+      return (Lap());
     }
   };
 
@@ -125,7 +125,7 @@ namespace OpenBabel
     double Sqrt(double d2) const
     {
       if (_tbl)
-        return((d2 < _max) ? _tbl[static_cast<int>(d2*_incr)]:sqrt(d2));
+        return ((d2 < _max) ? _tbl[static_cast<int>(d2*_incr)]:sqrt(d2));
       else
         return 0.0;
     }
@@ -201,13 +201,13 @@ namespace OpenBabel
   /**
    * \return true if \a a is much smaller than \a b. More precisely:
    * @code
-   return( fabs(a) <= precision * fabs(b) );
+   return ( fabs(a) <= precision * fabs(b) );
    * @endcode
    */
   OBAPI inline bool IsNegligible(const double & a, const double & b,
                                  const double precision = 1e-11)
   {
-    return( fabs(a) <= precision * fabs(b) );
+    return ( fabs(a) <= precision * fabs(b) );
   }
   /*! Safe comparison for floats/doubles: true if
    * fabs(a - b) <= precision * std::min( fabs(a), fabs(b) )
@@ -229,13 +229,13 @@ namespace OpenBabel
   OBAPI inline bool IsApprox(const double & a, const double & b,
                              const double precision = 1e-11)
   {
-    return( fabs(a - b) <= precision * std::min<const double>( fabs(a), fabs(b) ) );
+    return ( fabs(a - b) <= precision * std::min<const double>( fabs(a), fabs(b) ) );
   }
   //! Same as IsApprox(), but only for positive numbers. Faster.
   OBAPI inline bool IsApprox_pos(const double &a, const double &b,
                                  const double precision = 1e-11)
   {
-    return( fabs(a - b) <= precision * std::min<const double>( a, b ) );
+    return ( fabs(a - b) <= precision * std::min<const double>( a, b ) );
   }
   /*! \brief Tests whether its argument can be squared without triggering
     an overflow or underflow.

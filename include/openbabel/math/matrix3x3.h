@@ -173,11 +173,11 @@ namespace OpenBabel
         {
 #ifdef OB_OLD_MATH_CHECKS
           if (row >= 0 && row <= 2 && column >= 0 && column <= 2)
-            return(ele[row][column]);
+            return (ele[row][column]);
           else
             return 0.0f;
 #else
-          return(ele[row][column]);
+          return (ele[row][column]);
 #endif
         }
 
@@ -244,7 +244,7 @@ namespace OpenBabel
       //! Divides all entries of the matrix by a scalar c
       matrix3x3 &operator/=(const double &c)
       {
-        return( (*this) *= ( 1.0 / c ) );
+        return ( (*this) *= ( 1.0 / c ) );
       }
 
       //! \brief Calculate a rotation matrix for rotation about the x, y, and z

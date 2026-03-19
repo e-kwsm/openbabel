@@ -26,7 +26,7 @@ int main(int argc, char *argv[])
   if (argc < 2)
   {
     cerr << "Usage: obtorsion <file>" << endl;
-    return(-1);
+    return (-1);
   }
 
   map<string, vector<double> > torsion_angles;

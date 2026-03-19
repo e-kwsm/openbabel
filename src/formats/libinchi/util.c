@@ -1029,8 +1029,8 @@ int get_mw(char elname[])
 
     for (i=0; i<NUMEL; i++)
         if (strcmp(elname,elements[i])==0)
-            return(atomic_wt[i]);
-    return(0);
+            return (atomic_wt[i]);
+    return (0);
 }
 ****************************************************************************/
 

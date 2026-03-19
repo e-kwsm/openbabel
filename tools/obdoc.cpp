@@ -157,7 +157,7 @@ int main(int argc,char **argv)
 
   indexExt.close();
 
-  return(0);
+  return (0);
 } // end main
 
 

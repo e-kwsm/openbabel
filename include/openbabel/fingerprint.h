@@ -107,7 +107,7 @@ public:
         if(orfp<0) ++orbits;
 #endif
     }
-      return((double)andbits/(double)orbits);
+      return ((double)andbits/(double)orbits);
   };
 
   static unsigned int Getbitsperint(){ return bitsperint; }

@@ -66,13 +66,13 @@ int main(int argc,char *argv[])
 
   if (argc != 3)    {
     cout << "Usage: obsort <fragments> <freq>" << endl;
-    return(-1);
+    return (-1);
   }
 
   ifstream ifs(argv[1]);
   if (!ifs)    {
     cout << "Bail out! Cannot read input file!" << endl;
-    return(-1);
+    return (-1);
   }
 
   OBConversion conv(&ifs, &cout);
@@ -81,7 +81,7 @@ int main(int argc,char *argv[])
   pFormat = conv.FormatFromExt(argv[1]);
   if ( pFormat == nullptr )    {
     cout << "Bail out! Cannot read file format!" << endl;
-    return(-1);
+    return (-1);
   }
 
   if (! conv.SetInAndOutFormats(pFormat, pFormat))    {
@@ -167,5 +167,5 @@ int main(int argc,char *argv[])
     mol = nullptr;
   }
 
-  return(0);
+  return (0);
 }

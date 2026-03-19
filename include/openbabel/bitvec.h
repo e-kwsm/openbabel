@@ -114,7 +114,7 @@ namespace OpenBabel
       /// Return the bit offset of the last bit (for iterating) i.e. -1
       int EndBit() const {  return -1; }
       /// Return the number of words ( NOT the number of bits ).
-      size_t GetSize() const    { return(_size);    }
+      size_t GetSize() const    { return (_size);   }
       /// Return the number of bits which are set to 1 in the vector
       unsigned CountBits() const;
 
@@ -198,7 +198,7 @@ namespace OpenBabel
       OBBitVec & operator|= (int bit_offset)
         {
           SetBitOn(bit_offset);
-          return(*this);
+          return (*this);
         }
       /// Exclusive-or-equals operator
       OBBitVec & operator^= (const OBBitVec & bv);

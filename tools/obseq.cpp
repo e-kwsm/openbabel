@@ -46,7 +46,7 @@ int main(int argc,char *argv[])
       cout << "Usage: aromatest <file>" << endl;
       cout << " Tests aromaticity perception -- all non-hydrogen atoms"
            << "   are expected to be aromatic." << endl;
-      return(-1);
+      return (-1);
     }
 
   cout << endl << "# Testing aromaticity perception...  " << endl;
@@ -55,7 +55,7 @@ int main(int argc,char *argv[])
   if (!ifs)
     {
       cout << "Bail out! Cannot read input file!" << endl;
-      return(-1);
+      return (-1);
     }
 
   OBConversion conv(&ifs, &cout);
@@ -65,7 +65,7 @@ int main(int argc,char *argv[])
   if ( pFormat == nullptr )
     {
       cout << "Bail out! Cannot read file format!" << endl;
-      return(-1);
+      return (-1);
     }
 
   // Finally, we can do some work!
@@ -113,5 +113,5 @@ int main(int argc,char *argv[])
   // output the number of tests run
   cout << "1.." << testCount-1 << endl;
 
-  return(0);
+  return (0);
 }

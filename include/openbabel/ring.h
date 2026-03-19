@@ -59,11 +59,11 @@ namespace OpenBabel
     //member functions
 
     //! \return the size of this ring (i.e., how many atoms in the cycle)
-    size_t    Size()     const  {    return(_path.size());  }
+    size_t    Size()     const  {    return (_path.size()); }
     //! \return the size of this ring (i.e., how many atoms in the cycle)
     //! \deprecated Use Size() instead
     OB_DEPRECATED_MSG("Use Size() instead")
-    size_t    PathSize() const  {    return(_path.size());  }
+    size_t    PathSize() const  {    return (_path.size()); }
 
     //! \return whether this ring is aromatic
     //! If all atoms in this ring are aromatic, the ring will be considered aromatic
@@ -89,13 +89,13 @@ namespace OpenBabel
     //! \return Whether @p i as an atom index is in this ring
     bool   IsInRing(int i)
     {
-      return(_pathset.BitIsSet(i));
+      return (_pathset.BitIsSet(i));
     }
 
     //! Set the parent of this ring to @p m
     void   SetParent(OBMol *m)  {    _parent = m;    }
     //! \return the parent of this ring, or NULL if none has been defined
-    OBMol *GetParent()          {    return(_parent);}
+    OBMol *GetParent()          {    return (_parent);}
 
     //! Set the supplied vectors to the @p center of this ring, along with
     //! the @p normal (in both directions).
@@ -149,12 +149,12 @@ namespace OpenBabel
     //! \return an iterator pointing to the beginning of the list of rings
     std::vector<OBRing*>::iterator BeginRings()
       {
-        return(_rlist.begin());
+        return (_rlist.begin());
       }
     //! \return an iterator pointing to the end of the list of rings
     std::vector<OBRing*>::iterator EndRings()
       {
-        return(_rlist.end());
+        return (_rlist.end());
       }
     //@}
   };

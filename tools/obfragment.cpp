@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
   if (argc < 2)
   {
     cerr << "Usage: obfragment <file>" << endl;
-    return(-1);
+    return (-1);
   }
 
   for (int i = 1; i < argc; ++i) {

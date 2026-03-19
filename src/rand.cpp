@@ -189,7 +189,7 @@ namespace OpenBabel
             while( IsEven(y) );
           }
       }
-    return( x == 1 );
+    return ( x == 1 );
   }
 
   static void DoubleAdd( DoubleType *x, unsigned int y )
@@ -467,7 +467,7 @@ namespace OpenBabel
   {
     if (OBRandomUseSysRand)
       {
-        return(rand());
+        return (rand());
       }
     do
       {
@@ -477,7 +477,7 @@ namespace OpenBabel
       }
     while( x >= p );
 
-    return(x);
+    return (x);
   }
 
   double OBRandom::NextFloat()
@@ -485,7 +485,7 @@ namespace OpenBabel
 
     if (OBRandomUseSysRand)
       {
-        return(double(rand())/double(RAND_MAX));
+        return (double(rand())/double(RAND_MAX));
       }
     do
       {
@@ -495,7 +495,7 @@ namespace OpenBabel
       }
     while( x >= p );
 
-    return((double)x/p);
+    return ((double)x/p);
   }
 
   void OBRandom::TimeSeed()

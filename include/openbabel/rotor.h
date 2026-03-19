@@ -75,7 +75,7 @@ namespace OpenBabel
       }
 
     //! \return whether this rotor rule is valid (i.e., is the SMARTS pattern valid)
-    bool    IsValid()    {        return(_sp->IsValid());       }
+    bool    IsValid()    {        return (_sp->IsValid());      }
     //! \return a copy of the reference atom indexes inside the SMARTS pattern
     //!
     //!  These should be freed after use.
@@ -83,13 +83,13 @@ namespace OpenBabel
     //! Set the resolution (delta) of a torsional step in degrees
     void    SetDelta(double d)    {       _delta = d;           }
     //! \return the resolution (delta) of a torsional step in degrees
-    double  GetDelta()            {       return(_delta);       }
+    double  GetDelta()            {       return (_delta);      }
     //! \return a reference to the dihedral angles to evaluate (in radians)
-    std::vector<double>   &GetTorsionVals()    { return(_vals); }
+    std::vector<double>   &GetTorsionVals()    { return (_vals); }
     //! \return the text of the SMARTS pattern for this rule
-    std::string  &GetSmartsString(){      return(_s);           }
+    std::string  &GetSmartsString(){      return (_s);          }
     //! \return the exact OBSmartsPattern object for this rule
-    OBSmartsPattern *GetSmartsPattern() {  return(_sp);         }
+    OBSmartsPattern *GetSmartsPattern() {  return (_sp);        }
   };
 
   //! \class OBRotorRules rotor.h <openbabel/rotor.h>
@@ -339,7 +339,7 @@ namespace OpenBabel
      */
     OBBond *GetBond()
     {
-      return(_bond);
+      return (_bond);
     }
     /**
      * Get the number of possible torsion angles for this OBRotor. This
@@ -599,7 +599,7 @@ namespace OpenBabel
     OBRotor *BeginRotor(OBRotorIterator &i)
     {
       i = _rotor.begin();
-      return((i ==_rotor.end()) ? nullptr:*i);
+      return ((i ==_rotor.end()) ? nullptr:*i);
     }
     /**
      * Get a pointer to the next iterator.
@@ -608,16 +608,16 @@ namespace OpenBabel
     OBRotor *NextRotor(OBRotorIterator &i)
     {
       ++i;
-      return((i ==_rotor.end()) ? nullptr:*i);
+      return ((i ==_rotor.end()) ? nullptr:*i);
     }
     /**
      * Get the rotor list begin iterator.
      */
-    OBRotorIterator BeginRotors()   { return(_rotor.begin()); }
+    OBRotorIterator BeginRotors()   { return (_rotor.begin()); }
     /**
      * Get the rotor list end iterator.
      */
-    OBRotorIterator EndRotors()     { return(_rotor.end());   }
+    OBRotorIterator EndRotors()     { return (_rotor.end());  }
     //@}
 
     ///@name Deprecated
@@ -643,7 +643,7 @@ namespace OpenBabel
     OB_DEPRECATED_MSG("See HasFixedBonds()")
     bool HasFixedAtoms()
     {
-      return(!_fixedatoms.IsEmpty());
+      return (!_fixedatoms.IsEmpty());
     }
     //! Has no effect
     //! \deprecated Currently has no effect

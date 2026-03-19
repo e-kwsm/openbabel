@@ -91,7 +91,7 @@ public:
 	{
 		SelFormatsDialog dialog(AllFormatsArray, ActiveFormatsString);
 //		dialog.Connect(wxID_OK, wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(SelFormatsDialog::OnOK));
-		return(dialog.ShowModal()==wxID_OK);
+		return (dialog.ShowModal()==wxID_OK);
 	}
 };
 

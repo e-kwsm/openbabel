@@ -128,7 +128,7 @@ int main(int argc,char **argv)
   mol.Clear();
   conv.Read(&mol);
   if (mol.Empty())
-    return(1);
+    return (1);
 
   vector3 v;
   if (centerIdx != -1)
@@ -189,5 +189,5 @@ int main(int argc,char **argv)
 
   conv.Write(&mol, &cout);
 
-  return(0);
+  return (0);
 }

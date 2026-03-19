@@ -245,7 +245,7 @@ XMLPUBFUN void * XMLCALL
  * Macro to return 0 from the function if an XPath error was detected.
  */
 #define CHECK_ERROR0							\
-    if (ctxt->error != XPATH_EXPRESSION_OK) return(0)
+    if (ctxt->error != XPATH_EXPRESSION_OK) return (0)
 
 /**
  * XP_ERROR:
@@ -263,7 +263,7 @@ XMLPUBFUN void * XMLCALL
  * Macro to raise an XPath error and return 0.
  */
 #define XP_ERROR0(X)							\
-    { xmlXPathErr(ctxt, X); return(0); }
+    { xmlXPathErr(ctxt, X); return (0); }
 
 /**
  * CHECK_TYPE:

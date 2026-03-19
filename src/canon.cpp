@@ -69,7 +69,7 @@ namespace OpenBabel {
 
   inline bool CompareBondPairSecond(const std::pair<OBBond*,unsigned int> &a,const std::pair<OBBond*,unsigned int> &b)
   {
-    return(a.second < b.second);
+    return (a.second < b.second);
   }
 
   /**

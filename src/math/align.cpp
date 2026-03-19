@@ -158,7 +158,7 @@ namespace OpenBabel
     double b = (x2 + c[2])*x;
     double a = b + c[1];
 
-    return((a*x + c[0])/(2.0*x2*x + b + a));
+    return ((a*x + c[0])/(2.0*x2*x + b + a));
   }
 
   /* Newton-Raphson root finding */

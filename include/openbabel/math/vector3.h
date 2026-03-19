@@ -204,7 +204,7 @@ namespace OpenBabel
     vector3& operator/= ( const double& c)
       {
         double inv = 1.0 / c;
-        return( (*this) *= inv );
+        return ( (*this) *= inv );
       };
     //! Multiplication of matrix and vector
     //! \return the result (i.e., the updated vector)
@@ -300,7 +300,7 @@ namespace OpenBabel
       double dx = x() - vv.x();
       double dy = y() - vv.y();
       double dz = z() - vv.z();
-      return( dx*dx + dy*dy + dz*dz );
+      return ( dx*dx + dy*dy + dz*dz );
     }
 
     //! Creates a vector of length one, orthogonal to *this.

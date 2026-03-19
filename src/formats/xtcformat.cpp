@@ -203,7 +203,7 @@ namespace OpenBabel
     // Set the conformers in the mol object
     mol.SetConformers(vconf);
 
-    return(true);
+    return (true);
   }
 
   /*____________________________________________________________________________

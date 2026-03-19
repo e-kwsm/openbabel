@@ -219,10 +219,10 @@ class OBConversion; //used only as pointer
     void SetOrigin(const DataOrigin s) { _source = s; }
     //! \return The attribute (key), which can be used to retrieve this data
     virtual const std::string &GetAttribute()  const
-    {        return(_attr);    }
+    {        return (_attr);   }
     //! \return the data type for this object as defined in OBGenericDataType
     unsigned int                GetDataType()    const
-    {        return(_type);    }
+    {        return (_type);   }
     //! \brief Base class returns a default value (the attribute type)
     //! but should never be called
     virtual const std::string &GetValue()  const
@@ -312,7 +312,7 @@ class OBConversion; //used only as pointer
       void                              CloneData(OBGenericData *d);
       //! \return the number of OBGenericData items attached to this molecule.
       size_t                      DataSize() const
-        { return(_vdata.size()); }
+        { return (_vdata.size()); }
       //! \return the first matching data for a given type from OBGenericDataType
       //!    or NULL if nothing matches
       OBGenericData                    *GetData(const unsigned int type);
@@ -325,15 +325,15 @@ class OBConversion; //used only as pointer
       //! \since version 2.2
       std::vector<OBGenericData*>       GetAllData(const unsigned int type);
       //! \return all data, suitable for iterating
-      std::vector<OBGenericData*>      &GetData() { return(_vdata); }
+      std::vector<OBGenericData*>      &GetData() { return (_vdata); }
       //! \return all data with a specific origin, suitable for iterating
       std::vector<OBGenericData*>      GetData(DataOrigin source);
       //! \return An iterator pointing to the beginning of the data
       OBDataIterator  BeginData()
-        { return(_vdata.begin());        }
+        { return (_vdata.begin());       }
       //! \return An iterator pointing to the end of the data
       OBDataIterator  EndData()
-        { return(_vdata.end());          }
+        { return (_vdata.end());         }
       //@}
     protected:
       std::vector<OBGenericData*> _vdata; //!< Custom data
