@@ -312,8 +312,8 @@ namespace OpenBabel
     matrix3x3 _mOrient;// Orientation matrix
     vector3 _offset;
     std::string _spaceGroupName;
-    const SpaceGroup* _spaceGroup{nullptr};
-    LatticeType _lattice{Undefined};
+    const SpaceGroup* _spaceGroup = nullptr;
+    LatticeType _lattice = Undefined;
   public:
     //! public constructor
     OBUnitCell();
@@ -952,9 +952,9 @@ namespace OpenBabel
   protected:
     std::vector<OBOrbital> _alphaOrbitals; //!< List of orbitals. In case of unrestricted calculations, this contains the alpha spin-orbitals
     std::vector<OBOrbital> _betaOrbitals;  //!< Only used if needed (e.g., unrestricted calculations)
-    unsigned int _alphaHOMO{0};               //!< Highest occupied molecular orbital for _alphaOrbitals
-    unsigned int _betaHOMO{0};                //!< Highest occupied for _betaOrbitals (if needed)
-    bool _openShell{false};                       //!< Whether we store both alpha and beta spin-orbitals (i.e., a restricted open-shell or unrestricted calc.)
+    unsigned int _alphaHOMO = 0;           //!< Highest occupied molecular orbital for _alphaOrbitals
+    unsigned int _betaHOMO = 0;            //!< Highest occupied for _betaOrbitals (if needed)
+    bool _openShell = false;               //!< Whether we store both alpha and beta spin-orbitals (i.e., a restricted open-shell or unrestricted calc.)
   };
 
   //! \class OBElectronicTransitionData generic.h <openbabel/generic.h>

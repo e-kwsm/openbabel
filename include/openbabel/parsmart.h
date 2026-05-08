@@ -157,12 +157,12 @@ namespace OpenBabel
     OBSmartsPrivate                *_d;        //!< Internal data storage for future expansion
     OB_DEPRECATED std::vector<bool> _growbond; //!< \deprecated (Not used)
     std::vector<std::vector<int> >	_mlist;    //!< The list of matches
-    Pattern                        *_pat{nullptr};      //!< The parsed SMARTS pattern
+    Pattern                        *_pat = nullptr;  //!< The parsed SMARTS pattern
     std::string				              _str;      //!< The string of the SMARTS expression
 
-    char *_buffer{nullptr};
-    char *LexPtr{nullptr};
-    char *MainPtr{nullptr};
+    char *_buffer = nullptr;
+    char *LexPtr = nullptr;
+    char *MainPtr = nullptr;
 
     Pattern *ParseSMARTSPattern( void );
     Pattern *ParseSMARTSPart( Pattern*, int );

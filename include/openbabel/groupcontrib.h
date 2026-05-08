@@ -72,7 +72,7 @@ public:
   const char* _descr;
   std::vector<std::pair<OBSmartsPattern*, double> > _contribsHeavy; //! heavy atom contributions
   std::vector<std::pair<OBSmartsPattern*, double> > _contribsHydrogen; //!  hydrogen contributions
-  bool _debug{false};
+  bool _debug = false;
 };
 
 /* The classes OBLogp, OBPSA and OBMR have been replaced by instances of

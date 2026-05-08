@@ -453,11 +453,11 @@ namespace OpenBabel {
       std::vector<OBAtom*> insideNbrs, outsideNbrs;
     };
 
-    StereoRing()  {}
+    StereoRing() {}
 
     std::vector<ParaAtom> paraAtoms;
     std::vector<ParaBond> paraBonds;
-    unsigned int trueCount{0};
+    unsigned int trueCount = 0;
   };
 
   template<typename Type>

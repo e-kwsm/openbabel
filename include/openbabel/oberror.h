@@ -167,15 +167,15 @@ namespace OpenBabel
       std::deque<OBError>    _messageList;
 
       //! Filtering level for messages and logging (messages of lower priority will be ignored
-      obMessageLevel         _outputLevel{obWarning};
+      obMessageLevel         _outputLevel = obWarning;
 
       // self-explanatory
       std::ostream          *_outputStream;
 
       //! Whether messages will be logged into _messageList
-      bool                   _logging{true};
+      bool                   _logging = true;
       //! The maximum size of _messageList log
-      unsigned int           _maxEntries{100};
+      unsigned int           _maxEntries = 100;
 
       //! The default stream buffer for the output stream (saved if wrapping is ued)
       std::streambuf        *_inWrapStreamBuf;

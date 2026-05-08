@@ -135,8 +135,8 @@ class OBNasaThermoData : public OBGenericData
 {
 protected:
   double Coeffs[14];
-  double LoT{300}, MidT{1000}, HiT{3000};
-  char phase{'G'};
+  double LoT = 300, MidT = 1000, HiT = 3000;
+  char phase = 'G';
 public:
   OBNasaThermoData()
   {	_type = ThermoData;	_attr = "Nasa thermo data";}

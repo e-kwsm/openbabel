@@ -62,7 +62,7 @@ private:
   const char* _descr;
   std::vector<std::string> _textlines;
 
-  bool _dataLoaded{false};
+  bool _dataLoaded = false;
   std::vector<OBChemTsfm> _transforms;
 };
 
