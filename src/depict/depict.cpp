@@ -53,7 +53,7 @@ namespace OpenBabel
   class OBDepictPrivate
   {
     public:
-      OBDepictPrivate() :  bondColor("black") {}
+      OBDepictPrivate() : bondColor("black") {}
       virtual ~OBDepictPrivate(){};
 
       virtual void DrawSimpleBond(OBAtom *beginAtom, OBAtom *endAtom, int order, bool crossed_bond=false);
@@ -70,21 +70,21 @@ namespace OpenBabel
       bool HasLabel(OBAtom *atom);
       void SetWedgeAndHash(OBMol* mol);
 
-      OBMol     *mol{nullptr};
-      OBPainter *painter{nullptr};
-      double     bondLength{40.0};
-      double     penWidth{2.0};
-      double     bondSpacing{6.0};
-      double     bondWidth{8.0};
+      OBMol     *mol = nullptr;
+      OBPainter *painter = nullptr;
+      double     bondLength = 40.0;
+      double     penWidth = 2.0;
+      double     bondSpacing = 6.0;
+      double     bondWidth = 8.0;
     // for z-scaling the opacity
       double     zScale;
       double     zMin;
       //bool       drawTerminalC;
-      int        fontSize{16}, subscriptSize{13};
-      bool       aliasMode{false};
+      int        fontSize = 16, subscriptSize = 13;
+      bool       aliasMode = false;
       std::string fontFamily;
       OBColor    bondColor;
-      unsigned   options{0};
+      unsigned   options = 0;
   };
 
   class OBDepictPrivateBallAndStick : public OBDepictPrivate

@@ -86,7 +86,7 @@ private:
 	Fset fragset;
 	Fset ringset;
   stringstream _ss;
-  unsigned int _flags{0};
+  unsigned int _flags = 0;
 
 };
 

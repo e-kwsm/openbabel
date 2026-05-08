@@ -62,7 +62,7 @@ private:
   stringstream _ss;
   unsigned int _radius;
   bool _keepdups;
-  unsigned int _flags{0};
+  unsigned int _flags = 0;
 };
 
 //***********************************************

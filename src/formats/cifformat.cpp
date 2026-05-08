@@ -249,7 +249,7 @@ namespace OpenBabel
       /// "a parallel to x; b in the plane of y and z" (see _atom_sites_Cartn_transform_axes)
       std::vector<float> mCoordCart;
       /// Site occupancy, or -1
-      float mOccupancy{1.0f};
+      float mOccupancy = 1.0f;
       //charge from oxydation
       float mCharge;
     };

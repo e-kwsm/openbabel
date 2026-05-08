@@ -111,7 +111,7 @@ private:
 
 private:
   std::istream& ifs;
-  int depth{0};
+  int depth = 0;
   std::vector<CDXObjectID> ids;
   CDXObjectID _tempback;
   std::string _buf;
@@ -729,7 +729,7 @@ stringstream& CDXReader::data()
 }
 /////////////////////////////////////////////////////////////////////
 
-CDXReader::CDXReader(std::istream& is) : ifs(is) 
+CDXReader::CDXReader(std::istream& is) : ifs(is)
 {
   //ReadHeader
   char buffer[kCDX_HeaderStringLen+1];

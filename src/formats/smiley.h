@@ -624,10 +624,10 @@ namespace Smiley {
 
   struct Smarts
   {
-    Smarts()  {}
+    Smarts() {}
     std::vector<SmartsAtom> atoms;
     std::vector<SmartsBond> bonds;
-    bool chiral{false};
+    bool chiral = false;
   };
 
   /**

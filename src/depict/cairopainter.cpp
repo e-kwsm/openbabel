@@ -8,8 +8,8 @@ namespace OpenBabel
 {
 
   // Class definition of CairoPainter
-  CairoPainter::CairoPainter() :  m_title(""), 
-    m_fillcolor("white"), m_bondcolor("black") 
+  CairoPainter::CairoPainter() : m_title(""), m_fillcolor("white"),
+    m_bondcolor("black")
   {
   }
 
