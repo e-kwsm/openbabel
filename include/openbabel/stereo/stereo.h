@@ -329,7 +329,7 @@ namespace OpenBabel {
        */
       OBStereoBase(OBMol *mol) :
         OBGenericData("StereoData", OBGenericDataType::StereoData, perceived),
-        m_mol(mol) 
+        m_mol(mol)
       {
       }
       /**
@@ -392,7 +392,7 @@ namespace OpenBabel {
        * OBMol::HasChiralityPerceived() flag is not set. (default is true)
        */
       OBStereoFacade(OBMol *mol, bool perceive = true) :
-          m_mol(mol),  m_perceive(perceive)
+          m_mol(mol), m_perceive(perceive)
       {
       }
 

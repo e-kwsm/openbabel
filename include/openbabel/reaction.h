@@ -45,7 +45,7 @@ private:
   std::string _comment;
   bool _reversible = false;
 public:
-  OBReaction()  
+  OBReaction()
   {}
 
   int NumReactants() const

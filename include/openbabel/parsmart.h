@@ -180,10 +180,10 @@ namespace OpenBabel
                            int prev, int part );
 
   public:
-  OBSmartsPattern()  { }
+  OBSmartsPattern() { }
     virtual ~OBSmartsPattern();
 
-  OBSmartsPattern(const OBSmartsPattern& cp) 
+  OBSmartsPattern(const OBSmartsPattern& cp)
       {
         *this = cp;
       }
