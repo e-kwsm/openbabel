@@ -143,7 +143,7 @@ namespace OpenBabel
   **/
 
   OBMessageHandler::OBMessageHandler() :
-     _outputStream(&clog) 
+     _outputStream(&clog)
   {
     _messageCount[0] = _messageCount[1] = _messageCount[2] = 0;
     _messageCount[3] = _messageCount[4] = 0;

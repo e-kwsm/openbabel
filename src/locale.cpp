@@ -36,9 +36,9 @@ namespace OpenBabel
     locale_t new_c_num_locale;
     locale_t old_locale;
 #endif
-    unsigned int counter{0}; // Reference counter -- ensures balance in SetLocale/RestoreLocale calls
+    unsigned int counter = 0; // Reference counter -- ensures balance in SetLocale/RestoreLocale calls
 
-    OBLocalePrivate() 
+    OBLocalePrivate()
     {
 #if HAVE_USELOCALE
       new_c_num_locale = newlocale(LC_NUMERIC_MASK, NULL, NULL);

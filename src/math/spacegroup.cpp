@@ -143,7 +143,7 @@ namespace OpenBabel
   }
 
   SpaceGroup::SpaceGroup():
-     m_HM(""),m_Hall("")
+    m_HM(""),m_Hall("")
   {
   }
 

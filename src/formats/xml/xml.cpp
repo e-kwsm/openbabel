@@ -22,8 +22,7 @@ namespace OpenBabel
   XMLBaseFormat* XMLConversion::_pDefault=nullptr;
 
   XMLConversion::XMLConversion(OBConversion* pConv)
-    : OBConversion(*pConv),
-      _requestedpos(0), _lastpos(0) 
+    : OBConversion(*pConv), _requestedpos(0), _lastpos(0)
   {
     _pConv = pConv;
     pConv->SetAuxConv(this);//marks original OBConversion object as having been extended

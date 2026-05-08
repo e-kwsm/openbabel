@@ -286,7 +286,7 @@ namespace OpenBabel {
     char _updown;
     int _order;
     int _prev;
-    int _rxnrole{1};
+    int _rxnrole = 1;
     const char *_ptr;
     bool _preserve_aromaticity;
     vector<int>             _vprev;
