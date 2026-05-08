@@ -361,7 +361,7 @@ namespace OpenBabel {
       //@}
     private:
       OBMol *m_mol; //!< The parent molecule.
-      bool m_specified{true}; //!< True if the stereochemistry is specified, false if unknown/unspecified.
+      bool m_specified = true; //!< True if the stereochemistry is specified, false if unknown/unspecified.
   };
 
   // fwd decl
@@ -484,7 +484,7 @@ namespace OpenBabel {
       void InitMaps();
 
       OBMol *m_mol;
-      bool m_init{false};
+      bool m_init = false;
       bool m_perceive;
       std::map<unsigned long, OBTetrahedralStereo*> m_tetrahedralMap;
       std::map<unsigned long, OBCisTransStereo*> m_cistransMap;

@@ -43,7 +43,7 @@ private:
   std::shared_ptr<OBMol> _ts;
   std::string _title;
   std::string _comment;
-  bool _reversible{false};
+  bool _reversible = false;
 public:
   OBReaction()  
   {}
