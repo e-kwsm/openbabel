@@ -564,7 +564,9 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
         if      (atom->GetIdx() == 1)
+        {
           continue;
+        }
         else if (atom->GetIdx() == 2)
           {
             vic[atom->GetIdx()]->_a = mol.GetAtom(1);
@@ -845,7 +847,9 @@ namespace OpenBabel
         return pow( X, OneThird );
       }
     else
+    {
       return -pow( -X, OneThird );
+    }
   }
 
   int SolveCubic(double A,double B,double C,double D)
