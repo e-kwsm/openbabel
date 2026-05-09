@@ -333,7 +333,9 @@ namespace OpenBabel
     //Decide on which OBMol provides the new structure
     bool swap=false;
     if(pFirst->NumAtoms()==0 && pSecond->NumAtoms()!=0)
+    {
       swap=true;
+    }
     else if(pSecond->NumAtoms()!=0)
       {
         if(pFirst->GetSpacedFormula()!=pSecond->GetSpacedFormula())

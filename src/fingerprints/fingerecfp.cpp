@@ -194,7 +194,7 @@ static void ECFPPass(OpenBabel::OBMol &mol,
         case 3:  order = 3;  break;
         default: order = 1;
         }
-      } else order = 4;
+      } else { order = 4; }
 
       unsigned int nidx = nptr->GetIdx();
 

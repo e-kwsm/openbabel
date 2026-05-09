@@ -3569,8 +3569,9 @@ namespace OpenBabel
           vdwcalc.epsilon = 0.5 * (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
           // R_AB is scaled to 0.8 for D-A interactions. The value used in the calculation of epsilon is not scaled.
           vdwcalc.R_AB = 0.8 * vdwcalc.R_AB;
-        } else
+        } else {
           vdwcalc.epsilon = (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
+        }
 
         R_AB2 = vdwcalc.R_AB * vdwcalc.R_AB;
         R_AB4 = R_AB2 * R_AB2;
@@ -3586,8 +3587,9 @@ namespace OpenBabel
           vdwcalc.epsilon = 0.5 * (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
           // R_AB is scaled to 0.8 for D-A interactions. The value used in the calculation of epsilon is not scaled.
           vdwcalc.R_AB = 0.8 * vdwcalc.R_AB;
-        } else
+        } else {
           vdwcalc.epsilon = (181.16 * vdwcalc.Ga * vdwcalc.Gb * vdwcalc.alpha_a * vdwcalc.alpha_b) / (sqrt_a + sqrt_b) * (1.0 / R_AB6);
+        }
 
         R_AB2 = vdwcalc.R_AB * vdwcalc.R_AB;
         R_AB4 = R_AB2 * R_AB2;
@@ -3832,8 +3834,9 @@ namespace OpenBabel
             FOR_NBORS_OF_ATOM(nbr2, &*nbr)
               if ((nbr2->GetAtomicNum() == OBElements::Sulfur || nbr2->GetAtomicNum() == OBElements::Oxygen) && (nbr2->GetExplicitDegree() == 1) && (atom->GetIdx() != nbr2->GetIdx()))
                 atom->SetPartialCharge(-0.5);
-          } else
+          } else {
             atom->SetPartialCharge(-1.0);
+          }
 
           if (nbr->GetAtomicNum() == OBElements::Carbon)
             FOR_NBORS_OF_ATOM(nbr2, &*nbr)
@@ -4200,10 +4203,10 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (atoi(_mol.GetAtom(ni)->GetType()) == (*i))
+        if (atoi(_mol.GetAtom(ni)->GetType()) == (*i)) {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
                   _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
-        else {
+        } else {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
                   _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
           failed = true;
@@ -4234,9 +4237,9 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
+        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001) {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
-        else {
+        } else {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
           failed = true;
         }
@@ -4266,9 +4269,9 @@ namespace OpenBabel
              (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
+        if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001) {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
-        else {
+        } else {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %7.4f     %7.4f      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetPartialCharge(), *di);
           failed = true;
         }

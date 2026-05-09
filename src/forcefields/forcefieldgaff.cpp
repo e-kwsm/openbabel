@@ -1244,9 +1244,9 @@ namespace OpenBabel
       	tokenize(vs, buffer);
 
         sp = new OBSmartsPattern;
-        if (sp->Init(vs[1]))
+        if (sp->Init(vs[1])) {
 	    _vexttyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[2]));
-        else {
+        } else {
           delete sp;
           sp = nullptr;
           obErrorLog.ThrowError(__FUNCTION__, " Could not parse atom type table from gaff.prm", obInfo);
