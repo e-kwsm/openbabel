@@ -114,7 +114,9 @@ namespace OpenBabel
     string dst;
 
     if (pos != string::npos)
+    {
       dst = src.substr(0,pos+1);
+    }
     else
       {
         dst = src;
@@ -430,7 +432,9 @@ namespace OpenBabel
   {
     id[0] = toupper(id[0]);
     if (isalpha(id[1]) == 0)
+    {
       id[1] = '\0';
+    }
     else
       {
         id[1] = tolower(id[1]);

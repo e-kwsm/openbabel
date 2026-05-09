@@ -727,7 +727,9 @@ namespace OpenBabel
                 k->second = ++count;
               }
             else
+            {
               k->second = count;
+            }
           }
         ++count;
       }
@@ -1044,7 +1046,9 @@ namespace OpenBabel
                   --atomicCount[0]; //one of the implicit hydrogens is now explicit
               }
             else
+            {
               atomicCount[0] += a->GetImplicitHCount() + a->ExplicitHydrogenCount();
+            }
           }
         if (IsHiso)
           anum = NumElements + iso - 3; //pseudo AtNo for D, T
@@ -1157,7 +1161,9 @@ namespace OpenBabel
   int OBMol::GetTotalCharge()
   {
     if(HasFlag(OB_TCHARGE_MOL))
+    {
       return(_totalCharge);
+    }
     else // calculate from atomic formal charges (seems the best default)
       {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -1207,7 +1213,9 @@ namespace OpenBabel
   unsigned int OBMol::GetTotalSpinMultiplicity()
   {
     if (HasFlag(OB_TSPIN_MOL))
+    {
       return(_totalSpin);
+    }
     else // calculate from atomic spin information (assuming high-spin case)
       {
         obErrorLog.ThrowError(__FUNCTION__,
@@ -1730,9 +1738,9 @@ namespace OpenBabel
 
     // Use the existing atom Id unless either it's invalid or forceNewId has been specified
     unsigned long id;
-    if (forceNewId)
+    if (forceNewId) {
       id = _atomIds.size();
-    else {
+    } else {
       id = atom.GetId();
       if (id == NoId)
         id = _atomIds.size();
@@ -2249,7 +2257,9 @@ namespace OpenBabel
                     }
                   }
                 else
+                {
                   memset((char*)&_c[NumAtoms()*3],'\0',sizeof(double)*3);
+                }
               }
             if(badh == 0 || badh < NumConformers())
               {
@@ -2575,7 +2585,9 @@ namespace OpenBabel
         else
           {
             if (insertpos >= static_cast<int>(bgn->GetExplicitDegree()))
+            {
               bgn->AddBond(bond);
+            }
             else //need to insert the bond for the connectivity order to be preserved
               {    //otherwise stereochemistry gets screwed up
                 vector<OBBond*>::iterator bi;
@@ -2587,7 +2599,9 @@ namespace OpenBabel
           }
       }
     else //at least one atom doesn't exist yet - add to bond_q
+    {
       SetData(new OBVirtualBond(first,second,order,flags));
+    }
 
     //    EndModify();
 
