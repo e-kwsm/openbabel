@@ -395,9 +395,9 @@ namespace OpenBabel {
     generator.TimeSeed();
 
     RotorKey rotorKey(m_rotorList.Size() + 1, 0); // indexed from 1
-    if (IsGood(rotorKey))
+    if (IsGood(rotorKey)) {
       m_rotorKeys.push_back(rotorKey);
-    else {
+    } else {
       if (m_logstream != nullptr)
         (*m_logstream) << "Initial conformer does not pass filter!" << std::endl;
     }

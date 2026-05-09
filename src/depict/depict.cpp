@@ -425,8 +425,9 @@ namespace OpenBabel
           }
         }
         f = d->bondLength / sqrt(f);
-      } else
+      } else {
         f = 1.0;
+      }
       for (atom = d->mol->BeginAtom(i); atom; atom = d->mol->NextAtom(i))
         atom->SetVector(atom->GetX() * f, - atom->GetY() * f, atom->GetZ());
 
@@ -506,11 +507,11 @@ namespace OpenBabel
         //is a wedge or hash bond
         if(from[bond]==bond->GetEndAtom()->GetId())
           swap(begin, end);
-        if(updown[bond]==OBStereo::UpBond)
+        if(updown[bond]==OBStereo::UpBond) {
           d->DrawWedge(begin, end);
-        else if(updown[bond]==OBStereo::DownBond)
+        } else if(updown[bond]==OBStereo::DownBond) {
           d->DrawHash(begin, end);
-        else {
+        } else {
           //This is a bond to a chiral center specified as unknown
           d->DrawWobblyBond(begin, end);
         }
@@ -571,11 +572,11 @@ namespace OpenBabel
           break;
       }
 
-      if((d->options & internalColor) && atom->HasData("color"))
+      if((d->options & internalColor) && atom->HasData("color")) {
         d->painter->SetPenColor(OBColor(atom->GetData("color")->GetValue()));
-      else if(d->options & bwAtoms)
+      } else if(d->options & bwAtoms) {
         d->painter->SetPenColor(d->bondColor);
-      else {
+      } else {
         double r, g, b;
         OBElements::GetRGB(atom->GetAtomicNum(), &r, &g, &b);
         d->painter->SetPenColor(OBColor(r, g, b));
@@ -597,10 +598,11 @@ namespace OpenBabel
         if(charge) {
           if(abs(charge)!=1)
             ss << abs(charge);
-          if(charge>0)
+          if(charge>0) {
             ss << '+';
-          else if (charge<-1) //use underscore for single negative charge and minus if multiple
+          } else if (charge<-1) { //use underscore for single negative charge and minus if multiple
             ss << '-';
+          }
           else
           {
             ss << '_';

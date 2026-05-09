@@ -1050,7 +1050,9 @@ iter tree<T, tree_node_allocator>::insert(iter position, const T& x)
 			tmp->parent->first_child=tmp;
 		}
 	else
+	{
 		tmp->prev_sibling->next_sibling=tmp;
+	}
 	return tmp;
 	}
 
@@ -1079,7 +1081,9 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 			tmp->parent->first_child=tmp;
 		}
 	else
+	{
 		tmp->prev_sibling->next_sibling=tmp;
+	}
 	return tmp;
 	}
 
@@ -1421,7 +1425,7 @@ typename tree<T, tree_node_allocator>::sibling_iterator tree<T, tree_node_alloca
 		dst_prev_sibling=target.parent_->last_child;
 		assert(dst_prev_sibling);
 		}
-	else dst_prev_sibling=dst->prev_sibling;
+	else { dst_prev_sibling=dst->prev_sibling; }
 	assert(src);
 
 	if(dst==src) return source;
@@ -1539,7 +1543,7 @@ void tree<T, tree_node_allocator>::sort(sibling_iterator from, sibling_iterator 
 		if((*nit)->parent!=0) // to catch "sorting the head" situations, when there is no parent
 			(*nit)->parent->first_child=(*nit);
 		}
-	else prev->next_sibling=(*nit);
+	else { prev->next_sibling=(*nit); }
 
 	--eit;
 	while(nit!=eit) {
@@ -1560,7 +1564,7 @@ void tree<T, tree_node_allocator>::sort(sibling_iterator from, sibling_iterator 
 		if((*eit)->parent!=0) // to catch "sorting the head" situations, when there is no parent
 			(*eit)->parent->last_child=(*eit);
 		}
-	else next->prev_sibling=(*eit);
+	else { next->prev_sibling=(*eit); }
 
 	if(deep) {	// sort the children of each node too
 		sibling_iterator bcs(*nodes.begin());
@@ -1798,8 +1802,8 @@ template <class T, class tree_node_allocator>
 void tree<T, tree_node_allocator>::swap(iterator one, iterator two)
 	{
 	// if one and two are adjacent siblings, use the sibling swap
-	if(one.node->next_sibling==two.node) swap(one);
-	else if(two.node->next_sibling==one.node) swap(two);
+	if(one.node->next_sibling==two.node) { swap(one); }
+	else if(two.node->next_sibling==one.node) { swap(two); }
 	else {
 		tree_node *nxt1=one.node->next_sibling;
 		tree_node *nxt2=two.node->next_sibling;
@@ -2580,7 +2584,7 @@ typename tree<T, tree_node_allocator>::sibling_iterator& tree<T, tree_node_alloc
 template <class T, class tree_node_allocator>
 typename tree<T, tree_node_allocator>::sibling_iterator& tree<T, tree_node_allocator>::sibling_iterator::operator--()
 	{
-	if(this->node) this->node=this->node->prev_sibling;
+	if(this->node) { this->node=this->node->prev_sibling; }
 	else {
 		assert(parent_);
 		this->node=parent_->last_child;
