@@ -60,7 +60,9 @@ bool TitleFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 		ifs.get(); //delimiter
 	}
 	else
+	{
 		ifs >> title;
+	}
 
 	pmol->SetTitle(Trim(title));
 	return true;

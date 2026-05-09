@@ -36,9 +36,9 @@ namespace OpenBabel
       }
       m_surface = cairo_image_surface_create(CAIRO_FORMAT_ARGB32, static_cast<int> (m_width), static_cast<int> (m_height));
       m_cairo = cairo_create(m_surface);
-      if(m_transparent)
+      if(m_transparent) {
         cairo_set_source_rgba (m_cairo, 0.0, 0.0, 0.0, 0.0);
-      else {
+      } else {
         OBColor bg = OBColor(m_fillcolor);
         cairo_set_source_rgb (m_cairo, bg.red, bg.green, bg.blue);
       }

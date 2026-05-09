@@ -580,7 +580,7 @@ namespace OpenBabel {
               for( i = 0 ; i < vars ; i++ )
                 values[i] += x*step[i] ;
             }
-            else b = 0 ;
+            else { b = 0 ; }
           }
           if( b <= 0 ){
             if( fnew2 < fnew ){
@@ -945,10 +945,10 @@ namespace OpenBabel {
       for( k = 0, s = 0 ; k < DIMENSION ; k++ )
         s += SQUARE( CenterOfSomething[k] ) ;
       s = sqrt(s) ;
-      if( s > 0 )
+      if( s > 0 ) {
         for( k = 0 ; k < DIMENSION ; k++ )
           axis->normal[k] = CenterOfSomething[k]/s ;
-      else {
+      } else {
         for( k = 1 ; k < DIMENSION ; k++ )
           axis->normal[k] = 0 ;
         axis->normal[0] = 1 ;
@@ -1555,9 +1555,9 @@ namespace OpenBabel {
     {
       int           i ;
 
-      if( PlanesCount == 0 )
+      if( PlanesCount == 0 ) {
         printf( "There are no planes of symmetry in the molecule\n" ) ;
-      else {
+      } else {
         if( PlanesCount == 1 )
           printf( "There is a plane of symmetry in the molecule\n" ) ;
         else printf( "There are %d planes of symmetry in the molecule\n", PlanesCount ) ;
@@ -1573,9 +1573,9 @@ namespace OpenBabel {
     void
     report_inversion_centers( void )
     {
-      if( InversionCentersCount == 0 )
+      if( InversionCentersCount == 0 ) {
         printf( "There is no inversion center in the molecule\n" ) ;
-      else {
+      } else {
         printf( "There in an inversion center in the molecule\n" ) ;
         printf( "     Residual                      Position\n" ) ;
         printf( "   %8.4e ", InversionCenters[0]->maxdev ) ;
@@ -1591,9 +1591,9 @@ namespace OpenBabel {
     {
       int           i ;
 
-      if( NormalAxesCount == 0 )
+      if( NormalAxesCount == 0 ) {
         printf( "There are no normal axes in the molecule\n" ) ;
-      else {
+      } else {
         if( NormalAxesCount == 1 )
           printf( "There is a normal axis in the molecule\n" ) ;
         else printf( "There are %d normal axes in the molecule\n", NormalAxesCount ) ;
@@ -1618,9 +1618,9 @@ namespace OpenBabel {
     {
       int           i ;
 
-      if( ImproperAxesCount == 0 )
+      if( ImproperAxesCount == 0 ) {
         printf( "There are no improper axes in the molecule\n" ) ;
-      else {
+      } else {
         if( ImproperAxesCount == 1 )
           printf( "There is an improper axis in the molecule\n" ) ;
         else printf( "There are %d improper axes in the molecule\n", ImproperAxesCount ) ;

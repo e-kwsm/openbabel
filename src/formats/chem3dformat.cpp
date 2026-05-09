@@ -300,7 +300,9 @@ namespace OpenBabel
         ttab.SetToType("MM2");
       }
     else
+    {
       ttab.SetToType(mol_typ);
+    }
     ofs << endl;
 
     ttab.SetFromType("INT");

@@ -67,8 +67,9 @@ namespace OpenBabel {
       } else {
         return (u1.refs[3] == u2.refs[3]); // 1 H H 4
       }
-    } else
+    } else {
       return (u1.refs[2] == u2.refs[2]); // 1 2 3 4  &  1 H 3 4  &  1 2 3 H
+    }
 
     return false;
   }

@@ -178,8 +178,9 @@ bool ASCIIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     painter.DrawLine(80, 80, 20, 80);
     painter.DrawLine(20, 80, 20, 20);
   }
-  else
+  else {
     depictor.DrawMolecule(&workingmol);
+  }
 
   painter.Write(ofs);
   if(pConv->IsOption("s")) {

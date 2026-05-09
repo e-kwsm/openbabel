@@ -250,7 +250,9 @@ namespace OpenBabel
     ofs << mol.GetTitle() << endl;
 
     if (!mol.HasData(OBGenericDataType::UnitCell))
+    {
       ofs << "   1.00000   1.00000   1.00000  90.00000  90.00000  90.00000\n";
+    }
     else
       {
         uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);

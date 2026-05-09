@@ -202,7 +202,9 @@ namespace OpenBabel
         int iorder = -1;
         unsigned int flags = 0;
         if (fabs(order - 1.0) < 1.e-6)
+        {
           iorder = 1;
+        }
         else if (fabs(order - 1.5) < 1.e-6)
         {
           // Aromatic bonds get order 1 here. OBKekulize, which is
@@ -211,9 +213,13 @@ namespace OpenBabel
           flags = OB_AROMATIC_BOND;
         }
         else if (fabs(order - 2.0) < 1.e-6)
+        {
           iorder = 2;
+        }
         else if (fabs(order - 3.0) < 1.e-6)
+        {
           iorder = 3;
+        }
         else
         {
           errorMsg << "Unable to read Culgi Object File. Bond order " << vs[3] << "not possible.\n";

@@ -727,7 +727,9 @@ namespace OpenBabel
           }
       }
     else
+    {
       ofs << defaultKeywords << endl;
+    }
 
     ofs << "* xyz " << mol.GetTotalCharge() << " " << mol.GetTotalSpinMultiplicity() << endl;
 

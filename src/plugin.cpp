@@ -157,7 +157,9 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
           if(*(itr->first)=='_')//no listing when ID starts with '_'
             continue;
           if(onlyIDs)
+          {
             vlist.push_back(itr->first);
+          }
           else
           {
             string txt;
@@ -216,7 +218,9 @@ bool OBPlugin::Display(string& txt, const char* param, const char* ID)
     txt += '\n';
   }
   else
+  {
     txt += FirstLine(Description());
+  }
   return true;
 }
 

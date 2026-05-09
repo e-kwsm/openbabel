@@ -229,9 +229,9 @@ namespace std {
       else
         out << "H ";
 
-    if (!cfg.specified)
+    if (!cfg.specified) {
       out << ", unspecified)";
-    else {
+    } else {
       if (cfg.winding == OBStereo::Clockwise)
         out << ", clockwise)";
       else
@@ -261,9 +261,9 @@ namespace std {
       else
         out << "H ";
 
-    if (!cfg.specified)
+    if (!cfg.specified) {
       out << ", unspecified)";
-    else {
+    } else {
       if (cfg.winding == OBStereo::Clockwise)
         out << ", clockwise)";
       else

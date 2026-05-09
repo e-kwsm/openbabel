@@ -239,8 +239,9 @@ int main(int argc,char **argv)
         cerr << "explosion has occurred!" << endl;
         conv.Write(&mol, &cout);
         return(1);
-      } else
+      } else {
         pFF->GetCoordinates(mol);
+      }
     }
     double timeElapsed = timer.Elapsed();
 

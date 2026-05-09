@@ -116,7 +116,9 @@ int DLHandler::findFiles (std::vector <std::string>& file_list,
       currentPath=paths[i];
 
       if ((dp = opendir(currentPath.c_str())) == nullptr)
+      {
         continue; // no big deal, this path causes an error
+      }
       else
         {
           while((entry = readdir(dp)) != nullptr)

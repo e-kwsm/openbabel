@@ -141,7 +141,9 @@ void ConfabReport::WriteOutput(ostream& ofs)
       cutoff_passed++;
     }
     else
+    {
       ofs << " No\n";
+    }
     ofs << "\n";
   }
 }

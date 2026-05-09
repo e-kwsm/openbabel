@@ -81,7 +81,9 @@ namespace OpenBabel
      }
 
      if(MolArray.empty()) //normal end of fragments
+     {
        ret =false;
+     }
      else
      {
        // Copying is needed because the OBMol passed to AddChemObject will be deleted.
@@ -125,7 +127,9 @@ namespace OpenBabel
       }
     }
     else
+    {
       delete pmol;
+    }
 
     // Normal operation - send molecule to be written
     ret = ret && (pConv->AddChemObject(ptmol)!=0); //success of both writing and reading
@@ -241,7 +245,9 @@ namespace OpenBabel
       }
     const char* ptitle = pmol->GetTitle();
     if(*ptitle==0)
+    {
       obErrorLog.ThrowError(__FUNCTION__, "Molecule with no title ignored", obWarning);
+    }
     else
       {
         string title(ptitle);
@@ -313,7 +319,9 @@ namespace OpenBabel
     //Decide on which OBMol provides the new title
     string title("No title");
     if(*pFirst->GetTitle()!=0)
+    {
       title = pFirst->GetTitle();
+    }
     else
       {
         if(*pSecond->GetTitle()!=0)
@@ -325,7 +333,9 @@ namespace OpenBabel
     //Decide on which OBMol provides the new structure
     bool swap=false;
     if(pFirst->NumAtoms()==0 && pSecond->NumAtoms()!=0)
+    {
       swap=true;
+    }
     else if(pSecond->NumAtoms()!=0)
       {
         if(pFirst->GetSpacedFormula()!=pSecond->GetSpacedFormula())
@@ -337,7 +347,9 @@ namespace OpenBabel
         else
           {
             if(pSecond->NumBonds()!=0 && pFirst->NumBonds()==0)
+            {
               swap=true;
+            }
             else
               {
                 //Compare by inchi; error if different NOT YET IMPLEMENTED
@@ -369,7 +381,9 @@ namespace OpenBabel
               continue;
           }
         else if (pNewMol->GetData(datatype) != nullptr)
+        {
           continue;
+        }
 
         OBGenericData* pCopiedData = (*igd)->Clone(pNewMol);
         pNewMol->SetData(pCopiedData);

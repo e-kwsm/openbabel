@@ -221,7 +221,9 @@ namespace OpenBabel
             _notVisited.SetBitOff(next);
           }
         else
+        {
           _ptr = nullptr;
+        }
       }
 
     if (_ptr)
@@ -377,7 +379,9 @@ namespace OpenBabel
             _notVisited.SetBitOff(next);
           }
         else
+        {
           _ptr = nullptr;
+        }
       }
 
     if (_ptr)
@@ -570,7 +574,9 @@ namespace OpenBabel
         _notVisited.SetBitOff(next);
       }
       else
+      {
         _ptr = nullptr;
+      }
     }
 
     if (_ptr) {

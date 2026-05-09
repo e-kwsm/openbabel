@@ -65,8 +65,10 @@ bool OpTransform::Initialize()
       ParseLine(charBuffer);
   }
   else //When filename is * use data in lines following
+  {
     for(unsigned int i=4; i < _textlines.size(); ++i)
       ParseLine(_textlines[i].c_str());
+  }
 
 
   // return the locale to the original one
@@ -101,7 +103,9 @@ void OpTransform::ParseLine(const char *buffer)
         obErrorLog.ThrowError(__FUNCTION__, mes + buffer, obWarning);
       }
       else
+      {
         _transforms.push_back(tr);
+      }
     }
   }
 }

@@ -101,8 +101,9 @@ namespace OpenBabel
         uc->SetOrigin(fileformatInput);
         uc->SetData(A, B, C, Alpha, Beta, Gamma);
         mol.SetData(uc);
-      } else if (EQn(buffer,"FORMAT",6))
+      } else if (EQn(buffer,"FORMAT",6)) {
         break;
+      }
     }
 
     ttab.SetFromType("DRE");

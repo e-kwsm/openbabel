@@ -514,8 +514,9 @@ namespace OpenBabel {
       da = a->GetVector();
       db = b->GetVector();
       rab = OBForceField::VectorLengthDerivative(da, db);
-    } else
+    } else {
       rab = a->GetDistance(b);
+    }
 
     if (fabs(rab) < 1.0e-3)
       rab = 1.0e-3;
@@ -1402,8 +1403,9 @@ namespace OpenBabel {
         oopcalc.c0 = -1.0*oopcalc.c1 * cos(phi) + oopcalc.c2*cos(2.0*phi);
         oopcalc.koop = 22.0 * KCAL_TO_KJ;
       }
-      else if (!(EQn(b->GetType(), "C_2", 3) || EQn(b->GetType(), "C_R", 3)))
+      else if (!(EQn(b->GetType(), "C_2", 3) || EQn(b->GetType(), "C_R", 3))) {
         continue; // inversion not defined for this atom type
+      }
 
       FOR_NBORS_OF_ATOM(nbr, b) {
         if (a == nullptr)

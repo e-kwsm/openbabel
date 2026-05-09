@@ -140,8 +140,10 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest
                  << " # correct ring bond data\n";
+          }
         }
 
       vr = mol.GetSSSR();
@@ -158,8 +160,10 @@ int ringtest(int argc, char* argv[])
           cout << "# Molecule: " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest
              << " # SSSR size matches reference\n";
+      }
 
       if (!rifs.getline(buffer,BUFF_SIZE))
         {
@@ -177,7 +181,9 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest << " # correct SSSR count\n";
+          }
 
           count = 0;
           for (m = vr.begin();m != vr.end();++m)
@@ -190,7 +196,9 @@ int ringtest(int argc, char* argv[])
               cout << "# Molecule: " << mol.GetTitle() << "\n";
             }
           else
+          {
             cout << "ok " << ++currentTest << " # ring membership passed\n";
+          }
 
           ++i;
         }

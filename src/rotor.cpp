@@ -868,7 +868,9 @@ namespace OpenBabel
                 i += 2;
               }
             else
+            {
               vals.push_back(DEG_TO_RAD*atof(vs[i].c_str()));
+            }
           }
 
         if (vals.empty())

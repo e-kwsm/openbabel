@@ -594,7 +594,9 @@ namespace OpenBabel
                   {
                     dma = d[j] - d[i];
                     if((fabs(dma) + fabs(b)) <=  fabs(dma))
+                    {
                       t = b / dma;
+                    }
                     else
                       {
                         q = 0.5 * dma / b;

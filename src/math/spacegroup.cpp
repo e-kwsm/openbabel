@@ -121,7 +121,9 @@ namespace OpenBabel
               group->SetHMName(linestr.substr(idx+1, std::string::npos).c_str());
             }
           else
+          {
             group->SetHMName(line);
+          }
           step++;
           break;
         }
@@ -137,7 +139,9 @@ namespace OpenBabel
             HMs.clear();
 		      }
         else
+        {
           group->AddTransform(line);
+        }
         break;
       }
   }
@@ -553,9 +557,11 @@ namespace OpenBabel
               }
           }
         else
+        {
         /* even if there is an error (this should not occur) return the found group, since
            Hall names are secure */
           return found;
+        }
       }
     // Identify from the HM symbol, after removing all whitespaces or underscore (which are valid separators in
     // old CIF files)

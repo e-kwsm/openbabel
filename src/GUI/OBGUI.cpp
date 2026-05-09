@@ -617,7 +617,9 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
   //If you are trying to output with no filename what you really wanted
   //was to output to the OutConsole
   if(m_pNoOutFile->IsChecked() || OutFileName.IsEmpty())
+  {
     m_pNoOutFile->SetValue(true);
+  }
   else
   {
     //If output filename has no path, use input path
@@ -1180,7 +1182,9 @@ void CFilenames::OnKeyPress(wxKeyEvent& event)
 
   case WXK_RETURN:
     if(event.ShiftDown())
+    {
       SetValue(nameWithWildcard);
+    }
     else
     {
       nameWithWildcard = GetValue();
@@ -1260,7 +1264,9 @@ bool CFilenames::ToNextFile(int delta)
       ++pos;
   }
   else
+  {
     pos = fname.rfind(';',n);
+  }
   if(pos!=-1)
   {
     SetInsertionPoint(pos);
@@ -1272,6 +1278,8 @@ bool CFilenames::ToNextFile(int delta)
     return true;
   }
   else
+  {
     return false;
+  }
 }
 //***********************************************

@@ -239,11 +239,17 @@ namespace OpenBabel
       mm2Types = true;
     }
     else if (mm3Types)
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MM3 parameters\n",pmol->NumAtoms(), pmol->GetTitle());
+    }
     else if (classTypes)
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   Custom parameters\n", pmol->NumAtoms(), pmol->GetTitle());
+    }
     else
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MMFF94 parameters\n", pmol->NumAtoms(), pmol->GetTitle());
+    }
     ofs << buffer;
 
     ttab.SetFromType("INT");
@@ -379,15 +385,16 @@ namespace OpenBabel
       if (atom->GetSpinMultiplicity() == 2)
         return 29;
 
-      if (atom->GetHyb() == 3)
+      if (atom->GetHyb() == 3) {
         return 1;
-      else if (atom->GetHyb() == 2) {
+      } else if (atom->GetHyb() == 2) {
         if (atom->CountFreeOxygens() >= 1)
           return 3;
         return 2;
       }
-      else if (atom->GetHyb() == 1)
+      else if (atom->GetHyb() == 1) {
         return 4;
+      }
       break;
 
     case 7: // N
@@ -412,9 +419,13 @@ namespace OpenBabel
         return 8;
       }
       else if (atom->GetHyb() == 2)
+      {
         return 9;
+      }
       else if (atom->GetHyb() == 1)
+      {
         return 10;
+      }
       break;
 
     case 8: // O

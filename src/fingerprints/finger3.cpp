@@ -193,9 +193,11 @@ public:
               continue;
           }
           else
+          {
             //Original format, which looks like:
             //  SMARTS description
             ss >> p.smartsstring >> p.description;
+          }
         }
         else
         {
@@ -220,7 +222,9 @@ public:
         //Find version number
         string::size_type pos = line.find("Version");
         if(pos!=string::npos)
+        {
           pos+=8;
+        }
         else if(line.find("Extracted from RDKit")!=string::npos)
         {
           pos=20;

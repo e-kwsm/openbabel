@@ -272,7 +272,9 @@ namespace OpenBabel
           SeekposMap.insert(pair<const double, unsigned long>(0,0));
       }
     else if(SeekposMap.size()==0)
+    {
       return false;
+    }
 
     vector<unsigned int> targetfp;
     _pFP->GetFingerprint(pOb,targetfp, _index.header.words * OBFingerprint::Getbitsperint());
@@ -314,7 +316,9 @@ namespace OpenBabel
   {
     ifstream ifs(IndexFilename.c_str(),ios::binary);
     if(ifs)
+    {
       return ReadIndex(&ifs);
+    }
     else
     {
       string dum;

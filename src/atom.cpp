@@ -401,7 +401,9 @@ namespace OpenBabel
   void OBAtom::SetVector(const vector3 &v)
   {
     if (!_c)
+    {
       _v = v;
+    }
     else
       {
         (*_c)[_cidx  ] = v.x();
@@ -413,7 +415,9 @@ namespace OpenBabel
   void OBAtom::SetVector(const double v_x,const double v_y,const double v_z)
   {
     if (!_c)
+    {
       _v.Set(v_x,v_y,v_z);
+    }
     else
       {
         (*_c)[_cidx  ] = v_x;

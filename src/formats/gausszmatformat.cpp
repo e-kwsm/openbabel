@@ -298,9 +298,9 @@ namespace OpenBabel
 		// We read through atom lines and cache them (into atomLines)
 		while (ifs.getline(buffer,BUFF_SIZE)) {
 			if (strlen(buffer) == 0) {
-        if (foundVariables)
+        if (foundVariables) {
           break; // blank line after variable section
-        else {
+        } else {
           readVariables = true;
           continue;
         }

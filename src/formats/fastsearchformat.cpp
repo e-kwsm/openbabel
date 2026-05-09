@@ -218,7 +218,9 @@ const char* Description() override  // required
     for(unsigned i=0;i<patternMols.size();++i)
     {
       if(patternMols[i].ConvertDativeBonds())
+      {
         extraSMARTSMols.push_back(&patternMols[i]);
+      }
       else 
       {
         // If target has uncharged dative bonds, still use it for fastsearching,
@@ -484,7 +486,9 @@ const char* Description() override  // required
             pConv->GetInStream()->seekg(LastSeekpos);
           }
         else
+        {
           fsi = new FastSearchIndexer(datafilename, pOs, fpid, nbits, nmols);
+        }
 
         obErrorLog.StopLogging();
       }
@@ -510,8 +514,10 @@ const char* Description() override  // required
       }
     }
     else
+    {
       //Don't index old objects during update. Don't increment pConv->Index.
       pConv->SetOutputIndex(pConv->GetOutputIndex()-1);
+    }
 
     if(pConv->IsLast())
       {
@@ -601,7 +607,9 @@ const char* Description() override  // required
           pos2 = txt.find(']');
           int atno;
           if(pos2!=string::npos &&  (atno = atoi(txt.substr(pos1+2, pos2-pos1-2).c_str())) && atno>0)
+          {
             txt.replace(pos1, pos2-pos1+1, OBElements::GetSymbol(atno));
+          }
           else
           {
             obErrorLog.ThrowError(__FUNCTION__,"Ill-formed [#n] atom in SMARTS", obError);

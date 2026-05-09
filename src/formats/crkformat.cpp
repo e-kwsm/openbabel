@@ -254,9 +254,13 @@ namespace OpenBabel
     while (ifs.getline(buffer,BUFF_SIZE))
       {
         if (strstr(buffer,classTag) && foundClass == false)
+        {
           foundClass=true;
+        }
         else if (strstr(buffer,classTag) && foundClass == true)
+        {
           break;
+        }
         else if (strstr(buffer,"<Atom"))
           {
             atomID=0;
@@ -270,7 +274,9 @@ namespace OpenBabel
                 atomX= atomY= atomZ= atomCharge =0.0;
               }
             else
+            {
               continue; // atomID <= 0
+            }
           }
         else if (strstr(buffer,"<Bond"))
           {
