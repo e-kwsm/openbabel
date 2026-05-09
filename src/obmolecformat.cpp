@@ -347,7 +347,9 @@ namespace OpenBabel
         else
           {
             if(pSecond->NumBonds()!=0 && pFirst->NumBonds()==0)
+            {
               swap=true;
+            }
             else
               {
                 //Compare by inchi; error if different NOT YET IMPLEMENTED
@@ -379,7 +381,9 @@ namespace OpenBabel
               continue;
           }
         else if (pNewMol->GetData(datatype) != nullptr)
+        {
           continue;
+        }
 
         OBGenericData* pCopiedData = (*igd)->Clone(pNewMol);
         pNewMol->SetData(pCopiedData);

@@ -79,19 +79,19 @@ bool OpGen3D::Do(OBBase* pOb, const char* OptionText, OpMap* pOptions, OBConvers
   if (endptr == OptionText) { // not a number
     speed = 3; // we'll default to balanced
     // but let's also check if it's words like "fast" or "best"
-    if (strncasecmp(OptionText, "fastest", 7) == 0)
+    if (strncasecmp(OptionText, "fastest", 7) == 0) {
       speed = 5;
-    else if (strncasecmp(OptionText, "fast", 4) == 0) // already matched fastest
+    } else if (strncasecmp(OptionText, "fast", 4) == 0) { // already matched fastest
       speed = 4;
-    else if (strncasecmp(OptionText, "med", 3) == 0) // or medium
+    } else if (strncasecmp(OptionText, "med", 3) == 0) { // or medium
       speed = 3;
-    else if ( (strncasecmp(OptionText, "slowest", 7) == 0)
-             || (strncasecmp(OptionText, "best", 4) == 0) )
+    } else if ( (strncasecmp(OptionText, "slowest", 7) == 0)
+             || (strncasecmp(OptionText, "best", 4) == 0) ) {
       speed = 1;
-    else if ( (strncasecmp(OptionText, "slow", 4) == 0)
-              || (strncasecmp(OptionText, "better", 6) == 0) )
+    } else if ( (strncasecmp(OptionText, "slow", 4) == 0)
+              || (strncasecmp(OptionText, "better", 6) == 0) ) {
       speed = 2;
-    else if ( (strncasecmp(OptionText, "dist", 4) == 0)
+    } else if ( (strncasecmp(OptionText, "dist", 4) == 0)
                || (strncasecmp(OptionText, "dg", 2) == 0) ) {
       useDistGeom = true;
       speed = 5;
