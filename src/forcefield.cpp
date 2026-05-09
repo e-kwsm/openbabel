@@ -1392,9 +1392,9 @@ namespace OpenBabel
           // Create a hash of the rotorKeys (given that the max value of any rotorKey is 11 from torlib.txt)
           unsigned int hash = rotorKey[1] + rotorKey[2]*12 + rotorKey[3]*12*12 + rotorKey[4]*12*12*12;
 
-          if (seen.find(hash) == seen.end()) // Not seen before
+          if (seen.find(hash) == seen.end()) { // Not seen before
             seen.insert(hash);
-          else { // Already seen - no point continuing
+          } else { // Already seen - no point continuing
             quit = true;
             break;
           }
@@ -1694,9 +1694,9 @@ namespace OpenBabel
         _loglvl = origLogLevel;
         currentE = Energy(false);
 
-        if (j == 0)
+        if (j == 0) {
           bestE = worstE = currentE;
-        else {
+        } else {
           if (currentE > worstE)
             worstE = currentE;
           else if (currentE < bestE)
@@ -1764,7 +1764,9 @@ namespace OpenBabel
             break;
           }
           else
+          {
             total += rotorWeights[i][j];
+          }
         }
       }
 

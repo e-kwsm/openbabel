@@ -468,7 +468,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       if(delim=='\\')
       {
         if(DescrList[1]=='\\')
+        {
           ss.ignore();
+        }
         else if(DescrList[1]=='t')
         {
           delim='\t';
@@ -477,7 +479,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       }
     }
     else
+    {
       delim = ' ';
+    }
 
     string values;
     OBDescriptor* pDescr;
@@ -488,11 +492,15 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
 
       //If there is existing OBPairData use that
       if(MatchPairData(pOb, spair.first))
+      {
         thisvalue = pOb->GetData(spair.first)->GetValue();
+      }
       else
       {
         if( (pDescr = OBDescriptor::FindType(spair.first.c_str())) ) // extra parentheses to indicate truth value
+        {
           pDescr->GetStringValue(pOb, thisvalue, &spair.second);
+        }
         else
         {
           obErrorLog.ThrowError(__FUNCTION__,
