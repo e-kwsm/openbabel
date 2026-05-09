@@ -628,11 +628,13 @@ namespace OpenBabel
                    tmpHM.c_str());
         }
         else
+        {
           snprintf(buffer, BUFF_SIZE,
                    "CRYST1%9.3f%9.3f%9.3f%7.2f%7.2f%7.2f %-11s 1",
                    pUC->GetA(), pUC->GetB(), pUC->GetC(),
                    pUC->GetAlpha(), pUC->GetBeta(), pUC->GetGamma(),
                    "P1");
+        }
 
         ofs << buffer << endl;
       }

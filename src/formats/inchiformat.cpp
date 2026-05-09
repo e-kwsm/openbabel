@@ -403,7 +403,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
           patom->GetIsotope() - GetInChIAtomicMass(patom->GetAtomicNum());
       }
       else
+      {
         iat.isotopic_mass = 0 ;
+      }
       iat.radical = patom->GetSpinMultiplicity();
       //InChI doesn't recognize spin miltiplicity of 4 or 5 (as used in OB for CH and C atom)
       if(iat.radical>=4)
@@ -442,8 +444,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             if (num_implicit) {
               config = ts->GetConfig(OBStereo::ImplicitRef); // Make the 'from' atom the implicit ref
               stereo.neighbor[0] = stereo.central_atom;
-            } else
+            } else {
               stereo.neighbor[0] = OBAtomIdToInChIAtomId(mol, config.from);
+            }
 
             for(int i=0; i<3; ++i)
               stereo.neighbor[i + 1] = OBAtomIdToInChIAtomId(mol, config.refs[i]);
@@ -614,7 +617,9 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(pConv->IsOption("e"))
     {
       if(pConv->GetOutputIndex()==1)
+      {
         firstInchi = inout.szInChI;
+      }
       else
       {
         ofs << "Molecules " << firstID << "and " << molID.str();
@@ -794,7 +799,9 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
         inchi.erase(pos);
     }
     else if(*itr=="connect")
+    {
       RemoveLayer(inchi,"/h",true);
+    }
     else if(*itr=="nochg")
     {
       RemoveLayer(inchi,"/p");
@@ -807,9 +814,13 @@ bool InChIFormat::EditInchi(std::string& inchi, std::string& spec)
       RemoveLayer(inchi,"/s");
     }
     else if(*itr=="noEZ")
+    {
       RemoveLayer(inchi,"/b");
+    }
     else if(*itr=="noiso")
+    {
       RemoveLayer(inchi,"/i");
+    }
     else if(*itr=="nostereo")
     {
       RemoveLayer(inchi,"/t");

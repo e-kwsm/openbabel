@@ -355,7 +355,9 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       formatID.erase(pos);
   }
   else //if no param on -xO option, format is input format
+  {
     formatID = pConv->GetInFormat()->GetID();
+  }
   if(!conv2.SetOutFormat(OBConversion::FindFormat(formatID)))
   {
     obErrorLog.ThrowError("PNG Format","Format not found", obError);
@@ -385,7 +387,9 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   }
   else
+  {
     obErrorLog.ThrowError("PNG Format","Failed when converting the molecule", obError);
+  }
 
   if(pConv->IsLast())
   {

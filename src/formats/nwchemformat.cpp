@@ -306,7 +306,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (vs[0][0] == '1')
             for (unsigned int i = 0; i < 3; i++)
                 if (vs[i+1][0] == '1')
+                {
                     dipole[i] = atof(vs[4].c_str());
+                }
         else if (vs[0][0] == '2')
         {
             double value = atof(vs[4].c_str());
@@ -322,7 +324,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             quadrupole.Set(i[1], i[0], value);
         }
         else
+        {
             return;
+        }
     }
   }
 
