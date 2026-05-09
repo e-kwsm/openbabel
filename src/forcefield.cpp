@@ -1909,10 +1909,10 @@ namespace OpenBabel
             FOR_NBORS_OF_ATOM (nbr3, &*nbr2) { // 1-4
               if (&*nbr3 == &*b) {
                 is15 = false;
-                if (i > j) // minimum distance (torsion angle = 0)
+                if (i > j) { // minimum distance (torsion angle = 0)
                   matrix[i][j] = 1.3 + 1.3*cos(DEG_TO_RAD*(180.0 - 120.0))
                     + 1.3*cos(DEG_TO_RAD*(180.0 - 120.0));
-                else {// maximum distance (torsion angle = 180)
+                } else {// maximum distance (torsion angle = 180)
                   double delta_x, delta_y;
                   delta_x = 1.3 + 1.3*cos(DEG_TO_RAD*(180.0-120.0))
                     + 1.3*cos(DEG_TO_RAD*(180.0-120.0));
@@ -1923,8 +1923,9 @@ namespace OpenBabel
               }
               if (i > j && is15) {// minimum distance (sum vdw radii)
                 matrix[i][j] = 1.4 + 1.4;
-              } else if (is15) // maximum distance (torsion angle = 180)
+              } else if (is15) { // maximum distance (torsion angle = 180)
                 matrix[i][j] = 99.0;
+              }
             }
           }
         }
@@ -3081,9 +3082,9 @@ namespace OpenBabel
 
     va = atom->GetVector();
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_orig = Energy(false);
-    else {
+    } else {
       e_orig = 0.0;
       if (terms & OBFF_EBOND)
         e_orig += E_Bond(false);
@@ -3104,9 +3105,9 @@ namespace OpenBabel
     // X direction
     atom->SetVector(va.x() + delta, va.y(), va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_plus_delta = Energy(false);
-    else {
+    } else {
       e_plus_delta = 0.0;
       if (terms & OBFF_EBOND)
         e_plus_delta += E_Bond(false);
@@ -3129,9 +3130,9 @@ namespace OpenBabel
     // Y direction
     atom->SetVector(va.x(), va.y() + delta, va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_plus_delta = Energy(false);
-    else {
+    } else {
       e_plus_delta = 0.0;
       if (terms & OBFF_EBOND)
         e_plus_delta += E_Bond(false);
@@ -3154,9 +3155,9 @@ namespace OpenBabel
     // Z direction
     atom->SetVector(va.x(), va.y(), va.z() + delta);
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_plus_delta = Energy(false);
-    else {
+    } else {
       e_plus_delta = 0.0;
       if (terms & OBFF_EBOND)
         e_plus_delta += E_Bond(false);
@@ -3198,9 +3199,9 @@ namespace OpenBabel
     va = atom->GetVector();
 
     // calculate f(0)
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_0 = Energy(false);
-    else {
+    } else {
       e_0 = 0.0;
       if (terms & OBFF_EBOND)
         e_0 += E_Bond(false);
@@ -3225,9 +3226,9 @@ namespace OpenBabel
     // calculate f(1)
     atom->SetVector(va.x() + delta, va.y(), va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_1 = Energy(false);
-    else {
+    } else {
       e_1 = 0.0;
       if (terms & OBFF_EBOND)
         e_1 += E_Bond(false);
@@ -3248,9 +3249,9 @@ namespace OpenBabel
     // calculate f(2)
     atom->SetVector(va.x() + 2 * delta, va.y(), va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_2 = Energy(false);
-    else {
+    } else {
       e_2 = 0.0;
       if (terms & OBFF_EBOND)
         e_2 += E_Bond(false);
@@ -3277,9 +3278,9 @@ namespace OpenBabel
     // calculate f(1)
     atom->SetVector(va.x(), va.y() + delta, va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_1 = Energy(false);
-    else {
+    } else {
       e_1 = 0.0;
       if (terms & OBFF_EBOND)
         e_1 += E_Bond(false);
@@ -3300,9 +3301,9 @@ namespace OpenBabel
     // calculate f(2)
     atom->SetVector(va.x(), va.y() + 2 * delta, va.z());
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_2 = Energy(false);
-    else {
+    } else {
       e_2 = 0.0;
       if (terms & OBFF_EBOND)
         e_2 += E_Bond(false);
@@ -3329,9 +3330,9 @@ namespace OpenBabel
     // calculate f(1)
     atom->SetVector(va.x(), va.y(), va.z() + delta);
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_1 = Energy(false);
-    else {
+    } else {
       e_1 = 0.0;
       if (terms & OBFF_EBOND)
         e_1 += E_Bond(false);
@@ -3352,9 +3353,9 @@ namespace OpenBabel
     // calculate f(2)
     atom->SetVector(va.x(), va.y(), va.z() + 2 * delta);
 
-    if (terms & OBFF_ENERGY)
+    if (terms & OBFF_ENERGY) {
       e_2 = Energy(false);
-    else {
+    } else {
       e_2 = 0.0;
       if (terms & OBFF_EBOND)
         e_2 += E_Bond(false);
