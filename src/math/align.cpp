@@ -254,9 +254,9 @@ namespace OpenBabel
 
     vector<double> coeffs = CalcQuarticCoeffs(M);
     double lambdamax = QCProot(coeffs, 0.5 * innerprod, 1e-6);
-    if (lambdamax > (0.5 * innerprod))
+    if (lambdamax > (0.5 * innerprod)) {
       _fail = true;
-    else {
+    } else {
       double sqrdev = innerprod - (2.0 * lambdamax);
       _rmsd = sqrt(sqrdev / mtarget.cols());
     }

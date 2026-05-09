@@ -1043,8 +1043,9 @@ namespace OpenBabel {
       // Check size of bounds matrix
       _d->bounds = bounds;
       return true;
-    } else
+    } else {
       return false;
+    }
   }
 
   bool OBDistanceGeometry::generateInitialCoords(void) {

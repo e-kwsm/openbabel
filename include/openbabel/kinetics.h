@@ -101,7 +101,9 @@ public:
     //Supply id empty to begin, then id is the*last* id
     std::map<std::string, double>::iterator itr;
     if(id.empty())
+    {
       itr = Efficiencies.begin();
+    }
     else
     {
       itr = Efficiencies.find(id);

@@ -301,7 +301,9 @@ namespace OpenBabel
         c = (val[2]+val[0])/2 - val[1];
       }
     else
+    {
       return(false);
+    }
 
     return(true);
   }

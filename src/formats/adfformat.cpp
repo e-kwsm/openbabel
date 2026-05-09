@@ -221,7 +221,7 @@ namespace OpenBabel {
                 }
                 ifs.getline(buffer,BUFF_SIZE);
               }
-              else break;
+              else { break; }
             }
             mol.SetEnergy(energy * EV_TO_KCAL_PER_MOL);
           }
@@ -843,8 +843,9 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
          while( ReadSCFOrbitalGrid( ifs, *t41Data ) );
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
-         } else
+         } else {
            pmol->SetData( t41Data );
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
@@ -853,8 +854,9 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
          while( ReadSCFGrid( ifs, *t41Data ) );
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
-         } else
+         } else {
            pmol->SetData( t41Data );
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );
@@ -863,8 +865,9 @@ bool OBT41Format::ReadASCII( OBBase* pOb, OBConversion* pConv )
          while( ReadSumFragGrid( ifs, *t41Data ) );
          if (t41Data->GetAttribute() == "GridData") {
            delete t41Data;
-         } else
+         } else {
            pmol->SetData( t41Data );
+         }
 
          ifs.clear();
          ifs.seekg( current, ios::beg );

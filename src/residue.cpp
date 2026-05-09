@@ -1031,7 +1031,9 @@ namespace OpenBabel
                       bonds.push_back(&(*bond));
                   }
                 else
+                {
                   bonds.push_back(&(*bond));
+                }
 
                 idxs.SetBitOn(bond->GetIdx());
               }

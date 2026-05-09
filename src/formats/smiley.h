@@ -1521,12 +1521,12 @@ namespace Smiley {
 
         int elem = m_element;
         bool arom = m_aromatic;
-        if (m_element != -1)
+        if (m_element != -1) {
           ++m_pos;
-        else if (m_mode == SmilesMode)
+        } else if (m_mode == SmilesMode) {
             throw Exception(Exception::SyntaxError, NoSymbolInBracketAtom,
                 "Bracket atom expression does not contain element symbol", m_pos, 1);
-        else if (m_mode == SmartsMode) {
+        } else if (m_mode == SmartsMode) {
           m_element = -1;
           m_aromatic = false;
         }
@@ -2398,8 +2398,9 @@ namespace Smiley {
                     "Conflicing ring bonds", pos, 1);
             }
             addBond(ringBond->first, m_prev, ringBond->second[j].order, ringBond->second[j].isUp, ringBond->second[j].isDown, rnum);
-          } else
+          } else {
             addBond(ringBond->first, m_prev, m_bondOrder, m_isUp, m_isDown, rnum);
+          }
           // remove the ringbond from the list so it can be reused
           ringBond->second.erase(ringBond->second.begin() + j);
           if (ringBond->second.empty())
@@ -2478,9 +2479,10 @@ namespace Smiley {
               m_prev = m_branches.back().index;
               m_branches.pop_back();
               ++m_pos;
-            } else
+            } else {
               throw Exception(Exception::SyntaxError, UnmatchedBranchClosing,
                   "Unmatched branch closing", 0, m_pos + 1);
+            }
             if (m_pos >= m_str.size())
               break;
           }

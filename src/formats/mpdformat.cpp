@@ -239,7 +239,7 @@ namespace OpenBabel
           {
             ofs << pConv->GetOutputIndex() << "\">";
           }
-        else ofs << str << pConv->GetOutputIndex() << "\">";
+        else { ofs << str << pConv->GetOutputIndex() << "\">"; }
       } // </xml>
     else{
       if (str.empty())
@@ -263,7 +263,7 @@ namespace OpenBabel
         //  else {otyp=MyType(str);}
         orig = atom->GetIdx();
         if(xml_true==true){ ofs << "<atom type=\"" << otyp << "\">";}
-        else ofs << otyp << SEP_0;
+        else { ofs << otyp << SEP_0; }
 
         vector<OBBond*>::iterator j; // iterate over its neighbours
         for (nbr = atom->BeginNbrAtom(j);nbr;nbr = atom->NextNbrAtom(j))

@@ -174,7 +174,7 @@ struct WLNParser {
         if (bo) {
             if (state == 0)
                 state = 1;
-        } else state = 2;
+        } else { state = 2; }
     }
 
     void term() {
@@ -247,7 +247,7 @@ struct WLNParser {
         if (stack.empty()|| stack.back()==STACK_RING) {
             state = 2;
             order = 0;
-        } else pop_common();
+        } else { pop_common(); }
     }
 
     bool double_pop() {
@@ -256,8 +256,9 @@ struct WLNParser {
         unsigned int top = stack.back();
         if ((top&STACK_MASK) == STACK_POLY) {
             stack.pop_back();
-        } else if (!pop())
+        } else if (!pop()) {
             return false;
+        }
         return pop();
     }
 
@@ -268,7 +269,7 @@ struct WLNParser {
             if ((top&STACK_MASK) != STACK_POLY) {
                 pop_common();
                 term();
-            } else stack.pop_back();
+            } else { stack.pop_back(); }
         }
     }
 
@@ -670,8 +671,9 @@ struct WLNParser {
                 atom_vector.push_back(wln_string.at(i) - '0');
                 if (isalpha(wln_string.at(i-1))) {;
                     char_vector.push_back(wln_string.at(i-1));}
-                else
+                else {
                     char_vector.push_back('A');}
+            }
         }
     }
 
@@ -687,7 +689,7 @@ struct WLNParser {
         } else if (order == 1) {
             fuse(prev,aptr,1);
             may_pop();
-        } else return error();
+        } else { return error(); }
         return true;
     }
 
@@ -697,7 +699,7 @@ struct WLNParser {
         } else if (order == 1) {
             fuse(prev,aptr,1);
             next(aptr,0);
-        } else return error();
+        } else { return error(); }
         return true;
     }
 
@@ -705,7 +707,7 @@ struct WLNParser {
         if (order == 1) {
             fuse(prev,aptr,1);
             next(aptr,1);
-        } else return error();
+        } else { return error(); }
         return true;
     }
 
@@ -742,7 +744,7 @@ struct WLNParser {
             pending = PENDING_NONE;
             push_poly();
             prev = temp;
-        } else return error();
+        } else { return error(); }
         pending = PENDING_NONE;
         order = 1;
         return true;
@@ -1583,8 +1585,9 @@ struct WLNParser {
                             if (atend(ptr+2)) {
                                 carbon_monoxide();
                                 state = 2;
-                            } else
+                            } else {
                                 next(carbonyl(),2);
+                            }
                             ptr += 2;
                             continue;
                         }
@@ -1652,7 +1655,7 @@ struct WLNParser {
                         OpenBabel::OBAtom* temp = atom(15,3);
                         fuse(prev,temp,order);
                         next(temp,1);
-                    } else break;
+                    } else { break; }
                     pending = PENDING_NONE;
                     push_poly();
                     ptr++;
@@ -2401,7 +2404,9 @@ struct WLNParser {
                                         spiro=false;
                                     }
                                     else
+                                    {
                                         fuse(prev,rings.back()[loc],order);
+                                    }
                                     state = 2;
                                     order = 0;
                                     continue;
@@ -2518,7 +2523,7 @@ struct WLNParser {
             count = ptr[1]-'0';
         } else if (!ptr[1]) {
             count = 1;
-        } else return 0;
+        } else { return 0; }
 
         prev = atom(cation,0);
         for (unsigned int i=0; i<count; i++) {
@@ -2536,7 +2541,7 @@ struct WLNParser {
                 count = ptr[1]-'0';
             } else if (!ptr[1]) {
                 count = 1;
-            } else return 0;
+            } else { return 0; }
             prev = atom(cation,0);
             for (unsigned int i=0; i<count; i++) {
                 OpenBabel::OBAtom* temp = atom(anion,0);
@@ -2592,7 +2597,7 @@ struct WLNParser {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
             acount = 1;
-        } else return 0;
+        } else { return 0; }
 
         if (ccount != acount*acharge) {
             unsigned int ccharge = (acount*acharge)/ccount;
@@ -2684,11 +2689,11 @@ struct WLNParser {
             acount = ptr[1]-'0';
         } else if (!ptr[0]) {
             acount = 1;
-        } else return 0;
+        } else { return 0; }
 
         if (ccount == 1) {
             prev = atom(cation,0);
-        } else return 0;
+        } else { return 0; }
 
         OpenBabel::OBAtom* temp;
         OpenBabel::OBAtom* temp2;
@@ -2939,7 +2944,7 @@ struct WLNParser {
         } else if (ptr[2]==' ') {
             count = 1;
             ptr += 3;
-        } else return 0;
+        } else { return 0; }
 
         switch (*ptr) {
             case 'B':
@@ -3019,8 +3024,9 @@ bool NMReadWLN(const char *ptr, OpenBabel::OBMol* mol)
     if (result == 0) {
         if (!wp.parse())
             return false;
-    } else if (result < 0)
+    } else if (result < 0) {
         return false;
+    }
     mol->SetDimension(0);
     return NMOBSanitizeMol(mol);
 }

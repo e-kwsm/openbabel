@@ -140,9 +140,12 @@ bool ViewMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             }
         }
         else if (strstr(buffer, "$end") != nullptr)
+        {
 	  break;
-	else // something else (i.e., garbage, blank lines, etc.)
+        }
+	else { // something else (i.e., garbage, blank lines, etc.)
 	  ifs.getline(buffer,BUFF_SIZE);
+        }
     } // while
 
     if (!foundBonds)

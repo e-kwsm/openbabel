@@ -444,14 +444,18 @@ namespace OpenBabel
    {
    string::size_type len = token.as_text.size();
    if (len == 1 && token.as_text[0] == '.')
+   {
      token.type = CIFLexer::ValueToken;
+   }
    else if (!strncasecmp(token.as_text.c_str(), "data_", 5))
      {
      token.type = CIFLexer::KeyDataToken;
      token.as_text.erase(0, 5);
      }
    else if (!strcasecmp(token.as_text.c_str(), "loop_"))
+   {
      token.type = CIFLexer::KeyLoopToken;
+   }
    else if (!strncasecmp(token.as_text.c_str(), "save_", 5))
      {
      if (len == 5)
@@ -465,11 +469,17 @@ namespace OpenBabel
        }
      }
    else if (!strcasecmp(token.as_text.c_str(), "stop_"))
+   {
      token.type = CIFLexer::KeyStopToken;
+   }
    else if (!strcasecmp(token.as_text.c_str(), "global_"))
+   {
      token.type = CIFLexer::KeyGlobalToken;
+   }
    else
+   {
      token.type = CIFLexer::ValueToken;
+   }
    }
  return token.type != CIFLexer::UnknownToken;
  }
@@ -555,8 +565,9 @@ namespace OpenBabel
            // move back to the start of the data block:
            lexer.backup(5 + token.as_text.size(), 'd'); // length of "data_<name>"
            }
-         else // not yet found a molecule, so try again
+         else { // not yet found a molecule, so try again
            pmol->SetTitle(token.as_text);
+         }
          break;
        case CIFLexer::KeySaveToken:
          { // Simply eat tokens until the save_ ending token
@@ -815,7 +826,9 @@ namespace OpenBabel
                    res->SetName(residue_name);
                    }
                  else
+                 {
                    res = pmol->GetResidue( (* resx).second );
+                 }
                  res->AddAtom(atom);
                  if (!atom_label.empty())
                    res->SetAtomID(atom, atom_label);

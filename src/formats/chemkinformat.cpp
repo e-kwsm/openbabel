@@ -423,12 +423,14 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
 
         //Ambiguous cases
         else if(firstr.size()==2 || (firstr.size()==1 && toks.size()==1))
+        {
           obErrorLog.ThrowError(__FUNCTION__,
             "In " + ln +
             "\nThe string " + firstr[0] + " has been assumed NOT to be a label\n"
             "If it should be, use the -aL option which mandates labels on reactions.\n"
             "A species missing from the SPECIES section, if one is used, can also give this error",
             obWarning);
+        }
       }
     }
 
@@ -590,8 +592,10 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
             pReact->AddProduct(sp);
         }
         else
+        {
           obErrorLog.ThrowError(__FUNCTION__,
             "In " + ln + "\nError in products or rate parameters.", obError);
+        }
       }
     }
   }
@@ -687,7 +691,9 @@ std::shared_ptr<OBMol> ChemKinFormat::CheckSpecies(string& name, string& ln, boo
     }
   }
   else
+  {
     return mapitr->second;
+  }
 }
 
 
@@ -769,7 +775,9 @@ bool ChemKinFormat::ReadStdThermo(const string& datafilename)
     }
     else
       if(mapitr->first!="M")
+      {
         missing += mapitr->first + ',';
+      }
   }
   if(!missing.empty())
   {
@@ -850,7 +858,9 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
     ofs << "\nEND\n";
   }
   else
+  {
     obErrorLog.ThrowError(__FUNCTION__, "No element data available", obWarning);
+  }
 
   ofs << "SPECIES\n";
   vector<string>::iterator sitr;
@@ -1031,8 +1041,9 @@ bool ChemKinFormat::WriteReactionLine(OBReaction* pReact, OBConversion* pConv)
         ss << endl;
     }
   }
-  else //simple option
+  else { //simple option
     ss << pReact->GetComment() << endl;
+  }
 
   return true;
 }

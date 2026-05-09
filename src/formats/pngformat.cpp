@@ -408,7 +408,9 @@ bool PNGFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 
   }
   else
+  {
     obErrorLog.ThrowError("PNG Format","Failed when converting the molecule", obError);
+  }
 
   if(pConv->IsLast())
   {

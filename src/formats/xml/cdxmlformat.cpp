@@ -172,7 +172,9 @@ bool ChemDrawXMLFormat::DoElement(const string& name)
       _tempAtom.SetImplicitHCount(atoi(buf.c_str()));
     }
     else
+    {
       _handleImplicitHydrogens.push_back(_tempAtom.GetIdx());
+    }
   }
   else if(name=="b")
   {
@@ -421,7 +423,9 @@ bool ChemDrawXMLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       _scale /= mol.NumBonds();
 	}
     else
+    {
       _scale = 1.; // FIXME: what happens if the molecule has no bond?
+    }
     _scale = 30. / _scale;
     _offset = 0;
   }

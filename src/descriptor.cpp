@@ -117,7 +117,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
     else //unbracketted expression
     {
       if(!ispunctU(ch))
+      {
         optionText.unget(); //must be start of ID
+      }
       else
       {
         string mes("Filter string has erroneous character : ");
@@ -146,7 +148,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
         //if no existing data see if it is an OBDescriptor
         OBDescriptor* pDesc = OBDescriptor::FindType(descID.c_str());
         if(pDesc && !noEval)
+        {
           retFromCompare = pDesc->Compare(pOb, optionText, noEval, &param);
+        }
         else
         {
           //just parse
@@ -188,7 +192,9 @@ bool OBDescriptor::FilterCompare(OBBase* pOb, std::istream& optionText, bool noE
       return !noEval && (ret || retFromCompare); //always return false if noEval=true;
     }
     else //includes & and , and ;
+    {
       noEval=!ret; //if ret is false keep parsing but don't bother to evaluate
+    }
   }//go for next conditional expression
   return false;//never come here
 }
@@ -216,7 +222,9 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
         optionText.ignore(numeric_limits<streamsize>::max(),')');
       }
       else
+      {
         getline(optionText, param, ')');
+      }
 
       if(!optionText)
       {
@@ -231,7 +239,9 @@ pair<string,string> OBDescriptor::GetIdentifier(istream& optionText)
       break;
     }
     else
+    {
       descID.push_back(ch);
+    }
     optionText >> ch;
   }
   optionText.setf(ios::skipws);
@@ -300,7 +310,9 @@ bool OBDescriptor::ReadStringFromFilter(istream& optionText, string& result)
         ret=false; //to indicate negation
     }
     else  //no operator
+    {
       optionText.unget();
+    }
 
     optionText >> ch;
     if(ch=='\"' || ch=='\'')
@@ -379,8 +391,10 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
   stringstream ss(sval);
   double val;
   if((ss >> val) && !IsNan(filterval))
+  {
     //Do a numerical comparison if both values are numbers
     return DoComparison(ch1, ch2, val, filterval);
+  }
   else
   {
     //Do a string comparison if either the filter or the OBPair value is not a number
@@ -454,7 +468,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       if(delim=='\\')
       {
         if(DescrList[1]=='\\')
+        {
           ss.ignore();
+        }
         else if(DescrList[1]=='t')
         {
           delim='\t';
@@ -463,7 +479,9 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
       }
     }
     else
+    {
       delim = ' ';
+    }
 
     string values;
     OBDescriptor* pDescr;
@@ -474,11 +492,15 @@ void OBDescriptor::DeleteProperties(OBBase* pOb, const string& DescrList)
 
       //If there is existing OBPairData use that
       if(MatchPairData(pOb, spair.first))
+      {
         thisvalue = pOb->GetData(spair.first)->GetValue();
+      }
       else
       {
         if( (pDescr = OBDescriptor::FindType(spair.first.c_str())) ) // extra parentheses to indicate truth value
+        {
           pDescr->GetStringValue(pOb, thisvalue, &spair.second);
+        }
         else
         {
           obErrorLog.ThrowError(__FUNCTION__,

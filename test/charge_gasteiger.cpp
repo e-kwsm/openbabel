@@ -134,7 +134,9 @@ int charge_gasteiger(int argc, char* argv[])
                  << " for molecule " << mol.GetTitle() << '\n';
           }
         else
+        {
           cout << "ok " << ++currentTest << " # dipole\n";
+        }
 
         
         FOR_ATOMS_OF_MOL(atom, mol) {

@@ -390,7 +390,9 @@ namespace OpenBabel
           }
       }
     else
+    {
       ofs << defaultKeywords << endl;
+    }
 
     ofs << "$end" << endl;
 

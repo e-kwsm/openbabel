@@ -91,7 +91,9 @@ namespace OpenBabel
 
     int ret;
     if(IsOption("c"))
+    {
       ret = xmlTextWriterSetIndent(_writer,0);
+    }
     else
       {
         ret = xmlTextWriterSetIndent(_writer,1);
@@ -131,8 +133,10 @@ namespace OpenBabel
   {
     XMLConversion* pxmlConv;
     if(!pConv->GetAuxConv())
+    {
       //Need to make an extended copy. It will be deleted by pConv's destructor
       pxmlConv =  new XMLConversion(pConv);
+    }
     else
       {
         //pConv has already had an extended copy made
@@ -225,9 +229,13 @@ namespace OpenBabel
         ret= pFormat->DoElement(ElName);
       }
       else if(typ==XML_READER_TYPE_END_ELEMENT)
+      {
         ret= pFormat->EndElement(ElName);
+      }
       else
+      {
         continue;
+      }
       _lastpos = GetInStream()->tellg();
 
       if(!ret)

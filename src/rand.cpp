@@ -129,7 +129,9 @@ namespace OpenBabel
         return result;
       }
     else
+    {
       return 0;
+    }
   }
 
   static int IsOddPrime( unsigned int x )
@@ -166,8 +168,10 @@ namespace OpenBabel
         while( IsEven(x) );
       }
     else
+    {
       while( IsEven(y) )
         y >>= 1;
+    }
 
     while( x != y )
       {
@@ -245,14 +249,18 @@ namespace OpenBabel
             return  8-table[x>>24];
           }
         else
+        {
           return 16-table[x>>16];
+        }
       }
     else if( x >= (1<<8) )
       {
         return 24-table[x>>8];
       }
     else
+    {
       return 32-table[x];
+    }
   }
 
   static unsigned int DoubleModulus( DoubleType *n,  unsigned int d )

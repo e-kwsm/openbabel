@@ -213,7 +213,9 @@ namespace OpenBabel
           //has to be the same as in the molecule.
           itr2 = pOptions->find("exactmatch");
           if(itr2!=pOptions->end() && (int)NumHvyAtoms()!=atoi(itr2->second.c_str()))
+          {
             fmatch=false;
+          }
           else
             {
               //match quoted SMARTS string which follows
@@ -239,7 +241,9 @@ namespace OpenBabel
             return nullptr;
           }
         else
+        {
           return this;
+        }
       }
   }
 

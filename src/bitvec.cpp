@@ -113,9 +113,13 @@ namespace OpenBabel
   void OBBitVec::SetRangeOn(unsigned lo_bit_offset, unsigned hi_bit_offset)
   {
     if (lo_bit_offset > hi_bit_offset)
+    {
       return;
+    }
     else if (lo_bit_offset == hi_bit_offset)
+    {
       SetBitOn(hi_bit_offset);
+    }
     else
       {
         unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
@@ -150,9 +154,12 @@ namespace OpenBabel
   void OBBitVec::SetRangeOff(unsigned lo_bit_offset, unsigned hi_bit_offset)
   {
     if (lo_bit_offset > hi_bit_offset)
+    {
       return;
-    else if (lo_bit_offset == hi_bit_offset)
+    }
+    else if (lo_bit_offset == hi_bit_offset) {
       SetBitOff(hi_bit_offset);
+    }
     else
       {
         unsigned lo_word_offset = lo_bit_offset >> WORDROLL;
@@ -353,7 +360,9 @@ namespace OpenBabel
         int bit = atoi(tokens[i].c_str());
 
         if (bit >= 0)
+        {
           SetBitOn(bit);
+        }
         else
           {
             std::stringstream errorMsg;
@@ -563,13 +572,21 @@ namespace OpenBabel
       {
       should_continue = false;
       if (next_bit_1 == -1)
+      {
         rtn = (next_bit_2 == -1 ? false : true);
+      }
       else if (next_bit_2 == -1)
+      {
         rtn = false;
+      }
       else if (next_bit_2 < next_bit_1)
+      {
         rtn = true;
+      }
       else if (next_bit_1 < next_bit_2)
+      {
         rtn = false;
+      }
       else
         {
         next_bit_1 = bv1.NextBit(next_bit_1);
@@ -620,7 +637,9 @@ namespace OpenBabel
         int bit = atoi(tokens[i].c_str());
 
         if (bit >= 0)
+        {
           bv.SetBitOn(bit);
+        }
         else
           {
             std::stringstream errorMsg;

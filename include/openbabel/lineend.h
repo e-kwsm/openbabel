@@ -130,7 +130,9 @@ namespace OpenBabel
   {
     int result( EOF ) ;
     if( gptr() < egptr() )
+    {
       result = *gptr() ;
+    }
     else if ( mySource != nullptr )
     {
       result = myExtractor( *mySource ) ;

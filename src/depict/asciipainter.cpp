@@ -209,9 +209,9 @@ namespace OpenBabel
     int d = 2*dy - dx;
     for(int i=0; i<dx; ++i) {
       ans.append(d>=0 ? symbols.substr(1,1): symbols.substr(0,1));
-      if (steep)
+      if (steep) {
         coords.push_back(pair<int,int>(y, x));
-      else {
+      } else {
         int tmp_delta = d>=0 ? delta : 0; // Correction for / and \ in some cases
         coords.push_back(pair<int,int>(x, y + tmp_delta));
       }

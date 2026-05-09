@@ -67,7 +67,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else normalization = stringToNormalizationOption(optarg);
+				else { normalization = stringToNormalizationOption(optarg); }
 				break;
 				
 			case 'a':
@@ -78,7 +78,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else accuracy = stringToAccuracyOption(optarg);
+				else { accuracy = stringToAccuracyOption(optarg); }
 				break;
 				
 			case 's':
@@ -89,7 +89,7 @@ int main(int argc,char **argv)
 					showError(msg);
 					exit(1);
 				}
-				else stereo = stringToStereoOption(optarg);
+				else { stereo = stringToStereoOption(optarg); }
 				break;
 				
 			case 'r':

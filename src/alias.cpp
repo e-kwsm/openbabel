@@ -316,7 +316,9 @@ void AliasData::DeleteExpandedAtoms(OBMol& mol)
       at->SetSpinMultiplicity(0);
     }
     else
+    {
       mol.DeleteAtom(at);
+    }
   }
   _expandedatoms.clear();
 }

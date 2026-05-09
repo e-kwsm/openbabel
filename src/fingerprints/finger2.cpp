@@ -222,7 +222,9 @@ void fingerprint2::DoReverses()
 				fragset.insert(t1);
 			}
 			else
+			{
 				fragset.erase(t1);
+			}
 		}
 	}
 }

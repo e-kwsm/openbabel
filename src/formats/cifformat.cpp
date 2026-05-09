@@ -545,7 +545,9 @@ namespace OpenBabel
             obErrorLog.ThrowError(__FUNCTION__, ss.str(), obDebug);
           }
           else
+          {
             mSpacegroupNumberIT=0;
+          }
         }
       }
 
@@ -900,7 +902,9 @@ namespace OpenBabel
       string label = (*it).mLabel;
 
       if( lbl2ox.count(label) > 0 )
+      {
         (*it).mCharge = lbl2ox[label];
+      }
       else
       {
         (*it).mCharge = NOCHARGE;
@@ -1450,7 +1454,7 @@ namespace OpenBabel
               // This is not guaranteed to work still, as the CIF standard allows about any string...
               string tmpSymbol=posat->mSymbol;
               unsigned int nbc=0;
-              if((tmpSymbol.size()==1) && isalpha(tmpSymbol[0])) nbc=1;
+              if((tmpSymbol.size()==1) && isalpha(tmpSymbol[0])) { nbc=1; }
               else if(tmpSymbol.size()>=2)
                 {
                   if(isalpha(tmpSymbol[0]) && isalpha(tmpSymbol[1])) nbc=2;
@@ -1540,7 +1544,7 @@ namespace OpenBabel
                            bond->SetBondOrder(1);
                            bond->SetLength(double(posbond->mDistance));
                         }
-                       else obErrorLog.ThrowError(__FUNCTION__, "  :Bond already present.. ", obDebug);
+                       else { obErrorLog.ThrowError(__FUNCTION__, "  :Bond already present.. ", obDebug); }
                     }
                 }
             }
@@ -1638,7 +1642,7 @@ namespace OpenBabel
            {
              occup = (dynamic_cast<OBPairFloatingPoint *> (atom->GetData("_atom_site_occupancy")))->GetGenericValue();
            }
-         else occup = 1.0;
+         else { occup = 1.0; }
 
          if (atom->HasData("_atom_site_label"))
            {
