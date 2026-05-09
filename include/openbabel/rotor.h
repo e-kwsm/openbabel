@@ -700,8 +700,9 @@ namespace OpenBabel
       if (state < static_cast<int>(resolution_size - 1)) {
         ++state;
         return false;
-      } else
+      } else {
         state = 0;
+      }
 
       return true;
     }
