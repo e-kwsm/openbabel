@@ -182,7 +182,9 @@ namespace OpenBabel
     ofs << buffer;
 
     if (!mol.HasData(OBGenericDataType::UnitCell))
+    {
       ofs << "CELL 1.,1.,1.,90.,90.,90.\n";
+    }
     else
       {
         OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);

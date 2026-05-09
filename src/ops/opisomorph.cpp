@@ -287,7 +287,9 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConversi
       }
     }
     else
+    {
       nPatternAtoms = 0;
+    }
 
     //disable old versions
     if(pConv)

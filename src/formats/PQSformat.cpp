@@ -314,12 +314,16 @@ namespace OpenBabel
                 //                exit (-1);
               }
             else
+            {
               atom_count=ReadPQS_geom(coordFileStream,mol,title,0,
                                       bohr_to_angstrom);
+            }
           }
       }
     else
+    {
       obErrorLog.ThrowError(__FUNCTION__, "Error reading PQS file.  GEOM card not found!", obWarning);
+    }
 
     ifs.seekg(0, ios::end); //move .inp file pointer to the end of file
     if (atom_count>0)

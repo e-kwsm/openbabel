@@ -1734,9 +1734,9 @@ namespace OpenBabel {
             valid = false;
           OBAtom *beginAtom = mol->GetAtomById(config.begin);
           OBAtom *endAtom = mol->GetAtomById(config.end);
-          if (!beginAtom || !endAtom)
+          if (!beginAtom || !endAtom) {
             valid = false;
-          else {
+          } else {
             OBBond *bond = mol->GetBond(beginAtom, endAtom);
             if (!bond)
               valid = false;

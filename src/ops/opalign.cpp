@@ -157,8 +157,10 @@ bool OpAlign::Do(OBBase* pOb, const char* /*OptionText*/, OpMap* pmap, OBConvers
     // Reference molecule is basically the first molecule
     _refMol = *pmol;
     if(!_pOpIsoM)
+    {
      //no -s option. Use a molecule reference.
      _align.SetRefMol(_refMol);
+    }
     else
     {
       //If there is a -s option, reference molecule has only those atoms that are matched

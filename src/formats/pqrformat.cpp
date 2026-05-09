@@ -262,7 +262,9 @@ namespace OpenBabel
 
     string resname = sbuf.substr(11,3);
     if (resname == "   ")
+    {
       resname = "UNK";
+    }
     else
       {
         while (!resname.empty() && resname[0] == ' ')
@@ -283,8 +285,9 @@ namespace OpenBabel
         } else if ((sbuf[6] == ' ' &&
                     strncasecmp(type.c_str(), "Zn", 2) != 0 &&
                     strncasecmp(type.c_str(), "Fe", 2) != 0) ||
-                   isdigit(type[1]))    //type[1] is digit in Platon
+                   isdigit(type[1])) {    //type[1] is digit in Platon
           type = atmid.substr(0,1);     // one-character element
+        }
 
 
         if (resname.substr(0,2) == "AS" || resname[0] == 'N')
@@ -337,9 +340,13 @@ namespace OpenBabel
                 type = atmid.substr(0,1);
               }
             else if (atmid[0] == ' ')
+            {
               type = atmid.substr(1,1); // one char element
+            }
             else
+            {
               type = atmid.substr(1,2);
+            }
 
             // Some cleanup steps
             if (atmid == resname)
@@ -364,11 +371,15 @@ namespace OpenBabel
                   }
                 else
                   if (type.size() > 1 && isdigit(type[1]))
+                  {
                     type = type.substr(0,1);
+                  }
                   else
                     if (type.size() > 1 && isalpha(type[1])) {
                       if (type[0] == 'O' && type[1] == 'H')
+                      {
                         type = type.substr(0,1); // no "Oh" element (e.g. 1MBN)
+                      }
                       else if(isupper(type[1]))
                         {
                           type[1] = tolower(type[1]);
@@ -413,7 +424,9 @@ namespace OpenBabel
       }
 
     if (!mol.AddAtom(atom))
+    {
       return(false);
+    }
     else
       {
         OBAtom *atom = mol.GetAtom(mol.NumAtoms());
@@ -499,7 +512,9 @@ namespace OpenBabel
 
         //two char. elements are on position 13 and 14 one char. start at 14
         if (strlen(type_name) > 1)
+        {
           type_name[1] = toupper(type_name[1]);
+        }
         else
           {
             char tmp[10];

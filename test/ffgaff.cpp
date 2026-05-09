@@ -138,7 +138,9 @@ int ffgaff(int argc, char* argv[])
             energy << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # energy \n";
+      }
 
       // check that gradients validate too
       if (!pFF->ValidateGradients())
@@ -147,7 +149,9 @@ int ffgaff(int argc, char* argv[])
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # gradients \n";
+      }
     }
 
   // return number of tests run

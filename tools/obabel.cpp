@@ -119,7 +119,9 @@ int main(int argc,char *argv[])
                       pInFormat = Conv.FormatFromMIME(iext);
                     }
                   else
+                  {
                       pInFormat = Conv.FindFormat(iext);
+                  }
                   if (pInFormat == nullptr)
                     {
                       cerr << program_name << ": cannot read input format!" << endl;
@@ -142,7 +144,9 @@ int main(int argc,char *argv[])
                       pOutFormat = Conv.FormatFromMIME(oext);
                     }
                   else
+                  {
                     pOutFormat = Conv.FindFormat(oext);
+                  }
 
                   if (pOutFormat == nullptr)
                     {
@@ -204,7 +208,9 @@ int main(int argc,char *argv[])
                                 cout << "Specification at: " << pFormat->SpecificationURL() << endl;
                             }
                           else
+                          {
                             cout << "Format type: " << argv[arg]+2 << " was not recognized" <<endl;
+                          }
                         }
                       else
                         {
@@ -212,7 +218,9 @@ int main(int argc,char *argv[])
                         }
                     }
                   else
+                  {
                     help();
+                  }
                   return 0;
 
                 case '-': //long option --name text
@@ -248,8 +256,10 @@ int main(int argc,char *argv[])
                               }
                           }
                         else
+                        {
                           // Is a normal long option name, e.g --addtotitle
                           Conv.AddOption(nam,OBConversion::GENOPTIONS,txt.c_str());
+                        }
                       }
                   }
                   break;
@@ -289,8 +299,9 @@ int main(int argc,char *argv[])
                   break;
                 }
             }
-          else //filenames
+          else { //filenames
               FileList.push_back(argv[arg]);
+          }
         }
     }
 

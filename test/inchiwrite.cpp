@@ -122,7 +122,9 @@ int main(int argc, char* argv[])
       nfail++;
     }
     else
+    {
       cout << "ok " << n << " # InChI matched expected\n";
+    }
   }
   cout << n-1-skipped<< " molecules compared" << endl;
   cout << "# " << skipped << " # empty molecules skipped" << endl;

@@ -1345,8 +1345,9 @@ namespace OpenBabel
         } else { // zero Raman
           vd->SetData(Lx, Frequencies, Intensities);
         }
-      } else // no Raman
+      } else { // no Raman
         vd->SetData(Lx, Frequencies, Intensities);
+      }
       vd->SetOrigin(fileformatInput);
       mol.SetData(vd);
     }

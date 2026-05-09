@@ -462,7 +462,9 @@ namespace OpenBabel
         //***pattr need to be deleted***
         const char* pattr  = (const char*)xmlTextReaderGetAttribute(reader(), BAD_CAST "dictRef");
         if(pattr && !strcmp(pattr,"Thermo_OldNasa"))
+        {
           ReadNasaThermo();
+        }
         else
           {
             if(!pattr) // no dictRef; look for title on scalar
@@ -534,7 +536,9 @@ namespace OpenBabel
         BondArray.push_back(cmlBondOrAtom);
       }
     else if(name=="formula")
+    {
       inFormula=false;
+    }
     else if(name=="molecule" || name=="jobstep") //hack for molpro
       {
         if(!DoAtoms() || !DoBonds() || !DoHCounts() || !DoMolWideData())
@@ -677,7 +681,9 @@ namespace OpenBabel
             }
             else if(pUnitCell && !using3 && !using2
               && (attrname=="xFract" || attrname=="yFract" || attrname=="zFract"))
+            {
               usingFract=true;
+            }
 
             if ((using3     && attrname=="x3") ||
                 (using2     && attrname=="x2") ||
@@ -736,8 +742,10 @@ namespace OpenBabel
               }
 
             else if(attrname=="formalCharge")
+            {
               pAtom->SetFormalCharge(atoi(value.c_str()));
 
+            }
             else if(attrname=="label")
               {
                 OBPairData *label = new OBPairData();
@@ -763,6 +771,7 @@ namespace OpenBabel
               }
 
             else if(attrname=="spinMultiplicity")
+            {
               pAtom->SetSpinMultiplicity(atoi(value.c_str()));
 
             /*else if(attrname=="atomRefs4")//from atomParity element (but there is no such thing!)
@@ -782,6 +791,7 @@ namespace OpenBabel
                 }
               }*/
 
+            }
             else if(attrname=="radical") //Marvin extension
               {
                 int spin=0;
@@ -796,7 +806,9 @@ namespace OpenBabel
                 pAtom->SetSpinMultiplicity(spin);
               }
             else if(attrname=="isotopeNumber" || attrname=="isotope")
+            {
               pAtom->SetIsotope(atoi(value.c_str()));
+            }
 
           } //each attribute
 
@@ -805,14 +817,18 @@ namespace OpenBabel
 
           //Save atom coordinates
           if(using3 || usingFract)
+          {
             dim=3;
+          }
           else if(using2)
           {
             dim=2;
             z=0.0;
           }
           else
+          {
             dim=0;
+          }
           if(usingFract)
             {
               //Coordinates are fractional
@@ -822,7 +838,9 @@ namespace OpenBabel
               pAtom->SetVector(v);
             }
           else
+          {
             pAtom->SetVector(x, y, z);
+          }
       }//each atom
 
     _pmol->SetDimension(dim);
@@ -878,7 +896,9 @@ namespace OpenBabel
 
                       }
                     else
+                    {
                       indx1 = AtomMap[value];
+                    }
                   }
                 else
                   {
@@ -892,12 +912,19 @@ namespace OpenBabel
               {
                 const char bo = value[0];
                 if(bo=='S')
+                {
                   ord=1;
+                }
                 else if(bo=='D')
+                {
                   ord=2;
+                }
                 else if(bo=='T')
+                {
                   ord=3;
-                else if(bo=='A') {
+                }
+                else if(bo=='A')
+                {
                   ord=1;
                   flag |= OBBond::Aromatic;
                   needs_kekulization = true;
@@ -908,10 +935,14 @@ namespace OpenBabel
               }
 
             else if(attrname=="color")
+            {
               colour=value[0];
 
+            }
             else if(attrname=="label")
+            {
               label = value;
+            }
           }
 
         if(PossibleBond)
@@ -1277,11 +1308,17 @@ namespace OpenBabel
         if(pattr && pvalue)
           {
             if(!strcmp(pattr,"NasaLowT"))
+            {
               pTD->SetLoT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaHighT"))
+            {
               pTD->SetHiT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaMidT"))
+            {
               pTD->SetMidT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaCoeffs"))
               {
                 vector<string> vals;
@@ -1552,7 +1589,9 @@ namespace OpenBabel
       {
         //if molecule has no bonds and atoms doesn't have coordinates, just output formula
         if(numbonds==0 && UseFormulaWithNoBonds && !mol.Has2D())
+        {
           WriteFormula(mol);
+        }
         else
           {
             xmlTextWriterStartElementNS(writer(), prefix, C_ATOMARRAY, nullptr);
@@ -2044,8 +2083,10 @@ namespace OpenBabel
       ch='H';
 
     if(ch)
+    {
       //this line here because element may not be written with double bond
       xmlTextWriterStartElementNS(writer(), prefix, C_BONDSTEREO, nullptr);
+    }
     else
     {
       return; // TODO: This code has bit-rotted

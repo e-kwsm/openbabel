@@ -561,9 +561,9 @@ namespace OpenBabel
     double *c = mol.GetCoordinates();
     for (unsigned int i = 0;i < _vrotor.size();++i)
       {
-				if (arr[i+1] == -1) // skip this rotor
+				if (arr[i+1] == -1) { // skip this rotor
 					continue;
-				else {
+				} else {
         	angle = _vres[i][arr[i+1]];
         	while (angle < 0.0)
           	angle += 360.0;

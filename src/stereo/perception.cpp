@@ -1570,8 +1570,9 @@ namespace OpenBabel {
                 if (std::find(ringIndices.begin(), ringIndices.end(), ringIdx) == ringIndices.end())
                   ringIndices.push_back(ringIdx);
             }
-          } else
+          } else {
             trueStereoCenterCount++;
+          }
         }
       } else if((*u2).type == OBStereo::CisTrans) {
         OBBond *bond = mol->GetBondById((*u2).id);
@@ -2477,8 +2478,9 @@ namespace OpenBabel {
             config.winding = OBStereo::UnknownWinding;
             break;
           }
-          else
+          else {
             planeAtoms.push_back(nbr);
+          }
         } else {
           // plane bonds
           planeAtoms.push_back(nbr);
@@ -2549,9 +2551,9 @@ namespace OpenBabel {
             order.push_back(nbrs[1]);
           else
             order.insert(order.begin()+1, nbrs[1]);
-          if (AngleOrder(order[0]->GetVector(), order[2]->GetVector(), nbrs[2]->GetVector(), center->GetVector()))
+          if (AngleOrder(order[0]->GetVector(), order[2]->GetVector(), nbrs[2]->GetVector(), center->GetVector())) {
             order.push_back(nbrs[2]);
-          else {
+          } else {
             if (AngleOrder(order[0]->GetVector(), order[1]->GetVector(), nbrs[2]->GetVector(), center->GetVector()))
               order.insert(order.begin()+2, nbrs[2]);
             else
@@ -2893,7 +2895,9 @@ namespace OpenBabel {
               }
             }
             else
+            {
               implicit = true;
+            }
 
             bool anticlockwise_order;
             bool useup;

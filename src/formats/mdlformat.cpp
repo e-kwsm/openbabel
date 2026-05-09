@@ -714,9 +714,9 @@ namespace OpenBabel
             } else if (line.substr(3, 3) == "RGP") {
               // Numbered R groups were already added to AliasData as R#. Now we
               // need to correct these to R1, etc.
-              if (!at->HasData(AliasDataType))
+              if (!at->HasData(AliasDataType)) {
                 obErrorLog.ThrowError(__FUNCTION__, "Invalid line: M RGP must only refer to pseudoatoms\n" + line, obWarning);
-              else {
+              } else {
                 AliasData* ad = static_cast<AliasData*>(at->GetData(AliasDataType));
                 char buffer[6];
                 snprintf(buffer, 6, "R%d", value);
@@ -942,9 +942,9 @@ namespace OpenBabel
     }
 
     OBPairData* pd;
-    if (pmol->HasData("ASCII depiction"))
+    if (pmol->HasData("ASCII depiction")) {
       pd = (OBPairData*)pmol->GetData("ASCII depiction");
-    else {
+    } else {
       pd = new OBPairData();
       pmol->SetData(pd);
       pd->SetAttribute("ASCII depiction");
@@ -1012,12 +1012,11 @@ namespace OpenBabel
     if (gd)
     {
       int iflag = atoi(((OBPairData*)gd)->GetValue().c_str());
-      if (iflag == 0)
+      if (iflag == 0) {
        return false;
-      else if (iflag == 1)
+      } else if (iflag == 1) {
         return true;
-      else
-      {
+      } else {
         stringstream errorMsg;
         errorMsg << "WARNING: The Chiral Flag should be either 0 or 1. The value of "
           << iflag << " will be ignored.\n";
@@ -1449,16 +1448,17 @@ namespace OpenBabel
             if(vs[2]!="END" && vs[3]!="CTAB") return false;
             ret= true;
           }
-        else if(vs[3]=="ATOM")
+        else if(vs[3]=="ATOM") {
           ret = ReadAtomBlock(ifs,mol,pConv);
-        else if(vs[3]=="BOND")
+        } else if(vs[3]=="BOND") {
           ret = ReadBondBlock(ifs,mol,pConv);
         //else if(vs[3]=="COLLECTION")
         //  ret = ReadCollectionBlock(ifs,mol,pConv);
-        else if(vs[3]=="RGROUP")
+        } else if(vs[3]=="RGROUP") {
           ret = ReadRGroupBlock(ifs,mol,pConv);
-        else
+        } else {
           ret =ReadUnimplementedBlock(ifs,mol,pConv,vs[3]);
+        }
         /*
           else if(vs[3]=="3D")
           //not currently implemented
@@ -1942,8 +1942,9 @@ namespace OpenBabel
           if (line.size()) {
             buff.append(line);
             buff += "\n";
-          } else
+          } else {
             break;
+          }
         }
         Trim(buff);
 
@@ -2019,7 +2020,9 @@ namespace OpenBabel
           a1_stereo = (*updown)[b];
         }
         else
+        {
           a1_b2 = b;    // remember a 2nd bond of Atom1
+        }
       }
 
       FOR_BONDS_OF_ATOM(bi, a2) {
@@ -2031,7 +2034,9 @@ namespace OpenBabel
           a2_stereo = (*updown)[b];
         }
         else
+        {
           a2_b2 = b;    // remember a 2nd bond of Atom2
+        }
       }
 
       if (a1_b1 == nullptr || a2_b1 == nullptr) continue; // No cis/trans

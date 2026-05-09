@@ -114,7 +114,9 @@ namespace OpenBabel
     string dst;
 
     if (pos != string::npos)
+    {
       dst = src.substr(0,pos+1);
+    }
     else
       {
         dst = src;
@@ -430,7 +432,9 @@ namespace OpenBabel
   {
     id[0] = toupper(id[0]);
     if (isalpha(id[1]) == 0)
+    {
       id[1] = '\0';
+    }
     else
       {
         id[1] = tolower(id[1]);
@@ -560,7 +564,9 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
         if      (atom->GetIdx() == 1)
+        {
           continue;
+        }
         else if (atom->GetIdx() == 2)
           {
             vic[atom->GetIdx()]->_a = mol.GetAtom(1);
@@ -841,7 +847,9 @@ namespace OpenBabel
         return pow( X, OneThird );
       }
     else
+    {
       return -pow( -X, OneThird );
+    }
   }
 
   int SolveCubic(double A,double B,double C,double D)
@@ -956,7 +964,9 @@ namespace OpenBabel
                   {
                     dma = d[j] - d[i];
                     if((fabs(dma) + fabs(b)) <=  fabs(dma))
+                    {
                       t = b / dma;
+                    }
                     else
                       {
                         q = 0.5 * dma / b;

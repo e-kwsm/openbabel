@@ -118,18 +118,18 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
 
     // Number of grid points (voxels)
     vector<int> voxels(3);
-    if (!EQn(buffer, "object", 6) || vs.size() != 8)
+    if (!EQn(buffer, "object", 6) || vs.size() != 8) {
       return false;
-    else {
+    } else {
       voxels[0] = atoi(vs[5].c_str());
       voxels[1] = atoi(vs[6].c_str());
       voxels[2] = atoi(vs[7].c_str());
     }
 
     double x, y, z;
-    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "origin", 6))
+    if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "origin", 6)) {
       return false;
-    else {
+    } else {
       tokenize(vs, buffer);
       if (vs.size() != 4)
         return false;
@@ -142,9 +142,9 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
     // now three lines with the x, y, and z axes
     vector<vector3> axes;
     for (unsigned int i = 0; i < 3; ++i) {
-      if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "delta", 5))
+      if (!ifs.getline(buffer, BUFF_SIZE) || !EQn(buffer, "delta", 5)) {
         return false;
-      else {
+      } else {
         tokenize(vs, buffer);
         if (vs.size() != 4)
           return false;

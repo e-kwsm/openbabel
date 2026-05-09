@@ -96,8 +96,9 @@ namespace OpenBabel
       std::stringstream ss;
       ss << "Ring fragment " << sp->GetSMARTS() << " in ring-fragments.txt has all zero coordinates. Ignoring fragment.";
       obErrorLog.ThrowError(__FUNCTION__, ss.str(), obError);
-    } else
+    } else {
       _ring_fragments.push_back(pair<OBSmartsPattern*, vector<vector3> > (sp, coords));
+    }
   }
 
   void OBBuilder::LoadFragments()  {
@@ -333,15 +334,15 @@ namespace OpenBabel
             atom->SetHyb(4); // force sq. planar geometry for sq. planar stereo
         }
 
-        if (atom->GetHyb() == 1)
+        if (atom->GetHyb() == 1) {
           newbond = bond1; // i.e., in the exact opposite direction
-        else if (atom->GetHyb() == 2)
+        } else if (atom->GetHyb() == 2) {
           newbond = bond1 - v2 * tan(DEG_TO_RAD*60.0);
-        else if (atom->GetHyb() == 3)
+        } else if (atom->GetHyb() == 3) {
           newbond = bond1 - v2 * tan(DEG_TO_RAD*(180.0 - 109.471));
-        else if (atom->GetHyb() == 4)
+        } else if (atom->GetHyb() == 4) {
           newbond = bond1; // like 5-coordinate below, we want a 180-degree bond (trans)
-        else if (atom->GetHyb() == 5) {
+        } else if (atom->GetHyb() == 5) {
           /* the first two atoms are the axial ones;  the third, fourth, and fifth atom are equatorial */
           newbond = bond1;
         } else if (atom->GetHyb() == 6) {
@@ -372,9 +373,9 @@ namespace OpenBabel
         v1 = bond1 + bond2;
         v1 = v1.normalize();
 
-        if (atom->GetHyb() == 2)
+        if (atom->GetHyb() == 2) {
           newbond = v1;
-        else if (atom->GetHyb() == 3) {
+        } else if (atom->GetHyb() == 3) {
           v2 = cross(bond1, bond2); // find the perpendicular
           v2.normalize();
           newbond = bond1 - v2 * tan(DEG_TO_RAD*(180.0 - 109.471));
@@ -642,9 +643,9 @@ namespace OpenBabel
             bond2 = nbr->GetVector() - nbr2->GetVector(); // bond (a-2)--(a-1)
 
         int hyb = atom->GetHyb();
-        if (hyb == 1)
+        if (hyb == 1) {
           newbond = bond1;
-        else if (hyb == 2 || hyb == 3 || hyb == 0) {
+        } else if (hyb == 2 || hyb == 3 || hyb == 0) {
           matrix3x3 m;
           m.RotAboutAxisByAngle(VZ, 60.0);
           newbond = m*bond1;
@@ -701,8 +702,9 @@ namespace OpenBabel
                   hash = bond;
                 else
                   wedge = bond;
-              } else
+              } else {
                 plane.push_back(bond);
+              }
           }
 
           if (wedge && !plane.empty()) {
@@ -1975,11 +1977,11 @@ namespace OpenBabel
           if (!b->IsInRing())
             idxs.push_back(b->GetNbrAtom(center)->GetIdx());
 
-        if (idxs.size() == 0 && OBBuilder::IsSpiroAtom(config.center, mol))
+        if (idxs.size() == 0 && OBBuilder::IsSpiroAtom(config.center, mol)) {
           FlipSpiro(mol, center->GetIdx());
-        else if (idxs.size() >= 2)
+        } else if (idxs.size() >= 2) {
           Swap(mol, center->GetIdx(), idxs.at(0), center->GetIdx(), idxs.at(1));
-        else {
+        } else {
           // It will only reach here if it can only find one non-ring bond
           // -- this is the case if the other non-ring bond is an implicit H
           //    or a lone pair

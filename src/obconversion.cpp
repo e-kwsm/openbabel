@@ -537,7 +537,9 @@ namespace OpenBabel {
             }
           }
         else
+        {
           rInpos = pInput->tellg();
+        }
         bool ret=false;
 #ifndef DONT_CATCH_EXCEPTIONS
        try
@@ -799,7 +801,9 @@ namespace OpenBabel {
             }
           }
         else
+        {
           return FindFormat( (file.substr(extPos + 1, file.size())).c_str() );
+        }
       }
 
     // Check the filename if no extension (e.g. VASP does not use extensions):
@@ -1204,9 +1208,9 @@ namespace OpenBabel {
       {
         //Replace * by input filename
         string::size_type posdot= InFile.rfind('.');
-        if(posdot == string::npos)
+        if(posdot == string::npos) {
           posdot = InFile.size();
-        else {
+        } else {
 #ifdef HAVE_LIBZ
           if (InFile.substr(posdot) == ".gz")
             {
@@ -1323,7 +1327,9 @@ namespace OpenBabel {
 
         //OUTPUT
         if(OutputFileName.empty())
+        {
           pOs = nullptr; //use existing stream
+        }
         else
           {
             if(OutputFileName.find_first_of('*')!=string::npos) HasMultipleOutputFiles = true;
@@ -1658,7 +1664,9 @@ Additional options :
             options += pos+2;
           }
         else
+        {
           OptionsArray[opttyp][ch] = string();
+        }
       }
   }
 

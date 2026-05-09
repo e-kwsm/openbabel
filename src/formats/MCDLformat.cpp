@@ -402,14 +402,18 @@ private:
                 for (i=0; i<ntatoms; i++)
             {
                 if (ix[i] > dupfrag)
+                {
                     ix[i] = mx[i] + jump + 1;
+                }
                 else if (ix[i] == dupfrag && j != dupnum)
                 {
                     dupnum++;
                     ix[i] = mx[i] + jump + 1;
                 }
                 else if (ix[i] == dupfrag && j == dupnum)
+                {
                     dupnum++;
+                }
             }
 
             ntypes = 0;
@@ -1155,7 +1159,7 @@ private:
       if (n2<(mf.length()-2)) {
         ss=mf.substr(mf.length()-1,mf.length());
         k=atoi(ss.c_str())+1;//Integer.parseInt(ss)+1;
-      } else k=2;
+      } else { k=2; }
       mf=mf.substr(0,n2+1)+intToStr(k);
       n2=lastIndexOf(mf,"HH");
     };
@@ -1166,7 +1170,7 @@ private:
     if (n2>0)  {
       if (n2<(mf.length()-1)) {
         temp=mf.substr(n2+1,mf.length());
-      } else temp="1";
+      } else { temp="1"; }
       mf=mf.substr(0,n2);
     };
     n2=atoi(temp.c_str());//Integer.parseInt(temp);
@@ -1428,9 +1432,9 @@ private:
   n=-1;
   while (test) {
     n=instring.find(substring,n+1);
-    if (n == string::npos)
+    if (n == string::npos) {
       test=false;
-    else {
+    } else {
         result=n;
     };
   };

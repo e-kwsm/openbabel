@@ -242,7 +242,9 @@ namespace OpenBabel
 			mol.DeleteHydrogens();
 		}
 		else
+		{
 			mol.AddHydrogens();
+		}
 
 		FOR_ATOMS_OF_MOL(atom, mol)
 			ofs << MNAize(&*atom, levels) << endl;
@@ -300,12 +302,16 @@ namespace OpenBabel
 					altb = false; // Will this need to recurse here?  (Or does atomic numbering take care of that?)
 			}
 			else
+			{
 				altb = true;
+			}
 		}
 		else
 		{
 			if (B->IsInRing())
+			{
 				altb = false;
+			}
 			else
 			{
 				if (MNAFormat::Z2MNAZ(A->GetAtomicNum()) < MNAFormat::Z2MNAZ(B->GetAtomicNum()))

@@ -628,11 +628,13 @@ namespace OpenBabel
                    tmpHM.c_str());
         }
         else
+        {
           snprintf(buffer, BUFF_SIZE,
                    "CRYST1%9.3f%9.3f%9.3f%7.2f%7.2f%7.2f %-11s 1",
                    pUC->GetA(), pUC->GetB(), pUC->GetC(),
                    pUC->GetAlpha(), pUC->GetBeta(), pUC->GetGamma(),
                    "P1");
+        }
 
         ofs << buffer << endl;
       }
@@ -996,8 +998,9 @@ namespace OpenBabel
         } else if ((sbuf[6] == ' ' &&
                    strncasecmp(type.c_str(), "Zn", 2) != 0 &&
                    strncasecmp(type.c_str(), "Fe", 2) != 0) ||
-                   isdigit(type[1]))	//type[1] is digit in Platon
+                   isdigit(type[1])) {  //type[1] is digit in Platon
           type = atmid.substr(0,1);     // one-character element
+        }
 
 
         if (resname.substr(0,2) == "AS" || resname[0] == 'N') {
@@ -1068,12 +1071,15 @@ namespace OpenBabel
               }
               else
                 if (type.size() > 1 && isdigit(type[1]))
+                {
                   type = type.substr(0,1);
+                }
                 else
                   if (type.size() > 1 && isalpha(type[1])) {
                     if (type[0] == 'O' && type[1] == 'H')
+                    {
                       type = type.substr(0,1); // no "Oh" element (e.g. 1MBN)
-                    else if(isupper(type[1])) {
+                    } else if(isupper(type[1])) {
                       type[1] = tolower(type[1]);
                     }
                   }
@@ -1102,9 +1108,9 @@ namespace OpenBabel
 
     // useful for debugging unknown atom types (e.g., PR#1577238)
     //    cout << mol.NumAtoms() + 1  << " : '" << element << "'" << " " << OBElements::GetAtomicNum(element.c_str()) << endl;
-    if (elementFound)
+    if (elementFound) {
       atom.SetAtomicNum(OBElements::GetAtomicNum(element.c_str()));
-    else { // use our old-style guess from athe atom type
+    } else { // use our old-style guess from athe atom type
       unsigned int atomic_num = OBElements::GetAtomicNum(type.c_str());
       if (atomic_num ==  0) { //try one character if two character element not found
         type = type.substr(0,1);
@@ -1167,9 +1173,9 @@ namespace OpenBabel
         }
       }
 
-    if (!mol.AddAtom(atom))
+    if (!mol.AddAtom(atom)) {
       return(false);
-    else {
+    } else {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
       res->AddAtom(atom);

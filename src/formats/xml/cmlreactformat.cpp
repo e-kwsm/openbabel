@@ -175,7 +175,9 @@ bool CMLReactFormat::ReadChemObject(OBConversion* pConv)
 
    //Do transformation and return reaction, if it has either reactants or products
   if(ret && (pReact->NumReactants()!=0 || pReact->NumProducts()!=0)) //Do transformation and return molecule
+  {
     return pConv->AddChemObject(pReact->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv))!=0;
+  }
   else
   {
     delete pReact;
@@ -338,7 +340,9 @@ bool CMLReactFormat::EndElement(const string& name)
     return false;//means stop parsing
   }
   else if(name=="rateParameters")
+  {
     _pRD = nullptr;
+  }
 
   return true;
 }
@@ -555,7 +559,9 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       xmlTextWriterStartElementNS(writer(), prefix, C_REACTIONLIST, nullptr);
     }
     else if(!_pxmlConv->IsLast() && !_pxmlConv->IsOption("ReactionsNotStandalone"))
+    {
       xmlTextWriterStartElementNS(writer(), prefix, C_WRAPPER, uri);
+    }
     uri=nullptr; //not needed again
   }
 
@@ -604,8 +610,10 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       xmlTextWriterEndElement(writer());//molecule
     }
     else
+    {
       //Write product in CML format
       pCMLFormat->WriteMolecule(OMols[id].get(), _pxmlConv);
+    }
     xmlTextWriterEndElement(writer());//product
  }
   xmlTextWriterEndElement(writer());//productList
@@ -622,8 +630,10 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       xmlTextWriterEndElement(writer());//molecule
     }
     else
+    {
       //Write product in CML format
       pCMLFormat->WriteMolecule(OMols[id].get(), _pxmlConv);
+    }
     xmlTextWriterEndElement(writer());//me:transitionState
   }
 
@@ -670,7 +680,9 @@ bool CMLReactFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
             << s.substr(footerPos) << endl;                  //footer
     }
     else if(_pxmlConv->GetOutputIndex()>1 && !_pxmlConv->IsOption("ReactionsNotStandalone"))
+    {
       xmlTextWriterEndElement(writer());//WRAPPER
+    }
     xmlTextWriterEndDocument(writer());
     OutputToStream();
 
@@ -714,8 +726,10 @@ string CMLReactFormat::AddMolToList(std::shared_ptr<OBMol> spmol, MolMap& mmap)
 
     mapitr = mmap.find(id);
     if(mapitr==mmap.end())
+    {
       //not in map; need to add
       mmap[id] = spmol;
+    }
     else
     {
       //already in map.

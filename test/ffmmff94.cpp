@@ -150,7 +150,9 @@ void TestFile(string filename, string results_file, string method, double epsilo
             energy << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # energy \n";
+      }
 
       // check that gradients validate too
       if (!pFF->ValidateGradients())
@@ -159,7 +161,9 @@ void TestFile(string filename, string results_file, string method, double epsilo
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # gradients \n";
+      }
     }
 } // end TestFile
 

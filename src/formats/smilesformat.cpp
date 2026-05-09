@@ -382,7 +382,9 @@ namespace OpenBabel {
         pmol->SetTitle(title.c_str());
       }
       else
+      {
         smiles = ln;
+      }
     }
 
     pmol->SetDimension(0);
@@ -592,7 +594,9 @@ namespace OpenBabel {
         atom->SetImplicitHCount(imph);
       }
       else // valence is explicit e.g. [CH3]
+      {
         atom->SetImplicitHCount(hcount);
+      }
     }
 
     mol.EndModify(false);
@@ -646,7 +650,9 @@ namespace OpenBabel {
               ts->from = OBStereo::ImplicitRef;
             }
             else // Insert in the refs[0] position
+            {
               ts->refs[0] = OBStereo::ImplicitRef;
+            }
           }
           else { // Ignored by Open Babel
             stringstream ss;
@@ -820,10 +826,10 @@ namespace OpenBabel {
           bool found = true;
           bool stereo;
           map<OBBond*, StereoRingBond>::iterator sb_it = _stereorbond.find(b);
-          if (sb_it == _stereorbond.end()) // Not a ring closure
+          if (sb_it == _stereorbond.end()) { // Not a ring closure
             // True/False for "up/down if moved to before the double bond C"
             stereo = !(IsUp(b) ^ (b->GetNbrAtomIdx(dbl_bond_atoms[i]) < dbl_bond_atoms[i]->GetIdx())) ;
-          else  {                                                               // Is a ring closure
+          } else  {                                                             // Is a ring closure
             char bc_result = SetRingClosureStereo(sb_it->second, dbl_bond);
             if (bc_result)
               stereo = bc_result == 1 ? true : false;
@@ -1613,7 +1619,9 @@ namespace OpenBabel {
           element = 33;
         }
         else
+        {
           return false;
+        }
         break;
 
       case 'b':
@@ -1641,7 +1649,9 @@ namespace OpenBabel {
           element = 32;
         }
         else
+        {
           return false;
+        }
         break;
 
       case 'n':
@@ -1688,7 +1698,9 @@ namespace OpenBabel {
           element = 52;
         }
         else
+        {
           return false;
+        }
         break;
 
       case '#':
@@ -1795,7 +1807,9 @@ namespace OpenBabel {
                 charge = -1;
             }
             else
+            {
               charge--; // finish handling [Ca++]
+            }
             _ptr--;
             break;
           case '+':
@@ -1817,7 +1831,9 @@ namespace OpenBabel {
                 charge = 1;
             }
             else
+            {
               charge++; // finish handling [Ca++]
+            }
             _ptr--;
             break;
           case 'H':
@@ -2503,7 +2519,7 @@ namespace OpenBabel {
           idx++; //increment idx and start over if digit is already used
           j = _vopen.begin();
         }
-      else ++j;
+      else { ++j; }
 
     return(idx);
   }
@@ -2791,7 +2807,9 @@ namespace OpenBabel {
             buffer += symbol[1];
         }
         else
+        {
           buffer += symbol;
+        }
       }
 
       // Atomic number zero - either '*' or an external atom
@@ -2843,20 +2861,20 @@ namespace OpenBabel {
     buffer += '[';
     unsigned short iso = atom->GetIsotope();
     if (options.isomeric && iso) {
-      if (iso >= 10000) // max 4 characters
+      if (iso >= 10000) { // max 4 characters
         obErrorLog.ThrowError(__FUNCTION__, "Isotope value larger than 9999. Ignoring value.", obWarning);
-      else {
+      } else {
         char iso[8]; // 7 characters plus null
         snprintf(iso, 8, "%u", atom->GetIsotope());
         buffer += iso;
       }
     }
-    if (!atom->GetAtomicNum())
+    if (!atom->GetAtomicNum()) {
       buffer += '*';
-    else {
-      if (atom->GetAtomicNum() == OBElements::Hydrogen && options.smarts)
+    } else {
+      if (atom->GetAtomicNum() == OBElements::Hydrogen && options.smarts) {
         buffer += "#1";
-      else {
+      } else {
         unsigned int elem = atom->GetAtomicNum();
         const char* symbol = OBElements::GetSymbol(elem);
         if (*symbol == '\0') {
@@ -2869,7 +2887,9 @@ namespace OpenBabel {
             buffer += symbol[1];
         }
         else
+        {
           buffer += symbol;
+        }
       }
     }
 
@@ -3336,7 +3356,9 @@ namespace OpenBabel {
           j = _vopen.begin();             // reset iterator
         }
         else
+        {
           ++j;
+        }
       }
     }
 
@@ -3526,7 +3548,9 @@ namespace OpenBabel {
           if (HasStereoDblBond(bci->bond, node->GetAtom()))
             bs[0] = GetCisTransBondSymbol(bci->bond, node);
           if (bs[0])
+          {
             buffer += bs;	// append "/" or "\"
+          }
           else
           {
             switch (bci->bond->GetBondOrder())
@@ -3566,7 +3590,9 @@ namespace OpenBabel {
             buffer += ')';
         }
         else
+        {
           buffer += (char)(bci->ringdigit + '0');
+        }
       }
     }
 
@@ -3859,9 +3885,9 @@ namespace OpenBabel {
     vector<int> atom_order;
     if (ppo) {
       tokenize(s_atom_order,ppo,"-()");
-      if (s_atom_order.size() != mol.NumHvyAtoms())
+      if (s_atom_order.size() != mol.NumHvyAtoms()) {
         ppo = nullptr;
-      else {
+      } else {
         for (vector<string>::const_iterator cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
           atom_order.push_back(atoi(cit->c_str()));
         atom_idx = atom_order.at(0);
@@ -4014,7 +4040,9 @@ namespace OpenBabel {
           continue;
         }
         else
+        {
           break;
+        }
       }
 
       // Clear out closures in case structure is dot disconnected
@@ -4151,7 +4179,9 @@ namespace OpenBabel {
       MolConv.AddOption("X", OBConversion::OUTOPTIONS, "RecMet FixedH");
     }
     else
+    {
       MolConv.AddOption("w", OBConversion::OUTOPTIONS);
+    }
     bool success = pInChIFormat->WriteMolecule(mol, &MolConv);
     if (!success) return false;
     string inchi = newstream.str();

@@ -616,11 +616,17 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
         }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
+        {
             ReadMultipoleMoment(ifs, molecule);
+        }
         else if (strstr(buffer, MULLIKEN_CHARGES_PATTERN) != nullptr)
+        {
             ReadPartialCharges(ifs, molecule);
+        }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        {
             break;
+        }
     }
     vector<double> old_energies = molecule->GetEnergies();
     old_energies.reserve(old_energies.size() + energies.size());
@@ -719,13 +725,21 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             }
         } // if "Projected Infra Red Intensities"
         else if (strstr(buffer, MULLIKEN_CHARGES_PATTERN) != nullptr)
+        {
             ReadPartialCharges(ifs, molecule);
+        }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
+        {
             ReadMultipoleMoment(ifs, molecule);
+        }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
+        {
             ReadOrbitals(ifs, molecule);
-        else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr) // End of task
+        }
+        else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        { // End of task
             break;
+        }
     }
     if (Frequencies.size() == 0)
         return;
@@ -759,15 +773,25 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             energy = atof(vs[4].c_str()) * HARTREE_TO_KCAL;
         }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
+        {
             ReadOrbitals(ifs, molecule);
+        }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
+        {
             ReadMultipoleMoment(ifs, molecule);
+        }
         else if (strstr(buffer, MULLIKEN_CHARGES_PATTERN) != nullptr)
+        {
             ReadPartialCharges(ifs, molecule);
+        }
         else if (strstr(buffer, TDDFT_CALCULATION_PATTERN) != nullptr)
+        {
             ReadTDDFTCalculation(ifs, molecule);
+        }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        {
             break;
+        }
     }
     if (energy == 0)
         return;
@@ -1027,25 +1051,43 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             }
         }
         else if (strstr(buffer, GEOMETRY_OPTIMIZATION_PATTERN) != nullptr)
+        {
             ReadGeometryOptimizationCalculation(&ifs, &mol);
+        }
         else if (strstr(buffer, FREQUENCY_PATTERN) != nullptr)
+        {
             ReadFrequencyCalculation(&ifs, &mol);
+        }
         else if(strstr(buffer, SCF_CALCULATION_PATTERN) != strstr(buffer, DFT_CALCULATION_PATTERN))
+        {
             ReadSinglePointCalculation(&ifs, &mol);
+        }
         else if (strstr(buffer, ZTS_CALCULATION_PATTERN) != nullptr)
+        {
             ReadZTSCalculation(&ifs, &mol);
+        }
         else if (strstr(buffer, MEP_CALCULATION_PATTERN) != nullptr)
+        {
             ReadMEPCalculation(&ifs, &mol);
+        }
         else if (strstr(buffer, NEB_CALCULATION_PATTERN) != nullptr)
+        {
             ReadNEBCalculation(&ifs, &mol);
         // These calculation handlers still not implemented
         // so we just skip them
+        }
         else if (strstr(buffer, PROPERTY_CALCULATION_PATTERN) != nullptr)
+        {
             GotoCalculationEnd(&ifs);
+        }
         else if (strstr(buffer, ESP_CALCULATION_PATTERN) != nullptr)
+        {
             GotoCalculationEnd(&ifs);
+        }
         else if (strstr(buffer, PYTHON_CALCULATION_PATTERN) != nullptr)
+        {
             GotoCalculationEnd(&ifs);
+        }
     }//while
 
     if (mol.NumAtoms() == 0) { // e.g., if we're at the end of a file PR#1737209

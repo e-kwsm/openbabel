@@ -140,7 +140,9 @@ int formula(int argc, char* argv[])
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular formula\n";
+      }
 
       if ( fabs(atof(vs[1].c_str()) - mol.GetMolWt() ) > 1.0e-3)
         {
@@ -150,7 +152,9 @@ int formula(int argc, char* argv[])
             mol.GetMolWt() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular weight\n";
+      }
 
       if ( fabs(atof(vs[2].c_str()) - mol.GetExactMass() ) > 1.0e-3)
         {
@@ -160,7 +164,9 @@ int formula(int argc, char* argv[])
             mol.GetExactMass() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular exact mass\n";
+      }
 
 
       // now after adding explicit hydrogens -- should be identical
@@ -175,7 +181,9 @@ int formula(int argc, char* argv[])
                << " for hydrogen-added molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular hydrogen-added formula\n";
+      }
 
       if ( fabs(atof(vs[1].c_str()) - mol.GetMolWt() ) > 1.0e-3)
         {
@@ -187,7 +195,9 @@ int formula(int argc, char* argv[])
                << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecule + hydrogens weight\n";
+      }
 
       if ( fabs(atof(vs[2].c_str()) - mol.GetExactMass() ) > 1.0e-3)
         {
@@ -199,8 +209,10 @@ int formula(int argc, char* argv[])
                << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular exact mass"
              << " after hydrogen addition\n";
+      }
 
     }
 

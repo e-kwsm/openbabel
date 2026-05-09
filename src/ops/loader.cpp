@@ -98,7 +98,9 @@ public:
         // populate _text fully before making the plugin instances.
       }
       else
+      {
         obErrorLog.ThrowError(__FUNCTION__, "Failed to make an instance " + textlines[0], obError);
+      }
       textlines.clear();
     }
 

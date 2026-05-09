@@ -151,7 +151,9 @@ int aromatest(int argc, char* argv[])
               continue;
 
             if (atom->IsAromatic())
+            {
               cout << "ok " << ++testCount << "\n";
+            }
             else
             {
               cout << "not ok " << ++testCount << " # atom isn't aromatic!\n";

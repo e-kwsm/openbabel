@@ -705,7 +705,9 @@ CDXTag CDXReader::ReadNext(bool objectsOnly, int targetDepth)
       READ_INT16(ifs, _len);
 
       if(objectsOnly)
+      {
         ifs.ignore(_len);
+      }
       else
       {
         //copy property data to buffer
@@ -736,7 +738,9 @@ CDXReader::CDXReader(std::istream& is) : ifs(is), depth(0)
   ifs.read(buffer,kCDX_HeaderStringLen);
   buffer[kCDX_HeaderStringLen] = '\0';
   if(strncmp(buffer, kCDX_HeaderString, kCDX_HeaderStringLen) == 0)
+  {
     ifs.ignore(kCDX_HeaderLength - kCDX_HeaderStringLen);	// Discard rest of header.
+  }
   else
   {
     // No active exception here: a bare `throw;` would call std::terminate.

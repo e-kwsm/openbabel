@@ -160,7 +160,9 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
   // than the current selection or otherwise delete
   double val;
   if(_pDesc)
+  {
     val = _pDesc->Predict(pOb, &_param);
+  }
   else
   {
     stringstream ss(pOb->GetData(_prop)->GetValue());
@@ -168,8 +170,10 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
   }
  
   if(_selmap.size()<_nmols)
+  {
     //populate map of selected mols up to desired number
     _selmap.insert(make_pair(val, pOb));
+  }
   else
   {
     //replace mols in selection if new mol is better candidate
@@ -183,7 +187,9 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
       _selmap.insert(make_pair(val, pOb)); //add new candidate
     }
     else
+    {
       delete pOb; // discard  a mol that did not make selection
+    }
   }
   return false; //do not save in DeferredFormat 
 }

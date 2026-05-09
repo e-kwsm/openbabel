@@ -94,7 +94,9 @@ namespace OpenBabel
             //            exit(0);
           }
         else
+        {
           patty_dir = getenv("BABEL_DATADIR");
+        }
         patty_dir += FILE_SEP_CHAR;
         patty_dir += infile;
         ifs1.open(patty_dir.c_str());

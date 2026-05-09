@@ -244,7 +244,7 @@ void mob_getid(struct atomid *id,struct mobatom *atom)
   { inscodealtloc=int32le(atom->link[idpos++]);
     id->inscode=inscodealtloc&0xffff;
     id->altloc=inscodealtloc&0xffff; }
-  else id->inscode=id->altloc=0;
+  else { id->inscode=id->altloc=0; }
   if (flags&MOB_OCCUPANCYFLAG) id->occupancy=((float*)atom->link)[idpos++];
   else id->occupancy=1.0f;
   if (flags&MOB_TEMPFACFLAG) id->bfactor=((float*)atom->link)[idpos++];
@@ -425,7 +425,7 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       str=resname;
       res->SetName(str);
       res->SetNum(str_natoi((char*)&id.resno,4)); }
-    else mob_getid(&id,srcatom);
+    else { mob_getid(&id,srcatom); }
     /* SET THE CHARGE, WHICH IS PASSED IN THE property FIELD */
     dstatom->SetPartialCharge(id.property);
     if (id.property!=0) charged=1;
