@@ -444,7 +444,9 @@ namespace OpenBabel
   static void DeleteByteCode(ByteCode *node)
   {
     if (node == nullptr)
+    {
       return;
+    }
     else
       {
         switch (node->type)
@@ -523,7 +525,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->ident.fcond;
+                }
               }
 
             if (!found)
@@ -553,7 +557,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->local.fcond;
+                }
               }
 
             if (!found)
@@ -586,7 +592,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->elem.fcond;
+                }
               }
 
             if( !found )
@@ -648,7 +656,9 @@ namespace OpenBabel
                     break;
                   }
                 else
+                {
                   node = (ByteCode**)&(*node)->count.fcond;
+                }
               }
 
             if( !found )
@@ -909,8 +919,9 @@ namespace OpenBabel
         } else {
           snprintf(buffer, BUFF_SIZE, "H%.2s", ChainsAtomName[atomids[i]]+2);
         }
-      } else
+      } else {
         snprintf(buffer, BUFF_SIZE, "%.4s", ChainsAtomName[atomids[i]]);
+      }
 
       if (buffer[3] == ' ')
         buffer[3] = '\0';
@@ -1549,7 +1560,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->ident.fcond;
+          }
           break;
 
         case(BC_LOCAL):  curr = Stack[StackPtr-1].atom;
@@ -1561,7 +1574,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->local.fcond;
+          }
           break;
 
         case(BC_ELEM):   curr = Stack[StackPtr-1].atom;
@@ -1575,7 +1590,9 @@ namespace OpenBabel
               StackPtr--;
             }
           else
+          {
             ptr = ptr->elem.fcond;
+          }
           break;
 
         case(BC_EVAL):   bcount = 0;
@@ -1608,7 +1625,9 @@ namespace OpenBabel
               ptr = ptr->count.tcond;
             }
           else
+          {
             ptr = ptr->count.fcond;
+          }
           break;
 
         case(BC_ASSIGN):
@@ -1958,7 +1977,9 @@ namespace OpenBabel
             return( 66 );
           }
         else if( ch==' ' )
+        {
           return( 1 );
+        }
         break;
 
       case('E'):  if( ch=='R' )
@@ -1970,7 +1991,9 @@ namespace OpenBabel
             return( 99 );
           }
         else if( ch=='U' )
+        {
           return( 63 );
+        }
         break;
 
       case('F'):  if( ch=='E' )
@@ -1986,7 +2009,9 @@ namespace OpenBabel
             return(  87 );
           }
         else if( ch=='F' )
+        {
           return(   9 );
+        }
         break;
 
       case('G'):  if( ch=='A' )
@@ -1998,7 +2023,9 @@ namespace OpenBabel
             return( 64 );
           }
         else if( ch=='E' )
+        {
           return( 32 );
+        }
         break;
 
       case('H'):  if( ch=='E' )
@@ -2018,7 +2045,9 @@ namespace OpenBabel
             return( 67 );
           }
         else if( ch==' ' )
+        {
           return(  1 );
+        }
         break;
 
       case('I'):  if( ch=='N' )
@@ -2030,15 +2059,18 @@ namespace OpenBabel
             return( 77 );
           }
         else if( ch==' ' )
+        {
           return( 53 );
+        }
         break;
 
       case('K'):  if( ch=='R' )
           {
             return( 36 );
           }
-        else if( ch==' ' )
+        {
           return( 19 );
+        }
         break;
 
       case('L'):  if( ch=='A' )
@@ -2057,8 +2089,9 @@ namespace OpenBabel
           {
             return(  71 );
           }
-        else if( ch==' ' )
+        {
           return(   1 );
+        }
         break;
 
       case('M'):  if( ch=='D' )
@@ -2074,7 +2107,9 @@ namespace OpenBabel
             return(  25 );
           }
         else if( ch=='O' )
+        {
           return(  42 );
+        }
         break;
 
       case('N'):  switch( ch )
@@ -2095,7 +2130,9 @@ namespace OpenBabel
             return( 76 );
           }
         else if( ch==' ' )
+        {
           return( 8 );
+        }
         break;
 
       case('P'):  switch( ch )
@@ -2170,7 +2207,9 @@ namespace OpenBabel
             return( 70 );
           }
         else if( ch==' ' )
+        {
           return( 39 );
+        }
         break;
 
       case('Z'):  if( ch=='N' )
@@ -2178,7 +2217,9 @@ namespace OpenBabel
             return( 30 );
           }
         else if( ch=='R' )
+        {
           return( 40 );
+        }
         break;
       }
 
