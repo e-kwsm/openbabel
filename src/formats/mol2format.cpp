@@ -215,9 +215,9 @@ namespace OpenBabel
             if (!vstr.empty())
               mol.SetTitle(buffer);
           }
-        else if (lcount == 1)
+        else if (lcount == 1) {
           sscanf(buffer,"%d%d",&natoms,&nbonds);
-        else if (lcount == 3) // charge descriptions
+        } else if (lcount == 3) // charge descriptions
           {
             // Annotate origin of partial charges
             OBPairData *dp = new OBPairData;
@@ -453,9 +453,13 @@ namespace OpenBabel
           needs_kekulization = true;
         }
         else if (str == "AM" || str == "am" || str == "Am")
+        {
           order = 1;
+        }
         else
+        {
           order = atoi(str.c_str());
+        }
 
         mol.AddBond(start, end, order, flags);
       }

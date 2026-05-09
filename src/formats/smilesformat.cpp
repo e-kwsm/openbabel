@@ -382,7 +382,9 @@ namespace OpenBabel {
         pmol->SetTitle(title.c_str());
       }
       else
+      {
         smiles = ln;
+      }
     }
 
     pmol->SetDimension(0);
@@ -592,7 +594,9 @@ namespace OpenBabel {
         atom->SetImplicitHCount(imph);
       }
       else // valence is explicit e.g. [CH3]
+      {
         atom->SetImplicitHCount(hcount);
+      }
     }
 
     mol.EndModify(false);
@@ -646,7 +650,9 @@ namespace OpenBabel {
               ts->from = OBStereo::ImplicitRef;
             }
             else // Insert in the refs[0] position
+            {
               ts->refs[0] = OBStereo::ImplicitRef;
+            }
           }
           else { // Ignored by Open Babel
             stringstream ss;
