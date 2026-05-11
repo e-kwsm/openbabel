@@ -278,8 +278,10 @@ bool PNG2Format::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   if (pConv->IsLast())
   {
     if(!pConv->IsOption("O"))
+    {
      //if no embedding just write image
       _cairopainter.WriteImage(ofs);
+    }
     else //embedding
     {
       //write image to stringstream, read it into pngformat
