@@ -912,12 +912,19 @@ namespace OpenBabel
               {
                 const char bo = value[0];
                 if(bo=='S')
+                {
                   ord=1;
+                }
                 else if(bo=='D')
+                {
                   ord=2;
+                }
                 else if(bo=='T')
+                {
                   ord=3;
-                else if(bo=='A') {
+                }
+                else if(bo=='A')
+                {
                   ord=1;
                   flag |= OBBond::Aromatic;
                   needs_kekulization = true;
@@ -928,10 +935,14 @@ namespace OpenBabel
               }
 
             else if(attrname=="color")
+            {
               colour=value[0];
 
+            }
             else if(attrname=="label")
+            {
               label = value;
+            }
           }
 
         if(PossibleBond)
@@ -1297,11 +1308,17 @@ namespace OpenBabel
         if(pattr && pvalue)
           {
             if(!strcmp(pattr,"NasaLowT"))
+            {
               pTD->SetLoT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaHighT"))
+            {
               pTD->SetHiT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaMidT"))
+            {
               pTD->SetMidT(atof(pvalue));
+            }
             else if(!strcmp(pattr,"NasaCoeffs"))
               {
                 vector<string> vals;
@@ -1572,7 +1589,9 @@ namespace OpenBabel
       {
         //if molecule has no bonds and atoms doesn't have coordinates, just output formula
         if(numbonds==0 && UseFormulaWithNoBonds && !mol.Has2D())
+        {
           WriteFormula(mol);
+        }
         else
           {
             xmlTextWriterStartElementNS(writer(), prefix, C_ATOMARRAY, nullptr);
@@ -2064,8 +2083,10 @@ namespace OpenBabel
       ch='H';
 
     if(ch)
+    {
       //this line here because element may not be written with double bond
       xmlTextWriterStartElementNS(writer(), prefix, C_BONDSTEREO, nullptr);
+    }
     else
     {
       return; // TODO: This code has bit-rotted
