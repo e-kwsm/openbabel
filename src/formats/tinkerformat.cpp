@@ -361,15 +361,16 @@ namespace OpenBabel
       if (atom->GetSpinMultiplicity() == 2)
         return 29;
 
-      if (atom->GetHyb() == 3)
+      if (atom->GetHyb() == 3) {
         return 1;
-      else if (atom->GetHyb() == 2) {
+      } else if (atom->GetHyb() == 2) {
         if (atom->CountFreeOxygens() >= 1)
           return 3;
         return 2;
       }
-      else if (atom->GetHyb() == 1)
+      else if (atom->GetHyb() == 1) {
         return 4;
+      }
       break;
 
     case 7: // N
@@ -394,9 +395,13 @@ namespace OpenBabel
         return 8;
       }
       else if (atom->GetHyb() == 2)
+      {
         return 9;
+      }
       else if (atom->GetHyb() == 1)
+      {
         return 10;
+      }
       break;
 
     case 8: // O

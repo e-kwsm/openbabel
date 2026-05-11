@@ -81,8 +81,9 @@ namespace OpenBabel
           auditMsg,
           obAuditMsg);
 
-      if(ret) //Do transformation and return molecule
+      if(ret) { //Do transformation and return molecule
         return pConv->AddChemObject(pReact->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS),pConv))!=0;
+      }
       else
       {
         pConv->AddChemObject(nullptr);
@@ -164,7 +165,9 @@ namespace OpenBabel
       pReact->SetTitle(title);
     }
     else
+    {
       rsmiles = ln;
+    }
 
     //Check for illegal characters
     pos = rsmiles.find_first_of(",<\"\'!^&_|{}");

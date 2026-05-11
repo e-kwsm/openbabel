@@ -107,7 +107,9 @@ bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     // When MDLFormat reads the last product it may also read and discard
     // the line with $RXN for the next reaction. But it then sets $RXNread option.
     if(pConv->IsOption("$RXNread"))
+    {
       pConv->RemoveOption("$RXNread", OBConversion::OUTOPTIONS);
+    }
     else
     {
       if (!getline(ifs,ln))
