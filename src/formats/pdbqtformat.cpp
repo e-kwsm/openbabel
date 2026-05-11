@@ -343,7 +343,9 @@ namespace OpenBabel
     //two char. elements are on position 13 and 14 one char. start at 14
 
     if (strlen(type_name) > 1)
+    {
       type_name[1] = toupper(type_name[1]);
+    }
     else
     {
       char tmp[10];
@@ -398,9 +400,9 @@ namespace OpenBabel
     else
     {
       if (!isalnum(element_name[0])) {element_name_final[0]=' ';}
-      else element_name_final[0]=element_name[0];
+      else { element_name_final[0]=element_name[0]; }
       if (!isalnum(element_name[1])) {element_name_final[1]=' ';}
-      else element_name_final[1]=element_name[1];
+      else { element_name_final[1]=element_name[1]; }
     }
 
     double charge = atom->GetPartialCharge();
@@ -1182,7 +1184,7 @@ namespace OpenBabel
 
     /* residue name */
     string resname = sbuf.substr(11,3);
-    if (resname == "   ") resname = "UNK";
+    if (resname == "   ") { resname = "UNK"; }
     else
     {
       while (!resname.empty() && resname[0] == ' ')
@@ -1259,7 +1261,9 @@ namespace OpenBabel
     }
 
     if (!mol.AddAtom(atom))
+    {
       return(false);
+    }
     else
     {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());

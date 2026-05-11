@@ -99,7 +99,9 @@ namespace OpenBabel
           return false;
 
         if ( !vs.empty() && vs.size() > 1)
+        {
           mol.SetTitle(vs[1]);
+        }
         else
           {
             string s = defaultTitle;
@@ -107,7 +109,9 @@ namespace OpenBabel
           }
       }
     else
+    {
       return(false);
+    }
 
     mol.BeginModify();
     mol.ReserveAtoms(natoms);
