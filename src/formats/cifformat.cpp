@@ -545,7 +545,9 @@ namespace OpenBabel
             obErrorLog.ThrowError(__FUNCTION__, ss.str(), obDebug);
           }
           else
+          {
             mSpacegroupNumberIT=0;
+          }
         }
       }
 
