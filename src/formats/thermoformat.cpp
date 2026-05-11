@@ -182,8 +182,10 @@ bool ThermoFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     if(atoi(toks[i+1].c_str())>999)
       toobig =true;
   if(toobig)
+  {
     //Reaction Design extension
     ofs << string(20,' ');
+  }
   else
   {
     toks.resize(8);

@@ -215,11 +215,17 @@ namespace OpenBabel
       mm2Types = true;
     }
     else if (mm3Types)
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MM3 parameters\n",pmol->NumAtoms(), pmol->GetTitle());
+    }
     else if (classTypes)
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   Custom parameters\n", pmol->NumAtoms(), pmol->GetTitle());
+    }
     else
+    {
       snprintf(buffer, BUFF_SIZE, "%6d %-20s   MMFF94 parameters\n", pmol->NumAtoms(), pmol->GetTitle());
+    }
     ofs << buffer;
 
     ttab.SetFromType("INT");

@@ -3873,9 +3873,9 @@ namespace OpenBabel {
     vector<int> atom_order;
     if (ppo) {
       tokenize(s_atom_order,ppo,"-()");
-      if (s_atom_order.size() != mol.NumHvyAtoms())
+      if (s_atom_order.size() != mol.NumHvyAtoms()) {
         ppo = nullptr;
-      else {
+      } else {
         for (vector<string>::const_iterator cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
           atom_order.push_back(atoi(cit->c_str()));
         atom_idx = atom_order.at(0);
@@ -4028,7 +4028,9 @@ namespace OpenBabel {
           continue;
         }
         else
+        {
           break;
+        }
       }
 
       // Clear out closures in case structure is dot disconnected
@@ -4165,7 +4167,9 @@ namespace OpenBabel {
       MolConv.AddOption("X", OBConversion::OUTOPTIONS, "RecMet FixedH");
     }
     else
+    {
       MolConv.AddOption("w", OBConversion::OUTOPTIONS);
+    }
     bool success = pInChIFormat->WriteMolecule(mol, &MolConv);
     if (!success) return false;
     string inchi = newstream.str();
