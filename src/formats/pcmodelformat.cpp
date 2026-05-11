@@ -130,13 +130,17 @@ namespace OpenBabel
             while(token < vs.size())
               {
                 if (vs[token] == "B")
+                {
                   parsingBonds = true;
+                }
                 else if (vs[token][0] == 'C')
                   {
                     parsingBonds = false;
                     hasPartialCharges = true;
                     if (vs[token].size() > 1)
+                    {
                       temp = vs[token].substr(1,vs[token].size());
+                    }
                     else
                       {
                         token++;
@@ -155,7 +159,9 @@ namespace OpenBabel
                     mol.AddBond(atom->GetIdx(), bondNbr, bondOrder, 0);
                   }
                 else
+                {
                   parsingBonds = false; // any other token
+                }
 
                 token++;
               } // end atom fields
