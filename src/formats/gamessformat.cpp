@@ -760,11 +760,11 @@ namespace OpenBabel {
         if (gbasis) {
           string value = gbasis->GetValue();
 
-          if (value == "am1")
+          if (value == "am1") {
             model = "am1";
-          else if (value == "pm3")
+          } else if (value == "pm3") {
             model = "pm3";
-          else if (ngauss) {
+          } else if (ngauss) {
             if (value == "STO") {
               basis.clear();
               basis += "sto-";
@@ -1132,9 +1132,9 @@ namespace OpenBabel {
 
     ofs << endl << " $DATA" << endl;
     ofs << mol.GetTitle() << endl;
-    if (!mol.HasData(OBGenericDataType::SymmetryData))
+    if (!mol.HasData(OBGenericDataType::SymmetryData)) {
       ofs << "C1" << endl;
-    else {
+    } else {
       // \todo needs to be updated for point group symmetry recognition
       //   particularly for output of the symmetry elements
       //   and any necessary rotation for frame of reference for GAMESS

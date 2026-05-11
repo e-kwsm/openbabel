@@ -362,7 +362,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (strstr(buffer, OSCILATOR_STRENGTH_PATTERN) != nullptr)
         {
             if (strstr(buffer, SPIN_FORBIDDEN_PATTERN) != nullptr)
+            {
                 oscilator_strengths.push_back(0);
+            }
             else
             {
                 tokenize(vs, buffer);
@@ -374,7 +376,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             }
         }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        {
             break;
+        }
     }
     if (wavelengths.size() != oscilator_strengths.size())
         return;
@@ -428,7 +432,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 return;
         }
         else
+        {
             charges.push_back(charge);
+        }
         partial_charges.push_back(atof(vs[3].c_str()) - charge);
         ifs->getline(buffer,BUFF_SIZE);
         tokenize(vs, buffer);
@@ -553,7 +559,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             while(ifs->getline(buffer, BUFF_SIZE))
             {
                 if (strstr(buffer, COORDINATES_PATTERN))
+                {
                     ReadCoordinates(ifs, molecule);
+                }
                 else if (strstr(buffer, OPTIMIZATION_STEP_PATTERN))
                 {
                     ifs->getline(buffer, BUFF_SIZE); // ------
@@ -564,13 +572,19 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                         energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
                 }
                 else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
+                {
                     ReadMultipoleMoment(ifs, molecule);
+                }
                 else if (strstr(buffer, MEP_STEP_END_PATTERN) != nullptr)
+                {
                     break;
+                }
             }
         }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        {
             break;
+        }
     }
     if (energies.size() != molecule->NumConformers())
     {
@@ -608,7 +622,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             molecule->SetConformer(molecule->NumConformers() - 1);
         }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
+        {
             ReadOrbitals(ifs, molecule);
+        }
         else if (strstr(buffer, OPTIMIZATION_STEP_PATTERN) != nullptr)
         {
             // Extract energy
@@ -620,11 +636,17 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                 energies.push_back(atof(vs[2].c_str()) * HARTREE_TO_KCAL);
         }
         else if (strstr(buffer, MULTIPOLE_MOMENT_PATTERN) != nullptr)
+        {
             ReadMultipoleMoment(ifs, molecule);
+        }
         else if (strstr(buffer, MULLIKEN_CHARGES_PATTERN) != nullptr)
+        {
             ReadPartialCharges(ifs, molecule);
+        }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
+        {
             break;
+        }
     }
     vector<double> old_energies = molecule->GetEnergies();
     old_energies.reserve(old_energies.size() + energies.size());
