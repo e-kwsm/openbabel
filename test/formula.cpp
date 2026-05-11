@@ -140,7 +140,9 @@ int formula(int argc, char* argv[])
                << " for molecule " << mol.GetTitle() << "\n";
         }
       else
+      {
         cout << "ok " << ++currentTest << " # molecular formula\n";
+      }
 
       if ( fabs(atof(vs[1].c_str()) - mol.GetMolWt() ) > 1.0e-3)
         {
