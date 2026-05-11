@@ -998,8 +998,9 @@ namespace OpenBabel
         } else if ((sbuf[6] == ' ' &&
                    strncasecmp(type.c_str(), "Zn", 2) != 0 &&
                    strncasecmp(type.c_str(), "Fe", 2) != 0) ||
-                   isdigit(type[1]))	//type[1] is digit in Platon
+                   isdigit(type[1])) {  //type[1] is digit in Platon
           type = atmid.substr(0,1);     // one-character element
+        }
 
 
         if (resname.substr(0,2) == "AS" || resname[0] == 'N') {
@@ -1070,12 +1071,15 @@ namespace OpenBabel
               }
               else
                 if (type.size() > 1 && isdigit(type[1]))
+                {
                   type = type.substr(0,1);
+                }
                 else
                   if (type.size() > 1 && isalpha(type[1])) {
                     if (type[0] == 'O' && type[1] == 'H')
+                    {
                       type = type.substr(0,1); // no "Oh" element (e.g. 1MBN)
-                    else if(isupper(type[1])) {
+                    } else if(isupper(type[1])) {
                       type[1] = tolower(type[1]);
                     }
                   }
@@ -1169,9 +1173,9 @@ namespace OpenBabel
         }
       }
 
-    if (!mol.AddAtom(atom))
+    if (!mol.AddAtom(atom)) {
       return(false);
-    else {
+    } else {
       OBAtom *atom = mol.GetAtom(mol.NumAtoms());
 
       res->AddAtom(atom);
