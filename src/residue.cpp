@@ -353,23 +353,23 @@ namespace OpenBabel
               {
                 switch( ch3 )
                   {
-                  case 'A':  return 24 ;
-                  case 'C':  return 25 ;
-                  case 'G':  return 26 ;
-                  case 'T':  return 27 ;
-                  case 'U':  return 28 ;
-                  case 'I':  return 30 ;
+                  case 'A':  return 24;
+                  case 'C':  return 25;
+                  case 'G':  return 26;
+                  case 'T':  return 27;
+                  case 'U':  return 28;
+                  case 'I':  return 30;
                   }
               }
             else if( ch2 == '+' )
               {
                 if( ch3 == 'U' )
-                  return 29 ;
+                  return 29;
               }
             else if( ch2 == 'Y' )
               {
                 if( ch3 == 'G' )
-                  return 39 ;
+                  return 39;
               }
 
             break;
@@ -379,9 +379,9 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
-                  return 33 ;
+                  return 33;
                 else if( ch3 == 'G' )
-                  return 38 ;
+                  return 38;
               }
 
             break;
@@ -391,9 +391,9 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'A' )
-                  return 31 ;
+                  return 31;
                 else if( ch3 == 'G' )
-                  return 34 ;
+                  return 34;
               }
 
             break;
@@ -402,7 +402,7 @@ namespace OpenBabel
 
             if( ch2 == 'M' )
               if( ch3 == 'G' )
-                return 35 ;
+                return 35;
 
             break;
 
@@ -411,9 +411,9 @@ namespace OpenBabel
             if( ch2 == 'M' )
               {
                 if( ch3 == 'C' )
-                  return 32 ;
+                  return 32;
                 else if( ch3 == 'U' )
-                  return 41 ;
+                  return 41;
               }
 
             break;
@@ -422,7 +422,7 @@ namespace OpenBabel
 
             if( ch2 == 'M' )
               if( ch3 == 'G' )
-                return 37 ;
+                return 37;
 
             break;
 
@@ -431,16 +431,16 @@ namespace OpenBabel
             if( ch2 == 'L' )
               {
                 if( ch3 == 'A' )
-                  return 0 ;
+                  return 0;
               }
             else if( ch2 == 'S' )
               {
                 if( ch3 == 'P' )
-                  return 7 ;
+                  return 7;
                 else if( ch3 == 'N' )
-                  return 9 ;
+                  return 9;
                 else if( ch3 == 'X' )
-                  return 20 ;
+                  return 20;
               }
             else if( ch2 == 'R' )
               {
