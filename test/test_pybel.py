@@ -11,6 +11,7 @@ python ../../test/testbindings.py
 In both cases, the test file is run directly from the source folder,
 and so you can quickly develop the tests and try them out.
 """
+
 import sys
 
 from testbindings import *
@@ -23,9 +24,11 @@ try:
 except ImportError:
     testpybel = None
 
+
 def gettests():
     suite = unittest.TestLoader().loadTestsFromName("TestOBPybelNoDraw", testpybel)
     return suite
+
 
 if __name__ == "__main__":
     unittest.TextTestRunner().run(unittest.TestSuite(gettests()))
