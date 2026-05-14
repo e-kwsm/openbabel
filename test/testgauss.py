@@ -204,10 +204,10 @@ class TestGauss(BaseTest):
                 else:
                     filename = mol[:-3] + "log.gz"
                 qtot[filetype], formula[filetype], atypes[filetype], btypes[filetype] = run_one(filename, forcefield, filetype)
-                if (qtot[filetype]    == None or 
-                    formula[filetype] == None or
-                    atypes[filetype]  == None or
-                    btypes[filetype]  == None):
+                if (qtot[filetype]    is None or
+                    formula[filetype] is None or
+                    atypes[filetype]  is None or
+                    btypes[filetype]  is None):
                     failed = True
                     passed = False
  

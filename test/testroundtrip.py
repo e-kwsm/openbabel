@@ -207,7 +207,7 @@ class TestSuite(unittest.TestCase):
             try:
               result = processes_pool.apply_async(roundtripFile, args = (fname, ))
               ret = result.get(timeout=10) #surely 10 seconds is long enough
-              if ret != None:
+              if ret is not None:
                 print(i,fname)
                 print(ret)
                 self.assertIsNone(ret, ret)
