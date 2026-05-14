@@ -121,7 +121,8 @@ def roundtripFile(fname):
     sdfmol.addh()
     
     msg = molsAreSame(mol,sdfmol)
-    if msg: return 'sdfmol not equal: '+msg
+    if msg:
+      return 'sdfmol not equal: '+msg
       
     molmol = pybel.readstring('mol2',moltext)
     if not molmol:
@@ -129,7 +130,8 @@ def roundtripFile(fname):
     molmol.addh()
     
     msg = molsAreSame(mol,molmol)
-    if msg: return 'molmol not equal: '+msg
+    if msg:
+      return 'molmol not equal: '+msg
     
     if True:
       pdbmol = pybel.readstring('pdb',pdbtext)
@@ -138,7 +140,8 @@ def roundtripFile(fname):
       pdbmol.addh()    
       #dumpBoth(mol,pdbmol)
       msg = molsAreSame(mol,pdbmol)
-      if msg: return 'pdbmol not equal: '+msg
+      if msg:
+        return 'pdbmol not equal: '+msg
       
     #roundtrip - this should have hydrogens
     fromsdf = pybel.readstring('sdf',sdfmol.write('sdf'))
@@ -146,14 +149,16 @@ def roundtripFile(fname):
       return 'failed to convert from sdf'
     
     msg = molsAreSame(mol,fromsdf)
-    if msg: return 'fromsdf not same: '+msg
+    if msg:
+      return 'fromsdf not same: '+msg
 
     frommol2 = pybel.readstring('sdf',molmol.write('sdf'))
     if not frommol2:
       return 'failed to convert from mol2'
 
     msg = molsAreSame(mol,frommol2)
-    if msg: return "frommol2 not same: "+msg
+    if msg:
+      return "frommol2 not same: "+msg
        
     if True:
       frompdb = pybel.readstring('sdf',pdbmol.write('sdf'))
@@ -161,7 +166,8 @@ def roundtripFile(fname):
         return 'failed to convert from pdb'
         
       msg = molsAreSame(mol,frompdb)
-      if msg: return "frompdb not same: "+msg
+      if msg:
+        return "frompdb not same: "+msg
             
   except Exception as e:
     traceback.print_exc()
