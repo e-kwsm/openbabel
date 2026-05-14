@@ -20,6 +20,7 @@ import unittest
 from testbindings import pybel, PybelWrapper
 
 import faulthandler
+
 faulthandler.enable()
 
 filedir = os.path.join(os.path.dirname(__file__), "files", "ket")
@@ -49,9 +50,7 @@ class TestKetFormat(PybelWrapper):
         mol = mols[0]
         self.assertEqual(mol.OBMol.NumAtoms(), 3)
         self.assertEqual(mol.OBMol.NumBonds(), 2)
-        self.assertEqual(
-            sorted(a.atomicnum for a in mol.atoms), [6, 6, 8]
-        )
+        self.assertEqual(sorted(a.atomicnum for a in mol.atoms), [6, 6, 8])
         bond_elements = sorted(
             tuple(
                 sorted(
@@ -105,8 +104,7 @@ class TestKetFormat(PybelWrapper):
         product = pybel.ob.OBMol()
         facade.GetComponent(product, pybel.ob.PRODUCT, 0)
         atomic_nums = sorted(
-            product.GetAtom(i).GetAtomicNum()
-            for i in range(1, product.NumAtoms() + 1)
+            product.GetAtom(i).GetAtomicNum() for i in range(1, product.NumAtoms() + 1)
         )
         self.assertEqual(atomic_nums, [6, 6, 35, 35])
 
@@ -196,8 +194,9 @@ class TestKetFormat(PybelWrapper):
         self.assertEqual(m3.OBMol.NumAtoms(), mol.OBMol.NumAtoms())
         self.assertEqual(m3.OBMol.NumBonds(), mol.OBMol.NumBonds())
         # JSON structure remains stable across re-serialization.
-        self.assertEqual(json.loads(first)["mol0"]["atoms"],
-                         json.loads(second)["mol0"]["atoms"])
+        self.assertEqual(
+            json.loads(first)["mol0"]["atoms"], json.loads(second)["mol0"]["atoms"]
+        )
 
     def test_round_trip_preserves_charges(self):
         """Round-trip through KET preserves per-atom formal charges."""
@@ -268,7 +267,7 @@ class TestKetFormat(PybelWrapper):
                             "label": "*",
                             "alias": "COOH",
                             "location": [1.0, 0.0, 0.0],
-                        }
+                        },
                     ],
                     "bonds": [{"type": 1, "atoms": [0, 1]}],
                 },
