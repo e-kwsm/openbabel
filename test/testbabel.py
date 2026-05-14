@@ -23,6 +23,7 @@ from subprocess import CalledProcessError, Popen, PIPE, check_output, STDOUT
 
 INF = float("inf")
 
+
 def run_exec(*args):
     """Run one of OpenBabel's executables
 
@@ -49,18 +50,17 @@ def run_exec(*args):
     # Note that bufsize = -1 means default buffering
     # Without this, it's unbuffered and it takes 10x longer on MacOSX
     if text:
-        p = Popen([exe] + broken[1:],
-                  stdin=PIPE, stdout=PIPE, stderr=PIPE, bufsize=1)
+        p = Popen([exe] + broken[1:], stdin=PIPE, stdout=PIPE, stderr=PIPE, bufsize=1)
         stdout, stderr = p.communicate(text.encode())
     else:
-        p = Popen([exe] + broken[1:],
-                  stdout=PIPE, stderr=PIPE, bufsize=-1)
+        p = Popen([exe] + broken[1:], stdout=PIPE, stderr=PIPE, bufsize=-1)
         stdout, stderr = p.communicate()
 
     if p.returncode and len(stderr) == 0:
-        #should never exit with an error without an error message
-        raise CalledProcessError(p.returncode,commandline,stdout.decode())
+        # should never exit with an error without an error message
+        raise CalledProcessError(p.returncode, commandline, stdout.decode())
     return stdout.decode(), stderr.decode()
+
 
 def executable(name):
     """Return the full path to an executable"""
@@ -71,6 +71,7 @@ def executable(name):
         folder = os.path.join(folder, "Release")
     return os.path.join("..", folder, name + suffix)
 
+
 def log(text):
     """Convenience function for debugging tests
 
@@ -79,18 +80,22 @@ def log(text):
     with open("log.txt", "a") as output:
         output.write(text + "\n")
 
+
 class BaseTest(unittest.TestCase):
     """A base class for test classes that adds additional
     test methods"""
 
     def canFindExecutable(self, name):
         fullpath = executable(name)
-        self.assertTrue(os.path.isfile(fullpath),
-                        "'%s' executable not found at %s" % (name, fullpath))
+        self.assertTrue(
+            os.path.isfile(fullpath),
+            "'%s' executable not found at %s" % (name, fullpath),
+        )
 
     def canFindFile(self, filename):
-        self.assertTrue(os.path.isfile(filename),
-                        "Cannot find the file '%s'" % filename)
+        self.assertTrue(
+            os.path.isfile(filename), "Cannot find the file '%s'" % filename
+        )
 
     def getTestFile(self, filename):
         here = sys.path[0]
@@ -102,13 +107,17 @@ class BaseTest(unittest.TestCase):
         """Assert that N molecules were converted."""
         pat = r"(-?\d.*) molecule(?:s?) converted"
         lines = stderr.split("\n")
-        convertedline =  [line for line in lines if re.match(pat, line)]
+        convertedline = [line for line in lines if re.match(pat, line)]
         if len(convertedline) == 0:
             self.fail("Cannot find the number of molecules converted")
         conversion_no = int(re.findall(pat, convertedline[0])[0])
-        self.assertEqual(N, conversion_no,
-                         "Number of molecules converted is %d "
-                         "but should be %d" % (conversion_no, N))
+        self.assertEqual(
+            N,
+            conversion_no,
+            "Number of molecules converted is %d "
+            "but should be %d" % (conversion_no, N),
+        )
+
 
 class TestOBabel(BaseTest):
     """A series of tests relating to the obabel executable"""
@@ -134,16 +143,15 @@ class TestOBabel(BaseTest):
 
     def testRSMItoRSMI(self):
         # Check possible combinations of missing rxn components
-        data = ["O>N>S", "O>>S", "O>N>", "O>>",
-                ">N>S", ">>S", ">>"]
+        data = ["O>N>S", "O>>S", "O>N>", "O>>", ">N>S", ">>S", ">>"]
         for rsmi in data:
-            output, error = run_exec('obabel -:%s -irsmi -orsmi' % rsmi)
+            output, error = run_exec("obabel -:%s -irsmi -orsmi" % rsmi)
             self.assertEqual(output.rstrip(), rsmi)
         # Check handling of invalid rxn components
         data = ["Noel>N>S", "O>Noel>S", "O>N>Noel"]
         errors = ["reactant", "agent", "product"]
         for rsmi, error in zip(data, errors):
-            output, errormsg = run_exec('obabel -:%s -irsmi -orsmi' % rsmi)
+            output, errormsg = run_exec("obabel -:%s -irsmi -orsmi" % rsmi)
             self.assertIn(error, errormsg)
 
     def sort(self, rsmi):
@@ -156,14 +164,24 @@ class TestOBabel(BaseTest):
 
     def testRingClosures(self):
         # Test positives
-        data = ["c1ccccc1", "c%11ccccc%11", "c%(1)ccccc%(1)", "c%(51)ccccc%51",
-                "c%(99999)ccccc%(99999)"]
+        data = [
+            "c1ccccc1",
+            "c%11ccccc%11",
+            "c%(1)ccccc%(1)",
+            "c%(51)ccccc%51",
+            "c%(99999)ccccc%(99999)",
+        ]
         for smi in data:
             output, error = run_exec("obabel -:%s -osmi" % smi)
             self.assertEqual("c1ccccc1", output.rstrip())
         # Test negatives
-        data = ["c%1ccccc%1", "c%a1cccc%a1", "c%(a1)ccccc%(a1)",
-                "c%(000001)ccccc%(000001)", "c%(51)ccccc%(15)"]
+        data = [
+            "c%1ccccc%1",
+            "c%a1cccc%a1",
+            "c%(a1)ccccc%(a1)",
+            "c%(000001)ccccc%(000001)",
+            "c%(51)ccccc%(15)",
+        ]
         for smi in data:
             output, error = run_exec("obabel -:%s -osmi" % smi)
             self.assertIn("0 molecules converted", error)
@@ -173,7 +191,7 @@ class TestOBabel(BaseTest):
 
     def testPDBQT(self):
         self.canFindExecutable("obabel")
-        pdb = '''ATOM     77  N   TYR A   5      35.078  50.693  67.193  1.00  0.00           N  
+        pdb = """ATOM     77  N   TYR A   5      35.078  50.693  67.193  1.00  0.00           N  
 ATOM     78  CA  TYR A   5      35.195  51.589  66.041  1.00  0.00           C  
 ATOM     79  C   TYR A   5      33.792  51.581  65.423  1.00  0.00           C  
 ATOM     80  O   TYR A   5      33.362  50.580  64.852  1.00  0.00           O  
@@ -195,8 +213,8 @@ ATOM     95  HE1 TYR A   5      38.313  54.794  63.081  1.00  0.00           H
 ATOM     96  HE2 TYR A   5      35.711  52.433  60.627  1.00  0.00           H  
 ATOM     97  HH  TYR A   5      36.875  54.171  59.926  1.00  0.00           H  
 END
-'''
-        pdbqt = '''REMARK  Name = 
+"""
+        pdbqt = """REMARK  Name = 
 REMARK  5 active torsions:
 REMARK  status: ('A' for Active; 'I' for Inactive)
 REMARK    1  A    between atoms: N_1  and  CA_2
@@ -233,7 +251,7 @@ ENDBRANCH  10  13
 ENDBRANCH   9  10
 ENDBRANCH   1   9
 TORSDOF 5
-'''
+"""
         output, error = run_exec(pdb, "obabel -ipdb -opdbqt")
         self.assertEqual(output.replace("\r", ""), pdbqt.replace("\r", ""))
 
@@ -245,77 +263,84 @@ TORSDOF 5
 
         obabel = executable("obabel")
         with self.assertRaises(CalledProcessError) as cm:
-            check_output('%s -:C -osmi' % obabel, shell=True, stderr=STDOUT, universal_newlines=True)
+            check_output(
+                "%s -:C -osmi" % obabel,
+                shell=True,
+                stderr=STDOUT,
+                universal_newlines=True,
+            )
         msg = cm.exception.output
         if libdir:
             os.environ["BABEL_LIBDIR"] = libdir
         else:
             os.environ.pop("BABEL_LIBDIR")
 
-        self.assertIn('BABEL_LIBDIR', msg)
+        self.assertIn("BABEL_LIBDIR", msg)
 
     def testCOFtoCAN(self):
         self.canFindExecutable("obabel")
         listCOFnames = [
-                'culgi_00',
-                'culgi_01',
-                'culgi_02',
-                'culgi_03',
-                'culgi_04',
-                'culgi_05',
-                'culgi_06',
-                'culgi_07',
-                'culgi_08',
-                'culgi_09',
-                'culgi_10',
-                'culgi_11',
-                ]
+            "culgi_00",
+            "culgi_01",
+            "culgi_02",
+            "culgi_03",
+            "culgi_04",
+            "culgi_05",
+            "culgi_06",
+            "culgi_07",
+            "culgi_08",
+            "culgi_09",
+            "culgi_10",
+            "culgi_11",
+        ]
         listCANexpected = [
-                '[O-]C(=O)Cc1cccc2c1oc1c(C)c(C)ccc1c2=O',
-                'C=Cc1c[nH]c(=O)[nH]c1=O',
-                'C[C@@H](Cc1ccc(cc1)I)[NH2+]C(C)C',
-                '[NH3+]C[C@@H]1O[C@@H](Cc2c1ccc(c2O)O)[C@]12C[C@H]3C[C@@H](C2)C[C@@H](C1)C3',
-                '[O-]C(=O)[C@H](CCCNC(=[NH2+])N)[NH3+]',
-                'ClC(=O)C(C)(C)C',
-                'CC#CCOC(=O)c1c(C)nc2c(c1N)c1CC[C@H](Cc1s2)O',
-                'OC[C@H]1O[C@H](C[C@@H]1F)n1ccc(=O)[nH]c1=O',
-                'OC[C@H]1O[C@H]([C@@H]([C@@H]1O)O)n1cnc2c1ncnc2N[C@H]1CCC[C@@H]1O',
-                '[O-]C(=O)CC[C@H]([NH3+])C=C',
-                'O=[S@@](c1nc2c([nH]1)cccc2)Cc1nccc(c1C)OCC(F)(F)F',
-                'C#C[C@]1(O)CC[C@@H]2[C@]1(C)CC[C@H]1[C@H]2CCc2c1ccc(c2)O',
-                ]
+            "[O-]C(=O)Cc1cccc2c1oc1c(C)c(C)ccc1c2=O",
+            "C=Cc1c[nH]c(=O)[nH]c1=O",
+            "C[C@@H](Cc1ccc(cc1)I)[NH2+]C(C)C",
+            "[NH3+]C[C@@H]1O[C@@H](Cc2c1ccc(c2O)O)[C@]12C[C@H]3C[C@@H](C2)C[C@@H](C1)C3",
+            "[O-]C(=O)[C@H](CCCNC(=[NH2+])N)[NH3+]",
+            "ClC(=O)C(C)(C)C",
+            "CC#CCOC(=O)c1c(C)nc2c(c1N)c1CC[C@H](Cc1s2)O",
+            "OC[C@H]1O[C@H](C[C@@H]1F)n1ccc(=O)[nH]c1=O",
+            "OC[C@H]1O[C@H]([C@@H]([C@@H]1O)O)n1cnc2c1ncnc2N[C@H]1CCC[C@@H]1O",
+            "[O-]C(=O)CC[C@H]([NH3+])C=C",
+            "O=[S@@](c1nc2c([nH]1)cccc2)Cc1nccc(c1C)OCC(F)(F)F",
+            "C#C[C@]1(O)CC[C@@H]2[C@]1(C)CC[C@H]1[C@H]2CCc2c1ccc(c2)O",
+        ]
         for cofname, CAN in zip(listCOFnames, listCANexpected):
-            coffilename = cofname + '.cof'
-            if(cofname == 'culgi_06'):
-                cofname = 'mol24' # Special case: 'internal name' not the same as file name
+            coffilename = cofname + ".cof"
+            if cofname == "culgi_06":
+                cofname = (
+                    "mol24"  # Special case: 'internal name' not the same as file name
+                )
             coffile = self.getTestFile(coffilename)
-            cansmi = CAN + '\t' + cofname # Expected SMILES line plus molecule name
-            output, error = run_exec( "obabel -icof -ocan %s" % coffile)
-            self.assertEqual(output.rstrip('\r\n'), cansmi)
+            cansmi = CAN + "\t" + cofname  # Expected SMILES line plus molecule name
+            output, error = run_exec("obabel -icof -ocan %s" % coffile)
+            self.assertEqual(output.rstrip("\r\n"), cansmi)
 
     def testCOFtoMOL(self):
         self.canFindExecutable("obabel")
         listCOFnames = [
-                'culgi_00',
-                'culgi_01',
-                'culgi_02',
-                'culgi_03',
-                'culgi_04',
-                'culgi_05',
-                'culgi_06',
-                'culgi_07',
-                'culgi_08',
-                'culgi_09',
-                'culgi_10',
-                'culgi_11',
-                ]
+            "culgi_00",
+            "culgi_01",
+            "culgi_02",
+            "culgi_03",
+            "culgi_04",
+            "culgi_05",
+            "culgi_06",
+            "culgi_07",
+            "culgi_08",
+            "culgi_09",
+            "culgi_10",
+            "culgi_11",
+        ]
         for cofname in listCOFnames:
-            coffilename = cofname + '.cof'
-            if(cofname == 'culgi_06'):
-                cofname = 'mol24'
+            coffilename = cofname + ".cof"
+            if cofname == "culgi_06":
+                cofname = "mol24"
             coffile = self.getTestFile(coffilename)
-            output, error = run_exec( "obabel -icof -omol %s" % coffile)
-            molfilename = cofname + '.mol'
+            output, error = run_exec("obabel -icof -omol %s" % coffile)
+            molfilename = cofname + ".mol"
             molfile = self.getTestFile(molfilename)
 
             # Chop up the output and the baseline files into single lines
@@ -326,30 +351,32 @@ TORSDOF 5
             outdata = output.splitlines()[2:]
             self.assertEqual(len(outdata), len(moldata))
             for outline, molline in zip(outdata, moldata):
-                self.assertEqual(outline.rstrip('\r\n'), molline.rstrip('\r\n'))
+                self.assertEqual(outline.rstrip("\r\n"), molline.rstrip("\r\n"))
 
     def testMOLtoCOF(self):
         self.canFindExecutable("obabel")
         listMOLnames = [
-                'culgi_00',
-                'culgi_01',
-                'culgi_02',
-                'culgi_03',
-                'culgi_04',
-                'culgi_05',
-                'mol24',
-                'culgi_07',
-                'culgi_08',
-                'culgi_09',
-                'culgi_10',
-                'culgi_11',
-                ]
+            "culgi_00",
+            "culgi_01",
+            "culgi_02",
+            "culgi_03",
+            "culgi_04",
+            "culgi_05",
+            "mol24",
+            "culgi_07",
+            "culgi_08",
+            "culgi_09",
+            "culgi_10",
+            "culgi_11",
+        ]
         for molname in listMOLnames:
-            molfilename = molname + '.mol'
-            coffilename = molname + '_from_mol.cof'
+            molfilename = molname + ".mol"
+            coffilename = molname + "_from_mol.cof"
             coffile = self.getTestFile(coffilename)
             molfile = self.getTestFile(molfilename)
-            output, error = run_exec( "obabel -imol -ocof %s --partialcharge none" % molfile)
+            output, error = run_exec(
+                "obabel -imol -ocof %s --partialcharge none" % molfile
+            )
 
             # Chop up the output and the baseline files into single lines
             # Skip first three lines: first line contains Culgi version,
@@ -359,31 +386,31 @@ TORSDOF 5
             outdata = output.splitlines()[3:]
             self.assertEqual(len(outdata), len(cofdata))
             for outline, cofline in zip(outdata, cofdata):
-                self.assertEqual(outline.rstrip('\r\n'), cofline.rstrip('\r\n'))
+                self.assertEqual(outline.rstrip("\r\n"), cofline.rstrip("\r\n"))
 
     def testCOFtoMOL2(self):
         self.canFindExecutable("obabel")
         listCOFnames = [
-                'culgi_00',
-                'culgi_01',
-                'culgi_02',
-                'culgi_03',
-                'culgi_04',
-                'culgi_05',
-                'culgi_06',
-                'culgi_07',
-                'culgi_08',
-                'culgi_09',
-                'culgi_10',
-                'culgi_11',
-                ]
+            "culgi_00",
+            "culgi_01",
+            "culgi_02",
+            "culgi_03",
+            "culgi_04",
+            "culgi_05",
+            "culgi_06",
+            "culgi_07",
+            "culgi_08",
+            "culgi_09",
+            "culgi_10",
+            "culgi_11",
+        ]
         for cofname in listCOFnames:
-            coffilename = cofname + '.cof'
-            if(cofname == 'culgi_06'):
-                cofname = 'mol24'
+            coffilename = cofname + ".cof"
+            if cofname == "culgi_06":
+                cofname = "mol24"
             coffile = self.getTestFile(coffilename)
-            output, error = run_exec( "obabel -icof -omol2 %s" % coffile)
-            mol2filename = cofname + '.mol2'
+            output, error = run_exec("obabel -icof -omol2 %s" % coffile)
+            mol2filename = cofname + ".mol2"
             mol2file = self.getTestFile(mol2filename)
 
             # Chop up the output and the baseline files into single lines
@@ -392,30 +419,30 @@ TORSDOF 5
             outdata = output.splitlines()
             self.assertEqual(len(outdata), len(mol2data))
             for outline, mol2line in zip(outdata, mol2data):
-                self.assertEqual(outline.rstrip('\r\n'), mol2line.rstrip('\r\n'))
+                self.assertEqual(outline.rstrip("\r\n"), mol2line.rstrip("\r\n"))
 
     def testMOL2toCOF(self):
         self.canFindExecutable("obabel")
         listMOL2names = [
-                'culgi_00',
-                'culgi_01',
-                'culgi_02',
-                'culgi_03',
-                'culgi_04',
-                'culgi_05',
-                'mol24',
-                'culgi_07',
-                'culgi_08',
-                'culgi_09',
-                'culgi_10',
-                'culgi_11',
-                ]
+            "culgi_00",
+            "culgi_01",
+            "culgi_02",
+            "culgi_03",
+            "culgi_04",
+            "culgi_05",
+            "mol24",
+            "culgi_07",
+            "culgi_08",
+            "culgi_09",
+            "culgi_10",
+            "culgi_11",
+        ]
         for mol2name in listMOL2names:
-            mol2filename = mol2name + '.mol2'
-            coffilename = mol2name + '_from_mol2.cof'
+            mol2filename = mol2name + ".mol2"
+            coffilename = mol2name + "_from_mol2.cof"
             coffile = self.getTestFile(coffilename)
             mol2file = self.getTestFile(mol2filename)
-            output, error = run_exec( "obabel -imol2 -ocof %s" % mol2file)
+            output, error = run_exec("obabel -imol2 -ocof %s" % mol2file)
 
             # Chop up the output and the baseline files into single lines
             # Skip first three lines: first line contains Culgi version,
@@ -425,21 +452,21 @@ TORSDOF 5
             outdata = output.splitlines()[3:]
             self.assertEqual(len(outdata), len(cofdata))
             for outline, cofline in zip(outdata, cofdata):
-                self.assertEqual(outline.rstrip('\r\n'), cofline.rstrip('\r\n'))
+                self.assertEqual(outline.rstrip("\r\n"), cofline.rstrip("\r\n"))
 
     def testReadMOL2(self):
-        '''This is a regression test for a segfault, but could put
-        other mol2 test here'''
-        mol2file = self.getTestFile('5sun_protein.mol2')
-        outputerr = run_exec( "obabel -imol2 %s -osdf" % mol2file)
+        """This is a regression test for a segfault, but could put
+        other mol2 test here"""
+        mol2file = self.getTestFile("5sun_protein.mol2")
+        outputerr = run_exec("obabel -imol2 %s -osdf" % mol2file)
         self.assertGreater(len(outputerr[0]), 0, "Did not generate output")
 
     def testXYZazete(self):
-        '''This is a regression test for a bug reported by Madeleine Walz
+        """This is a regression test for a bug reported by Madeleine Walz
         on the openbabel-devel list.  Given a file format without bond orders,
-        the bond orders for azete were not being correctly inferred.'''
+        the bond orders for azete were not being correctly inferred."""
         self.canFindExecutable("obabel")
-        xyz = '''7
+        xyz = """7
 
 N          2.78347       -0.65317       -0.45845
 C          2.69876        1.26920       -0.07255
@@ -448,8 +475,8 @@ C          2.03055        0.28009       -0.87887
 H          2.63915        2.32997        0.12878
 H          4.31353        0.16434        1.05148
 H          1.18818        0.42748       -1.56337
-'''
-        mol2 = '''@<TRIPOS>MOLECULE
+"""
+        mol2 = """@<TRIPOS>MOLECULE
 *****
  7 7 0 0 0
 SMALL
@@ -471,16 +498,16 @@ GASTEIGER
      5     2     5    1
      6     2     3    2
      7     3     6    1
-'''
+"""
         output, error = run_exec(xyz, "obabel -ixyz -omol2")
         self.maxDiff = None
         self.assertEqual(output.replace("\r", ""), mol2.replace("\r", ""))
 
     def testXYZph(self):
-        '''This is a bug report from Stefano Forli on the openbabel-devel list.
-        When applying the pH model to an xyz file an extra hydrogen is added'''
+        """This is a bug report from Stefano Forli on the openbabel-devel list.
+        When applying the pH model to an xyz file an extra hydrogen is added"""
         self.canFindExecutable("obabel")
-        xyz = '''8
+        xyz = """8
 *****
 C          1.04210        0.04810        0.07080
 N          2.49960        0.04810        0.07080
@@ -490,8 +517,8 @@ H          0.66220       -0.32470       -0.90480
 H          2.84760        0.40010        0.99180
 H          2.84760        0.66970       -0.69450
 H          2.84760       -0.92540       -0.08490
-'''
-        mol2 = '''@<TRIPOS>MOLECULE
+"""
+        mol2 = """@<TRIPOS>MOLECULE
 *****
  8 7 0 0 0
 SMALL
@@ -517,26 +544,26 @@ charge 1
      5     2     6    1
      6     2     7    1
      7     2     8    1
-'''
+"""
         output, error = run_exec(xyz, "obabel -ixyz -p7 -omol2")
         self.maxDiff = None
         # mol2 displays element twice
-        self.assertEqual(output.count('H'), 12)
+        self.assertEqual(output.count("H"), 12)
 
     def testOBRMS(self):
-        '''Sanity checks for obrms'''
-        sdffile = self.getTestFile('testsym_2Dtests.sdf')
-        output, err = run_exec( "obrms -t 10 %s %s"%(sdffile,sdffile))
+        """Sanity checks for obrms"""
+        sdffile = self.getTestFile("testsym_2Dtests.sdf")
+        output, err = run_exec("obrms -t 10 %s %s" % (sdffile, sdffile))
         # all rmsds should be zero
-        rmsds = [float(line.split()[-1]) for line in output.split('\n') if line]
+        rmsds = [float(line.split()[-1]) for line in output.split("\n") if line]
         for rmsd in rmsds:
             self.assertEqual(rmsd, 0, "RMSD not zero between identical structures")
-        output, err = run_exec( "obrms -t 10 -f %s %s" % (sdffile,sdffile))
-        #first zero, second nonzero, last inf
-        rmsds = [float(line.split()[-1]) for line in output.split('\n') if line]
-        self.assertEqual(rmsds[0],0)
-        self.assertEqual(rmsds[1],2.73807)
-        self.assertEqual(rmsds[-1],INF)
+        output, err = run_exec("obrms -t 10 -f %s %s" % (sdffile, sdffile))
+        # first zero, second nonzero, last inf
+        rmsds = [float(line.split()[-1]) for line in output.split("\n") if line]
+        self.assertEqual(rmsds[0], 0)
+        self.assertEqual(rmsds[1], 2.73807)
+        self.assertEqual(rmsds[-1], INF)
 
     def testSeparateOnPipe(self):
         """Check that piped input works with --separate, see https://github.com/openbabel/openbabel/issues/2386"""
