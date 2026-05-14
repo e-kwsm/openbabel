@@ -18,6 +18,7 @@ import unittest
 
 from testbabel import run_exec, BaseTest
 
+
 class TestUnique(BaseTest):
     """A series of tests relating to obabel --unique"""
 
@@ -41,16 +42,16 @@ C([2H])([2H])([2H])[2H]	deuteromethane"""
     def testFindDups(self):
         """Look for duplicates using --unique"""
 
-        params = [("", 13), ("/formula", 5),
-                  ("/connect", 6), ("/nostereo", 9),
-                  ("/nosp3", 11), ("/noEZ", 11),
-                  ("/nochg", 12), ("/noiso", 11),
-                  ("cansmi", 13), ("cansmiNS", 7)]
+        params = [("", 13), ("/formula", 5), ("/connect", 6), ("/nostereo", 9),
+                  ("/nosp3", 11), ("/noEZ", 11), ("/nochg", 12),
+                  ("/noiso", 11), ("cansmi", 13), ("cansmiNS", 7)]
 
         for param in params:
-            output, error = run_exec(self.smiles,
-                                     ["obabel", "-ismi", "-osmi", "--unique", param[0]])
+            output, error = run_exec(
+                self.smiles,
+                ["obabel", "-ismi", "-osmi", "--unique", param[0]])
             self.assertConverted(error, param[1])
+
 
 if __name__ == "__main__":
     unittest.main()

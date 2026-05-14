@@ -20,6 +20,7 @@ import unittest
 from testbindings import pybel, PybelWrapper
 
 import faulthandler
+
 faulthandler.enable()
 
 filedir = os.path.join(os.path.dirname(__file__), "files", "ket")
@@ -49,30 +50,23 @@ class TestKetFormat(PybelWrapper):
         mol = mols[0]
         self.assertEqual(mol.OBMol.NumAtoms(), 3)
         self.assertEqual(mol.OBMol.NumBonds(), 2)
-        self.assertEqual(
-            sorted(a.atomicnum for a in mol.atoms), [6, 6, 8]
-        )
+        self.assertEqual(sorted(a.atomicnum for a in mol.atoms), [6, 6, 8])
         bond_elements = sorted(
             tuple(
-                sorted(
-                    [
-                        bond.GetBeginAtom().GetAtomicNum(),
-                        bond.GetEndAtom().GetAtomicNum(),
-                    ]
-                )
-            )
-            for bond in pybel.ob.OBMolBondIter(mol.OBMol)
-        )
+                sorted([
+                    bond.GetBeginAtom().GetAtomicNum(),
+                    bond.GetEndAtom().GetAtomicNum(),
+                ])) for bond in pybel.ob.OBMolBondIter(mol.OBMol))
         self.assertEqual(bond_elements, [(6, 6), (6, 8)])
 
     def test_rejects_unsupported_future_major_version(self):
         """Future KET major versions fail explicitly instead of partial parsing."""
-        text = json.dumps(
-            {
-                "ket_version": "3.0.0",
-                "root": {"nodes": []},
-            }
-        )
+        text = json.dumps({
+            "ket_version": "3.0.0",
+            "root": {
+                "nodes": []
+            },
+        })
         with self.assertRaises(OSError):
             _readketstring(text)
 
@@ -106,8 +100,8 @@ class TestKetFormat(PybelWrapper):
         facade.GetComponent(product, pybel.ob.PRODUCT, 0)
         atomic_nums = sorted(
             product.GetAtom(i).GetAtomicNum()
-            for i in range(1, product.NumAtoms() + 1)
-        )
+            for i in range(1,
+                           product.NumAtoms() + 1))
         self.assertEqual(atomic_nums, [6, 6, 35, 35])
 
     def test_read_charges(self):
@@ -196,8 +190,9 @@ class TestKetFormat(PybelWrapper):
         self.assertEqual(m3.OBMol.NumAtoms(), mol.OBMol.NumAtoms())
         self.assertEqual(m3.OBMol.NumBonds(), mol.OBMol.NumBonds())
         # JSON structure remains stable across re-serialization.
-        self.assertEqual(json.loads(first)["mol0"]["atoms"],
-                         json.loads(second)["mol0"]["atoms"])
+        self.assertEqual(
+            json.loads(first)["mol0"]["atoms"],
+            json.loads(second)["mol0"]["atoms"])
 
     def test_round_trip_preserves_charges(self):
         """Round-trip through KET preserves per-atom formal charges."""
@@ -209,43 +204,45 @@ class TestKetFormat(PybelWrapper):
 
     def test_round_trip_preserves_explicit_zero_implicit_h_count(self):
         """Explicit implicitHCount: 0 survives a KET round-trip."""
-        text = json.dumps(
-            {
-                "root": {"nodes": [{"$ref": "mol0"}]},
-                "mol0": {
-                    "type": "molecule",
-                    "atoms": [
-                        {
-                            "label": "N",
-                            "location": [0.0, 0.0, 0.0],
-                            "implicitHCount": 0,
-                        }
-                    ],
-                    "bonds": [],
-                },
-            }
-        )
+        text = json.dumps({
+            "root": {
+                "nodes": [{
+                    "$ref": "mol0"
+                }]
+            },
+            "mol0": {
+                "type":
+                "molecule",
+                "atoms": [{
+                    "label": "N",
+                    "location": [0.0, 0.0, 0.0],
+                    "implicitHCount": 0,
+                }],
+                "bonds": [],
+            },
+        })
         doc = json.loads(_readketstring(text).write("ket"))
         self.assertEqual(doc["mol0"]["atoms"][0]["implicitHCount"], 0)
 
     def test_atom_alias_is_available_as_alias_data(self):
         """KET atom aliases are exposed through Open Babel AliasData."""
-        text = json.dumps(
-            {
-                "root": {"nodes": [{"$ref": "mol0"}]},
-                "mol0": {
-                    "type": "molecule",
-                    "atoms": [
-                        {
-                            "label": "*",
-                            "alias": "COOH",
-                            "location": [0.0, 0.0, 0.0],
-                        }
-                    ],
-                    "bonds": [],
-                },
-            }
-        )
+        text = json.dumps({
+            "root": {
+                "nodes": [{
+                    "$ref": "mol0"
+                }]
+            },
+            "mol0": {
+                "type":
+                "molecule",
+                "atoms": [{
+                    "label": "*",
+                    "alias": "COOH",
+                    "location": [0.0, 0.0, 0.0],
+                }],
+                "bonds": [],
+            },
+        })
         mol = _readketstring(text)
         atom = mol.atoms[0].OBAtom
         data = atom.GetData(pybel.ob.AliasDataType)
@@ -254,26 +251,29 @@ class TestKetFormat(PybelWrapper):
 
     def test_atom_alias_expands_with_read_option(self):
         """The -ia read option expands chemically meaningful KET atom aliases."""
-        text = json.dumps(
-            {
-                "root": {"nodes": [{"$ref": "mol0"}]},
-                "mol0": {
-                    "type": "molecule",
-                    "atoms": [
-                        {
-                            "label": "C",
-                            "location": [0.0, 0.0, 0.0],
-                        },
-                        {
-                            "label": "*",
-                            "alias": "COOH",
-                            "location": [1.0, 0.0, 0.0],
-                        }
-                    ],
-                    "bonds": [{"type": 1, "atoms": [0, 1]}],
-                },
-            }
-        )
+        text = json.dumps({
+            "root": {
+                "nodes": [{
+                    "$ref": "mol0"
+                }]
+            },
+            "mol0": {
+                "type":
+                "molecule",
+                "atoms": [{
+                    "label": "C",
+                    "location": [0.0, 0.0, 0.0],
+                }, {
+                    "label": "*",
+                    "alias": "COOH",
+                    "location": [1.0, 0.0, 0.0],
+                }],
+                "bonds": [{
+                    "type": 1,
+                    "atoms": [0, 1]
+                }],
+            },
+        })
         mol = _readketstring(text, opt={"a": None})
         self.assertEqual(mol.OBMol.NumAtoms(), 4)
         self.assertEqual(mol.OBMol.NumBonds(), 3)
@@ -320,13 +320,10 @@ class TestKetFormat(PybelWrapper):
         mol = _readket("with_connections.ket")[0]
         doc = json.loads(mol.write("ket"))
         nodes = doc["root"]["nodes"]
-        kinds = [
-            ("ref", n["$ref"]) if "$ref" in n else ("type", n.get("type"))
-            for n in nodes
-        ]
-        self.assertEqual(
-            kinds, [("ref", "mol5"), ("type", "text"), ("ref", "monomer0")]
-        )
+        kinds = [("ref", n["$ref"]) if "$ref" in n else ("type", n.get("type"))
+                 for n in nodes]
+        self.assertEqual(kinds, [("ref", "mol5"), ("type", "text"),
+                                 ("ref", "monomer0")])
 
     def test_sgroup_bonds_remain_local_per_molecule(self):
         """S-group bond indices are local to their owning molecule."""
@@ -377,7 +374,9 @@ class TestKetFormat(PybelWrapper):
         doc = json.loads(text)
 
         # The monomer ref and its top-level object must reappear.
-        node_refs = [n.get("$ref") for n in doc["root"]["nodes"] if "$ref" in n]
+        node_refs = [
+            n.get("$ref") for n in doc["root"]["nodes"] if "$ref" in n
+        ]
         self.assertIn("monomer0", node_refs)
         self.assertIn("monomer0", doc)
         self.assertEqual(doc["monomer0"]["type"], "monomer")

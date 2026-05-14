@@ -6,7 +6,6 @@
 # Regression tests, coverage tests, stress tests, performance tests,
 # etc. should not go in this file.
 
-
 import math
 import os
 import shutil
@@ -17,10 +16,13 @@ import warnings
 
 from openbabel import openbabel as ob
 
+
 def testfile(name):
     return os.path.join("files", name)
 
+
 class MyTestCase(unittest.TestCase):
+
     def assertClose(self, val, expect):
         a, b = 0.9999, 1.0001
         if expect < 0:
@@ -35,25 +37,33 @@ class MyTestCase(unittest.TestCase):
 # Make a temporary directory for use during the "with" context block.
 # When finished, remove the directory.
 class TempDir(object):
+
     def __init__(self):
         self.dirname = None
+
     def __enter__(self):
         self.dirname = tempfile.mkdtemp(prefix="ob_py_test")
         return self
+
     def __call__(self, name):
         return os.path.join(self.dirname, name)
+
     def __exit__(self, exc, value, tb):
         shutil.rmtree(self.dirname)
+
 
 # Some of the API calls generate log messages. I don't want to
 # see them when doing the testing.
 class SuppressLogging(object):
+
     def __enter__(self):
         self.lvl = ob.obErrorLog.GetOutputLevel()
         ob.obErrorLog.SetOutputLevel(-1)
         return self
+
     def __exit__(self, exc, value, tb):
         ob.obErrorLog.SetOutputLevel(self.lvl)
+
 
 # The plugin system requires that OBConversion be called first.
 # This is done once, and it affects the entire system
@@ -68,21 +78,25 @@ _smiles_parser = ob.OBConversion()
 _smiles_parser.SetInFormat("smi")
 _smiles_parser.SetOutFormat("can")
 
+
 def parse_smiles(smiles):
     "parse a SMILES into a molecule"
     mol = ob.OBMol()
     _smiles_parser.ReadString(mol, smiles)
     return mol
 
+
 def cansmiles(mol):
     "return the canonical SMILES for molecule"
     return _smiles_parser.WriteString(mol).strip()
+
 
 def parse_smarts(smarts):
     "Parse a SMARTS into an ObSmartsPattern"
     pat = ob.OBSmartsPattern()
     assert pat.Init(smarts)
     return pat
+
 
 def readfile(filename, filetype):
     "Iterate over all molecule records in the given file, with given type"
@@ -97,7 +111,9 @@ def readfile(filename, filetype):
         mol.Clear()
         notatend = obconversion.Read(mol)
 
+
 class TestIO(MyTestCase):
+
     def test_read_smiles(self):
         it = readfile("FormulaTest.smi", "smi")
         mol = next(it)
@@ -194,8 +210,11 @@ class TestIO(MyTestCase):
 
 
 class TestPlugins(MyTestCase):
-    known_types = ["charges", "descriptors", "fingerprints", "forcefields",
-                   "formats", "loaders", "ops"]
+    known_types = [
+        "charges", "descriptors", "fingerprints", "forcefields", "formats",
+        "loaders", "ops"
+    ]
+
     def test_known_types(self):
         for name in TestPlugins.known_types:
             s = ob.OBPlugin.ListAsString(name)
@@ -222,6 +241,7 @@ class TestPlugins(MyTestCase):
         formats = set(v)
         self.assertIn("smiles -- SMILES format", formats, formats)
 
+
 ##     def test_list(self):
 ##         # XXX GRR! To capture requires passing a 3rd argument which is a std:ostream
 ##         # I can't figure out how to do that in OpenBabel
@@ -234,14 +254,18 @@ class TestPlugins(MyTestCase):
 ##         self.assertEquals(s[3], "MACCS    SMARTS patterns specified in the file MACCS.txt\n")
 ##         self.assertEquals(len(s)>=4, True, s)
 
+
 class TestFingerprints(MyTestCase):
+
     def test_descriptions(self):
         P = "\nPatternFP is definable"
         for name, expected_description in (
             ("FP2", "Indexes linear fragments up to 7 atoms."),
             ("FP3", "SMARTS patterns specified in the file patterns.txt" + P),
-            ("FP4", "SMARTS patterns specified in the file SMARTS_InteLigand.txt" + P),
-            ("MACCS", "SMARTS patterns specified in the file MACCS.txt" + P)):
+            ("FP4",
+             "SMARTS patterns specified in the file SMARTS_InteLigand.txt" +
+             P), ("MACCS",
+                  "SMARTS patterns specified in the file MACCS.txt" + P)):
             fingerprinter = ob.OBFingerprint.FindFingerprint(name)
             self.assertIsNotNone(fingerprinter)
             self.assertEqual(fingerprinter.GetID(), name)
@@ -255,22 +279,25 @@ class TestFingerprints(MyTestCase):
 
     def test_fp_words(self):
         mol = parse_smiles("c1ccccc1O.C#N.[Ge].C1CCC1")
+
         def next_highest_power_of_two(n):
             i = 8
             while i < n:
                 i *= 2
             return i
-        for (name, nbits, v0, v1) in ( ("FP2", 1021, 0, 1),
-                                       ("FP3", 55, 67108864, 1159170),
-                                       ("FP4", 307, 2, 0),
-                                       # TODO: change my MACCS.txt so it's correct
-                                       # then rerun this test and change to the right answer
-                                       ("MACCS", 166, 2097156, 256),
-                                       ):
+
+        for (name, nbits, v0, v1) in (
+            ("FP2", 1021, 0, 1),
+            ("FP3", 55, 67108864, 1159170),
+            ("FP4", 307, 2, 0),
+                # TODO: change my MACCS.txt so it's correct
+                # then rerun this test and change to the right answer
+            ("MACCS", 166, 2097156, 256),
+        ):
             fingerprinter = ob.OBFingerprint.FindFingerprint(name)
             v = ob.vectorUnsignedInt()
             fingerprinter.GetFingerprint(mol, v)
-            size = next_highest_power_of_two(nbits)//32 # bits-per-int
+            size = next_highest_power_of_two(nbits) // 32  # bits-per-int
             self.assertEqual(len(v), size)
             self.assertEqual(v[0], v0, (name, v[0], v0))
             self.assertEqual(v[1], v1, (name, v[1], v1))
@@ -329,7 +356,9 @@ mol_with_many_rings = parse_smiles(
     "C12C34C56C78C9%10C%11%12C%13%14C%15%16C%17%18." * 11 +
     "C2C4C6C8C%10C%12C%14C%16C%18C")
 
+
 class TestSmarts(MyTestCase):
+
     def test_4_membered_ring(self):
         pat = ob.OBSmartsPattern()
         self.assertTrue(pat.Init("*1~*~*~*~1"), "failed to Init")
@@ -452,7 +481,8 @@ class TestSmarts(MyTestCase):
         self.assertTrue(pat.Match(mol))
         t2 = time.time()
         if t2 - t1 > 0.01:
-            warnings.warn("test_basic_match_with_single_flag_set took too long")
+            warnings.warn(
+                "test_basic_match_with_single_flag_set took too long")
         self.assertEqual(len(pat.GetMapList()), 1)
         self.assertEqual(len(pat.GetUMapList()), 1)
 
@@ -462,9 +492,8 @@ class TestSmarts(MyTestCase):
         t1 = time.time()
         self.assertTrue(pat.HasMatch(mol))
         t2 = time.time()
-        if t2-t1 > 0.01:
+        if t2 - t1 > 0.01:
             warnings.warn("test_has_match took too long")
-
 
     def test_vector_match_false(self):
         # Create a  vector< vector<int> >, wherein the results go
@@ -541,7 +570,9 @@ class TestSmarts(MyTestCase):
 
 # The BeginMList/EndMList seems broken in Python XXX
 
+
 class TestDescriptors(MyTestCase):
+
     def test_logp(self):
         calc_logp = ob.OBDescriptor.FindType("logP")
         mol = parse_smiles("Oc1ccccc1OC")
@@ -580,7 +611,9 @@ def add_atom(mol, atomno):
     atom.SetAtomicNum(atomno)
     return atom
 
+
 class TestMolecule(MyTestCase):
+
     def test_mol_iteration(self):
         mol = parse_smiles("c12c(O[CH](C1=O)C(C)C)cc1c(c2)ccc(=O)o1")
         element_counts = {}
@@ -623,9 +656,8 @@ class TestMolecule(MyTestCase):
 #        elements.sort()
 #        self.assertEquals(elements, [6, 7])
 
+# Most people don't do molecule building, so I'm not going to test all the variations
 
-
-    # Most people don't do molecule building, so I'm not going to test all the variations
     def test_building_a_molecule(self):
         mol = ob.OBMol()
         C = add_atom(mol, 6)
@@ -633,7 +665,8 @@ class TestMolecule(MyTestCase):
         # XXX Why can't I do mol.AddBond(C, N, 3)?
         mol.AddBond(C.GetIdx(), N.GetIdx(), 3)
         self.assertEqual(C.ImplicitHydrogenCount(), 1)
-        C.IncrementImplicitValence()  # Is this how to increment the implicit hcount?
+        C.IncrementImplicitValence(
+        )  # Is this how to increment the implicit hcount?
         self.assertEqual(C.ImplicitHydrogenCount(), 2)
         conv = ob.OBConversion()
         conv.SetOutFormat("can")
@@ -671,6 +704,7 @@ class TestMolecule(MyTestCase):
 
         self.assertEqual(mol.GetTotalCharge(), 1)
 
+
 #    def test_title(self): # tested in the IO module
 
     def test_get_bond(self):
@@ -687,7 +721,7 @@ class TestMolecule(MyTestCase):
         # XXX Leaves out the "+"?
         self.assertEqual(mol.GetFormula(), "C6H10NO")
         # XXX Why are the extra spaces there? "N  1", "O  1" and the terminal " "
-        self.assertEqual(mol.GetSpacedFormula(),  "C 6 H 10 N  1 O  1 ")
+        self.assertEqual(mol.GetSpacedFormula(), "C 6 H 10 N  1 O  1 ")
         self.assertEqual(mol.GetSpacedFormula(0), "C 6 H 10 N  1 O  1 ")
         self.assertEqual(mol.GetSpacedFormula(1), "C 6 H 10 N O ")
         self.assertEqual(mol.GetSpacedFormula(1, '>'), "C>6>H>10>N>O>")
@@ -697,7 +731,9 @@ class TestMolecule(MyTestCase):
 
     # There's a huge number of properties I've omitted
 
+
 class TestAtomAndBond(MyTestCase):
+
     def test_atom_properties(self):
         mol = parse_smiles("[12CH4-]")
         mol.SetTitle("Spam!")
@@ -716,7 +752,7 @@ class TestAtomAndBond(MyTestCase):
         self.assertEqual(atom.GetAtomicMass(), 12.0)
         self.assertEqual(atom.GetExactMass(), 12.0)
         self.assertEqual(atom.GetValence(), 4)
-        self.assertEqual(atom.GetHyb(), 3) # sp3
+        self.assertEqual(atom.GetHyb(), 3)  # sp3
         self.assertEqual(atom.GetHvyValence(), 0)
 
         self.assertEqual(atom.GetX(), 0.0)
@@ -789,7 +825,7 @@ class TestAtomAndBond(MyTestCase):
         self.assertClose(atom.GetPartialCharge(), -0.25658)
 
         self.assertEqual(atom.GetParent().GetTitle(), mol.GetTitle(),
-                          "parent is mol")
+                         "parent is mol")
 
         self.assertFalse(atom.IsAromatic())
         atom.SetAromatic()
@@ -924,7 +960,7 @@ class TestAtomAndBond(MyTestCase):
         self.assertFalse(ring.IsAromatic())
         self.assertEqual(ring.GetType(), "")
         # XXX *which* of the non-carbons is the root? That isn't documented
-        idx = ring.GetRootAtom() # Shouldn't that be "Idx"?
+        idx = ring.GetRootAtom()  # Shouldn't that be "Idx"?
         # Since there's only one non-C, it must be the N
         atom = mol.GetAtom(idx)
         self.assertEqual(atom.GetAtomicNum(), 7)
@@ -932,7 +968,6 @@ class TestAtomAndBond(MyTestCase):
         for bond in ob.OBAtomBondIter(atom):
             self.assertTrue(ring.IsMember(bond))
         self.assertTrue(ring.IsInRing(idx))
-
 
         lssr = mol.GetLSSR()
         self.assertEqual(len(lssr), 2)
@@ -944,10 +979,9 @@ class TestAtomAndBond(MyTestCase):
         mol = parse_smiles("c1ccccc1")
         R = 1.5
         for i in range(6):
-            atom = mol.GetAtom(i+1)
-            atom.SetVector(R*math.cos(2*math.pi*i/6),
-                           R*math.sin(2*math.pi*i/6),
-                           0.0)
+            atom = mol.GetAtom(i + 1)
+            atom.SetVector(R * math.cos(2 * math.pi * i / 6),
+                           R * math.sin(2 * math.pi * i / 6), 0.0)
         for ring in ob.OBMolRingIter(mol):
             break
 
@@ -1010,7 +1044,7 @@ class TestAtomAndBond(MyTestCase):
         # XXX I don't expect this.
         # I think it's a consequence of X.IsConnected(X) == True
         self.assertTrue(C.IsOneFour(O))
-        self.assertTrue(C.IsOneFour(C)) # XXX completely suprising!
+        self.assertTrue(C.IsOneFour(C))  # XXX completely suprising!
 
     def test_HtoMethyl(self):
         mol = parse_smiles("[H]Cl")
@@ -1033,21 +1067,25 @@ class TestAtomAndBond(MyTestCase):
         self.assertEqual(atom.MatchesSMARTS("O"), 0)
         self.assertEqual(atom.MatchesSMARTS("OCC"), 0)
         self.assertEqual(atom.MatchesSMARTS("CC"), 1)
-    # HasAlphaBetaUnsat
 
+    # HasAlphaBetaUnsat
 
 
 # These values are taken directly from OB's spectrophoretest.cpp
 class SpectorphoreTest(MyTestCase):
+
     def assertWithin_0_001(self, val, expect):
         assert val > 0
         self.assertLess(abs(val - expect), 0.001, val)
+
     def _make_mol(self):
         mol = ob.OBMol()
+
         def new_atom(eleno):
             a = mol.NewAtom()
             a.SetAtomicNum(eleno)
             return a
+
         atoms = []
         atoms.append(new_atom(6))
         atoms.append(new_atom(1))
@@ -1076,54 +1114,55 @@ class SpectorphoreTest(MyTestCase):
         r = s.GetSpectrophore(self._make_mol())
 
         C = self.assertWithin_0_001
-        C(r[ 0],  1.599)
-        C(r[ 1],  1.577)
-        C(r[ 2],  1.170)
-        C(r[ 3],  3.761)
-        C(r[ 4],  5.175)
-        C(r[ 5],  5.781)
-        C(r[ 6],  3.797)
-        C(r[ 7],  3.713)
-        C(r[ 8],  4.651)
-        C(r[ 9],  7.737)
-        C(r[10],  7.950)
-        C(r[11],  4.869)
-        C(r[12],  2.708)
-        C(r[13],  3.471)
-        C(r[14],  6.698)  # XXX The original code has a bug in the upper bound
-        C(r[15],  9.486)
-        C(r[16],  7.668)
-        C(r[17],  8.882)
-        C(r[18],  4.900)  # XXX The original code is slightly too high in the upper bound
-        C(r[19],  7.479)
-        C(r[20],  9.324)
+        C(r[0], 1.599)
+        C(r[1], 1.577)
+        C(r[2], 1.170)
+        C(r[3], 3.761)
+        C(r[4], 5.175)
+        C(r[5], 5.781)
+        C(r[6], 3.797)
+        C(r[7], 3.713)
+        C(r[8], 4.651)
+        C(r[9], 7.737)
+        C(r[10], 7.950)
+        C(r[11], 4.869)
+        C(r[12], 2.708)
+        C(r[13], 3.471)
+        C(r[14], 6.698)  # XXX The original code has a bug in the upper bound
+        C(r[15], 9.486)
+        C(r[16], 7.668)
+        C(r[17], 8.882)
+        C(r[18], 4.900
+          )  # XXX The original code is slightly too high in the upper bound
+        C(r[19], 7.479)
+        C(r[20], 9.324)
         C(r[21], 10.293)
         C(r[22], 12.956)
         C(r[23], 10.335)
-        C(r[24],  4.021)
-        C(r[25],  3.814)
-        C(r[26],  2.947)
-        C(r[27],  6.381)
+        C(r[24], 4.021)
+        C(r[25], 3.814)
+        C(r[26], 2.947)
+        C(r[27], 6.381)
         C(r[28], 11.004)
-        C(r[29],  8.279)
-        C(r[30],  6.549)
-        C(r[31],  7.136)
-        C(r[32],  8.613)
+        C(r[29], 8.279)
+        C(r[30], 6.549)
+        C(r[31], 7.136)
+        C(r[32], 8.613)
         C(r[33], 13.182)
         C(r[34], 13.744)
-        C(r[35],  9.084)
-        C(r[36],  0.459)
-        C(r[37],  0.642)
-        C(r[38],  2.172)
-        C(r[39],  2.753)
-        C(r[40],  2.348)
-        C(r[41],  2.605)
-        C(r[42],  1.614)
-        C(r[43],  3.166)
-        C(r[44],  3.391)
-        C(r[45],  3.132)
-        C(r[46],  4.105)
-        C(r[47],  2.875)
+        C(r[35], 9.084)
+        C(r[36], 0.459)
+        C(r[37], 0.642)
+        C(r[38], 2.172)
+        C(r[39], 2.753)
+        C(r[40], 2.348)
+        C(r[41], 2.605)
+        C(r[42], 1.614)
+        C(r[43], 3.166)
+        C(r[44], 3.391)
+        C(r[45], 3.132)
+        C(r[46], 4.105)
+        C(r[47], 2.875)
 
     def test_with_increased_accuracy(self):
         s = ob.OBSpectrophore()
@@ -1140,7 +1179,9 @@ class SpectorphoreTest(MyTestCase):
 
     # Look at spectrophoretest.cpp for many more examples.
 
+
 class TestForceFields(MyTestCase):
+
     def test_plugin(self):
         v = ob.vectorString()
         ob.OBPlugin.ListAsVector("forcefields", None, v)
@@ -1157,7 +1198,7 @@ class TestForceFields(MyTestCase):
         self.assertIsNotNone(pFF2)
         self.assertEqual(pFF1.GetID(), pFF2.GetID())
 
-    def _test_energies(self, plugin_name, expected_results, filename = None):
+    def _test_energies(self, plugin_name, expected_results, filename=None):
         pFF = ob.OBForceField.FindForceField(plugin_name)
         self.assertIsNotNone(pFF, "Cannot load " + plugin_name)
 
@@ -1165,13 +1206,15 @@ class TestForceFields(MyTestCase):
             filename = testfile("forcefield.sdf")
 
         for i, mol in enumerate(readfile(filename, "sdf")):
-            self.assertEqual(pFF.Setup(mol), 1,
-                              "Could not set up forcefield on " + mol.GetTitle())
+            self.assertEqual(
+                pFF.Setup(mol), 1,
+                "Could not set up forcefield on " + mol.GetTitle())
             energy = pFF.Energy(False)
 
             self.assertClose(energy, expected_results[i])
-            self.assertEqual(pFF.ValidateGradients(), 1,
-                              "gradients do not validate for molecule " + mol.GetTitle())
+            self.assertEqual(
+                pFF.ValidateGradients(), 1,
+                "gradients do not validate for molecule " + mol.GetTitle())
 
             # These are meant to be fast unit tests, and not a validation suite.
             # Therefore I'll only run two tests then exit
@@ -1180,18 +1223,24 @@ class TestForceFields(MyTestCase):
 
     # The basis for these tests come from ffghemical.cpp
     def test_ghemical_energy_calculation(self):
-        expected_results = list(map(float, open(testfile("ghemicalresults.txt")).readlines()))
+        expected_results = list(
+            map(float,
+                open(testfile("ghemicalresults.txt")).readlines()))
         self._test_energies("Ghemical", expected_results)
 
     # The basis for these tests come from ffgaff.cpp
     def test_gaff_energy_calculation(self):
-        expected_results = list(map(float, open(testfile("gaffresults.txt")).readlines()))
+        expected_results = list(
+            map(float,
+                open(testfile("gaffresults.txt")).readlines()))
         self._test_energies("GAFF", expected_results)
 
     # These basis for these tests comes from ffmmff94.cpp
     def test_mmff94_energy_calculation(self):
         # XXX The MMFF94 ValidateGradients() dumps output to stdout
-        expected_results = list(map(float, open(testfile("mmff94results.txt")).readlines()))
+        expected_results = list(
+            map(float,
+                open(testfile("mmff94results.txt")).readlines()))
         self._test_energies("MMFF94", expected_results)
 
         ## Doing this test does not show anything new about the OpenBabel API
@@ -1201,7 +1250,9 @@ class TestForceFields(MyTestCase):
 
     # These basis for these tests comes from ffuff.cpp
     def test_uff_energy_calculation(self):
-        expected_results = list(map(float, open(testfile("uffresults.txt")).readlines()))
+        expected_results = list(
+            map(float,
+                open(testfile("uffresults.txt")).readlines()))
         self._test_energies("UFF", expected_results)
 
 
