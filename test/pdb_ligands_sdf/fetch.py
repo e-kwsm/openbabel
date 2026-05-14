@@ -1,5 +1,7 @@
 #!/usr/bin/env python
-import sys, wget, os
+import sys
+import wget
+import os
 for line in open(sys.argv[1]):
   pdb,lig = line.rstrip().split()
   print(pdb,lig)
