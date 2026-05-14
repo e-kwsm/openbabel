@@ -8,7 +8,10 @@ Gaussian output.
 If the script is run with an addition (random) flag, more
 verbose output will be produced.
 """
-import os, sys, glob, unittest
+import os
+import sys
+import glob
+import unittest
 from testbabel import BaseTest
 
 try:
