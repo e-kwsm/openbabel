@@ -20,12 +20,13 @@ import unittest
 from testbabel import run_exec, executable, BaseTest
 from testbindings import pybel
 
+
 class TestPDBFormat(BaseTest):
     """A series of tests relating to PDB"""
 
     def testSegname(self):
-      """Test that different segments are put in different residues"""
-      self.pdbin = '''ATOM    102  N   CYS A  16      59.916  27.715  54.719  1.00 30.93      AAAA N
+        """Test that different segments are put in different residues"""
+        self.pdbin = """ATOM    102  N   CYS A  16      59.916  27.715  54.719  1.00 30.93      AAAA N
 ATOM    104  C   CYS A  16      61.349  29.663  54.116  1.00 31.27      AAAA C
 ATOM    105  O   CYS A  16      62.398  30.296  54.175  1.00 31.42      AAAA O
 ATOM    106  CB  CYS A  16      62.233  27.349  54.045  1.00 30.95      AAAA C
@@ -36,8 +37,8 @@ ATOM   2494  C   CYS A  16      45.319  15.497  54.116  1.00 31.27         B C
 ATOM   2495  O   CYS A  16      44.270  14.864  54.175  1.00 31.42         B O
 ATOM   2496  CB  CYS A  16      44.435  17.811  54.045  1.00 30.95         B C
 ATOM   2497  SG  CYS A  16      44.084  19.337  54.921  1.00 31.06         B S
-'''
-      self.pdbout = '''ATOM      1  N   CYS A  16      59.916  27.715  54.719  1.00  0.00      AAAA N  
+"""
+        self.pdbout = """ATOM      1  N   CYS A  16      59.916  27.715  54.719  1.00  0.00      AAAA N  
 ATOM      2  C   CYS A  16      61.349  29.663  54.116  1.00  0.00      AAAA C  
 ATOM      3  O   CYS A  16      62.398  30.296  54.175  1.00  0.00      AAAA O  
 ATOM      4  CB  CYS A  16      62.233  27.349  54.045  1.00  0.00      AAAA C  
@@ -47,26 +48,27 @@ ATOM      7  CA  CYS A  16      45.412  16.879  54.750  1.00  0.00         B C
 ATOM      8  C   CYS A  16      45.319  15.497  54.116  1.00  0.00         B C  
 ATOM      9  O   CYS A  16      44.270  14.864  54.175  1.00  0.00         B O  
 ATOM     10  CB  CYS A  16      44.435  17.811  54.045  1.00  0.00         B C  
-ATOM     11  SG  CYS A  16      44.084  19.337  54.921  1.00  0.00         B S  '''
+ATOM     11  SG  CYS A  16      44.084  19.337  54.921  1.00  0.00         B S  """
 
-      output, error = run_exec(self.pdbin,
-                                     ["obabel", "-ipdb", "-opdb"])
-      
-      #pull out only atoms
-      outatoms = '\n'.join([line for line in output.split('\n') if line.startswith('ATOM')])
-      self.assertEqual(outatoms, self.pdbout)
+        output, error = run_exec(self.pdbin, ["obabel", "-ipdb", "-opdb"])
 
-      #skip if bindings not present
-      if pybel:
-        mol = pybel.readstring('pdb',self.pdbin)
-        self.assertTrue(len(mol.residues) == 2)
-        cnts = {'AAAA':0,'B':0}
-        for a in mol.atoms:
-            r = a.OBAtom.GetResidue()
-            cnts[r.GetSegName().strip()] += 1
-        self.assertEqual(cnts['AAAA'],5)
-        self.assertEqual(cnts['B'],6)
-    
+        # pull out only atoms
+        outatoms = "\n".join(
+            [line for line in output.split("\n") if line.startswith("ATOM")]
+        )
+        self.assertEqual(outatoms, self.pdbout)
+
+        # skip if bindings not present
+        if pybel:
+            mol = pybel.readstring("pdb", self.pdbin)
+            self.assertTrue(len(mol.residues) == 2)
+            cnts = {"AAAA": 0, "B": 0}
+            for a in mol.atoms:
+                r = a.OBAtom.GetResidue()
+                cnts[r.GetSegName().strip()] += 1
+            self.assertEqual(cnts["AAAA"], 5)
+            self.assertEqual(cnts["B"], 6)
+
     def testInsertionCodes(self):
         """
         Testing a PDB entry with insertion codes to distinguish residues
@@ -74,7 +76,7 @@ ATOM     11  SG  CYS A  16      44.084  19.337  54.921  1.00  0.00         B S  
         """
         self.canFindExecutable("obabel")
 
-        self.entryPDBwithInsertioncodes="""ATOM    406  N   VAL L  29      58.041  17.797  48.254  1.00  0.00           N
+        self.entryPDBwithInsertioncodes = """ATOM    406  N   VAL L  29      58.041  17.797  48.254  1.00  0.00           N
 ATOM    407  CA  VAL L  29      57.124  18.088  47.170  1.00  0.00           C
 ATOM    408  C   VAL L  29      55.739  17.571  47.538  1.00  0.00           C
 ATOM    409  O   VAL L  29      55.535  16.362  47.550  1.00  0.00           O
@@ -145,9 +147,11 @@ ATOM    473  HE1 TYR L  32      48.512  15.775  42.066  1.00  0.00           H
 ATOM    474  HE2 TYR L  32      48.145  19.172  44.648  1.00  0.00           H
 ATOM    475  HH  TYR L  32      46.462  17.658  44.280  1.00  0.00           H
 """
-        output, error = run_exec(self.entryPDBwithInsertioncodes,
-                                     ["obabel", "-ipdb", "-ofasta"])
-        self.assertEqual(output.rstrip().rsplit("\n",1)[1], "VSSSY")
+        output, error = run_exec(
+            self.entryPDBwithInsertioncodes, ["obabel", "-ipdb", "-ofasta"]
+        )
+        self.assertEqual(output.rstrip().rsplit("\n", 1)[1], "VSSSY")
+
 
 if __name__ == "__main__":
     testsuite = []

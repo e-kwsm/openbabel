@@ -17,14 +17,17 @@ try:
     rdkit = cdk = None
 except AttributeError:
     from cinfony import cdk
+
     pybel = rdkit = None
 
 
 class TestToolkit(unittest.TestCase):
 
     def setUp(self):
-        self.mols = [self.toolkit.readstring("smi", "CCCC"),
-                     self.toolkit.readstring("smi", "CCCN")]
+        self.mols = [
+            self.toolkit.readstring("smi", "CCCC"),
+            self.toolkit.readstring("smi", "CCCN"),
+        ]
         self.head = list(self.toolkit.readfile("sdf", os.path.join(here, "head.sdf")))
         self.atom = self.head[0].atoms[1]
 
@@ -75,11 +78,9 @@ class TestToolkit(unittest.TestCase):
     def testselfconversion(self):
         """Test that the toolkit can eat its own dog-food."""
         newmol = self.toolkit.Molecule(self.head[0])
-        self.assertEqual(newmol._exchange,
-                         self.head[0]._exchange)
+        self.assertEqual(newmol._exchange, self.head[0]._exchange)
         newmol = self.toolkit.Molecule(self.mols[0])
-        self.assertEqual(newmol._exchange,
-                         self.mols[0]._exchange)
+        self.assertEqual(newmol._exchange, self.mols[0]._exchange)
 
     def testLocalOpt(self):
         """Test that local optimisation affects the coordinates"""
@@ -90,31 +91,31 @@ class TestToolkit(unittest.TestCase):
         # Make sure that make3D() is called for molecules without coordinates
         mol = self.mols[0]
         mol.localopt()
-        self.assertNotEqual(mol.atoms[3].coords, (0., 0., 0.))
+        self.assertNotEqual(mol.atoms[3].coords, (0.0, 0.0, 0.0))
 
     def testMake2D(self):
         """Test that 2D coordinate generation does something"""
         mol = self.mols[1]
         mol.make2D()
-        self.assertNotEqual(mol.atoms[2].coords, (0., 0., 0.))
-        self.assertEqual(mol.atoms[2].coords[2], 0.)
+        self.assertNotEqual(mol.atoms[2].coords, (0.0, 0.0, 0.0))
+        self.assertEqual(mol.atoms[2].coords[2], 0.0)
 
     def testMake3D(self):
         """Test that 3D coordinate generation does something"""
         mol = self.mols[0]
         mol.make3D()
-        self.assertNotEqual(mol.atoms[3].coords, (0., 0., 0.))
+        self.assertNotEqual(mol.atoms[3].coords, (0.0, 0.0, 0.0))
 
     def testDraw(self):
         """Create a 2D depiction"""
-        self.mols[0].draw(show=False,
-                          filename="%s.png" % self.toolkit.__name__)
-        self.mols[0].draw(show=False) # Just making sure that it doesn't raise an Error
+        self.mols[0].draw(show=False, filename="%s.png" % self.toolkit.__name__)
+        self.mols[0].draw(show=False)  # Just making sure that it doesn't raise an Error
         self.mols[0].draw(show=False, update=True)
         coords = [x.coords for x in self.mols[0].atoms[0:2]]
-        self.assertNotEqual(coords, [(0., 0., 0.), (0., 0., 0.)])
-        self.mols[0].draw(show=False, usecoords=True,
-                          filename="%s_b.png" % self.toolkit.__name__)
+        self.assertNotEqual(coords, [(0.0, 0.0, 0.0), (0.0, 0.0, 0.0)])
+        self.mols[0].draw(
+            show=False, usecoords=True, filename="%s_b.png" % self.toolkit.__name__
+        )
 
     def testRSgetprops(self):
         """Get the values of the properties."""
@@ -143,7 +144,7 @@ M  END
 """
         data, result = test.split("\n"), as_mol.split("\n")
         self.assertEqual(len(data), len(result))
-        self.assertEqual(data[-2], result[-2].rstrip()) # M  END
+        self.assertEqual(data[-2], result[-2].rstrip())  # M  END
 
     def testRSstringrepr(self):
         """Test the string representation of a molecule"""
@@ -161,7 +162,7 @@ M  END
         self.assertRaises(OSError, self.RFreaderror)
 
     def RFformaterror(self):
-        mol = next(self.toolkit.readfile("noel", os.path.join(here,"head.sdf")))
+        mol = next(self.toolkit.readfile("noel", os.path.join(here, "head.sdf")))
 
     def testRFformaterror(self):
         """Test that invalid formats raise an error"""
@@ -182,14 +183,14 @@ M  END
             t = list(smi)
             t.sort()
             ans.append("".join(t))
-        test = ['CCCC', 'CCCN']
+        test = ["CCCC", "CCCN"]
         self.assertEqual(ans, test)
 
     def testRFsingletofile(self):
         """Test the molecule.write() method"""
         mol = self.mols[0]
         mol.write("smi", "testoutput.txt")
-        test = 'CCCC'
+        test = "CCCC"
         input = open("testoutput.txt", "r")
         filecontents = input.readlines()[0].split("\t")[0].strip()
         input.close()
@@ -207,8 +208,7 @@ M  END
         self.assertRaises(OSError, outputfile.write, mol)
         self.assertRaises(OSError, self.toolkit.Outputfile, "sdf", "testoutput.txt")
         input = open("testoutput.txt", "r")
-        numdollar = len([x for x in input.readlines()
-                         if x.rstrip() == "$$$$"])
+        numdollar = len([x for x in input.readlines() if x.rstrip() == "$$$$"])
         input.close()
         os.remove("testoutput.txt")
         self.assertEqual(numdollar, 2)
@@ -231,23 +231,23 @@ M  END
 
     def MDaccesstest(self):
         # Should raise KeyError
-        return self.head[0].data['noel']
+        return self.head[0].data["noel"]
 
     def testMDaccess(self):
         """Change the value of a field"""
         data = self.head[0].data
         self.assertRaises(KeyError, self.MDaccesstest)
-        data['noel'] = 'testvalue'
-        self.assertEqual(data['noel'], 'testvalue')
-        newvalues = {'hey':'there', 'yo':1}
+        data["noel"] = "testvalue"
+        self.assertEqual(data["noel"], "testvalue")
+        newvalues = {"hey": "there", "yo": 1}
         data.update(newvalues)
-        self.assertEqual(data['yo'], '1')
-        self.assertIn('there', data.values())
+        self.assertEqual(data["yo"], "1")
+        self.assertIn("there", data.values())
 
     def testMDglobalaccess(self):
         """Check out the keys"""
         data = self.head[0].data
-        self.assertNotIn('Noel', data)
+        self.assertNotIn("Noel", data)
         self.assertEqual(len(data), len(self.datakeys))
         for key in data:
             self.assertIn(key, self.datakeys)
@@ -258,9 +258,9 @@ M  END
     def testMDdelete(self):
         """Delete some keys"""
         data = self.head[0].data
-        self.assertIn('NSC', data)
-        del data['NSC']
-        self.assertNotIn('NSC', data)
+        self.assertIn("NSC", data)
+        del data["NSC"]
+        self.assertNotIn("NSC", data)
         data.clear()
         self.assertEqual(len(data), 0)
 
@@ -299,25 +299,26 @@ M  END
 
     def testAddh(self):
         """Adding and removing hydrogens"""
-        self.assertEqual(len(self.mols[0].atoms),4)
+        self.assertEqual(len(self.mols[0].atoms), 4)
         self.mols[0].addh()
-        self.assertEqual(len(self.mols[0].atoms),14)
+        self.assertEqual(len(self.mols[0].atoms), 14)
         self.mols[0].removeh()
-        self.assertEqual(len(self.mols[0].atoms),4)
+        self.assertEqual(len(self.mols[0].atoms), 4)
+
 
 class TestPybel(TestToolkit):
     toolkit = pybel
-    tanimotoresult = 1/3.
+    tanimotoresult = 1 / 3.0
     Natoms = 15
     tpsaname = "TPSA"
     Nbits = 3
     Nfpbits = 32
-    datakeys = ['NSC', 'Comment', 'OpenBabel Symmetry Classes', 'MOL Chiral Flag']
+    datakeys = ["NSC", "Comment", "OpenBabel Symmetry Classes", "MOL Chiral Flag"]
 
     def testFP_FP3(self):
         "Checking the results from FP3"
         fps = [x.calcfp("FP3") for x in self.mols]
-        self.assertEqual(fps[0] | fps[1], 0.)
+        self.assertEqual(fps[0] | fps[1], 0.0)
 
     def testunitcell(self):
         """Testing unit cell access"""
@@ -328,10 +329,10 @@ class TestPybel(TestToolkit):
     def testMDcomment(self):
         """Mess about with the comment field"""
         data = self.head[0].data
-        self.assertIn('Comment', data)
-        self.assertEqual(data['Comment'], 'CORINA 2.61 0041  25.10.2001')
-        data['Comment'] = 'New comment'
-        self.assertEqual(data['Comment'], 'New comment')
+        self.assertIn("Comment", data)
+        self.assertEqual(data["Comment"], "CORINA 2.61 0041  25.10.2001")
+        data["Comment"] = "New comment"
+        self.assertEqual(data["Comment"], "New comment")
 
     def importtest(self):
         self.mols[0].draw(show=True, usecoords=True)
@@ -369,10 +370,12 @@ GASTEIGER
         numatoms = len(list(self.toolkit.ob.OBMolAtomIter(self.mols[0].OBMol)))
         self.assertEqual(numatoms, 4)
 
+
 class TestOBPybelNoDraw(TestPybel):
     def testDraw(self):
-       """No drawing done"""
-       pass
+        """No drawing done"""
+        pass
+
 
 class TestPybelWithDraw(TestPybel):
 
@@ -380,26 +383,25 @@ class TestPybelWithDraw(TestPybel):
         "Testing the draw dependencies"
         t = self.toolkit.tk
         self.toolkit.tk = None
-        self.mols[0].draw(show=False, usecoords=True,
-                          filename="%s_b.png" % self.toolkit.__name__)
-        self.assertRaises(ImportError,
-                          self.importtest)
+        self.mols[0].draw(
+            show=False, usecoords=True, filename="%s_b.png" % self.toolkit.__name__
+        )
+        self.assertRaises(ImportError, self.importtest)
         self.toolkit.tk = t
 
         t = self.toolkit.oasa
         self.toolkit.oasa = None
-        self.assertRaises(ImportError,
-                          self.importtest)
+        self.assertRaises(ImportError, self.importtest)
 
 
 class TestRDKit(TestToolkit):
     toolkit = rdkit
-    tanimotoresult = 1/3.
+    tanimotoresult = 1 / 3.0
     Natoms = 9
     tpsaname = "TPSA"
     Nbits = 12
     Nfpbits = 64
-    datakeys = ['NSC']
+    datakeys = ["NSC"]
 
 
 class TestCDK(TestToolkit):
@@ -408,8 +410,8 @@ class TestCDK(TestToolkit):
     Natoms = 15
     tpsaname = "tpsa"
     Nbits = 4
-    Nfpbits = 4 # The CDK uses a true java.util.Bitset
-    datakeys = ['NSC', 'Remark', 'Title']
+    Nfpbits = 4  # The CDK uses a true java.util.Bitset
+    datakeys = ["NSC", "Remark", "Title"]
 
     def testSMARTS(self):
         """No SMARTS testing done"""
@@ -437,17 +439,18 @@ class TestCDK(TestToolkit):
         self.assertEqual(len(self.mols[0].atoms), 14)
         self.assertRaises(AttributeError, self.RSaccesstest)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     # Tidy up
     if os.path.isfile("testoutput.txt"):
         os.remove("testoutput.txt")
 
-    #testcases = [TestPybel, TestCDK, TestRDKit]
+    # testcases = [TestPybel, TestCDK, TestRDKit]
     # testcases = [TestCDK]
     # testcases = [TestPybel]
     # testcases = [TestRDKit]
     testcases = [TestPybel]
     for testcase in testcases:
-        sys.stdout.write("\n\n\nTESTING %s\n%s\n\n\n" % (testcase.__name__, "== "*10))
+        sys.stdout.write("\n\n\nTESTING %s\n%s\n\n\n" % (testcase.__name__, "== " * 10))
         myunittest = unittest.defaultTestLoader.loadTestsFromTestCase(testcase)
         unittest.TextTestRunner(verbosity=2).run(myunittest)

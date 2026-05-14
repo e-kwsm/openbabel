@@ -73,9 +73,11 @@
 // Set and reset dlopenflags so that plugin loading works fine for "import _openbabel"
 %pythonbegin %{
 import sys
+
 if sys.platform.find("linux") != -1:
     dlflags = sys.getdlopenflags()
     import ctypes
+
     sys.setdlopenflags(dlflags | ctypes.RTLD_GLOBAL)
 %}
 %pythoncode %{
@@ -439,7 +441,7 @@ OBMol.BeginResidues = OBMol.EndResidues = OBMol.BeginResidue = OBMol.EndResidue 
 
 %pythoncode %{
 class OBIter(object):
-    OBiterator = None # This is defined by the subclasses
+    OBiterator = None  # This is defined by the subclasses
 
     def __init__(self, *params):
         self.iter = self.OBiterator(*params)
@@ -463,6 +465,7 @@ class OBIter(object):
 
     __next__ = next
 
+
 class OBIterWithDepth(OBIter):
     def next(self):
         if not self.finished:
@@ -478,41 +481,76 @@ class OBIterWithDepth(OBIter):
 
     __next__ = next
 
+
 class OBAtomAtomIter(OBIter):
     """Iterator over the atoms attached to an atom."""
+
     OBiterator = _OBAtomAtomIter
+
+
 class OBAtomBondIter(OBIter):
     """Iterator over the bonds attached to an atom."""
+
     OBiterator = _OBAtomBondIter
+
+
 class OBMolAngleIter(OBIter):
     """Iterator over the angles in a molecule."""
+
     OBiterator = _OBMolAngleIter
+
+
 class OBMolAtomIter(OBIter):
     """Iterator over the atoms in a molecule."""
+
     OBiterator = _OBMolAtomIter
+
+
 class OBMolAtomBFSIter(OBIterWithDepth):
     """Iterator over the atoms in a molecule in a breadth-first manner."""
+
     OBiterator = _OBMolAtomBFSIter
+
+
 class OBMolAtomDFSIter(OBIter):
     """Iterator over the atoms in a molecule in a depth-first manner."""
+
     OBiterator = _OBMolAtomDFSIter
+
+
 class OBMolBondIter(OBIter):
     """Iterator over the bonds in a molecule."""
+
     OBiterator = _OBMolBondIter
+
+
 class OBMolPairIter(OBIter):
     """Iterator over pairs of atoms in a molecule."""
+
     OBiterator = _OBMolPairIter
+
+
 class OBMolRingIter(OBIter):
     """Iterator over the rings in a molecule."""
+
     OBiterator = _OBMolRingIter
+
+
 class OBMolTorsionIter(OBIter):
     """Iterator over the torsion angles in a molecule."""
+
     OBiterator = _OBMolTorsionIter
+
+
 class OBResidueIter(OBIter):
     """Iterator over the residues in a molecule."""
+
     OBiterator = _OBResidueIter
+
+
 class OBResidueAtomIter(OBIter):
     """Iterator over the atoms in a residue."""
+
     OBiterator = _OBResidueAtomIter
 %}
 
@@ -522,7 +560,7 @@ class OBResidueAtomIter(OBIter):
 def double_array(mylist):
     """Create a C array of doubles from a list."""
     c = doubleArray(len(mylist))
-    for i,v in enumerate(mylist):
+    for i, v in enumerate(mylist):
         c[i] = v
     return c
 %}
@@ -563,7 +601,11 @@ aromtyper = cvar.aromtyper
 
 %pythoncode %{
 def exception(*args):
-    raise Exception("Use OBMol.CloneData instead. OBMol.SetData is only for use from C++.")
+    raise Exception(
+        "Use OBMol.CloneData instead. OBMol.SetData is only for use from C++."
+    )
+
+
 OBMol.SetData = exception
 %}
 
