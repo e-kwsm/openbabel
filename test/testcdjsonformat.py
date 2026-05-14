@@ -18,7 +18,7 @@ import unittest
 from testbindings import PybelWrapper, pybel
 
 
-filedir = os.path.join(os.path.dirname(__file__), 'cdjson')
+filedir = os.path.join(os.path.dirname(__file__), "cdjson")
 
 
 class TestCdJsonFormat(PybelWrapper):
@@ -38,12 +38,12 @@ class TestCdJsonFormat(PybelWrapper):
 
     def test_read_empty(self):
         """Test reading a file with an empty molecules array."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'empty.json')))
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "empty.json")))
         self.assertEqual(mols, [])
 
     def test_read_proton(self):
         """Test reading a file with a single hydrogen atom (and no bonds)."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'proton.json')))
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "proton.json")))
         self.assertEqual(len(mols), 1)
         self.assertEqual(mols[0].OBMol.NumAtoms(), 1)
         self.assertEqual(mols[0].OBMol.GetAtom(1).GetFormalCharge(), 1)
@@ -51,58 +51,62 @@ class TestCdJsonFormat(PybelWrapper):
 
     def test_read_multiple(self):
         """Test reading a file with multiple molecules."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
         self.assertEqual(len(mols), 2)
         self.assertEqual(mols[0].OBMol.NumAtoms(), 4)
         self.assertEqual(mols[1].OBMol.NumAtoms(), 4)
 
     def test_read_atoms(self):
         """Test reading atoms."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
         self.assertEqual([a.atomicnum for a in mols[0].atoms], [6, 6, 6, 6])
         self.assertEqual([a.formalcharge for a in mols[0].atoms], [0, 0, 0, 0])
         self.assertEqual([a.totalvalence for a in mols[0].atoms], [4, 4, 4, 4])
 
     def test_read_molecule(self):
         """Test that the molecular formula read is Butane."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
-        self.assertEqual(mols[0].write().strip(), 'C(C)(C)C')
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
+        self.assertEqual(mols[0].write().strip(), "C(C)(C)C")
 
     def test_read_bonds(self):
         """Test reading bonds."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
         self.assertEqual(mols[0].OBMol.NumBonds(), 3)
-        self.assertEqual([mols[0].OBMol.GetBond(i).GetBondOrder() for i in range(0, 3)], [1, 1, 1])
+        self.assertEqual(
+            [mols[0].OBMol.GetBond(i).GetBondOrder() for i in range(0, 3)], [1, 1, 1]
+        )
 
     def test_write_atoms(self):
         """Test writing atoms."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
-        output = json.loads(mols[0].write('cdjson'))
-        self.assertEqual(len(output['m'][0]['a']), 4)
-        for a in output['m'][0]['a']:
-            self.assertIn('x', a)
-            self.assertIn('y', a)
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
+        output = json.loads(mols[0].write("cdjson"))
+        self.assertEqual(len(output["m"][0]["a"]), 4)
+        for a in output["m"][0]["a"]:
+            self.assertIn("x", a)
+            self.assertIn("y", a)
 
     def test_write_bonds(self):
         """Test writing bonds."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
-        output = json.loads(mols[0].write('cdjson'))
-        self.assertEqual(output['m'][0]['b'], [{'b': 0, 'e': 1}, {'b': 0, 'e': 2}, {'b': 0, 'e': 3}])
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
+        output = json.loads(mols[0].write("cdjson"))
+        self.assertEqual(
+            output["m"][0]["b"], [{"b": 0, "e": 1}, {"b": 0, "e": 2}, {"b": 0, "e": 3}]
+        )
 
     def test_write_minified(self):
         """Test writing minified output."""
-        mols = list(pybel.readfile("cdjson", os.path.join(filedir, 'butane.json')))
-        output = mols[0].write('cdjson', opt={'m': None})
-        self.assertNotIn('\n', output)
-        output = mols[0].write('cdjson')
-        self.assertIn('\n', output)
+        mols = list(pybel.readfile("cdjson", os.path.join(filedir, "butane.json")))
+        output = mols[0].write("cdjson", opt={"m": None})
+        self.assertNotIn("\n", output)
+        output = mols[0].write("cdjson")
+        self.assertIn("\n", output)
 
     def test_read_write_round_trip(self):
-        mol = pybel.readstring('smi','C(=O)CO')
+        mol = pybel.readstring("smi", "C(=O)CO")
         mol.make2D()
-        cdjson = mol.write('cdjson')
-        cdmol = pybel.readstring('cdjson', cdjson)
-        self.assertEqual(cdmol.write().strip(), 'C(=O)CO')
+        cdjson = mol.write("cdjson")
+        cdmol = pybel.readstring("cdjson", cdjson)
+        self.assertEqual(cdmol.write().strip(), "C(=O)CO")
 
 
 if __name__ == "__main__":

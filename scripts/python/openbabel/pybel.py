@@ -26,6 +26,7 @@ import xml.etree.ElementTree as ET
 if sys.platform[:4] == "java":
     import org.openbabel as ob
     import java.lang.System
+
     java.lang.System.loadLibrary("openbabel_java")
     _obfuncs = ob.openbabel_java
     _obconsts = ob.openbabel_javaConstants
@@ -33,8 +34,9 @@ if sys.platform[:4] == "java":
 elif sys.platform[:3] == "cli":
     import System
     import clr
-    clr.AddReference('System.Windows.Forms')
-    clr.AddReference('System.Drawing')
+
+    clr.AddReference("System.Windows.Forms")
+    clr.AddReference("System.Drawing")
 
     from System.Windows.Forms import Application, DockStyle, Form, PictureBox
     from System.Windows.Forms import PictureBoxSizeMode
@@ -45,10 +47,12 @@ elif sys.platform[:3] == "cli":
         _obdotnet = _obdotnet[1:-1]
     clr.AddReferenceToFileAndPath(os.path.join(_obdotnet, "OBDotNet.dll"))
     import OpenBabel as ob
+
     _obfuncs = ob.openbabel_csharp
     _obconsts = ob.openbabel_csharp
 else:
     from . import openbabel as ob
+
     _obfuncs = _obconsts = ob
     try:
         import tkinter as tk
@@ -61,8 +65,10 @@ else:
 def _formatstodict(list):
     if sys.platform[:4] == "java":
         list = [list.get(i) for i in range(list.size())]
-    broken = [x.replace("[Read-only]", "").replace("[Write-only]", "").split(
-              " -- ") for x in list]
+    broken = [
+        x.replace("[Read-only]", "").replace("[Write-only]", "").split(" -- ")
+        for x in list
+    ]
     broken = [(x, y.strip()) for x, y in broken]
     return dict(broken)
 
@@ -80,6 +86,7 @@ def _getpluginnames(ptype):
     if sys.platform[:4] == "java":
         plugins = [plugins.get(i) for i in range(plugins.size())]
     return [x.split()[0] for x in plugins if x.strip()]
+
 
 _obconv = ob.OBConversion()
 _builder = ob.OBBuilder()
@@ -159,30 +166,30 @@ def readfile(format=None, filename=None, opt=None):
     # If filename does not exist, OSError should be raised instead.
     if not os.path.isfile(filename):
         # use a very unusual string to clarify errors when format not works
-        filename = '>>/NONE'
+        filename = ">>/NONE"
     if not format:
-        if filename.endswith('.tgz'):
+        if filename.endswith(".tgz"):
             new = filename[:-4]
-        elif filename.endswith('.tar.gz'):
+        elif filename.endswith(".tar.gz"):
             new = filename[:-7]
-        elif filename.endswith('.gz'):
+        elif filename.endswith(".gz"):
             # note: .gz has to be after .tar.gz
             new = filename[:-3]
         else:
             new = filename
-        format = os.path.splitext(new)[1].lstrip('.')
+        format = os.path.splitext(new)[1].lstrip(".")
     obconversion = ob.OBConversion()
     formatok = obconversion.SetInFormat(format)
     if not formatok:
         if format:
             raise ValueError("%s is not a recognised Open Babel format" % format)
         else:
-            if filename == '>>/NONE':
+            if filename == ">>/NONE":
                 raise ValueError("Input file does not exist")
             else:
                 raise ValueError(
                     "File format (%s) guessed from file (%s) "
-                    "is not a recognised Open Babel format" % (format,filename)
+                    "is not a recognised Open Babel format" % (format, filename)
                 )
     if not os.path.isfile(filename):
         raise OSError("Input file does not exist")
@@ -193,6 +200,7 @@ def readfile(format=None, filename=None, opt=None):
             obconversion.AddOption(k, obconversion.INOPTIONS)
         else:
             obconversion.AddOption(k, obconversion.INOPTIONS, str(v))
+
     def filereader():
         obmol = ob.OBMol()
         notatend = obconversion.ReadFile(obmol, filename)
@@ -200,6 +208,7 @@ def readfile(format=None, filename=None, opt=None):
             yield Molecule(obmol)
             obmol = ob.OBMol()
             notatend = obconversion.Read(obmol)
+
     return filereader()
 
 
@@ -239,8 +248,7 @@ def readstring(format, string, opt=None):
 
     success = obconversion.ReadString(obmol, string)
     if not success:
-        raise OSError("Failed to convert '%s' to format '%s'" % (
-            string, format))
+        raise OSError("Failed to convert '%s' to format '%s'" % (string, format))
     return Molecule(obmol)
 
 
@@ -276,21 +284,21 @@ class Outputfile(object):
         self.filename = filename
         if not overwrite and os.path.isfile(self.filename):
             raise OSError(
-                "%s already exists. Use 'overwrite=True' to overwrite it." %
-                self.filename)
+                "%s already exists. Use 'overwrite=True' to overwrite it."
+                % self.filename
+            )
 
         self.obConversion = ob.OBConversion()
         formatok = self.obConversion.SetOutFormat(self.format)
         if not formatok:
-            raise ValueError("%s is not a recognised Open Babel format" %
-                             format)
+            raise ValueError("%s is not a recognised Open Babel format" % format)
         if filename:
             if isinstance(filename, bytes):
-                gzextension = b'.gz'
+                gzextension = b".gz"
             else:
-                gzextension = '.gz'
+                gzextension = ".gz"
             if os.path.splitext(filename)[1] == gzextension:
-                self.obconversion.AddOption('z', self.obConversion.GENOPTIONS)
+                self.obconversion.AddOption("z", self.obConversion.GENOPTIONS)
         for k, v in opt.items():
             if v is None:
                 self.obConversion.AddOption(k, self.obConversion.OUTOPTIONS)
@@ -345,6 +353,7 @@ class Molecule(object):
     The underlying Open Babel molecule can be accessed using the attribute:
        OBMol
     """
+
     _cinfony = True
 
     def __init__(self, OBMol):
@@ -361,8 +370,7 @@ class Molecule(object):
 
     @property
     def atoms(self):
-        return [Atom(self.OBMol.GetAtom(i + 1))
-                for i in range(self.OBMol.NumAtoms())]
+        return [Atom(self.OBMol.GetAtom(i + 1)) for i in range(self.OBMol.NumAtoms())]
 
     @property
     def residues(self):
@@ -413,6 +421,7 @@ class Molecule(object):
 
     def _settitle(self, val):
         self.OBMol.SetTitle(val)
+
     title = property(_gettitle, _settitle)
 
     @property
@@ -476,8 +485,10 @@ class Molecule(object):
         try:
             import imolecule
         except ImportError:
-            raise ImportError("Cannot import 3D rendering. Please install "
-                              "with `pip install imolecule`.")
+            raise ImportError(
+                "Cannot import 3D rendering. Please install "
+                "with `pip install imolecule`."
+            )
         return imolecule.draw(self.clone, format="pybel", display_html=False)
 
     def calcdesc(self, descnames=[]):
@@ -497,8 +508,9 @@ class Molecule(object):
             try:
                 desc = _descdict[descname]
             except KeyError:
-                raise ValueError(("%s is not a recognised Open Babel "
-                                  "descriptor type") % descname)
+                raise ValueError(
+                    ("%s is not a recognised Open Babel descriptor type") % descname
+                )
             ans[descname] = desc.Predict(self.OBMol)
         return ans
 
@@ -519,7 +531,8 @@ class Molecule(object):
             fingerprinter = _fingerprinters[fptype]
         except KeyError:
             raise ValueError(
-                "%s is not a recognised Open Babel Fingerprint type" % fptype)
+                "%s is not a recognised Open Babel Fingerprint type" % fptype
+            )
         fingerprinter.GetFingerprint(self.OBMol, fp)
         return Fingerprint(fp)
 
@@ -538,7 +551,8 @@ class Molecule(object):
             charge_model = _charges[model]
         except KeyError:
             raise ValueError(
-                "%s is not a recognised Open Babel Charge Model type" % model)
+                "%s is not a recognised Open Babel Charge Model type" % model
+            )
         success = charge_model.ComputeCharges(self.OBMol)
         if not success:
             errors = ob.obErrorLog.GetMessagesOfLevel(ob.obError)
@@ -570,15 +584,14 @@ class Molecule(object):
         obconversion = ob.OBConversion()
         formatok = obconversion.SetOutFormat(format)
         if not formatok:
-            raise ValueError("%s is not a recognised Open Babel format" %
-                             format)
+            raise ValueError("%s is not a recognised Open Babel format" % format)
         if filename:
             if isinstance(filename, bytes):
-                gzextension = b'.gz'
+                gzextension = b".gz"
             else:
-                gzextension = '.gz'
+                gzextension = ".gz"
             if os.path.splitext(filename)[1] == gzextension:
-                obconversion.AddOption('z', self.obConversion.GENOPTIONS)
+                obconversion.AddOption("z", self.obConversion.GENOPTIONS)
         for k, v in opt.items():
             if v is None:
                 obconversion.AddOption(k, obconversion.OUTOPTIONS)
@@ -587,8 +600,10 @@ class Molecule(object):
 
         if filename:
             if not overwrite and os.path.isfile(filename):
-                raise OSError(("%s already exists. Use 'overwrite=True' to "
-                               "overwrite it.") % filename)
+                raise OSError(
+                    ("%s already exists. Use 'overwrite=True' to overwrite it.")
+                    % filename
+                )
             obconversion.WriteFile(self.OBMol, filename)
             obconversion.CloseOutFile()
         else:
@@ -618,7 +633,7 @@ class Molecule(object):
 
     def make2D(self):
         """Generate 2D coordinates."""
-        _operations['gen2D'].Do(self.OBMol)
+        _operations["gen2D"].Do(self.OBMol)
 
     def make3D(self, forcefield="mmff94", steps=50):
         """Generate 3D coordinates.
@@ -671,36 +686,43 @@ class Molecule(object):
         if show or filename:
             formatok = obconversion.SetOutFormat("_png2")
             if not formatok:
-                raise ImportError("PNG depiction support not found. You should "
-                                  "compile Open Babel with support for Cairo. See "
-                                  "installation instructions for more "
-                                  "information.")
+                raise ImportError(
+                    "PNG depiction support not found. You should "
+                    "compile Open Babel with support for Cairo. See "
+                    "installation instructions for more "
+                    "information."
+                )
 
         # Need to copy to avoid removing hydrogens from self
         workingmol = Molecule(ob.OBMol(self.OBMol))
         workingmol.removeh()
 
         if not usecoords:
-            _operations['gen2D'].Do(workingmol.OBMol)
+            _operations["gen2D"].Do(workingmol.OBMol)
         if update:
             if workingmol.OBMol.NumAtoms() != self.OBMol.NumAtoms():
-                raise RuntimeError("It is not possible to update the original "
-                                   "molecule with the calculated coordinates, "
-                                   "as the original molecule contains "
-                                   "explicit hydrogens for which no "
-                                   "coordinates have been calculated.")
+                raise RuntimeError(
+                    "It is not possible to update the original "
+                    "molecule with the calculated coordinates, "
+                    "as the original molecule contains "
+                    "explicit hydrogens for which no "
+                    "coordinates have been calculated."
+                )
             else:
                 for i in range(workingmol.OBMol.NumAtoms()):
                     self.OBMol.GetAtom(i + 1).SetVector(
-                        workingmol.OBMol.GetAtom(i + 1).GetVector())
+                        workingmol.OBMol.GetAtom(i + 1).GetVector()
+                    )
         if filename:
             filedes = None
         else:
             if sys.platform[:3] == "cli" and show:
-                raise RuntimeError("It is only possible to show the molecule "
-                                   "if you provide a filename. The reason for "
-                                   "this is that I kept having problems "
-                                   "when using temporary files.")
+                raise RuntimeError(
+                    "It is only possible to show the molecule "
+                    "if you provide a filename. The reason for "
+                    "this is that I kept having problems "
+                    "when using temporary files."
+                )
 
             filedes, filename = tempfile.mkstemp()
 
@@ -712,10 +734,12 @@ class Molecule(object):
                 image = javax.imageio.ImageIO.read(java.io.File(filename))
                 frame = javax.swing.JFrame(visible=1)
                 frame.getContentPane().add(
-                    javax.swing.JLabel(javax.swing.ImageIcon(image)))
+                    javax.swing.JLabel(javax.swing.ImageIcon(image))
+                )
                 frame.setSize(300, 300)
                 frame.setDefaultCloseOperation(
-                    javax.swing.WindowConstants.DISPOSE_ON_CLOSE)
+                    javax.swing.WindowConstants.DISPOSE_ON_CLOSE
+                )
                 frame.show()
             elif sys.platform[:3] == "cli":
                 form = _MyForm()
@@ -723,20 +747,21 @@ class Molecule(object):
                 Application.Run(form)
             else:
                 if not tk:
-                    raise ImportError("Tkinter or Python Imaging Library not "
-                                      "found, but is required for image "
-                                      "display. See installation instructions "
-                                      "for more information.")
+                    raise ImportError(
+                        "Tkinter or Python Imaging Library not "
+                        "found, but is required for image "
+                        "display. See installation instructions "
+                        "for more information."
+                    )
                 root = tk.Tk()
-                root.title((hasattr(self, "title") and self.title)
-                           or self.__str__().rstrip())
-                frame = tk.Frame(root, colormap="new",
-                                 visual='truecolor').pack()
+                root.title(
+                    (hasattr(self, "title") and self.title) or self.__str__().rstrip()
+                )
+                frame = tk.Frame(root, colormap="new", visual="truecolor").pack()
                 image = PIL.open(filename)
                 imagedata = piltk.PhotoImage(image)
                 tk.Label(frame, image=imagedata).pack()
-                tk.Button(root, text="Close", command=root.destroy).pack(
-                    fill=tk.X)
+                tk.Button(root, text="Close", command=root.destroy).pack(fill=tk.X)
                 root.mainloop()
         if filedes:
             os.close(filedes)
@@ -799,18 +824,22 @@ class Atom(object):
     @property
     def heavydegree(self):
         return self.OBAtom.GetHvyDegree()
-    
+
     @property
     def heavyvalence(self):
-        raise AttributeError("This property has been renamed. Use Atom.heavydegree instead.")
+        raise AttributeError(
+            "This property has been renamed. Use Atom.heavydegree instead."
+        )
 
     @property
     def heterodegree(self):
         return self.OBAtom.GetHeteroDegree()
-    
+
     @property
     def heterovalence(self):
-        raise AttributeError("This property has been renamed. Use Atom.heterodegree instead.")
+        raise AttributeError(
+            "This property has been renamed. Use Atom.heterodegree instead."
+        )
 
     @property
     def hyb(self):
@@ -823,11 +852,11 @@ class Atom(object):
     @property
     def index(self):
         return self.OBAtom.GetIndex()
-    
+
     @property
     def explicitvalence(self):
         return self.OBAtom.GetExplicitValence()
-        
+
     @property
     def totalvalence(self):
         return self.OBAtom.GetTotalValence()
@@ -1037,9 +1066,12 @@ class MoleculeData(object):
         data = self._mol.GetData()
         if sys.platform[:4] == "java":
             data = [data.get(i) for i in range(data.size())]
-        answer = [x for x in data if
-                  x.GetDataType() == _obconsts.PairData or
-                  x.GetDataType() == _obconsts.CommentData]
+        answer = [
+            x
+            for x in data
+            if x.GetDataType() == _obconsts.PairData
+            or x.GetDataType() == _obconsts.CommentData
+        ]
         if sys.platform[:3] != "cli":
             answer = [_obfuncs.toPairData(x) for x in answer]
         return answer
@@ -1104,9 +1136,10 @@ class MoleculeData(object):
     def __repr__(self):
         return dict(self.items()).__repr__()
 
-if sys.platform[:3] == "cli":
-    class _MyForm(Form):
 
+if sys.platform[:3] == "cli":
+
+    class _MyForm(Form):
         def __init__(self):
             Form.__init__(self)
 
@@ -1127,6 +1160,8 @@ if sys.platform[:3] == "cli":
             self.Controls.Add(pictureBox)
             self.Show()
 
+
 if __name__ == "__main__":  # pragma: no cover
     import doctest
+
     doctest.testmod(verbose=True)

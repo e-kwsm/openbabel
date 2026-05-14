@@ -18,6 +18,7 @@ import unittest
 
 from testbabel import run_exec, BaseTest
 
+
 class TestSym(BaseTest):
     """A series of tests relating to fastsearch functionality"""
 
@@ -52,7 +53,6 @@ c12[C]3([C@H]4([N@@](CCc1c1ccccc1[nH]2)C[C@H](C=C4CC)C3))C(=O)OC"""
 
         output, error = run_exec(None, ["obabel", "ten.fs", "-ifs", "-s", query, "-at", "0.5", "-aa", "-osmi"])
         self.assertConverted(error, 1)
-
 
 
 if __name__ == "__main__":
