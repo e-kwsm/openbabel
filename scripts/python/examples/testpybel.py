@@ -23,9 +23,12 @@ except AttributeError:
 class TestToolkit(unittest.TestCase):
 
     def setUp(self):
-        self.mols = [self.toolkit.readstring("smi", "CCCC"),
-                     self.toolkit.readstring("smi", "CCCN")]
-        self.head = list(self.toolkit.readfile("sdf", os.path.join(here, "head.sdf")))
+        self.mols = [
+            self.toolkit.readstring("smi", "CCCC"),
+            self.toolkit.readstring("smi", "CCCN")
+        ]
+        self.head = list(
+            self.toolkit.readfile("sdf", os.path.join(here, "head.sdf")))
         self.atom = self.head[0].atoms[1]
 
     def testattributes(self):
@@ -75,11 +78,9 @@ class TestToolkit(unittest.TestCase):
     def testselfconversion(self):
         """Test that the toolkit can eat its own dog-food."""
         newmol = self.toolkit.Molecule(self.head[0])
-        self.assertEqual(newmol._exchange,
-                         self.head[0]._exchange)
+        self.assertEqual(newmol._exchange, self.head[0]._exchange)
         newmol = self.toolkit.Molecule(self.mols[0])
-        self.assertEqual(newmol._exchange,
-                         self.mols[0]._exchange)
+        self.assertEqual(newmol._exchange, self.mols[0]._exchange)
 
     def testLocalOpt(self):
         """Test that local optimisation affects the coordinates"""
@@ -109,11 +110,13 @@ class TestToolkit(unittest.TestCase):
         """Create a 2D depiction"""
         self.mols[0].draw(show=False,
                           filename="%s.png" % self.toolkit.__name__)
-        self.mols[0].draw(show=False) # Just making sure that it doesn't raise an Error
+        self.mols[0].draw(
+            show=False)  # Just making sure that it doesn't raise an Error
         self.mols[0].draw(show=False, update=True)
         coords = [x.coords for x in self.mols[0].atoms[0:2]]
         self.assertNotEqual(coords, [(0., 0., 0.), (0., 0., 0.)])
-        self.mols[0].draw(show=False, usecoords=True,
+        self.mols[0].draw(show=False,
+                          usecoords=True,
                           filename="%s_b.png" % self.toolkit.__name__)
 
     def testRSgetprops(self):
@@ -143,7 +146,7 @@ M  END
 """
         data, result = test.split("\n"), as_mol.split("\n")
         self.assertEqual(len(data), len(result))
-        self.assertEqual(data[-2], result[-2].rstrip()) # M  END
+        self.assertEqual(data[-2], result[-2].rstrip())  # M  END
 
     def testRSstringrepr(self):
         """Test the string representation of a molecule"""
@@ -161,7 +164,8 @@ M  END
         self.assertRaises(OSError, self.RFreaderror)
 
     def RFformaterror(self):
-        mol = next(self.toolkit.readfile("noel", os.path.join(here,"head.sdf")))
+        mol = next(
+            self.toolkit.readfile("noel", os.path.join(here, "head.sdf")))
 
     def testRFformaterror(self):
         """Test that invalid formats raise an error"""
@@ -200,15 +204,16 @@ M  END
 
     def testRFoutputfile(self):
         """Test the Outputfile class"""
-        self.assertRaises(ValueError, self.toolkit.Outputfile, "noel", "testoutput.txt")
+        self.assertRaises(ValueError, self.toolkit.Outputfile, "noel",
+                          "testoutput.txt")
         with self.toolkit.Outputfile("sdf", "testoutput.txt") as outputfile:
             for mol in self.head:
                 outputfile.write(mol)
         self.assertRaises(OSError, outputfile.write, mol)
-        self.assertRaises(OSError, self.toolkit.Outputfile, "sdf", "testoutput.txt")
+        self.assertRaises(OSError, self.toolkit.Outputfile, "sdf",
+                          "testoutput.txt")
         input = open("testoutput.txt", "r")
-        numdollar = len([x for x in input.readlines()
-                         if x.rstrip() == "$$$$"])
+        numdollar = len([x for x in input.readlines() if x.rstrip() == "$$$$"])
         input.close()
         os.remove("testoutput.txt")
         self.assertEqual(numdollar, 2)
@@ -239,7 +244,7 @@ M  END
         self.assertRaises(KeyError, self.MDaccesstest)
         data['noel'] = 'testvalue'
         self.assertEqual(data['noel'], 'testvalue')
-        newvalues = {'hey':'there', 'yo':1}
+        newvalues = {'hey': 'there', 'yo': 1}
         data.update(newvalues)
         self.assertEqual(data['yo'], '1')
         self.assertIn('there', data.values())
@@ -299,20 +304,23 @@ M  END
 
     def testAddh(self):
         """Adding and removing hydrogens"""
-        self.assertEqual(len(self.mols[0].atoms),4)
+        self.assertEqual(len(self.mols[0].atoms), 4)
         self.mols[0].addh()
-        self.assertEqual(len(self.mols[0].atoms),14)
+        self.assertEqual(len(self.mols[0].atoms), 14)
         self.mols[0].removeh()
-        self.assertEqual(len(self.mols[0].atoms),4)
+        self.assertEqual(len(self.mols[0].atoms), 4)
+
 
 class TestPybel(TestToolkit):
     toolkit = pybel
-    tanimotoresult = 1/3.
+    tanimotoresult = 1 / 3.
     Natoms = 15
     tpsaname = "TPSA"
     Nbits = 3
     Nfpbits = 32
-    datakeys = ['NSC', 'Comment', 'OpenBabel Symmetry Classes', 'MOL Chiral Flag']
+    datakeys = [
+        'NSC', 'Comment', 'OpenBabel Symmetry Classes', 'MOL Chiral Flag'
+    ]
 
     def testFP_FP3(self):
         "Checking the results from FP3"
@@ -321,7 +329,8 @@ class TestPybel(TestToolkit):
 
     def testunitcell(self):
         """Testing unit cell access"""
-        mol = next(self.toolkit.readfile("cif", os.path.join(here, "hashizume.cif")))
+        mol = next(
+            self.toolkit.readfile("cif", os.path.join(here, "hashizume.cif")))
         cell = mol.unitcell
         self.assertAlmostEqual(cell.GetAlpha(), 93.0, 1)
 
@@ -369,10 +378,13 @@ GASTEIGER
         numatoms = len(list(self.toolkit.ob.OBMolAtomIter(self.mols[0].OBMol)))
         self.assertEqual(numatoms, 4)
 
+
 class TestOBPybelNoDraw(TestPybel):
+
     def testDraw(self):
-       """No drawing done"""
-       pass
+        """No drawing done"""
+        pass
+
 
 class TestPybelWithDraw(TestPybel):
 
@@ -380,21 +392,20 @@ class TestPybelWithDraw(TestPybel):
         "Testing the draw dependencies"
         t = self.toolkit.tk
         self.toolkit.tk = None
-        self.mols[0].draw(show=False, usecoords=True,
+        self.mols[0].draw(show=False,
+                          usecoords=True,
                           filename="%s_b.png" % self.toolkit.__name__)
-        self.assertRaises(ImportError,
-                          self.importtest)
+        self.assertRaises(ImportError, self.importtest)
         self.toolkit.tk = t
 
         t = self.toolkit.oasa
         self.toolkit.oasa = None
-        self.assertRaises(ImportError,
-                          self.importtest)
+        self.assertRaises(ImportError, self.importtest)
 
 
 class TestRDKit(TestToolkit):
     toolkit = rdkit
-    tanimotoresult = 1/3.
+    tanimotoresult = 1 / 3.
     Natoms = 9
     tpsaname = "TPSA"
     Nbits = 12
@@ -408,7 +419,7 @@ class TestCDK(TestToolkit):
     Natoms = 15
     tpsaname = "tpsa"
     Nbits = 4
-    Nfpbits = 4 # The CDK uses a true java.util.Bitset
+    Nfpbits = 4  # The CDK uses a true java.util.Bitset
     datakeys = ['NSC', 'Remark', 'Title']
 
     def testSMARTS(self):
@@ -437,7 +448,8 @@ class TestCDK(TestToolkit):
         self.assertEqual(len(self.mols[0].atoms), 14)
         self.assertRaises(AttributeError, self.RSaccesstest)
 
-if __name__=="__main__":
+
+if __name__ == "__main__":
     # Tidy up
     if os.path.isfile("testoutput.txt"):
         os.remove("testoutput.txt")
@@ -448,6 +460,7 @@ if __name__=="__main__":
     # testcases = [TestRDKit]
     testcases = [TestPybel]
     for testcase in testcases:
-        sys.stdout.write("\n\n\nTESTING %s\n%s\n\n\n" % (testcase.__name__, "== "*10))
+        sys.stdout.write("\n\n\nTESTING %s\n%s\n\n\n" %
+                         (testcase.__name__, "== " * 10))
         myunittest = unittest.defaultTestLoader.loadTestsFromTestCase(testcase)
         unittest.TextTestRunner(verbosity=2).run(myunittest)

@@ -18,6 +18,7 @@ import unittest
 
 from testbabel import run_exec, executable, log, BaseTest
 
+
 class TestDistanceGeomStereo(BaseTest):
     """A series of tests relating to 3D stereo"""
 
@@ -31,8 +32,8 @@ class TestDistanceGeomStereo(BaseTest):
         # A series of aromatic strings, which should convert to themselves
         self.smiles = [
             'c1ccccc1',  # benzene
-            'C#C', # triple bond
-            'CC=CC', # butene unspecified
+            'C#C',  # triple bond
+            'CC=CC',  # butene unspecified
             'C/C=C\\C',  # Z-butene
             'C/C=C/C',  # E-butene
             'NC(Br)(O)C',
@@ -57,7 +58,7 @@ class TestDistanceGeomStereo(BaseTest):
             #'CN([C@@H]1C(=O)C(=C([C@@]2([C@H]1C[C@@H]1C(=C(O)c3c([C@@]1(C)O)c(Cl)ccc3O)C2=O)O)O)C(=O)N)C',
             #'C[C@@H](CC(=O)OC[C@@]12CC[C@H]3[C@@]([C@@H]2C[C@@H](O1)C1=CC(=O)O[C@H]1O)(C)CC[C@@H]1[C@]3(C)CCCC1(C)C)O',
             #'CC(=O)OC[C@@]12CC[C@H]3[C@@]([C@@H]2C[C@H](O1)C1=CC(=O)O[C@H]1O)(C)CC[C@@H]1[C@]3(C)CCCC1(C)C'
-            ]
+        ]
 
         for smi in self.smiles:
             # generate a canonical SMILES in case the ordering changes

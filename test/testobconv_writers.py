@@ -16,7 +16,6 @@ import re
 # versions of Open Babel.
 ENABLE_WORKAROUND = 0
 
-
 # Some of the formats embed the version in the output
 VERSION = ob.OBReleaseVersion()
 
@@ -78,13 +77,15 @@ M  END
 if not _rxn_conv.ReadString(_alchemy_mol, ALCHEMY_RXN):
     if ENABLE_WORKAROUND:
         # For some reason this record fails under Open Babel 2.4.1
-        sys.stderr.write("Unable to parse RXN record? Reaction tests will fail.\n")
+        sys.stderr.write(
+            "Unable to parse RXN record? Reaction tests will fail.\n")
     else:
         raise AssertionError("Cannot parse RXN record")
 
 # Some of the tests pass in a SMILES string
 _smi_conv = ob.OBConversion()
 _smi_conv.SetInAndOutFormats("smi", "smi")
+
 
 def get_mol(test_case, mol):
     if mol is None:
@@ -93,7 +94,7 @@ def get_mol(test_case, mol):
         mol = ob.OBMol()
         assert _default_conv.ReadString(mol, PHENOL_SDF)
         return mol
-    
+
     if isinstance(mol, str):
         # Parse it as a SMILES string with optional title
         terms = mol.split(None, 1)
@@ -105,23 +106,24 @@ def get_mol(test_case, mol):
             title = terms[1]
         else:
             raise AssertionError(mol)
-            
+
         mol = ob.OBMol()
         if not _smi_conv.ReadString(mol, smiles):
-            test_case.fail("Cannot parse SMILES %r" % (smiles,))
+            test_case.fail("Cannot parse SMILES %r" % (smiles, ))
         mol.SetTitle(title)
         return mol
 
     # Must have passed in a molecule. Return it.
     return mol
 
+
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
 def get_converter(test_case, output_format, options=None):
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
-        test_case.fail("Cannot set output format %r" % (output_format,))
-    
+        test_case.fail("Cannot set output format %r" % (output_format, ))
+
     if options:
         # Can pass in a dictionary ...
         if isinstance(options, dict):
@@ -136,16 +138,17 @@ def get_converter(test_case, output_format, options=None):
         conv.SetOutputIndex(1)
     return conv
 
+
 def save_to_pasteboard(text):
     # This test suite was developed on a Mac.
     # This code copies the text to the paste buffer,
     # which I can then use as the expected text.
     import subprocess
-    p = subprocess.Popen(["pbcopy"],
-                         stdin=subprocess.PIPE)
+    p = subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE)
     p.stdin.write(text.encode("utf8"))
     p.stdin.close()
     p.wait()
+
 
 def test_write_string(test_case, mol, conv, expected_output, normalize):
     output = conv.WriteString(mol)
@@ -161,8 +164,10 @@ def test_write_string(test_case, mol, conv, expected_output, normalize):
     if normalize is not None:
         output = normalize(output)
         expected_output = normalize(expected_output)
-        
-    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"), expected_output.replace("\r\n", "\n"))
+
+    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"),
+                                   expected_output.replace("\r\n", "\n"))
+
 
 def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
     # I think 'surrogateescape' is the right way to handle this
@@ -173,14 +178,17 @@ def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
     ## print("===", repr(output))
     test_case.assertEqual(output, expected_output)
 
+
 def test_write_file(test_case, mol, conv, expected_output, normalize):
-    temp_file_object = tempfile.NamedTemporaryFile(delete=False) # we will delete it manually
+    temp_file_object = tempfile.NamedTemporaryFile(
+        delete=False)  # we will delete it manually
     temp_filename = temp_file_object.name
     if os.name == 'nt':
-        temp_file_object.close() # Can't write to open file on Windows so we have to close it (but this could lead to a race condition if someone else uses the same temporary file name)
+        temp_file_object.close(
+        )  # Can't write to open file on Windows so we have to close it (but this could lead to a race condition if someone else uses the same temporary file name)
     try:
         test_case.assertTrue(conv.WriteFile(mol, temp_filename))
-        conv.CloseOutFile() # we can't delete it on Windows otherwise
+        conv.CloseOutFile()  # we can't delete it on Windows otherwise
         with open(temp_filename) as f:
             output = f.read()
     finally:
@@ -189,12 +197,14 @@ def test_write_file(test_case, mol, conv, expected_output, normalize):
 
     if 0:
         save_to_pasteboard(output)
-        
+
     if normalize is not None:
         output = normalize(output)
         expected_output = normalize(expected_output)
-    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"), expected_output.replace("\r\n", "\n"))
-    
+    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"),
+                                   expected_output.replace("\r\n", "\n"))
+
+
 def test_binary_write_file(test_case, mol, conv, expected_output, normalize):
     temp_file_object = tempfile.NamedTemporaryFile()
     temp_filename = temp_file_object.name
@@ -209,16 +219,17 @@ def test_binary_write_file(test_case, mol, conv, expected_output, normalize):
     if normalize is not None:
         output = normalize(output)
         expected_output = normalize(expected_output)
-    
+
     test_case.assertEqual(output, expected_output)
+
 
 def test_write_multi_file(test_case, mols, conv, expected_output, normalize):
     temp_file_object = tempfile.NamedTemporaryFile()
     temp_filename = temp_file_object.name
     n = len(mols)
     test_case.assertGreater(n, 0, "must have at least one molecule")
-    last = n-1
-    
+    last = n - 1
+
     try:
         for i, mol in enumerate(mols):
             conv.SetLast(i == last)
@@ -233,63 +244,100 @@ def test_write_multi_file(test_case, mols, conv, expected_output, normalize):
 
     if 0:
         save_to_pasteboard(output)
-        
+
     if normalize is not None:
         output = normalize(output)
         expected_output = normalize(expected_output)
     test_case.assertMultiLineEqual(output, expected_output)
-    
+
 
 class WriteMixin(object):
-    def assertWriters(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertWriters(self,
+                      output_format,
+                      expected_output,
+                      options=None,
+                      mol=None,
+                      normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
         test_write_file(self, mol, conv, expected_output, normalize)
-        
-    def assertWriteString(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertWriteString(self,
+                          output_format,
+                          expected_output,
+                          options=None,
+                          mol=None,
+                          normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
-        
-    def assertWriteFile(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertWriteFile(self,
+                        output_format,
+                        expected_output,
+                        options=None,
+                        mol=None,
+                        normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_file(self, mol, conv, expected_output, normalize)
 
     # Write 1 or more molecule to a file
-    def assertWriteMultiFile(self, output_format, expected_output, options=None, mols=None, normalize=None):
+    def assertWriteMultiFile(self,
+                             output_format,
+                             expected_output,
+                             options=None,
+                             mols=None,
+                             normalize=None):
         if mols is None:
             # Get two of the default molecules
             mols = [get_mol(self, None), get_mol(self, None)]
-            
+
         conv = get_converter(self, output_format, options)
         test_write_multi_file(self, mols, conv, expected_output, normalize)
-        
-    def assertBinaryWriters(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertBinaryWriters(self,
+                            output_format,
+                            expected_output,
+                            options=None,
+                            mol=None,
+                            normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
-        
-    def assertBinaryWriteString(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertBinaryWriteString(self,
+                                output_format,
+                                expected_output,
+                                options=None,
+                                mol=None,
+                                normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
-        
-    def assertBinaryWriteFile(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertBinaryWriteFile(self,
+                              output_format,
+                              expected_output,
+                              options=None,
+                              mol=None,
+                              normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
-        
-    
+
 
 # acesin -- ACES input format [Write-only]
 class TestACES(unittest.TestCase, WriteMixin):
     fmt = "acesin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
   C        1.58460       -0.02490        0.00000
   C        1.57030        0.97550        0.00000
@@ -303,12 +351,15 @@ phenol
 
 """)
 
+
 # adf -- ADF cartesian input format [Write-only]
 class TestADF(unittest.TestCase, WriteMixin):
     fmt = "adf"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 TITLE phenol
 
 CHARGE 0  0
@@ -335,12 +386,15 @@ End
 
 """)
 
+
 # alc -- Alchemy format
 class TestALC(unittest.TestCase, WriteMixin):
     fmt = "alc"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
     7 ATOMS,     7 BONDS,     0 CHARGES
     1 C2      1.5846  -0.0249   0.0000     0.0000
     2 C2      1.5703   0.9755   0.0000     0.0000
@@ -358,6 +412,7 @@ class TestALC(unittest.TestCase, WriteMixin):
     7     6     7  SINGLE
 """)
 
+
 ## # ascii -- ASCII format [Write-only]
 ## # XXX Doesn't look good
 ## class TestASCII(unittest.TestCase, WriteMixin):
@@ -367,12 +422,15 @@ class TestALC(unittest.TestCase, WriteMixin):
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # bgf -- MSI BGF format
 class TestBGF(unittest.TestCase, WriteMixin):
     fmt = "bgf"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 BIOGRF 200
 DESCRP phenol
 FORCEFIELD DREIDING  
@@ -403,12 +461,15 @@ ORDER      7     1
 END
 """)
 
+
 # box -- Dock 3.5 Box format
 class TestBOX(unittest.TestCase, WriteMixin):
     fmt = "box"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 HEADER    CORNERS OF BOX
 REMARK    CENTER (X Y Z)           1.159      0.732      0.000
 REMARK    DIMENSIONS (X Y Z)       6.318      3.513      2.000
@@ -430,12 +491,15 @@ CONECT    7    3    6    8
 CONECT    8    4    5    7
 """)
 
+
 # bs -- Ball and Stick format
 class TestBS(unittest.TestCase, WriteMixin):
     fmt = "bs"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 7
 C     1.5846   -0.0249    0.0000     6     2
@@ -447,12 +511,15 @@ C     0.0000    0.0000    0.0000     1     5     7
 O    -1.0005    0.0051    0.0000     6
 """)
 
+
 # c3d1 -- Chem3D Cartesian 1 format
 class TestC3D1(unittest.TestCase, WriteMixin):
     fmt = "c3d1"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 C   1       1.5846   -0.0249    0.0000     2     6     2
 C   2       1.5703    0.9755    0.0000     2     1     3
@@ -463,12 +530,15 @@ C   6       0.0000    0.0000    0.0000     2     1     5     7
 O   7      -1.0005    0.0051    0.0000     6     6
 """)
 
+
 # c3d2 -- Chem3D Cartesian 2 format
 class TestC3D2(unittest.TestCase, WriteMixin):
     fmt = "c3d2"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 C   1       1.5846   -0.0249    0.0000     2     6     2
 C   2       1.5703    0.9755    0.0000     2     1     3
@@ -479,12 +549,15 @@ C   6       0.0000    0.0000    0.0000     2     1     5     7
 O   7      -1.0005    0.0051    0.0000    82     6
 """)
 
+
 # cac -- CAChe MolStruct format [Write-only]
 class TestCAC(unittest.TestCase, WriteMixin):
     fmt = "cac"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 molstruct88_Apr_30_1993_11:02:29 <molecule> 0x1d00
 Written by Molecular Editor on <date>
 Using data dictionary         9/9/93  4:47 AM
@@ -546,12 +619,15 @@ ID dflag objCls1 objCls2 objID1 objID2
 property_flags:
 """)
 
+
 # caccrt -- Cacao Cartesian format
 class TestCACCRT(unittest.TestCase, WriteMixin):
     fmt = "caccrt"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
   7   DIST  0  0  0
 CELL 1.,1.,1.,90.,90.,90.
@@ -564,12 +640,15 @@ CELL 1.,1.,1.,90.,90.,90.
  O -1.0005,  0.0051,  0.0000
 """)
 
+
 # cache -- CAChe MolStruct format [Write-only]
 class TestCACHE(unittest.TestCase, WriteMixin):
     fmt = "cache"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 molstruct88_Apr_30_1993_11:02:29 <molecule> 0x1d00
 Written by Molecular Editor on <date>
 Using data dictionary         9/9/93  4:47 AM
@@ -631,12 +710,15 @@ ID dflag objCls1 objCls2 objID1 objID2
 property_flags:
 """)
 
+
 # cacint -- Cacao Internal format [Write-only]
 class TestCACINT(unittest.TestCase, WriteMixin):
     fmt = "cacint"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
  # TITLE
   EL
 0.,0.,0., C
@@ -648,30 +730,40 @@ class TestCACINT(unittest.TestCase, WriteMixin):
  6,7, O  1.001,179.392,180.000
 """)
 
+
 # can -- Canonical SMILES format
 class TestCAN(unittest.TestCase, WriteMixin):
     fmt = "can"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 Oc1ccccc1\tphenol
 """)
+
 
 # cdjson -- ChemDoodle JSON
 # Coordinates that come from --gen2D etc. are computed in double precision and
 # the last digit or two can differ across platforms / math libraries. Round any
 # long decimals down to a precision that compares reliably.
 _json_float_pat = re.compile(r"-?\d+\.\d{8,}")
+
+
 def _round_json_match(m):
     return "%.10g" % float(m.group(0))
+
+
 def normalize_json_floats(content):
     return _json_float_pat.sub(_round_json_match, content)
+
 
 class TestCDJSON(unittest.TestCase, WriteMixin):
     fmt = "cdjson"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 {
   "m": [
     {
@@ -741,7 +833,9 @@ class TestCDJSON(unittest.TestCase, WriteMixin):
       ]
     }
   ]
-}""", normalize=normalize_json_floats)
+}""",
+                           normalize=normalize_json_floats)
+
 
 ## # cdxml -- ChemDraw CDXML format
 ## XXX fails on an unpatched system
@@ -768,12 +862,15 @@ class TestCDJSON(unittest.TestCase, WriteMixin):
 ## </fragment>
 ## """)
 
+
 # cht -- Chemtool format [Write-only]
 class TestCHT(unittest.TestCase, WriteMixin):
     fmt = "cht"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 Chemtool Version 1.4
 geometry 165 55
 bonds 7
@@ -789,12 +886,15 @@ atoms 1
 splines 0
 """)
 
+
 # cif -- Crystallographic Information File
 class TestCIF(unittest.TestCase, WriteMixin):
     fmt = "cif"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 # CIF file generated by openbabel %(VERSION)s, see https://openbabel.org
 data_I
 _chemical_name_common 'phenol'
@@ -814,6 +914,7 @@ loop_
     O6       O       -1.00050    0.00510    0.00000    1.000
 """ % dict(VERSION=VERSION))
 
+
 ## # ck -- ChemKin format
 ## XXX I don't know why this fails
 ## class TestCK(unittest.TestCase, WriteMixin):
@@ -823,12 +924,15 @@ loop_
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # cml -- Chemical Markup Language
 class TestCML(unittest.TestCase, WriteMixin):
     fmt = "cml"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 <?xml version="1.0"?>
 <molecule id="phenol" xmlns="http://www.xml-cml.org/schema">
  <atomArray>
@@ -856,7 +960,8 @@ class TestCML(unittest.TestCase, WriteMixin):
         # Write two phenols.
         # When there are 2 or more molecules then each molecule
         # is wrapped in a <cml> element.
-        self.assertWriteMultiFile("cml", """\
+        self.assertWriteMultiFile(
+            "cml", """\
 <?xml version="1.0"?>
 <cml xmlns="http://www.xml-cml.org/schema">
  <molecule id="phenol">
@@ -901,7 +1006,6 @@ class TestCML(unittest.TestCase, WriteMixin):
  </molecule>
 </cml>
 """)
-        
 
 
 ## # cmlr -- CML Reaction format
@@ -913,12 +1017,15 @@ class TestCML(unittest.TestCase, WriteMixin):
 ##         self.assertWriters(self.fmt, """\
 ## """, mol=_alchemy_mol)
 
+
 # com -- Gaussian 98/03 Input [Write-only]
 class TestCOM(unittest.TestCase, WriteMixin):
     fmt = "com"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Put Keywords Here, check Charge and Multiplicity.
 #
 
@@ -935,6 +1042,7 @@ O          -1.00050         0.00510         0.00000
 
 """)
 
+
 ## # confabreport -- Confab report format [Write-only]
 ## XXX no conformations
 ## class TestCONFABREPORT(unittest.TestCase, WriteMixin):
@@ -944,12 +1052,15 @@ O          -1.00050         0.00510         0.00000
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # CONFIG -- DL-POLY CONFIG
 class TestCONFIG(unittest.TestCase, WriteMixin):
     fmt = "CONFIG"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
          0         0
        C         1         6
@@ -968,12 +1079,15 @@ phenol
   -1.000500000000000    0.005100000000000    0.000000000000000
 """)
 
+
 # CONTCAR -- VASP format
 class TestCONTCAR(unittest.TestCase, WriteMixin):
     fmt = "CONTCAR"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 1.000 
 0.0  0.0  0.0
@@ -991,12 +1105,15 @@ Cartesian
     -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 # CONTFF -- MDFF format
 class TestCONTFF(unittest.TestCase, WriteMixin):
     fmt = "CONTFF"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol
 0.0  0.0  0.0
@@ -1015,6 +1132,7 @@ C        0.0000000000000000000      0.0000000000000000000      0.000000000000000
 O       -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 ## # copy -- Copy raw text [Write-only]
 ## XXX "Not a valid output format"
 ## class TestCOPY(unittest.TestCase, WriteMixin):
@@ -1024,12 +1142,15 @@ O       -1.0004999999999999449      0.0051000000000000004      0.000000000000000
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # crk2d -- Chemical Resource Kit diagram(2D)
 class TestCRK2D(unittest.TestCase, WriteMixin):
     fmt = "crk2d"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 <Property Type="DiagramStructure">
  <Structure2D>
   <Group Charge="0" Spin="0">
@@ -1122,12 +1243,15 @@ class TestCRK2D(unittest.TestCase, WriteMixin):
 </Property>
 """)
 
+
 # crk3d -- Chemical Resource Kit 3D format
 class TestCRK3D(unittest.TestCase, WriteMixin):
     fmt = "crk3d"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 <Property Type="ModelStructure">
  <Structure3D>
   <Group Charge="0" Spin="0">
@@ -1220,19 +1344,27 @@ class TestCRK3D(unittest.TestCase, WriteMixin):
 </Property>
 """)
 
+
 # csr -- Accelrys/MSI Quanta CSR format [Write-only]
 class TestCSR(unittest.TestCase, WriteMixin):
     fmt = "csr"
     maxDiff = None
+
     def test_default(self):
-        self.assertBinaryWriters(self.fmt, b'\x04\x00\x00\x00V33 \x04\x00\x00\x00\x08\x00\x00\x00\x07\x00\x00\x00\x01\x00\x00\x00\x08\x00\x00\x00d\x00\x00\x00phenol                                                                                             \x00d\x00\x00\x00\x04\x00\x00\x00\x07\x00\x00\x00\x04\x00\x00\x00\\\x00\x00\x00\x01\x00\x00\x00\x05\x17+j0\xad\x04\xc0phenol:1                                                                       \x00\\\x00\x00\x008\x00\x00\x00\x98\xdd\x93\x87\x85Z\xf9?r\x8a\x8e\xe4\xf2\x1f\xf9?V\x0e-\xb2\x9do\x03@?W[\xb1\xbfl\n@\n\xd7\xa3p=\x8a\n@\x00\x00\x00\x00\x00\x00\x00\x005^\xbaI\x0c\x02\xf0\xbf8\x00\x00\x008\x00\x00\x00V}\xae\xb6b\x7f\x99\xbf\x9e\xef\xa7\xc6K7\xef?\xe4\x83\x9e\xcd\xaa\xcf\xf7?\xc4\xb1.n\xa3\x01\xf0?\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x88\x85Z\xd3\xbc\xe3t?8\x00\x00\x008\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x008\x00\x00\x00')
+        self.assertBinaryWriters(
+            self.fmt,
+            b'\x04\x00\x00\x00V33 \x04\x00\x00\x00\x08\x00\x00\x00\x07\x00\x00\x00\x01\x00\x00\x00\x08\x00\x00\x00d\x00\x00\x00phenol                                                                                             \x00d\x00\x00\x00\x04\x00\x00\x00\x07\x00\x00\x00\x04\x00\x00\x00\\\x00\x00\x00\x01\x00\x00\x00\x05\x17+j0\xad\x04\xc0phenol:1                                                                       \x00\\\x00\x00\x008\x00\x00\x00\x98\xdd\x93\x87\x85Z\xf9?r\x8a\x8e\xe4\xf2\x1f\xf9?V\x0e-\xb2\x9do\x03@?W[\xb1\xbfl\n@\n\xd7\xa3p=\x8a\n@\x00\x00\x00\x00\x00\x00\x00\x005^\xbaI\x0c\x02\xf0\xbf8\x00\x00\x008\x00\x00\x00V}\xae\xb6b\x7f\x99\xbf\x9e\xef\xa7\xc6K7\xef?\xe4\x83\x9e\xcd\xaa\xcf\xf7?\xc4\xb1.n\xa3\x01\xf0?\x00\x00\x00\x00\x00\x00\x00\x80\x00\x00\x00\x00\x00\x00\x00\x00\x88\x85Z\xd3\xbc\xe3t?8\x00\x00\x008\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x008\x00\x00\x00'
+        )
+
 
 # cssr -- CSD CSSR format [Write-only]
 class TestCSSR(unittest.TestCase, WriteMixin):
     fmt = "cssr"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
  REFERENCE STRUCTURE = 00000   A,B,C =   1.000   1.000   1.000
    ALPHA,BETA,GAMMA =  90.000  90.000  90.000    SPGR =    P1
    7   1 phenol
@@ -1247,12 +1379,15 @@ class TestCSSR(unittest.TestCase, WriteMixin):
    7 O1     -1.00050   0.00510   0.00000    6   0   0   0   0   0   0   0  -0.287   1
 """)
 
+
 # ct -- ChemDraw Connection Table format
 class TestCT(unittest.TestCase, WriteMixin):
     fmt = "ct"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
  7 7
     1.5846   -0.0249    0.0000 C
@@ -1270,6 +1405,7 @@ phenol
   5  6  1  1
   6  7  1  1
 """)
+
 
 ## # cub -- Gaussian cube format
 ## XXX "The molecule has no grid."
@@ -1289,12 +1425,15 @@ phenol
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # dalmol -- DALTON input format
 class TestDALMOL(unittest.TestCase, WriteMixin):
     fmt = "dalmol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 BASIS
 6-31G*
 phenol
@@ -1311,12 +1450,15 @@ Charge=8.0 Atoms=1
 O            -1.0005000000    0.0051000000    0.0000000000 
 """)
 
+
 # dmol -- DMol3 coordinates format
 class TestDMOL(unittest.TestCase, WriteMixin):
     fmt = "dmol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 $coordinates
 C             2.99445980216940   -0.04705417712610    0.00000000000000
 C             2.96743672052670    1.84342770226950    0.00000000000000
@@ -1328,6 +1470,7 @@ O            -1.89067085199450    0.00963760254390    0.00000000000000
 $end
 """)
 
+
 ## # dx -- OpenDX cube format for APBS
 ## XXX "The molecule has no grid."
 ## class TestDX(unittest.TestCase, WriteMixin):
@@ -1337,12 +1480,15 @@ $end
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # ent -- Protein Data Bank format
 class TestENT(unittest.TestCase, WriteMixin):
     fmt = "ent"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 COMPND    phenol 
 AUTHOR    GENERATED BY OPEN BABEL %(VERSION)s
 HETATM    1  C   UNL     1       1.585  -0.025   0.000  1.00  0.00           C  
@@ -1363,12 +1509,15 @@ MASTER        0    0    0    0    0    0    0    0    7    0    7    0
 END
 """ % dict(VERSION=VERSION))
 
+
 # exyz -- Extended XYZ cartesian coordinates format
 class TestEXYZ(unittest.TestCase, WriteMixin):
     fmt = "exyz"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol %PBC
    C        1.58460        -0.02490         0.00000
@@ -1384,6 +1533,7 @@ Vector2        0.00000         1.00000         0.00000
 Vector3        0.00000         0.00000         1.00000
 Offset         0.00000         0.00000         0.00000
 """)
+
 
 ## # fa -- FASTA format
 ## XXX need a protein
@@ -1403,12 +1553,15 @@ Offset         0.00000         0.00000         0.00000
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # feat -- Feature format
 class TestFEAT(unittest.TestCase, WriteMixin):
     fmt = "feat"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol
 C    1.58460  -0.02490   0.00000 
@@ -1420,12 +1573,15 @@ C    0.00000   0.00000   0.00000
 O   -1.00050   0.00510   0.00000 
 """)
 
+
 # fh -- Fenske-Hall Z-Matrix format [Write-only]
 class TestFH(unittest.TestCase, WriteMixin):
     fmt = "fh"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 
 7
 C   1
@@ -1437,12 +1593,15 @@ C   1 1.585  2  88.281  3 180.0
 O   2 2.748  1  70.139  3 180.0
 """)
 
+
 # fhiaims -- FHIaims XYZ format
 class TestFHIAIMS(unittest.TestCase, WriteMixin):
     fmt = "fhiaims"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 #
 # phenol
 # Generated by Open Babel %(VERSION)s
@@ -1456,30 +1615,38 @@ atom                   0.00000        0.00000        0.00000  C
 atom                  -1.00050        0.00510        0.00000  O
 """ % dict(VERSION=VERSION))
 
+
 # fix -- SMILES FIX format [Write-only]
 class TestFIX(unittest.TestCase, WriteMixin):
     fmt = "fix"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 c1ccccc1O
 """)
 
+
 # fps -- FPS text fingerprint format (Dalke) [Write-only]
 _fps_date_pat = re.compile("#date=[0-9T:-]+")
 _fps_type_version_pat = re.compile("(#type=[^/]+/)[0-9A-Za-z.]+")
 _fps_software_version_pat = re.compile("(#software=OpenBabel/)[0-9A-Za-z.]+")
+
+
 def normalize_fps(content):
     content = _fps_date_pat.sub("#date=Right now", content)
     content = _fps_type_version_pat.sub(r"\1test", content)
     content = _fps_software_version_pat.sub(r"\1test", content)
     return content
 
+
 class TestFPS(unittest.TestCase, WriteMixin):
     fmt = "fps"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 #FPS1
 #num_bits=1021
 #type=OpenBabel-FP2/1
@@ -1487,7 +1654,8 @@ class TestFPS(unittest.TestCase, WriteMixin):
 #source=
 #date=2019-01-15T15:10:11
 0000000000000000000002000000000000000000000000000000000000000000000000000000000000000008000000000000020000000000000000000000000008000000000000000000000002000000008000000000000040080000000000000000000000000002000000000000000000020000000000200800000000000000\tphenol
-""", normalize=normalize_fps)
+""",
+                           normalize=normalize_fps)
 
     def test_multimol_default(self):
         # Test that the header is written once, rather than once per molecule.
@@ -1495,7 +1663,7 @@ class TestFPS(unittest.TestCase, WriteMixin):
         ethane = get_mol(self, "CC ethane")
         temp_file_object = tempfile.NamedTemporaryFile(suffix=".fps")
         filename = temp_file_object.name
-        
+
         conv = get_converter(self, "fps")
         self.assertTrue(conv.WriteFile(phenol, filename))
         self.assertEqual(conv.GetOutputIndex(), 1)
@@ -1513,19 +1681,21 @@ class TestFPS(unittest.TestCase, WriteMixin):
             for line in f:
                 if line[:1] != "#":
                     inheader = False
-                    self.assertEqual(line.count("\t"), 1, "Wrong number of fields?: %r" % (line,))
+                    self.assertEqual(line.count("\t"), 1,
+                                     "Wrong number of fields?: %r" % (line, ))
                     hex_fp, mid = line.rstrip("\n").split("\t", 1)
                     ids.append(mid)
                 elif not inheader:
-                    self.fail("Second header?: %r" % (line,))
+                    self.fail("Second header?: %r" % (line, ))
             if inheader:
-                self.fail("Reached end of file too early, after: %r" % (line,))
+                self.fail("Reached end of file too early, after: %r" %
+                          (line, ))
 
             self.assertEqual(ids, ["phenol", "ethane"])
-        
 
     def test_MACCS(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 #FPS1
 #num_bits=166
 #type=OpenBabel-MACCS/1
@@ -1533,10 +1703,13 @@ class TestFPS(unittest.TestCase, WriteMixin):
 #source=
 #date=2019-01-15T15:10:11
 00000000000000000000000000000140004480101e\tphenol
-""", normalize=normalize_fps, options={"f": "MACCS"})
+""",
+                           normalize=normalize_fps,
+                           options={"f": "MACCS"})
 
     def test_FP2(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 #FPS1
 #num_bits=1021
 #type=OpenBabel-FP2/1
@@ -1544,10 +1717,13 @@ class TestFPS(unittest.TestCase, WriteMixin):
 #source=
 #date=2019-01-15T15:10:11
 0000000000000000000002000000000000000000000000000000000000000000000000000000000000000008000000000000020000000000000000000000000008000000000000000000000002000000008000000000000040080000000000000000000000000002000000000000000000020000000000200800000000000000\tphenol
-""", normalize=normalize_fps, options={"f": "FP2"})
+""",
+                           normalize=normalize_fps,
+                           options={"f": "FP2"})
 
     def test_FP3(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 #FPS1
 #num_bits=55
 #type=OpenBabel-FP3/1
@@ -1555,10 +1731,13 @@ class TestFPS(unittest.TestCase, WriteMixin):
 #source=
 #date=2019-01-15T15:10:11
 0000000402b001\tphenol
-""", normalize=normalize_fps, options={"f": "FP3"})
+""",
+                           normalize=normalize_fps,
+                           options={"f": "FP3"})
 
     def test_FP4(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 #FPS1
 #num_bits=307
 #type=OpenBabel-FP4/1
@@ -1566,15 +1745,19 @@ class TestFPS(unittest.TestCase, WriteMixin):
 #source=
 #date=2019-01-15T15:10:11
 000000000000000000000000000000000000000000010000000000000000000000000200400000\tphenol
-""", normalize=normalize_fps, options={"f": "FP4"})
+""",
+                           normalize=normalize_fps,
+                           options={"f": "FP4"})
 
-        
+
 # fpt -- Fingerprint format [Write-only]
 class TestFPT(unittest.TestCase, WriteMixin):
     fmt = "fpt"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 >phenol   12 bits set 
 00000000 00000008 20000000 00000200 00000000 00000000 
 02000000 00000000 00000000 00000840 00000000 00008000 
@@ -1585,25 +1768,34 @@ class TestFPT(unittest.TestCase, WriteMixin):
 """)
 
     def test_MACCS(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 >phenol   10 bits set 
 00000000 00000000 0000001e 10804400 40010000 00000000 
 00000000 00000000 
-""", options={"f": "MACCS"})
-        
+""",
+                           options={"f": "MACCS"})
+
     def test_describe_set_MACCS_bits(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 >phenol
 113: Onot%A%A\t127: A$A!O > 1 (&...) *2\t139: OH\t143: A$A!O\t152: OC(C)C\t157: C-O\t162: Aromatic\t163: 6M Ring\t164: O\t165: Ring	
-""", options={"f": "MACCS", "s": None})
+""",
+                           options={
+                               "f": "MACCS",
+                               "s": None
+                           })
 
 
 # fract -- Free Form Fractional format
 class TestFRACT(unittest.TestCase, WriteMixin):
     fmt = "fract"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
    1.00000   1.00000   1.00000  90.00000  90.00000  90.00000
 C    1.58460  -0.02490   0.00000
@@ -1615,6 +1807,7 @@ C    0.00000   0.00000   0.00000
 O   -1.00050   0.00510   0.00000
 
 """)
+
 
 ## # fs -- Fastsearch format
 ## XXX "Not a valid output forma"
@@ -1634,12 +1827,15 @@ O   -1.00050   0.00510   0.00000
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # gamin -- GAMESS Input
 class TestGAMIN(unittest.TestCase, WriteMixin):
     fmt = "gamin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
  $CONTRL COORD=CART UNITS=ANGS $END
 
  $DATA
@@ -1657,12 +1853,15 @@ O      8.0     -1.0005000000    0.0051000000    0.0000000000
 
 """)
 
+
 # gau -- Gaussian 98/03 Input [Write-only]
 class TestGAU(unittest.TestCase, WriteMixin):
     fmt = "gau"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Put Keywords Here, check Charge and Multiplicity.
 #
 
@@ -1678,13 +1877,16 @@ C           0.00000         0.00000         0.00000
 O          -1.00050         0.00510         0.00000
 
 """)
+
 
 # gjc -- Gaussian 98/03 Input [Write-only]
 class TestGJC(unittest.TestCase, WriteMixin):
     fmt = "gjc"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Put Keywords Here, check Charge and Multiplicity.
 #
 
@@ -1700,13 +1902,16 @@ C           0.00000         0.00000         0.00000
 O          -1.00050         0.00510         0.00000
 
 """)
+
 
 # gjf -- Gaussian 98/03 Input [Write-only]
 class TestGJF(unittest.TestCase, WriteMixin):
     fmt = "gjf"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Put Keywords Here, check Charge and Multiplicity.
 #
 
@@ -1723,12 +1928,15 @@ O          -1.00050         0.00510         0.00000
 
 """)
 
+
 # gpr -- Ghemical format
 class TestGPR(unittest.TestCase, WriteMixin):
     fmt = "gpr"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Header gpr 100
 !Info 1
 !Atoms 7
@@ -1766,12 +1974,15 @@ class TestGPR(unittest.TestCase, WriteMixin):
 !End
 """)
 
+
 # gr96 -- GROMOS96 format [Write-only]
 class TestGR96(unittest.TestCase, WriteMixin):
     fmt = "gr96"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 #GENERATED BY OPEN BABEL %(VERSION)s
 TITLE
 phenol
@@ -1787,12 +1998,15 @@ POSITION
 END
 """ % dict(VERSION=VERSION))
 
+
 # gro -- GRO format
 class TestGRO(unittest.TestCase, WriteMixin):
     fmt = "gro"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 7
     1UNL      C    1   0.158  -0.002   0.000
@@ -1805,12 +2019,15 @@ phenol
    0.00000   0.00000   0.00000
 """)
 
+
 # gukin -- GAMESS-UK Input
 class TestGUKIN(unittest.TestCase, WriteMixin):
     fmt = "gukin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 title
 phenol
 
@@ -1846,6 +2063,7 @@ runtype scf
 enter
 """)
 
+
 ## # gukout -- GAMESS-UK Output
 ## XXX "Not a valid output format"
 ## class TestGUKOUT(unittest.TestCase, WriteMixin):
@@ -1855,12 +2073,15 @@ enter
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # gzmat -- Gaussian Z-Matrix Input
 class TestGZMAT(unittest.TestCase, WriteMixin):
     fmt = "gzmat"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 !Put Keywords Here, check Charge and Multiplicity.
 #
 
@@ -1893,12 +2114,15 @@ d7= 180.00
 
 """)
 
+
 # hin -- HyperChem HIN format
 class TestHIN(unittest.TestCase, WriteMixin):
     fmt = "hin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 mol 1 "phenol"
 atom 1 - C   **  -  0.04203  1.58460  -0.02490   0.00000 2 6 a 2 a 
 atom 2 - C   **  -  0.00328  1.57030   0.97550   0.00000 2 1 a 3 a 
@@ -1910,30 +2134,37 @@ atom 7 - O   **  - -0.28657 -1.00050   0.00510   0.00000 1 6 s
 endmol 1
 """)
 
+
 # inchi -- InChI format
 class TestINCHI(unittest.TestCase, WriteMixin):
     fmt = "inchi"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 InChI=1S/C6H6O/c7-6-4-2-1-3-5-6/h1-5,7H
 """)
 
+
 # inchikey -- InChIKey [Write-only]
 class TestINCHIKEY(unittest.TestCase, WriteMixin):
     fmt = "inchikey"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 ISWSIDIOOBJBQZ-UHFFFAOYSA-N
 """)
 
+
 # inp -- GAMESS Input
 class TestINP(unittest.TestCase, WriteMixin):
     fmt = "inp"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
  $CONTRL COORD=CART UNITS=ANGS $END
 
  $DATA
@@ -1951,12 +2182,15 @@ O      8.0     -1.0005000000    0.0051000000    0.0000000000
 
 """)
 
+
 # jin -- Jaguar input format
 class TestJIN(unittest.TestCase, WriteMixin):
     fmt = "jin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 
 &gen
@@ -1972,21 +2206,27 @@ phenol
 &
 """)
 
+
 # k -- Compare molecules using InChI [Write-only]
 class TestK(unittest.TestCase, WriteMixin):
     fmt = "k"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 InChI=1S/C6H6O/c7-6-4-2-1-3-5-6/h1-5,7H phenol
 """)
+
 
 # lmpdat -- The LAMMPS data format [Write-only]
 class TestLMPDAT(unittest.TestCase, WriteMixin):
     fmt = "lmpdat"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 LAMMPS data file generated by OpenBabel
 7 atoms
 7 bonds
@@ -2056,6 +2296,7 @@ Dihedrals
 8       2    7    5    6    4 #  O: C: C: C
 """)
 
+
 ## # lpmd -- LPMD format
 ## XXX "The original file doesn't have the information about the unitcell"
 ## class TestLPMD(unittest.TestCase, WriteMixin):
@@ -2065,21 +2306,26 @@ Dihedrals
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # mcdl -- MCDL format
 class TestMCDL(unittest.TestCase, WriteMixin):
     fmt = "mcdl"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 C;5CH;OH[2,3,7;4;5;6;6]{CN:}phenol}
 """)
 
+
 # mcif -- Macromolecular Crystallographic Info
 class TestMCIF(unittest.TestCase, WriteMixin):
     fmt = "mcif"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 # --------------------------------------------------------------------------
 #
 # CIF file generated by openbabel %(VERSION)s http://openbabel.org/
@@ -2130,12 +2376,15 @@ _atom_site.Cartn_z
 
 """ % dict(VERSION=VERSION))
 
+
 # MDFF -- MDFF format
 class TestMDFF(unittest.TestCase, WriteMixin):
     fmt = "MDFF"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol
 0.0  0.0  0.0
@@ -2154,22 +2403,27 @@ C        0.0000000000000000000      0.0000000000000000000      0.000000000000000
 O       -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 # Normalize MDL formats by removing the timestamp from the string
 _sd_timestamp_pat_u = re.compile("OpenBabel\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d")
 _sd_timestamp_pat_b = re.compile(b"OpenBabel\\d\\d\\d\\d\\d\\d\\d\\d\\d\\d")
+
+
 def normalize_sd_timestamp(data):
     if isinstance(data, bytes):
         return _sd_timestamp_pat_b.sub(b"OpenBabel2020202020", data)
     else:
         return _sd_timestamp_pat_u.sub("OpenBabel2020202020", data)
 
-        
+
 # mdl -- MDL MOL format
 class TestMDL(unittest.TestCase, WriteMixin):
     fmt = "mdl"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 phenol
  OpenBabel01151915422D
 
@@ -2189,14 +2443,18 @@ phenol
   5  6  1  0  0  0  0
   6  7  1  0  0  0  0
 M  END
-""", normalize=normalize_sd_timestamp)
+""",
+                           normalize=normalize_sd_timestamp)
+
 
 # ml2 -- Sybyl Mol2 format
 class TestML2(unittest.TestCase, WriteMixin):
     fmt = "ml2"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 @<TRIPOS>MOLECULE
 phenol
  7 7 0 0 0
@@ -2221,12 +2479,15 @@ GASTEIGER
      7     6     7    1
 """)
 
+
 # mmcif -- Macromolecular Crystallographic Info
 class TestMMCIF(unittest.TestCase, WriteMixin):
     fmt = "mmcif"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 # --------------------------------------------------------------------------
 #
 # CIF file generated by openbabel %(VERSION)s http://openbabel.org/
@@ -2277,12 +2538,15 @@ _atom_site.Cartn_z
 
 """ % dict(VERSION=VERSION))
 
+
 # mmd -- MacroModel format
 class TestMMD(unittest.TestCase, WriteMixin):
     fmt = "mmd"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
      7 phenol      E =   0.000 KJ/mol
    2     6 2     2 1     0 0     0 0     0 0     0 0    1.584600   -0.024900    0.000000     0     0  0.04203 
    2     1 1     3 2     0 0     0 0     0 0     0 0    1.570300    0.975500    0.000000     0     0  0.00328 
@@ -2292,13 +2556,16 @@ class TestMMD(unittest.TestCase, WriteMixin):
    2     1 2     5 1     7 1     0 0     0 0     0 0    0.000000    0.000000    0.000000     0     0  0.19575 
   16     6 1     0 0     0 0     0 0     0 0     0 0   -1.000500    0.005100    0.000000     0     0 -0.28657 
 """)
+
 
 # mmod -- MacroModel format
 class TestMMOD(unittest.TestCase, WriteMixin):
     fmt = "mmod"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
      7 phenol      E =   0.000 KJ/mol
    2     6 2     2 1     0 0     0 0     0 0     0 0    1.584600   -0.024900    0.000000     0     0  0.04203 
    2     1 1     3 2     0 0     0 0     0 0     0 0    1.570300    0.975500    0.000000     0     0  0.00328 
@@ -2309,12 +2576,15 @@ class TestMMOD(unittest.TestCase, WriteMixin):
   16     6 1     0 0     0 0     0 0     0 0     0 0   -1.000500    0.005100    0.000000     0     0 -0.28657 
 """)
 
+
 # mna -- Multilevel Neighborhoods of Atoms (MNA) [Write-only]
 class TestMNA(unittest.TestCase, WriteMixin):
     fmt = "mna"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 # The contents of this file were derived from 
 # Title = phenol
 C(C(CC-O)C(CC-H)-H(C))
@@ -2332,12 +2602,15 @@ C(C(CC-H)C(CC-H)-O(C-H))
 -H(-O(C-H))
 """)
 
+
 # mol -- MDL MOL format
 class TestMOL(unittest.TestCase, WriteMixin):
     fmt = "mol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 phenol
  OpenBabel01151915412D
 
@@ -2357,14 +2630,18 @@ phenol
   5  6  1  0  0  0  0
   6  7  1  0  0  0  0
 M  END
-""", normalize=normalize_sd_timestamp)
+""",
+                           normalize=normalize_sd_timestamp)
+
 
 # mol2 -- Sybyl Mol2 format
 class TestMOL2(unittest.TestCase, WriteMixin):
     fmt = "mol2"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 @<TRIPOS>MOLECULE
 phenol
  7 7 0 0 0
@@ -2389,12 +2666,15 @@ GASTEIGER
      7     6     7    1
 """)
 
+
 # mold -- Molden format
 class TestMOLD(unittest.TestCase, WriteMixin):
     fmt = "mold"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 [Molden Format]
 [Atoms] Angs
  C     1  6     1.584600    -0.024900     0.000000
@@ -2405,13 +2685,16 @@ class TestMOLD(unittest.TestCase, WriteMixin):
  C     6  6     0.000000     0.000000     0.000000
  O     7  8    -1.000500     0.005100     0.000000
 """)
+
 
 # molden -- Molden format
 class TestMOLDEN(unittest.TestCase, WriteMixin):
     fmt = "molden"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 [Molden Format]
 [Atoms] Angs
  C     1  6     1.584600    -0.024900     0.000000
@@ -2422,13 +2705,16 @@ class TestMOLDEN(unittest.TestCase, WriteMixin):
  C     6  6     0.000000     0.000000     0.000000
  O     7  8    -1.000500     0.005100     0.000000
 """)
+
 
 # molf -- Molden format
 class TestMOLF(unittest.TestCase, WriteMixin):
     fmt = "molf"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 [Molden Format]
 [Atoms] Angs
  C     1  6     1.584600    -0.024900     0.000000
@@ -2440,12 +2726,15 @@ class TestMOLF(unittest.TestCase, WriteMixin):
  O     7  8    -1.000500     0.005100     0.000000
 """)
 
+
 # molreport -- Open Babel molecule report [Write-only]
 class TestMOLREPORT(unittest.TestCase, WriteMixin):
     fmt = "molreport"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 TITLE: phenol
 FORMULA: C6H6O
 MASS: 94.1112
@@ -2465,12 +2754,15 @@ BOND:         5 START:         5 END:         6 ORDER:   1
 BOND:         6 START:         6 END:         7 ORDER:   1
 """)
 
+
 # mop -- MOPAC Cartesian format
 class TestMOP(unittest.TestCase, WriteMixin):
     fmt = "mop"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 PUT KEYWORDS HERE
 phenol
 
@@ -2482,13 +2774,16 @@ C   3.31750 1 -0.00000 1  0.00000 1
 C   0.00000 1  0.00000 1  0.00000 1
 O  -1.00050 1  0.00510 1  0.00000 1
 """)
+
 
 # mopcrt -- MOPAC Cartesian format
 class TestMOPCRT(unittest.TestCase, WriteMixin):
     fmt = "mopcrt"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 PUT KEYWORDS HERE
 phenol
 
@@ -2501,12 +2796,15 @@ C   0.00000 1  0.00000 1  0.00000 1
 O  -1.00050 1  0.00510 1  0.00000 1
 """)
 
+
 # mopin -- MOPAC Internal
 class TestMOPIN(unittest.TestCase, WriteMixin):
     fmt = "mopin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 PUT KEYWORDS HERE
 phenol
 
@@ -2519,12 +2817,15 @@ C    1.584796  1   88.280797  1  180.000000  1     1   2   3
 O    2.747852  1   70.138927  1  180.000000  1     2   1   3
 """)
 
+
 # mp -- Molpro input format [Write-only]
 class TestMP(unittest.TestCase, WriteMixin):
     fmt = "mp"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 *** phenol
 !file,2,INSERT WAVEFUNCTION FILE LOCATION HERE
 !memory,INSERT MEMORY HERE
@@ -2548,12 +2849,15 @@ Geometry specification:
 ---
 """)
 
+
 # mpc -- MOPAC Cartesian format
 class TestMPC(unittest.TestCase, WriteMixin):
     fmt = "mpc"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 PUT KEYWORDS HERE
 phenol
 
@@ -2566,21 +2870,27 @@ C   0.00000 1  0.00000 1  0.00000 1
 O  -1.00050 1  0.00510 1  0.00000 1
 """)
 
+
 # mpd -- MolPrint2D format [Write-only]
 class TestMPD(unittest.TestCase, WriteMixin):
     fmt = "mpd"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol	3;1-2-3;2-2-3;2-1-8;	3;1-2-3;2-2-3;	3;1-2-3;2-2-3;	3;1-2-3;2-2-3;	3;1-2-3;2-2-3;2-1-8;	3;1-2-3;1-1-8;2-2-3;	8;1-1-3;2-2-3;\t
 """)
+
 
 # mpqcin -- MPQC simplified input format [Write-only]
 class TestMPQCIN(unittest.TestCase, WriteMixin):
     fmt = "mpqcin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 % phenol
 
 molecule:
@@ -2596,12 +2906,15 @@ molecule:
 
 """)
 
+
 # mrv -- Chemical Markup Language
 class TestMRV(unittest.TestCase, WriteMixin):
     fmt = "mrv"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 <?xml version="1.0"?>
 <molecule id="phenol" xmlns="http://www.xml-cml.org/schema">
  <atomArray>
@@ -2625,12 +2938,15 @@ class TestMRV(unittest.TestCase, WriteMixin):
 </molecule>
 """)
 
+
 # msms -- M.F. Sanner's MSMS input format [Write-only]
 class TestMSMS(unittest.TestCase, WriteMixin):
     fmt = "msms"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 1.5846	-0.0249	0	1.7
 1.5703	0.9755	0	1.7
 2.4295	1.4882	0	1.7
@@ -2640,20 +2956,25 @@ class TestMSMS(unittest.TestCase, WriteMixin):
 -1.0005	0.0051	0	1.52
 """)
 
+
 # nul -- Outputs nothing [Write-only]
 class TestNUL(unittest.TestCase, WriteMixin):
     fmt = "nul"
     maxDiff = None
+
     def test_default(self):
         # Why can't I write this to a file?
         self.assertWriteString(self.fmt, "")
+
 
 # nw -- NWChem input format [Write-only]
 class TestNW(unittest.TestCase, WriteMixin):
     fmt = "nw"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 start molecule
 
 title 
@@ -2670,12 +2991,15 @@ geometry units angstroms print xyz autosym
 end
 """)
 
+
 # orcainp -- ORCA input format [Write-only]
 class TestORCAINP(unittest.TestCase, WriteMixin):
     fmt = "orcainp"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 # ORCA input file
 # phenol
 ! insert inline commands here 
@@ -2690,12 +3014,15 @@ class TestORCAINP(unittest.TestCase, WriteMixin):
 *
 """)
 
+
 # outmol -- DMol3 coordinates format
 class TestOUTMOL(unittest.TestCase, WriteMixin):
     fmt = "outmol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 $coordinates
 C             2.99445980216940   -0.04705417712610    0.00000000000000
 C             2.96743672052670    1.84342770226950    0.00000000000000
@@ -2707,12 +3034,15 @@ O            -1.89067085199450    0.00963760254390    0.00000000000000
 $end
 """)
 
+
 # paint -- Painter format [Write-only]
 class TestPAINT(unittest.TestCase, WriteMixin):
     fmt = "paint"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 NewCanvas 202.1 122.8
 SetPenColor 0.0 0.0 0.0 1.0 (rgba)
 SetPenColor 0.0 0.0 0.0 1.0 (rgba)
@@ -2751,16 +3081,20 @@ SetFontSize 16
 DrawText 40.0 81.9 "HO"
 """)
 
+
 # pcjson -- PubChem JSON
 # Uses normalize_json_floats (see TestCDJSON) to round long double-precision
 # decimals to a stable representation across platforms / math libraries.
 normalize_pcjson_floats = normalize_json_floats
 
+
 class TestPCJSON(unittest.TestCase, WriteMixin):
     fmt = "pcjson"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 {
   "PC_Compounds": [
     {
@@ -2928,14 +3262,18 @@ class TestPCJSON(unittest.TestCase, WriteMixin):
       "charge": 0
     }
   ]
-}""", normalize=normalize_pcjson_floats)
+}""",
+                           normalize=normalize_pcjson_floats)
+
 
 # pcm -- PCModel Format
 class TestPCM(unittest.TestCase, WriteMixin):
     fmt = "pcm"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 {PCM phenol
 NA 7
 ATOMTYPES 1
@@ -2949,12 +3287,15 @@ AT 7,6:-1.0005,0.0051,0 B 6,1 C -0.28657
 }
 """)
 
+
 # pdb -- Protein Data Bank format
 class TestPDB(unittest.TestCase, WriteMixin):
     fmt = "pdb"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 COMPND    phenol 
 AUTHOR    GENERATED BY OPEN BABEL %(VERSION)s
 HETATM    1  C   UNL     1       1.585  -0.025   0.000  1.00  0.00           C  
@@ -2975,12 +3316,15 @@ MASTER        0    0    0    0    0    0    0    0    7    0    7    0
 END
 """ % dict(VERSION=VERSION))
 
+
 # pdbqt -- AutoDock PDBQT format
 class TestPDBQT(unittest.TestCase, WriteMixin):
     fmt = "pdbqt"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 REMARK  Name = phenol
 REMARK  0 active torsions:
 REMARK  status: ('A' for Active; 'I' for Inactive)
@@ -2998,13 +3342,18 @@ ENDROOT
 TORSDOF 0
 """)
 
+
 # png -- PNG 2D depiction
 class TestPNG(unittest.TestCase, WriteMixin):
     fmt = "png"
     maxDiff = None
+
     def test_default(self):
         # This doesn't seem to work for a string?
-        self.assertBinaryWriteFile(self.fmt, b"\x00\x00\x00\x18tEXtsmiles\x00c1ccccc1O\tphenol\nt\x82e\xc6")
+        self.assertBinaryWriteFile(
+            self.fmt,
+            b"\x00\x00\x00\x18tEXtsmiles\x00c1ccccc1O\tphenol\nt\x82e\xc6")
+
 
 ## # pointcloud -- Point cloud on VDW surface [Write-only]
 ## class TestPOINTCLOUD(unittest.TestCase, WriteMixin):
@@ -3162,12 +3511,15 @@ class TestPNG(unittest.TestCase, WriteMixin):
 ## -0.871612	-0.21869	1.4979
 ## """)
 
+
 # POSCAR -- VASP format
 class TestPOSCAR(unittest.TestCase, WriteMixin):
     fmt = "POSCAR"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 1.000 
 0.0  0.0  0.0
@@ -3185,12 +3537,15 @@ Cartesian
     -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 # POSFF -- MDFF format
 class TestPOSFF(unittest.TestCase, WriteMixin):
     fmt = "POSFF"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol
 0.0  0.0  0.0
@@ -3209,10 +3564,14 @@ C        0.0000000000000000000      0.0000000000000000000      0.000000000000000
 O       -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 # pov -- POV-Ray input format [Write-only]
 _pov_date = re.compile("//Date: [A-Za-z0-9 :]*")
+
+
 def normalize_pov_date(content):
     return _pov_date.sub("//Date: Somewhere in time", content)
+
 
 ## class TestPOV(unittest.TestCase, WriteMixin):
 ## XXX Does not work on unpatched system
@@ -3487,7 +3846,6 @@ def normalize_pov_date(content):
 
 ## #end // (CST-Bonds)
 
-
 ## //All atoms of molecule mol_0
 ## #ifdef (TRANS)
 ## #declare mol_0_atoms = merge {
@@ -3515,7 +3873,6 @@ def normalize_pov_date(content):
 ## 	  object{mol_0_bond6}
 ## 	 }
 ## #end
-
 
 ## //Definition of molecule mol_0
 ## #if (SPF)
@@ -3547,12 +3904,15 @@ def normalize_pov_date(content):
 ## mol_0
 ## """, normalize=normalize_pov_date)
 
+
 # pqr -- PQR format
 class TestPQR(unittest.TestCase, WriteMixin):
     fmt = "pqr"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 COMPND    phenol 
 AUTHOR    GENERATED BY OPEN BABEL %(VERSION)s
 HETATM    1  C   UNL     1       1.585  -0.025   0.000  0.04202806   1.700  C  
@@ -3573,12 +3933,15 @@ MASTER        0    0    0    0    0    0    0    0    7    0    7    0
 END
 """ % dict(VERSION=VERSION))
 
+
 # pqs -- Parallel Quantum Solutions format
 class TestPQS(unittest.TestCase, WriteMixin):
     fmt = "pqs"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 TEXT=phenol
 GEOM=PQS
 C             1.584600    -0.024900     0.000000
@@ -3590,12 +3953,15 @@ C             0.000000     0.000000     0.000000
 O            -1.000500     0.005100     0.000000
 """)
 
+
 # qcin -- Q-Chem input format [Write-only]
 class TestQCIN(unittest.TestCase, WriteMixin):
     fmt = "qcin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 $comment
 phenol
 $end
@@ -3616,12 +3982,15 @@ $rem
 $end
 """)
 
+
 # report -- Open Babel report format [Write-only]
 class TestREPORT(unittest.TestCase, WriteMixin):
     fmt = "report"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 FILENAME: phenol
 FORMULA: C6H6O
 MASS: 94.1112
@@ -3678,14 +4047,19 @@ TORSION ANGLES
 
 """)
 
+
 # rinchi -- RInChI [Write-only]
 class TestRINCHI(unittest.TestCase, WriteMixin):
     fmt = "rinchi"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 RInChI=1.00.1S/Au<>Pb/d-
-""", mol=_alchemy_mol)
+""",
+                           mol=_alchemy_mol)
+
 
 ## # rsmi -- Reaction SMILES format
 ## XXX I don't know why this fails
@@ -3695,20 +4069,27 @@ RInChI=1.00.1S/Au<>Pb/d-
 ##         self.assertWriters(self.fmt, """\
 ## """, mol="[Pb]>>[Au]")
 
+
 # rxn -- MDL RXN format
 class TestRXN(unittest.TestCase, WriteMixin):
     fmt = "rxn"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, ALCHEMY_RXN,
-                           mol=_alchemy_mol, normalize=normalize_sd_timestamp)
+        self.assertWriters(self.fmt,
+                           ALCHEMY_RXN,
+                           mol=_alchemy_mol,
+                           normalize=normalize_sd_timestamp)
+
 
 # sd -- MDL MOL format
 class TestSD(unittest.TestCase, WriteMixin):
     fmt = "sd"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 phenol
  OpenBabel01151915132D
 
@@ -3729,14 +4110,18 @@ phenol
   6  7  1  0  0  0  0
 M  END
 $$$$
-""", normalize=normalize_sd_timestamp)
+""",
+                           normalize=normalize_sd_timestamp)
+
 
 # sdf -- MDL MOL format
 class TestSDF(unittest.TestCase, WriteMixin):
     fmt = "sdf"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(self.fmt,
+                           """\
 phenol
  OpenBabel01151915132D
 
@@ -3757,63 +4142,86 @@ phenol
   6  7  1  0  0  0  0
 M  END
 $$$$
-""", normalize=normalize_sd_timestamp)
+""",
+                           normalize=normalize_sd_timestamp)
 
 
 class _BaseSmiles(object):
+
     def test_default(self):
         self.assertWriters("smi", "c1ccccc1O\tphenol\n")
-        
+
     def test_kekule(self):
         self.assertWriters("smi", "C1C=CC=CC=1O\tphenol\n", options=["k"])
-        
+
     ## def test_explicit_hydrogens(self):
     ##     self.assertWriters("smi", "C1C=CC=CC=1O\n", options=["h"])
-        
+
     def test_no_molecule_name(self):
         self.assertWriters("smi", "C1C=CC=CC=1O\n", options=["k", "n"])
+
     def test_molecule_name_only(self):
         self.assertWriters("smi", "phenol\n", options=["t"])
-        
+
     def test_append_coordinates(self):
-        self.assertWriters("smi", "c1ccccc1O\tphenol\t1.5846,-0.0249,1.5703,0.9755,2.4295,1.4882,3.3031,1.0004,3.3175,-0.0000,0.0000,0.0000,-1.0005,0.0051\n", options=["x"])
-        
+        self.assertWriters(
+            "smi",
+            "c1ccccc1O\tphenol\t1.5846,-0.0249,1.5703,0.9755,2.4295,1.4882,3.3031,1.0004,3.3175,-0.0000,0.0000,0.0000,-1.0005,0.0051\n",
+            options=["x"])
+
     def test_reuse_ring_closures(self):
-        self.assertWriters("smi", "c1ccccc1c1ccccc1\tblah\n", mol="c1ccccc1c1ccccc1 blah")
+        self.assertWriters("smi",
+                           "c1ccccc1c1ccccc1\tblah\n",
+                           mol="c1ccccc1c1ccccc1 blah")
+
     def test_do_not_reuse_ring_closures(self):
-        self.assertWriters("smi", "c1ccccc1c2ccccc2\tblah\n", mol="c1ccccc1c1ccccc1 blah",
-                               options=["R"])
-    
+        self.assertWriters("smi",
+                           "c1ccccc1c2ccccc2\tblah\n",
+                           mol="c1ccccc1c1ccccc1 blah",
+                           options=["R"])
+
     def test_fragment_smiles(self):
-        self.assertWriters("smi", "P=N\n", mol="P=N-C=O blah2",
-                               options={"n": None, "F": "1 2"})
-        
+        self.assertWriters("smi",
+                           "P=N\n",
+                           mol="P=N-C=O blah2",
+                           options={
+                               "n": None,
+                               "F": "1 2"
+                           })
+
     def test_atom_priority_order(self):
-        self.assertWriters("smi", "Oc1ccccc1\tphenol\n",
-                               options={"o": "7-6-5-4-3-2-1"})
+        self.assertWriters("smi",
+                           "Oc1ccccc1\tphenol\n",
+                           options={"o": "7-6-5-4-3-2-1"})
+
     def test_first_atom(self):
-        self.assertWriters("smi", "c1cc(ccc1)O\tphenol\n",
-                               options={"f": "2"})
+        self.assertWriters("smi", "c1cc(ccc1)O\tphenol\n", options={"f": "2"})
+
     def test_last_atom(self):
-        self.assertWriters("smi", "c1c(cccc1O)\tphenol\n",
-                               options={"l": "2"})
-        
+        self.assertWriters("smi", "c1c(cccc1O)\tphenol\n", options={"l": "2"})
+
     def test_disable_isomeric(self):
-        self.assertWriters("smi", "C[C@]12CCC(=O)[C@@]1(C)CCCC2O\tXYZ\n",
-                               options=[], mol="C[C@]12CCC(=O)[C@@]1(C)CCCC2O XYZ")
-        self.assertWriters("smi", "CC12CCC(=O)C1(C)CCCC2O\tXYZ\n",
-                               options=["i"], mol="C[C@]12CCC(=O)[C@@]1(C)CCCC2O XYZ")
-        
+        self.assertWriters("smi",
+                           "C[C@]12CCC(=O)[C@@]1(C)CCCC2O\tXYZ\n",
+                           options=[],
+                           mol="C[C@]12CCC(=O)[C@@]1(C)CCCC2O XYZ")
+        self.assertWriters("smi",
+                           "CC12CCC(=O)C1(C)CCCC2O\tXYZ\n",
+                           options=["i"],
+                           mol="C[C@]12CCC(=O)[C@@]1(C)CCCC2O XYZ")
+
 
 # smi -- SMILES format
 class TestSMI(unittest.TestCase, WriteMixin, _BaseSmiles):
     fmt = "smi"
     maxDiff = None
 
+
 # smiles -- SMILES format
-class TestSMILES(unittest.TestCase, WriteMixin,  _BaseSmiles):
+class TestSMILES(unittest.TestCase, WriteMixin, _BaseSmiles):
     fmt = "smiles"
     maxDiff = None
+
 
 ## # stl -- STL 3D-printing format [Write-only]
 ## XXX the output is far too extensive to test here
@@ -3824,12 +4232,15 @@ class TestSMILES(unittest.TestCase, WriteMixin,  _BaseSmiles):
 ##         self.assertBinaryWriteFile(self.fmt, """\
 ## """)
 
+
 # svg -- SVG 2D depiction [Write-only]
 class TestSVG(unittest.TestCase, WriteMixin):
     fmt = "svg"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 <?xml version="1.0"?>
 <svg version="1.1" id="topsvg"
 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -3857,12 +4268,15 @@ x="10.000000" y="20.000000" >phenol</text>
 </svg>
 """)
 
+
 # sy2 -- Sybyl Mol2 format
 class TestSY2(unittest.TestCase, WriteMixin):
     fmt = "sy2"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 @<TRIPOS>MOLECULE
 phenol
  7 7 0 0 0
@@ -3886,6 +4300,7 @@ GASTEIGER
      6     5     6   ar
      7     6     7    1
 """)
+
 
 ## # tdd -- Thermo format
 ## XXX need thermo data
@@ -3914,12 +4329,15 @@ GASTEIGER
 ##         self.assertWriters(self.fmt, """\
 ## """)
 
+
 # tmol -- TurboMole Coordinate format
 class TestTMOL(unittest.TestCase, WriteMixin):
     fmt = "tmol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 $coord
     2.99446001766484     -0.04705418051234      0.00000000000000      c
     2.96743693407743      1.84342783493125      0.00000000000000      c
@@ -3931,21 +4349,26 @@ $coord
 $end
 """)
 
+
 # txt -- Title format
 class TestTXT(unittest.TestCase, WriteMixin):
     fmt = "txt"
     maxDiff = None
+
     def test_default(self):
         self.assertWriters(self.fmt, """\
 phenol
 """)
 
+
 # txyz -- Tinker XYZ format
 class TestTXYZ(unittest.TestCase, WriteMixin):
     fmt = "txyz"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
      7 phenol                 MM2 parameters
      1  C      1.584600   -0.024900    0.000000     2     6     2
      2  C      1.570300    0.975500    0.000000     2     1     3
@@ -3956,12 +4379,15 @@ class TestTXYZ(unittest.TestCase, WriteMixin):
      7  O     -1.000500    0.005100    0.000000     6     6
 """)
 
+
 # unixyz -- UniChem XYZ format
 class TestUNIXYZ(unittest.TestCase, WriteMixin):
     fmt = "unixyz"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 7
   6        1.58460       -0.02490        0.00000
@@ -3973,12 +4399,15 @@ phenol
   8       -1.00050        0.00510        0.00000
 """)
 
+
 # VASP -- VASP format
 class TestVASP(unittest.TestCase, WriteMixin):
     fmt = "VASP"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 phenol
 1.000 
 0.0  0.0  0.0
@@ -3996,12 +4425,15 @@ Cartesian
     -1.0004999999999999449      0.0051000000000000004      0.0000000000000000000
 """)
 
+
 # vmol -- ViewMol format
 class TestVMOL(unittest.TestCase, WriteMixin):
     fmt = "vmol"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 $title
 phenol
 $coord 1.0
@@ -4015,12 +4447,15 @@ $coord 1.0
 $end
 """)
 
+
 # xed -- XED format [Write-only]
 class TestXED(unittest.TestCase, WriteMixin):
     fmt = "xed"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
      0.000         7         7
 File conversion by Open Babel
        1       6       1       2       2       3       3       4       4       5
@@ -4035,12 +4470,15 @@ File conversion by Open Babel
     1         0.0000    0         0.0000
 """)
 
+
 # xyz -- XYZ cartesian coordinates format
 class TestXYZ(unittest.TestCase, WriteMixin):
     fmt = "xyz"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
 7
 phenol
 C          1.58460       -0.02490        0.00000
@@ -4052,19 +4490,27 @@ C          0.00000        0.00000        0.00000
 O         -1.00050        0.00510        0.00000
 """)
 
+
 # yob -- YASARA.org YOB format
 class TestYOB(unittest.TestCase, WriteMixin):
     fmt = "yob"
     maxDiff = None
+
     def test_default(self):
-        self.assertBinaryWriters(self.fmt, b'YMOB\x90\x00\x00\x00\x06\x00\x00\x00\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\xff\xff\xff\x7f\x08\x00\x00\x00$\x01\x00\x00\x07\x00\x00\x00\x01\x00\x00\x00\x06\x00\x00\x00\x02\x04\x06@\x04\x95\xfd\xffF\xf6\xff\xff\x00\x00\x00\x00\x05\x00\x00\x02\x01\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\x9a\x9a\xfd\xff\x0e}\x01\x00\x00\x00\x00\x00\x00\x00\x00\x01\x02\x00\x00\x02\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\xfaJ\xfc\xffTE\x02\x00\x00\x00\x00\x00\x01\x00\x00\x02\x03\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\xba\xf5\xfa\xff\xc8\x86\x01\x00\x00\x00\x00\x00\x02\x00\x00\x01\x04\x00\x00\x02\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\x1a\xf0\xfa\xff\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x02\x05\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x03\x04\x06@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x04\x00\x00\x01\x06\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x01\x04\x08@\xd2\x86\x01\x00\xfe\x01\x00\x00\x00\x00\x00\x00\x05\x00\x00\x01\x03\x00\x00\x00O   UNK    1')
+        self.assertBinaryWriters(
+            self.fmt,
+            b'YMOB\x90\x00\x00\x00\x06\x00\x00\x00\x88\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\xf0?\xff\xff\xff\x7f\x08\x00\x00\x00$\x01\x00\x00\x07\x00\x00\x00\x01\x00\x00\x00\x06\x00\x00\x00\x02\x04\x06@\x04\x95\xfd\xffF\xf6\xff\xff\x00\x00\x00\x00\x05\x00\x00\x02\x01\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\x9a\x9a\xfd\xff\x0e}\x01\x00\x00\x00\x00\x00\x00\x00\x00\x01\x02\x00\x00\x02\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\xfaJ\xfc\xffTE\x02\x00\x00\x00\x00\x00\x01\x00\x00\x02\x03\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\xba\xf5\xfa\xff\xc8\x86\x01\x00\x00\x00\x00\x00\x02\x00\x00\x01\x04\x00\x00\x02\x03\x00\x00\x00C   UNK    1\x02\x04\x06@\x1a\xf0\xfa\xff\x00\x00\x00\x00\x00\x00\x00\x00\x03\x00\x00\x02\x05\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x03\x04\x06@\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x04\x00\x00\x01\x06\x00\x00\x01\x03\x00\x00\x00C   UNK    1\x01\x04\x08@\xd2\x86\x01\x00\xfe\x01\x00\x00\x00\x00\x00\x00\x05\x00\x00\x01\x03\x00\x00\x00O   UNK    1'
+        )
+
 
 # zin -- ZINDO input format [Write-only]
 class TestZIN(unittest.TestCase, WriteMixin):
     fmt = "zin"
     maxDiff = None
+
     def test_default(self):
-        self.assertWriters(self.fmt, """\
+        self.assertWriters(
+            self.fmt, """\
  $TITLEI
 
    phenol
@@ -4121,7 +4567,6 @@ class TestZIN(unittest.TestCase, WriteMixin):
  $END 
 """)
 
-        
 
 if __name__ == "__main__":
     unittest.main()

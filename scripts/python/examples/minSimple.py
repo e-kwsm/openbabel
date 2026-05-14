@@ -10,10 +10,10 @@ import sys
 
 # Make sure we have a filename
 try:
-  filename = sys.argv[1]
+    filename = sys.argv[1]
 except:
-  print("Usage: python energy.py filename")
-  sys.exit(1)
+    print("Usage: python energy.py filename")
+    sys.exit(1)
 
 # Read the file.
 mol = openbabel.OBMol()
@@ -25,7 +25,7 @@ conv.ReadFile(mol, filename)
 # Find the MMFF94 force field.
 ff = openbabel.OBForceField.FindForceField("MMFF94")
 if ff == 0:
-  print("Could not find forcefield")
+    print("Could not find forcefield")
 
 # Set the log level to low since we only want to print out the minimization
 # steps and not all individual interactions for each call to Energy()
@@ -37,7 +37,7 @@ ff.SetLogToStdErr()
 
 # Setup the molecule. This assigns atoms types, charges and parameters
 if ff.Setup(mol) == 0:
-  print("Could not setup forcefield")
+    print("Could not setup forcefield")
 
 # Minimize using steepest descent for 2000 steps
 ff.SteepestDescent(2000)
