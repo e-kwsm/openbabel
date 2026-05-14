@@ -14,11 +14,14 @@ and so you can quickly develop the tests and try them out.
 
 from testbindings import *
 
+
 class ExamplePybelTest(PybelWrapper):
+
     def testNumberOfAtoms(self):
         mol = pybel.readstring("smi", "C(=O)Cl")
         mol.addh()
         self.assertEqual(mol.OBMol.NumAtoms(), 4)
+
 
 def gettests():
     testsuite = []
@@ -26,6 +29,7 @@ def gettests():
         suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
         testsuite.append(suite)
     return testsuite
+
 
 if __name__ == "__main__":
     unittest.TextTestRunner().run(unittest.TestSuite(gettests()))

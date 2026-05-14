@@ -5,7 +5,6 @@
 # This file is part of Cinfony.
 # The contents are covered by the terms of the GPL v2 license
 # which is included in the file LICENSE_GPLv2.txt.
-
 """
 pybel - A Cinfony module for accessing Open Babel
 
@@ -61,8 +60,10 @@ else:
 def _formatstodict(list):
     if sys.platform[:4] == "java":
         list = [list.get(i) for i in range(list.size())]
-    broken = [x.replace("[Read-only]", "").replace("[Write-only]", "").split(
-              " -- ") for x in list]
+    broken = [
+        x.replace("[Read-only]", "").replace("[Write-only]", "").split(" -- ")
+        for x in list
+    ]
     broken = [(x, y.strip()) for x, y in broken]
     return dict(broken)
 
@@ -80,6 +81,7 @@ def _getpluginnames(ptype):
     if sys.platform[:4] == "java":
         plugins = [plugins.get(i) for i in range(plugins.size())]
     return [x.split()[0] for x in plugins if x.strip()]
+
 
 _obconv = ob.OBConversion()
 _builder = ob.OBBuilder()
@@ -175,15 +177,15 @@ def readfile(format=None, filename=None, opt=None):
     formatok = obconversion.SetInFormat(format)
     if not formatok:
         if format:
-            raise ValueError("%s is not a recognised Open Babel format" % format)
+            raise ValueError("%s is not a recognised Open Babel format" %
+                             format)
         else:
             if filename == '>>/NONE':
                 raise ValueError("Input file does not exist")
             else:
-                raise ValueError(
-                    "File format (%s) guessed from file (%s) "
-                    "is not a recognised Open Babel format" % (format,filename)
-                )
+                raise ValueError("File format (%s) guessed from file (%s) "
+                                 "is not a recognised Open Babel format" %
+                                 (format, filename))
     if not os.path.isfile(filename):
         raise OSError("Input file does not exist")
     if opt is None:
@@ -193,6 +195,7 @@ def readfile(format=None, filename=None, opt=None):
             obconversion.AddOption(k, obconversion.INOPTIONS)
         else:
             obconversion.AddOption(k, obconversion.INOPTIONS, str(v))
+
     def filereader():
         obmol = ob.OBMol()
         notatend = obconversion.ReadFile(obmol, filename)
@@ -200,6 +203,7 @@ def readfile(format=None, filename=None, opt=None):
             yield Molecule(obmol)
             obmol = ob.OBMol()
             notatend = obconversion.Read(obmol)
+
     return filereader()
 
 
@@ -239,8 +243,8 @@ def readstring(format, string, opt=None):
 
     success = obconversion.ReadString(obmol, string)
     if not success:
-        raise OSError("Failed to convert '%s' to format '%s'" % (
-            string, format))
+        raise OSError("Failed to convert '%s' to format '%s'" %
+                      (string, format))
     return Molecule(obmol)
 
 
@@ -295,7 +299,8 @@ class Outputfile(object):
             if v is None:
                 self.obConversion.AddOption(k, self.obConversion.OUTOPTIONS)
             else:
-                self.obConversion.AddOption(k, self.obConversion.OUTOPTIONS, str(v))
+                self.obConversion.AddOption(k, self.obConversion.OUTOPTIONS,
+                                            str(v))
         self.total = 0  # The total number of molecules written to the file
 
     def write(self, molecule):
@@ -361,8 +366,10 @@ class Molecule(object):
 
     @property
     def atoms(self):
-        return [Atom(self.OBMol.GetAtom(i + 1))
-                for i in range(self.OBMol.NumAtoms())]
+        return [
+            Atom(self.OBMol.GetAtom(i + 1))
+            for i in range(self.OBMol.NumAtoms())
+        ]
 
     @property
     def residues(self):
@@ -413,6 +420,7 @@ class Molecule(object):
 
     def _settitle(self, val):
         self.OBMol.SetTitle(val)
+
     title = property(_gettitle, _settitle)
 
     @property
@@ -671,10 +679,11 @@ class Molecule(object):
         if show or filename:
             formatok = obconversion.SetOutFormat("_png2")
             if not formatok:
-                raise ImportError("PNG depiction support not found. You should "
-                                  "compile Open Babel with support for Cairo. See "
-                                  "installation instructions for more "
-                                  "information.")
+                raise ImportError(
+                    "PNG depiction support not found. You should "
+                    "compile Open Babel with support for Cairo. See "
+                    "installation instructions for more "
+                    "information.")
 
         # Need to copy to avoid removing hydrogens from self
         workingmol = Molecule(ob.OBMol(self.OBMol))
@@ -735,8 +744,8 @@ class Molecule(object):
                 image = PIL.open(filename)
                 imagedata = piltk.PhotoImage(image)
                 tk.Label(frame, image=imagedata).pack()
-                tk.Button(root, text="Close", command=root.destroy).pack(
-                    fill=tk.X)
+                tk.Button(root, text="Close",
+                          command=root.destroy).pack(fill=tk.X)
                 root.mainloop()
         if filedes:
             os.close(filedes)
@@ -799,18 +808,20 @@ class Atom(object):
     @property
     def heavydegree(self):
         return self.OBAtom.GetHvyDegree()
-    
+
     @property
     def heavyvalence(self):
-        raise AttributeError("This property has been renamed. Use Atom.heavydegree instead.")
+        raise AttributeError(
+            "This property has been renamed. Use Atom.heavydegree instead.")
 
     @property
     def heterodegree(self):
         return self.OBAtom.GetHeteroDegree()
-    
+
     @property
     def heterovalence(self):
-        raise AttributeError("This property has been renamed. Use Atom.heterodegree instead.")
+        raise AttributeError(
+            "This property has been renamed. Use Atom.heterodegree instead.")
 
     @property
     def hyb(self):
@@ -823,11 +834,11 @@ class Atom(object):
     @property
     def index(self):
         return self.OBAtom.GetIndex()
-    
+
     @property
     def explicitvalence(self):
         return self.OBAtom.GetExplicitValence()
-        
+
     @property
     def totalvalence(self):
         return self.OBAtom.GetTotalValence()
@@ -854,7 +865,8 @@ class Atom(object):
 
     @property
     def valence(self):
-        raise AttributeError("This property has been renamed. Use Atom.degree instead.")
+        raise AttributeError(
+            "This property has been renamed. Use Atom.degree instead.")
 
     @property
     def vector(self):
@@ -1037,9 +1049,10 @@ class MoleculeData(object):
         data = self._mol.GetData()
         if sys.platform[:4] == "java":
             data = [data.get(i) for i in range(data.size())]
-        answer = [x for x in data if
-                  x.GetDataType() == _obconsts.PairData or
-                  x.GetDataType() == _obconsts.CommentData]
+        answer = [
+            x for x in data if x.GetDataType() == _obconsts.PairData
+            or x.GetDataType() == _obconsts.CommentData
+        ]
         if sys.platform[:3] != "cli":
             answer = [_obfuncs.toPairData(x) for x in answer]
         return answer
@@ -1104,7 +1117,9 @@ class MoleculeData(object):
     def __repr__(self):
         return dict(self.items()).__repr__()
 
+
 if sys.platform[:3] == "cli":
+
     class _MyForm(Form):
 
         def __init__(self):
@@ -1126,6 +1141,7 @@ if sys.platform[:3] == "cli":
 
             self.Controls.Add(pictureBox)
             self.Show()
+
 
 if __name__ == "__main__":  # pragma: no cover
     import doctest
