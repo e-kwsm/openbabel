@@ -290,7 +290,7 @@ namespace OpenBabel {
 
   void OBDistanceGeometry::Set12Bounds(bool useGeom)
   {
-    float length;
+    float length = NAN;
     FOR_BONDS_OF_MOL(b, _mol) {
       unsigned int i = b->GetBeginAtomIdx() - 1;
       unsigned int j = b->GetEndAtomIdx() - 1;
@@ -338,9 +338,9 @@ namespace OpenBabel {
   //
   void OBDistanceGeometry::Set13Bounds(bool useGeom)
   {
-    float dist, rAB, rAC;
-    OBAtom *a, *b, *c;
-    unsigned int i, j;
+    float dist = NAN, rAB = NAN, rAC = NAN;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr;
+    unsigned int i = 0, j = 0;
     // Angle is    b
     //            /
     //           a----c
@@ -457,12 +457,12 @@ namespace OpenBabel {
       // Aromatic rings must be planar, so atoms in the ring = regular polygon
       double angle = 180.0 - (360.0 / size);
       angle *= DEG_TO_RAD;
-      float bondDist, radius;
+      float bondDist = NAN, radius = NAN;
 
       // We should have 1-2 and 1-3 distances set exactly.
       // So we need to set 1-4 (e.g., para)
       std::vector<int> path = r->_path;
-      int a, b, c, d; // entries into path vector
+      int a = 0, b = 0, c = 0, d = 0; // entries into path vector
       for (a = 0; a < size; ++a) {
         b = (a + 1) % size;
         c = (a + 2) % size;
@@ -494,11 +494,11 @@ namespace OpenBabel {
   //   is calculated using a torsion angle of 180.0.
   void OBDistanceGeometry::Set14Bounds()
   {
-    float rAB, rBC, rCD;
-    float rAC, rBD, B, C;
-    float lBounds, uBounds;
-    OBAtom *a, *b, *c, *d;
-    OBBond *bc;
+    float rAB = NAN, rBC = NAN, rCD = NAN;
+    float rAC = NAN, rBD = NAN, B = NAN, C = NAN;
+    float lBounds = NAN, uBounds = NAN;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr, *d = nullptr;
+    OBBond *bc = nullptr;
 
     // Loop through all torsions first
     FOR_TORSIONS_OF_MOL(t, _mol) {
@@ -576,7 +576,7 @@ namespace OpenBabel {
         continue;
 
       std::vector<int> path = r->_path;
-      int a, b, c, d; // entries into path vector
+      int a = 0, b = 0, c = 0, d = 0; // entries into path vector
       for (a = 0; a < size; ++a) {
         b = (a + 1) % size;
         c = (a + 2) % size;
@@ -694,8 +694,8 @@ namespace OpenBabel {
 
   OBCisTransStereo * OBDistanceGeometry::GetCisTransStereo(OBBond *bond)
   {
-    OBAtom *b, *c;
-    OBBond *bc;
+    OBAtom *b = nullptr, *c = nullptr;
+    OBBond *bc = nullptr;
 
     OBStereoUnitSet sgunits;
     std::vector<OBGenericData*> vdata = _mol.GetAllData(OBGenericDataType::StereoData);
@@ -721,12 +721,12 @@ namespace OpenBabel {
   //    or farther than a fully extended trans relationship
   void OBDistanceGeometry::Set15Bounds()
   {
-    float rAB, rBC, rCD, rDE;
-    float rAC, rBD, rCE, rAE, rBE;
-    float A, B, C, D;
-    float lBounds, uBounds;
-    OBAtom *a, *b, *c, *d;
-    OBBond *ab, *cd;
+    float rAB = NAN, rBC = NAN, rCD = NAN, rDE = NAN;
+    float rAC = NAN, rBD = NAN, rCE = NAN, rAE = NAN, rBE = NAN;
+    float A = NAN, B = NAN, C = NAN, D = NAN;
+    float lBounds = NAN, uBounds = NAN;
+    OBAtom *a = nullptr, *b = nullptr, *c = nullptr, *d = nullptr;
+    OBBond *ab = nullptr, *cd = nullptr;
 
     FOR_TORSIONS_OF_MOL(t, _mol) {
       a = _mol.GetAtom((*t)[0] + 1);
@@ -825,7 +825,7 @@ namespace OpenBabel {
 
   int OBDistanceGeometry::AreInSameRing(OBAtom *a, OBAtom *b)
   {
-    bool a_in, b_in;
+    bool a_in = false, b_in = false;
     vector<OBRing*> vr;
     vr = _mol.GetSSSR();
 
@@ -857,12 +857,12 @@ namespace OpenBabel {
   //! https://doi.org/10.1016/0166-218X(88)90009-1
   void OBDistanceGeometry::TriangleSmooth()
   {
-    int a, b, c;
+    int a = 0, b = 0, c = 0;
 
     _d->maxBoxSize = 0.0; // size of surrounding space
 
-    float u_ab, u_bc, u_ac; // upper limits
-    float l_ab, l_bc, l_ac; // lower limits
+    float u_ab = NAN, u_bc = NAN, u_ac = NAN; // upper limits
+    float l_ab = NAN, l_bc = NAN, l_ac = NAN; // lower limits
     FOR_ATOMS_OF_MOL (_a, _mol) {
       a = _a->GetIdx() - 1;
       FOR_ATOMS_OF_MOL (_b, _mol) {
@@ -920,9 +920,9 @@ namespace OpenBabel {
   void OBDistanceGeometry::SetLowerBounds()
   {
     // Ensure atoms aren't closer than VDW contacts
-    OBAtom *a, *b;
+    OBAtom *a = nullptr, *b = nullptr;
     unsigned int N = _mol.NumAtoms();
-    float aRad, bRad, minDist;
+    float aRad = NAN, bRad = NAN, minDist = NAN;
 
     for (unsigned int i = 0; i < N; ++i) {
       a = _mol.GetAtom(i+1);
@@ -1110,7 +1110,7 @@ namespace OpenBabel {
     LBFGSpp::LBFGSSolver<double> solver(param);
     DistGeomFunc fun(this);
 
-    double fx;
+    double fx = NAN;
     int niter = solver.minimize(fun, _coord, fx);
     if (_d->debug)
       cerr << "  3D minimization: " << niter << " iters, fx=" << fx << endl;
@@ -1133,7 +1133,7 @@ namespace OpenBabel {
     LBFGSpp::LBFGSSolver<double> solver(param);
     DistGeomFunc4D fun(this, w4d);
 
-    double fx;
+    double fx = NAN;
     int niter = solver.minimize(fun, _coord, fx);
     if (_d->debug) {
       double maxW = 0.0;
@@ -1259,8 +1259,8 @@ namespace OpenBabel {
   bool OBDistanceGeometry::CheckBounds()
   {
     // remember atom indexes from 1
-    OBAtom *a, *b;
-    double dist, aRad, bRad, minDist, uBounds;
+    OBAtom *a = nullptr, *b = nullptr;
+    double dist = NAN, aRad = NAN, bRad = NAN, minDist = NAN, uBounds = NAN;
 
     for (unsigned int i = 1; i <= _mol.NumAtoms(); ++i) {
       a = _mol.GetAtom(i);
@@ -1321,7 +1321,7 @@ namespace OpenBabel {
 
     //Copy conformer information
     if (_mol.NumConformers() > 0) {
-      int k,l;
+      int k = 0,l = 0;
       vector<double*> conf;
       double* xyz = nullptr;
       for (k=0 ; k<_mol.NumConformers() ; ++k) {
@@ -1427,7 +1427,7 @@ namespace OpenBabel {
       double lb = tetra.GetLowerBound();
       double ub = tetra.GetUpperBound();
 
-      double preFactor;
+      double preFactor = NAN;
       if (vol < lb) preFactor = vol - lb;
       else if (vol > ub) preFactor = vol - ub;
       else continue;
@@ -1523,7 +1523,7 @@ namespace OpenBabel {
       double lb = tetra.GetLowerBound();
       double ub = tetra.GetUpperBound();
 
-      double preFactor;
+      double preFactor = NAN;
       if (vol < lb) preFactor = vol - lb;
       else if (vol > ub) preFactor = vol - ub;
       else continue;
