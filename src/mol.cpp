@@ -36,6 +36,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/tetrahedral.h>
 #include <openbabel/stereo/cistrans.h>
 
+#include <cmath>
 #include <sstream>
 #include <set>
 
@@ -188,7 +189,7 @@ namespace OpenBabel
     //Only multiline titles use the following to replace newlines by spaces
     static string title;
     title=_title;
-    string::size_type j;
+    string::size_type j = 0;
     for ( ; (j = title.find_first_of( "\n\r" )) != string::npos ; ) {
       title.replace( j, 1, " ");
     }
@@ -233,13 +234,13 @@ namespace OpenBabel
     tor.push_back(d->GetCoordinateIdx());
 
     FindChildren(atoms, b->GetIdx(), c->GetIdx());
-    int j;
+    int j = 0;
     for (j = 0 ; (unsigned)j < atoms.size() ; j++ )
       atoms[j] = (atoms[j] - 1) * 3;
 
-    double v2x,v2y,v2z;
-    double radang,m[9];
-    double x,y,z,mag,rotang,sn,cs,t,tx,ty,tz;
+    double v2x = NAN,v2y = NAN,v2z = NAN;
+    double radang = NAN,m[9];
+    double x = NAN,y = NAN,z = NAN,mag = NAN,rotang = NAN,sn = NAN,cs = NAN,t = NAN,tx = NAN,ty = NAN,tz = NAN;
 
     //calculate the torsion angle
     // TODO: fix this calculation for periodic systems
@@ -336,9 +337,9 @@ namespace OpenBabel
 
   void OBMol::ContigFragList(std::vector<std::vector<int> >&cfl)
   {
-    int j;
-    OBAtom *atom;
-    OBBond *bond;
+    int j = 0;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator k;
     OBBitVec used,curr,next,frag;
@@ -398,8 +399,8 @@ namespace OpenBabel
     SetData(angles);
 
     OBAngle angle;
-    OBAtom *b;
-    int unique_angle;
+    OBAtom *b = nullptr;
+    int unique_angle = 0;
 
     unique_angle = 0;
 
@@ -442,8 +443,8 @@ namespace OpenBabel
 
     OBTorsion torsion;
     vector<OBBond*>::iterator bi1,bi2,bi3;
-    OBBond* bond;
-    OBAtom *a,*b,*c,*d;
+    OBBond* bond = nullptr;
+    OBAtom *a = nullptr,*b = nullptr,*c = nullptr,*d = nullptr;
 
     //loop through all bonds generating torsions
     for(bond = BeginBond(bi1);bond;bond = NextBond(bi1))
@@ -476,9 +477,9 @@ namespace OpenBabel
 
   void OBMol::FindLargestFragment(OBBitVec &lf)
   {
-    int j;
-    OBAtom *atom;
-    OBBond *bond;
+    int j = 0;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator k;
     OBBitVec used,curr,next,frag;
@@ -530,8 +531,8 @@ namespace OpenBabel
     curr |= end->GetIdx();
     children.clear();
 
-    int i;
-    OBAtom *atom,*nbr;
+    int i = 0;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     vector<OBBond*>::iterator j;
 
     for (;;)
@@ -559,14 +560,14 @@ namespace OpenBabel
   //! children must not include 'second'
   void OBMol::FindChildren(vector<int> &children,int first,int second)
   {
-    int i;
+    int i = 0;
     OBBitVec used,curr,next;
 
     used.SetBitOn(first);
     used.SetBitOn(second);
     curr.SetBitOn(second);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     while (!curr.IsEmpty())
       {
         next.Clear();
@@ -608,10 +609,10 @@ namespace OpenBabel
     gtd.clear();
     gtd.resize(NumAtoms());
 
-    int gtdcount,natom;
+    int gtdcount = 0,natom = 0;
     OBBitVec used,curr,next;
-    OBAtom *atom,*atom1;
-    OBBond *bond;
+    OBAtom *atom = nullptr,*atom1 = nullptr;
+    OBBond *bond = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
 
@@ -661,8 +662,8 @@ namespace OpenBabel
     vector<int> v;
     GetGTDVector(v);
 
-    int i;
-    OBAtom *atom;
+    int i = 0;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator j;
     for (i=0,atom = BeginAtom(j);atom;atom = NextAtom(j),++i)
       {
@@ -743,8 +744,8 @@ namespace OpenBabel
   //! helper routine to GetGIDVector
   static void CreateNewClassVector(vector<pair<OBAtom*,unsigned int> > &vp1,vector<pair<OBAtom*,unsigned int> > &vp2)
   {
-    int m,id;
-    OBAtom *nbr;
+    int m = 0,id = 0;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator j;
     vector<unsigned int>::iterator k;
     vector<pair<OBAtom*,unsigned int> >::iterator i;
@@ -773,14 +774,14 @@ namespace OpenBabel
     vector<unsigned int> vgi;
     GetGIVector(vgi);  //get vector of graph invariants
 
-    int i;
-    OBAtom *atom;
+    int i = 0;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator j;
     vector<pair<OBAtom*,unsigned int> > vp1,vp2;
     for (i=0,atom = BeginAtom(j);atom;atom = NextAtom(j),++i)
       vp1.push_back(pair<OBAtom*,unsigned int> (atom,vgi[i]));
 
-    unsigned int nclass1,nclass2; //number of classes
+    unsigned int nclass1 = 0,nclass2 = 0; //number of classes
     ClassCount(vp1,nclass1);
 
     if (nclass1 < NumAtoms())
@@ -805,7 +806,7 @@ namespace OpenBabel
 
   unsigned int OBMol::NumHvyAtoms() const
   {
-    const OBAtom *atom;
+    const OBAtom *atom = nullptr;
     vector<OBAtom*>::const_iterator(i);
     unsigned int count = 0;
 
@@ -883,7 +884,7 @@ namespace OpenBabel
 
   OBBond *OBMol::GetBond(OBAtom *bgn,OBAtom *end) const
   {
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*>::iterator i;
 
     if (!bgn || !end) return nullptr;
@@ -963,7 +964,7 @@ namespace OpenBabel
   double OBMol::GetMolWt(bool implicitH)
   {
     double molwt=0.0;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     double hmass = OBElements::GetMass(1);
@@ -978,7 +979,7 @@ namespace OpenBabel
   double OBMol::GetExactMass(bool implicitH)
   {
     double mass=0.0;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     double hmass = OBElements::GetExactMass(1, 1);
@@ -1075,7 +1076,7 @@ namespace OpenBabel
     for (int j = 0; j < NumElements; ++j)
       {
         char DT[4] = {'D',0,'T',0};
-        const char* symb;
+        const char* symb = nullptr;
         int alph = alphabetical[j]-1;
         if (atomicCount[ alph ])
           {
@@ -1164,7 +1165,7 @@ namespace OpenBabel
                               "Ran OpenBabel::GetTotalCharge -- calculated from formal charges",
                               obAuditMsg);
 
-        OBAtom *atom;
+        OBAtom *atom = nullptr;
         vector<OBAtom*>::iterator i;
         int chg = 0;
 
@@ -1214,7 +1215,7 @@ namespace OpenBabel
                               "Ran OpenBabel::GetTotalSpinMultiplicity -- calculating from atomic spins assuming high spin case",
                               obAuditMsg);
 
-        OBAtom *atom;
+        OBAtom *atom = nullptr;
         vector<OBAtom*>::iterator i;
         unsigned int unpaired_electrons = 0;
         int chg = GetTotalCharge();
@@ -1245,8 +1246,8 @@ namespace OpenBabel
     OBMol &src = (OBMol &)source;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
-    OBAtom *atom;
-    OBBond *bond;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
 
     Clear();
     BeginModify();
@@ -1292,7 +1293,7 @@ namespace OpenBabel
     unsigned int NumRes = src.NumResidues();
     if (NumRes)
       {
-        unsigned int k;
+        unsigned int k = 0;
         OBResidue *src_res = nullptr;
         OBResidue *res = nullptr;
         OBAtom *src_atom = nullptr;
@@ -1316,7 +1317,7 @@ namespace OpenBabel
 
     //Copy conformer information
     if (src.NumConformers() > 1) {
-      int k;//,l;
+      int k = 0;//,l;
       vector<double*> conf;
       int currConf = -1;
       double* xyz = nullptr;
@@ -1358,9 +1359,9 @@ namespace OpenBabel
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
     vector<OBResidue*>::iterator k;
-    OBAtom *atom;
-    OBBond *bond;
-    OBResidue *residue;
+    OBAtom *atom = nullptr;
+    OBBond *bond = nullptr;
+    OBResidue *residue = nullptr;
 
     BeginModify();
 
@@ -1452,7 +1453,7 @@ namespace OpenBabel
     // first, those calls would dereference dead pointers (UBSAN trips
     // in residue.cpp:853). The symmetric path in ~OBAtom() already
     // handles the reverse direction by checking _residue != nullptr.
-    unsigned int ii;
+    unsigned int ii = 0;
     for (ii=0 ; ii<_residue.size() ; ++ii)
       {
         DestroyResidue(_residue[ii]);
@@ -1497,7 +1498,7 @@ namespace OpenBabel
     //suck coordinates from _c into _v for each atom
     if (!_mod && !Empty())
       {
-        OBAtom *atom;
+        OBAtom *atom = nullptr;
         vector<OBAtom*>::iterator i;
         for (atom = BeginAtom(i);atom;atom = NextAtom(i))
           {
@@ -1549,8 +1550,8 @@ namespace OpenBabel
     double *c = new double [NumAtoms()*3];
     _c = c;
 
-    unsigned int idx;
-    OBAtom *atom;
+    unsigned int idx = 0;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator j;
     for (idx=0,atom = BeginAtom(j);atom;atom = NextAtom(j),++idx)
       {
@@ -1642,7 +1643,7 @@ namespace OpenBabel
     if (HasData(OBGenericDataType::VirtualBondData))
       {
         /*add bonds that have been queued*/
-        OBVirtualBond *vb;
+        OBVirtualBond *vb = nullptr;
         vector<OBGenericData*> verase;
         vector<OBGenericData*>::iterator i;
         for (i = BeginData();i != EndData();++i)
@@ -1729,7 +1730,7 @@ namespace OpenBabel
     //    BeginModify();
 
     // Use the existing atom Id unless either it's invalid or forceNewId has been specified
-    unsigned long id;
+    unsigned long id = 0;
     if (forceNewId)
       id = _atomIds.size();
     else {
@@ -1771,7 +1772,7 @@ namespace OpenBabel
     if (HasData(OBGenericDataType::VirtualBondData))
       {
         /*add bonds that have been queued*/
-        OBVirtualBond *vb;
+        OBVirtualBond *vb = nullptr;
         vector<OBGenericData*> verase;
         vector<OBGenericData*>::iterator i;
         for (i = BeginData();i != EndData();++i)
@@ -1889,7 +1890,7 @@ namespace OpenBabel
 
   bool OBMol::DeletePolarHydrogens()
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBAtom*> delatoms;
 
@@ -1919,7 +1920,7 @@ namespace OpenBabel
 
   bool OBMol::DeleteNonPolarHydrogens()
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBAtom*> delatoms;
 
@@ -1961,7 +1962,7 @@ namespace OpenBabel
 
   bool OBMol::DeleteHydrogens()
   {
-    OBAtom *atom;//,*nbr;
+    OBAtom *atom = nullptr;//,*nbr;
     vector<OBAtom*>::iterator i;
     vector<OBAtom*> delatoms,va;
 
@@ -2008,7 +2009,7 @@ namespace OpenBabel
   bool OBMol::DeleteHydrogens(OBAtom *atom)
   //deletes all hydrogens attached to the atom passed to the function
   {
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator k;
     vector<OBAtom*> delatoms;
@@ -2045,7 +2046,7 @@ namespace OpenBabel
     unsigned atomidx = atom->GetIdx();
 
     //find bonds to delete
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*> vdb;
     vector<OBBond*>::iterator j;
     for (nbr = atom->BeginNbrAtom(j);nbr;nbr = atom->NextNbrAtom(j))
@@ -2056,7 +2057,7 @@ namespace OpenBabel
       DeleteBond((OBBond*)*j); //delete bonds
     DecrementMod();
 
-    int idx;
+    int idx = 0;
     if (atomidx != NumAtoms())
       {
         idx = atom->GetCoordinateIdx();
@@ -2079,7 +2080,7 @@ namespace OpenBabel
 
     //reset all the indices to the atoms
     vector<OBAtom*>::iterator i;
-    OBAtom *atomi;
+    OBAtom *atomi = nullptr;
     for (idx=1,atomi = BeginAtom(i);atomi;atomi = NextAtom(i),++idx)
       atomi->SetIdx(idx);
 
@@ -2161,7 +2162,7 @@ namespace OpenBabel
 
     // Make sure we have conformers (PR#1665519)
     if (!_vconf.empty() && !Empty()) {
-      OBAtom *atom;
+      OBAtom *atom = nullptr;
       vector<OBAtom*>::iterator i;
       for (atom = BeginAtom(i);atom;atom = NextAtom(i))
         {
@@ -2175,8 +2176,8 @@ namespace OpenBabel
       this->SetChiralityPerceived();
 
     //count up number of hydrogens to add
-    OBAtom *atom,*h;
-    int hcount,count=0;
+    OBAtom *atom = nullptr,*h = nullptr;
+    int hcount = 0,count=0;
     vector<pair<OBAtom*,int> > vhadd;
     vector<OBAtom*>::iterator i;
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
@@ -2204,7 +2205,7 @@ namespace OpenBabel
     bool hasCoords = HasNonZeroCoords();
 
     //realloc memory in coordinate arrays for new hydrogens
-    double *tmpf;
+    double *tmpf = nullptr;
     vector<double*>::iterator j;
     for (j = _vconf.begin();j != _vconf.end();++j)
       {
@@ -2218,7 +2219,7 @@ namespace OpenBabel
 
     IncrementMod();
 
-    int m,n;
+    int m = 0,n = 0;
     vector3 v;
     vector<pair<OBAtom*,int> >::iterator k;
     double hbrad = CorrectedBondRad(1, 0);
@@ -2320,7 +2321,7 @@ namespace OpenBabel
     vhadd.push_back(pair<OBAtom*,int>(atom, hcount));
 
     //realloc memory in coordinate arrays for new hydroges
-    double *tmpf;
+    double *tmpf = nullptr;
     vector<double*>::iterator j;
     for (j = _vconf.begin();j != _vconf.end();++j)
       {
@@ -2332,12 +2333,12 @@ namespace OpenBabel
 
     IncrementMod();
 
-    int m,n;
+    int m = 0,n = 0;
     vector3 v;
     vector<pair<OBAtom*,int> >::iterator k;
     double hbrad = CorrectedBondRad(1,0);
 
-    OBAtom *h;
+    OBAtom *h = nullptr;
     for (k = vhadd.begin();k != vhadd.end();++k)
       {
         atom = k->first;
@@ -2456,7 +2457,7 @@ namespace OpenBabel
     //BeginModify() blows away coordinates
 
     //find bonds to delete
-    OBAtom *nbr;
+    OBAtom *nbr = nullptr;
     vector<OBBond*> vdb;
     vector<OBBond*>::iterator j;
     for (nbr = atom->BeginNbrAtom(j);nbr;nbr = atom->NextNbrAtom(j))
@@ -2470,9 +2471,9 @@ namespace OpenBabel
     _natoms--;
 
     //reset all the indices to the atoms
-    int idx;
+    int idx = 0;
     vector<OBAtom*>::iterator i;
-    OBAtom *atomi;
+    OBAtom *atomi = nullptr;
     for (idx=1,atomi = BeginAtom(i);atomi;atomi = NextAtom(i),++idx)
       atomi->SetIdx(idx);
 
@@ -2522,8 +2523,8 @@ namespace OpenBabel
     _nbonds--;
 
     vector<OBBond*>::iterator i;
-    int j;
-    OBBond *bondi;
+    int j = 0;
+    OBBond *bondi = nullptr;
     for (bondi = BeginBond(i),j=0;bondi;bondi = NextBond(i),++j)
       bondi->SetIdx(j);
 
@@ -2555,7 +2556,7 @@ namespace OpenBabel
             return(false);
           }
 
-        OBAtom *bgn,*end;
+        OBAtom *bgn = nullptr,*end = nullptr;
         bgn = GetAtom(first);
         end = GetAtom(second);
         if (!bgn || !end)
@@ -2647,7 +2648,7 @@ namespace OpenBabel
 
     //rotate atoms
     vector3 v;
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<int>::iterator i;
     for (i = children.begin();i != children.end();++i)
       {
@@ -2671,9 +2672,9 @@ namespace OpenBabel
 
   void OBMol::ToInertialFrame(int conf,double *rmat)
   {
-    unsigned int i;
-    double x,y,z;
-    double mi;
+    unsigned int i = 0;
+    double x = NAN,y = NAN,z = NAN;
+    double mi = NAN;
     double mass = 0.0;
     double center[3],m[3][3];
 
@@ -2685,7 +2686,7 @@ namespace OpenBabel
     memset(center,'\0',sizeof(double)*3);
 
     SetConformer(conf);
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator j;
     //find center of mass
     for (atom = BeginAtom(j);atom;atom = NextAtom(j))
@@ -2784,9 +2785,9 @@ namespace OpenBabel
 
   OBMol::~OBMol()
   {
-    OBAtom    *atom;
-    OBBond    *bond;
-    OBResidue *residue;
+    OBAtom    *atom = nullptr;
+    OBBond    *bond = nullptr;
+    OBResidue *residue = nullptr;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;
     vector<OBResidue*>::iterator r;
@@ -2808,7 +2809,7 @@ namespace OpenBabel
 
   bool OBMol::HasNonZeroCoords()
   {
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
@@ -2820,8 +2821,8 @@ namespace OpenBabel
 
   bool OBMol::Has2D(bool Not3D)
   {
-    bool hasX,hasY;
-    OBAtom *atom;
+    bool hasX = false,hasY = false;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     hasX = hasY = false;
@@ -2841,8 +2842,8 @@ namespace OpenBabel
 
   bool OBMol::Has3D()
   {
-    bool hasX,hasY,hasZ;
-    OBAtom *atom;
+    bool hasX = false,hasY = false,hasZ = false;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     hasX = hasY = hasZ = false;
@@ -2874,7 +2875,7 @@ namespace OpenBabel
     memcpy((char*)_c, (char*)newCoords, sizeof(double)*3*NumAtoms());
 
     if (noCptr) {
-      OBAtom *atom;
+      OBAtom *atom = nullptr;
       vector<OBAtom*>::iterator i;
       for (atom = BeginAtom(i);atom;atom = NextAtom(i))
         atom->SetCoordPtr(&_c);
@@ -2914,7 +2915,7 @@ namespace OpenBabel
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::RenumberAtoms", obAuditMsg);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*> va;
     vector<OBAtom*>::iterator i;
 
@@ -2932,8 +2933,8 @@ namespace OpenBabel
       if (!bv[atom->GetIdx()])
         va.push_back(atom);
 
-    int j,k;
-    double *c;
+    int j = 0,k = 0;
+    double *c = nullptr;
     double *ctmp = new double [NumAtoms()*3];
 
     for (j = 0;j < NumConformers();++j)
@@ -3004,10 +3005,10 @@ namespace OpenBabel
                             "Ran OpenBabel::ConnectTheDots", obAuditMsg);
 
 
-    int j,k,max;
+    int j = 0,k = 0,max = 0;
     double maxrad = 0;
     bool unset = false;
-    OBAtom *atom,*nbr;
+    OBAtom *atom = nullptr,*nbr = nullptr;
     vector<OBAtom*>::iterator i;
     vector<pair<OBAtom*,double> > zsortedAtoms;
     vector<double> rad;
@@ -3042,8 +3043,8 @@ namespace OpenBabel
         zsorted.push_back(atom->GetIdx()-1);
       }
 
-    int idx1, idx2;
-    double d2,cutoff,zd;
+    int idx1 = 0, idx2 = 0;
+    double d2 = NAN,cutoff = NAN,zd = NAN;
     vector3 atom1, atom2, wrapped_coords;  // Only used for periodic coords
     for (j = 0 ; j < max ; ++j)
       {
@@ -3115,11 +3116,11 @@ namespace OpenBabel
       }
 
     // Cleanup -- delete long bonds that exceed max valence
-    OBBond *maxbond, *bond;
-    double maxlength;
+    OBBond *maxbond = nullptr, *bond = nullptr;
+    double maxlength = NAN;
     vector<OBBond*>::iterator l, m;
-    int valCount;
-    bool changed;
+    int valCount = 0;
+    bool changed = false;
     BeginModify(); //prevent needless re-perception in DeleteBond
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       {
@@ -3227,9 +3228,9 @@ namespace OpenBabel
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::PerceiveBondOrders", obAuditMsg);
 
-    OBAtom *atom, *b, *c;
+    OBAtom *atom = nullptr, *b = nullptr, *c = nullptr;
     vector3 v1, v2;
-    double angle;//, dist1, dist2;
+    double angle = NAN;//, dist1, dist2;
     vector<OBAtom*>::iterator i;
     vector<OBBond*>::iterator j;//,k;
 
@@ -3324,7 +3325,7 @@ namespace OpenBabel
     //          bonded to another or an sp2 hybrid isn't bonded
     //          to another (or terminal atoms in both cases)
     //          mark them to a lower hybridization for now
-    bool openNbr;
+    bool openNbr = false;
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       {
         if (atom->GetHyb() == 2 || atom->GetHyb() == 1)
@@ -3362,8 +3363,8 @@ namespace OpenBabel
     //   Kekulize code anyway, not in marking everything as potentially aromatic)
 
     bool needs_kekulization = false; // are there any aromatic bonds?
-    bool typed; // has this ring been typed?
-    unsigned int loop, loopSize;
+    bool typed = false; // has this ring been typed?
+    unsigned int loop = 0, loopSize = 0;
     for (ringit = rlist.begin(); ringit != rlist.end(); ++ringit)
       {
         typed = false;
@@ -3430,9 +3431,9 @@ namespace OpenBabel
     vector<pair<OBAtom*,double> > sortedAtoms;
     vector<double> rad;
     vector<int> sorted;
-    int iter, max;
-    double maxElNeg, shortestBond, currentElNeg;
-    double bondLength, testLength;
+    int iter = 0, max = 0;
+    double maxElNeg = NAN, shortestBond = NAN, currentElNeg = NAN;
+    double bondLength = NAN, testLength = NAN;
 
     for (atom = BeginAtom(i) ; atom ; atom = NextAtom(i))
       {
@@ -3598,7 +3599,7 @@ namespace OpenBabel
 
     SetConformer(nconf);
 
-    OBAtom *atom;
+    OBAtom *atom = nullptr;
     vector<OBAtom*>::iterator i;
 
     double x=0.0,y=0.0,z=0.0;
@@ -3641,8 +3642,8 @@ namespace OpenBabel
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::Translate", obAuditMsg);
 
-    int i,size;
-    double x,y,z;
+    int i = 0,size = 0;
+    double x = NAN,y = NAN,z = NAN;
     double *c = (nconf == OB_CURRENT_CONFORMER)? _c : GetConformer(nconf);
 
     x = v.x();
@@ -3659,7 +3660,7 @@ namespace OpenBabel
 
   void OBMol::Rotate(const double u[3][3])
   {
-    int i,j,k;
+    int i = 0,j = 0,k = 0;
     double m[9];
     for (k=0,i = 0;i < 3;++i)
       for (j = 0;j < 3;++j)
@@ -3677,8 +3678,8 @@ namespace OpenBabel
 
   void OBMol::Rotate(const double m[9],int nconf)
   {
-    int i,size;
-    double x,y,z;
+    int i = 0,size = 0;
+    double x = NAN,y = NAN,z = NAN;
     double *c = (nconf == OB_CURRENT_CONFORMER)? _c : GetConformer(nconf);
 
     obErrorLog.ThrowError(__FUNCTION__,
@@ -3779,13 +3780,13 @@ namespace OpenBabel
                           "Ran OpenBabel::ConvertDativeBonds", obAuditMsg);
 
     //Look for + and - charges on adjacent atoms
-    OBAtom* patom;
+    OBAtom* patom = nullptr;
     vector<OBAtom*>::iterator i;
     bool converted = false;
     for (patom = BeginAtom(i);patom;patom = NextAtom(i))
       {
         vector<OBBond*>::iterator itr;
-        OBBond *pbond;
+        OBBond *pbond = nullptr;
         for (pbond = patom->BeginBond(itr);patom->GetFormalCharge() && pbond;pbond = patom->NextBond(itr))
           {
             OBAtom* pNbratom = pbond->GetNbrAtom(patom);
@@ -3831,7 +3832,7 @@ namespace OpenBabel
     BeginModify();
     //AddHydrogens();
     bool converted = false;
-    OBAtom* patom;
+    OBAtom* patom = nullptr;
     vector<OBAtom*>::iterator ai;
     for (patom = BeginAtom(ai);patom;patom = NextAtom(ai)) //all atoms
     {
@@ -3840,7 +3841,7 @@ namespace OpenBabel
       {
         // Find the bond to be modified. Prefer a bond to a hetero-atom,
         // and the highest order bond if there is a choice.
-        OBBond *bond, *bestbond;
+        OBBond *bond = nullptr, *bestbond = nullptr;
         OBBondIterator bi;
         for (bestbond = bond = patom->BeginBond(bi); bond; bond = patom->NextBond(bi))
         {
@@ -4013,7 +4014,7 @@ namespace OpenBabel
   //! \since version 2.4
   int OBMol::AreInSameRing(OBAtom *a, OBAtom *b)
   {
-    bool a_in, b_in;
+    bool a_in = false, b_in = false;
     vector<OBRing*> vr;
     vr = GetLSSR();
 
@@ -4178,7 +4179,7 @@ namespace OpenBabel
         OBResidue* res = atom->GetResidue();
         if (!res) continue;
         map<OBResidue*, OBResidue*>::iterator mit = ResidueMap.find(res);
-        OBResidue *newres;
+        OBResidue *newres = nullptr;
         if (mit == ResidueMap.end()) {
           newres = newmol.NewResidue();
           *newres = *res;
@@ -4320,7 +4321,7 @@ namespace OpenBabel
             posB->second->SetImplicitHCount(posB->second->GetImplicitHCount() + bond->GetBondOrder());
           break;
         case 2: {
-            OBAtom *atomB, *atomE;
+            OBAtom *atomB = nullptr, *atomE = nullptr;
             if (skipping_bond) {
               for(int N=0; N<2; ++N) {
                 atomB = nullptr;
@@ -4413,7 +4414,7 @@ namespace OpenBabel
       int diff = typicalValence - totalValence;
       if(diff != 0)
       {
-        int c;
+        int c = 0;
         if(extraCharge == 0)
           c = diff > 0 ? -1 : +1; //e.g. CH3C(=O)O, NH4 respectively
         else
