@@ -97,7 +97,7 @@ public:
   void OnSaveConfig(wxCommandEvent& event);
   void OnShowDataDir(wxCommandEvent& event);
 
-  void DisplayInFile(const wxString& filename);
+  void DisplayInFile(wxString filename);
   wxString GetInFileBasePath(){ return m_InFileBasePath;}
   void DisplayMessage(wxString& message){m_pMessages->SetValue(message);}
   void DisplayInputFiles(wxArrayString filepatharray);

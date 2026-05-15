@@ -23,7 +23,6 @@ GNU General Public License for more details.
 #include <openbabel/babelconfig.h>
 
 #include <string>
-#include <utility>
 #include <vector>
 #include <map>
 
@@ -137,7 +136,7 @@ namespace OpenBabel
     OBGenericData("PairData", OBGenericDataType::PairData) {};
     OBGenericData* Clone(OBBase* /*parent*/) const override
       {return new OBPairTemplate<ValueT>(*this);}
-    void SetValue(const ValueT& t) { _value = t; }
+    void SetValue(const ValueT t)             { _value = t;     }
     virtual const ValueT &GetGenericValue() const    { return(_value); }
   };
 
@@ -343,17 +342,17 @@ namespace OpenBabel
     **\param v3 The z-vector
     **\see OBUnitCell::GetCellVectors
     */
-    void SetData(const vector3& v1, const vector3& v2, const vector3& v3);
+    void SetData(const vector3 v1, const vector3 v2, const vector3 v3);
 
     /*!
     **\brief Sets the unit cell matrix
     **\param m The unit cell matrix (row vectors)
     **\see OBUnitCell::GetCellMatrix
     */
-    void SetData(const matrix3x3& m);
+    void SetData(const matrix3x3 m);
 
     //! Set the offset to the origin to @p v1
-    void SetOffset(const vector3& v1);
+    void SetOffset(const vector3 v1);
 
     //! Set the space group for this unit cell.
     //! Does not create an OBSymmetryData entry
@@ -362,7 +361,7 @@ namespace OpenBabel
     //! Set the space group symbol for this unit cell.
     //! Does not create an OBSymmetryData entry or attempt to convert
     //!  between different symbol notations
-    void SetSpaceGroup(const std::string& sg) { _spaceGroup = SpaceGroup::GetSpaceGroup (sg);
+    void SetSpaceGroup(const std::string sg) { _spaceGroup = SpaceGroup::GetSpaceGroup (sg);
                                                _spaceGroupName = sg; }
 
     //! Set the space group for this unit cell. Each spacegroup-symbol
@@ -467,7 +466,7 @@ namespace OpenBabel
     //! \param frac Vector of fractional coordinates
     //! \return Cartesian coordinates
     vector3 FractionalToCartesian(vector3 frac);
-    vector3 FractionalToCartesian(const vector3& frac) const;
+    vector3 FractionalToCartesian(vector3 frac) const;
     //! Convenience function to convert cartesian coordinates to
     //! fractional coordinates. Returns
     //!
@@ -475,13 +474,13 @@ namespace OpenBabel
     //! \param cart Vector of cartesian coordinates
     //! \return Fractional coordinates
     vector3 CartesianToFractional(vector3 cart);
-    vector3 CartesianToFractional(const vector3& cart) const;
+    vector3 CartesianToFractional(vector3 cart) const;
 
     //! Wraps cartesian coordinate to fall within the unit cell.
     //! \param cart Vector of cartesian coordinates
     //! \return Cartesian coordinates within cell boundaries.
     vector3 WrapCartesianCoordinate(vector3 cart);
-    vector3 WrapCartesianCoordinate(const vector3& cart) const;
+    vector3 WrapCartesianCoordinate(vector3 cart) const;
     //! Wraps fractional coordinate to fall within the unit cell.
     //! \param frac Vector of fractional coordinates
     //! \return Fractional coordinates within cell boundaries (between 0 and 1).
@@ -493,19 +492,19 @@ namespace OpenBabel
     //! \param ref_loc Cartesian coordinates of the reference location
     //! \return Unwrapped coordinates of new_loc near ref_loc
     vector3 UnwrapCartesianNear(vector3 new_loc, vector3 ref_loc);
-    vector3 UnwrapCartesianNear(const vector3& new_loc, const vector3& ref_loc) const;
+    vector3 UnwrapCartesianNear(vector3 new_loc, vector3 ref_loc) const;
     //! Unwraps fractional coordinates near a reference location.
     //! \param new_loc Fractional coordinates of target
     //! \param ref_loc Fractional coordinates of the reference location
     //! \return Unwrapped coordinates of new_loc near ref_loc
     //! \todo Add a simple test case/example, like unwrapNear(<0.9, 0.2, 0.2>, <0.3, 0.9, 0.2>) -> <-0.1, 1.2, 0.2>
     vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc);
-    vector3 UnwrapFractionalNear(const vector3& new_loc, const vector3& ref_loc) const;
+    vector3 UnwrapFractionalNear(vector3 new_loc, vector3 ref_loc) const;
     //! Applies the minimum image convention to a Cartesian displacement vector
     //! \param cart Displacement vector between two atoms in Cartesian coordinates
     //! \return Cartesian difference, wrapped within half the unit cell
     vector3 MinimumImageCartesian(vector3 cart);
-    vector3 MinimumImageCartesian(const vector3& cart) const;
+    vector3 MinimumImageCartesian(vector3 cart) const;
     //! Applies the minimum image convention to a fractional displacement vector
     //! \param cart Displacement vector between two atoms in fractional coordinates
     //! \return Fractional difference, wrapped within half the unit cell (-0.5 to 0.5)
@@ -549,14 +548,14 @@ namespace OpenBabel
 
     OBConformerData &operator=(const OBConformerData &);
 
-    void SetDimension(std::vector<unsigned short> vd) { _vDimension = std::move(vd); }
-    void SetEnergies(std::vector<double> ve) { _vEnergies = std::move(ve); }
-    void SetForces(std::vector< std::vector< vector3 > > vf) {_vForces = std::move(vf);}
+    void SetDimension(std::vector<unsigned short> vd) { _vDimension = vd; }
+    void SetEnergies(std::vector<double> ve) { _vEnergies = ve; }
+    void SetForces(std::vector< std::vector< vector3 > > vf) {_vForces = vf;}
     void SetVelocities(std::vector< std::vector< vector3 > > vv)
-    { _vVelocity = std::move(vv); }
+    { _vVelocity = vv; }
     void SetDisplacements(std::vector< std::vector< vector3 > > vd)
-    { _vDisplace = std::move(vd); }
-    void SetData(std::vector<std::string> vdat) { _vData = std::move(vdat); }
+    { _vDisplace = vd; }
+    void SetData(std::vector<std::string> vdat) { _vData = vdat; }
 
     std::vector<unsigned short> GetDimension() { return _vDimension; }
     std::vector<double>         GetEnergies()  { return _vEnergies; }
@@ -587,9 +586,9 @@ namespace OpenBabel
     OBSymmetryData &operator=(const OBSymmetryData &);
 
     void SetData(std::string pg, std::string sg = "")
-    { _pointGroup = std::move(pg); _spaceGroup = std::move(sg); }
-    void SetPointGroup(std::string pg) { _pointGroup = std::move(pg); }
-    void SetSpaceGroup(std::string sg) { _spaceGroup = std::move(sg); }
+    { _pointGroup = pg; _spaceGroup = sg; }
+    void SetPointGroup(std::string pg) { _pointGroup = pg; }
+    void SetSpaceGroup(std::string sg) { _spaceGroup = sg; }
 
     std::string GetPointGroup() { return _pointGroup; }
     std::string GetSpaceGroup() { return _spaceGroup; }
@@ -907,7 +906,7 @@ namespace OpenBabel
     std::string  _mullikenSymbol; //!< symmetry designation
   public:
     void SetData(double energy, double occupation = 2.0, std::string symbol = "A")
-    { _energy = energy; _occupation = occupation; _mullikenSymbol = std::move(symbol); }
+    { _energy = energy; _occupation = occupation; _mullikenSymbol = symbol; }
 
     double GetEnergy() const        { return _energy; }
     double GetOccupation() const    { return _occupation; }
@@ -928,9 +927,9 @@ namespace OpenBabel
     OBOrbitalData & operator=(const OBOrbitalData &);
 
     void SetAlphaOrbitals(std::vector<OBOrbital> orbitalList)
-    { _alphaOrbitals = std::move(orbitalList); }
+    { _alphaOrbitals = orbitalList; }
     void SetBetaOrbitals(std::vector<OBOrbital> orbitalList)
-    { _betaOrbitals = std::move(orbitalList); }
+    { _betaOrbitals = orbitalList; }
     void SetHOMO(int alpha, int beta = 0)
     { _alphaHOMO = alpha; _betaHOMO = beta; }
     void SetOpenShell(bool openShell)
@@ -1018,7 +1017,7 @@ namespace OpenBabel
          {return new OBRotationData(*this);}
    void SetData(RType RotorType, std::vector<double> RotationalConstants, int SymmetryNumber)
    {
-     RotConsts = std::move(RotationalConstants);
+     RotConsts = RotationalConstants;
      type = RotorType;
      SymNum = SymmetryNumber;
    }
@@ -1047,7 +1046,7 @@ namespace OpenBabel
          {return new OBVectorData(*this);}
    void SetData(double x, double y, double z)
      { _vec = vector3(x, y, z); }
-   void SetData(const vector3& data)
+   void SetData(vector3 data)
      { _vec = data; }
    vector3 GetData() const
      { return _vec; }
@@ -1066,7 +1065,7 @@ namespace OpenBabel
     virtual ~OBMatrixData(){};
     OBGenericData* Clone(OBBase*) const override
           {return new OBMatrixData(*this);}
-    void SetData(const matrix3x3& data)
+    void SetData(matrix3x3 data)
       { _matrix = data; }
     matrix3x3 GetData() const
       { return _matrix; }
@@ -1169,7 +1168,7 @@ namespace OpenBabel
     
     void AddPartialCharge(std::vector<double> q)
     {
-      _PartialCharge = std::move(q);
+      _PartialCharge = q;
     }
 
     std::vector<double> GetPartialCharge()

@@ -350,7 +350,7 @@ double QTPIECharges::OverlapInt(double a, double b, double R)
 }
 
 /// Here's a wrapper around the Eigen solver routine
-bool QTPIECharges::solver(const Eigen::MatrixXd& A, const Eigen::VectorXd& b, Eigen::VectorXd &x, const double NormThreshold)
+bool QTPIECharges::solver(Eigen::MatrixXd A, Eigen::VectorXd b, Eigen::VectorXd &x, const double NormThreshold)
 {
     // using a LU factorization
     bool SolverOK = true;

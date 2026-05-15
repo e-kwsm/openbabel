@@ -211,11 +211,11 @@ namespace OpenBabel
     void SetNumberOfPoints(int nx, int ny, int nz);
 
     //! Set the direction of the x axis.
-    void SetXAxis(const vector3&);
+    void SetXAxis(vector3);
     //! Set the direction of the y axis.
-    void SetYAxis(const vector3&);
+    void SetYAxis(vector3);
     //! Set the direction of the z axis.
-    void SetZAxis(const vector3&);
+    void SetZAxis(vector3);
 
     //! Set the limits (i.e., the origin point and the axes)
     //! NOTE: You must set the number of points first,

@@ -1036,7 +1036,7 @@ void OBGUIFrame::GetAvailableFormats()
   OutputFilterString+=_T("|AllFiles(*.*)|*.*||");
 }
 
-void OBGUIFrame::DisplayInFile(const wxString& filename)
+void OBGUIFrame::DisplayInFile(wxString filename)
 {
   m_pInText->Clear();
   wxFileName fn(filename);

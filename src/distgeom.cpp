@@ -1037,7 +1037,7 @@ namespace OpenBabel {
     return returnValue;
   }
 
-  bool OBDistanceGeometry::SetBoundsMatrix(const Eigen::MatrixXf& bounds)
+  bool OBDistanceGeometry::SetBoundsMatrix(const Eigen::MatrixXf bounds)
   {
     if (_d != nullptr) {
       // Check size of bounds matrix

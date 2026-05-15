@@ -184,7 +184,7 @@ class OBConversion; //used only as pointer
     unsigned int _type;  //!< attribute type -- declared for each subclass
     DataOrigin   _source;//!< source of data for accounting
   public:
-    OBGenericData(const std::string& attr = "undefined",
+    OBGenericData(const std::string attr = "undefined",
                   const unsigned int type =  OBGenericDataType::UndefinedData,
                   const DataOrigin source = any);
     //Use default copy constructor and assignment operators
@@ -336,7 +336,7 @@ class OBConversion; //used only as pointer
   class OBAPI OBRange
   {
     public:
-      OBRange(Iter begin, Iter end) : m_begin{std::move(begin)}, m_end{std::move(end)}
+      OBRange(Iter begin, Iter end) : m_begin{begin}, m_end{end}
       {
       }
 
