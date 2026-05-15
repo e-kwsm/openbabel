@@ -17,7 +17,6 @@ GNU General Public License for more details.
 ***********************************************************************/
 
 #include <string>
-#include <utility>
 #include <vector>
 #include <cstdlib>
 
@@ -78,8 +77,8 @@ namespace OpenBabel
 
   EEMCharges::EEMCharges(const char* ID, std::string parameters, std::string type) : OBChargeModel(ID, false)
   {
-    _parameters_file = std::move(parameters);
-    _type = std::move(type);
+    _parameters_file = parameters;
+    _type = type;
   }
 
 
