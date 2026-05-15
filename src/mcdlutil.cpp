@@ -1627,8 +1627,8 @@ namespace OpenBabel {
     for (i=0; i<nAtoms(); i++) {
       getAtom(i)->nb=0;
       getAtom(i)->currvalence=0;
-      for (int j=0; j<CONNMAX; j++) {
-        getAtom(i)->ac[j]=0;
+      for (short& j : getAtom(i)->ac) {
+        j=0;
       }
     };
     for (i=0; i<nBonds(); i++) {
