@@ -21,10 +21,11 @@ import sys
 import unittest
 
 from subprocess import CalledProcessError, PIPE, check_output, STDOUT
+from typing import List, Optional, Tuple
 
 INF = float("inf")
 
-def run_exec(text, commandline):
+def run_exec(text: Optional[str], commandline: List[str]) -> Tuple[str, str]:
     """Run one of OpenBabel's executables
 
     With two arguments (stdin, commandline) it pipes
@@ -48,7 +49,7 @@ def run_exec(text, commandline):
         raise CalledProcessError(p.returncode, commandline, stdout)
     return stdout, stderr
 
-def executable(name):
+def executable(name: str) -> str:
     """Return the full path to an executable"""
     suffix = ""
     folder = "bin"
@@ -57,7 +58,7 @@ def executable(name):
         folder = os.path.join(folder, "Release")
     return os.path.join("..", folder, name + suffix)
 
-def log(text):
+def log(text: str):
     """Convenience function for debugging tests
 
     The log file (log.txt) is created in build/test
@@ -69,22 +70,22 @@ class BaseTest(unittest.TestCase):
     """A base class for test classes that adds additional
     test methods"""
 
-    def canFindExecutable(self, name):
+    def canFindExecutable(self, name: str):
         fullpath = executable(name)
         self.assertTrue(os.path.isfile(fullpath),
                         "'%s' executable not found at %s" % (name, fullpath))
 
-    def canFindFile(self, filename):
+    def canFindFile(self, filename: str):
         self.assertTrue(os.path.isfile(filename),
                         "Cannot find the file '%s'" % filename)
 
-    def getTestFile(self, filename):
+    def getTestFile(self, filename: str) -> str:
         here = sys.path[0]
         fullpath = os.path.join(here, "files", filename)
         self.canFindFile(fullpath)
         return fullpath
 
-    def assertConverted(self, stderr, N):
+    def assertConverted(self, stderr: str, N: int):
         """Assert that N molecules were converted."""
         pat = r"(-?\d.*) molecule(?:s?) converted"
         lines = stderr.split("\n")
@@ -132,7 +133,7 @@ class TestOBabel(BaseTest):
             output, errormsg = run_exec(None, ['obabel', '-:%s' % rsmi, '-irsmi', '-orsmi'])
             self.assertIn(error, errormsg)
 
-    def sort(self, rsmi):
+    def sort(self, rsmi: str) -> str:
         # TODO: Change OBMol.Separate to preserve the order. This
         # function shouldn't be necessary.
         tmp = rsmi.split(">")
