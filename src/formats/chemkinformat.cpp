@@ -269,6 +269,9 @@ bool ChemKinFormat::ReadHeader(istream& ifs, OBConversion* pConv)
     tokenize(toks, ln, " \t\n\r/\\");
     ln.clear(); //have to clear line when it has been dealt with
 
+    if(toks.empty())
+      continue;
+
     if(doingspecies || !strcasecmp(toks[0].c_str(),"SPECIES") || !strcasecmp(toks[0].c_str(),"SPEC"))
     {
       SpeciesListed = true; //Means that molecules in reactions must have been specified in SPECIES
@@ -403,7 +406,7 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
       */
       vector<string> firstr;
       tokenize(firstr, *itr, " \t");
-      if(isalpha(firstr[0][0]))
+      if(!firstr.empty() && !firstr[0].empty() && isalpha(firstr[0][0]))
       {
         //Starts with letter, so could be a label. Further tests...
         if(pConv->IsOption("L",OBConversion::INOPTIONS)//this option mandates a label
@@ -527,7 +530,13 @@ bool ChemKinFormat::ParseReactionLine(OBReaction* pReact, OBConversion* pConv)
         val /= pow(AUnitsFactor,pReact->NumReactants());
       else if(n==2)
         val /= EUnitsFactor;
-      pRD->SetRate((OBRateData::rate_type)n++, val);
+      if(n < 3) {
+        pRD->SetRate((OBRateData::rate_type)n++, val);
+      } else {
+        // Too many rate parameters; ignore or add to comment
+        pReact->SetComment(*itr);
+        continue;
+      }
       if(!ss)
       {
         //not numeric: put into comment (better than doing nothing)
@@ -601,12 +610,15 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
     tokenize(toks, ln, " \t\n\r/\\");
     ln.clear(); //have to clear line when it has been dealt with
 
+    if(toks.empty())
+      continue;
+
     if(pRD && !strcasecmp(toks[0].c_str(),"LOW"))
     {
       if(pRD->ReactionType != OBRateData::TROE)
         pRD->ReactionType = OBRateData::LINDERMANN;
       unsigned n;
-      for(n=0;n<3;++n)
+      for(n=0;n<3 && (n+1)<toks.size();++n)
       {
         double val = atof(toks[n+1].c_str());
         if(n==0)
@@ -619,14 +631,14 @@ bool ChemKinFormat::ReadReactionQualifierLines(istream& ifs, OBReaction* pReact)
     else if(pRD && !strcasecmp(toks[0].c_str(),"TROE"))
     {
       pRD->ReactionType = OBRateData::TROE;
-      for(int i=0;i<4;++i)
+      for(int i=0;i<4 && (i+1)<(int)toks.size();++i)
         pRD->SetTroeParams(i, atof(toks[i+1].c_str()));
     }
 
     else if(!strcasecmp(toks[0].c_str(),"DUPLICATE"))
     {}
 
-    else if(pReact && !strcasecmp(toks[0].c_str(),"TS"))
+    else if(pReact && toks.size() >= 2 && !strcasecmp(toks[0].c_str(),"TS"))
     {
       //Defines the molecule which is a transition state for a reaction
       //This is not a ChemKin keyword. Used for Mesmer.

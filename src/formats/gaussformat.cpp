@@ -55,7 +55,7 @@ namespace OpenBabel
     }
 
     const char* SpecificationURL() override
-    { return "https://www.gaussian.com/"; }
+    { return "https://gaussian.com/"; }
 
     const char* GetMIMEType() override
     { return "chemical/x-gaussian-log"; }
@@ -103,7 +103,7 @@ namespace OpenBabel
     }
 
     const char* SpecificationURL() override
-    { return "https://www.gaussian.com/input/"; }
+    { return "https://gaussian.com/input/"; }
 
     const char* GetMIMEType() override
     { return "chemical/x-gaussian-input"; }
@@ -475,7 +475,7 @@ namespace OpenBabel
 
     //Vibrational data
     std::vector< std::vector< vector3 > > Lx;
-    std::vector<double> Frequencies, Intensities;
+    std::vector<double> Frequencies, Intensities, RamanActivities;
     //Rotational data
     std::vector<double> RotConsts(3);
     int RotSymNum=1;
@@ -497,7 +497,7 @@ namespace OpenBabel
 
     int i=0;
     bool no_symmetry=false;
-    char coords_type[25];
+    std::string coords_type;
 
     //Prescan file to find second instance of "orientation:"
     //This will be the kind of coords used in the chk/fchk file
@@ -514,8 +514,7 @@ namespace OpenBabel
             i++;
             tokenize (vs, buffer);
             // gotta check what types of orientation are present
-            strncpy (coords_type, vs[0].c_str(), 24);
-            strcat (coords_type, " orientation:");
+            coords_type = vs[0] + " orientation:";
           }
         if ((no_symmetry && i==1) || i==2)
            break;
@@ -594,7 +593,7 @@ namespace OpenBabel
 
             ifs.getline(buffer,BUFF_SIZE);
           }
-        else if (strstr(buffer, coords_type) != nullptr)
+        else if (strstr(buffer, coords_type.c_str()) != nullptr)
           {
             numTranslationVectors = 0; // ignore old translationVectors
             ifs.getline(buffer,BUFF_SIZE);      // ---------------
@@ -621,7 +620,7 @@ namespace OpenBabel
                     coordinates.push_back(y);
                     coordinates.push_back(z);
                   }
-                else {
+                else if (numTranslationVectors < 3) {
                   translationVectors[numTranslationVectors++].Set(x, y, z);
                 }
 
@@ -801,7 +800,7 @@ namespace OpenBabel
                 tokenize(vs,buffer);
 
               }
-            if (CM5_q.size() == mol.NumAtoms() and
+            if (CM5_q.size() == mol.NumAtoms() &&
                 HPA_q.size() == mol.NumAtoms())
             {
                 Hirshfeld->AddPartialCharge(HPA_q);
@@ -978,9 +977,13 @@ namespace OpenBabel
 
           ifs.getline(buffer, BUFF_SIZE); // column labels or Raman intensity
           if(strstr(buffer, "Raman Activ")) {
+            tokenize(vs, buffer);
+            for(unsigned int i=3; i<vs.size(); ++i)
+              RamanActivities.push_back(atof(vs[i].c_str()));
             ifs.getline(buffer, BUFF_SIZE); // Depolar (P)
-            ifs.getline(buffer, BUFF_SIZE); // Depolar (U)
-            ifs.getline(buffer, BUFF_SIZE); // column labels
+
+            while (strstr(buffer, "Atom") == nullptr)
+              ifs.getline(buffer, BUFF_SIZE); // eventually column labels
           }
           ifs.getline(buffer, BUFF_SIZE); // actual displacement data
           tokenize(vs, buffer);
@@ -1325,7 +1328,22 @@ namespace OpenBabel
     if(Frequencies.size()>0)
     {
       OBVibrationData* vd = new OBVibrationData;
-      vd->SetData(Lx, Frequencies, Intensities);
+      if (RamanActivities.size() != 0) {
+        // check to see if they're all zero
+        bool allZero = true;
+        for (auto &i : RamanActivities) {
+          if (i != 0.0) {
+            allZero = false;
+            break;
+          }
+        }
+        if (!allZero) {
+          vd->SetData(Lx, Frequencies, Intensities, RamanActivities);
+        } else { // zero Raman
+          vd->SetData(Lx, Frequencies, Intensities);
+        }
+      } else // no Raman
+        vd->SetData(Lx, Frequencies, Intensities);
       vd->SetOrigin(fileformatInput);
       mol.SetData(vd);
     }

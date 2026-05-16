@@ -1,6 +1,6 @@
-# Please ensure that any changes remain compliant with 3.1.
+# Please ensure that any changes remain compliant with 3.12.
 if(NOT EMBED_OPENBABEL)
-  cmake_minimum_required(VERSION 3.1)
+  cmake_minimum_required(VERSION 3.12)
 endif()
 
 project(openbabel)
@@ -10,9 +10,6 @@ set (CMAKE_CXX_STANDARD 11)
 
 if(COMMAND cmake_policy)
   cmake_policy(SET CMP0003 NEW)
-  if(POLICY CMP0042)
-    cmake_policy(SET CMP0042 OLD)
-  endif()
 endif()
 
 include (CheckCXXCompilerFlag)
@@ -28,6 +25,10 @@ set(BABEL_PATCH_VER 1)
 
 # This should be phased out in preference for just using the target name
 set(BABEL_LIBRARY openbabel)
+
+if(CMAKE_CXX_BYTE_ORDER STREQUAL "BIG_ENDIAN")
+  add_compile_definitions(WORDS_BIGENDIAN=1)
+endif()
 
 # This would be better handled with external projects...
 if(EMBED_OPENBABEL)
@@ -216,15 +217,15 @@ check_include_file(conio.h      HAVE_CONIO_H)
 check_include_file(sys/time.h   HAVE_SYS_TIME_H)
 check_include_file(time.h       HAVE_TIME_H)
 check_include_file(strings.h    HAVE_STRINGS_H)
-check_include_file(rpc/xdr.h    HAVE_RPC_XDR_H)
 check_include_file(regex.h      HAVE_REGEX_H)
 check_include_file_cxx(sstream  HAVE_SSTREAM)
 
-check_symbol_exists(rint          "math.h"     HAVE_RINT)
-check_symbol_exists(snprintf      "stdio.h"    HAVE_SNPRINTF)
-check_symbol_exists(sranddev      "stdlib.h"   HAVE_SRANDDEV)
-check_symbol_exists(strcasecmp    "string.h"   HAVE_STRCASECMP)
-check_symbol_exists(strncasecmp   "string.h"   HAVE_STRNCASECMP)
+check_symbol_exists(rint             "math.h"     HAVE_RINT)
+check_symbol_exists(snprintf         "stdio.h"    HAVE_SNPRINTF)
+check_symbol_exists(sranddev         "stdlib.h"   HAVE_SRANDDEV)
+check_symbol_exists(strcasecmp       "string.h"   HAVE_STRCASECMP)
+check_symbol_exists(strncasecmp      "string.h"   HAVE_STRNCASECMP)
+check_symbol_exists(xdrstdio_create  "rpc/xdr.h"  HAVE_RPC_XDR_H)
 
 # BSDs don't link against libdl, but rather libc
 check_library_exists(dl dlopen "" HAVE_LIBDL)
@@ -347,8 +348,13 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Intel AND UNIX)
     endif()
   endif()
 
-  set(CMAKE_C_FLAGS_RELEASE "-O3 -ipo1 -DNDEBUG -Wl,-s")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -ipo1 -DNDEBUG -Wl,-s")
+  if(POLICY CMP0069)
+    cmake_policy(SET CMP0069 NEW)
+    if("${CMAKE_BUILD_TYPE}" STREQUAL Release)
+      set(CMAKE_INTERPROCEDURAL_OPTIMIZATION ON)
+    endif()
+  endif()
+  set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-Wl,-s")
 
   # define WITH_SSE2 to enable the SSE2 instruction set.
   # Available on Pentium 4, Athlon 64, and newer CPUs.
@@ -364,6 +370,15 @@ endif(${CMAKE_CXX_COMPILER_ID} MATCHES Intel AND UNIX)
 option(ENABLE_OPENMP
     "Enable support for OpenMP compilation of forcefield code"
     OFF)
+
+option(USE_RANDOMMT
+    "Use the modern OBRandomMT (Mersenne Twister) RNG instead of the deprecated OBRandom"
+    ON)
+if(USE_RANDOMMT)
+  set(OB_USE_OBRANDOMMT_DEFAULT 1)
+else()
+  set(OB_USE_OBRANDOMMT_DEFAULT 0)
+endif()
 if(ENABLE_OPENMP)
   find_package(OpenMP)
   if(OPENMP_FOUND)
@@ -399,6 +414,20 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 file(GLOB_RECURSE headers include/openbabel/*.h)
+
+# Detect Eigen3 before configure_file so HAVE_EIGEN3 lands in babelconfig.h
+find_package(Eigen3 CONFIG)
+if(TARGET Eigen3::Eigen)
+  set(HAVE_EIGEN3 1)
+  add_definitions(-DHAVE_EIGEN3)
+else()
+  find_package(Eigen3 MODULE)
+  if(TARGET Eigen3::Eigen)
+    set(HAVE_EIGEN3 1)
+    add_definitions(-DHAVE_EIGEN3)
+  endif()
+endif()
+
 configure_file(${openbabel_SOURCE_DIR}/src/config.h.cmake
   ${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h)
 install(FILES ${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h
@@ -415,20 +444,6 @@ include_directories(${openbabel_BINARY_DIR}/include
   ${openbabel_BINARY_DIR}/data
   ${openbabel_SOURCE_DIR}/include
 )
-
-#cjh
-find_package(Eigen3)
-if(EIGEN3_FOUND)
-  add_definitions(-DHAVE_EIGEN -DHAVE_EIGEN3)
-  include_directories(${EIGEN3_INCLUDE_DIR})
-else()
-  find_package(Eigen2) # find and setup Eigen2
-  if(EIGEN2_FOUND)
-    add_definitions (-DHAVE_EIGEN)
-    include_directories(${EIGEN2_INCLUDE_DIR})
-  endif()
-endif()
-#cjh
 
 
 find_package(Boost COMPONENTS filesystem iostreams unit_test_framework)
@@ -454,7 +469,7 @@ if(WITH_MAEPARSER)
 
     else()
 
-      set(MAEPARSER_VERSION "v1.2.3" CACHE STRING "Maeparser fallback version to download")
+      set(MAEPARSER_VERSION "v1.3.3" CACHE STRING "Maeparser fallback version to download")
 
       set(MAEPARSER_DIR "${openbabel_SOURCE_DIR}/external/maeparser-${MAEPARSER_VERSION}")
 
@@ -513,7 +528,8 @@ if(WITH_COORDGEN)
 
     else()
 
-      set(COORDGEN_VERSION "master" CACHE STRING "Coordgen fallback version to download")
+      # v3.0.2-10-gd20e735
+      set(COORDGEN_VERSION "d20e735d96480385b2e257522288004038a08cc9" CACHE STRING "Coordgen fallback version to download")
 
       set(COORDGEN_DIR "${openbabel_SOURCE_DIR}/external/coordgen-${COORDGEN_VERSION}")
 
@@ -571,9 +587,9 @@ if(WITH_JSON)
   endif()
   # Otherwise download rapidjson to openbabel source directory
   if (NOT RAPIDJSON_FOUND OR RAPIDJSON_VERSION VERSION_LESS ${RAPIDJSON_VERSION_MIN})
-    set(RAPIDJSON_VERSION 1.1.0)
+    set(RAPIDJSON_VERSION "7c73dd7de7c4f14379b781418c6e947ad464c818")
     if(NOT EXISTS "${openbabel_SOURCE_DIR}/external/rapidjson-${RAPIDJSON_VERSION}")
-      file(DOWNLOAD "https://github.com/Tencent/rapidjson/archive/v${RAPIDJSON_VERSION}.tar.gz"
+      file(DOWNLOAD "https://github.com/Tencent/rapidjson/archive/${RAPIDJSON_VERSION}.tar.gz"
         "${openbabel_SOURCE_DIR}/external/rapidjson-${RAPIDJSON_VERSION}.tar.gz" STATUS status)
       execute_process(COMMAND ${CMAKE_COMMAND} -E tar zxf
         ${openbabel_SOURCE_DIR}/external/rapidjson-${RAPIDJSON_VERSION}.tar.gz
@@ -713,7 +729,8 @@ write_basic_package_version_file("${openbabel_BINARY_DIR}/OpenBabel3ConfigVersio
   COMPATIBILITY AnyNewerVersion)
 configure_package_config_file("${openbabel_SOURCE_DIR}/OpenBabel3Config.cmake.in"
   "${openbabel_BINARY_DIR}/OpenBabel3Config.cmake"
-  INSTALL_DESTINATION "${OB_CONFIG_DIR}")
+  INSTALL_DESTINATION "${OB_CONFIG_DIR}"
+  PATH_VARS OpenBabel3_INCLUDE_DIRS)
 
 install(EXPORT openbabel-targets
   DESTINATION "${OB_CONFIG_DIR}"

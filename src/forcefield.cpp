@@ -1433,8 +1433,12 @@ namespace OpenBabel
     OBRotorIterator ri;
     OBRotor *rotor;
 
+#if !OB_USE_OBRANDOMMT
     OBRandom generator;
-    generator.TimeSeed();
+    generator.Reset();
+#else
+    OBRandomMT generator{};
+#endif
     _origLogLevel = _loglvl;
 
     if (_mol.GetCoordinates() == nullptr)
@@ -1479,7 +1483,11 @@ namespace OpenBabel
       rotor = rl.BeginRotor(ri);
       for (unsigned int i = 1; i < rl.Size() + 1; ++i, rotor = rl.NextRotor(ri)) {
         // foreach rotor
-        rotorKey[i] = generator.NextInt() % rotor->GetResolution().size();
+#if !OB_USE_OBRANDOMMT
+        rotorKey[i] = generator.UniformInt(0, rotor->GetResolution().size() - 1u);
+#else
+        rotorKey[i] = generator.UniformInt<int>(0, rotor->GetResolution().size() - 1u);
+#endif
       }
       rotamers.AddRotamer(rotorKey);
     }
@@ -1603,8 +1611,12 @@ namespace OpenBabel
     OBRotorIterator ri;
     OBRotor *rotor;
 
+#if !OB_USE_OBRANDOMMT
     OBRandom generator;
-    generator.TimeSeed();
+    generator.Reset();
+#else
+    OBRandomMT generator{};
+#endif
     int origLogLevel = _loglvl;
 
     if (_mol.GetCoordinates() == nullptr)
@@ -1752,11 +1764,10 @@ namespace OpenBabel
       for (unsigned int i = 1; i < rl.Size() + 1; ++i, rotor = rl.NextRotor(ri)) {
         // foreach rotor
         rotorKey[i] = -1; // default = don't change dihedral
-        randFloat = generator.NextFloat();
-        if (randFloat < defaultRotor) // should we just leave this rotor with default setting?
+        if (generator.Bernoulli(defaultRotor)) // should we just leave this rotor with default setting?
           continue;
 
-        randFloat = generator.NextFloat();
+        randFloat = generator.UniformReal(0.0, 1.0);
         total = 0.0;
         for (unsigned int j = 0; j < rotor->GetResolution().size(); j++) {
           if (randFloat > total && randFloat < (total+ rotorWeights[i][j])) {
@@ -2406,15 +2417,14 @@ namespace OpenBabel
     const double def_step = 0.025; // default step
     const double max_step = 4.5; // don't go too far
 
-    double sum = 0.0;
+    // Sanitize once so downstream loops can run without per-element branches
     for (unsigned int c = 0; c < _ncoords; ++c) {
-      if (isfinite(direction[c])) {
-        sum += direction[c] * direction[c];
-      } else {
-        // make sure we don't have NaN or infinity
+      if (!isfinite(direction[c]))
         direction[c] = 0.0;
-      }
     }
+    double sum = 0.0;
+    for (unsigned int c = 0; c < _ncoords; ++c)
+      sum += direction[c] * direction[c];
 
     double scale = sqrt(sum);
     if (IsNearZero(scale)) {
@@ -2491,11 +2501,8 @@ namespace OpenBabel
   {
     double *currentCoords = _mol.GetCoordinates();
 
-    for (unsigned int c = 0; c < _ncoords; ++c) {
-      if (isfinite(direction[c])) {
-        currentCoords[c] = origCoords[c] + direction[c] * step;
-      }
-    }
+    for (unsigned int c = 0; c < _ncoords; ++c)
+      currentCoords[c] = origCoords[c] + direction[c] * step;
   }
 
   double OBForceField::LineSearch(double *currentCoords, double *direction)
@@ -2511,25 +2518,25 @@ namespace OpenBabel
     // The initial energy should be precomputed
     e_n1 = _e_n1; // Energy(false) + _constraints.GetConstraintEnergy();
 
+    // Sanitize once so the inner loop can run branch-free and vectorize
+    for (unsigned int c = 0; c < numCoords; ++c) {
+      if (!isfinite(direction[c]))
+        direction[c] = 0.0;
+    }
+
     unsigned int i;
     for (i=0; i < 10; ++i) {
       // Save the current position, before we take a step
       memcpy((char*)lastStep,(char*)currentCoords,sizeof(double)*numCoords);
 
-      // Vectorizing this would be a big benefit
-      // Need to look up using BLAS or Eigen or whatever
       for (unsigned int c = 0; c < numCoords; ++c) {
-        if (isfinite(direction[c])) {
-          // make sure we don't have NaN or infinity
-          tempStep = direction[c] * step;
-
-          if (tempStep > trustRadius) // positive big step
-            currentCoords[c] += trustRadius;
-          else if (tempStep < -trustRadius) // negative big step
-            currentCoords[c] -= trustRadius;
-          else
-            currentCoords[c] += tempStep;
-        }
+        tempStep = direction[c] * step;
+        // clamp to trust radius — min/max form is vectorizable
+        if (tempStep > trustRadius)
+          tempStep = trustRadius;
+        else if (tempStep < -trustRadius)
+          tempStep = -trustRadius;
+        currentCoords[c] += tempStep;
       }
 
       e_n2 = Energy(false) + _constraints.GetConstraintEnergy();
@@ -3416,11 +3423,14 @@ namespace OpenBabel
   void OBForceField::GenerateVelocities()
   {
     cout << "OBForceField::GenerateVelocities()" << endl;
+#if !OB_USE_OBRANDOMMT
     OBRandom generator;
-    generator.TimeSeed();
+    generator.Reset();
+#else
+    OBRandomMT generator{};
+#endif
     _ncoords = _mol.NumAtoms() * 3;
     int velocityIdx;
-    double velocity;
 
     _velocityPtr = new double[_ncoords];
     memset(_velocityPtr, '\0', sizeof(double)*_ncoords);
@@ -3429,32 +3439,20 @@ namespace OpenBabel
       if (!_constraints.IsFixed(a->GetIdx()) || (_fixAtom == a->GetIdx()) || (_ignoreAtom == a->GetIdx())) {
         velocityIdx = (a->GetIdx() - 1) * 3;
 
-        // add twelve random numbers between 0.0 and 1.0,
-        // subtract 6.0 from their sum, multiply with sqrt(kT/m)
+        // sqrt(kT/m)
+        const double sigma = sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
         if (!_constraints.IsXFixed(a->GetIdx())) {
-          velocity = 0.0;
-          for (int i=0; i < 12; ++i)
-            velocity += generator.NextFloat();
-          velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          double velocity = generator.Normal(0.0, sigma);
           _velocityPtr[velocityIdx] = velocity; // x10: gromacs uses nm instead of A
         }
 
         if (!_constraints.IsYFixed(a->GetIdx())) {
-          velocity = 0.0;
-          for (int i=0; i < 12; ++i)
-            velocity += generator.NextFloat();
-          velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          double velocity = generator.Normal(0.0, sigma);
           _velocityPtr[velocityIdx+1] = velocity; // idem
         }
 
         if (!_constraints.IsZFixed(a->GetIdx())) {
-          velocity = 0.0;
-          for (int i=0; i < 12; ++i)
-            velocity += generator.NextFloat();
-          velocity -= 6.0;
-          velocity *= sqrt((GAS_CONSTANT * _temp)/ (1000 * a->GetAtomicMass()));
+          double velocity = generator.Normal(0.0, sigma);
           _velocityPtr[velocityIdx+2] = velocity; // idem
         }
       }
