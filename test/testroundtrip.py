@@ -45,7 +45,7 @@ except ImportError:
     pybel = None
     
 
-def molsAreSame(a, b):
+def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule"):
   '''Return true if a and b are the same'''
   n = len(a.atoms)
   if n != len(b.atoms):
@@ -174,11 +174,11 @@ class TestSuite(unittest.TestCase):
     def setUp(self):
         self.assertIsNotNone(ob, "Failed to import the openbabel module")
         
-    def canFindFile(self, filename):
+    def canFindFile(self, filename: str):
         self.assertTrue(os.path.exists(filename),
                         "Cannot find the file '%s'" % filename)
 
-    def getTestFile(self, filename):
+    def getTestFile(self, filename: str) -> str:
         here = sys.path[0]
         fullpath = os.path.join(here, filename)
         self.canFindFile(fullpath)
