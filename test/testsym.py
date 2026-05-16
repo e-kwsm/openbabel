@@ -16,6 +16,7 @@ and so you can quickly develop the tests and try them out.
 
 import os
 import unittest
+from typing import Dict, List, Tuple
 
 from testbabel import run_exec, BaseTest
 
@@ -165,7 +166,7 @@ class TestConversions(BaseTest):
             output, error = run_exec(inchi, ["obabel", "-iinchi", "-ocan"])
             self.assertEqual(output.rstrip(), can)
 
-    def parseMDL(self, text):
+    def parseMDL(self, text: str) -> Tuple[List[Dict[str, int]], List[Dict[str, int]]]:
         lines = text.split("\n")
         broken = lines[3].split()
         Natoms = int(broken[0])
