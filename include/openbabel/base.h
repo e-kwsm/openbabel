@@ -336,7 +336,7 @@ class OBConversion; //used only as pointer
   class OBAPI OBRange
   {
     public:
-      OBRange(Iter begin, Iter end) : m_begin{begin}, m_end{end}
+      OBRange(Iter begin, Iter end) : m_begin{std::move(begin)}, m_end{std::move(end)}
       {
       }
 
