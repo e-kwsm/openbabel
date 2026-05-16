@@ -24,6 +24,8 @@ import unittest
 import itertools
 import collections
 
+from typing import Iterable
+
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
 
@@ -391,7 +393,7 @@ H          0.74700        0.50628       -0.64089
         gen3d = ob.OBOp.FindType("gen3D")
         self.assertIsNotNone(gen3d)
 
-        def make_mol(smi):
+        def make_mol(smi: str) -> "ob.OBMol":
             mol = ob.OBMol()
             conv = ob.OBConversion()
             conv.SetInFormat("smi")
@@ -929,7 +931,7 @@ class AcceptStereoAsGiven(PythonBindings):
 class OBMolCopySubstructure(PythonBindings):
     """Tests for copying a component of an OBMol"""
 
-    def createBitVec(self, size, bits):
+    def createBitVec(self, size: int, bits: Iterable[int]) -> "ob.OBBitVec":
         bv = ob.OBBitVec(size)
         for bit in bits:
             bv.SetBitOn(bit)
@@ -1197,7 +1199,7 @@ class AtomClass(PythonBindings):
                      "OBConformerSearch not available (requires Eigen3)")
 class TestConformerSearch(PythonBindings):
 
-    def _build_mol(self, smi):
+    def _build_mol(self, smi: str) -> "ob.OBMol":
         mol = ob.OBMol()
         conv = ob.OBConversion()
         conv.SetInFormat("smi")
