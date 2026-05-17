@@ -66,14 +66,30 @@ class TestTetSym(TestSym):
         self.cansmi = "C[C@](Br)(Cl)F"
         self.inchi = "InChI=1S/C2H3BrClF/c1-2(3,4)5/h1H3/t2-/m0/s1"
         self.smiles = [
-            'C[C@@](Cl)(Br)F', 'C[C@](Cl)(F)Br', 'C[C@](Br)(Cl)F',
-            'C[C@@](Br)(F)Cl', 'C[C@@](F)(Cl)Br', 'C[C@](F)(Br)Cl',
-            'Cl[C@](C)(Br)F', 'Cl[C@@](C)(F)Br', 'Cl[C@@](Br)(C)F',
-            'Cl[C@](Br)(F)C', 'Cl[C@](F)(C)Br', 'Cl[C@@](F)(Br)C',
-            'Br[C@@](C)(Cl)F', 'Br[C@](C)(F)Cl', 'Br[C@](Cl)(C)F',
-            'Br[C@@](Cl)(F)C', 'Br[C@@](F)(C)Cl', 'Br[C@](F)(Cl)C',
-            'F[C@](C)(Cl)Br', 'F[C@@](C)(Br)Cl', 'F[C@@](Cl)(C)Br',
-            'F[C@](Cl)(Br)C', 'F[C@](Br)(C)Cl', 'F[C@@](Br)(Cl)C'
+            'C[C@@](Cl)(Br)F',
+            'C[C@](Cl)(F)Br',
+            'C[C@](Br)(Cl)F',
+            'C[C@@](Br)(F)Cl',
+            'C[C@@](F)(Cl)Br',
+            'C[C@](F)(Br)Cl',
+            'Cl[C@](C)(Br)F',
+            'Cl[C@@](C)(F)Br',
+            'Cl[C@@](Br)(C)F',
+            'Cl[C@](Br)(F)C',
+            'Cl[C@](F)(C)Br',
+            'Cl[C@@](F)(Br)C',
+            'Br[C@@](C)(Cl)F',
+            'Br[C@](C)(F)Cl',
+            'Br[C@](Cl)(C)F',
+            'Br[C@@](Cl)(F)C',
+            'Br[C@@](F)(C)Cl',
+            'Br[C@](F)(Cl)C',
+            'F[C@](C)(Cl)Br',
+            'F[C@@](C)(Br)Cl',
+            'F[C@@](Cl)(C)Br',
+            'F[C@](Cl)(Br)C',
+            'F[C@](Br)(C)Cl',
+            'F[C@@](Br)(Cl)C'
         ]
 
 
@@ -87,8 +103,12 @@ class TestCisTransSym(TestSym):
         self.cansmi = "Cl/C=C/C=C\\Br"
         self.inchi = "InChI=1S/C4H4BrCl/c5-3-1-2-4-6/h1-4H/b3-1-,4-2+"
         self.smiles = [
-            r"C(=C\C=C/Br)/Cl", r"Cl/C=C/C=C\Br", r"Br/C=C\C=C\Cl",
-            r"C(=C\Cl)/C=C\Br", r"C(=C\C=C\Cl)\Br", r"C(=C\Br)\C=C\Cl"
+            r"C(=C\C=C/Br)/Cl",
+            r"Cl/C=C/C=C\Br",
+            r"Br/C=C\C=C\Cl",
+            r"C(=C\Cl)/C=C\Br",
+            r"C(=C\C=C\Cl)\Br",
+            r"C(=C\Br)\C=C\Cl"
         ]
 
 
