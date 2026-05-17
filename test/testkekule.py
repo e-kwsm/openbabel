@@ -91,7 +91,7 @@ class TestKekuleCrashers(BaseTest):
         self.canFindExecutable("obabel")
 
         # A series of isotopamers, and their canonical forms
-        self.xyz = """39
+        xyz = """39
 crash.gamout
 C         -0.31501       -0.05904        0.00332
 C          0.47846        1.04480        0.28483
@@ -133,7 +133,7 @@ H         -0.11977       -0.69915        5.13149
 H         -0.93979        0.86887        4.93917
 H          0.78936        0.80651        5.29109
 """
-        output, error = run_exec(self.xyz, ["obabel", "-ixyz", "-oxyz"])
+        output, error = run_exec(xyz, ["obabel", "-ixyz", "-oxyz"])
         self.assertConverted(error, 1)
 
 
