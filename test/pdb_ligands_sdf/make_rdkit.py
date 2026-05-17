@@ -9,9 +9,8 @@ for fname in glob.glob('*.sdf'):
   try:
     mol = next(Chem.ForwardSDMolSupplier(fname))
     m = Chem.AddHs(mol,addCoords=True) 
-    o = open('rdkit_addh/%s'%fname,'wt')  
-    o.write(Chem.MolToMolBlock(m))
-    o.close()
+    with open('rdkit_addh/%s'%fname,'wt') as o:
+      o.write(Chem.MolToMolBlock(m))
   except KeyboardInterrupt:
     raise
   except:

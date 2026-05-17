@@ -54,14 +54,12 @@ def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> str | None:
     iso.MapFirst(b.OBMol, m)
 
     if len(m) != n:
-        badsdf = open('badsdf.sdf', 'wt')
-        badsdf.write(a.write('sdf'))
-        badsdf.write(b.write('sdf'))
-        badsdf.close()
-        badmol = open('badmol.mol2', 'wt')
-        badmol.write(a.write('mol2'))
-        badmol.write(b.write('mol2'))
-        badmol.close()
+        with open('badsdf.sdf', 'wt') as badsdf:
+            badsdf.write(a.write('sdf'))
+            badsdf.write(b.write('sdf'))
+        with open('badmol.mol2', 'wt') as badmol:
+            badmol.write(a.write('mol2'))
+            badmol.write(b.write('mol2'))
         return "Could only match %d of %d atoms (%d)" % (len(m), n, len(
             b.atoms))
 
