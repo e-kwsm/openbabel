@@ -121,7 +121,7 @@ def run_one(
         "formula"], atypes, btypes
 
 
-def atp_equal(a, b):
+def atp_equal(a, b) -> bool:
     # Atom type checking taking into account GAFF atom type assignmnet
     pairs = [("cc", "cd"), ("ce", "cf"), ("cp", "cq"), ("nc", "nd"),
              ("ne", "nf"), ("pc", "pd"), ("pe", "pf")]
@@ -182,8 +182,8 @@ class TestGauss(BaseTest):
                     comp += (" %s notfound" % bnew)
         return comp
 
-    def compare_types(self, molname: str, ttype, references, actual,
-                      verbose: bool):
+    def compare_types(self, molname: str, ttype: str, references: str, actual: str,
+                      verbose: bool) -> bool | None:
         comp_atoms = ttype.find("atoms") >= 0
         if comp_atoms:
             reference = references.split()
