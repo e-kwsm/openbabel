@@ -95,7 +95,7 @@ def get_mol_dict(filename: str, fileformat: str, forcefield=None) -> dict[str, A
 
 def run_one(
     filename: str, forcefield, filetype: str
-) -> tuple[Any | None, Any | None, list[str] | None, Any | None]:
+) -> tuple[None, None, None, None] | tuple[Any, Any, list[str], list[str]]:
     if not os.path.exists(filename):
         print("File %s does not exist" % (filename))
         return None, None, None, None
