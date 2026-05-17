@@ -294,8 +294,9 @@ class WriteMixin(object):
                       expected_output: str,
                       *,
                       options: list[str] | None = None,
-                      mol=None,
-                      normalize=None):
+                      mol: ob.OBMol | str | None = None,
+                      normalize: Callable[[str], str] | None = None,
+        ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
@@ -305,8 +306,9 @@ class WriteMixin(object):
                           output_format: str,
                           expected_output: str,
                           options=None,
-                          mol=None,
-                          normalize=None):
+                          mol: ob.OBMol | str | None = None,
+                          normalize: Callable[[str], str] | None = None,
+        ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
@@ -315,8 +317,9 @@ class WriteMixin(object):
                         output_format: str,
                         expected_output: str,
                         options=None,
-                        mol=None,
-                        normalize=None):
+                        mol: ob.OBMol | str | None = None,
+                        normalize: Callable[[str], str] | None = None,
+        ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_file(self, mol, conv, expected_output, normalize)
