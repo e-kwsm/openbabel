@@ -302,7 +302,7 @@ class WriteMixin(object):
                       options: list[str] | None = None,
                       mol: ob.OBMol | str | None = None,
                       normalize: Callable[[str], str] | None = None,
-        ):
+                      ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
