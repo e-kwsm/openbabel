@@ -260,6 +260,7 @@ class WriteMixin(object):
     def assertWriters(self,
                       output_format: str,
                       expected_output: str,
+                      *,
                       options=None,
                       mol=None,
                       normalize=None):
@@ -277,8 +278,13 @@ class WriteMixin(object):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
-        
-    def assertWriteFile(self, output_format, expected_output, options=None, mol=None, normalize=None):
+
+    def assertWriteFile(self,
+                        output_format: str,
+                        expected_output: str,
+                        options=None,
+                        mol=None,
+                        normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_file(self, mol, conv, expected_output, normalize)
