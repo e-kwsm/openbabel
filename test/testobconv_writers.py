@@ -118,7 +118,7 @@ def get_mol(test_case, mol: Union[ob.OBMol | str | None]) -> ob.OBMol:
 
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
-def get_converter(test_case, output_format: str, options=None):
+def get_converter(test_case, output_format: str, options=None) -> ob.OBConversion:
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format,))
