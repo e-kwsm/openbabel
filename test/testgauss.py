@@ -25,9 +25,10 @@ debug = False
 
 
 def get_mol_dict(
-        filename: str,
-        fileformat: str,
-        forcefield=None) -> dict[str, dict[str, str | int | float | None]]:
+    filename: str,
+    fileformat: str,
+    forcefield=None,
+) -> dict[str, dict[str, str | int | float | None]]:
     molecule_dict: dict[str, dict[str, str | int | float | Any]] = {
         "molecule": {},
         "atoms": {},
