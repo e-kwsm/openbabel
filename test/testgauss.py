@@ -23,7 +23,7 @@ except ImportError:
 debug = False
 
 
-def get_mol_dict(filename, fileformat, forcefield=None):
+def get_mol_dict(filename: str, fileformat: str, forcefield=None):
     molecule_dict = {"molecule": {}, "atoms": {}, "bonds": {}}
     obconversion = ob.OBConversion()
     obconversion.SetInFormat(fileformat)
@@ -92,7 +92,7 @@ def get_mol_dict(filename, fileformat, forcefield=None):
     return molecule_dict
 
 
-def run_one(filename: str, forcefield, filetype):
+def run_one(filename: str, forcefield, filetype: str):
     if not os.path.exists(filename):
         print("File %s does not exist" % (filename))
         return None, None, None, None
