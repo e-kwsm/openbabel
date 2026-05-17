@@ -71,7 +71,7 @@ def get_mol_dict(filename, fileformat, forcefield=None):
         
     return molecule_dict
 
-def run_one(filename, forcefield, filetype):
+def run_one(filename: str, forcefield, filetype):
     if not os.path.exists(filename):
         print("File %s does not exist" % ( filename ))
         return None, None, None, None
@@ -150,7 +150,7 @@ class TestGauss(BaseTest):
                     comp += ( " %s notfound" % bnew)
         return comp
 
-    def compare_types(self, molname, ttype, references, actual, verbose: bool):
+    def compare_types(self, molname: str, ttype, references, actual, verbose: bool):
         comp_atoms = ttype.find("atoms") >= 0
         if comp_atoms:
             reference = references.split()
@@ -183,7 +183,7 @@ class TestGauss(BaseTest):
                 print("%s %s: Failed.%s%s" % ( molname, ttype, comp, extra ) )
             return False
     
-    def compare_sdf_log(self, filedir, forcefield, verbose):
+    def compare_sdf_log(self, filedir: str, forcefield: str, verbose: bool) -> bool:
         sdfs      = filedir + "/*.sdf"
         mol_list  = glob.glob(sdfs)
         filetypes = [ "sdf", "g09" ]
