@@ -9,6 +9,7 @@ import os
 import sys
 import unittest
 import tempfile
+from typing import Dict, Iterable
 from openbabel import openbabel as ob
 import re
 
@@ -118,7 +119,9 @@ def get_mol(test_case, mol: ob.OBMol | str | None) -> ob.OBMol:
 
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
-def get_converter(test_case, output_format: str, options=None) -> ob.OBConversion:
+def get_converter(
+    test_case, output_format: str, options: Dict | Iterable[str] | None = None
+) -> ob.OBConversion:
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format,))
