@@ -12,7 +12,9 @@ In both cases, the test file is run directly from the source folder,
 and so you can quickly develop the tests and try them out.
 """
 
-from testbindings import *
+import unittest
+from openbabel import pybel
+from testbindings import PybelWrapper
 
 
 class ExamplePybelTest(PybelWrapper):
