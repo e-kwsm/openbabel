@@ -23,11 +23,9 @@ and so you can quickly develop the tests and try them out.
 import os
 import sys
 import unittest
-import itertools
 import glob
 import traceback
 
-import itertools
 from multiprocessing import Pool
 from multiprocessing import TimeoutError
 from typing import Optional
