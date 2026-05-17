@@ -204,9 +204,17 @@ def test_write_file(
     if normalize is not None:
         output = normalize(output)
         expected_output = normalize(expected_output)
-    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"), expected_output.replace("\r\n", "\n"))
-    
-def test_binary_write_file(test_case, mol, conv, expected_output, normalize):
+    test_case.assertMultiLineEqual(output.replace("\r\n", "\n"),
+                                   expected_output.replace("\r\n", "\n"))
+
+
+def test_binary_write_file(
+    test_case: unittest.TestCase,
+    mol,
+    conv,
+    expected_output: bytes,
+    normalize: Callable[[bytes], bytes] | None,
+):
     temp_file_object = tempfile.NamedTemporaryFile()
     temp_filename = temp_file_object.name
     try:
