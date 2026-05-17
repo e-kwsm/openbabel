@@ -26,7 +26,7 @@ debug = False
 
 def get_mol_dict(
     filename: str, fileformat: str, forcefield=None
-) -> dict[str, str | int | float | None]:
+) -> dict[str, dict[str, str | int | float | None]]:
     molecule_dict = {"molecule": {}, "atoms": {}, "bonds": {}}
     obconversion = ob.OBConversion()
     obconversion.SetInFormat(fileformat)
