@@ -121,7 +121,7 @@ def run_one(
         "formula"], atypes, btypes
 
 
-def atp_equal(a, b) -> bool:
+def atp_equal(a: str, b: str) -> bool:
     # Atom type checking taking into account GAFF atom type assignmnet
     pairs = [("cc", "cd"), ("ce", "cf"), ("cp", "cq"), ("nc", "nd"),
              ("ne", "nf"), ("pc", "pd"), ("pe", "pf")]
@@ -137,7 +137,7 @@ def atp_equal(a, b) -> bool:
 class TestGauss(BaseTest):
     """Test reading files from Gaussian"""
 
-    def compare_atom_types(self, reference: list[str], actual: str) -> str:
+    def compare_atom_types(self, reference: list[str], actual: list[str]) -> str:
         comp = ""
         for i in range(len(reference)):
             if reference[i] != actual[i]:
