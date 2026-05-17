@@ -93,7 +93,9 @@ def get_mol_dict(filename: str, fileformat: str, forcefield=None) -> dict[str, A
     return molecule_dict
 
 
-def run_one(filename: str, forcefield, filetype: str):
+def run_one(
+    filename: str, forcefield, filetype: str
+) -> tuple[Any | None, Any | None, list[str] | None, Any | None]:
     if not os.path.exists(filename):
         print("File %s does not exist" % (filename))
         return None, None, None, None
