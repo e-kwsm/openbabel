@@ -9,7 +9,8 @@ import os
 import sys
 import unittest
 import tempfile
-from typing import Dict, Iterable, Sized
+from collections.abc import Iterable
+from typing import Callable, Dict, Sized
 from openbabel import openbabel as ob
 import re
 
