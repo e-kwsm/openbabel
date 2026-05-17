@@ -21,7 +21,7 @@ from testbabel import run_exec, BaseTest
 
 
 def checkmatch(query: str, molecules: Iterable[str]) -> list[bool]:
-    result = []
+    result: list[bool] = []
     for smi in molecules:
         output, error = run_exec(
             None, ["obabel", "-:%s" % smi,
