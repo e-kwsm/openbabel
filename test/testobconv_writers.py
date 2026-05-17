@@ -178,14 +178,12 @@ def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
     ## print("===", repr(output))
     test_case.assertEqual(output, expected_output)
 
+
 def test_write_file(
-    test_case,
-    mol,
-    conv,
-    expected_output: str,
-    normalize: Optional[Callable[[str], str]],
+    test_case, mol, conv, expected_output: str, normalize: Callable[[str], str] | None
 ):
-    temp_file_object = tempfile.NamedTemporaryFile(delete=False) # we will delete it manually
+    temp_file_object = tempfile.NamedTemporaryFile(
+        delete=False)  # we will delete it manually
     temp_filename = temp_file_object.name
     if os.name == 'nt':
         temp_file_object.close() # Can't write to open file on Windows so we have to close it (but this could lead to a race condition if someone else uses the same temporary file name)
