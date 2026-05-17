@@ -130,9 +130,10 @@ def get_mol(test_case: TestCase, mol: ob.OBMol | str | None) -> ob.OBMol:
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
 def get_converter(
-        test_case: TestCase,
-        output_format: str,
-        options: Dict | Iterable[str] | None = None) -> ob.OBConversion:
+    test_case: TestCase,
+    output_format: str,
+    options: Dict | Iterable[str] | None = None,
+) -> ob.OBConversion:
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format, ))
@@ -165,7 +166,7 @@ def save_to_pasteboard(text):
 
 def test_write_string(
     test_case: TestCase,
-    mol,
+    mol: ob.OBMol,
     conv: ob.OBConversion,
     expected_output: str,
     normalize: Callable[[str], str] | None,
@@ -190,7 +191,7 @@ def test_write_string(
 
 def test_binary_write_string(
     test_case,
-    mol,
+    mol: ob.OBMol,
     conv: ob.OBConversion,
     expected_output: bytes,
     normalize: Callable[[bytes], bytes] | None,
@@ -206,7 +207,7 @@ def test_binary_write_string(
 
 def test_write_file(
     test_case: TestCase,
-    mol,
+    mol: ob.OBMol,
     conv: ob.OBConversion,
     expected_output: str,
     normalize: Callable[[str], str] | None,
@@ -238,7 +239,7 @@ def test_write_file(
 
 def test_binary_write_file(
     test_case: TestCase,
-    mol,
+    mol: ob.OBMol,
     conv: ob.OBConversion,
     expected_output: bytes,
     normalize: Callable[[bytes], bytes] | None,
@@ -335,12 +336,14 @@ class WriteMixin(object):
         test_write_file(self, mol, conv, expected_output, normalize)
 
     # Write 1 or more molecule to a file
-    def assertWriteMultiFile(self: TestCase,
-                             output_format: str,
-                             expected_output: str,
-                             options=None,
-                             mols: list[ob.OBMol] | None = None,
-                             normalize: Callable[[str], str] | None = None):
+    def assertWriteMultiFile(
+        self: TestCase,
+        output_format: str,
+        expected_output: str,
+        options=None,
+        mols: list[ob.OBMol] | None = None,
+        normalize: Callable[[str], str] | None = None,
+    ):
         if mols is None:
             # Get two of the default molecules
             mols = [get_mol(self, None), get_mol(self, None)]
@@ -348,33 +351,39 @@ class WriteMixin(object):
         conv = get_converter(self, output_format, options)
         test_write_multi_file(self, mols, conv, expected_output, normalize)
 
-    def assertBinaryWriters(self: TestCase,
-                            output_format: str,
-                            expected_output: bytes,
-                            options=None,
-                            mol: ob.OBMol | None = None,
-                            normalize: Callable[[bytes], bytes] | None = None):
+    def assertBinaryWriters(
+        self: TestCase,
+        output_format: str,
+        expected_output: bytes,
+        options=None,
+        mol: ob.OBMol | None = None,
+        normalize: Callable[[bytes], bytes] | None = None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
 
-    def assertBinaryWriteString(self: TestCase,
-                                output_format: str,
-                                expected_output: bytes,
-                                options=None,
-                                mol=None,
-                                normalize=None):
+    def assertBinaryWriteString(
+        self: TestCase,
+        output_format: str,
+        expected_output: bytes,
+        options=None,
+        mol=None,
+        normalize=None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
 
-    def assertBinaryWriteFile(self: TestCase,
-                              output_format: str,
-                              expected_output: bytes,
-                              options=None,
-                              mol=None,
-                              normalize: Callable[[bytes], bytes] | None = None):
+    def assertBinaryWriteFile(
+        self: TestCase,
+        output_format: str,
+        expected_output: bytes,
+        options=None,
+        mol=None,
+        normalize: Callable[[bytes], bytes] | None = None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
