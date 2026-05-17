@@ -18,7 +18,7 @@ import os
 import glob
 import unittest
 
-from testbabel import run_exec, executable, log, BaseTest
+from testbabel import run_exec, BaseTest
 
 here = os.path.dirname(__file__)
 
@@ -69,5 +69,6 @@ class TestReactionInChIWriter(BaseTest):
                 ans = inp.readlines()[0]
             self.assertEqual(output.rstrip(), ans.rstrip())
 
+
 if __name__ == "__main__":
-    unittest.main()
+    _ = unittest.main()
