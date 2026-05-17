@@ -30,6 +30,7 @@ import traceback
 import itertools
 from multiprocessing import Pool  
 from multiprocessing import TimeoutError
+from typing import Optional
 
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
@@ -45,8 +46,8 @@ except ImportError:
     pybel = None
     
 
-def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule"):
-  '''Return true if a and b are the same'''
+def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> Optional[str]:
+  '''Return str if a and b are not the same, otherwise None'''
   n = len(a.atoms)
   if n != len(b.atoms):
     return "Different number of atoms, %d != %d"%(n,len(b.atoms))
@@ -83,14 +84,14 @@ def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule"):
          
   return None
   
-def dumpMol(m):
+def dumpMol(m) -> None:
     for a in m.atoms:
       A = a.OBAtom
       print('%d %d %d  %d  %d  %d  (%f,%f,%f)'%(A.GetId(), A.GetIdx(), A.GetAtomicNum(),\
         A.GetHyb(),A.GetExplicitValence(),A.IsAromatic(), \
         A.GetX(),A.GetY(),A.GetZ()))
       
-def dumpBoth(a, b):
+def dumpBoth(a: "pybel.Molecule", b: "pybel.Molecule") -> None:
   '''Print out both molecules in tandem'''
   print("Idx  ANum  Hyb  Val  Aro    Coords")
   for (a,b) in zip(a.atoms,b.atoms):
@@ -100,7 +101,7 @@ def dumpBoth(a, b):
       A.GetHyb(),B.GetHyb(),A.GetExplicitValence(),B.GetExplicitValence(),A.IsAromatic(),B.IsAromatic(), \
       A.GetX(),A.GetY(),A.GetZ(),B.GetX(),B.GetY(),B.GetZ()))
 
-def roundtripFile(fname):
+def roundtripFile(fname: str) -> Optional[str]:
   '''Given a file, convert it and test for equivalence.
   This is a standalone function so it can be forked off'''
   try:
@@ -174,7 +175,7 @@ class TestSuite(unittest.TestCase):
     def setUp(self):
         self.assertIsNotNone(ob, "Failed to import the openbabel module")
         
-    def canFindFile(self, filename: str):
+    def canFindFile(self, filename: str) -> None:
         self.assertTrue(os.path.exists(filename),
                         "Cannot find the file '%s'" % filename)
 
