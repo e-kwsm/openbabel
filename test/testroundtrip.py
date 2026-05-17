@@ -84,7 +84,7 @@ def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> Optional[str]:
          
   return None
   
-def dumpMol(m) -> None:
+def dumpMol(m: "pybel.Molecule") -> None:
     for a in m.atoms:
       A = a.OBAtom
       print('%d %d %d  %d  %d  %d  (%f,%f,%f)'%(A.GetId(), A.GetIdx(), A.GetAtomicNum(),\

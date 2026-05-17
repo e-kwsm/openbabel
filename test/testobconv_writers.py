@@ -9,6 +9,7 @@ import os
 import sys
 import unittest
 import tempfile
+from typing import Optional
 from openbabel import openbabel as ob
 import re
 
@@ -86,7 +87,7 @@ if not _rxn_conv.ReadString(_alchemy_mol, ALCHEMY_RXN):
 _smi_conv = ob.OBConversion()
 _smi_conv.SetInAndOutFormats("smi", "smi")
 
-def get_mol(test_case, mol):
+def get_mol(test_case, mol: Optional[ob.OBMol]):
     if mol is None:
         # Always make a new molecule so the tests don't
         # interfere with each other
@@ -117,7 +118,7 @@ def get_mol(test_case, mol):
 
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
-def get_converter(test_case, output_format, options=None):
+def get_converter(test_case, output_format: str, options=None):
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format,))
@@ -241,13 +242,23 @@ def test_write_multi_file(test_case, mols, conv, expected_output, normalize):
     
 
 class WriteMixin(object):
-    def assertWriters(self, output_format, expected_output, options=None, mol=None, normalize=None):
+    def assertWriters(self,
+                      output_format: str,
+                      expected_output: str,
+                      options=None,
+                      mol=None,
+                      normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
         test_write_file(self, mol, conv, expected_output, normalize)
         
-    def assertWriteString(self, output_format, expected_output, options=None, mol=None, normalize=None):
+    def assertWriteString(self,
+                          output_format: str,
+                          expected_output: str,
+                          options=None,
+                          mol=None,
+                          normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
