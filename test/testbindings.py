@@ -99,7 +99,7 @@ $end"""
         refsmi = smis[0]
         mol = pybel.readstring("smi", refsmi)
         ref = collections.deque([1, 2, 3, 4, 5])
-        for i, smi in enumerate(smis):
+        for smi in smis:
             order = "-".join(str(x) for x in ref)
             out = mol.write("smi",
                             opt={
@@ -110,7 +110,7 @@ $end"""
             self.assertEqual(smi, out)
             ref.rotate(1)
         # Test different input, same output
-        for i, smi in enumerate(smis):
+        for smi in smis:
             mol = pybel.readstring("smi", smi)
             order = "-".join(str(x) for x in ref)
             out = mol.write("smi",
