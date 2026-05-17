@@ -90,6 +90,7 @@ _smi_conv.SetInAndOutFormats("smi", "smi")
 
 
 class TestCase(Protocol):
+    def assertMultiLineEqual(self, first: str, second: str, msg: str | None): ...
     def fail(self, msg: str | None): ...
 
 
