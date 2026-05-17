@@ -171,9 +171,8 @@ def save_to_pasteboard(text):
     # This code copies the text to the paste buffer,
     # which I can then use as the expected text.
     import subprocess
-    p = subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE)
-    p.stdin.write(text.encode("utf8"))
-    p.stdin.close()
+    with subprocess.Popen(["pbcopy"], stdin=subprocess.PIPE) as p:
+        p.stdin.write(text.encode("utf8"))
     p.wait()
 
 
