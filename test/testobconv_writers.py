@@ -357,11 +357,11 @@ class WriteMixin(object):
         test_binary_write_string(self, mol, conv, expected_output, normalize)
 
     def assertBinaryWriteFile(self: TestCase,
-                              output_format,
-                              expected_output,
+                              output_format: str,
+                              expected_output: bytes,
                               options=None,
                               mol=None,
-                              normalize=None):
+                              normalize: Callable[[bytes], bytes] | None = None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
@@ -3385,7 +3385,7 @@ class TestPNG(unittest.TestCase, WriteMixin):
     fmt = "png"
     maxDiff = None
 
-    def test_default(self):
+    def test_default(self: TestCase):
         # This doesn't seem to work for a string?
         self.assertBinaryWriteFile(
             self.fmt,
