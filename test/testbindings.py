@@ -126,7 +126,8 @@ $end"""
         """Ensure that we correctly set and read isotopes in InChIs"""
         with open(os.path.join(here, "inchi", "inchi_isotopes.txt")) as inp:
             for line in inp:
-                if line.startswith("#"): continue
+                if line.startswith("#"):
+                    continue
                 smi, inchi = line.rstrip().split("\t")
                 minchi = pybel.readstring("smi", smi).write("inchi").rstrip()
                 self.assertEqual(minchi, inchi)
