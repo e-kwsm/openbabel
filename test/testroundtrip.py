@@ -128,7 +128,8 @@ def roundtripFile(fname: str) -> str | None:
         sdfmol.addh()
 
         msg = molsAreSame(mol, sdfmol)
-        if msg: return 'sdfmol not equal: ' + msg
+        if msg:
+            return 'sdfmol not equal: ' + msg
 
         molmol = pybel.readstring('mol2', moltext)
         if not molmol:
@@ -136,31 +137,35 @@ def roundtripFile(fname: str) -> str | None:
         molmol.addh()
 
         msg = molsAreSame(mol, molmol)
-        if msg: return 'molmol not equal: ' + msg
+        if msg:
+            return 'molmol not equal: ' + msg
 
         if True:
             pdbmol = pybel.readstring('pdb', pdbtext)
             if not pdbmol:
                 return "failed to convert to pdb"
             pdbmol.addh()
-            #dumpBoth(mol,pdbmol)
+            # dumpBoth(mol,pdbmol)
             msg = molsAreSame(mol, pdbmol)
-            if msg: return 'pdbmol not equal: ' + msg
+            if msg:
+                return 'pdbmol not equal: ' + msg
 
-        #roundtrip - this should have hydrogens
+        # roundtrip - this should have hydrogens
         fromsdf = pybel.readstring('sdf', sdfmol.write('sdf'))
         if not fromsdf:
             return 'failed to convert from sdf'
 
         msg = molsAreSame(mol, fromsdf)
-        if msg: return 'fromsdf not same: ' + msg
+        if msg:
+            return 'fromsdf not same: ' + msg
 
         frommol2 = pybel.readstring('sdf', molmol.write('sdf'))
         if not frommol2:
             return 'failed to convert from mol2'
 
         msg = molsAreSame(mol, frommol2)
-        if msg: return "frommol2 not same: " + msg
+        if msg:
+            return "frommol2 not same: " + msg
 
         if True:
             frompdb = pybel.readstring('sdf', pdbmol.write('sdf'))
@@ -168,7 +173,8 @@ def roundtripFile(fname: str) -> str | None:
                 return 'failed to convert from pdb'
 
             msg = molsAreSame(mol, frompdb)
-            if msg: return "frompdb not same: " + msg
+            if msg:
+                return "frompdb not same: " + msg
 
     except Exception as e:
         traceback.print_exc()
@@ -194,7 +200,7 @@ class TestSuite(unittest.TestCase):
     def testRoundtrip(self):
         """Verify PDB ligand properties are mainted through conversion"""
         root = self.getTestFile('pdb_ligands_sdf')
-        #sometimes openbabel segfaults, so fork off each test
+        # sometimes openbabel segfaults, so fork off each test
         processes_pool = Pool(1)
         for (i, fname) in enumerate(glob.glob(os.path.join(root, '*.sdf'))):
             with self.subTest():
