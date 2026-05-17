@@ -39,9 +39,8 @@ c12c(c(OC)c3c(c1OC)occ3)ccc(o2)=O
 c12c(O[CH](C1=O)C(C)C)cc1c(c2)ccc(=O)o1
 c12[C]3([C@H]4([N@@](CCc1c1ccccc1[nH]2)C[C@H](C=C4CC)C3))C(=O)OC"""
 
-        outputfile = open("ten.smi", "w")
-        outputfile.write(smiles)
-        outputfile.close()
+        with open("ten.smi", "w") as outputfile:
+            outputfile.write(smiles)
 
         output, error = run_exec(None, ["obabel", "ten.smi", "-O", "ten.fs"])
         self.canFindFile("ten.fs")
