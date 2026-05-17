@@ -9,7 +9,7 @@ import os
 import sys
 import unittest
 import tempfile
-from typing import Union
+from typing import Callable, Optional, Union
 from openbabel import openbabel as ob
 import re
 
@@ -174,7 +174,13 @@ def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
     ## print("===", repr(output))
     test_case.assertEqual(output, expected_output)
 
-def test_write_file(test_case, mol, conv, expected_output, normalize):
+def test_write_file(
+    test_case,
+    mol,
+    conv,
+    expected_output: str,
+    normalize: Optional[Callable[[str], str]],
+):
     temp_file_object = tempfile.NamedTemporaryFile(delete=False) # we will delete it manually
     temp_filename = temp_file_object.name
     if os.name == 'nt':
@@ -213,7 +219,13 @@ def test_binary_write_file(test_case, mol, conv, expected_output, normalize):
     
     test_case.assertEqual(output, expected_output)
 
-def test_write_multi_file(test_case, mols, conv, expected_output, normalize):
+def test_write_multi_file(
+    test_case,
+    mols,
+    conv,
+    expected_output: str,
+    normalize: Optional[Callable[[str], str]],
+):
     temp_file_object = tempfile.NamedTemporaryFile()
     temp_filename = temp_file_object.name
     n = len(mols)
