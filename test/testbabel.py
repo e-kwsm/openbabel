@@ -25,6 +25,7 @@ from typing import Optional
 
 INF = float("inf")
 
+
 def run_exec(text: Optional[str], commandline: list[str]) -> tuple[str, str]:
     """Run one of OpenBabel's executables
 
