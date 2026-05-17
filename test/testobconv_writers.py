@@ -290,7 +290,12 @@ class WriteMixin(object):
         test_write_file(self, mol, conv, expected_output, normalize)
 
     # Write 1 or more molecule to a file
-    def assertWriteMultiFile(self, output_format, expected_output, options=None, mols=None, normalize=None):
+    def assertWriteMultiFile(self,
+                             output_format: str,
+                             expected_output: str,
+                             options=None,
+                             mols=None,
+                             normalize=None):
         if mols is None:
             # Get two of the default molecules
             mols = [get_mol(self, None), get_mol(self, None)]
