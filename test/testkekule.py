@@ -33,7 +33,7 @@ class TestKekuleAssignment(BaseTest):
         self.canFindExecutable("obabel")
 
         # A series of aromatic strings, which should convert to themselves
-        self.smiles = [
+        smiles = [
             'c12-c3c(cc(N)cc3)Cc1cccc2', 'c1(=O)n(c2c(c(=O)o1)cccc2)CC(=O)OCC',
             'c1n[nH]c(=S)[nH]1', 'O=c1[nH]ccc2nc3oc4ccccc4c(=O)c3cc12',
             'c1nc2sccn2c1', 'c1[nH+]cnc2[nH]cnc12', 'c1onc(c2ccccc2Cl)c1',
@@ -46,9 +46,9 @@ class TestKekuleAssignment(BaseTest):
             'O=c1n(C)c(=O)nc2-c1c1n([nH]2)cc[nH]1',
             'Cn1ccn2c1nc1c2c(=O)n(C)c(=O)n1C'
         ]
-        for i in range(0, len(self.smiles)):
-            output, error = run_exec(self.smiles[i], ["obabel", "-ismi", "-osmi"])
-            self.assertEqual(output.rstrip(), self.smiles[i])
+        for i in range(0, len(smiles)):
+            output, error = run_exec(smiles[i], ["obabel", "-ismi", "-osmi"])
+            self.assertEqual(output.rstrip(), smiles[i])
 
 
 class TestKekuleIsotope(BaseTest):
@@ -59,7 +59,7 @@ class TestKekuleIsotope(BaseTest):
         self.canFindExecutable("obabel")
 
         # A series of isotopamers, and their canonical forms
-        self.smiles = [
+        smiles = [
             'c1ccccc1',
             'c1[14cH]cccc1',
             'c1[14cH][14cH]ccc1',
@@ -68,7 +68,7 @@ class TestKekuleIsotope(BaseTest):
             'c1[14cH][14cH][14cH][14cH][14cH]1',
             '[14cH]1[14cH][14cH][14cH][14cH][14cH]1',
         ]
-        self.cansmis = [
+        cansmis = [
             'c1ccccc1',
             '[14cH]1ccccc1',
             '[14cH]1[14cH]cccc1',
@@ -78,9 +78,9 @@ class TestKekuleIsotope(BaseTest):
             '[14cH]1[14cH][14cH][14cH][14cH][14cH]1',
             '[14cH]1[14cH][14cH][14cH][14cH][14cH]1',
         ]
-        for i in range(0, len(self.smiles)):
-            output, error = run_exec(self.smiles[i], ["obabel", "-ismi", "-ocan"])
-            self.assertEqual(output.rstrip(), self.cansmis[i])
+        for i in range(0, len(smiles)):
+            output, error = run_exec(smiles[i], ["obabel", "-ismi", "-ocan"])
+            self.assertEqual(output.rstrip(), cansmis[i])
 
 
 class TestKekuleCrashers(BaseTest):
