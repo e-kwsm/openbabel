@@ -335,7 +335,7 @@ class WriteMixin(object):
                              output_format: str,
                              expected_output: str,
                              options=None,
-                             mols=None,
+                             mols: list[ob.OBMol] | None = None,
                              normalize=None):
         if mols is None:
             # Get two of the default molecules
