@@ -23,9 +23,12 @@ try:
 except ImportError:
     testpybel = None
 
+
 def gettests():
-    suite = unittest.TestLoader().loadTestsFromName("TestOBPybelNoDraw", testpybel)
+    suite = unittest.TestLoader().loadTestsFromName("TestOBPybelNoDraw",
+                                                    testpybel)
     return suite
+
 
 if __name__ == "__main__":
     unittest.TextTestRunner().run(unittest.TestSuite(gettests()))
