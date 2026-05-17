@@ -165,7 +165,7 @@ def save_to_pasteboard(text):
 def test_write_string(
     test_case: TestCase,
     mol,
-    conv,
+    conv: ob.OBConversion,
     expected_output: str,
     normalize: Callable[[str], str] | None,
 ):
@@ -190,7 +190,7 @@ def test_write_string(
 def test_binary_write_string(
     test_case,
     mol,
-    conv,
+    conv: ob.OBConversion,
     expected_output: bytes,
     normalize: Callable[[bytes], bytes] | None,
 ):
@@ -206,7 +206,7 @@ def test_binary_write_string(
 def test_write_file(
     test_case: TestCase,
     mol,
-    conv,
+    conv: ob.OBConversion,
     expected_output: str,
     normalize: Callable[[str], str] | None,
 ):
@@ -238,7 +238,7 @@ def test_write_file(
 def test_binary_write_file(
     test_case: TestCase,
     mol,
-    conv,
+    conv: ob.OBConversion,
     expected_output: bytes,
     normalize: Callable[[bytes], bytes] | None,
 ):
@@ -262,7 +262,7 @@ def test_binary_write_file(
 def test_write_multi_file(
     test_case: TestCase,
     mols: Sized["mol"],
-    conv,
+    conv: ob.OBConversion,
     expected_output: str,
     normalize: Callable[[str], str] | None,
 ):
