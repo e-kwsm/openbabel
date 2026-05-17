@@ -9,7 +9,7 @@ import os
 import sys
 import unittest
 import tempfile
-from typing import Optional
+from typing import Union
 from openbabel import openbabel as ob
 import re
 
@@ -87,7 +87,7 @@ if not _rxn_conv.ReadString(_alchemy_mol, ALCHEMY_RXN):
 _smi_conv = ob.OBConversion()
 _smi_conv.SetInAndOutFormats("smi", "smi")
 
-def get_mol(test_case, mol: Optional[ob.OBMol]):
+def get_mol(test_case, mol: Union[ob.OBMol | str | None]) -> ob.OBMol:
     if mol is None:
         # Always make a new molecule so the tests don't
         # interfere with each other
