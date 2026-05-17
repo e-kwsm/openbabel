@@ -9,7 +9,6 @@ import os
 import sys
 import unittest
 import tempfile
-from typing import Callable, Optional, Union
 from openbabel import openbabel as ob
 import re
 
@@ -87,7 +86,8 @@ if not _rxn_conv.ReadString(_alchemy_mol, ALCHEMY_RXN):
 _smi_conv = ob.OBConversion()
 _smi_conv.SetInAndOutFormats("smi", "smi")
 
-def get_mol(test_case, mol: Union[ob.OBMol | str | None]) -> ob.OBMol:
+
+def get_mol(test_case, mol: ob.OBMol | str | None) -> ob.OBMol:
     if mol is None:
         # Always make a new molecule so the tests don't
         # interfere with each other
@@ -224,7 +224,7 @@ def test_write_multi_file(
     mols,
     conv,
     expected_output: str,
-    normalize: Optional[Callable[[str], str]],
+    normalize: Callable[[str], str] | None,
 ):
     temp_file_object = tempfile.NamedTemporaryFile()
     temp_filename = temp_file_object.name
