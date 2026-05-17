@@ -293,7 +293,7 @@ class WriteMixin(object):
                       output_format: str,
                       expected_output: str,
                       *,
-                      options=None,
+                      options: list[str] | None = None,
                       mol=None,
                       normalize=None):
         mol = get_mol(self, mol)
