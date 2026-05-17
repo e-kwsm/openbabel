@@ -28,7 +28,6 @@ import traceback
 
 from multiprocessing import Pool
 from multiprocessing import TimeoutError
-from typing import Optional
 
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
@@ -44,7 +43,7 @@ except ImportError:
     pybel = None
 
 
-def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> Optional[str]:
+def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> str | None:
     '''Return str if a and b are not the same, otherwise None'''
     n = len(a.atoms)
     if n != len(b.atoms):
@@ -108,7 +107,7 @@ def dumpBoth(a: "pybel.Molecule", b: "pybel.Molecule") -> None:
           A.GetX(),A.GetY(),A.GetZ(),B.GetX(),B.GetY(),B.GetZ()))
 
 
-def roundtripFile(fname: str) -> Optional[str]:
+def roundtripFile(fname: str) -> str | None:
     '''Given a file, convert it and test for equivalence.
   This is a standalone function so it can be forked off'''
     try:
