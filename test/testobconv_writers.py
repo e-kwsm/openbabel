@@ -349,7 +349,7 @@ class WriteMixin(object):
                             expected_output: bytes,
                             options=None,
                             mol: ob.OBMol | None = None,
-                            normalize=None):
+                            normalize: Callable[[bytes], bytes] | None = None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
