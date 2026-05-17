@@ -91,6 +91,7 @@ _smi_conv.SetInAndOutFormats("smi", "smi")
 
 class TestCase(Protocol):
     def assertTrue(self, expr: Any, msg: str | None = None): ...
+    def assertGreater(self, first: Any, second: Any, msg: str | None = None): ...
     def assertEqual(self, first: Any, second: Any, msg: str | None = None): ...
     def assertMultiLineEqual(self, first: str, second: str, msg: str | None = None): ...
     def fail(self, msg: str | None = None): ...
@@ -253,7 +254,7 @@ def test_binary_write_file(
 
 
 def test_write_multi_file(
-    test_case,
+    test_case: TestCase,
     mols: Sized["mol"],
     conv,
     expected_output: str,
