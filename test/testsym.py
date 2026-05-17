@@ -246,8 +246,10 @@ class TestConversions(BaseTest):
             ([0] * 9, [0] * 9),  # r"I/C=C/1\NC1"
         ]
         for i, (atompar, bondstereo) in enumerate(data):
-            if i in [0, 1, 6, 10]: continue  # ambiguous stereo is lost in XYZ
-            if i in [7, 8, 9]: continue  # perception of S=O from XYZ fails
+            if i in [0, 1, 6, 10]:
+                continue  # ambiguous stereo is lost in XYZ
+            if i in [7, 8, 9]:
+                continue  # perception of S=O from XYZ fails
 
             smiles, can = self.data[i][0:2]
             output, error = run_exec(smiles,
