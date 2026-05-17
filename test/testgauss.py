@@ -184,8 +184,14 @@ class TestGauss(BaseTest):
                     comp += (" %s notfound" % bnew)
         return comp
 
-    def compare_types(self, molname: str, ttype: str, references: str, actual: list[str],
-                      verbose: bool) -> bool | None:
+    def compare_types(
+        self,
+        molname: str,
+        ttype: str,
+        references: str,
+        actual: list[str],
+        verbose: bool,
+    ) -> bool | None:
         comp_atoms = ttype.find("atoms") >= 0
         if comp_atoms:
             reference = references.split()
