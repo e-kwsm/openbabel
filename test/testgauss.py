@@ -12,6 +12,7 @@ import os
 import sys
 import glob
 import unittest
+from typing import Any
 from testbabel import BaseTest
 
 try:
@@ -23,7 +24,7 @@ except ImportError:
 debug = False
 
 
-def get_mol_dict(filename: str, fileformat: str, forcefield=None):
+def get_mol_dict(filename: str, fileformat: str, forcefield=None) -> dict[str, Any]:
     molecule_dict = {"molecule": {}, "atoms": {}, "bonds": {}}
     obconversion = ob.OBConversion()
     obconversion.SetInFormat(fileformat)
