@@ -165,9 +165,7 @@ class TestConversions(BaseTest):
             output, error = run_exec(inchi, ["obabel", "-iinchi", "-ocan"])
             self.assertEqual(output.rstrip(), can)
 
-    def parseMDL(
-            self,
-            text: str) -> tuple[list[dict[str, int]], list[dict[str, int]]]:
+    def parseMDL( self, text: str) -> tuple[list[dict[str, int]], list[dict[str, int]]]:
         lines = text.split("\n")
         broken = lines[3].split()
         Natoms = int(broken[0])
