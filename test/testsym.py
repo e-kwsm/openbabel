@@ -170,11 +170,11 @@ class TestConversions(BaseTest):
         broken = lines[3].split()
         Natoms = int(broken[0])
         Nbonds = int(broken[1])
-        atoms = []
+        atoms: list[dict[str, int]] = []
         for i in range(Natoms):
             broken = lines[i + 4].split()
             atoms.append({'parity': int(broken[6])})
-        bonds = []
+        bonds: list[dict[str, int]] = []
         for i in range(Nbonds):
             broken = lines[i + 4 + Natoms].split()
             bonds.append({'stereo': int(broken[3])})
