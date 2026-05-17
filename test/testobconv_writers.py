@@ -90,8 +90,8 @@ _smi_conv.SetInAndOutFormats("smi", "smi")
 
 
 class TestCase(Protocol):
-    def assertMultiLineEqual(self, first: str, second: str, msg: str | None): ...
-    def fail(self, msg: str | None): ...
+    def assertMultiLineEqual(self, first: str, second: str, msg: str | None=None): ...
+    def fail(self, msg: str | None=None): ...
 
 
 def get_mol(test_case: TestCase, mol: ob.OBMol | str | None) -> ob.OBMol:
@@ -159,7 +159,13 @@ def save_to_pasteboard(text):
     p.wait()
 
 
-def test_write_string(test_case: TestCase, mol, conv, expected_output, normalize):
+def test_write_string(
+    test_case: TestCase,
+    mol,
+    conv,
+    expected_output: str,
+    normalize: Callable[[str], str] | None,
+):
     output = conv.WriteString(mol)
     ### Debugging output
     if 0:
