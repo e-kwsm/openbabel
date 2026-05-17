@@ -187,7 +187,13 @@ def test_write_string(
                                    expected_output.replace("\r\n", "\n"))
 
 
-def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
+def test_binary_write_string(
+    test_case,
+    mol,
+    conv,
+    expected_output: bytes,
+    normalize: Callable[[bytes], bytes] | None,
+):
     # I think 'surrogateescape' is the right way to handle this
     output = conv.WriteString(mol).encode("utf8", "surrogateescape")
     if normalize:
@@ -339,8 +345,8 @@ class WriteMixin(object):
         test_write_multi_file(self, mols, conv, expected_output, normalize)
 
     def assertBinaryWriters(self: TestCase,
-                            output_format,
-                            expected_output,
+                            output_format: str,
+                            expected_output: bytes,
                             options=None,
                             mol=None,
                             normalize=None):
@@ -350,8 +356,8 @@ class WriteMixin(object):
         test_binary_write_file(self, mol, conv, expected_output, normalize)
 
     def assertBinaryWriteString(self: TestCase,
-                                output_format,
-                                expected_output,
+                                output_format: str,
+                                expected_output: bytes,
                                 options=None,
                                 mol=None,
                                 normalize=None):
