@@ -9,7 +9,7 @@ import os
 import sys
 import unittest
 import tempfile
-from typing import Dict, Iterable
+from typing import Dict, Iterable, Sized
 from openbabel import openbabel as ob
 import re
 
@@ -224,7 +224,7 @@ def test_binary_write_file(test_case, mol, conv, expected_output, normalize):
 
 def test_write_multi_file(
     test_case,
-    mols,
+    mols: Sized["mol"],
     conv,
     expected_output: str,
     normalize: Callable[[str], str] | None,
