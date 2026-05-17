@@ -10,7 +10,7 @@ import sys
 import unittest
 import tempfile
 from collections.abc import Iterable
-from typing import Callable, Dict, Protocol, Sized
+from typing import Any, Callable, Dict, Protocol, Sized
 from openbabel import openbabel as ob
 import re
 
@@ -90,6 +90,7 @@ _smi_conv.SetInAndOutFormats("smi", "smi")
 
 
 class TestCase(Protocol):
+    def assertTrue(self, expr: Any, msg: str | None=None): ...
     def assertMultiLineEqual(self, first: str, second: str, msg: str | None=None): ...
     def fail(self, msg: str | None=None): ...
 
@@ -227,7 +228,7 @@ def test_write_file(
 
 
 def test_binary_write_file(
-    test_case: unittest.TestCase,
+    test_case: TestCase,
     mol,
     conv,
     expected_output: bytes,
