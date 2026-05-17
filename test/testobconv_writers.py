@@ -10,7 +10,7 @@ import sys
 import unittest
 import tempfile
 from collections.abc import Iterable
-from typing import Callable, Dict, Sized
+from typing import Callable, Dict, Protocol, Sized
 from openbabel import openbabel as ob
 import re
 
@@ -89,7 +89,11 @@ _smi_conv = ob.OBConversion()
 _smi_conv.SetInAndOutFormats("smi", "smi")
 
 
-def get_mol(test_case, mol: ob.OBMol | str | None) -> ob.OBMol:
+class TestCase(Protocol):
+    def fail(self, msg: str | None): ...
+
+
+def get_mol(test_case: TestCase, mol: ob.OBMol | str | None) -> ob.OBMol:
     if mol is None:
         # Always make a new molecule so the tests don't
         # interfere with each other
@@ -122,9 +126,8 @@ def get_mol(test_case, mol: ob.OBMol | str | None) -> ob.OBMol:
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
 def get_converter(
-        test_case,
-        output_format: str,
-        options: Dict | Iterable[str] | None = None) -> ob.OBConversion:
+    test_case: TestCase, output_format: str, options: Dict | Iterable[str] | None = None
+) -> ob.OBConversion:
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format, ))
@@ -271,7 +274,7 @@ def test_write_multi_file(
 
 class WriteMixin(object):
 
-    def assertWriters(self,
+    def assertWriters(self: TestCase,
                       output_format: str,
                       expected_output: str,
                       *,
