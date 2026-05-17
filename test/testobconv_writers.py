@@ -301,7 +301,7 @@ class WriteMixin(object):
         test_write_string(self, mol, conv, expected_output, normalize)
         test_write_file(self, mol, conv, expected_output, normalize)
 
-    def assertWriteString(self,
+    def assertWriteString(self: TestCase,
                           output_format: str,
                           expected_output: str,
                           options=None,
@@ -311,7 +311,7 @@ class WriteMixin(object):
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
 
-    def assertWriteFile(self,
+    def assertWriteFile(self: TestCase,
                         output_format: str,
                         expected_output: str,
                         options=None,
@@ -322,7 +322,7 @@ class WriteMixin(object):
         test_write_file(self, mol, conv, expected_output, normalize)
 
     # Write 1 or more molecule to a file
-    def assertWriteMultiFile(self,
+    def assertWriteMultiFile(self: TestCase,
                              output_format: str,
                              expected_output: str,
                              options=None,
@@ -335,7 +335,7 @@ class WriteMixin(object):
         conv = get_converter(self, output_format, options)
         test_write_multi_file(self, mols, conv, expected_output, normalize)
 
-    def assertBinaryWriters(self,
+    def assertBinaryWriters(self: TestCase,
                             output_format,
                             expected_output,
                             options=None,
@@ -346,7 +346,7 @@ class WriteMixin(object):
         test_binary_write_string(self, mol, conv, expected_output, normalize)
         test_binary_write_file(self, mol, conv, expected_output, normalize)
 
-    def assertBinaryWriteString(self,
+    def assertBinaryWriteString(self: TestCase,
                                 output_format,
                                 expected_output,
                                 options=None,
@@ -356,7 +356,7 @@ class WriteMixin(object):
         conv = get_converter(self, output_format, options)
         test_binary_write_string(self, mol, conv, expected_output, normalize)
 
-    def assertBinaryWriteFile(self,
+    def assertBinaryWriteFile(self: TestCase,
                               output_format,
                               expected_output,
                               options=None,
