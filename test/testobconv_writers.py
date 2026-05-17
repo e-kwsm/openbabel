@@ -130,8 +130,9 @@ def get_mol(test_case: TestCase, mol: ob.OBMol | str | None) -> ob.OBMol:
 # Create a new OBConversion for the given format.
 # Optionally pass in the options to set.
 def get_converter(
-    test_case: TestCase, output_format: str, options: Dict | Iterable[str] | None = None
-) -> ob.OBConversion:
+        test_case: TestCase,
+        output_format: str,
+        options: Dict | Iterable[str] | None = None) -> ob.OBConversion:
     conv = ob.OBConversion()
     if not conv.SetInAndOutFormats("smi", output_format):
         test_case.fail("Cannot set output format %r" % (output_format, ))
@@ -295,37 +296,40 @@ def test_write_multi_file(
 
 class WriteMixin(object):
 
-    def assertWriters(self: TestCase,
-                      output_format: str,
-                      expected_output: str,
-                      *,
-                      options: list[str] | None = None,
-                      mol: ob.OBMol | str | None = None,
-                      normalize: Callable[[str], str] | None = None,
-                      ):
+    def assertWriters(
+        self: TestCase,
+        output_format: str,
+        expected_output: str,
+        *,
+        options: list[str] | None = None,
+        mol: ob.OBMol | str | None = None,
+        normalize: Callable[[str], str] | None = None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
         test_write_file(self, mol, conv, expected_output, normalize)
 
-    def assertWriteString(self: TestCase,
-                          output_format: str,
-                          expected_output: str,
-                          options=None,
-                          mol: ob.OBMol | str | None = None,
-                          normalize: Callable[[str], str] | None = None,
-                          ):
+    def assertWriteString(
+        self: TestCase,
+        output_format: str,
+        expected_output: str,
+        options=None,
+        mol: ob.OBMol | str | None = None,
+        normalize: Callable[[str], str] | None = None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_string(self, mol, conv, expected_output, normalize)
 
-    def assertWriteFile(self: TestCase,
-                        output_format: str,
-                        expected_output: str,
-                        options=None,
-                        mol: ob.OBMol | str | None = None,
-                        normalize: Callable[[str], str] | None = None,
-                        ):
+    def assertWriteFile(
+        self: TestCase,
+        output_format: str,
+        expected_output: str,
+        options=None,
+        mol: ob.OBMol | str | None = None,
+        normalize: Callable[[str], str] | None = None,
+    ):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
         test_write_file(self, mol, conv, expected_output, normalize)
