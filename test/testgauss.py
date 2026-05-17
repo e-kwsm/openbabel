@@ -137,7 +137,7 @@ def atp_equal(a, b) -> bool:
 class TestGauss(BaseTest):
     """Test reading files from Gaussian"""
 
-    def compare_atom_types(self, reference, actual) -> str:
+    def compare_atom_types(self, reference: list[str], actual: str) -> str:
         comp = ""
         for i in range(len(reference)):
             if reference[i] != actual[i]:
@@ -153,7 +153,7 @@ class TestGauss(BaseTest):
 
         return comp
 
-    def compare_bond_orders(self, reference, actual) -> str:
+    def compare_bond_orders(self, reference: str, actual: str) -> str:
         refhash = {}
         for r in reference.split():
             rrr = r.split(":")
