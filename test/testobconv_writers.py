@@ -158,7 +158,7 @@ def save_to_pasteboard(text):
     p.wait()
 
 
-def test_write_string(test_case, mol, conv, expected_output, normalize):
+def test_write_string(test_case: TestCase, mol, conv, expected_output, normalize):
     output = conv.WriteString(mol)
     ### Debugging output
     if 0:
