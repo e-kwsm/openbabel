@@ -187,8 +187,13 @@ def test_binary_write_string(test_case, mol, conv, expected_output, normalize):
     test_case.assertEqual(output, expected_output)
 
 
-def test_write_file(test_case, mol, conv, expected_output: str,
-                    normalize: Callable[[str], str] | None):
+def test_write_file(
+    test_case: TestCase,
+    mol,
+    conv,
+    expected_output: str,
+    normalize: Callable[[str], str] | None,
+):
     temp_file_object = tempfile.NamedTemporaryFile(
         delete=False)  # we will delete it manually
     temp_filename = temp_file_object.name
