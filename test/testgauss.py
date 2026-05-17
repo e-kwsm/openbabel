@@ -96,7 +96,7 @@ def get_mol_dict(
 
 
 def run_one(
-    filename: str, forcefield, filetype: str
+    filename: str, forcefield: str, filetype: str
 ) -> tuple[None, None, None, None] | tuple[Any, Any, list[str], list[str]]:
     if not os.path.exists(filename):
         print("File %s does not exist" % (filename))
@@ -155,7 +155,7 @@ class TestGauss(BaseTest):
 
         return comp
 
-    def compare_bond_orders(self, reference: str, actual: str) -> str:
+    def compare_bond_orders(self, reference: str, actual: list[str]) -> str:
         refhash = {}
         for r in reference.split():
             rrr = r.split(":")
@@ -184,7 +184,7 @@ class TestGauss(BaseTest):
                     comp += (" %s notfound" % bnew)
         return comp
 
-    def compare_types(self, molname: str, ttype: str, references: str, actual: str,
+    def compare_types(self, molname: str, ttype: str, references: str, actual: list[str],
                       verbose: bool) -> bool | None:
         comp_atoms = ttype.find("atoms") >= 0
         if comp_atoms:
