@@ -16,7 +16,7 @@ from testbabel import BaseTest
 
 try:
     from openbabel import openbabel as ob
-except:
+except ImportError:
     print("OpenBabel not found, stopping test.")
     sys.exit(0)
 
