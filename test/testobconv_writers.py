@@ -348,7 +348,7 @@ class WriteMixin(object):
                             output_format: str,
                             expected_output: bytes,
                             options=None,
-                            mol=None,
+                            mol: ob.OBMol | None = None,
                             normalize=None):
         mol = get_mol(self, mol)
         conv = get_converter(self, output_format, options)
