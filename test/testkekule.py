@@ -138,10 +138,4 @@ H          0.78936        0.80651        5.29109
 
 
 if __name__ == "__main__":
-    testsuite = []
-    for myclass in [
-            TestKekuleAssignment, TestKekuleIsotope, TestKekuleCrashers
-    ]:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    unittest.TextTestRunner().run(unittest.TestSuite(testsuite))
+    unittest.main()
