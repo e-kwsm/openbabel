@@ -15,6 +15,7 @@ and so you can quickly develop the tests and try them out.
 """
 
 import unittest
+from typing import override
 
 from testbabel import run_exec, BaseTest
 
@@ -22,6 +23,7 @@ from testbabel import run_exec, BaseTest
 class TestSym(BaseTest):
     """A series of tests relating to fastsearch functionality"""
 
+    @override
     def setUp(self):
         self.canFindExecutable("obabel")
 
