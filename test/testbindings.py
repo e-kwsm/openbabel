@@ -25,6 +25,7 @@ import itertools
 import collections
 
 from collections.abc import Iterable
+from typing import override
 
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
@@ -42,6 +43,7 @@ except ImportError:
 
 class PythonBindings(unittest.TestCase):
 
+    @override
     def setUp(self):
         self.assertIsNotNone(ob, "Failed to import the openbabel module")
 
