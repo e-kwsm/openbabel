@@ -618,7 +618,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       else
       {
         ofs << "Molecules " << firstID << "and " << molID.str();
-        ofs << InChIErrorMessage(CompareInchi(firstInchi.c_str(), inout.szInChI)) << endl;
+        ofs << InChIErrorMessage(CompareInchi(firstInchi, inout.szInChI)) << endl;
       }
     }
     FreeStdINCHI(&inout);

@@ -370,9 +370,9 @@ namespace OpenBabel {
       //it's string so it wastes memory :(
       if (selective && vs.size() >= 6) {
         key = "move";
-        value  = " "; value += vs[3].c_str();
-        value += " "; value += vs[4].c_str();
-        value += " "; value += vs[5].c_str();
+        value  = " "; value += vs[3];
+        value += " "; value += vs[4];
+        value += " "; value += vs[5];
         cp = new OBPairData;
         cp->SetAttribute(key);
         cp->SetValue(value);
