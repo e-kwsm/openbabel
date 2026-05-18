@@ -15,18 +15,18 @@ and so you can quickly develop the tests and try them out.
 """
 
 import unittest
-from typing import Iterable, List
+from collections.abc import Iterable
 
 from testbabel import run_exec, BaseTest
 
-def checkmatch(query: str, molecules: Iterable[str]) -> List[bool]:
+def checkmatch(query: str, molecules: Iterable[str]) -> list[bool]:
     result = []
     for smi in molecules:
         output, error = run_exec(None, ["obabel", "-:%s" % smi, "-s%s" % query, "-osmi"])
         result.append(output.strip() != "")
     return result
 
-def fastcheckmatch(query: str, molecules: Iterable[str]) -> List[bool]:
+def fastcheckmatch(query: str, molecules: Iterable[str]) -> list[bool]:
     """May fail where Open Babel does not output the input query, e.g.
     [C@@]([H])(Br)(Cl)I is output as [C@@H](Br)(Cl)I"""
     output, error = run_exec("\n".join(molecules), ["obabel", "-ismi", "-s%s" % query, "-osmi"])

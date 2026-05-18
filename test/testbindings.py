@@ -24,7 +24,7 @@ import unittest
 import itertools
 import collections
 
-from typing import Iterable
+from collections.abc import Iterable
 
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
