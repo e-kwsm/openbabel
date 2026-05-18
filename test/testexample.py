@@ -25,13 +25,5 @@ class ExamplePybelTest(PybelWrapper):
         self.assertEqual(mol.OBMol.NumAtoms(), 4)
 
 
-def gettests():
-    testsuite = []
-    for myclass in [ExamplePybelTest]:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    return testsuite
-
-
 if __name__ == "__main__":
-    unittest.TextTestRunner().run(unittest.TestSuite(gettests()))
+    unittest.main()
