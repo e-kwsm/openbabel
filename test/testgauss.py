@@ -233,11 +233,11 @@ class TestGauss(BaseTest):
                     if debug:
                         for filetype in filetypes:
                             msg = ("%s %s qtot %s %s|" % ( mol[:-4], filetype, qtot[filetype], formula[filetype] ) )
-                            for i in range(len(atypes[filetype])):
-                                msg += (" %s" % atypes[filetype][i])
+                            for a in atypes[filetype]:
+                                msg += (" %s" % a)
                             msg += ("|")
-                            for i in range(len(btypes[filetype])):
-                                msg += (" %s" % btypes[filetype][i])
+                            for b in btypes[filetype]:
+                                msg += (" %s" % b)
                             print(msg)
             for ab in summary.keys():
                 if debug:
