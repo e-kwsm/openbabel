@@ -50,9 +50,9 @@ class TestKekuleAssignment(BaseTest):
             'O=c1n(C)c(=O)nc2-c1c1n([nH]2)cc[nH]1',
             'Cn1ccn2c1nc1c2c(=O)n(C)c(=O)n1C'
             ]
-        for i in range(0, len(self.smiles)):
-            output, error = run_exec(self.smiles[i], ["obabel", "-ismi", "-osmi"])
-            self.assertEqual(output.rstrip(), self.smiles[i])
+        for s in len(self.smiles):
+            output, error = run_exec(s, ["obabel", "-ismi", "-osmi"])
+            self.assertEqual(output.rstrip(), s)
 
 class TestKekuleIsotope(BaseTest):
     """A series of tests relating to aromaticity/kekule"""
@@ -81,9 +81,9 @@ class TestKekuleIsotope(BaseTest):
             '[14cH]1[14cH][14cH][14cH][14cH][14cH]1',
             '[14cH]1[14cH][14cH][14cH][14cH][14cH]1',
             ]
-        for i in range(0, len(self.smiles)):
-            output, error = run_exec(self.smiles[i], ["obabel", "-ismi", "-ocan"])
-            self.assertEqual(output.rstrip(), self.cansmis[i])
+        for s in len(self.smiles):
+            output, error = run_exec(s, ["obabel", "-ismi", "-ocan"])
+            self.assertEqual(output.rstrip(), s)
 
 class TestKekuleCrashers(BaseTest):
     """A series of tests which caused crashes"""

@@ -372,8 +372,7 @@ H          0.74700        0.50628       -0.64089
                 ("c1ccc[n+]([O-])c1", None), # pyridine N-oxide
                 ("CC", None),
                 ]
-        for i in range(2):
-            option = "changed" if i==1 else ""
+        for option in ["changed", ""]:
             for before, after in data:
                 ans = before if not after else after
                 mol = pybel.readstring("smi", before).OBMol
@@ -964,64 +963,63 @@ class OBMolCopySubstructure(PythonBindings):
     def testOptions(self):
         mol = pybel.readstring("smi", "ICBr")
         bv = self.createBitVec(4, (1, 3))
-        ans = ["[I].[Br]", "I.Br", "I*.Br*"]
-        ans_atomorder = [[1, 3], [1, 3], [1, 3, 2, 2]]
-        ans_bondorder = [ [], [], [0, 1] ]
-        for option in range(3):
+        for option, (ans, ans_atomorder, ans_bondorder) in enumerate(zip(
+            ["[I].[Br]", "I.Br", "I*.Br*"],
+            [[1, 3], [1, 3], [1, 3, 2, 2]],
+            [ [], [], [0, 1] ],
+        )):
             nmol = ob.OBMol()
             atomorder = ob.vectorUnsignedInt()
             bondorder = ob.vectorUnsignedInt()
             ok = mol.OBMol.CopySubstructure(nmol, bv, None, option, atomorder, bondorder)
             self.assertTrue(ok)
-            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans[option])
-            self.assertEqual(ans_atomorder[option], list(atomorder))
-            self.assertEqual(ans_bondorder[option], list(bondorder))
+            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans)
+            self.assertEqual(ans_atomorder, list(atomorder))
+            self.assertEqual(ans_bondorder, list(bondorder))
 
     def testSpecifyBonds(self):
         mol = pybel.readstring("smi", "ICBr")
         bv = self.createBitVec(4, (1, 2, 3))
         bondbv = self.createBitVec(2, (1,))
-        ans = ["I[CH2].[Br]", "IC.Br", "IC*.Br*"]
-        ans_atomorder = [[1, 2, 3], [1, 2, 3], [1, 2, 3, 3, 2]]
-        ans_bondorder = [ [0], [0], [0, 1, 1] ]
-        for option in range(3):
+        for option, (ans, ans_atomorder, ans_bondorder) in enumerate(zip(
+            ["I[CH2].[Br]", "IC.Br", "IC*.Br*"],
+            [[1, 2, 3], [1, 2, 3], [1, 2, 3, 3, 2]],
+            [ [0], [0], [0, 1, 1] ],
+        )):
             nmol = ob.OBMol()
             atomorder = ob.vectorUnsignedInt()
             bondorder = ob.vectorUnsignedInt()
             ok = mol.OBMol.CopySubstructure(nmol, bv, bondbv, option, atomorder, bondorder)
             self.assertTrue(ok)
-            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans[option])
-            self.assertEqual(ans_atomorder[option], list(atomorder))
-            self.assertEqual(ans_bondorder[option], list(bondorder))
+            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans)
+            self.assertEqual(ans_atomorder, list(atomorder))
+            self.assertEqual(ans_bondorder, list(bondorder))
 
     def testSpecifyAtomsAndBonds(self):
         # Now copy just a subset of atoms too
         mol = pybel.readstring("smi", "ICBr")
         bv = self.createBitVec(4, (1, 3))
         bondbv = self.createBitVec(2, (1,))
-        ans = ["[I].[Br]", "I.Br", "I*.Br*"]
-        for option in range(3):
+        for option, ans in enumerate(["[I].[Br]", "I.Br", "I*.Br*"]):
             nmol = ob.OBMol()
             ok = mol.OBMol.CopySubstructure(nmol, bv, bondbv, option)
             self.assertTrue(ok)
-            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans[option])
+            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans)
 
     def testBondOrders(self):
         mol = pybel.readstring("smi", "O=C=O")
         bv = self.createBitVec(3, (2, 3))
         bondbv = self.createBitVec(2, (1,))
-        ans = ["[C].[O]", "C.O", "C(=*)=*.O=*"]
-        for option in range(3):
+        for option, ans in enumerate(["[C].[O]", "C.O", "C(=*)=*.O=*"]):
             nmol = ob.OBMol()
             ok = mol.OBMol.CopySubstructure(nmol, bv, bondbv, option)
             self.assertTrue(ok)
-            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans[option])
-        ans = ["[C]=O", "C=O", "C(=O)=*"]
-        for option in range(3):
+            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans)
+        for option, ans in enumerate(["[C]=O", "C=O", "C(=O)=*"]):
             nmol = ob.OBMol()
             ok = mol.OBMol.CopySubstructure(nmol, bv, None, option)
             self.assertTrue(ok)
-            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans[option])
+            self.assertEqual(pybel.Molecule(nmol).write("smi").rstrip(), ans)
 
     def testStereo(self):
         data = [
