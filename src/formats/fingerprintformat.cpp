@@ -192,7 +192,7 @@ namespace OpenBabel
           {
             // Do the shift in unsigned — fptvec entries with the high bit
             // set otherwise trip signed-overflow UB on `wd << 1`.
-            unsigned int wd = static_cast<unsigned int>(fptvec[i]);
+            auto wd = static_cast<unsigned int>(fptvec[i]);
             for(;wd;wd=wd<<1)//count bits set by shifting into sign bit until word==0
               if(wd & 0x80000000u) ++bitsset;
           }

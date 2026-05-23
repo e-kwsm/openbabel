@@ -854,7 +854,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       if (pbond->HasData("style")) {
         auto *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
         vector<string> styles = data->GetGenericValue();
-        for (vector<string>::const_iterator i = styles.begin(); i != styles.end(); ++i) {
+        for (auto i = styles.begin(); i != styles.end(); ++i) {
           string stylestring = *i;
           int style = 255;
           if (stylestring == "dashed") {
@@ -876,7 +876,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
         }
       }
       annotations.erase(unique(annotations.begin(), annotations.end()), annotations.end());
-      for (vector<int>::const_iterator i = annotations.begin(); i != annotations.end(); ++i) {
+      for (auto i = annotations.begin(); i != annotations.end(); ++i) {
         annAid1.PushBack(rapidjson::Value((int) pbond->GetBeginAtom()->GetId()).Move(), al);
         annAid2.PushBack(rapidjson::Value((int) pbond->GetEndAtom()->GetId()).Move(), al);
         annotation.PushBack(rapidjson::Value(*i).Move(), al);

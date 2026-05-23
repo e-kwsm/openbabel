@@ -348,7 +348,7 @@ namespace OpenBabel
     // compress colour into 15 bits
     uint16_t stl_color{0};
     for (double channel : colour) {
-      uint8_t scaled_color = static_cast<uint8_t>(std::round(channel * MaxColor));
+      auto scaled_color = static_cast<uint8_t>(std::round(channel * MaxColor));
       uint8_t clamped_color = std::min(scaled_color, MaxColor);
 
       stl_color <<= ColorChannelWidth;
@@ -405,7 +405,7 @@ namespace OpenBabel
 
   bool STLFormat::WriteMolecule( OBBase* pOb, OBConversion* pConv )
   {
-    OBMol* pmol = dynamic_cast< OBMol* >(pOb);
+    auto* pmol = dynamic_cast< OBMol* >(pOb);
     if (pmol == nullptr) return false;
 
     ostream& os = *pConv->GetOutStream();

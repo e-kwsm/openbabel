@@ -1714,7 +1714,7 @@ namespace OpenBabel
     // entries than cistrans (e.g. for bonds whose geometry it can't classify),
     // so match by the (begin,end) bond id instead of iterating in parallel.
     std::map<OBStereo::Ref, OBCisTransStereo*> newByBond;
-    for (std::vector<OBCisTransStereo*>::iterator it = newcistrans.begin();
+    for (auto it = newcistrans.begin();
          it != newcistrans.end(); ++it) {
       OBCisTransStereo::Config c = (*it)->GetConfig();
       OBBond *bnd = mol.GetBond(mol.GetAtomById(c.begin), mol.GetAtomById(c.end));
@@ -1724,14 +1724,14 @@ namespace OpenBabel
 
     double newangle, angle;
     OBAtom *a, *b, *c, *d;
-    for (std::vector<OBCisTransStereo*>::iterator origct = cistrans.begin();
+    for (auto origct = cistrans.begin();
          origct != cistrans.end(); ++origct) {
       OBCisTransStereo::Config origConfig = (*origct)->GetConfig();
       OBBond *origBond = mol.GetBond(mol.GetAtomById(origConfig.begin),
                                      mol.GetAtomById(origConfig.end));
       if (origBond == nullptr)
         continue;
-      std::map<OBStereo::Ref, OBCisTransStereo*>::iterator found =
+      auto found =
         newByBond.find(origBond->GetId());
       if (found == newByBond.end())
         continue; // CisTransFrom3D() did not produce an entry for this bond
@@ -1760,7 +1760,7 @@ namespace OpenBabel
     }
 
     // Free the temporary stereos allocated by CisTransFrom3D(addToMol=false).
-    for (std::vector<OBCisTransStereo*>::iterator it = newcistrans.begin();
+    for (auto it = newcistrans.begin();
          it != newcistrans.end(); ++it)
       delete *it;
 
@@ -1886,14 +1886,14 @@ namespace OpenBabel
     // tetra. Index the perceived stereos by center id so each original
     // stereo is matched against the one with the same center.
     std::map<OBStereo::Ref, OBTetrahedralStereo*> newByCenter;
-    for (std::vector<OBTetrahedralStereo*>::iterator it = newtetra.begin();
+    for (auto it = newtetra.begin();
          it != newtetra.end(); ++it)
       newByCenter[(*it)->GetConfig().center] = *it;
 
-    for (std::vector<OBTetrahedralStereo*>::iterator origth = tetra.begin();
+    for (auto origth = tetra.begin();
          origth != tetra.end(); ++origth) {
       OBStereo::Ref centerId = (*origth)->GetConfig().center;
-      std::map<OBStereo::Ref, OBTetrahedralStereo*>::iterator found =
+      auto found =
         newByCenter.find(centerId);
       if (found == newByCenter.end())
         continue; // TetrahedralFrom3D() skipped this center; nothing to compare against
@@ -1938,7 +1938,7 @@ namespace OpenBabel
       // Reperceive non-ring TetrahedralStereos if an inversion occurred
       if (inversion) {
         sgunits.clear();
-        for (std::vector<OBTetrahedralStereo*>::iterator origth = nonringtetra.begin();
+        for (auto origth = nonringtetra.begin();
              origth != nonringtetra.end(); ++origth)
           sgunits.push_back(OBStereoUnit(OBStereo::Tetrahedral, (*origth)->GetConfig().center));
         nonringnewtetra = TetrahedralFrom3D(&mol, sgunits, false);
@@ -1952,14 +1952,14 @@ namespace OpenBabel
     // fewer entries than nonringtetra, so match by center id instead of
     // iterating both vectors in parallel.
     std::map<OBStereo::Ref, OBTetrahedralStereo*> nonringNewByCenter;
-    for (std::vector<OBTetrahedralStereo*>::iterator it = nonringnewtetra.begin();
+    for (auto it = nonringnewtetra.begin();
          it != nonringnewtetra.end(); ++it)
       nonringNewByCenter[(*it)->GetConfig().center] = *it;
 
-    for (std::vector<OBTetrahedralStereo*>::iterator origth = nonringtetra.begin();
+    for (auto origth = nonringtetra.begin();
          origth != nonringtetra.end(); ++origth) {
       OBStereo::Ref centerId = (*origth)->GetConfig().center;
-      std::map<OBStereo::Ref, OBTetrahedralStereo*>::iterator found =
+      auto found =
         nonringNewByCenter.find(centerId);
       if (found == nonringNewByCenter.end())
         continue;
@@ -1994,7 +1994,7 @@ namespace OpenBabel
     }
 
     // Free the temporary stereos allocated by TetrahedralFrom3D(addToMol=false).
-    for (std::vector<OBTetrahedralStereo*>::iterator it = owned.begin();
+    for (auto it = owned.begin();
          it != owned.end(); ++it)
       delete *it;
 

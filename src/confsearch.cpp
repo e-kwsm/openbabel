@@ -227,7 +227,7 @@ namespace OpenBabel
 
       // If we reach here, then a similar molecule was found
       int startlevel = level;
-      std::vector<double>::const_iterator n_rmsd = min_nodes_rmsds.begin();
+      auto n_rmsd = min_nodes_rmsds.begin();
       for (auto n = min_nodes.begin(); n != min_nodes.end(); ++n, ++n_rmsd) {
         node = *n;
         rmsd = *n_rmsd;

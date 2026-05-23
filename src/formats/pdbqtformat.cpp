@@ -896,8 +896,8 @@ namespace OpenBabel
         }
         ofs << "REMARK  Name = " << mol.GetTitle(true) << endl;
         std::vector<OBGenericData*> pairData = mol.GetAllData(OBGenericDataType::PairData);
-        for (std::vector<OBGenericData*>::iterator data = pairData.begin(); data != pairData.end(); ++data) {
-          OBPairData *pd = static_cast<OBPairData*>(*data);
+        for (auto data = pairData.begin(); data != pairData.end(); ++data) {
+          auto *pd = static_cast<OBPairData*>(*data);
           string attr = pd->GetAttribute();
 
           // filter to make sure we are writing pdb fields only

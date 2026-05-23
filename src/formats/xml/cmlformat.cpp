@@ -1049,7 +1049,7 @@ namespace OpenBabel
                   from = OBStereo::ImplicitRef;
 
                 OBStereo::Refs refs;
-                vector<unsigned int>::const_iterator idx_cit=AtomRefIdx.begin();
+                auto idx_cit=AtomRefIdx.begin();
                 ++idx_cit;
                 for (; idx_cit!=AtomRefIdx.end(); ++idx_cit) {
                   OBStereo::Ref id = _pmol->GetAtom(*idx_cit)->GetId();

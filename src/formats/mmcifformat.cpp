@@ -291,7 +291,7 @@ namespace OpenBabel
         }
       }
    CIFTagID::CIFDataName rtn = CIFTagID::unread_CIFDataName;
-    CIFtagmap::const_iterator found = CIFtagLookupTable.find(tag_name);
+    auto found = CIFtagLookupTable.find(tag_name);
     if (found != CIFtagLookupTable.end())
       rtn = (* found).second;
     return rtn;
@@ -582,7 +582,7 @@ namespace OpenBabel
            int use_cartn = 0, use_residue = 0;
            use_fract = 0;
            CIFTagID::CIFDataName atom_type_tag = CIFTagID::unread_CIFDataName;
-           for (CIFColumnList::const_iterator colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
+           for (auto colx = columns.begin(), coly = columns.end(); colx != coly; ++ colx)
              {
              switch (* colx)
                {
@@ -768,7 +768,7 @@ namespace OpenBabel
                break;
              case CIFTagID::_atom_site_label_asym_id: // The strand number of the residue
                    if (token.as_text != last_asym_id) {
-                       CIFasymmap::const_iterator asym_it = asym_map.find(token.as_text);
+                       auto asym_it = asym_map.find(token.as_text);
                           if (asym_it == asym_map.end()) {
                               ++next_asym_no;
                               asym_it =
@@ -804,7 +804,7 @@ namespace OpenBabel
                  {
                  has_residue_information = true;
                  CIFResidueID res_id(chain_num, residue_num);
-                 CIFResidueMap::const_iterator resx = ResidueMap.find(res_id);
+                 auto resx = ResidueMap.find(res_id);
                  OBResidue * res;
                  if (resx == ResidueMap.end())
                    {

@@ -2989,7 +2989,7 @@ namespace OpenBabel {
 
     // create a Config struct with the chiral_neighbors in canonical output order
     OBStereo::Refs canonRefs;
-    for (vector<OBAtom*>::const_iterator atom_it = chiral_neighbors.begin() + 1; atom_it != chiral_neighbors.end(); ++atom_it) {
+    for (auto atom_it = chiral_neighbors.begin() + 1; atom_it != chiral_neighbors.end(); ++atom_it) {
       if (*atom_it)
         canonRefs.push_back((*atom_it)->GetId());
       else // Handle a chiral lone pair, represented by a NULL OBAtom* in chiral_neighbors
@@ -3862,7 +3862,7 @@ namespace OpenBabel {
       if (s_atom_order.size() != mol.NumHvyAtoms())
         ppo = nullptr;
       else {
-        for (vector<string>::const_iterator cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
+        for (auto cit=s_atom_order.begin(); cit!=s_atom_order.end(); ++cit)
           atom_order.push_back(atoi(cit->c_str()));
         atom_idx = atom_order.at(0);
         if (atom_idx >= 1 && atom_idx <= mol.NumAtoms())

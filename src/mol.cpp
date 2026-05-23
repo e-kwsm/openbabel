@@ -931,7 +931,7 @@ namespace OpenBabel
     // C-style cast misinterpreted it as OBRingData (UBSAN catches the
     // vptr mismatch). Validate the type and replace if wrong.
     OBGenericData *existing = GetData("SSSR");
-    OBRingData *rd = dynamic_cast<OBRingData *>(existing);
+    auto *rd = dynamic_cast<OBRingData *>(existing);
     if (rd == nullptr) {
       if (existing) DeleteData(existing);
       rd = new OBRingData();
@@ -949,7 +949,7 @@ namespace OpenBabel
 
     // Same type-confusion guard as GetSSSR().
     OBGenericData *existing = GetData("LSSR");
-    OBRingData *rd = dynamic_cast<OBRingData *>(existing);
+    auto *rd = dynamic_cast<OBRingData *>(existing);
     if (rd == nullptr) {
       if (existing) DeleteData(existing);
       rd = new OBRingData();
@@ -3903,7 +3903,7 @@ namespace OpenBabel
     for (auto i = cfl.begin(); i != cfl.end(); ++i) {
       // Get all zero-order bonds in contiguous fragment
       vector<OBBond*> bonds;
-      for(vector<int>::const_iterator j = i->begin(); j != i->end(); ++j) {
+      for(auto j = i->begin(); j != i->end(); ++j) {
         FOR_BONDS_OF_ATOM(b, GetAtom(*j)) {
           if (b->GetBondOrder() == 0 && !(find(bonds.begin(), bonds.end(), &*b) != bonds.end())) {
             bonds.push_back(&*b);

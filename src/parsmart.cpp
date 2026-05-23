@@ -479,7 +479,7 @@ namespace OpenBabel
         pat->aalloc = oldalloc ? oldalloc * 2 : ATOMPOOL;
         if( pat->atom )
           {
-            AtomSpec *tmp = new AtomSpec[pat->aalloc];
+            auto *tmp = new AtomSpec[pat->aalloc];
             copy(pat->atom, pat->atom + oldalloc, tmp);
             delete [] pat->atom;
             pat->atom = tmp;
@@ -516,7 +516,7 @@ namespace OpenBabel
         pat->balloc = oldalloc ? oldalloc * 2 : BONDPOOL;
         if( pat->bond )
           {
-            BondSpec *tmp = new BondSpec[pat->balloc];
+            auto *tmp = new BondSpec[pat->balloc];
             copy(pat->bond, pat->bond + oldalloc, tmp);
             delete [] pat->bond;
             pat->bond = tmp;

@@ -404,7 +404,7 @@ namespace OpenBabel {
             {
               // get the values from the map
               std::vector<unsigned int> values;
-              for (OBIsomorphismMapper::Mapping::const_iterator it = map.begin(); it != map.end(); ++it)
+              for (auto it = map.begin(); it != map.end(); ++it)
                 values.push_back(it->second);
               std::sort(values.begin(), values.end());
                // print_vector("values ", values);
