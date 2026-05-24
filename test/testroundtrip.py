@@ -32,15 +32,8 @@ from multiprocessing import TimeoutError
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
 
-try:
-    from openbabel import openbabel as ob
-except ImportError:
-    ob = None
-
-try:
-    from openbabel import pybel
-except ImportError:
-    pybel = None
+from openbabel import openbabel as ob
+from openbabel import pybel
 
 
 def molsAreSame(a: "pybel.Molecule", b: "pybel.Molecule") -> str | None:
