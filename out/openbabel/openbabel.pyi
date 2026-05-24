@@ -1248,7 +1248,7 @@ class OBConversion:
     WriteFile: Incomplete
     CloseOutFile: Incomplete
     Read: Incomplete
-    ReadString: Incomplete
+    def ReadString(self, o: OBBase, i: str) -> bool: ...
     ReadFile: Incomplete
     OpenInAndOutFiles: Incomplete
     ReportNumberConverted: Incomplete
