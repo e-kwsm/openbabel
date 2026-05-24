@@ -95,9 +95,4 @@ class TestSmartsSym(BaseTest):
 
 
 if __name__ == "__main__":
-    testsuite = []
-    allclasses = [TestSmartsSym]
-    for myclass in allclasses:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    unittest.TextTestRunner().run(unittest.TestSuite(testsuite))
+    unittest.main()

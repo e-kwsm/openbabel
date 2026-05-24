@@ -307,10 +307,4 @@ class TestGauss(BaseTest):
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1:
-        debug = True
-    testsuite = []
-    for myclass in [TestGauss]:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    unittest.TextTestRunner().run(unittest.TestSuite(testsuite))
+    unittest.main()
