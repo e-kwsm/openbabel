@@ -362,7 +362,7 @@ class Molecule(object):
     """
     _cinfony = True
 
-    def __init__(self, OBMol):
+    def __init__(self, OBMol: ob.OBMol):
 
         if hasattr(OBMol, "_cinfony"):
             a, b = OBMol._exchange
