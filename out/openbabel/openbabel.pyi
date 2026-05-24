@@ -2134,7 +2134,7 @@ class OBSmartsPattern:
     thisown: Incomplete
     __swig_destroy__: Incomplete
     def __init__(self, *args) -> None: ...
-    Init: Incomplete
+    def Init(self, pattern: str) -> bool: ...
     GetSMARTS: Incomplete
     Empty: Incomplete
     IsValid: Incomplete
