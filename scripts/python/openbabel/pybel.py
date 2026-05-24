@@ -59,7 +59,7 @@ from typing import Self, override
 #         from PIL import ImageTk as piltk
 #     except ImportError:  # pragma: no cover
 #         tk = None
-import openbabel as ob
+from openbabel import openbabel as ob
 _obfuncs = _obconsts = ob
 
 
