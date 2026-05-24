@@ -1967,7 +1967,7 @@ class OBMol(OBBase):
     GetSpacedFormula: Incomplete
     GetMolWt: Incomplete
     GetExactMass: Incomplete
-    GetTotalCharge: Incomplete
+    def GetTotalCharge(self) -> int: ...
     GetTotalSpinMultiplicity: Incomplete
     GetDimension: Incomplete
     GetCoordinates: Incomplete
