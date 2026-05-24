@@ -30,10 +30,7 @@ from typing import override
 here = sys.path[0]
 iswin = sys.platform.startswith("win")
 
-try:
-    from openbabel import openbabel as ob
-except ImportError:
-    ob = None
+from openbabel import openbabel as ob
 
 try:
     from openbabel import pybel
@@ -424,6 +421,7 @@ H          0.74700        0.50628       -0.64089
         self.assertIsNotNone(gen3d)
 
         def make_mol(smi: str) -> "ob.OBMol":
+            assert ob
             mol = ob.OBMol()
             conv = ob.OBConversion()
             conv.SetInFormat("smi")
