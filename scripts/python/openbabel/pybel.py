@@ -278,7 +278,13 @@ class Outputfile(object):
        close()
     """
 
-    def __init__(self, format, filename, overwrite=False, opt=None):
+    def __init__(
+        self,
+        format: str,
+        filename: bytes | str,
+        overwrite: bool = False,
+        opt: dict[str, str] | None = None,
+    ):
         if opt is None:
             opt = {}
         self.format = format
