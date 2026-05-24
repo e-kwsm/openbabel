@@ -12,7 +12,7 @@ name = "openbabel"
 dynamic = ["version"]
 description = "Python interface to the Open Babel chemistry library"
 readme = "scripts/python/README.rst"
-requires-python = ">=3.10"
+requires-python = ">=3.14"
 authors = [
   {name = "Noel O'Boyle", email = "openbabel-discuss@lists.sourceforge.net"},
 ]
