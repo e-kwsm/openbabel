@@ -51,6 +51,7 @@ class PythonBindings(unittest.TestCase):
 class TestPythonBindings(PythonBindings):
 
     def testSimple(self):
+        assert ob
         mol = ob.OBMol()
         conv = ob.OBConversion()
         conv.SetInFormat("smi")
