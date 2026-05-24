@@ -24,6 +24,8 @@ import tempfile
 import xml.etree.ElementTree as ET
 from typing import Iterator, Never
 
+from typing import Self
+
 if sys.platform[:4] == "java":
     import org.openbabel as ob
     import java.lang.System
@@ -953,7 +955,7 @@ class Fingerprint(object):
     def __init__(self, fingerprint):
         self.fp = fingerprint
 
-    def __or__(self, other):
+    def __or__(self, other: Self):
         return ob.OBFingerprint.Tanimoto(self.fp, other.fp)
 
     @property
