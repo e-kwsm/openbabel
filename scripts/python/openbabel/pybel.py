@@ -26,39 +26,41 @@ from typing import Iterator, Never
 
 from typing import Self, override
 
-if sys.platform[:4] == "java":
-    import org.openbabel as ob
-    import java.lang.System
-    java.lang.System.loadLibrary("openbabel_java")
-    _obfuncs = ob.openbabel_java
-    _obconsts = ob.openbabel_javaConstants
-    import javax
-elif sys.platform[:3] == "cli":
-    import System
-    import clr
-    clr.AddReference('System.Windows.Forms')
-    clr.AddReference('System.Drawing')
-
-    from System.Windows.Forms import Application, DockStyle, Form, PictureBox
-    from System.Windows.Forms import PictureBoxSizeMode
-    from System.Drawing import Image, Size
-
-    _obdotnet = os.environ["OBDOTNET"]
-    if _obdotnet[0] == '"':  # Remove trailing quotes
-        _obdotnet = _obdotnet[1:-1]
-    clr.AddReferenceToFileAndPath(os.path.join(_obdotnet, "OBDotNet.dll"))
-    import OpenBabel as ob
-    _obfuncs = ob.openbabel_csharp
-    _obconsts = ob.openbabel_csharp
-else:
-    from . import openbabel as ob
-    _obfuncs = _obconsts = ob
-    try:
-        import tkinter as tk
-        from PIL import Image as PIL
-        from PIL import ImageTk as piltk
-    except ImportError:  # pragma: no cover
-        tk = None
+# if sys.platform[:4] == "java":
+#     import org.openbabel as ob
+#     import java.lang.System
+#     java.lang.System.loadLibrary("openbabel_java")
+#     _obfuncs = ob.openbabel_java
+#     _obconsts = ob.openbabel_javaConstants
+#     import javax
+# elif sys.platform[:3] == "cli":
+#     import System
+#     import clr
+#     clr.AddReference('System.Windows.Forms')
+#     clr.AddReference('System.Drawing')
+#
+#     from System.Windows.Forms import Application, DockStyle, Form, PictureBox
+#     from System.Windows.Forms import PictureBoxSizeMode
+#     from System.Drawing import Image, Size
+#
+#     _obdotnet = os.environ["OBDOTNET"]
+#     if _obdotnet[0] == '"':  # Remove trailing quotes
+#         _obdotnet = _obdotnet[1:-1]
+#     clr.AddReferenceToFileAndPath(os.path.join(_obdotnet, "OBDotNet.dll"))
+#     import OpenBabel as ob
+#     _obfuncs = ob.openbabel_csharp
+#     _obconsts = ob.openbabel_csharp
+# else:
+#     from . import openbabel as ob
+#     _obfuncs = _obconsts = ob
+#     try:
+#         import tkinter as tk
+#         from PIL import Image as PIL
+#         from PIL import ImageTk as piltk
+#     except ImportError:  # pragma: no cover
+#         tk = None
+import openbabel as ob
+_obfuncs = _obconsts = ob
 
 
 def _formatstodict(list):
