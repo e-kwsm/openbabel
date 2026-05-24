@@ -31,11 +31,7 @@ here = sys.path[0]
 iswin = sys.platform.startswith("win")
 
 from openbabel import openbabel as ob
-
-try:
-    from openbabel import pybel
-except ImportError:
-    pybel = None
+from openbabel import pybel
 
 
 class PythonBindings(unittest.TestCase):
