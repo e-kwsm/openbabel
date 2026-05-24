@@ -21,12 +21,11 @@ import sys
 import unittest
 
 from subprocess import CalledProcessError, PIPE, check_output, STDOUT
-from typing import Optional
 
 INF = float("inf")
 
 
-def run_exec(text: Optional[str], commandline: list[str]) -> tuple[str, str]:
+def run_exec(text: str | None, commandline: list[str]) -> tuple[str, str]:
     """Run one of OpenBabel's executables
 
     With two arguments (stdin, commandline) it pipes
