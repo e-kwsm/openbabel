@@ -24,7 +24,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 from typing import Iterator, Never
 
-from typing import Self
+from typing import Self, override
 
 if sys.platform[:4] == "java":
     import org.openbabel as ob
@@ -955,14 +955,15 @@ class Fingerprint(object):
     def __init__(self, fingerprint):
         self.fp = fingerprint
 
-    def __or__(self, other: Self):
+    def __or__(self, other: Self) -> float:
         return ob.OBFingerprint.Tanimoto(self.fp, other.fp)
 
     @property
     def bits(self):
         return _findbits(self.fp, ob.OBFingerprint.Getbitsperint())
 
-    def __str__(self):
+    @override
+    def __str__(self) -> str:
         fp = self.fp
         if sys.platform[:4] == "java":
             fp = [self.fp.get(i) for i in range(self.fp.size())]
