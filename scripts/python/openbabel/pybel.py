@@ -305,7 +305,7 @@ class Outputfile(object):
             else:
                 gzextension = '.gz'
             if os.path.splitext(filename)[1] == gzextension:
-                self.obconversion.AddOption('z', self.obConversion.GENOPTIONS)
+                self.obConversion.AddOption('z', self.obConversion.GENOPTIONS)
         for k, v in opt.items():
             if v is None:
                 self.obConversion.AddOption(k, self.obConversion.OUTOPTIONS)
