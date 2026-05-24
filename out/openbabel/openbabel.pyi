@@ -1,4 +1,4 @@
-from typing import override
+from typing import overload, override
 from _typeshed import Incomplete
 
 dlflags: Incomplete
@@ -1193,7 +1193,14 @@ class OBConversion:
     GetOutStream: Incomplete
     SetInStream: Incomplete
     SetOutStream: Incomplete
-    def SetInAndOutFormats(self, i: str, o: str) -> None: ...
+    @overload
+    def SetInAndOutFormats(self, i: str, o: str) -> bool: ...
+    @overload
+    def SetInAndOutFormats(self, i: str, o: str, ingzip: bool) -> bool: ...
+    @overload
+    def SetInAndOutFormats(self, i: str, o: str, ingzip: bool, outgzip: bool) -> bool: ...
+    @overload
+    def SetInAndOutFormats(self, i: OBFormat, o: OBFormat) -> bool: ...
     def SetInFormat(self, _: str) -> None: ...
     SetOutFormat: Incomplete
     GetInFormat: Incomplete
