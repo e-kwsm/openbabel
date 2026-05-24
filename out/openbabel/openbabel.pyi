@@ -1193,7 +1193,7 @@ class OBConversion:
     GetOutStream: Incomplete
     SetInStream: Incomplete
     SetOutStream: Incomplete
-    SetInAndOutFormats: Incomplete
+    def SetInAndOutFormats(self, i: str, o: str) -> None: ...
     def SetInFormat(self, _: str) -> None: ...
     SetOutFormat: Incomplete
     GetInFormat: Incomplete
