@@ -212,7 +212,7 @@ def readfile(
     return filereader()
 
 
-def readstring(format, string, opt=None):
+def readstring(format: str, string, opt=None):
     """Read in a molecule from a string.
 
     Required parameters:
