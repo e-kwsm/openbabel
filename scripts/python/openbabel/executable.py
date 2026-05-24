@@ -7,7 +7,7 @@ import sys
 ROOT_DIR = os.path.dirname(__file__)
 
 
-def _program(name, args):
+def _program(name: str, args: list[str]):
     return subprocess.call([os.path.join(ROOT_DIR, "bin", name)] + args, close_fds=False)
 
 
