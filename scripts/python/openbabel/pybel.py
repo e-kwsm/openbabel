@@ -24,7 +24,7 @@ import tempfile
 import xml.etree.ElementTree as ET
 from typing import Iterator, Never
 
-from typing import Self, override
+from typing import Any, Self, override
 
 # if sys.platform[:4] == "java":
 #     import org.openbabel as ob
@@ -212,7 +212,7 @@ def readfile(
     return filereader()
 
 
-def readstring(format: str, string, opt: dict[str, str | None] | None = None):
+def readstring(format: str, string, opt: dict[str, Any] | None = None):
     """Read in a molecule from a string.
 
     Required parameters:
