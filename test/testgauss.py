@@ -28,8 +28,8 @@ def get_mol_dict(
     filename: str,
     fileformat: str,
     forcefield: str | None = None,
-) -> dict[str, dict[str, str | int | float | None]]:
-    molecule_dict: dict[str, dict[str, str | int | float | Any]] = {
+) -> dict[str, dict[str | tuple[int, int], str | int | float | None]]:
+    molecule_dict: dict[str, dict[str | tuple[int, int], str | int | float]] = {
         "molecule": {},
         "atoms": {},
         "bonds": {},
