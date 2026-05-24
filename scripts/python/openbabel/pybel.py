@@ -283,7 +283,7 @@ class Outputfile(object):
         format: str,
         filename: bytes | str,
         overwrite: bool = False,
-        opt: dict[str, str] | None = None,
+        opt: dict[str, Any] | None = None,
     ):
         if opt is None:
             opt = {}
@@ -375,16 +375,16 @@ class Molecule(object):
         self.OBMol = OBMol
 
     @property
-    def atoms(self):
+    def atoms(self) -> list["Atom"]:
         return [Atom(self.OBMol.GetAtom(i + 1))
                 for i in range(self.OBMol.NumAtoms())]
 
     @property
-    def residues(self):
+    def residues(self) -> list["Residue"]:
         return [Residue(res) for res in ob.OBResidueIter(self.OBMol)]
 
     @property
-    def charge(self):
+    def charge(self) -> int:
         return self.OBMol.GetTotalCharge()
 
     @property
