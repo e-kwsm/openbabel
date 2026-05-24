@@ -912,7 +912,7 @@ class Residue(object):
         return iter(self.atoms)
 
 
-def _findbits(fp, bitsperint):
+def _findbits(fp, bitsperint) -> list[int]:
     """Find which bits are set in a list/vector.
 
     This function is used by the Fingerprint class.
