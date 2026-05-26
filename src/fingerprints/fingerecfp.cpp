@@ -76,7 +76,7 @@ private:
 //***********************************************
 
 #define mix32(a,b,c) \
-{ \
+do { \
   a -= b; a -= c; a ^= (c>>13); \
   b -= c; b -= a; b ^= (a<<8); \
   c -= a; c -= b; c ^= (b>>13); \
@@ -86,7 +86,7 @@ private:
   a -= b; a -= c; a ^= (c>>3);  \
   b -= c; b -= a; b ^= (a<<10); \
   c -= a; c -= b; c ^= (b>>15); \
-}
+} while (0)
 
 static unsigned int ECFPHash(unsigned char *ptr, unsigned int length)
 {
