@@ -65,7 +65,7 @@ namespace OpenBabel
     };
 
 #ifndef LowBit
-#define LowBit(set, bit)                                        \
+#define LowBit(set, bit) do                                     \
   {int m;                                                       \
     if (set != 0)                                               \
       {                                                         \
@@ -76,7 +76,7 @@ namespace OpenBabel
           if ((m = (set & 0x0f0f0f0f))!=0) {set = m; bit -= 4;}    \
           if ((m = (set & 0x33333333))!=0) {set = m; bit -= 2;}    \
           if ((m = (set & 0x55555555))!=0) {set = m; bit -= 1;}}}  \
-    else bit = -1;}
+    else bit = -1;} while (0)
 #endif
 
   /** Set the \p bit_offset 'th bit to 1
