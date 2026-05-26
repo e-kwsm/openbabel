@@ -44,7 +44,7 @@ namespace OpenBabel
 class OBCONV OBFormat : public OBPlugin
   {
     //Macro to include functions to handle plugin operations
-    MAKE_PLUGIN(OBFormat);
+    MAKE_PLUGIN(OBFormat)
 
   public:
 

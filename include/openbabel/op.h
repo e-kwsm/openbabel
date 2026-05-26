@@ -32,7 +32,7 @@ namespace OpenBabel
 // Class introduction below
 class OBAPI OBOp : public OBPlugin
 {
-  MAKE_PLUGIN(OBOp);
+  MAKE_PLUGIN(OBOp)
 
 public:
   typedef const std::map<std::string, std::string> OpMap ;
