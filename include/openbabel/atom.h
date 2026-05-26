@@ -61,9 +61,9 @@ namespace OpenBabel
   //! Atom is an electron acceptor
 #define OB_ACCEPTOR_ATOM  (1<<8)
 
-#define SET_OR_UNSET_FLAG(X) \
+#define SET_OR_UNSET_FLAG(X) do { \
   if (value) SetFlag(X); \
-  else     UnsetFlag(X);
+  else     UnsetFlag(X); } while (0)
 
   class OBAPI OBAtomAtomIterAdaptor
   {
