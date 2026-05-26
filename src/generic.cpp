@@ -704,8 +704,8 @@ namespace OpenBabel
   { \
     return const_cast<const OBUnitCell*>(this)->_name(arg1, arg2); \
   }
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG2(vector3, UnwrapCartesianNear, vector3, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG2(vector3, UnwrapFractionalNear, vector3, vector3);
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG2(vector3, UnwrapCartesianNear, vector3, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG2(vector3, UnwrapFractionalNear, vector3, vector3)
 
   double OBUnitCell::GetA() const
   {
