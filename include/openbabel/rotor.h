@@ -443,9 +443,6 @@ namespace OpenBabel
     OB_DEPRECATED
     void SetNumCoords(int) {}
     ///@}
-
-    ; // Added to workaround https://github.com/swig/swig/issues/1636
-
   };
 
 
@@ -645,9 +642,6 @@ namespace OpenBabel
     //! SetRotAtoms()
     void SetRotAtomsByFix(OBMol&);
     ///@}
-
-    ; // Added to workaround https://github.com/swig/swig/issues/1636
-
   };
 
   /// @cond DEV
