@@ -50,9 +50,9 @@ namespace OpenBabel
   // 11-16 currently unused
 #define OB_WEDGE_OR_HASH_BOND     (1<<11)
 
-#define SET_OR_UNSET_FLAG(X) \
+#define SET_OR_UNSET_FLAG(X) do { \
   if (value) SetFlag(X); \
-  else     UnsetFlag(X);
+  else     UnsetFlag(X); } while (0)
 
 
   class OBAPI OBBond: public OBBase
