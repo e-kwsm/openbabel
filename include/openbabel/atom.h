@@ -259,7 +259,7 @@ namespace OpenBabel
       //! \return The hybridization of this atom: 1 for sp, 2 for sp2, 3 for sp3, 4 for sq. planar, 5 for trig. bipy, 6 for octahedral
       unsigned int GetHyb()             const;
       //! \return The number of implicit hydrogens attached to this atom
-      unsigned char GetImplicitHCount() const { return _imph; };
+      unsigned char GetImplicitHCount() const { return _imph; }
       //! \return The number of non-hydrogens connected to this atom
       unsigned int GetHvyDegree()      const;
       //! \return The number of heteroatoms connected to an atom

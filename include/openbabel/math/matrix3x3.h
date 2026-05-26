@@ -154,7 +154,7 @@ namespace OpenBabel
       bool isOrthogonal(void) const
         {
           return (*this * transpose()).isUnitMatrix();
-        };
+        }
 
       //! \return if a matrix is diagonal
       bool isDiagonal(void) const;

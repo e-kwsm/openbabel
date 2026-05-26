@@ -1824,13 +1824,13 @@ namespace OpenBabel
             return (false);
           else
             return (true);
-    };
+    }
     if (_ele == 7) {
       // N+ ions and sp2 hybrid N with 3 valences should not be Hbond acceptors
       if (!((GetExplicitDegree() == 4 && GetHyb() == 3)
         || (GetExplicitDegree() == 3 && GetHyb() == 2)))
         return true;
-    };
+    }
     // Changes from Paolo Tosco
     if (_ele == 16 && GetFormalCharge() == -1){
           return (true); }
