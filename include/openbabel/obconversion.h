@@ -104,8 +104,8 @@ namespace OpenBabel {
       /// These return a filtered stream for reading/writing (possible filters include compression, decompression, and newline transformation)
       /// @name Parameter get and set
       //@{
-      std::istream* GetInStream() const {return pInput;};
-      std::ostream* GetOutStream() const {return pOutput;};
+      std::istream* GetInStream() const {return pInput;}
+      std::ostream* GetOutStream() const {return pOutput;}
 
       /// @brief Set input stream.  If takeOwnership is true, will deallocate when done.
       /// If isGzipped is true, will treat as a gzipped stream regardless of option settings,
@@ -123,25 +123,25 @@ namespace OpenBabel {
       bool	      SetOutFormat(const char* outID, bool isgzip=false);
       bool	      SetOutFormat(OBFormat* pOut, bool isgzip=false);
 
-      OBFormat*   GetInFormat() const{return pInFormat;};
-      OBFormat*   GetOutFormat() const{return pOutFormat;};
-      bool GetInGzipped() const{return inFormatGzip;};
-      bool GetOutGzipped() const{return outFormatGzip;};
-      std::string GetInFilename() const{return InFilename;};
-      std::string GetOutFilename() const{return OutFilename;};
+      OBFormat*   GetInFormat() const{return pInFormat;}
+      OBFormat*   GetOutFormat() const{return pOutFormat;}
+      bool GetInGzipped() const{return inFormatGzip;}
+      bool GetOutGzipped() const{return outFormatGzip;}
+      std::string GetInFilename() const{return InFilename;}
+      std::string GetOutFilename() const{return OutFilename;}
 
       ///Get the position in the input stream of the object being read
-      std::streampos GetInPos()const{return wInpos;};
+      std::streampos GetInPos()const{return wInpos;}
 
       ///Get the length in the input stream of the object being read
-      size_t GetInLen()const{return wInlen;};
+      size_t GetInLen()const{return wInlen;}
 
       /// \return a default title which is the filename
       const char* GetTitle() const;
 
       ///@brief Extension method: deleted in ~OBConversion()
-      OBConversion* GetAuxConv() const {return pAuxConv;};
-      void          SetAuxConv(OBConversion* pConv) {pAuxConv=pConv;};
+      OBConversion* GetAuxConv() const {return pAuxConv;}
+      void          SetAuxConv(OBConversion* pConv) {pAuxConv=pConv;}
       //@}
       /** @name Option handling
        Three types of Option provide information and control instructions to the
@@ -188,7 +188,7 @@ namespace OpenBabel {
 
       ///@brief Access the map with option name as key and any associated text as value
       const std::map<std::string,std::string>* GetOptions(Option_type opttyp)
-        { return &OptionsArray[opttyp];};
+        { return &OptionsArray[opttyp];}
 
       ///@brief Set an option of specified type, with optional text
       void AddOption(const char* opt, Option_type opttyp=OUTOPTIONS, const char* txt=nullptr);
@@ -251,7 +251,7 @@ namespace OpenBabel {
       /// @name Convenience functions
       //@{
       ///The default format is set in a single OBFormat class (generally it is OBMol)
-      static OBFormat* GetDefaultFormat(){return OBFormat::FindType(nullptr);};
+      static OBFormat* GetDefaultFormat(){return OBFormat::FindType(nullptr);}
 
       /// @brief Outputs an object of a class derived from OBBase.
 

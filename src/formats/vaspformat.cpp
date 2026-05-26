@@ -382,7 +382,7 @@ namespace OpenBabel {
       }
 
       atomCount++;
-    };
+    }
 
     // There is some trailing garbage, but AFAIK it's not useful for anything.
     ifs_cont.close();

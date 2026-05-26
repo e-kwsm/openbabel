@@ -60,10 +60,10 @@ public:
   typedef PluginMapType::const_iterator PluginIterator;
 
   ///Virtual destructor necessary for classes with virtual functions
-  virtual ~OBPlugin(){};
+  virtual ~OBPlugin(){}
 
   ///Required description of a sub-type
-  virtual const char* Description() { return nullptr;} ;
+  virtual const char* Description() { return nullptr;}
 
   ///Redefined by each plugin type: "formats", "fingerprints", etc.
   virtual const char* TypeID(){ return "plugins"; }
@@ -83,14 +83,14 @@ public:
 
   ///Initialize the plugin.
   ///The default version does nothing.
-  virtual void Init(){};
+  virtual void Init(){}
 
   ///Get a pointer to a plugin from its type and ID. Return NULL if not found.
   ///If Type is NULL, search all types. Not cast to Type*
   static OBPlugin* GetPlugin(const char* Type, const char* ID);
 
   ///Return the ID of the sub-type instance.
-  const char* GetID()const{return _id;};
+  const char* GetID()const{return _id;}
 
   ///Output a list of sub-type classes of the the type PluginID,
   ///or, if PluginID is "plugins" or empty, a list of the base types.
