@@ -229,7 +229,7 @@ OBSpectrophore::GetSpectrophore(OpenBabel::OBMol* mol)
    _nAtoms = mol->NumAtoms();
    if (_nAtoms < 3)
    {
-      std::cerr << "OBSpectrophore::GetSpectrophore() error: not enough atoms in molecule" << std::endl;;
+      std::cerr << "OBSpectrophore::GetSpectrophore() error: not enough atoms in molecule" << std::endl;
       return _spectro;
    }
 

@@ -169,7 +169,7 @@ private:
   for (i=0; i<MAXFRAGS; i++) {
     qx[i]=0;
     for (j=0; j<4; j++) qa[i][j]=0;
-  };
+  }
 
   };
 
@@ -581,14 +581,14 @@ private:
     aSymb[i-1]=OBElements::GetSymbol(atom->GetAtomicNum());
     nConn[i-1]=atom->GetHvyDegree();
     aNumber[i-1]=i-1;
-  };
+  }
   for (i=1; i<=nbStore; i++) {
     bond=pmol->GetBond(i-1);
     bonds[i-1][0]=bond->GetBeginAtomIdx();
     bonds[i-1][1]=bond->GetEndAtomIdx();
       bonds[i-1][2]=bond->GetBondOrder();  //type of bond store
       bonds[i-1][3]=i;                     //bond number in sm store
-    };
+    }
     //FRAGCON
     i=0;
     while (i < naStore) {
@@ -610,22 +610,22 @@ private:
             aSymb[j]=aSymb[j+1];
             nConn[j]=nConn[j+1];
             aNumber[j]=aNumber[j+1];
-          };
+          }
           for (j=0; j<nbStore; j++) {
             if (bonds[j][0] > (i+1)) bonds[j][0]--;
             if (bonds[j][1] > (i+1)) bonds[j][1]--;
-          };
+          }
           for (j=k; j<(nbStore-1); j++) {
             bonds[j][0]=bonds[j+1][0];
             bonds[j][1]=bonds[j+1][1];
             bonds[j][2]=bonds[j+1][2];
             bonds[j][3]=bonds[j+1][3];
-          };
+          }
           i--;
           naStore--;
           nbStore--;
-        };
-      };
+        }
+      }
       i++;
     }
 //Ald without fragcon
@@ -639,7 +639,7 @@ private:
       j=nHydr[i-1];
       if (j>0) for (l=0; l<j; l++) {
         frag=frag+"H";
-      };
+      }
       for (j=0; j<ntypes; j++) if (fragment[j] == frag) {
         ifragnum[j]++;
         newone = 0;
@@ -669,7 +669,7 @@ private:
       j=nHydr[i-1];
       if (j>0) for (l=0; l<j; l++) {
         frag=frag+"H";
-      };
+      }
       for (j=0; j<ntypes; j++) if (frag == fragment[j]) ix[i-1] = j+1;
     }
 
@@ -698,14 +698,14 @@ private:
         ia[nbonds][1] = ia0;
         nbonds=nbonds+1;
       }
-    };
+    }
     for (i=0; i<nbonds; i++) {
         ia[i][2] = ix[ia[i][0]-1];
         ia[i][3] = ix[ia[i][1]-1];
-    };
+    }
     for (i=0; i<nbonds; i++) for (j=0; j<4; j++) {
       z[i][j] = ia[i][j];
-    };
+    }
     maxdepth = 1;
 
         // data ready for solution
@@ -771,7 +771,7 @@ private:
         }
       }
       nt++;
-    };
+    }
     line=line+"]";
 
     constr=constr+line;
@@ -830,15 +830,15 @@ private:
         constr=constr+line;
         constr=constr+"}";
         data=data+constr;
-      };
+      }
 
-    };
+    }
     //radical processing
     if (radicalflag != 0) {
       for (i=0; i<ntatoms; i++) {
         chgarray[i][0]=0;
         chgarray[i][1]=0;
-      };
+      }
       nt = 0;
       for (n=1; n<3; n++) for (i=0; i<ntatoms; i++) if (nrad[ix[i]] == n) {
         chgarray[nt][0] = n;
@@ -877,9 +877,9 @@ private:
         constr=constr+line;
         constr=constr+"}";
         data=data+constr;
-      };
+      }
 
-    };
+    }
 
 //*****************************************************************************
     data=data+astereo;
@@ -1014,13 +1014,13 @@ private:
   if ((indexOf(value,fablockstart) >= 0) && (indexOf(value,fbblockstart) > 0)) {
     restoreFullMCDL(value,pmol);
     return;
-  };
+  }
   for (i=0; i<MAXBONDS; i++) {
     stereoBonds[i]=0;
     sbSpecial[i]=0;
     iA1[i]=0;
     iA2[i]=0;
-  };
+  }
 
   for (i=0; i<MAXFRAGS; i++) {
     charges[i]=0;
@@ -1032,7 +1032,7 @@ private:
     aPosition[i]=6;
     aCharge[i]=0;
     aRad[i]=0;
-  };
+  }
   //removing net charges and radiacal
   test=false;
   n=1;
@@ -1046,8 +1046,8 @@ private:
       if (n1 < 0) {
         n=0;
         test=true;
-      };
-    };
+      }
+    }
     if (n > 0) {
       s=value.substr(0,n);
       if ((s.at(s.length()-1) == '+') || (s.at(s.length()-1) == '-')) {
@@ -1061,13 +1061,13 @@ private:
         s=s.substr(0,s.length()-1);
         n1=atoi(s.c_str());
         netradical=n1;
-      };
+      }
       value=value.substr(n+1,value.length());
       if (value.length() > 0) if (value.at(0) == ';'){
         value=value.substr(1);
-      };
-    };
-  };
+      }
+    }
+  }
 
   //stereo string extraction
 
@@ -1078,7 +1078,7 @@ private:
       astereo=""+value.substr(n1+fsastart.length(),n2);
       value=value.substr(0,n1)+value.substr(n2+1);
     }
-  };
+  }
   n1=indexOf(value,fsbstart);
   if (n1>=0) {
     n2=indexOf(value,"}",n1);
@@ -1086,7 +1086,7 @@ private:
       bstereo=""+value.substr(n1+fsbstart.length(),n2);
       value=value.substr(0,n1)+value.substr(n2+1);
     }
-  };
+  }
   //charges processing
   n1=indexOf(value,fchstart);
   if (n1>=0) {
@@ -1094,12 +1094,12 @@ private:
     if (n2>0) {
       chargestring=""+value.substr(n1+fchstart.length(),n2);
       value=value.substr(0,n1)+value.substr(n2+1);
-    };
-  };
+    }
+  }
   if ((netcharge != 0) && (chargestring == "")) {
     chargestring = "1," +intToStr(abs(netcharge));
     if (netcharge < 0) chargestring=chargestring+"-"; else chargestring=chargestring+"+";
-  };
+  }
   //radical processing
   n1=indexOf(value,fradstart);
   if (n1>=0) {
@@ -1107,16 +1107,16 @@ private:
     if (n2>0) {
       radicalstring=""+value.substr(n1+fradstart.length(),n2);
       value=value.substr(0,n1)+value.substr(n2+1);
-    };
-  };
+    }
+  }
   if ((netradical != 0) && (radicalstring == "")) {
     radicalstring= "1," + intToStr(abs(netcharge)) + "*";
-  };
+  }
 
   n1=indexOf(value,"]");
   if (n1 > 0) {
     value=value.substr(0,n1);  //by unknown reason it was n1-1
-  };
+  }
 
   //Atom array analizing
   test=true;
@@ -1132,7 +1132,7 @@ private:
       n1=n2;
     } else {
       if ((n2<n1) && (n2>=0)) n1=n2;
-    };
+    }
     mf=value.substr(0,n1);
     value=value.substr(n1,value.length());
     if (value.at(0)==';') value=value.substr(1,value.length());
@@ -1144,9 +1144,9 @@ private:
         temp=temp+mf.at(0);
         mf=mf.substr(1,mf.length());
         test=(mf.at(0)>='0') && (mf.at(0)<='9');
-      };
+      }
       n1=atoi(temp.c_str());
-    };
+    }
     //do not change n1==nFrag!!!
     nt=nt+n1;
   //Conversion of XxHHHH to XxHn
@@ -1158,7 +1158,7 @@ private:
       } else k=2;
       mf=mf.substr(0,n2+1)+intToStr(k);
       n2=lastIndexOf(mf,"HH");
-    };
+    }
     //passed to this point...
     //End convsrsion
     n2=indexOf(mf,"H");
@@ -1168,7 +1168,7 @@ private:
         temp=mf.substr(n2+1,mf.length());
       } else temp="1";
       mf=mf.substr(0,n2);
-    };
+    }
     n2=atoi(temp.c_str());//Integer.parseInt(temp);
     //do not change n2 - number of hydrogens...
 
@@ -1178,7 +1178,7 @@ private:
     nelements++;
 
     test=value.at(0) != '[';
-  };
+  }
 
   sa.Clear();
 
@@ -1199,7 +1199,7 @@ private:
     } else {
       s=chargestring;
       chargestring="";
-    };
+    }
     int comma=indexOf(s,",");
     if (comma > 0) {
       sa1=s.substr(0,comma);
@@ -1214,8 +1214,8 @@ private:
       // indices rather than writing past the charges[] allocation.
       if (n2 >= 1 && n2 <= MAXFRAGS)
         charges[n2-1]=n1;
-    };
-  };
+    }
+  }
   for (i=0; i<MAXFRAGS; i++) radicals[i]=0;
   if (radicalstring != "") while (radicalstring.length() > 0) {
     int sep=indexOf(radicalstring,";");
@@ -1225,7 +1225,7 @@ private:
     } else {
       s=radicalstring;
       radicalstring="";
-    };
+    }
     int comma=indexOf(s,",");
     if (comma > 0) {
       sa1=s.substr(0,comma);
@@ -1236,8 +1236,8 @@ private:
       n2=atoi(sa1.c_str());
       if (n2 >= 1 && n2 <= MAXFRAGS)
         radicals[n2-1]=1;
-    };
-  };
+    }
+  }
 //passed
 
 
@@ -1277,10 +1277,10 @@ private:
           bondOrders[bcount-1]=kk;
           iA1[bcount-1]=nt-1;
           iA2[bcount-1]=acount-1;
-        };
+        }
         //checking for nitrogen...
         //length analizing-extracting and addition of other atoms...
-      };
+      }
       //charges analizing and restore
 
     if (charges[nt-1] != 0) {      //search for appropriate atom to put charge..
@@ -1293,19 +1293,19 @@ private:
         assignCharges(aPosition,iA1,iA2,aCharge,charges,bondOrders,16,nPrev,nt,acount,bcount);
         if (charges[nt-1] != 0) {
           aCharge[nt-1]=charges[nt-1];
-        };
+        }
       } else {  //positive charge-at central atom
         aCharge[nt-1]=charges[nt-1];
-      };
-    };
-  };
+      }
+    }
+  }
   if (radicals[nt-1] != 0) {      //search for appropriate atom to put charge..
     aRad[nt-1]=radicals[nt-1];
-  };
+  }
   nPrev=acount;
-};
+}
 
-  };
+  }
 
   //Bond analizing....
   value=value.substr(1,value.length());
@@ -1333,7 +1333,7 @@ private:
       test=false;
       mf=value;
       value="";
-    };
+    }
     nt++;
     //parsing each fragment
     // Bail out if bcount would exceed MAXBONDS - the inner loop runs
@@ -1347,17 +1347,17 @@ private:
       } else {
         s=mf;
         mf="";
-      };
+      }
       n1=atoi(s.c_str());
       if (n1<1) break;  // atom indices are 1-based; junk -> stop
       bcount++;
       bondOrders[bcount-1]=0;
       iA1[bcount-1]=nt-1;
       iA2[bcount-1]=n1-1;
-    };
+    }
 
     if (value.length()>0) if (value.at(0)==']') value=""; //end parsing
-  };
+  }
 
   //Alternation
   alternate(aPosition,aCharge,aRad,nHydr,iA1,iA2,bondOrders,acount,bcount);
@@ -1375,14 +1375,14 @@ private:
       if (aRad[i] != 0) sa.SetSpinMultiplicity(1);
       sa.SetVector(rx[i],ry[i],0.0);
       pmol->AddAtom(sa);
-    };
+    }
     for (i=0; i<bcount; i++) {
       flags=0;
       if (stereoBonds[i] == 1) flags=OB_WEDGE_BOND; else
       if (stereoBonds[i] == 2) flags=OB_HASH_BOND;
       pmol->AddBond(iA1[i]+1,iA2[i]+1,bondOrders[i],flags);
-    };
-  };
+    }
+  }
 };
 
   void MCDLFormat::assignCharges(const std::vector <int> aPosition, const std::vector <int> iA1,
@@ -1403,12 +1403,12 @@ private:
             if (n > 1) {
               n=n-1;
         bondOrder[j]=n;
-          };
-          };
-        };
-    };
+          }
+          }
+        }
+    }
       if (charges[nt-1] == 0) break;
-    };
+    }
   };
 
 
@@ -1432,8 +1432,8 @@ private:
       test=false;
     else {
         result=n;
-    };
-  };
+    }
+  }
     //int result=instring.find_last_of(substring);
     //if  (result == string::npos) result=-1;
     //if  (result > (instring.length()-substring.length())) result=-1;
@@ -1476,11 +1476,11 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             s=value.substr(n1,n2+1);
             k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
-          };
+          }
           enumber[i]=enumber[i]+k;
-        };
-      };
-    };
+        }
+      }
+    }
   for (i = 1; i<nelem; i++) if (strlen(OBElements::GetSymbol(i)) == 1) {
       test=true;
     asym=OBElements::GetSymbol(i);
@@ -1500,11 +1500,11 @@ bool MCDLFormat::parseFormula(const string formulaString, std::vector <int>& enu
             s=value.substr(n1,n2+1);
       k=atoi(s.c_str());
             value=value.substr(0,n1)+value.substr(n2+1,value.length());
-          };
+          }
           enumber[i]=enumber[i]+k;
-        };
-      };
-    };
+        }
+      }
+    }
   return (value.length() == 0);
 };
 

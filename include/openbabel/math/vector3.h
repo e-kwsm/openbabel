@@ -161,7 +161,7 @@ namespace OpenBabel
         _vy += v._vy;
         _vz += v._vz;
         return *this;
-      };
+      }
     //! \brief Vector subtraction (subtract @p v from *this)
     //! \return *this - v
     vector3& operator-= ( const vector3& v)
@@ -170,7 +170,7 @@ namespace OpenBabel
         _vy -= v._vy;
         _vz -= v._vz;
         return *this;
-      };
+      }
     //! \brief Scalar addition (add @p f to *this)
     //! \return *this + f
     vector3& operator+= ( const double* f)
@@ -179,7 +179,7 @@ namespace OpenBabel
         _vy += f[1];
         _vz += f[2];
         return *this;
-      };
+      }
     //! \brief Scalar subtraction (subtract @p f from *this)
     //! \return *this - f
     vector3& operator-= ( const double* f)
@@ -188,7 +188,7 @@ namespace OpenBabel
         _vy -= f[1];
         _vz -= f[2];
         return *this;
-      };
+      }
     //! \brief Scalar multiplication (multiply *this by @p c)
     //! \return *this * c
     vector3& operator*= ( const double& c)
@@ -197,7 +197,7 @@ namespace OpenBabel
         _vy *= c;
         _vz *= c;
         return *this;
-      };
+      }
 
     //! \brief Scalar division (divide *this by @p c)
     //! \return *this divided by c
@@ -205,7 +205,7 @@ namespace OpenBabel
       {
         double inv = 1.0 / c;
         return( (*this) *= inv );
-      };
+      }
     //! Multiplication of matrix and vector
     //! \return the result (i.e., the updated vector)
     //! \todo Currently unimplemented
@@ -227,42 +227,42 @@ namespace OpenBabel
     inline double length_2 () const
     {
       return _vx*_vx + _vy*_vy + _vz*_vz;
-    };
+    }
     //! \return The vector length
     double length () const
     {
       return sqrt( length_2() );
-    };
+    }
     //! Access function to get the x-coordinate of the vector
     const double & x () const
     {
       return _vx ;
-    } ;
+    }
     //! Access function to get the y-coordinate of the vector
     const double & y () const
     {
       return _vy ;
-    } ;
+    }
     //! Access function to get the z-coordinate of the vector
     const double & z () const
     {
       return _vz ;
-    } ;
+    }
     //! Access function to set the x-coordinate of the vector
     double & x ()
     {
       return _vx ;
-    } ;
+    }
     //! Access function to set the y-coordinate of the vector
     double & y ()
     {
       return _vy ;
-    } ;
+    }
     //! Access function to set the z-coordinate of the vector
     double & z ()
     {
       return _vz ;
-    } ;
+    }
 
     //! Comparison Methods
     // @{

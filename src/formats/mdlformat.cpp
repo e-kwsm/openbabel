@@ -754,7 +754,7 @@ namespace OpenBabel
 
     // Set up the updown map we are going to use to derive stereo info
     FOR_BONDS_OF_MOL(bond, mol) {
-      OBStereo::BondDirection bd = OBStereo::NotStereo;;
+      OBStereo::BondDirection bd = OBStereo::NotStereo;
       unsigned int flag = bond->GetFlags();
       if (flag & OBBond::Wedge)
         bd = OBStereo::UpBond;
