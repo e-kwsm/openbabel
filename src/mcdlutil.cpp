@@ -340,7 +340,7 @@ namespace OpenBabel {
     sprintf(temp,"%d",k);
     string line=temp;
     return line;
-  };
+  }
 
 
   //-------------------------------------------------------------------
@@ -385,7 +385,7 @@ namespace OpenBabel {
     TSingleAtom() {
       na=6; nv=hVal[na]; gtd=0;
       nc=0; iz=0; nb=0; rl=0; currvalence=0; special=0; astereo=0; enumerator=0; fragIndex=0;
-    };
+    }
     TSingleAtom * clone();
     int encoder();
     int chargeConversion();
@@ -461,14 +461,14 @@ namespace OpenBabel {
     result->fragIndex=this->fragIndex;
     result->anum=this->anum;
     return result;
-  };
+  }
 
 
   int TSingleAtom::chargeDeltaValency(int atomNo) {
     int result=-1;
     if (atomNo < NELEMMCDL) result=chargeVal[atomNo];
     return result;
-  };
+  }
 
   int TSingleAtom::encoder() {
     // For given atom's number ATN in array ATOM returns a number from 1 to 32.
@@ -489,7 +489,7 @@ namespace OpenBabel {
     for (i=0; i<NZINKATOMS; i++) if (na == zink[i]) return 30;
     for (i=0; i<NPLATINUMATOMS; i++) if (na == platinum[i]) return 31;
     return 32;
-  };
+  }
 
   int TSingleAtom::chargeConversion() {
 
@@ -501,7 +501,7 @@ namespace OpenBabel {
     if (nc < 0) return 2;
     if (nc > 0) return 1;
     return 0;
-  };
+  }
 
   int TSingleAtom::valencyConversion() {
 
@@ -523,7 +523,7 @@ namespace OpenBabel {
     if (k2<0) k2=0;
     if (k1 == k2) result=0; else if (k1 < k2) result=1; else result=2;
     return result;
-  };
+  }
 
   int TSingleAtom::allAtAtom() {
     //Define a digital representation of atom, they include:
@@ -543,7 +543,7 @@ namespace OpenBabel {
     w=w+b1;
     if (rl != 0) w= ~w;
     return w;
-  };
+  }
 
   void TSingleAtom::atomCopy(TSingleAtom * source) {
 
@@ -559,7 +559,7 @@ namespace OpenBabel {
     this->rx=source->rx;
     this->ry=source->ry;
     this->special=source->special;
-  };
+  }
 
   bool TSingleAtom::atomEquivalent(TSingleAtom * structure, TSingleAtom * query,
                                    int nHStr, int nHQuery, bool chargeSensitivity, bool isotopeSensitivity) {
@@ -608,7 +608,7 @@ namespace OpenBabel {
       if (query->na == ANY_ATOM) result=true; //Any atom
     }
     return result;
-  };
+  }
 
   //----------------  TSingleBond methods ----------------------
   TSingleBond * TSingleBond::clone() {
@@ -624,13 +624,13 @@ namespace OpenBabel {
     result->tb=this->tb;
     result->enumerator=this->enumerator;
     return result;
-  };
+  }
 
   int TSingleBond::getValence() {
     int result=0;
     if (this->tb >= 1 && this->tb <= NBONDTYPES) result=bondValence[this->tb-1];
     return result;
-  };
+  }
 
   bool TSingleBond::bondEquivalent(TSingleBond * sBond, TSingleBond * qBond){
     //for bond's number BONDNUMBER in structure (BOND) and for query bond's number
@@ -656,16 +656,16 @@ namespace OpenBabel {
     if (qBT==ANY_BOND) {  //Any bond in query
       result=true;
       return result;
-    };
+    }
     if ((qBT==4) || (qBD==2) || (qBD==3)) { //Aromatic bond
       result=(bD==2) || (bD==3) || (bT==4);
       return result;
-    };
+    }
     if ((bD==2) || (bD==3)) {
       //non-Aromatic in query, but Aromatic in structure
       result=false;
       return result;
-    };
+    }
     test1=false;
     if ((qBT==5) && ((bT==1) || (bT==2) || (bT==5))) test1=true;
     //SINGLE/DOUBLE query bond
@@ -673,7 +673,7 @@ namespace OpenBabel {
     //Type of bonds in structure and in query are equivalent}
     result=test1;
     return result;
-  };
+  }
 
 
   int TSingleBond::bondConversion() {
@@ -707,11 +707,11 @@ namespace OpenBabel {
     case 6 :
       b2=6;
       break;
-    };
+    }
     b2=b2 << 2;
     b2=b2+b1;
     return b2;
-  };
+  }
 
   void TSingleBond::bondCopy(TSingleBond * source) {
     this->at[0]=source->at[0];
@@ -720,7 +720,7 @@ namespace OpenBabel {
     this->db=source->db;
     this->special=source->special;
     this->tb=source->tb;
-  };
+  }
 
   //******************************************************************
   //                      TSimpleMolecule
@@ -733,10 +733,10 @@ namespace OpenBabel {
     std::ostream * refofs;
     virtual ~TSimpleMolecule() {
       clear();
-    };
+    }
     TSimpleMolecule() {
       refofs = nullptr;
-    };
+    }
 
     int nAtoms();
     int nBonds();
@@ -816,9 +816,9 @@ namespace OpenBabel {
     if (atom->nb > 0) for (i=0; i<atom->nb; i++) {
         n=atom->ac[i];
         if (getAtom(n)->na == 1) result=result+1;
-      };
+      }
     return result;
-  };
+  }
 
   int TSimpleMolecule::singleAtomicDescriptor(int aNumber,int bNumber, bool useEnumerator) {
     //Bond BNumber has to have type=9 or 10
@@ -842,15 +842,15 @@ namespace OpenBabel {
                                                      k=an[j];
                                                      an[j]=an[m];
                                                      an[m]=k;
-                                                   };
+                                                   }
     } else {
       for (j=0; j<(getAtom(aNumber)->nb-1); j++) for (m=j+1; m<getAtom(aNumber)->nb; m++)
                                                    if (an[j] > an[m]) {
                                                      k=an[j];
                                                      an[j]=an[m];
                                                      an[m]=k;
-                                                   };
-    };
+                                                   }
+    }
 
     //  return 1;
 
@@ -858,7 +858,7 @@ namespace OpenBabel {
       k=an[j];
       x[j]=getAtom(k)->rx-getAtom(aNumber)->rx;
       y[j]=getAtom(k)->ry-getAtom(aNumber)->ry;
-    };
+    }
 
     isInvert=true;
     if (getAtom(aNumber)->nb == 4) if (getBond(bNumber)->at[1] != an[3]) {
@@ -867,16 +867,16 @@ namespace OpenBabel {
             k=an[3];
             x[j]=getAtom(k)->rx-getAtom(aNumber)->rx;
             y[j]=getAtom(k)->ry-getAtom(aNumber)->ry;
-          };
-      };
+          }
+      }
     testBad=false;
     for (j=0; j<3; j++) {
       r=sqrt(x[j]*x[j]+y[j]*y[j]);
       if (r == 0) testBad=true; else {
         x[j]=x[j]/r;
         y[j]=y[j]/r;
-      };
-    };
+      }
+    }
 
     //  return 1;
 
@@ -886,7 +886,7 @@ namespace OpenBabel {
         r2=x[0]*x[j+1]+y[0]*y[j+1];     //Cos
         if (r1 < 0) r2=-2-r2;           // 0 degress = +1; Pi/2 degrees = 0; Pi degrees = -1; 3*Pi/2 degrees = -2; 2*Pi degrees = -3
         tn[j]=r2;
-      };
+      }
       rsn=( tn[0] > tn[1]);
       //return 1;
 
@@ -895,10 +895,10 @@ namespace OpenBabel {
       if (getAtom(aNumber)->nb == 4) if (isInvert) rsn=! rsn;
       if (tn[0] != tn[1]) {
         if (rsn) result=1; else result=2;
-      };
-    };
+      }
+    }
     return result;
-  };
+  }
 
 
   void TSimpleMolecule::bondUnitVector(int bn, double& xv, double& yv) {
@@ -984,13 +984,13 @@ namespace OpenBabel {
               for (k=0; k<rs; k++) if (bondList[k] == (*blStore)[j]) {
                   test=true;
                   break;
-                };
+                }
               if (test) m++;
-            };
+            }
             if ((m > 1) && (m < blStore->size())) {
               testOK=false;
-            };
-          };
+            }
+          }
           //center determination
           centerX[nBondNo]=0;
           centerY[nBondNo]=0;
@@ -1000,15 +1000,15 @@ namespace OpenBabel {
             n2=getBond(m)->at[1];
             centerX[nBondNo]=centerX[nBondNo]+getAtom(n1)->rx+getAtom(n2)->rx;
             centerY[nBondNo]=centerY[nBondNo]+getAtom(n1)->ry+getAtom(n2)->ry;
-          };
+          }
           centerX[nBondNo]=centerX[nBondNo]/(2*rs);
           centerY[nBondNo]=centerY[nBondNo]/(2*rs);
           bondNoList[nBondNo]=n;
           nBondNo++;
-        };
-      };// else testBad:=true;
+        }
+      } // else testBad:=true;
       if ((nBondNo == 3) || (testBad)) break;
-    };
+    }
     if (nBondNo < 2) testBad=true;
 
     if ((! testBad) && testOK) {
@@ -1019,14 +1019,14 @@ namespace OpenBabel {
         for (i=0; i<nAtoms(); i++) {
           x=x+getAtom(i)->rx;
           y=y+getAtom(i)->ry;
-        };
+        }
         x=x/nAtoms();
         y=y/nAtoms();
         for (i=0; i<nBondNo; i++) {
           centerX[i]=x;
           centerY[i]=y;
-        };
-      };
+        }
+      }
       for (i=0; i<nBondNo; i++) {
         at=getBond(bondNoList[i])->at[0];
         if (at == an) at=getBond(bondNoList[i])->at[1];
@@ -1043,21 +1043,21 @@ namespace OpenBabel {
             r2=(y*s1+getAtom(an)->ry-centerY[j]);
             s3=sqrt(r1*r1+r2*r2);
             if (s3 < minDist) minDist=s3;
-          };
+          }
           if (minDist > dist) {
             dist=minDist;
             xv=x;
             yv=y;
-          };
-        };
-      };
+          }
+        }
+      }
       if (! testBad) result=true;
-    };
+    }
     //end addition from 16 April 2006
     if (bkExt == nullptr) free(bk);
     delete blStore;
     return result;
-  };
+  }
 
   bool TSimpleMolecule::unitVectorCoincident(int aN, double xV, double yV) {
     bool result=false;
@@ -1073,11 +1073,11 @@ namespace OpenBabel {
         r1=r1/s1;
         r2=r2/s1;
         if ((abs(r1-xV) < 0.1) && (abs(r2-yV) < 0.1)) result=true;
-      };
+      }
       if (result) break;
-    };
+    }
     return result;
-  };
+  }
 
   void TSimpleMolecule::unitVector(int aN, double& xV, double& yV) {
     //For atom's number AN in the array ATOM (the same structure is described with
@@ -1137,7 +1137,7 @@ namespace OpenBabel {
 
         if (threeBondResolve(aN,-1,xV,yV,nullptr)) {
           return;
-        };
+        }
 
         for (i=0; i<3; i++) {
           aT=getAtom(aN)->ac[i];
@@ -1242,7 +1242,7 @@ namespace OpenBabel {
         if (unitVectorCoincident(aN,r1,r2)) {
           r1=xV*r3-yV*r4;
           r2=xV*r4+yV*r3;
-        };
+        }
         if (unitVectorCoincident(aN,r1,r2)) {
           fi=7.5*PI/180.0;
           r3=cos(fi);
@@ -1252,12 +1252,12 @@ namespace OpenBabel {
           if (unitVectorCoincident(aN,r1,r2)) {
             r1=xV*r3-yV*r4;
             r2=xV*r4+yV*r3;
-          };
-        };
+          }
+        }
         xV=r1;
         yV=r2;
-      };
-    };
+      }
+    }
     //Correction of angles, closed to 0, 30, 60, 90 degrees to exact values
     if (getAtom(aN)->nb < 6) for (i=0; i<4; i++) if ((abs(abs(xV)-sc[i])<0.04)
                                                      && (abs(abs(yV)-cc[i]) < 0.04)) {
@@ -1271,7 +1271,7 @@ namespace OpenBabel {
     fAtom.clear();
     for (unsigned int i=0; i<fBond.size(); i++) delete(fBond.at(i));
     fBond.clear();
-  };
+  }
 
   void TSimpleMolecule::setCoordinatesString(string value){
     //set back above prcedure
@@ -1306,7 +1306,7 @@ namespace OpenBabel {
       k=strtol(s.c_str(),nullptr,10);
       sa->ry=(double)k/10000.0;
       addAtom(sa);
-    };
+    }
     s=value.substr(n,2);  //2 symbols - number of bonds
     n=n+2;
     kk=strtol(s.c_str(),nullptr,10);
@@ -1322,13 +1322,13 @@ namespace OpenBabel {
       k=strtol(s.c_str(),nullptr,10);
       sb->at[1]=k-1;
       addBond(sb);
-    };
-  };
+    }
+  }
 
 
   void TSimpleMolecule::addAtom(TSingleAtom * sa){
     fAtom.push_back(sa);
-  };
+  }
 
   void TSimpleMolecule::addAtom(int na, int charge, double rx, double ry) {
     TSingleAtom * sa;
@@ -1338,11 +1338,11 @@ namespace OpenBabel {
     sa->rx=rx;
     sa->ry=ry;
     fAtom.push_back(sa);
-  };
+  }
 
   void TSimpleMolecule::addBond(TSingleBond * sb){
     fBond.push_back(sb);
-  };
+  }
 
   void TSimpleMolecule::addBond(int tb, int at1, int at2){
     TSingleBond * sb;
@@ -1351,7 +1351,7 @@ namespace OpenBabel {
     sb->at[0]=at1;
     sb->at[1]=at2;
     fBond.push_back(sb);
-  };
+  }
 
   void TSimpleMolecule::moleculeCopy(TSimpleMolecule & source) {
     TSingleAtom * sa;
@@ -1361,13 +1361,13 @@ namespace OpenBabel {
     for (int i=0; i<source.nAtoms(); i++) {
       sa=source.getAtom(i);
       fAtom.push_back(sa->clone());
-    };
+    }
     for (int i=0; i<source.nBonds(); i++) {
       sb=source.getBond(i);
       fBond.push_back(sb->clone());
-    };
+    }
     if (refofs == nullptr) refofs=source.refofs;
-  };
+  }
 
   void TSimpleMolecule::deleteBond(int index) {
     std::vector<TSingleBond*> tempBond(nBonds());
@@ -1381,11 +1381,11 @@ namespace OpenBabel {
       } else {
         delete(getBond(i));
         fBond[i]=nullptr;
-      };
+      }
     fBond.resize(n);
     for (i=0; i<n; i++) fBond[i]=tempBond[i];
     tempBond.clear();
-  };
+  }
 
 
   void TSimpleMolecule::deleteAtom(int index) {
@@ -1401,7 +1401,7 @@ namespace OpenBabel {
       } else {
         delete(getAtom(i));
         fAtom[i]=nullptr;
-      };
+      }
     fAtom.resize(n);
     for (i=0; i<n; i++) fAtom[i]=tempAtom[i];
     tempAtom.clear();
@@ -1416,12 +1416,12 @@ namespace OpenBabel {
         if (getBond(i)->at[1] > index) getBond(i)->at[1]=getBond(i)->at[1]-1;
         tempBond[n]=getBond(i);
         n++;
-      };
-    };
+      }
+    }
     fBond.resize(n);
     for (i=0; i<n; i++) fBond[i]=tempBond[i];
     tempBond.clear();
-  };
+  }
 
 
   double TSimpleMolecule::bondLength(int index) {
@@ -1434,7 +1434,7 @@ namespace OpenBabel {
     y=getAtom(k1)->ry-getAtom(k2)->ry;
     result=sqrt(x*x+y*y);
     return result;
-  };
+  }
 
   int TSimpleMolecule::listarSize() { // Probably should be removed and replaced with either nAtoms() or nBonds() as appropriate
     int result=10;  //Minimal vector size 10
@@ -1495,7 +1495,7 @@ namespace OpenBabel {
       sa->rx=(double)rand()/1000.0;
       sa->ry=(double)rand()/1000.0;
       fAtom.push_back(sa);
-    };
+    }
 
     for (i=0; i<nBonds; i++) {
       sb=new TSingleBond();
@@ -1503,7 +1503,7 @@ namespace OpenBabel {
       sb->at[1]=iA2[i];
       sb->tb=1;
       fBond.push_back(sb);
-    };
+    }
     defineAtomConn();
     allAboutCycles();
   };
@@ -1513,7 +1513,7 @@ namespace OpenBabel {
     for (int i=0; i<nAtoms; i++) {
       getAtom(i)->rx=rx[i];
       getAtom(i)->ry=ry[i];
-    };
+    }
   };
 
 
@@ -1527,18 +1527,18 @@ namespace OpenBabel {
     if ((d > 0) && (aveBL>0)) for (i=0; i<nAtoms(); i++) {
         getAtom(i)->rx=getAtom(i)->rx*aveBL/d;
         getAtom(i)->ry=getAtom(i)->ry*aveBL/d;
-      };
+      }
     //Normalizing X and Y coordinates
     xMin=getAtom(0)->rx;
     yMin=getAtom(0)->ry;
     for (i=0; i<nAtoms(); i++) {
       if (getAtom(i)->rx < xMin) xMin=getAtom(i)->rx;
       if (getAtom(i)->ry < yMin) yMin=getAtom(i)->ry;
-    };
+    }
     for (i=0; i< nAtoms(); i++) {
       getAtom(i)->rx=getAtom(i)->rx-xMin+aveBL;
       getAtom(i)->ry=getAtom(i)->ry-yMin+aveBL;
-    };
+    }
   };
 
   void TSimpleMolecule::readOBMol(OBMol * pmol) {
@@ -1579,7 +1579,7 @@ namespace OpenBabel {
       sa->ry=atom->GetY();
       sa->gtd = vGTD.at(i-1);
       fAtom.push_back(sa);
-    };
+    }
     for (i=0; i<nb; i++) {
       bond=pmol->GetBond(i);
       sb=new TSingleBond();
@@ -1596,7 +1596,7 @@ namespace OpenBabel {
           sb->bstereo_refs = config.refs;
       }
       fBond.push_back(sb);
-    };
+    }
 
 
     defineAtomConn();
@@ -1632,7 +1632,7 @@ namespace OpenBabel {
       for (int j=0; j<CONNMAX; j++) {
         getAtom(i)->ac[j]=0;
       }
-    };
+    }
     for (i=0; i<nBonds(); i++) {
       n1=getBond(i)->at[0]; n2=getBond(i)->at[1];
       sa=getAtom(n1);
@@ -1647,7 +1647,7 @@ namespace OpenBabel {
         sa->nb++;
       }
       sa->currvalence=sa->currvalence+getBond(i)->getValence();
-    };
+    }
   };
 
   void TSimpleMolecule::defineBondConn(neighbourlist *bondConnection) {
@@ -1665,7 +1665,7 @@ namespace OpenBabel {
         bondConnection[n2].adjusted[bondConnection[n2].nb]=i;
         bondConnection[n2].nb++;
       }
-    };
+    }
   };
 
   void TSimpleMolecule::newB(neighbourlist * bk, int bnum, int anum, int & total, int * e, int * e1) {
@@ -1681,7 +1681,7 @@ namespace OpenBabel {
         e[total]=n;
         if (getBond(n)->at[0] == anum) e1[total]=getBond(n)->at[1]; else e1[total]=getBond(n)->at[0];
         total++;
-      };
+      }
   };
 
   void TSimpleMolecule::singleVawe(neighbourlist * bk, std::vector<int> & alreadyDefined,
@@ -1716,8 +1716,8 @@ namespace OpenBabel {
             curAtom[ncur]=e1[j];
             ncur++;
             alreadyDefined[e[j]]=prevBond[i];
-          };
-    };
+          }
+    }
     nPrev=ncur;
     for (i=0; i<ncur; i++) prevBond[i]=curBond[i];
     for (i=0; i<ncur; i++) prevAtom[i]=curAtom[i];
@@ -1758,15 +1758,15 @@ namespace OpenBabel {
       if (nP>0) for (j=0; j<nP; j++) if (pA[j] == aA) {
             test=true;
             k=pB[j];
-          };
-    }; //recursion finishing
+          }
+    } //recursion finishing
     if (test) {                    //bond belongs to ring
       bondList.resize(ringSize);
       bondList[ringSize-1]=bondN;         //bond BONDN must be last in the list
       for (j=1; j<ringSize; j++) {        //BONDLIST formation
         bondList[j-1]=k;
         k=oD[k];
-      };
+      }
       //Sorting remaining bonds in ascending order - need for cycle comparison
       k=2;                   //all bonds are sorted
       //remains last bond in cycle description=bondN (input parameter)
@@ -1776,8 +1776,8 @@ namespace OpenBabel {
           if (i1 > i2) {
             bondList[i]=i2;
             bondList[j]=i1;
-          };
-        };
+          }
+        }
     } else ringSize=0;
   };
 
@@ -1810,7 +1810,7 @@ namespace OpenBabel {
           n=n+1;                 //number of double or aromatic bonds calculation}
           doubleDetected[i]=1;
         } else return result;
-    };
+    }
     if (cycleSize==6) {     //6-membered ring}
       if (n>=3) {
         result=true;
@@ -1821,12 +1821,12 @@ namespace OpenBabel {
                     || (getBond(bondList[i])->at[1] == getBond(bondList[j])->at[0]) || (getBond(bondList[i])->at[1] == getBond(bondList[j])->at[1]);
                   if (test) result=false;
                   if (! result) break;
-                };
+                }
               if (! result) break;
-            };
-      };
+            }
+      }
       return result;
-    };
+    }
 
     if (n<2) return result;        //5-membered ring
     m=0;
@@ -1835,7 +1835,7 @@ namespace OpenBabel {
         m++;
         atomDetected[m]=getBond(bondList[i])->at[1];
         m++;
-      };
+      }
     n=-1;
     if (m>0) for (i=0; i<(m-1); i++) for (j=i+1; j<m; j++) if (atomDetected[i]==atomDetected[j]) n=i;
     //Addition from January 2001
@@ -1843,18 +1843,18 @@ namespace OpenBabel {
       n1=-1;
       for (i=0; i<(m-1); i++) if (i != n) for (j=i+1; j<m; j++) if (atomDetected[i]==atomDetected[j]) n1=i;
       if (n1>=0) return result;
-    };
+    }
     if (n < 0) {   //No common atoms...
       result=m==4;
       return result;
-    };
+    }
     test=false;
     i=0;
     j=getAtom(atomDetected[n])->na;
     for (i=0; i<NAROMMAX; i++) if (j == possibleAromatic[i]) {
         test=true;
         break;
-      };
+      }
     if (! test) test=(j==6) && (getAtom(atomDetected[n])->nc < 0);
     //cyclopentadienyl checking}
     result=test;
@@ -1899,12 +1899,12 @@ namespace OpenBabel {
           if (aromatic(cycleSize,bondList,ar)) {       //store, if aromatic cycle}
             ar1[n-1]=1;
             for (j=0; j<cycleSize; j++) ar[bondList[j]]=1;
-          };
+          }
           for (j=0; j<cycleSize; j++) bondTested[bondList[j]]=1;
           //marking all bonds in the cycle}
-        };
+        }
         bondTested[i]=1;                                //marking I-th bond
-      };
+      }
     if (n>0) {
       j=1;
       while (j != 0) {
@@ -1916,26 +1916,26 @@ namespace OpenBabel {
               j++;
               ar1[i]=1;
               for (k=0; k<cycleSize; k++) ar[bondList[k]]=1;
-            };
-          };
-      }; //until J=0;          {until new aromatics are not detected under iteration}
+            }
+          }
+      } //until J=0;          {until new aromatics are not detected under iteration}
       for (i=0; i<n; i++) if (ar1[i]==0) {       //Label of non-aromatic cycles in BOND
           bondList=cycleDescription[i];
           cycleSize=bondList.size();
           for (j=0; j<cycleSize; j++) {
             k=cycleSize+1;
             if ((getBond(bondList[j])->db==0) || (k<getBond(bondList[j])->db)) getBond(bondList[j])->db=k;
-          };
-        };
+          }
+        }
       for (i=0; i<n; i++) if (ar1[i]==1)  {     //Label of aromatic cycle in BOND
           bondList=cycleDescription[i];
           cycleSize=bondList.size();
           for (j=0; j<cycleSize; j++) {
             if (cycleSize==5) getBond(bondList[j])->db=2;
             if ((cycleSize==6) && (getBond(bondList[j])->db != 2)) getBond(bondList[j])->db=3;
-          };
-        };
-    };
+          }
+        }
+    }
     free(bk);
   };
 
@@ -1967,7 +1967,7 @@ namespace OpenBabel {
       xv=1;
       yv=1;
       return;
-    };
+    }
     s1=getAtom(na1)->rx;
     s2=getAtom(na1)->ry;
     s3=getAtom(na2)->rx;
@@ -1984,8 +1984,8 @@ namespace OpenBabel {
           y1=getAtom(k)->ry-s2;
           y2=x1*r2-y1*r1;
           if (y2 != 0) si=si+y2/abs(y2);
-        };
-    };
+        }
+    }
     for (i=0; i<getAtom(na2)->nb; i++) {
       k=getAtom(na2)->ac[i];
       if (k != na1) if (atomDefine[k] > 0) {
@@ -1993,8 +1993,8 @@ namespace OpenBabel {
           y1=getAtom(k)->ry-s4;
           y2=x1*r2-y1*r1;
           if (y2 != 0) si=si+y2/abs(y2);
-        };
-    };
+        }
+    }
     if (si != 0) si=si/abs(si); else si=1;
     xv=-r2*si; yv=r1*si;
   };
@@ -2027,12 +2027,12 @@ namespace OpenBabel {
           } else if ((maxAtDef > 0) && (atDef==maxAtDef)) {
             //         {search for minimal cycle size}
             if (atomCycle[i].size()<atomCycle[cN].size()) cN=i;
-          };
-        };
+          }
+        }
       if (cN>=0) if (maxAtDef==atomCycle[cN].size()) {
           cycleDefine[cN]=1;
           cN=-1;
-        };
+        }
 
       //          {CN-number of selected cycle with max.number of atoms, already defined, or with minimal size}
       if (cN>=0) {
@@ -2048,7 +2048,7 @@ namespace OpenBabel {
           atomCycle[cN][atomCycle[cN].size() - 1]=aA;
           test=(atomDefine[atomCycle[cN][0]]>0) &&
             (atomDefine[atomCycle[cN][atomCycle[cN].size() - 1]]==0);
-        };
+        }
         //        {now first atom in the cycle definition list must be inserted into the priority list early, and the last atom-no}
         for (j=0;currNumDef < atomClean && j<atomCycle[cN].size()-maxAtDef; j++) {
           //          for each undefined atom from selected cycle}
@@ -2074,11 +2074,11 @@ namespace OpenBabel {
           dsSC.setValue(currNumDef.value,cycleSize.getValue(cN)-maxAtDef);
           currNumDef.value=currNumDef.value+1;
           */
-        };
-      };
+        }
+      }
       test=(cN<0) || (currNumDef==atomClean);
       test=! test;
-    };
+    }
   };
 
   void TSimpleMolecule::defA(int& currNumDef, int atomClean, int sPN, int baseCycle, std::vector<int>& atomDefine, const std::vector<int> listAtomClean,
@@ -2110,8 +2110,8 @@ namespace OpenBabel {
                                         //only one atom is added into priority list, then it is necessary to
                                         // analyze cycles by DEFC procedure!}
                                         return;
-                                      };
-                                    };
+                                      }
+                                    }
     if ((sPN<3) || (sPN==4)) {   //{next may not be implemented to CleanGroup command}
       //{initializing priority list for clean of a new fragment}
       rC=0;
@@ -2120,13 +2120,13 @@ namespace OpenBabel {
       if (baseCycle>0) for (i=0; i<baseCycle; i++) if (cycleDefine[i]==0) if (atomCycle[i].size()<j) {
               rC=i;
               j=atomCycle[i].size();
-            };
+            }
       if (rC>0) i=atomCycle[rC][0]; else {
         //        {not found-first undefined atom is selected}
         i=0;
         while (atomDefine[listAtomClean[i]] != 0) i++;
         i=listAtomClean[i];
-      };
+      }
     } else i=listAtomClean[atomClean-1];
     //for group-first atom, from which group started, is selected}
     dsATN[currNumDef]=i;
@@ -2152,8 +2152,8 @@ namespace OpenBabel {
       if (bondList[i]<n) {  //minimal bond number
         n=bondList[i];
         m=i;
-      };
-    };
+      }
+    }
     currentAtom=getBond(n)->at[0];
     if (getBond(n)->at[1] > currentAtom) currentAtom=getBond(n)->at[1];
     newBondList[0]=n;
@@ -2168,9 +2168,9 @@ namespace OpenBabel {
             n++;
             if (getBond(m)->at[0] == currentAtom) currentAtom=getBond(m)->at[1]; else currentAtom=getBond(m)->at[0];
             break;
-          };
-        };
-    };
+          }
+        }
+    }
     //copy new set
     for (i=0; i<ringSize; i++)bondList[i]=newBondList[i];
   };
@@ -2253,15 +2253,15 @@ namespace OpenBabel {
             for (k=0; k<cycleDescription[j].size(); k++) if (bondList[k] != cycleDescription[j][k]) {
                 test=false;
                 break;
-              };
+              }
             if (test) break;
-          };
+          }
         if (! test) {     //{not found-the cycle is added to cycle's list}
           baseCycle++;
           cycleDescription.push_back(bondList);
-        };
-      };
-    };
+        }
+      }
+    }
 
     std::vector<std::vector<int> > atomCycle(cycleDescription.size());
     std::vector<int> cycleDefine(cycleDescription.size());
@@ -2278,8 +2278,8 @@ namespace OpenBabel {
         k=cycleDescription[i][j];
         if (getBond(k)->at[0]==n) atomCycle[i].push_back(getBond(k)->at[1]); else atomCycle[i].push_back(getBond(k)->at[0]);
         n=atomCycle[i][j];
-      };
-    };
+      }
+    }
 
     //calculation of the coordinates of fragment's center and scaling factor}
 
@@ -2292,19 +2292,19 @@ namespace OpenBabel {
         for (i=0; i<atomClean; i++) {
           k=listAtomClean[i];
           tempAtomArray[k]=1;
-        };
+        }
         n=0;
         for (i=0; i<nAtoms(); i++) if (tempAtomArray[i]==0) {
             xCenterOld=xCenterOld+getAtom(i)->rx;
             yCenterOld=yCenterOld+getAtom(i)->ry;
             n++;
-          };
+          }
         xCenterOld=xCenterOld/(double)n; yCenterOld=yCenterOld/(double)n;
         vector<int> tempBondArray(nBonds(), 0);
         for (i=0; i<bondClean; i++) {
           k=listBondClean[i];
           tempBondArray[k]=1;
-        };
+        }
         n=0;
         bondLengthOld=1E10;
         r1=0;
@@ -2313,7 +2313,7 @@ namespace OpenBabel {
             if (r < bondLengthOld) bondLengthOld=r;
             r1=r1+r;
             n++;
-          };
+          }
         r1=r1/n;
         if (5*bondLengthOld < r1) bondLengthOld=r1;
       } else {
@@ -2321,14 +2321,14 @@ namespace OpenBabel {
           k=listAtomClean[i];
           xCenterOld=xCenterOld+getAtom(k)->rx;
           yCenterOld=yCenterOld+getAtom(k)->ry;
-        };
+        }
         xCenterOld=xCenterOld/(double)atomClean; yCenterOld=yCenterOld/(double)atomClean;
         for (i=0; i<bondClean; i++) {
           k=listBondClean[i];
           bondLengthOld=bondLengthOld+this->bondLength(k);
-        };
+        }
         bondLengthOld=bondLengthOld/(double)bondClean;
-      };
+      }
       if (bondLengthOld<0.01) bondLengthOld=1;
     } else {
 
@@ -2339,7 +2339,7 @@ namespace OpenBabel {
       if (ly == sCHA1) {
         lx=getBond(sCHB1)->at[1];
         ly=getBond(sCHB1)->at[0];
-      };
+      }
       atomSecond=ly;
       //for group it is necessary to calculate unit vector direction
       uvX=getAtom(ly)->rx-getAtom(lx)->rx;
@@ -2349,7 +2349,7 @@ namespace OpenBabel {
       uvX=uvX/bondLengthOld;
       uvY=uvY/bondLengthOld;
 
-    };
+    }
 
     std::vector<int> atomDefine(nAtoms(), 0); //flags-zero value OK
     if ((spn<3) || (spn==4)) {     //checking already cleaned atoms...
@@ -2357,14 +2357,14 @@ namespace OpenBabel {
       for (i=0; i<atomClean; i++) {
         k=listAtomClean[i];
         atomDefine[k]=0;
-      };
-    };
+      }
+    }
     currNumDef=0;
     while (currNumDef<atomClean) {
       //start recursion-priority list formation}
       defC(currNumDef,baseCycle,atomClean,cycleDefine,atomDefine,atomCycle,dsATN,dsTP,dsSC,dsNA1,dsNA2);
       defA(currNumDef,atomClean,spn,baseCycle,atomDefine,listAtomClean,cycleDefine,atomCycle,dsATN,dsTP,dsNA1,dsNA2);
-    }; //end recursion}
+    } //end recursion}
 
     for (i=0; i<nAtoms(); i++) atomDefine[i]=0;
 
@@ -2373,12 +2373,12 @@ namespace OpenBabel {
       for (i=0; i<atomClean; i++) {
         k=listAtomClean[i];
         atomDefine[k]=0;
-      };
+      }
       for (i=0; i<nAtoms(); i++) if (atomDefine[i]==1) {
           getAtom(i)->rx=(xCenterOld+(getAtom(i)->rx-xCenterOld)/bondLengthOld);
           getAtom(i)->ry=(yCenterOld+(getAtom(i)->ry-yCenterOld)/bondLengthOld);
-        };
-    };
+        }
+    }
 
     i=0;
 
@@ -2409,8 +2409,8 @@ namespace OpenBabel {
                 if (dsTP[i]==1) for (l=0; l<getAtom(k2)->nb; l++) if (atomDefine[getAtom(k2)->ac[l]]>0) {
                       ux1=ux1+(getAtom(k2)->rx-getAtom(getAtom(k2)->ac[l])->rx);
                       uy1=uy1+(getAtom(k2)->ry-getAtom(getAtom(k2)->ac[l])->rx);
-                    };
-              };
+                    }
+              }
             if (dsTP[i]==1) {     //chain fragment
               if ((abs(ux) <= 0.00001) && (abs(uy) <= 0.00001)) {
                 bnEx=-1;
@@ -2420,13 +2420,13 @@ namespace OpenBabel {
                   if (n1 == k1) n1=getBond(n)->at[1];
                   if (n1 == dsATN[i]) bnEx=n;
                   if (bnEx >= 0) break;
-                };
+                }
                 test= (bnEx >= 0);
                 if (test) test=threeBondResolve(k1,bnEx,ux,uy,bk);
                 if (! test) {
                   ux=ux1; uy=uy1;
-                };
-              };
+                }
+              }
 
               if ((ux==0) && (uy==0)) ux=1;
               fi=(k-nb-1)*PI/(double)k;
@@ -2439,13 +2439,13 @@ namespace OpenBabel {
                     mAny=n1;
                     if (getAtom(n1)->nb == 1) n++; else {
                       if (mm1 == -1) mm1=n1; else mm2=n1;
-                    };
-                  };
-                };
+                    }
+                  }
+                }
               if ((mm1 == -1) && (n == 3)) {
                 mm1=mAny;
                 n--;
-              };
+              }
               isChainFour=(n == 2) && (mm1 >= 0);
               //End addition
               isCycle=false;
@@ -2457,10 +2457,10 @@ namespace OpenBabel {
                     n1=getBond(k2)->at[0];
                     if (n1 == k1) n1=getBond(k2)->at[1];
                     if (atomDefine[n1] != 0) n++;
-                  };
-                };
+                  }
+                }
                 isCycle=(n == 2);
-              };
+              }
               if (isChainFour) {
                 n=0;
                 fi=PI/3;
@@ -2469,7 +2469,7 @@ namespace OpenBabel {
                 cf=sqrt(ux1*ux1+uy1*uy1);
                 if (cf != 0) {
                   ux1=ux1/cf; uy1=uy1/cf;
-                };
+                }
                 getAtom(mm1)->rx=getAtom(k1)->rx+ux1; //coordinates
                 getAtom(mm1)->ry=getAtom(k1)->ry+uy1;
                 atomDefine[mm1]=1;
@@ -2480,17 +2480,17 @@ namespace OpenBabel {
                   cf=sqrt(ux1*ux1+uy1*uy1);
                   if (cf != 0) {
                     ux1=ux1/cf; uy1=uy1/cf;
-                  };
+                  }
                   getAtom(mm2)->rx=getAtom(k1)->rx+ux1; //coordinates
                   getAtom(mm2)->ry=getAtom(k1)->ry+uy1; //coordinates
                   atomDefine[mm2]=1;
-                };
+                }
                 ux=0; uy=0;  //New cosines....
                 for (j=0; j<getAtom(k1)->nb; j++) if (atomDefine[getAtom(k1)->ac[j]] > 0) {
                     k2=getAtom(k1)->ac[j];
                     ux=ux+(getAtom(k1)->rx-getAtom(k2)->rx);
                     uy=uy+(getAtom(k1)->ry-getAtom(k2)->ry);
-                  };
+                  }
                 fi=PI/6;
                 for (j=0; j<getAtom(k1)->nb; j++) {
                   n1=getAtom(k1)->ac[j];
@@ -2500,13 +2500,13 @@ namespace OpenBabel {
                     cf=sqrt(ux1*ux1+uy1*uy1);
                     if (cf != 0) {
                       ux1=ux1/cf; uy1=uy1/cf;
-                    };
+                    }
                     getAtom(n1)->rx=getAtom(k1)->rx+ux1; //coordinates}
                     getAtom(n1)->ry=getAtom(k1)->ry+uy1; //coordinates}
                     fi=-fi;
                     atomDefine[n1]=1;
-                  };
-                };
+                  }
+                }
               } else if (isCycle) {
                 if (k == 4) fi=PI/6; else fi=PI/3;
                 ux1= ux*cos(fi)+uy*sin(fi);
@@ -2514,7 +2514,7 @@ namespace OpenBabel {
                 cf=sqrt(ux1*ux1+uy1*uy1);
                 if (cf != 0) {
                   ux1=ux1/cf; uy1=uy1/cf;
-                };
+                }
                 getAtom(dsATN[i])->rx=getAtom(k1)->rx+ux1; //coordinates
                 getAtom(dsATN[i])->ry=getAtom(k1)->ry+uy1; //coordinates
                 atomDefine[dsATN[i]]=1;
@@ -2525,13 +2525,13 @@ namespace OpenBabel {
                     uy1=ux*sin(fi)+uy*cos(fi);
                     if (cf != 0) {
                       ux1=ux1/cf; uy1=uy1/cf;
-                    };
+                    }
                     getAtom(k2)->rx=getAtom(k1)->rx+ux1;
                     getAtom(k2)->ry=getAtom(k1)->ry+uy1;
                     fi=0;
                     atomDefine[k2]=1;
-                  };
-                };
+                  }
+                }
               } else {
 
                 if (bk[dsNA1[i]].nb == 2) {  //two-connected fragment
@@ -2541,31 +2541,31 @@ namespace OpenBabel {
                   if ((getBond(n1)->tb == 3) || (getBond(n2)->tb == 3)) k=3; else
                     if ((getBond(n1)->tb == 2) && (getBond(n2)->tb == 2)) {
                       if (getAtom(dsNA1[i])->na == 6) k=3;
-                    };
-                };
+                    }
+                }
                 //Two-conncted fragment like pyrophosphate
                 if ((k== 2) && (getAtom(dsNA1[i])->na != 6)) {
                   n1=getAtom(dsNA1[i])->ac[0];
                   n2=getAtom(dsNA1[i])->ac[1];
                   if ((getAtom(n1)->nb >= 4) && (getAtom(n2)->nb >= 4) && (getAtom(n1)->na != 6) && (getAtom(n2)->na != 6)) k=3;
-                };
+                }
                 //End pyrophosphate
                 if (k==2) { //120 degrees fragment}
                   if ((ux1==0) && (uy1==0)) ux1=1;
                   fi=PI/3;
                   cf=uy*ux1-ux*uy1;
                   if (cf != 0) fi=fi*cf/abs(cf);
-                };
+                }
                 ux1=ux*cos(fi)+uy*sin(fi);
                 uy1=-ux*sin(fi)+uy*cos(fi);
                 cf=sqrt(ux1*ux1+uy1*uy1);
                 if (cf != 0) {
                   ux1=ux1/cf; uy1=uy1/cf;
-                };
+                }
                 getAtom(dsATN[i])->rx=getAtom(k1)->rx+ux1; //coordinates
                 getAtom(dsATN[i])->ry=getAtom(k1)->ry+uy1; //coordinates
                 atomDefine[dsATN[i]]=1;
-              };
+              }
             } else {                   //cyclic fragment}
 
               if ((ux==0) && (uy==0)) ux=1;
@@ -2575,7 +2575,7 @@ namespace OpenBabel {
               cf=sqrt(ux1*ux1+uy1*uy1);
               if (cf != 0) {
                 ux1=ux1/cf; uy1=uy1/cf;
-              };
+              }
               nb=dsSC[i];
               cs=nb+1;
               cf=1/(2*sin(PI/(double)cs));
@@ -2590,10 +2590,10 @@ namespace OpenBabel {
                 getAtom(dsATN[i+j-0])->rx=ux+ux1*cos((j+1)*fi)+uy1*sin((j+1)*fi);
                 getAtom(dsATN[i+j-0])->ry=uy-ux1*sin((j+1)*fi)+uy1*cos((j+1)*fi);
                 atomDefine[dsATN[i+j-0]]=1;
-              };
+              }
 
               i=i+nb-1;
-            };
+            }
             break;
           } else break;
         case 3:
@@ -2617,7 +2617,7 @@ namespace OpenBabel {
             cf=r/(2*sin(PI*(nb+1)/(double)cs));
             r=r/2.0;
             cf=sqrt(cf*cf-r*r);
-          };
+          }
           ux=(getAtom(dsNA1[i])->rx+getAtom(dsNA2[i])->rx)/2.0+ux*cf;
           uy=(getAtom(dsNA1[i])->ry+getAtom(dsNA2[i])->ry)/2.0+uy*cf;
           ux1=getAtom(dsNA1[i])->rx-ux;
@@ -2647,7 +2647,7 @@ namespace OpenBabel {
     for (i=0; i<atomClean; i++) {
       xCenterNew=xCenterNew+getAtom(listAtomClean[i])->rx;
       yCenterNew=yCenterNew+getAtom(listAtomClean[i])->ry;
-    };
+    }
     xCenterNew=xCenterNew/(double)atomClean; yCenterNew=yCenterNew/(double)atomClean;
     bondLengthNew=0.15*bondLengthOld;
     //IOPT[7]-controlles, whether or not the atom's shifts should be created, if coordinates of pair of atoms are identical
@@ -2665,15 +2665,15 @@ namespace OpenBabel {
         uy1=getAtom(listAtomClean[i])->ry-yCenterNew;
         getAtom(listAtomClean[i])->rx=c*ux1-s*uy1;
         getAtom(listAtomClean[i])->ry=s*ux1+c*uy1;
-      };
+      }
       xCenterNew=0;
       yCenterNew=0;
 
-    };
+    }
     if (spn != 4) for (i=0; i<atomClean; i++) {   //New screen coordinates
         getAtom(listAtomClean[i])->rx=getAtom(listAtomClean[i])->rx-xCenterNew+xCenterOld;
         getAtom(listAtomClean[i])->ry=getAtom(listAtomClean[i])->ry-yCenterNew+yCenterOld;
-      };
+      }
     // Tidy up
     free(bk);
   };
@@ -2702,7 +2702,7 @@ namespace OpenBabel {
       snprintf(buff, BUFF_SIZE, "%10.4f%10.4f%10.4f %-3s%2d%3d%3d%3d%3d",
                sa->rx, sa->ry, 0.0, (aSymb[sa->na]).c_str(), 0,charge,0,0,0);
       data << buff << endl;
-    };
+    }
     for (int i=0; i<nBonds(); i++) {
       sb=getBond(i);
       bondType=sb->tb;
@@ -2716,10 +2716,10 @@ namespace OpenBabel {
       } else if (bondType == 11) {
         bondType=1;
         stereoType=4;
-      };
+      }
       snprintf(buff, BUFF_SIZE, "%3d%3d%3d%3d%3d%3d",(sb->at[0]+1), (sb->at[1]+1), bondType, stereoType, 0, 0);
       data << buff << endl;
-    };
+    }
   };
 
   //*******************************************************************************
@@ -2743,7 +2743,7 @@ namespace OpenBabel {
         d=rr*sqrt(x2*x2+y2*y2);
         if (d == 0) r=0; else r=(x1*x2+y1*y2)/d;
         if (r > 0) result=result+r;
-      };
+      }
     return result;
   };
 
@@ -2759,7 +2759,7 @@ namespace OpenBabel {
     } else {
       yMin=y2;
       yMax=y1;
-    };
+    }
     xx=x1-x2;
     yy=y1-y2;
     r1=sqrt(xx*xx+yy*yy);
@@ -2768,7 +2768,7 @@ namespace OpenBabel {
     if (abs(d) < 1E-8) {
       result=1E9;
       return result;
-    };
+    }
     if ((y0 > yMin) && (y0 < yMax)) {
       r=x1+(y0-y1)*(x2-x1)/d;
       if (x1 > x2) {
@@ -2777,7 +2777,7 @@ namespace OpenBabel {
       } else {
         xMin=x1;
         xMax=x2;
-      };
+      }
       xMin=xMin-0.1*r1;
       xMax=xMax+0.1*r1;
       if (r < xMin) r=xMin;
@@ -2804,8 +2804,8 @@ namespace OpenBabel {
       if (r < 0) {
         a1=-a1;
         cY=-cY;
-      };
-    };
+      }
+    }
     r=x2A-x1A;
     if (abs(r) > 1E-9) {
       b1=1/r;
@@ -2816,8 +2816,8 @@ namespace OpenBabel {
       if (r < 0) {
         b1=-b1;
         cX=-cX;
-      };
-    };
+      }
+    }
     b1=-b1;
     c1=cX+cY;
     r=y2B-y1B;
@@ -2830,8 +2830,8 @@ namespace OpenBabel {
       if (r < 0) {
         a2=-a2;
         cY=-cY;
-      };
-    };
+      }
+    }
     r=x2B-x1B;
     if (abs(r) > 1E-9) {
       b2=1/r;
@@ -2842,8 +2842,8 @@ namespace OpenBabel {
       if (r < 0) {
         b2=-b2;
         cX=-cX;
-      };
-    };
+      }
+    }
     b2=-b2;
     c2=cX+cY;
     r1=b1*c2-b2*c1;
@@ -2851,27 +2851,27 @@ namespace OpenBabel {
     if (abs(r2) > 1E-9) y=r1/r2; else {
       y=1E9;
       if (r1 < 0) y=-y;
-    };
+    }
     r1=c1*a2-c2*a1;
     r2=a1*b2-a2*b1;
     if (abs(r2) > 1E-9) x=r1/r2; else {
       x=1E9;
       if (r1 < 0) x=-x;
-    };
+    }
     if (x1A < x2A) {
       xMin=x1A;
       xMax=x2A;
     } else {
       xMin=x2A;
       xMax=x1A;
-    };
+    }
     if (y1A < y2A) {
       yMin=y1A;
       yMax=y2A;
     } else {
       yMin=y2A;
       yMax=y1A;
-    };
+    }
     xMin=xMin-delta;
     xMax=xMax+delta;
     yMin=yMin-delta;
@@ -2884,20 +2884,20 @@ namespace OpenBabel {
       } else {
         xMin=x2B;
         xMax=x1B;
-      };
+      }
       if (y1B < y2B) {
         yMin=y1B;
         yMax=y2B;
       } else {
         yMin=y2B;
         yMax=y1B;
-      };
+      }
       xMin=xMin-delta;
       xMax=xMax+delta;
       yMin=yMin-delta;
       yMax=yMax+delta;
       result=((x >= xMin) && (x <= xMax) && (y >= yMin) && (y <= yMax));
-    };
+    }
     if (! result) result=(abs(xDistPoint(x1A,y1A,x2A,y2A,x1B,y1B)) < delta);
     if (! result) result=(abs(xDistPoint(x1A,y1A,x2A,y2A,x2B,y2B)) < delta);
     if (! result) result=(abs(xDistPoint(x1B,y1B,x2B,y2B,x1A,y1A)) < delta);
@@ -2942,8 +2942,8 @@ namespace OpenBabel {
         if (! test) if (bondsOverlapped(i,j,delta)) {
             result++;
             if (findFirst) return result;
-          };
-      };
+          }
+      }
     for (i=0; i<(nAtoms()-1); i++) for (j=i+1; j<nAtoms(); j++) {
         xx=getAtom(i)->rx-getAtom(j)->rx;
         yy=getAtom(i)->ry-getAtom(j)->ry;
@@ -2951,8 +2951,8 @@ namespace OpenBabel {
         if (r < (2*delta)) {
           result++;
           if (findFirst) return result;
-        };
-      };
+        }
+      }
     return result;
   };
 
@@ -3004,8 +3004,8 @@ namespace OpenBabel {
         yn=xc*yo-yc*xo;
         getAtom(n)->rx=getAtom(cHA1)->rx+xn;
         getAtom(n)->ry=getAtom(cHA1)->ry+yn;
-      };
-    };
+      }
+    }
   };
 
   void TSimpleMolecule::bondEnlarge(int bN) {
@@ -3025,7 +3025,7 @@ namespace OpenBabel {
     } else {
       cH1=getBond(bN)->at[1];
       cH2=getBond(bN)->at[0];
-    };
+    }
     xc=getAtom(cH1)->rx-getAtom(cH2)->rx;
     yc=getAtom(cH1)->ry-getAtom(cH2)->ry;
     r=sqrt(xc*xc+yc*yc);
@@ -3038,7 +3038,7 @@ namespace OpenBabel {
       n=list[i];
       getAtom(n)->rx=getAtom(n)->rx+xc1+r*xc;
       getAtom(n)->ry=getAtom(n)->ry+yc1+r*yc;
-    };
+    }
   };
 
   int sproduct(TSimpleMolecule & sm, int br, int i1, int i2) {
@@ -3062,20 +3062,20 @@ namespace OpenBabel {
       crAN[2]=sm.getBond(i1)->at[0];
     } else {
       crAN[2]=sm.getBond(i1)->at[1];
-    };
+    }
     if ((sm.getBond(i2)->at[0] != crAN[0]) && (sm.getBond(i2)->at[0] != crAN[1])) {
       crAN[3]=sm.getBond(i2)->at[0];
     } else {
       crAN[3]=sm.getBond(i2)->at[1];
-    };
+    }
     for (i=0; i<4; i++) {
       crRx[i]=sm.getAtom(crAN[i])->rx;
       crRy[i]=sm.getAtom(crAN[i])->ry;
-    };
+    }
     for (i=1; i<4; i++) {
       crRx[i]=crRx[i]-crRx[0];
       crRy[i]=crRy[i]-crRy[0];
-    };
+    }
     l1=crRx[1]*crRy[2]-crRy[1]*crRx[2];
     l2=crRx[1]*crRy[3]-crRy[1]*crRx[3];
     if ((l1 == 0) || (l2 == 0)) return result;
@@ -3146,7 +3146,7 @@ namespace OpenBabel {
     for (i=0; i<l1->size(); i++) if ((*l1)[i] != (*l2)[i]) {
         result=false;
         break;
-      };
+      }
     return result;
   };
 
@@ -3178,7 +3178,7 @@ namespace OpenBabel {
       aDist[i]=65700;
       atomoBond[i]=0;
       for (j=0; j<3; j++) (*aPrev[j])[i]=-1;
-    };
+    }
     for (i=0; i<sphere; i++) wSphere[i]=0;
     aDist[att]=0;
     k=0;
@@ -3205,19 +3205,19 @@ namespace OpenBabel {
                   if (((*aPrev[jj-1])[i2] == -1) || (jj == 3)) {
                     (*aPrev[jj-1])[i2]=i1;
                     break;
-                  };
-                };
+                  }
+                }
                 w2=a[i2];
                 w2=w2 << 6;
                 w2=w2+b[i3];
                 w2=w2 ^ atomoBond[i2];  //atomoBond[I2]:=AtomoBond[I2] xor W2; !!!!!!!
                 atomoBond[i2]=w2;
-              };
-            };
-        };
+              }
+            }
+        }
       if (secAt < 0) testOK=(k==sphere); else testOK=((k>=sphere) && (aDist[secAt] < 65700));
       if (testOK) test=false;
-    }; //end WHILE
+    } //end WHILE
     // At this point I have sphere numbers in Adist, corresponding AtomoBond word, number of atom(s), from
     //which the desirable atom were generated
 
@@ -3227,7 +3227,7 @@ namespace OpenBabel {
       for (i=0; i<nAtoms(); i++) if (aDist[i] == i1) {
           aList[n]=i;
           n++;
-        };
+        }
       if (n > 0) {
         i2=0;
         for (i=0; i<n; i++) {
@@ -3237,12 +3237,12 @@ namespace OpenBabel {
               tl2=tl2 << 9;
               tl1=tl1 ^ tl2;
               ab[aList[i]]=tl1;
-            };
-        };
+            }
+        }
         //Sorting
         if (n > 1) for (i=0; i<(n-1); i++) for (j=i+1; j<n; j++) if (ab[aList[i]] < ab[aList[j]]) {
                 i2=aList[i]; aList[i]=aList[j]; aList[j]=i2;
-              };
+              }
         if (n > 1) i2=15/(n-1);
         l2=ab[aList[0]];
         if (n > 1) for (i=1; i<n; i++) {
@@ -3251,14 +3251,14 @@ namespace OpenBabel {
             // fingerprint hash, so wraparound is the desired behavior.
             l3=static_cast<int>(static_cast<unsigned int>(l3) << (i*i2));
             l2=l2 ^ l3;
-          };
+          }
         l3=0;
         for (i=0; i<n; i++) l3=l3+getAtom(aList[i])->nc;
         if (l3 != 0) l2=-l2;
         for (i=0; i<n; i++) l2=l2 + a[aList[i]];  //Addition from 04.04.94}
         wSphere[i1-1]=l2;
       } else wSphere[i1-1]=0;
-    };
+    }
     if ((secAt == -1) || (secAt == 65700)) result=0; else result=a[secAt];
     //freeing resources
     for (j=0; j<3; j++) delete(aPrev[j]);
@@ -3290,12 +3290,12 @@ namespace OpenBabel {
         em->getAtom(i)->nv=4;
         em->getAtom(i)->rl=6;
         em->getAtom(i)->nc=0;
-      };
+      }
       for (i=0; i<em->nBonds(); i++) em->getBond(i)->tb=1;
       em->defineAtomConn();
     } else {
       for (i=0; i<em->nBonds(); i++) if ((em->getBond(i)->tb >= 9) && (em->getBond(i)->tb <= 11)) em->getBond(i)->tb=1;
-    };
+    }
     bk=(neighbourlist *)calloc(nAtoms(), sizeof(adjustedlist));
     em->defineBondConn(bk);
     //
@@ -3306,7 +3306,7 @@ namespace OpenBabel {
       for (j=0; j<lL->size(); j++) (*lL)[i]=0;
       em->fragmentSecond(em->nAtoms(),i,-1,a,b,bk,*lL);
       aeqList.push_back(lL);
-    };
+    }
     equivalenceList.resize(em->nAtoms());
 
 
@@ -3318,7 +3318,7 @@ namespace OpenBabel {
         if (i < (em->nAtoms()-1)) for (j=i+1; j<em->nAtoms(); j++) if (equivalenceList[j] == 0) {
               if (compareAtoms(j,i,aeqList)) equivalenceList[j]=n;
             }
-      };
+      }
 
     //freeing resorces
     for (int i=0; i<aeqList.size(); i++) delete(aeqList.at(i));
@@ -3463,11 +3463,11 @@ namespace OpenBabel {
             }
           }
           test=incrementValues(currentValues,maxValues);
-        };// (k=0) or (not test);
+        } // (k=0) or (not test);
         moleculeCopy(*bestStore);
         result=k;
-      };
-    };
+      }
+    }
     if (result>0) { //Bond enlarge....]
       k=hasOverlapped(r,false);
       n=1;
@@ -3480,21 +3480,21 @@ namespace OpenBabel {
             if (kk < k) {
               k=kk;
               n=i;
-            };
+            }
             smCopy->flipSmall(i);
             kk=smCopy->hasOverlapped(r,false);
             if (kk < k) {
               k=kk;
               n=-i;
-            };
-          };
+            }
+          }
         if (abs(n) != 0) {
           bondEnlarge(abs(n));
           if (n < 0) flipSmall(abs(n));
-        };
-      };
+        }
+      }
       result=k;
-    };
+    }
     //freeing resources
     delete smCopy;
     delete bestStore;
@@ -3555,7 +3555,7 @@ namespace OpenBabel {
     for (i=0; i<source->size(); i++) if (i != index) {
         temp[n]=(*source)[i];
         n++;
-      };
+      }
     source->resize(source->size()-1);
     for (i=0; i<source->size(); i++) (*source)[i]=temp[i];
   };
@@ -3588,7 +3588,7 @@ namespace OpenBabel {
     for (i=0; i<nAtoms; i++) {
       nUnassigned[i]=0;
       nAssigned[i]=0;
-    };
+    }
     for (i=0; i<nBonds; i++) {
       n=bondOrder[i];
       if (n == 0) {
@@ -3599,8 +3599,8 @@ namespace OpenBabel {
       } else {
         nAssigned[iA1[i]]=nAssigned[iA1[i]]+n;
         nAssigned[iA2[i]]=nAssigned[iA2[i]]+n;
-      };
-    };
+      }
+    }
 
     for (i=0; i<nAtoms; i++) if ((hydrogenValency[i] > 0) && (nUnassigned[i] == 1)) {
         n=bNumber[i];
@@ -3610,18 +3610,18 @@ namespace OpenBabel {
             k=2;
           } else {
             k=1;
-          };
+          }
           result=2;
-        };
+        }
         if (k > 3) {
           k=3;
           result=3;
-        };
+        }
         bondOrder[n]=k;
         if (result == 0) {
           result=1;
-        };
-      };
+        }
+      }
     return result;
   };
 
@@ -3638,8 +3638,8 @@ namespace OpenBabel {
         k=1;
         while (k != 0) {
           k=findAlternateSinglets(iA1,iA2,nH,hydrogenValency,bondOrder,nAtoms,nBonds);
-        };
-      };
+        }
+      }
   };
 
   static bool analyzeOK(const std::vector<int> iA1,const std::vector<int> iA2, const std::vector<int> nH,
@@ -3658,7 +3658,7 @@ namespace OpenBabel {
     for (i=0; i<nBonds; i++) {
       nBondsValency[iA1[i]]=nBondsValency[iA1[i]]+bondOrder[i];
       nBondsValency[iA2[i]]=nBondsValency[iA2[i]]+bondOrder[i];
-    };
+    }
     for (i=0; i<nAtoms; i++) if (atomCheckFlag[i] == 1) {
         if (nBondsValency[i] > maxValency[i]) nGtMax++;
         if (testExceedHydrogen) {
@@ -3669,9 +3669,9 @@ namespace OpenBabel {
           if (oddEvenCheck) {
             k=nH[i]+nBondsValency[i];
             if ((k % 2) != (maxValency[i] % 2)) nOddEven++;
-          };
-        };
-      };
+          }
+        }
+      }
     result=((nGtMax == 0) && (nNEH == 0) && (nOddEven == 0));
     return result;
   };
@@ -3686,7 +3686,7 @@ namespace OpenBabel {
         if (i < (nAss-1)) for (j=i+1; j<nAss; j++) bondAssignment[j]=1;
         result=true;
         return result;
-      };
+      }
     return result;
   };
 
@@ -3718,31 +3718,31 @@ namespace OpenBabel {
       nNeighbour[iA1[i]]=nNeighbour[iA1[i]]+1;
       nNeighbour[iA2[i]]=nNeighbour[iA2[i]]+1;
       specialFlag[i]=0;
-    };
+    }
     //Special flag-find allene and cumulene
     for (i=0; i<nBonds; i++) {
       if ((nNeighbour[iA1[i]] == 2) && (nNeighbour[iA2[i]] == 2) && (hydrogenValency[iA1[i]] == 4)
           && (hydrogenValency[iA2[i]] == 4) && (nH[iA1[i]] == 0) && (nH[iA2[i]] == 0)) specialFlag[i]=1;
-    };
+    }
 
     //correct hydrogen valency by 2 if required....
     for (i=0; i<nAtoms; i++) if (hydrogenValency[i] > 0) {
         n=nH[i]+nNeighbour[i];
         if (n > hydrogenValency[i]) hydrogenValency[i]=hydrogenValency[i]+2;
         if (n > hydrogenValency[i]) hydrogenValency[i]=hydrogenValency[i]+2;
-      };
+      }
     //Label all bonds which have order 1 exactly
     for (i=0; i<nAtoms; i++) if ((hydrogenValency[i] > 0) && (nH[i] > 0)) {
         n=nH[i]+nNeighbour[i];
         if (n == hydrogenValency[i]) for (j=0; j<nBonds; j++) if (((iA1[j] == i) || (iA2[j] == i)) && (bondOrder[j] == 0)) {
               bondOrder[j]=1;
-            };
-      };
+            }
+      }
 
     k=1;
     while (k != 0) {
       k=findAlternateSinglets(iA1,iA2,nH,hydrogenValency,bondOrder,nAtoms,nBonds);
-    };
+    }
     //repeat default no. hydrogens correction
     for (i=0; i<nAtoms; i++) nNeighbour[i]=0;
     for (i=0; i<nBonds; i++) {
@@ -3750,7 +3750,7 @@ namespace OpenBabel {
       if (k == 0) k=1;
       nNeighbour[iA1[i]]=nNeighbour[iA1[i]]+k;
       nNeighbour[iA2[i]]=nNeighbour[iA2[i]]+k;
-    };
+    }
     //correct hydrogen valency by 2 if required....
 
 
@@ -3758,20 +3758,20 @@ namespace OpenBabel {
         n=nH[i]+nNeighbour[i];
         if (n > hydrogenValency[i]) hydrogenValency[i]=hydrogenValency[i]+2;
         if (n > hydrogenValency[i]) hydrogenValency[i]=hydrogenValency[i]+2;
-      };
+      }
 
     //below array NNeighbour is used for picking atoms, for which valency have to be checked..
     for (i=0; i<nAtoms; i++) nNeighbour[i]=0;
     for (i=0; i<nBonds; i++) if (bondOrder[i] == 0) {
         nNeighbour[iA1[i]]=1;
         nNeighbour[iA2[i]]=1;
-      };
+      }
     test=false;
     for (i=0; i<nBonds; i++) {
       bondAssignment[i]=1;
       bondOrderStore[i]=bondOrder[i];
       if (bondOrder[i] == 0) test=true;   //bad bonds exists-must to assign...
-    };
+    }
     if (! test) return result;    //All fine-not necessary especially alternate
     test=false;
     while (! test) {              //Try to assign with fina valencies
@@ -3781,8 +3781,8 @@ namespace OpenBabel {
       if (! test) {
         test=! incrementAssignment(bondAssignment,nAss);
         if (test) result=1;
-      };
-    };
+      }
+    }
     if (result == 1) {        //try to assign with hydrogen valency exceeded
       result=0;
       for (i=0; i<nBonds; i++) bondAssignment[i]=1;
@@ -3794,9 +3794,9 @@ namespace OpenBabel {
         if (! test) {
           test=! incrementAssignment(bondAssignment,nAss);
           if (test) result=1;
-        };
-      };
-    };
+        }
+      }
+    }
     if (result == 1) {        //hydrogen valency is still bad. Try to analyze withoud Odd/Even checking (metals, etc).
       result=0;
       for (i=0; i<nBonds; i++) bondAssignment[i]=1;
@@ -3808,9 +3808,9 @@ namespace OpenBabel {
         if (! test) {
           test=! incrementAssignment(bondAssignment,nAss);
           if (test) result=1;
-        };
-      };
-    };
+        }
+      }
+    }
     return result;
   };
 
@@ -3830,10 +3830,10 @@ namespace OpenBabel {
         else if (aPosition[i] == 6) hVal[i]=hVal[i]-abs(aCharge[i]); //C
         else hVal[i]=hVal[i]+aCharge[i];  //Heteroatoms
         if (hVal[i] < 0) hVal[i]=0;
-      };
+      }
       maxVal[i]=maxValency(aPosition[i]);
       if (aCharge[i] != 0) maxVal[i]=maxVal[i]+1;
-    };
+    }
     result=determineBondsOrder(iA1,iA2,nHydr,maxVal,bondOrders,hVal,nAtoms,nBonds,true);
     return result;
   };
@@ -3862,7 +3862,7 @@ namespace OpenBabel {
       sb=pmol->GetBond(i);
       iA1[i]=sb->GetBeginAtomIdx()-1;
       iA2[i]=sb->GetEndAtomIdx()-1;
-    };
+    }
 
 
     for (i=1; i<=nAtoms; i++) {
@@ -3876,16 +3876,16 @@ namespace OpenBabel {
         else if (na == 6) hVal[i-1]=hVal[i-1]-abs(k);
         else hVal[i-1]=hVal[i-1]-k;
         if (hVal[i-1] < 0) hVal[i-1]=0;
-      };
+      }
       maxVal[i-1]=maxValency(na);
       if (sa->GetFormalCharge() != 0) maxVal[i-1]=maxVal[i-1]+1;
-    };
+    }
 
     result=determineBondsOrder(iA1,iA2,nH,maxVal,bondOrders,hVal,nAtoms,nBonds,true);
     for (i=0; i<nBonds; i++) {
       sb=pmol->GetBond(i);
       sb->SetBondOrder(bondOrders[i]);
-    };
+    }
     return result;
   };
   //*****************************************************************************
@@ -4026,8 +4026,8 @@ namespace OpenBabel {
         if (! test) {
           list[j]=list[i];
           j++;
-        };
-      };
+        }
+      }
       list[naDEF-2]=k1;
       list[naDEF-1]=k2;
       //It is necessary to make the pair of atoms last in array so they may be
@@ -4160,7 +4160,7 @@ namespace OpenBabel {
       }
       defineAtomConn();
       deleteAtom(cha);                      //atom deleting
-    }; //new values for attribute array
+    } //new values for attribute array
 
     defineAtomConn();
     //Search for badly-connected aromatic bonds
@@ -4284,8 +4284,8 @@ namespace OpenBabel {
           if(r1 < amin) {
             amin=r1;
             n=i;
-          };
-        };
+          }
+        }
         rxTemp1=fragmentMol.getAtom(naDef1)->rx-fragmentMol.getAtom(fragmentMol.getAtom(naDef1)->ac[n])->rx;
         ryTemp1=fragmentMol.getAtom(naDef1)->ry-fragmentMol.getAtom(fragmentMol.getAtom(naDef1)->ac[n])->ry;
         r1=sqrt(rxTemp1*rxTemp1+ryTemp1*ryTemp1);
@@ -4300,8 +4300,8 @@ namespace OpenBabel {
           if(r2 < amin) {
             amin=r2;
             n=i;
-          };
-        };
+          }
+        }
         rxTemp1=this->getAtom(naDef)->rx-this->getAtom(this->getAtom(naDef)->ac[n])->rx;
         ryTemp1=this->getAtom(naDef)->ry-this->getAtom(this->getAtom(naDef)->ac[n])->ry;
         r2=sqrt(rxTemp1*rxTemp1+ryTemp1*ryTemp1);
@@ -4426,7 +4426,7 @@ namespace OpenBabel {
             k=list[i];
             list[i]=list[j];
             list[j]=k;
-          };
+          }
     for (i=0; i<list.size(); i++) inverseList[list[i]]=i;
 
     result= new TEditedMolecule();
@@ -4475,7 +4475,7 @@ namespace OpenBabel {
     for (i=0; i<nAtoms(); i++) { //isotops change
       if ((getAtom(i)->na==104) && (! fIOPT11)) getAtom(i)->na=1;
       if (! fIOPT11) getAtom(i)->iz=0;
-    };
+    }
 
     //Initializinf arrays
     neighbourlist *queryBK=(neighbourlist *)calloc(listarSize(),sizeof(adjustedlist));
@@ -4500,13 +4500,13 @@ namespace OpenBabel {
       aSTested[i]=-1;
       bSTested[i]=-1;
       bSTestedStore[i]=-1;
-    };
+    }
     queryEnum.resize(sMol.nAtoms());
     queryInverse.resize(sMol.nAtoms());
     for (i=0; i<sMol.nAtoms(); i++) {
       queryEnum[i]=-1;
       queryInverse[i]=-1;
-    };
+    }
     molecule1=new TEditedMolecule();
 
     //At this step memory was not allocated to: BK1,BEQ,AEQ. Realloction will be
@@ -4528,9 +4528,9 @@ namespace OpenBabel {
         if ((test1 && (! test2)) || (test3 && (! test2))
             || (test1 && test2 && test3)) {
           j=k; l=i;
-        };
-      };
-    };
+        }
+      }
+    }
 
     queryAQTested[0]=0; //Sequence for query assignment begin from the atom
     aQ1=0; bNQ=-1; test=true;
@@ -4548,13 +4548,13 @@ namespace OpenBabel {
                 test=(bSTested[k]==-1);
                 whileCondition1=test || (j>=queryBK[i].nb);
                 whileCondition1=! whileCondition1;
-              };
+              }
             if (queryBK[i].nb==0) test=false;
-          };
+          }
           i++;
           whileCondition=test || (i==nAtoms());
           whileCondition=! whileCondition;
-        };
+        }
         if (test) { //connected atom found
           i--;  //zero-index
           aQ2=i;
@@ -4574,7 +4574,7 @@ namespace OpenBabel {
               } else {
               k=0;
               test1=false;
-            };
+            }
             if (test1)  {  //found
               bNQ++; bSTested[k]=bNQ; //store, that BNQ has been assigned
               l=getBond(k)->at[1];
@@ -4583,7 +4583,7 @@ namespace OpenBabel {
                 l=getBond(k)->at[0];
                 getBond(k)->at[1]=l;
                 getBond(k)->at[0]=aQ2;
-              };
+              }
               test1=(queryAQTested[l]==-1);
               //Make AGER array for end-of cycle BNQ bond}
               if (test1) {
@@ -4592,12 +4592,12 @@ namespace OpenBabel {
                 queryAQTested[l]=aQ1;
                 aQ2=l;
               } else aQ2=-1;
-            };
+            }
             whileCondition=(! test1) || (aQ2==-1);
             whileCondition=! whileCondition;
-          };
-        };
-      };
+          }
+        }
+      }
     //Detection of unconnected fragment}
     for (i=0; i<nAtoms(); i++) if (queryAQTested[i]==-1) result=-2;
     if (result>=0) {
@@ -4617,7 +4617,7 @@ namespace OpenBabel {
       if (nBonds()>0) for (i=0; i<nBonds(); i++) {
           molecule1->getBond(i)->at[0]=queryAQTested[molecule1->getBond(i)->at[0]];
           molecule1->getBond(i)->at[1]=queryAQTested[molecule1->getBond(i)->at[1]];
-        };
+        }
       //Enumeration of
       this->moleculeCopy(*molecule1);
       defineAtomConn();
@@ -4627,7 +4627,7 @@ namespace OpenBabel {
       j=0;
       //Search for last non-special atom in query}
       queryStereoQ=stereoBondChange(); //Stereo bond conversion
-    };
+    }
     delete(molecule1);
     free(queryBK);
     return result;
@@ -4650,12 +4650,12 @@ namespace OpenBabel {
     if (qEnumerator != nullptr) {
       if (qEnumerator->size() != nAtoms()) qEnumerator->resize(nAtoms());
       for (i=0; i<qEnumerator->size(); i++) (*qEnumerator)[i]=i;
-    };
+    }
     for (i=0; i<nAtoms(); i++) {
       if (qHydr != nullptr) (*qHydr)[i]=0;
       if ((! fIOPT11) && (getAtom(i)->na==104)) getAtom(i)->na=1;
       //D->H if no isotop sensitivity}
-    };
+    }
     i=0;
     test1=false;
     if (nAtoms()>0) while (i<nAtoms()) {
@@ -4666,11 +4666,11 @@ namespace OpenBabel {
               if (test) {
                 i1=getBond(j)->at[0];
                 if (i1==i) i1=getBond(j)->at[1];
-              };
+              }
               test2=test || (j==nBonds());
               test2=! test1;
               j++;
-            };
+            }
 
           deleteAtom(i);
           if (qHydr != nullptr && i < nAtoms() - 1) deleteIntElement(qHydr,i);
@@ -4682,21 +4682,21 @@ namespace OpenBabel {
               if ((*qEnumerator)[j] == i) (*qEnumerator)[j]=-i1; else
                 if ((*qEnumerator)[j] > i)  (*qEnumerator)[j]=(*qEnumerator)[j]-1; else
                   if (((*qEnumerator)[j] < 0) && (abs((*qEnumerator)[j]) > i)) (*qEnumerator)[j]=(*qEnumerator)[j]+1;
-            };
-          };
+            }
+          }
           if (i1 > 0 && qHydr != nullptr) (*qHydr)[i1]=(*qHydr)[i1]+1;
           //counter of explicitly defined hydrogens
           i--;
-        };
+        }
         i++;
-      };
+      }
     if (test1) {
       defineAtomConn();
       //Inverse enumerator creation... New QA->OldQA array}
       if (qEnumerator != nullptr) {
         //??? Is it required ?}
-      };
-    };
+      }
+    }
   };
 
   void TEditedMolecule::atomBondChange() {
@@ -4713,14 +4713,14 @@ namespace OpenBabel {
         if (ca<0) {
           getAtom(getBond(i)->at[0])->nc=ca+1;
           getAtom(getBond(i)->at[1])->nc=cb-1;
-        };
+        }
         if (ca>0) {
           getAtom(getBond(i)->at[0])->nc=ca-1;
           getAtom(getBond(i)->at[1])->nc=cb+1;
-        };
+        }
         if (getBond(i)->tb<3) getBond(i)->tb=getBond(i)->tb+1; else getBond(i)->tb=2;
-      };
-    };
+      }
+    }
   };
 
   bool TEditedMolecule::stereoBondChange() {
@@ -4738,10 +4738,10 @@ namespace OpenBabel {
         //If Replace Stereo Search-only EITHER bond substitution}
         if (getBond(i)->tb==11) getBond(i)->tb=1;
         if (getBond(i)->tb>=9) result=true;
-      };
+      }
       if (fIOPT12==1) if (getBond(i)->tb>=9) getBond(i)->tb=1;
       //If No Stereo search-all bonds substitution
-    };
+    }
     return result;
   };
 
@@ -4801,19 +4801,19 @@ namespace OpenBabel {
             //if new atom in structure must be assigned-testing equivalence with
             //corresponding query
             if ((ager[bnq]>=0) && (astested[as2]<0)) test=aeq[as2][aq2];
-          };
+          }
         bs=bs+1;
         whiletest=(bs==bsconn[as1].nb) || test;
         whiletest=! whiletest;
-      }; //until(BS=BSCONN[AS1].NB) or TEST;
+      } //until(BS=BSCONN[AS1].NB) or TEST;
     //until all list of structure bonds will be exausted or success in assignment
     if (test) { //Success
       if (ager[bnq]>=0) {    //if new atom has been assigned-store assignment}
         aqtested[aq2]=as2; astested[as2]=aq2;
-      };
+      }
       bstested[bns]=bnq; //store assignment of bonds}
       bqtested[bnq]=bns;
-    };
+    }
     bqcounter[bnq]=bs;    //last used structure bond's number in SCONN array}
     test1=(bs==bsconn[as1].nb); //test, if SCONN for atom given is exausted}
   };
@@ -4837,7 +4837,7 @@ namespace OpenBabel {
       i++;
       whiletest=(! test) || (i==nA);
       whiletest=! whiletest;
-    };
+    }
     if (test && (nB>=0)) {
       i=0;
       whiletest=false;
@@ -4846,8 +4846,8 @@ namespace OpenBabel {
         i++;
         whiletest=(! test) || (i==nB);
         whiletest=! whiletest;
-      };
-    };
+      }
+    }
     return test;
   };
 
@@ -4903,13 +4903,13 @@ namespace OpenBabel {
       if ((molecule1->getAtom(j)->na==104) && (! fIOPT11)) molecule1->getAtom(j)->na=1;
       if (! fIOPT11) molecule1->getAtom(j)->iz=0;
       bSTested[j]=0;  //bsTested contains nu. explicit hydrogens - so 0 is fine!
-    };
+    }
     for (j=0; j<molecule1->nAtoms(); j++) if (molecule1->getAtom(j)->na==1)
                                             if (molecule1->getAtom(j)->nb>0) for (k=0; k<molecule1->getAtom(j)->nb; k++) {
                                                 //Formation of list explicitly-defined hydrogens}
                                                 l=molecule1->getAtom(j)->ac[k];
                                                 bSTested[l]=bSTested[l]+1;
-                                              };
+                                              }
     for (k=0; k<nAtoms(); k++) aSTested[k]=-1;
     if (nAtoms()==1) {
       //Partial case - if single atom was defined}
@@ -4926,20 +4926,20 @@ namespace OpenBabel {
               if ((molecule1->getBond(mm)->db==2) || (molecule1->getBond(mm)->db==3)) {
                 test2=true;
                 break;
-              };
-            };
-          };
+              }
+            }
+          }
           //End addition}
           if (test2) {
             if (queryEnum.size()<1) queryEnum.resize(1);
             queryEnum[0]=0;
             if (queryAQTested.size()<1) queryAQTested.resize(1);
             queryAQTested[0]=j;
-          };
+          }
           j++;
           whiletest1=test2 || (j==molecule1->nAtoms());
           whiletest1=! whiletest1;
-        };
+        }
     } else if (nBonds()==0) test2=false; else {
       //General case - substructure search
       if (fIncludedList != nullptr) {
@@ -4948,7 +4948,7 @@ namespace OpenBabel {
           j=(*fIncludedList)[k];
           aEQ[j][k]=true;
           aSTested[k]=1;
-        };
+        }
       } else {
         for (j=0; j<molecule1->nAtoms(); j++) for (k=0; k<nAtoms(); k++) {
             //Creation of atom-equivalent matrix}
@@ -4964,13 +4964,13 @@ namespace OpenBabel {
                 if ((molecule1->getBond(mm)->db==2) || (molecule1->getBond(mm)->db==3)) {
                   test3=true;
                   break;
-                };
-              };
-            };
+                }
+              }
+            }
             aEQ[j][k]=test3;
             if (test3) aSTested[k]=1;
-          };
-      };
+          }
+      }
 
       for (j=0; j<nBonds(); j++) queryAQTested[j]=0;
       for (j=0; j<molecule1->nBonds(); j++) for (k=0; k<nBonds(); k++) {
@@ -4983,7 +4983,7 @@ namespace OpenBabel {
             bEQ[j][k]=test3;
             if (test3) queryAQTested[k]=1;
           } else bEQ[j][k]=false;
-        };
+        }
       //Check, if all query atoms has a partner in structure
       test2=allQueryPresent(aSTested,queryAQTested,nAtoms(),nBonds());
       if (test2) {
@@ -4997,12 +4997,12 @@ namespace OpenBabel {
               if (test) {
                 queryCurrentAssignment[j1]=k;
                 j1++;
-              };
+              }
               j++;
               whiletest1=test || (j==structureBK[k].nb);
               whiletest1=! whiletest1;
-            };
-          };
+            }
+          }
         i1=0;
         whiletest1=true;
         if (j1>0) while (whiletest1) { //for each structure, which may be assigned to 1-st query
@@ -5024,28 +5024,28 @@ namespace OpenBabel {
                 k=queryAGer[ii-1];
                 if (k>=0) {
                   l=queryAQTested[k]; queryAQTested[k]=-1; aSTested[l]=-1;
-                };
+                }
                 bSTested[queryBQTested[ii-1]]=-1;
                 queryBQTested[ii-1]=-1;
                 ii=ii-2;
                 test=true;
-              };
+              }
               ii=ii+1; //query bond counter
               whiletest2=(ii==nBonds()) || ((! test) && (ii==1));
               whiletest2=! whiletest2;
-            };
+            }
             i1++;
             test2=(ii==nBonds()); //Checking, if success has been reached
             whiletest1=((j1==i1) || test2);
             whiletest1=! whiletest1;
           } else test2=false;
-      };
-    };
+      }
+    }
 
     if (bondLabel != nullptr && nBonds() > 0) {
       bondLabel->resize(molecule1->nBonds());
       if (test2) for (j=0; j<molecule1->nBonds(); j++) if (bSTested[j]>=0) (*bondLabel)[j]=1; else (*bondLabel)[j]=0;
-    };
+    }
     result=test2;
 
     // Tidy up
@@ -5126,7 +5126,7 @@ namespace OpenBabel {
       OpenDatafile(ifs, filename);
     } catch (exception &ex) {
       return result;
-    };
+    }
 
     //Read into a vector of OBMol
     if (ifs) {
@@ -5214,7 +5214,7 @@ namespace OpenBabel {
         n2=mStructure->getBond(i)->at[1];
         if ((aList[n1] == 1) && (aList[n2] == 1)) result=true;
         if (result) break;
-      };
+      }
     //seek for 3-attached atom
     return result;
   };
@@ -5245,7 +5245,7 @@ namespace OpenBabel {
       n2=sm->getBond(n)->at[1];
       atomList[n1]=true;
       atomList[n2]=true;
-    };
+    }
     if (! test) return;  //bond is absent in the list....
     n1=sm->getBond(bondNo)->at[0];
     n2=sm->getBond(bondNo)->at[1];
@@ -5265,13 +5265,13 @@ namespace OpenBabel {
       } else {
         s1=(xuValue/rX+yuValue/rY)/(rY/rX+rX/rY);
         c1=(xuValue/rY-yuValue/rX)/(rY/rX+rX/rY);
-      };
-    };
+      }
+    }
     //c1, s1 analizing
     for (i=0; i<sm->nAtoms(); i++) {
       coorX[i]=c1*(sm->getAtom(i)->rx-xCenter)+s1*(sm->getAtom(i)->ry-yCenter);
       coorY[i]=s1*(sm->getAtom(i)->rx-xCenter)-c1*(sm->getAtom(i)->ry-yCenter);
-    };
+    }
     xMin=RUNDEF; xMax=RUNDEF;
     yMin=RUNDEF; yMax=RUNDEF;
     for (i=0; i<sm->nAtoms(); i++) if (atomList[i]) {
@@ -5279,7 +5279,7 @@ namespace OpenBabel {
         if ((coorX[i] > xMax) || (xMax == RUNDEF)) xMax=coorX[i];
         if ((coorY[i] < yMin) || (yMin == RUNDEF)) yMin=coorY[i];
         if ((coorY[i] > yMax) || (yMax == RUNDEF)) yMax=coorY[i];
-      };
+      }
     xSize=xMax-xMin;
     ySize=yMax-yMin;
     //calculation no. vertical bonds...
@@ -5292,8 +5292,8 @@ namespace OpenBabel {
       if (abs(r) > 0) {
         r=abs((coorX[n1]-coorX[n2])/r);
         if (r < 0.02) nVert++;
-      };
-    };
+      }
+    }
   };
 
   void TemplateRedraw::selectFragmentConfiguration(TSimpleMolecule * sm, std::vector<int>* atomList) {
@@ -5320,8 +5320,8 @@ namespace OpenBabel {
       for (i=0; i<atomList->size(); i++) {
         n=(*atomList)[i];
         atomCleaned[n]=true;
-      };
-    };
+      }
+    }
     //bondList generation...
     for (i=0; i<sm->nBonds(); i++) {
       n1=sm->getBond(i)->at[0];
@@ -5330,12 +5330,12 @@ namespace OpenBabel {
         w=i;
         bondListAll.push_back(w);
         if (sm->getBond(i)->db > 1) bondList.push_back(w); //only ring bonds...
-      };
-    };
+      }
+    }
     if (bondList.size() == 0) {
       bondList.resize(bondListAll.size());
       for (i=0; i<bondListAll.size(); i++) bondList[i]=bondListAll[i];
-    };
+    }
     if (bondList.size() > 0) {
       //search for 4-coordinater non-carbon
       test=false;
@@ -5348,15 +5348,15 @@ namespace OpenBabel {
                 n=-1;
                 test=false;
                 break;
-              };
-            };
+              }
+            }
           if (test) break;
-        };
+        }
       if (! test) for (i=0; i<sm->nBonds(); i++) if (atomCleaned[sm->getBond(i)->at[0]] && (sm->getBond(i)->db == 5)) {
             n=i;
             test=true;
             break;
-          };
+          }
       if (test) {
         rotateBondVertically(sm,bondListAll,n,1.0,0.0,c,s,xSize,ySize,xCenter,yCenter,nVert);
         if (ySize > xSize) rotateBondVertically(sm,bondListAll,n,0.0,1.0,c,s,xSize,ySize,xCenter,yCenter,nVert);
@@ -5372,8 +5372,8 @@ namespace OpenBabel {
             xMax=xSize;
             cMax=c;
             sMax=s;
-          };
-        };
+          }
+        }
         for (i=0; i<bondList.size(); i++) {
           n=bondList[i];
           rotateBondVertically(sm,bondList,n,1.0,0.0,c,s,xSize,ySize,xCenter,yCenter,nVert);
@@ -5382,17 +5382,17 @@ namespace OpenBabel {
             xMax=xSize;
             cMax=c;
             sMax=s;
-          };
-        };
-      };
+          }
+        }
+      }
       //Rotation
       for (i=0; i<sm->nAtoms(); i++) if (atomCleaned[i]) {
           x=cMax*(sm->getAtom(i)->rx-xCenter)+sMax*(sm->getAtom(i)->ry-yCenter);
           y=sMax*(sm->getAtom(i)->rx-xCenter)-cMax*(sm->getAtom(i)->ry-yCenter);
           sm->getAtom(i)->rx=x;
           sm->getAtom(i)->ry=y;
-        };
-    };
+        }
+    }
   };
 
   void TemplateRedraw::rescaleSingleFragment(TSimpleMolecule * sm, std::vector<int>* atomList, PartFragmentDefinition& pf, double offset) {
@@ -5411,7 +5411,7 @@ namespace OpenBabel {
       if ((sm->getAtom(n)->rx > xMax) || (xMax == RUNDEF)) xMax=sm->getAtom(n)->rx;
       if ((sm->getAtom(n)->ry < yMin) || (yMin == RUNDEF)) yMin=sm->getAtom(n)->ry;
       if ((sm->getAtom(n)->ry > yMax) || (yMax == RUNDEF)) yMax=sm->getAtom(n)->ry;
-    };
+    }
     // LPW: Nearly horizontal molecules were being scaled which resulted in
     // some nonsensical structures.  This code ensures that coordinates with
     // "almost" horizontal or vertical geometries don't get scaled.
@@ -5422,9 +5422,9 @@ namespace OpenBabel {
         n=(*atomList)[i];
         sm->getAtom(n)->rx=(pf.fragLeft+pf.fragWidth/2);
         sm->getAtom(n)->ry=(pf.fragTop+pf.fragHeight/2);
-      };
+      }
       return;
-    };
+    }
     if (Xeq) {         //y should be scaled
       scale=(pf.fragHeight-2*offset)/(yMax-yMin);
     } else if (Yeq) { //x should be scaled
@@ -5433,14 +5433,14 @@ namespace OpenBabel {
       r1=(pf.fragHeight-2*offset)/(yMax-yMin);
       r2=(pf.fragWidth-2*offset)/(xMax-xMin);
       if (r1 > r2) scale=r2; else scale=r1;
-    };
+    }
     for (i=0; i<atomList->size(); i++) {
       n=(*atomList)[i];
       x=pf.fragLeft+offset+(sm->getAtom(n)->rx-xMin)*scale;
       y=pf.fragTop+offset+(sm->getAtom(n)->ry-yMin)*scale;
       sm->getAtom(n)->rx=x;
       sm->getAtom(n)->ry=y;
-    };
+    }
   };
 
 
@@ -5481,14 +5481,14 @@ namespace OpenBabel {
           if (ptInRect(rect,p)) {
             result=true;
             return result;
-          };
+          }
           p.x=j;
           p.y=efTemp->fragTop+efTemp->fragHeight;
           if (ptInRect(rect,p)) {
             result=true;
             return result;
-          };
-        };
+          }
+        }
         n1=(int)(efTemp->fragTop);
         n2=(int)(efTemp->fragTop+efTemp->fragHeight);
         for (j=n1; j<=n2; j++) {
@@ -5497,16 +5497,16 @@ namespace OpenBabel {
           if (ptInRect(rect,p)) {
             result=true;
             return result;
-          };
+          }
           p.y=j;
           p.x=efTemp->fragLeft+efTemp->fragWidth;
           if (ptInRect(rect,p)) {
             result=true;
             return result;
-          };
-        };
-      };
-    };
+          }
+        }
+      }
+    }
     return result;
   };
 
@@ -5529,7 +5529,7 @@ namespace OpenBabel {
       if (r > yMax) yMax=r;
       if (ef->fragTop < yMin) yMin=ef->fragTop;
       if (ef->fragLeft < xMin) xMin=ef->fragLeft;
-    };
+    }
     aspDelta=1000000; xNice=0; yNice=0;
     efInterest=(PartFragmentDefinition *)list[fragNo];
     for (i=0; i<fragNo; i++) {
@@ -5542,15 +5542,15 @@ namespace OpenBabel {
           efInterest->fragLeft=x; efInterest->fragTop=y;
           list[fragNo]=efInterest;
           return;
-        };
+        }
         xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
         yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
         r=(yNew-yMin)/(xNew-xMin);
         if (abs(r-aspOptimal) < aspDelta) {
           xNice=x; yNice=y;
           aspDelta=abs(r-aspOptimal);
-        };
-      };
+        }
+      }
       x=ef->fragLeft;
       y=ef->fragTop+ef->fragHeight+1;
       if (! isOverlapped(list,fragNo,x,y)) {
@@ -5558,16 +5558,16 @@ namespace OpenBabel {
           efInterest->fragLeft=x; efInterest->fragTop=y;
           list[fragNo]=efInterest;
           return;
-        };
+        }
         xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
         yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
         r=(yNew-yMin)/(xNew-xMin);
         if (abs(r-aspOptimal) < aspDelta) {
           xNice=x; yNice=y;
           aspDelta=abs(r-aspOptimal);
-        };
-      };
-    };
+        }
+      }
+    }
     //if here - maxX,0 and 0,MaxY have to be tested...
     x=xMax; y=0;
     xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
@@ -5576,7 +5576,7 @@ namespace OpenBabel {
     if (abs(r-aspOptimal) < aspDelta) {
       xNice=x; yNice=y;
       aspDelta=abs(r-aspOptimal);
-    };
+    }
     x=0; y=yMax;
     xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
     yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
@@ -5584,7 +5584,7 @@ namespace OpenBabel {
     if (abs(r-aspOptimal) < aspDelta) {
       xNice=x; yNice=y;
       aspDelta=abs(r-aspOptimal);
-    };
+    }
     efInterest->fragLeft=xNice; efInterest->fragTop=yNice;
     list[fragNo]=efInterest;
   };
@@ -5604,8 +5604,8 @@ namespace OpenBabel {
           if (efTemp->fragWidth > ef->fragWidth) {
             extendedList[j]=ef;
             extendedList[i]=efTemp;
-          };
-        };
+          }
+        }
       if (extendedList.size() > 2) {
         ef=(PartFragmentDefinition *)extendedList[1];
         for (i=2; i<extendedList.size(); i++) {
@@ -5614,9 +5614,9 @@ namespace OpenBabel {
             extendedList[i]=ef;
             extendedList[1]=efTemp;
             ef=efTemp;
-          };
-        };
-      };
+          }
+        }
+      }
       //Try to arrange 1-st and 2-nd fragments....
       ef=(PartFragmentDefinition *)extendedList[0];
       efTemp=(PartFragmentDefinition *)extendedList[1];
@@ -5634,14 +5634,14 @@ namespace OpenBabel {
         } else {
           ef->fragLeft=efTemp->fragWidth;
           extendedList[0]=ef;
-        };
+        }
       } else {
         efTemp->fragTop=ef->fragHeight;
         extendedList[1]=efTemp;
-      };
+      }
       //Arranging of 3-rd and more frgments...
       if (extendedList.size()>2) for (i=2; i<extendedList.size(); i++) arrangeFragments(extendedList,i,aspOptimal);
-    };
+    }
   };
 
 
@@ -5678,9 +5678,9 @@ namespace OpenBabel {
         if (! internalBondsPresent(em,&sm)) {
           result=i+1;
           break;
-        };
+        }
         em=nullptr;
-      };
+      }
 
 
     if (em == nullptr) {
@@ -5688,13 +5688,13 @@ namespace OpenBabel {
         sm.addAtom(6,0,0.0,0.0);
         sm.addBond(1,anTemplateNo,sm.nAtoms()-1);
         sm.defineAtomConn();
-      };
+      }
       sm.redrawMolecule();
       if (anTemplateNo >= 0) {
         sm.deleteBond(sm.nBonds());
         sm.deleteAtom(sm.nAtoms()-1);
         sm.defineAtomConn();
-      };
+      }
     } else {
       //Hurrah! Found! Redraw from template
       templateAtomNumber.resize(0);
@@ -5712,13 +5712,13 @@ namespace OpenBabel {
             sm.getAtom(i)->ry=em->getAtom(j)->ry;
             test=true;
             break;
-          };
-        };
+          }
+        }
         if (test) {   //Only those atoms, defined at template, are cleaned.....
           listAtomClean.push_back(i);
           atomClean++;
-        };
-      };
+        }
+      }
 
       enumerator.resize(sm.nAtoms());  //index-old number value-new number
       for (i=0; i<enumerator.size(); i++) enumerator[i]=-1;
@@ -5727,7 +5727,7 @@ namespace OpenBabel {
       for (i=0; i<enumerator.size(); i++) if (enumerator[i]==-1) {
           enumerator[i]=k;
           k++;
-        };
+        }
       //Atom and bond enumeration...
 
       for (i=0; i<sm.nAtoms(); i++) {
@@ -5735,16 +5735,16 @@ namespace OpenBabel {
         for (j=0; j<enumerator.size(); j++)  if (enumerator[j]==i) {
             k=j;
             break;
-          };
+          }
         tm.addAtom(sm.getAtom(k)->clone());
-      };
+      }
       //Bond enumeration
       for (i=0; i<sm.nBonds(); i++) {
         sb=sm.getBond(i)->clone();
         sb->at[0]=enumerator[sb->at[0]];
         sb->at[1]=enumerator[sb->at[1]];
         tm.addBond(sb);
-      };
+      }
 
       nFound=atomClean;
       //now tm is the same as sm (simplemolecule) on input, but coordinates will be taken from template for first nFound atoms
@@ -5778,10 +5778,10 @@ namespace OpenBabel {
               groupsFind.push_back(emTemplate);
               delete(smFragment);
               delete(smRest);
-            };
+            }
           if (test) break;
-        };
-      };
+        }
+      }
       //Atom clean list formation
       atomClean=tm.nAtoms()-nFound;
       listAtomClean.resize(0);
@@ -5795,12 +5795,12 @@ namespace OpenBabel {
           if (listAtomClean[j]==tm.getBond(i)->at[0]) test=true;
           if (listAtomClean[j]==tm.getBond(i)->at[1]) test=true;
           if (test) break;
-        };
+        }
         if (test) {
           listBondClean.push_back(i);
           bondClean++;
-        };
-      };
+        }
+      }
       //and cleaning....
       tm.defineAtomConn();
       tm.redraw(listAtomClean,listBondClean,atomClean,bondClean,4,0,0,false);
@@ -5810,7 +5810,7 @@ namespace OpenBabel {
         for (j=0; j<emTemplate->nAtoms(); j++) if (emTemplate->getAtom(j)->enumerator==fragmentAtomNumber[i]) {
             fragmentAN=j;
             break;
-          };
+          }
 
         emTemplate->refofs=sm.refofs;
 
@@ -5819,21 +5819,21 @@ namespace OpenBabel {
         for (j=0; j<tm.nAtoms(); j++) if (tm.getAtom(j)->enumerator==templateAtomNumber[i]) {
             templateAN=j;
             break;
-          };
+          }
         for (j=0; j<emTemplate->nAtoms(); j++) if (emTemplate->getAtom(j)->enumerator==fragmentAtomNumber[i]) {
             fragmentAN=j;
             break;
-          };
+          }
 		if ((templateAN>=0) && (fragmentAN>=0)) {
           naStore=tm.nAtoms();
           tm.refofs=sm.refofs;
           tm.addAsTemplate(*emTemplate,templateAN,fragmentAN,-1,-1,true);
-		};
-      };
+		}
+      }
       sm.moleculeCopy(tm);
       sm.defineAtomConn();
       sm.allAboutCycles();
-    };
+    }
     for (i=0; i<groupsFind.size(); i++) delete(groupsFind[i]);
     return result;
   };
@@ -5870,7 +5870,7 @@ namespace OpenBabel {
 	for (int i=0; i<smIn.nAtoms(); i++) {
 	  smIn.getAtom(i)->rx=cos(2*PI*i/smIn.nAtoms());
 	  smIn.getAtom(i)->ry=-sin(2*PI*i/smIn.nAtoms());
-	};
+	}
 	smIn.defineAtomConn();
 	smIn.allAboutCycles();
 	smIn.redrawMolecule();
@@ -5890,8 +5890,8 @@ namespace OpenBabel {
           sbs->bn=i;
           sbs->w=w;
           stereoBondList.push_back(sbs);
-        };
-      };
+        }
+      }
 
     for (i=0; i<smCopy.nAtoms(); i++) smCopy.getAtom(i)->anum=intToStr(i);
 
@@ -5903,12 +5903,12 @@ namespace OpenBabel {
         for (j=0; j<atomList.size(); j++) {
           n=atomList[j];
           atomTested[n]=1;
-        };
+        }
         sm=smCopy.extractFragment(i,nullptr);
         sm->defineAtomConn();
         if ((i == 0) && (sm->nAtoms() == 1)) testSingleAtom=true;
         molList.push_back(sm);
-      };
+      }
     //Bug conversion reported by Chris 08.08.2010-Illegal Atomic Coordinates. Reason-zero bond length for single atom
     if (testSingleAtom  && (molList.size() > 1)) {
       n=-1;
@@ -5917,14 +5917,14 @@ namespace OpenBabel {
         if (sm->nAtoms() > 1) {
           n=frCount;
           break;
-        };
-      };
+        }
+      }
       if (n > 0) {
         sm=(TEditedMolecule *)molList[n];
         molList[n]=molList[0];
         molList[0]=sm;
-      };
-    };
+      }
+    }
 
     int qq=0;
 
@@ -5947,7 +5947,7 @@ namespace OpenBabel {
         } else sm->moleculeCopy(smCopy2);
 
         if (nOverlappedMin == 0) n=-1;
-      };
+      }
 
       sm->defineAtomConn();
       atomList.resize(sm->nAtoms());
@@ -5957,9 +5957,9 @@ namespace OpenBabel {
       if (newBondLength > 0)  for (i=0; i<sm->nAtoms(); i++) {
           sm->getAtom(i)->rx=sm->getAtom(i)->rx*oldBondLength/newBondLength;
           sm->getAtom(i)->ry=sm->getAtom(i)->ry*oldBondLength/newBondLength;
-        };
+        }
       //stereo input try
-    };
+    }
 
     frList.resize(0);
 
@@ -5971,13 +5971,13 @@ namespace OpenBabel {
       for (i=0; i<sm->nAtoms(); i++) {
         sA=sm->getAtom(i)->clone();
         smCopy.addAtom(sA);
-      };
+      }
       for (i=0; i<sm->nBonds(); i++) {
         sB=sm->getBond(i)->clone();
         sB->at[0]=sm->getBond(i)->at[0]+nA;
         sB->at[1]=sm->getBond(i)->at[1]+nA;
         smCopy.addBond(sB);
-      };
+      }
       //dimensions store....
 
 
@@ -5987,7 +5987,7 @@ namespace OpenBabel {
         if ((sm->getAtom(j)->rx > xMax) || (xMax == RUNDEF)) xMax=sm->getAtom(j)->rx;
         if ((sm->getAtom(j)->ry < yMin) || (yMin == RUNDEF)) yMin=sm->getAtom(j)->ry;
         if ((sm->getAtom(j)->ry > yMax) || (yMax == RUNDEF)) yMax=sm->getAtom(j)->ry;
-      };
+      }
       pf=new PartFragmentDefinition();
       pf->fragID1=0;
       pf->fragID2=0;
@@ -6001,7 +6001,7 @@ namespace OpenBabel {
       frList.push_back(pf);
       //Prepare for new get
       nA=nA+sm->nAtoms();
-    };
+    }
     smCopy.defineAtomConn();
     //arrange fragments
     if (frList.size()>1) {
@@ -6010,36 +6010,36 @@ namespace OpenBabel {
         pf=(PartFragmentDefinition *)frList[i];
         pf->fragWidth=pf->fragWidth+newBondLength;
         pf->fragHeight=pf->fragHeight+newBondLength;
-      };
+      }
       arrangeMolecules(frList,1/1.5);
       //rescaling in fragments....
       for (i=0; i<frList.size(); i++) {
         pf=(PartFragmentDefinition *)frList[i];
         smCopy.makeFragment(atomList,pf->fragFirstAtomNo,-1);
         rescaleSingleFragment(&smCopy,&atomList,*pf,newBondLength/2);
-      };
-    };
+      }
+    }
     //rescaling to satisfy bond length
     newBondLength=smCopy.averageBondLength();
     if (newBondLength>0) for (i=0; i<smCopy.nAtoms(); i++) {
         smCopy.getAtom(i)->rx=smCopy.getAtom(i)->rx*oldBondLength/newBondLength;
         smCopy.getAtom(i)->ry=smCopy.getAtom(i)->ry*oldBondLength/newBondLength;
-      };
+      }
     for (i=0; i<smCopy.nAtoms(); i++) {
       n=atoi(smCopy.getAtom(i)->anum.c_str());
       if (n >= 0) {
         smIn.getAtom(n)->rx=smCopy.getAtom(i)->rx;
         smIn.getAtom(n)->ry=smCopy.getAtom(i)->ry;
-      };
-    };
+      }
+    }
     for (i=0; i<stereoBondList.size(); i++) {
       sbs=(StereoBondStore *)stereoBondList[i];
       //w=ProcessStereo.analizeRS(smIn,smIn.fBond.getAT(sbs->bn,1)); !!!! add for STEREO later !!!!
       w = 0; // Added by Noel as the previous line assigning w has been commented out
       if ((w > 0) && (w != sbs->w)) {
         if (smIn.getBond(sbs->bn)->tb == 9) smIn.getBond(sbs->bn)->tb=10; else smIn.getBond(sbs->bn)->tb=9;
-      };
-    };
+      }
+    }
     for (i=0; i<stereoBondList.size(); i++) delete(stereoBondList[i]);
     for (i=0; i<frList.size(); i++) delete(frList[i]);
     for (i=0; i<molList.size(); i++) delete(molList[i]);
@@ -6073,7 +6073,7 @@ namespace OpenBabel {
     for (unsigned int i=1; i<=pmol->NumAtoms(); i++) {
       atom=pmol->GetAtom(i);
       atom->SetVector(sm.getAtom(i-1)->rx,-sm.getAtom(i-1)->ry,0.0);
-    };
+    }
     sm.getMolfile(ofs);
   };
 
@@ -6088,7 +6088,7 @@ namespace OpenBabel {
     for (unsigned int i=1; i<=pmol->NumAtoms(); i++) {
       atom=pmol->GetAtom(i);
       atom->SetVector(sm.getAtom(i-1)->rx,-sm.getAtom(i-1)->ry,0.0);
-    };
+    }
   };
 
   void generateDiagram(const std::vector<int> iA1, const std::vector<int> iA2,
@@ -6106,7 +6106,7 @@ namespace OpenBabel {
     for (int i=0; i<nAtoms; i++) {
       rx[i]=sm.getAtom(i)->rx;
       ry[i]=-sm.getAtom(i)->ry;
-    };
+    }
   };
 
   bool fragmentSearch(OBMol * query, OBMol * structure) {
@@ -6143,11 +6143,11 @@ namespace OpenBabel {
     for (i=0; i<sm.nAtoms(); i++) {
       sa=sm.getAtom(i);
       sa->na=aPositionQuery[i];
-    };
+    }
     for (i=0; i<sm.nBonds(); i++) {
       sb=sm.getBond(i);
       sb->tb=bondTypesQuery[i];
-    };
+    }
     sm.defineAtomConn();
     sm.allAboutCycles();
     em.prepareQuery(sm);
@@ -6156,11 +6156,11 @@ namespace OpenBabel {
     for (i=0; i<sm.nAtoms(); i++) {
       sa=sm.getAtom(i);
       sa->na=aPositionStructure[i];
-    };
+    }
     for (i=0; i<sm.nBonds(); i++) {
       sb=sm.getBond(i);
       sb->tb=bondTypesStructure[i];
-    };
+    }
     sm.defineAtomConn();
     sm.allAboutCycles();
 
@@ -6184,11 +6184,11 @@ namespace OpenBabel {
       sa->na=aPosition[i];
       sa->nc=aCharge[i];
       sa->rl=aRad[i];
-    };
+    }
     for (i=0; i<sm.nBonds(); i++) {
       sb=sm.getBond(i);
       sb->tb=bondTypes[i];
-    };
+    }
     sm.defineAtomConn();
     sm.allAboutCycles();
     sm.makeEquivalentList(eqList,false);
@@ -6222,7 +6222,7 @@ namespace OpenBabel {
       if (eMol.getAtom(i)->rl != 0) sa.SetSpinMultiplicity(1);
       sa.SetVector(eMol.getAtom(i)->rx,eMol.getAtom(i)->ry,0.0);
       molecule->AddAtom(sa);
-    };
+    }
     for (i=0; i<eMol.nBonds(); i++) molecule->AddBond(eMol.getBond(i)->at[0]+1,eMol.getBond(i)->at[1]+1,eMol.getBond(i)->tb);
     molecule->EndModify();
   };
@@ -6243,7 +6243,7 @@ namespace OpenBabel {
       if ((sm.getBond(i)->tb == 9) || (sm.getBond(i)->tb == 10)) n++;
       if ((sm.getBond(i)->tb == 2) && (sm.getBond(i)->db < 2)) m++;
       if ((m > 0) || (n > 1)) break;
-    };
+    }
     sm.makeEquivalentList(eqList,false);
     bondStereoList.resize(sm.nBonds());
     for (i=0; i<sm.nBonds(); i++) bondStereoList[i]=0;
@@ -6254,7 +6254,7 @@ namespace OpenBabel {
         if (test) {
           n=sm.getBond(i)->at[1];
           test=(sm.getAtom(n)->nb > 1) && (sm.getAtom(n)->nb <= 3);
-        };
+        }
         n=sm.getBond(i)->at[0];
         m=sm.getBond(i)->at[1];
         if (test && (sm.getAtom(n)->nb == 3)) {  //checking if equivalent substitutors are present....
@@ -6262,11 +6262,11 @@ namespace OpenBabel {
           n2=-1;
           for (j=0; j<sm.getAtom(n)->nb; j++) if (sm.getAtom(n)->ac[j] != m) {
               if (n1 == -1) n1=sm.getAtom(n)->ac[j]; else n2=sm.getAtom(n)->ac[j];
-            };
+            }
           if ((n1 >= 0) && (n2 >= 0)) {
             if (eqList[n1] == eqList[n2]) test=false;
-          };
-        };
+          }
+        }
         n=sm.getBond(i)->at[1];
         m=sm.getBond(i)->at[0];
         if (test && (sm.getAtom(n)->nb == 3)) {  //checking if equivalent substitutors are present....
@@ -6274,13 +6274,13 @@ namespace OpenBabel {
           n2=-1;
           for (j=0; j<sm.getAtom(n)->nb; j++) if (sm.getAtom(n)->ac[j] != m) {
               if (n1 == -1) n1=sm.getAtom(n)->ac[j]; else n2=sm.getAtom(n)->ac[j];
-            };
+            }
           if ((n1 >= 0) && (n2 >= 0)) {
             if (eqList[n1] == eqList[n2]) test=false;
-          };
-        };
+          }
+        }
         if (test) bondStereoList[i]=1;
-      };  //end of double bond stereo list formation
+      }  //end of double bond stereo list formation
 
     //Formation of atoms, which have stereo notation....
     atomStereoList.resize(sm.nAtoms());
@@ -6288,7 +6288,7 @@ namespace OpenBabel {
     for (i=0; i<sm.nBonds(); i++) if ((sm.getBond(i)->tb == 9) || (sm.getBond(i)->tb == 10)) {
         n=sm.getBond(i)->at[0];
         atomStereoList[n]=1;
-      };
+      }
   };
 
   int compareStringsNumbers(string s1, string s2) {
@@ -6300,10 +6300,10 @@ namespace OpenBabel {
     if (s2.length()>n) n=s2.length();
     if (s1.length()<n) for (i=s1.length(); i<n; i++) {
         if ((s1.at(0) >= '0') && (s1.at(0) <= '9')) s1="0"+s1; else s1=s1+"0";
-      };
+      }
     if (s2.length()<n) for (i=s2.length(); i<n; i++) {
         if ((s2.at(0) >= '0') && (s2.at(0) <= '9')) s2="0"+s2; else s2=s2+"0";
-      };
+      }
     //lowest priority -zz
 
     result=s1.compare(s2);
@@ -6331,23 +6331,23 @@ namespace OpenBabel {
         test=false;
         if (sm.getAtom(n)->anum.length() > 0) test=true;
         if (test) collectedSymbols[nPrior-1]=sm.getAtom(n)->anum; else collectedSymbols[nPrior-1]=aSymb[sm.getAtom(n)->na];
-      };
-    };
+      }
+    }
     n=sm.getNH(atAtom);
     for (i=0; i<n; i++) {
       nPrior++;
       collectedSymbols[nPrior-1]="H";
-    };
+    }
     if (nPrior < 4) for (i=0; i<4; i++) {
         nPrior++;
         collectedSymbols[nPrior-1]=ndData;//"zz";  //instead of 0 - less prioritate....
         if (nPrior == 4) break;
-      };
+      }
     for (i=0; i<(nPrior-1); i++) for (j=i+1; j<nPrior; j++) if (compareStringsNumbers(collectedSymbols[i],collectedSymbols[j])>0) {
           result=collectedSymbols[i];
           collectedSymbols[i]=collectedSymbols[j];
           collectedSymbols[j]=result;
-        };
+        }
     if ((priority > 0) && (priority <= nPrior)) result=collectedSymbols[priority-1];
     return result;
   };
@@ -6377,7 +6377,7 @@ namespace OpenBabel {
     while (n>=0) {
       result=result.substr(0,n+1)+result.substr(n+2);
       n=indexOf(result,",0");
-    };
+    }
     return result;
   };
 
@@ -6398,15 +6398,15 @@ namespace OpenBabel {
         if (s2.length() == 0) {
           s2=data.substr(n+1);
           m=n;
-        };
-      };
+        }
+      }
       test=(n1 < 2) && (n > 1);
-    };
+    }
     if ((n1 == 2) && (n > 0) && (m > 0)) s1=data.substr(n+1,m);
     if ((s1.length() >0 ) && (s2.length() > 0)) {
       n=compareStringsNumbers(s1,s2);
       if (n > 0) result=1; else if (n < 0) result=-1;
-    };
+    }
     return result;
   };
 
@@ -6427,8 +6427,8 @@ namespace OpenBabel {
         test=false;
         s3=data.substr(n+1);
         m=n;
-      };
-    };
+      }
+    }
     test=n>1;
     while (test) {
       n--;
@@ -6436,8 +6436,8 @@ namespace OpenBabel {
         test=false;
         s2=data.substr(n+1,m);
         m=n;
-      };
-    };
+      }
+    }
     test=n>1;
     while (test) {
       n--;
@@ -6445,12 +6445,12 @@ namespace OpenBabel {
         test=false;
         s1=data.substr(n+1,m);
         m=n;
-      };
-    };
+      }
+    }
     if ((s1.length() > 0) && (s2.length() > 0)) {
       n=compareStringsNumbers(s1,s2);
       if (n > 0) result=1; else if (n < 0) result=-1;
-    };
+    }
     return result;
   };
 
@@ -6472,14 +6472,14 @@ namespace OpenBabel {
         if (s2.length() == 0) {
           s2=data.substr(n+1);
           m=n;
-        };
-      };
+        }
+      }
       test=(n1 < 2) && (n > 1);
-    };
+    }
     if ((n1 == 2) && (n > 0) && (m > 0)) {
       s1=data.substr(n+1,m);
       result=data.substr(0,n)+","+s2+","+s1;
-    };
+    }
     return result;
   };
 
@@ -6500,8 +6500,8 @@ namespace OpenBabel {
         test=false;
         s3=data.substr(n+1);
         m=n;
-      };
-    };
+      }
+    }
     test=n>1;
     while (test) {
       n--;
@@ -6509,8 +6509,8 @@ namespace OpenBabel {
         test=false;
         s2=data.substr(n+1,m);
         m=n;
-      };
-    };
+      }
+    }
     test=n>1;
     while (test) {
       n--;
@@ -6518,11 +6518,11 @@ namespace OpenBabel {
         test=false;
         s1=data.substr(n+1,m);
         m=n;
-      };
-    };
+      }
+    }
     if ((s1.length() > 0) && (s2.length() > 0) && (s3.length() > 0)) {
       result=data.substr(0,n)+","+s2+","+s1+","+s3;
-    };
+    }
     return result;
   };
 
@@ -6545,7 +6545,7 @@ namespace OpenBabel {
       n=ix[i];        //new numeration
       atn=aNumber[i]; //numeration in sm
       sm.getAtom(atn)->anum=intToStr(n);
-    };
+    }
 
     for (i=0; i<ntatoms; i++) {
       atn=aNumber[i]; //atom number in sm (initial molecule)
@@ -6574,25 +6574,25 @@ namespace OpenBabel {
                 sm.getAtom(m)->fragIndex=5-j;
                 n1=k;
                 break;
-              };
-            };
+              }
+            }
           if (n1 > 0) priority[j-1]=n1; else if (j<4) priority[j-1]=-1;
           if (j <= 2) data=data+","+s;  else if (j == 3) as1=s; else as2=s;
-        };
+        }
 
         int bn=-1;
         for (j=0; j<sm.nBonds(); j++) if ((sm.getBond(j)->tb == 9) || (sm.getBond(j)->tb == 10)) {
             if (sm.getBond(j)->at[0] == atn) {
               bn=j;
               break;
-            };
-          };
+            }
+          }
         m=sm.singleAtomicDescriptor(atn,bn,true);
         if (m == 1) data=data+","+as2+","+as1; else data=data+","+as1+","+as2;
         v.push_back(data);
         anumStereo.push_back(atn);  //accumulation of atomic numbers in sm to check meso-forms...
-      };
-    };
+      }
+    }
 
     //meso-isomer handling
     string ss="";
@@ -6610,9 +6610,9 @@ namespace OpenBabel {
                   if (! testParity) {
                     m=analizeParity(s1);
                     if (k*m == -1) testParity=true;
-                  };
+                  }
                   if (s.compare(s1) > 0) s=s1;
-                };
+                }
             if (testParity) {
               if ((ss.length() == 0) || (ss.compare(s) > 0)) ss=s;
               for (j=i+1; j<anumStereo.size(); j++) if ((anumStereo[i] >= 0) && (anumStereo[j] >= 0)) if (eqList[anumStereo[i]] == eqList[anumStereo[j]]) anumStereo[j]=-1;
@@ -6621,9 +6621,9 @@ namespace OpenBabel {
               for (j=i+1; j<anumStereo.size(); j++) if ((anumStereo[i] >= 0) && (anumStereo[j] >= 0)) if (eqList[anumStereo[i]] == eqList[anumStereo[j]]) anumStereo[j]=-2;
               anumStereo[i]=-2;
               presentOtherStereo=true;
-            };
+            }
           } else anumStereo[i]=-2;
-        };
+        }
     //Do not analyze meso-forms for complex molecules....
     if (presentOtherStereo) ss="";
 
@@ -6633,8 +6633,8 @@ namespace OpenBabel {
             s=v[i];
             s1=changeParity(s);
             v[i]=s1;
-          };
-    };
+          }
+    }
 
     //end meso-isomers handling
     //sorting vectors...
@@ -6644,8 +6644,8 @@ namespace OpenBabel {
           if (compareStringsNumbers(s1,s2) > 0) {
             v[j]=s1;
             v[i]=s2;
-          };
-        };
+          }
+        }
     if (v.size() > 0) {
       result=fsastart;
       for (i=0; i < v.size(); i++) {
@@ -6653,17 +6653,17 @@ namespace OpenBabel {
         while (indexOf(s1,"zz") > 0) {  //Substitite temporary lowest-priority 00 to zero
           n=indexOf(s1,"zz");
           s1=s1.substr(0,n)+"0"+s1.substr(n+2);
-        };
+        }
         while (indexOf(s1,"00") > 0) {  //Substitite temporary lowest-priority 00 to zero
           n=indexOf(s1,"00");
           s1=s1.substr(0,n)+"0"+s1.substr(n+2);
-        };
+        }
         if (i > 0) result=result+";";
         s1=removeZeroeth(s1);
         result=result+s1;
-      };
+      }
       result=result+"}";
-    };
+    }
     return result;
   };
 
@@ -6699,7 +6699,7 @@ namespace OpenBabel {
       n=ix[i];        //new numeration
       k=aNumber[i];   //numeration in sm
       sm.getAtom(k)->anum=intToStr(n);
-    };
+    }
 
 
 
@@ -6713,7 +6713,7 @@ namespace OpenBabel {
             k=bonds[i][0];
             bonds[i][0]=bonds[i][1];
             bonds[i][1]=k;
-          };
+          }
           //1-st atom has minimal number now. Search for minimal number, attached to first
           n1=ix[bonds[i][0]-1];
           n2=ix[bonds[i][1]-1];
@@ -6732,43 +6732,43 @@ namespace OpenBabel {
                   if (an1 == -1) an1=ix[bonds[j][1]-1]; else an2=ix[bonds[j][1]-1];
                 } else {
                   if (an1 == -1) an1=ix[bonds[j][0]-1]; else an2=ix[bonds[j][0]-1];
-                };
-              };
+                }
+              }
               if ((bonds[j][0] == bonds[i][1]) || (bonds[j][1] == bonds[i][1])) {
                 if (n3 == -1) n3=j; else n4=j;
                 if (bonds[j][0] == bonds[i][1]) {
                   if (an3 == -1) an3=ix[bonds[j][1]-1]; else an4=ix[bonds[j][1]-1];
                 } else {
                   if (an3 == -1) an3=ix[bonds[j][0]-1]; else an4=ix[bonds[j][0]-1];
-                };
-              };
-            };
+                }
+              }
+            }
           if ((an1 >= 0) && (an2 >= 0)) if (an1 > an2) {
               k=n1; n1=n2; n2=k;
               k=an1; an1=an2; an2=k;
-            };
+            }
           //Now n1,n2 contains bond numbers in bonds array, connected to bonds[i][0] atom. n3,n4-bond numbers, connected to bonds[i][1] atom.
           //I have to use corresponding elements bonds[n1][3] to determine bond numbers in initial molecule sm.
           if (an1 >= 0) as1=""+intToStr(an1); else {
             //Hydrogens MUST not be...
             as1=getAtomSymbol(sm,aNumber[bonds[i][0]-1],aNumber[bonds[i][1]-1],1,"zz");
-          };
+          }
           if (an2 >= 0) as2=""+intToStr(an2); else {
             as2=getAtomSymbol(sm,aNumber[bonds[i][0]-1],aNumber[bonds[i][1]-1],2,"zz");
             if (as2.compare("zz") == 0) {
               as2="00";
-            };
-          };
+            }
+          }
           if (an3 >= 0) as3=""+intToStr(an3); else {
             //Hydrogens MUST not be...
             as3=getAtomSymbol(sm,aNumber[bonds[i][1]-1],aNumber[bonds[i][0]-1],1,"zz");
-          };
+          }
           if (an4 >= 0) as4=""+intToStr(an4); else {
             as4=getAtomSymbol(sm,aNumber[bonds[i][1]-1],aNumber[bonds[i][0]-1],2,"zz");
             if (as4.compare("zz") == 0) {
               as4="00";
-            };
-          };
+            }
+          }
 
           if (n1 < 0) {  //bond is connected with undefined atom - search for it....
             an1=aNumber[bonds[i][0]-1];
@@ -6781,10 +6781,10 @@ namespace OpenBabel {
                 if (k != an2) {
                   s=getAtomSymbol(sm,k);
                   if (s.compare(as1) == 0) n1=j;
-                };
-              };
+                }
+              }
               if (n1 >= 0) break;
-            };
+            }
             //Searching for anum!
           } else n1=bonds[n1][3]-1;
           if (n3 < 0) {  //bond is connected with undefined atom - search for it....
@@ -6798,10 +6798,10 @@ namespace OpenBabel {
                 if (k != an2) {
                   s=getAtomSymbol(sm,k);
                   if (s.compare(as3) == 0) n3=j;
-                };
-              };
+                }
+              }
               if (n3 >= 0) break;
-            };
+            }
             //Searching for anum!
           } else n3=bonds[n3][3]-1;
 
@@ -6838,14 +6838,14 @@ namespace OpenBabel {
                 data=data+","+as3;
                 data=data+","+as2;
               } else data="";  //collinear
-            };
-          };
+            }
+          }
           if (data.length() > 0) {
             v.push_back(data);
             anumStereo.push_back(n);
-          };
+          }
         }
-      };
+      }
 
 
     //Identical double-bonds search, like cis,trans-hexa-2,4-diene
@@ -6861,9 +6861,9 @@ namespace OpenBabel {
                 if (! testParity) {
                   m=analizeParityBond(s1);
                   if (k*m == -1) testParity=true;
-                };
+                }
                 if (compareStringsNumbers(s,s1)>0) s=s1;
-              };
+              }
             if (testParity) {
               k=analizeParityBond(s);
               if (k == 1) {  //all parities should be changed to satisfy..
@@ -6874,14 +6874,14 @@ namespace OpenBabel {
                     s=v[j];
                     s1=changeParityBond(s);
                     v[j]=s1;
-                  };
-              };
-            };
+                  }
+              }
+            }
             // set all anumStereo processed to 0 to indicate, that no processing is required
             for (j=i+1; j<anumStereo.size(); j++) if (bondEquivalent(anumStereo[i],anumStereo[j],eqList,sm)) anumStereo[j]=-1;
-          };
+          }
           anumStereo[i]=-1;
-        }; //end symmetrical bonds
+        } //end symmetrical bonds
 
     if (v.size() > 1) for (i=0; i<(v.size() - 1); i++) for (j=i+1; j<v.size(); j++) {
           s1=v[i];
@@ -6889,8 +6889,8 @@ namespace OpenBabel {
           if (compareStringsNumbers(s1,s2) > 0) {
             v[j]=s1;
             v[i]=s2;
-          };
-        };
+          }
+        }
     if (v.size() > 0) {   //stereobonds present
       result=fsbstart;
       for (i=0; i < v.size(); i++) {
@@ -6898,15 +6898,15 @@ namespace OpenBabel {
         while (indexOf(s1,"zz") > 0) {  //Substitite temporary lowest-priority 00 to zero
           n=indexOf(s1,"zz");
           s1=s1.substr(0,n)+"0"+s1.substr(n+2);
-        };
+        }
         while (indexOf(s1,"00") > 0) {  //Substitite temporary lowest-priority 00 to zero
           n=indexOf(s1,"00");
           s1=s1.substr(0,n)+"0"+s1.substr(n+2);
-        };
+        }
         if (i > 0) result=result+";";
         s1=removeZeroeth(s1);
         result=result+s1;
-      };
+      }
       result=result+"}";
     } else result="";
     return result;
@@ -6920,7 +6920,7 @@ namespace OpenBabel {
     while (n>=0) {
       result=result.substr(0,n+1)+stringAdd+result.substr(n+1);
       n=indexOf(result,",,");
-    };
+    }
     return result;
   };
 
@@ -6937,14 +6937,14 @@ namespace OpenBabel {
             k=iA1[i];
             iA1[i]=iA2[i];
             iA2[i]=k;
-          };
+          }
           sm.getBond(i)->tb=9;  //up
           k=sm.singleAtomicDescriptor(atomNo,i,false);
           //!!! By unknown reason inversion of configuration took place.
           if (k == parity) stereoBonds[i]=2; else stereoBonds[i]=1;
           break;
-        };
-      };
+        }
+      }
   };
 
 
@@ -6970,7 +6970,7 @@ namespace OpenBabel {
       } else {
         s=astereo;
         astereo="";
-      };
+      }
       //analize s
       if (s.length() > 0) {
         //save data in Astereo... Bond reconfiguring is possible only after re-drawing and chain rotations
@@ -6989,7 +6989,7 @@ namespace OpenBabel {
           if (n1<0) {
             n1=indexOf(s,"0");
             if (n1 > 0) n1=indexOf(s,",0"); //occupy last position
-          };
+          }
           if (n1 == 0) {
             setUpDownBonds(atn,1,sm,iA1,iA2,stereoBonds);
           } else if (n1 > 0) {
@@ -7006,12 +7006,12 @@ namespace OpenBabel {
                 if (compareStringsNumbers(temp,s) < 0) /*result.fAtom.setAStereo(atn,(byte)1)*/setUpDownBonds(atn,1,sm,iA1,iA2,stereoBonds); else setUpDownBonds(atn,2,sm,iA1,iA2,stereoBonds)/*result.fAtom.setAStereo(atn,(byte)2)*/;
               } else {
                 if (compareStringsNumbers(temp,s) > 0) /*result.fAtom.setAStereo(atn,(byte)1)*/setUpDownBonds(atn,1,sm,iA1,iA2,stereoBonds); else setUpDownBonds(atn,2,sm,iA1,iA2,stereoBonds)/*result.fAtom.setAStereo(atn,(byte)2)*/;
-              };
-            };
-          };
-        };
-      };
-    };
+              }
+            }
+          }
+        }
+      }
+    }
   };
 
   // The following function is used by MCDLformat.cpp
@@ -7034,7 +7034,7 @@ namespace OpenBabel {
       } else {
         s=bstereo;
         bstereo="";
-      };
+      }
       //analize s
       if (s.length() > 0) {
         //save data in Bstereo... Bond reconfiguring is possible only after re-drawing
@@ -7053,7 +7053,7 @@ namespace OpenBabel {
             for (i=0; i<sm.nBonds(); i++) if (((sm.getBond(i)->at[0] == (n1-1)) && (sm.getBond(i)->at[1] == (n2-1))) || ((sm.getBond(i)->at[0] == (n2-1)) && (sm.getBond(i)->at[1] == (n1-1)))) {
                 bn=i;
                 break;
-              };
+              }
             n1=-1;
             n2=-1;
             k=indexOf(s,",");
@@ -7061,7 +7061,7 @@ namespace OpenBabel {
             if (k > 0)  {
               sF=s.substr(0,k);
               s=s.substr(k+1);  //removing 1-st fragment, added to an1
-            };
+            }
             k=indexOf(s,",");
             sa1=""; sa2="";
             if (k > 0) {                    //and analizing of order of two remaining fragments, connected to an2
@@ -7072,11 +7072,11 @@ namespace OpenBabel {
                 if (n1 == 0) {
                   n1=-1;
                   sa1="00";//"zz";
-                };
+                }
               } catch (exception &ex) {
                 n1=-1;
-              };
-            };
+              }
+            }
             k=indexOf(s,",");
             if (k > 0) {
               sa2=s.substr(0,k);
@@ -7086,11 +7086,11 @@ namespace OpenBabel {
                 if (n2 == 0) {
                   n2=-1;
                   sa2="00";//"zz";
-                };
+                }
               } catch (exception &ex) {
                 n2=-1;
-              };
-            };
+              }
+            }
             if (bn >= 0) {
               if ((n1 < 0) && (n2 < 0)) {
                 if (compareStringsNumbers(sa1,sa2) > 0) k=1; else k=2;
@@ -7098,23 +7098,23 @@ namespace OpenBabel {
                 if (n1 < 0) k=1; else //E
                   if (n2 < 0) k=2; else { //Z
                     if (n1 < n2) k=2; else k=1;
-                  };
-              };
+                  }
+              }
               if (sF.compare("0") == 0) k=3-k;
               sm.getBond(bn)->bstereo=k;
               hasStereo=true;
-            };
-          };
-        };
-      };
-    };
+            }
+          }
+        }
+      }
+    }
     if (hasStereo) {
       coorChanged = sm.correctDblBondStereo();
       if (coorChanged) for (i=0; i<sm.nAtoms(); i++) {
           rx[i]=sm.getAtom(i)->rx;
           ry[i]=sm.getAtom(i)->ry;
-        };
-    };
+        }
+    }
   };
 
   //****************************************************************************
@@ -7141,17 +7141,17 @@ namespace OpenBabel {
     if ((bondN >= sm.nBonds())  || (bondN < 0) || (atomN >= sm.nAtoms()) || (atomN < 0)) {
       result=1;
       return result;
-    };
+    }
 
     if (sm.getBond(bondN)->db > 0) {
       result=2;
       return result;
-    };
+    }
     if (! atomNInGroup) {
       n=sm.getBond(bondN)->at[0];
       if (n == atomN) n=sm.getBond(bondN)->at[1];
       atomN=n;
-    };
+    }
     std::vector<int> allAtomList(sm.nAtoms(), 0);
     std::vector<int>    atomList(sm.nAtoms(), 0);
     n=0;
@@ -7161,7 +7161,7 @@ namespace OpenBabel {
     } else {
       at=sm.getBond(bondN)->at[1];
       atEx=sm.getBond(bondN)->at[0];
-    };
+    }
     if (sm.makeFragment(atomList,at,atEx)) {
       //addition of atom in non-cleaned fragment at last position
       atomList.push_back(atEx);
@@ -7170,14 +7170,14 @@ namespace OpenBabel {
       for (i=0; i<sm.nBonds(); i++) if ((allAtomList[sm.getBond(i)->at[0]] == 1) && (allAtomList[sm.getBond(i)->at[1]] == 1)) {
           bondList.push_back(i);
           nb++;
-        };
+        }
       sm.redraw(atomList,bondList,atomList.size(),nb,3,atEx,bondN,false);
       //Setting OBMOL coordinates
       for (int i=0; i<atomList.size(); i++) {
         n=atomList[i];
         atom=pmol->GetAtom(n+1);  //1-based
         atom->SetVector(sm.getAtom(n)->rx,sm.getAtom(n)->ry,0.0);
-      };
+      }
     } else result=3;  //unknown error
     return result;
   };
@@ -7223,12 +7223,12 @@ namespace OpenBabel {
                 s=value.substr(n1,n2+1);
                 k=atoi(s.c_str());
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
-              };
+              }
             enumber[i]=enumber[i]+k;
             if ((n == 0) && (valency == -1)) valency=i;
-          };
-        };
-      };
+          }
+        }
+      }
     for (i=1; i<NELEMMCDL; i++) if (aSymb[i].length() == 1) {
         test=true;
         asym=aSymb[i];
@@ -7247,12 +7247,12 @@ namespace OpenBabel {
                 s=value.substr(n1,n2+1);
                 k=atoi(s.c_str());
                 value=value.substr(0,n1)+value.substr(n2+1,value.length());
-              };
+              }
             enumber[i]=enumber[i]+k;
             if ((n == 0) && (valency == -1)) valency=i;
-          };
-        };
-      };
+          }
+        }
+      }
     if (valency > 0) {
       n=valency;
       valency=hVal[n];
@@ -7262,9 +7262,9 @@ namespace OpenBabel {
           if (k == 0) k=1;
           k=k*enumber[i];
           valency=valency-k;
-        };
+        }
       if (valency <= 0) valency=1;
-    };
+    }
     return (value.length() == 0);
   };
 

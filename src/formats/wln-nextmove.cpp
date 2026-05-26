@@ -646,7 +646,7 @@ struct WLNParser {
         for (int i = 0; i <= ptr_it; i++) {
             if (isdigit(wln_string.at(i))) {
                 atom_vector.push_back(wln_string.at(i) - '0');
-                if (isalpha(wln_string.at(i-1))) {;
+                if (isalpha(wln_string.at(i-1))) {
                     char_vector.push_back(wln_string.at(i-1));}
                 else
                     char_vector.push_back('A');}

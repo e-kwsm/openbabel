@@ -64,8 +64,8 @@ namespace OpenBabel
     virtual                 ~FilteringInputStreambuf()
     {
       //sync(); comment out so can be deleted in OBConversion destructor
-    };
-    virtual int              overflow( int ) {return EOF;};
+    }
+    virtual int              overflow( int ) {return EOF;}
     virtual int              underflow() ;
     virtual int              sync() ;
 
@@ -78,7 +78,7 @@ namespace OpenBabel
       std::streampos ret = mySource->tellg();
 //      sync();
       return ret;
-    };
+    }
 
     virtual std::streampos   seekpos(std::streampos sp,
       std::ios_base::openmode /*which*/ = std::ios_base::in | std::ios_base::out )
@@ -91,13 +91,13 @@ namespace OpenBabel
       std::streampos ret = mySource->tellg();
 //      sync();
       return ret;
-    };
+    }
 
     /// Returns current source.
     std::istream* GetSource()const
     {
       return mySource;
-    };
+    }
 
     ///Changes the source
     void SetSource(std::istream* newsource)

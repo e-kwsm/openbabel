@@ -116,7 +116,7 @@ std::cerr << "Not a valid input format"; return false;}
     /// Currently, can be a bitwise OR of any of the following
     /// NOTREADABLE READONEONLY NOTWRITABLE WRITEONEONLY DEFAULTFORMAT
     /// READBINARY WRITEBINARY READXML
-    virtual unsigned int Flags() { return 0;};
+    virtual unsigned int Flags() { return 0;}
 
     /// @brief Skip past first n objects in input stream (or current one with n=0)
 
@@ -124,7 +124,7 @@ std::cerr << "Not a valid input format"; return false;}
     virtual int SkipObjects(int /*n*/, OBConversion* /*pConv*/)
       {
         return 0; //shows not implemented in the format class
-      };
+      }
 
     /// \return a pointer to a new instance of the format, or NULL if fails.
 

@@ -66,7 +66,7 @@ namespace OpenBabel
 
       //! Output a formatted message string
       friend std::ostream& operator<< ( std::ostream &os, const OBError &er )
-        { return os << er.message(); };
+        { return os << er.message(); }
 
       /** \return The method which caused this error
           (typically supplied via the __FUNCTION__ compiler macro **/

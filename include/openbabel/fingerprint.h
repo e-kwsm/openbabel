@@ -66,7 +66,7 @@ public:
 
   /// Optional flags
   enum FptFlag{FPT_UNIQUEBITS=1, FPT_NOINFO=2};
-  virtual unsigned int Flags() { return 0;};
+  virtual unsigned int Flags() { return 0;}
   //// \since version 2.3
   virtual void SetFlags(unsigned int){}
 
@@ -108,7 +108,7 @@ public:
 #endif
     }
       return((double)andbits/(double)orbits);
-  };
+  }
 
   static unsigned int Getbitsperint(){ return bitsperint; }
 
@@ -170,7 +170,7 @@ public:
   std::string ReadIndexFile(std::string IndexFilename);
   std::string ReadIndex(std::istream* pIndexstream);
 
-  virtual ~FastSearch(){};
+  virtual ~FastSearch(){}
 
   /// \brief Does substructure search and returns vector of the file positions of matches
   bool    Find(OBBase* pOb, std::vector<unsigned long>& SeekPositions, unsigned int MaxCandidates);
@@ -191,10 +191,10 @@ public:
     int nCandidates=0);
 
   /// \return a pointer to the fingerprint type used to constuct the index
-  OBFingerprint* GetFingerprint() const{ return _pFP;};
+  OBFingerprint* GetFingerprint() const{ return _pFP;}
 
   /// \return a pointer to the index header containing size info etc.
-  const FptIndexHeader& GetIndexHeader() const{ return _index.header;};
+  const FptIndexHeader& GetIndexHeader() const{ return _index.header;}
 
 private:
   FptIndex   _index;
