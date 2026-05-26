@@ -70,17 +70,17 @@ data = bswap_32 (data);
 // Non-Apple systems
 // defined in babelconfig.h by autoconf (portable to Solaris, BSD, Linux)
 #ifdef WORDS_BIGENDIAN
-#    define READ_INT16(stream,data) \
+#    define READ_INT16(stream,data) do { \
 (stream).read ((char*)&data, sizeof(data)); \
-data = bswap_16 (data);
-#    define READ_INT32(stream,data) \
+data = bswap_16 (data); } while (0)
+#    define READ_INT32(stream,data) do { \
 (stream).read ((char*)&data, sizeof(data)); \
-data = bswap_32 (data);
+data = bswap_32 (data); } while (0)
 #else
-#    define READ_INT16(stream,data) \
-(stream).read ((char*)&data, sizeof(data));
-#    define READ_INT32(stream,data) \
-(stream).read ((char*)&data, sizeof(data));
+#    define READ_INT16(stream,data) do { \
+(stream).read ((char*)&data, sizeof(data)); } while (0)
+#    define READ_INT32(stream,data) do { \
+(stream).read ((char*)&data, sizeof(data)); } while (0)
 #endif
 // end endian / bigendian issues (on non-Mac systems)
 #endif
