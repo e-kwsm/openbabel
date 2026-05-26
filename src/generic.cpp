@@ -683,20 +683,20 @@ namespace OpenBabel
   OBUNITCELL_CALL_CONST_OVERLOAD(double, GetGamma)
   OBUNITCELL_CALL_CONST_OVERLOAD(vector3, GetOffset)
   OBUNITCELL_CALL_CONST_OVERLOAD_ARG(OBUnitCell::LatticeType,
-                                     GetLatticeType, int);
+                                     GetLatticeType, int)
   OBUNITCELL_CALL_CONST_OVERLOAD(OBUnitCell::LatticeType, GetLatticeType)
   OBUNITCELL_CALL_CONST_OVERLOAD(std::vector<vector3>, GetCellVectors)
   OBUNITCELL_CALL_CONST_OVERLOAD(matrix3x3, GetCellMatrix )
   OBUNITCELL_CALL_CONST_OVERLOAD(matrix3x3, GetOrthoMatrix )
   OBUNITCELL_CALL_CONST_OVERLOAD(matrix3x3, GetOrientationMatrix )
   OBUNITCELL_CALL_CONST_OVERLOAD(matrix3x3, GetFractionalMatrix )
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, FractionalToCartesian, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, CartesianToFractional, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, WrapCartesianCoordinate, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, WrapFractionalCoordinate, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, MinimumImageCartesian, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, MinimumImageFractional, vector3);
-  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(int, GetSpaceGroupNumber, std::string);
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, FractionalToCartesian, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, CartesianToFractional, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, WrapCartesianCoordinate, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, WrapFractionalCoordinate, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, MinimumImageCartesian, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(vector3, MinimumImageFractional, vector3)
+  OBUNITCELL_CALL_CONST_OVERLOAD_ARG(int, GetSpaceGroupNumber, std::string)
   OBUNITCELL_CALL_CONST_OVERLOAD(double, GetCellVolume)
   // Based on OBUNITCELL_CALL_CONST_OVERLOAD_ARG above
 #define OBUNITCELL_CALL_CONST_OVERLOAD_ARG2(_type, _name, _argsig, _argsig2) \
