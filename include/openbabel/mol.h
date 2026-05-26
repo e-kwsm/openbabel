@@ -109,9 +109,9 @@ namespace OpenBabel
 #define OB_PERIODIC_MOL          (1<<23)
   // flags 24-32 unspecified
 
-#define SET_OR_UNSET_FLAG(X) \
+#define SET_OR_UNSET_FLAG(X) do { \
   if (value) SetFlag(X); \
-  else     UnsetFlag(X);
+  else     UnsetFlag(X); } while (0)
 
 #define OB_CURRENT_CONFORMER	 -1
 
