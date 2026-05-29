@@ -272,6 +272,12 @@ namespace OpenBabel
     return nullptr;
   }
 
+  OBFFParameter* OBForceFieldGaff::GetParameterOOP(const std::string& a, const std::string& b, const std::string& c, const std::string& d,
+        std::vector<OBFFParameter> &parameter)
+  {
+    return GetParameterOOP(a.c_str(), b.c_str(), c.c_str(), d.c_str(), parameter);
+  }
+
   template<bool gradients>
   void OBFFOOPCalculationGaff::Compute()
   {
