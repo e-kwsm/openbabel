@@ -193,12 +193,16 @@ string OBPlugin::ListAsString(const char* PluginID, const char* param)
 
 string OBPlugin::FirstLine(const char* txt)
 {
-  string stxt(txt);
-  string::size_type pos = stxt.find('\n');
+  return FirstLine(std::string{txt});
+}
+
+string OBPlugin::FirstLine(const std::string& txt)
+{
+  string::size_type pos = txt.find('\n');
   if(pos==string::npos)
-    return stxt;
+    return txt;
   else
-    return stxt.substr(0,pos);
+    return txt.substr(0,pos);
 }
 
 //Default version
