@@ -560,7 +560,13 @@ class Molecule(object):
             raise Exception(error)
         return [atom.partialcharge for atom in self.atoms]
 
-    def write(self, format="smi", filename=None, overwrite=False, opt=None):
+    def write(
+        self,
+        format: str = "smi",
+        filename: bytes | str | None = None,
+        overwrite: bool = False,
+        opt=None,
+    ):
         """Write the molecule to a file or return a string.
 
         Optional parameters:
@@ -907,7 +913,7 @@ class Residue(object):
         return self.OBResidue.GetIdx()
 
     @property
-    def name(self):
+    def name(self) -> str:
         return self.OBResidue.GetName()
 
     def __iter__(self):
