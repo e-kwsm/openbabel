@@ -63,7 +63,7 @@ public:
     {
       OBOp* pOp = dynamic_cast<OBOp*>(itr->second);
        //ignore ops with IDs that begin with '_' or have "not displayed in GUI" in their first line of description
-      if(*(itr->first)=='_'
+      if(itr->first[0]=='_'
         || OBPlugin::FirstLine(pOp->Description()).find("not displayed in GUI")!=std::string::npos)
         continue;
       if(pOp && pOp->WorksWith(pOb))
