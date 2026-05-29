@@ -22,7 +22,7 @@ import sys
 import os.path
 import tempfile
 import xml.etree.ElementTree as ET
-from typing import Iterator
+from typing import Iterator, Never
 
 if sys.platform[:4] == "java":
     import org.openbabel as ob
@@ -778,7 +778,7 @@ class Atom(object):
         return self.OBAtom.GetAtomicNum()
 
     @property
-    def cidx(self):
+    def cidx(self) -> Never:
         raise AttributeError("This property is no longer available.")
 
     @property
@@ -802,7 +802,7 @@ class Atom(object):
         return self.OBAtom.GetHvyDegree()
     
     @property
-    def heavyvalence(self):
+    def heavyvalence(self) -> Never:
         raise AttributeError("This property has been renamed. Use Atom.heavydegree instead.")
 
     @property
@@ -810,7 +810,7 @@ class Atom(object):
         return self.OBAtom.GetHeteroDegree()
     
     @property
-    def heterovalence(self):
+    def heterovalence(self) -> Never:
         raise AttributeError("This property has been renamed. Use Atom.heterodegree instead.")
 
     @property
@@ -854,7 +854,7 @@ class Atom(object):
         return self.OBAtom.GetType()
 
     @property
-    def valence(self):
+    def valence(self) -> Never:
         raise AttributeError("This property has been renamed. Use Atom.degree instead.")
 
     @property
