@@ -1701,7 +1701,7 @@ class OBAtom(OBBase):
     GetIdx: Incomplete
     GetIndex: Incomplete
     GetId: Incomplete
-    GetCoordinateIdx: Incomplete
+    def GetCoordinateIdx(self) -> int: ...
     GetExplicitDegree: Incomplete
     GetTotalDegree: Incomplete
     GetExplicitValence: Incomplete
