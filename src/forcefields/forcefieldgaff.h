@@ -98,6 +98,8 @@ namespace OpenBabel
       // This specialization is needed because improper-dihedral have different symmetry as dihedrals
       OBFFParameter* GetParameterOOP(const char* a, const char* b, const char* c, const char* d,
         std::vector<OBFFParameter> &parameter);
+      OBFFParameter* GetParameterOOP(const std::string& a, const std::string& b, const std::string& c, const std::string& d,
+        std::vector<OBFFParameter> &parameter);
 
       // OBFFParameter vectors to contain the parameters
       std::vector<OBFFParameter> _ffpropparams;
