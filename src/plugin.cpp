@@ -154,7 +154,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
         PluginMapType Map = itr->second->GetMap();
         for(itr=Map.begin(); itr!=Map.end(); ++itr)
         {
-          if(*(itr->first)=='_')//no listing when ID starts with '_'
+          if(itr->first[0]=='_')//no listing when ID starts with '_'
             continue;
           if(onlyIDs)
             vlist.push_back(itr->first);
