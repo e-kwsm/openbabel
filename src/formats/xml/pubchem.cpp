@@ -38,7 +38,7 @@ public:
 		XMLConversion::RegisterXMLFormat(this);
 	}
   const char* NamespaceURI() const override { return "http://www.ncbi.nlm.nih.gov"; }
-  const char* Description() override
+  std::string Description() override
   {
     return
       "PubChem format\n"

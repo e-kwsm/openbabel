@@ -35,7 +35,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("mpqc",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "MPQC output format\n"
@@ -74,7 +74,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("mpqcin",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "MPQC simplified input format\n"

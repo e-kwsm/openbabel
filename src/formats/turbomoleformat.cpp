@@ -40,7 +40,7 @@ public:
       OBConversion::RegisterOptionParam("a", this, OBConversion::INOPTIONS);
     }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
       "TurboMole Coordinate format\n"

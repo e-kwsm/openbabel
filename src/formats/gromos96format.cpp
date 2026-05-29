@@ -70,7 +70,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("gr96",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "GROMOS96 format\n"

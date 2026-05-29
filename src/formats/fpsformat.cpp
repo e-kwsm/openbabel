@@ -36,7 +36,7 @@ namespace OpenBabel
     //Register this format type ID
     FPSFormat() {OBConversion::RegisterFormat("fps",this);}
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     { return
     "FPS text fingerprint format (Dalke)\n\n"
     "The FPS file format for fingerprints was developed by Andrew Dalke to\n"
@@ -119,7 +119,7 @@ bool FPSFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       // A quirk is that the fingerprint has to be used before the
       // desciption contains the number of bits and the version.
       _pFP->GetFingerprint(pOb, fptvec, _nbits);
-      _nbits = atoi(strchr(_pFP->Description(),'\n')+1); 
+      _nbits = atoi(strchr(_pFP->Description().c_str(),'\n')+1);
     }
 
     //Write metadata to header

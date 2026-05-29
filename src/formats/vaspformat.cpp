@@ -74,7 +74,7 @@ namespace OpenBabel {
       OBConversion::RegisterOptionParam("4", this, 0, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return
         "VASP format\n"

@@ -34,7 +34,7 @@ public:
         OBConversion::RegisterFormat("unixyz",this);
     }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
       "UniChem XYZ format\n"

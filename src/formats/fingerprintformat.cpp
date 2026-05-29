@@ -35,7 +35,7 @@ namespace OpenBabel
     //Register this format type ID
     FingerprintFormat() {OBConversion::RegisterFormat("fpt",this);}
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     { return
       "Fingerprint format\n"
       "Generate or display molecular fingerprints.\n"

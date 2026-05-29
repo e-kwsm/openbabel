@@ -39,7 +39,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("pwscf",this);
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return "PWscf format\n"
              "The format used by PWscf, part of Quantum Espresso.\n\n";

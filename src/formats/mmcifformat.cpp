@@ -50,7 +50,7 @@ namespace OpenBabel
      OBConversion::RegisterOptionParam("w", this);
    }
 
-   const char* Description() override  // required
+   std::string Description() override  // required
    {
      return
        "Macromolecular Crystallographic Info\n "

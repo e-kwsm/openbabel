@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pcm", this);
     }
 
-    const char* Description() override //required
+    std::string Description() override //required
     {
       return
         "PCModel Format\n"

@@ -40,7 +40,7 @@ public:
       OBConversion::RegisterFormat("rxn",this);
   }
 
-  const char* Description() override
+  std::string Description() override
   {
       return
         "MDL RXN format\n"

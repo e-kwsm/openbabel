@@ -34,7 +34,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("zin",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ZINDO input format\n"

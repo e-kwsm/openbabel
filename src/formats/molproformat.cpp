@@ -41,7 +41,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("mpo",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Molpro output format\n"
@@ -77,7 +77,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("mp",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Molpro input format\n"

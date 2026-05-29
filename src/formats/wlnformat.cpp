@@ -35,7 +35,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("wln", this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Wiswesser Line Notation\n"

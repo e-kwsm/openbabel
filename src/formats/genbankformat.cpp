@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("b", this);
     }
 
-    const char* Description() override //required
+    std::string Description() override //required
     {
       return
         "GenBank, DDBJ, EMBL Flat File format\n"
