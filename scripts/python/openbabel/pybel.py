@@ -456,7 +456,7 @@ class Molecule(object):
         else:
             return (0, self.write("can").split()[0])
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Atom]:
         """Iterate over the Atoms of the Molecule.
 
         This allows constructions such as the following:
@@ -568,7 +568,7 @@ class Molecule(object):
         filename: bytes | str | None = None,
         overwrite: bool = False,
         opt: dict[str, Any] | None = None,
-    ):
+    ) -> str | None:
         """Write the molecule to a file or return a string.
 
         Optional parameters:
