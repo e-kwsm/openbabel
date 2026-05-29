@@ -2147,7 +2147,10 @@ class OBSmartsPattern:
     All: Incomplete
     Single: Incomplete
     AllUnique: Incomplete
-    Match: Incomplete
+    @overload
+    def Match(self, mol: OBMol) -> bool: ...
+    @overload
+    def Match(self, mol: OBMol, single: bool) -> bool: ...
     HasMatch: Incomplete
     RestrictedMatch: Incomplete
     NumMatches: Incomplete
