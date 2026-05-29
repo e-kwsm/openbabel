@@ -42,6 +42,8 @@ struct OBERROR CharPtrLess
 {
   bool operator()(const char* p1,const char* p2) const
   { return strcasecmp(p1,p2)<0; }
+  bool operator()(const std::string& p1,const std::string& p2) const
+  { return operator()(p1.c_str(), p2.c_str()); }
 };
 
 /** \class OBPlugin plugin.h <openbabel/plugin.h>
@@ -56,7 +58,7 @@ public:
   //Maps of thistype are used to store
   // (a)a list of the plugin types in OBPlugin, and
   // (b)a list of the sub-types in each type class derived from OBPlugin.
-  typedef std::map<const char*, OBPlugin*, CharPtrLess> PluginMapType;
+  typedef std::map<std::string, OBPlugin*, CharPtrLess> PluginMapType;
   typedef PluginMapType::const_iterator PluginIterator;
 
   ///Virtual destructor necessary for classes with virtual functions
