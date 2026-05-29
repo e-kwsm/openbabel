@@ -43,7 +43,7 @@ namespace OpenBabel
   {
   public:
     EEMCharges(const char* ID, std::string parameters, std::string type);
-    const char *Description(void) override;
+    const char *Description(void) const override;
 
     /// \return whether partial charges were successfully assigned to this molecule
     bool ComputeCharges(OBMol &mol) override;

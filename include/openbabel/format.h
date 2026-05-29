@@ -51,7 +51,7 @@ class OBCONV OBFormat : public OBPlugin
     ///Default constructor. Registration via RegisterFormat(), not via constructor as in other plugins.
     OBFormat(){}
 
-    const char* TypeID() override { return "formats"; }
+    const char* TypeID() const override { return "formats"; }
 
     /// @brief The "API" interface Read function.
 
@@ -92,7 +92,7 @@ std::cerr << "Not a valid input format"; return false;}
     /// Must be provided by each format class.
     /// Can include a list of command line Options. These may be used to construction
     /// check boxes, radio buttons etc for GUI interface.
-    const char* Description() override = 0;
+    const char* Description() const override = 0;
 
     /// @brief A decription of the chemical object converted by this format.
 

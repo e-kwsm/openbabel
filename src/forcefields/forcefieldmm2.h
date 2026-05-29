@@ -97,7 +97,7 @@ namespace OpenBabel
       OBForceFieldMM2* MakeNewInstance() override { return new OBForceFieldMM2(*this); }
 
 
-      const char* Description() override
+      const char* Description() const override
       { return "MM2 force field.";};
 
 

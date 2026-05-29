@@ -588,7 +588,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     virtual ~OBForceField();
 
     //! \return Plugin type ("forcefields")
-    const char* TypeID() override
+    const char* TypeID() const override
     {
       return "forcefields";
     }

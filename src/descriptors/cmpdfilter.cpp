@@ -54,7 +54,7 @@ public:
   CompoundFilter(const char* ID, const char* macrotext, const char* descr)
     : OBDescriptor(ID), _descr(descr), _macroText(macrotext){}
 
-  const char* Description() override
+  const char* Description() const override
   {
     static string txt;
     txt = _descr;

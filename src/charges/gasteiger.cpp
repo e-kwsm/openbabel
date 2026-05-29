@@ -28,7 +28,7 @@ class GasteigerCharges : public OBChargeModel
 {
 public:
   GasteigerCharges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "Assign Gasteiger-Marsili sigma partial charges"; }
+  const char* Description() const override { return "Assign Gasteiger-Marsili sigma partial charges"; }
 
   /// \return whether partial charges were successfully assigned to this molecule
   bool ComputeCharges(OBMol &mol) override;

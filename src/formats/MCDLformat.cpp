@@ -40,7 +40,7 @@ public:
     init();
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
     "MCDL format\n"

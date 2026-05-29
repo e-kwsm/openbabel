@@ -30,7 +30,7 @@ class AoforceFormat : public OBMoleculeFormat {
     // Register this format type ID
     AoforceFormat() { OBConversion::RegisterFormat("aoforce", this); }
 
-    const char* Description() override {  // required
+    const char* Description() const override {  // required
       return
           "Turbomole AOFORCE output format\n"
           "Read vibrational frequencies and intensities\n";

@@ -33,7 +33,7 @@ public:
         OBConversion::RegisterFormat("box",this);
     }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "Dock 3.5 Box format\n"

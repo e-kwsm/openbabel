@@ -37,7 +37,7 @@ public:
 
   ~OpTransform(){}
 
-  const char* Description() override;
+  const char* Description() const override;
 
   //!Checks that this op is being applied to the right kind of object(OBMol)
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }

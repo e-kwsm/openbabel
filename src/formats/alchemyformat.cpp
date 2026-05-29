@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("alc",this, "chemical/x-alchemy");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Alchemy format\n"

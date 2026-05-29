@@ -146,7 +146,7 @@ namespace OpenBabel
     OBForceFieldUFF &operator = (OBForceFieldUFF &);
 
     //! Get the description for this force field
-    const char* Description() override
+    const char* Description() const override
     {
       return "Universal Force Field.";
     }

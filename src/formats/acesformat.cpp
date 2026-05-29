@@ -39,7 +39,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("acesout",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "ACES output format\n"
@@ -77,7 +77,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("acesin",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "ACES input format\n"

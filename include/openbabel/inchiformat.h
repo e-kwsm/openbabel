@@ -53,7 +53,7 @@ public:
     OBConversion::RegisterOptionParam("T", this, 1, OBConversion::OUTOPTIONS);
   }
 
-  const char* Description() override
+  const char* Description() const override
   {
     return
     "InChI format\n"

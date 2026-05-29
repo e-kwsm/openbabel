@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("caccrt",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Cacao Cartesian format\n"
@@ -301,7 +301,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("cacint",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Cacao Internal format\n"
