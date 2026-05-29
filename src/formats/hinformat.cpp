@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("hin",this, "chemical/x-hin");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return "HyperChem HIN format\n"
              "No comments yet\n";

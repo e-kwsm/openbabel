@@ -59,7 +59,7 @@ namespace OpenBabel
     }
 
     // Return description.
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
         "Gaussian cube format\n"

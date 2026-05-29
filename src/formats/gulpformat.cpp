@@ -36,7 +36,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("got",this);
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return
         "GULP format\n"

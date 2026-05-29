@@ -44,7 +44,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("gzmat",this, "chemical/x-gaussian-input");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Gaussian Z-Matrix Input\n"

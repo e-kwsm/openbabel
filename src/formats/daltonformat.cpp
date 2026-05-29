@@ -40,7 +40,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("dallog", this, "chemical/x-dalton-output");
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return
         "DALTON output format\n"
@@ -83,7 +83,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("k", nullptr, 1, OBConversion::OUTOPTIONS); // specify basis set in .mol file
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "DALTON input format\n"

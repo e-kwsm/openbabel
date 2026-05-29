@@ -45,7 +45,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("g16",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Gaussian Output\n"
@@ -91,7 +91,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("f", nullptr, 1, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Gaussian Input\n"
