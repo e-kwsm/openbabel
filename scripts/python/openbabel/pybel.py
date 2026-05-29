@@ -863,7 +863,7 @@ class Atom(object):
         return self.OBAtom.GetSpinMultiplicity()
 
     @property
-    def type(self):
+    def type(self) -> str:
         return self.OBAtom.GetType()
 
     @property
@@ -871,11 +871,11 @@ class Atom(object):
         raise AttributeError("This property has been renamed. Use Atom.degree instead.")
 
     @property
-    def vector(self):
+    def vector(self) -> ob.vector3:
         return self.OBAtom.GetVector()
 
     @override
-    def __str__(self):
+    def __str__(self) -> str:
         c = self.coords
         return "Atom: %d (%.2f %.2f %.2f)" % (self.atomicnum, c[0], c[1], c[2])
 
