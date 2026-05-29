@@ -450,7 +450,7 @@ class Molecule(object):
         return Molecule(ob.OBMol(self.OBMol))
 
     @property
-    def _exchange(self):
+    def _exchange(self) -> tuple[int, Any]:
         if self.OBMol.HasNonZeroCoords():
             return (1, self.write("mol"))
         else:
@@ -465,7 +465,7 @@ class Molecule(object):
         """
         return iter(self.atoms)
 
-    def _repr_svg_(self):
+    def _repr_svg_(self) -> str | None:
         """For IPython notebook, renders 2D pybel.Molecule SVGs."""
 
         # Returning None defers to _repr_javascript_
@@ -539,7 +539,7 @@ class Molecule(object):
         fingerprinter.GetFingerprint(self.OBMol, fp)
         return Fingerprint(fp)
 
-    def calccharges(self, model="mmff94"):
+    def calccharges(self, model: str = "mmff94") -> list[float]:
         """Estimates atomic partial charges in the molecule.
 
         Optional parameters:
