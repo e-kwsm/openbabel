@@ -324,6 +324,11 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
   return OptionsFound;
 }
 
+bool DynOptionswx::Construct(const std::string& OptionsText, const std::string& StartText, int MultiCharFilter)
+{
+  return Construct(OptionsText.c_str(), StartText.c_str(), MultiCharFilter);
+}
+
 //////////////////////////////////////////////////////////
 
 
