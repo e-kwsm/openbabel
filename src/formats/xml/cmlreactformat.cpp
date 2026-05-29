@@ -105,9 +105,9 @@ public:
       "if this was unacceptable.\n\n";
   }
 
-  const char* TargetClassDescription() override
+  std::string TargetClassDescription() override
   {
-      return OBReaction::ClassDescription().c_str();
+      return OBReaction::ClassDescription();
   }
 
   unsigned Flags() override
