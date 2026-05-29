@@ -119,7 +119,7 @@ ipython_3d = False
 
 def readfile(
     format: str | None = None,
-    filename: str | None = None,
+    filename: str = "",
     opt=None,
 ) -> Iterator["Molecule"]:
     """Iterate over the molecules in a file.
