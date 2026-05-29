@@ -268,7 +268,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("CONFIG",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return "DL-POLY CONFIG\n";
     }
@@ -400,7 +400,7 @@ public:
     OBConversion::RegisterFormat("HISTORY",this);
   }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return "DL-POLY HISTORY\n";
   }

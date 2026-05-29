@@ -63,7 +63,7 @@ namespace OpenBabel
       RegisterFormat("cif", "chemical/x-cif");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Crystallographic Information File\n"

@@ -63,7 +63,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("cht",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Chemtool format\n"

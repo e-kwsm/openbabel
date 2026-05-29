@@ -34,7 +34,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("bs",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Ball and Stick format\n"

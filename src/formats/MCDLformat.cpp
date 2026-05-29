@@ -40,7 +40,7 @@ public:
     init();
   }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
     "MCDL format\n"

@@ -34,7 +34,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("ct",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ChemDraw Connection Table format\n"
