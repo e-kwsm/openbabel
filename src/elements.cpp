@@ -1456,6 +1456,11 @@ namespace OpenBabel
       return 0;
     }
 
+    unsigned int GetAtomicNum(const std::string& name)
+    {
+      return GetAtomicNum(name.c_str());
+    }
+
 //#  CAUTION: Masses have been zero - padded to 9 decimal places               #
 //#   (we don't currently have a math package that can deal with sig. fig.)    #
 //#   so trailing zeros may not be significant and / or useful                 #

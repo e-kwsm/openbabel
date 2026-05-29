@@ -17,6 +17,7 @@ GNU General Public License for more details.
 #define OB_ELEMENTS_H
 
 #include <openbabel/babelconfig.h>
+#include <string>
 
 namespace OpenBabel
 {
@@ -63,6 +64,8 @@ namespace OpenBabel
     OBAPI double GetExactMass(unsigned int atomic_number, unsigned int isotope=0);
     //  //! \return the atomic number matching the element symbol
     OBAPI unsigned int GetAtomicNum(const char* ptr);
+    //  //! \return the atomic number matching the element symbol
+    OBAPI unsigned int GetAtomicNum(const std::string& ptr);
     //! \return the Allred-Rochow electronegativity for this element
     OBAPI double GetAllredRochowElectroNeg(unsigned int atomic_number);
     //! \return the covalent radius (in Angstrom) for this atomic number
