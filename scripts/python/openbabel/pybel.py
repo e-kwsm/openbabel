@@ -997,7 +997,7 @@ class Smarts(object):
     for each of the three ethyl groups in the molecule.
     """
 
-    def __init__(self, smartspattern):
+    def __init__(self, smartspattern: str):
         """Initialise with a SMARTS pattern."""
         self.obsmarts = ob.OBSmartsPattern()
         success = self.obsmarts.Init(smartspattern)
@@ -1045,7 +1045,7 @@ class MoleculeData(object):
     1 ['Comment'] False
     """
 
-    def __init__(self, obmol):
+    def __init__(self, obmol: ob.OBMol):
         self._mol = obmol
 
     def _data(self):
@@ -1116,6 +1116,7 @@ class MoleculeData(object):
             pairdata.SetValue(str(value))
             self._mol.CloneData(pairdata)
 
+    @override
     def __repr__(self):
         return dict(self.items()).__repr__()
 
