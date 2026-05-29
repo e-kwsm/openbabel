@@ -211,7 +211,7 @@ def readfile(
     return filereader()
 
 
-def readstring(format: str, string, opt: dict[str, Any] | None = None):
+def readstring(format: str, string: str, opt: dict[str, Any] | None = None) -> Molecule:
     """Read in a molecule from a string.
 
     Required parameters:
