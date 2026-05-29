@@ -1249,7 +1249,10 @@ class OBConversion:
     GetCount: Incomplete
     GetDefaultFormat: Incomplete
     Write: Incomplete
-    WriteString: Incomplete
+    @overload
+    def WriteString(self, pOB: OBBase) -> int: ...
+    @overload
+    def WriteString(self, pOB: OBBase, trimWhitespace: bool) -> int: ...
     WriteFile: Incomplete
     CloseOutFile: Incomplete
     Read: Incomplete
