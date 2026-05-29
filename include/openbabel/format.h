@@ -96,7 +96,7 @@ class OBCONV OBFormat : public OBPlugin
     /// Must be provided by each format class.
     /// Can include a list of command line Options. These may be used to construction
     /// check boxes, radio buttons etc for GUI interface.
-    const char* Description() override = 0;
+    std::string Description() override = 0;
 
     /// @brief A decription of the chemical object converted by this format.
 
