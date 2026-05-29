@@ -511,6 +511,7 @@ namespace OpenBabel
       bool HasAromaticBond()  {        return(HasBondOfOrder(5));    }
       //! \return Whether this atom matches the first atom in a given SMARTS pattern
       bool MatchesSMARTS(const char *);
+      bool MatchesSMARTS(const std::string&);
       //@}
 
     }; // class OBAtom
