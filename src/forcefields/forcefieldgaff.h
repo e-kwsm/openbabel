@@ -143,7 +143,7 @@ namespace OpenBabel
       OBForceFieldGaff &operator = (OBForceFieldGaff &);
 
       //! Get the description for this force field
-      const char* Description() override
+      std::string Description() override
       {
         return "General Amber Force Field (GAFF).";
       }
