@@ -37,7 +37,7 @@ public:
 	fingerprint2(const char* ID, bool IsDefault=false)
 		: OBFingerprint(ID, IsDefault), _flags(0){};
 
-	const char* Description() override
+	std::string Description() override
 	{ return "Indexes linear fragments up to 7 atoms."
     "\n1021 bits.\n"
     "Similar to Daylight fingerprints\n"

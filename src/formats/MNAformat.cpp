@@ -57,7 +57,7 @@ namespace OpenBabel
 				OBConversion::RegisterOptionParam(levels_option, this, 1);
 			}
 
-			const char* Description() override
+			std::string Description() override
 			{
         stringstream ss;
 				ss <<
@@ -143,7 +143,7 @@ namespace OpenBabel
 
 				static const string s(ss.str());
 
-				return s.c_str();
+				return s;
 			}
 
 			const char* SpecificationURL() override

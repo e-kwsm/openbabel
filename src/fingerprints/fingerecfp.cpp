@@ -37,7 +37,7 @@ public:
 		: OBFingerprint(ID, IsDefault),
       _radius(radius), _keepdups(keepdups), _flags(0){};
 
-	const char* Description() override
+	std::string Description() override
 	{
           // Important! The second line is used by some output formats (e.g. FPS)
 	  // to determine the default size

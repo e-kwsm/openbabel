@@ -41,7 +41,7 @@ protected:
   
 public:
   OpChangeCell(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Change cell size:\n"
+  std::string Description() override { return "Change cell size:\n"
                                     "     [keepfract];[*]a;[*]b;[*]c\n"
                                     "     Original cell dimensions can be changed to value a, b or c or multiplied with key '*' " ; }
 

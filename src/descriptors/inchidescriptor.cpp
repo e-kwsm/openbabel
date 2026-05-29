@@ -31,7 +31,7 @@ class InChIFilter : public OBDescriptor
 {
 public:
   InChIFilter(const char* ID, bool useKey=false) : OBDescriptor(ID), bKey(useKey) {};
-  const char* Description() override
+  std::string Description() override
   {
     return bKey ? "InChIKey" : "IUPAC InChI identifier";
   }

@@ -40,7 +40,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("abinit",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ABINIT Output Format\n"

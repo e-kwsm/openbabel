@@ -42,7 +42,7 @@ public:
     _pOp = pOp;
     _callDo = CallDo;
   }
-  const char* Description() override { return "Read and write an OBBase* array"; }
+  std::string Description() override { return "Read and write an OBBase* array"; }
 
   bool ReadChemObject(OBConversion* pConv) override
   {

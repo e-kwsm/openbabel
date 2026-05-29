@@ -27,7 +27,7 @@ class OpDelNonPolarH : public OBOp
 {
 public:
   OpDelNonPolarH(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Deletes hydrogen from nonpolar atoms only"; }
+  std::string Description() override { return "Deletes hydrogen from nonpolar atoms only"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,

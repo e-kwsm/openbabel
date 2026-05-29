@@ -50,7 +50,7 @@ public:
     OBConversion::RegisterOptionParam(ID, nullptr, 1, OBConversion::GENOPTIONS);
   }
 
-  const char* Description() override { return "<desc> Sort by descriptor(~desc for reverse)"
+  std::string Description() override { return "<desc> Sort by descriptor(~desc for reverse)"
     "\n Follow descriptor with + to also add it to the title, e.g. MW+ "
     "\n Custom ordering is possible; see inchi descriptor"; }
 

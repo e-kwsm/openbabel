@@ -107,7 +107,7 @@ bool MakeQueriesFromMolInFile(vector<OBQuery*>& queries, const std::string& file
     return true;
 }
 
-const char* OpNewS::Description()
+std::string OpNewS::Description()
 {
   return "Isomorphism filter(-s, -v options replacement)(not displayed in GUI)\n"
     "This enhanced version can take a SMARTS parameter, for example:\n"

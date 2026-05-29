@@ -52,7 +52,7 @@ namespace OpenBabel
     public:
       OpConformer(const char *ID) : OBOp(ID, false) {}
 
-      const char* Description() override
+      std::string Description() override
       {
         return "Conformer Searching (not displayed in GUI)\n"
           "Typical usage: obabel infile.xxx -O outfile.yy --conformer --nconf\n"

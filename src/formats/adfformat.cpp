@@ -64,7 +64,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("adfout",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ADF output format\n"
@@ -265,7 +265,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("adf", this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ADF cartesian input format\n"
@@ -372,7 +372,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("adfband",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return "ADF Band output format\n";
     }
@@ -508,7 +508,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("adfdftb",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return "ADF DFTB output format\n";
     }

@@ -56,7 +56,7 @@ public:
 
   virtual ~OBGroupContrib();
 
-  const char* Description() override;
+  std::string Description() override;
 
   virtual OBGroupContrib* MakeInstance(const std::vector<std::string>& textlines) override
   {

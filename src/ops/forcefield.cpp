@@ -48,7 +48,7 @@ namespace OpenBabel
     public:
       OpEnergy(const char *ID) : OBOp(ID, false) {}
 
-      const char* Description() override
+      std::string Description() override
       {
         return "ForceField Energy Evaluation (not displayed in GUI)\n"
           "Typical usage: obabel infile.xxx -O outfile.yy --energy --log\n"
@@ -137,7 +137,7 @@ namespace OpenBabel
     public:
       OpMinimize(const char* ID) : OBOp(ID, false) {}
 
-      const char* Description() override
+      std::string Description() override
       {
         return "ForceField Energy Minimization (not displayed in GUI)\n"
           "Typical usage: obabel infile.xxx -O outfile.yyy --minimize --steps 1500\n"

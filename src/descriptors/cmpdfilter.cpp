@@ -54,14 +54,14 @@ public:
   CompoundFilter(const char* ID, const char* macrotext, const char* descr)
     : OBDescriptor(ID), _descr(descr), _macroText(macrotext){}
 
-  const char* Description() override
+  std::string Description() override
   {
     static string txt;
     txt = _descr;
     txt += '\n';
     txt += _macroText;
     txt += "\nCompoundFilter is definable";//Entries in plugindefines.txt can start "CompoundFilter"
-    return txt.c_str();
+    return txt;
   }
 
 ///

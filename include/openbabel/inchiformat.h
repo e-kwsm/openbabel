@@ -58,7 +58,7 @@ public:
     OBConversion::RegisterOptionParam("T", this, 1, OBConversion::OUTOPTIONS);
   }
 
-  const char* Description() override
+  std::string Description() override
   {
     return
     "InChI format\n"
@@ -204,7 +204,7 @@ public:
   {
       OBConversion::RegisterFormat("k",this);
   }
-  virtual const char* Description() //required
+  virtual std::string Description() //required
   {
     return
       "Compare molecules using InChI\n"
@@ -228,7 +228,7 @@ public:
   {
       OBConversion::RegisterFormat("inchikey",this);
   }
-  virtual const char* Description() //required
+  virtual std::string Description() //required
   {
     return
       "InChIKey\n"

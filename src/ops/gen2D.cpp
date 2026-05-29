@@ -31,7 +31,7 @@ class OpGen2D : public OBOp
 {
 public:
   OpGen2D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
+  std::string Description() override { return
     "Generate 2D coordinates\n"
     "Trepalin, S. V.; Yarkov, A. V.; Pletnev, I. V.; Gakh, A.A."
     "A Java Chemical Structure Editor Supporting the"

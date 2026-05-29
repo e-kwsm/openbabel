@@ -43,7 +43,7 @@ namespace OpenBabel
   {
   public:
     EEMCharges(const char* ID, std::string parameters, std::string type);
-    const char *Description(void) override;
+    std::string Description(void) override;
 
     /// \return whether partial charges were successfully assigned to this molecule
     bool ComputeCharges(OBMol &mol) override;
@@ -82,11 +82,11 @@ namespace OpenBabel
   }
 
 
-  const char *EEMCharges::Description(void)
+  std::string EEMCharges::Description(void)
   {
     _description = "Assign Electronegativity Equilization Method (EEM) atomic partial charges. ";
     _description.append(_type);
-    return _description.c_str();
+    return _description;
   }
 
 
