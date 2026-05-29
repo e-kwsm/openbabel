@@ -42,7 +42,7 @@ class OBFPRT OBFingerprint : public OBPlugin
 
 MAKE_PLUGIN(OBFingerprint)
 
-const char* TypeID() override
+std::string TypeID() override
 	{
 		return "fingerprints";
 	}
