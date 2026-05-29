@@ -86,7 +86,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s    %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s    %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).bt, (*i).rab, (*i).r0, (*i).kb, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -156,8 +156,8 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
-                (*i).c->GetType().c_str(), (*i).theta, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+                (*i).c->GetType(), (*i).theta, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -236,8 +236,8 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
-                (*i).c->GetType().c_str(), (*i).d->GetType().c_str(), (*i).V, (*i).s, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+                (*i).c->GetType(), (*i).d->GetType(), (*i).V, (*i).s, (*i).tor, (*i).n, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -310,7 +310,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).rab, (*i).kab, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -378,7 +378,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).rab, (*i).qq, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -478,7 +478,7 @@ namespace OpenBabel
             _bondcalculations.push_back(bondcalc);
 
             IF_OBFF_LOGLVL_LOW {
-              snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR BOND %s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str());
+              snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR BOND %s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType());
               OBFFLog(_logbuf);
             }
 
@@ -546,7 +546,7 @@ namespace OpenBabel
               _anglecalculations.push_back(anglecalc);
 
               IF_OBFF_LOGLVL_LOW {
-                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR ANGLE %s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str(), c->GetType().c_str());
+                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR ANGLE %s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType(), c->GetType());
                 OBFFLog(_logbuf);
               }
 
@@ -632,7 +632,7 @@ namespace OpenBabel
               _torsioncalculations.push_back(torsioncalc);
 
               IF_OBFF_LOGLVL_LOW {
-                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR TORSION %s-%s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str(), c->GetType().c_str(), d->GetType().c_str());
+                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR TORSION %s-%s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType(), c->GetType(), d->GetType());
                 OBFFLog(_logbuf);
               }
 
@@ -727,7 +727,7 @@ namespace OpenBabel
         vdwcalc.ka = 0.042;
 
         IF_OBFF_LOGLVL_LOW {
-          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", a->GetType().c_str());
+          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", a->GetType());
           OBFFLog(_logbuf);
         }
       } else {
@@ -741,7 +741,7 @@ namespace OpenBabel
         vdwcalc.kb = 0.042;
 
         IF_OBFF_LOGLVL_LOW {
-          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", b->GetType().c_str());
+          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", b->GetType());
           OBFFLog(_logbuf);
         }
       } else {
@@ -1010,7 +1010,7 @@ namespace OpenBabel
       OBFFLog("IDX\tTYPE\tRING\n");
 
       FOR_ATOMS_OF_MOL (a, _mol) {
-        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType(),
 	  (a->IsInRing() ? (a->IsAromatic() ? "AR" : "AL") : "NO"));
         OBFFLog(_logbuf);
       }

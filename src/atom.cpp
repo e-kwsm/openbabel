@@ -465,7 +465,7 @@ namespace OpenBabel
     return OBElements::GetExactMass(_ele, _isotope);
   }
 
-  std::string OBAtom::GetType()
+  char *OBAtom::GetType()
   {
     OBMol *mol = (OBMol*)GetParent();
     if (mol)

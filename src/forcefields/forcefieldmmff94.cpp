@@ -158,7 +158,7 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d      %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                stoi(_bondcalculations[i].a->GetType()), stoi(_bondcalculations[i].b->GetType()),
+                atoi(_bondcalculations[i].a->GetType()), atoi(_bondcalculations[i].b->GetType()),
                 _bondcalculations[i].bt, _bondcalculations[i].rab, _bondcalculations[i].r0,
                 _bondcalculations[i].kb, _bondcalculations[i].delta,
                 143.9325 * 0.5 * _bondcalculations[i].energy);
@@ -275,8 +275,8 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d      %d   %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                stoi(_anglecalculations[i].a->GetType()), stoi(_anglecalculations[i].b->GetType()),
-                stoi(_anglecalculations[i].c->GetType()), _anglecalculations[i].at,
+                atoi(_anglecalculations[i].a->GetType()), atoi(_anglecalculations[i].b->GetType()),
+                atoi(_anglecalculations[i].c->GetType()), _anglecalculations[i].at,
                 _anglecalculations[i].theta, _anglecalculations[i].theta0,
                 _anglecalculations[i].ka, _anglecalculations[i].delta,
                 _anglecalculations[i].energy);
@@ -388,8 +388,8 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d     %2d   %8.3f   %8.3f   %8.3f   %8.3f   %8.3f\n",
-                stoi(_strbndcalculations[i].a->GetType()), stoi(_strbndcalculations[i].b->GetType()),
-                stoi(_strbndcalculations[i].c->GetType()), _strbndcalculations[i].sbt,
+                atoi(_strbndcalculations[i].a->GetType()), atoi(_strbndcalculations[i].b->GetType()),
+                atoi(_strbndcalculations[i].c->GetType()), _strbndcalculations[i].sbt,
                 _strbndcalculations[i].theta, _strbndcalculations[i].delta_theta,
                 _strbndcalculations[i].kbaABC, _strbndcalculations[i].kbaCBA,
                 2.51210 * _strbndcalculations[i].energy);
@@ -525,8 +525,8 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d   %2d      %d   %8.3f   %6.3f   %6.3f   %6.3f   %8.3f\n",
-                stoi(_torsioncalculations[i].a->GetType()), stoi(_torsioncalculations[i].b->GetType()),
-                stoi(_torsioncalculations[i].c->GetType()), stoi(_torsioncalculations[i].d->GetType()),
+                atoi(_torsioncalculations[i].a->GetType()), atoi(_torsioncalculations[i].b->GetType()),
+                atoi(_torsioncalculations[i].c->GetType()), atoi(_torsioncalculations[i].d->GetType()),
                 _torsioncalculations[i].tt, _torsioncalculations[i].tor, _torsioncalculations[i].v1,
                 _torsioncalculations[i].v2, _torsioncalculations[i].v3, 0.5 * _torsioncalculations[i].energy);
         OBFFLog(_logbuf);
@@ -623,8 +623,8 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %2d   %2d      0   %8.3f   %8.3f     %8.3f\n",
-                stoi(_oopcalculations[i].a->GetType()), stoi(_oopcalculations[i].b->GetType()),
-                stoi(_oopcalculations[i].c->GetType()), stoi(_oopcalculations[i].d->GetType()),
+                atoi(_oopcalculations[i].a->GetType()), atoi(_oopcalculations[i].b->GetType()),
+                atoi(_oopcalculations[i].c->GetType()), atoi(_oopcalculations[i].d->GetType()),
                 _oopcalculations[i].angle, _oopcalculations[i].koop,
                 0.043844 * 0.5 * _oopcalculations[i].energy);
         OBFFLog(_logbuf);
@@ -722,7 +722,7 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d     %8.3f  %8.3f  %8.3f  %8.3f\n",
-                stoi(_vdwcalculations[i].a->GetType()), stoi(_vdwcalculations[i].b->GetType()),
+                atoi(_vdwcalculations[i].a->GetType()), atoi(_vdwcalculations[i].b->GetType()),
                 _vdwcalculations[i].rab, _vdwcalculations[i].R_AB, _vdwcalculations[i].epsilon, _vdwcalculations[i].energy);
         OBFFLog(_logbuf);
       }
@@ -808,7 +808,7 @@ namespace OpenBabel
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%2d   %2d   %8.3f  %8.3f  %8.3f  %8.3f\n",
-                stoi(_electrostaticcalculations[i].a->GetType()), stoi(_electrostaticcalculations[i].b->GetType()),
+                atoi(_electrostaticcalculations[i].a->GetType()), atoi(_electrostaticcalculations[i].b->GetType()),
                 _electrostaticcalculations[i].rab, _electrostaticcalculations[i].a->GetPartialCharge(),
                 _electrostaticcalculations[i].b->GetPartialCharge(), _electrostaticcalculations[i].energy);
         OBFFLog(_logbuf);
@@ -2732,7 +2732,7 @@ namespace OpenBabel
 
       bondtype = GetBondType(a, b);
 
-      parameter = GetTypedParameter2Atom(bondtype, stoi(a->GetType()), stoi(b->GetType()), _ffbondparams); // from mmffbond.par
+      parameter = GetTypedParameter2Atom(bondtype, atoi(a->GetType()), atoi(b->GetType()), _ffbondparams); // from mmffbond.par
       if (parameter == nullptr) {
         parameter = GetParameter2Atom(a->GetAtomicNum(), b->GetAtomicNum(), _ffbndkparams); // from mmffbndk.par - emperical rules
         if (parameter == nullptr) {
@@ -2808,9 +2808,9 @@ namespace OpenBabel
       if (a == nullptr || b == nullptr || c == nullptr)
         continue;
 
-      type_a = stoi(a->GetType());
-      type_b = stoi(b->GetType());
-      type_c = stoi(c->GetType());
+      type_a = atoi(a->GetType());
+      type_b = atoi(b->GetType());
+      type_c = atoi(c->GetType());
 
       // skip this angle if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) || _constraints.IsIgnored(c->GetIdx()) )
@@ -3107,10 +3107,10 @@ namespace OpenBabel
       if (a == nullptr || b == nullptr || c == nullptr || d == nullptr)
         continue;
 
-      type_a = stoi(a->GetType());
-      type_b = stoi(b->GetType());
-      type_c = stoi(c->GetType());
-      type_d = stoi(d->GetType());
+      type_a = atoi(a->GetType());
+      type_b = atoi(b->GetType());
+      type_c = atoi(c->GetType());
+      type_d = atoi(d->GetType());
 
       // skip this torsion if the atoms are ignored
       if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ||
@@ -3372,7 +3372,7 @@ namespace OpenBabel
 
       found = false;
 
-      type_b = stoi(b->GetType());
+      type_b = atoi(b->GetType());
 
       for (unsigned int idx=0; idx < _ffoopparams.size(); idx++) {
         if (type_b == _ffoopparams[idx].b) {
@@ -3392,9 +3392,9 @@ namespace OpenBabel
           if (a == nullptr || c == nullptr || d == nullptr)
             break;
 
-          type_a = stoi(a->GetType());
-          type_c = stoi(c->GetType());
-          type_d = stoi(d->GetType());
+          type_a = atoi(a->GetType());
+          type_c = atoi(c->GetType());
+          type_d = atoi(d->GetType());
 
           // skip this oop if the atoms are ignored
           if ( _constraints.IsIgnored(a->GetIdx()) || _constraints.IsIgnored(b->GetIdx()) ||
@@ -3531,8 +3531,8 @@ namespace OpenBabel
       }
 
       OBFFParameter *parameter_a, *parameter_b;
-      parameter_a = GetParameter1Atom(stoi(a->GetType()), _ffvdwparams);
-      parameter_b = GetParameter1Atom(stoi(b->GetType()), _ffvdwparams);
+      parameter_a = GetParameter1Atom(atoi(a->GetType()), _ffvdwparams);
+      parameter_b = GetParameter1Atom(atoi(b->GetType()), _ffvdwparams);
       if (parameter_a == nullptr || parameter_b == nullptr) {
         IF_OBFF_LOGLVL_LOW {
           snprintf(_logbuf, BUFF_SIZE, "   COULD NOT FIND VAN DER WAALS PARAMETERS FOR %d-%d (IDX)...\n", a->GetIdx(), b->GetIdx());
@@ -3710,7 +3710,7 @@ namespace OpenBabel
     _mol.SetAutomaticPartialCharge(false);
 
     FOR_ATOMS_OF_MOL (atom, _mol) {
-      int type = stoi(atom->GetType());
+      int type = atoi(atom->GetType());
       atom->SetPartialCharge(0.0);
 
       bool done = false;
@@ -3764,7 +3764,7 @@ namespace OpenBabel
         int n_count = 0;
         int temp_type;
         FOR_ATOMS_OF_MOL (atom2, _mol) {
-          temp_type = stoi(atom2->GetType());
+          temp_type = atoi(atom2->GetType());
           if (temp_type == 56 || temp_type == 81)
             ++n_count;
         }
@@ -3819,7 +3819,7 @@ namespace OpenBabel
             }
           }
 
-          if (stoi(nbr->GetType()) == 77)
+          if (atoi(nbr->GetType()) == 77)
             atom->SetPartialCharge(-0.25); // O4CL
         }
       } else if (type == 61) {
@@ -3888,12 +3888,12 @@ namespace OpenBabel
 
             FOR_NBORS_OF_ATOM(nbr, &*atom)
               FOR_NBORS_OF_ATOM(nbr2, &*nbr)
-              if (stoi(nbr2->GetType()) == 56)
+              if (atoi(nbr2->GetType()) == 56)
                 atom->SetPartialCharge(1.0 / 3.0);
 
             FOR_NBORS_OF_ATOM(nbr, &*atom)
               FOR_NBORS_OF_ATOM(nbr2, &*nbr)
-              if (stoi(nbr2->GetType()) == 55)
+              if (atoi(nbr2->GetType()) == 55)
                 atom->SetPartialCharge(1.0 / (1.0 + n_count));
           }
       }
@@ -3911,7 +3911,7 @@ namespace OpenBabel
     double M, Wab, factor, q0a, q0b, Pa, Pb;
 
     FOR_ATOMS_OF_MOL (atom, _mol) {
-      int type = stoi(atom->GetType());
+      int type = atoi(atom->GetType());
 
       switch (type) {
       case 32:
@@ -3947,7 +3947,7 @@ namespace OpenBabel
       Wab = 0.0;
       Pa = Pb = 0.0;
       FOR_NBORS_OF_ATOM (nbr, &*atom) {
-        int nbr_type = stoi(nbr->GetType());
+        int nbr_type = atoi(nbr->GetType());
 
         q0b += nbr->GetPartialCharge();
 
@@ -4203,16 +4203,16 @@ namespace OpenBabel
         if (ni > _mol.NumAtoms())
           continue;
 
-        if ( (stoi(_mol.GetAtom(ni)->GetType()) == 87) ||
-             (stoi(_mol.GetAtom(ni)->GetType()) == 97)
+        if ( (atoi(_mol.GetAtom(ni)->GetType()) == 87) ||
+             (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
-        if (stoi(_mol.GetAtom(ni)->GetType()) == (*i))
+        if (atoi(_mol.GetAtom(ni)->GetType()) == (*i))
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d          PASSED", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
-                  _mol.GetAtom(ni)->IsAromatic(), stoi(_mol.GetAtom(ni)->GetType()), *i);
+                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
         else {
           snprintf(_logbuf, BUFF_SIZE, "%2d   %3d  %4d    %3d      %3d      XXX FAILED XXX", _mol.GetAtom(ni)->GetIdx(), _mol.GetAtom(ni)->GetHyb(),
-                  _mol.GetAtom(ni)->IsAromatic(), stoi(_mol.GetAtom(ni)->GetType()), *i);
+                  _mol.GetAtom(ni)->IsAromatic(), atoi(_mol.GetAtom(ni)->GetType()), *i);
           failed = true;
         }
 
@@ -4237,8 +4237,8 @@ namespace OpenBabel
         if (ni > _mol.NumAtoms())
           continue;
 
-        if ( (stoi(_mol.GetAtom(ni)->GetType()) == 87) ||
-             (stoi(_mol.GetAtom(ni)->GetType()) == 97)
+        if ( (atoi(_mol.GetAtom(ni)->GetType()) == 87) ||
+             (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
         if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
@@ -4269,8 +4269,8 @@ namespace OpenBabel
         if (ni > _mol.NumAtoms())
           continue;
 
-        if ( (stoi(_mol.GetAtom(ni)->GetType()) == 87) ||
-             (stoi(_mol.GetAtom(ni)->GetType()) == 97)
+        if ( (atoi(_mol.GetAtom(ni)->GetType()) == 87) ||
+             (atoi(_mol.GetAtom(ni)->GetType()) == 97)
              ) continue;
 
         if (fabs((*di) - _mol.GetAtom(ni)->GetPartialCharge()) <= 0.001)
@@ -4495,10 +4495,10 @@ namespace OpenBabel
     if (bond->GetBondOrder() != 1 || bond->IsAromatic())
       return 0;
 
-    if (HasAromSet(stoi(a->GetType())) && HasAromSet(stoi(b->GetType())))
+    if (HasAromSet(atoi(a->GetType())) && HasAromSet(atoi(b->GetType())))
       return 1;
 
-    if (HasSbmbSet(stoi(a->GetType())) && HasSbmbSet(stoi(b->GetType())))
+    if (HasSbmbSet(atoi(a->GetType())) && HasSbmbSet(atoi(b->GetType())))
       return 1;
 
     return 0;
@@ -4542,7 +4542,7 @@ namespace OpenBabel
     btbc = GetBondType(b, c);
     atabc = GetAngleType(a, b, c);
 
-    if (stoi(a->GetType()) <= stoi(c->GetType()))
+    if (atoi(a->GetType()) <= atoi(c->GetType()))
       inverse = false;
     else
       inverse = true;
@@ -4646,8 +4646,8 @@ namespace OpenBabel
       if (btab || btcd)
         return 2;
       /*
-        unsigned int order1 = GetCXT(0, stoi(d->GetType()), stoi(c->GetType()), stoi(b->GetType()), stoi(a->GetType()));
-        unsigned int order2 = GetCXT(0, stoi(a->GetType()), stoi(b->GetType()), stoi(c->GetType()), stoi(d->GetType()));
+        unsigned int order1 = GetCXT(0, atoi(d->GetType()), atoi(c->GetType()), atoi(b->GetType()), atoi(a->GetType()));
+        unsigned int order2 = GetCXT(0, atoi(a->GetType()), atoi(b->GetType()), atoi(c->GetType()), atoi(d->GetType()));
 
         cout << "GetTorsionType(" << a->GetType() << ", " << b->GetType() << ", " << c->GetType() << ", " << d->GetType() << ")" << endl;
         cout << "    order1 = " << order1 << endl;
@@ -4662,7 +4662,7 @@ namespace OpenBabel
       vector<OBRing*> vr;
       vr = _mol.GetSSSR();
 
-      if( !((stoi(a->GetType()) == 1) || (stoi(b->GetType()) == 1) || (stoi(c->GetType()) == 1) || (stoi(d->GetType()) == 1)) )
+      if( !((atoi(a->GetType()) == 1) || (atoi(b->GetType()) == 1) || (atoi(c->GetType()) == 1) || (atoi(d->GetType()) == 1)) )
         return 0;
 
       vector<OBRing*>::iterator ri;
@@ -5003,7 +5003,7 @@ namespace OpenBabel
     OBFFParameter *parameter;
     double rab;
 
-    parameter = GetTypedParameter2Atom(GetBondType(a, b), stoi(a->GetType()), stoi(b->GetType()), _ffbondparams);
+    parameter = GetTypedParameter2Atom(GetBondType(a, b), atoi(a->GetType()), atoi(b->GetType()), _ffbondparams);
     if (parameter == nullptr)
       rab = GetRuleBondLength(a, b);
     else
@@ -5033,30 +5033,30 @@ namespace OpenBabel
     else
       c = 0.085;
 
-    if (GetMltb(stoi(a->GetType()) == 3))
+    if (GetMltb(atoi(a->GetType()) == 3))
       Ha = 1;
-    else if ((GetMltb(stoi(a->GetType())) == 1) || (GetMltb(stoi(a->GetType())) == 2))
+    else if ((GetMltb(atoi(a->GetType())) == 1) || (GetMltb(atoi(a->GetType())) == 2))
       Ha = 2;
     else
       Ha = 3;
 
-    if (GetMltb(stoi(b->GetType()) == 3))
+    if (GetMltb(atoi(b->GetType()) == 3))
       Hb = 1;
-    else if ((GetMltb(stoi(b->GetType())) == 1) || (GetMltb(stoi(b->GetType())) == 2))
+    else if ((GetMltb(atoi(b->GetType())) == 1) || (GetMltb(atoi(b->GetType())) == 2))
       Hb = 2;
     else
       Hb = 3;
 
     OBBond *ab_bond = a->GetBond(b);
     BOab = (ab_bond != nullptr) ? ab_bond->GetBondOrder() : 1;
-    if ((GetMltb(stoi(a->GetType())) == 1) && (GetMltb(stoi(b->GetType())) == 1))
+    if ((GetMltb(atoi(a->GetType())) == 1) && (GetMltb(atoi(b->GetType())) == 1))
       BOab = 4;
-    if ((GetMltb(stoi(a->GetType())) == 1) && (GetMltb(stoi(b->GetType())) == 2))
+    if ((GetMltb(atoi(a->GetType())) == 1) && (GetMltb(atoi(b->GetType())) == 2))
       BOab = 5;
-    if ((GetMltb(stoi(a->GetType())) == 2) && (GetMltb(stoi(b->GetType())) == 1))
+    if ((GetMltb(atoi(a->GetType())) == 2) && (GetMltb(atoi(b->GetType())) == 1))
       BOab = 5;
     if (ab_bond != nullptr && ab_bond->IsAromatic()) {
-      if (!HasPilpSet(stoi(a->GetType())) && !HasPilpSet(stoi(b->GetType()))) {
+      if (!HasPilpSet(atoi(a->GetType())) && !HasPilpSet(atoi(b->GetType()))) {
         BOab = 4;
       } else {
         BOab = 5;

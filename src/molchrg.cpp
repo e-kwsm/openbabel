@@ -211,7 +211,7 @@ namespace OpenBabel
 
         if (atom->GetHyb() == 2)
           {
-            if (atom->GetType() == "Npl" || atom->GetType() == "Nam")
+            if (EQ(atom->GetType(),"Npl") || EQ(atom->GetType(),"Nam"))
               {
                 val[0] = 2.46;
                 val[1] = 12.32;

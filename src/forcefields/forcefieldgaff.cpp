@@ -87,7 +87,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).rab, (*i).r0, (*i).kr, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -157,8 +157,8 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
-                (*i).c->GetType().c_str(), (*i).theta, (*i).theta0, (*i).kth, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s  %8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+                (*i).c->GetType(), (*i).theta, (*i).theta0, (*i).kth, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -230,8 +230,8 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
-                (*i).c->GetType().c_str(), (*i).d->GetType().c_str(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+                (*i).c->GetType(), (*i).d->GetType(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -338,8 +338,8 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
-                (*i).c->GetType().c_str(), (*i).d->GetType().c_str(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%s %s %s %s    %6.3f    %5.0f   %8.3f   %1.0f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+                (*i).c->GetType(), (*i).d->GetType(), (*i).vn_half, (*i).gamma, (*i).tor, (*i).n, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -413,7 +413,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).rab, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -481,7 +481,7 @@ namespace OpenBabel
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%s %s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
                 (*i).rab, (*i).qq, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -579,7 +579,7 @@ namespace OpenBabel
             _bondcalculations.push_back(bondcalc);
 
             IF_OBFF_LOGLVL_LOW {
-              snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR BOND %s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str());
+              snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR BOND %s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType());
               OBFFLog(_logbuf);
             }
 
@@ -644,7 +644,7 @@ namespace OpenBabel
               _anglecalculations.push_back(anglecalc);
 
               IF_OBFF_LOGLVL_LOW {
-                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR ANGLE %s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str(), c->GetType().c_str());
+                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR ANGLE %s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType(), c->GetType());
                 OBFFLog(_logbuf);
               }
 
@@ -714,7 +714,7 @@ namespace OpenBabel
               _torsioncalculations.push_back(torsioncalc);
 
               IF_OBFF_LOGLVL_LOW {
-                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR TORSION %s-%s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType().c_str(), b->GetType().c_str(), c->GetType().c_str(), d->GetType().c_str());
+                snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND PARAMETERS FOR TORSION %s-%s-%s-%s, USING DEFAULT PARAMETERS\n", a->GetType(), b->GetType(), c->GetType(), d->GetType());
                 OBFFLog(_logbuf);
               }
 
@@ -951,7 +951,7 @@ namespace OpenBabel
         Ea = 0.0157;
 
         IF_OBFF_LOGLVL_LOW {
-          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", a->GetType().c_str());
+          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", a->GetType());
           OBFFLog(_logbuf);
         }
       } else {
@@ -965,7 +965,7 @@ namespace OpenBabel
         Eb = 0.0157;
 
         IF_OBFF_LOGLVL_LOW {
-          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", b->GetType().c_str());
+          snprintf(_logbuf, BUFF_SIZE, "COULD NOT FIND VDW PARAMETERS FOR ATOM %s, USING HYDROGEN VDW PARAMETERS\n", b->GetType());
           OBFFLog(_logbuf);
         }
       } else {
@@ -1278,19 +1278,19 @@ namespace OpenBabel
     FOR_ATOMS_OF_MOL(ai,_mol){
       atm = &(*ai);
       if (!visited[atm->GetIdx()-1]){
-	if( atm->GetType() == "cc" ||
-	    atm->GetType() == "ce" ||
-	    atm->GetType() == "cp" ||
-	    atm->GetType() == "nc" ||
-	    atm->GetType() == "ne" ||
-	    atm->GetType() == "pc" ||
-	    atm->GetType() == "pe"){
+	if( strcmp(atm->GetType(),"cc")==0 ||
+	    strcmp(atm->GetType(),"ce")==0 ||
+	    strcmp(atm->GetType(),"cp")==0 ||
+	    strcmp(atm->GetType(),"nc")==0 ||
+	    strcmp(atm->GetType(),"ne")==0 ||
+	    strcmp(atm->GetType(),"pc")==0 ||
+	    strcmp(atm->GetType(),"pe")==0){
 	  FOR_BONDS_OF_ATOM(bond,atm) {
 	    a = bond->GetBeginAtom();
 	    b = bond->GetEndAtom();
-	    if ((strcmp(a->GetType().c_str(),"cc")==0||strcmp(a->GetType().c_str(),"cd")==0)&&(strcmp(b->GetType().c_str(),"cc")==0||strcmp(b->GetType().c_str(),"cd")==0)){
+	    if ((strcmp(a->GetType(),"cc")==0||strcmp(a->GetType(),"cd")==0)&&(strcmp(b->GetType(),"cc")==0||strcmp(b->GetType(),"cd")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("cd");
 		}
@@ -1301,9 +1301,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"ce")==0||strcmp(a->GetType().c_str(),"cf")==0)&&(strcmp(b->GetType().c_str(),"ce")==0||strcmp(b->GetType().c_str(),"cf")==0)){
+	    if ((strcmp(a->GetType(),"ce")==0||strcmp(a->GetType(),"cf")==0)&&(strcmp(b->GetType(),"ce")==0||strcmp(b->GetType(),"cf")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("cf");
 		}
@@ -1314,9 +1314,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"cp")==0||strcmp(a->GetType().c_str(),"cq")==0)&&(strcmp(b->GetType().c_str(),"cp")==0||strcmp(b->GetType().c_str(),"cq")==0)){
+	    if ((strcmp(a->GetType(),"cp")==0||strcmp(a->GetType(),"cq")==0)&&(strcmp(b->GetType(),"cp")==0||strcmp(b->GetType(),"cq")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("cq");
 		}
@@ -1327,9 +1327,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"nc")==0||strcmp(a->GetType().c_str(),"nd")==0)&&(strcmp(b->GetType().c_str(),"nc")==0||strcmp(b->GetType().c_str(),"nd")==0)){
+	    if ((strcmp(a->GetType(),"nc")==0||strcmp(a->GetType(),"nd")==0)&&(strcmp(b->GetType(),"nc")==0||strcmp(b->GetType(),"nd")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("nd");
 		}
@@ -1340,9 +1340,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"ne")==0||strcmp(a->GetType().c_str(),"nf")==0)&&(strcmp(b->GetType().c_str(),"ne")==0||strcmp(b->GetType().c_str(),"nf")==0)){
+	    if ((strcmp(a->GetType(),"ne")==0||strcmp(a->GetType(),"nf")==0)&&(strcmp(b->GetType(),"ne")==0||strcmp(b->GetType(),"nf")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("nf");
 		}
@@ -1353,9 +1353,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"pc")==0||strcmp(a->GetType().c_str(),"pd")==0)&&(strcmp(b->GetType().c_str(),"pc")==0||strcmp(b->GetType().c_str(),"pd")==0)){
+	    if ((strcmp(a->GetType(),"pc")==0||strcmp(a->GetType(),"pd")==0)&&(strcmp(b->GetType(),"pc")==0||strcmp(b->GetType(),"pd")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("pd");
 		}
@@ -1366,9 +1366,9 @@ namespace OpenBabel
 	      visited.SetBitOn(a->GetIdx()-1);
 	      visited.SetBitOn(b->GetIdx()-1);
 	    }
-	    if ((strcmp(a->GetType().c_str(),"pe")==0||strcmp(a->GetType().c_str(),"pf")==0)&&(strcmp(b->GetType().c_str(),"pe")==0||strcmp(b->GetType().c_str(),"pf")==0)){
+	    if ((strcmp(a->GetType(),"pe")==0||strcmp(a->GetType(),"pf")==0)&&(strcmp(b->GetType(),"pe")==0||strcmp(b->GetType(),"pf")==0)){
 	      BO = bond->GetBondOrder();
-	      if ( (BO > 1  && strcmp(a->GetType().c_str(),b->GetType().c_str())==0) || (BO==1 && strcmp(a->GetType().c_str(),b->GetType().c_str())!=0)){
+	      if ( (BO > 1  && strcmp(a->GetType(),b->GetType())==0) || (BO==1 && strcmp(a->GetType(),b->GetType())!=0)){
 		if (!visited[a->GetIdx()-1]){
 		  a->SetType("pf");
 		}
@@ -1400,7 +1400,7 @@ namespace OpenBabel
       OBFFLog("IDX\tTYPE\tRING\n");
 
       FOR_ATOMS_OF_MOL (a, _mol) {
-        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType().c_str(),
+        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType(),
 	  (a->IsInRing() ? (a->IsAromatic() ? "AR" : "AL") : "NO"));
         OBFFLog(_logbuf);
       }
