@@ -46,7 +46,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://shelx.uni-ac.gwdg.de/SHELX/"; // XXX dead
     }
 

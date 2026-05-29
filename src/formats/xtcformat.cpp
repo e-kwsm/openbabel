@@ -84,7 +84,7 @@ namespace OpenBabel
         "A portable format for trajectories (gromacs)\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
       return "https://manual.gromacs.org/documentation/current/reference-manual/file-formats.html#xtc";
     }

@@ -112,7 +112,7 @@ public:
 ;
   };
 
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   { return "http://www.iupac.org/inchi/";};
 
   bool ReadMolecule(OBBase* pOb, OBConversion* pConv) override;

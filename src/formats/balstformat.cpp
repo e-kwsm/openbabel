@@ -41,7 +41,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.orc.uni-linz.ac.at/mueller/ball_and_stick.shtml"; // XXX dead
     }
 

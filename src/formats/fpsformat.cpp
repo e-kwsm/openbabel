@@ -57,7 +57,7 @@ namespace OpenBabel
       " p Use full input path as source, not just filename\n"
       " t <text> Use <text> as source in header\n\n";
     }
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   { return "https://code.google.com/archive/p/chem-fingerprints/wikis/FPS.wiki"; }
 
     unsigned int Flags() override { return NOTREADABLE; }

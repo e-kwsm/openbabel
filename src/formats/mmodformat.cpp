@@ -45,7 +45,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return ""; }  // optional
 
     const char* GetMIMEType() override

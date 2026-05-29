@@ -52,7 +52,7 @@ class LpmdFormat : public OBMoleculeFormat
     ;
   }
 
-  const char* SpecificationURL() override {
+  std::string SpecificationURL() override {
     return "http://www.lpmd.cl/index.php/documentation/the-lpmd-format"; // XXX dead
   }
 

@@ -46,7 +46,7 @@ namespace OpenBabel
           "Open source molecular modelling\n";
       }
 
-      const char* SpecificationURL() override {
+      std::string SpecificationURL() override {
         return "http://www.uku.fi/~thassine/ghemical/"; // XXX dead
       }
 

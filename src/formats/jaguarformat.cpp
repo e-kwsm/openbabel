@@ -47,7 +47,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.schrodinger.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -82,7 +82,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.schrodinger.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

@@ -87,7 +87,7 @@ namespace OpenBabel {
 
     std::string TargetClassDescription() override { return OBMol::ClassDescription(); }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.daylight.com/smiles/"; }
 
     int SkipObjects(int n, OBConversion* pConv) override
@@ -4289,7 +4289,7 @@ namespace OpenBabel {
         "  No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return ""; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply

@@ -67,7 +67,7 @@ public:
   }
 
   //Optional URL where the file format is specified
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   {
     return "https://www.crystal.unito.it/";
   }

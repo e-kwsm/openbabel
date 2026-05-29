@@ -152,7 +152,7 @@ public:
       " o display only objects in tree output\n";
   }
 
-  const char* SpecificationURL() override {
+  std::string SpecificationURL() override {
     return "http://www.cambridgesoft.com/services/documentation/sdk/chemdraw/cdx/IntroCDX.htm"; // XXX dead
   }
 

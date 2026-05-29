@@ -42,7 +42,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://sourceforge.net/projects/crk/"; }
 
     const char* GetMIMEType() override
@@ -145,7 +145,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://sourceforge.net/projects/crk/"; }
 
     const char* GetMIMEType() override

@@ -51,7 +51,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return ""; }
 
     const char* GetMIMEType() override

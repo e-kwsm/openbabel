@@ -85,7 +85,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://openbabel.org/wiki/XYZ"; // XXX dead
     }
 

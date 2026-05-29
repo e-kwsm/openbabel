@@ -44,7 +44,7 @@ public:
            " v  verbose output (include default values)\n\n";
   };
 
-  const char *SpecificationURL() override {
+  std::string SpecificationURL() override {
     return "https://github.com/OpenChemistry/chemicaljson";
   };
 

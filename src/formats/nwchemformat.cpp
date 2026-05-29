@@ -57,7 +57,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://nwchemgit.github.io/index.html"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -144,7 +144,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://nwchemgit.github.io/index.html"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

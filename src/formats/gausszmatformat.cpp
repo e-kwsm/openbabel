@@ -56,7 +56,7 @@ namespace OpenBabel
         "  f    <file>     Read the file specified for input keywords\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://gaussian.com/zmat/"; }
 
     const char* GetMIMEType() override

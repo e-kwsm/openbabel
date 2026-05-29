@@ -61,7 +61,7 @@ namespace OpenBabel
        "  w  Wrap atomic coordinates into unit cell box\n\n";
    }
 
-   const char* SpecificationURL() override
+   std::string SpecificationURL() override
    { return "https://mmcif.wwpdb.org/"; }
    // CIF itself is at http://www.iucr.org/iucr-top/cif/index.html
 

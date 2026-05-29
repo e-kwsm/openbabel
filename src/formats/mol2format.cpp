@@ -60,7 +60,7 @@ namespace OpenBabel
         "  u               Do not write formal charge information in UNITY records\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
       return "http://www.tripos.com/data/support/mol2.pdf"; // XXX dead
     }

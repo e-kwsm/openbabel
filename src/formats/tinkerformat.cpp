@@ -56,7 +56,7 @@ namespace OpenBabel
         "  3  Write atom types for the MM3 forcefield.\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://dasher.wustl.edu/tinker/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

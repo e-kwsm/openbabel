@@ -1455,7 +1455,7 @@ public:
                "  a  expand KET atom aliases where chemically meaningful\n\n";
     }
 
-    const char *SpecificationURL() override
+    std::string SpecificationURL() override
     {
         return "https://github.com/epam/Indigo";
     }

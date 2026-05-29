@@ -328,7 +328,7 @@ public:
             "The native YASARA format.\n";
     }
 
-    const char* SpecificationURL() override { return
+    std::string SpecificationURL() override { return
             "https://www.yasara.org/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

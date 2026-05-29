@@ -273,7 +273,7 @@ namespace OpenBabel
       return "DL-POLY CONFIG\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
       return "http://www.cse.scitech.ac.uk/ccg/software/DL_POLY";  // XXX dead
     }
@@ -405,7 +405,7 @@ public:
     return "DL-POLY HISTORY\n";
   }
 
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   {
     return "http://www.cse.scitech.ac.uk/ccg/software/DL_POLY";  // XXX dead
   }

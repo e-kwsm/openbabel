@@ -44,7 +44,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.mpqc.org/mpqc-html/mpqcinp.html"; // XXX dead
     }
 
@@ -81,7 +81,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.mpqc.org/mpqc-html/mpqcinp.html"; // XXX dead
     }
 

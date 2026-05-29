@@ -50,7 +50,7 @@ namespace OpenBabel
     //    return NOTREADABLE;
     //  };
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "http://www.serenasoft.com/"; }  // optional
 
     //*** This section identical for most OBMol conversions ***

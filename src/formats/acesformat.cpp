@@ -49,7 +49,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.qtp.ufl.edu/ACES/"; // XXX dead
     }
 
@@ -85,7 +85,7 @@ namespace OpenBabel
         ;
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.qtp.ufl.edu/ACES/"; // XXX dead
     }
 

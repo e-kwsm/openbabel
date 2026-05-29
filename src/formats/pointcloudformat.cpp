@@ -95,7 +95,7 @@ namespace OpenBabel
 
       /// Return a specification url, not really a specification since
       /// I couldn't find it but close enough.
-      const char* SpecificationURL() override
+      std::string SpecificationURL() override
       {
         return "N/A";
       }

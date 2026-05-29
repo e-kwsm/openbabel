@@ -51,7 +51,7 @@ public:
       "(this needs testing).\n\n";
   }
 
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   { return "https://ftp.ncbi.nlm.nih.gov/pubchem/specifications/pubchem.xsd"; }
 
   const char* GetMIMEType() override

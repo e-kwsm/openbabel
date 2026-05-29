@@ -74,7 +74,7 @@ namespace OpenBabel
            "  i use IDX atom types of babel internal \n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
       return "https://doi.org/10.1021/ci034207y";
     } //optional

@@ -104,7 +104,7 @@ public:
   }
 
   //Optional URL where the file format is specified
-  const char* SpecificationURL() override { return ""; }
+  std::string SpecificationURL() override { return ""; }
 
   //Optional
   const char* GetMIMEType() override

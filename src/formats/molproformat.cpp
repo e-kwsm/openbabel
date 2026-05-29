@@ -50,7 +50,7 @@ namespace OpenBabel
         " b  Disable bonding entirely\n\n";
     }
 
-//TODO    virtual const char* SpecificationURL()
+//TODO    std::string SpecificationURL() override
 //    {return "http://www.example.com";}; //optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -84,7 +84,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-//TODO    virtual const char* SpecificationURL()
+//TODO    std::string SpecificationURL() override
 //    {return "http://www.example.com";}; //optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply

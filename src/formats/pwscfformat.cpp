@@ -45,7 +45,7 @@ namespace OpenBabel {
              "The format used by PWscf, part of Quantum Espresso.\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "https://www.quantum-espresso.org/";
     }
 

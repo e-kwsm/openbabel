@@ -117,7 +117,7 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
     {
       txt += '\n';
       txt += ++nl; // add rest of description
-      if(strlen(SpecificationURL()))
+      if (!SpecificationURL().empty())
       {
         txt += "\nSpecification at: ";
         txt += SpecificationURL();

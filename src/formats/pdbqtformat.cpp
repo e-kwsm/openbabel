@@ -97,7 +97,7 @@ namespace OpenBabel
       "  n  Preserve atom names\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://autodock.scripps.edu/faqs-help/faq/what-is-the-format-of-a-pdbqt-file"; // XXX dead
     }
 

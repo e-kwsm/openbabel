@@ -49,7 +49,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://daltonprogram.org/documentation/"; }
 
     const char* GetMIMEType() override
@@ -98,7 +98,7 @@ namespace OpenBabel
         "                     e.g. ``-xk STO-3G``\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://daltonprogram.org/documentation/"; }
 
     const char* GetMIMEType() override

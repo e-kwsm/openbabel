@@ -136,7 +136,7 @@ namespace OpenBabel
           "  --colour-order-rgb export colours in red green blue (RGB) order (default: BGR order)\n\n";
       }
 
-      const char* SpecificationURL() override
+      std::string SpecificationURL() override
       {
         return "https://www.fabbers.com/tech/STL_Format";
       }

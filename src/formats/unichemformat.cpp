@@ -43,7 +43,7 @@ public:
       " b  Disable bonding entirely\n\n";
   }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return ""; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply

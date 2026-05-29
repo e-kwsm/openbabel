@@ -140,7 +140,7 @@ namespace OpenBabel
         "not yet been extensively tested.\n\n";
     };
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.xml-cml.org/"; }
 
     const char* GetMIMEType() override
