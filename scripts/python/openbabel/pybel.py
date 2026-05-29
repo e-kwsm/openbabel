@@ -114,7 +114,11 @@ ipython_3d = False
 """Toggles 2D vs 3D molecule representations in IPython notebook"""
 
 
-def readfile(format=None, filename: str | None = None, opt=None) -> Iterator[Molecule]:
+def readfile(
+    format: str | None = None,
+    filename: str | None = None,
+    opt=None,
+) -> Iterator["Molecule"]:
     """Iterate over the molecules in a file.
 
     Required parameters:
@@ -194,7 +198,7 @@ def readfile(format=None, filename: str | None = None, opt=None) -> Iterator[Mol
             obconversion.AddOption(k, obconversion.INOPTIONS)
         else:
             obconversion.AddOption(k, obconversion.INOPTIONS, str(v))
-    def filereader() -> Iterator[Molecule]:
+    def filereader() -> Iterator["Molecule"]:
         obmol = ob.OBMol()
         notatend = obconversion.ReadFile(obmol, filename)
         while notatend:
