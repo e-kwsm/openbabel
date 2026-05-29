@@ -112,7 +112,7 @@ bool OBFormat::Display(std::string& txt, const char* param, const char* ID)
 
   if(param && strstr(param, "verbose"))
   {
-    const char* nl = strchr(Description(), '\n');
+    const char* nl = strchr(Description().c_str(), '\n');
     if(nl)
     {
       txt += '\n';
