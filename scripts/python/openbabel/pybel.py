@@ -775,7 +775,7 @@ class Atom(object):
        OBAtom
     """
 
-    def __init__(self, OBAtom):
+    def __init__(self, OBAtom: ob.OBAtom):
         self.OBAtom = OBAtom
 
     @property
@@ -851,7 +851,7 @@ class Atom(object):
         return self.OBAtom.GetIsotope()
 
     @property
-    def partialcharge(self):
+    def partialcharge(self) -> float:
         return self.OBAtom.GetPartialCharge()
 
     @property
