@@ -22,6 +22,7 @@ import sys
 import os.path
 import tempfile
 import xml.etree.ElementTree as ET
+from typing import Iterator
 
 if sys.platform[:4] == "java":
     import org.openbabel as ob
@@ -113,7 +114,7 @@ ipython_3d = False
 """Toggles 2D vs 3D molecule representations in IPython notebook"""
 
 
-def readfile(format=None, filename=None, opt=None):
+def readfile(format=None, filename: str | None = None, opt=None) -> Iterator[Molecule]:
     """Iterate over the molecules in a file.
 
     Required parameters:
@@ -193,7 +194,7 @@ def readfile(format=None, filename=None, opt=None):
             obconversion.AddOption(k, obconversion.INOPTIONS)
         else:
             obconversion.AddOption(k, obconversion.INOPTIONS, str(v))
-    def filereader():
+    def filereader() -> Iterator[Molecule]:
         obmol = ob.OBMol()
         notatend = obconversion.ReadFile(obmol, filename)
         while notatend:
