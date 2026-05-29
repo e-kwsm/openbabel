@@ -40,7 +40,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("outmol",this, "chemical/x-dmol");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "DMol3 coordinates format\n"

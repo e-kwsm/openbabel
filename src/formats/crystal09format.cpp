@@ -56,7 +56,7 @@ public:
     OBConversion::RegisterOptionParam("s", this, 0, OBConversion::INOPTIONS);
   }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
         "Crystal 09 output format\n"

@@ -37,7 +37,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("castep",this);
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return
         "CASTEP format\n"

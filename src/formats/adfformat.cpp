@@ -654,7 +654,7 @@ public:
     }
 
     /// Return description.
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
         "ADF TAPE41 format\n\n"
