@@ -61,7 +61,7 @@ namespace OpenBabel
         "\n";
     }
 
-    const char* TargetClassDescription() override
+    std::string TargetClassDescription() override
     {
       return OBMol::ClassDescription();
     }

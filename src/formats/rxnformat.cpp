@@ -60,7 +60,7 @@ public:
   const char* GetMIMEType() override
   { return "chemical/x-mdl-rxn"; }
 
-  const char* TargetClassDescription() override
+  std::string TargetClassDescription() override
   {
       return OBMol::ClassDescription();
   }

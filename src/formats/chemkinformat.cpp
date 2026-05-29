@@ -68,9 +68,9 @@ public:
 "\n";
   }
 
-  const char* TargetClassDescription() override
+  std::string TargetClassDescription() override
   {
-      return OBReaction::ClassDescription().c_str();
+      return OBReaction::ClassDescription();
   }
 
   const type_info& GetType() override

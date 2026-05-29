@@ -50,9 +50,9 @@ namespace OpenBabel
     const char* GetMIMEType() override
     { return "chemical/x-daylight-smiles"; } // not right, need something else
 
-    const char* TargetClassDescription() override
+    std::string TargetClassDescription() override
     {
-      return OBReaction::ClassDescription().c_str();
+      return OBReaction::ClassDescription();
     }
 
     const type_info& GetType() override

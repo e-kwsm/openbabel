@@ -116,7 +116,7 @@ namespace OpenBabel
       }
 
       unsigned int Flags() override { return DEFAULTFORMAT | ZEROATOMSOK; }
-      const char* TargetClassDescription() override { return OBMol::ClassDescription(); }
+      std::string TargetClassDescription() override { return OBMol::ClassDescription(); }
 
       int SkipObjects(int n, OBConversion* pConv) override
       {
