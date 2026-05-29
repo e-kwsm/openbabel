@@ -795,7 +795,7 @@ class Atom(object):
         raise AttributeError("This property is no longer available.")
 
     @property
-    def coordidx(self):
+    def coordidx(self) -> int:
         return self.OBAtom.GetCoordinateIdx()
 
     @property
