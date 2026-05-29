@@ -819,7 +819,7 @@ class Atom(object):
         raise AttributeError("This property has been renamed. Use Atom.heavydegree instead.")
 
     @property
-    def heterodegree(self):
+    def heterodegree(self) -> int:
         return self.OBAtom.GetHeteroDegree()
 
     @property
@@ -827,7 +827,7 @@ class Atom(object):
         raise AttributeError("This property has been renamed. Use Atom.heterodegree instead.")
 
     @property
-    def hyb(self):
+    def hyb(self) -> int:
         return self.OBAtom.GetHyb()
 
     @property
