@@ -835,15 +835,15 @@ class Atom(object):
         return self.OBAtom.GetIdx()
 
     @property
-    def index(self):
+    def index(self) -> int:
         return self.OBAtom.GetIndex()
 
     @property
-    def explicitvalence(self):
+    def explicitvalence(self) -> int:
         return self.OBAtom.GetExplicitValence()
 
     @property
-    def totalvalence(self):
+    def totalvalence(self) -> int:
         return self.OBAtom.GetTotalValence()
 
     @property
