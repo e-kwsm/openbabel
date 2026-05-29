@@ -133,6 +133,8 @@ namespace OpenBabel
         _cutoff = false;
         _linesearch = LineSearchType::Newton2Num;
       }
+      explicit OBForceFieldGaff(const std::string ID, bool IsDefault = true)
+          : OBForceFieldGaff(ID.c_str(), IsDefault) {}
 
       //! Destructor
       virtual ~OBForceFieldGaff();
