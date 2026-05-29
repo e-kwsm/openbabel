@@ -1711,9 +1711,9 @@ class OBAtom(OBBase):
     GetHvyDegree: Incomplete
     GetHeteroDegree: Incomplete
     GetType: Incomplete
-    GetX: Incomplete
-    GetY: Incomplete
-    GetZ: Incomplete
+    def GetX(self) -> float: ...
+    def GetY(self) -> float: ...
+    def GetZ(self) -> float: ...
     x: Incomplete
     y: Incomplete
     z: Incomplete

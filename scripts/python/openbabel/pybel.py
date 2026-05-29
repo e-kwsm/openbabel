@@ -779,11 +779,11 @@ class Atom(object):
         self.OBAtom = OBAtom
 
     @property
-    def coords(self):
+    def coords(self) -> tuple[float, float, float]:
         return (self.OBAtom.GetX(), self.OBAtom.GetY(), self.OBAtom.GetZ())
 
     @property
-    def atomicmass(self):
+    def atomicmass(self) -> float:
         return self.OBAtom.GetAtomicMass()
 
     @property
