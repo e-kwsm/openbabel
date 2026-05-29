@@ -92,6 +92,9 @@ namespace OpenBabel
       {
         // ParseParamFile only called when needed
       }
+      explicit OBForceFieldMM2(const std::string& ID, bool IsDefault=true) : OBForceField(ID, IsDefault), _init(false)
+      {
+      }
 
       //!Clone the current instance. May be desirable in multithreaded environments
       OBForceFieldMM2* MakeNewInstance() override { return new OBForceFieldMM2(*this); }
