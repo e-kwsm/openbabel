@@ -46,7 +46,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.q-chem.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -83,7 +83,7 @@ namespace OpenBabel
         "  f    <file>     Read the file specified for input keywords\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.q-chem.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

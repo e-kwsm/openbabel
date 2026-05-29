@@ -55,7 +55,7 @@ namespace OpenBabel {
       }
 
       // Optional
-      const char* SpecificationURL() override {
+      std::string SpecificationURL() override {
         return "https://www.msg.chem.iastate.edu/gamess/documentation.html";
       }
 
@@ -102,7 +102,7 @@ namespace OpenBabel {
       }
 
       // Optional
-      const char* SpecificationURL() override {
+      std::string SpecificationURL() override {
         return "https://www.msg.chem.iastate.edu/gamess/documentation.html";
       }
 

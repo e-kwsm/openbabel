@@ -65,7 +65,7 @@ namespace OpenBabel
         "  o  Write origin in space group label (CRYST1 section)\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "http://www.wwpdb.org/docs.html"; }
 
     const char* GetMIMEType() override

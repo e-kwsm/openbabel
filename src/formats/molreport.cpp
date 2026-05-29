@@ -72,7 +72,7 @@ namespace OpenBabel
 ;
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://openbabel.org/wiki/MolReport"; // XXX dead
     }
 

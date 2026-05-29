@@ -45,7 +45,7 @@ public:
       " b  Disable bonding entirely\n\n";
   }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.fhi-berlin.mpg.de/th/aims/"; // XXX dead
     }
 

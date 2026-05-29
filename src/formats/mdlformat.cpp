@@ -105,7 +105,7 @@ namespace OpenBabel
                " H  use HYD extension (always on if mol contains zero-order bonds)\n\n";
       }
 
-      const char* SpecificationURL() override
+      std::string SpecificationURL() override
       {
         return "https://www.3ds.com/products/biovia/draw";
       }

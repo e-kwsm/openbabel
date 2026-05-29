@@ -47,7 +47,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.chembio.uoguelph.ca/oakley/310/cacao/cacao.htm"; // XXX dead
     }
 
@@ -308,7 +308,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.chembio.uoguelph.ca/oakley/310/cacao/cacao.htm"; // XXX dead
     }
 

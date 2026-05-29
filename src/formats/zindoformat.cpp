@@ -43,7 +43,7 @@ namespace OpenBabel
         "  c  Write an input file for the CNDO/INDO program.\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return ""; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply

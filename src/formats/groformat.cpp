@@ -98,7 +98,7 @@ public:
   }
 
   //Optional URL where the file format is specified
-  const char* SpecificationURL() override
+  std::string SpecificationURL() override
   {
     return "https://manual.gromacs.org/documentation/current/reference-manual/file-formats.html#gro";
   }

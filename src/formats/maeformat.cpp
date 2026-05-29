@@ -57,7 +57,7 @@ public:
     }
 
     //URL where the file format is specified
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
         return "https://github.com/schrodinger/maeparser";
     }

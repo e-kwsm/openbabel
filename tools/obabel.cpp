@@ -200,7 +200,7 @@ int main(int argc,char *argv[])
                               if(pFormat->Flags() & NOTREADABLE)
                                 cout << " This format is Write-only" << endl;
 
-                              if(strlen(pFormat->SpecificationURL()))
+                              if(!pFormat->SpecificationURL().empty())
                                 cout << "Specification at: " << pFormat->SpecificationURL() << endl;
                             }
                           else

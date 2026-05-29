@@ -298,7 +298,7 @@ namespace OpenBabel
 "  C[C@H2]F\n\n";
       }
 
-      const char* SpecificationURL() override
+      std::string SpecificationURL() override
       {
         return "http://opensmiles.org";
       }

@@ -61,7 +61,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       ;
     };
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "https://www.ncbi.nlm.nih.gov/data_specs/asn/pcsubstance.asn";
       // https://pubchem.ncbi.nlm.nih.gov/pug_rest/PUG_REST.html also useful
     }

@@ -87,7 +87,7 @@ namespace OpenBabel
         "  g  Write bonds using _geom_bond_etc fields \n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "http://ww1.iucr.org/iucr-top/cif/spec/"; }
 
     //*** This section identical for most OBMol conversions ***

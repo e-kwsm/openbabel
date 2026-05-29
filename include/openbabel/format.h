@@ -110,7 +110,7 @@ class OBCONV OBFormat : public OBPlugin
     virtual const std::type_info& GetType();
 
     /// @brief Web address where the format is defined.
-    virtual const char* SpecificationURL() { return ""; }
+    virtual std::string SpecificationURL() { return ""; }
 
     /// @brief Chemical MIME type associated with this file type (if any)
     virtual const char* GetMIMEType() { return pMime; }

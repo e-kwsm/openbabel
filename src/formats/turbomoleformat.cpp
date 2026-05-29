@@ -52,7 +52,7 @@ public:
       " a  Input in Angstroms\n\n" ;
   }
 
-  const char* SpecificationURL() override {
+  std::string SpecificationURL() override {
     return "http://www.cosmologic.de/QuantumChemistry/main_qChemistry.html"; // XXX dead
   }
 

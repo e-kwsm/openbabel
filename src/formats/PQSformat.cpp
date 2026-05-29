@@ -45,7 +45,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.pqs-chem.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply

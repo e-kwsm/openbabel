@@ -36,7 +36,7 @@ class AoforceFormat : public OBMoleculeFormat {
           "Read vibrational frequencies and intensities\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "https://www.turbomole.org/turbomole/turbomole-documentation/";
     }
 

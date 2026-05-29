@@ -63,7 +63,7 @@ namespace OpenBabel
         "  n  Omit title and comments\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       // return "http://www.ebi.ac.uk/help/formats_frame.html";  // XXX dead
       return "https://blast.ncbi.nlm.nih.gov/doc/blast-topics/";
     }

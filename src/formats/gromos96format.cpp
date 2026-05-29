@@ -78,7 +78,7 @@ namespace OpenBabel
         " n output nm (not Angstroms)\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
       return "https://manual.gromacs.org/documentation/current/reference-manual/file-formats.html#g96";
     }

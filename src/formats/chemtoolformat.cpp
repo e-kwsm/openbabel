@@ -70,7 +70,7 @@ namespace OpenBabel
         "No comments yet\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "http://ruby.chemie.uni-freiburg.de/~martin/chemtool/chemtool.html"; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply

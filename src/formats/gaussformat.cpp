@@ -54,7 +54,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://gaussian.com/"; }
 
     const char* GetMIMEType() override
@@ -102,7 +102,7 @@ namespace OpenBabel
         "  u               Write the crystallographic unit cell, if present.\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://gaussian.com/input/"; }
 
     const char* GetMIMEType() override

@@ -110,7 +110,7 @@ namespace OpenBabel {
 
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "https://www.vasp.at/wiki/index.php/POSCAR";
     }
 

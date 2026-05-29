@@ -513,7 +513,7 @@ namespace OpenBabel
         "GAMESS-UK Input\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.cfs.dl.ac.uk"; // XXX dead
     }
 
@@ -717,7 +717,7 @@ namespace OpenBabel
     std::string Description() override  // required
     { return "GAMESS-UK Output\n"; }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.cfs.dl.ac.uk"; // XXX dead
     }
 

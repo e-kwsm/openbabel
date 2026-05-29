@@ -73,7 +73,7 @@ namespace OpenBabel {
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.scm.com/"; }
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -274,7 +274,7 @@ namespace OpenBabel {
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.scm.com/doc/ADF/index.html"; }
 
     //*** This section identical for most OBMol conversions ***
@@ -377,7 +377,7 @@ namespace OpenBabel {
       return "ADF Band output format\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.scm.com/product/band_periodicdft/"; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -513,7 +513,7 @@ namespace OpenBabel {
       return "ADF DFTB output format\n";
     }
 
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     { return "https://www.scm.com/product/dftb/"; }  // optional
 
     //Flags() can return be any the following combined by | or be omitted if none apply
@@ -670,7 +670,7 @@ public:
 
     /// Return a specification url, not really a specification since
     /// I couldn't find it but close enough.
-    const char* SpecificationURL() override
+    std::string SpecificationURL() override
     {
         return "https://www.scm.com/doc/ADF/index.html";
     }

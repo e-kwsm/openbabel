@@ -58,7 +58,7 @@ public:
 "  CHHH;COCl[2]\n";
   }
 
-  const char* SpecificationURL() override { return
+  std::string SpecificationURL() override { return
      "https://pubs.acs.org/doi/10.1021/ci000108y"; }
 
   const char* GetMIMEType() override

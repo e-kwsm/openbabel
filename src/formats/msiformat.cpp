@@ -41,7 +41,7 @@ namespace OpenBabel
         "Accelrys/MSI Cerius II MSI format\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://openbabel.org/wiki/MSI_format"; // XXX dead
     }
 

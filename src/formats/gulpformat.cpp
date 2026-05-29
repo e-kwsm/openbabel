@@ -43,7 +43,7 @@ namespace OpenBabel {
         "The format used by GULP (General Utility Lattice Program).\n\n";
     }
 
-    const char* SpecificationURL() override { return "https://projects.ivec.org/gulp/"; }
+    std::string SpecificationURL() override { return "https://projects.ivec.org/gulp/"; }
 
     /* Flags() can return be any of the following combined by |
        or be omitted if none apply

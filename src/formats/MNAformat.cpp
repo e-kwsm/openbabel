@@ -146,7 +146,7 @@ namespace OpenBabel
 				return s;
 			}
 
-			const char* SpecificationURL() override
+			std::string SpecificationURL() override
 			{
 				return "http://openbabel.org/wiki/Multilevel_Neighborhoods_of_Atoms";
 			}

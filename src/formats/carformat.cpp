@@ -46,7 +46,7 @@ namespace OpenBabel
         "  b  Disable bonding entirely\n\n";
     }
 
-    const char* SpecificationURL() override {
+    std::string SpecificationURL() override {
       return "http://www.centrcn.umontreal.ca/accelrys/life/insight2000.1/formats980/Files980TOC.doc.html"; // XXX dead
     }
 
