@@ -53,6 +53,7 @@ class QTPIECharges : public OBChargeModel
 public:
   QTPIECharges(void) : OBChargeModel("fake ID", false){};
   QTPIECharges(const char* ID) : OBChargeModel(ID, false){};
+  QTPIECharges(const std::string& ID) : OBChargeModel(ID, false){};
   const char* Description() override { return "Assign QTPIE (charge transfer, polarization and equilibration) partial charges (Chen and Martinez, 2007)"; }
 
   /// \return whether partial charges were successfully assigned to this molecule
