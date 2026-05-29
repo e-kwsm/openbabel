@@ -1293,7 +1293,7 @@ class OBResidue(OBBase):
     GetNumAtoms: Incomplete
     GetChain: Incomplete
     GetChainNum: Incomplete
-    GetIdx: Incomplete
+    def GetIdx(self) -> int: ...
     GetResKey: Incomplete
     GetBonds: Incomplete
     GetAtomID: Incomplete
@@ -1706,10 +1706,10 @@ class OBAtom(OBBase):
     GetTotalDegree: Incomplete
     GetExplicitValence: Incomplete
     GetTotalValence: Incomplete
-    GetHyb: Incomplete
+    def GetHyb(self) -> int: ...
     GetImplicitHCount: Incomplete
     def GetHvyDegree(self) -> int: ...
-    GetHeteroDegree: Incomplete
+    def GetHeteroDegree(self) -> int: ...
     GetType: Incomplete
     def GetX(self) -> float: ...
     def GetY(self) -> float: ...
@@ -1819,7 +1819,7 @@ class OBBond(OBBase):
     SetWedgeOrHash: Incomplete
     SetInRing: Incomplete
     SetClosure: Incomplete
-    GetIdx: Incomplete
+    def GetIdx(self) -> int: ...
     GetId: Incomplete
     GetBondOrder: Incomplete
     GetFlags: Incomplete
@@ -2751,7 +2751,7 @@ class OBRotor:
     Set: Incomplete
     GetBond: Incomplete
     Size: Incomplete
-    GetIdx: Incomplete
+    def GetIdx(self) -> int: ...
     GetDihedralAtoms: Incomplete
     GetTorsionValues: Incomplete
     GetFixedBonds: Incomplete
