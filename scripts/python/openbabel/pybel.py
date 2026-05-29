@@ -113,7 +113,7 @@ ipython_3d = False
 """Toggles 2D vs 3D molecule representations in IPython notebook"""
 
 
-def readfile(format=None, filename=None, opt=None):
+def readfile(format=None, filename="", opt=None):
     """Iterate over the molecules in a file.
 
     Required parameters:
