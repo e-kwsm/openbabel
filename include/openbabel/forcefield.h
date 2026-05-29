@@ -463,6 +463,8 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
     //! see GetParameter(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter)
     OBFFParameter* GetParameter(const char* a, const char* b, const char* c, const char* d,
         std::vector<OBFFParameter> &parameter);
+    OBFFParameter* GetParameter(const std::string& a, const std::string& b, const std::string& c, const std::string& d,
+        std::vector<OBFFParameter> &parameter);
     //! Get index for vector<OBFFParameter> ...
     int GetParameterIdx(int a, int b, int c, int d, std::vector<OBFFParameter> &parameter);
 
