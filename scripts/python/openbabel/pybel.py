@@ -847,7 +847,7 @@ class Atom(object):
         return self.OBAtom.GetTotalValence()
 
     @property
-    def isotope(self):
+    def isotope(self) -> int:
         return self.OBAtom.GetIsotope()
 
     @property
@@ -859,7 +859,7 @@ class Atom(object):
         return Residue(self.OBAtom.GetResidue())
 
     @property
-    def spin(self):
+    def spin(self) -> int:
         return self.OBAtom.GetSpinMultiplicity()
 
     @property
@@ -874,6 +874,7 @@ class Atom(object):
     def vector(self):
         return self.OBAtom.GetVector()
 
+    @override
     def __str__(self):
         c = self.coords
         return "Atom: %d (%.2f %.2f %.2f)" % (self.atomicnum, c[0], c[1], c[2])
