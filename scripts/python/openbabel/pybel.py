@@ -616,7 +616,7 @@ class Molecule(object):
         else:
             return obconversion.WriteString(self.OBMol)
 
-    def localopt(self, forcefield="mmff94", steps=500):
+    def localopt(self, forcefield: str = "mmff94", steps: int = 500) -> None:
         """Locally optimize the coordinates.
 
         Optional parameters:
