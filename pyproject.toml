@@ -90,5 +90,8 @@ repair-wheel-command = "delvewheel repair -w {dest_dir} {wheel} --ignore-in-whee
 [tool.mypy]
 mypy_path = "./out/"
 
+[tool.pyrefly]
+site-package-path = [ "./out/" ]
+
 [tool.ty.environment]
 python-version = "3.14"
