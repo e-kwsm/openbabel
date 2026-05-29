@@ -82,7 +82,7 @@ public:
      Finish the options with a blank line as shown, if there are more than one
      group of options, or if there are further comments after them.
   */
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
     "GRO format\n"

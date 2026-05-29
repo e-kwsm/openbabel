@@ -53,7 +53,7 @@ namespace OpenBabel
   class MDLFormat : public OBMoleculeFormat
   {
     public:
-      const char* Description() override
+      const char* Description() const override
       {
         return "MDL MOL format\n"
                "Reads and writes V2000 and V3000 versions\n\n"

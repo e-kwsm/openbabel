@@ -35,7 +35,7 @@ public:
     OBConversion::RegisterOptionParam("unique", nullptr, 1, OBConversion::GENOPTIONS);
   }
 
-  const char* Description() override { return
+  const char* Description() const override { return
     "[param] remove duplicates by descriptor;default inchi\n"
     "param is a descriptor or property, or a truncation spec for InChI\n"
     "(making the comparison less detailed, see below).\n"

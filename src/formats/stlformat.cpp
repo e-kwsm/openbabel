@@ -120,7 +120,7 @@ namespace OpenBabel
       }
 
       /// Return description.
-      const char* Description() override  // required
+      const char* Description() const override  // required
       {
         return
           "STL 3D-printing format\n"

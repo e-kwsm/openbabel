@@ -37,7 +37,7 @@ public:
     OBConversion::RegisterFormat("_png2",this);
   }
 
-  const char* Description() override  //required
+  const char* Description() const override  //required
   {
     return
     "PNG2 format\n"

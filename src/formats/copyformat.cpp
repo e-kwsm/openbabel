@@ -25,7 +25,7 @@ public:
     OBConversion::RegisterFormat("copy",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
 "Copy raw text\n"

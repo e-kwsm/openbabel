@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("mmod",this, "chemical/x-macromodel-input");
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "MacroModel format\n"

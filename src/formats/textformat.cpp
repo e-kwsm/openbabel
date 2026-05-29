@@ -26,7 +26,7 @@ public:
     OBConversion::RegisterFormat("text",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
      "Read and write raw text\n"

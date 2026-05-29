@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("jout",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Jaguar output format\n"
@@ -73,7 +73,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("jin",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Jaguar input format\n"

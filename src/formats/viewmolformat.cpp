@@ -33,7 +33,7 @@ public:
     OBConversion::RegisterFormat("vmol",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "ViewMol format\n"

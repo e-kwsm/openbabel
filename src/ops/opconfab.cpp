@@ -52,7 +52,7 @@ namespace OpenBabel
       OpConfab(const char* ID) : OBOp(ID, false) {
       }
 
-      const char* Description() override
+      const char* Description() const override
       {
         return "Confab, the diverse conformer generator\n"
           "Typical usage: obabel infile.xxx -O outfile.yyy --confab --conf 1000000\n"

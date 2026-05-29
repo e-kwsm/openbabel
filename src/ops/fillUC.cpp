@@ -38,7 +38,7 @@ public:
   OpFillUC(const char* ID) : OBOp(ID, false){
     OBConversion::RegisterOptionParam("fillUC", nullptr, 1, OBConversion::GENOPTIONS);
   }
-  const char* Description() override { return "<param> Fill the unit cell (strict or keepconnect)\n"
+  const char* Description() const override { return "<param> Fill the unit cell (strict or keepconnect)\n"
     "using unique positions, unit cell and spacegroup"
     "<param> can be:\n"
     "   strict (keep only atoms inside the UC) => use \"--fillUC strict\"\n"

@@ -34,7 +34,7 @@ class ChemicalJSONFormat : public OBMoleculeFormat {
 public:
   ChemicalJSONFormat() { OBConversion::RegisterFormat("cjson", this); }
 
-  const char *Description() override {
+  const char *Description() const override {
     return "Chemical JSON\n"
            "The native file format for Avogadro2 and Open Chemistry\n\n"
 

@@ -35,7 +35,7 @@ public:
     OBConversion::RegisterOptionParam("y", this, 1, OBConversion::OUTOPTIONS);
   }
 
-  const char* Description() override
+  const char* Description() const override
   {
     return
     "PNG 2D depiction\n"

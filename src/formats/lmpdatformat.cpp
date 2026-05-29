@@ -39,7 +39,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("d", nullptr, 1, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
   "The LAMMPS data format\n\n"

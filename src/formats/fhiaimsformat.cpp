@@ -36,7 +36,7 @@ public:
         OBConversion::RegisterFormat("fhiaims",this);
     }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "FHIaims XYZ format\n"

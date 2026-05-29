@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("fract",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
 "Free Form Fractional format\n"

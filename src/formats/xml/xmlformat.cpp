@@ -26,7 +26,7 @@ public:
       OBConversion::RegisterFormat("xml",this);
   }
 
-  const char* Description() override
+  const char* Description() const override
   {
     return
       "General XML format\n"

@@ -28,7 +28,7 @@ class OpAddInIndex : public OBOp
 {
 public:
   OpAddInIndex(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
+  const char* Description() const override { return
     "Append input index to title\n"
     "These are objects before filtering. Use AddOutIndex for objects after filtering\n"; }
 

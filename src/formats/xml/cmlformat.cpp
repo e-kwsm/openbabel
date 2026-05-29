@@ -68,7 +68,7 @@ namespace OpenBabel
     }
     const char* NamespaceURI() const override { return "http://www.xml-cml.org/schema"; }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "Chemical Markup Language\n"

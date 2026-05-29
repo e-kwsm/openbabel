@@ -36,7 +36,7 @@ namespace OpenBabel
     //Register this format type ID
     FPSFormat() {OBConversion::RegisterFormat("fps",this);}
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     { return
     "FPS text fingerprint format (Dalke)\n\n"
     "The FPS file format for fingerprints was developed by Andrew Dalke to\n"

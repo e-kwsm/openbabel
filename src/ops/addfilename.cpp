@@ -28,7 +28,7 @@ class OpAddFileName : public OBOp
 {
 public:
   OpAddFileName(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return
+  const char* Description() const override { return
     "Append input filename to title\n"
     "Any path is removed from the filename\n"
     ; }

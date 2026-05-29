@@ -33,7 +33,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("cssr",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "CSD CSSR format\n"

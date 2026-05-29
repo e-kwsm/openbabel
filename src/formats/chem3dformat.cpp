@@ -36,7 +36,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("c3d1",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Chem3D Cartesian 1 format\n"
@@ -109,7 +109,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("c3d2",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "Chem3D Cartesian 2 format\n"

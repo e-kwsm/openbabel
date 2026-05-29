@@ -321,7 +321,7 @@ public:
         OBConversion::RegisterFormat("yob",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
         return
             "YASARA.org YOB format\n"

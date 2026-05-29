@@ -122,7 +122,7 @@ public:
       delete *iter;
   }
 
-  const char* Description() override { return "Makes plugin classes from a datafile"; }
+  const char* Description() const override { return "Makes plugin classes from a datafile"; }
 
   OBDefine* MakeInstance(const std::vector<std::string>& textlines) override
   {

@@ -27,7 +27,7 @@ class OpAddNonPolarH : public OBOp
 {
 public:
   OpAddNonPolarH(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Adds hydrogen to nonpolar atoms only"; }
+  const char* Description() const override { return "Adds hydrogen to nonpolar atoms only"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,

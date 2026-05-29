@@ -41,7 +41,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("cof", this);
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return "Culgi object file format\n"
       "Culgi format\n"

@@ -1439,7 +1439,7 @@ public:
         OBConversion::RegisterOptionParam("a", this, 0, OBConversion::INOPTIONS);
     }
 
-    const char *Description() override
+    const char *Description() const override
     {
         return "Ketcher KET JSON format\n"
                "Native format used by Ketcher and Indigo for chemical structures\n"

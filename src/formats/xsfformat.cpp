@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("axsf",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
         "XCrySDen Structure Format\n"

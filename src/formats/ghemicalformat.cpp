@@ -39,7 +39,7 @@ namespace OpenBabel
         OBConversion::RegisterFormat("gpr",this);
       }
 
-      const char* Description() override  // required
+      const char* Description() const override  // required
       {
         return
           "Ghemical format\n"

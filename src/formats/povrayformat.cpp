@@ -106,7 +106,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pov",this);
     }
 
-    const char* Description() override  // required
+    const char* Description() const override  // required
     {
       return
       "POV-Ray input format\n"

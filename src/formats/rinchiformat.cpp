@@ -39,7 +39,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("rinchi",this);
     }
 
-    const char* Description() override
+    const char* Description() const override
     {
       return
         "RInChI\n"

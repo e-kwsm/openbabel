@@ -70,7 +70,7 @@ namespace OpenBabel
       }
 
       /// Return description.
-      const char* Description() override  // required
+      const char* Description() const override  // required
       {
         return
           "Point cloud on VDW surface\n"

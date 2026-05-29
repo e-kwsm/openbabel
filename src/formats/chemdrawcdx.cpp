@@ -129,7 +129,7 @@ public:
     OBConversion::RegisterFormat("cdx",this);
   }
 
-  const char* Description() override  // required
+  const char* Description() const override  // required
   {
     return
       "ChemDraw binary format\n"
