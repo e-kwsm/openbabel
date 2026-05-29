@@ -76,6 +76,7 @@ public:
   /// the ID, a tab character, and the first line of the Description.
   ///The param string can be used in derived types to provide different outputs.
   virtual bool Display(std::string&txt, const char* param, const char* ID=nullptr);
+  virtual bool Display(std::string&txt, const std::string& param, const std::string& ID);
 
   ///Make a new instance of the class.
   ///See OpTransform, OBGroupContrib, SmartsDescriptor classes for derived versions.
