@@ -159,14 +159,14 @@ namespace OpenBabel
     OBAtom* atom;
     for (atom = mol.BeginAtom(a); atom; atom = mol.NextAtom(a)) {
       // guanidinium. Fixes PR#1800964
-      if (strncasecmp(atom->GetType(),"C2", 2) == 0) {
+      if (strncasecmp(atom->GetType().c_str(),"C2", 2) == 0) {
         int guanidineN = 0;
         OBAtom *nbr;
         vector<OBBond*>::iterator k;
         for (nbr = atom->BeginNbrAtom(k);nbr;nbr = atom->NextNbrAtom(k)) {
-          if (strncasecmp(nbr->GetType(),"Npl", 3) == 0 ||
-              strncasecmp(nbr->GetType(),"N2", 2) == 0 ||
-              strncasecmp(nbr->GetType(),"Ng+", 3) == 0)
+          if (strncasecmp(nbr->GetType().c_str(),"Npl", 3) == 0 ||
+              strncasecmp(nbr->GetType().c_str(),"N2", 2) == 0 ||
+              strncasecmp(nbr->GetType().c_str(),"Ng+", 3) == 0)
             ++guanidineN;
         }
         if (guanidineN == 3)
