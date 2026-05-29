@@ -855,7 +855,7 @@ class Atom(object):
         return self.OBAtom.GetPartialCharge()
 
     @property
-    def residue(self):
+    def residue(self) -> Residue:
         return Residue(self.OBAtom.GetResidue())
 
     @property

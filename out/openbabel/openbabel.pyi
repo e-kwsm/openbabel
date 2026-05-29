@@ -1719,7 +1719,7 @@ class OBAtom(OBBase):
     z: Incomplete
     GetCoordinate: Incomplete
     GetVector: Incomplete
-    GetPartialCharge: Incomplete
+    def GetPartialCharge(self) -> float: ...
     GetResidue: Incomplete
     GetParent: Incomplete
     GetNewBondVector: Incomplete
