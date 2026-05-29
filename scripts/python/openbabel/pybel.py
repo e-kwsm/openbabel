@@ -1004,7 +1004,7 @@ class Smarts(object):
         if not success:
             raise OSError("Invalid SMARTS pattern")
 
-    def findall(self, molecule: Molecule):
+    def findall(self, molecule: Molecule) -> list[tuple[int, int]]:
         """Find all matches of the SMARTS pattern to a particular molecule.
 
         Required parameters:
