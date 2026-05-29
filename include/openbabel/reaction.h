@@ -20,6 +20,7 @@ GNU General Public License for more details.
 #define OB_REACT_H
 
 #include <memory>
+#include <string>
 #include <vector>
 #include <openbabel/base.h>
 
@@ -104,7 +105,7 @@ public:
   bool IsReversible() const       {return _reversible;}
   void SetReversible(bool b=true) {_reversible=b;}
 
-  static const char* ClassDescription()
+  static std::string ClassDescription()
   {
     return " reactions\n";
   }

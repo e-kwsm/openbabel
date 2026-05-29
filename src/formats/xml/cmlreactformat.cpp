@@ -107,7 +107,7 @@ public:
 
   const char* TargetClassDescription() override
   {
-      return OBReaction::ClassDescription();
+      return OBReaction::ClassDescription().c_str();
   }
 
   unsigned Flags() override
