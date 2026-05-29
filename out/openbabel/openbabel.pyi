@@ -1696,7 +1696,7 @@ class OBAtom(OBBase):
     GetAtomicNum: Incomplete
     GetIsotope: Incomplete
     GetSpinMultiplicity: Incomplete
-    GetAtomicMass: Incomplete
+    def GetAtomicMass(self) -> float: ...
     GetExactMass: Incomplete
     GetIdx: Incomplete
     GetIndex: Incomplete
