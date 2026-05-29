@@ -1287,7 +1287,7 @@ class OBResidue(OBBase):
     SetAtomID: Incomplete
     SetHetAtom: Incomplete
     SetSerialNum: Incomplete
-    GetName: Incomplete
+    def GetName(self) -> str: ...
     GetNum: Incomplete
     GetNumString: Incomplete
     GetNumAtoms: Incomplete

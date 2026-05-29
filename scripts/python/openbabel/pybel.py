@@ -899,7 +899,7 @@ class Residue(object):
         self.OBResidue = OBResidue
 
     @property
-    def atoms(self):
+    def atoms(self) -> list[Atom]:
         return [Atom(atom) for atom in ob.OBResidueAtomIter(self.OBResidue)]
 
     @property
