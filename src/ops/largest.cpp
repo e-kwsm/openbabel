@@ -33,7 +33,7 @@ class OpLargest : public OBOp
 {
 public:
   OpLargest(const char* ID) : OBOp(ID, false){};
-  const char* Description() override
+  std::string Description() override
   {
     //Need to use a member variable so that const char* is valid when it is returned
     description = (strcmp(GetID(),"largest")!=0) ?

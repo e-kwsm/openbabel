@@ -57,7 +57,7 @@ namespace OpenBabel
 
   }
 
-  const char* OBGroupContrib::Description()
+  std::string OBGroupContrib::Description()
   {
    //Adds name of datafile containing SMARTS strings to the description
     static string txt;
@@ -65,7 +65,7 @@ namespace OpenBabel
     txt += "\n Datafile: ";
     txt += _filename;
     txt += "\nOBGroupContrib is definable";
-    return txt.c_str();
+    return txt;
   }
 
   bool OBGroupContrib::ParseFile()

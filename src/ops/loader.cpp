@@ -122,7 +122,7 @@ public:
       delete *iter;
   }
 
-  const char* Description() override { return "Makes plugin classes from a datafile"; }
+  std::string Description() override { return "Makes plugin classes from a datafile"; }
 
   OBDefine* MakeInstance(const std::vector<std::string>& textlines) override
   {
@@ -188,10 +188,9 @@ OBPlugin* OBDefine::FindDef(const char* ID)
     PluginMapType map = typeiter->second->GetMap();
     for(iter=map.begin();iter!=map.end();++iter)
     {
-      const char* pdescr = iter->second->Description();
-      if(!pdescr)
+      string descr = iter->second->Description();
+      if (descr.empty())
         continue;
-      string descr(pdescr);
       //Matches if the ID is before the last occurrence of "definable"
       //in the description on the same line.
       string::size_type pos, pos2;

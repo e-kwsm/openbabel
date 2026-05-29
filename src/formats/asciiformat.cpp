@@ -43,7 +43,7 @@ public:
     OBConversion::RegisterFormat("ascii",this);
   }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
     "ASCII format\n"

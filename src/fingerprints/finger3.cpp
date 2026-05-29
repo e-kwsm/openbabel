@@ -60,7 +60,7 @@ public:
   }
 
 /////////////////////////////////////////////////////////////////////////////
-  const char* Description() override
+  std::string Description() override
   {
     static string desc;
     //Read patterns file if it has not been done already,

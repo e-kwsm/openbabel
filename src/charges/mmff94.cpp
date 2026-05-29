@@ -32,7 +32,7 @@ class MMFF94Charges : public OBChargeModel
 {
 public:
   MMFF94Charges(const char* ID) : OBChargeModel(ID, false){};
-  const char* Description() override { return "   Assign MMFF94 partial charges"; }
+  std::string Description() override { return "   Assign MMFF94 partial charges"; }
 
   /// \return whether partial charges were successfully assigned to this molecule
   bool ComputeCharges(OBMol &mol) override;

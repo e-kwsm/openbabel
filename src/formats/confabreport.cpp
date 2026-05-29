@@ -55,7 +55,7 @@ public:
     rmsd_cutoff = 0.5;
   }
 
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
     return
     "Confab report format\n"

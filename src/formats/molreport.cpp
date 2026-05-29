@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("molreport",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Open Babel molecule report\n"

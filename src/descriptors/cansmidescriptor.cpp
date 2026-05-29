@@ -29,7 +29,7 @@ class CanSmiles : public OBDescriptor
 {
 public:
   CanSmiles(const char* ID, bool noStereo) : OBDescriptor(ID), _noStereo(noStereo){};
-  const char* Description() override
+  std::string Description() override
   {
     return _noStereo ? "Canonical SMILES without isotopes or stereo" : "Canonical SMILES";
   };

@@ -39,7 +39,7 @@ public:
  }
 
   virtual const char* NamespaceURI()const{return "http://www.w3.org/2000/svg";}
-  const char* Description() override
+  std::string Description() override
   {
     return
       "SVG 2D depiction\n"

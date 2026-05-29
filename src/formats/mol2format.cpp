@@ -48,7 +48,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("u", this, 0, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Sybyl Mol2 format\n"

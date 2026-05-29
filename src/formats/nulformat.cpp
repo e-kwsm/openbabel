@@ -22,7 +22,7 @@ class NulFormat : public OBFormat
 public:
   NulFormat() { OBConversion::RegisterFormat("nul",this); }
 
-  const char* Description() override { return "Outputs nothing"; }
+  std::string Description() override { return "Outputs nothing"; }
 
   unsigned int Flags() override { return NOTREADABLE; }
 

@@ -35,7 +35,7 @@ class OpAlign : public OBOp
 {
 public:
   OpAlign(const char* ID) : OBOp(ID, false), _align(false, false){};
-  const char* Description() override { return
+  std::string Description() override { return
     "Align coordinates to the first molecule\n"
     "Typical use with a -s option:\n"
     "    obabel pattern.www  dataset.xxx  -O outset.yyy  -s SMARTS  --align\n"

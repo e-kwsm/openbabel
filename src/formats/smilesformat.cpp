@@ -127,7 +127,7 @@ namespace OpenBabel {
       OBConversion::RegisterOptionParam("x", this);
       OBConversion::RegisterOptionParam("C", this);	// "anti-canonical" form (random order)
     }
-    const char* Description() override
+    std::string Description() override
     {
       return
         "SMILES format\n"
@@ -222,7 +222,7 @@ namespace OpenBabel {
 
     ///////////////////////////////////////////////////////
 
-    const char* Description() override {
+    std::string Description() override {
       return
         "Canonical SMILES format\n"
         "A canonical form of the SMILES linear text format\n"
@@ -4282,7 +4282,7 @@ namespace OpenBabel {
       OBConversion::RegisterFormat("fix",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "SMILES FIX format\n"

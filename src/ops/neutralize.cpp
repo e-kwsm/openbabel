@@ -28,7 +28,7 @@ class OpNeutralize : public OBOp
 {
 public:
   OpNeutralize(const char* ID) : OBOp(ID, false){};
-  const char* Description() override {
+  std::string Description() override {
     return "Neutralize +1 and -1 charges\n\n"
 
       "Neutralize uses a simple procedure to generate the neutral form of a\n"

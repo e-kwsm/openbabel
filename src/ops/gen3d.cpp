@@ -34,7 +34,7 @@ class OpGen3D : public OBOp
 {
 public:
   OpGen3D(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Generate 3D coordinates"; }
+  std::string Description() override { return "Generate 3D coordinates"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,

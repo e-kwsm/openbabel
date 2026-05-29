@@ -29,7 +29,7 @@ class OpCanonical : public OBOp
 {
 public:
   OpCanonical(const char* ID) : OBOp(ID, false){};
-  const char* Description() override { return "Canonicalize the atom order"; }
+  std::string Description() override { return "Canonicalize the atom order"; }
 
   bool WorksWith(OBBase* pOb) const override { return dynamic_cast<OBMol*>(pOb) != nullptr; }
   bool Do(OBBase* pOb, const char* OptionText=nullptr, OpMap* pOptions=nullptr,
