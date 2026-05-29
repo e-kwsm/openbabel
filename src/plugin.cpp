@@ -224,6 +224,11 @@ bool OBPlugin::Display(string& txt, const char* param, const char* ID)
   return true;
 }
 
+bool OBPlugin::Display(string& txt, const string& param, const string& ID)
+{
+  return Display(txt, param.c_str(), ID.c_str());
+}
+
 #ifndef USING_DYNAMIC_LIBS
 
 std::vector<std::string> EnableStaticPlugins()
