@@ -2157,7 +2157,7 @@ class OBSmartsPattern:
     GetMapList: Incomplete
     BeginMList: Incomplete
     EndMList: Incomplete
-    GetUMapList: Incomplete
+    def GetUMapList(self) -> list[list[int]]: ...
     WriteMapList: Incomplete
 
 class OBSmartsMatcher:
