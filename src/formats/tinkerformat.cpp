@@ -39,7 +39,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("txyz",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Tinker XYZ format\n"

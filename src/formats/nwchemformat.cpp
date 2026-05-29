@@ -44,7 +44,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("nwo",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "NWChem output format\n"
@@ -137,7 +137,7 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
       OBConversion::RegisterFormat("nw",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "NWChem input format\n"

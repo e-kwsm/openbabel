@@ -41,7 +41,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("dat", this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Generic Output file format\n"

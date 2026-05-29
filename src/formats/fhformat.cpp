@@ -34,7 +34,7 @@ public:
         OBConversion::RegisterFormat("fh",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
           "Fenske-Hall Z-Matrix format\n"

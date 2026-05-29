@@ -37,7 +37,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("ins",this, "chemical/x-shelx");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ShelX format\n"

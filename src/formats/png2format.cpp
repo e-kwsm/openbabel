@@ -37,7 +37,7 @@ public:
     OBConversion::RegisterFormat("_png2",this);
   }
 
-  const char* Description() override  //required
+  std::string Description() override  //required
   {
     return
     "PNG2 format\n"

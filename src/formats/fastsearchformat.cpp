@@ -51,7 +51,7 @@ FastSearchFormat() : fsi(nullptr)
   OBConversion::RegisterOptionParam("e", this, 0, OBConversion::INOPTIONS);
 }
 
-const char* Description() override  // required
+std::string Description() override  // required
 { return
   "Fastsearch format\n"
   "Fingerprint-aided substructure and similarity searching\n\n"

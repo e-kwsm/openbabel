@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("moo",this, "chemical/x-mopac-out");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "MOPAC Output format\n"
@@ -515,7 +515,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("f", nullptr, 1, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "MOPAC Cartesian format\n"
@@ -846,7 +846,7 @@ namespace OpenBabel
       OBConversion::RegisterOptionParam("f", nullptr, 1, OBConversion::OUTOPTIONS);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return "MOPAC Internal\n"
         "Write Options e.g. -xk\n"

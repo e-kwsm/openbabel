@@ -59,7 +59,7 @@ public:
 		XMLConversion::RegisterXMLFormat(this);
 	}
 	const char* NamespaceURI() const override { return "http://www.cambridgesoft.com/xml/cdxml.dtd"; }
-  const char* Description() override
+  std::string Description() override
   {
     return
       "ChemDraw CDXML format\n"

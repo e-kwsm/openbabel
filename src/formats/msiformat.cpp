@@ -35,7 +35,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("msi", this, "chemical/x-msi-msi");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Accelrys/MSI Cerius II MSI format\n";

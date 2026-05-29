@@ -711,7 +711,7 @@ void OBGUIFrame::OnInFormatInfo(wxCommandEvent& WXUNUSED(event))
   int nSel=m_pInFormat->GetSelection();
   if(nSel<0) return;
   OBFormat* pFormat = (OBFormat*)m_pInFormat->GetClientData(nSel);
-  wxString mes(pFormat->Description(), wxConvUTF8);
+  wxString mes(pFormat->Description().c_str(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
   if(!url.IsEmpty())
     mes += _T("\nURL for specification: ") + url;
@@ -724,7 +724,7 @@ void OBGUIFrame::OnOutFormatInfo(wxCommandEvent& WXUNUSED(event))
   int nSel=m_pOutFormat->GetSelection();
   if(nSel<0) return;
   OBFormat* pFormat = (OBFormat*)m_pOutFormat->GetClientData(nSel);
-  wxString mes(pFormat->Description(), wxConvUTF8);
+  wxString mes(pFormat->Description().c_str(), wxConvUTF8);
   wxString url(pFormat->SpecificationURL(), wxConvUTF8);
   if(!url.IsEmpty())
     mes += _T("\nURL for specification: ") + url;

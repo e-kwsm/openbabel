@@ -37,7 +37,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("qcout",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Q-Chem output format\n"
@@ -74,7 +74,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("qcin",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Q-Chem input format\n"

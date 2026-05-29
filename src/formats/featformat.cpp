@@ -33,7 +33,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("feat",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Feature format\n"

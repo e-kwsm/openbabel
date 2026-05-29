@@ -77,7 +77,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("xtc",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "XTC format\n"

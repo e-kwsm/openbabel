@@ -47,7 +47,7 @@ namespace OpenBabel
     }
 
     // Return description.
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
         "OpenDX cube format for APBS\n"

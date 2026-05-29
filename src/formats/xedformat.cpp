@@ -36,7 +36,7 @@ public:
         OBConversion::RegisterFormat("xed",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
           "XED format\n"

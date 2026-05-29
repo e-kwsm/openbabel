@@ -34,7 +34,7 @@ class LpmdFormat : public OBMoleculeFormat
    file_line=0;
    OBConversion::RegisterFormat("lpmd",this);
   }
-  const char* Description() override  // required
+  std::string Description() override  // required
   {
    return
     "LPMD format\n"

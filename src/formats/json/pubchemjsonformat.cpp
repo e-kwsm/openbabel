@@ -44,7 +44,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       OBConversion::RegisterFormat("pcjson",this);
     }
 
-    const char* Description() override
+    std::string Description() override
     {
       return
       "PubChem JSON\n"

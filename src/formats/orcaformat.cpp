@@ -46,7 +46,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("orca",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ORCA output format\n"
@@ -84,7 +84,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("orcainp",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ORCA input format\n"
