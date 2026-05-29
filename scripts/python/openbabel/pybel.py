@@ -201,6 +201,7 @@ def readfile(
             obconversion.AddOption(k, obconversion.INOPTIONS)
         else:
             obconversion.AddOption(k, obconversion.INOPTIONS, str(v))
+
     def filereader() -> Iterator["Molecule"]:
         obmol = ob.OBMol()
         notatend = obconversion.ReadFile(obmol, filename)
@@ -208,6 +209,7 @@ def readfile(
             yield Molecule(obmol)
             obmol = ob.OBMol()
             notatend = obconversion.Read(obmol)
+
     return filereader()
 
 
