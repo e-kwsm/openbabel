@@ -2478,7 +2478,10 @@ class OBForceField(OBPlugin):
     LineSearch: Incomplete
     Newton2NumLineSearch: Incomplete
     LineSearchTakeStep: Incomplete
-    SteepestDescent: Incomplete
+    @overload
+    def SteepestDescent(self, steps: int) -> None: ...
+    @overload
+    def SteepestDescent(self, steps: int, econv: float) -> None: ...
     SteepestDescentInitialize: Incomplete
     SteepestDescentTakeNSteps: Incomplete
     ConjugateGradients: Incomplete
