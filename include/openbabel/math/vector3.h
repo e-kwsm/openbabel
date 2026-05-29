@@ -203,7 +203,7 @@ namespace OpenBabel
     //! \return *this divided by c
     vector3& operator/= ( const double& c)
       {
-        double inv = 1.0 / c;
+        const double inv = 1.0 / c;
         return( (*this) *= inv );
       };
     //! Multiplication of matrix and vector
@@ -297,9 +297,9 @@ namespace OpenBabel
      */
     double distSq(const vector3 &vv) const
     {
-      double dx = x() - vv.x();
-      double dy = y() - vv.y();
-      double dz = z() - vv.z();
+      const double dx = x() - vv.x();
+      const double dy = y() - vv.y();
+      const double dz = z() - vv.z();
       return( dx*dx + dy*dy + dz*dz );
     }
 

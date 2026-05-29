@@ -62,7 +62,7 @@ namespace OpenBabel
       int iso;
       std::string el;
       ss >> iso >>el;
-      unsigned int elemno = OBElements::GetAtomicNum(el.c_str());
+      const unsigned int elemno = OBElements::GetAtomicNum(el.c_str());
       if(elemno > 0)
       {
         OBAtom* pAtom = mol.GetAtom(atomindex);

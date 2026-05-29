@@ -171,7 +171,7 @@ class OBCONV LineEndingExtractor
 public:
   int operator()( std::istream& src )
   {
-    int ch( src.get() ) ;
+    const int ch( src.get() ) ;
     switch (ch)
     {
       case 13: //CR or CRLF

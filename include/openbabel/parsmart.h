@@ -199,7 +199,7 @@ namespace OpenBabel
           delete[] _buffer;
         _buffer = nullptr;
         _pat = nullptr;
-        std::string s = cp._str;
+        const std::string s = cp._str;
         Init(s);
         return (*this);
       }

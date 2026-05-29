@@ -150,7 +150,7 @@ namespace OpenBabel
       bool BitIsSet(unsigned bit_offset) const
         {
 		  bool rtn = false;
-		  unsigned word_offset = bit_offset >> WORDROLL;
+		  const unsigned word_offset = bit_offset >> WORDROLL;
 		  if (word_offset < GetSize())
 		  	{
 			  bit_offset &= WORDMASK;
