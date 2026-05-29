@@ -37,7 +37,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("bgf",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "MSI BGF format\n"

@@ -52,7 +52,7 @@ public:
     Init();
   }
 
-  const char* Description() override
+  std::string Description() override
   {
       return
 "ChemKin format\n"

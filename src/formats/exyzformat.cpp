@@ -41,7 +41,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("exyz", this, "chemical/x-xyz");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Extended XYZ cartesian coordinates format\n"

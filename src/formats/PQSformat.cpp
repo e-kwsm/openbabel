@@ -38,7 +38,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("pqs",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Parallel Quantum Solutions format\n"

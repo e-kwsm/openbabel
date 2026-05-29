@@ -44,7 +44,7 @@ namespace OpenBabel
 
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "ACR format\n"

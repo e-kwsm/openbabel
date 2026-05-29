@@ -34,7 +34,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("cache",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "CAChe MolStruct format\n"

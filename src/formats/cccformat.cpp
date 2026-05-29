@@ -34,7 +34,7 @@ public:
         OBConversion::RegisterFormat("ccc",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
         return
           "CCC format\n"

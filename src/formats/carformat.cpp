@@ -37,7 +37,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("arc",this, "chemical/x-msi-car");
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Accelrys/MSI Biosym/Insight II CAR format\n"

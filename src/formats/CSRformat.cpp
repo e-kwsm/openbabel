@@ -33,7 +33,7 @@ namespace OpenBabel
       OBConversion::RegisterFormat("csr",this);
     }
 
-    const char* Description() override  // required
+    std::string Description() override  // required
     {
       return
         "Accelrys/MSI Quanta CSR format\n"
