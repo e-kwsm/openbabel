@@ -32,7 +32,7 @@ class OBLoader : public OBPlugin
 {
   MAKE_PLUGIN(OBLoader)
 public:
-  const char* TypeID() override { return "loaders"; }
+  const char* TypeID() const override { return "loaders"; }
 };
 
 #if defined(__CYGWIN__) || defined(__MINGW32__)

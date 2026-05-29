@@ -36,7 +36,7 @@ public:
   const char* Description() const override
   {
     //Need to use a member variable so that const char* is valid when it is returned
-    description = (strcmp(GetID(),"largest")!=0) ?
+    std::string description = (strcmp(GetID(),"largest")!=0) ?
      "# <descr> Output # mols with smallest values of descriptor(not displayed in GUI)\n"
      "    obabel infile.xxx -Ooutfile.yyy --smallest 5 MW\n"
      "will convert only the molecules with the 5 smallest molecular weights.\n" :
@@ -61,7 +61,6 @@ public:
   static bool MatchPairData(OBBase* pOb, std::string& s); //Copy of protected OBDescriptor function
 
 private:
-  std::string description;
   std::multimap<double, OBBase*> _selmap;
   OBDescriptor* _pDesc;
   std::string _param;

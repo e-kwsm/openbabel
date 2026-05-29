@@ -51,7 +51,6 @@ namespace OpenBabel
     double DipoleScalingFactor() override { return 1.0; } // fit from regression
 
   private:
-    std::string _description;
     std::string _type;
     std::string _parameters_file;
     std::vector<struct EEMParameter> _parameters;
@@ -82,11 +81,11 @@ namespace OpenBabel
   }
 
 
-  const char *EEMCharges::Description(void)
+  const char *EEMCharges::Description(void) const
   {
-    _description = "Assign Electronegativity Equilization Method (EEM) atomic partial charges. ";
-    _description.append(_type);
-    return _description.c_str();
+    std::string description = "Assign Electronegativity Equilization Method (EEM) atomic partial charges. ";
+    description.append(_type);
+    return description.c_str();
   }
 
 
