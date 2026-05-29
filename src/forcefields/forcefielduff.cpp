@@ -100,7 +100,7 @@ namespace OpenBabel {
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s  %4.2f%8.3f   %8.3f     %8.3f   %8.3f   %8.3f\n",
-                 (*i).a->GetType(), (*i).b->GetType(),
+                 (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
                  (*i).bt, (*i).rab, (*i).r0, (*i).kb, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -226,8 +226,8 @@ namespace OpenBabel {
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s%8.3f  %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
-                 (*i).c->GetType(), (*i).theta * RAD_TO_DEG, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s%8.3f  %8.3f     %8.3f   %8.3f   %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+                 (*i).c->GetType().c_str(), (*i).theta * RAD_TO_DEG, (*i).theta0, (*i).ka, (*i).delta, (*i).energy);
         OBFFLog(_logbuf);
       }
     }
@@ -314,8 +314,8 @@ namespace OpenBabel {
 
       IF_OBFF_LOGLVL_HIGH {
         snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%6.3f       %8.3f     %8.3f\n",
-                 (*i).a->GetType(), (*i).b->GetType(),
-                 (*i).c->GetType(), (*i).d->GetType(), (*i).V,
+                 (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
+                 (*i).c->GetType().c_str(), (*i).d->GetType().c_str(), (*i).V,
                  (*i).tor * RAD_TO_DEG, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -395,7 +395,7 @@ namespace OpenBabel {
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%8.3f   %8.3f     %8.3f\n", (*i).a->GetType(), (*i).b->GetType(), (*i).c->GetType(), (*i).d->GetType(),
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %-5s %-5s%8.3f   %8.3f     %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(), (*i).c->GetType().c_str(), (*i).d->GetType().c_str(),
                  (*i).angle * RAD_TO_DEG, (*i).koop, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -485,7 +485,7 @@ namespace OpenBabel {
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %8.3f  %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s %8.3f  %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
                  (*i).rab, (*i).kab, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -562,7 +562,7 @@ namespace OpenBabel {
       }
 
       IF_OBFF_LOGLVL_HIGH {
-        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType(), (*i).b->GetType(),
+        snprintf(_logbuf, BUFF_SIZE, "%-5s %-5s   %8.3f  %8.3f  %8.3f\n", (*i).a->GetType().c_str(), (*i).b->GetType().c_str(),
                  (*i).rab, (*i).qq, (*i).energy);
         OBFFLog(_logbuf);
       }
@@ -1373,26 +1373,26 @@ namespace OpenBabel {
       c = nullptr;
       d = nullptr;
 
-      if (EQn(b->GetType(), "N_3", 3) ||
-          EQn(b->GetType(), "N_2", 3) ||
-          EQn(b->GetType(), "N_R", 3) ||
-          EQn(b->GetType(), "O_2", 3) ||
-          EQn(b->GetType(), "O_R", 3)) {
+      if (EQn(b->GetType().c_str(), "N_3", 3) ||
+          EQn(b->GetType().c_str(), "N_2", 3) ||
+          EQn(b->GetType().c_str(), "N_R", 3) ||
+          EQn(b->GetType().c_str(), "O_2", 3) ||
+          EQn(b->GetType().c_str(), "O_R", 3)) {
         oopcalc.c0 = 1.0;
         oopcalc.c1 = -1.0;
         oopcalc.c2 = 0.0;
         oopcalc.koop = 6.0 * KCAL_TO_KJ;
       }
-      else if (EQn(b->GetType(), "P_3+3", 5) ||
-               EQn(b->GetType(), "As3+3", 5) ||
-               EQn(b->GetType(), "Sb3+3", 5) ||
-               EQn(b->GetType(), "Bi3+3", 5)) {
+      else if (EQn(b->GetType().c_str(), "P_3+3", 5) ||
+               EQn(b->GetType().c_str(), "As3+3", 5) ||
+               EQn(b->GetType().c_str(), "Sb3+3", 5) ||
+               EQn(b->GetType().c_str(), "Bi3+3", 5)) {
 
-        if (EQn(b->GetType(), "P_3+3", 5))
+        if (EQn(b->GetType().c_str(), "P_3+3", 5))
           phi = 84.4339 * DEG_TO_RAD;
-        else if (EQn(b->GetType(), "As3+3", 5))
+        else if (EQn(b->GetType().c_str(), "As3+3", 5))
           phi = 86.9735 * DEG_TO_RAD;
-        else if (EQn(b->GetType(), "Sb3+3", 5))
+        else if (EQn(b->GetType().c_str(), "Sb3+3", 5))
           phi = 87.7047 * DEG_TO_RAD;
         else
           phi = 90.0 * DEG_TO_RAD;
@@ -1402,7 +1402,7 @@ namespace OpenBabel {
         oopcalc.c0 = -1.0*oopcalc.c1 * cos(phi) + oopcalc.c2*cos(2.0*phi);
         oopcalc.koop = 22.0 * KCAL_TO_KJ;
       }
-      else if (!(EQn(b->GetType(), "C_2", 3) || EQn(b->GetType(), "C_R", 3)))
+      else if (!(EQn(b->GetType().c_str(), "C_2", 3) || EQn(b->GetType().c_str(), "C_R", 3)))
         continue; // inversion not defined for this atom type
 
       FOR_NBORS_OF_ATOM(nbr, b) {
@@ -1440,14 +1440,14 @@ namespace OpenBabel {
       }
 
       // C atoms, we should check if we're bonded to O
-      if (EQn(b->GetType(), "C_2", 3) || EQn(b->GetType(), "C_R", 3)) {
+      if (EQn(b->GetType().c_str(), "C_2", 3) || EQn(b->GetType().c_str(), "C_R", 3)) {
         oopcalc.c0 = 1.0;
         oopcalc.c1 = -1.0;
         oopcalc.c2 = 0.0;
         oopcalc.koop = 6.0 * KCAL_TO_KJ;
-        if (EQn(a->GetType(), "O_2", 3) ||
-            EQn(c->GetType(), "O_2", 3) ||
-            EQn(d->GetType(), "O_2", 3)) {
+        if (EQn(a->GetType().c_str(), "O_2", 3) ||
+            EQn(c->GetType().c_str(), "O_2", 3) ||
+            EQn(d->GetType().c_str(), "O_2", 3)) {
           oopcalc.koop = 50.0 * KCAL_TO_KJ;
         }
       }
@@ -1769,7 +1769,7 @@ namespace OpenBabel {
       OBFFLog("IDX\tTYPE\tRING\n");
 
       FOR_ATOMS_OF_MOL (a, _mol) {
-        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType(),
+        snprintf(_logbuf, BUFF_SIZE, "%d\t%s\t%s\n", a->GetIdx(), a->GetType().c_str(),
 	  (a->IsInRing() ? (a->IsAromatic() ? "AR" : "AL") : "NO"));
         OBFFLog(_logbuf);
       }

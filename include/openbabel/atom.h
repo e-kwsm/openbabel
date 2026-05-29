@@ -265,7 +265,7 @@ namespace OpenBabel
       //! \return The number of heteroatoms connected to an atom
       unsigned int GetHeteroDegree()   const;
       //! \return the atomic type (e.g., for molecular mechanics)
-      char        *GetType();
+      std::string GetType();
 
       //! \return the x coordinate
       double      GetX() const   {        return(x());    }

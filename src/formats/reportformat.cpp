@@ -394,7 +394,7 @@ namespace OpenBabel
 
       snprintf(buffer, BUFF_SIZE, "%4d %4d %4d %4s %4s %4s %10.3f",
                 a->GetIdx(),b->GetIdx(),c->GetIdx(),
-                a->GetType(),b->GetType(),c->GetType(),
+                a->GetType().c_str(),b->GetType().c_str(),c->GetType().c_str(),
                 ang);
       ofs << buffer << "\n";
     }
