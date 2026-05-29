@@ -68,7 +68,7 @@ public:
   virtual std::string Description() { return ""; }
 
   ///Redefined by each plugin type: "formats", "fingerprints", etc.
-  virtual const char* TypeID(){ return "plugins"; }
+  virtual std::string TypeID(){ return "plugins"; }
 
   ///Write information on a plugin class to the string txt.
   ///Return false if not written.
@@ -258,7 +258,7 @@ class YourBaseClass : public OBPlugin
 {
   MAKE_PLUGIN(YourBaseClass)
 
-  const char* TypeID()
+  std::string TypeID()
   { return "whatsits"; };
 
   ...rest of implementation, probably involving virtual functions redefined

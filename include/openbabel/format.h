@@ -51,7 +51,7 @@ class OBCONV OBFormat : public OBPlugin
     ///Default constructor. Registration via RegisterFormat(), not via constructor as in other plugins.
     OBFormat(){}
 
-    const char* TypeID() override { return "formats"; }
+    std::string TypeID() override { return "formats"; }
 
     /// @brief The "API" interface Read function.
 
