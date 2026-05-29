@@ -218,6 +218,8 @@ public:\
       }\
     }\
   }\
+  BaseClass(const std::string& ID, bool IsDefault=false): BaseClass(ID.c_str(), IsDefault) {\
+  }\
   static BaseClass* FindType(const char* ID) {\
     if (!ID || *ID==0 || *ID==' ') {\
       return Default();\
