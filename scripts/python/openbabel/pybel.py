@@ -831,17 +831,17 @@ class Atom(object):
         return self.OBAtom.GetHyb()
 
     @property
-    def idx(self):
+    def idx(self) -> int:
         return self.OBAtom.GetIdx()
 
     @property
     def index(self):
         return self.OBAtom.GetIndex()
-    
+
     @property
     def explicitvalence(self):
         return self.OBAtom.GetExplicitValence()
-        
+
     @property
     def totalvalence(self):
         return self.OBAtom.GetTotalValence()
@@ -902,7 +902,7 @@ class Residue(object):
         return [Atom(atom) for atom in ob.OBResidueAtomIter(self.OBResidue)]
 
     @property
-    def idx(self):
+    def idx(self) -> int:
         return self.OBResidue.GetIdx()
 
     @property
