@@ -1693,7 +1693,7 @@ class OBAtom(OBBase):
     SetInRing: Incomplete
     ClearCoordPtr: Incomplete
     GetFormalCharge: Incomplete
-    GetAtomicNum: Incomplete
+    def GetAtomicNum(self) -> int: ...
     GetIsotope: Incomplete
     GetSpinMultiplicity: Incomplete
     def GetAtomicMass(self) -> float: ...
