@@ -1697,12 +1697,12 @@ class OBAtom(OBBase):
     GetIsotope: Incomplete
     GetSpinMultiplicity: Incomplete
     def GetAtomicMass(self) -> float: ...
-    GetExactMass: Incomplete
+    def GetExactMass(self) -> float: ...
     GetIdx: Incomplete
     GetIndex: Incomplete
     GetId: Incomplete
     def GetCoordinateIdx(self) -> int: ...
-    GetExplicitDegree: Incomplete
+    def GetExplicitDegree(self) -> int: ...
     GetTotalDegree: Incomplete
     GetExplicitValence: Incomplete
     GetTotalValence: Incomplete
@@ -1966,7 +1966,7 @@ class OBMol(OBBase):
     GetFormula: Incomplete
     GetSpacedFormula: Incomplete
     GetMolWt: Incomplete
-    GetExactMass: Incomplete
+    def GetExactMass(self) -> float: ...
     def GetTotalCharge(self) -> int: ...
     GetTotalSpinMultiplicity: Incomplete
     GetDimension: Incomplete

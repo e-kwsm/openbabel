@@ -403,7 +403,7 @@ class Molecule(object):
         return self.OBMol.GetEnergy()
 
     @property
-    def exactmass(self):
+    def exactmass(self) -> float:
         return self.OBMol.GetExactMass()
 
     @property
@@ -799,11 +799,11 @@ class Atom(object):
         return self.OBAtom.GetCoordinateIdx()
 
     @property
-    def degree(self):
+    def degree(self) -> int:
         return self.OBAtom.GetExplicitDegree()
 
     @property
-    def exactmass(self):
+    def exactmass(self) -> float:
         return self.OBAtom.GetExactMass()
 
     @property
