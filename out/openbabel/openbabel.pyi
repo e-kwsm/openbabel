@@ -1220,6 +1220,11 @@ class OBConversion:
     ALL: Incomplete
     IsOption: Incomplete
     GetOptions: Incomplete
+    @overload
+    def AddOption(self, opt: str) -> None: ...
+    @overload
+    def AddOption(self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL") -> None: ...
+    @overload
     def AddOption(self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL", txt: str | None = None) -> None: ...
     RemoveOption: Incomplete
     SetOptions: Incomplete
