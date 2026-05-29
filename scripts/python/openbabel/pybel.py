@@ -787,7 +787,7 @@ class Atom(object):
         return self.OBAtom.GetAtomicMass()
 
     @property
-    def atomicnum(self):
+    def atomicnum(self) -> int:
         return self.OBAtom.GetAtomicNum()
 
     @property
