@@ -22,9 +22,8 @@ import sys
 import os.path
 import tempfile
 import xml.etree.ElementTree as ET
-from typing import Iterator, Never
-
-from typing import Any, Self, override
+from collections.abc import Iterator
+from typing import Any, Never, Self, override
 
 # if sys.platform[:4] == "java":
 #     import org.openbabel as ob
