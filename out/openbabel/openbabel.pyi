@@ -455,9 +455,9 @@ class vector3:
     SetX: Incomplete
     SetY: Incomplete
     SetZ: Incomplete
-    GetX: Incomplete
-    GetY: Incomplete
-    GetZ: Incomplete
+    def GetX(self) -> float: ...
+    def GetY(self) -> float: ...
+    def GetZ(self) -> float: ...
     Get: Incomplete
     AsArray: Incomplete
     __iadd__: Incomplete

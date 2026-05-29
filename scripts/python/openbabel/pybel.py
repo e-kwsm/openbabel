@@ -681,7 +681,7 @@ class Molecule(object):
         filename: str | None = None,
         update: bool = False,
         usecoords: bool = False,
-    ):
+    ) -> None:
         """Create a 2D depiction of the molecule.
 
         Optional parameters:
@@ -924,7 +924,7 @@ class Residue(object):
     def name(self) -> str:
         return self.OBResidue.GetName()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator[Atom]:
         """Iterate over the Atoms of the Residue.
 
         This allows constructions such as the following:
@@ -981,7 +981,7 @@ class Fingerprint(object):
         return ob.OBFingerprint.Tanimoto(self.fp, other.fp)
 
     @property
-    def bits(self):
+    def bits(self) -> list[int]:
         return _findbits(self.fp, ob.OBFingerprint.Getbitsperint())
 
     @override
