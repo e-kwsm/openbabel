@@ -85,7 +85,7 @@ namespace OpenBabel {
 
     ///////////////////////////////////////////////////////
 
-    const char* TargetClassDescription() override { return OBMol::ClassDescription(); }
+    std::string TargetClassDescription() override { return OBMol::ClassDescription(); }
 
     const char* SpecificationURL() override
     { return "https://www.daylight.com/smiles/"; }

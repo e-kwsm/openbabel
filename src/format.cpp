@@ -43,7 +43,7 @@ int OBFormat::RegisterFormat(const char* ID, const char* MIME)
 }
 
 //////////////////////////////////////////////////////////
-const char* OBFormat::TargetClassDescription()
+std::string OBFormat::TargetClassDescription()
 {
   //Provides class of default format unless overridden
   if (OBFormat::FindType(nullptr))

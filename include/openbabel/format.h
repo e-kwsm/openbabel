@@ -97,7 +97,7 @@ std::cerr << "Not a valid input format"; return false;}
     /// @brief A decription of the chemical object converted by this format.
 
     /// If not provided, the object type used by the default format is used (usually OBMol).
-    virtual const char* TargetClassDescription();
+    virtual std::string TargetClassDescription();
 
     /// \return the type of chemical object used by the format.
 
