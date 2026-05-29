@@ -485,7 +485,7 @@ namespace OpenBabel
         switch (atom->GetAtomicNum()) {
         case 8:
           if (total_valence != 1) continue;
-          if (atom->GetType() != "O2") continue; // TODO: the O.co2 type is lost by this point
+          if (strcmp(atom->GetType(), "O2") != 0) continue; // TODO: the O.co2 type is lost by this point
           {
             OBAtomBondIter bit(&*atom);
             if (!bit->IsAromatic() && bit->GetBondOrder() == 1)

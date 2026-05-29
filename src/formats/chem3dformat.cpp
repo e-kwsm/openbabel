@@ -302,7 +302,7 @@ namespace OpenBabel
           {
             snprintf(buffer, BUFF_SIZE,
                      "Unable to assign %s type to atom %d type = %s\n",
-                     mol_typ,atom->GetIdx(),atom->GetType().c_str());
+                     mol_typ,atom->GetIdx(),atom->GetType());
             obErrorLog.ThrowError(__FUNCTION__, buffer, obInfo);
             atnum = atom->GetAtomicNum();
             type_num = atnum * 10 + atom->GetExplicitDegree();
