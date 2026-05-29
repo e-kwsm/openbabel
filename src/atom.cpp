@@ -1081,6 +1081,11 @@ namespace OpenBabel
     return false;
   }
 
+  bool OBAtom::MatchesSMARTS(const std::string& pattern)
+  {
+    return MatchesSMARTS(pattern.c_str());
+  }
+
   OBBond *OBAtom::BeginBond(OBBondIterator &i)
   {
     i = _vbond.begin();
