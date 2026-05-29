@@ -83,32 +83,7 @@ public:
   static double Tanimoto(const std::vector<unsigned int>& vec1, const std::vector<unsigned int>& vec2);
 
   /// Inline version of Tanimoto() taking a pointer for the second vector
-  static double Tanimoto(const std::vector<unsigned int>& vec1, const unsigned int* p2)
-  {
-    ///If used for two vectors, vec1 and vec2, call as Tanimoto(vec1, &vec2[0]);
-    int andbits=0, orbits=0;
-    unsigned int i;
-    for (i=0;i<vec1.size();++i)
-    {
-      int andfp = vec1[i] & p2[i];
-      int orfp = vec1[i] | p2[i];
-      // Count bits
-      /* GCC 3.4 supports a "population count" builtin, which on many targets is
-         implemented with a single instruction.  There is a fallback definition
-         in libgcc in case a target does not have one, which should be just as
-         good as the static function below.  */
-#if __GNUC__ > 3 || (__GNUC__ == 3 && __GNUC_MINOR__ >= 4)
-      andbits += __builtin_popcount(andfp);
-      orbits += __builtin_popcount(orfp);
-#else
-      for(;andfp;andfp=andfp<<1)
-        if(andfp<0) ++andbits;
-      for(;orfp;orfp=orfp<<1)
-        if(orfp<0) ++orbits;
-#endif
-    }
-      return((double)andbits/(double)orbits);
-  };
+  static double Tanimoto(const std::vector<unsigned int>& vec1, const unsigned int* p2);
 
   static unsigned int Getbitsperint(){ return bitsperint; }
 
