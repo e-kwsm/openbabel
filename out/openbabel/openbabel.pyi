@@ -2203,7 +2203,8 @@ class OBFingerprint(OBPlugin):
     Flags: Incomplete
     SetFlags: Incomplete
     DescribeBits: Incomplete
-    Tanimoto: Incomplete
+    @classmethod
+    def Tanimoto(cls, vec1: OBBitVec, vec2: OBBitVec) -> float: ...
     Getbitsperint: Incomplete
     FindFingerprint: Incomplete
 
