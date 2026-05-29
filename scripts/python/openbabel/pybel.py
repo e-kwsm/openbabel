@@ -807,13 +807,13 @@ class Atom(object):
         return self.OBAtom.GetExactMass()
 
     @property
-    def formalcharge(self):
+    def formalcharge(self) -> float:
         return self.OBAtom.GetFormalCharge()
 
     @property
-    def heavydegree(self):
+    def heavydegree(self) -> int:
         return self.OBAtom.GetHvyDegree()
-    
+
     @property
     def heavyvalence(self) -> Never:
         raise AttributeError("This property has been renamed. Use Atom.heavydegree instead.")
@@ -821,7 +821,7 @@ class Atom(object):
     @property
     def heterodegree(self):
         return self.OBAtom.GetHeteroDegree()
-    
+
     @property
     def heterovalence(self) -> Never:
         raise AttributeError("This property has been renamed. Use Atom.heterodegree instead.")
