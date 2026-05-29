@@ -567,7 +567,7 @@ class Molecule(object):
         format: str = "smi",
         filename: bytes | str | None = None,
         overwrite: bool = False,
-        opt=None,
+        opt: dict[str, Any] | None = None,
     ):
         """Write the molecule to a file or return a string.
 
