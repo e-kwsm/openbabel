@@ -1692,7 +1692,7 @@ class OBAtom(OBBase):
     SetAromatic: Incomplete
     SetInRing: Incomplete
     ClearCoordPtr: Incomplete
-    GetFormalCharge: Incomplete
+    def GetFormalCharge(self) -> float: ...
     def GetAtomicNum(self) -> int: ...
     GetIsotope: Incomplete
     GetSpinMultiplicity: Incomplete
@@ -1708,7 +1708,7 @@ class OBAtom(OBBase):
     GetTotalValence: Incomplete
     GetHyb: Incomplete
     GetImplicitHCount: Incomplete
-    GetHvyDegree: Incomplete
+    def GetHvyDegree(self) -> int: ...
     GetHeteroDegree: Incomplete
     GetType: Incomplete
     def GetX(self) -> float: ...
