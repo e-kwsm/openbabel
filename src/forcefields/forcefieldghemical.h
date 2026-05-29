@@ -94,6 +94,8 @@ namespace OpenBabel
       //! Same as OBForceField::GetParameter, but takes (bond/angle/torsion) type in account.
       OBFFParameter* GetParameterGhemical(int type, const char* a, const char* b,
           const char* c, const char* d, std::vector<OBFFParameter> &parameter);
+      OBFFParameter* GetParameterGhemical(int type, const std::string& a, const std::string& b,
+          const std::string& c, const std::string& d, std::vector<OBFFParameter> &parameter);
 
       // OBFFParameter vectors to contain the parameters
       std::vector<OBFFParameter> _ffbondparams;

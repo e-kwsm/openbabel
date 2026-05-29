@@ -1170,6 +1170,12 @@ namespace OpenBabel
     return nullptr;
   }
 
+  OBFFParameter* OBForceFieldGhemical::GetParameterGhemical(int type, const std::string& a, const std::string& b, const std::string& c, const std::string& d,
+                                                            vector<OBFFParameter> &parameter)
+  {
+    return GetParameterGhemical(type, a.c_str(), b.c_str(), c.c_str(), d.c_str(), parameter);
+  }
+
   bool OBForceFieldGhemical::ValidateGradients ()
   {
     vector3 numgrad, anagrad, err;
