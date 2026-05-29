@@ -642,7 +642,7 @@ class Molecule(object):
         """Generate 2D coordinates."""
         _operations['gen2D'].Do(self.OBMol)
 
-    def make3D(self, forcefield="mmff94", steps=50):
+    def make3D(self, forcefield: str = "mmff94", steps: int = 50) -> None:
         """Generate 3D coordinates.
 
         Optional parameters:
@@ -675,7 +675,13 @@ class Molecule(object):
     def __str__(self):
         return self.write()
 
-    def draw(self, show=True, filename=None, update=False, usecoords=False):
+    def draw(
+        self,
+        show: bool = True,
+        filename: str | None = None,
+        update: bool = False,
+        usecoords: bool = False,
+    ):
         """Create a 2D depiction of the molecule.
 
         Optional parameters:
