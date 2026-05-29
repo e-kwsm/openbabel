@@ -105,6 +105,7 @@ public:
 
   ///Utility function to return only the first line of a string
   static std::string FirstLine(const char* txt);
+  static std::string FirstLine(const std::string& txt);
 
   ///Return an iterator at the start of the map of the plugin types PluginID or,
   /// if there is no such map, the end of the top level plugin map.
