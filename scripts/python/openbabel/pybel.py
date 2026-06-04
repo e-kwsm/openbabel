@@ -121,7 +121,7 @@ def readfile(
     format: str | None = None,
     filename: str = "",
     opt: dict[str, Any] | None = None,
-) -> Iterator["Molecule"]:
+) -> Iterator[Molecule]:
     """Iterate over the molecules in a file.
 
     Required parameters:
