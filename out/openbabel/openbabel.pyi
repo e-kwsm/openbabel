@@ -1,4 +1,4 @@
-from typing import Iterator, overload, override
+from typing import Any, overload, override
 from _typeshed import Incomplete
 
 dlflags: Incomplete
@@ -10,10 +10,10 @@ class SwigPyIterator:
     thisown: Incomplete
     def __init__(self, *args, **kwargs) -> None: ...
     __swig_destroy__: Incomplete
-    value: Incomplete
+    def value(self) -> Any: Incomplete
     incr: Incomplete
     decr: Incomplete
-    distance: Incomplete
+    def distance(self, other: SwigPyIterator) -> int: ...
     equal: Incomplete
     copy: Incomplete
     next: Incomplete
@@ -30,8 +30,8 @@ class SwigPyIterator:
 
 class vectorInt:
     thisown: Incomplete
-    iterator: Incomplete
-    def __iter__(self) -> Iterator[int]: ...
+    def iterator(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -47,8 +47,8 @@ class vectorInt:
 
 class vectorUnsignedInt:
     thisown: Incomplete
-    iterator: Incomplete
-    def __iter__(self) -> Iterator[int]: ...
+    def iterator(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -64,8 +64,8 @@ class vectorUnsignedInt:
 
 class vectorvInt:
     thisown: Incomplete
-    iterator: Incomplete
-    def __iter__(self) -> Iterator[vectorInt]: ...
+    def iterator(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -82,7 +82,7 @@ class vectorvInt:
 class vectorDouble:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> Iterator[float]: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -99,7 +99,7 @@ class vectorDouble:
 class vectorULong:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> Iterator[int]: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -116,7 +116,7 @@ class vectorULong:
 class vectorString:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> Iterator[str]: ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -133,7 +133,7 @@ class vectorString:
 class vectorVector3:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -150,7 +150,7 @@ class vectorVector3:
 class vectorvVector3:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -167,7 +167,7 @@ class vectorvVector3:
 class vectorOBMol:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -184,7 +184,7 @@ class vectorOBMol:
 class vectorOBBond:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -201,7 +201,7 @@ class vectorOBBond:
 class vectorOBResidue:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -218,7 +218,7 @@ class vectorOBResidue:
 class vectorOBRing:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -235,7 +235,7 @@ class vectorOBRing:
 class vectorpOBRing:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -252,7 +252,7 @@ class vectorpOBRing:
 class vectorpOBGenericData:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -269,7 +269,7 @@ class vectorpOBGenericData:
 class vectorpOBInternalCoord:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
