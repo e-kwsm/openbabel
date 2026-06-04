@@ -190,7 +190,7 @@ def readfile(
             else:
                 raise ValueError(
                     "File format (%s) guessed from file (%s) "
-                    "is not a recognised Open Babel format" % (format,filename)
+                    "is not a recognised Open Babel format" % (format, filename)
                 )
     if not os.path.isfile(filename):
         raise OSError("Input file does not exist")
