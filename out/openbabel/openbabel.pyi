@@ -1,4 +1,4 @@
-from typing import overload, override
+from typing import Iterator, overload, override
 from _typeshed import Incomplete
 
 dlflags: Incomplete
@@ -31,7 +31,7 @@ class SwigPyIterator:
 class vectorInt:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -48,7 +48,7 @@ class vectorInt:
 class vectorUnsignedInt:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -65,7 +65,7 @@ class vectorUnsignedInt:
 class vectorvInt:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[vectorInt]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -82,7 +82,7 @@ class vectorvInt:
 class vectorDouble:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[float]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -99,7 +99,7 @@ class vectorDouble:
 class vectorULong:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -116,7 +116,7 @@ class vectorULong:
 class vectorString:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> Iterator[str]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -386,7 +386,9 @@ class OBGlobalDataBase:
 
 class OBAtomHOF:
     thisown: Incomplete
-    def __init__(self, element, charge, method, desc, T, value, multiplicity, unit) -> None: ...
+    def __init__(
+        self, element, charge, method, desc, T, value, multiplicity, unit
+    ) -> None: ...
     __swig_destroy__: Incomplete
     Element: Incomplete
     Charge: Incomplete
@@ -1198,7 +1200,9 @@ class OBConversion:
     @overload
     def SetInAndOutFormats(self, i: str, o: str, ingzip: bool) -> bool: ...
     @overload
-    def SetInAndOutFormats(self, i: str, o: str, ingzip: bool, outgzip: bool) -> bool: ...
+    def SetInAndOutFormats(
+        self, i: str, o: str, ingzip: bool, outgzip: bool
+    ) -> bool: ...
     @overload
     def SetInAndOutFormats(self, i: OBFormat, o: OBFormat) -> bool: ...
     def SetInFormat(self, _: str) -> bool: ...
@@ -1223,9 +1227,16 @@ class OBConversion:
     @overload
     def AddOption(self, opt: str) -> None: ...
     @overload
-    def AddOption(self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL") -> None: ...
+    def AddOption(
+        self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL"
+    ) -> None: ...
     @overload
-    def AddOption(self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL", txt: str | None = None) -> None: ...
+    def AddOption(
+        self,
+        opt: str,
+        opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL",
+        txt: str | None = None,
+    ) -> None: ...
     RemoveOption: Incomplete
     SetOptions: Incomplete
     RegisterOptionParam: Incomplete
@@ -1665,7 +1676,15 @@ WATER: Incomplete
 
 class OBInternalCoord:
     thisown: Incomplete
-    def __init__(self, a=None, b=None, c=None, dst: float = 0.0, ang: float = 0.0, tor: float = 0.0) -> None: ...
+    def __init__(
+        self,
+        a=None,
+        b=None,
+        c=None,
+        dst: float = 0.0,
+        ang: float = 0.0,
+        tor: float = 0.0,
+    ) -> None: ...
     __swig_destroy__: Incomplete
 
 OB_4RING_ATOM: Incomplete
@@ -2610,7 +2629,9 @@ FindAutomorphisms: Incomplete
 
 class OBQueryAtom:
     thisown: Incomplete
-    def __init__(self, atomicNum: int = 6, isInRing: bool = False, isAromatic: bool = False) -> None: ...
+    def __init__(
+        self, atomicNum: int = 6, isInRing: bool = False, isAromatic: bool = False
+    ) -> None: ...
     __swig_destroy__: Incomplete
     GetIndex: Incomplete
     GetBonds: Incomplete
