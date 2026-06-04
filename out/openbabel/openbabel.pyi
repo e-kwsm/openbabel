@@ -1975,7 +1975,7 @@ class OBMol(OBBase):
     GetFlags: Incomplete
     @override
     def GetTitle(self) -> str: ...
-    NumAtoms: Incomplete
+    def NumAtoms(self) -> int: ...
     NumBonds: Incomplete
     NumHvyAtoms: Incomplete
     NumResidues: Incomplete
@@ -1992,7 +1992,10 @@ class OBMol(OBBase):
     AreInSameRing: Incomplete
     GetFormula: Incomplete
     GetSpacedFormula: Incomplete
-    GetMolWt: Incomplete
+    @overload
+    def GetMolWt(self) -> float: ...
+    @overload
+    def GetMolWt(self, implicitH: bool) -> float: ...
     def GetExactMass(self) -> float: ...
     def GetTotalCharge(self) -> int: ...
     GetTotalSpinMultiplicity: Incomplete
