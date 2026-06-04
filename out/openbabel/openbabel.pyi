@@ -6,14 +6,14 @@ dlflags: Incomplete
 class _SwigNonDynamicMeta(type):
     __setattr__: Incomplete
 
-class SwigPyIterator:
+class SwigPyIterator[T]:
     thisown: Incomplete
     def __init__(self, *args, **kwargs) -> None: ...
     __swig_destroy__: Incomplete
-    def value(self) -> Any: Incomplete
+    def value(self) -> T: ...
     incr: Incomplete
     decr: Incomplete
-    def distance(self, other: SwigPyIterator) -> int: ...
+    def distance(self, other: SwigPyIterator[T]) -> int: ...
     equal: Incomplete
     copy: Incomplete
     next: Incomplete
@@ -30,8 +30,8 @@ class SwigPyIterator:
 
 class vectorInt:
     thisown: Incomplete
-    def iterator(self) -> SwigPyIterator: ...
-    def __iter__(self) -> SwigPyIterator: ...
+    def iterator(self) -> SwigPyIterator[int]: ...
+    def __iter__(self) -> SwigPyIterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -47,8 +47,8 @@ class vectorInt:
 
 class vectorUnsignedInt:
     thisown: Incomplete
-    def iterator(self) -> SwigPyIterator: ...
-    def __iter__(self) -> SwigPyIterator: ...
+    def iterator(self) -> SwigPyIterator[int]: ...
+    def __iter__(self) -> SwigPyIterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -64,8 +64,8 @@ class vectorUnsignedInt:
 
 class vectorvInt:
     thisown: Incomplete
-    def iterator(self) -> SwigPyIterator: ...
-    def __iter__(self) -> SwigPyIterator: ...
+    def iterator(self) -> SwigPyIterator[vectorInt]: ...
+    def __iter__(self) -> SwigPyIterator[vectorInt]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -82,7 +82,7 @@ class vectorvInt:
 class vectorDouble:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator[float]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -99,7 +99,7 @@ class vectorDouble:
 class vectorULong:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator[int]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
@@ -116,7 +116,7 @@ class vectorULong:
 class vectorString:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self) -> SwigPyIterator: ...
+    def __iter__(self) -> SwigPyIterator[str]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
