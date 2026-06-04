@@ -296,7 +296,7 @@ class pairUIntUInt:
 class vpairUIntUInt:
     thisown: Incomplete
     iterator: Incomplete
-    def __iter__(self): ...
+    def __iter__(self) -> SwigPyIterator[pairUIntUInt]: ...
     __nonzero__: Incomplete
     __bool__: Incomplete
     __len__: Incomplete
