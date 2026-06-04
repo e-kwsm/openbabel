@@ -1,4 +1,4 @@
-from typing import Any, overload, override
+from typing import Literal, overload, override
 from _typeshed import Incomplete
 
 dlflags: Incomplete
@@ -1228,13 +1228,13 @@ class OBConversion:
     def AddOption(self, opt: str) -> None: ...
     @overload
     def AddOption(
-        self, opt: str, opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL"
+        self, opt: str, opttype: Literal["INOPTIONS", "OUTOPTIONS", "GENOPTIONS", "ALL"]
     ) -> None: ...
     @overload
     def AddOption(
         self,
         opt: str,
-        opttype: "INOPTIONS" | "OUTOPTIONS" | "GENOPTIONS" | "ALL",
+        opttype: Literal["INOPTIONS", "OUTOPTIONS", "GENOPTIONS", "ALL"],
         txt: str | None = None,
     ) -> None: ...
     RemoveOption: Incomplete
