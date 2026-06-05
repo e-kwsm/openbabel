@@ -53,6 +53,7 @@ namespace OpenBabel
     //! Subclasses should overload this method -- this only tracks the
     //! dimension of the box itself
     virtual void Init(OBMol &box);
+    virtual void Init(OBMol &box, double spacing, double pad=0.0);
 
     //! \return the minimum x point of the grid
     double GetXmin() const    { return(_xmin);    }

@@ -35,6 +35,7 @@ namespace OpenBabel
   //Declaration later in this file.
 class OBBase;
 class OBConversion; //used only as pointer
+class vector3;
 
 //! \return the version of the Open Babel library for feature-detection (e.g. "2.3.1")
   OBAPI std::string OBReleaseVersion();
@@ -218,6 +219,8 @@ class OBConversion; //used only as pointer
     //! but should never be called
     virtual const std::string &GetValue()  const
     {			return _attr; }
+    virtual double GetValue(int i, int j, int k) const;
+    virtual double GetValue(vector3 pos) const;
     virtual DataOrigin GetOrigin() const
     {     return _source; }
   };
@@ -275,7 +278,9 @@ class OBConversion; //used only as pointer
       //! Made virtual around r3535 to simplify code which passes around OBBase*.
       //Currently no title data member in base class.
       virtual const char  *GetTitle(bool /*replaceNewlines*/ = true) const { return ""; }
+      virtual std::string GetTitle() const { return ""; }
       virtual void  SetTitle(const char *) {}
+      virtual void  SetTitle(const std::string& title) {}
 
       //! \name Generic data handling methods (via OBGenericData)
       //@{
