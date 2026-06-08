@@ -1257,7 +1257,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  \param direction The search direction.
      *  \param step The step to take.
      */
-    void   LineSearchTakeStep(const double *origCoords, double *direction, double step);
+    void   LineSearchTakeStep(const double *origCoords, const double *direction, double step);
     /*! Perform steepest descent optimalization for steps steps or until convergence criteria is reached.
      *
      *  \param steps The number of steps.
