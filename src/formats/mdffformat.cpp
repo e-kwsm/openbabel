@@ -103,7 +103,7 @@ namespace OpenBabel {
     int atom_etab_num;
     string atom_symbol;
     double atom_charge;
-    atm_t_prop(): num_of_atoms(0), atom_symbol(""), atom_charge(0.0) {};
+    atm_t_prop(): num_of_atoms(0), atom_charge(0.0) {};
   };
   
 
