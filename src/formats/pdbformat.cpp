@@ -181,7 +181,7 @@ namespace OpenBabel
         // crystal cells
         if (EQn(buffer,"CRYST1",6)) {
           float a = 0, b = 0, c = 0, alpha = 0, beta = 0, gamma = 0;
-          string group = "";
+          string group;
 
           // The six cell parameters are required; skip a malformed/truncated
           // CRYST1 record rather than build a unit cell from stale values.
