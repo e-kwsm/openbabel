@@ -290,7 +290,7 @@ namespace OpenBabel
         *n *= RAD_TO_DEG;
   }
 
-  void OBRotamerList::Setup(OBMol &mol,unsigned char *ref,int nrotors)
+  void OBRotamerList::Setup(OBMol &mol, const unsigned char *ref, int nrotors)
   {
     //clear the old stuff out if necessary
     _vres.clear();
@@ -686,7 +686,7 @@ namespace OpenBabel
       }
   }
 
-  int PackCoordinate(double c[3],double max[3])
+  int PackCoordinate(const double c[3], const double max[3])
   {
     int tmp;
     double cf;
@@ -699,7 +699,7 @@ namespace OpenBabel
     return(tmp);
   }
 
-  void UnpackCoordinate(double c[3],double max[3],int tmp)
+  void UnpackCoordinate(double c[3], const double max[3], int tmp)
   {
     double cf;
     cf = (double)(tmp>>20);

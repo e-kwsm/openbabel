@@ -464,7 +464,7 @@ OBSpectrophore::_getEnergies(double** c, double* e)
 
 
 void
-OBSpectrophore::_initiateSpectrophore(double* e, double* s)
+OBSpectrophore::_initiateSpectrophore(const double* e, double* s)
 {
     for (unsigned int i = 0; i < N_PROPERTIES * _numberOfProbes; ++i)
     {

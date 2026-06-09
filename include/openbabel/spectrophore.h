@@ -582,7 +582,7 @@ while (obconversion.Read(&mol, &ifs))
          void _getBox(double**);
          void _setBox(void);
          void _getEnergies(double**, double*);
-         void _initiateSpectrophore(double*, double*);
+         void _initiateSpectrophore(const double*, double*);
          void _rotateX(double**, double**, const double, const double);
          void _rotateY(double**, double**, const double, const double);
          void _rotateZ(double**, double**, const double, const double);

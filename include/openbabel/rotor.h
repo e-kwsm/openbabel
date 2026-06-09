@@ -178,7 +178,7 @@ namespace OpenBabel
      * Set the dihedral atoms.
      * @param ref The dihedral atom indexes. These indexes start from 1.
      */
-    void SetDihedralAtoms(int ref[4]);
+    void SetDihedralAtoms(const int ref[4]);
     /**
      * Set the atom indexes that will be displaced when this rotor
      * changes torsion angle. These indexes start from 0 and are multiplied
@@ -390,12 +390,12 @@ namespace OpenBabel
      * @param coordinates The coordinates (e.g. OBMol::GetCoordinates()).
      * @return The torsion angle in radians.
      */
-    double CalcTorsion(double *coordinates);
+    double CalcTorsion(const double *coordinates);
     /**
      * Calculate the bond length for this OBRotor using the specified coordinates.
      * @param coordinates The coordinates (e.g. OBMol::GetCoordinates()).
      */
-    double CalcBondLength(double *coordinates);
+    double CalcBondLength(const double *coordinates);
     ///@}
 
 

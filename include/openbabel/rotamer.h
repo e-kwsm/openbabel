@@ -66,7 +66,7 @@ namespace OpenBabel
     //! \param mol The molecule to evaluate
     //! \param ref An array of the 4 dihedral atoms for each rotor
     //! \param nrotors The number of rotors (i.e., the size of ref / 4)
-    void Setup(OBMol &mol,unsigned char*ref,int nrotors);
+    void Setup(OBMol &mol, const unsigned char *ref, int nrotors);
     //! \return the number of rotatable bonds considered
     unsigned int NumRotors()   const
     {

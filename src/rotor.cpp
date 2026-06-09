@@ -512,7 +512,7 @@ namespace OpenBabel
     }
   }
 
-  double OBRotor::CalcTorsion(double *c)
+  double OBRotor::CalcTorsion(const double *c)
   {
     double v1x,v1y,v1z,v2x,v2y,v2z,v3x,v3y,v3z;
     double c1x,c1y,c1z,c2x,c2y,c2z,c3x,c3y,c3z;
@@ -561,7 +561,7 @@ namespace OpenBabel
     return(ang);
   }
 
-  double OBRotor::CalcBondLength(double *c)
+  double OBRotor::CalcBondLength(const double *c)
   {
     // compute the difference
     double dx, dy, dz;
@@ -774,7 +774,7 @@ namespace OpenBabel
     _torsion[3] = (ref[3]-1)*3;
   }
 
-  void OBRotor::SetDihedralAtoms(int ref[4])
+  void OBRotor::SetDihedralAtoms(const int ref[4])
   {
     // copy indexes starting from 1
     _ref.resize(4);
