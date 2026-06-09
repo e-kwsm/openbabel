@@ -71,7 +71,7 @@ GNU General Public License for more details.
 //! \return the geometric centroid to an array of coordinates in double* format
 // Note: Based on center_coords from obutil.cpp. This function is declared in matrix3x3.h but there is no function
 //       definition there.
-OpenBabel::vector3 my_center_coords(double *c, unsigned int size)
+OpenBabel::vector3 my_center_coords(const double *c, unsigned int size)
 {
   if (size == 0 || c == nullptr)
     {
