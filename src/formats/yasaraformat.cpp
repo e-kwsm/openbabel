@@ -54,7 +54,7 @@ namespace OpenBabel {
 
 /* DECODE A SIGNED INT32 STORED IN LITTLE ENDIAN FORMAT
    ==================================================== */
-int int32lemem(char *data)
+int int32lemem(const char *data)
 { int value,intmino2;
 
   value=(int)((unsigned char*)data)[0]+((int)((unsigned char*)data)[1]<<8)+
@@ -97,7 +97,7 @@ int str_natoi(char *string,int number)
 
 /* COPY MAXIMALLY n CHARACTERS AND TERMINATE WITH ZERO
    =================================================== */
-void str_ncopy(char *string1,char *string2,int len)
+void str_ncopy(char *string1,const char *string2,int len)
 { int i;
   char ch;
 
