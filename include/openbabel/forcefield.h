@@ -484,7 +484,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     /*! Set the gradient for atom with index idx to grad
      */
-    void SetGradient(double *grad, int idx)
+    void SetGradient(const double *grad, int idx)
     {
       const int coordIdx = (idx - 1) * 3;
       for (unsigned int i = 0; i < 3; ++i) {
@@ -494,7 +494,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
 
     /*! Add grad to the gradient for atom with index idx
      */
-    void AddGradient(double *grad, int idx)
+    void AddGradient(const double *grad, int idx)
     {
       const int coordIdx = (idx - 1) * 3;
       for (unsigned int i = 0; i < 3; ++i) {
@@ -1257,7 +1257,7 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      *  \param direction The search direction.
      *  \param step The step to take.
      */
-    void   LineSearchTakeStep(double *origCoords, double *direction, double step);
+    void   LineSearchTakeStep(const double *origCoords, const double *direction, double step);
     /*! Perform steepest descent optimalization for steps steps or until convergence criteria is reached.
      *
      *  \param steps The number of steps.
