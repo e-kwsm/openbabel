@@ -1622,12 +1622,6 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param j pointer to j[3]
      * \param result pointer to result[3], will be set to i - j
      */
-    static void VectorSubtract(double *i, double *j, double *result)
-    {
-      for (unsigned int c = 0; c < 3; ++c)
-        result[c] = i[c] - j[c];
-    }
-
     static void VectorSubtract(const double* const i, const double* const j, double *result)
     {
       for (unsigned int c = 0; c < 3; ++c)
@@ -1663,12 +1657,6 @@ const double GAS_CONSTANT = 8.31446261815324e-3 / KCAL_TO_KJ;  //!< kcal mol^-1 
      * \param n multiply x,y,z with n
      * \param result pointer to result[3]
      */
-    static void VectorMultiply(double *i, double n, double *result)
-    {
-      for (unsigned int c = 0; c < 3; ++c)
-        result[c] = i[c] * n;
-    }
-
     static void VectorMultiply(const double* const i, const double n, double *result)
     {
       for (unsigned int c = 0; c < 3; ++c)
