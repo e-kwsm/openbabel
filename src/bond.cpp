@@ -94,14 +94,14 @@ namespace OpenBabel
 
   void OBBond::SetBondOrder(int order)
   {
-    _order = (char)order;
+    _order = static_cast<char>(order);
   }
 
   // TODO: Figure out how to consider periodicity, etc.
   void OBBond::SetLength(OBAtom *fixed, double length)
   {
     unsigned int i;
-    OBMol *mol = (OBMol*)fixed->GetParent();
+    OBMol *mol = fixed->GetParent();
     vector3 v1,v2,v3,v4,v5;
     vector<int> children;
 
@@ -185,7 +185,7 @@ namespace OpenBabel
   
   bool OBBond::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    OBMol *mol = (const_cast<OBBond*>(this))->GetParent();
     return mol->IsPeriodic();
   }
 
@@ -197,13 +197,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -229,13 +229,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -263,13 +263,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -297,13 +297,13 @@ namespace OpenBabel
       // Look for C-N bond
       if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 7)
       {
-         c = (OBAtom*)_bgn;
-         n = (OBAtom*)_end;
+         c = _bgn;
+         n = _end;
       }
       if (_bgn->GetAtomicNum() == 7 && _end->GetAtomicNum() == 6)
       {
-         c = (OBAtom*)_end;
-         n = (OBAtom*)_bgn;
+         c = _end;
+         n = _bgn;
       }
       if (!c || !n) return(false);
       if (GetBondOrder() != 1) return(false);
@@ -427,14 +427,14 @@ namespace OpenBabel
 
     if (_bgn->GetAtomicNum() == 6 && _end->GetAtomicNum() == 8)
       {
-        a1 = (OBAtom*)_bgn;
-        a2 = (OBAtom*)_end;
+        a1 = _bgn;
+        a2 = _end;
       }
 
     if (_bgn->GetAtomicNum() == 8 && _end->GetAtomicNum() == 6)
       {
-        a1 = (OBAtom*)_end;
-        a2 = (OBAtom*)_bgn;
+        a1 = _end;
+        a2 = _bgn;
       }
 
     if (!a1 || !a2)
@@ -465,7 +465,7 @@ namespace OpenBabel
 
   bool OBBond::IsAromatic() const
   {
-    OBMol *mol = ((OBBond*)this)->GetParent();
+    OBMol *mol = (const_cast<OBBond*>(this))->GetParent();
     if (!mol->HasAromaticPerceived())
         aromtyper.AssignAromaticFlags(*mol);
 
@@ -517,11 +517,11 @@ namespace OpenBabel
 
   bool OBBond::IsInRing() const
   {
-    OBMol *mol = ((OBBond*)this)->GetParent();
+    OBMol *mol = (const_cast<OBBond*>(this))->GetParent();
     if (!mol->HasRingAtomsAndBondsPerceived())
       mol->FindRingAtomsAndBonds();
 
-    if (((OBBond*)this)->HasFlag(OB_RING_BOND))
+    if ((const_cast<OBBond*>(this))->HasFlag(OB_RING_BOND))
       return true;
 
     return false;
@@ -533,13 +533,13 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    OBMol *mol = (const_cast<OBBond*>(this))->GetParent();
 
     rlist = mol->GetSSSR();
     OBRing* result = nullptr;
     size_t min_size = UINT_MAX;
     for (i = rlist.begin();i != rlist.end();++i) {
-      if ((*i)->IsMember((OBBond*)this) && (*i)->Size() < min_size) {
+      if ((*i)->IsMember(const_cast<OBBond*>(this)) && (*i)->Size() < min_size) {
         min_size = (*i)->Size();
         result = *i;
       }
@@ -549,7 +549,7 @@ namespace OpenBabel
 
   bool OBBond::IsClosure()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    OBMol *mol = GetParent();
     if (!mol)
       return false;
     if (!mol->HasClosureBondsPerceived())
@@ -609,8 +609,8 @@ namespace OpenBabel
       }
     else
       {
-        OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
-        OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+        OBMol *mol = (const_cast<OBBond*>(this))->GetParent();
+        OBUnitCell *box = static_cast<OBUnitCell*>(mol->GetData(OBGenericDataType::UnitCell));
         return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector())).length();
       }
   }

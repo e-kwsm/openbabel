@@ -221,7 +221,7 @@ namespace OpenBabel
     unsigned wrdcnt;
     ++ last_bit_offset;
 
-    wrdcnt = (unsigned)last_bit_offset >> WORDROLL;
+    wrdcnt = static_cast<unsigned>(last_bit_offset) >> WORDROLL;
 
     if (wrdcnt >= GetSize())
       return(-1);
@@ -663,9 +663,9 @@ namespace OpenBabel
     double andbits,orbits;
 
     bvtmp = bv1 & bv2;
-    andbits = (double)bvtmp.CountBits();
+    andbits = static_cast<double>(bvtmp.CountBits());
     bvtmp = bv1 | bv2;
-    orbits  = (double)bvtmp.CountBits();
+    orbits  = static_cast<double>(bvtmp.CountBits());
 
     return(andbits/orbits);
   }
