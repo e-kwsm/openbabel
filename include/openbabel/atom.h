@@ -189,11 +189,11 @@ namespace OpenBabel
       //! Set atom hybridization (i.e., 1 = sp, 2 = sp2, 3 = sp3 ...)
       void SetHyb(int hyb)    { _hyb = hyb; }
       //! Set atomic number
-      void SetAtomicNum(int atomicnum)    { _ele = (char)atomicnum; }
+      void SetAtomicNum(int atomicnum)    { _ele = static_cast<char>(atomicnum); }
       //! Set isotope number (actual atomic weight is tabulated automatically, 0 = most abundant)
       void SetIsotope(unsigned int iso);
       //! Set the implicit hydrogen count to @p val
-      void SetImplicitHCount(unsigned int val)    { _imph = (unsigned char)val; }
+      void SetImplicitHCount(unsigned int val)    { _imph = static_cast<unsigned char>(val); }
       //! Set the formal charge of the atom to @p fcharge
       void SetFormalCharge(int fcharge)   { _fcharge = fcharge; }
       //! Set the atomic spin to @p spin. See _spinmultiplicity
@@ -229,7 +229,7 @@ namespace OpenBabel
       //! \return the formal charge for this atom
       int          GetFormalCharge()  const { return(_fcharge);    }
       //! \return the atomic number for this atom
-      unsigned int GetAtomicNum()     const { return((unsigned int)_ele); }
+      unsigned int GetAtomicNum()     const { return static_cast<unsigned int>(_ele); }
       //! \return the isotope for this atom, if specified, or 0 for unspecified
       unsigned short int GetIsotope() const { return(_isotope);    }
       //! \return the atomic spin, e.g., 0 (default) for normal atoms - note that this value is a convention,
@@ -242,16 +242,16 @@ namespace OpenBabel
       //! (default of 0 gives the most abundant isotope)
       double     GetExactMass()     const;
       //! \return the internal atom index (e.g., inside an OBMol)
-      unsigned int GetIdx()           const { return((int)_idx);  }
+      unsigned int GetIdx()           const { return static_cast<int>(_idx);  }
       unsigned int GetIndex() const { return _idx - 1; }
       unsigned long GetId() const { return _id; }
       //! \return the index into a pointer-driven array as used by
       //!   GetCoordPtr() or SetCoordPtr()
-      unsigned int GetCoordinateIdx() const { return((int)_cidx); }
+      unsigned int GetCoordinateIdx() const { return static_cast<int>(_cidx); }
       //! \return The number of explicit bonds to this atom
-      unsigned int GetExplicitDegree() const { return (unsigned int)_vbond.size(); }
+      unsigned int GetExplicitDegree() const { return static_cast<unsigned int>(_vbond.size()); }
       //! \return The total number of bonds to this atom including bonds to implicit hydrogens
-      unsigned int GetTotalDegree() const { return (unsigned int)(_vbond.size() + _imph); }
+      unsigned int GetTotalDegree() const { return static_cast<unsigned int>(_vbond.size() + _imph); }
       //! \return The sum of the bond orders of the explicit bonds to this atom
       unsigned int GetExplicitValence() const;
       //! \return The sum of the bond orders of all bonds to this atom including bonds to implicit hydrogens
@@ -308,7 +308,7 @@ namespace OpenBabel
       //! \return the residue which contains this atom, or NULL if none exists
       OBResidue *GetResidue();
       //! \return the molecule which contains this atom, or NULL if none exists
-      OBMol     *GetParent()        {return((OBMol*)_parent);}
+      OBMol     *GetParent()        {return _parent;}
       //! Create a vector for a new bond from this atom, with length given by the supplied parameter
       //! \return success or failure
       bool       GetNewBondVector(vector3 &v,double length);

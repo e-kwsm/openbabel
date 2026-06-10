@@ -143,7 +143,7 @@ namespace OpenBabel
     _flags=0;
     _idx = 0;
     _hyb = 0;
-    _ele = (char)0;
+    _ele = static_cast<char>(0);
     _isotope = 0;
     _spinmultiplicity=0; // CM 18 Sept 2003
     _imph = 0;

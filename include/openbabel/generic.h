@@ -1119,7 +1119,7 @@ namespace OpenBabel
 
     int NumPoints() 
     { 
-      return (int)_points.size();
+      return static_cast<int>(_points.size());
     }
     
     void AddPoint(double x,double y,double z, double V) 
@@ -1140,13 +1140,13 @@ namespace OpenBabel
     OBFreeGridPoint *BeginPoint(OBFreeGridPointIterator &i)
     {
       i = _points.begin();
-      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
+      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : static_cast<OBFreeGridPoint*>(*i));
     }
 
     OBFreeGridPoint *NextPoint(OBFreeGridPointIterator &i)
     {
       ++i;
-      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : (OBFreeGridPoint*)*i);
+      return((i == _points.end()) ? (OBFreeGridPoint*)nullptr : static_cast<OBFreeGridPoint*>(*i));
     }
     
     void Clear();
@@ -1163,7 +1163,7 @@ namespace OpenBabel
 
     int NumPartialCharges() 
     { 
-      return (int)_PartialCharge.size(); 
+      return static_cast<int>(_PartialCharge.size());
     }
     
     void AddPartialCharge(std::vector<double> q)

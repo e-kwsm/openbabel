@@ -70,12 +70,12 @@ namespace OpenBabel
     //! \return the number of rotatable bonds considered
     unsigned int NumRotors()   const
     {
-      return (unsigned int)_vrotor.size();
+      return static_cast<unsigned int>(_vrotor.size());
     }
     //! \return the number of rotamer (conformation) coordinate sets
     unsigned int NumRotamers() const
     {
-      return (unsigned int)_vrotamer.size();
+      return static_cast<unsigned int>(_vrotamer.size());
     }
     //! Add a rotamer to the list based on the supplied coordinate set as a double*
     void AddRotamer(double*);
