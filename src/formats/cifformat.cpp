@@ -1232,6 +1232,7 @@ namespace OpenBabel
                     break;
                   }
                 if(tmp.size()>=5)
+                  // NOLINTNEXTLINE
                   if(ci_string(tmp.substr(0,5).c_str())=="data_")
                     {//go back and continue
                       in.clear();
