@@ -737,7 +737,7 @@ namespace OpenBabel {
      */
     struct Timeout
     {
-      Timeout(time_t _maxTime) : maxTime(_maxTime), expired(false)
+      Timeout(time_t _maxTime) : maxTime(_maxTime)
       {
         startTime = time(nullptr);
       }
@@ -754,7 +754,7 @@ namespace OpenBabel {
         return false;
       }
       time_t startTime, maxTime;
-      bool expired;
+      bool expired = false;
     };
 
 
