@@ -2661,7 +2661,7 @@ namespace Smiley {
        * parser is in SMILES mode.
        */
       Parser(Callback &callback, Mode mode = SmilesMode) : m_callback(callback),
-          m_mode(mode), m_exceptions(~0)
+          m_mode(mode)
       {
       }
 
@@ -2769,7 +2769,7 @@ namespace Smiley {
       std::vector<ChiralInfo> m_chiralInfo; //!< atom index -> ChiralInfo
       int m_index; //!< current atom index
       int m_prev; // !< previous atom index (-1 for none)
-      int m_exceptions;
+      int m_exceptions = ~0;
   };
 
 }
