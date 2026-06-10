@@ -525,7 +525,7 @@ namespace OpenBabel
       if (bond->GetNbrAtom((OBAtom*)this)->IsHeteroatom())
         count++;
 
-    return((unsigned int)count);
+    return count;
   }
 
   double OBAtom::GetPartialCharge()
@@ -851,7 +851,7 @@ namespace OpenBabel
       if ((*i)->IsInRing(GetIdx()))
         count++;
 
-    return((unsigned int)count);
+    return count;
   }
 
   unsigned int OBAtom::MemberOfRingSize() const
@@ -1055,7 +1055,7 @@ namespace OpenBabel
   {
     OBBondIterator i;
     for (i = _vbond.begin();i != _vbond.end();++i)
-      if ((OBBond*)bond == *i)
+      if (bond == *i)
         {
           _vbond.erase(i);
           return(true);
