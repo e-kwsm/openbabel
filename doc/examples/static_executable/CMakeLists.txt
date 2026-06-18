@@ -48,7 +48,7 @@ if(MSVC)
   # Note: static libraries are specified when running cmake
 else()
   # Use -static flag to create static executable
-  set(CMAKE_CXX_FLAGS "-static ${CMAKE_CXX_FLAGS}")
+  string(PREPEND CMAKE_CXX_FLAGS "-static")
   # Make sure we find static libraries
   set(CMAKE_FIND_LIBRARY_SUFFIXES ".a")
 endif()
