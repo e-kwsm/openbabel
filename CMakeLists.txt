@@ -536,7 +536,7 @@ if(WITH_MAEPARSER)
     endif()
 
     include_directories(${maeparser_INCLUDE_DIRS})
-    set(libs ${libs} ${maeparser_LIBRARIES})
+    list(APPEND libs ${maeparser_LIBRARIES})
 
 else()
     message(STATUS "Maestro formats will NOT be supported. Please install Boost to enable Maestro formats.")
@@ -596,7 +596,7 @@ if(WITH_COORDGEN)
     endif()
 
     include_directories(${coordgen_INCLUDE_DIRS})
-    set(libs ${libs} ${coordgen_LIBRARIES})
+    list(APPEND libs ${coordgen_LIBRARIES})
 
 else()
     message(STATUS "Coordinate generation with Coordgen will NOT be supported. Please install Boost to enable Maestro formats.")
