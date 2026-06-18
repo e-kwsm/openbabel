@@ -27,8 +27,7 @@ else(MINIMAL_BUILD)
         obthermo
      )
   if(TARGET Eigen3::Eigen)
-    set(tools
-        ${tools}
+    list(APPEND tools
         obdistgen
     )
   endif()
@@ -53,7 +52,7 @@ if(BUILD_SHARED)
     # obgrep, obrms, obspectrophore -- require getopt
     set(toolnames obgrep obspectrophore)
     if(TARGET Eigen3::Eigen)
-      set(toolnames ${toolnames} obrms)
+      list(APPEND toolnames obrms)
     endif()
     foreach(tool ${toolnames})
       if (NOT GETOPT_FOUND)
@@ -81,10 +80,10 @@ else(BUILD_SHARED)
   # Set libs to imported openbabel target
   set(libs openbabel)
   if(WITH_STATIC_INCHI)
-    set(libs ${libs} ${INCHI_LIBRARY})
+    list(APPEND libs ${INCHI_LIBRARY})
   endif()
   if(WITH_STATIC_LIBXML)
-    set(libs ${libs} ${LIBXML2_LIBRARIES})
+    list(APPEND libs ${LIBXML2_LIBRARIES})
   endif()
 
   if(NOT MSVC)
