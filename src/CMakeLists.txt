@@ -17,7 +17,7 @@ set(charges
 
 if (TARGET Eigen3::Eigen)
 # if eigen is available, compile QEq, EQeq, and QTPIE charge models
-set(charges ${charges}
+list(APPEND charges
   charges/eqeq.cpp
   charges/qeq.cpp
   charges/qtpie.cpp
@@ -38,7 +38,7 @@ set(descriptors
 )
 
 if(WITH_INCHI)
-  set(descriptors ${descriptors}
+  list(APPEND descriptors
     descriptors/inchidescriptor.cpp
   )
 endif()
@@ -64,7 +64,7 @@ set(math_srcs
 )
 
 if(TARGET Eigen3::Eigen)
-  set(math_srcs ${math_srcs}
+  list(APPEND math_srcs
     math/align.cpp
   )
 endif()
@@ -95,7 +95,7 @@ set(ops
   ops/xout.cpp
 )
 if(TARGET Eigen3::Eigen)
-  set(ops ${ops}
+  list(APPEND ops
     ops/conformer.cpp
     ops/opalign.cpp
     ops/opconfab.cpp
@@ -170,7 +170,7 @@ set(openbabel_srcs
   obmolecformat.cpp
 )
 if(TARGET Eigen3::Eigen)
-  set(openbabel_srcs ${openbabel_srcs}
+  list(APPEND openbabel_srcs
     conformersearch.cpp
     confsearch.cpp
     distgeom.cpp
@@ -179,37 +179,37 @@ endif ()
 
 if(BUILD_SHARED)
   if(MSVC)
-    set(openbabel_srcs ${openbabel_srcs}
+    list(APPEND openbabel_srcs
       dlhandler_win32.cpp
     )
   else(MSVC)
-    set(openbabel_srcs ${openbabel_srcs}
+    list(APPEND openbabel_srcs
       dlhandler_unix.cpp
     )
   endif(MSVC)
 else(BUILD_SHARED)
   include(formats/formats.cmake)
   foreach(format ${formats})
-    set(openbabel_srcs ${openbabel_srcs} formats/${format}.cpp)
+    list(APPEND openbabel_srcs formats/${format}.cpp)
   endforeach(format ${formats})
 
   if(LIBXML2_FOUND AND WITH_STATIC_LIBXML)
-    set(openbabel_srcs ${openbabel_srcs} formats/xml/xml.cpp)
+    list(APPEND openbabel_srcs formats/xml/xml.cpp)
     foreach(format ${formats_xml})
-      set(openbabel_srcs ${openbabel_srcs} formats/xml/${format}.cpp)
+      list(APPEND openbabel_srcs formats/xml/${format}.cpp)
     endforeach(format ${formats_xml})
   endif(LIBXML2_FOUND AND WITH_STATIC_LIBXML)
 
   foreach(plugingroup descriptors fingerprints forcefields ops charges)
-    set(openbabel_srcs ${openbabel_srcs} ${${plugingroup}})
+    list(APPEND openbabel_srcs ${${plugingroup}})
   endforeach(plugingroup descriptors fingerprints forcefields ops charges)
 
   if(WITH_STATIC_INCHI)
     if(NOT OPENBABEL_USE_SYSTEM_INCHI)
       add_subdirectory(formats/libinchi)
     endif()
-    set(openbabel_srcs ${openbabel_srcs} formats/getinchi.cpp ops/unique.cpp)
-    set(libs ${libs} ${INCHI_LIBRARY})
+    list(APPEND openbabel_srcs formats/getinchi.cpp ops/unique.cpp)
+    list(APPEND libs ${INCHI_LIBRARY})
   endif(WITH_STATIC_INCHI)
 endif(BUILD_SHARED)
 
@@ -226,29 +226,29 @@ set(openbabel_library_srcs
 
 if(WIN32)
   if(ZLIB_FOUND)
-    set(libs ${libs} ${ZLIB_LIBRARY})
+    list(APPEND libs ${ZLIB_LIBRARY})
   endif(ZLIB_FOUND)
 else(WIN32)
   # the C math library
   if(BUILD_MIXED)
-    set(libs ${libs} m)
+    list(APPEND libs m)
   else(BUILD_MIXED)
     # Make sure to find the static library with .a suffix (see CMAKE_FIND_LIBRARY_SUFFIXES)
     find_library(MATH_LIBRARY NAMES m)
     if(MATH_LIBRARY)
-      set(libs ${libs} ${MATH_LIBRARY})
+      list(APPEND libs ${MATH_LIBRARY})
     endif(MATH_LIBRARY)
   endif(BUILD_MIXED)
 
   if(BUILD_SHARED)
     # dl library if it is found and we are doing a shared build
     if(HAVE_LIBDL)
-      set(libs ${libs} dl)
+      list(APPEND libs dl)
     endif(HAVE_LIBDL)
   endif(BUILD_SHARED)
 
   if(ZLIB_FOUND)
-    set(libs ${libs} ${ZLIB_LIBRARY})
+    list(APPEND libs ${ZLIB_LIBRARY})
   endif(ZLIB_FOUND)
 endif(WIN32)
 
