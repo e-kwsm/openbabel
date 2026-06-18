@@ -338,7 +338,7 @@ if(${CMAKE_CXX_COMPILER_ID} MATCHES Intel AND UNIX)
     set(HAVE_INTEL_VISIBILITY_INLINES ${HAVE_INTEL_VISIBILITY_INLINES} CACHE BOOL
       "Intel Compiler support for -fvisibility-inlines-hidden")
     if(HAVE_INTEL_VISIBILITY_INLINES)
-      set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fvisibility-inlines-hidden")
+      string(APPEND CMAKE_CXX_FLAGS " -fvisibility-inlines-hidden")
     endif()
   endif()
 
