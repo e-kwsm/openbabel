@@ -1,15 +1,15 @@
 include(formats.cmake)
 
 if(NOT WIN32)
-  set(libs ${libs} m)
+  list(APPEND libs m)
 endif(NOT WIN32)
 
 if(WIN32)
-  set(openbabel_srcs ${openbabel_srcs}
+  list(APPEND openbabel_srcs
       dlhandler_win32
       )
 else(WIN32)
-  set(openbabel_srcs ${openbabel_srcs}
+  list(APPEND openbabel_srcs
       dlhandler_unix
       )
 endif(WIN32)
@@ -19,7 +19,7 @@ if(MSVC)
   foreach(formatgroup formats_common formats_utility formats_compchem formats_misc ${optional_formatgroups})
     set(formatsources "")
     foreach(format ${${formatgroup}})
-      set(formatsources ${formatsources} ${format}.cpp ${${format}_additional_sources})
+      list(APPEND formatsources ${format}.cpp ${${format}_additional_sources})
     endforeach(format)
     add_library(${formatgroup} ${PLUGIN_TYPE} ${formatsources}
         "${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h")
@@ -55,7 +55,7 @@ if(MSVC)
   if(formats_xml)
     set(xmlsources "")
     foreach(format ${formats_xml})
-      set(xmlsources ${xmlsources} xml/${format}.cpp)
+      list(APPEND xmlsources xml/${format}.cpp)
     endforeach(format)
     add_library(formats_xml ${PLUGIN_TYPE} ${xmlsources} xml/xml.cpp)
     target_link_libraries(formats_xml ${libs} ${LIBXML2_LIBRARIES} openbabel)
@@ -72,7 +72,7 @@ if(MSVC)
   if(WITH_JSON)
     set(jsonsources "")
     foreach(format ${formats_json})
-      set(jsonsources ${jsonsources} json/${format}.cpp)
+      list(APPEND jsonsources json/${format}.cpp)
     endforeach(format)
     add_library(formats_json ${PLUGIN_TYPE} ${jsonsources}
                 "${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h")

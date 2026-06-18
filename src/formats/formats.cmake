@@ -22,7 +22,7 @@ set(formats_utility
 set(painterformat_additional_sources ../depict/commandpainter.cpp)
 set(asciiformat_additional_sources   ../depict/asciipainter.cpp)
 if(TARGET Eigen3::Eigen)
-  set(formats_utility ${formats_utility}
+  list(APPEND formats_utility
       confabreport
      )
 endif()
@@ -58,18 +58,18 @@ set(formats_compchem
   )
 
 if(WITH_MAEPARSER)
-    set(formats_compchem ${formats_compchem}
+    list(APPEND formats_compchem
         maeformat
        )
 endif()
 
 
 if(MSVC OR HAVE_REGEX_H)
-  set(formats_compchem
-      ${formats_compchem} gamessukformat
+  list(APPEND formats_compchem
+      gamessukformat
   )
-  set(formats_compchem
-      ${formats_compchem} orcaformat
+  list(APPEND formats_compchem
+      orcaformat
   )
 endif(MSVC OR HAVE_REGEX_H)
 
@@ -155,7 +155,7 @@ set(formats_misc
 set(wlnformat_additional_sources wln-nextmove.cpp)
 # genbankformat can currently only be built statically
 if(NOT BUILD_SHARED)
-  set(formats_misc ${formats_misc} genbankformat)
+  list(APPEND formats_misc genbankformat)
 endif(NOT BUILD_SHARED)
 
 set(optional_formatgroups "")
@@ -166,11 +166,11 @@ if(CAIRO_FOUND)
     png2format
   )
   set(png2format_additional_sources ../depict/cairopainter.cpp)
-  set(optional_formatgroups
-    ${optional_formatgroups} formats_cairo
+  list(APPEND optional_formatgroups
+    formats_cairo
     )
   include_directories(${CAIRO_INCLUDE_DIRS})
-  set(libs ${libs} ${CAIRO_LIBRARIES})
+  list(APPEND libs ${CAIRO_LIBRARIES})
 endif(CAIRO_FOUND)
 
 # Inchi settings for shared builds
@@ -193,14 +193,13 @@ if(BUILD_SHARED)
     if(NOT OPENBABEL_USE_SYSTEM_INCHI)
       add_subdirectory(libinchi)
       include_directories(${CMAKE_SOURCE_DIR}/include/inchi)
-      set(libs ${libs} inchi)
+      list(APPEND libs inchi)
     else()
       include_directories(${INCHI_INCLUDE_DIR})
-      set(libs ${libs} ${INCHI_LIBRARY})
+      list(APPEND libs ${INCHI_LIBRARY})
     endif()
     set(inchiformat_additional_sources getinchi.cpp ../ops/unique.cpp)
-    set(formats_common
-      ${formats_common}
+    list(APPEND formats_common
       inchiformat
     )
   endif()
@@ -211,15 +210,13 @@ elseif(WITH_STATIC_INCHI)
   if(NOT MSVC AND NOT OPENBABEL_USE_SYSTEM_INCHI)
     include_directories(${CMAKE_SOURCE_DIR}/include/inchi)
   endif()
-  set(formats_common
-    ${formats_common}
+  list(APPEND formats_common
     inchiformat
   )
 endif()
 
 if(ZLIB_FOUND)
- set(formats_utility
- ${formats_utility}
+ list(APPEND formats_utility
   pngformat
 )
 endif(ZLIB_FOUND)
@@ -238,8 +235,7 @@ if(LIBXML2_FOUND AND (BUILD_SHARED OR WITH_STATIC_LIBXML))
 endif(LIBXML2_FOUND AND (BUILD_SHARED OR WITH_STATIC_LIBXML))
 
 if(HAVE_RPC_XDR_H)
-  set(formats_misc
-    ${formats_misc}
+  list(APPEND formats_misc
     xtcformat
   )
 endif(HAVE_RPC_XDR_H)
@@ -251,8 +247,8 @@ if(MINIMAL_BUILD)
 else(MINIMAL_BUILD)
   set(formats "")
   foreach(formatgroup formats_common formats_utility formats_compchem formats_misc ${optional_formatgroups})
-    set(formats
-        ${formats} ${${formatgroup}}
+    list(APPEND formats
+        ${${formatgroup}}
     )
   endforeach(formatgroup)
 endif(MINIMAL_BUILD)
