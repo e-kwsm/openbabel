@@ -100,7 +100,7 @@ mark_as_advanced(CMAKE_LIBRARY_OUTPUT_DIRECTORY
 option(GLIBC_24_COMPATIBLE "Build project compatible with GLIBC 2.4" OFF)
 if(GLIBC_24_COMPATIBLE AND UNIX)
   set(WRAP_MEMCPY_SRC memcpy.c)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wl,--wrap=memcpy")
+  string(APPEND CMAKE_CXX_FLAGS " -Wl,--wrap=memcpy")
 endif()
 
 option(BUILD_SHARED "enable shared build support" ON)
