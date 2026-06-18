@@ -153,7 +153,7 @@ if(NOT BUILD_SHARED)
           #
           # Relocatable binaries on linux using -static-libgcc. (GCC only)
           #
-          set(CMAKE_CXX_FLAGS "-static-libgcc ${CMAKE_CXX_FLAGS}")
+          string(PREPEND CMAKE_CXX_FLAGS "-static-libgcc")
 
           # make sure the linker will find the static libstdc++
           file(REMOVE "${CMAKE_BINARY_DIR}/libstdc++.a")
@@ -168,7 +168,7 @@ if(NOT BUILD_SHARED)
       endif(CMAKE_COMPILER_IS_GNUCXX)
     else(BUILD_MIXED)
       if(NOT APPLE)
-        set(CMAKE_CXX_FLAGS "-static ${CMAKE_CXX_FLAGS}")
+        string(PREPEND CMAKE_CXX_FLAGS "-static ")
       endif()
     endif(BUILD_MIXED)
   endif()
