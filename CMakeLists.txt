@@ -648,7 +648,7 @@ endif(CAIRO_FOUND)
 option(OPTIMIZE_NATIVE "Optimize for native CPU architecture. Turn off if compiling for distribution/reuse on other machines." OFF)
 if(OPTIMIZE_NATIVE)
   include(OptimizeNative)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${NATIVE_FLAGS}")
+  string(APPEND CMAKE_CXX_FLAGS " ${NATIVE_FLAGS}")
   # Tell rapidjson which extensions are available
   if(HAVE_SSE2)
     add_definitions(-DRAPIDJSON_SSE2)
