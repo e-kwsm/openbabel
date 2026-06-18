@@ -87,7 +87,7 @@ if(TARGET Eigen3::Eigen)
 endif()
 
 if(WITH_MAEPARSER)
-  set(cpptests ${cpptests}
+  list(APPEND cpptests
     maereader)
   set(maereader_parts 1 2)
 endif()
@@ -106,21 +106,21 @@ set(pdbreadfile_parts 1 2 3 4)
 
 if(BUILD_SHARED)
   if(LIBXML2_FOUND)
-    set(origtests ${origtests} cmlreadfile)
+    list(APPEND origtests cmlreadfile)
   endif(LIBXML2_FOUND)
 else()
   if(WITH_STATIC_LIBXML)
-    set(origtests ${origtests} cmlreadfile)
+    list(APPEND origtests cmlreadfile)
   endif()
 endif()
 
 # #################################
 foreach(cpptest ${cpptests})
-  set(cpptestsrc ${cpptestsrc} ${cpptest}test.cpp)
+  list(APPEND cpptestsrc ${cpptest}test.cpp)
 endforeach()
 
 foreach(origtest ${origtests})
-  set(cpptestsrc ${cpptestsrc} ${origtest}.cpp)
+  list(APPEND cpptestsrc ${origtest}.cpp)
 endforeach()
 
 foreach(origtest ${origtests})
@@ -139,11 +139,11 @@ if(NOT BUILD_SHARED)
   set(libs openbabel)
 
   if(WITH_STATIC_LIBXML)
-    set(libs ${libs} ${LIBXML2_LIBRARIES})
+    list(APPEND libs ${LIBXML2_LIBRARIES})
   endif()
 
   if(WITH_STATIC_INCHI)
-    set(libs ${libs} ${INCHI_LIBRARY})
+    list(APPEND libs ${INCHI_LIBRARY})
   endif()
 
   if(NOT MSVC)
