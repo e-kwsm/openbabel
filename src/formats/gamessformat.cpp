@@ -298,7 +298,7 @@ namespace OpenBabel {
        // a malformed block may yield fewer (or no) atoms than expected.
        if (natoms > 0 && coordinates.size() >= static_cast<size_t>(natoms) * 3) {
          // malloc / memcpy
-         double* tmpCoords = new double [(natoms)*3];
+         double* tmpCoords = new double [natoms*3];
          memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
          vconf.push_back(tmpCoords);
          confDimensions.push_back(3); // always 3D -- OBConformerData allows mixing 2D and 3D structures
@@ -428,7 +428,7 @@ namespace OpenBabel {
         // a malformed block may yield fewer (or no) atoms than expected.
         if (natoms > 0 && coordinates.size() >= static_cast<size_t>(natoms) * 3) {
           // malloc / memcpy
-          double* tmpCoords = new double [(natoms)*3];
+          double* tmpCoords = new double [natoms*3];
           memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
           vconf.push_back(tmpCoords);
           confDimensions.push_back(3); // always 3D -- OBConformerData allows mixing 2D and 3D structures
@@ -866,7 +866,7 @@ namespace OpenBabel {
 
     mol.SetTitle(title);
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -987,7 +987,7 @@ namespace OpenBabel {
     if (hasPartialCharges)
       mol.SetPartialChargesPerceived();
 
-    return(true);
+    return true;
   }
 
 
@@ -1163,7 +1163,7 @@ namespace OpenBabel {
 
     ofs << " $END" << endl << endl << endl;
 
-    return(true);
+    return true;
   }
 
 } // namespace OpenBabel
