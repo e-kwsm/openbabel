@@ -84,7 +84,7 @@ namespace OpenBabel
 
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1]))
-          _vinthyb.push_back(pair<OBSmartsPattern*,int> (sp,atoi((char*)vs[2].c_str())));
+          _vinthyb.emplace_back(sp,atoi((char*)vs[2].c_str()));
         else
           {
             delete sp;
@@ -103,7 +103,7 @@ namespace OpenBabel
           }
         sp = new OBSmartsPattern;
         if (sp->Init(vs[1]))
-          _vexttyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[2]));
+          _vexttyp.emplace_back(sp,vs[2]);
         else
           {
             delete sp;
@@ -264,7 +264,7 @@ namespace OpenBabel
       }
       sp = new OBSmartsPattern;
       if (sp->Init(vs[2]))
-        _ringtyp.push_back(pair<OBSmartsPattern*,string> (sp,vs[1]));
+        _ringtyp.emplace_back(sp,vs[1]);
       else {
         delete sp;
         sp = nullptr;

@@ -117,7 +117,7 @@ namespace OpenBabel
         for (i = vs.begin()+2;i != vs.end();++i)
           vf.push_back(atof((char*)i->c_str()));
 
-        _vschrg.push_back(pair<OBSmartsPattern*,vector<double> > (sp,vf));
+        _vschrg.emplace_back(sp,vf);
       }
   }
 
@@ -256,7 +256,7 @@ namespace OpenBabel
             if (vb == _end.GetVectorBinding(j))
               if (ele != _end.GetAtomicNum(j))
                 {
-                  _vele.push_back(pair<int,int> (i,_end.GetAtomicNum(j)));
+                  _vele.emplace_back(i,_end.GetAtomicNum(j));
                   break;
                 }
         }
@@ -272,7 +272,7 @@ namespace OpenBabel
           for (j = 0;j < _end.NumAtoms();++j)
             if (vb == _end.GetVectorBinding(j))
               if (chrg != _end.GetCharge(j))
-                _vchrg.push_back(pair<int,int> (i,_end.GetCharge(j)));
+                _vchrg.emplace_back(i,_end.GetCharge(j));
         }
 
     //find bonds to be modified
@@ -297,7 +297,7 @@ namespace OpenBabel
               {
                 if (bord == eord)
                   break; //nothing to modify if bond orders identical
-                _vbond.push_back(pair<pair<int,int>,int> (pair<int,int> (bsrc,bdst),eord));
+                _vbond.emplace_back(pair<int,int> (bsrc,bdst),eord);
                 break;
               }
           }

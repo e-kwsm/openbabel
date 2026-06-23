@@ -379,7 +379,7 @@ namespace OpenBabel
       aligned_coords.reserve(_result.cols());
       for (int i=0; i<_result.cols(); ++i) {
         tmp = _result.col(i) + _ref_centr;
-        aligned_coords.push_back(vector3(tmp(0), tmp(1), tmp(2)));
+        aligned_coords.emplace_back(tmp(0), tmp(1), tmp(2));
       }
     }
     else { // Need to deal with the case where hydrogens were excluded
@@ -402,7 +402,7 @@ namespace OpenBabel
       aligned_coords.reserve(_result.cols());
       for (int i=0; i<result.cols(); ++i) {
         tmp = result.col(i) + _ref_centr;
-        aligned_coords.push_back(vector3(tmp(0), tmp(1), tmp(2)));
+        aligned_coords.emplace_back(tmp(0), tmp(1), tmp(2));
       }
     }
 

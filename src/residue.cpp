@@ -890,7 +890,7 @@ namespace OpenBabel
         atom->SetResidue(this);
 
         _atoms.push_back(atom);
-        _atomid.push_back("");
+        _atomid.emplace_back("");
         _hetatm.push_back(false);
         _sernum.push_back(0);
       }

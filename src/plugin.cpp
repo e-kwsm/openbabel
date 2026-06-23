@@ -157,7 +157,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
           if(*(itr->first)=='_')//no listing when ID starts with '_'
             continue;
           if(onlyIDs)
-            vlist.push_back(itr->first);
+            vlist.emplace_back(itr->first);
           else
           {
             string txt;
@@ -172,7 +172,7 @@ bool OBPlugin::ListAsVector(const char* PluginID, const char* param, vector<stri
   }
   //List the plugin types
   for(itr=PluginMap().begin();itr!= PluginMap().end();++itr)
-    vlist.push_back(itr->first);
+    vlist.emplace_back(itr->first);
   return ret;
 }
 

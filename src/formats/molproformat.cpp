@@ -222,8 +222,8 @@ namespace OpenBabel
                 z.push_back(atof(vs[i].c_str()));
               for (unsigned int i = 0; i < freq.size() && i < x.size() && i < y.size() && i < z.size(); i++) {
                 if (vib.size() <= i)
-                  vib.push_back(vector<vector3>());
-                vib[i].push_back(vector3(x[i], y[i], z[i]));
+                  vib.emplace_back();
+                vib[i].emplace_back(x[i], y[i], z[i]);
               }
               ifs.getline(buffer, BUFF_SIZE);
               tokenize(vs,buffer);

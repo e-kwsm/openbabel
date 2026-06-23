@@ -151,7 +151,7 @@ bool OBOpenDXCubeFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
         x = atof(vs[1].c_str());
         y = atof(vs[2].c_str());
         z = atof(vs[3].c_str());
-        axes.push_back(vector3(x, y, z));
+        axes.emplace_back(x, y, z);
       }
     }
 

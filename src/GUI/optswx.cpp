@@ -233,7 +233,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           *pdef='\0';
         }
         wxStaticText* pEdCaption = new wxStaticText(parent,wxID_STATIC,wxString(pCaption, wxConvUTF8));
-        OptionMap.push_back(std::make_pair(wxString(),pEdCaption));//string is empty for a caption: not an option
+        OptionMap.emplace_back(wxString(),pEdCaption);//string is empty for a caption: not an option
 
         //Edit boxes for multicharacter options are larger
         const int EDWIDTH = 60; //now all are the same size. oname.size()>1? 60 : 40;
@@ -248,7 +248,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           {
             pEd = new wxTextCtrl(parent,wxID_ANY,wxEmptyString,
                 wxDefaultPosition,wxSize(EDWIDTH,18));
-            OptionMap.push_back(std::make_pair(oname,pEd));
+            OptionMap.emplace_back(oname,pEd);
             if(ProvideEditCtl)
               oname = _T(' ') + oname;//editboxes except the first have name preceded by one or more spaces
           }
@@ -260,7 +260,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           if(ProvideExtraCheckbox)
           {
             wxControl* pChk = new wxCheckBox(parent,wxID_ANY,_T(" "));
-            OptionMap.push_back(std::make_pair(oname,pChk));
+            OptionMap.emplace_back(oname,pChk);
             pEdSizer->Add(pChk,0,wxALIGN_CENTER_VERTICAL,FOUR);
             oname = _T(' ') + oname;
           }
@@ -268,7 +268,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           {
             pEd = new wxTextCtrl(parent,wxID_ANY,wxEmptyString,
                 wxDefaultPosition,wxSize(EDWIDTH,18));
-            OptionMap.push_back(std::make_pair(oname,pEd));
+            OptionMap.emplace_back(oname,pEd);
             if(ProvideEditCtl)
               oname = _T(' ') + oname;//editboxes except the first have name preceded by one or more spaces
             pEdSizer->Add(pEd,0);
@@ -309,7 +309,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
           ((wxCheckBox*)pChk)->SetValue(SetChk);
         }
 
-        OptionMap.push_back(std::make_pair(oname,pChk));
+        OptionMap.emplace_back(oname,pChk);
         sizer->Add(pChk,0,wxEXPAND|wxTOP,FOUR);
       }
     }
@@ -318,7 +318,7 @@ bool DynOptionswx::Construct(const char* OptionsText, const char* StartText, int
   {
     wxStaticLine* pLine = new wxStaticLine(parent);
     sizer->Add(pLine,0,wxTOP|wxEXPAND,FOUR);
-    OptionMap.push_back(std::make_pair(wxString(),pLine));//empty string
+    OptionMap.emplace_back(wxString(),pLine);//empty string
   }
   delete [] pNewStr;
   return OptionsFound;

@@ -87,8 +87,7 @@ namespace OpenBabel
               {
                 bovector.push_back( atoi((char *)vs[i].c_str()) );
               }
-            _fgbonds.push_back(pair<OBSmartsPattern*,vector<int> >
-                               (sp, bovector));
+            _fgbonds.emplace_back(sp, bovector);
           }
         else
           {

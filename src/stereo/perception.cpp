@@ -640,7 +640,7 @@ namespace OpenBabel {
           if (isStereoUnit) {
             stereoAtoms.push_back(paraAtom.inIdx);
             OBAtom *atom = paraAtom.insideNbrs[0]->GetParent()->GetAtomById(paraAtom.id);
-            units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+            units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
           }
         }
 
@@ -683,7 +683,7 @@ namespace OpenBabel {
             stereoAtoms.push_back(paraBond.inIdx);
             stereoAtoms.push_back(paraBond.outIdx);
             OBBond *bond = paraBond.insideNbrs[0]->GetParent()->GetBondById(paraBond.id);
-            units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), true));
+            units.emplace_back(OBStereo::CisTrans, bond->GetId(), true);
           }
         }
 
@@ -752,7 +752,7 @@ namespace OpenBabel {
       if (ischiral) {
         // true-stereocenter found
         stereoAtoms.push_back(atom->GetIdx());
-        units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId()));
+        units.emplace_back(OBStereo::Tetrahedral, atom->GetId());
       }
     }
 
@@ -851,7 +851,7 @@ namespace OpenBabel {
 
         if (isCisTransBond)
           // true-stereocenter found
-          units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId()));
+          units.emplace_back(OBStereo::CisTrans, bond->GetId());
       }
     }
 
@@ -885,7 +885,7 @@ namespace OpenBabel {
 
     //cout << "=====================================================" << endl;
     for (std::size_t i = 0; i < lssr.size(); ++i) {
-      rings.push_back(StereoRing());
+      rings.emplace_back();
       StereoRing &ring = rings.back();
 
 
@@ -897,7 +897,7 @@ namespace OpenBabel {
       for (std::size_t j = 0; j < paraAtoms.size(); ++j) {
         if (lssr[i]->_pathset.BitIsSet(paraAtoms[j])) {
           OBAtom *atom = mol->GetAtom(paraAtoms[j]);
-          ring.paraAtoms.push_back(StereoRing::ParaAtom(atom->GetId(), paraAtoms[j]));
+          ring.paraAtoms.emplace_back(atom->GetId(), paraAtoms[j]);
 
           FOR_NBORS_OF_ATOM (nbr, mol->GetAtom(paraAtoms[j])) {
             if (lssr[i]->_pathset.BitIsSet(nbr->GetIdx()))
@@ -918,7 +918,7 @@ namespace OpenBabel {
         unsigned int endIdx = bond->GetEndAtomIdx();
 
         if (lssr[i]->_pathset.BitIsSet(beginIdx)) {
-          ring.paraBonds.push_back(StereoRing::ParaBond(bond->GetId(), beginIdx, endIdx));
+          ring.paraBonds.emplace_back(bond->GetId(), beginIdx, endIdx);
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetBeginAtom()) {
             if (nbr->GetIdx() == endIdx)
@@ -937,7 +937,7 @@ namespace OpenBabel {
         }
 
         if (lssr[i]->_pathset.BitIsSet(endIdx)) {
-          ring.paraBonds.push_back(StereoRing::ParaBond(bond->GetId(), endIdx, beginIdx));
+          ring.paraBonds.emplace_back(bond->GetId(), endIdx, beginIdx);
 
           FOR_NBORS_OF_ATOM (nbr, bond->GetEndAtom()) {
             if (nbr->GetIdx() == beginIdx)
@@ -1005,7 +1005,7 @@ namespace OpenBabel {
             unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
             OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
             if (containsAtLeast_1true_2para(ligandAtom, atom, units)) {
-              units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+              units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
             }
           }
           break;
@@ -1018,7 +1018,7 @@ namespace OpenBabel {
             OBAtom *ligandAtom2 = findAtomWithSymmetryClass(atom, duplicatedSymClass2, symClasses);
             if (containsAtLeast_1true_2para(ligandAtom1, atom, units) &&
                 containsAtLeast_1true_2para(ligandAtom2, atom, units))
-              units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+              units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
           }
           break;
         case T1112:
@@ -1027,7 +1027,7 @@ namespace OpenBabel {
             unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
             OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
             if (containsAtLeast_2true_2paraAssemblies(ligandAtom, atom, units, mergedRings))
-              units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+              units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
           }
           break;
         case T1111:
@@ -1036,7 +1036,7 @@ namespace OpenBabel {
             unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
             OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
             if (containsAtLeast_2true_2paraAssemblies(ligandAtom, atom, units, mergedRings)) {
-              units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+              units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
             }
           }
           break;
@@ -1139,7 +1139,7 @@ namespace OpenBabel {
       }
 
       if (endValid)
-        units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), true));
+        units.emplace_back(OBStereo::CisTrans, bond->GetId(), true);
     }
 
     if (DEBUG) {
@@ -1296,7 +1296,7 @@ namespace OpenBabel {
         std::vector< std::pair<unsigned int, unsigned int> > tlist1;
         FOR_NBORS_OF_ATOM (nbr, center) {
           if (symmetry_classes[nbr->GetIndex()] == duplicatedSymClass) {
-            tlist1.push_back(std::make_pair(nbr->GetIndex(), canon_labels[nbr->GetIndex()]));
+            tlist1.emplace_back(nbr->GetIndex(), canon_labels[nbr->GetIndex()]);
             duplicatedAtoms.back().push_back(&*nbr);
           }
         }
@@ -1351,7 +1351,7 @@ namespace OpenBabel {
         // skip the other double bond atom
         if (nbr->GetId() == otherAtom->GetId())
           continue;
-        tlist1.push_back(std::make_pair(nbr->GetIndex(), canon_labels[nbr->GetIndex()]));
+        tlist1.emplace_back(nbr->GetIndex(), canon_labels[nbr->GetIndex()]);
       }
       // Sort the indexes
       std::sort(tlist1.begin(), tlist1.end(), ComparePairSecond);
@@ -1659,7 +1659,7 @@ namespace OpenBabel {
           // true-stereocenter found
           bool isParaCenter = (classification == T1234) ? false : true;
           //cout << "found(2) " << atom->GetId() << endl;
-          units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), isParaCenter));
+          units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), isParaCenter);
           doneAtoms.push_back(atom->GetId());
         } else {
           // count ligand configurations:
@@ -1680,7 +1680,7 @@ namespace OpenBabel {
                 unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
                 OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
                 if (containsAtLeast_1true_2para(ligandAtom, atom, units)) {
-                  units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+                  units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
                   doneAtoms.push_back(atom->GetId());
                 }
               }
@@ -1693,7 +1693,7 @@ namespace OpenBabel {
                 OBAtom *ligandAtom2 = findAtomWithSymmetryClass(atom, duplicatedSymClass2, symClasses);
                 if (containsAtLeast_1true_2para(ligandAtom1, atom, units) &&
                     containsAtLeast_1true_2para(ligandAtom2, atom, units)) {
-                  units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+                  units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
                   doneAtoms.push_back(atom->GetId());
                 }
               }
@@ -1704,7 +1704,7 @@ namespace OpenBabel {
                 unsigned int duplicatedSymClass = findDuplicatedSymmetryClass(atom, symClasses);
                 OBAtom *ligandAtom = findAtomWithSymmetryClass(atom, duplicatedSymClass, symClasses);
                 if (containsAtLeast_2true_2paraAssemblies(ligandAtom, atom, units, mergedRings)) {
-                  units.push_back(OBStereoUnit(OBStereo::Tetrahedral, atom->GetId(), true));
+                  units.emplace_back(OBStereo::Tetrahedral, atom->GetId(), true);
                   doneAtoms.push_back(atom->GetId());
                 }
               }
@@ -1746,7 +1746,7 @@ namespace OpenBabel {
         if (!foundPermutation) {
           // true-stereocenter found
           bool isParaCenter = (beginClassification == C12) && (endClassification == C12) ? false : true;
-          units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), isParaCenter));
+          units.emplace_back(OBStereo::CisTrans, bond->GetId(), isParaCenter);
           doneBonds.push_back(bond->GetId());
         } else {
           // count ligand configurations:
@@ -1796,7 +1796,7 @@ namespace OpenBabel {
           }
 
           if (endValid) {
-            units.push_back(OBStereoUnit(OBStereo::CisTrans, bond->GetId(), true));
+            units.emplace_back(OBStereo::CisTrans, bond->GetId(), true);
             doneBonds.push_back(bond->GetId());
           }
         }

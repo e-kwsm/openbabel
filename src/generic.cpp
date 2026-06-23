@@ -1398,7 +1398,7 @@ void OBDOSData::SetData(double fermi,
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-        symmetries.push_back("A");
+        symmetries.emplace_back("A");
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)
@@ -1427,7 +1427,7 @@ void OBDOSData::SetData(double fermi,
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-        symmetries.push_back("A");
+        symmetries.emplace_back("A");
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)
@@ -1456,7 +1456,7 @@ void OBDOSData::SetData(double fermi,
 
     if (symmetries.size() < energies.size()) // pad with "A" symmetry
       for (unsigned int i = symmetries.size(); i < energies.size(); ++i)
-        symmetries.push_back("A");
+        symmetries.emplace_back("A");
 
     OBOrbital currentOrbital;
     for (unsigned int i = 0; i < energies.size(); ++i)

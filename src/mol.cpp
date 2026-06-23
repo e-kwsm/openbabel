@@ -769,7 +769,7 @@ namespace OpenBabel
             m  = static_cast<unsigned int>(static_cast<unsigned long long>(m) * 100);
           }
 
-        vp2.push_back(pair<OBAtom*,unsigned int> (i->first,id));
+        vp2.emplace_back(i->first,id);
       }
   }
 
@@ -788,7 +788,7 @@ namespace OpenBabel
     vector<OBAtom*>::iterator j;
     vector<pair<OBAtom*,unsigned int> > vp1,vp2;
     for (i=0,atom = BeginAtom(j);atom;atom = NextAtom(j),++i)
-      vp1.push_back(pair<OBAtom*,unsigned int> (atom,vgi[i]));
+      vp1.emplace_back(atom,vgi[i]);
 
     unsigned int nclass1,nclass2; //number of classes
     ClassCount(vp1,nclass1);
@@ -2201,7 +2201,7 @@ namespace OpenBabel
 
         if (hcount)
           {
-            vhadd.push_back(pair<OBAtom*,int>(atom,hcount));
+            vhadd.emplace_back(atom,hcount);
             count += hcount;
           }
       }
@@ -2327,7 +2327,7 @@ namespace OpenBabel
     atom->SetImplicitHCount(0);
 
     vector<pair<OBAtom*, int> > vhadd;
-    vhadd.push_back(pair<OBAtom*,int>(atom, hcount));
+    vhadd.emplace_back(atom, hcount);
 
     //realloc memory in coordinate arrays for new hydroges
     double *tmpf;
