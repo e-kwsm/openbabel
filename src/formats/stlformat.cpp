@@ -443,7 +443,7 @@ namespace OpenBabel
     vector<Triangle> triangles;
     FOR_ATOMS_OF_MOL(a, *pmol) {
       const double vdwrad = scale_factor * OBElements::GetVdwRad( a->GetAtomicNum() ) + probe_radius;
-      col = (cpk_colours) ? stl_colour(  a->GetAtomicNum(), colour_order ) : NoColor;
+      col = cpk_colours ? stl_colour(  a->GetAtomicNum(), colour_order ) : NoColor;
       map_sphere( triangles, a->GetVector(), vdwrad, col );
     }
 
@@ -461,8 +461,8 @@ namespace OpenBabel
         bond_info.spacing = bond_spacing;
         bond_info.origin = begin.GetVector();
         bond_info.direction_and_length = (end.GetVector() - begin.GetVector());
-        bond_info.first_half_colour = (cpk_colours) ? stl_colour(begin.GetAtomicNum(), colour_order) : NoColor;
-        bond_info.second_half_colour = (cpk_colours) ? stl_colour(end.GetAtomicNum(), colour_order) : NoColor;
+        bond_info.first_half_colour = cpk_colours ? stl_colour(begin.GetAtomicNum(), colour_order) : NoColor;
+        bond_info.second_half_colour = cpk_colours ? stl_colour(end.GetAtomicNum(), colour_order) : NoColor;
         bond_info.order = b->GetBondOrder();
 
         model_bond(triangles, bond_info);

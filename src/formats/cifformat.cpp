@@ -1554,7 +1554,7 @@ namespace OpenBabel
 
     // If we got here, no structure was found
     obErrorLog.ThrowError(__FUNCTION__, "Problems reading a CIF file: no structure found !" , obWarning);
-    return(false);
+    return false;
   }
 
   ////////////////////////////////////////////////////////////////

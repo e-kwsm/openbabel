@@ -3517,7 +3517,7 @@ namespace OpenBabel
     atom->SetVector(va.x(), va.y(), va.z());
 
     grad.Set(-dx, -dy, -dz);
-    return (grad);
+    return grad;
   }
 
   //
@@ -3715,7 +3715,7 @@ namespace OpenBabel
     atom->SetVector(va.x(), va.y(), va.z());
 
     grad.Set(-dx, -dy, -dz);
-    return (grad);
+    return grad;
   }
 
   //////////////////////////////////////////////////////////////////////////////////

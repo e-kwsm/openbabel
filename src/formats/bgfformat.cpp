@@ -203,7 +203,7 @@ namespace OpenBabel
     ifs.getline(buffer,BUFF_SIZE);
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -303,7 +303,7 @@ namespace OpenBabel
         }
 
     ofs << "END" << endl;
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

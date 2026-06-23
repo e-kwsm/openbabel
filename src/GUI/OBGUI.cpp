@@ -599,9 +599,9 @@ void OBGUIFrame::OnConvert(wxCommandEvent& WXUNUSED(event))
   OBConversion Conv(&ss, &GUIostream);
 
   int iSel = m_pInFormat->GetSelection();
-  if((iSel)<0) return;
+  if(iSel<0) return;
   int oSel = m_pOutFormat->GetSelection();
-  if((oSel)<0) return;
+  if(oSel<0) return;
 
   OBFormat* pInFormat = nullptr;
   OBFormat* pOutFormat = (OBFormat*)m_pOutFormat->GetClientData(oSel);

@@ -1007,7 +1007,7 @@ namespace OpenBabel {
           nBondNo++;
         };
       };// else testBad:=true;
-      if ((nBondNo == 3) || (testBad)) break;
+      if ((nBondNo == 3) || testBad) break;
     };
     if (nBondNo < 2) testBad=true;
 
@@ -3339,7 +3339,7 @@ namespace OpenBabel {
     for (int i=0; i<aeqList.size(); i++) delete(aeqList.at(i));
     aeqList.clear();
     free(bk);
-    delete(em);
+    delete em;
   };
 
   // Iterates through all of the possibilities 1000..., 0100..., 1100..., 0010...
@@ -4643,7 +4643,7 @@ namespace OpenBabel {
       //Search for last non-special atom in query}
       queryStereoQ=stereoBondChange(); //Stereo bond conversion
     };
-    delete(molecule1);
+    delete molecule1;
     free(queryBK);
     return result;
   };
@@ -5432,7 +5432,7 @@ namespace OpenBabel {
     // "almost" horizontal or vertical geometries don't get scaled.
     bool Xeq = (fabs(xMax - xMin) < 0.01);
     bool Yeq = (fabs(yMax - yMin) < 0.01);
-    if ((Xeq) && (Yeq)) {
+    if (Xeq && Yeq) {
       for (i=0; i<atomList->size(); i++) {
         n=(*atomList)[i];
         sm->getAtom(n)->rx=(pf.fragLeft+pf.fragWidth/2);
@@ -5791,8 +5791,8 @@ namespace OpenBabel {
               //I have to delete unnecessary atoms and bond here...
               emTemplate->moleculeCopy(*smFragment);
               groupsFind.push_back(emTemplate);
-              delete(smFragment);
-              delete(smRest);
+              delete smFragment;
+              delete smRest;
             };
           if (test) break;
         };
@@ -7306,7 +7306,7 @@ namespace OpenBabel {
 
     sm->getMolfile(ofs);
 
-    delete(sm);
+    delete sm;
   };
 
 

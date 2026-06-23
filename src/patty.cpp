@@ -274,7 +274,7 @@ namespace OpenBabel
           }
         result = 7;
       }
-    return(result);
+    return result;
   }
 
   //! return null if the type does not exist, the type position otherwise
@@ -287,7 +287,7 @@ namespace OpenBabel
           return (pos + 1);
       }
 
-    return (0);
+    return 0;
   }
 
 }

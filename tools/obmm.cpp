@@ -424,5 +424,5 @@ int main()
     cout << "invalid command." << endl;
   }
 
-  return(0);
+  return 0;
 }

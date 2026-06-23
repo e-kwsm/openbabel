@@ -417,7 +417,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     void   SetPeriodicMol(bool value = true){ SET_OR_UNSET_FLAG(OB_PERIODIC_MOL); }
     bool   HasFlag(int flag)   { return (_flags & flag) ? true : false; }
     void   SetFlag(int flag)   { _flags |= flag; }
-    void   UnsetFlag(int flag) { _flags &= (~(flag)); }
+    void   UnsetFlag(int flag) { _flags &= (~flag); }
     void   SetFlags(int flags) { _flags = flags; }
 
     //@}

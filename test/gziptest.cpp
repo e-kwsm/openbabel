@@ -170,5 +170,5 @@ int gziptest(int argc, char* argv[])
   }
   checkResults(filepath, correctResults);
 
-  return(0);
+  return 0;
 }

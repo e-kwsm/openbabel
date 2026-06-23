@@ -132,7 +132,7 @@ int main(int argc,char *argv[])
               cout << " *** ERROR *** BOX file #1 without 8 atoms!" << endl;
               return(-1);
             }
-          return(0);
+          return 0;
         }
 
       if (p2 && strncasecmp(p2 + 1, "BOX", 3) == 0)
@@ -142,7 +142,7 @@ int main(int argc,char *argv[])
               cout << " *** ERROR *** BOX file #2 without 8 atoms!" << endl;
               return(-1);
             }
-          return(0);
+          return 0;
         }
 
       if ( (p1 && strncasecmp(p1 + 1, "SMI", 3) == 0)
@@ -154,7 +154,7 @@ int main(int argc,char *argv[])
                    << mol.NumHvyAtoms() << " and " << mol2.NumHvyAtoms() << endl;
               return(-1);
             }
-          return(0);
+          return 0;
         }
       else
         {
@@ -232,5 +232,5 @@ int main(int argc,char *argv[])
         }
     }
     
-  return(0);
+  return 0;
 }

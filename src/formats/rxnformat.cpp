@@ -111,7 +111,7 @@ bool RXNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     else
     {
       if (!getline(ifs,ln))
-        return(false);
+        return false;
       if(Trim(ln).find("$RXN")!=0)
         return false; //Has to start with $RXN
     }

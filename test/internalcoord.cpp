@@ -58,6 +58,6 @@ int internalcoord(int argc, char* argv[])
   OBInternalCoord emptyIC, testIC1, testIC2, testIC3, testIC4;
   cout << "ok 2\n"; // ctor works OK
 
-  return(0);
+  return 0;
 }
 

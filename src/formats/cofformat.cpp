@@ -89,12 +89,12 @@ namespace OpenBabel
     if (vs.size() < 2)
     {
       obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. First line incorrectly formatted or file is empty.", obWarning);
-      return(false);
+      return false;
     }
     if (vs[0] != "@CulgiVersion:")
     {
       obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. First line incorrectly formatted.", obWarning);
-      return(false);
+      return false;
     }
     int version = atoi(vs[1].c_str());
 
@@ -113,7 +113,7 @@ namespace OpenBabel
     if (!bFoundKey)
     {
       obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. File does not contain a molecule", obWarning);
-      return(false);
+      return false;
     }
     pmol->SetTitle(name);
 
@@ -137,7 +137,7 @@ namespace OpenBabel
         if(vs.size() < offset+9)
         {
           obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. Atom line appears truncated.", obWarning);
-          return(false);
+          return false;
         }
         OBAtom* atom = pmol->NewAtom();
         vecAtomNames.push_back(vs[1+offset]);
@@ -169,7 +169,7 @@ namespace OpenBabel
         if (vs.size() < 4)
         {
           obErrorLog.ThrowError(__FUNCTION__, "Unable to read Culgi Object File. Bond line appears truncated.", obWarning);
-          return(false);
+          return false;
         }
         int iniatom = -1;
         int finatom = -1;
@@ -228,7 +228,7 @@ namespace OpenBabel
         {
           obErrorLog.ThrowError(__FUNCTION__,
               "Unable to read Culgi Object File. Formal charge line appears truncated", obWarning);
-          return(false);
+          return false;
         }
         int iAtom = atoi(vs[1].c_str());
         int iFormalCharge = atoi(vs[2].c_str());

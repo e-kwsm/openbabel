@@ -236,5 +236,5 @@ int mol(int argc, char* argv[])
   }
 
   cout << "1..15\n"; // total number of tests for Perl's "prove" tool
-  return(0);
+  return 0;
 }

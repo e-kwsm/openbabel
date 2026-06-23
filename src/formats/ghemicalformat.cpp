@@ -111,15 +111,15 @@ namespace OpenBabel
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %d", &natoms);
     if (natoms < 1 || natoms >= 100000000)
-      return(false);
+      return false;
 
     for (i = 1; i <= natoms; i ++)
     {
       if (!ifs.getline(buffer,BUFF_SIZE))
-        return(false);
+        return false;
       tokenize(vs,buffer);
       if (vs.size() < 2)
-        return(false);
+        return false;
       atom = mol.NewAtom();
       atom->SetAtomicNum(atoi(vs[1].c_str()));
     }
@@ -128,18 +128,18 @@ namespace OpenBabel
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s %d", &nbonds);
     if (nbonds < 0 || nbonds >= 100000000)
-      return(false);
+      return false;
     if (nbonds != 0)
       for (i = 0; i < nbonds; i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         // The two atom indices are required; the bond-order code is optional
         // and defaults to a single bond, so clear bobuf rather than reading a
         // stale value left over from a previous bond.
         bobuf[0] = '\0';
         if (sscanf(buffer,"%d%d%2s",&bgn,&end,bobuf) < 2)
-          return (false);
+          return false;
         bostr = bobuf;
         order = 1;
         if      (bostr == "D")
@@ -156,10 +156,10 @@ namespace OpenBabel
     for (i = 1; i <= natoms; i ++)
     {
       if (!ifs.getline(buffer,BUFF_SIZE))
-        return(false);
+        return false;
       tokenize(vs,buffer);
       if (vs.size() != 4)
-        return(false);
+        return false;
       atom = mol.GetAtom(i);
       x = 10.0*atof((char*)vs[1].c_str());
       y = 10.0*atof((char*)vs[2].c_str());
@@ -174,10 +174,10 @@ namespace OpenBabel
       for (i = 1; i <= natoms; i ++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         tokenize(vs,buffer);
         if (vs.size() != 2)
-          return(false);
+          return false;
         atom = mol.GetAtom(i);
         atom->SetPartialCharge(atof((char*)vs[1].c_str()));
       }
@@ -204,7 +204,7 @@ namespace OpenBabel
     if (hasPartialCharges)
       mol.SetPartialChargesPerceived();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -312,7 +312,7 @@ namespace OpenBabel
 
     ofs << "!End\n";
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -256,7 +256,7 @@ namespace OpenBabel
         ofs << cd->GetData() << "\n";
       }
     ofs << "\n" << "\n";
-    return(true);
+    return true;
   }
 
   /////////////////////////////////////////////////////////////

@@ -422,7 +422,7 @@ namespace OpenBabel
     if( !result )
       {
         obErrorLog.ThrowError(__FUNCTION__, "Unable to allocate byte codes for biomolecule residue perception.", obError);
-        return (result);
+        return result;
       }
     result->type = type;
     result->eval.next     = nullptr;
@@ -437,7 +437,7 @@ namespace OpenBabel
     result->assign.atomid = nullptr;
     result->assign.bflags = nullptr;
 
-    return (result);
+    return result;
   }
 
   //! Free a ByteCode and all corresponding data
@@ -1304,7 +1304,7 @@ namespace OpenBabel
   bool OBChainsParser::MatchConstraint(OBAtom *atom, int mask)
   {
     if (atom == nullptr)
-      return (false);
+      return false;
 
     if( mask < 0 )
       return(atom->GetAtomicNum() == static_cast<unsigned int>(-mask));
@@ -1315,52 +1315,52 @@ namespace OpenBabel
   bool OBChainsParser::Match2Constraints(Template *tmpl, OBAtom *na, OBAtom *nb)
   {
     if (na == nullptr || nb == nullptr)
-      return (false); // don't even try to evaluate it
+      return false; // don't even try to evaluate it
 
     if( MatchConstraint(na,tmpl->n2) )
       if( MatchConstraint(nb,tmpl->n1) )
-        return( true );
+        return true;
     if( MatchConstraint(nb,tmpl->n2) )
       if( MatchConstraint(na,tmpl->n1) )
-        return( true );
-    return( false );
+        return true;
+    return false;
   }
 
   bool OBChainsParser::Match3Constraints(Template *tmpl, OBAtom *na, OBAtom *nb, OBAtom *nc)
   {
     if (na == nullptr || nb == nullptr || nc == nullptr)
-      return (false); // don't even try to evaluate it
+      return false; // don't even try to evaluate it
 
     if( MatchConstraint(na,tmpl->n3) )
       if( Match2Constraints(tmpl,nb,nc) )
-        return( true );
+        return true;
     if( MatchConstraint(nb,tmpl->n3) )
       if( Match2Constraints(tmpl,na,nc) )
-        return( true );
+        return true;
     if( MatchConstraint(nc,tmpl->n3) )
       if( Match2Constraints(tmpl,na,nb) )
-        return( true );
-    return( false );
+        return true;
+    return false;
   }
 
   bool OBChainsParser::Match4Constraints(Template *tmpl, OBAtom *na, OBAtom *nb, OBAtom *nc, OBAtom *nd)
   {
     if (na == nullptr || nb == nullptr || nc == nullptr || nd == nullptr)
-      return (false); // don't even try to evaluate it
+      return false; // don't even try to evaluate it
 
     if( MatchConstraint(na,tmpl->n4) )
       if( Match3Constraints(tmpl,nb,nc,nd) )
-        return( true );
+        return true;
     if( MatchConstraint(nb,tmpl->n4) )
       if( Match3Constraints(tmpl,na,nc,nd) )
-        return( true );
+        return true;
     if( MatchConstraint(nc,tmpl->n4) )
       if( Match3Constraints(tmpl,na,nb,nd) )
-        return( true );
+        return true;
     if( MatchConstraint(nd,tmpl->n4) )
       if( Match3Constraints(tmpl,na,nb,nc) )
-        return( true );
-    return( false );
+        return true;
+    return false;
   }
 
   void OBChainsParser::TracePeptideChain(OBMol &mol, unsigned int i, int r)
@@ -1628,7 +1628,7 @@ namespace OpenBabel
           break;
 
         default:  /* Illegal Instruction! */
-          return( 0 );
+          return 0;
         } // (switch)
     } // while (loop through atoms)
     return 0;
@@ -1892,301 +1892,301 @@ namespace OpenBabel
     ch = toupper(ptr[1]);
     switch( toupper(ptr[0]) )
       {
-      case(' '):  switch( ch )
+      case ' ':  switch( ch )
           {
-          case('B'):  return(  5 );
-          case('C'):  return(  6 );
-          case('D'):  return(  1 );
-          case('F'):  return(  9 );
-          case('H'):  return(  1 );
-          case('I'):  return( 53 );
-          case('K'):  return( 19 );
-          case('L'):  return(  1 );
-          case('N'):  return(  7 );
-          case('O'):  return(  8 );
-          case('P'):  return( 15 );
-          case('S'):  return( 16 );
-          case('U'):  return( 92 );
-          case('V'):  return( 23 );
-          case('W'):  return( 74 );
-          case('Y'):  return( 39 );
+          case 'B':  return  5;
+          case 'C':  return  6;
+          case 'D':  return  1;
+          case 'F':  return  9;
+          case 'H':  return  1;
+          case 'I':  return 53;
+          case 'K':  return 19;
+          case 'L':  return  1;
+          case 'N':  return  7;
+          case 'O':  return  8;
+          case 'P':  return 15;
+          case 'S':  return 16;
+          case 'U':  return 92;
+          case 'V':  return 23;
+          case 'W':  return 74;
+          case 'Y':  return 39;
           }
         break;
 
-      case('A'):  switch( ch )
+      case 'A':  switch( ch )
           {
-          case('C'):  return( 89 );
-          case('G'):  return( 47 );
-          case('L'):  return( 13 );
-          case('M'):  return( 95 );
-          case('R'):  return( 18 );
-          case('S'):  return( 33 );
-          case('T'):  return( 85 );
-          case('U'):  return( 79 );
+          case 'C':  return 89;
+          case 'G':  return 47;
+          case 'L':  return 13;
+          case 'M':  return 95;
+          case 'R':  return 18;
+          case 'S':  return 33;
+          case 'T':  return 85;
+          case 'U':  return 79;
           }
         break;
 
-      case('B'):  switch( ch )
+      case 'B':  switch( ch )
           {
-          case('A'):  return( 56 );
-          case('E'):  return(  4 );
-          case('I'):  return( 83 );
-          case('K'):  return( 97 );
-          case('R'):  return( 35 );
-          case(' '):  return(  5 );
+          case 'A':  return 56;
+          case 'E':  return  4;
+          case 'I':  return 83;
+          case 'K':  return 97;
+          case 'R':  return 35;
+          case ' ':  return  5;
           }
         break;
 
-      case('C'):  switch( ch )
+      case 'C':  switch( ch )
           {
-          case('A'):  return( 20 );
-          case('D'):  return( 48 );
-          case('E'):  return( 58 );
-          case('F'):  return( 98 );
-          case('L'):  return( 17 );
-          case('M'):  return( 96 );
-          case('O'):  return( 27 );
-          case('R'):  return( 24 );
-          case('S'):  return( 55 );
-          case('U'):  return( 29 );
-          case(' '):  return(  6 );
+          case 'A':  return 20;
+          case 'D':  return 48;
+          case 'E':  return 58;
+          case 'F':  return 98;
+          case 'L':  return 17;
+          case 'M':  return 96;
+          case 'O':  return 27;
+          case 'R':  return 24;
+          case 'S':  return 55;
+          case 'U':  return 29;
+          case ' ':  return  6;
           }
         break;
 
-      case('D'):  if( ch=='Y' )
+      case 'D':  if( ch=='Y' )
           {
-            return( 66 );
+            return 66;
           }
         else if( ch==' ' )
-          return( 1 );
+          return 1;
         break;
 
-      case('E'):  if( ch=='R' )
+      case 'E':  if( ch=='R' )
           {
-            return( 68 );
+            return 68;
           }
         else if( ch=='S' )
           {
-            return( 99 );
+            return 99;
           }
         else if( ch=='U' )
-          return( 63 );
+          return 63;
         break;
 
-      case('F'):  if( ch=='E' )
+      case 'F':  if( ch=='E' )
           {
-            return(  26 );
+            return 26;
           }
         else if( ch=='M' )
           {
-            return( 100 );
+            return 100;
           }
         else if( ch=='R' )
           {
-            return(  87 );
+            return 87;
           }
         else if( ch=='F' )
-          return(   9 );
+          return 9;
         break;
 
-      case('G'):  if( ch=='A' )
+      case 'G':  if( ch=='A' )
           {
-            return( 31 );
+            return 31;
           }
         else if( ch=='D' )
           {
-            return( 64 );
+            return 64;
           }
         else if( ch=='E' )
-          return( 32 );
+          return 32;
         break;
 
-      case('H'):  if( ch=='E' )
+      case 'H':  if( ch=='E' )
           {
-            return(  2 );
+            return 2;
           }
         else if( ch=='F' )
           {
-            return( 72 );
+            return 72;
           }
         else if( ch=='G' )
           {
-            return( 80 );
+            return 80;
           }
         else if( ch=='O' )
           {
-            return( 67 );
+            return 67;
           }
         else if( ch==' ' )
-          return(  1 );
+          return 1;
         break;
 
-      case('I'):  if( ch=='N' )
+      case 'I':  if( ch=='N' )
           {
-            return( 49 );
+            return 49;
           }
         else if( ch=='R' )
           {
-            return( 77 );
+            return 77;
           }
         else if( ch==' ' )
-          return( 53 );
+          return 53;
         break;
 
-      case('K'):  if( ch=='R' )
+      case 'K':  if( ch=='R' )
           {
-            return( 36 );
+            return 36;
           }
         else if( ch==' ' )
-          return( 19 );
+          return 19;
         break;
 
-      case('L'):  if( ch=='A' )
+      case 'L':  if( ch=='A' )
           {
-            return(  57 );
+            return 57;
           }
         else if( ch=='I' )
           {
-            return(   3 );
+            return  3;
           }
         else if( (ch=='R') || (ch=='W') )
           {
-            return( 103 );
+            return 103;
           }
         else if( ch=='U' )
           {
-            return(  71 );
+            return 71;
           }
         else if( ch==' ' )
-          return(   1 );
+          return  1;
         break;
 
-      case('M'):  if( ch=='D' )
+      case 'M':  if( ch=='D' )
           {
-            return( 101 );
+            return 101;
           }
         else if( ch=='G' )
           {
-            return(  12 );
+            return 12;
           }
         else if( ch=='N' )
           {
-            return(  25 );
+            return 25;
           }
         else if( ch=='O' )
-          return(  42 );
+          return 42;
         break;
 
-      case('N'):  switch( ch )
+      case 'N':  switch( ch )
           {
-          case('A'):  return(  11 );
-          case('B'):  return(  41 );
-          case('D'):  return(  60 );
-          case('E'):  return(  10 );
-          case('I'):  return(  28 );
-          case('O'):  return( 102 );
-          case('P'):  return(  93 );
-          case(' '):  return(   7 );
+          case 'A':  return  11;
+          case 'B':  return  41;
+          case 'D':  return  60;
+          case 'E':  return  10;
+          case 'I':  return  28;
+          case 'O':  return 102;
+          case 'P':  return  93;
+          case ' ':  return   7;
           }
         break;
 
-      case('O'):  if( ch=='S' )
+      case 'O':  if( ch=='S' )
           {
-            return( 76 );
-          }
-        else if( ch==' ' )
-          return( 8 );
-        break;
-
-      case('P'):  switch( ch )
-          {
-          case('A'):  return( 91 );
-          case('B'):  return( 82 );
-          case('D'):  return( 46 );
-          case('M'):  return( 61 );
-          case('O'):  return( 84 );
-          case('R'):  return( 59 );
-          case('T'):  return( 78 );
-          case('U'):  return( 94 );
-          case(' '):  return( 15 );
-          }
-        break;
-
-      case('R'):  switch( ch )
-          {
-          case('A'):  return( 88 );
-          case('B'):  return( 37 );
-          case('E'):  return( 75 );
-          case('H'):  return( 45 );
-          case('N'):  return( 86 );
-          case('U'):  return( 44 );
-          }
-        break;
-
-      case('S'):  switch( ch )
-          {
-          case('B'):  return( 51 );
-          case('C'):  return( 21 );
-          case('E'):  return( 34 );
-          case('I'):  return( 14 );
-          case('M'):  return( 62 );
-          case('N'):  return( 50 );
-          case('R'):  return( 38 );
-          case(' '):  return( 16 );
-          }
-        break;
-
-      case('T'):  switch( ch )
-          {
-          case('A'):  return( 73 );
-          case('B'):  return( 65 );
-          case('C'):  return( 43 );
-          case('E'):  return( 52 );
-          case('H'):  return( 90 );
-          case('I'):  return( 22 );
-          case('L'):  return( 81 );
-          case('M'):  return( 69 );
-          }
-        break;
-
-      case('U'):  if( ch==' ' )
-          return( 92 );
-        break;
-
-      case('V'):  if( ch==' ' )
-          return( 23 );
-        break;
-
-      case('W'):  if( ch==' ' )
-          return( 74 );
-        break;
-
-      case('X'):  if( ch=='E' )
-          return( 54 );
-        break;
-
-      case('Y'):  if( ch=='B' )
-          {
-            return( 70 );
+            return 76;
           }
         else if( ch==' ' )
-          return( 39 );
+          return 8;
         break;
 
-      case('Z'):  if( ch=='N' )
+      case 'P':  switch( ch )
           {
-            return( 30 );
+          case 'A':  return 91;
+          case 'B':  return 82;
+          case 'D':  return 46;
+          case 'M':  return 61;
+          case 'O':  return 84;
+          case 'R':  return 59;
+          case 'T':  return 78;
+          case 'U':  return 94;
+          case ' ':  return 15;
+          }
+        break;
+
+      case 'R':  switch( ch )
+          {
+          case 'A':  return 88;
+          case 'B':  return 37;
+          case 'E':  return 75;
+          case 'H':  return 45;
+          case 'N':  return 86;
+          case 'U':  return 44;
+          }
+        break;
+
+      case 'S':  switch( ch )
+          {
+          case 'B':  return 51;
+          case 'C':  return 21;
+          case 'E':  return 34;
+          case 'I':  return 14;
+          case 'M':  return 62;
+          case 'N':  return 50;
+          case 'R':  return 38;
+          case ' ':  return 16;
+          }
+        break;
+
+      case 'T':  switch( ch )
+          {
+          case 'A':  return 73;
+          case 'B':  return 65;
+          case 'C':  return 43;
+          case 'E':  return 52;
+          case 'H':  return 90;
+          case 'I':  return 22;
+          case 'L':  return 81;
+          case 'M':  return 69;
+          }
+        break;
+
+      case 'U':  if( ch==' ' )
+          return 92;
+        break;
+
+      case 'V':  if( ch==' ' )
+          return 23;
+        break;
+
+      case 'W':  if( ch==' ' )
+          return 74;
+        break;
+
+      case 'X':  if( ch=='E' )
+          return 54;
+        break;
+
+      case 'Y':  if( ch=='B' )
+          {
+            return 70;
+          }
+        else if( ch==' ' )
+          return 39;
+        break;
+
+      case 'Z':  if( ch=='N' )
+          {
+            return 30;
           }
         else if( ch=='R' )
-          return( 40 );
+          return 40;
         break;
       }
 
     if( (*ptr>='0') && (*ptr<='9') )
       if( (ch=='H') || (ch=='D') )
-        return( 1 ); /* Hydrogen */
+        return 1; /* Hydrogen */
 
-    return( 0 );
+    return 0;
   }
 
   const char *OBChainsParser::ParseSmiles(const char *ptr, int prev)
@@ -2202,21 +2202,21 @@ namespace OpenBabel
       {
         switch( ch )
           {
-          case('-'): type = BF_SINGLE;
+          case '-': type = BF_SINGLE;
             break;
-          case('='): type = BF_DOUBLE;
+          case '=': type = BF_DOUBLE;
             break;
-          case('#'): type = BF_TRIPLE;
+          case '#': type = BF_TRIPLE;
             break;
-          case('^'): type = BF_SINGLE|BF_AROMATIC;
+          case '^': type = BF_SINGLE|BF_AROMATIC;
             break;
-          case('~'): type = BF_DOUBLE|BF_AROMATIC;
+          case '~': type = BF_DOUBLE|BF_AROMATIC;
             break;
 
-          case(')'): return( ptr );
-          case('.'): prev = -1;
+          case ')': return ptr;
+          case '.': prev = -1;
             break;
-          case('('): ptr = ParseSmiles(ptr,prev);
+          case '(': ptr = ParseSmiles(ptr,prev);
             break;
 
           default:

@@ -82,13 +82,13 @@ namespace OpenBabel
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%d",&natoms);
     if (natoms < 1 || natoms >= 100000000)
-      return(false);
+      return false;
 
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
 
     if (!ifs.getline(buffer,BUFF_SIZE))
-      return(false);
+      return false;
     mol.SetTitle(buffer);
 
     double x,y,z;
@@ -97,7 +97,7 @@ namespace OpenBabel
     for (i = 0; i < natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         // Atom type and x/y/z are all required; reject a truncated record
         // rather than building an atom from stale stack values.
         type[0] = '\0';
@@ -106,7 +106,7 @@ namespace OpenBabel
                &x,
                &y,
                &z) != 4)
-          return(false);
+          return false;
         CleanAtomType(type);
         atom = mol.NewAtom();
         atom->SetVector(x,y,z);
@@ -129,7 +129,7 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -161,7 +161,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

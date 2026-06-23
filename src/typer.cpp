@@ -700,13 +700,13 @@ namespace OpenBabel
         int i;
         for (i = er.first;i <= er.second;++i)
           if (i%4 == 2 && i > 2)
-            return(true);
+            return true;
 
-        return(false);
+        return false;
       }
 
     if (!depth || !_vpa[atom->GetIdx()] || _visit[atom->GetIdx()])
-      return(false);
+      return false;
 
     bool result = false;
 
@@ -734,7 +734,7 @@ namespace OpenBabel
     er.first  -= _velec[atom->GetIdx()].first;
     er.second -= _velec[atom->GetIdx()].second;
 
-    return(result);
+    return result;
   }
 
   void OBAromaticTyperMolState::CheckAromaticity(OBAtom *atom,int depth)

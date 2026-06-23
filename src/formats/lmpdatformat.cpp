@@ -545,7 +545,7 @@ namespace OpenBabel
     }
 
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

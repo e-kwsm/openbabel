@@ -78,7 +78,7 @@ namespace OpenBabel
       /**
        * Unsets the bitwise @p flag
        */
-      void UnsetFlag(int flag) { _flags &= (~(flag)); }
+      void UnsetFlag(int flag) { _flags &= (~flag); }
 
     public:
       enum Flag {

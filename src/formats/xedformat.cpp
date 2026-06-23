@@ -164,7 +164,7 @@ bool XEDFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     }
     ofs << "    1         0.0000    0         0.0000" << endl;
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

@@ -192,7 +192,7 @@ namespace OpenBabel
     if (hasPartialCharges)
       mol.SetPartialChargesPerceived();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

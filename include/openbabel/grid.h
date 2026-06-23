@@ -186,7 +186,7 @@ namespace OpenBabel
     {
       vector3 v;
       v.Set(_midx,_midy,_midz);
-      return(v);
+      return v;
     }
 
     //! \return X axis direction.

@@ -190,7 +190,7 @@ int residue(int argc, char* argv[])
   // the number of tests for "prove"
   cout << "1.." << testCount << "\n";
 
-  return(0);
+  return 0;
 }
 
 void CheckValidResidue(OBConversion &conv,

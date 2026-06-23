@@ -60,5 +60,5 @@ int datatest(int argc, char* argv[])
   else
     cout << "not ok 2\n";
 
-  return(0);
+  return 0;
 }

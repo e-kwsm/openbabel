@@ -87,14 +87,14 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an MSI file: Cannot read the first line.", obWarning);
-        return(false);
+        return false;
       }
 
     if (!EQn(buffer, "# MSI CERIUS2 DataModel File", 28))
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an MSI file: The first line must contain the MSI header.", obWarning);
-        return(false);
+        return false;
       }
 
     // "records" start with
@@ -284,7 +284,7 @@ namespace OpenBabel
       mol.SetData(uc);
     }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

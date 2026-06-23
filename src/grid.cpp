@@ -341,7 +341,7 @@ namespace OpenBabel
     derivatives[1] += fy;
     derivatives[2] += fz;
 
-    return(energy);
+    return energy;
   }
 
   ostream& operator<< ( ostream &os, const  OBFloatGrid& fg)
@@ -370,7 +370,7 @@ namespace OpenBabel
     os.write((const char*)&fg._values[0],
              (sizeof(double)*(fg._xdim*fg._ydim*fg._zdim)));
 
-    return(os);
+    return os;
   }
 
   istream& operator>> ( istream &is,OBFloatGrid& fg)
@@ -397,7 +397,7 @@ namespace OpenBabel
     is.read((char*)&fg._values[0],size);
     fg._halfSpace= fg._spacing/2.0;
 
-    return(is);
+    return is;
   }
 
   void OBProxGrid::Setup(OBMol &mol,OBMol &box,double cutoff,double res)

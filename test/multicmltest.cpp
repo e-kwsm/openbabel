@@ -91,5 +91,5 @@ int multicmltest(int argc, char* argv[])
     cout << "Wrong number of molecules found in file " << cnt << "\n";
     return -1;
   }
-  return(0);
+  return 0;
 }

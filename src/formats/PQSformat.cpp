@@ -242,7 +242,7 @@ namespace OpenBabel
                 if (!coordFileStream)
                   {
                     obErrorLog.ThrowError(__FUNCTION__, "Cannot read external geometry file!", obError);
-                    return(false);
+                    return false;
                     //                    exit (-1);
                   }
                 else
@@ -310,7 +310,7 @@ namespace OpenBabel
                 stringstream errorMsg;
                 errorMsg <<"ReadPQS: cannot read external "<<coord_file<<" file!"<<endl;
                 obErrorLog.ThrowError(__FUNCTION__, errorMsg.str(), obError);
-                return(false);
+                return false;
                 //                exit (-1);
               }
             else
@@ -355,7 +355,7 @@ namespace OpenBabel
                 atom->GetZ());
         ofs<<buffer<<endl;
       }
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -150,7 +150,7 @@ namespace OpenBabel {
         count++;
     }
 
-    return(count);
+    return count;
   }
 
   /**
@@ -249,7 +249,7 @@ namespace OpenBabel {
       gtd[idx-1] = gtdcount;
     }
 
-    return(true);
+    return true;
   }
 
   /**

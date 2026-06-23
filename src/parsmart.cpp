@@ -537,7 +537,7 @@ namespace OpenBabel
     pat->bond[index].expr = expr;
     pat->bond[index].src = src;
     pat->bond[index].dst = dst;
-    return(index);
+    return index;
   }
 
   static Pattern *CopyPattern( Pattern *pat )
@@ -680,7 +680,7 @@ namespace OpenBabel
 
     switch( *LexPtr++ )
       {
-      case('#'):
+      case '#':
         if( !isdigit(*LexPtr) )
           return nullptr;
 
@@ -694,7 +694,7 @@ namespace OpenBabel
           }
         return( GenerateElement(index) );
 
-      case('$'):
+      case '$':
         if( *LexPtr != '(' )
           return nullptr;
         LexPtr++;
@@ -710,10 +710,10 @@ namespace OpenBabel
         LexPtr++;
         return( BuildAtomRecurs(pat) );
 
-      case('*'):
+      case '*':
         return BuildAtomPred(AE_TRUE);
 
-      case('+'):
+      case '+':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -731,7 +731,7 @@ namespace OpenBabel
           }
         return BuildAtomLeaf(AE_CHARGE,index);
 
-      case('-'):
+      case '-':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -774,58 +774,58 @@ namespace OpenBabel
         else
           return BuildAtomLeaf(AE_HYB,1);
 
-      case('0'): case('1'): case('2'): case('3'): case('4'):
-      case('5'): case('6'): case('7'): case('8'): case('9'):
+      case '0': case '1': case '2': case '3': case '4':
+      case '5': case '6': case '7': case '8': case '9':
         index = LexPtr[-1]-'0';
         if( !ReadInt(LexPtr, index) )
           return nullptr;
         return BuildAtomLeaf(AE_MASS,index);
 
-      case('A'):
+      case 'A':
         switch( *LexPtr++ )
           {
-          case('c'):  return GenerateElement(89);
-          case('g'):  return GenerateElement(47);
-          case('l'):  return GenerateElement(13);
-          case('m'):  return GenerateElement(95);
-          case('r'):  return GenerateElement(18);
-          case('s'):  return GenerateElement(33);
-          case('t'):  return GenerateElement(85);
-          case('u'):  return GenerateElement(79);
+          case 'c':  return GenerateElement(89);
+          case 'g':  return GenerateElement(47);
+          case 'l':  return GenerateElement(13);
+          case 'm':  return GenerateElement(95);
+          case 'r':  return GenerateElement(18);
+          case 's':  return GenerateElement(33);
+          case 't':  return GenerateElement(85);
+          case 'u':  return GenerateElement(79);
           }
         LexPtr--;
         return BuildAtomPred(AE_ALIPHATIC);
 
-      case('B'):
+      case 'B':
         switch( *LexPtr++ )
           {
-          case('a'):  return GenerateElement(56);
-          case('e'):  return GenerateElement( 4);
-          case('i'):  return GenerateElement(83);
-          case('k'):  return GenerateElement(97);
-          case('r'):  return GenerateElement(35);
+          case 'a':  return GenerateElement(56);
+          case 'e':  return GenerateElement( 4);
+          case 'i':  return GenerateElement(83);
+          case 'k':  return GenerateElement(97);
+          case 'r':  return GenerateElement(35);
           }
         LexPtr--;
         return GenerateElement(5);
 
-      case('C'):
+      case 'C':
         switch( *LexPtr++ )
           {
-          case('a'):  return GenerateElement(20);
-          case('d'):  return GenerateElement(48);
-          case('e'):  return GenerateElement(58);
-          case('f'):  return GenerateElement(98);
-          case('l'):  return GenerateElement(17);
-          case('m'):  return GenerateElement(96);
-          case('o'):  return GenerateElement(27);
-          case('r'):  return GenerateElement(24);
-          case('s'):  return GenerateElement(55);
-          case('u'):  return GenerateElement(29);
+          case 'a':  return GenerateElement(20);
+          case 'd':  return GenerateElement(48);
+          case 'e':  return GenerateElement(58);
+          case 'f':  return GenerateElement(98);
+          case 'l':  return GenerateElement(17);
+          case 'm':  return GenerateElement(96);
+          case 'o':  return GenerateElement(27);
+          case 'r':  return GenerateElement(24);
+          case 's':  return GenerateElement(55);
+          case 'u':  return GenerateElement(29);
           }
         LexPtr--;
         return GenerateAromElem(6,false);
 
-      case('D'):
+      case 'D':
         if( *LexPtr == 'y' )
           {
             LexPtr++;
@@ -840,7 +840,7 @@ namespace OpenBabel
           }
         return BuildAtomLeaf(AE_DEGREE,1);
 
-      case('E'):
+      case 'E':
         if( *LexPtr == 'r' )
           {
             LexPtr++;
@@ -858,7 +858,7 @@ namespace OpenBabel
           }
         break;
 
-      case('F'):
+      case 'F':
         if( *LexPtr == 'e' )
           {
             LexPtr++;
@@ -876,7 +876,7 @@ namespace OpenBabel
           }
         return GenerateElement(9);
 
-      case('G'):
+      case 'G':
         if( *LexPtr == 'a' )
           {
             LexPtr++;
@@ -894,7 +894,7 @@ namespace OpenBabel
           }
         break;
 
-      case('H'):
+      case 'H':
         if( *LexPtr == 'e' )
           {
             LexPtr++;
@@ -924,7 +924,7 @@ namespace OpenBabel
           }
         return BuildAtomLeaf(AE_HCOUNT,1);
 
-      case('I'):
+      case 'I':
         if( *LexPtr == 'n' )
           {
             LexPtr++;
@@ -937,7 +937,7 @@ namespace OpenBabel
           }
         return( GenerateElement(53) );
 
-      case('K'):
+      case 'K':
         if( *LexPtr == 'r' )
           {
             LexPtr++;
@@ -945,7 +945,7 @@ namespace OpenBabel
           }
         return( GenerateElement(19) );
 
-      case('L'):
+      case 'L':
         if( *LexPtr == 'a' )
           {
             LexPtr++;
@@ -968,7 +968,7 @@ namespace OpenBabel
           }
         break;
 
-      case('M'):
+      case 'M':
         if( *LexPtr == 'd' )
           {
             LexPtr++;
@@ -991,21 +991,21 @@ namespace OpenBabel
           }
         break;
 
-      case('N'):
+      case 'N':
         switch( *LexPtr++ )
           {
-          case('a'):  return( GenerateElement( 11) );
-          case('b'):  return( GenerateElement( 41) );
-          case('d'):  return( GenerateElement( 60) );
-          case('e'):  return( GenerateElement( 10) );
-          case('i'):  return( GenerateElement( 28) );
-          case('o'):  return( GenerateElement(102) );
-          case('p'):  return( GenerateElement( 93) );
+          case 'a':  return( GenerateElement( 11) );
+          case 'b':  return( GenerateElement( 41) );
+          case 'd':  return( GenerateElement( 60) );
+          case 'e':  return( GenerateElement( 10) );
+          case 'i':  return( GenerateElement( 28) );
+          case 'o':  return( GenerateElement(102) );
+          case 'p':  return( GenerateElement( 93) );
           }
         LexPtr--;
         return( GenerateAromElem(7,false) );
 
-      case('O'):
+      case 'O':
         if( *LexPtr == 's' )
           {
             LexPtr++;
@@ -1013,30 +1013,30 @@ namespace OpenBabel
           }
         return( GenerateAromElem(8,false) );
 
-      case('P'):
+      case 'P':
         switch( *LexPtr++ )
           {
-          case('a'):  return( GenerateElement(91) );
-          case('b'):  return( GenerateElement(82) );
-          case('d'):  return( GenerateElement(46) );
-          case('m'):  return( GenerateElement(61) );
-          case('o'):  return( GenerateElement(84) );
-          case('r'):  return( GenerateElement(59) );
-          case('t'):  return( GenerateElement(78) );
-          case('u'):  return( GenerateElement(94) );
+          case 'a':  return( GenerateElement(91) );
+          case 'b':  return( GenerateElement(82) );
+          case 'd':  return( GenerateElement(46) );
+          case 'm':  return( GenerateElement(61) );
+          case 'o':  return( GenerateElement(84) );
+          case 'r':  return( GenerateElement(59) );
+          case 't':  return( GenerateElement(78) );
+          case 'u':  return( GenerateElement(94) );
           }
         LexPtr--;
         return( GenerateElement(15) );
 
-      case('R'):
+      case 'R':
         switch( *LexPtr++ )
           {
-          case('a'):  return( GenerateElement(88) );
-          case('b'):  return( GenerateElement(37) );
-          case('e'):  return( GenerateElement(75) );
-          case('h'):  return( GenerateElement(45) );
-          case('n'):  return( GenerateElement(86) );
-          case('u'):  return( GenerateElement(44) );
+          case 'a':  return( GenerateElement(88) );
+          case 'b':  return( GenerateElement(37) );
+          case 'e':  return( GenerateElement(75) );
+          case 'h':  return( GenerateElement(45) );
+          case 'n':  return( GenerateElement(86) );
+          case 'u':  return( GenerateElement(44) );
           }
         LexPtr--;
         if( isdigit(*LexPtr) )
@@ -1050,40 +1050,40 @@ namespace OpenBabel
           }
         return BuildAtomPred(AE_CYCLIC);
 
-      case('S'):
+      case 'S':
         switch( *LexPtr++ )
           {
-          case('b'):  return( GenerateElement(51) );
-          case('c'):  return( GenerateElement(21) );
-          case('e'):  return( GenerateElement(34) );
-          case('i'):  return( GenerateElement(14) );
-          case('m'):  return( GenerateElement(62) );
-          case('n'):  return( GenerateElement(50) );
-          case('r'):  return( GenerateElement(38) );
+          case 'b':  return( GenerateElement(51) );
+          case 'c':  return( GenerateElement(21) );
+          case 'e':  return( GenerateElement(34) );
+          case 'i':  return( GenerateElement(14) );
+          case 'm':  return( GenerateElement(62) );
+          case 'n':  return( GenerateElement(50) );
+          case 'r':  return( GenerateElement(38) );
           }
         LexPtr--;
         return( GenerateAromElem(16,false) );
 
-      case('T'):
+      case 'T':
         switch( *LexPtr++ )
           {
-          case('a'):  return( GenerateElement(73) );
-          case('b'):  return( GenerateElement(65) );
-          case('c'):  return( GenerateElement(43) );
-          case('e'):  return( GenerateElement(52) );
-          case('h'):  return( GenerateElement(90) );
-          case('i'):  return( GenerateElement(22) );
-          case('l'):  return( GenerateElement(81) );
-          case('m'):  return( GenerateElement(69) );
+          case 'a':  return( GenerateElement(73) );
+          case 'b':  return( GenerateElement(65) );
+          case 'c':  return( GenerateElement(43) );
+          case 'e':  return( GenerateElement(52) );
+          case 'h':  return( GenerateElement(90) );
+          case 'i':  return( GenerateElement(22) );
+          case 'l':  return( GenerateElement(81) );
+          case 'm':  return( GenerateElement(69) );
           }
         LexPtr--;
         break;
 
-      case('U'):  return( GenerateElement(92) );
-      case('V'):  return( GenerateElement(23) );
-      case('W'):  return( GenerateElement(74) );
+      case 'U':  return( GenerateElement(92) );
+      case 'V':  return( GenerateElement(23) );
+      case 'W':  return( GenerateElement(74) );
 
-      case('X'):
+      case 'X':
         if( *LexPtr == 'e' )
           {
             LexPtr++;
@@ -1100,7 +1100,7 @@ namespace OpenBabel
           }
         return BuildAtomLeaf(AE_CONNECT,1);
 
-      case('Y'):
+      case 'Y':
         if( *LexPtr == 'b' )
           {
             LexPtr++;
@@ -1108,7 +1108,7 @@ namespace OpenBabel
           }
         return( GenerateElement(39) );
 
-      case('Z'):
+      case 'Z':
         if( *LexPtr == 'n' )
           {
             LexPtr++;
@@ -1121,7 +1121,7 @@ namespace OpenBabel
           }
         break;
 
-      case('a'):
+      case 'a':
         if( *LexPtr == 's' )
           {
             LexPtr++;
@@ -1129,10 +1129,10 @@ namespace OpenBabel
           }
         return BuildAtomPred(AE_AROMATIC);
 
-      case('c'):
+      case 'c':
         return GenerateAromElem(6,true);
 
-      case('h'):
+      case 'h':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -1143,11 +1143,11 @@ namespace OpenBabel
           index = 1;
         return BuildAtomLeaf(AE_IMPLICIT,index);
 
-      case('n'):  return GenerateAromElem(7,true);
-      case('o'):  return GenerateAromElem(8,true);
-      case('p'):  return GenerateAromElem(15,true);
+      case 'n':  return GenerateAromElem(7,true);
+      case 'o':  return GenerateAromElem(8,true);
+      case 'p':  return GenerateAromElem(15,true);
 
-      case('r'):
+      case 'r':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -1159,7 +1159,7 @@ namespace OpenBabel
           }
         return BuildAtomPred(AE_CYCLIC);
 
-      case('s'):
+      case 's':
         if( *LexPtr == 'e' )
           {
             LexPtr++;
@@ -1167,7 +1167,7 @@ namespace OpenBabel
           }
         return GenerateAromElem(16,true);
 
-      case('v'):
+      case 'v':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -1177,7 +1177,7 @@ namespace OpenBabel
           }
         return BuildAtomLeaf(AE_VALENCE,1);
 
-      case('x'):
+      case 'x':
         if( isdigit(*LexPtr) )
           {
             index = 0;
@@ -1199,7 +1199,7 @@ namespace OpenBabel
 
     switch( level )
       {
-      case(0): /* Low Precedence Conjunction */
+      case 0: /* Low Precedence Conjunction */
         if( !(expr1=ParseAtomExpr(1)) )
           return nullptr;
 
@@ -1215,7 +1215,7 @@ namespace OpenBabel
           }
         return expr1;
 
-      case(1): /* Disjunction */
+      case 1: /* Disjunction */
         if( !(expr1=ParseAtomExpr(2)) )
           return nullptr;
 
@@ -1229,9 +1229,9 @@ namespace OpenBabel
               }
             expr1 = BuildAtomBin(AE_OR,expr1,expr2);
           }
-        return( expr1 );
+        return expr1;
 
-      case(2): /* High Precedence Conjunction */
+      case 2: /* High Precedence Conjunction */
         if( !(expr1=ParseAtomExpr(3)) )
           return nullptr;
 
@@ -1249,13 +1249,13 @@ namespace OpenBabel
                     return nullptr;
                   }
                 else
-                  return( expr1 );
+                  return expr1;
               }
             expr1 = BuildAtomBin(AE_ANDHI,expr1,expr2);
           }
-        return( expr1 );
+        return expr1;
 
-      case(3): /* Negation or Primitive */
+      case 3: /* Negation or Primitive */
         if( *LexPtr == '!' )
           {
             LexPtr++;
@@ -1299,7 +1299,7 @@ namespace OpenBabel
 
     switch( level )
       {
-      case(0): /* Low Precedence Conjunction */
+      case 0: /* Low Precedence Conjunction */
         if( !(expr1=ParseBondExpr(1)) )
           return nullptr;
 
@@ -1315,7 +1315,7 @@ namespace OpenBabel
           }
         return expr1;
 
-      case(1): /* Disjunction */
+      case 1: /* Disjunction */
         if( !(expr1=ParseBondExpr(2)) )
           return nullptr;
 
@@ -1331,7 +1331,7 @@ namespace OpenBabel
           }
         return expr1;
 
-      case(2): /* High Precedence Conjunction */
+      case 2: /* High Precedence Conjunction */
         if( !(expr1=ParseBondExpr(3)) )
           return nullptr;
 
@@ -1355,7 +1355,7 @@ namespace OpenBabel
           }
         return expr1;
 
-      case(3): /* Negation or Primitive */
+      case 3: /* Negation or Primitive */
         if( *LexPtr == '!' )
           {
             LexPtr++;
@@ -1381,7 +1381,7 @@ namespace OpenBabel
         ReadInt(LexPtr, vb);
       }
 
-    return(vb);
+    return vb;
   }
 
   Pattern *OBSmartsPattern::ParseSMARTSError( Pattern *pat, BondExpr *expr )
@@ -1412,12 +1412,12 @@ namespace OpenBabel
       {
         switch( *LexPtr++ )
           {
-          case('.'):
+          case '.':
             return ParseSMARTSError(pat,bexpr);
 
-          case('-'):  case('='):  case('#'): case('$'):
-          case(':'):  case('~'):  case('@'):
-          case('/'):  case('\\'): case('!'):
+          case '-':  case '=':  case '#': case '$':
+          case ':':  case '~':  case '@':
+          case '/':  case '\\': case '!':
             LexPtr--;
             if( (prev==-1) || bexpr )
               return ParseSMARTSError(pat,bexpr);
@@ -1425,7 +1425,7 @@ namespace OpenBabel
               return ParseSMARTSError(pat,bexpr);
             break;
 
-          case('('):
+          case '(':
             if( bexpr )
               {
                 LexPtr--;
@@ -1453,12 +1453,12 @@ namespace OpenBabel
             LexPtr++;
             break;
 
-          case(')'):  LexPtr--;
+          case ')':  LexPtr--;
             if( (prev==-1) || bexpr )
               return ParseSMARTSError(pat,bexpr);
             return pat;
 
-          case('%'):  if( prev == -1 )
+          case '%':  if( prev == -1 )
               {
                 LexPtr--;
                 return ParseSMARTSError(pat,bexpr);
@@ -1502,10 +1502,10 @@ namespace OpenBabel
               return ParseSMARTSError(pat,bexpr);
             break;
 
-          case('0'):  case('1'):  case('2'):
-          case('3'):  case('4'):  case('5'):
-          case('6'):  case('7'):  case('8'):
-          case('9'):  LexPtr--;
+          case '0':  case '1':  case '2':
+          case '3':  case '4':  case '5':
+          case '6':  case '7':  case '8':
+          case '9':  LexPtr--;
             if( prev == -1 )
               return ParseSMARTSError(pat,bexpr);
             index = (*LexPtr++)-'0';
@@ -1546,7 +1546,7 @@ namespace OpenBabel
               return ParseSMARTSError(pat,bexpr);
             break;
 
-          case('['):
+          case '[':
             // shortcut for '[H]' primitive (PR#1463791)
             if (*LexPtr == 'H' && *(LexPtr+1) == ']')
               {
@@ -1692,7 +1692,7 @@ namespace OpenBabel
                 if (result->atom[i].chiral_flag)
                   result->ischiral = true;
               }
-            return(result);
+            return result;
           }
       }
     else
@@ -1896,7 +1896,7 @@ namespace OpenBabel
     matcher.match(mol,_pat,mlist);
     _mlist.clear();
     if (mlist.empty())
-      return(false);
+      return false;
 
     for (i = mlist.begin();i != mlist.end();++i)
       {
@@ -1908,7 +1908,7 @@ namespace OpenBabel
         if (ok)
           _mlist.push_back(*i);
         if (single && !_mlist.empty())
-          return(true);
+          return true;
       }
 
     return((_mlist.empty()) ? false:true);
@@ -1926,7 +1926,7 @@ namespace OpenBabel
 
     _mlist.clear();
     if (mlist.empty())
-      return(false);
+      return false;
 
     for (i = mlist.begin();i != mlist.end();++i)
       {
@@ -1942,7 +1942,7 @@ namespace OpenBabel
 
         _mlist.push_back(*i);
         if (single && !_mlist.empty())
-          return(true);
+          return true;
       }
 
     return((_mlist.empty()) ? false:true);
@@ -2063,7 +2063,7 @@ namespace OpenBabel
   {
     mlist.clear();
     if (!pat || pat->acount == 0)
-      return(false);//shouldn't ever happen
+      return false;//shouldn't ever happen
 
     if (single && !pat->ischiral) {
       // perform a fast single match (only works for non-chiral SMARTS)

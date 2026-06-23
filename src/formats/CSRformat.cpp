@@ -94,7 +94,7 @@ namespace OpenBabel
     WriteCSRCoords(ofs,mol);
     MolCount++;
 
-    return(true);
+    return true;
   }
 
   void CSRFormat::WriteCSRHeader(ostream &ofs,OBMol &mol)
@@ -194,7 +194,7 @@ namespace OpenBabel
       len = static_cast<size_t>(size - 1);
     memcpy(output, input, len);
     output[size - 1] = '\0';
-    return(output);
+    return output;
   }
 
 } //namespace OpenBabel
