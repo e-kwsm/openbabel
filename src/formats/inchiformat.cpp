@@ -411,7 +411,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       iat.charge  = patom->GetFormalCharge();
     }
 
-    inp.atom = &inchiAtoms[0];
+    inp.atom = inchiAtoms.data();
 
     vector<inchi_Stereo0D> stereoVec;
 
@@ -506,7 +506,7 @@ bool InChIFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     inp.num_atoms = mol.NumAtoms();
     inp.num_stereo0D = (AT_NUM) stereoVec.size();
     if(inp.num_stereo0D>0)
-      inp.stereo0D = &stereoVec[0];
+      inp.stereo0D = stereoVec.data();
 
     //inchi_Output inout; now declared in block above
     memset(&inout,0,sizeof(inchi_Output));
