@@ -47,7 +47,7 @@ public:
 
   OpTransform* MakeInstance(const std::vector<std::string>& textlines) override
 {
-  OpTransform* pTransform = new OpTransform(
+  auto* pTransform = new OpTransform(
     textlines[1].c_str(),textlines[2].c_str(),textlines[3].c_str());
   pTransform->_textlines = textlines;
   return pTransform;

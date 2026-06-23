@@ -79,7 +79,7 @@ bool OpUnique::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConver
 {
   if (!OptionText)
     OptionText = "";
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
 

@@ -467,7 +467,7 @@ namespace OpenBabel
 
   char *OBAtom::GetType()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
     if (mol)
       if (!mol->HasAtomTypesPerceived())
         atomtyper.AssignTypes(*((OBMol*)GetParent()));
@@ -495,7 +495,7 @@ namespace OpenBabel
   unsigned int OBAtom::GetHyb() const
   {
     //hybridization is assigned when atoms are typed
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (mol && !mol->HasHybridizationPerceived())
       atomtyper.AssignHyb(*mol);
 
@@ -539,7 +539,7 @@ namespace OpenBabel
       {
         //seed partial charges are set in the atom typing procedure
         OBAtom *atom;
-        OBMol *mol = (OBMol*)GetParent();
+        auto *mol = (OBMol*)GetParent();
         vector<OBAtom*>::iterator i;
         for (atom = mol->BeginAtom(i); atom; atom = mol->NextAtom(i))
           atom->SetPartialCharge(0.0);
@@ -798,14 +798,14 @@ namespace OpenBabel
   //! @todo
   bool OBAtom::IsChiral()
   {
-    OBMol *mol = (OBMol*) GetParent();
+    auto *mol = (OBMol*) GetParent();
     OBStereoFacade stereoFacade(mol);
     return stereoFacade.HasTetrahedralStereo(_id);
   }
 
   bool OBAtom::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (mol == nullptr)
       return false;
     return mol->IsPeriodic();
@@ -816,7 +816,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
 
@@ -837,7 +837,7 @@ namespace OpenBabel
     vector<OBRing*>::iterator i;
     unsigned int count=0;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
 
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
@@ -859,7 +859,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
 
     if (!mol->HasSSSRPerceived())
       mol->FindSSSR();
@@ -1065,7 +1065,7 @@ namespace OpenBabel
 
   bool OBAtom::MatchesSMARTS(const char *pattern)
   {
-    OBMol *mol = (OBMol*)((OBAtom*)this)->GetParent();
+    auto *mol = (OBMol*)((OBAtom*)this)->GetParent();
     vector<vector<int> > mlist;
     vector<vector<int> >::iterator l;
 
@@ -1113,14 +1113,14 @@ namespace OpenBabel
       }
     else
       {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
+        auto *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
         return (box->MinimumImageCartesian(this->GetVector() - b->GetVector())).length();
       }
   }
 
   double OBAtom::GetDistance(int b)
   {
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
     return( this->GetDistance(mol->GetAtom(b)) );
   }
 
@@ -1137,7 +1137,7 @@ namespace OpenBabel
     v2 = c->GetVector() - b->GetVector();
     if (IsPeriodic())
       {
-        OBUnitCell *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
+        auto *box = (OBUnitCell*)GetParent()->GetData(OBGenericDataType::UnitCell);
         v1 = box->MinimumImageCartesian(v1);
         v2 = box->MinimumImageCartesian(v2);
       }
@@ -1152,7 +1152,7 @@ namespace OpenBabel
 
   double OBAtom::GetAngle(int b, int c)
   {
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
     return(this->GetAngle(mol->GetAtom(b), mol->GetAtom(c)));
   }
 
@@ -1185,7 +1185,7 @@ namespace OpenBabel
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::HtoMethyl", obAuditMsg);
 
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
 
     mol->BeginModify();
 
@@ -1266,7 +1266,7 @@ namespace OpenBabel
     if (hyb == 3 && GetHvyDegree() > 4)
       return(false);
 
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
 
     OBAtom *nbr;
     vector<OBAtom*> delatm;

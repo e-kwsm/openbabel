@@ -53,7 +53,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
         mol.SetTitle(fdp.ConsumeRandomLengthString(64).c_str());
     if (fdp.ConsumeBool()) {
         // Some writers emit OBPairData as SDF tags / CML properties / etc.
-        OBPairData *pd = new OBPairData;
+        auto *pd = new OBPairData;
         pd->SetAttribute(fdp.ConsumeRandomLengthString(16));
         pd->SetValue(fdp.ConsumeRandomLengthString(32));
         mol.SetData(pd);

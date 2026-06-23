@@ -2374,7 +2374,7 @@ namespace Smiley {
         //std::cout << "BEFORE processing " << rnum << std::endl; printRingBonds();
 
         // check if this ringbond is the second of a pair
-        typename std::map<int, std::vector<RingBondInfo> >::iterator ringBond = m_ringBonds.begin();
+        auto ringBond = m_ringBonds.begin();
         std::size_t j;
         bool found = false;
         for (; ringBond != m_ringBonds.end(); ++ringBond) {

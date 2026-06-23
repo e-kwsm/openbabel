@@ -101,7 +101,7 @@ namespace OpenBabel
   void OBBond::SetLength(OBAtom *fixed, double length)
   {
     unsigned int i;
-    OBMol *mol = (OBMol*)fixed->GetParent();
+    auto *mol = (OBMol*)fixed->GetParent();
     vector3 v1,v2,v3,v4,v5;
     vector<int> children;
 
@@ -185,7 +185,7 @@ namespace OpenBabel
   
   bool OBBond::IsPeriodic() const
   {
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    auto *mol = (OBMol*)((OBBond*)this)->GetParent();
     return mol->IsPeriodic();
   }
 
@@ -533,7 +533,7 @@ namespace OpenBabel
     vector<OBRing*> rlist;
     vector<OBRing*>::iterator i;
 
-    OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
+    auto *mol = (OBMol*)((OBBond*)this)->GetParent();
 
     rlist = mol->GetSSSR();
     OBRing* result = nullptr;
@@ -549,7 +549,7 @@ namespace OpenBabel
 
   bool OBBond::IsClosure()
   {
-    OBMol *mol = (OBMol*)GetParent();
+    auto *mol = (OBMol*)GetParent();
     if (!mol)
       return false;
     if (!mol->HasClosureBondsPerceived())
@@ -609,8 +609,8 @@ namespace OpenBabel
       }
     else
       {
-        OBMol *mol = (OBMol*)((OBBond*)this)->GetParent();
-        OBUnitCell *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
+        auto *mol = (OBMol*)((OBBond*)this)->GetParent();
+        auto *box = (OBUnitCell*)mol->GetData(OBGenericDataType::UnitCell);
         return (box->MinimumImageCartesian(begin->GetVector() - end->GetVector())).length();
       }
   }

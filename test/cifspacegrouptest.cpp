@@ -43,7 +43,7 @@ void testSpaceGroupUniqueTransformations()
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test01.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  auto* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
 
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
 
@@ -59,7 +59,7 @@ void testSpaceGroupClean()
   conv.SetInFormat("cif");
   conv.SetOutFormat("pdb");
   conv.ReadFile(&mol, GetFilename("test02.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  auto* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
 
@@ -141,7 +141,7 @@ void testDecayToP1()
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test03.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  auto* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
   OB_ASSERT(pSG != nullptr && pSG->IsValid());
 
@@ -159,7 +159,7 @@ void testAlternativeOrigin()
   OBMol mol;
   conv.SetInFormat("cif");
   conv.ReadFile(&mol, GetFilename("test04.cif"));
-  OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+  auto* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
 
   string summary = obErrorLog.GetMessageSummary();

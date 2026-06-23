@@ -3352,9 +3352,9 @@ namespace OpenBabel {
 
   int TSimpleMolecule::correctOverlapped() {
     double r;
-    TSimpleMolecule * smCopy=new TSimpleMolecule();
+    auto * smCopy = new TSimpleMolecule();
     TSimpleMolecule * bestStore=nullptr;
-    TSimpleMolecule * tmpStore = new TSimpleMolecule();
+    auto * tmpStore = new TSimpleMolecule();
     int i, j, n, k, kk;
     bool test;
     int result;
@@ -4478,7 +4478,7 @@ namespace OpenBabel {
     };
 
     //Initializinf arrays
-    neighbourlist *queryBK=(neighbourlist *)calloc(listarSize(),sizeof(adjustedlist));
+    auto *queryBK = (neighbourlist *)calloc(listarSize(),sizeof(adjustedlist));
     queryQHydr.resize(listarSize());
     queryAGer.resize(listarSize());
     queryAQTested.resize(listarSize());
@@ -4894,7 +4894,7 @@ namespace OpenBabel {
     //{R/S/Z/E description are removed: they are not used in substructure search}
     if (fIOPT13) molecule1->atomBondChange(); //Semipolar bond conversion
     molecule1->defineAtomConn();
-    neighbourlist *structureBK = (neighbourlist *)calloc(molecule1->nAtoms(), sizeof(adjustedlist));
+    auto *structureBK = (neighbourlist *)calloc(molecule1->nAtoms(), sizeof(adjustedlist));
     molecule1->defineBondConn(structureBK);
     // GRH: 2011-10-15 unused via clang static analyzer
     // stereoS=molecule1->stereoBondChange(); //Stereo bond conversion}

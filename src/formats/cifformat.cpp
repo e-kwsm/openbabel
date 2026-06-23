@@ -334,8 +334,7 @@ namespace OpenBabel
         if(mvItem.find("_cell_length_a"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_b"   )!=mvItem.end()) empty_iucrjournal_block=false;
         if(mvItem.find("_cell_length_c"   )!=mvItem.end()) empty_iucrjournal_block=false;
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-            loop!=mvLoop.end();++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             if(loop->second.find("_atom_site_fract_x")!=loop->second.end()) empty_iucrjournal_block=false;
             if(loop->second.find("_atom_site_fract_y")!=loop->second.end()) empty_iucrjournal_block=false;
@@ -608,7 +607,7 @@ namespace OpenBabel
     // Prefer Hall > HM == number, as Hall symbol is truly unique
     if (mSpacegroupSymbolHall.length() > 0) {
       //Make sure there are no leading spaces before Hall symbol (kludge)
-      for(std::string::iterator pos=mSpacegroupSymbolHall.begin();pos!=mSpacegroupSymbolHall.end();)
+      for (auto pos = mSpacegroupSymbolHall.begin(); pos != mSpacegroupSymbolHall.end();)
       {
         if((char)(*pos)==' ')  pos=mSpacegroupSymbolHall.erase(pos);
         else ++pos;
@@ -622,7 +621,7 @@ namespace OpenBabel
       mSpaceGroup = SpaceGroup::GetSpaceGroup(mSpacegroupNumberIT);
     }
     if (mSpaceGroup == nullptr) {
-      SpaceGroup *sg = new SpaceGroup();
+      auto *sg = new SpaceGroup();
       positem=mvItem.find("_space_group_symop_operation_xyz");
       if(positem==mvItem.end())
         positem=mvItem.find("_symmetry_equiv_pos_as_xyz");
@@ -632,8 +631,7 @@ namespace OpenBabel
           found = true;
         }
       else {
-        for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-            loop!=mvLoop.end();++loop)
+        for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
           {
             map<ci_string,vector<string> >::const_iterator pos;
             unsigned i, nb;
@@ -743,8 +741,7 @@ namespace OpenBabel
   void CIFData::ExtractAtomicPositions()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin();
-        loop!=mvLoop.end();++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
       {
         if(mvAtom.size()>0) break;// only extract ONE list of atoms, preferably fractional coordinates
         map<ci_string,vector<string> >::const_iterator posx,posy,posz,poslabel,possymbol,posoccup;
@@ -846,7 +843,7 @@ namespace OpenBabel
   void CIFData::ExtractBonds()
   {
     map<ci_string,string>::const_iterator positem;
-    for(map<set<ci_string>,map<ci_string,vector<string> > >::const_iterator loop=mvLoop.begin(); loop!=mvLoop.end();++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
       {
         //if(mvBond.size()>0) break;// Only allow one bond list
         map<ci_string,vector<string> >::const_iterator poslabel1,poslabel2,posdist;
@@ -876,7 +873,7 @@ namespace OpenBabel
     map<ci_string,string>::const_iterator positem;
 
     map<std::string, double> lbl2ox;
-    for(map<set<ci_string>, map<ci_string, vector<string> > >::const_iterator loop=mvLoop.begin(); loop!=mvLoop.end(); ++loop)
+    for (auto loop = mvLoop.cbegin(); loop != mvLoop.cend(); ++loop)
     {
       //if(mvBond.size()>0) break;// Only allow one bond list
       map<ci_string,vector<string> >::const_iterator pos_symbol, pos_ox_number, posdist;
@@ -895,7 +892,7 @@ namespace OpenBabel
       }
     }
 
-    for (std::vector<CIFAtom>::iterator it = mvAtom.begin() ; it != mvAtom.end(); ++it)
+    for (auto it = mvAtom.begin(); it != mvAtom.end(); ++it)
     {
       string label = (*it).mLabel;
 
@@ -1006,7 +1003,7 @@ namespace OpenBabel
   void CIFData::Cartesian2FractionalCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for (auto pos = mvAtom.begin(); pos != mvAtom.end(); ++pos)
       {
         pos->mCoordFrac.resize(3);
         pos->mCoordFrac[0]=pos->mCoordCart.at(0);
@@ -1019,7 +1016,7 @@ namespace OpenBabel
   void CIFData::Fractional2CartesianCoord()
   {
     if(mvLatticePar.size()==0) return;//:@todo: report error
-    for(vector<CIFAtom>::iterator pos=mvAtom.begin();pos!=mvAtom.end();++pos)
+    for (auto pos = mvAtom.begin(); pos != mvAtom.end(); ++pos)
       {
         pos->mCoordCart.resize(3);
         pos->mCoordCart[0]=pos->mCoordFrac.at(0);
@@ -1042,7 +1039,7 @@ namespace OpenBabel
       this->Parse(is);
       // Extract structure from 1 block
       if(interpret)
-        for(map<string,CIFData>::iterator posd=mvData.begin();posd!=mvData.end();++posd)
+        for (auto posd = mvData.begin(); posd != mvData.end(); ++posd)
         {
           posd->second.ExtractAll();
           if(posd->second.mvAtom.size()>0) found_atoms=true;
@@ -1141,7 +1138,7 @@ namespace OpenBabel
             string tag,value;
             in>>tag;
             // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
-            for (string::size_type pos = tag.find('.'); pos != string::npos; pos = tag.find('.', ++ pos))
+            for (auto pos = tag.find('.'); pos != string::npos; pos = tag.find('.', ++ pos))
               tag.replace(pos, 1, 1, '_');
             value=CIFReadValue(in,lastc);
             mvData[block].mvItem[ci_string(tag.c_str())]=value;
@@ -1195,7 +1192,7 @@ namespace OpenBabel
                   }
                 in>>tmp;
                 // Convert all dots to underscores to cover much of DDL2 with this DDL1 parser.
-                for (string::size_type pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
+                for (auto pos = tmp.find('.'); pos != string::npos; pos = tmp.find('.', ++ pos))
                   tmp.replace(pos, 1, 1, '_');
                 tit.push_back(ci_string(tmp.c_str()));
                 if(vv) obErrorLog.ThrowError(__FUNCTION__, " , "+tmp, obDebug);
@@ -1402,13 +1399,13 @@ namespace OpenBabel
     if (obformat) { return obformat->ReadMolecule(pOb, pConv); }
     obErrorLog.ThrowError(__FUNCTION__, "mmCIF parser not found. Using CIF parser.", obDebug);
 
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
     CIF cif(*pConv->GetInStream(),true);
     // Loop on all data blocks until we find one structure :@todo: handle multiple structures
-    for(map<string,CIFData>::iterator pos=cif.mvData.begin();pos!=cif.mvData.end();++pos)
+    for (auto pos = cif.mvData.begin(); pos != cif.mvData.end(); ++pos)
       if(pos->second.mvAtom.size()>0)
         {
           pmol->BeginModify();
@@ -1418,7 +1415,7 @@ namespace OpenBabel
               if(spg=="") spg=pos->second.mSpacegroupHermannMauguin;
               if(spg=="") spg=pos->second.mSpacegroupNumberIT;
               if(spg=="") spg="P1";
-              OBUnitCell *pCell=new OBUnitCell;
+              auto *pCell=new OBUnitCell;
               pCell->SetOrigin(fileformatInput);
               pCell->SetData(pos->second.mvLatticePar[0],
                              pos->second.mvLatticePar[1],
@@ -1442,7 +1439,7 @@ namespace OpenBabel
 
           const unsigned int nbatoms=pos->second.mvAtom.size();
           pmol->ReserveAtoms(nbatoms);
-          for(vector<CIFData::CIFAtom>::const_iterator posat=pos->second.mvAtom.begin();posat!=pos->second.mvAtom.end();++posat)
+          for (auto posat = pos->second.mvAtom.cbegin(); posat != pos->second.mvAtom.cend(); ++posat)
             {
               // Problem: posat->mSymbol is not guaranteed to actually be a symbol
               // see http://www.iucr.org/iucr-top/cif/cifdic_html/1/cif_core.dic/Iatom_type_symbol.html
@@ -1495,14 +1492,14 @@ namespace OpenBabel
               atom->SetVector(posat->mCoordCart[0],posat->mCoordCart[1],posat->mCoordCart[2]);
               if(posat->mLabel.size()>0)
               {
-                OBPairData *label = new OBPairData;
+                auto *label = new OBPairData;
                 label->SetAttribute("_atom_site_label");
                 label->SetValue(posat->mLabel);
                 label->SetOrigin(fileformatInput);
                 atom->SetData(label);
               }
 
-              OBPairFloatingPoint *occup_data = new OBPairFloatingPoint;
+              auto *occup_data = new OBPairFloatingPoint;
               occup_data->SetAttribute("_atom_site_occupancy");
               occup_data->SetValue(posat->mOccupancy);
               occup_data->SetOrigin(fileformatInput);
@@ -1510,7 +1507,7 @@ namespace OpenBabel
 
               if( posat->mCharge != NOCHARGE )
               {
-                OBPairFloatingPoint *charge_data = new OBPairFloatingPoint;
+                auto *charge_data = new OBPairFloatingPoint;
                 charge_data->SetAttribute("input_charge");
                 charge_data->SetValue(posat->mCharge);
                 charge_data->SetOrigin(fileformatInput);
@@ -1521,7 +1518,7 @@ namespace OpenBabel
             pmol->ConnectTheDots();
           if (pConv->IsOption("B",OBConversion::INOPTIONS))
             {
-              for(vector<CIFData::CIFBond>::const_iterator posbond=pos->second.mvBond.begin();posbond!=pos->second.mvBond.end();++posbond)
+              for (auto posbond = pos->second.mvBond.cbegin(); posbond!=pos->second.mvBond.cend(); ++posbond)
                 {// Add bonds present in the cif and not detected by ConnectTheDots()
                   std::map<std::string,OBAtom *>::iterator posat1,posat2;
                   posat1=vLabelOBatom.find(posbond->mLabel1);
@@ -1561,7 +1558,7 @@ namespace OpenBabel
 
   bool CIFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
     ostream &ofs = *pConv->GetOutStream();
@@ -1642,7 +1639,7 @@ namespace OpenBabel
 
          if (atom->HasData("_atom_site_label"))
            {
-             OBPairData *label = dynamic_cast<OBPairData *> (atom->GetData("_atom_site_label"));
+             auto *label = dynamic_cast<OBPairData*>(atom->GetData("_atom_site_label"));
              label_str = label->GetValue().c_str();
            }
          else
@@ -1682,7 +1679,7 @@ namespace OpenBabel
           std::string sym_key;
           int symmetry_num = 555;
           if (bond->IsPeriodic()) {
-              OBUnitCell *box = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
+              auto *box = (OBUnitCell*)pmol->GetData(OBGenericDataType::UnitCell);
               vector3 begin, end_orig, end_expected, uc_direction;
               // Use consistent coordinates with the X Y Z written in the _atom_site_* loop earlier
               begin = box->CartesianToFractional(bond->GetBeginAtom()->GetVector());

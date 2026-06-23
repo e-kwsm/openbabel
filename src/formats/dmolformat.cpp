@@ -74,7 +74,7 @@ namespace OpenBabel
   bool DMolFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -123,7 +123,7 @@ namespace OpenBabel
         z = atof((char*)vs[2].c_str()) * BOHR_TO_ANGSTROM;
         v3.Set(x,y,z);
 
-        OBUnitCell *uc = new OBUnitCell;
+        auto *uc = new OBUnitCell;
         uc->SetOrigin(fileformatInput);
         uc->SetData(v1,v2,v3);
         mol.SetData(uc);
@@ -173,7 +173,7 @@ namespace OpenBabel
 
   bool DMolFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -186,7 +186,7 @@ namespace OpenBabel
 
     if (mol.HasData(OBGenericDataType::UnitCell))
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         vector<vector3> v = uc->GetCellVectors();
         vector3 v1;
 

@@ -202,7 +202,7 @@ namespace OpenBabel
     for (int idx = 0; idx < 3; ++ idx)
       tla_buf[idx] = (char)toupper(tla_buf[idx]);
 
-    residue_lookup_map::const_iterator mx = residue_lookup.find(std::string(tla_buf));
+    auto mx = residue_lookup.find(std::string(tla_buf));
     if (mx != residue_lookup.end())
       {
         return_code = (* mx).second;
@@ -418,7 +418,7 @@ namespace OpenBabel
             // codes string's own terminator, returning a past-the-end index
             // into Residues[]. Reject that case explicitly.
             const char * idx = strchr(IUPAC_codes, (* sx)); // e.g. "01NACGURYKMSWBDHV"
-            size_t unit_code = (size_t)( (idx && *idx != '\0') ? (idx - IUPAC_codes) : IUPAC_Unknown );
+            auto unit_code = (size_t)( (idx && *idx != '\0') ? (idx - IUPAC_codes) : IUPAC_Unknown );
             ResidueRecord * res_rec = & Residues[unit_code];
             if (res_rec->IUPACcode)
               {
@@ -567,7 +567,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool FASTAFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
     pmol->BeginModify();

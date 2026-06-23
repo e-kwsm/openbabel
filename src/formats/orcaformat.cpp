@@ -117,7 +117,7 @@ namespace OpenBabel
   bool OrcaOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -592,7 +592,7 @@ namespace OpenBabel
     // Attach unit cell if any
 
     if (unitCell) {
-        OBUnitCell *uC = new OBUnitCell;
+        auto *uC = new OBUnitCell;
 
         uC->SetData(unitCellVectors.at(0), unitCellVectors.at(1), unitCellVectors.at(2));
         uC->SetOffset(unitCellVectors.at(3));
@@ -602,7 +602,7 @@ namespace OpenBabel
     // Attach orbital data if any
 
     if (energyEh.size() > 0){
-        OBOrbitalData *od = new OBOrbitalData();
+        auto *od = new OBOrbitalData();
 
         std::vector<OBOrbital> alphaOrbitals;
         int alphaHomo = 0, betaHomo = 0;
@@ -633,7 +633,7 @@ namespace OpenBabel
     //Attach vibrational data, if there are any, to molecule
     if(Frequencies.size()>0)
     {
-        OBVibrationData* vd = new OBVibrationData;
+        auto* vd = new OBVibrationData;
         if (RamanActivities.size() != 0) {
             vd->SetData(Lx, Frequencies, Intensities, RamanActivities);
         } else {
@@ -646,7 +646,7 @@ namespace OpenBabel
 
     if(UVWavelength.size() > 0 || CDWavelength.size() > 0)
     {
-        OBElectronicTransitionData* etd = new OBElectronicTransitionData;
+        auto* etd = new OBElectronicTransitionData;
 
         if (UVWavelength.size() > 0) {
             // UV spectrum has been found
@@ -697,7 +697,7 @@ namespace OpenBabel
 
   bool OrcaInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

@@ -131,7 +131,7 @@ static unsigned int ECFPHash(unsigned char *ptr, unsigned int length)
 
 static unsigned int ECFPHash(std::vector<unsigned int> &v)
 {
-  unsigned int len = (unsigned int)v.size();
+  auto len = (unsigned int)v.size();
   unsigned int a = 0;
   unsigned int b = 0;
   unsigned int c = 0;
@@ -242,7 +242,7 @@ static void ECFPFirstPass(OpenBabel::OBMol &mol,
 
 bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int nbits)
 {
-	OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+	auto* pmol = dynamic_cast<OBMol*>(pOb);
 	if(!pmol) return false;
 	
 	// default fingeprint size
@@ -260,7 +260,7 @@ bool fingerprintECFP::GetFingerprint(OBBase* pOb, vector<unsigned int>&fp, int n
   if (count == 0) return true;
 
   // Access this using the Atom::Idx()
-  AtomInfo *ainfo = new AtomInfo[count+1];
+  auto *ainfo = new AtomInfo[count+1];
 
   ECFPFirstPass(*pmol,ainfo);
   for (pass=1; pass<= _radius; pass++)

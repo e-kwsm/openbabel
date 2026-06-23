@@ -126,7 +126,7 @@ void PeriodicTester::TestTorsion(double a) {
 
 
 void PeriodicTester::MakePeriodic(double a) {
-  OBUnitCell *uc = new OBUnitCell;
+  auto *uc = new OBUnitCell;
   uc->SetData(a, a, a, 90, 90, 90);
   tmol.SetData(uc);
   tmol.SetPeriodicMol();
@@ -208,7 +208,7 @@ void testPeriodicCIFWrite() {
 void testPeriodicNoncubic() {
   PeriodicTester testobj;
   OBMol *mol = testobj.GetMol();
-  OBUnitCell *uc = new OBUnitCell;
+  auto *uc = new OBUnitCell;
   uc->SetData(15, 20, 11, 60.0, 78.8, 128.2);  // non-special triclinic parameters
   mol->SetData(uc);
   mol->SetPeriodicMol();

@@ -150,7 +150,7 @@ namespace OpenBabel {
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);
-        mapRotorEnergy::iterator it = energy_map.find (cur_key);
+        auto it = energy_map.find(cur_key);
         if (it != energy_map.end ())
           return it->second;
       }
@@ -192,7 +192,7 @@ namespace OpenBabel {
     if (energy_map.size () > 0)
       {
         // Check that we haven't already computed this energy);
-        mapRotorEnergy::iterator it = energy_map.find (cur_key);
+        auto it = energy_map.find(cur_key);
         if (it != energy_map.end ())
           return it->second;
       }
@@ -349,7 +349,7 @@ namespace OpenBabel {
     // Print all available rotors if so desired
     if (m_printrotors && m_logstream != nullptr){
       OBRotorIterator it;
-      OBRotorIterator end_it = m_rotorList.EndRotors();
+      auto end_it = m_rotorList.EndRotors();
       OBRotor* r = m_rotorList.BeginRotor(it);
       int rotcount = 1;
       (*m_logstream) << "Rotors:" << std::endl;
@@ -779,8 +779,8 @@ namespace OpenBabel {
   {
     int dist = 0;
     //    assert(key1.size() > 1 && key1.size()== key2.size());
-    std::vector<int>::const_iterator it1 = key1.begin ();
-    std::vector<int>::const_iterator it2 = key2.begin ();
+    auto it1 = key1.cbegin();
+    auto it2 = key2.cbegin();
     // Skip first values, since  meaningfull valaues are starting at index 1 (Fortran translation inside ;-))
     for (++it1, ++it2; it1 != key1.end ();++it1, ++it2)
       if (*it1 != *it2)

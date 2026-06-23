@@ -76,7 +76,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
                 OBForceField *ff = OBForceField::FindType(ff_name.c_str());
                 if (ff && ff->Setup(mol)) {
                     ff->Energy();
-                    uint8_t min_steps = fdp.ConsumeIntegralInRange<uint8_t>(0, 10);
+                    auto min_steps = fdp.ConsumeIntegralInRange<uint8_t>(0, 10);
                     if (min_steps > 0) {
                         ff->SteepestDescent(min_steps);
                         ff->ConjugateGradients(min_steps);

@@ -129,7 +129,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool WLNFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 

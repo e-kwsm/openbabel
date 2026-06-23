@@ -49,7 +49,7 @@ class AoforceFormat : public OBMoleculeFormat {
 AoforceFormat theAoforceFormat;
 
 bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr) return false;
 
   std::istream &ifs = *pConv->GetInStream();
@@ -85,7 +85,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       std::getline(ifs, line);  // frequency
       tokenize(vs, line);
       // for each frequency
-      for (std::vector<std::string>::const_iterator
+      for (auto
           iter = vs.begin() + 1; iter < vs.end(); ++iter) {
         Frequencies.push_back(atof(iter->c_str()));
       }
@@ -97,7 +97,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       std::getline(ifs, line);  // intensity (km/mol)
       tokenize(vs, line);
       // for each intensity
-      for (std::vector<std::string>::const_iterator
+      for (auto
           iter = vs.begin() + 2; iter < vs.end(); ++iter) {
         Intensities.push_back(atof(iter->c_str()));
       }
@@ -111,30 +111,29 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
         std::vector<double> xs;
         std::getline(ifs, line);  // idx, element, "x", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
+        for (auto
             iter = vs.begin() + 3; iter < vs.end(); ++iter) {
           xs.push_back(atof(iter->c_str()));
         }
         std::vector<double> ys;
         std::getline(ifs, line);  // "y", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
+        for (auto
             iter = vs.begin() + 1; iter < vs.end(); ++iter) {
           ys.push_back(atof(iter->c_str()));
         }
         std::vector<double> zs;
         std::getline(ifs, line);  // "z", [list]
         tokenize(vs, line);
-        for (std::vector<std::string>::const_iterator
+        for (auto
             iter = vs.begin() + 1; iter < vs.end(); ++iter) {
           zs.push_back(atof(iter->c_str()));
         }
         if (Lx.size() < xs.size())
           continue;
         // for each new frequency
-        std::vector< std::vector<vector3> >::iterator
-        lxIter = Lx.end() - xs.size();
-        std::vector<double>::const_iterator
+        auto lxIter = Lx.end() - xs.size();
+        auto
         xIter = xs.begin(),
         yIter = ys.begin(),
         zIter = zs.begin();
@@ -146,7 +145,7 @@ bool AoforceFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv) {
       }
     }
   }
-  OBVibrationData *vd = new OBVibrationData;
+  auto *vd = new OBVibrationData;
   vd->SetData(Lx, Frequencies, Intensities);
   mol.SetData(vd);
   mol.EndModify();

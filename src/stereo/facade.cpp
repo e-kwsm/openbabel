@@ -55,7 +55,7 @@ namespace OpenBabel {
 
     typedef std::map<unsigned long, OBTetrahedralStereo*>::iterator Iter;
     std::vector<OBTetrahedralStereo*> result;
-    for (Iter it = m_tetrahedralMap.begin(); it != m_tetrahedralMap.end(); ++it)
+    for (auto it = m_tetrahedralMap.begin(); it != m_tetrahedralMap.end(); ++it)
       result.push_back(it->second);
 
     return result;
@@ -67,7 +67,7 @@ namespace OpenBabel {
 
     typedef std::map<unsigned long, OBCisTransStereo*>::iterator Iter;
     std::vector<OBCisTransStereo*> result;
-    for (Iter it = m_cistransMap.begin(); it != m_cistransMap.end(); ++it)
+    for (auto it = m_cistransMap.begin(); it != m_cistransMap.end(); ++it)
       result.push_back(it->second);
 
     return result;
@@ -79,7 +79,7 @@ namespace OpenBabel {
 
     typedef std::map<unsigned long, OBSquarePlanarStereo*>::iterator Iter;
     std::vector<OBSquarePlanarStereo*> result;
-    for (Iter it = m_squarePlanarMap.begin(); it != m_squarePlanarMap.end(); ++it)
+    for (auto it = m_squarePlanarMap.begin(); it != m_squarePlanarMap.end(); ++it)
       result.push_back(it->second);
 
     return result;
@@ -141,21 +141,21 @@ namespace OpenBabel {
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
       OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
       if (type == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
         OBTetrahedralStereo::Config config = ts->GetConfig();
         if (config.center == OBStereo::NoRef)
           continue;
         m_tetrahedralMap[config.center] = ts;
       } else
       if (type == OBStereo::SquarePlanar) {
-        OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
+        auto *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
         OBSquarePlanarStereo::Config config = sp->GetConfig();
         if (config.center == OBStereo::NoRef)
           continue;
         m_squarePlanarMap[config.center] = sp;
       } else
       if (type == OBStereo::CisTrans) {
-        OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+        auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
         OBCisTransStereo::Config config = ct->GetConfig();
         // find the bond id from begin & end atom ids
         unsigned long id = OBStereo::NoRef;

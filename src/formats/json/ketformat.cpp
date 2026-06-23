@@ -1475,7 +1475,7 @@ KETFormat theKETFormat;
 
 bool KETFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv)
 {
-    OBMol *pmol = pOb->CastAndClear<OBMol>();
+    auto *pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr) return false;
 
     std::istream &ifs = *pConv->GetInStream();
@@ -1571,7 +1571,7 @@ bool majorVersionExceedsOne(const std::string &version)
 
 bool KETFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv)
 {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (pmol == nullptr) return false;
     std::ostream &ofs = *pConv->GetOutStream();
 

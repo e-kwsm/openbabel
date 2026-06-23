@@ -38,7 +38,7 @@ namespace OpenBabel
     if (!ifs || !ifs->good())
       return false;
 
-    OBMol* pmol = new OBMol;
+    auto* pmol = new OBMol;
 
     if(pConv->IsOption("C",OBConversion::GENOPTIONS))
       return DeferMolOutput(pmol, pConv, pFormat);
@@ -86,7 +86,7 @@ namespace OpenBabel
      {
        // Copying is needed because the OBMol passed to AddChemObject will be deleted.
        // The OBMol in the vector is deleted here.
-       OBMol* pMolCopy = new OBMol( MolArray.back());
+       auto* pMolCopy = new OBMol(MolArray.back());
        MolArray.pop_back();
        ret = pConv->AddChemObject(
            pMolCopy->DoTransformations(pConv->GetOptions(OBConversion::GENOPTIONS), pConv))!=0;
@@ -152,7 +152,7 @@ namespace OpenBabel
     //Retrieve the target OBMol
     OBBase* pOb = pConv->GetChemObject();
 
-    OBMol* pmol = dynamic_cast<OBMol*> (pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     bool ret=false;
     if(pmol)
       {
@@ -174,7 +174,7 @@ namespace OpenBabel
     }
 
     //If sent a OBReaction* (rather than a OBMol*) output the consituent molecules
-    OBReaction* pReact = dynamic_cast<OBReaction*> (pOb);
+    auto* pReact = dynamic_cast<OBReaction*>(pOb);
     if(pReact)
       ret = OutputMolsFromReaction(pReact, pConv, pFormat);
     delete pOb;
@@ -189,7 +189,7 @@ namespace OpenBabel
       pOb->SetTitle(ss.str().c_str());
     }
 
-    OBMol* pmol = dynamic_cast<OBMol*> (pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if(pmol) {
       if(pConv->IsOption("writeconformers", OBConversion::GENOPTIONS)) {
         //The last conformer is written in the calling function
@@ -348,7 +348,7 @@ namespace OpenBabel
           }
       }
 
-    OBMol* pNewMol = new OBMol;
+    auto* pNewMol = new OBMol;
     pNewMol->SetTitle(title);
 
     OBMol* pMain = swap ? pSecond : pFirst;

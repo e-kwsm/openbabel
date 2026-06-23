@@ -109,7 +109,7 @@ namespace OpenBabel {
 
   bool MDFFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -181,7 +181,7 @@ namespace OpenBabel {
     vector3 z_vec (x,y,z);
 
     // Build unit cell
-    OBUnitCell *cell = new OBUnitCell;
+    auto *cell = new OBUnitCell;
     cell->SetData(x_vec, y_vec, z_vec);
     cell->SetSpaceGroup(1);
     pmol->SetData(cell);
@@ -345,7 +345,7 @@ namespace OpenBabel {
     //The atoms are ordered according to their atomic number so that the
     //output looks nice, this can be reversed by using command line flag "-xw".
     //
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) {
       return false;
     }
@@ -355,7 +355,7 @@ namespace OpenBabel {
     
     if(mol.HasData(OBGenericDataType::UnitCell))
     {
-      OBUnitCell *uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
+      auto *uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       uc->FillUnitCell(&mol);
     }            
 
@@ -406,7 +406,7 @@ namespace OpenBabel {
     // the push_back and then dereferenced atypes_def[-1].
     bool first = true;
     string last_atom_smb;
-    for(map<aindx, OBAtom *>::const_iterator it = amap.begin(); it != amap.end(); ++it)
+    for(auto it = amap.begin(); it != amap.end(); ++it)
     {
       string curr_atom_smb = OpenBabel::OBElements::GetSymbol(it->second->GetAtomicNum());
       if( first || last_atom_smb != curr_atom_smb )
@@ -435,7 +435,7 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
+      for (auto i = cell.begin();
            i != cell.end(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
@@ -465,7 +465,7 @@ namespace OpenBabel {
     
     map<string, double> charge_smb;
 
-    for (map<aindx, OBAtom *>::const_iterator it  = amap.begin(); 
+    for (auto it  = amap.begin(); 
                                               it != amap.end(); ++it)
     {  
       // Print coordinates

@@ -49,9 +49,9 @@ int main(int argc,char **argv)
 
   list<string> argl(argv+1, argv+argc);
 
-  list<string>::iterator optff = find(argl.begin(), argl.end(), "-ff");
+  auto optff = find(argl.begin(), argl.end(), "-ff");
   if (optff != argl.end()) {
-    list<string>::iterator optffarg = optff;
+    auto optffarg = optff;
     ++optffarg;
 
     if (optffarg != argl.end()) {

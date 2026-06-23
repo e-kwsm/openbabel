@@ -73,7 +73,7 @@ namespace OpenBabel
   bool MacroModFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -194,7 +194,7 @@ namespace OpenBabel
     mol.EndModify();
     mol.SetPartialChargesPerceived();
     // Annotate origin of partial charges
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("MACROMODEL");
     dp->SetOrigin(fileformatInput);
@@ -226,7 +226,7 @@ namespace OpenBabel
 
   bool MacroModFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 

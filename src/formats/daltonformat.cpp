@@ -129,7 +129,7 @@ namespace OpenBabel
   // ---
   bool DALTONInputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -264,7 +264,7 @@ namespace OpenBabel
   // ---
   bool DALTONInputFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     basisformat = BASIS; // Always assume BASIS format. We change it below otherwise
 
     if (pmol == nullptr)
@@ -361,7 +361,7 @@ namespace OpenBabel
   // ---
   bool DALTONOutputFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 

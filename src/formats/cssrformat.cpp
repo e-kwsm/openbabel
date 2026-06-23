@@ -63,7 +63,7 @@ namespace OpenBabel
 
   bool CSSRFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -86,7 +86,7 @@ namespace OpenBabel
       }
     else
       {
-        OBUnitCell *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uc = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         snprintf(buffer, BUFF_SIZE,
                  " REFERENCE STRUCTURE = 00000   A,B,C =%8.3f%8.3f%8.3f",
                  uc->GetA(), uc->GetB(), uc->GetC());

@@ -68,7 +68,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool MSIFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -275,7 +275,7 @@ namespace OpenBabel
     */
 
     if (numTranslationVectors > 0) {
-      OBUnitCell* uc = new OBUnitCell;
+      auto* uc = new OBUnitCell;
       uc->SetData(translationVectors[0], translationVectors[1], translationVectors[2]);
       uc->SetOrigin(fileformatInput);
       if (setSpaceGroup) {

@@ -154,7 +154,7 @@ namespace OpenBabel
 
 		}
 
-		OBPairData *dp = new OBPairData;
+		auto *dp = new OBPairData;
 		dp->SetAttribute("PartialCharges");
 		dp->SetValue("User Charges");
 		dp->SetOrigin(perceived);

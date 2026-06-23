@@ -69,7 +69,7 @@ namespace OpenBabel
                           "Ran OpenBabel::AssignPartialCharges", obAuditMsg);
 
     // Annotate that partial charges come from Gasteiger
-    OBPairData *dp = new OBPairData;
+    auto *dp = new OBPairData;
     dp->SetAttribute("PartialCharges");
     dp->SetValue("Gasteiger");
     dp->SetOrigin(perceived);

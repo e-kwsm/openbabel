@@ -70,7 +70,7 @@ namespace OpenBabel
 
   bool COFFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -277,7 +277,7 @@ namespace OpenBabel
           "Failed to kekulize aromatic bonds in COF file", obWarning);
     }
 
-    OBPairData *dd = new OBPairData;
+    auto *dd = new OBPairData;
     dd->SetAttribute("PartialCharges");
     dd->SetValue("USER_CHARGES");
     dd->SetOrigin(external);
@@ -292,7 +292,7 @@ namespace OpenBabel
 
   bool COFFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
     stringstream errorMsg;
