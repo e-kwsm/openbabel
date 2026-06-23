@@ -242,7 +242,7 @@ namespace OpenBabel
 
         // estimate # of points by dividing area of VDW sphere
         // by the required density
-        int estimate_number_of_points = (int)  ( 0.6 * (( 4. * M_PI * M_PI * vdwrad * vdwrad ) / ( density )) );
+        int estimate_number_of_points = (int)  ( 0.6 * (( 4. * M_PI * M_PI * vdwrad * vdwrad ) / density) );
         int count = 0;
         while ( count < estimate_number_of_points ) {
           vector3 p = surface_point( c[0], c[1], c[2], vdwrad );

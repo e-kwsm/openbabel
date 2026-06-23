@@ -203,7 +203,7 @@ namespace OpenBabel
 
     obErrorLog.ThrowError(__FUNCTION__,
                           "Problems reading an output file: Could not determine the format of this file. Please report it to the openbabel-discuss @ lists.sourceforge.net mailing list.", obError);
-    return(false); // we couldn't figure out the format
+    return false; // we couldn't figure out the format
   }
 
 } //namespace OpenBabel

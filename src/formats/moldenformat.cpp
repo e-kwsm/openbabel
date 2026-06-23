@@ -440,7 +440,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 	}
       }
     } // vib
-    return(true);
+    return true;
 }
 
 }

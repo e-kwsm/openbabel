@@ -645,7 +645,7 @@ namespace OpenBabel
           }
         gtd[atom->GetIdx()-1] = gtdcount;
       }
-    return(true);
+    return true;
   }
 
   /*!
@@ -825,7 +825,7 @@ namespace OpenBabel
           count++;
       }
 
-    return(count);
+    return count;
   }
 
   unsigned int OBMol::NumRotors(bool sampleRingBonds)
@@ -982,7 +982,7 @@ namespace OpenBabel
       if (implicitH)
         molwt += atom->GetImplicitHCount() * hmass;
     }
-    return(molwt);
+    return molwt;
   }
 
   double OBMol::GetExactMass(bool implicitH)
@@ -998,7 +998,7 @@ namespace OpenBabel
         mass += atom->GetImplicitHCount() * hmass;
     }
 
-    return(mass);
+    return mass;
   }
 
   //! Stochoimetric formula in spaced format e.g. C 4 H 6 O 1
@@ -1180,7 +1180,7 @@ namespace OpenBabel
 
         for (atom = BeginAtom(i);atom;atom = NextAtom(i))
           chg += atom->GetFormalCharge();
-        return (chg);
+        return chg;
       }
   }
 
@@ -1675,7 +1675,7 @@ namespace OpenBabel
 
     // EndModify();
 
-    return(obatom);
+    return obatom;
   }
 
   OBResidue *OBMol::NewResidue()
@@ -1683,7 +1683,7 @@ namespace OpenBabel
     OBResidue *obresidue = new OBResidue;
     obresidue->SetIdx(_residue.size());
     _residue.push_back(obresidue);
-    return(obresidue);
+    return obresidue;
   }
 
   OBBond *OBMol::NewBond()
@@ -1728,7 +1728,7 @@ namespace OpenBabel
     _vbond[_nbonds] = (OBBond*)pBond;
     _nbonds++;
 
-    return(pBond);
+    return pBond;
   }
 
   //! \brief Add an atom to a molecule
@@ -1804,7 +1804,7 @@ namespace OpenBabel
 
     //    EndModify();
 
-    return(true);
+    return true;
   }
 
   bool OBMol::InsertAtom(OBAtom &atom)
@@ -1813,7 +1813,7 @@ namespace OpenBabel
     AddAtom(atom);
     EndModify();
 
-    return(true);
+    return true;
   }
 
   bool OBMol::AddResidue(OBResidue &residue)
@@ -1829,7 +1829,7 @@ namespace OpenBabel
 
     EndModify();
 
-    return(true);
+    return true;
   }
 
   bool OBMol::StripSalts(unsigned int threshold)
@@ -1840,7 +1840,7 @@ namespace OpenBabel
     ContigFragList(cfl);
     if (cfl.empty() || cfl.size() == 1)
       {
-        return(false);
+        return false;
       }
 
 
@@ -1884,7 +1884,7 @@ namespace OpenBabel
         // Hans De Winter; 03-nov-2010
       }
 
-    return (true);
+    return true;
   }
 
   // Convenience function used by the DeleteHydrogens methods
@@ -1912,7 +1912,7 @@ namespace OpenBabel
         delatoms.push_back(atom);
 
     if (delatoms.empty())
-      return(true);
+      return true;
 
     IncrementMod();
 
@@ -1923,7 +1923,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
 
@@ -1943,7 +1943,7 @@ namespace OpenBabel
         delatoms.push_back(atom);
 
     if (delatoms.empty())
-      return(true);
+      return true;
 
     /*
       int idx1,idx2;
@@ -1966,7 +1966,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::DeleteHydrogens()
@@ -1985,7 +1985,7 @@ namespace OpenBabel
     SetHydrogensAdded(false);
 
     if (delatoms.empty())
-      return(true);
+      return true;
 
     /* decide whether these flags need to be reset
        _flags &= (~(OB_ATOMTYPES_MOL));
@@ -2012,7 +2012,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::DeleteHydrogens(OBAtom *atom)
@@ -2028,7 +2028,7 @@ namespace OpenBabel
         delatoms.push_back(nbr);
 
     if (delatoms.empty())
-      return(true);
+      return true;
 
     IncrementMod();
     for (i = delatoms.begin();i != delatoms.end();++i)
@@ -2038,7 +2038,7 @@ namespace OpenBabel
     SetHydrogensAdded(false);
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::DeleteHydrogen(OBAtom *atom)
@@ -2099,7 +2099,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   /*
@@ -2144,7 +2144,7 @@ namespace OpenBabel
       CorrectForPH(pH);
 
     if (HasHydrogensAdded())
-      return(true);
+      return true;
 
     bool hasChiralityPerceived = this->HasChiralityPerceived(); // remember
 
@@ -2209,7 +2209,7 @@ namespace OpenBabel
     if (count == 0) {
       // Make sure to clear SSSR and aromatic flags we may have tripped above
       _flags &= (~(OB_SSSR_MOL|OB_AROMATIC_MOL));
-      return(true);
+      return true;
     }
     bool hasCoords = HasNonZeroCoords();
 
@@ -2305,7 +2305,7 @@ namespace OpenBabel
     //reset atom type and partial charge flags
     _flags &= (~(OB_PCHARGE_MOL|OB_ATOMTYPES_MOL|OB_SSSR_MOL|OB_AROMATIC_MOL|OB_HYBRID_MOL));
 
-    return(true);
+    return true;
   }
 
   bool OBMol::AddPolarHydrogens()
@@ -2380,19 +2380,19 @@ namespace OpenBabel
     //reset atom type and partial charge flags
     //_flags &= (~(OB_PCHARGE_MOL|OB_ATOMTYPES_MOL));
 
-    return(true);
+    return true;
   }
 
   bool OBMol::CorrectForPH(double pH)
   {
     if (IsCorrectedForPH())
-      return(true);
+      return true;
     phmodel.CorrectForPH(*this, pH);
 
     obErrorLog.ThrowError(__FUNCTION__,
                           "Ran OpenBabel::CorrectForPH", obAuditMsg);
 
-    return(true);
+    return true;
   }
 
   //! \brief set spin multiplicity for H-deficient atoms
@@ -2497,7 +2497,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::DeleteResidue(OBResidue *residue, bool destroyResidue)
@@ -2513,7 +2513,7 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::DeleteBond(OBBond *bond, bool destroyBond)
@@ -2544,14 +2544,14 @@ namespace OpenBabel
 
     SetSSSRPerceived(false);
     SetLSSRPerceived(false);
-    return(true);
+    return true;
   }
 
   bool OBMol::AddBond(int first,int second,int order,int flags,int insertpos)
   {
     // Don't add the bond if it already exists
     if (first == second || GetBond(first, second) != nullptr)
-      return(false);
+      return false;
 
     //    BeginModify();
 
@@ -2562,7 +2562,7 @@ namespace OpenBabel
         if (!bond)
           {
             //EndModify();
-            return(false);
+            return false;
           }
 
         OBAtom *bgn,*end;
@@ -2572,7 +2572,7 @@ namespace OpenBabel
           {
             obErrorLog.ThrowError(__FUNCTION__, "Unable to add bond - invalid atom index", obDebug);
             delete bond;
-            return(false);
+            return false;
           }
         bond->Set(_nbonds,bgn,end,order,flags);
         bond->SetParent(this);
@@ -2617,7 +2617,7 @@ namespace OpenBabel
 
     //    EndModify();
 
-    return(true);
+    return true;
   }
 
   bool OBMol::AddBond(OBBond &bond)
@@ -2824,9 +2824,9 @@ namespace OpenBabel
 
     for (atom = BeginAtom(i);atom;atom = NextAtom(i))
       if (atom->GetVector().length_2() != 0.0)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
   bool OBMol::Has2D(bool Not3D)
@@ -2846,8 +2846,8 @@ namespace OpenBabel
           return false;
       }
     if (hasX || hasY) //was && but this excluded vertically or horizontally aligned linear mols
-      return(true);
-    return(false);
+      return true;
+    return false;
   }
 
   bool OBMol::Has3D()
@@ -2869,9 +2869,9 @@ namespace OpenBabel
           hasZ = true;
 
         if (hasX && hasY && hasZ)
-          return(true);
+          return true;
       }
-    return(false);
+    return false;
   }
 
   void OBMol::SetCoordinates(double *newCoords)
@@ -3633,7 +3633,7 @@ namespace OpenBabel
         atom->SetVector(vtmp);
       }
 
-    return(v);
+    return v;
   }
 
 

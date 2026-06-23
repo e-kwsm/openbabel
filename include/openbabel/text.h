@@ -72,7 +72,7 @@ public:
     if(newpos== std::string::npos)//not found: return rest of txt
     {
       if(ToInsertOnly)
-        return("");
+        return "";
       pos = 0;
       return txt.substr(oldpos);
     }

@@ -160,7 +160,7 @@ namespace OpenBabel
 
     ofs << "END\n";
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

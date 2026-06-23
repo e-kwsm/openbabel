@@ -120,7 +120,7 @@ bool AmberPrepFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

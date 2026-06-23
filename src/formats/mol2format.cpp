@@ -86,9 +86,9 @@ namespace OpenBabel
   static bool IsThiocarboxylSulfur(OBAtom* queryatom)
   {
     if (queryatom->GetAtomicNum() != OBElements::Sulfur)
-      return(false);
+      return false;
     if (queryatom->GetHvyDegree() != 1)
-      return(false);
+      return false;
 
     OBAtom *atom = nullptr;
     OBBond *bond;
@@ -101,14 +101,14 @@ namespace OpenBabel
         break;
       }
     if (!atom)
-      return(false);
+      return false;
     if (!(atom->CountFreeSulfurs() == 2)
       && !(atom->CountFreeOxygens() == 1 && atom->CountFreeSulfurs() == 1))
-      return(false);
+      return false;
 
     //atom is connected to a carbon that has a total
     //of 2 attached free sulfurs or 1 free oxygen and 1 free sulfur
-    return(true);
+    return true;
   }
 
   static bool IsOxygenOrSulfur(OBAtom *atom)
@@ -179,7 +179,7 @@ namespace OpenBabel
     for (;;)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         if (pConv->IsOption("c", OBConversion::INOPTIONS) != nullptr && EQn(buffer, "###########", 10))
           {
             char attr[32], val[32];
@@ -202,7 +202,7 @@ namespace OpenBabel
     for (lcount=0;;lcount++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         if (EQn(buffer,"@<TRIPOS>ATOM",13))
           {
             foundAtomLine = true;
@@ -256,7 +256,7 @@ namespace OpenBabel
         mol.EndModify();
         mol.Clear();
         obErrorLog.ThrowError(__FUNCTION__, "Unable to read Mol2 format file. No atoms found.", obWarning);
-        return(false);
+        return false;
       }
 
     if (natoms < 0 || natoms >= 100000000 || nbonds < 0 || nbonds >= 100000000)
@@ -264,7 +264,7 @@ namespace OpenBabel
         mol.EndModify();
         mol.Clear();
         obErrorLog.ThrowError(__FUNCTION__, "Unable to read Mol2 format file. Invalid atom or bond count.", obWarning);
-        return(false);
+        return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -283,7 +283,7 @@ namespace OpenBabel
     for (i = 0;i < natoms;i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         // Required ATOM columns are the atom name, x/y/z and the SYBYL atom
         // type.  subst_id, subst_name and charge are optional, so reset them
         // to their defaults each iteration (these locals are declared outside
@@ -298,7 +298,7 @@ namespace OpenBabel
             obErrorLog.ThrowError(__FUNCTION__,
                                   "Unable to read Mol2 format file. Truncated "
                                   "atom record.", obWarning);
-            return(false);
+            return false;
           }
 
         atom.SetVector(x, y, z);
@@ -390,7 +390,7 @@ namespace OpenBabel
         if (str1 == "Cu" || str1 == "Fe")
           atom.SetFormalCharge((int)pcharge);
         if (!mol.AddAtom(atom))
-          return(false);
+          return false;
         if (fabs(pcharge) >= 2e-6)
           hasPartialCharges = true;
 
@@ -441,7 +441,7 @@ namespace OpenBabel
           for(int i = 0; i < num; i++)
           {
             if (!ifs.getline(buffer,BUFF_SIZE))
-              return(false);
+              return false;
             if(strncmp(buffer, "charge", 6) == 0)
             {
               int charge = 0;
@@ -468,7 +468,7 @@ namespace OpenBabel
     for (i = 0; i < nbonds; i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
 
         // origin/target atom ids and the bond type are all required.
         temp_type[0] = '\0';
@@ -477,7 +477,7 @@ namespace OpenBabel
             obErrorLog.ThrowError(__FUNCTION__,
                                   "Unable to read Mol2 format file. Truncated "
                                   "bond record.", obWarning);
-            return(false);
+            return false;
           }
         str = temp_type;
         unsigned int flags = 0;
@@ -631,7 +631,7 @@ namespace OpenBabel
     ifs.seekg(pos); // go back to the end of the molecule
     */
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -801,7 +801,7 @@ namespace OpenBabel
     // NO trailing blank line (PR#1868929).
     //    ofs << endl;
 
-    return(true);
+    return true;
   }
 
   int MOL2Format::SkipObjects(int n, OBConversion* pConv)

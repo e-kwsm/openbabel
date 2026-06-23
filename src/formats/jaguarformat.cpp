@@ -200,7 +200,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -234,7 +234,7 @@ namespace OpenBabel
       }
 
     ofs << "&" << endl;
-    return(true);
+    return true;
   }
 
   /////////////////////////////////////////////////////////////////
@@ -292,7 +292,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -171,5 +171,5 @@ int aromatest(int argc, char* argv[])
     return -1;
   }
 
-  return(0);
+  return 0;
 }

@@ -75,6 +75,6 @@ int format(int argc, char* argv[])
   else
     cout << "not ok 4\n";
 
-  return(0);
+  return 0;
 }
 

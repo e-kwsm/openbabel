@@ -222,7 +222,7 @@ bool AliasData::FromNameLookup(OBMol& mol, const unsigned int atomindex)
   if (OBAtom* newFragAtom = mol.GetAtom(newFragIdx))
     newFragAtom->CloneData(this);
 
-  delete(XxAtom);
+  delete XxAtom;
   return true;
 }
 

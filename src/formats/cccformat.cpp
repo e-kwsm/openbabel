@@ -84,7 +84,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     ifs.getline(buffer,BUFF_SIZE);
     sscanf(buffer,"%*s%d",&natoms);
     if (natoms < 1 || natoms >= 100000000)
-      return(false);
+      return false;
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
 
@@ -99,7 +99,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     for (int i = 1;i <= natoms;i++)
     {
         if (!ifs.getline(buffer,BUFF_SIZE))
-            return(false);
+            return false;
         // This is a fixed-column format: the element symbol is in columns
         // 0-1, the coordinates start at column 15, and the bond list starts
         // at column 60.  Bounds-check the line length before indexing so we
@@ -110,7 +110,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             obErrorLog.ThrowError(__FUNCTION__,
                                   "Problems reading a CCC file: truncated atom "
                                   "record (missing coordinates).", obError);
-            return(false);
+            return false;
         }
         atom.Clear();
         element[0] = buffer[0];
@@ -122,13 +122,13 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             obErrorLog.ThrowError(__FUNCTION__,
                                   "Problems reading a CCC file: could not parse "
                                   "atom coordinates.", obError);
-            return(false);
+            return false;
         }
         v.Set(x,y,z);
         atom.SetVector(v);
 
         if (!mol.AddAtom(atom))
-            return(false);
+            return false;
         // The bond list is optional; only parse it when the line is long
         // enough, and clear vs otherwise so bonds do not leak across atoms.
         vs.clear();
@@ -162,7 +162,7 @@ bool CCCFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
     }
 
     mol.EndModify();
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

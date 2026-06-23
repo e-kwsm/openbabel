@@ -187,7 +187,7 @@ int main(int argc,char **argv)
     conv.Write(&mol,&cout); //NF
   }
 
-  return(0);
+  return 0;
 }
 
 

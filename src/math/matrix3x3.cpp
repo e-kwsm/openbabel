@@ -241,7 +241,7 @@ namespace OpenBabel
     vv.y() = v.x()*m.ele[1][0] + v.y()*m.ele[1][1] + v.z()*m.ele[1][2];
     vv.z() = v.x()*m.ele[2][0] + v.y()*m.ele[2][1] + v.z()*m.ele[2][2];
 
-    return(vv);
+    return vv;
   }
 
   matrix3x3 operator *(const matrix3x3 &A,const matrix3x3 &B)
@@ -260,7 +260,7 @@ namespace OpenBabel
     result.ele[2][1] = A.ele[2][0]*B.ele[0][1] + A.ele[2][1]*B.ele[1][1] + A.ele[2][2]*B.ele[2][1];
     result.ele[2][2] = A.ele[2][0]*B.ele[0][2] + A.ele[2][1]*B.ele[1][2] + A.ele[2][2]*B.ele[2][2];
 
-    return(result);
+    return result;
   }
 
   /*! calculates the product m*(*this) of the matrix m and the
@@ -321,7 +321,7 @@ namespace OpenBabel
 
     returnValue /= det;
 
-    return(returnValue);
+    return returnValue;
   }
 
   /* This method returns the transpose of a matrix. The original
@@ -334,7 +334,7 @@ namespace OpenBabel
       for(unsigned int j=0; j<3; j++)
         returnValue.ele[i][j] = ele[j][i];
 
-    return(returnValue);
+    return returnValue;
   }
 
   double matrix3x3::determinant(void) const

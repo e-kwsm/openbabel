@@ -127,14 +127,14 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: Cannot read the first line.", obWarning);
-        return(false);
+        return false;
       }
 
     if (sscanf(buffer, "%u", &natoms) == 0 || !natoms || natoms >= 100000000)
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: The first line must contain the number of atoms.", obWarning);
-        return(false);
+        return false;
       }
 
     mol.ReserveAtoms(natoms);
@@ -146,7 +146,7 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading an XYZ file: Could not read the second line (title/comments).", obWarning);
-        return(false);
+        return false;
       }
     string readTitle(buffer);
     string::size_type location = readTitle.find("Energy");
@@ -175,7 +175,7 @@ namespace OpenBabel
                      << " atoms, and therefore " << natoms+2 << " lines in the file.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         tokenize(vs,buffer);
         if (vs.size() < 4) // ignore extra columns which some applications add
@@ -187,7 +187,7 @@ namespace OpenBabel
                      << "However, OpenBabel found " << vs.size() << " items.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
 
         // Atom Type: get the atomic number from the element table, using
@@ -224,7 +224,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #1 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         double y = strtod((char*)vs[2].c_str(),&endptr);
         if (endptr == (char*)vs[2].c_str())
@@ -236,7 +236,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #2 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         double z = strtod((char*)vs[3].c_str(),&endptr);
         if (endptr == (char*)vs[3].c_str())
@@ -248,7 +248,7 @@ namespace OpenBabel
                      << "OpenBabel could not interpret item #3 as a number.";
 
             obErrorLog.ThrowError(__FUNCTION__, errorMsg.str() , obWarning);
-            return(false);
+            return false;
           }
         atom->SetVector(x,y,z); //set coordinates
 
@@ -280,7 +280,7 @@ namespace OpenBabel
 
     mol.EndModify();
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -316,7 +316,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

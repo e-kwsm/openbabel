@@ -135,7 +135,7 @@ namespace OpenBabel
       {
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading a free form fractional file: Could not read the first line (title/comments).", obWarning);
-        return(false);
+        return false;
       }
     if (strlen(buffer) != 0)
       mol.SetTitle(buffer);
@@ -147,12 +147,12 @@ namespace OpenBabel
         obErrorLog.ThrowError(__FUNCTION__,
                               "Problems reading a free form fractional file: Could not read the second line (unit cell parameters a b c alpha beta gamma).",
                               obWarning);
-        return(false);
+        return false;
       }
     vector<string> vs;
     tokenize(vs,buffer," \n\t,");
     if (vs.size() != 6)
-      return(false);
+      return false;
 
     //parse cell values
     double A, B, C, Alpha, Beta, Gamma;
@@ -185,7 +185,7 @@ namespace OpenBabel
 
         tokenize(vs,buffer);
         if (vs.size() != 4)
-          return(false);
+          return false;
 
         atom = mol.NewAtom();
 
@@ -229,7 +229,7 @@ namespace OpenBabel
       mol.PerceiveBondOrders();
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -276,7 +276,7 @@ namespace OpenBabel
         ofs << buffer << endl;
       }
     ofs << endl; // add a blank line between molecules
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

@@ -91,10 +91,10 @@ namespace OpenBabel
         ifs.getline(buffer,BUFF_SIZE);
         sscanf(buffer," %d %*s %d", &natoms, &nbonds);
         if (!natoms)
-          return(false);
+          return false;
       }
     if (natoms < 1 || natoms >= 100000000 || nbonds < 0 || nbonds >= 100000000)
-      return(false);
+      return false;
 
     mol.ReserveAtoms(natoms);
     mol.BeginModify();
@@ -108,10 +108,10 @@ namespace OpenBabel
     for (i = 1; i <= natoms; i ++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         tokenize(vs,buffer);
         if (vs.size() < 5)
-          return(false);
+          return false;
         atom = mol.NewAtom();
         x = atof((char*)vs[2].c_str());
         y = atof((char*)vs[3].c_str());
@@ -135,13 +135,13 @@ namespace OpenBabel
     for (i = 0; i < nbonds; i++)
       {
         if (!ifs.getline(buffer,BUFF_SIZE))
-          return(false);
+          return false;
         // The two atom indices are required; the bond-order keyword is
         // optional (defaults to a single bond), so clear bobuf rather than
         // reading a stale value left over from a previous bond.
         bobuf[0] = '\0';
         if (sscanf(buffer," %*d%d%d%99s",&bgn,&end,bobuf) < 2)
-          return(false);
+          return false;
         bostr = bobuf;
         order = 1;
         if      (bostr == "DOUBLE")
@@ -166,7 +166,7 @@ namespace OpenBabel
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -237,7 +237,7 @@ namespace OpenBabel
                  bond_string);
         ofs << buffer << endl;
       }
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

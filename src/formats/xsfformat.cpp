@@ -209,7 +209,7 @@ namespace OpenBabel
       mol.SetData(uc);
     }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

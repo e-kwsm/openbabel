@@ -182,7 +182,7 @@ namespace OpenBabel
         if ((*i)->GetAttribute() == s)
           return(*i);
 
-      return(nullptr);
+      return nullptr;
     }
 
     //! \return the OBGenericData associate with the attribute name parameter.
@@ -194,7 +194,7 @@ namespace OpenBabel
         if ((*i)->GetAttribute() == s)
           return(*i);
 
-      return(nullptr);
+      return nullptr;
     }
 
     //! Gets the entire set.

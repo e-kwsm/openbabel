@@ -295,5 +295,5 @@ int unitcell(int argc, char* argv[])
     cout << "# cell volume " << cell2.GetCellVolume() << endl;
     cout << "# lattice type " << cell2.GetLatticeType() << endl;
 
-    return(0); // success
+    return 0; // success
 }

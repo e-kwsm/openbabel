@@ -145,7 +145,7 @@ bool FHIaimsFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
       mol.SetData(uc);
     }
     mol.SetTitle(title);
-    return(true);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -192,7 +192,7 @@ bool FHIaimsFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
         }
     }
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

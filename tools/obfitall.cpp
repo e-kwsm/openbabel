@@ -329,7 +329,7 @@ int main(int argc,char **argv)
     }
 
   delete[] refcoor;
-  return(0);
+  return 0;
 }
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -347,7 +347,7 @@ vector3 mass_c( vector<int> &aindex, OBMol &mol)
     }
 
     center /= (float) aindex.size();
-    return (center);
+    return center;
 }
 
 /* obfit man page*/

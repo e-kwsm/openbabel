@@ -93,7 +93,7 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
             vector3 v(atof(x.c_str()),atof(y.c_str()),atof(z.c_str()));
             atom.SetVector(v);
             if (!mol.AddAtom(atom))
-                return(false);
+                return false;
         }
 
         if (EQn(buffer,"CONECT",6))
@@ -107,7 +107,7 @@ bool BoxFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
     mol.EndModify();
     mol.SetTitle(title);
-    return(true);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////
@@ -215,7 +215,7 @@ bool BoxFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
     ofs << "CONECT    7    3    6    8" << endl;
     ofs << "CONECT    8    4    5    7" << endl;
 
-    return(true);
+    return true;
 }
 
 } //namespace OpenBabel

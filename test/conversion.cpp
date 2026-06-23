@@ -151,7 +151,7 @@ int conversion(int argc, char* argv[])
   obConversion.Read(&obMol);
   cout << "ok 8\n";
 
-  return(0);
+  return 0;
 }
 
 

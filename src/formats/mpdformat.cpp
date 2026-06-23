@@ -297,7 +297,7 @@ namespace OpenBabel
       } // end i
     if(xml_true==true)ofs << "</molecule>";
     ofs << endl;
-    return(true);
+    return true;
   } // writemolecule
 
 } // namespace openbabel

@@ -107,7 +107,7 @@ namespace OpenBabel
           }
       }
     else
-      return(false);
+      return false;
 
     mol.BeginModify();
     mol.ReserveAtoms(natoms);
@@ -207,7 +207,7 @@ namespace OpenBabel
         bond->SetBondOrder(1);
 
     if ( natoms != (signed)mol.NumAtoms() )
-      return(false);
+      return false;
 
     // clean out remaining blank lines
     std::streampos ipos;
@@ -219,7 +219,7 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -282,7 +282,7 @@ namespace OpenBabel
         ofs << buffer;
       }
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

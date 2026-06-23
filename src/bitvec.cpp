@@ -298,9 +298,9 @@ namespace OpenBabel
   {
     for (word_vector::const_iterator sx = _set.begin(), sy = _set.end(); sx != sy; ++ sx)
       if (* sx)
-        return(false);
+        return false;
 
-    return(true);
+    return true;
   }
 
   /** Sets bits on, listed as bit offsets
@@ -476,7 +476,7 @@ namespace OpenBabel
   {
     OBBitVec bv(bv1);
     bv |= bv2;
-    return(bv);
+    return bv;
   }
 
   /** Return a bit vector of the results of And-ing each bit in \p bv1 with the corresponding bit in \p bv2
@@ -488,7 +488,7 @@ namespace OpenBabel
   {
     OBBitVec bv(bv1);
     bv &= bv2;
-    return(bv);
+    return bv;
   }
 
   /** Return a bit vector of the results of Exclusive-or-ing each bit in \p bv1 with the corresponding bit in \p bv2
@@ -500,7 +500,7 @@ namespace OpenBabel
   {
     OBBitVec bv(bv1);
     bv ^= bv2;
-    return(bv);
+    return bv;
   }
 
   /** Return a bit vector of the results of clearing each bit in \p bv1 which is set in \p bv2
@@ -513,7 +513,7 @@ namespace OpenBabel
     OBBitVec bv;
     bv = bv1 ^ bv2;
     bv &= bv1;
-    return(bv);
+    return bv;
   }
 
   /** Return true if \p bv1 and \p bv2 are equivalent
@@ -649,7 +649,7 @@ namespace OpenBabel
           os << (j+(i*SETWORD)) << ' ' << std::flush;
 
     os << "]" << std::flush;
-    return(os);
+    return os;
   }
 
   /** The Tanimoto coefficient may be regarded as the proportion of the "on-bits" which are shared.

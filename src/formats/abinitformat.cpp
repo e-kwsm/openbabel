@@ -272,7 +272,7 @@ namespace OpenBabel
     }
 
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

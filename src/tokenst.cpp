@@ -57,7 +57,7 @@ namespace OpenBabel
         startpos = endpos+1;
       }
 
-    return(true);
+    return true;
   }
 
   //! Trim any trailing spaces at the end of the supplied string.
@@ -87,7 +87,7 @@ namespace OpenBabel
           }
       }
 
-    return(string);
+    return string;
   }
 
   //! Break a string (supplied as the second argument) into tokens, returned
@@ -128,7 +128,7 @@ namespace OpenBabel
 
         startpos = endpos+1;
       }
-    return(true);
+    return true;
   }
 
   //! Removes white space from front and back of string
@@ -232,7 +232,7 @@ namespace OpenBabel
 
     ifs.clear();
     ifs.close();
-    return(""); // error
+    return ""; // error
   }
 
 

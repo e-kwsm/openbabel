@@ -83,7 +83,7 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       {
         if (!GasteigerSigmaChi(atom,a,b,c))
-          return(false);
+          return false;
         _gsv[atom->GetIdx()]->SetValues(a,b,c,atom->GetPartialCharge());
       }
 
@@ -133,7 +133,7 @@ namespace OpenBabel
     for (atom = mol.BeginAtom(i);atom;atom = mol.NextAtom(i))
       atom->SetPartialCharge(_gsv[atom->GetIdx()]->q);
 
-    return(true);
+    return true;
   }
 
   //! Set initial partial charges in @p mol
@@ -301,9 +301,9 @@ namespace OpenBabel
         c = (val[2]+val[0])/2 - val[1];
       }
     else
-      return(false);
+      return false;
 
-    return(true);
+    return true;
   }
 
   void OBGastChrg::GSVResize(int size)

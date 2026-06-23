@@ -175,7 +175,7 @@ namespace OpenBabel
         guess -= eval_horn_NR_corrxn(coeff, guess);
 
         if (fabs(guess - oldg) < fabs(delta*guess))
-            return(guess);
+            return guess;
     }
 
     return initialg + 1.0; // Failed to converge!
@@ -236,10 +236,10 @@ namespace OpenBabel
 
     coeff[0] = Sxy2Sxz2Syx2Szx2 * Sxy2Sxz2Syx2Szx2
              + (Sxx2Syy2Szz2Syz2Szy2 + SyzSzymSyySzz2) * (Sxx2Syy2Szz2Syz2Szy2 - SyzSzymSyySzz2)
-             + (-(SxzpSzx)*(SyzmSzy)+(SxymSyx)*(SxxmSyy-Szz)) * (-(SxzmSzx)*(SyzpSzy)+(SxymSyx)*(SxxmSyy+Szz))
-             + (-(SxzpSzx)*(SyzpSzy)-(SxypSyx)*(SxxpSyy-Szz)) * (-(SxzmSzx)*(SyzmSzy)-(SxypSyx)*(SxxpSyy+Szz))
-             + (+(SxypSyx)*(SyzpSzy)+(SxzpSzx)*(SxxmSyy+Szz)) * (-(SxymSyx)*(SyzmSzy)+(SxzpSzx)*(SxxpSyy+Szz))
-             + (+(SxypSyx)*(SyzmSzy)+(SxzmSzx)*(SxxmSyy-Szz)) * (-(SxymSyx)*(SyzpSzy)+(SxzmSzx)*(SxxpSyy-Szz));
+             + (-SxzpSzx*SyzmSzy+SxymSyx*(SxxmSyy-Szz)) * (-SxzmSzx*SyzpSzy+SxymSyx*(SxxmSyy+Szz))
+             + (-SxzpSzx*SyzpSzy-SxypSyx*(SxxpSyy-Szz)) * (-SxzmSzx*SyzmSzy-SxypSyx*(SxxpSyy+Szz))
+             + (+SxypSyx*SyzpSzy+SxzpSzx*(SxxmSyy+Szz)) * (-SxymSyx*SyzmSzy+SxzpSzx*(SxxpSyy+Szz))
+             + (+SxypSyx*SyzmSzy+SxzmSzx*(SxxmSyy-Szz)) * (-SxymSyx*SyzpSzy+SxzmSzx*(SxxpSyy-Szz));
 
     return coeff;
   }

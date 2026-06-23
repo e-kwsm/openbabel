@@ -260,15 +260,15 @@ namespace OpenBabel
                     break;
                   case 'X':
                   case 'x':
-                    m(i, 0) = (neg)? -1.: 1.;
+                    m(i, 0) = neg ? -1.: 1.;
                   break;
                   case 'Y':
                   case 'y':
-                    m(i, 1) = (neg)? -1.: 1.;
+                    m(i, 1) = neg ? -1.: 1.;
                   break;
                   case 'Z':
                   case 'z':
-                    m(i, 2) = (neg)? -1.: 1.;
+                    m(i, 2) = neg ? -1.: 1.;
                   break;
                   }
                 j++;
@@ -411,7 +411,7 @@ namespace OpenBabel
       match = _SpaceGroups.sgbn.find(search) != _SpaceGroups.sgbn.end() ? _SpaceGroups.sgbn[search] : nullptr;
     }
 
-    return (match);
+    return match;
   }
 
   /*!

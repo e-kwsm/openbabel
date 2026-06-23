@@ -85,22 +85,22 @@ namespace OpenBabel
         _vdata.clear();
       }
 
-    return(true);
+    return true;
   }
 
   bool OBBase::HasData(const string &s)
     //returns true if the generic attribute/value pair exists
   {
     if (_vdata.empty())
-      return(false);
+      return false;
 
     OBDataIterator i;
 
     for (i = _vdata.begin();i != _vdata.end();++i)
       if (*i && (*i)->GetAttribute() == s)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
   bool OBBase::HasData(const char *s)
@@ -114,15 +114,15 @@ namespace OpenBabel
     //returns true if the generic attribute/value pair exists
   {
     if (_vdata.empty())
-      return(false);
+      return false;
 
     OBDataIterator i;
 
     for (i = _vdata.begin();i != _vdata.end();++i)
       if (*i && (*i)->GetDataType() == dt)
-        return(true);
+        return true;
 
-    return(false);
+    return false;
   }
 
   //! \return the value given an attribute name
@@ -168,7 +168,7 @@ namespace OpenBabel
       if (*i && (*i)->GetDataType() == dt)
         matches.push_back(*i);
 
-    return(matches);
+    return matches;
   }
 
   std::vector<OBGenericData*>  OBBase::GetData(DataOrigin source)

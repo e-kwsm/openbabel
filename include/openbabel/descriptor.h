@@ -104,17 +104,17 @@ static bool DoComparison(char ch1, char ch2, T& val, T& filterval)
 {
   switch(ch1)
   {
-  case (0):  //no comparison operator is same as =
-  case('='):
+  case 0:  //no comparison operator is same as =
+  case '=':
   return val==filterval; //**needs a better floating point comparison**
-  case('!'):
+  case '!':
   return val!=filterval; //**needs a better floating point comparison**
-  case('>'):
+  case '>':
   if(ch2=='=')
     return val>=filterval;
   else
     return val>filterval;
-  case('<'):
+  case '<':
   if(ch2=='=')
     return val<=filterval;
   else
