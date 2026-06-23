@@ -241,7 +241,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool MDLFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
 
     //Define some references so we can use the old parameter names
     istream &ifs = *pConv->GetInStream();
@@ -378,7 +378,7 @@ namespace OpenBabel
         }
       else
         {
-          OBPairData *chiralFlag = new OBPairData();
+          auto *chiralFlag = new OBPairData();
           chiralFlag->SetAttribute("MOL Chiral Flag");
           chiralFlag->SetOrigin(local);
           std::stringstream convert;
@@ -502,7 +502,7 @@ namespace OpenBabel
         if (line.size() >= 62) {
           int aclass = ReadIntField(line.substr(60, 3).c_str());
           if (aclass != 0) {
-            OBPairInteger *pac = new OBPairInteger();
+            auto *pac = new OBPairInteger();
             pac->SetAttribute("Atom Class");
             pac->SetValue(aclass);
             pac->SetOrigin(fileformatInput);
@@ -642,7 +642,7 @@ namespace OpenBabel
           if(!line.empty() && line.at(0) != '?' && line.at(0) != '*') {
             OBAtom* at = mol.GetAtom(atomnum);
             if (at) { // dkoes - only expand wild cards
-              AliasData* ad = new AliasData();
+              auto* ad = new AliasData();
               ad->SetAlias(line);
               ad->SetOrigin(fileformatInput);
               at->SetData(ad);
@@ -717,7 +717,7 @@ namespace OpenBabel
               if (!at->HasData(AliasDataType))
                 obErrorLog.ThrowError(__FUNCTION__, "Invalid line: M RGP must only refer to pseudoatoms\n" + line, obWarning);
               else {
-                AliasData* ad = static_cast<AliasData*>(at->GetData(AliasDataType));
+                auto* ad = static_cast<AliasData*>(at->GetData(AliasDataType));
                 char buffer[6];
                 snprintf(buffer, 6, "R%d", value);
                 ad->SetAlias(buffer);
@@ -781,7 +781,7 @@ namespace OpenBabel
       }
       if (foundZBO || foundZCH || foundHYD) { // TODO: Fix this
         // Use HYD count to SetImplicitValence if present, otherwise HYDValence model
-        HYDMap::const_iterator hyd = hydMap.find(atom->GetIdx());
+        auto hyd = hydMap.find(atom->GetIdx());
         if (hyd == hydMap.end()) {
           unsigned int impval = HYDValence(elem, charge, expval);
           int nimpval = impval - expval;
@@ -795,7 +795,7 @@ namespace OpenBabel
         // the purposes of setting hydrogen count.
         // So, if the valence field was specified use that, otherwise
         // use the implicit valence adjusted by any M RAD.
-        std::map<OBAtom*, int>::const_iterator mit = specified_valence.find(&*atom);
+        auto mit = specified_valence.find(&*atom);
         unsigned int impval;
         if (mit != specified_valence.end()) {
           impval = mit->second;
@@ -833,7 +833,7 @@ namespace OpenBabel
     mol.EndModify();
 
     //Expand aliases (implicit hydrogens already set on these as read from SMILES)
-    for (vector<pair<AliasData*, OBAtom*> >::iterator iter = aliases.begin(); iter != aliases.end(); ++iter)
+    for (auto iter = aliases.begin(); iter != aliases.end(); ++iter)
     {
       AliasData* ad = (*iter).first;
       unsigned atomnum = (*iter).second->GetIdx();
@@ -841,7 +841,7 @@ namespace OpenBabel
     }
 
     if (comment.length()) {
-      OBCommentData *cd = new OBCommentData;
+      auto *cd = new OBCommentData;
       cd->SetData(comment);
       cd->SetOrigin(fileformatInput);
       mol.SetData(cd);
@@ -960,7 +960,7 @@ namespace OpenBabel
     if (atom->GetAtomicNum() == 0) { // Must be a pseudoatom
       if(atom->HasData(AliasDataType)) {
         // must have an alias Rn or Rnn
-        AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
+        auto* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
         if(!ad->IsExpanded()) { //do nothing with an expanded alias
           std::string alias = ad->GetAlias();
           const char* p = alias.c_str();
@@ -973,7 +973,7 @@ namespace OpenBabel
         //Atoms with no AliasData, but 0 atomicnum and atomclass==n are given an alias Rn
         OBGenericData *data = atom->GetData("Atom Class");
         if (data) {
-          OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
+          auto* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
           if (acdata) {
             int ac = acdata->GetGenericValue();
             if (ac >= 0) // Allow 0, why not?
@@ -1033,7 +1033,7 @@ namespace OpenBabel
     for (data = stereoData.begin(); data != stereoData.end(); ++data) {
       OBStereo::Type type = ((OBStereoBase*)*data)->GetType();
       if (type != OBStereo::Tetrahedral) continue;
-      OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+      auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       if (ts->GetConfig().specified)
         return true;
     }
@@ -1043,7 +1043,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool MDLFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
 
     //Define some references so we can use the old parameter names
     ostream &ofs = *pConv->GetOutStream();
@@ -1095,7 +1095,7 @@ namespace OpenBabel
 
     // line 3: comment
     if (mol.HasData(OBGenericDataType::CommentData)) {
-      OBCommentData *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
+      auto *cd = (OBCommentData*)mol.GetData(OBGenericDataType::CommentData);
       string comment = cd->GetData();
       if(comment.size()>80)
         comment.erase(80); //truncate to 80 chars
@@ -1194,7 +1194,7 @@ namespace OpenBabel
         if (writeAtomClass) {
           OBGenericData *data = atom->GetData("Atom Class");
           if (data) {
-            OBPairInteger* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
+            auto* acdata = dynamic_cast<OBPairInteger*>(data); // Could replace with C-style cast if willing to live dangerously
             if (acdata) {
               int ac = acdata->GetGenericValue();
               if (ac > 0) {
@@ -1292,7 +1292,7 @@ namespace OpenBabel
         int rgroupIdx = GetNumberedRGroup(pmol, atom);
         if (rgroupIdx == -1) {
           if (atom->HasData(AliasDataType)) {
-            AliasData* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
+            auto* ad = static_cast<AliasData*>(atom->GetData(AliasDataType));
             if(!ad->IsExpanded()) //do nothing with an expanded alias
               ofs << "A  " << setw(3) << right << atom->GetIdx() << '\n' << ad->GetAlias() << endl;
           }
@@ -1359,7 +1359,7 @@ namespace OpenBabel
       }
       if(zbos.size()) {
         int counter = 0;
-        for(vector<int>::iterator it = zbos.begin(); it != zbos.end(); ++it, counter++) {
+        for(auto it = zbos.begin(); it != zbos.end(); ++it, counter++) {
           if (counter % 8 == 0) {
             if (counter > 0) ofs << endl;
             ofs << "M  ZBO" << setw(3) << min(static_cast<unsigned long int>(zbos.size() - counter), static_cast<unsigned long int>(8));
@@ -1824,9 +1824,9 @@ namespace OpenBabel
   {
     // This loop sets the atom parity for each tet center
     std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-    for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+    for (auto data = vdata.begin(); data != vdata.end(); ++data)
       if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
-        OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
+        auto *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
 
         OBTetrahedralStereo::Config cfg = ts->GetConfig();
 
@@ -1842,7 +1842,7 @@ namespace OpenBabel
           if (cfg.from != OBStereo::ImplicitRef && mol.GetAtomById(cfg.from)->GetAtomicNum() == OBElements::Hydrogen)
             maxref = cfg.from;
           else
-            for (OBStereo::RefIter ref_it = refs.begin(); ref_it != refs.end(); ++ref_it)
+            for (auto ref_it = refs.begin(); ref_it != refs.end(); ++ref_it)
               if ((*ref_it) != OBStereo::ImplicitRef && mol.GetAtomById(*ref_it)->GetAtomicNum() == OBElements::Hydrogen)
                 maxref = *ref_it;
           // ...otherwise, find the maximum ref (note that ImplicitRef will be max if present)
@@ -1867,7 +1867,7 @@ namespace OpenBabel
   {
     if (deleteExisting) { // Remove any existing tet stereo
       std::vector<OBGenericData*> vdata = mol.GetAllData(OBGenericDataType::StereoData);
-      for (std::vector<OBGenericData*>::iterator data = vdata.begin(); data != vdata.end(); ++data)
+      for (auto data = vdata.begin(); data != vdata.end(); ++data)
         if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral)
           mol.DeleteData(*data);
     }
@@ -1899,7 +1899,7 @@ namespace OpenBabel
       if (parity[i] == Unknown)
         cfg.specified = false;
 
-      OBTetrahedralStereo *th = new OBTetrahedralStereo(&mol);
+      auto *th = new OBTetrahedralStereo(&mol);
       th->SetConfig(cfg);
       mol.SetData(th);
     }
@@ -1947,7 +1947,7 @@ namespace OpenBabel
         }
         Trim(buff);
 
-        OBPairData *dp = new OBPairData;
+        auto *dp = new OBPairData;
         dp->SetAttribute(attr);
         dp->SetValue(buff);
         dp->SetOrigin(fileformatInput);
@@ -1975,7 +1975,7 @@ namespace OpenBabel
   */
     if(symbol.size()==1 || isdigit(symbol[1]) || symbol[1]=='\'' || symbol[1]=='\xa2' || symbol[1]=='#')
     {
-      AliasData* ad = new AliasData();
+      auto* ad = new AliasData();
       ad->SetAlias(symbol);
       ad->SetOrigin(fileformatInput);
       at->SetData(ad);
@@ -1999,7 +1999,7 @@ namespace OpenBabel
       if (static_cast<OBStereoBase*>(*data)->GetType() != OBStereo::CisTrans)
         continue;
 
-      OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
+      auto *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OBCisTransStereo::Config cfg = ct->GetConfig();
       OBAtom *a1 = mol->GetAtomById(cfg.begin);
       OBAtom *a2 = mol->GetAtomById(cfg.end);

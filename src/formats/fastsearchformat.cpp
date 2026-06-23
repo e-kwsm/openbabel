@@ -491,7 +491,7 @@ const char* Description() override  // required
 
     //All passes provide an object for indexing
     OBBase* pOb = pConv->GetChemObject();
-    OBMol* pmol = dynamic_cast<OBMol*> (pOb);
+    auto* pmol = dynamic_cast<OBMol*> (pOb);
     if(pmol)
       pmol->ConvertDativeBonds();//use standard form for dative bonds
 

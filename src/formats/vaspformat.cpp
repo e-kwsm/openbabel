@@ -147,7 +147,7 @@ namespace OpenBabel {
 
   bool VASPFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -231,7 +231,7 @@ namespace OpenBabel {
     vector3 z_vec (x,y,z);
 
     // Build unit cell
-    OBUnitCell *cell = new OBUnitCell;
+    auto *cell = new OBUnitCell;
     cell->SetData(x_vec, y_vec, z_vec);
     cell->SetSpaceGroup(1);
     pmol->SetData(cell);
@@ -389,7 +389,7 @@ namespace OpenBabel {
     // Read density of states info from DOSCAR, if available
     if (ifs_dos) {
       // Create DOS object
-      OBDOSData *dos = new OBDOSData();
+      auto *dos = new OBDOSData();
 
       // skip header
       ifs_dos.getline(buffer,BUFF_SIZE); // Junk
@@ -555,10 +555,10 @@ namespace OpenBabel {
 
     // Set enthalpy
     if (hasEnthalpy) {
-      OBPairData *enthalpyPD = new OBPairData();
-      OBPairData *enthalpyPD_pv = new OBPairData();
-      OBPairData *enthalpyPD_eV = new OBPairData();
-      OBPairData *enthalpyPD_pv_eV = new OBPairData();
+      auto *enthalpyPD = new OBPairData();
+      auto *enthalpyPD_pv = new OBPairData();
+      auto *enthalpyPD_eV = new OBPairData();
+      auto *enthalpyPD_pv_eV = new OBPairData();
       enthalpyPD->SetAttribute("Enthalpy (kcal/mol)");
       enthalpyPD_pv->SetAttribute("Enthalpy PV term (kcal/mol)");
       enthalpyPD_eV->SetAttribute("Enthalpy (eV)");
@@ -583,7 +583,7 @@ namespace OpenBabel {
     if (hasVibrations) {
       // compute dDip/dQ
       vector<double> Intensities;
-      for (vector<vector<vector3> >::const_iterator
+      for (auto
            lxIter = Lx.begin(); lxIter != Lx.end(); ++lxIter) {
         vector3 intensity;
         for (size_t natom = 0; natom < dipGrad.size(); ++natom) {
@@ -600,7 +600,7 @@ namespace OpenBabel {
       } else {
         Intensities.clear();
       }
-      OBVibrationData* vd = new OBVibrationData;
+      auto* vd = new OBVibrationData;
       vd->SetData(Lx, Frequencies, Intensities);
       pmol->SetData(vd);
     }
@@ -628,7 +628,7 @@ namespace OpenBabel {
     //The atoms are ordered according to their atomic number so that the
     //output looks nice, this can be reversed by using command line flag "-xw".
     //
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr) {
       return false;
     }
@@ -712,7 +712,7 @@ namespace OpenBabel {
       // there is a unit cell, write it out
       uc = static_cast<OBUnitCell*>(mol.GetData(OBGenericDataType::UnitCell));
       cell = uc->GetCellVectors();
-      for (vector<vector3>::const_iterator i = cell.begin();
+      for (auto i = cell.begin();
            i != cell.end(); ++i) {
         snprintf(buffer, BUFF_SIZE, "%20.15f%20.15f%20.15f",
                  i->x(), i->y(), i->z());
@@ -724,7 +724,7 @@ namespace OpenBabel {
     // VASP 5 format
     const char *vasp4Format = pConv->IsOption("4", OBConversion::OUTOPTIONS);
     if (!vasp4Format) {
-      for (vector< std::pair<int, int> >::const_iterator
+      for (auto
            it = atomicNums.begin(),
            it_end = atomicNums.end(); it != it_end; ++it) {
         snprintf(buffer, BUFF_SIZE, "%-3s ", OBElements::GetSymbol(it->first));
@@ -734,7 +734,7 @@ namespace OpenBabel {
     }
 
     // then do the same to write out the number of ions of each element
-    for (vector< std::pair<int, int> >::const_iterator
+    for (auto
            it = atomicNums.begin(),
            it_end = atomicNums.end(); it != it_end; ++it) {
       snprintf(buffer, BUFF_SIZE, "%-3u ", it->second);
@@ -758,7 +758,7 @@ namespace OpenBabel {
     // print the atomic coordinates in \AA
     ofs << "Cartesian" << endl;
 
-    for (std::vector<OBAtom *>::const_iterator it = atoms_sorted.begin();
+    for (auto it = atoms_sorted.begin();
          it != atoms_sorted.end(); ++it) 
     {
       // Print coordinates
@@ -770,7 +770,7 @@ namespace OpenBabel {
       if (selective) {
         // if this guy has, write it out
         if ((*it)->HasData("move")) {
-          OBPairData *cp = (OBPairData*)(*it)->GetData("move");
+          auto *cp = (OBPairData*)(*it)->GetData("move");
           // seemingly ridiculous number of digits is written out
           // but sometimes you just don't want to change them
           ofs << " " << cp->GetValue().c_str();

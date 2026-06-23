@@ -71,7 +71,7 @@ void NMOBMolDestroyBond(OpenBabel::OBMol* mol,
 
 void NMOBAtomSetAromatic(OpenBabel::OBAtom* atm, bool arom)
 {
-    OpenBabel::OBMol* mol = (OpenBabel::OBMol*)atm->GetParent();
+    auto* mol = (OpenBabel::OBMol*)atm->GetParent();
     if (mol && !mol->HasAromaticPerceived())
         mol->SetAromaticPerceived();
 

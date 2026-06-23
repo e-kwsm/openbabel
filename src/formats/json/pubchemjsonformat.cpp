@@ -80,7 +80,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
   
   bool PubChemJSONFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol *pmol = pOb->CastAndClear<OBMol>();
+    auto *pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr) return false;
     istream &ifs = *pConv->GetInStream();
 
@@ -152,7 +152,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       s << molRoot["id"]["id"]["cid"].GetInt();
       std::string title(s.str());
       pmol->SetTitle(title);
-      OBPairData *cid = new OBPairData;
+      auto *cid = new OBPairData;
       cid->SetAttribute("cid");
       cid->SetValue(title);
       cid->SetOrigin(fileformatInput);
@@ -164,7 +164,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       s << subsRoot["sid"]["id"].GetInt();
       std::string title(s.str());
       pmol->SetTitle(title);
-      OBPairData *sid = new OBPairData;
+      auto *sid = new OBPairData;
       sid->SetAttribute("sid");
       sid->SetValue(title);
       sid->SetOrigin(fileformatInput);
@@ -324,7 +324,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
               } else if (order == 7) {
                 orderstring = "ionic";
               }
-              OBPairData *bondType = new OBPairData;
+              auto *bondType = new OBPairData;
               bondType->SetAttribute("type");
               bondType->SetValue(orderstring);
               bondType->SetOrigin(fileformatInput);
@@ -361,7 +361,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
             beginAtom->AddBond(pbond);
             endAtom->AddBond(pbond);
             // Save type string as generic data on bond (useful for non-standard bonds)
-            OBPairData *bondType = new OBPairData;
+            auto *bondType = new OBPairData;
             bondType->SetAttribute("type");
             bondType->SetValue(orderstring);
             bondType->SetOrigin(fileformatInput);
@@ -453,11 +453,11 @@ class PubChemJSONFormat : public OBMoleculeFormat
                     // Save non-standard annotations as generic data on bond (multiple possible)
                     vector<string> val;
                     if (pbond->HasData("style")) {
-                      AnnotationData *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
+                      auto *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
                       val = data->GetGenericValue();
                       pbond->DeleteData("style");
                     }
-                    AnnotationData *data = new AnnotationData;
+                    auto *data = new AnnotationData;
                     data->SetAttribute("style");
                     data->SetOrigin(fileformatInput);
                     string stylestring = "unknown";
@@ -500,11 +500,11 @@ class PubChemJSONFormat : public OBMoleculeFormat
                     // Save non-standard annotations as generic data on bond (multiple possible)
                     vector<string> val;
                     if (pbond->HasData("style")) {
-                      AnnotationData *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
+                      auto *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
                       val = data->GetGenericValue();
                       pbond->DeleteData("style");
                     }
-                    AnnotationData *data = new AnnotationData;
+                    auto *data = new AnnotationData;
                     data->SetAttribute("style");
                     data->SetOrigin(fileformatInput);
                     val.push_back(stylestring);
@@ -576,7 +576,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
               config.refs.push_back((tet["bottom"].GetInt() == -1) ? OBStereo::ImplicitRef : tet["bottom"].GetInt());
               config.refs.push_back((tet["above"].GetInt() == -1) ? OBStereo::ImplicitRef : tet["above"].GetInt());
             }
-            OBTetrahedralStereo *ts = new OBTetrahedralStereo(pmol);
+            auto *ts = new OBTetrahedralStereo(pmol);
             ts->SetConfig(config);
             pmol->SetData(ts);
           } else if (stereo.HasMember("planar")) {
@@ -596,7 +596,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
               config.specified = true;
               config.shape = OBStereo::ShapeU;
             }
-            OBCisTransStereo *ct = new OBCisTransStereo(pmol);
+            auto *ct = new OBCisTransStereo(pmol);
             ct->SetConfig(config);
             pmol->SetData(ct);
           } else if (stereo.HasMember("squareplanar")) {
@@ -615,7 +615,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
               config.specified = true;
               config.shape = OBStereo::ShapeU;
             }
-            OBSquarePlanarStereo *ss = new OBSquarePlanarStereo(pmol);
+            auto *ss = new OBSquarePlanarStereo(pmol);
             ss->SetConfig(config);
             pmol->SetData(ss);
           } else if (stereo.HasMember("octahedral")) {
@@ -669,7 +669,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
 
   bool PubChemJSONFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (pmol == nullptr)
       return false;
     ostream &ofs = *pConv->GetOutStream();
@@ -704,7 +704,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
 
     // CID
     if (pmol->HasData("cid")) {
-      OBPairData *cid = dynamic_cast<OBPairData *>(pmol->GetData("cid"));
+      auto *cid = dynamic_cast<OBPairData *>(pmol->GetData("cid"));
       rapidjson::Value cidValue(rapidjson::kStringType);
       cidValue.SetString(cid->GetValue().c_str(), al);
       rapidjson::Value id2(rapidjson::kObjectType);
@@ -801,7 +801,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
       if (ord == 0) {
         if (pbond->HasData("type")) {
           // Check to see if a "type" string exists
-          OBPairData *typeData = dynamic_cast<OBPairData *>(pbond->GetData("type"));
+          auto *typeData = dynamic_cast<OBPairData *>(pbond->GetData("type"));
           const string &orderstring = typeData->GetValue();
           if (orderstring == "dative") {
             ord = 5;
@@ -852,9 +852,9 @@ class PubChemJSONFormat : public OBMoleculeFormat
         annotations.push_back(8);
       }
       if (pbond->HasData("style")) {
-        AnnotationData *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
+        auto *data = dynamic_cast<AnnotationData *>(pbond->GetData("style"));
         vector<string> styles = data->GetGenericValue();
-        for (vector<string>::const_iterator i = styles.begin(); i != styles.end(); ++i) {
+        for (auto i = styles.begin(); i != styles.end(); ++i) {
           string stylestring = *i;
           int style = 255;
           if (stylestring == "dashed") {
@@ -876,7 +876,7 @@ class PubChemJSONFormat : public OBMoleculeFormat
         }
       }
       annotations.erase(unique(annotations.begin(), annotations.end()), annotations.end());
-      for (vector<int>::const_iterator i = annotations.begin(); i != annotations.end(); ++i) {
+      for (auto i = annotations.begin(); i != annotations.end(); ++i) {
         annAid1.PushBack(rapidjson::Value((int) pbond->GetBeginAtom()->GetId()).Move(), al);
         annAid2.PushBack(rapidjson::Value((int) pbond->GetEndAtom()->GetId()).Move(), al);
         annotation.PushBack(rapidjson::Value(*i).Move(), al);

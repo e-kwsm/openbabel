@@ -75,7 +75,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
 
   bool ChemDoodleJSONFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol *pmol = pOb->CastAndClear<OBMol>();
+    auto *pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr) return false;
     istream &ifs = *pConv->GetInStream();
 
@@ -211,7 +211,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       }
       // Lone pairs
       if (atom.HasMember("p") && atom["p"].IsInt()) {
-        OBPairInteger *lp = new OBPairInteger;
+        auto *lp = new OBPairInteger;
         lp->SetAttribute("p");
         lp->SetValue(atom["p"].GetInt());
         lp->SetOrigin(fileformatInput);
@@ -219,7 +219,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       }
       // Atom identifier string
       if (atom.HasMember("i") && atom["i"].IsString()) {
-        OBPairData *id = new OBPairData;
+        auto *id = new OBPairData;
         id->SetAttribute("i");
         id->SetValue(atom["i"].GetString());
         id->SetOrigin(fileformatInput);
@@ -307,7 +307,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
         pmol->GetAtom(end)->AddBond(pbond);
         // Bond identifier string
         if (bond.HasMember("i") && bond["i"].IsString()) {
-          OBPairData *id = new OBPairData;
+          auto *id = new OBPairData;
           id->SetAttribute("i");
           id->SetValue(bond["i"].GetString());
           id->SetOrigin(fileformatInput);
@@ -370,7 +370,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
   
   bool ChemDoodleJSONFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol *pmol = dynamic_cast<OBMol *>(pOb);
+    auto *pmol = dynamic_cast<OBMol *>(pOb);
     if (pmol == nullptr)
       return false;
     ostream &ofs = *pConv->GetOutStream();
@@ -447,14 +447,14 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
       }
       // Lone pairs
       if (patom->HasData("p")) {
-        OBPairInteger *lp = dynamic_cast<OBPairInteger*>(patom->GetData("p"));
+        auto *lp = dynamic_cast<OBPairInteger*>(patom->GetData("p"));
         atom.AddMember("p", rapidjson::Value(lp->GetGenericValue()).Move(), al);
       } else if (verbose) {
         atom.AddMember("p", rapidjson::Value(0).Move(), al);
       }
       // Atom identifier string
       if (patom->HasData("i")) {
-        OBPairData *id = dynamic_cast<OBPairData *>(patom->GetData("i"));
+        auto *id = dynamic_cast<OBPairData *>(patom->GetData("i"));
         rapidjson::Value idValue(rapidjson::kStringType);
         idValue.SetString(id->GetValue().c_str(), al);
         atom.AddMember("i", idValue, al);
@@ -521,7 +521,7 @@ class ChemDoodleJSONFormat : public OBMoleculeFormat
         }
         // Bond identifier string
         if (pbond->HasData("i")) {
-          OBPairData *id = dynamic_cast<OBPairData *>(pbond->GetData("i"));
+          auto *id = dynamic_cast<OBPairData *>(pbond->GetData("i"));
           rapidjson::Value idValue(rapidjson::kStringType);
           idValue.SetString(id->GetValue().c_str(), al);
           bond.AddMember("i", idValue, al);

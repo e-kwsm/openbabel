@@ -48,7 +48,7 @@ namespace OpenBabel {
       for (unsigned int i = 0; i < mol->NumAtoms(); ++i)
         mask2.SetBitOn(i + 1);
 
-    OBQuery *query = new OBQuery;
+    auto *query = new OBQuery;
     unsigned int offset = 0;
     std::vector<unsigned int> indexes;
     FOR_ATOMS_OF_MOL (obatom, mol) {

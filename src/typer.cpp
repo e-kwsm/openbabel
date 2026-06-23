@@ -849,7 +849,7 @@ namespace OpenBabel
 
 
     //loop over closure bonds
-    for(OBBondIterator bd(cbonds.begin()),bd_end(cbonds.end());bd!=bd_end;++bd)
+    for (auto bd = cbonds.begin(), bd_end = cbonds.end(); bd != bd_end; ++bd)
       {
         bond = *bd;
 

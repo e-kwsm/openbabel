@@ -72,7 +72,7 @@ namespace OpenBabel
   bool GhemicalFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
 
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -211,7 +211,7 @@ namespace OpenBabel
 
   bool GhemicalFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -286,7 +286,7 @@ namespace OpenBabel
         << atom->GetPartialCharge() << '\n';
     }
 
-    OBSetData *gmsset = dynamic_cast<OBSetData *>(pmol->GetData("gamess"));
+    auto *gmsset = dynamic_cast<OBSetData *>(pmol->GetData("gamess"));
     if(gmsset)
     {
       ofs << "!GAMESS" << endl;
@@ -294,13 +294,13 @@ namespace OpenBabel
 
       for(i = gmsset->GetBegin(); i != gmsset->GetEnd(); ++i)
       {
-        OBSetData *cset = dynamic_cast<OBSetData *>(*i);
+        auto *cset = dynamic_cast<OBSetData *>(*i);
         if(cset)
         {
           string section = cset->GetAttribute();
           for(j = cset->GetBegin(); j != cset->GetEnd(); ++j)
           {
-            OBPairData *pd = dynamic_cast<OBPairData *>(*j);
+            auto *pd = dynamic_cast<OBPairData *>(*j);
             if(pd)
             {
               ofs << section << " " << pd->GetAttribute() << " " << pd->GetValue() << endl;

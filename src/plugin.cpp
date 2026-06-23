@@ -103,7 +103,7 @@ OBPlugin* OBPlugin::BaseFindType(PluginMapType& Map, const char* ID)
 
   if(!ID || !*ID)
     return nullptr;
-  PluginMapType::iterator itr = Map.find(ID);
+  auto itr = Map.find(ID);
   if(itr==Map.end())
     return nullptr;
   else

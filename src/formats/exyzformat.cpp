@@ -111,7 +111,7 @@ namespace OpenBabel
   /////////////////////////////////////////////////////////////////
   bool EXYZFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = pOb->CastAndClear<OBMol>();
+    auto* pmol = pOb->CastAndClear<OBMol>();
     if (pmol == nullptr)
       return false;
 
@@ -290,7 +290,7 @@ namespace OpenBabel
         return(false);
     }
     if (unitCell) {
-        OBUnitCell *unitCellInfo = new OBUnitCell;
+        auto *unitCellInfo = new OBUnitCell;
         matrix3x3 unitCellMatrix;
         for (unsigned int i = 1; i <= 3; i ++) {
             if (!ifs.getline(buffer,BUFF_SIZE)) {
@@ -431,7 +431,7 @@ namespace OpenBabel
 
   bool EXYZFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   {
-    OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+    auto* pmol = dynamic_cast<OBMol*>(pOb);
     if (pmol == nullptr)
       return false;
 
@@ -472,7 +472,7 @@ namespace OpenBabel
         ofs << "Offset " << setw(15)
             << right << 0. << " " << setw(15) << 0. << " " << setw(15) << 0. << endl;
     } else {
-        OBUnitCell *uC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
+        auto *uC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
         matrix3x3 unitCellMatrix = uC->GetCellMatrix();
         vector3 offset = uC->GetOffset();
         ofs << right << "Vector1"

@@ -356,7 +356,7 @@ YOBFormat theYOBFormat;
    IF options CONTAINS 'f' (COMMAND LINE -af), ATOM NAMES WILL STAY FIXED (I.E. LEAVING THE SPACE IN THE FIRST COLUMN) */
 bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = pOb->CastAndClear<OBMol>();
+  auto* pmol = pOb->CastAndClear<OBMol>();
   if (pmol == nullptr)
       return false;
 
@@ -471,7 +471,7 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
    IF options CONTAINS 'a' (COMMAND LINE -xa), AROMATIC ATOMS WILL BE FLAGGED */
 bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 {
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if (pmol == nullptr)
       return false;
 

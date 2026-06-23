@@ -148,7 +148,7 @@ namespace OpenBabel
   */
   bool FCHKFormat::ReadMolecule(OBBase * pOb, OBConversion * pConv)
   {
-    OBMol * const pmol = dynamic_cast<OBMol*>(pOb);
+    auto * const pmol = dynamic_cast<OBMol*>(pOb);
 
     if (!pmol)
       return false;
@@ -246,7 +246,7 @@ namespace OpenBabel
               return false;
             }
 
-            OBVectorData *dipoleMoment = new OBVectorData;
+            auto *dipoleMoment = new OBVectorData;
             dipoleMoment->SetAttribute("Dipole Moment");
             dipoleMoment->SetData(moments[0], moments[1], moments[2]);
             dipoleMoment->SetOrigin(fileformatInput);
@@ -698,7 +698,7 @@ namespace OpenBabel
     pmol->EndModify();
 
     if (numAOrb > 0 && alphaorb.size() == numAOrb) {
-      OBOrbitalData *od = new OBOrbitalData; // create new store
+      auto *od = new OBOrbitalData; // create new store
       vector<string> symmetries;
 
       if (numBOrb > 0 && betaorb.size() == numBOrb) {  // open shell calculation
@@ -748,7 +748,7 @@ namespace OpenBabel
           char * endptr;
           T num;
 
-          for (vector<string>::const_iterator it=vs.begin(); vs.end() != it; ++it)
+          for (auto it=vs.begin(); vs.end() != it; ++it)
             {
               if (typeid(double) == typeid(T))
                 num = static_cast<T>(strtod((*it).c_str(), &endptr));

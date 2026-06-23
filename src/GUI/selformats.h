@@ -16,15 +16,15 @@ public:
 	{
 		//Cannot get SetSize() to work here so use fixed item height
 		size_t height = 5 + 15 * AllFormatsArray.GetCount();
-		size_t maxheight = static_cast<size_t> (0.8*wxSystemSettings::GetMetric(wxSYS_SCREEN_Y));
+		auto maxheight = static_cast<size_t> (0.8*wxSystemSettings::GetMetric(wxSYS_SCREEN_Y));
 		if(height > maxheight)
 			height = maxheight;
 		pList = new wxCheckListBox(this, wxID_ANY, wxDefaultPosition,
 			wxSize(-1,height), AllFormatsArray);
 
-		wxBoxSizer* topSizer = new wxBoxSizer(wxHORIZONTAL);
+		auto* topSizer = new wxBoxSizer(wxHORIZONTAL);
 		topSizer->Add(pList,1,wxEXPAND);
-		wxBoxSizer* buttonSizer = new wxBoxSizer(wxVERTICAL);
+		auto* buttonSizer = new wxBoxSizer(wxVERTICAL);
 		buttonSizer->Add(new wxButton(this, wxID_OK, wxT("OK")),0,wxALL,10);
 		buttonSizer->Add(new wxButton(this,wxID_CANCEL),0,wxALL,10);
 

@@ -83,7 +83,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
   if(!strcmp(OptionText, "inactive"))
     return true;
 
-  OBMol* pmol = dynamic_cast<OBMol*>(pOb);
+  auto* pmol = dynamic_cast<OBMol*>(pOb);
   if(!pmol)
     return false;
   if(pConv->IsFirstInput())
@@ -173,7 +173,7 @@ bool OpLargest::Do(OBBase* pOb, const char* OptionText, OpMap* /*pOptions*/, OBC
   else
   {
     //replace mols in selection if new mol is better candidate
-    multimap<double, OBBase*>::iterator leastwanted = 
+    auto leastwanted =
       _rev ? --_selmap.end() : _selmap.begin();
     if((!_rev && val>leastwanted->first) || (_rev && val<leastwanted->first))
     {
