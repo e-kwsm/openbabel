@@ -621,7 +621,7 @@ namespace OpenBabel
 	      if (! ReadVariables(ifs, factor, "end")) return false;
 
 	      ReadMode=SKIP;
-	      geomList.push_back("end\n");
+	      geomList.emplace_back("end\n");
 	      continue;
 	    }
 
@@ -758,7 +758,7 @@ namespace OpenBabel
     if (!ok) return false;
     
     // Stick a header line first
-    geomList.push_back("zmatrix bohr");
+    geomList.emplace_back("zmatrix bohr");
     
     // Read zmatrix into list until blank line
     while (ifs.good() && ifs.getline(buffer, BUFF_SIZE) && strlen(buffer) != 0)
@@ -967,7 +967,7 @@ namespace OpenBabel
           std::vector< vector3 > atoml;
           for( int j=0; j < natoms; j++ )
             {
-              atoml.push_back( vector3(0.0,0.0,0.0) );
+              atoml.emplace_back( 0.0,0.0,0.0 );
             }
           Lx.push_back( atoml );
         }
@@ -1087,7 +1087,7 @@ namespace OpenBabel
           std::vector< vector3 > atoml;
           for( int j=0; j < natoms; j++ )
             {
-              atoml.push_back( vector3(0.0,0.0,0.0) );
+              atoml.emplace_back( 0.0,0.0,0.0 );
             }
           Lx.push_back( atoml );
         }
