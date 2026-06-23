@@ -145,7 +145,7 @@ namespace OpenBabel
 
     if (!mol.NumAtoms()) { // skip the rest of this processing
       mol.EndModify();
-      return(false);
+      return false;
     }
 
     // Use residue definitions to assign bond orders
@@ -187,7 +187,7 @@ namespace OpenBabel
     while(strlen(buffer) == 0 && !ifs.eof() );
     ifs.seekg(ipos);
 
-    return(true);
+    return true;
   }
 
   static double parseAtomCharge(char *buffer, OBMol &mol)
@@ -230,7 +230,7 @@ namespace OpenBabel
   {
     string sbuf = &buffer[6];
     if (sbuf.size() < 48)
-      return(false);
+      return false;
 
     bool hetatm = (EQn(buffer,"HETATM",6)) ? true : false;
 
@@ -413,7 +413,7 @@ namespace OpenBabel
       }
 
     if (!mol.AddAtom(atom))
-      return(false);
+      return false;
     else
       {
         OBAtom *atom = mol.GetAtom(mol.NumAtoms());
@@ -423,7 +423,7 @@ namespace OpenBabel
         res->SetAtomID(atom, sbuf.substr(6,4));
         res->SetHetAtom(atom, hetatm);
 
-        return(true);
+        return true;
       }
   }
 
@@ -605,7 +605,7 @@ namespace OpenBabel
       ofs << "ENDMDL" << endl;
     }
 
-    return(true);
+    return true;
   }
 
 

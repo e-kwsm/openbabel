@@ -237,7 +237,7 @@ namespace OpenBabel
 
     for (auto* p : vic)
       delete p;
-    return(true);
+    return true;
   }
 
 	// This is based on the Babel 1.6 code. It may not be ideal.
@@ -399,7 +399,7 @@ namespace OpenBabel
 
     mol.SetTitle(title);
     cleanVic();
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

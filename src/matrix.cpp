@@ -69,7 +69,7 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
     unsigned int i,j,k;
 
     if (a.size() != b.size())
-        return(false);
+        return false;
 
     c.resize(a.size());
 
@@ -84,7 +84,7 @@ bool mult_matrix(std::vector<std::vector<double> > &c,
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool mult_matrix_f(double *c, double *a, double *b, int rows, int cols)
@@ -102,7 +102,7 @@ bool mult_matrix_f(double *c, double *a, double *b, int rows, int cols)
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols)
@@ -117,7 +117,7 @@ bool mult_matrix_ff(double **c, double **a, double **b, int rows, int cols)
                 c[i][j] = c[i][j] + a[i][k] * b[k][j];
         }
 
-    return(true);
+    return true;
 }
 
 bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
@@ -142,7 +142,7 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
     if (cols != rows)
     {
         det = 0.0;
-        return(false);
+        return false;
     }
 
     det = 1.0;
@@ -215,7 +215,7 @@ bool invert_matrix(std::vector<std::vector<double> > &mat, double &det)
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool invert_matrix_f(double *mat, double &det, int rows, int cols)
@@ -237,7 +237,7 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
     if (cols != rows)
     {
         det = 0.0;
-        return(false);
+        return false;
     }
 
     det = 1.0;
@@ -325,7 +325,7 @@ bool invert_matrix_f(double *mat, double &det, int rows, int cols)
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
@@ -347,7 +347,7 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
     if (cols != rows)
     {
         det = 0.0;
-        return(false);
+        return false;
     }
 
     det = 1.0;
@@ -420,7 +420,7 @@ bool invert_matrix_ff(double **mat, double &det, int rows, int cols)
         }
     }
 
-    return(true);
+    return true;
 }
 
 bool convert_matrix_f(std::vector<std::vector<double> > &src, double *dst)

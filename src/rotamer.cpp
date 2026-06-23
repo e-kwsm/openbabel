@@ -112,7 +112,7 @@ namespace OpenBabel
     tmp[1] = tmp[2];
     tmp[2] = c;
     memcpy((char*)&i,tmp,sizeof(int));
-    return(i);
+    return i;
   }
 
   OBGenericData* OBRotamerList::Clone(OBBase* newparent) const
@@ -696,7 +696,7 @@ namespace OpenBabel
     tmp |= ((int)(cf*max[1])) << 10;
     cf = c[2];
     tmp |= ((int)(cf*max[2]));
-    return(tmp);
+    return tmp;
   }
 
   void UnpackCoordinate(double c[3],double max[3],int tmp)

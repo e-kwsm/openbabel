@@ -415,7 +415,7 @@ bool LpmdFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   ofs << '\n';
  }
 
- return(true);
+ return true;
 }
 
 } //namespace OpenBabel

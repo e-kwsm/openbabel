@@ -334,7 +334,7 @@ namespace OpenBabel
     mol.SetTotalSpinMultiplicity(spin);
 
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
   ////////////////////////////////////////////////////////////////
@@ -391,7 +391,7 @@ namespace OpenBabel
 
     ofs << "$end" << endl;
 
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel

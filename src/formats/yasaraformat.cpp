@@ -61,7 +61,7 @@ int int32lemem(char *data)
         ((int)((unsigned char*)data)[2]<<16)+((int)((unsigned char*)data)[3]<<24);
   intmino2=-1073741824;
   if ((unsigned int) INT_MIN!=0x80000000&&(value&0x80000000)) value=(intmino2*2)+(value&0x7fffffff);
-  return(value); }
+  return value; }
 
 int int32le(int32 value)
 { return(int32lemem((char*)&value)); }
@@ -93,7 +93,7 @@ int str_natoi(char *string,int number)
   string[number]=0;
   i=atoi(string);
   string[number]=ch;
-  return(i); }
+  return i; }
 
 /* COPY MAXIMALLY n CHARACTERS AND TERMINATE WITH ZERO
    =================================================== */
@@ -276,8 +276,8 @@ void mob_invid(struct atomid *id)
    ========================= */
 int mob_issameres(struct atomid *id1,struct atomid *id2)
 { if (id1->resnamechain==id2->resnamechain&&id1->resno==id2->resno&&
-      id1->inscode==id2->inscode) return(1);
-  return(0); }
+      id1->inscode==id2->inscode) return 1;
+  return 0; }
 
 /* CHECK IF ATOM BELONGS TO GIVEN RESIDUE
    ====================================== */
@@ -301,7 +301,7 @@ int mob_reslen(struct mobatom *atom,int atomsleft)
   { if (!mob_hasres(atom,&id)) break;
     i++;
     atom=mob_next(atom); }
-  return(i); }
+  return i; }
 
 /* CHECK IF ATOM HAS THE GIVEN NAME
    ================================ */
@@ -309,7 +309,7 @@ int mob_hasname(struct mobatom *atom,struct atomid *id2)
 { struct atomid id1;
 
   mob_getid(&id1,atom);
-  if (id1.atom==id2->atom&&id1.altloc==id2->altloc) return(1); else return(0); }
+  if (id1.atom==id2->atom&&id1.altloc==id2->altloc) return 1; else return 0; }
 
 
 class YOBFormat : public OBMoleculeFormat
@@ -381,7 +381,7 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
 
   /* VERIFY FILE FORMAT */
   ifs.read(buffer,8);
-  if (!EQn(buffer,"YMOB",4)) return(false);
+  if (!EQn(buffer,"YMOB",4)) return false;
   /* IGNORE ENTIRE INFO STRUCTURE */
   infosize=uint32lemem(&buffer[4]);
   for (i=0;i<infosize;i++) ifs.read(buffer,1);
@@ -389,7 +389,7 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   ifs.read(buffer,4);
   size=uint32lemem(buffer);
   mob=(mobdata*)mem_alloc(size);
-  if (!mob) return(false);
+  if (!mob) return false;
   ifs.read((char*)mob,size);
   /* PARSE THE ATOMS */
   mol.Clear();
@@ -462,8 +462,8 @@ bool YOBFormat::ReadMolecule(OBBase* pOb, OBConversion* pConv)
   if (charged) mol.SetPartialChargesPerceived();
   if (has_residue_info)
     mol.SetChainsPerceived();
-  if (!mol.NumAtoms()) return(false);
-  return(true); }
+  if (!mol.NumAtoms()) return false;
+  return true; }
 
 /* WRITE YASARA OBJECT
    ===================
@@ -497,7 +497,7 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
   vector<OBBond*>::iterator iter;
 
   atoms=mol.NumAtoms();
-  if (!atoms) return(false);
+  if (!atoms) return false;
   /* WRITE FILE FORMAT */
   ofs<<"YMOB";
   /* WRITE AN INFO STRUCTURE WITH EMPTY TRANSFORMATION HISTORY (UNIT MATRIX) */
@@ -578,6 +578,6 @@ bool YOBFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
       str_copy(&buffer[8],"UNK    1"); }
     for (j=4;j<16;j++) if (!buffer[j]) buffer[j]=' ';
     ofs.write(buffer,16); }
-  return(true); }
+  return true; }
 
 }

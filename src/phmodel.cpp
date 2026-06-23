@@ -221,10 +221,10 @@ namespace OpenBabel
   bool OBChemTsfm::Init(string &bgn,string &end)
   {
     if (!_bgn.Init(bgn))
-      return(false);
+      return false;
     if (!end.empty())
       if (!_end.Init(end))
-        return(false);
+        return false;
 
     //find atoms to be deleted
     unsigned int i,j;
@@ -305,15 +305,15 @@ namespace OpenBabel
 
     //make sure there is some kind of transform to do here
     if (_vadel.empty() && _vchrg.empty() && _vbond.empty() && _vele.empty())
-      return(false);
+      return false;
 
-    return(true);
+    return true;
   }
 
   bool OBChemTsfm::Apply(OBMol &mol)
   {
     if (!_bgn.Match(mol))
-      return(false);
+      return false;
     mol.BeginModify();
     vector<vector<int> > mlist = _bgn.GetUMapList();
 
@@ -394,7 +394,7 @@ namespace OpenBabel
       }
 
     mol.EndModify();
-    return(true);
+    return true;
   }
 
   bool OBChemTsfm::IsAcid()

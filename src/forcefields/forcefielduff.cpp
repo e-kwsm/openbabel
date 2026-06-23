@@ -444,7 +444,7 @@ namespace OpenBabel {
     term6 = term6 * term6 * term6; // ^6
     term12 = term6 * term6; // ^12
 
-    energy = kab * ((term12) - (2.0 * term6));
+    energy = kab * (term12 - (2.0 * term6));
 
     if (gradients) {
       term13 = term12 / rab; // ^13

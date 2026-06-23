@@ -188,7 +188,7 @@ int main(int argc,char **argv)
       // then with code like the above they are just ignored.
     } // end for loop
   
-  return(0);
+  return 0;
 }
 
 
@@ -202,7 +202,7 @@ int nrings(OBMol &mol)
   
   vr = mol.GetSSSR();
   nr = vr.size();
-  return (nr);
+  return nr;
 }
 
 //! \return the sequence of residues ordered by chain

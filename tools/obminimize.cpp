@@ -238,7 +238,7 @@ int main(int argc,char **argv)
       if (pFF->DetectExplosion()) {
         cerr << "explosion has occurred!" << endl;
         conv.Write(&mol, &cout);
-        return(1);
+        return 1;
       } else
         pFF->GetCoordinates(mol);
     }
@@ -250,7 +250,7 @@ int main(int argc,char **argv)
     cerr << "Time: " << timeElapsed << "seconds. Iterations per second: " <<  double(totalSteps) / timeElapsed << endl;
   } // end for loop
 
-  return(0);
+  return 0;
 }
 
 //
