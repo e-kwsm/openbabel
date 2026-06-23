@@ -243,7 +243,7 @@ const char* Description() override  // required
           {
             //Finds n molecules with largest Tanimoto
             int n = atoi(p);
-            fs.FindSimilar(&patternMols[0], SeekposMap, n);
+            fs.FindSimilar(patternMols.data(), SeekposMap, n);
           }
         else
           {
@@ -254,7 +254,7 @@ const char* Description() override  // required
               MaxTani = atof( txt.substr( pos + 1 ).c_str() );
             }
             double MinTani = atof( txt.substr( 0, pos ).c_str() );
-            fs.FindSimilar(&patternMols[0], SeekposMap, MinTani, MaxTani);
+            fs.FindSimilar(patternMols.data(), SeekposMap, MinTani, MaxTani);
           }
 
         //Don't want to filter through SMARTS filter
@@ -297,7 +297,7 @@ const char* Description() override  // required
       if(exactmatch)
       {
         //Find mols where all fingerprint bits are the same as the target
-        fs.FindMatch(&patternMols[0], SeekPositions, MaxCandidates);
+        fs.FindMatch(patternMols.data(), SeekPositions, MaxCandidates);
         // ensure that SMARTS filter in transform.cpp looks only for an exact match
         // by setting an option with the number of heavy atoms in the pattern mol included.
         stringstream ss;

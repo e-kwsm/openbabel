@@ -193,7 +193,7 @@ namespace OpenBabel
     ETA[_nAtoms][_nAtoms] = 0.0;
 
     // Solve the matrix equation
-    _solveMatrix(ETA, &(CHI[0]), dim);    // CHI will contain the values
+    _solveMatrix(ETA, CHI.data(), dim);   // CHI will contain the values
 
     OBAtom *atom;
     for (unsigned int i = 0; i < _nAtoms; ++i)
