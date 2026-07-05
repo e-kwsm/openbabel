@@ -690,10 +690,11 @@ namespace OpenBabel
             atomLabel = vs[1];
             strcpy(buffer,vs[2].c_str());
           }
-        else if (vs.size() == 1) //no label, reset buffer
+        else if (vs.size() == 1) { //no label, reset buffer
           strcpy(buffer,vs[0].c_str());
-        else //blank line (e.g. only '(' or ')' characters): no more data
+        } else { //blank line (e.g. only '(' or ')' characters): no more data
           break;
+        }
 
         //Now parse the rest of the line
         //There should be three cases:
@@ -701,9 +702,9 @@ namespace OpenBabel
         //2. There are 7 tokens and the first token is a string containing the element symbol
         //3. There are 6 tokens and the first token is a number specifying the Cartesian x coordinate
         tokenize(vs,buffer);
-        if (vs.size() == 0)
+        if (vs.size() == 0) {
           break;
-        else if (vs.size() < 6)
+        } else if (vs.size() < 6)
           {
             //TODO Replace with correct OBError.ThrowError() call
             cerr << "Invalid format in geometry specification.\n";
@@ -1007,7 +1008,9 @@ namespace OpenBabel
           }
       }
     else
+      {
       ofs << defaultKeywords << endl;
+      }
 
     ofs << mol.GetTitle() << endl;
     ofs << endl; // comment

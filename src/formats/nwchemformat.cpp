@@ -311,9 +311,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             charge = atoi(vs[4].c_str());
         else if (vs[0][0] == '1')
             for (unsigned int i = 0; i < 3; i++)
-                if (vs[i+1][0] == '1')
+                if (vs[i+1][0] == '1') {
                     dipole[i] = atof(vs[4].c_str());
-        else if (vs[0][0] == '2')
+        } else if (vs[0][0] == '2')
         {
             double value = atof(vs[4].c_str());
             unsigned int i[2], j = 0;
@@ -328,7 +328,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             quadrupole(i[1], i[0]) = value;
         }
         else
+        {
             return;
+        }
     }
   }
 
@@ -364,7 +366,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
         else if (strstr(buffer, OSCILATOR_STRENGTH_PATTERN) != nullptr)
         {
             if (strstr(buffer, SPIN_FORBIDDEN_PATTERN) != nullptr)
+            {
                 oscilator_strengths.push_back(0);
+            }
             else
             {
                 tokenize(vs, buffer);

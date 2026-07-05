@@ -1189,9 +1189,9 @@ void writeAtomEntry(rapidjson::Value &arr,
 
     // Pass-through KET attributes.
     int v = 0;
-    if (getPairDataInt(atom, kAttrKetMapping, v) && v != 0)
+    if (getPairDataInt(atom, kAttrKetMapping, v) && v != 0) {
         obj.AddMember("mapping", v, al);
-    else if (auto *pi = dynamic_cast<OBPairInteger *>(atom->GetData("Atom Class"))) {
+    } else if (auto *pi = dynamic_cast<OBPairInteger *>(atom->GetData("Atom Class"))) {
         obj.AddMember("mapping", pi->GetGenericValue(), al);
     }
     if (getPairDataInt(atom, kAttrKetInvRet, v) && v != 0)

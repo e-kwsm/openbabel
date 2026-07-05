@@ -985,9 +985,9 @@ namespace OpenBabel
       	tokenize(vs, buffer);
 
         auto sp = std::unique_ptr<OBSmartsPattern>(new OBSmartsPattern);
-        if (sp->Init(vs[1]))
+        if (sp->Init(vs[1])) {
           _vexttyp.emplace_back(std::move(sp), vs[2]);
-        else {
+        } else {
           obErrorLog.ThrowError(__FUNCTION__, " Could not parse atom type table from ghemical.prm", obInfo);
           return false;
         }
