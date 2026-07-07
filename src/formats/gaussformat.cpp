@@ -268,7 +268,7 @@ namespace OpenBabel
 
     // file should end with a blank line
     ofs << endl;
-    return(true);
+    return true;
   }
 
   static void add_unique_pairdata_to_mol(OpenBabel::OBMol *mol,
@@ -648,7 +648,7 @@ namespace OpenBabel
             // the end of the coordinates vector.
             if (coordinates.size() == static_cast<size_t>(natoms) * 3) {
               // malloc / memcpy
-              double *tmpCoords = new double [(natoms)*3];
+              double *tmpCoords = new double [natoms*3];
               memcpy(tmpCoords, &coordinates[0], sizeof(double)*natoms*3);
               vconf.push_back(tmpCoords);
               confDimensions.push_back(3); // always 3D -- OBConformerData allows mixing 2D and 3D structures
@@ -1450,7 +1450,7 @@ namespace OpenBabel
     mol.SetTotalSpinMultiplicity(spin_multiplicity);
 
     mol.SetTitle(title);
-    return(true);
+    return true;
   }
 
 } //namespace OpenBabel
