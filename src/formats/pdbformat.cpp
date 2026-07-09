@@ -683,7 +683,9 @@ namespace OpenBabel
 
         //two char. elements are on position 13 and 14 one char. start at 14
         if (strlen(type_name) > 1)
+        {
           type_name[1] = toupper(type_name[1]);
+        }
         else
           {
             char tmp[10];
@@ -983,7 +985,9 @@ namespace OpenBabel
     /* residue name */
     string resname = sbuf.substr(11,3);
     if (resname == "   ")
+    {
       resname = "UNK";
+    }
     else
       {
         while (!resname.empty() && resname[0] == ' ')
@@ -1056,10 +1060,11 @@ namespace OpenBabel
               type = atmid.substr(1, atmid.size() - 1);
             else
               type = atmid.substr(0,1);
-          } else if (atmid[0] == ' ')
+          } else if (atmid[0] == ' ') {
             type = atmid.substr(1,1); // one char element
-          else if (atmid.size() > 1)
+          } else if (atmid.size() > 1) {
             type = atmid.substr(1,2);
+          }
 
           // Some cleanup steps
           if (atmid == resname) {

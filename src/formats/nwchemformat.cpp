@@ -580,7 +580,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
                     ReadMultipoleMoment(ifs, molecule);
                 }
                 else if (strstr(buffer, MEP_STEP_END_PATTERN) != nullptr)
+                {
                     break;
+                }
             }
         }
         else if (strstr(buffer, END_OF_CALCULATION_PATTERN) != nullptr)
@@ -624,7 +626,9 @@ static const char* OPTIMIZATION_END_PATTERN = "  Optimization converged";
             molecule->SetConformer(molecule->NumConformers() - 1);
         }
         else if (strstr(buffer, ORBITAL_SECTION_PATTERN_2) != nullptr && strstr(buffer, ORBITAL_SECTION_PATTERN_1) != nullptr)
+        {
             ReadOrbitals(ifs, molecule);
+        }
         else if (strstr(buffer, OPTIMIZATION_STEP_PATTERN) != nullptr)
         {
             // Extract energy

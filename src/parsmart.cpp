@@ -491,7 +491,9 @@ namespace OpenBabel
             pat->atom = tmp;
           }
         else
+        {
           pat->atom = new AtomSpec[pat->aalloc];
+        }
         if( !pat->atom )
           FatalAllocationError("atom pool");
       }
@@ -528,7 +530,9 @@ namespace OpenBabel
             pat->bond = tmp;
           }
         else
+        {
           pat->bond = new BondSpec[pat->balloc];
+        }
         if( !pat->bond )
           FatalAllocationError("bond pool");
       }
@@ -756,7 +760,9 @@ namespace OpenBabel
             return BuildAtomLeaf(AE_CHIRAL,AL_UNSPECIFIED); // unspecified
           }
         else if (*LexPtr != '@')
+        {
           return BuildAtomLeaf(AE_CHIRAL,AL_ANTICLOCKWISE);
+        }
         else
           {
             LexPtr++;
@@ -772,7 +778,9 @@ namespace OpenBabel
             return BuildAtomLeaf(AE_HYB,index);
           }
         else
+        {
           return BuildAtomLeaf(AE_HYB,1);
+        }
 
       case('0'): case('1'): case('2'): case('3'): case('4'):
       case('5'): case('6'): case('7'): case('8'): case('9'):
@@ -1140,7 +1148,9 @@ namespace OpenBabel
               return nullptr;
           }
         else
+        {
           index = 1;
+        }
         return BuildAtomLeaf(AE_IMPLICIT,index);
 
       case('n'):  return GenerateAromElem(7,true);
@@ -1249,7 +1259,9 @@ namespace OpenBabel
                     return nullptr;
                   }
                 else
+                {
                   return( expr1 );
+                }
               }
             expr1 = BuildAtomBin(AE_ANDHI,expr1,expr2);
           }
@@ -1349,7 +1361,9 @@ namespace OpenBabel
                     return nullptr;
                   }
                 else
+                {
                   return expr1;
+                }
               }
             expr1 = BuildBondBin(BE_ANDHI,expr1,expr2);
           }
@@ -1470,7 +1484,9 @@ namespace OpenBabel
                 LexPtr += 2;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
 
             if( stat->closure[index] == -1 )
               {
@@ -1499,7 +1515,9 @@ namespace OpenBabel
                 bexpr = nullptr;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
             break;
 
           case('0'):  case('1'):  case('2'):
@@ -1543,7 +1561,9 @@ namespace OpenBabel
                 bexpr = nullptr;
               }
             else
+            {
               return ParseSMARTSError(pat,bexpr);
+            }
             break;
 
           case('['):
@@ -1555,7 +1575,9 @@ namespace OpenBabel
                 pat->hasExplicitH = true;
               }
             else
+            {
               aexpr = ParseAtomExpr(0);
+            }
             vb = (*LexPtr == ':') ? GetVectorBinding():0;
             if( aexpr == nullptr || (*LexPtr!=']') ){
               if (aexpr != nullptr){
@@ -1681,7 +1703,9 @@ namespace OpenBabel
     if( result )
       {
         if( flag )
+        {
           return(SMARTSError(result));
+        }
         else
           {
             MarkGrowBonds(result);
@@ -1696,7 +1720,9 @@ namespace OpenBabel
           }
       }
     else
+    {
       return nullptr;
+    }
   }
 
 
@@ -1849,7 +1875,9 @@ namespace OpenBabel
         	return false;
       }
     else if(!matcher.match(mol,_pat,mlist,mtype == Single))
+    {
     	return false;
+    }
 
     if((mtype == AllUnique) && mlist.size() > 1)
     {
@@ -2017,10 +2045,13 @@ namespace OpenBabel
                             vif[bcount] = false;
                         }
                       else
+                      {
                         bcount--;
+                      }
                     }
-                  else //bond must have already been visited - backtrack
+                  else { //bond must have already been visited - backtrack
                     bcount--;
+                  }
                 }
               else //need to map atom and check bond
                 {
@@ -2124,17 +2155,17 @@ namespace OpenBabel
           // construct a OBTetrahedralStereo::Config using the smarts pattern
           OBTetrahedralStereo::Config smartsConfig;
           smartsConfig.center = center->GetId();
-          if (nbrs.at(0) == SmartsImplicitRef)
+          if (nbrs.at(0) == SmartsImplicitRef) {
             smartsConfig.from = OBStereo::ImplicitRef;
-          else {
+          } else {
             OBAtom *ra0 = mol.GetAtom( (*m)[nbrs.at(0)] );
             if (!ra0) { allStereoCentersMatch = false; break; }
             smartsConfig.from = ra0->GetId();
           }
           OBStereo::Ref firstref;
-          if (nbrs.at(1) == SmartsImplicitRef)
+          if (nbrs.at(1) == SmartsImplicitRef) {
             firstref = OBStereo::ImplicitRef;
-          else {
+          } else {
             OBAtom *ra1 = mol.GetAtom( (*m)[nbrs.at(1)] );
             if (!ra1) { allStereoCentersMatch = false; break; }
             firstref = ra1->GetId();
@@ -2390,7 +2421,9 @@ namespace OpenBabel
         memset((char*)_uatoms,'\0',sizeof(bool)*(mol.NumAtoms()+1));
       }
     else
+    {
       _uatoms = nullptr;
+    }
   }
 
   OBSSMatch::~OBSSMatch()
