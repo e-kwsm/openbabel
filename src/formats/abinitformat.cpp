@@ -135,7 +135,7 @@ namespace OpenBabel
           x = atof((char*)vs[1].c_str()) * unit;
           y = atof((char*)vs[2].c_str()) * unit;
 	  z = atof((char*)vs[3].c_str()) * unit;
-	  atomPositions.push_back(vector3(x, y, z));
+	  atomPositions.emplace_back(x, y, z);
           }
 	  // get next line
 	  ifs.getline(buffer,BUFF_SIZE);
@@ -145,7 +145,7 @@ namespace OpenBabel
 	    x = atof(vs[0].c_str()) * unit;
 	    y = atof(vs[1].c_str()) * unit;
 	    z = atof(vs[2].c_str()) * unit;
-            atomPositions.push_back(vector3(x, y, z));
+            atomPositions.emplace_back(x, y, z);
             // get next line
             ifs.getline(buffer,BUFF_SIZE);
             tokenize(vs, buffer);

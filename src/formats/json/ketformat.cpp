@@ -806,7 +806,7 @@ private:
             ad->SetOrigin(fileformatInput);
             atom->SetData(ad);
             if (expandAliases_ && atom->GetAtomicNum() == 0)
-                aliasesToExpand_.push_back(std::make_pair(ad, atom));
+                aliasesToExpand_.emplace_back(ad, atom);
         }
 
         // Attachment points (bitmask).
