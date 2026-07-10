@@ -1,6 +1,8 @@
 #ifndef SELFORMATS_DIALOG_H
 #define SELFORMATS_DIALOG_H
 
+#include <algorithm>
+
 // Class for dialog to select active formats
 class SelFormatsDialog : public wxDialog
 {
@@ -17,8 +19,7 @@ public:
 		//Cannot get SetSize() to work here so use fixed item height
 		size_t height = 5 + 15 * AllFormatsArray.GetCount();
 		size_t maxheight = static_cast<size_t> (0.8*wxSystemSettings::GetMetric(wxSYS_SCREEN_Y));
-		if(height > maxheight)
-			height = maxheight;
+		height = std::min(height, maxheight);
 		pList = new wxCheckListBox(this, wxID_ANY, wxDefaultPosition,
 			wxSize(-1,height), AllFormatsArray);
 
