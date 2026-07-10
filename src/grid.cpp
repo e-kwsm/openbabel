@@ -23,6 +23,8 @@ GNU General Public License for more details.
 #include <openbabel/atom.h>
 #include <openbabel/grid.h>
 
+#include <algorithm>
+
 using namespace std;
 
 namespace OpenBabel
@@ -42,18 +44,12 @@ namespace OpenBabel
         _zmax = atom->GetZ();
       }
       else {
-        if (atom->GetX() < _xmin)
-          _xmin = atom->GetX();
-        if (atom->GetX() > _xmax)
-          _xmax = atom->GetX();
-        if (atom->GetY() < _ymin)
-          _ymin = atom->GetY();
-        if (atom->GetY() > _ymax)
-          _ymax = atom->GetY();
-        if (atom->GetZ() < _zmin)
-          _zmin = atom->GetZ();
-        if (atom->GetZ() > _zmax)
-          _zmax = atom->GetZ();
+        _xmin = std::min(atom->GetX(), _xmin);
+        _xmax = std::max(atom->GetX(), _xmax);
+        _ymin = std::min(atom->GetY(), _ymin);
+        _ymax = std::max(atom->GetY(), _ymax);
+        _zmin = std::min(atom->GetZ(), _zmin);
+        _zmax = std::max(atom->GetZ(), _zmax);
       }
     }
   }
@@ -204,18 +200,15 @@ namespace OpenBabel
 
     /* calculate grid voxel and fractional offsets */
     gx=(x-_xmin-_halfSpace)*_inv_spa;
-    if (gx<0)
-      gx=0;
+    gx = std::max(gx, 0.0);
     igx=static_cast<int>(gx);
     fgx=gx-static_cast<double>(igx);
     gy=(y-_ymin-_halfSpace)*_inv_spa;
-    if (gy<0)
-      gy=0;
+    gy = std::max(gy, 0.0);
     igy=static_cast<int>(gy);
     fgy= gy - static_cast<double>(igy);
     gz=(z-_zmin-_halfSpace)*_inv_spa;
-    if (gz<0)
-      gz=0;
+    gz = std::max(gz, 0.0);
     igz=static_cast<int>(gz);
     fgz= gz - static_cast<double>(igz);
 
@@ -276,18 +269,15 @@ namespace OpenBabel
 
     /* calculate grid voxel and fractional offsets */
     gx=(x-_xmin-_halfSpace)*_inv_spa;
-    if (gx<0)
-      gx=0;
+    gx = std::max(gx, 0.0);
     igx=static_cast<int>(gx);
     fgx=gx-(double)igx;
     gy=(y-_ymin-_halfSpace)*_inv_spa;
-    if (gy<0)
-      gy=0;
+    gy = std::max(gy, 0.0);
     igy=static_cast<int>(gy);
     fgy= gy - (double) igy;
     gz=(z-_zmin-_halfSpace)*_inv_spa;
-    if (gz<0)
-      gz=0;
+    gz = std::max(gz, 0.0);
     igz=static_cast<int>(gz);
     fgz= gz - (double) igz;
 

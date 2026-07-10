@@ -19,6 +19,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/babelconfig.h>
 
+#include <algorithm>
 #include <set>
 
 #include <openbabel/forcefield.h>
@@ -1618,10 +1619,8 @@ namespace OpenBabel
       for (unsigned int j = 1; j < rotorWeights[i].size(); ++j) {
         if (j == rotorKey[i])
           continue; // we already checked for problems with this entry
-        if (rotorWeights[i][j] < minWeight)
-          minWeight = rotorWeights[i][j];
-        if (rotorWeights[i][j] > maxWeight)
-          maxWeight = rotorWeights[i][j];
+        minWeight = std::min(rotorWeights[i][j], minWeight);
+        maxWeight = std::max(rotorWeights[i][j], maxWeight);
       }
 
       fraction = bonus / (rotorWeights[i].size() - 1);
@@ -2428,8 +2427,7 @@ namespace OpenBabel
       if (e_n2 < e_n1) {  // increase stepsize
         e_n1 = e_n2;
         step *= 2.15;
-        if (step > 1.0)
-          step = 1.0;
+        step = std::min(step, 1.0);
       }
 
     }
@@ -2510,10 +2508,8 @@ namespace OpenBabel
       double denom = e_n3 - 2.0 * e_n2 + e_n1; // f'(x)
       if (denom != 0.0) {
         step = fabs(step - delta * (e_n2 - e_n1) / denom);
-        if (step > max_scl) {
           //          cout << "WARNING: damped steplength " << step << " to " << max_scl << endl;
-          step = max_scl;
-        }
+        step = std::min(step, max_scl);
       } else {
         break;
       }
@@ -2602,8 +2598,7 @@ namespace OpenBabel
         e_n1 = e_n2;
         alpha += step; // we've moved some distance
         step *= 2.15;
-        if (step > 1.0)
-          step = 1.0;
+        step = std::min(step, 1.0);
       }
 
     }
@@ -2661,8 +2656,7 @@ namespace OpenBabel
       if (e_n2 < e_n1) {  // increase stepsize
         e_n1 = e_n2;
         step *= 1.2;
-        if (step > 1.0)
-          step = 1.0;
+        step = std::min(step, 1.0);
       }
 
     }
@@ -2847,8 +2841,7 @@ namespace OpenBabel
           }
 
           // check to see how large the gradients are
-          if (dir.length_2() < maxgrad)
-            maxgrad = dir.length_2();
+          maxgrad = std::min(dir.length_2(), maxgrad);
 
           if (!_constraints.IsXFixed(idx))
             _gradientPtr[coordIdx] = dir.x();
@@ -3052,8 +3045,7 @@ namespace OpenBabel
           }
 
           // check to see how large the gradients are
-          if (grad2.length_2() < maxgrad)
-            maxgrad = grad2.length_2();
+          maxgrad = std::min(grad2.length_2(), maxgrad);
 
           if (!_constraints.IsXFixed(idx))
             _grad1[coordIdx] = grad2.x();
@@ -3167,8 +3159,7 @@ namespace OpenBabel
         else
           dir = GetGradient(&*a) + _constraints.GetGradient(idx);
 
-        if (dir.length_2() < minGrad2)
-          minGrad2 = dir.length_2();
+        minGrad2 = std::min(dir.length_2(), minGrad2);
 
         gradOut[coordIdx]     = _constraints.IsXFixed(idx) ? 0.0 : -dir.x();
         gradOut[coordIdx + 1] = _constraints.IsYFixed(idx) ? 0.0 : -dir.y();
@@ -3275,8 +3266,7 @@ namespace OpenBabel
       double drtMax = st.drt.cwiseAbs().maxCoeff();
       if (drtMax > 0.0) {
         double cap = trustRadius / drtMax;
-        if (step > cap)
-          step = cap;
+        step = std::min(step, cap);
       }
       const double fxInit = fx;
 
@@ -4717,8 +4707,7 @@ namespace OpenBabel
 
               distance = sqrt(coord.distSq(a->GetVector()));
 
-              if (distance < minDistance)
-                minDistance = distance;
+              minDistance = std::min(distance, minDistance);
             } // end checking atoms
             // negative = away from molecule, 0 = vdw surface, positive = inside
             if (minDistance > 1.0) {
