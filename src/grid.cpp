@@ -44,12 +44,12 @@ namespace OpenBabel
         _zmax = atom->GetZ();
       }
       else {
-        _xmin = std::min(atom->GetX(), _xmin);
-        _xmax = std::max(atom->GetX(), _xmax);
-        _ymin = std::min(atom->GetY(), _ymin);
-        _ymax = std::max(atom->GetY(), _ymax);
-        _zmin = std::min(atom->GetZ(), _zmin);
-        _zmax = std::max(atom->GetZ(), _zmax);
+        _xmin = std::min(_xmin, atom->GetX());
+        _xmax = std::max(_xmax, atom->GetX());
+        _ymin = std::min(_ymin, atom->GetY());
+        _ymax = std::max(_ymax, atom->GetY());
+        _zmin = std::min(_zmin, atom->GetZ());
+        _zmax = std::max(_zmax, atom->GetZ());
       }
     }
   }

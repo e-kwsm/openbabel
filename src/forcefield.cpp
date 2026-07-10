@@ -1619,8 +1619,8 @@ namespace OpenBabel
       for (unsigned int j = 1; j < rotorWeights[i].size(); ++j) {
         if (j == rotorKey[i])
           continue; // we already checked for problems with this entry
-        minWeight = std::min(rotorWeights[i][j], minWeight);
-        maxWeight = std::max(rotorWeights[i][j], maxWeight);
+        minWeight = std::min(minWeight, rotorWeights[i][j]);
+        maxWeight = std::max(maxWeight, rotorWeights[i][j]);
       }
 
       fraction = bonus / (rotorWeights[i].size() - 1);
@@ -2841,7 +2841,7 @@ namespace OpenBabel
           }
 
           // check to see how large the gradients are
-          maxgrad = std::min(dir.length_2(), maxgrad);
+          maxgrad = std::min(maxgrad, dir.length_2());
 
           if (!_constraints.IsXFixed(idx))
             _gradientPtr[coordIdx] = dir.x();
@@ -3045,7 +3045,7 @@ namespace OpenBabel
           }
 
           // check to see how large the gradients are
-          maxgrad = std::min(grad2.length_2(), maxgrad);
+          maxgrad = std::min(maxgrad, grad2.length_2());
 
           if (!_constraints.IsXFixed(idx))
             _grad1[coordIdx] = grad2.x();
@@ -3159,7 +3159,7 @@ namespace OpenBabel
         else
           dir = GetGradient(&*a) + _constraints.GetGradient(idx);
 
-        minGrad2 = std::min(dir.length_2(), minGrad2);
+        minGrad2 = std::min(minGrad2, dir.length_2());
 
         gradOut[coordIdx]     = _constraints.IsXFixed(idx) ? 0.0 : -dir.x();
         gradOut[coordIdx + 1] = _constraints.IsYFixed(idx) ? 0.0 : -dir.y();
@@ -4707,7 +4707,7 @@ namespace OpenBabel
 
               distance = sqrt(coord.distSq(a->GetVector()));
 
-              minDistance = std::min(distance, minDistance);
+              minDistance = std::min(minDistance, distance);
             } // end checking atoms
             // negative = away from molecule, 0 = vdw surface, positive = inside
             if (minDistance > 1.0) {

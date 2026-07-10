@@ -316,7 +316,7 @@ namespace OpenBabel
     OBBond *bond;
     OBBondIterator i;
     for(bond = BeginBond(i); bond; bond = NextBond(i))
-      highest = std::max(bond->GetBondOrder(), highest);
+      highest = std::max(highest, bond->GetBondOrder());
 
     return(highest);
   }
@@ -909,7 +909,7 @@ namespace OpenBabel
         for (c = NextNbrAtom(k); c; c = NextNbrAtom(k))
           {
             degrees = b->GetAngle((OBAtom*)this, c);
-            minDegrees = std::min(degrees, minDegrees);
+            minDegrees = std::min(minDegrees, degrees);
           }
       }
     return minDegrees;
