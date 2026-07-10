@@ -2156,7 +2156,7 @@ namespace OpenBabel {
       };
     };
     currentAtom=getBond(n)->at[0];
-    if (getBond(n)->at[1] > currentAtom) currentAtom=getBond(n)->at[1];
+    currentAtom = std::max<int>(currentAtom, getBond(n)->at[1]);
     newBondList[0]=n;
     bondUsed[m]=1;
     n=1;
@@ -5529,11 +5529,11 @@ namespace OpenBabel {
     for (i=1; i<fragNo; i++) {
       ef=(PartFragmentDefinition*)list[i];
       r=ef->fragLeft+ef->fragWidth;
-      if (r > xMax) xMax=r;
+      xMax = std::max(xMax, r);
       r=ef->fragTop+ef->fragHeight;
-      if (r > yMax) yMax=r;
-      if (ef->fragTop < yMin) yMin=ef->fragTop;
-      if (ef->fragLeft < xMin) xMin=ef->fragLeft;
+      yMax = std::max(yMax, r);
+      yMin = std::min(yMin, ef->fragTop);
+      xMin = std::min(xMin, ef->fragLeft);
     };
     aspDelta=1000000; xNice=0; yNice=0;
     efInterest=(PartFragmentDefinition *)list[fragNo];
@@ -5548,8 +5548,8 @@ namespace OpenBabel {
           list[fragNo]=efInterest;
           return;
         };
-        xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
-        yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
+        xNew=x+efInterest->fragWidth; xNew = std::max(xNew, xMax);
+        yNew=y+efInterest->fragHeight; yNew = std::max(yNew, yMax);
         r=(yNew-yMin)/(xNew-xMin);
         if (abs(r-aspOptimal) < aspDelta) {
           xNice=x; yNice=y;
@@ -5564,8 +5564,8 @@ namespace OpenBabel {
           list[fragNo]=efInterest;
           return;
         };
-        xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
-        yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
+        xNew=x+efInterest->fragWidth; xNew = std::max(xNew, xMax);
+        yNew=y+efInterest->fragHeight; yNew = std::max(yNew, yMax);
         r=(yNew-yMin)/(xNew-xMin);
         if (abs(r-aspOptimal) < aspDelta) {
           xNice=x; yNice=y;
@@ -5575,16 +5575,16 @@ namespace OpenBabel {
     };
     //if here - maxX,0 and 0,MaxY have to be tested...
     x=xMax; y=0;
-    xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
-    yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
+    xNew=x+efInterest->fragWidth; xNew = std::max(xNew, xMax);
+    yNew=y+efInterest->fragHeight; yNew = std::max(yNew, yMax);
     r=(yNew-yMin)/(xNew-xMin);
     if (abs(r-aspOptimal) < aspDelta) {
       xNice=x; yNice=y;
       aspDelta=abs(r-aspOptimal);
     };
     x=0; y=yMax;
-    xNew=x+efInterest->fragWidth; if (xMax > xNew) xNew=xMax;
-    yNew=y+efInterest->fragHeight; if (yMax > yNew) yNew=yMax;
+    xNew=x+efInterest->fragWidth; xNew = std::max(xNew, xMax);
+    yNew=y+efInterest->fragHeight; yNew = std::max(yNew, yMax);
     r=(yNew-yMin)/(xNew-xMin);
     if (abs(r-aspOptimal) < aspDelta) {
       xNice=x; yNice=y;
@@ -5627,7 +5627,7 @@ namespace OpenBabel {
       efTemp=(PartFragmentDefinition *)extendedList[1];
       maxX=ef->fragWidth+efTemp->fragWidth;
       minY=efTemp->fragHeight;
-      if (ef->fragHeight > minY) minY=ef->fragHeight;
+      minY = std::max(minY, ef->fragHeight);
       r=minY/maxX;
       minX=ef->fragWidth;
       maxY=ef->fragHeight+efTemp->fragHeight;
