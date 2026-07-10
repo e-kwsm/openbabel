@@ -6302,7 +6302,7 @@ namespace OpenBabel {
     unsigned int n, i;
 
     n=s1.length();
-    if (s2.length()>n) n=s2.length();
+    n = std::max<size_t>(s2.length(), n);
     if (s1.length()<n) for (i=s1.length(); i<n; i++) {
         if ((s1.at(0) >= '0') && (s1.at(0) <= '9')) s1="0"+s1; else s1=s1+"0";
       };
