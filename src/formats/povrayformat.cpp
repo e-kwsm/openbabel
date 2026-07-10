@@ -15,6 +15,7 @@ GNU General Public License for more details.
 #include <openbabel/babelconfig.h>
 
 /* ---- C includes ---- */
+#include <algorithm>
 #include <cmath>
 #include <ctime>
 #include <cstdlib>
@@ -318,22 +319,16 @@ namespace OpenBabel
         OBAtom *atom = mol.GetAtom(i);
 
         /* ---- Check for minimal/maximal x-position ---- */
-        if (atom -> GetX() < min_x)
-          min_x = atom -> GetX();
-        if (atom -> GetX() > max_x)
-          max_x = atom -> GetX();
+        min_x = std::min(min_x, atom -> GetX());
+        max_x = std::max(max_x, atom -> GetX());
 
         /* ---- Check for minimal/maximal y-position ---- */
-        if (atom -> GetY() < min_y)
-          min_y = atom -> GetY();
-        if (atom -> GetY() > max_y)
-          max_y = atom -> GetY();
+        min_y = std::min(min_y, atom -> GetY());
+        max_y = std::max(max_y, atom -> GetY());
 
         /* ---- Check for minimal/maximal z-position ---- */
-        if (atom -> GetZ() < min_z)
-          min_z = atom -> GetZ();
-        if (atom -> GetZ() > max_z)
-          max_z = atom -> GetZ();
+        min_z = std::min(min_z, atom -> GetZ());
+        max_z = std::max(max_z, atom -> GetZ());
 
       }
 
