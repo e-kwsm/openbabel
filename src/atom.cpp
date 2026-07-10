@@ -36,6 +36,8 @@ GNU General Public License for more details.
 
 #include <openbabel/math/matrix3x3.h>
 
+#include <algorithm>
+
 #if !HAVE_STRNCASECMP
 extern "C" int strncasecmp(const char *s1, const char *s2, size_t n);
 #endif
@@ -314,8 +316,7 @@ namespace OpenBabel
     OBBond *bond;
     OBBondIterator i;
     for(bond = BeginBond(i); bond; bond = NextBond(i))
-      if(bond->GetBondOrder() > highest)
-        highest = bond->GetBondOrder();
+      highest = std::max(bond->GetBondOrder(), highest);
 
     return(highest);
   }
@@ -908,8 +909,7 @@ namespace OpenBabel
         for (c = NextNbrAtom(k); c; c = NextNbrAtom(k))
           {
             degrees = b->GetAngle((OBAtom*)this, c);
-            if (degrees < minDegrees)
-              minDegrees = degrees;
+            minDegrees = std::min(degrees, minDegrees);
           }
       }
     return minDegrees;
