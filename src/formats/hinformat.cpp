@@ -21,6 +21,7 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <openbabel/elements.h>
 
+#include <algorithm>
 #include <cstdlib>
 
 using namespace std;
@@ -119,10 +120,12 @@ namespace OpenBabel
         // line actually holds so a huge or negative value can't overflow
         // "max" or send the loop below reading past the end of vs[].
         int numbonds = atoi((char *)vs[10].c_str());
-        if (numbonds < 0)
-          numbonds = 0;
-        if (numbonds > ((int)vs.size() - 11) / 2)
-          numbonds = ((int)vs.size() - 11) / 2;
+#if __cplusplus >= 201703L
+        numbonds = std::clamp(numbonds, 0, ((int)vs.size() - 11) / 2);
+#else
+        numbonds = std::max(numbonds, 0);
+        numbonds = std::min(numbonds, ((int)vs.size() - 11) / 2);
+#endif
         max = 11 + 2 * numbonds;
         for (i = 11; i < max; i+=2)
           {
