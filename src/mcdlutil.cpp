@@ -2781,7 +2781,7 @@ namespace OpenBabel {
       };
       xMin=xMin-0.1*r1;
       xMax=xMax+0.1*r1;
-#if __cplusplus > 201703L
+#if __cplusplus >= 201703L
       r = std::clamp(r, xMin, xMax);
 #else
       r = std::max(r, xMin);

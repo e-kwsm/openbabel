@@ -230,7 +230,7 @@ namespace OpenBabel
     else
       costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
 
-#if __cplusplus > 201703L
+#if __cplusplus >= 201703L
     costheta = std::clamp(costheta, -0.999999, 0.999999);
 #else
     costheta = std::max(costheta, -0.999999);

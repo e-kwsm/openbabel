@@ -37,6 +37,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/tetrahedral.h>
 #include <openbabel/obconversion.h>
 
+#include <algorithm>
 #include <iostream>
 #include <sstream>
 #include <string>
@@ -911,8 +912,7 @@ namespace OpenBabel {
         } // loop(c)
 
         // Update boxSize after all "c" updates for this pair
-        if (_d->GetUpperBounds(a, b) > _d->maxBoxSize)
-          _d->maxBoxSize = _d->GetUpperBounds(a, b);
+        _d->maxBoxSize = std::max<double>(_d->maxBoxSize, _d->GetUpperBounds(a, b));
       } // loop(b)
     } // loop(a)
   }
@@ -933,8 +933,7 @@ namespace OpenBabel {
           b = _mol.GetAtom(j + 1);
           bRad = OBElements::GetVdwRad(b->GetAtomicNum());
           minDist = aRad + bRad;
-          if (minDist < 1.0f)
-            minDist = 1.0f;
+          minDist = std::max(minDist, 1.0f);
 
           if (!AreInSameRing(a, b))
             minDist += 0.1; // prevents bonds going through rings
@@ -950,7 +949,7 @@ namespace OpenBabel {
               // near-zero). Enforce the same permissive floor that CheckBounds
               // uses, so the optimizer and validator stay consistent.
               float permissiveMin = aRad + bRad - 2.5f;
-              if (permissiveMin < 0.8f) permissiveMin = 0.8f;
+              permissiveMin = std::max(permissiveMin, 0.8f);
               if (lb < permissiveMin)
                 _d->SetLowerBounds(i, j, permissiveMin);
             }
@@ -1284,8 +1283,7 @@ namespace OpenBabel {
 
           bRad = OBElements::GetVdwRad(b->GetAtomicNum());
           minDist = aRad + bRad - 2.5;
-          if (minDist < 0.8)
-            minDist = 0.8;
+          minDist = std::max(minDist, 0.8);
 
           // Compare the current distance to the lower bounds.
           // Allow 0.04 Å tolerance for LBFGS convergence gaps: the optimizer

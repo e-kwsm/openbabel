@@ -943,8 +943,7 @@ namespace OpenBabel
         }
       }
 
-      if (width > totalWidth)
-        totalWidth = width;
+      totalWidth = std::max(totalWidth, width);
     }
 
     painter->SetFontSize(fontSize);
@@ -1085,8 +1084,7 @@ namespace OpenBabel
       double beginAtomScale = (beginAtom->GetZ() - zMin) / zScale;
       double endAtomScale = (endAtom->GetZ() - zMin) / zScale;
       double averageScale = (beginAtomScale + endAtomScale)/2.0;
-      if (averageScale < 0.15)
-        averageScale = 0.15;
+      averageScale = std::max(averageScale, 0.15);
 
       penWidth = 3.0 * averageScale;
       bondColor.alpha = averageScale;
@@ -1208,8 +1206,7 @@ OBBitVec& drawnBonds)
         double beginAtomScale = (begin->GetZ() - zMin) / zScale;
         double endAtomScale = (end->GetZ() - zMin) / zScale;
         double averageScale = (beginAtomScale + endAtomScale)/2.0;
-        if (averageScale < 0.15)
-          averageScale = 0.15;
+        averageScale = std::max(averageScale, 0.15);
 
         penWidth = 3.0 * averageScale;
         bondColor.alpha = averageScale;
@@ -1252,8 +1249,7 @@ OBBitVec& drawnBonds)
     double opacity = 1.0;
     if (fabs(zScale) > 1.0e-1)
       opacity = sqrt((atom->GetZ() - zMin) / zScale);
-    if (opacity < 0.2)
-      opacity = 0.2;
+    opacity = std::max(opacity, 0.2);
 
     painter->SetFillRadial(OBColor("white"),atomColor);
     painter->DrawBall(atom->GetVector().x(), atom->GetVector().y(),GetAtomRadius(atom), opacity);
@@ -1265,8 +1261,7 @@ OBBitVec& drawnBonds)
     double perspective = 1.0;
     if (fabs(zScale) > 1.0e-1)
       perspective = (atom->GetZ() - zMin) / zScale;
-    if (perspective < 0.5)
-      perspective = 0.5;
+    perspective = std::max(perspective, 0.5);
 
     return perspective * radius * bondLength / 1.1;
   }

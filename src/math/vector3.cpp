@@ -20,6 +20,7 @@ GNU General Public License for more details.
 
 #include <openbabel/babelconfig.h>
 
+#include <algorithm>
 #include <iostream>
 #include <cfloat>
 
@@ -211,8 +212,7 @@ namespace OpenBabel
     if (dp < -0.999999)
       dp = -0.9999999;
 
-    if (dp > 0.9999999)
-      dp = 0.9999999;
+    dp = std::min(dp, 0.9999999);
 
 
     return((RAD_TO_DEG * acos(dp)));

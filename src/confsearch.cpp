@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <openbabel/rotamer.h>
 #include <openbabel/rotor.h>
 #include <openbabel/math/align.h>
+#include <algorithm>
 #include <openbabel/tree/tree.hh>
 #include <openbabel/tree/tree_util.hh>
 #include <openbabel/math/vector3.h>
@@ -428,8 +429,7 @@ int OBForceField::DiverseConfGen(double rmsd, unsigned int nconfs, double energy
       if (currentE < lowest_energy + energy_gap) { // Don't retain high energy poses
         divposes.AddPose(_mol.GetCoordinates(), currentE);
         N_low_energy++;
-        if (currentE < lowest_energy)
-          lowest_energy = currentE;
+        lowest_energy = std::min(lowest_energy, currentE);
       }
       counter++;
     } while (combination != 1 && counter < nconfs); // The LFSR always terminates with a 1

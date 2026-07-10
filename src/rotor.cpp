@@ -28,6 +28,7 @@ GNU General Public License for more details.
 #include <openbabel/graphsym.h>
 #include <openbabel/elements.h>
 
+#include <algorithm>
 #include <set>
 #include <cassert>
 
@@ -548,10 +549,12 @@ namespace OpenBabel
     else
       costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
 
-    if (costheta < -0.9999999)
-      costheta = -0.9999999;
-    if (costheta >  0.9999999)
-      costheta =  0.9999999;
+#if __cplusplus >= 201703L
+    costheta = std::clamp(costheta, -0.9999999, 0.9999999);
+#else
+    costheta = std::max(costheta, -0.9999999);
+    costheta = std::min(costheta, 0.9999999);
+#endif
 
     if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0)
       ang = -acos(costheta);

@@ -27,6 +27,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 #include <openbabel/parsmart.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <memory>
 
@@ -422,8 +423,7 @@ namespace OpenBabel {
     if (gradients) {
       rab = OBForceField::VectorDistanceDerivative(pos_a, pos_b, force_a, force_b);
 
-      if (rab < 1.0e-3)
-        rab = 1.0e-3;
+      rab = std::max(rab, 1.0e-3);
 
       rabSquared = SQUARE(rab);
     } else {
@@ -434,8 +434,7 @@ namespace OpenBabel {
         rabSquared += SQUARE(a->GetCoordinate()[c] - b->GetCoordinate()[c]);
 
       // make sure the energy doesn't blow up
-      if (rabSquared < 1.0e-5)
-        rabSquared = 1.0e-5;
+      rabSquared = std::max(rabSquared, 1.0e-5);
     }
 
     // TODO: This actually should include zetas (not always exactly 6-12 for VDW paper)
