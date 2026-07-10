@@ -492,7 +492,7 @@ namespace OpenBabel
   bool OutputTree(OBConversion* pConv, OBMol& mol, ostream& ofs, map <unsigned int, branch> & tree, unsigned int depth, bool moves_many, bool preserve_original_index)
   {
     if (tree.empty()) {return false;}
-    if (depth>= tree.size()-1) {depth=tree.size()-1;}
+    depth = std::min<size_t>(depth, tree.size()-1);
 
     set <unsigned int> free_bonds; //this section is to allow the code to be generalised when using obabel rather than babel, which accepts numerical arguments as to how many bonds to fix. As laid out, it will prioritise those bonds that move the fewest atoms, unless moves_many is true, where it will prioritise those that move the most. This is moot for the moment, as either all rotatable bonds are free, or they are all rigid.
 
@@ -1007,12 +1007,9 @@ namespace OpenBabel
       minX = minY = minZ = -999.0f;
       FOR_ATOMS_OF_MOL(a, all_pieces.at(i))
       {
-        if (a->GetX() < minX)
-          minX = a->GetX();
-        if (a->GetY() < minY)
-          minY = a->GetY();
-        if (a->GetZ() < minZ)
-          minZ = a->GetZ();
+        minX = std::min(minX, a->GetX());
+        minY = std::min(minY, a->GetY());
+        minZ = std::min(minZ, a->GetZ());
       }
       vector3 transV = VZero;
       if (minX < -999.0)

@@ -1,3 +1,5 @@
+#include <algorithm>
+
 /**********************************************************************
 mdlvalence.h - Implement MDL valence model.
 
@@ -410,12 +412,8 @@ static unsigned int HYDValence(unsigned int elem, int q, unsigned int val)
   } else if (elem == 8 || elem == 16) {  // O or S
     impval = 2 + q;
   }
-  if (impval < 0) {
-    impval = 0;
-  }
-  if (val > impval) {
-    impval = val;
-  }
+  impval = std::max(impval, 0);
+  impval = std::max<unsigned int>(val, impval);
   return impval;  
 }
 
