@@ -28,6 +28,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/stereo.h>
 #include <openbabel/stereo/cistrans.h>
 
+#include <algorithm>
 #include <memory>
 
 #ifndef WIN32
@@ -517,10 +518,10 @@ namespace OpenBabel {
     //Default hydrogen
     k1=nv;
     k1=k1-currvalence-abs(nc)-rl;
-    if (k1<0) k1=0;
+    k1 = std::max(k1, 0);
     k2=(na >= 0 && na < NELEMMCDL) ? hVal[na] : 0;
     k2=k2-currvalence-abs(nc)-rl;
-    if (k2<0) k2=0;
+    k2 = std::max(k2, 0);
     if (k1 == k2) result=0; else if (k1 < k2) result=1; else result=2;
     return result;
   };
@@ -573,7 +574,7 @@ namespace OpenBabel {
       k=abs(structure->nc);
       if (k>9) k=k-9;
       j=j-structure->currvalence-k;
-      if (j<0) j=0;
+      j = std::max(j, 0);
       j=j+nHStr;
       if (i>j) return result;
       //on corresponding structure atom must be at least the same number of H}
@@ -812,7 +813,7 @@ namespace OpenBabel {
     atom=getAtom(atomNo);
     result=atom->nv;
     result=result-(atom->currvalence)+(atom->nc*TSingleAtom::chargeDeltaValency(atom->na))-(atom->rl);
-    if (result < 0) result=0;
+    result = std::max(result, 0);
     if (atom->nb > 0) for (i=0; i<atom->nb; i++) {
         n=atom->ac[i];
         if (getAtom(n)->na == 1) result=result+1;
@@ -1042,7 +1043,7 @@ namespace OpenBabel {
             r1=(x*s1+getAtom(an)->rx-centerX[j]);
             r2=(y*s1+getAtom(an)->ry-centerY[j]);
             s3=sqrt(r1*r1+r2*r2);
-            if (s3 < minDist) minDist=s3;
+            minDist = std::min(minDist, s3);
           };
           if (minDist > dist) {
             dist=minDist;
@@ -1438,8 +1439,8 @@ namespace OpenBabel {
 
   int TSimpleMolecule::listarSize() { // Probably should be removed and replaced with either nAtoms() or nBonds() as appropriate
     int result=10;  //Minimal vector size 10
-    if (nAtoms() > result) result=nAtoms();
-    if (nBonds() > result) result=nBonds();
+    result = std::max(result, nAtoms());
+    result = std::max(result, nBonds());
     return result;
   };
 
@@ -1532,8 +1533,8 @@ namespace OpenBabel {
     xMin=getAtom(0)->rx;
     yMin=getAtom(0)->ry;
     for (i=0; i<nAtoms(); i++) {
-      if (getAtom(i)->rx < xMin) xMin=getAtom(i)->rx;
-      if (getAtom(i)->ry < yMin) yMin=getAtom(i)->ry;
+      xMin = std::min(xMin, getAtom(i)->rx);
+      yMin = std::min(yMin, getAtom(i)->ry);
     };
     for (i=0; i< nAtoms(); i++) {
       getAtom(i)->rx=getAtom(i)->rx-xMin+aveBL;
@@ -2310,7 +2311,7 @@ namespace OpenBabel {
         r1=0;
         for (i=0; i<nBonds(); i++) if (tempBondArray[i] == 0) {
             r=this->bondLength(i);
-            if (r < bondLengthOld) bondLengthOld=r;
+            bondLengthOld = std::min(bondLengthOld, r);
             r1=r1+r;
             n++;
           };
@@ -2780,8 +2781,12 @@ namespace OpenBabel {
       };
       xMin=xMin-0.1*r1;
       xMax=xMax+0.1*r1;
-      if (r < xMin) r=xMin;
-      if (r > xMax) r=xMax;
+#if __cplusplus > 201703L
+      r = std::clamp(r, xMin, xMax);
+#else
+      r = std::max(r, xMin);
+      r = std::min(r, xMax);
+#endif
       result=r-x0;
     } else result=1E9;
     return result;
@@ -3709,7 +3714,7 @@ namespace OpenBabel {
     int result;
 
     k=nAtoms;
-    if (nBonds > k) k=nBonds;
+    k = std::max(k, nBonds);
     k++;
 
     result=0;
@@ -3829,7 +3834,7 @@ namespace OpenBabel {
         if (aPosition[i] == 5) hVal[i]=hVal[i]-aCharge[i];           //B
         else if (aPosition[i] == 6) hVal[i]=hVal[i]-abs(aCharge[i]); //C
         else hVal[i]=hVal[i]+aCharge[i];  //Heteroatoms
-        if (hVal[i] < 0) hVal[i]=0;
+        hVal[i] = std::max(hVal[i], 0);
       };
       maxVal[i]=maxValency(aPosition[i]);
       if (aCharge[i] != 0) maxVal[i]=maxVal[i]+1;
@@ -3875,7 +3880,7 @@ namespace OpenBabel {
         if (sa->IsHeteroatom()) hVal[i-1]=hVal[i-1]+k;
         else if (na == 6) hVal[i-1]=hVal[i-1]-abs(k);
         else hVal[i-1]=hVal[i-1]-k;
-        if (hVal[i-1] < 0) hVal[i-1]=0;
+        hVal[i-1] = std::max(hVal[i-1], 0);
       };
       maxVal[i-1]=maxValency(na);
       if (sa->GetFormalCharge() != 0) maxVal[i-1]=maxVal[i-1]+1;

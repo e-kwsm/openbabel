@@ -27,6 +27,7 @@ GNU General Public License for more details.
 #include <openbabel/phmodel.h>
 #include <openbabel/obfunctions.h>
 
+#include <algorithm>
 #include <cstdlib>
 
 // private data header with default parameters
@@ -357,8 +358,7 @@ namespace OpenBabel
                 OBAtom* atom = k == 0 ? bond->GetBeginAtom() : bond->GetEndAtom();
                 int new_hcount = static_cast<int>(atom->GetImplicitHCount())
                                  - (static_cast<int>(j->second) - static_cast<int>(old_bond_order));
-                if (new_hcount < 0)
-                  new_hcount = 0;
+                new_hcount = std::max(new_hcount, 0);
                 atom->SetImplicitHCount(new_hcount);
               }
             }
