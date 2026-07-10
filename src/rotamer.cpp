@@ -24,6 +24,8 @@ GNU General Public License for more details.
 #include <openbabel/obiter.h>
 #include <openbabel/rotamer.h>
 
+#include <algorithm>
+
 #define OB_TITLE_SIZE     254
 #define OB_BINARY_SETWORD 32
 
@@ -645,8 +647,12 @@ namespace OpenBabel
     if (c1mag*c2mag < 0.01) costheta = 1.0; //avoid div by zero error
     else costheta = (c1x*c2x + c1y*c2y + c1z*c2z)/(sqrt(c1mag*c2mag));
 
-    if (costheta < -0.999999) costheta = -0.999999;
-    if (costheta >  0.999999) costheta =  0.999999;
+#if __cplusplus >= 201703L
+    costheta = std::clamp(costheta, -0.999999, 0.999999);
+#else
+    costheta = std::max(costheta, -0.999999);
+    costheta = std::min(costheta, 0.999999);
+#endif
 
     if ((v2x*c3x + v2y*c3y + v2z*c3z) > 0.0) radang = -acos(costheta);
     else                                     radang = acos(costheta);
@@ -661,7 +667,7 @@ namespace OpenBabel
     sn = sin(rotang); cs = cos(rotang);t = 1 - cs;
     //normalize the rotation vector
     mag = sqrt(v2x*v2x + v2y*v2y + v2z*v2z);
-    if (mag < 0.1) mag = 0.1; // avoid divide by zero error
+    mag = std::max(mag, 0.1); // avoid divide by zero error
     x = v2x/mag; y = v2y/mag; z = v2z/mag;
 
     //set up the rotation matrix

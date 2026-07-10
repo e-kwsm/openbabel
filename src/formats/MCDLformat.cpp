@@ -25,6 +25,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 
 #include <openbabel/mcdlutil.h>
+#include <algorithm>
 #include <cstdlib>
 
 using namespace std;
@@ -254,8 +255,7 @@ private:
         return;
         //exitprog(freeflag);
     }
-    if (depth > maxdepth)
-        maxdepth = depth;
+    maxdepth = std::max(maxdepth, depth);
 
 	//stack overflow message-move data from stack to heap
 	for (i=0; i<=MAXFRAGS; i++) strngs[i]=(char *)calloc(MAXFRAGS+1,sizeof(char));
@@ -368,8 +368,7 @@ private:
         {
             conntab[i][2] = ix[conntab[i][0]-1];
             conntab[i][3] = ix[conntab[i][1]-1];
-            if (conntab[i][2] > ntypes)
-                ntypes = conntab[i][2];
+            ntypes = std::max(ntypes, conntab[i][2]);
         }
 
             if (iflag)
@@ -420,8 +419,7 @@ private:
                 {
                 conntab[i][2] = ix[conntab[i][0]-1];
                 conntab[i][3] = ix[conntab[i][1]-1];
-                if (conntab[i][2] > ntypes)
-                    ntypes = conntab[i][2];
+                ntypes = std::max(ntypes, conntab[i][2]);
                 }
                 solve(ntypes,conntab,depth+1);
             }

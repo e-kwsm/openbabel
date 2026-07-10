@@ -17,6 +17,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include <openbabel/depict/svgpainter.h>
 
+#include <algorithm>
 #include <iostream>
 #include <iomanip>
 #include <sstream>
@@ -178,8 +179,7 @@ namespace OpenBabel
   {
     if (!isfinite(opacity))
       opacity = 1.0;
-    if (opacity < 0.2)
-      opacity = 0.2;
+    opacity = std::max(opacity, 0.2);
 
     m_ofs << "<circle cx=\"" << x << "\" cy=\"" << y << "\" r=\"" << r << "\" ";
     m_ofs << "opacity=\"" << opacity << "\" ";

@@ -31,6 +31,7 @@ Altered by: Geoffrey Hutchison 2005 for Open Babel project
             minor namespace modifications, VC++ compatibility
 */
 
+#include <algorithm>
 #include <cstring>
 
 //*****************************************************************************
@@ -65,11 +66,9 @@ basic_zip_streambuf<charT, traits>::basic_zip_streambuf(ostream_reference ostrea
     _zip_stream.avail_out = 0;
     _zip_stream.next_out = nullptr;
 
-    if(level > 9)
-        level = 9;
+    level = std::min(level, 9);
 
-    if(memory_level > 9)
-        memory_level = 9;
+    memory_level = std::min(memory_level, 9);
 
     _err=deflateInit2(&_zip_stream, level, Z_DEFLATED,
                       window_size, memory_level,
@@ -355,8 +354,7 @@ basic_unzip_streambuf<charT, traits>::underflow(void)
         return * reinterpret_cast<unsigned char *>(this->gptr());
 
     int n_putback = static_cast<int>(this->gptr() - this->eback());
-    if(n_putback > 4)
-        n_putback = 4;
+    n_putback = std::min(n_putback, 4);
 
     memmove(&_buffer[0] + (4 - n_putback),
             this->gptr() - n_putback,

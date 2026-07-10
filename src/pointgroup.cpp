@@ -24,6 +24,7 @@ GNU General Public License for more details.
 #include <openbabel/atom.h>
 #include <openbabel/pointgroup.h>
 #include <openbabel/obiter.h>
+#include <algorithm>
 #include <iostream>
 
 #include <string>
@@ -411,7 +412,7 @@ namespace OpenBabel {
           if( verbose > 0 ) printf( "        distance to symmetric atom (%g) is too big for %d\n", r, i ) ;
           return -1 ;
         }
-        if( r > max_r ) max_r = r ;
+        max_r = std::max(max_r, r);
       }
       elem->maxdev = max_r ;
       return 0 ;
@@ -460,7 +461,7 @@ namespace OpenBabel {
         elem->transform_atom( elem, _mol->GetAtom(i+1), &symmetric ) ;
         j = elem->transform[i] ;
         r = symmetric.GetDistance(_mol->GetAtom(j+1));
-        if( r > maxr ) maxr = r ;
+        maxr = std::max(maxr, r);
         target += r ;
       }
       if (finish != nullptr) {
@@ -536,8 +537,12 @@ namespace OpenBabel {
         /* Do a quasi-Newton step */
         for( i = 0, snorm = 0 ; i < vars ; i++ ){
           if( force[i] <  0   ) force[i] = -force[i] ;
-          if( force[i] < 1e-3 ) force[i] = 1e-3 ;
-          if( force[i] > 1e3  ) force[i] = 1e3 ;
+#if __cplusplus >= 201703L
+          force[i] = std::clamp(force[i], 1e-3, 1e3);
+#else
+          force[i] = std::max(force[i], 1e-3);
+          force[i] = std::min(force[i], 1e3);
+#endif
           step[i] = - grad[i]/force[i] ;
           snorm += step[i] * step[i] ;
         }

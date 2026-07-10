@@ -36,6 +36,7 @@ GNU General Public License for more details.
 #include <openbabel/stereo/tetrahedral.h>
 #include <openbabel/stereo/cistrans.h>
 
+#include <algorithm>
 #include <sstream>
 #include <set>
 
@@ -1440,8 +1441,7 @@ namespace OpenBabel
 
     // TODO: This is actually a weird situation (e.g., adding a 2D mol to 3D one)
     // We should do something to update the src coordinates if they're not 3D
-    if(src.GetDimension()<_dimension)
-      _dimension = src.GetDimension();
+    _dimension = std::min(_dimension, src.GetDimension());
     // TODO: Periodicity is similarly weird (e.g., adding nonperiodic data to
     // a crystal, or two incompatible lattice parameters).  For now, just assume
     // we intend to keep the lattice of the source (no updates necessary)

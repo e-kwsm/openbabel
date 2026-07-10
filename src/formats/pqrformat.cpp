@@ -23,6 +23,7 @@ GNU General Public License for more details.
 
 
 
+#include <algorithm>
 #include <vector>
 #include <map>
 
@@ -477,12 +478,9 @@ namespace OpenBabel
     minX = minY = minZ = -999.0f;
     FOR_ATOMS_OF_MOL(a, mol)
       {
-        if (a->GetX() < minX)
-          minX = a->GetX();
-        if (a->GetY() < minY)
-          minY = a->GetY();
-        if (a->GetZ() < minZ)
-          minZ = a->GetZ();
+        minX = std::min(minX, a->GetX());
+        minY = std::min(minY, a->GetY());
+        minZ = std::min(minZ, a->GetZ());
       }
 
     vector3 transV = VZero;

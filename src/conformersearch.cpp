@@ -134,8 +134,7 @@ namespace OpenBabel {
       // get the RMSD
       double rmsd = align.GetRMSD();
       // store the rmsd if it is lower than any of the previous
-      if (rmsd < score_min)
-        score_min = rmsd;
+      score_min = std::min(score_min, rmsd);
     }
 
     // return the lowest RMSD
@@ -278,8 +277,7 @@ namespace OpenBabel {
       // get the RMSD
       double rmsd = align.GetRMSD();
       // store the rmsd if it is lower than any of the previous
-      if (rmsd < score_min)
-        score_min = rmsd;
+      score_min = std::min(score_min, rmsd);
     }
 
     // return the lowest RMSD
@@ -451,14 +449,11 @@ namespace OpenBabel {
 
     // Setup some default values for dynamic niche sharing according to the molecule.
     nb_niches = (m_rotorKeys.size()) / 10;
-    if (nb_niches < 3)
-      nb_niches = 3;
+    nb_niches = std::max(nb_niches, 3);
     sigma_share = (double)nb_rotors / 3.0;
-    if (sigma_share < 1.0)
-      sigma_share = 1.0;
+    sigma_share = std::max(sigma_share, 1.0);
     niche_radius =  (double)nb_rotors / 4.0;
-    if (niche_radius < 1.0)
-      niche_radius = 1.0;
+    niche_radius = std::max(niche_radius, 1.0);
 
     return true;
   }
@@ -1054,8 +1049,7 @@ namespace OpenBabel {
                   {
                     j = dynamic_niches[iniche][0];
                     dist = key_distance (m_rotorKeys[j], m_rotorKeys[i]);
-                    if (dist < min_dist )
-                      min_dist = dist;
+                    min_dist = std::min<unsigned int>(min_dist, dist);
                   }
                 if (min_dist > max_dist)
                   {
@@ -1230,8 +1224,7 @@ namespace OpenBabel {
                 if (!vflag[j])
                   continue;
                 dist = key_distance (m_rotorKeys[i], m_rotorKeys[j]);
-                if (dist < dist_min)
-                  dist_min = dist;
+                dist_min = std::min(dist_min, dist);
               }
             if (dist_min > dist_max)
               {			// Find the most distant to its clostest neighbor

@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include <openbabel/builder.h>
 #include <openbabel/macrocycle.h>
 
+#include <algorithm>
 #include <deque>
 #include <memory>
 
@@ -220,8 +221,7 @@ namespace OpenBabel
     bondLength += OBElements::GetCovalentRad(atom1->GetAtomicNum());
     bondLength += OBElements::GetCovalentRad(atom2->GetAtomicNum());
 
-    if (bondLength < 1.0)
-      bondLength = 1.0;
+    bondLength = std::max(bondLength, 1.0);
 
     // These are based on OBBond::GetEquibLength
     // Numbers come from averaged values of Pyykko and Atsumi

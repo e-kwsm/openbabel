@@ -41,6 +41,7 @@ GNU General Public License for more details.
 #include <math.h>
 #include <float.h>
 
+#include <algorithm>
 #include <vector>
 #include <string>
 #include <map>
@@ -172,8 +173,7 @@ enum HydrogenType { AllHydrogen, PolarHydrogen, NonPolarHydrogen };
     void ReserveAtoms(int natoms)
     {
       const int kMaxReservedAtoms = 10000000;
-      if (natoms > kMaxReservedAtoms)
-        natoms = kMaxReservedAtoms;
+      natoms = std::min(natoms, kMaxReservedAtoms);
       if (natoms > 0 && _mod) {
         _vatom.reserve(natoms);
         _atomIds.reserve(natoms);

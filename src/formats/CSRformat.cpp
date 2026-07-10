@@ -19,6 +19,7 @@ GNU General Public License for more details.
 #include <openbabel/atom.h>
 #include <openbabel/elements.h>
 
+#include <algorithm>
 
 using namespace std;
 namespace OpenBabel
@@ -190,8 +191,7 @@ namespace OpenBabel
     output = new char[size];
     memset(output, ' ', size);
     size_t len = strlen(input);
-    if (len > static_cast<size_t>(size - 1))
-      len = static_cast<size_t>(size - 1);
+    len = std::min(len, static_cast<size_t>(size - 1));
     memcpy(output, input, len);
     output[size - 1] = '\0';
     return(output);

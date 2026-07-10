@@ -26,6 +26,7 @@
 #ifdef WIN32
 #define USING_OBDLL
 #endif
+#include <algorithm>
 #include <cstdlib>
 #include <memory>
 #include <openbabel/babelconfig.h>
@@ -152,8 +153,7 @@ class Matcher
 
 			double rmsd = calc_rms(refcoord, testcoord, N);
 
-			if (rmsd < bestRMSD)
-				bestRMSD = rmsd;
+			bestRMSD = std::min(bestRMSD, rmsd);
 			// check all possible mappings
 			return false;
 		}
@@ -376,7 +376,7 @@ int main(int argc, char **argv)
         double bestRMSD = HUGE_VAL;
         for(unsigned i = 0, n = matchers.size(); i < n; i++) {
           double rmsd = matchers[i].computeRMSD(moltest, minimize);
-          if(rmsd < bestRMSD) bestRMSD = rmsd;
+          bestRMSD = std::min(bestRMSD, rmsd);
         }
 
         cout << "RMSD " << molref.GetTitle() << ":" <<  moltest.GetTitle() << " " << bestRMSD << "\n";

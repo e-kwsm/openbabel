@@ -22,6 +22,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 #include <openbabel/elements.h>
 
+#include <algorithm>
 #include <cstdlib>
 #include <cmath>
 #include <climits>
@@ -119,10 +120,8 @@ namespace OpenBabel
       {
         x = chtTruncScale(atom->GetX(), conv_factor);
         y = chtTruncScale(atom->GetY(), conv_factor);
-        if (x > w)
-          w = x;
-        if (y > h)
-          h = y;
+        w = std::max(w, x);
+        h = std::max(h, y);
         if (atom->GetAtomicNum() != 6)
           natoms++;
       }

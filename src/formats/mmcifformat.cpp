@@ -24,6 +24,7 @@ GNU General Public License for more details.
 
 #include <openbabel/op.h>
 
+#include <algorithm>
 #include <iostream>
 #include <algorithm>
 #include <cctype>
@@ -603,8 +604,7 @@ namespace OpenBabel
              case CIFTagID::_atom_site_type_symbol:
              case CIFTagID::_atom_site_label_atom_id:
              case CIFTagID::_atom_site_label:
-               if (atom_type_tag < (* colx))
-                 atom_type_tag = (* colx);
+               atom_type_tag = std::max(atom_type_tag, * colx);
                break;
              default:
                break;

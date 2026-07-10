@@ -28,6 +28,7 @@ GNU General Public License for more details.
 #include <openbabel/bond.h>
 #include <openbabel/obiter.h>
 #include <openbabel/generic.h>
+#include <algorithm>
 #include <cstdlib>
 
 #include <openbabel/math/spacegroup.h>
@@ -427,17 +428,13 @@ namespace OpenBabel
           if(pos==std::string::npos)
           {//rhomboedric cell, a=b=c, alpha=beta=gamma
             float a=0;
-            if(mvLatticePar[0]>a) a=mvLatticePar[0];
-            if(mvLatticePar[1]>a) a=mvLatticePar[1];
-            if(mvLatticePar[2]>a) a=mvLatticePar[2];
+            a = std::max({ a, mvLatticePar[0], mvLatticePar[1], mvLatticePar[2] });
             if(mvLatticePar[0]==0) mvLatticePar[0]=a;
             if(mvLatticePar[1]==0) mvLatticePar[1]=a;
             if(mvLatticePar[2]==0) mvLatticePar[2]=a;
 
             float alpha=0;
-            if(mvLatticePar[3]>alpha) alpha=mvLatticePar[3];
-            if(mvLatticePar[4]>alpha) alpha=mvLatticePar[4];
-            if(mvLatticePar[5]>alpha) alpha=mvLatticePar[5];
+            alpha = std::max({ alpha, mvLatticePar[3], mvLatticePar[4], mvLatticePar[5] });
             if(mvLatticePar[3]==0) mvLatticePar[3]=alpha;
             if(mvLatticePar[4]==0) mvLatticePar[4]=alpha;
             if(mvLatticePar[5]==0) mvLatticePar[5]=alpha;
@@ -458,9 +455,7 @@ namespace OpenBabel
           if(mvLatticePar[5]==0) mvLatticePar[5]=M_PI/2;
           // In case some idiot cif only supplies one value, make sure a=b=c
           float a=0;
-          if(mvLatticePar[0]>a) a=mvLatticePar[0];
-          if(mvLatticePar[1]>a) a=mvLatticePar[1];
-          if(mvLatticePar[2]>a) a=mvLatticePar[2];
+          a = std::max({ a, mvLatticePar[0], mvLatticePar[1], mvLatticePar[2] });
           if(mvLatticePar[0]==0) mvLatticePar[0]=a;
           if(mvLatticePar[1]==0) mvLatticePar[1]=a;
           if(mvLatticePar[2]==0) mvLatticePar[2]=a;

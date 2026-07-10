@@ -15,6 +15,7 @@ GNU General Public License for more details.
 ***********************************************************************/
 #include "openbabel/babelconfig.h"
 
+#include <algorithm>
 #include <string>
 #include <iomanip>
 #include <map>
@@ -856,7 +857,7 @@ bool ChemKinFormat::WriteHeader(OBConversion* pConv)
   vector<string>::iterator sitr;
   unsigned int maxlen=0;
   for(sitr= species.begin();sitr!=species.end();++sitr)
-    if(sitr->size()>maxlen) maxlen = sitr->size();
+    maxlen = std::max<size_t>(maxlen, sitr->size());
 
   unsigned int n=0;
   for(sitr=species.begin();sitr!=species.end();++sitr, ++n)

@@ -20,6 +20,7 @@ GNU General Public License for more details.
 
 #include <openbabel/obiter.h>
 
+#include <algorithm>
 #include <sstream>
 #include <map>
 #include <cstdlib>
@@ -267,12 +268,8 @@ namespace OpenBabel
     {
 	    double cmin=10e-10;
 	    double cmax=-10e10;
-	    if ( vmax.x() > cmax ) cmax=vmax.x();
-	    if ( vmax.y() > cmax ) cmax=vmax.y();
-	    if ( vmax.z() > cmax ) cmax=vmax.z();
-	    if ( vmin.x() < cmin ) cmin=vmin.x();
-	    if ( vmin.y() < cmin ) cmin=vmin.y();
-	    if ( vmin.z() < cmin ) cmin=vmin.z();
+	    cmax = std::max({ cmax, vmax.x(), vmax.y(), vmax.z() });
+	    cmin = std::min({ cmin, vmin.x(), vmin.y(), vmin.z() });
 
 	    double length=cmax-cmin;
 	    xlo = cmin -0.5;//- 0.01*length;

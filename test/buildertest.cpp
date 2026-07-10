@@ -7,6 +7,7 @@
 #include <openbabel/builder.h>
 #include <openbabel/forcefield.h>
 
+#include <algorithm>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -127,7 +128,7 @@ bool doRingClosureTest(const string &smiles, double maxBondLen)
   double worst = 0.0;
   FOR_BONDS_OF_MOL(b, mol) {
     double len = b->GetLength();
-    if (len > worst) worst = len;
+    worst = std::max(worst, len);
   }
   if (worst > maxBondLen) {
     cout << "  FAIL: longest bond = " << worst << " A" << endl;

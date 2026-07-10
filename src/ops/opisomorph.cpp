@@ -16,6 +16,7 @@ GNU General Public License for more details.
 #include <openbabel/isomorphism.h>
 #include "opisomorph.h"
 #include <openbabel/generic.h>
+#include <algorithm>
 #include <cstdlib>
 #include <algorithm>
 
@@ -375,8 +376,7 @@ bool OpNewS::Do(OBBase* pOb, const char* OptionText, OpMap* /*pmap*/, OBConversi
 
     // color the substructure if there is a second parameter which is not "exact" or "extract" or "noH"
     // with multiple color parameters use the one corresponding to the query molecule, or the last
-    if(imol>vec.size()-2)
-      imol = vec.size()-2;
+    imol = std::min<size_t>(imol, vec.size()-2);
     for(iter=pMappedAtoms->begin();iter!=pMappedAtoms->end();++iter)//each match
        AddDataToSubstruct(pmol, *iter, "color", vec[imol+1]);
     return true;
