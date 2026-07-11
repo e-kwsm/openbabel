@@ -342,7 +342,7 @@ bool OBMoldenFormat::ReadMolecule( OBBase* pOb, OBConversion* pConv )
       unsigned int natoms = pmol->NumAtoms();
       for (unsigned int i = 0; i < conformers.size(); ++i) {
         double *confCoord = new double [3*natoms];
-        vector<vector3> coordinates = conformers[i];
+        const vector<vector3>& coordinates = conformers[i];
         if (coordinates.size() != natoms)
           cerr << " Wrong number of coordinates! " << endl;
         // A [GEOMETRIES] block may declare a different atom count than the
@@ -433,7 +433,7 @@ bool OBMoldenFormat::WriteMolecule(OBBase* pOb, OBConversion* pConv)
 	ofs << buffer;
         vector<vector3> lx = vib->GetLx()[mode];
 	for (unsigned int i = 0; i < mol.NumAtoms(); i++) {
-	  vector3 disp = lx[i];
+	  const vector3& disp = lx[i];
 	  snprintf(buffer, BUFF_SIZE, "%12.6f%13.6f%13.6f\n",
 		  disp[0], disp[1], disp[2]);
 	  ofs << buffer;

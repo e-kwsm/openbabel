@@ -25,7 +25,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
     };
     
     int format_idx = fdp.ConsumeIntegralInRange<int>(0, formats.size() - 1);
-    std::string format = formats[format_idx];
+    const std::string& format = formats[format_idx];
     std::string input = fdp.ConsumeRandomLengthString();
     
     if (input.empty()) return 0;
@@ -72,7 +72,7 @@ extern "C" int LLVMFuzzerTestOneInput(const uint8_t *Data, size_t Size) {
                     "MMFF94", "UFF", "GAFF", "Ghemical"
                 };
                 int ff_idx = fdp.ConsumeIntegralInRange<int>(0, ff_names.size() - 1);
-                std::string ff_name = ff_names[ff_idx];
+                const std::string& ff_name = ff_names[ff_idx];
                 OBForceField *ff = OBForceField::FindType(ff_name.c_str());
                 if (ff && ff->Setup(mol)) {
                     ff->Energy();
