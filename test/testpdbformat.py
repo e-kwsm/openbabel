@@ -150,8 +150,4 @@ ATOM    475  HH  TYR L  32      46.462  17.658  44.280  1.00  0.00           H
         self.assertEqual(output.rstrip().rsplit("\n",1)[1], "VSSSY")
 
 if __name__ == "__main__":
-    testsuite = []
-    for myclass in [TestPDBFormat]:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    unittest.TextTestRunner().run(unittest.TestSuite(testsuite))
+    unittest.main()

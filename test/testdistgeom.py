@@ -95,8 +95,4 @@ class TestDistanceGeomStereo(BaseTest):
 
 
 if __name__ == "__main__":
-    testsuite = []
-    for myclass in [TestDistanceGeomStereo]:
-        suite = unittest.TestLoader().loadTestsFromTestCase(myclass)
-        testsuite.append(suite)
-    unittest.TextTestRunner().run(unittest.TestSuite(testsuite))
+    unittest.main()
