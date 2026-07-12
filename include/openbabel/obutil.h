@@ -196,6 +196,7 @@ namespace OpenBabel
    */
   OB_DEPRECATED_MSG("Prefer std::fabs(a) < eps")
   OBAPI bool IsNearZero(const double &, const double epsilon=2e-6);
+  OB_DEPRECATED_MSG("use std::isnan")
   OBAPI bool IsNan(const double &);
   /**
    * \return true if \a a is much smaller than \a b. More precisely:

@@ -309,12 +309,12 @@ namespace OpenBabel
 
     Eigen::VectorXd resid = A*x - b;
     double resnorm = resid.norm();
-    if (IsNan(resnorm) || resnorm > NormThreshold || !SolverOK)
+    if (std::isnan(resnorm) || resnorm > NormThreshold || !SolverOK)
       {
         stringstream msg;
         msg << "Warning, LU solver failed." << endl;
         if (!SolverOK) msg << "Solver returned error." << endl;
-        if (IsNan(resnorm)) msg << "NaNs were returned" << endl;
+        if (std::isnan(resnorm)) msg << "NaNs were returned" << endl;
         if (resnorm > NormThreshold) msg << "Residual has norm " << resnorm
                                          << " which exceeds the recommended threshold of " << NormThreshold
                                          << endl;
@@ -326,7 +326,7 @@ namespace OpenBabel
         resid = A*x - b;
         resnorm = resid.norm();
 
-        if (IsNan(resnorm) || !SolverOK)
+        if (std::isnan(resnorm) || !SolverOK)
           {
             obErrorLog.ThrowError(__FUNCTION__, "SVD solver returned an error. Charges may not be reliable!", obError);
             return false;

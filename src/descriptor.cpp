@@ -378,7 +378,7 @@ bool OBDescriptor::CompareStringWithFilter(istream& optionText, string& sval, bo
 
   stringstream ss(sval);
   double val;
-  if((ss >> val) && !IsNan(filterval))
+  if((ss >> val) && !std::isnan(filterval))
     //Do a numerical comparison if both values are numbers
     return DoComparison(ch1, ch2, val, filterval);
   else

@@ -109,7 +109,7 @@ bool OpSort::Do(OBBase* /*pOb*/, const char* OptionText, OpMap* /*pmap*/, OBConv
 bool OpSort::ProcessVec(std::vector<OBBase*>& vec)
 {
   // Make a vector containing both the OBBase* and the descriptor value and the sort it
-  if(!IsNan(_pDesc->Predict(vec[0], &_pDescOption)))
+  if(!std::isnan(_pDesc->Predict(vec[0], &_pDescOption)))
   {
     //a numerical descriptor
     //Copy into a pair vector

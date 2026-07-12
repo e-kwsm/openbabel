@@ -1572,7 +1572,7 @@ namespace OpenBabel
     bool isNanExist = false;
     FOR_ATOMS_OF_MOL(a, mol) {
       vector3 v = a->GetVector();
-      if(IsNan(v.x()) || IsNan(v.y()) || IsNan(v.z())) {
+      if(std::isnan(v.x()) || std::isnan(v.y()) || std::isnan(v.z())) {
           isNanExist = true;
           break;
        }
