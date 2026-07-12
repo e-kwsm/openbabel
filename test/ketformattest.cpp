@@ -88,16 +88,16 @@ OBMol readKetString(const string &text, bool expandAliases = false)
 void testReadSingleMolecule()
 {
     OBMol mol = readKetFile(testFilePath("ethanol.ket"));
-    OB_ASSERT(mol.NumAtoms() == 3);
-    OB_ASSERT(mol.NumBonds() == 2);
+    EXPECT_TRUE(mol.NumAtoms() == 3);
+    EXPECT_TRUE(mol.NumBonds() == 2);
 
     unsigned int carbons = 0, oxygens = 0;
     FOR_ATOMS_OF_MOL(a, mol) {
         if (a->GetAtomicNum() == 6) ++carbons;
         else if (a->GetAtomicNum() == 8) ++oxygens;
     }
-    OB_ASSERT(carbons == 2);
-    OB_ASSERT(oxygens == 1);
+    EXPECT_TRUE(carbons == 2);
+    EXPECT_TRUE(oxygens == 1);
 }
 
 // ---------------------------------------------------------------------
@@ -107,12 +107,12 @@ void testReadSingleMolecule()
 void testReadReaction()
 {
     OBMol mol = readKetFile(testFilePath("reaction.ket"));
-    OB_ASSERT(mol.IsReaction());
+    EXPECT_TRUE(mol.IsReaction());
 
     OBReactionFacade facade(&mol);
     // reaction.ket: ethene + Br2 -> 1,2-dibromoethane
-    OB_ASSERT(facade.NumComponents(REACTANT) == 2);
-    OB_ASSERT(facade.NumComponents(PRODUCT) == 1);
+    EXPECT_TRUE(facade.NumComponents(REACTANT) == 2);
+    EXPECT_TRUE(facade.NumComponents(PRODUCT) == 1);
 }
 
 // ---------------------------------------------------------------------
@@ -133,20 +133,20 @@ void testRoundTripMolecule()
     const string first = writeKet(original);
     OB_REQUIRE(!first.empty());
     OBMol passOne = readKetString(first);
-    OB_ASSERT(passOne.NumAtoms() == origAtoms);
-    OB_ASSERT(passOne.NumBonds() == origBonds);
+    EXPECT_TRUE(passOne.NumAtoms() == origAtoms);
+    EXPECT_TRUE(passOne.NumBonds() == origBonds);
 
     int passOneCharge = 0;
     FOR_ATOMS_OF_MOL(a, passOne) passOneCharge += a->GetFormalCharge();
-    OB_ASSERT(passOneCharge == origCharge);
+    EXPECT_TRUE(passOneCharge == origCharge);
 
     // Second round-trip — output must remain stable and identical to first.
     const string second = writeKet(passOne);
-    OB_ASSERT(second == first);
+    EXPECT_TRUE(second == first);
 
     OBMol passTwo = readKetString(second);
-    OB_ASSERT(passTwo.NumAtoms() == origAtoms);
-    OB_ASSERT(passTwo.NumBonds() == origBonds);
+    EXPECT_TRUE(passTwo.NumAtoms() == origAtoms);
+    EXPECT_TRUE(passTwo.NumBonds() == origBonds);
 }
 
 // ---------------------------------------------------------------------
@@ -162,14 +162,14 @@ void testRoundTripReaction()
     const string written = writeKet(original);
     OB_REQUIRE(!written.empty());
     // Sanity-check the writer emitted at least one arrow.
-    OB_ASSERT(written.find("\"arrow\"") != string::npos);
+    EXPECT_TRUE(written.find("\"arrow\"") != string::npos);
 
     OBMol rt = readKetString(written);
-    OB_ASSERT(rt.IsReaction());
+    EXPECT_TRUE(rt.IsReaction());
 
     OBReactionFacade facade(&rt);
-    OB_ASSERT(facade.NumComponents(REACTANT) == 2);
-    OB_ASSERT(facade.NumComponents(PRODUCT) == 1);
+    EXPECT_TRUE(facade.NumComponents(REACTANT) == 2);
+    EXPECT_TRUE(facade.NumComponents(PRODUCT) == 1);
 }
 
 // ---------------------------------------------------------------------
@@ -181,9 +181,9 @@ void testRefNamePreserved()
 {
     OBMol mol = readKetFile(testFilePath("with_connections.ket"));
     const string out = writeKet(mol);
-    OB_ASSERT(out.find("\"$ref\":\"mol5\"") != string::npos ||
+    EXPECT_TRUE(out.find("\"$ref\":\"mol5\"") != string::npos ||
               out.find("\"$ref\": \"mol5\"") != string::npos);
-    OB_ASSERT(out.find("\"mol5\":") != string::npos);
+    EXPECT_TRUE(out.find("\"mol5\":") != string::npos);
 }
 
 // ---------------------------------------------------------------------
@@ -194,14 +194,14 @@ void testConnectionsPreserved()
 {
     OBMol mol = readKetFile(testFilePath("with_connections.ket"));
     const string out = writeKet(mol);
-    OB_ASSERT(out.find("\"connections\"") != string::npos);
-    OB_ASSERT(out.find("monomerId") != string::npos);
-    OB_ASSERT(out.find("attachmentPointId") != string::npos);
+    EXPECT_TRUE(out.find("\"connections\"") != string::npos);
+    EXPECT_TRUE(out.find("monomerId") != string::npos);
+    EXPECT_TRUE(out.find("attachmentPointId") != string::npos);
 
     // Re-read and re-write: stable output the second time.
     OBMol second = readKetString(out);
     const string out2 = writeKet(second);
-    OB_ASSERT(out2 == out);
+    EXPECT_TRUE(out2 == out);
 }
 
 // ---------------------------------------------------------------------
@@ -223,8 +223,8 @@ void testNodeOrderPreserved()
     const auto tp = (textPos != string::npos) ? textPos : textPosAlt;
     const auto np = (monomerPos != string::npos) ? monomerPos : monomerPosAlt;
     OB_REQUIRE(mp != string::npos && tp != string::npos && np != string::npos);
-    OB_ASSERT(mp < tp);  // mol5 first
-    OB_ASSERT(tp < np);  // then text, then monomer
+    EXPECT_TRUE(mp < tp);  // mol5 first
+    EXPECT_TRUE(tp < np);  // then text, then monomer
 }
 
 // ---------------------------------------------------------------------
@@ -240,9 +240,9 @@ void testOriginalArrowPreserved()
     // The original arrow runs from x=2 to x=5. The synthesizer would emit
     // tail+gap (~1.1) to head-gap (~5.9). So the presence of x=2 and x=5
     // proves we kept the original.
-    OB_ASSERT(out.find("\"x\":2.0") != string::npos ||
+    EXPECT_TRUE(out.find("\"x\":2.0") != string::npos ||
               out.find("\"x\": 2.0") != string::npos);
-    OB_ASSERT(out.find("\"x\":5.0") != string::npos ||
+    EXPECT_TRUE(out.find("\"x\":5.0") != string::npos ||
               out.find("\"x\": 5.0") != string::npos);
     // Exactly one arrow — no duplicate synthesis.
     size_t count = 0, pos = 0;
@@ -255,7 +255,7 @@ void testOriginalArrowPreserved()
             ++count; ++pos;
         }
     }
-    OB_ASSERT(count == 1);
+    EXPECT_TRUE(count == 1);
 }
 
 // Helper: count occurrences of a substring.
@@ -289,9 +289,9 @@ void testSgroupBondsLocal()
     const string mol0Body = out.substr(mol0Def, mol1Def - mol0Def);
     const string mol1Body = out.substr(mol1Def);
 
-    OB_ASSERT(mol0Body.find("\"bonds\":[0,2]") != string::npos);
-    OB_ASSERT(mol1Body.find("\"bonds\":[0]") != string::npos);
-    OB_ASSERT(mol1Body.find("\"bonds\":[3]") == string::npos);
+    EXPECT_TRUE(mol0Body.find("\"bonds\":[0,2]") != string::npos);
+    EXPECT_TRUE(mol1Body.find("\"bonds\":[0]") != string::npos);
+    EXPECT_TRUE(mol1Body.find("\"bonds\":[3]") == string::npos);
 }
 
 // ---------------------------------------------------------------------
@@ -312,15 +312,15 @@ void testPropertiesAndHighlightPreserved()
     const string mol0Body = out.substr(mol0Def, mol1Def - mol0Def);
     const string mol1Body = out.substr(mol1Def);
 
-    OB_ASSERT(mol0Body.find("\"highlight\"") != string::npos);
-    OB_ASSERT(mol0Body.find("\"properties\"") != string::npos);
-    OB_ASSERT(mol0Body.find("\"key\":\"name\"") != string::npos);
-    OB_ASSERT(mol0Body.find("\"value\":\"test-compound\"") != string::npos);
-    OB_ASSERT(mol0Body.find("\"entityType\":\"atom\"") != string::npos);
-    OB_ASSERT(mol0Body.find("\"entityType\":\"bond\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"highlight\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"properties\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"key\":\"name\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"value\":\"test-compound\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"entityType\":\"atom\"") != string::npos);
+    EXPECT_TRUE(mol0Body.find("\"entityType\":\"bond\"") != string::npos);
 
-    OB_ASSERT(mol1Body.find("\"highlight\"") == string::npos);
-    OB_ASSERT(mol1Body.find("\"properties\"") == string::npos);
+    EXPECT_TRUE(mol1Body.find("\"highlight\"") == string::npos);
+    EXPECT_TRUE(mol1Body.find("\"properties\"") == string::npos);
 }
 
 // ---------------------------------------------------------------------
@@ -335,11 +335,11 @@ void testStableRoundTrip()
     const string first = writeKet(mol);
     OBMol pass1 = readKetString(first);
     const string second = writeKet(pass1);
-    OB_ASSERT(first == second);
+    EXPECT_TRUE(first == second);
 
     OBMol pass2 = readKetString(second);
     const string third = writeKet(pass2);
-    OB_ASSERT(second == third);
+    EXPECT_TRUE(second == third);
 }
 
 // ---------------------------------------------------------------------
@@ -352,15 +352,15 @@ void testEmptyMolEmitsNoDanglingRef()
     OBMol mol;  // empty
     const string out = writeKet(mol);
     // No mol* members nor refs.
-    OB_ASSERT(out.find("\"$ref\"") == string::npos);
-    OB_ASSERT(out.find("\"mol0\"") == string::npos);
+    EXPECT_TRUE(out.find("\"$ref\"") == string::npos);
+    EXPECT_TRUE(out.find("\"mol0\"") == string::npos);
     // But the document is still valid: contains a root.nodes (possibly empty).
-    OB_ASSERT(out.find("\"root\"") != string::npos);
-    OB_ASSERT(out.find("\"nodes\"") != string::npos);
+    EXPECT_TRUE(out.find("\"root\"") != string::npos);
+    EXPECT_TRUE(out.find("\"nodes\"") != string::npos);
 
     // Re-read should not fail.
     OBMol roundtrip = readKetString(out);
-    OB_ASSERT(roundtrip.NumAtoms() == 0);
+    EXPECT_TRUE(roundtrip.NumAtoms() == 0);
 }
 
 // ---------------------------------------------------------------------
@@ -375,11 +375,11 @@ void testNoDuplicateArrow()
     const size_t arrowCount =
         countOccurrences(out, "\"type\":\"arrow\"") +
         countOccurrences(out, "\"type\": \"arrow\"");
-    OB_ASSERT(arrowCount == 1);
+    EXPECT_TRUE(arrowCount == 1);
     const size_t plusCount =
         countOccurrences(out, "\"type\":\"plus\"") +
         countOccurrences(out, "\"type\": \"plus\"");
-    OB_ASSERT(plusCount == 1);  // reaction.ket has 1 original plus
+    EXPECT_TRUE(plusCount == 1);  // reaction.ket has 1 original plus
 }
 
 // ---------------------------------------------------------------------
@@ -391,13 +391,13 @@ void testAromaticBondTypePreserved()
     OBMol mol = readKetFile(testFilePath("aromatic.ket"));
     const string out = writeKetMinified(mol);
 
-    OB_ASSERT(countOccurrences(out, "\"type\":4") == 6);
-    OB_ASSERT(countOccurrences(out, "\"type\":1") == 0);
-    OB_ASSERT(countOccurrences(out, "\"type\":2") == 0);
+    EXPECT_TRUE(countOccurrences(out, "\"type\":4") == 6);
+    EXPECT_TRUE(countOccurrences(out, "\"type\":1") == 0);
+    EXPECT_TRUE(countOccurrences(out, "\"type\":2") == 0);
 
     OBMol second = readKetString(out);
     const string out2 = writeKetMinified(second);
-    OB_ASSERT(out2 == out);
+    EXPECT_TRUE(out2 == out);
 }
 
 // ---------------------------------------------------------------------
@@ -411,7 +411,7 @@ void testUnsupportedFutureKetVersionRejected()
     OBConversion conv;
     OB_REQUIRE(conv.SetInFormat("ket"));
     OBMol mol;
-    OB_ASSERT(!conv.ReadString(&mol, text));
+    EXPECT_TRUE(!conv.ReadString(&mol, text));
 }
 
 // ---------------------------------------------------------------------
@@ -427,7 +427,7 @@ void testExplicitZeroImplicitHCountPreserved()
         "\"implicitHCount\":0}],\"bonds\":[]}}";
     OBMol mol = readKetString(text);
     const string out = writeKetMinified(mol);
-    OB_ASSERT(out.find("\"implicitHCount\":0") != string::npos);
+    EXPECT_TRUE(out.find("\"implicitHCount\":0") != string::npos);
 }
 
 // ---------------------------------------------------------------------
@@ -446,7 +446,7 @@ void testAliasDataPreserved()
     OB_REQUIRE(atom != nullptr);
     auto *ad = dynamic_cast<AliasData *>(atom->GetData(AliasDataType));
     OB_REQUIRE(ad != nullptr);
-    OB_ASSERT(ad->GetAlias() == "COOH");
+    EXPECT_TRUE(ad->GetAlias() == "COOH");
 }
 
 // ---------------------------------------------------------------------
@@ -464,14 +464,14 @@ void testAliasExpansionOption()
     OBMol mol = readKetString(text, true);
     OB_REQUIRE(mol.NumAtoms() == 4);
     OB_REQUIRE(mol.NumBonds() == 3);
-    OB_ASSERT(mol.GetAtom(1)->GetAtomicNum() == OBElements::Carbon);
-    OB_ASSERT(mol.GetAtom(2)->GetAtomicNum() == OBElements::Carbon);
-    OB_ASSERT(mol.GetAtom(3)->GetAtomicNum() == OBElements::Oxygen);
-    OB_ASSERT(mol.GetAtom(4)->GetAtomicNum() == OBElements::Oxygen);
+    EXPECT_TRUE(mol.GetAtom(1)->GetAtomicNum() == OBElements::Carbon);
+    EXPECT_TRUE(mol.GetAtom(2)->GetAtomicNum() == OBElements::Carbon);
+    EXPECT_TRUE(mol.GetAtom(3)->GetAtomicNum() == OBElements::Oxygen);
+    EXPECT_TRUE(mol.GetAtom(4)->GetAtomicNum() == OBElements::Oxygen);
     auto *ad = dynamic_cast<AliasData *>(mol.GetAtom(2)->GetData(AliasDataType));
     OB_REQUIRE(ad != nullptr);
-    OB_ASSERT(ad->IsExpanded());
-    OB_ASSERT(ad->GetAlias() == "COOH");
+    EXPECT_TRUE(ad->IsExpanded());
+    EXPECT_TRUE(ad->GetAlias() == "COOH");
 }
 
 // ---------------------------------------------------------------------

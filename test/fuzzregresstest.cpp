@@ -174,7 +174,7 @@ static bool RunReproExpectReject(const string &caseId, const string &inFormat,
 // Fixed in PR #2862.
 void caseCVE_2026_2704()
 {
-  OB_ASSERT(RunRepro("CVE-2026-2704", "cif", "cve-2026-2704.cif"));
+  EXPECT_TRUE(RunRepro("CVE-2026-2704", "cif", "cve-2026-2704.cif"));
 }
 
 // CVE-2026-2705: NULL pointer dereference in OBAtom::SetFormalCharge via
@@ -182,7 +182,7 @@ void caseCVE_2026_2704()
 // Fixed in PR #2862.
 void caseCVE_2026_2705()
 {
-  OB_ASSERT(RunRepro("CVE-2026-2705", "mol2", "cve-2026-2705.mol2"));
+  EXPECT_TRUE(RunRepro("CVE-2026-2705", "mol2", "cve-2026-2705.mol2"));
 }
 
 // CVE-2026-3408: NULL pointer dereference in
@@ -190,7 +190,7 @@ void caseCVE_2026_2705()
 // resolve. Fixed in PR #2862.
 void caseCVE_2026_3408()
 {
-  OB_ASSERT(RunRepro("CVE-2026-3408", "cdxml", "cve-2026-3408.cdxml"));
+  EXPECT_TRUE(RunRepro("CVE-2026-3408", "cdxml", "cve-2026-3408.cdxml"));
 }
 
 // ANT-2026-00770: crash when writing a star-shaped molecule (one
@@ -198,7 +198,7 @@ void caseCVE_2026_3408()
 // MOL/SDF reproducer and exercise the MCDL writer.
 void caseANT_2026_00770()
 {
-  OB_ASSERT(RunReproConvert("ANT-2026-00770", "sdf", "mcdl",
+  EXPECT_TRUE(RunReproConvert("ANT-2026-00770", "sdf", "mcdl",
                             "ant-2026-00770.sdf"));
 }
 
@@ -211,7 +211,7 @@ void caseANT_2026_00770()
 // must now return cleanly without hang, exception, or memory error.
 void caseTrailOfBits_2026()
 {
-  OB_ASSERT(RunRepro("trailofbits-2026", "mcdl", "trailofbits-2026.mcdl"));
+  EXPECT_TRUE(RunRepro("trailofbits-2026", "mcdl", "trailofbits-2026.mcdl"));
 }
 
 // CVE-2022-46291: out-of-bounds write into a fixed 3-element
@@ -219,7 +219,7 @@ void caseTrailOfBits_2026()
 // block contains more than three atomicNum=-2 (Tv) rows.
 void caseCVE_2022_46291()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46291", "g09", "cve-2022-46291.g09"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46291", "g09", "cve-2022-46291.g09"));
 }
 
 // CVE-2022-46292: out-of-bounds write into translationVectors[] in
@@ -227,7 +227,7 @@ void caseCVE_2022_46291()
 // than three lattice-vector rows.
 void caseCVE_2022_46292()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46292", "mopout", "cve-2022-46292.out"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46292", "mopout", "cve-2022-46292.out"));
 }
 
 // CVE-2022-46293: out-of-bounds write into translationVectors[] in
@@ -235,7 +235,7 @@ void caseCVE_2022_46292()
 // more than three Tv-atom Z-component rows.
 void caseCVE_2022_46293()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46293", "mopout", "cve-2022-46293.out"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46293", "mopout", "cve-2022-46293.out"));
 }
 
 // CVE-2022-46294: out-of-bounds write into translationVectors[] in
@@ -243,7 +243,7 @@ void caseCVE_2022_46293()
 // atom rows.
 void caseCVE_2022_46294()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46294", "mop", "cve-2022-46294.mop"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46294", "mop", "cve-2022-46294.mop"));
 }
 
 // CVE-2022-46295: out-of-bounds write into translationVectors[] in
@@ -251,7 +251,7 @@ void caseCVE_2022_46294()
 // three lattice-vector lines.
 void caseCVE_2022_46295()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46295", "msi", "cve-2022-46295.msi"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46295", "msi", "cve-2022-46295.msi"));
 }
 
 // CVE-2022-46289: out-of-bounds write into the confCoords[] heap
@@ -260,7 +260,7 @@ void caseCVE_2022_46295()
 // (ANGSTROEM) block.
 void caseCVE_2022_46289()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46289", "orca", "cve-2022-46289.out"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46289", "orca", "cve-2022-46289.out"));
 }
 
 // CVE-2022-46290: out-of-bounds write in OrcaOutputFormat reachable
@@ -268,7 +268,7 @@ void caseCVE_2022_46289()
 // previously skipped the confCoords[] bounds check.
 void caseCVE_2022_46290()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46290", "orca", "cve-2022-46290.out"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46290", "orca", "cve-2022-46290.out"));
 }
 
 // CVE-2022-42885: uninitialized OBResidue* in GROFormat::WriteMolecule
@@ -276,7 +276,7 @@ void caseCVE_2022_46290()
 // The write path dereferenced `res` without a null check.
 void caseCVE_2022_42885()
 {
-  OB_ASSERT(RunReproConvert("CVE-2022-42885", "xyz", "gro",
+  EXPECT_TRUE(RunReproConvert("CVE-2022-42885", "xyz", "gro",
                             "cve-2022-42885.xyz"));
 }
 
@@ -285,7 +285,7 @@ void caseCVE_2022_42885()
 // allocates the atom object.
 void caseCVE_2022_44451()
 {
-  OB_ASSERT(RunRepro("CVE-2022-44451", "msi", "cve-2022-44451.msi"));
+  EXPECT_TRUE(RunRepro("CVE-2022-44451", "msi", "cve-2022-44451.msi"));
 }
 
 // CVE-2022-46280: uninitialized OBFormat* in PQSFormat::ReadMolecule
@@ -294,7 +294,7 @@ void caseCVE_2022_44451()
 // leaving pFormat garbage before the dispatch call.
 void caseCVE_2022_46280()
 {
-  OB_ASSERT(RunRepro("CVE-2022-46280", "pqs", "cve-2022-46280.pqs"));
+  EXPECT_TRUE(RunRepro("CVE-2022-46280", "pqs", "cve-2022-46280.pqs"));
 }
 
 // CVE-2022-43467: out-of-bounds write in PQSFormat::ReadMolecule when
@@ -303,7 +303,7 @@ void caseCVE_2022_46280()
 // full_coord_path[] buffer in the strcat() call.
 void caseCVE_2022_43467()
 {
-  OB_ASSERT(RunRepro("CVE-2022-43467", "pqs", "cve-2022-43467.pqs"));
+  EXPECT_TRUE(RunRepro("CVE-2022-43467", "pqs", "cve-2022-43467.pqs"));
 }
 
 // CVE-2025-10998: NULL dereference in ChemKinFormat::ReadReactionQualifierLines.
@@ -313,7 +313,7 @@ void caseCVE_2022_43467()
 // Fixed in af4a4212 by adding an upfront toks.empty() early-continue.
 void caseCVE_2025_10998()
 {
-  OB_ASSERT(RunRepro("CVE-2025-10998", "ck", "cve-2025-10998.ck"));
+  EXPECT_TRUE(RunRepro("CVE-2025-10998", "ck", "cve-2025-10998.ck"));
 }
 
 // CVE-2025-10997: heap-buffer-overflow in ChemKinFormat::CheckSpecies via
@@ -324,7 +324,7 @@ void caseCVE_2025_10998()
 // toks.size()>=2 guard and an upfront toks.empty() early-continue.
 void caseCVE_2025_10997()
 {
-  OB_ASSERT(RunRepro("CVE-2025-10997", "ck", "cve-2025-10997.ck"));
+  EXPECT_TRUE(RunRepro("CVE-2025-10997", "ck", "cve-2025-10997.ck"));
 }
 
 // CVE-2025-10995: memcpy-param-overlap in basic_unzip_streambuf::underflow.
@@ -333,7 +333,7 @@ void caseCVE_2025_10997()
 // overlapping ranges; fixed by replacing it with memmove.
 void caseCVE_2025_10995()
 {
-  OB_ASSERT(RunRepro("CVE-2025-10995", "sdf", "cve-2025-10995.sdf.gz"));
+  EXPECT_TRUE(RunRepro("CVE-2025-10995", "sdf", "cve-2025-10995.sdf.gz"));
 }
 
 // CVE-2025-10996: heap-buffer-overflow in OBSmilesParser::ParseSmiles when
@@ -343,7 +343,7 @@ void caseCVE_2025_10995()
 // Fixed in b34cd604 by adding an `idx-1 >= _hcount.size()` bounds check.
 void caseCVE_2025_10996()
 {
-  OB_ASSERT(RunRepro("CVE-2025-10996", "smi", "cve-2025-10996.smi"));
+  EXPECT_TRUE(RunRepro("CVE-2025-10996", "smi", "cve-2025-10996.smi"));
 }
 
 // CVE-2025-10999: NULL dereference in CacaoFormat::SetHilderbrandt when
@@ -353,7 +353,7 @@ void caseCVE_2025_10996()
 // using numeric_limits::max() as the initial sum and adding null guards.
 void caseCVE_2025_10999()
 {
-  OB_ASSERT(RunReproConvert("CVE-2025-10999", "xyz", "cacint",
+  EXPECT_TRUE(RunReproConvert("CVE-2025-10999", "xyz", "cacint",
                             "cve-2025-10999.xyz"));
 }
 
@@ -363,7 +363,7 @@ void caseCVE_2025_10999()
 // Fixed by replacing strncpy+strcmp with an i<4 guard + strncmp in-place.
 void caseCVE_2025_11000()
 {
-  OB_ASSERT(RunRepro("CVE-2025-11000", "pqs", "cve-2025-11000.pqs"));
+  EXPECT_TRUE(RunRepro("CVE-2025-11000", "pqs", "cve-2025-11000.pqs"));
 }
 
 // CVE-2022-37331: stack-buffer-overflow in GaussianOutputFormat::ReadMolecule
@@ -373,7 +373,7 @@ void caseCVE_2025_11000()
 // Fixed by replacing coords_type with std::string.
 void caseCVE_2022_37331()
 {
-  OB_ASSERT(RunRepro("CVE-2022-37331", "g09", "cve-2022-37331.g09"));
+  EXPECT_TRUE(RunRepro("CVE-2022-37331", "g09", "cve-2022-37331.g09"));
 }
 
 // CVE-2022-41793: heap-buffer-overflow in CSRFormat::PadString when
@@ -383,7 +383,7 @@ void caseCVE_2022_37331()
 // during WriteCSRHeader.
 void caseCVE_2022_41793()
 {
-  OB_ASSERT(RunReproConvert("CVE-2022-41793", "xyz", "csr",
+  EXPECT_TRUE(RunReproConvert("CVE-2022-41793", "xyz", "csr",
                             "cve-2022-41793.xyz"));
 }
 
@@ -392,7 +392,7 @@ void caseCVE_2022_41793()
 // tokens than expected, causing vs[1] or vs[2] to read freed vector memory.
 void caseCVE_2025_10994()
 {
-  OB_ASSERT(RunRepro("CVE-2025-10994", "gamout", "cve-2025-10994.out"));
+  EXPECT_TRUE(RunRepro("CVE-2025-10994", "gamout", "cve-2025-10994.out"));
 }
 
 // CVE-2022-43607: stack-buffer-overflow in MOL2Format::ReadMolecule when
@@ -402,7 +402,7 @@ void caseCVE_2025_10994()
 // Requires the -c INOPTION (UCSF Dock comment mode) to reach the sscanf.
 void caseCVE_2022_43607()
 {
-  OB_ASSERT(RunReproWithInputFlag("CVE-2022-43607", "mol2",
+  EXPECT_TRUE(RunReproWithInputFlag("CVE-2022-43607", "mol2",
                                   "cve-2022-43607.mol2", "c"));
 }
 
@@ -411,7 +411,7 @@ void caseCVE_2022_43607()
 // Fixed by null-checking GetParent() in OBAtom::IsPeriodic().
 void casePointGroupNullParent()
 {
-  OB_ASSERT(RunReproConvert("pointgroup-null-parent", "g09", "xyz",
+  EXPECT_TRUE(RunReproConvert("pointgroup-null-parent", "g09", "xyz",
                             "methane-pointgroup.g09"));
 }
 
@@ -425,14 +425,14 @@ void casePointGroupNullParent()
 static void writeHighZToAllFormats(const string &smiles)
 {
   OBConversion readConv;
-  OB_ASSERT(readConv.SetInFormat("smi"));
+  EXPECT_TRUE(readConv.SetInFormat("smi"));
 
   OBMol mol;
-  OB_ASSERT(readConv.ReadString(&mol, smiles));
+  EXPECT_TRUE(readConv.ReadString(&mol, smiles));
 
   vector<string> formats;
   OBPlugin::ListAsVector("formats", "ids", formats);
-  OB_ASSERT(!formats.empty());
+  EXPECT_TRUE(!formats.empty());
 
   for (const string &id : formats) {
     OBConversion conv;
@@ -465,7 +465,7 @@ void caseHighZSmilesToAllFormats()
 // connection pair are present).
 void caseTruncatedMmod()
 {
-  OB_ASSERT(RunReproExpectReject("truncated-mmod", "mmod",
+  EXPECT_TRUE(RunReproExpectReject("truncated-mmod", "mmod",
                                  "truncated-record.mmod"));
 }
 
@@ -473,7 +473,7 @@ void caseTruncatedMmod()
 // atom number and x/y/z coordinates.
 void caseTruncatedChem3d()
 {
-  OB_ASSERT(RunReproExpectReject("truncated-chem3d", "c3d1",
+  EXPECT_TRUE(RunReproExpectReject("truncated-chem3d", "c3d1",
                                  "truncated-record.c3d"));
 }
 
@@ -481,7 +481,7 @@ void caseTruncatedChem3d()
 // the coordinate sscanf would otherwise read past the end of the line.
 void caseTruncatedCcc()
 {
-  OB_ASSERT(RunReproExpectReject("truncated-ccc", "ccc",
+  EXPECT_TRUE(RunReproExpectReject("truncated-ccc", "ccc",
                                  "truncated-record.ccc"));
 }
 
@@ -489,14 +489,14 @@ void caseTruncatedCcc()
 // index (and the optional bond-order code).
 void caseTruncatedGhemical()
 {
-  OB_ASSERT(RunReproExpectReject("truncated-ghemical", "gpr",
+  EXPECT_TRUE(RunReproExpectReject("truncated-ghemical", "gpr",
                                  "truncated-record.gpr"));
 }
 
 // Mol2: ATOM record missing the z coordinate and SYBYL atom type.
 void caseTruncatedMol2()
 {
-  OB_ASSERT(RunReproExpectReject("truncated-mol2", "mol2",
+  EXPECT_TRUE(RunReproExpectReject("truncated-mol2", "mol2",
                                  "truncated-record.mol2"));
 }
 
@@ -512,7 +512,7 @@ void caseTruncatedMol2()
 // real, correctly-sized coordinates survived).
 void caseGamessEmptyFirstGeom()
 {
-  OB_ASSERT(RunRepro("gamess-empty-first-geom", "gamout",
+  EXPECT_TRUE(RunRepro("gamess-empty-first-geom", "gamout",
                      "gamess-empty-first-geom.gamout"));
 }
 
@@ -523,7 +523,7 @@ void caseGamessEmptyFirstGeom()
 // recording a conformer when coordinates.size() == natoms*3.
 void caseGaussTruncatedOrientation()
 {
-  OB_ASSERT(RunRepro("gauss-truncated-orientation", "g09",
+  EXPECT_TRUE(RunRepro("gauss-truncated-orientation", "g09",
                      "gauss-truncated-orientation.g09"));
 }
 
@@ -534,7 +534,7 @@ void caseGaussTruncatedOrientation()
 // the write to NumAtoms() and zero-filling any shortfall.
 void caseMoldenMismatchedFrame()
 {
-  OB_ASSERT(RunRepro("molden-mismatched-frame", "molden",
+  EXPECT_TRUE(RunRepro("molden-mismatched-frame", "molden",
                      "molden-mismatched-frame.molden"));
 }
 
@@ -546,7 +546,7 @@ void caseMoldenMismatchedFrame()
 // placeholder conformer when real frames were added.
 void caseAbinitUnderfilledXcart()
 {
-  OB_ASSERT(RunRepro("abinit-underfilled-xcart", "abinit",
+  EXPECT_TRUE(RunRepro("abinit-underfilled-xcart", "abinit",
                      "abinit-underfilled-xcart.abinit"));
 }
 
@@ -559,7 +559,7 @@ void caseAbinitUnderfilledXcart()
 // labeler, as the fuzzer's "can" output target does.
 void caseCanonDeepRecursion()
 {
-  OB_ASSERT(RunReproConvert("canon-deep-recursion", "smi", "can",
+  EXPECT_TRUE(RunReproConvert("canon-deep-recursion", "smi", "can",
                             "canon-deep-recursion.smi"));
 }
 
@@ -572,7 +572,7 @@ void caseCanonDeepRecursion()
 // Reader must now return cleanly without a crash or hang.
 void caseWLNRingSizeUnderflow()
 {
-  OB_ASSERT(RunRepro("wln-ring-size-underflow", "wln",
+  EXPECT_TRUE(RunRepro("wln-ring-size-underflow", "wln",
                      "wln-ring-size-underflow.wln"));
 }
 
@@ -586,7 +586,7 @@ void caseWLNRingSizeUnderflow()
 // and exercise the InChI writer; it must not crash or trip a sanitizer.
 void caseInChIMaxvalOverflow()
 {
-  OB_ASSERT(RunReproConvert("inchi-maxval-overflow", "sdf", "inchi",
+  EXPECT_TRUE(RunReproConvert("inchi-maxval-overflow", "sdf", "inchi",
                             "inchi-maxval-overflow.sdf"));
 }
 
@@ -603,7 +603,7 @@ void caseInChIMaxvalOverflow()
 // build to enable -fsanitize=unsigned-integer-overflow (see CONTRIBUTING/CI).
 void caseGraphSymHighDegree()
 {
-  OB_ASSERT(RunReproConvert("graphsym-highdegree", "smi", "can",
+  EXPECT_TRUE(RunReproConvert("graphsym-highdegree", "smi", "can",
                             "graphsym-highdegree.smi"));
 }
 

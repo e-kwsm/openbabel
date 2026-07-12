@@ -53,7 +53,7 @@ int canonstabletest(int /*argc*/, char * /*argv*/[])
       if (cansmi != line) {
         cout << "ref = " << line << endl;
         cout << "can = " << cansmi << endl;
-        OB_ASSERT( cansmi == line );
+        EXPECT_TRUE( cansmi == line );
       }
     }
   }

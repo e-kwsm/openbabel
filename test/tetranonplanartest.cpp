@@ -42,50 +42,50 @@ int tetranonplanartest(int /*argc*/, char* /*argv*/[])
   // test nothing operation
   OBTetrahedralStereo::Config cfg2;
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 0);
-  OB_ASSERT( cfg == cfg2 );
+  EXPECT_TRUE( cfg == cfg2 );
   
   OBTetrahedralStereo::Config cfg3;
   // try viewing from other atom: 2
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 2);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.from == 2 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(3, 0, 4)) );
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.from == 2 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(3, 0, 4)) );
  
   // try viewing from other atom: 3
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 3);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.from == 3 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(0, 2, 4)) );
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.from == 3 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(0, 2, 4)) );
  
   // try viewing from other atom: 4
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 4);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.from == 4 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(3, 2, 0)) );
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.from == 4 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(3, 2, 0)) );
 
   // try viewing anti-clockwise 
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 3, OBStereo::AntiClockwise);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.towards == 3 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(2, 0, 4)) ); // CW <-> ACW = inversion
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.towards == 3 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(2, 0, 4)) ); // CW <-> ACW = inversion
 
   // try viewing towards atom
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 3, OBStereo::Clockwise, OBStereo::ViewTowards);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.towards == 3 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(2, 0, 4)) ); // from <-> towards = inversion
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.towards == 3 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(2, 0, 4)) ); // from <-> towards = inversion
  
   // try viewing towards atom anti-clockwise
   cfg2 = OBTetraNonPlanarStereo::ToConfig(cfg, 3, OBStereo::AntiClockwise, OBStereo::ViewTowards);
-  OB_ASSERT( cfg2.center == 1 );
-  OB_ASSERT( cfg2.towards == 3 );
-  OB_ASSERT( cfg2.refs.size() == 3 );
-  OB_ASSERT( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(0, 2, 4)) ); // 2 permutations cancel out
+  EXPECT_TRUE( cfg2.center == 1 );
+  EXPECT_TRUE( cfg2.towards == 3 );
+  EXPECT_TRUE( cfg2.refs.size() == 3 );
+  EXPECT_TRUE( hasSameWinding(cfg2.refs, OBStereo::MakeRefs(0, 2, 4)) ); // 2 permutations cancel out
 
   return 0;
 }

@@ -24,7 +24,7 @@ void testLossOfHydrogen(string filename)
     unsigned int newNatoms = mol.NumAtoms();
     cout << "Mol#" << i << ", Title " << mol.GetTitle() << ", Original atoms vs New atoms: ";
     cout << Natoms << " vs " << newNatoms << "\n";
-    OB_ASSERT( Natoms == newNatoms);
+    EXPECT_TRUE( Natoms == newNatoms);
     cout << "\n";
     success = conv.Read(&mol);
     i += 1;

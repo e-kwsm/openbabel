@@ -58,8 +58,8 @@ public:
     //cout << "Testing smiles " << _smiles << endl;
     //cout << "number of aliases " << alias_count << ", number of nonaliased atoms " << nonaliased_count << endl;
 
-    OB_ASSERT( nonaliased_count == _num_nonaliased );
-    OB_ASSERT( alias_count == _num_aliases );
+    EXPECT_TRUE( nonaliased_count == _num_nonaliased );
+    EXPECT_TRUE( alias_count == _num_aliases );
   }
 };
 

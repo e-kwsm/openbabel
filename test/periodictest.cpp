@@ -101,7 +101,7 @@ void PeriodicTester::TestLengths(double a, double b, double c) {
   for (int i=0; i<3; ++i) {
     OBAtom* a1 = atom_list[i];
     OBAtom* a2 = atom_list[i+1];
-    OB_ASSERT( near( a1->GetDistance(a2), expected[i] ) );
+    EXPECT_TRUE( near( a1->GetDistance(a2), expected[i] ) );
   }
 }
 
@@ -114,14 +114,14 @@ void PeriodicTester::TestAngles(double a, double b) {
     OBAtom* a1 = atom_list[i];
     OBAtom* a2 = atom_list[i+1];
     OBAtom* a3 = atom_list[i+2];
-    OB_ASSERT( near( a1->GetAngle(a2, a3), expected[i] ) );
+    EXPECT_TRUE( near( a1->GetAngle(a2, a3), expected[i] ) );
   }
 }
 
 
 void PeriodicTester::TestTorsion(double a) {
   double torsion = tmol.GetTorsion(atom_list[0], atom_list[1], atom_list[2], atom_list[3]);
-  OB_ASSERT( near( torsion, a ) );
+  EXPECT_TRUE( near( torsion, a ) );
 }
 
 

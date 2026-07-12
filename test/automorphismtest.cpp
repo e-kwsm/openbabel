@@ -26,7 +26,7 @@ void testAutomorphisms()
   Automorphisms aut;
   FindAutomorphisms((OBMol*)&mol, aut);
   cout << aut.size() << endl;
-  OB_ASSERT( aut.size() == 8 );
+  EXPECT_TRUE( aut.size() == 8 );
 }
 
 /**
@@ -55,7 +55,7 @@ int automorphismtest(int argc, char* argv[])
 
   OBMol mol;
   OBConversion conv;
-  OB_ASSERT( conv.SetInFormat("mol") );
+  EXPECT_TRUE( conv.SetInFormat("mol") );
 
   switch(choice) {
   case 1:
@@ -68,48 +68,48 @@ int automorphismtest(int argc, char* argv[])
      * Figure 2. Test graphs
      */
     cout << "Hao, Xu paper, fig. 2: structure 1" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_1.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 8) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_1.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 8) );
     break;
   case 3:
     cout << "Hao, Xu paper, fig. 2: structure 2" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_2.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 2) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_2.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 2) );
     break;
   case 4:
     cout << "Hao, Xu paper, fig. 2: structure 3" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_3.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 48) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_3.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 48) );
     break;
   case 5:
     cout << "Hao, Xu paper, fig. 2: structure 4" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_4.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 2) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_4.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 2) );
     break;
   case 6:
     cout << "Hao, Xu paper, fig. 2: structure 5" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_5.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 2) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_5.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 2) );
     break;
   case 7:
     cout << "Hao, Xu paper, fig. 2: structure 6" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_6.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 6) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_6.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 6) );
     break;
   case 8:
     cout << "Hao, Xu paper, fig. 2: structure 7" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_7.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 1) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_7.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 1) );
     break;
   case 9:
     cout << "Hao, Xu paper, fig. 2: structure 8" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_8.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 1) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_8.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 1) );
     break;
   case 10:
     cout << "Hao, Xu paper, fig. 2: structure 9" << endl;
-    OB_ASSERT( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_9.mol")) );
-    OB_ASSERT( doAutomorphismTest(mol, 20) );
+    EXPECT_TRUE( conv.ReadFile(&mol, OBTestUtil::GetFilename("hao_xu_9.mol")) );
+    EXPECT_TRUE( doAutomorphismTest(mol, 20) );
     break;
   default:
     cout << "Test number " << choice << " does not exist!\n";

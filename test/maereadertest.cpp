@@ -42,7 +42,7 @@ void testMaeReader()
   conv.ReadFile(&mol, OBTestUtil::GetFilename("maereader.maegz"));
   string maegz_smi = conv.WriteString(&mol);
 
-  OB_ASSERT(mae_smi == maegz_smi);
+  EXPECT_TRUE(mae_smi == maegz_smi);
 
   // Erase any potential newlines
   mae_smi.erase(remove(mae_smi.begin(), mae_smi.end(), '\n'), mae_smi.end());

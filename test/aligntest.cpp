@@ -40,27 +40,27 @@ void test_simpleAlign()
 
   align.Align();
   result = align.GetAlignment();
-  OB_ASSERT( result[0].IsApprox(ref[0], 1.0E-08) );
-  OB_ASSERT( result[1].IsApprox(ref[1], 1.0E-08) );
-  OB_ASSERT( fabs(align.GetRMSD()) < 1.0E-08 );
+  EXPECT_TRUE( result[0].IsApprox(ref[0], 1.0E-08) );
+  EXPECT_TRUE( result[1].IsApprox(ref[1], 1.0E-08) );
+  EXPECT_TRUE( fabs(align.GetRMSD()) < 1.0E-08 );
 
   // Align ab to dc
   target[0] = a; target[1] = b;
   align.SetTarget(target);
   align.Align();
   result = align.GetAlignment();
-  OB_ASSERT( result[0].IsApprox(ref[0], 1.0E-08) );
-  OB_ASSERT( result[1].IsApprox(ref[1], 1.0E-08) );
-  OB_ASSERT( fabs(align.GetRMSD()) < 1.0E-08 );
+  EXPECT_TRUE( result[0].IsApprox(ref[0], 1.0E-08) );
+  EXPECT_TRUE( result[1].IsApprox(ref[1], 1.0E-08) );
+  EXPECT_TRUE( fabs(align.GetRMSD()) < 1.0E-08 );
 
   // Align be to dc
   target[0] = b; target[1] = e;
   align.SetTarget(target);
   align.Align();
   result = align.GetAlignment();
-  OB_ASSERT( result[0].IsApprox(ref[0], 1.0E-08) );
-  OB_ASSERT( result[1].IsApprox(ref[1], 1.0E-08) );
-  OB_ASSERT( fabs(align.GetRMSD()) < 1.0E-08 );
+  EXPECT_TRUE( result[0].IsApprox(ref[0], 1.0E-08) );
+  EXPECT_TRUE( result[1].IsApprox(ref[1], 1.0E-08) );
+  EXPECT_TRUE( fabs(align.GetRMSD()) < 1.0E-08 );
 
   // Align bd to ac
   ref[0] = a; ref[1] = c;
@@ -69,9 +69,9 @@ void test_simpleAlign()
   align.SetTarget(target);
   align.Align();
   result = align.GetAlignment();
-  OB_ASSERT( result[0].IsApprox(ref[0], 1.0E-08) );
-  OB_ASSERT( result[1].IsApprox(ref[1], 1.0E-08) );
-  OB_ASSERT( fabs(align.GetRMSD()) < 1.0E-08 );
+  EXPECT_TRUE( result[0].IsApprox(ref[0], 1.0E-08) );
+  EXPECT_TRUE( result[1].IsApprox(ref[1], 1.0E-08) );
+  EXPECT_TRUE( fabs(align.GetRMSD()) < 1.0E-08 );
 
   // Verify that using GetRotMatrix() works to rotate bd onto ac
   matrix3x3 rot = align.GetRotMatrix();
@@ -82,7 +82,7 @@ void test_simpleAlign()
     vector3 aligned = target[i] - centroids[0];
     aligned *= rot;
     aligned += centroids[1];
-    OB_ASSERT( aligned.IsApprox(ref[i], 1.0E-08) ); 
+    EXPECT_TRUE( aligned.IsApprox(ref[i], 1.0E-08) ); 
   }
 }
 
@@ -110,7 +110,7 @@ void test_RMSD()
   OBAlign align(ref, target);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd - 0.05) < 1.0E-06 );
+  EXPECT_TRUE( fabs(rmsd - 0.05) < 1.0E-06 );
 }
 
 void test_alignMol(){
@@ -126,7 +126,7 @@ void test_alignMol(){
   OBAlign align = OBAlign(mol, mol, true, false);
   align.Align();
   double rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
 
   // Rotate molecule and align it to itself
   OBMol mol_b = mol;
@@ -137,12 +137,12 @@ void test_alignMol(){
   mol_b.Rotate(rot_array);
 
   // Assert that rotation has occured
-  OB_ASSERT( !mol_b.GetAtom(1)->GetVector().IsApprox(mol.GetAtom(1)->GetVector(), 1.0E-8) );
+  EXPECT_TRUE( !mol_b.GetAtom(1)->GetVector().IsApprox(mol.GetAtom(1)->GetVector(), 1.0E-8) );
 
   align.SetTargetMol(mol_b);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
 }
 
 void test_alignMolWithSym(){
@@ -165,7 +165,7 @@ void test_alignMolWithSym(){
   OBAlign align = OBAlign(mol, mol_b, true, true);
   align.Align();
   double rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
 
   // Swap atom #1 and #4 in mol_b, and align again (also with symmetry)
   vector<int> a(4);
@@ -174,13 +174,13 @@ void test_alignMolWithSym(){
   align.SetTargetMol(mol_b);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
   
   // Now align without symmetry
   align = OBAlign(mol, mol_b, true, false);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) > 1.0E-2 );
+  EXPECT_TRUE( fabs(rmsd) > 1.0E-2 );
 
 }
 
@@ -197,7 +197,7 @@ void test_alignWithoutHydrogens() {
   OBAlign align = OBAlign(mol, mol, false, false);
   align.Align();
   double rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
 
   // Move one of the hydrogens and rotate molecule
   OBMol clone = mol;
@@ -212,33 +212,33 @@ void test_alignWithoutHydrogens() {
   clone.Rotate(rot_array);
 
   // Assert that rotation has occured
-  OB_ASSERT( !clone.GetAtom(1)->GetVector().IsApprox(mol.GetAtom(1)->GetVector(), 1.0E-8) );
+  EXPECT_TRUE( !clone.GetAtom(1)->GetVector().IsApprox(mol.GetAtom(1)->GetVector(), 1.0E-8) );
 
   // Align molecule to clone, with hydrogens
   align = OBAlign(mol, clone, true, false);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) > 1.0E-3 );
+  EXPECT_TRUE( fabs(rmsd) > 1.0E-3 );
   vector<vector3> result = align.GetAlignment();
-  OB_ASSERT( result.size() == mol.NumAtoms() );
+  EXPECT_TRUE( result.size() == mol.NumAtoms() );
 
   // Align molecule to clone, without hydrogens
   align = OBAlign(mol, clone, false, false);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
   result = align.GetAlignment();
-  OB_ASSERT( result.size() == mol.NumAtoms() );
-  OB_ASSERT( result.at(0).IsApprox( mol.GetAtom(1)->GetVector(), 1.0E-8 ) );
+  EXPECT_TRUE( result.size() == mol.NumAtoms() );
+  EXPECT_TRUE( result.at(0).IsApprox( mol.GetAtom(1)->GetVector(), 1.0E-8 ) );
 
   // Align molecule to clone, without hydrogens but with sym
   align = OBAlign(mol, clone, false, true);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 1.0E-6 );
+  EXPECT_TRUE( fabs(rmsd) < 1.0E-6 );
   result = align.GetAlignment();
-  OB_ASSERT( result.size() == mol.NumAtoms() );
-  OB_ASSERT( result.at(0).IsApprox( mol.GetAtom(1)->GetVector(), 1.0E-8 ) );
+  EXPECT_TRUE( result.size() == mol.NumAtoms() );
+  EXPECT_TRUE( result.at(0).IsApprox( mol.GetAtom(1)->GetVector(), 1.0E-8 ) );
 }
 
 void test_alignWithSymWithoutHydrogens() {
@@ -263,19 +263,19 @@ void test_alignWithSymWithoutHydrogens() {
   OBAlign align = OBAlign(mol, clone, true, false);
   align.Align();
   double rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) > 1.2 );
+  EXPECT_TRUE( fabs(rmsd) > 1.2 );
 
   // Align molecule to clone with hydrogens and with sym
   align = OBAlign(mol, clone, true, true);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 0.017 );
+  EXPECT_TRUE( fabs(rmsd) < 0.017 );
 
   // Align molecule to clone without hydrogens and with sym
   align = OBAlign(mol, clone, false, true);
   align.Align();
   rmsd = align.GetRMSD();
-  OB_ASSERT( fabs(rmsd) < 0.019 );
+  EXPECT_TRUE( fabs(rmsd) < 0.019 );
 }
 
 void test_bug()
@@ -300,7 +300,7 @@ void test_bug()
 
   align.Align();
   result = align.GetAlignment();
-  OB_ASSERT( fabs(align.GetRMSD()) < 0.04 );
+  EXPECT_TRUE( fabs(align.GetRMSD()) < 0.04 );
 
   // Verify that using GetRotMatrix() gives the same answer as GetAlignment()
   matrix3x3 rot = align.GetRotMatrix();
@@ -311,7 +311,7 @@ void test_bug()
     vector3 tmp = target[i] - centroids[0];
     tmp *= rot;
     vector3 aligned = tmp + centroids[1];
-    OB_ASSERT( aligned.IsApprox(result[i], 1.0E-08) ); 
+    EXPECT_TRUE( aligned.IsApprox(result[i], 1.0E-08) ); 
   }
 }
 
@@ -378,12 +378,12 @@ void test_QCP()
     align.SetMethod(OBAlign::Kabsch);
     align.Align();
     double rmsd = align.GetRMSD();
-    OB_ASSERT(fabs(rmsd - 0.719) < 0.001);
+    EXPECT_TRUE(fabs(rmsd - 0.719) < 0.001);
 
     align.SetMethod(OBAlign::QCP);
     align.Align();
     rmsd = align.GetRMSD();
-    OB_ASSERT(fabs(rmsd - 0.719) < 0.001);
+    EXPECT_TRUE(fabs(rmsd - 0.719) < 0.001);
 
 }
 

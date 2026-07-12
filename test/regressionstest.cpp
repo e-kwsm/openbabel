@@ -22,7 +22,7 @@ void test_Fix1912_PDBReading()
   // Reading from a PDB file should set the residues
   // and mark chains as perceived
   OBMolPtr mol = OBTestUtil::ReadFile("00T_ideal_het.pdb");
-  OB_ASSERT(mol->HasChainsPerceived());
+  EXPECT_TRUE(mol->HasChainsPerceived());
   OBAtom *atom = mol->GetAtom(1);
   OBResidue *res = atom->GetResidue();
   OB_REQUIRE(res != nullptr);
@@ -184,7 +184,7 @@ void test_AromaticTripleBond()
       if (bond->GetBondOrder() == 3)
         hasTripleBond = true;
     }
-    OB_ASSERT(hasTripleBond);
+    EXPECT_TRUE(hasTripleBond);
   }
 }
 
@@ -215,7 +215,7 @@ void test_Issue134_InChI_addH()
   conv.SetInFormat("inchi");
   OBMol mol;
   conv.ReadString(&mol, "InChI=1S/C2H7NO/c1-2(3)4/h2,4H,3H2,1H3/t2-/m0/s1");
-  OB_ASSERT(!mol.HasData(OBGenericDataType::VirtualBondData));
+  EXPECT_TRUE(!mol.HasData(OBGenericDataType::VirtualBondData));
   mol.AddHydrogens();
   conv.SetOutFormat("smi");
   std::string res = conv.WriteString(&mol, true);
@@ -293,20 +293,20 @@ void test_PR329_Molfile_RGroups()
   obErrorLog.SetOutputLevel(obError); // avoid warning about no 2D or 3D coords
   std::string molfileWithRGP = conv.WriteString(&mol);
   obErrorLog.SetOutputLevel(obWarning);
-  OB_ASSERT(molfileWithRGP.find("R#") != std::string::npos);
-  OB_ASSERT(molfileWithRGP.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
+  EXPECT_TRUE(molfileWithRGP.find("R#") != std::string::npos);
+  EXPECT_TRUE(molfileWithRGP.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
   // Check negative case
   conv.ReadString(&mol, "C([*]CO[*]");
   std::string molfileb = conv.WriteString(&mol);
-  OB_ASSERT(molfileb.find("R#") == std::string::npos);
-  OB_ASSERT(molfileb.find("M  RGP") == std::string::npos);
+  EXPECT_TRUE(molfileb.find("R#") == std::string::npos);
+  EXPECT_TRUE(molfileb.find("M  RGP") == std::string::npos);
 
   // 2. By reading a molfile that use the R#, RGP notation
   conv.SetInAndOutFormats("mol", "mol");
   conv.ReadString(&mol, molfileWithRGP);
   molfileb = conv.WriteString(&mol);
-  OB_ASSERT(molfileb.find("R#") != std::string::npos);
-  OB_ASSERT(molfileb.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
+  EXPECT_TRUE(molfileb.find("R#") != std::string::npos);
+  EXPECT_TRUE(molfileb.find("M  RGP  2   2   1   5   2") != std::string::npos); // i.e. atom 2 is labelled R1, atom 5 is labelled R2
 
   // 3. By reading a molfile that specifies the atom alias as Rn, where n is an integer
   std::string molfileWithAlias = "\n"
@@ -322,8 +322,8 @@ void test_PR329_Molfile_RGroups()
   conv.SetInAndOutFormats("mol", "mol");
   conv.ReadString(&mol, molfileWithAlias);
   std::string molfile = conv.WriteString(&mol);
-  OB_ASSERT(molfile.find("R#") != std::string::npos);
-  OB_ASSERT(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
+  EXPECT_TRUE(molfile.find("R#") != std::string::npos);
+  EXPECT_TRUE(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
   // Check negative case
   molfileWithAlias = "\n"
                      " OpenBabel07211621152D\n"
@@ -340,8 +340,8 @@ void test_PR329_Molfile_RGroups()
   conv.ReadString(&mol, molfileWithAlias);
   obErrorLog.SetOutputLevel(obWarning);
   molfile = conv.WriteString(&mol);
-  OB_ASSERT(molfile.find("R#") == std::string::npos);
-  OB_ASSERT(molfile.find("M  RGP") == std::string::npos);
+  EXPECT_TRUE(molfile.find("R#") == std::string::npos);
+  EXPECT_TRUE(molfile.find("M  RGP") == std::string::npos);
 
   // 4. By reading a molfile that specifies the element name as R1, etc.
   std::string molfileWithRGroupElementName = "\n"
@@ -355,8 +355,8 @@ void test_PR329_Molfile_RGroups()
   conv.SetInAndOutFormats("mol", "mol");
   conv.ReadString(&mol, molfileWithRGroupElementName);
   molfile = conv.WriteString(&mol);
-  OB_ASSERT(molfile.find("R#") != std::string::npos);
-  OB_ASSERT(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
+  EXPECT_TRUE(molfile.find("R#") != std::string::npos);
+  EXPECT_TRUE(molfile.find("M  RGP  1   2   1") != std::string::npos); // i.e. atom 2 is labelled R1
 }
 
 struct SmilesData
@@ -403,7 +403,7 @@ void test_SMILES_Valence()
   {
     printf("Rep: %d\n", rep);
     OBConversion conv;
-    OB_ASSERT(conv.SetInAndOutFormats("smi", "smi"));
+    EXPECT_TRUE(conv.SetInAndOutFormats("smi", "smi"));
     switch (rep)
     {
     case 1:
@@ -417,7 +417,7 @@ void test_SMILES_Valence()
     for (unsigned int i = 0; i < size; ++i)
     {
       OBMol mol;
-      OB_ASSERT(conv.ReadString(&mol, smilesData[i].inp));
+      EXPECT_TRUE(conv.ReadString(&mol, smilesData[i].inp));
       if (rep == 2)
         mol.AddHydrogens();
       std::string out = conv.WriteString(&mol, true);
@@ -444,7 +444,7 @@ void test_SMILES_Valence()
   }
 
   OBConversion conv;
-  OB_ASSERT(conv.SetInAndOutFormats("smi", "smi"));
+  EXPECT_TRUE(conv.SetInAndOutFormats("smi", "smi"));
   conv.SetOptions("ah", conv.OUTOPTIONS); // write out alias explicitly
   OBMol mol;
   conv.ReadString(&mol, "C[H:1]");
@@ -466,7 +466,7 @@ ATOM    274  C   LYS L  14A     -6.108   4.607  23.591  1.00 21.70           C\n
 ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n";
 
   OBConversion conv;
-  OB_ASSERT(conv.SetInAndOutFormats("pdb", "pdb"));
+  EXPECT_TRUE(conv.SetInAndOutFormats("pdb", "pdb"));
   OBMol mol;
   conv.ReadString(&mol, pdb);
   OBMol mol2;
@@ -490,7 +490,7 @@ ATOM    274  C   LYS L  14A     -6.108   4.607  23.591  1.00 21.70           C\n
 ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n";
 
   OBConversion conv;
-  OB_ASSERT(conv.SetInAndOutFormats("pdbqt", "pdbqt"));
+  EXPECT_TRUE(conv.SetInAndOutFormats("pdbqt", "pdbqt"));
   OBMol mol;
   conv.ReadString(&mol, pdb);
   OBMol mol2;
@@ -510,7 +510,7 @@ void test_github_issue_1794()
   OBForceField *pFF = OBForceField::FindForceField("UFF");
   OB_REQUIRE(pFF);
 
-  OB_ASSERT(pFF->Setup(mol));
+  EXPECT_TRUE(pFF->Setup(mol));
 }
 
 void test_github_issue_2111_impl(const std::string &smiles)
@@ -607,7 +607,7 @@ HETATM 1539  C51 MXA A 187      32.462  10.825   2.070  0.50 15.86           C  
 HETATM 1540  C6' MXA A 187      32.533  13.060   1.396  0.50 13.52           C  ";
 
   OBConversion conv;
-  OB_ASSERT(conv.SetInAndOutFormats("pdb", "sdf"));
+  EXPECT_TRUE(conv.SetInAndOutFormats("pdb", "sdf"));
   OBMol mol;
   conv.ReadString(&mol, pdb);
   // no nitrogens should have 4 bonds
@@ -616,7 +616,7 @@ HETATM 1540  C6' MXA A 187      32.533  13.060   1.396  0.50 13.52           C  
     OBAtom *a = *it;
     if (a->GetAtomicNum() == 7)
     {
-      OB_ASSERT((a->GetTotalValence() < 4));
+      EXPECT_TRUE((a->GetTotalValence() < 4));
     }
   }
 }
@@ -657,7 +657,7 @@ void test_github_issue_2677()
 {
   // Make sure that CorrectForPH doesn't mess up residues in pdb
   OBMolPtr mol = OBTestUtil::ReadFile("1DRF.pdb");
-  OB_ASSERT(mol->HasChainsPerceived());
+  EXPECT_TRUE(mol->HasChainsPerceived());
   OBAtom *atom_before = mol->GetAtom(1);
   OBResidue *res_before = atom_before->GetResidue();
   mol->AddNewHydrogens(PolarHydrogen, true);
@@ -683,7 +683,7 @@ void test_hypervalent_canonical_smiles()
     OBMol mol;
     OB_REQUIRE(conv.ReadString(&mol, smi));
     std::string can = conv.WriteString(&mol, true);
-    OB_ASSERT(!can.empty());
+    EXPECT_TRUE(!can.empty());
   }
 }
 
@@ -692,10 +692,10 @@ void test_SegCopySubstructure()
   // Invalid memory access (atom->GetIdx()) detected in valgrind and sometimes
   // triggering a sefault.
   OBConversion conv;
-  OB_ASSERT(conv.SetInFormat("smi"));
+  EXPECT_TRUE(conv.SetInFormat("smi"));
   OBMol mol;
   std::string smi = "C[C@@H]1CO1";
-  OB_ASSERT(conv.ReadString(&mol, smi));
+  EXPECT_TRUE(conv.ReadString(&mol, smi));
 
   OBBitVec atomsToCopy;
   atomsToCopy.Clear();
@@ -710,7 +710,7 @@ void test_SegCopySubstructure()
   std::vector<unsigned int> atomorder;
   atomorder.clear();
   bool ok = mol.CopySubstructure(copy, &atomsToCopy, &bondsToExclude, 2, &atomorder);
-  OB_ASSERT(ok);
+  EXPECT_TRUE(ok);
   OB_COMPARE(4, copy.NumAtoms());
   OB_COMPARE(4, copy.NumBonds());
 }

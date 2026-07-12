@@ -72,7 +72,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   std::vector<OBSquarePlanarStereo::Config> squareplanar1;
 
   // get the stereo data
-  OB_ASSERT( mol.HasData(OBGenericDataType::StereoData) );
+  EXPECT_TRUE( mol.HasData(OBGenericDataType::StereoData) );
   std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
 
   std::vector<unsigned int> canlbls;
@@ -86,7 +86,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
-      OB_ASSERT( ts->IsValid() );
+      EXPECT_TRUE( ts->IsValid() );
       if (!ts->IsValid())
         continue;
 
@@ -109,7 +109,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
-      OB_ASSERT( ct->IsValid() );
+      EXPECT_TRUE( ct->IsValid() );
 
       OBCisTransStereo::Config config = ct->GetConfig();
       // convert atom ids to symmetry ids
@@ -130,7 +130,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
-      OB_ASSERT( sp->IsValid() );
+      EXPECT_TRUE( sp->IsValid() );
       if (!sp->IsValid())
         continue;
 
@@ -165,7 +165,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   std::vector<OBSquarePlanarStereo::Config> squareplanar2;
 
   // get the stereo data
-  OB_ASSERT( mol.HasData(OBGenericDataType::StereoData) );
+  EXPECT_TRUE( mol.HasData(OBGenericDataType::StereoData) );
   stereoData = mol.GetAllData(OBGenericDataType::StereoData);
 
   OBGraphSym gs2(&mol);
@@ -177,7 +177,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
       OB_REQUIRE( ts );
-      OB_ASSERT( ts->IsValid() );
+      EXPECT_TRUE( ts->IsValid() );
 
       OBTetrahedralStereo::Config config = ts->GetConfig();
       // convert atom ids to symmetry ids
@@ -198,7 +198,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
       OB_REQUIRE( ct );
-      OB_ASSERT( ct->IsValid() );
+      EXPECT_TRUE( ct->IsValid() );
 
       OBCisTransStereo::Config config = ct->GetConfig();
       // convert atom ids to symmetry ids
@@ -219,7 +219,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
       OB_REQUIRE( sp );
-      OB_ASSERT( sp->IsValid() );
+      EXPECT_TRUE( sp->IsValid() );
 
       OBSquarePlanarStereo::Config config = sp->GetConfig();
       // convert atom ids to symmetry ids
@@ -240,11 +240,11 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   }
 
   // compare the tetrahedral structs
-  OB_ASSERT( tetrahedral1.size() == tetrahedral2.size() );
+  EXPECT_TRUE( tetrahedral1.size() == tetrahedral2.size() );
   for (unsigned int i = 0; i < tetrahedral1.size(); ++i) {
     for (unsigned int j = 0; j < tetrahedral2.size(); ++j) {
       if (tetrahedral1[i].center == tetrahedral2[j].center)
-        OB_ASSERT( tetrahedral1[i] == tetrahedral2[j] );
+        EXPECT_TRUE( tetrahedral1[i] == tetrahedral2[j] );
         if ( tetrahedral1[i] != tetrahedral2[j] ) {
           cout << "1 = " << tetrahedral1[i] << endl;
           cout << "2 = " << tetrahedral2[j] << endl;
@@ -252,21 +252,21 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     }
   }
   // compare the cistrans structs
-  OB_ASSERT( cistrans1.size() == cistrans2.size() );
+  EXPECT_TRUE( cistrans1.size() == cistrans2.size() );
   for (unsigned int i = 0; i < cistrans1.size(); ++i) {
     for (unsigned int j = 0; j < cistrans2.size(); ++j) {
       if ((cistrans1[i].begin == cistrans2[j].begin) && (cistrans1[i].end == cistrans2[j].end))
-        OB_ASSERT( cistrans1[i] == cistrans2[j] );
+        EXPECT_TRUE( cistrans1[i] == cistrans2[j] );
       if ((cistrans1[i].begin == cistrans2[j].end) && (cistrans1[i].end == cistrans2[j].begin))
-        OB_ASSERT( cistrans1[i] == cistrans2[j] );
+        EXPECT_TRUE( cistrans1[i] == cistrans2[j] );
     }
   }
   // compare the square-planar structs
-  OB_ASSERT( squareplanar1.size() == squareplanar2.size() );
+  EXPECT_TRUE( squareplanar1.size() == squareplanar2.size() );
   for (unsigned int i = 0; i < squareplanar1.size(); ++i) {
     for (unsigned int j = 0; j < squareplanar2.size(); ++j) {
       if (squareplanar1[i].center == squareplanar2[j].center)
-        OB_ASSERT( squareplanar1[i] == squareplanar2[j] );
+        EXPECT_TRUE( squareplanar1[i] == squareplanar2[j] );
         if ( squareplanar1[i] != squareplanar2[j] ) {
           cout << "1 = " << squareplanar1[i] << endl;
           cout << "2 = " << squareplanar2[j] << endl;

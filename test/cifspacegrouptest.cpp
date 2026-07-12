@@ -47,8 +47,8 @@ void testSpaceGroupUniqueTransformations()
 
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
 
-  OB_ASSERT(pSG != nullptr && pSG->IsValid());
-  OB_ASSERT( pSG->GetId() == 64 );
+  EXPECT_TRUE(pSG != nullptr && pSG->IsValid());
+  EXPECT_TRUE( pSG->GetId() == 64 );
 }
 
 void testSpaceGroupClean()
@@ -61,13 +61,13 @@ void testSpaceGroupClean()
   conv.ReadFile(&mol, GetFilename("test02.cif"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
-  OB_ASSERT(pSG != nullptr && pSG->IsValid());
+  EXPECT_TRUE(pSG != nullptr && pSG->IsValid());
 
-  OB_ASSERT( pSG->GetId() == 166 );
+  EXPECT_TRUE( pSG->GetId() == 166 );
 
   string pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("H -3 m") != string::npos);
+  EXPECT_TRUE(pdb.find("H -3 m") != string::npos);
 }
 
 void testSpaceGroupTransformations()
@@ -130,8 +130,8 @@ void testSpaceGroupTransformations()
     t = group.NextTransform(ti);
   }
 
-  OB_ASSERT( trans_exp.size() == trans_got.size() );
-  OB_ASSERT( equal(trans_exp.begin(), trans_exp.end(), trans_got.begin()) );
+  EXPECT_TRUE( trans_exp.size() == trans_got.size() );
+  EXPECT_TRUE( equal(trans_exp.begin(), trans_exp.end(), trans_got.begin()) );
 }
 
 void testDecayToP1()
@@ -143,13 +143,13 @@ void testDecayToP1()
   conv.ReadFile(&mol, GetFilename("test03.cif"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
-  OB_ASSERT(pSG != nullptr && pSG->IsValid());
+  EXPECT_TRUE(pSG != nullptr && pSG->IsValid());
 
   // Check also for errors and warnings
   string summary = obErrorLog.GetMessageSummary();
-  OB_ASSERT( summary.find("2 warnings") != string::npos);
+  EXPECT_TRUE( summary.find("2 warnings") != string::npos);
 
-  OB_ASSERT( pSG->GetId() == 1 );
+  EXPECT_TRUE( pSG->GetId() == 1 );
 }
 
 void testAlternativeOrigin()
@@ -163,9 +163,9 @@ void testAlternativeOrigin()
   const SpaceGroup* pSG = pUC->GetSpaceGroup();
 
   string summary = obErrorLog.GetMessageSummary();
-  OB_ASSERT( summary.find("warning") == string::npos);
-  OB_ASSERT(pSG != nullptr && pSG->IsValid());
-  OB_ASSERT( pSG->GetOriginAlternative() == 1);
+  EXPECT_TRUE( summary.find("warning") == string::npos);
+  EXPECT_TRUE(pSG != nullptr && pSG->IsValid());
+  EXPECT_TRUE( pSG->GetOriginAlternative() == 1);
 }
 
 void testPdbOutAlternativeOrigin()
@@ -179,12 +179,12 @@ void testPdbOutAlternativeOrigin()
 
   string pdb = conv.WriteString(&mol);
   // ending space is needed to check that there is no origin set
-  OB_ASSERT(pdb.find("P 4/n b m ") != string::npos);
+  EXPECT_TRUE(pdb.find("P 4/n b m ") != string::npos);
 
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("P 4/n b m:1") != string::npos);
+  EXPECT_TRUE(pdb.find("P 4/n b m:1") != string::npos);
 }
 
 void testPdbOutHexagonalAlternativeOrigin()
@@ -200,7 +200,7 @@ void testPdbOutHexagonalAlternativeOrigin()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("H -3 m") != string::npos);
+  EXPECT_TRUE(pdb.find("H -3 m") != string::npos);
 
   // Test with missing Hall name in the CIF
   // https://github.com/openbabel/openbabel/pull/1578
@@ -209,7 +209,7 @@ void testPdbOutHexagonalAlternativeOrigin()
 
   pdb = conv.WriteString(&mol_nohall);
 
-  OB_ASSERT(pdb.find("H -3 m") != string::npos);
+  EXPECT_TRUE(pdb.find("H -3 m") != string::npos);
 }
 
 void testPdbOutAlternativeOriginSilicon()
@@ -225,7 +225,7 @@ void testPdbOutAlternativeOriginSilicon()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("F d 3 m:1") != string::npos);
+  EXPECT_TRUE(pdb.find("F d 3 m:1") != string::npos);
 }
 
 void testPdbOutHexagonalAlternativeOrigin2()
@@ -241,7 +241,7 @@ void testPdbOutHexagonalAlternativeOrigin2()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("H -3 m") != string::npos);
+  EXPECT_TRUE(pdb.find("H -3 m") != string::npos);
 }
 
 void testPdbRemSpacesHMName()
@@ -257,7 +257,7 @@ void testPdbRemSpacesHMName()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("I41/amd:2") != string::npos);
+  EXPECT_TRUE(pdb.find("I41/amd:2") != string::npos);
 }
 
 void testPdbOccupancies()
@@ -273,20 +273,20 @@ void testPdbOccupancies()
   conv.AddOption("o", OBConversion::OUTOPTIONS);
   pdb = conv.WriteString(&mol);
 
-  OB_ASSERT(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
+  EXPECT_TRUE(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
   // residue number from CIF depends on chain-perception heuristics; just check
   // that atom 17 is an oxygen at the expected position and full occupancy
-  OB_ASSERT(pdb.find("HETATM   17  O   UNL") != string::npos);
-  OB_ASSERT(pdb.find("       1.954   8.956   3.035  1.00") != string::npos);
+  EXPECT_TRUE(pdb.find("HETATM   17  O   UNL") != string::npos);
+  EXPECT_TRUE(pdb.find("       1.954   8.956   3.035  1.00") != string::npos);
 
   OBMol mol_pdb;
   conv.SetInFormat("pdb");
   conv.ReadFile(&mol_pdb, GetFilename("test09.pdb"));
 
   pdb = conv.WriteString(&mol_pdb);
-  OB_ASSERT(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
-  OB_ASSERT(pdb.find("HETATM    2 NA   UNL     1       0.002   8.956   1.393  0.10") != string::npos);
-  OB_ASSERT(pdb.find("HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") != string::npos);
+  EXPECT_TRUE(pdb.find("HETATM    1 NA   UNL     1       0.325   0.000   4.425  0.36") != string::npos);
+  EXPECT_TRUE(pdb.find("HETATM    2 NA   UNL     1       0.002   8.956   1.393  0.10") != string::npos);
+  EXPECT_TRUE(pdb.find("HETATM   17  O   UNL     8       1.954   8.956   3.035  1.00") != string::npos);
 }
 
 void testCIFMolecules()
@@ -300,7 +300,7 @@ void testCIFMolecules()
 
   string smi = conv.WriteString(&mol);
   // never, never disconnected fragments from a molecule
-  OB_ASSERT(smi.find(".") == string::npos);
+  EXPECT_TRUE(smi.find(".") == string::npos);
 }
 
 void testCIFOutputFormat()
@@ -315,7 +315,7 @@ void testCIFOutputFormat()
   string cif = conv.WriteString(&mol);
 
   string ref = "    H0       H      -71.99400 -128.76240   56.30360    1.000";
-  OB_ASSERT(cif.find(ref) != string::npos);
+  EXPECT_TRUE(cif.find(ref) != string::npos);
 }
 
 int cifspacegrouptest(int argc, char* argv[])

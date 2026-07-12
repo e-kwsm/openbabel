@@ -23,7 +23,7 @@ void ob_compare(T1 a, T2 b, const char *expr, const char *file, int line, const 
     std::cout << file << ":" << line << ": " << expr << " [" << a << " == " << b << "] (FAIL)" << std::endl;
 }
 
-#define OB_ASSERT(exp) \
+#define EXPECT_TRUE(exp) \
   ( (exp) ? static_cast<void>(0) : report_error(#exp, __FILE__, __LINE__, FUNCTION_SIGNATURE, false) )
 
 #define OB_REQUIRE(exp) \

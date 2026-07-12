@@ -87,19 +87,19 @@ int canonconsistenttest(int argc, char* argv[])
 
   switch(choice) {
     case 1:
-      OB_ASSERT( mdoMultiMoleculeFile(OBTestUtil::GetFilename("forcefield.sdf")) );
+      EXPECT_TRUE( mdoMultiMoleculeFile(OBTestUtil::GetFilename("forcefield.sdf")) );
       break;
     case 2:
-      OB_ASSERT( mdoMultiMoleculeFile(OBTestUtil::GetFilename("filterset.sdf")) );
+      EXPECT_TRUE( mdoMultiMoleculeFile(OBTestUtil::GetFilename("filterset.sdf")) );
       break;
     case 3:
-      OB_ASSERT( mdoMultiMoleculeFile(OBTestUtil::GetFilename("cantest.sdf")) );
+      EXPECT_TRUE( mdoMultiMoleculeFile(OBTestUtil::GetFilename("cantest.sdf")) );
       break;
     default:
       cout << "Test numer " << choice << " does not exist!\n";
       return -1;
   }
-//  OB_ASSERT( doMultiMoleculeFile(GetFilename("cansmi-roundtrip.smi")) );
+//  EXPECT_TRUE( doMultiMoleculeFile(GetFilename("cansmi-roundtrip.smi")) );
 
   return 0;
 }

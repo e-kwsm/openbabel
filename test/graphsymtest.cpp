@@ -60,7 +60,7 @@ void genericGraphSymTest(const std::string &smiles)
   std::vector<unsigned int>::iterator end2 = std::unique(symclassesCopy2.begin(), symclassesCopy2.end());
   unsigned int unique2 = end2 - symclassesCopy2.begin();
 
-  OB_ASSERT( unique1 == unique2 );
+  EXPECT_TRUE( unique1 == unique2 );
   if (unique1 != unique2)
     cout << unique1 << " == " << unique2 << endl;
 
@@ -76,11 +76,11 @@ void genericGraphSymTest(const std::string &smiles)
     if (!a2)
       continue;
 
-    OB_ASSERT( a1->GetAtomicNum() == a2->GetAtomicNum() );
-    OB_ASSERT( a1->GetExplicitDegree() == a2->GetExplicitDegree() );
-    OB_ASSERT( a1->GetHvyDegree() == a2->GetHvyDegree() );
-    OB_ASSERT( a1->GetHeteroDegree() == a2->GetHeteroDegree() );
-    OB_ASSERT( a1->GetImplicitHCount() == a2->GetImplicitHCount() );
+    EXPECT_TRUE( a1->GetAtomicNum() == a2->GetAtomicNum() );
+    EXPECT_TRUE( a1->GetExplicitDegree() == a2->GetExplicitDegree() );
+    EXPECT_TRUE( a1->GetHvyDegree() == a2->GetHvyDegree() );
+    EXPECT_TRUE( a1->GetHeteroDegree() == a2->GetHeteroDegree() );
+    EXPECT_TRUE( a1->GetImplicitHCount() == a2->GetImplicitHCount() );
   }
 
   cout << "." << endl << endl;
@@ -107,7 +107,7 @@ void countGraphSymClassesTest(const std::string &filename, int numberOfClasses)
   std::vector<unsigned int>::iterator end = std::unique(symmetry_classes.begin(), symmetry_classes.end());
   unsigned int n = end - symmetry_classes.begin();
 
-  OB_ASSERT( n == numberOfClasses);
+  EXPECT_TRUE( n == numberOfClasses);
   if (n != numberOfClasses) {
     cout << n << " == " << numberOfClasses << endl;
   }

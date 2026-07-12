@@ -41,7 +41,7 @@ void testSpaceGroupWithSpace()
   conv.SetInFormat("car");
   conv.ReadFile(&mol, GetFilename("test3.car"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  OB_ASSERT( pUC->GetSpaceGroupName() == "P 4" );
+  EXPECT_TRUE( pUC->GetSpaceGroupName() == "P 4" );
 }
 
 
@@ -52,7 +52,7 @@ void testSpaceGroupWithoutParentheses()
   conv.SetInFormat("car");
   conv.ReadFile(&mol, GetFilename("test2.car"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  OB_ASSERT( pUC->GetSpaceGroupName() == "P4" );
+  EXPECT_TRUE( pUC->GetSpaceGroupName() == "P4" );
 }
 
 void testSpaceGroupWithParentheses()
@@ -62,7 +62,7 @@ void testSpaceGroupWithParentheses()
   conv.SetInFormat("car");
   conv.ReadFile(&mol, GetFilename("test1.car"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  OB_ASSERT( pUC->GetSpaceGroupName() == "P4" );
+  EXPECT_TRUE( pUC->GetSpaceGroupName() == "P4" );
   
 }
 
@@ -73,7 +73,7 @@ void testDefaultSpaceGroup()
   conv.SetInFormat("car");
   conv.ReadFile(&mol, GetFilename("monoclinic.car"));
   OBUnitCell* pUC = (OBUnitCell*)mol.GetData(OBGenericDataType::UnitCell);
-  OB_ASSERT( pUC->GetSpaceGroupName() == "" );
+  EXPECT_TRUE( pUC->GetSpaceGroupName() == "" );
 }
 
 int carspacegrouptest(int argc, char* argv[])

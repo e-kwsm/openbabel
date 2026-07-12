@@ -10,7 +10,7 @@ void testGetType ()
 {
   OBMol mol;
   OBSquarePlanarStereo sp(&mol);
-  OB_ASSERT( sp.GetType() == OBStereo::SquarePlanar );
+  EXPECT_TRUE( sp.GetType() == OBStereo::SquarePlanar );
 }
 
 void testCenter()
@@ -220,15 +220,15 @@ void test_equalsThisOperator()
 
   sq1.SetConfig(cfg);
   sq2.SetConfig(cfg);
-  OB_ASSERT( sq1 == sq2 );
+  EXPECT_TRUE( sq1 == sq2 );
 
   cfg.shape = OBStereo::ShapeZ;
   sq2.SetConfig(cfg);
-  OB_ASSERT( sq1 != sq2 );
+  EXPECT_TRUE( sq1 != sq2 );
 
   OBStereo::Permutate(cfg.refs, 0, 1);
   sq2.SetConfig(cfg);
-  OB_ASSERT( sq1 == sq2 );
+  EXPECT_TRUE( sq1 == sq2 );
 }
 
 int squareplanartest(int argc, char* argv[])

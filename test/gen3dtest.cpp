@@ -101,9 +101,9 @@ int gen3dtest(int argc, char* argv[])
   switch (choice) {
   case 1:
     // Basic sanity check: simple molecules at each speed level
-    OB_ASSERT( doGen3DTest("c1ccccc1") );          // benzene
-    OB_ASSERT( doGen3DTest("CC(=O)O") );           // acetic acid
-    OB_ASSERT( doGen3DTest("N[C@@H](C)C(=O)O") ); // L-alanine
+    EXPECT_TRUE( doGen3DTest("c1ccccc1") );          // benzene
+    EXPECT_TRUE( doGen3DTest("CC(=O)O") );           // acetic acid
+    EXPECT_TRUE( doGen3DTest("N[C@@H](C)C(=O)O") ); // L-alanine
     break;
 
   case 2:
@@ -113,42 +113,42 @@ int gen3dtest(int argc, char* argv[])
     //
     // Triarylmethane as free base and as HCl salt (the .Cl fragment
     // caused the builder to return zero coords before the fix).
-    OB_ASSERT( doGen3DTest("C1=CC(=N)C=CC1=C(C2=CC=C(C=C2)N)C3=CC=C(C=C3)N",
+    EXPECT_TRUE( doGen3DTest("C1=CC(=N)C=CC1=C(C2=CC=C(C=C2)N)C3=CC=C(C=C3)N",
                             "3", false) );
-    //OB_ASSERT( doGen3DTest("C1=CC(=N)C=CC1=C(C2=CC=C(C=C2)N)C3=CC=C(C=C3)N.Cl",
+    //EXPECT_TRUE( doGen3DTest("C1=CC(=N)C=CC1=C(C2=CC=C(C=C2)N)C3=CC=C(C=C3)N.Cl",
     //                        "3", false) );
     // Regression for issue #342: isotope-hydrogen fragment plus a bare
     // metal atom previously crashed gen3D.
-    OB_ASSERT( doGen3DTest("[2HH].[Li]", "3", false) );
+    EXPECT_TRUE( doGen3DTest("[2HH].[Li]", "3", false) );
     break;
 
   case 3:
     // Stereo preservation through gen3D (using balanced speed level)
-    OB_ASSERT( doGen3DTest("N[C@](Br)(O)C") );
-    OB_ASSERT( doGen3DTest("N[C@@](Br)(O)C") );
-    OB_ASSERT( doGen3DTest("C[C@H]([C@@H](C(=O)O)N)O") );   // L-threonine
-    OB_ASSERT( doGen3DTest("[C@@H]([C@H](C(=O)O)O)(C(=O)O)O") ); // L-tartaric acid
+    EXPECT_TRUE( doGen3DTest("N[C@](Br)(O)C") );
+    EXPECT_TRUE( doGen3DTest("N[C@@](Br)(O)C") );
+    EXPECT_TRUE( doGen3DTest("C[C@H]([C@@H](C(=O)O)N)O") );   // L-threonine
+    EXPECT_TRUE( doGen3DTest("[C@@H]([C@H](C(=O)O)O)(C(=O)O)O") ); // L-tartaric acid
     break;
 
   case 4:
     // Ring stereo through gen3D
-    OB_ASSERT( doGen3DTest("C1CC[C@H]2[C@@H](C1)CCCC2") );   // cis-decalin
-    OB_ASSERT( doGen3DTest("C1CC[C@@H]2[C@@H](C1)CCCC2") );  // trans-decalin
+    EXPECT_TRUE( doGen3DTest("C1CC[C@H]2[C@@H](C1)CCCC2") );   // cis-decalin
+    EXPECT_TRUE( doGen3DTest("C1CC[C@@H]2[C@@H](C1)CCCC2") );  // trans-decalin
     break;
 
   case 5:
     // Complex fused-ring and sugar-ring molecules where OBDistanceGeometry
     // alone times out, but the builder handles the ring topology correctly.
     // Coord generation only (stereo round-trip unreliable for these systems).
-    OB_ASSERT( doGen3DTest("CN1CCC2=CC3=C(C=C2[C@@H]1[C@@H]4C5=C(C(=C(C=C5)OC)OC)C(=O)O4)OCO3",
+    EXPECT_TRUE( doGen3DTest("CN1CCC2=CC3=C(C=C2[C@@H]1[C@@H]4C5=C(C(=C(C=C5)OC)OC)C(=O)O4)OCO3",
                             "3", false) ); // berberine analog
-    OB_ASSERT( doGen3DTest("C1CN2CC3=CC4=C(C=C3[C@H]5[C@H]2C1=C[C@@H]([C@H]5O)O)OCO4",
+    EXPECT_TRUE( doGen3DTest("C1CN2CC3=CC4=C(C=C3[C@H]5[C@H]2C1=C[C@@H]([C@H]5O)O)OCO4",
                             "3", false) ); // polycyclic alkaloid
-    OB_ASSERT( doGen3DTest("C1=C[C@H]2C(=CN1C)[C@H]1C(=CC=CN1C)C=C2",
+    EXPECT_TRUE( doGen3DTest("C1=C[C@H]2C(=CN1C)[C@H]1C(=CC=CN1C)C=C2",
                             "3", false) ); // vinca-like indole
-    OB_ASSERT( doGen3DTest("C[C@@H]1[C@H](C[C@@H]([C@H](O1)OC2[C@@H]([C@H](C([C@@H]([C@@H]2O)O)O)O)O)N)N=C(C(=O)O)N",
+    EXPECT_TRUE( doGen3DTest("C[C@@H]1[C@H](C[C@@H]([C@H](O1)OC2[C@@H]([C@H](C([C@@H]([C@@H]2O)O)O)O)O)N)N=C(C(=O)O)N",
                             "3", false) ); // aminoglycoside
-    OB_ASSERT( doGen3DTest("C1[C@@H](NC(=N[C@H]1O)N)[C@@H](C(=O)O)N",
+    EXPECT_TRUE( doGen3DTest("C1[C@@H](NC(=N[C@H]1O)N)[C@@H](C(=O)O)N",
                             "3", false) ); // cyclic arginine analog
     break;
 
@@ -168,10 +168,10 @@ int gen3dtest(int argc, char* argv[])
         "C1CC[C@H]2[C@@H](C1)CCCC2",           // cis-decalin (ring stereo)
       };
       for (const char* smi : inputs) {
-        OB_ASSERT( doGen3DTest(smi) );
-        OB_ASSERT( doGen3DTest(makeEnantiomer(smi)) );
+        EXPECT_TRUE( doGen3DTest(smi) );
+        EXPECT_TRUE( doGen3DTest(makeEnantiomer(smi)) );
         if (countChirality(smi) >= 2)
-          OB_ASSERT( doGen3DTest(makeDiastereomer(smi, 0)) );
+          EXPECT_TRUE( doGen3DTest(makeDiastereomer(smi, 0)) );
       }
     }
     break;

@@ -22,7 +22,7 @@ void testIsomorphism1()
   OBIsomorphismMapper::Mappings maps;
   mapper->MapAll(&mol, maps);
 
-  OB_ASSERT( maps.size() == 4 );
+  EXPECT_TRUE( maps.size() == 4 );
 
   delete query;
   delete mapper;
@@ -32,13 +32,13 @@ void testIsomorphism1()
 
   OBIsomorphismMapper::Mapping map;
   mapper->MapFirst(&mol, map);
-  OB_ASSERT( map.size() == 8 );
+  EXPECT_TRUE( map.size() == 8 );
 
   mapper->MapUnique(&mol, maps);
-  OB_ASSERT( maps.size() == 1 );
+  EXPECT_TRUE( maps.size() == 1 );
 
   mapper->MapAll(&mol, maps);
-  OB_ASSERT( maps.size() == 4 );
+  EXPECT_TRUE( maps.size() == 4 );
 
   delete query;
   delete mapper;
@@ -59,7 +59,7 @@ void testIsomorphism2()
 
   cout << maps.size() << endl;
 
-  OB_ASSERT( maps.size() == 1 );
+  EXPECT_TRUE( maps.size() == 1 );
 
   delete query;
   delete mapper;
@@ -80,7 +80,7 @@ void testIsomorphism3()
 
   cout << maps.size() << endl;
 
-  OB_ASSERT( maps.size() == 2 );
+  EXPECT_TRUE( maps.size() == 2 );
 
   delete query;
   delete mapper;
@@ -101,7 +101,7 @@ void testIsomorphism4()
 
   cout << maps.size() << endl;
 
-  OB_ASSERT( maps.size() == 2 );
+  EXPECT_TRUE( maps.size() == 2 );
 
   delete query;
   delete mapper;
@@ -129,7 +129,7 @@ void testIsomorphismMask()
   OBIsomorphismMapper::Mappings maps;
   mapper->MapUnique(&mol, maps);
   cout << maps.size() << endl;
-  OB_ASSERT( maps.size() == 3 );
+  EXPECT_TRUE( maps.size() == 3 );
 
   // mask first ring
   OBBitVec mask;
@@ -137,14 +137,14 @@ void testIsomorphismMask()
     mask.SetBitOn(i+1);
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
-  OB_ASSERT( maps.size() == 1 );
+  EXPECT_TRUE( maps.size() == 1 );
 
   // mask second ring also
   for (int i = 6; i < 10; ++i)
     mask.SetBitOn(i+1);
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
-  OB_ASSERT( maps.size() == 2 );
+  EXPECT_TRUE( maps.size() == 2 );
 
   // just mask last ring (atomIds 7-8, 10-13)
   mask.Clear();
@@ -153,7 +153,7 @@ void testIsomorphismMask()
   mask.SetBitOn(7 + 1); mask.SetBitOn(8 + 1);
   mapper->MapUnique(&mol, maps, mask);
   cout << maps.size() << endl;
-  OB_ASSERT( maps.size() == 1 ); // Should be same result as masking just the first ring
+  EXPECT_TRUE( maps.size() == 1 ); // Should be same result as masking just the first ring
 
   delete query;
   delete mapper;
@@ -180,7 +180,7 @@ void testAutomorphismMask() {
   // This takes about 20 seconds, so you may want to comment this out while debugging
   FindAutomorphisms(&mol, maps);
   cout << maps.size() << endl;
-  OB_ASSERT( maps.size() == 4 );
+  EXPECT_TRUE( maps.size() == 4 );
 
   // Now, let's remove the bridge (atomId 6) of the central ring.
   //
@@ -200,15 +200,15 @@ void testAutomorphismMask() {
       cout << j->second << " ";
     cout << endl;
   }
-  OB_ASSERT( maps.size() == 8 );
+  EXPECT_TRUE( maps.size() == 8 );
 
   // Verify that atom Id 6 does not occur anywhere in the mappings
   OBIsomorphismMapper::Mappings::const_iterator a;
   OBIsomorphismMapper::Mapping::const_iterator b;
   for (a = maps.begin(); a != maps.end(); ++a)
     for (b = a->begin(); b!= a->end(); ++b) {
-      OB_ASSERT( b->first != 6 );
-      OB_ASSERT( b->second != 6 );
+      EXPECT_TRUE( b->first != 6 );
+      EXPECT_TRUE( b->second != 6 );
     }
 }
 
@@ -231,7 +231,7 @@ void testAutomorphismMask2()
       _frag_atoms.SetBitOn(a->GetIdx());
   }
   FindAutomorphisms((OBMol*)&mol, _aut, _frag_atoms);
-  OB_ASSERT( _aut.size() == 1 );
+  EXPECT_TRUE( _aut.size() == 1 );
 
 }
 
@@ -246,7 +246,7 @@ void testAutomorphismPreMapping()
   Automorphisms aut;
   FindAutomorphisms((OBMol*)&mol, aut);
   cout << aut.size() << endl;
-  OB_ASSERT( aut.size() == 2 );
+  EXPECT_TRUE( aut.size() == 2 );
 }
 
 // https://github.com/openbabel/openbabel/issues/1929
@@ -263,13 +263,13 @@ void testIsomorphism9()
   OBIsomorphismMapper::Mappings maps;
   mapper->MapAll(&mol, maps);
 
-  OB_ASSERT(maps.size() == 1);
+  EXPECT_TRUE(maps.size() == 1);
 
   OBIsomorphismMapper::Mapping map;
   OBIsomorphismMapper::Mapping::const_iterator iter;
   map = maps[0];
   for (iter=map.begin(); iter!=map.end(); ++iter)
-    OB_ASSERT( iter->first == iter->second);
+    EXPECT_TRUE( iter->first == iter->second);
 
   delete query;
   delete mapper;

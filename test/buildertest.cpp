@@ -173,75 +173,75 @@ int buildertest(int argc, char* argv[])
 
 
   // fails because of selenium
-  //  OB_ASSERT( doMultiMoleculeFile("aromatics.smi") );
+  //  EXPECT_TRUE( doMultiMoleculeFile("aromatics.smi") );
   // fails because of stereo crash
-  //  OB_ASSERT( doMultiMoleculeFile("nci.smi") );
+  //  EXPECT_TRUE( doMultiMoleculeFile("nci.smi") );
   // fails because of "organometallic" entries
-  //  OB_ASSERT( doMultiMoleculeFile("attype.00.smi") );
+  //  EXPECT_TRUE( doMultiMoleculeFile("attype.00.smi") );
 
   switch(choice) {
   case 1:
-    OB_ASSERT( doMultiMoleculeFile("forcefield.sdf") );
+    EXPECT_TRUE( doMultiMoleculeFile("forcefield.sdf") );
     break;
   case 2:
-    OB_ASSERT( doMultiMoleculeFile("filterset.sdf") );
+    EXPECT_TRUE( doMultiMoleculeFile("filterset.sdf") );
     break;
   case 3:
     // from Martin Guetlein to mailing list on July 14, 2010
-    OB_ASSERT( doSMILESBuilderTest("OC1=CC3=C([C@@]2([H])CC[C@@]4(C)[C@](CC[C@@H]4O)([H])[C@@]([H])2[C@H](CCCCCCCCCS(CCCC(F)(F)C(F)(F)F)=O)C3)C=C1") );
+    EXPECT_TRUE( doSMILESBuilderTest("OC1=CC3=C([C@@]2([H])CC[C@@]4(C)[C@](CC[C@@H]4O)([H])[C@@]([H])2[C@H](CCCCCCCCCS(CCCC(F)(F)C(F)(F)F)=O)C3)C=C1") );
     break;
   case 4:
     // from Thomas Womack -- PR#3016479
-    OB_ASSERT( doSMILESBuilderTest("O1C[C@H]2O[C@H]2c2ccc(Oc3c(O)ccc(CCC1=O)c3)cc2") );
+    EXPECT_TRUE( doSMILESBuilderTest("O1C[C@H]2O[C@H]2c2ccc(Oc3c(O)ccc(CCC1=O)c3)cc2") );
     break;
   case 5:
     // from Martin Guetlein -- PR#3107218 ("OBBuilder terminates while building 3d")
-    OB_ASSERT( doSMILESBuilderTest("N12[C@@H]([C@@H](NC([C@@H](c3ccsc3)C(=O)O)=O)C2=O)SC(C)(C)[C@@-]1C(=O)O") );
+    EXPECT_TRUE( doSMILESBuilderTest("N12[C@@H]([C@@H](NC([C@@H](c3ccsc3)C(=O)O)=O)C2=O)SC(C)(C)[C@@-]1C(=O)O") );
     break;
   case 6:
     // from Hubertus van Dam -- #2144
-    OB_ASSERT( doSMILESBuilderTest("OC1(C2=CN(CC3=CC=CC=C3F)N=N2)CCOC1") );
+    EXPECT_TRUE( doSMILESBuilderTest("OC1(C2=CN(CC3=CC=CC=C3F)N=N2)CCOC1") );
     break;
   case 7:
     // Regression: small/medium rings (sizes 7, 8, 12) are templated in
     // ring-fragments.txt; the post-pass must not disturb their geometry.
-    OB_ASSERT( doRingClosureTest("C1CCCCCC1", 1.8) );        // cycloheptane
-    OB_ASSERT( doRingClosureTest("C1CCCCCCC1", 1.8) );       // cyclooctane
-    OB_ASSERT( doRingClosureTest("C1CCCCCCCCCCC1", 1.8) );   // cyclododecane
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCC1", 1.8) );        // cycloheptane
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCCC1", 1.8) );       // cyclooctane
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCCCCCCC1", 1.8) );   // cyclododecane
     break;
   case 8:
     // Crown post-pass covers n=19, 22 (formula 180 - 720/n).
-    OB_ASSERT( doRingClosureTest("C1CCCCCCCCCCCCCCCCCC1", 2.0) );     // cyclo-19
-    OB_ASSERT( doRingClosureTest("C1CCCCCCCCCCCCCCCCCCCCC1", 2.5) );  // cyclo-22
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCCCCCCCCCCCCCC1", 2.0) );     // cyclo-19
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCCCCCCCCCCCCCCCCC1", 2.5) );  // cyclo-22
     // Beyond the crown cap, OBDaleTorsions emits a precomputed
     // diamond-lattice Dale code. Even n close to ~1.5 A pre-FF (the
     // normal C-C bond length); odd n leave a ~2.5 A residual from
     // the bipartite-lattice constraint. Both are well inside FF
     // cleanup's basin of convergence.
-    OB_ASSERT( doRingClosureTest("C1CCCCCCCCCCCCCCCCCCCCCCCCCCCCC1", 2.6) ); // cyclo-30
+    EXPECT_TRUE( doRingClosureTest("C1CCCCCCCCCCCCCCCCCCCCCCCCCCCCC1", 2.6) ); // cyclo-30
     // cyclo-44 and cyclo-50 exercise the back-edge ring tracer:
     // OB's SSSR (OB_RTREE_CUTOFF=20) silently drops rings >~40
     // atoms, so the post-pass falls back to tracing through the
     // workMol spanning tree.
     {
       std::string s44 = "C1" + std::string(43, 'C') + "1";
-      OB_ASSERT( doRingClosureTest(s44, 2.0) );                       // cyclo-44
+      EXPECT_TRUE( doRingClosureTest(s44, 2.0) );                       // cyclo-44
       std::string s50 = "C1" + std::string(49, 'C') + "1";
-      OB_ASSERT( doRingClosureTest(s50, 2.0) );                       // cyclo-50
+      EXPECT_TRUE( doRingClosureTest(s50, 2.0) );                       // cyclo-50
       std::string s100 = "C1" + std::string(99, 'C') + "1";
-      OB_ASSERT( doRingClosureTest(s100, 2.0) );                      // cyclo-100
+      EXPECT_TRUE( doRingClosureTest(s100, 2.0) );                      // cyclo-100
     }
     break;
   case 9:
     // Fused/bridged systems: only the largest ring per system is crowned,
     // so the smaller fused ring may still strain. Use a looser cap.
-    OB_ASSERT( doRingClosureTest("C1CCC2CCCCC2C1", 2.2) );   // decalin
-    OB_ASSERT( doRingClosureTest("C1CC2CCC1C2", 2.2) );      // norbornane
+    EXPECT_TRUE( doRingClosureTest("C1CCC2CCCCC2C1", 2.2) );   // decalin
+    EXPECT_TRUE( doRingClosureTest("C1CC2CCC1C2", 2.2) );      // norbornane
     break;
   case 10:
     // Aromatic ring that's unlikely to be templated -- verify it builds
     // (no stretched closure) and that the post-pass treats it as planar.
-    OB_ASSERT( doRingClosureTest("C1=CC=CC=CC=N1", 1.8) );   // 1H-azocine
+    EXPECT_TRUE( doRingClosureTest("C1=CC=CC=CC=N1", 1.8) );   // 1H-azocine
     break;
   default:
     cout << "Test number " << choice << " does not exist!\n";
