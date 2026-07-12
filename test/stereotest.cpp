@@ -110,8 +110,8 @@ bool doStereoPerception(OBMol &mol, int numTetrahedral, int numCisTrans)
     }
   }
 
-  OB_COMPARE(tetrahedralCount, numTetrahedral);
-  OB_COMPARE(cistransCount, numCisTrans);
+  ASSERT_EQ(tetrahedralCount, numTetrahedral);
+  ASSERT_EQ(cistransCount, numCisTrans);
 
   return (tetrahedralCount == numTetrahedral) && (cistransCount == numCisTrans);
 }
@@ -140,8 +140,8 @@ bool doStereoPerception2(OBMol &mol, int numTetrahedral, int numCisTrans)
     }
   }
 
-  OB_COMPARE(tetrahedralCount, numTetrahedral);
-  OB_COMPARE(cistransCount, numCisTrans);
+  ASSERT_EQ(tetrahedralCount, numTetrahedral);
+  ASSERT_EQ(cistransCount, numCisTrans);
 
   return (tetrahedralCount == numTetrahedral) && (cistransCount == numCisTrans);
 }
@@ -198,7 +198,7 @@ bool doStereoPerception3(OBMol &mol, const OBStereoUnitSet &refUnits = OBStereoU
     cout << "G.size " << G.size() << endl;
     std::vector<OpenBabel::OBStereoUnit> units = FindStereogenicUnits(&mol, symmetry_classes, G);
 
-    OB_COMPARE(units.size(), refUnits.size());
+    ASSERT_EQ(units.size(), refUnits.size());
 
     for (unsigned int i = 0; i < units.size(); ++i) {
       bool foundUnit = false;

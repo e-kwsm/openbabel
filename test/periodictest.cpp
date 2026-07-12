@@ -88,8 +88,8 @@ PeriodicTester::PeriodicTester() {
   tmol.GetBond(atom_list[0], atom_list[1])->SetBondOrder(2);
 
   tmol.EndModify();
-  OB_COMPARE( tmol.NumAtoms(), 4);
-  OB_COMPARE( tmol.NumBonds(), 3);
+  ASSERT_EQ( tmol.NumAtoms(), 4);
+  ASSERT_EQ( tmol.NumBonds(), 3);
 }
 
 
@@ -201,7 +201,7 @@ void testPeriodicCIFWrite() {
     C2     Br3       2.00000  1_554   S\n\
 ";
 
-  OB_COMPARE(expected_cif_bonds, bond_section);
+  ASSERT_EQ(expected_cif_bonds, bond_section);
 }
 
 

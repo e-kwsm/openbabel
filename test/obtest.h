@@ -32,7 +32,7 @@ void ob_compare(T1 a, T2 b, const char *expr, const char *file, int line, const 
 const char* ob_expr(const char *expr);
 #define OB_EXPR(expr) ob_expr(#expr)
 
-#define OB_COMPARE(a,b) \
+#define ASSERT_EQ(a,b) \
   ob_compare(a, b, OB_EXPR( a == b ), __FILE__, __LINE__, FUNCTION_SIGNATURE)
 
 

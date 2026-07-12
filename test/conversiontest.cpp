@@ -26,7 +26,7 @@ void testMolToCdxmlConversion()
 
   std::string cdxmlTarget = OBTestUtil::ReadFileContent("alanine.cdxml");
 
-  OB_COMPARE(cdxmlFromMol, cdxmlTarget);
+  ASSERT_EQ(cdxmlFromMol, cdxmlTarget);
 }
 
 int conversiontest(int argc, char* argv[])

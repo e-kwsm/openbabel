@@ -49,7 +49,7 @@ void testMaeReader()
   mae_smi.erase(remove(mae_smi.begin(), mae_smi.end(), '\r'), mae_smi.end());
 
   const string known_smi = "C([N+](=O)[O-])[N+](=O)[O-]\t2:Acids";
-  OB_COMPARE(mae_smi, known_smi);
+  ASSERT_EQ(mae_smi, known_smi);
 }
 
 
@@ -71,11 +71,11 @@ void testMaeWriter()
   conv.SetInFormat("mae");
   conv.ReadString(&mae_mol, mae_txt);
 
-  OB_COMPARE(mae_mol.NumAtoms(), 39);
+  ASSERT_EQ(mae_mol.NumAtoms(), 39);
 
   // Verify that reading from sequential strings works
   conv.ReadString(&mae_mol, mae_file_txt);
-  OB_COMPARE(mae_mol.NumAtoms(), 9);
+  ASSERT_EQ(mae_mol.NumAtoms(), 9);
 
 
 }

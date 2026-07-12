@@ -19,7 +19,7 @@ void compareJSON(OBMol &mol1, OBMol &mol2)
   for (std::size_t i = 0; i < mol1.NumAtoms(); ++i) {
     std::string json1 = mol1.GetAtom(i+1)->JSON();
     std::string json2 = mol2.GetAtom(i+1)->JSON();
-    OB_COMPARE(json1.substr(0, json1.find(", flags")) + " }", json2.substr(0, json2.find(", flags")) + " }");
+    ASSERT_EQ(json1.substr(0, json1.find(", flags")) + " }", json2.substr(0, json2.find(", flags")) + " }");
   }
 }
 */
@@ -51,7 +51,7 @@ void test_parser(const std::string &smiles)
   compareJSON(obMol, smileyMol);
   */
 
-  OB_COMPARE(obCanSmiles, smileyCanSmiles);
+  ASSERT_EQ(obCanSmiles, smileyCanSmiles);
 }
 
 int main()

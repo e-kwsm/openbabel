@@ -31,7 +31,7 @@ void testEnumerateTautomers(const std::string &smiles, int numTautomers)
   Functor functor;
   EnumerateTautomers(&mol, functor);
 
-  OB_COMPARE( functor.numTautomers, numTautomers );
+  ASSERT_EQ( functor.numTautomers, numTautomers );
 }
 
 /**
@@ -77,7 +77,7 @@ void testCanonicalTautomers(const std::string &smiles)
 
   canonicalTautomers.erase(std::unique(canonicalTautomers.begin(), canonicalTautomers.end()), canonicalTautomers.end());
 
-  OB_COMPARE(canonicalTautomers.size(), unsigned(1));
+  ASSERT_EQ(canonicalTautomers.size(), unsigned(1));
 }
 
 /**
@@ -97,7 +97,7 @@ void testVerifyCanonicalTautomer(const std::string &smiles, const std::string &e
 
   std::string experimental = conv.WriteString(&mol, true);
 
-  OB_COMPARE(expected, experimental);
+  ASSERT_EQ(expected, experimental);
 }
 
 

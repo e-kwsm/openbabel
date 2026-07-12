@@ -26,8 +26,8 @@ void test_Fix1912_PDBReading()
   OBAtom *atom = mol->GetAtom(1);
   OBResidue *res = atom->GetResidue();
   ASSERT_TRUE(res != nullptr);
-  OB_COMPARE(res->GetAtomID(atom), " N19");
-  OB_COMPARE(res->GetChain(), 'A');
+  ASSERT_EQ(res->GetAtomID(atom), " N19");
+  ASSERT_EQ(res->GetChain(), 'A');
 }
 
 std::string remove_slashr(const char *smi)
@@ -78,7 +78,7 @@ void test_ChemDraw_Basic()
     outs.str("");
     conv.Convert();
     std::string out = outs.str();
-    OB_COMPARE(remove_slashr(out.c_str()), cdxData[i].smi);
+    ASSERT_EQ(remove_slashr(out.c_str()), cdxData[i].smi);
   }
 }
 
@@ -110,7 +110,7 @@ void test_ChemDraw_XML_Basic()
     outs.str("");
     conv.Convert();
     std::string out = outs.str();
-    OB_COMPARE(remove_slashr(out.c_str()), cdxmlData[i].smi);
+    ASSERT_EQ(remove_slashr(out.c_str()), cdxmlData[i].smi);
   }
 }
 
@@ -133,7 +133,7 @@ void test_OBChemTsfm()
   tsfm.Init(start, end);
   tsfm.Apply(mol);
   std::string out = conv.WriteString(&mol, true);
-  OB_COMPARE(out, "[NH3+]CCBr");
+  ASSERT_EQ(out, "[NH3+]CCBr");
 
   conv.ReadString(&mol, "ClCCBr");
   start = "Cl[C:1]-[C:2]";
@@ -142,7 +142,7 @@ void test_OBChemTsfm()
   b.Init(start, end);
   b.Apply(mol);
   out = conv.WriteString(&mol, true);
-  OB_COMPARE(out, "ClC=CBr");
+  ASSERT_EQ(out, "ClC=CBr");
 
   conv.ReadString(&mol, "ClC(=O)[O]");
   start = "[#6]-[OD1:1]";
@@ -151,7 +151,7 @@ void test_OBChemTsfm()
   c.Init(start, end);
   c.Apply(mol);
   out = conv.WriteString(&mol, true);
-  OB_COMPARE(out, "ClC(=O)[O-]");
+  ASSERT_EQ(out, "ClC(=O)[O-]");
 
   conv.ReadString(&mol, "Cl[C]CBr");
   start = "Cl[C:1]-[C:2]";
@@ -160,7 +160,7 @@ void test_OBChemTsfm()
   d.Init(start, end);
   d.Apply(mol);
   out = conv.WriteString(&mol, true);
-  OB_COMPARE(out, "Cl[C]=CBr");
+  ASSERT_EQ(out, "Cl[C]=CBr");
 }
 
 // Open Babel was previously disappearing triple bonds when provided with SMILES
@@ -202,10 +202,10 @@ void test_Issue135_UniversalSmiles()
   conv.SetOutFormat("smi");
   conv.SetOptions("I", OBConversion::OUTOPTIONS);
   std::string res = conv.WriteString(&mol, true);
-  OB_COMPARE(res, "C(=O)(C(=O)O)[O-]");
+  ASSERT_EQ(res, "C(=O)(C(=O)O)[O-]");
   conv.SetOptions("U", OBConversion::OUTOPTIONS);
   res = conv.WriteString(&mol, true);
-  OB_COMPARE(res, "C(=O)(C(=O)[O-])O");
+  ASSERT_EQ(res, "C(=O)(C(=O)[O-])O");
 }
 
 // Reading an InChI and then adding hydrogens messed up the structure
@@ -219,7 +219,7 @@ void test_Issue134_InChI_addH()
   mol.AddHydrogens();
   conv.SetOutFormat("smi");
   std::string res = conv.WriteString(&mol, true);
-  OB_COMPARE(res, "C[C@@H](N)O");
+  ASSERT_EQ(res, "C[C@@H](N)O");
 }
 
 // Delete hydrogens should not remove charged or isotopic hydrogens or [H][H] or [Cu][H][Cu]
@@ -245,7 +245,7 @@ void test_Issue178_DeleteHydrogens()
       FOR_ATOMS_OF_MOL(atom, mol)
       if (atom->GetAtomicNum() == OBElements::Hydrogen)
         myNumHs++;
-      OB_COMPARE(myNumHs, numHs[i]);
+      ASSERT_EQ(myNumHs, numHs[i]);
     }
   }
   // Test DeletePolarHydrogens()
@@ -259,7 +259,7 @@ void test_Issue178_DeleteHydrogens()
     FOR_ATOMS_OF_MOL(atom, mol)
     if (atom->GetAtomicNum() == OBElements::Hydrogen)
       myNumHs++;
-    OB_COMPARE(myNumHs, numHsB[i]);
+    ASSERT_EQ(myNumHs, numHsB[i]);
   }
   // Test atom class
   // Currently, the SMILES parser does not retain atom classes for hydrogens on reading so...
@@ -273,13 +273,13 @@ void test_Issue178_DeleteHydrogens()
   FOR_ATOMS_OF_MOL(atom, mol)
   if (atom->GetAtomicNum() == OBElements::Hydrogen)
     myNumHs++;
-  OB_COMPARE(myNumHs, 1);
+  ASSERT_EQ(myNumHs, 1);
 }
 
 void test_Issue305_NumRotors()
 {
   OBMolPtr mol = OBTestUtil::ReadFile("regressiontest_numrotors.mol");
-  OB_COMPARE(mol->NumRotors(), 9); // was returning 4
+  ASSERT_EQ(mol->NumRotors(), 9); // was returning 4
 }
 
 void test_PR329_Molfile_RGroups()
@@ -439,7 +439,7 @@ void test_SMILES_Valence()
       }
       std::string ans = mout[0] ? mout : smilesData[i].inp;
       printf("  %d %s --> %s (%s)\n", i, smilesData[i].inp, ans.c_str(), out.c_str());
-      OB_COMPARE(out, ans);
+      ASSERT_EQ(out, ans);
     }
   }
 
@@ -448,7 +448,7 @@ void test_SMILES_Valence()
   conv.SetOptions("ah", conv.OUTOPTIONS); // write out alias explicitly
   OBMol mol;
   conv.ReadString(&mol, "C[H:1]");
-  OB_COMPARE(conv.WriteString(&mol, true), "C[H:1]");
+  ASSERT_EQ(conv.WriteString(&mol, true), "C[H:1]");
 }
 
 // make sure insertion code gets copied (it wasn't)
@@ -472,7 +472,7 @@ ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n
   OBMol mol2;
   mol2 = mol;
   char i = mol2.GetResidue(1)->GetInsertionCode();
-  OB_COMPARE(i, 'A');
+  ASSERT_EQ(i, 'A');
 }
 
 // make sure icode is read by pdbqt
@@ -496,7 +496,7 @@ ATOM    275  O   LYS L  14A     -6.892   4.228  24.455  1.00 21.72           O\n
   OBMol mol2;
   mol2 = mol;
   char i = mol2.GetResidue(1)->GetInsertionCode();
-  OB_COMPARE(i, 'A');
+  ASSERT_EQ(i, 'A');
 }
 
 // https://github.com/openbabel/openbabel/issues/1794
@@ -570,7 +570,7 @@ void test_github_issue_2428_data_in_png()
   outs.str("");
   conv.Convert();
   std::string out = outs.str();
-  OB_COMPARE(remove_slashr(out.c_str()), "c1cccnc1\t\n");
+  ASSERT_EQ(remove_slashr(out.c_str()), "c1cccnc1\t\n");
 }
 
 void test_bad_bondorders() // make sure N in aromatic rings get right bond orders
@@ -649,7 +649,7 @@ void test_github_issue_2646()
   conv.SetInAndOutFormats("cml", "can");
   conv.ReadString(&mol, cml);
   std::string can = conv.WriteString(&mol, true);
-  OB_COMPARE(can, "c1ccccc1");
+  ASSERT_EQ(can, "c1ccccc1");
 }
 
 // https://github.com/openbabel/openbabel/issues/2677
@@ -664,7 +664,7 @@ void test_github_issue_2677()
   OBAtom *atom_after = mol->GetAtom(1);
   OBResidue *res_after = atom_after->GetResidue();
   ASSERT_TRUE(res_after != nullptr);
-  OB_COMPARE(res_after->GetIdx(), res_before->GetIdx());
+  ASSERT_EQ(res_after->GetIdx(), res_before->GetIdx());
 }
 
 // Hypervalent SMILES with many equivalent neighbors on one ring atom
@@ -711,8 +711,8 @@ void test_SegCopySubstructure()
   atomorder.clear();
   bool ok = mol.CopySubstructure(copy, &atomsToCopy, &bondsToExclude, 2, &atomorder);
   EXPECT_TRUE(ok);
-  OB_COMPARE(4, copy.NumAtoms());
-  OB_COMPARE(4, copy.NumBonds());
+  ASSERT_EQ(4, copy.NumAtoms());
+  ASSERT_EQ(4, copy.NumBonds());
 }
 
 int regressionstest(int argc, char *argv[])

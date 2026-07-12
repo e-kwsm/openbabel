@@ -29,7 +29,7 @@ void test_smiles_fragment(const std::string &orig_smiles, const std::string &fra
   pd->SetValue(frag_atoms);
   mol.SetData(pd);
   std::string smiles = conv.WriteString(&mol, true);
-  OB_COMPARE(smiles, ref_smiles);
+  ASSERT_EQ(smiles, ref_smiles);
 }
 
 int canonfragmenttest(int /*argc*/, char * /*argv*/[])
