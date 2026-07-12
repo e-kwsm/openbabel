@@ -30,14 +30,14 @@ void test_parser(const std::string &smiles)
   std::cout << "Testing: " << smiles << std::endl;
   OBConversion obConv, smileyConv;
 
-  OB_REQUIRE(obConv.SetInFormat("smi"));
-  OB_REQUIRE(obConv.SetOutFormat("smi"));
-  OB_REQUIRE(smileyConv.SetInFormat("smy"));
+  ASSERT_TRUE(obConv.SetInFormat("smi"));
+  ASSERT_TRUE(obConv.SetOutFormat("smi"));
+  ASSERT_TRUE(smileyConv.SetInFormat("smy"));
 
   OBMol obMol, smileyMol;
 
-  OB_REQUIRE(obConv.ReadString(&obMol, smiles));
-  OB_REQUIRE(smileyConv.ReadString(&smileyMol, smiles));
+  ASSERT_TRUE(obConv.ReadString(&obMol, smiles));
+  ASSERT_TRUE(smileyConv.ReadString(&smileyMol, smiles));
 
   std::string obCanSmiles = obConv.WriteString(&obMol, true);
   std::string smileyCanSmiles = obConv.WriteString(&smileyMol, true);

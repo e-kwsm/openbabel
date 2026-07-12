@@ -51,7 +51,7 @@ static bool doGen3DTest(const string& smiles, const char* speed = "3",
   conv.SetOutFormat("can");
 
   OBMol mol;
-  OB_REQUIRE(conv.ReadString(&mol, smiles));
+  ASSERT_TRUE(conv.ReadString(&mol, smiles));
   string refCan = conv.WriteString(&mol, true);
   while (!refCan.empty() && (refCan.back() == '\n' || refCan.back() == '\r'))
     refCan.pop_back();

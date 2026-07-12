@@ -6,8 +6,8 @@ using namespace OpenBabel;
 
 bool sameWinding(const OBStereo::Refs &refs1, const OBStereo::Refs &refs2)
 {
-  OB_REQUIRE( refs1.size() == 3 );
-  OB_REQUIRE( refs2.size() == 3 );
+  ASSERT_TRUE( refs1.size() == 3 );
+  ASSERT_TRUE( refs2.size() == 3 );
 
   int Ni1 = OBStereo::NumInversions(refs1);
   int Ni2 = OBStereo::NumInversions(refs2);
@@ -155,7 +155,7 @@ void test_Refs()
   cfg.refs = OBStereo::MakeRefs(9, 4, 34);
   th.SetConfig(cfg);
 
-  OB_REQUIRE( th.IsValid() );
+  ASSERT_TRUE( th.IsValid() );
 
   // 
   // test viewing from/towards all atoms

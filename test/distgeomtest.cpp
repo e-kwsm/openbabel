@@ -47,7 +47,7 @@ static bool doDistGeomCoordsTest(const string& smiles)
   conv.SetInFormat("smi");
 
   OBMol mol;
-  OB_REQUIRE(conv.ReadString(&mol, smiles));
+  ASSERT_TRUE(conv.ReadString(&mol, smiles));
 
   OBDistanceGeometry dg;
   bool ok = dg.GetGeometry(mol);
@@ -56,8 +56,8 @@ static bool doDistGeomCoordsTest(const string& smiles)
     return false;
   }
 
-  OB_REQUIRE(mol.Has3D());
-  OB_REQUIRE(mol.HasNonZeroCoords());
+  ASSERT_TRUE(mol.Has3D());
+  ASSERT_TRUE(mol.HasNonZeroCoords());
 
   cout << "  OK" << endl;
   return true;
@@ -75,7 +75,7 @@ static bool doDistGeomStereoTest(const string& smiles)
 
   // Get reference canonical SMILES from input
   OBMol mol;
-  OB_REQUIRE(conv.ReadString(&mol, smiles));
+  ASSERT_TRUE(conv.ReadString(&mol, smiles));
   string refCan = conv.WriteString(&mol, true);
   while (!refCan.empty() && (refCan.back() == '\n' || refCan.back() == '\r'))
     refCan.pop_back();
@@ -90,8 +90,8 @@ static bool doDistGeomStereoTest(const string& smiles)
   }
 
   // Verify 3D coordinates were assigned
-  OB_REQUIRE(mol3D.Has3D());
-  OB_REQUIRE(mol3D.HasNonZeroCoords());
+  ASSERT_TRUE(mol3D.Has3D());
+  ASSERT_TRUE(mol3D.HasNonZeroCoords());
 
   // Check stereo via SDF roundtrip
   string can3D = canSmiFrom3D(mol3D);

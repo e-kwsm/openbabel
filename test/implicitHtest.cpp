@@ -12,9 +12,9 @@ void testLossOfHydrogen(string filename)
   ifstream ifs(testfile.c_str());
 
   OBConversion conv(&ifs);
-  OB_REQUIRE(conv.SetInFormat("sdf"));
+  ASSERT_TRUE(conv.SetInFormat("sdf"));
   OBMol mol;
-  OB_REQUIRE(conv.Read(&mol));
+  ASSERT_TRUE(conv.Read(&mol));
   bool success = true;
   int i = 0;
   while (success) {

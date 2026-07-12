@@ -21,14 +21,14 @@ int tetraplanartest(int /*argc*/, char* /*argv*/[])
   cfg.begin = 0;
   cfg.end = 1;
   cfg.refs = OBStereo::MakeRefs(2, 3, 4, 5);
-  OB_REQUIRE( cfg.begin == 0 );
-  OB_REQUIRE( cfg.end == 1 );
-  OB_REQUIRE( cfg.refs.size() == 4 );
-  OB_REQUIRE( cfg.refs[0] == 2 );
-  OB_REQUIRE( cfg.refs[1] == 3 );
-  OB_REQUIRE( cfg.refs[2] == 4 );
-  OB_REQUIRE( cfg.refs[3] == 5 );
-  OB_REQUIRE( cfg.shape == OBStereo::ShapeU );
+  ASSERT_TRUE( cfg.begin == 0 );
+  ASSERT_TRUE( cfg.end == 1 );
+  ASSERT_TRUE( cfg.refs.size() == 4 );
+  ASSERT_TRUE( cfg.refs[0] == 2 );
+  ASSERT_TRUE( cfg.refs[1] == 3 );
+  ASSERT_TRUE( cfg.refs[2] == 4 );
+  ASSERT_TRUE( cfg.refs[3] == 5 );
+  ASSERT_TRUE( cfg.shape == OBStereo::ShapeU );
 
   // test nothing operation
   OBCisTransStereo::Config cfg2;

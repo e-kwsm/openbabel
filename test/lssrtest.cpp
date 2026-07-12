@@ -92,12 +92,12 @@ bool doShuffleTestMultiFile(const std::string &filename)
   OBMol mol;
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( conv.SetInFormat(format) );
+  ASSERT_TRUE( format );
+  ASSERT_TRUE( conv.SetInFormat(format) );
 
   std::ifstream ifs;
   ifs.open(file.c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
  
   bool result = true;
   while (conv.Read(&mol, &ifs)) {
@@ -148,13 +148,13 @@ bool verifyLSSR(const std::string &filename, const LSSR &ref)
   OBMol mol;
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( conv.SetInFormat(format) );
+  ASSERT_TRUE( format );
+  ASSERT_TRUE( conv.SetInFormat(format) );
 
   std::ifstream ifs;
   ifs.open(file.c_str());
-  OB_REQUIRE( ifs );
-  OB_REQUIRE( conv.Read(&mol, &ifs) );
+  ASSERT_TRUE( ifs );
+  ASSERT_TRUE( conv.Read(&mol, &ifs) );
 
   std::vector<int> ringSizeCount(20, 0); 
   std::vector<OBRing*> lssr = mol.GetLSSR();

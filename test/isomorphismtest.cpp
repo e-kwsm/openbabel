@@ -119,7 +119,7 @@ void testIsomorphismMask()
   OBConversion conv;
   conv.SetInFormat("cml");
   std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml").c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
   conv.Read(&mol, &ifs);
 
   OBQuery *query = CompileSmilesQuery("C1CCCCC1");
@@ -171,7 +171,7 @@ void testAutomorphismMask() {
   OBConversion conv;
   conv.SetInFormat("cml");
   std::ifstream ifs(OBTestUtil::GetFilename("isomorphism1.cml").c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
   conv.Read(&mol, &ifs);
 
   OBIsomorphismMapper::Mappings maps;
@@ -221,8 +221,8 @@ void testAutomorphismMask2()
 
   conv.SetInFormat("sdf");
   std::ifstream ifs(OBTestUtil::GetFilename("progesterone.sdf").c_str());
-  OB_REQUIRE( ifs );
-  OB_REQUIRE( conv.Read(&mol, &ifs) );
+  ASSERT_TRUE( ifs );
+  ASSERT_TRUE( conv.Read(&mol, &ifs) );
 
   Automorphisms _aut;
   OBBitVec _frag_atoms;

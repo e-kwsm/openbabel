@@ -24,19 +24,19 @@ void testTetrahedralStereo1()
   // read a smiles string
   OBMol mol;
   OBConversion conv;
-  OB_REQUIRE( conv.SetInFormat("smi") );
+  ASSERT_TRUE( conv.SetInFormat("smi") );
   cout << "smiles: C[C@H](O)N" << endl;
-  OB_REQUIRE( conv.ReadString(&mol, "C[C@H](O)N") );
+  ASSERT_TRUE( conv.ReadString(&mol, "C[C@H](O)N") );
 
   // get the stereo data
-  OB_REQUIRE( mol.HasData(OBGenericDataType::StereoData) );
+  ASSERT_TRUE( mol.HasData(OBGenericDataType::StereoData) );
   std::vector<OBGenericData *> stereoData = mol.GetAllData(OBGenericDataType::StereoData);
-  OB_REQUIRE( stereoData.size() == 1 );
+  ASSERT_TRUE( stereoData.size() == 1 );
 
   // convert to tetrahedral data
-  OB_REQUIRE( ((OBStereoBase*)stereoData[0])->GetType() == OBStereo::Tetrahedral );
+  ASSERT_TRUE( ((OBStereoBase*)stereoData[0])->GetType() == OBStereo::Tetrahedral );
   OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(stereoData[0]);
-  OB_REQUIRE( ts );
+  ASSERT_TRUE( ts );
 
   // print the configuration
   cout << *ts << endl;
@@ -49,7 +49,7 @@ void testTetrahedralStereo1()
   OBTetrahedralStereo::Config cfg(1, 0, OBStereo::MakeRefs(4, 3, 2), OBStereo::Clockwise);
 
   // compare stereochemistry
-  OB_REQUIRE( ts->GetConfig() == cfg );
+  ASSERT_TRUE( ts->GetConfig() == cfg );
 
   cout << endl;
 }
@@ -60,11 +60,11 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   // read a smiles string
   OBMol mol;
   OBConversion conv;
-  OB_REQUIRE( conv.SetInFormat("smi") );
-  OB_REQUIRE( conv.SetOutFormat("can") );
+  ASSERT_TRUE( conv.SetInFormat("smi") );
+  ASSERT_TRUE( conv.SetOutFormat("can") );
   cout << "smiles: " << smiles << endl;
   // read a smiles string
-  OB_REQUIRE( conv.ReadString(&mol, smiles) );
+  ASSERT_TRUE( conv.ReadString(&mol, smiles) );
 
   // store the stereo data for the smiles string using unique symmetry ids
   std::vector<OBTetrahedralStereo::Config> tetrahedral1;
@@ -85,7 +85,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
-      OB_REQUIRE( ts );
+      ASSERT_TRUE( ts );
       EXPECT_TRUE( ts->IsValid() );
       if (!ts->IsValid())
         continue;
@@ -108,7 +108,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
-      OB_REQUIRE( ct );
+      ASSERT_TRUE( ct );
       EXPECT_TRUE( ct->IsValid() );
 
       OBCisTransStereo::Config config = ct->GetConfig();
@@ -129,7 +129,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
-      OB_REQUIRE( sp );
+      ASSERT_TRUE( sp );
       EXPECT_TRUE( sp->IsValid() );
       if (!sp->IsValid())
         continue;
@@ -157,7 +157,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
   std::string canSmiles = conv.WriteString(&mol);
   cout << "canSmiles: " << canSmiles;
   // read can smiles in again
-  OB_REQUIRE( conv.ReadString(&mol, canSmiles) );
+  ASSERT_TRUE( conv.ReadString(&mol, canSmiles) );
 
   // store the stereo data for the smiles string using unique symmetry ids
   std::vector<OBTetrahedralStereo::Config> tetrahedral2;
@@ -176,7 +176,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::Tetrahedral) {
       // convert to tetrahedral data
       OBTetrahedralStereo *ts = dynamic_cast<OBTetrahedralStereo*>(*data);
-      OB_REQUIRE( ts );
+      ASSERT_TRUE( ts );
       EXPECT_TRUE( ts->IsValid() );
 
       OBTetrahedralStereo::Config config = ts->GetConfig();
@@ -197,7 +197,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::CisTrans) {
       // convert to tetrahedral data
       OBCisTransStereo *ct = dynamic_cast<OBCisTransStereo*>(*data);
-      OB_REQUIRE( ct );
+      ASSERT_TRUE( ct );
       EXPECT_TRUE( ct->IsValid() );
 
       OBCisTransStereo::Config config = ct->GetConfig();
@@ -218,7 +218,7 @@ void genericSmilesCanonicalTest(const std::string &smiles)
     if (((OBStereoBase*)*data)->GetType() == OBStereo::SquarePlanar) {
       // convert to tetrahedral data
       OBSquarePlanarStereo *sp = dynamic_cast<OBSquarePlanarStereo*>(*data);
-      OB_REQUIRE( sp );
+      ASSERT_TRUE( sp );
       EXPECT_TRUE( sp->IsValid() );
 
       OBSquarePlanarStereo::Config config = sp->GetConfig();

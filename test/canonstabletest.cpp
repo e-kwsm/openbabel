@@ -25,7 +25,7 @@ int canonstabletest(int /*argc*/, char * /*argv*/[])
 #endif  
 
   std::ifstream ifs(OBTestUtil::GetFilename("canonstable.can").c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
 
 
   OBMol mol;
@@ -35,7 +35,7 @@ int canonstabletest(int /*argc*/, char * /*argv*/[])
 
   std::string line;
   while (std::getline(ifs, line)) {
-    OB_REQUIRE( conv.ReadString(&mol, line.c_str()) );
+    ASSERT_TRUE( conv.ReadString(&mol, line.c_str()) );
 
     std::vector<OBAtom*> atoms;
     FOR_ATOMS_OF_MOL(atom, mol)

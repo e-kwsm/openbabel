@@ -25,7 +25,7 @@ void test_Fix1912_PDBReading()
   EXPECT_TRUE(mol->HasChainsPerceived());
   OBAtom *atom = mol->GetAtom(1);
   OBResidue *res = atom->GetResidue();
-  OB_REQUIRE(res != nullptr);
+  ASSERT_TRUE(res != nullptr);
   OB_COMPARE(res->GetAtomID(atom), " N19");
   OB_COMPARE(res->GetChain(), 'A');
 }
@@ -65,7 +65,7 @@ void test_ChemDraw_Basic()
   ios_base::openmode imode = ios_base::in | ios_base::binary;
   unsigned int size = sizeof(cdxData) / sizeof(CdxData);
   OBConversion conv;
-  OB_REQUIRE(conv.SetInAndOutFormats("cdx", "smi"));
+  ASSERT_TRUE(conv.SetInAndOutFormats("cdx", "smi"));
   std::stringstream outs;
   conv.SetOutStream(&outs);
 
@@ -73,7 +73,7 @@ void test_ChemDraw_Basic()
   {
     std::string fname = OBTestUtil::GetFilename(cdxData[i].fname);
     std::ifstream ifs(fname.c_str(), imode);
-    OB_REQUIRE(ifs.good());
+    ASSERT_TRUE(ifs.good());
     conv.SetInStream(&ifs);
     outs.str("");
     conv.Convert();
@@ -97,7 +97,7 @@ void test_ChemDraw_XML_Basic()
   ios_base::openmode imode = ios_base::in;
   unsigned int size = sizeof(cdxmlData) / sizeof(CdxData);
   OBConversion conv;
-  OB_REQUIRE(conv.SetInAndOutFormats("cdxml", "smi"));
+  ASSERT_TRUE(conv.SetInAndOutFormats("cdxml", "smi"));
   std::stringstream outs;
   conv.SetOutStream(&outs);
 
@@ -105,7 +105,7 @@ void test_ChemDraw_XML_Basic()
   {
     std::string fname = OBTestUtil::GetFilename(cdxmlData[i].fname);
     std::ifstream ifs(fname.c_str(), imode);
-    OB_REQUIRE(ifs.good());
+    ASSERT_TRUE(ifs.good());
     conv.SetInStream(&ifs);
     outs.str("");
     conv.Convert();
@@ -508,7 +508,7 @@ void test_github_issue_1794()
   conv.ReadString(&mol, "CC[2H]");
 
   OBForceField *pFF = OBForceField::FindForceField("UFF");
-  OB_REQUIRE(pFF);
+  ASSERT_TRUE(pFF);
 
   EXPECT_TRUE(pFF->Setup(mol));
 }
@@ -559,13 +559,13 @@ void test_github_issue_2428_data_in_png()
 {
   ios_base::openmode imode = ios_base::in | ios_base::binary;
   OBConversion conv;
-  OB_REQUIRE(conv.SetInAndOutFormats("png", "can"));
+  ASSERT_TRUE(conv.SetInAndOutFormats("png", "can"));
   std::stringstream outs;
   conv.SetOutStream(&outs);
 
   std::string fname = OBTestUtil::GetFilename("pyridine.png");
   std::ifstream ifs(fname.c_str(), imode);
-  OB_REQUIRE(ifs.good());
+  ASSERT_TRUE(ifs.good());
   conv.SetInStream(&ifs);
   outs.str("");
   conv.Convert();
@@ -663,7 +663,7 @@ void test_github_issue_2677()
   mol->AddNewHydrogens(PolarHydrogen, true);
   OBAtom *atom_after = mol->GetAtom(1);
   OBResidue *res_after = atom_after->GetResidue();
-  OB_REQUIRE(res_after != nullptr);
+  ASSERT_TRUE(res_after != nullptr);
   OB_COMPARE(res_after->GetIdx(), res_before->GetIdx());
 }
 
@@ -678,10 +678,10 @@ void test_hypervalent_canonical_smiles()
     "F[O]1(F)(F)(F)(F)(F)(F)(F)(F)(F)(F)(F)(F)OOOOO1",
   };
   OBConversion conv;
-  OB_REQUIRE(conv.SetInAndOutFormats("smi", "can"));
+  ASSERT_TRUE(conv.SetInAndOutFormats("smi", "can"));
   for (const char *smi : smiles) {
     OBMol mol;
-    OB_REQUIRE(conv.ReadString(&mol, smi));
+    ASSERT_TRUE(conv.ReadString(&mol, smi));
     std::string can = conv.WriteString(&mol, true);
     EXPECT_TRUE(!can.empty());
   }

@@ -23,7 +23,7 @@ void test_smiles_fragment(const std::string &orig_smiles, const std::string &fra
   conv.SetOutFormat("can");
 
   mol.Clear();
-  OB_REQUIRE( conv.ReadString(&mol, orig_smiles) );
+  ASSERT_TRUE( conv.ReadString(&mol, orig_smiles) );
   OBPairData *pd = new OBPairData;
   pd->SetAttribute("SMILES_Fragment");
   pd->SetValue(frag_atoms);

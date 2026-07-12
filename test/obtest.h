@@ -26,7 +26,7 @@ void ob_compare(T1 a, T2 b, const char *expr, const char *file, int line, const 
 #define EXPECT_TRUE(exp) \
   ( (exp) ? static_cast<void>(0) : report_error(#exp, __FILE__, __LINE__, FUNCTION_SIGNATURE, false) )
 
-#define OB_REQUIRE(exp) \
+#define ASSERT_TRUE(exp) \
   ( (exp) ? static_cast<void>(0) : report_error(#exp, __FILE__, __LINE__, FUNCTION_SIGNATURE, true) )
 
 const char* ob_expr(const char *expr);
@@ -54,15 +54,15 @@ struct OBTestUtil
 
     std::ifstream ifs;
     ifs.open(file.c_str());
-    OB_REQUIRE( ifs );
+    ASSERT_TRUE( ifs );
 
     OpenBabel::OBConversion conv;
     OpenBabel::OBFormat *format = conv.FormatFromExt(file.c_str());
-    OB_REQUIRE(format);
-    OB_REQUIRE(conv.SetInFormat(format));
+    ASSERT_TRUE(format);
+    ASSERT_TRUE(conv.SetInFormat(format));
 
     OBMolPtr mol(new OpenBabel::OBMol);
-    OB_REQUIRE(conv.Read(mol.get(), &ifs));
+    ASSERT_TRUE(conv.Read(mol.get(), &ifs));
 
     return mol;
   }

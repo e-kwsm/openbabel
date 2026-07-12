@@ -24,11 +24,11 @@ void genericGraphSymTest(const std::string &smiles)
   // read a smiles string
   OBMol mol1, mol2;
   OBConversion conv;
-  OB_REQUIRE( conv.SetInFormat("smi") );
-  OB_REQUIRE( conv.SetOutFormat("can") );
+  ASSERT_TRUE( conv.SetInFormat("smi") );
+  ASSERT_TRUE( conv.SetOutFormat("can") );
   cout << "smiles: " << smiles << endl;
   // read a smiles string
-  OB_REQUIRE( conv.ReadString(&mol1, smiles) );
+  ASSERT_TRUE( conv.ReadString(&mol1, smiles) );
 
 
   std::vector<unsigned int> canlbls1, canlbls2;
@@ -43,7 +43,7 @@ void genericGraphSymTest(const std::string &smiles)
   std::string canSmiles = conv.WriteString(&mol1);
   cout << "canSmiles: " << canSmiles;
   // read can smiles in again
-  OB_REQUIRE( conv.ReadString(&mol2, canSmiles) );
+  ASSERT_TRUE( conv.ReadString(&mol2, canSmiles) );
 
   OBGraphSym gs2(&mol2);
   gs2.GetSymmetry(symclasses2);
@@ -93,9 +93,9 @@ void countGraphSymClassesTest(const std::string &filename, int numberOfClasses)
   OBMol mol;
   OBConversion conv;
   OBFormat *format = conv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( conv.SetInFormat(format) );
-  OB_REQUIRE( conv.ReadFile(&mol, file) );
+  ASSERT_TRUE( format );
+  ASSERT_TRUE( conv.SetInFormat(format) );
+  ASSERT_TRUE( conv.ReadFile(&mol, file) );
 
   OBGraphSym graphSym(&mol);
   std::vector<unsigned int> symmetry_classes;

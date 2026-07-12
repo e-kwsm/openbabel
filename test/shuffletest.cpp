@@ -82,7 +82,7 @@ bool doRoundtrip(OBMol *mol)
 
   mol->SetTitle("");
   output = conv.WriteString(mol, true); // trim whitespace
-  OB_REQUIRE(conv.ReadString(&round2, output));
+  ASSERT_TRUE(conv.ReadString(&round2, output));
 
   bool result = true;
   round2.SetTitle("");
@@ -113,11 +113,11 @@ bool doShuffleTest(const std::string &smiles)
   // read a smiles string
   OBMol mol;
   OBConversion canConv, smiConv;
-  OB_REQUIRE( canConv.SetInFormat("smi") );
-  OB_REQUIRE( canConv.SetOutFormat("can") );
-  OB_REQUIRE( smiConv.SetOutFormat("smi") );
+  ASSERT_TRUE( canConv.SetInFormat("smi") );
+  ASSERT_TRUE( canConv.SetOutFormat("can") );
+  ASSERT_TRUE( smiConv.SetOutFormat("smi") );
   // read a smiles string
-  OB_REQUIRE( canConv.ReadString(&mol, smiles) );
+  ASSERT_TRUE( canConv.ReadString(&mol, smiles) );
 
 
   std::vector<OBAtom*> atoms;
@@ -154,11 +154,11 @@ bool doShuffleTestFile(const std::string &filename)
   OBMol mol;
   OBConversion canConv, smiConv;
   OBFormat *format = canConv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( canConv.SetInFormat(format) );
-  OB_REQUIRE( canConv.ReadFile(&mol, file) );
-  OB_REQUIRE( canConv.SetOutFormat("can") );
-  OB_REQUIRE( smiConv.SetOutFormat("smi") );
+  ASSERT_TRUE( format );
+  ASSERT_TRUE( canConv.SetInFormat(format) );
+  ASSERT_TRUE( canConv.ReadFile(&mol, file) );
+  ASSERT_TRUE( canConv.SetOutFormat("can") );
+  ASSERT_TRUE( smiConv.SetOutFormat("smi") );
 
 
   std::string smiles = canConv.WriteString(&mol, true);
@@ -195,14 +195,14 @@ bool doShuffleTestOnMultiFile(const std::string &filename)
   OBMol mol;
   OBConversion canConv;
   OBFormat *format = canConv.FormatFromExt(file.c_str());
-  OB_REQUIRE( format );
-  OB_REQUIRE( canConv.SetInFormat(format) );
-  OB_REQUIRE( canConv.SetOutFormat("can") );
+  ASSERT_TRUE( format );
+  ASSERT_TRUE( canConv.SetInFormat(format) );
+  ASSERT_TRUE( canConv.SetOutFormat("can") );
 
 
   std::ifstream ifs;
   ifs.open(file.c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
 
   bool result = true;
   while (canConv.Read(&mol, &ifs)) {
@@ -402,7 +402,7 @@ int shuffletest(int argc, char* argv[])
     EXPECT_TRUE( doShuffleTestFile("stereo/canon17.mol") );
     EXPECT_TRUE( doShuffleTestFile("stereo/canon18.mol") );
     EXPECT_TRUE( doShuffleTestFile("stereo/canon19.mol") );
-    OB_REQUIRE( doShuffleTestFile("stereo/canon19.mol") );
+    ASSERT_TRUE( doShuffleTestFile("stereo/canon19.mol") );
     EXPECT_TRUE( doShuffleTestFile("stereo/canon20.mol") );
     EXPECT_TRUE( doShuffleTestFile("stereo/canon21.mol") );
     EXPECT_TRUE( doShuffleTestFile("stereo/canon22.mol") );

@@ -6,8 +6,8 @@ using namespace OpenBabel;
 
 bool hasSameWinding(const OBStereo::Refs &refs1, const OBStereo::Refs &refs2)
 {
-  OB_REQUIRE( refs1.size() == 3 );
-  OB_REQUIRE( refs2.size() == 3 );
+  ASSERT_TRUE( refs1.size() == 3 );
+  ASSERT_TRUE( refs2.size() == 3 );
 
   int Ni1 = OBStereo::NumInversions(refs1);
   int Ni2 = OBStereo::NumInversions(refs2);
@@ -32,12 +32,12 @@ int tetranonplanartest(int /*argc*/, char* /*argv*/[])
   cfg.from = 0;
   cfg.center = 1;
   cfg.refs = OBStereo::MakeRefs(2, 3, 4);
-  OB_REQUIRE( cfg.from == 0 );
-  OB_REQUIRE( cfg.center == 1 );
-  OB_REQUIRE( cfg.refs.size() == 3 );
-  OB_REQUIRE( cfg.refs[0] == 2 );
-  OB_REQUIRE( cfg.refs[1] == 3 );
-  OB_REQUIRE( cfg.refs[2] == 4 );
+  ASSERT_TRUE( cfg.from == 0 );
+  ASSERT_TRUE( cfg.center == 1 );
+  ASSERT_TRUE( cfg.refs.size() == 3 );
+  ASSERT_TRUE( cfg.refs[0] == 2 );
+  ASSERT_TRUE( cfg.refs[1] == 3 );
+  ASSERT_TRUE( cfg.refs[2] == 4 );
 
   // test nothing operation
   OBTetrahedralStereo::Config cfg2;

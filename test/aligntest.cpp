@@ -116,11 +116,11 @@ void test_RMSD()
 void test_alignMol(){
   OBConversion conv;
   bool success = conv.SetInFormat("xyz");
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   OBMol mol;
   success = conv.ReadFile(&mol, TESTDATADIR + string("test3d.xyz"));
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   // Align molecule to itself (not using symmetry)
   OBAlign align = OBAlign(mol, mol, true, false);
@@ -147,13 +147,13 @@ void test_alignMol(){
 
 void test_alignMolWithSym(){
   OBConversion conv;
-  OB_REQUIRE( conv.SetInFormat("smi") );
+  ASSERT_TRUE( conv.SetInFormat("smi") );
 
   OBMol mol;
-  OB_REQUIRE( conv.ReadString(&mol, "ClC(=O)Cl") );
+  ASSERT_TRUE( conv.ReadString(&mol, "ClC(=O)Cl") );
 
   OBBuilder builder;
-  OB_REQUIRE( builder.Build(mol) );
+  ASSERT_TRUE( builder.Build(mol) );
 
   // Offset Atom#1
   OBAtom *patom = mol.GetAtom(1);
@@ -187,11 +187,11 @@ void test_alignMolWithSym(){
 void test_alignWithoutHydrogens() {
   OBConversion conv;
   bool success = conv.SetInFormat("xyz");
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   OBMol mol;
   success = conv.ReadFile(&mol, TESTDATADIR + string("test3d.xyz"));
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   // Align molecule to itself without hydrogens
   OBAlign align = OBAlign(mol, mol, false, false);
@@ -202,7 +202,7 @@ void test_alignWithoutHydrogens() {
   // Move one of the hydrogens and rotate molecule
   OBMol clone = mol;
   OBAtom *atom = clone.GetAtom(8);
-  OB_REQUIRE( atom->GetAtomicNum() == OBElements::Hydrogen );
+  ASSERT_TRUE( atom->GetAtomicNum() == OBElements::Hydrogen );
   atom->SetVector(atom->GetVector() + vector3(0.1, 0.1, 0.1));
 
   matrix3x3 rot;
@@ -244,14 +244,14 @@ void test_alignWithoutHydrogens() {
 void test_alignWithSymWithoutHydrogens() {
   OBConversion conv;
   bool success = conv.SetInFormat("smi");
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   OBMol mol;
   success = conv.ReadString(&mol, "BrCC(Cl)(Cl)Cl");
-  OB_REQUIRE( success );
+  ASSERT_TRUE( success );
 
   OBBuilder builder;
-  OB_REQUIRE( builder.Build(mol) );
+  ASSERT_TRUE( builder.Build(mol) );
   mol.AddHydrogens();
 
   // Rotate the CCl3

@@ -40,8 +40,8 @@ public:
     OBMol mol;
     AliasData ad;
     OBConversion conv;
-    OB_REQUIRE( conv.SetInFormat("smi") );
-    OB_REQUIRE( conv.ReadString(&mol, _smiles) );
+    ASSERT_TRUE( conv.SetInFormat("smi") );
+    ASSERT_TRUE( conv.ReadString(&mol, _smiles) );
     ad.AddAliases(&mol);
     AliasData::RevertToAliasForm(mol);
     unsigned int alias_count = 0;

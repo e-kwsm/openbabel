@@ -14,23 +14,23 @@ bool mdoMultiMoleculeFile(const std::string &filename)
 {
   std::ifstream ifs;
   ifs.open(filename.c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
   OBFormat *format = conv.FormatFromExt(filename.c_str());
   OBFormat *canSMI = conv.FindFormat("can");
   OBFormat *smi    = conv.FindFormat("smi");
-  OB_REQUIRE(format);
-  OB_REQUIRE(canSMI);
-  OB_REQUIRE(smi);
+  ASSERT_TRUE(format);
+  ASSERT_TRUE(canSMI);
+  ASSERT_TRUE(smi);
 
-  OB_REQUIRE(conv.SetInAndOutFormats(format, canSMI)); 
+  ASSERT_TRUE(conv.SetInAndOutFormats(format, canSMI)); 
 
   string output, roundtrip; // first output string, then the roundtrip
   OBMol round2; // result of reading first output as canonical SMILES
   OBConversion conv2; // duplicate to prevent having to constantly change formats
-  OB_REQUIRE(conv2.SetInAndOutFormats(smi, canSMI));
+  ASSERT_TRUE(conv2.SetInAndOutFormats(smi, canSMI));
 
   bool result = true;
   conv.SetInStream(&ifs);
@@ -49,7 +49,7 @@ bool mdoMultiMoleculeFile(const std::string &filename)
 
     mol.SetTitle("");
     output = conv.WriteString(&mol, true); // trim whitespace
-    OB_REQUIRE(conv2.ReadString(&round2, output));
+    ASSERT_TRUE(conv2.ReadString(&round2, output));
     round2.SetTitle("");
     roundtrip = conv2.WriteString(&round2, true);
     if (roundtrip != output) {

@@ -39,22 +39,22 @@ bool doBuildMoleculeTest(OBMol &mol)
   testCount++;
 
   OBBuilder builder;
-  OB_REQUIRE(builder.Build(mol, false));
+  ASSERT_TRUE(builder.Build(mol, false));
   // Does not need clearMolFlags -- crash still happens if you clear here
   // and not after AddHydrogens()
-  OB_REQUIRE(mol.AddHydrogens());
-  OB_REQUIRE(mol.HasAromaticPerceived() == 0);
-  OB_REQUIRE(mol.HasSSSRPerceived() == 0);
+  ASSERT_TRUE(mol.AddHydrogens());
+  ASSERT_TRUE(mol.HasAromaticPerceived() == 0);
+  ASSERT_TRUE(mol.HasSSSRPerceived() == 0);
   //  clearMolFlags(mol); // must clear here or you crash
   // Should now be handled by AddHydrogens()
 
   OBForceField* pff = OBForceField::FindType("mmff94");
-  OB_REQUIRE(pff != nullptr);
+  ASSERT_TRUE(pff != nullptr);
   cout << mol.GetTitle() << endl;
-  OB_REQUIRE(pff->Setup(mol));
+  ASSERT_TRUE(pff->Setup(mol));
   // Check for explosions -- PR#3016479
   pff->SteepestDescent(100);
-  OB_REQUIRE(!pff->DetectExplosion()); // no explosions please!
+  ASSERT_TRUE(!pff->DetectExplosion()); // no explosions please!
 
   return true;
 }
@@ -66,13 +66,13 @@ bool doMultiMoleculeFile(const std::string &filename)
   std::string file = OBTestUtil::GetFilename(filename);
   std::ifstream ifs;
   ifs.open(file.c_str());
-  OB_REQUIRE( ifs );
+  ASSERT_TRUE( ifs );
 
   OBMol mol;
   OBConversion conv(&ifs, &cout);
   OBFormat *format = conv.FormatFromExt(file.c_str());
-  OB_REQUIRE(format);
-  OB_REQUIRE(conv.SetInFormat(format));
+  ASSERT_TRUE(format);
+  ASSERT_TRUE(conv.SetInFormat(format));
 
   bool result = true;
   while (conv.Read(&mol, &ifs)) {
@@ -93,13 +93,13 @@ bool doSMILESBuilderTest(string smiles)
   OBMol mol;
   OBConversion conv;
   OBFormat *smilesFormat = conv.FindFormat("smi");
-  OB_REQUIRE(smilesFormat);
-  OB_REQUIRE(conv.SetInFormat(smilesFormat));
+  ASSERT_TRUE(smilesFormat);
+  ASSERT_TRUE(conv.SetInFormat(smilesFormat));
 
-  OB_REQUIRE(conv.ReadString(&mol, smiles));
+  ASSERT_TRUE(conv.ReadString(&mol, smiles));
 
   OBBuilder builder;
-  OB_REQUIRE(builder.Build(mol, false)); // some stereo errors are known
+  ASSERT_TRUE(builder.Build(mol, false)); // some stereo errors are known
   return (mol.Has3D() && mol.HasNonZeroCoords());
 }
 
@@ -116,13 +116,13 @@ bool doRingClosureTest(const string &smiles, double maxBondLen)
   OBMol mol;
   OBConversion conv;
   OBFormat *smilesFormat = conv.FindFormat("smi");
-  OB_REQUIRE(smilesFormat);
-  OB_REQUIRE(conv.SetInFormat(smilesFormat));
-  OB_REQUIRE(conv.ReadString(&mol, smiles));
+  ASSERT_TRUE(smilesFormat);
+  ASSERT_TRUE(conv.SetInFormat(smilesFormat));
+  ASSERT_TRUE(conv.ReadString(&mol, smiles));
 
   OBBuilder builder;
-  OB_REQUIRE(builder.Build(mol, false));
-  OB_REQUIRE(mol.Has3D());
+  ASSERT_TRUE(builder.Build(mol, false));
+  ASSERT_TRUE(mol.Has3D());
 
   double worst = 0.0;
   FOR_BONDS_OF_MOL(b, mol) {
