@@ -487,6 +487,12 @@ else()
   option(WITH_COORDGEN "Build Coordgen support" OFF)
 endif()
 
+if(NOT OPENBABEL_USE_SYSTEM_INCHI)
+      add_subdirectory(external)
+      # include_directories(${CMAKE_SOURCE_DIR}/include/inchi)
+      # set(libs ${libs} inchi)
+endif()
+
 if(WITH_MAEPARSER)
 
     find_package(maeparser MODULE QUIET)
