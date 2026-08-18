@@ -950,7 +950,7 @@ bool TSingleAtom::atomEquivalent(TSingleAtom *structure, TSingleAtom *query,
     if ((structure->nb - nHStr) != query->nb)
       return result;
   //'NO OTHER' means, that number of neighbour in query must be the same as in
-  //structure Checking for equivalent position in the Periodic Table
+  // structure Checking for equivalent position in the Periodic Table
   if (structure->na == query->na)
     result = true;
   else {
@@ -7187,7 +7187,7 @@ void TemplateRedraw::redrawFine(TSimpleMolecule &smIn) {
   for (i = 0; i < smIn.nBonds(); i++)
     if ((smIn.getBond(i)->tb == 9) || (smIn.getBond(i)->tb == 10)) {
       w = 0; //!!!! add for STEREO later !!!!
-             //!w.value=ProcessStereo.analizeRS(smIn,smIn.fBond.getAT(i,1));
+             //! w.value=ProcessStereo.analizeRS(smIn,smIn.fBond.getAT(i,1));
 
       if (w > 0) {
         sbs = new StereoBondStore();
