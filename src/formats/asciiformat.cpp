@@ -113,10 +113,10 @@ bool ASCIIFormat::WriteMolecule(OBBase *pOb, OBConversion *pConv) {
   // (e.g. seconds-to-minutes on multi-residue input from PDB or FASTA).
   // The canvas can't meaningfully render that much structure anyway.
   const unsigned int kMaxAtoms = 200;
-  if (workingmol.NumAtoms() > kMaxAtoms)
-  {
-    obErrorLog.ThrowError("ASCIIFormat",
-      "Refusing to depict: too many atoms for the ASCII canvas.", obError);
+  if (workingmol.NumAtoms() > kMaxAtoms) {
+    obErrorLog.ThrowError(
+        "ASCIIFormat",
+        "Refusing to depict: too many atoms for the ASCII canvas.", obError);
     return false;
   }
 

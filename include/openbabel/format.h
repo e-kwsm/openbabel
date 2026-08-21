@@ -170,8 +170,8 @@ private:
   Not currently used for formats
   OBFormat(const char* ID, bool IsDefault=false);
 
-  ///Returns the sub-type associated with the ID, or the default subtype if ID
-  NULL or empty. static OBFormat* FindType(const char* ID);
+  ///Returns the sub-type associated with the ID, or the default subtype if
+  ID NULL or empty. static OBFormat* FindType(const char* ID);
 
 */};
 

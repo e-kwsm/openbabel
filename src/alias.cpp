@@ -269,7 +269,7 @@ bool AliasData::LoadFile(SmartsTable &smtable) {
       OBConversion conv(&ss, &ssmarts);
       conv.AddOption("h", OBConversion::GENOPTIONS); // add explicit Hs...
       conv.AddOption("h"); //...and output them to ensure the superatom itself
-                           //is not substituted
+                           // is not substituted
       if (conv.SetInAndOutFormats("smi", "smi"))
         conv.Convert();
       if (!ssmarts.str().empty()) {
