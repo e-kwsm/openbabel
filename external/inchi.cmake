@@ -6,4 +6,5 @@ if(NOT OPENBABEL_USE_SYSTEM_INCHI)
   )
   FetchContent_MakeAvailable(inchi)
   add_custom_target(hoge COMMAND "${CMAKE_COMMAND}" -E copy )
+#   COMMAND \"\${CMAKE_COMMAND}\" -E copy \$<TARGET_FILE:libinchi> \"${PROJECT_BINARY_DIR}/${LIB_INSTALL_DIR}\"
 endif()
