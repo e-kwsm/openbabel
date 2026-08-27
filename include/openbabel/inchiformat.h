@@ -204,7 +204,7 @@ public:
   {
       OBConversion::RegisterFormat("k",this);
   }
-  virtual const char* Description() //required
+  virtual const char* Description() const //required
   {
     return
       "Compare molecules using InChI\n"
@@ -228,7 +228,7 @@ public:
   {
       OBConversion::RegisterFormat("inchikey",this);
   }
-  virtual const char* Description() //required
+  virtual const char* Description() const //required
   {
     return
       "InChIKey\n"

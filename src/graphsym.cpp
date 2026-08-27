@@ -89,7 +89,7 @@ namespace OpenBabel {
       void GetGIVector(std::vector<unsigned int> &vid) const;
       bool GetGTDVector(std::vector<int> &gtd) const;
       static void CountAndRenumberClasses(std::vector<std::pair<OBAtom*,unsigned int> > &vp, unsigned int &count);
-      int ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes);
+      int ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes) const;
       int CalculateSymmetry(std::vector<unsigned int> &symmetry_classes);
       int Iterate(std::vector<unsigned int> &symmetry_classes);
       void CanonicalLabels(const std::vector<unsigned int> &symmetry_classes, std::vector<unsigned int> &canon_labels, int maxSeconds);
@@ -519,7 +519,7 @@ namespace OpenBabel {
    *
    * @return The number of distinct symmetry classes found.
    */
-  int OBGraphSymPrivate::ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes)
+  int OBGraphSymPrivate::ExtendInvariants(std::vector<std::pair<OBAtom*, unsigned int> > &symmetry_classes) const
   {
     unsigned int nclasses1, nclasses2;
     vector<pair<OBAtom*,unsigned int> > tmp_classes;
