@@ -456,6 +456,10 @@ else()
   endif()
 endif()
 
+if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/external/LBFGS/include/LBFGS.h")
+  message(FATAL_ERROR "please run `git submodule update --init`")
+endif()
+
 configure_file(${openbabel_SOURCE_DIR}/src/config.h.cmake
   ${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h)
 install(FILES ${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h

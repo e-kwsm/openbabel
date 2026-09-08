@@ -41,6 +41,7 @@ CHECK_FUNCTION_EXISTS(${GETOPT} GETOPT_FOUND)
 if(BUILD_SHARED)
   foreach(tool ${tools})
     add_executable(${tool} ${tool}.cpp)
+    target_include_directories(${tool} SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}/external/LBFGS/include")
     target_link_libraries(${tool} ${BABEL_LIBRARY})
     install(TARGETS ${tool}
                     RUNTIME DESTINATION bin
