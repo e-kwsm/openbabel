@@ -265,6 +265,7 @@ if(TARGET Eigen3::Eigen)
     target_link_libraries(openbabel PUBLIC Eigen3::Eigen)
     target_include_directories(openbabel SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}/external/tree/src")
 endif()
+target_include_directories(openbabel SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}/external/LBFGS/include")
 
 if(BUILD_SHARED OR BUILD_MIXED)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
@@ -299,6 +300,7 @@ if(BUILD_SHARED)
   foreach(plugingroup descriptors fingerprints forcefields ops charges)
     add_library(plugin_${plugingroup} ${PLUGIN_TYPE} ${${plugingroup}}
       "${openbabel_BINARY_DIR}/include/openbabel/babelconfig.h")
+    target_include_directories(plugin_${plugingroup} SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}/external/LBFGS/include")
     target_link_libraries(plugin_${plugingroup} ${libs} openbabel)
     install(TARGETS plugin_${plugingroup}
       RUNTIME DESTINATION ${BIN_INSTALL_DIR}

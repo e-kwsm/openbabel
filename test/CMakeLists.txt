@@ -177,6 +177,7 @@ else()
 endif()
 
 add_executable(test_runner ${srclist} obtest.cpp)
+target_include_directories(test_runner SYSTEM PRIVATE "${PROJECT_SOURCE_DIR}/external/LBFGS/include")
 target_link_libraries(test_runner ${libs})
 set_target_properties(test_runner PROPERTIES ENABLE_EXPORTS TRUE)
 
