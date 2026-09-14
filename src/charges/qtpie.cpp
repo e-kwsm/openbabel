@@ -19,11 +19,11 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include "qtpie.h"
+#include <openbabel/atom.h>
+#include <openbabel/generic.h>
 #include <openbabel/locale.h>
 #include <openbabel/oberror.h>
-#include <openbabel/generic.h>
 #include <openbabel/obiter.h>
-#include <openbabel/atom.h>
 
 using namespace std;
 

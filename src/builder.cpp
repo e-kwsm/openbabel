@@ -24,23 +24,23 @@ GNU General Public License for more details.
 #include <deque>
 #include <memory>
 
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
 #include <openbabel/bond.h>
-#include <openbabel/obiter.h>
+#include <openbabel/distgeom.h>
+#include <openbabel/elements.h>
+#include <openbabel/locale.h>
 #include <openbabel/math/matrix3x3.h>
+#include <openbabel/mol.h>
+#include <openbabel/obconversion.h>
+#include <openbabel/obiter.h>
 #include <openbabel/ring.h>
 #include <openbabel/rotamer.h>
 #include <openbabel/rotor.h>
-#include <openbabel/obconversion.h>
-#include <openbabel/locale.h>
-#include <openbabel/distgeom.h>
-#include <openbabel/elements.h>
 
-#include <openbabel/stereo/stereo.h>
 #include <openbabel/stereo/cistrans.h>
-#include <openbabel/stereo/tetrahedral.h>
 #include <openbabel/stereo/squareplanar.h>
+#include <openbabel/stereo/stereo.h>
+#include <openbabel/stereo/tetrahedral.h>
 /* OBBuilder::GetNewBondVector():
  * - is based on OBAtom::GetNewBondVector()
  * - but: when extending a long chain all the bonds are trans

@@ -21,18 +21,17 @@ GNU General Public License for more details.
 
 #include <openbabel/atom.h>
 #include <openbabel/bond.h>
-#include <openbabel/mol.h>
-#include <openbabel/obiter.h>
-#include <openbabel/generic.h>
-#include <openbabel/molchrg.h>
-#include <openbabel/ring.h>
-#include <openbabel/phmodel.h>
 #include <openbabel/builder.h>
+#include <openbabel/chains.h>
 #include <openbabel/elements.h>
-#include <openbabel/chains.h>
+#include <openbabel/generic.h>
+#include <openbabel/mol.h>
+#include <openbabel/molchrg.h>
+#include <openbabel/obiter.h>
 #include <openbabel/obutil.h>
+#include <openbabel/phmodel.h>
 #include <openbabel/residue.h>
-#include <openbabel/chains.h>
+#include <openbabel/ring.h>
 
 #include <openbabel/math/matrix3x3.h>
 

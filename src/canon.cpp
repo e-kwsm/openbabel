@@ -18,23 +18,23 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/canon.h>
-#include <openbabel/graphsym.h>
-#include <openbabel/babelconfig.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/bond.h>
+#include <openbabel/canon.h>
+#include <openbabel/elements.h>
+#include <openbabel/graphsym.h>
+#include <openbabel/mol.h>
 #include <openbabel/obiter.h>
 #include <openbabel/obutil.h>
-#include <openbabel/elements.h>
 
 #include <openbabel/stereo/cistrans.h>
 #include <openbabel/stereo/tetrahedral.h>
 
-#include <iterator> // std::istream_iterator
-#include <cassert>
 #include <algorithm>
+#include <cassert>
 #include <cmath>
+#include <iterator> // std::istream_iterator
 #include <limits>
 
 #include "stereo/stereoutil.h"

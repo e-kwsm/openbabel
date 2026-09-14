@@ -17,18 +17,18 @@ but WITHOUT ANY WARRANTY; without even the implied warranty of
 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
-#include <openbabel/babelconfig.h>
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
-#include <openbabel/atom.h>
-#include <openbabel/bond.h>
-#include <openbabel/elements.h>
-#include <openbabel/obiter.h>
-#include <openbabel/builder.h>
-#include <openbabel/kekulize.h>
-#include <openbabel/generic.h>
-#include <iomanip>
 #include <cstdlib>
+#include <iomanip>
+#include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
+#include <openbabel/bond.h>
+#include <openbabel/builder.h>
+#include <openbabel/elements.h>
+#include <openbabel/generic.h>
+#include <openbabel/kekulize.h>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
+#include <openbabel/obmolecformat.h>
 
 using namespace std;
 namespace OpenBabel {
@@ -114,7 +114,7 @@ bool COFFormat::ReadMolecule(OBBase *pOb, OBConversion *pConv) {
   pmol->SetTitle(name);
 
   //-Extract atoms and bonds.  Ignore other entities like atom groups or
-  //connectors -defined in a molecule in culgi object file format.
+  // connectors -defined in a molecule in culgi object file format.
   pmol->BeginModify();
   pmol->SetAutomaticFormalCharge(true);
   pmol->SetAutomaticPartialCharge(false);

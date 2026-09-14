@@ -14,17 +14,17 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ***********************************************************************/
 
-#include <openbabel/babelconfig.h>
-#include <openbabel/obmolecformat.h>
-#include <openbabel/mol.h>
 #include <openbabel/atom.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/elements.h>
 #include <openbabel/generic.h>
+#include <openbabel/mol.h>
 #include <openbabel/obiter.h>
+#include <openbabel/obmolecformat.h>
 
-#include <sstream>
-#include <iomanip>
 #include <cstdlib>
+#include <iomanip>
+#include <sstream>
 
 #define notFound string::npos
 

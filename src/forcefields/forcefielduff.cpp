@@ -17,14 +17,14 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 GNU General Public License for more details.
 ************************************************************************/
 
-#include <openbabel/babelconfig.h>
-#include <openbabel/mol.h>
-#include <openbabel/locale.h>
-#include <openbabel/elements.h>
 #include <openbabel/atom.h>
-#include <openbabel/obiter.h>
-#include <openbabel/generic.h>
+#include <openbabel/babelconfig.h>
 #include <openbabel/bond.h>
+#include <openbabel/elements.h>
+#include <openbabel/generic.h>
+#include <openbabel/locale.h>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
 #include <openbabel/parsmart.h>
 
 #include <cstdlib>

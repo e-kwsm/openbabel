@@ -23,18 +23,18 @@ GNU General Public License for more details.
 
 #include <openbabel/forcefield.h>
 
-#include <openbabel/mol.h>
+#include "rand.h"
 #include <openbabel/atom.h>
 #include <openbabel/bond.h>
-#include <openbabel/ring.h>
-#include <openbabel/obiter.h>
-#include <openbabel/math/matrix3x3.h>
-#include <openbabel/rotamer.h>
-#include <openbabel/rotor.h>
+#include <openbabel/elements.h>
 #include <openbabel/grid.h>
 #include <openbabel/griddata.h>
-#include <openbabel/elements.h>
-#include "rand.h"
+#include <openbabel/math/matrix3x3.h>
+#include <openbabel/mol.h>
+#include <openbabel/obiter.h>
+#include <openbabel/ring.h>
+#include <openbabel/rotamer.h>
+#include <openbabel/rotor.h>
 
 #ifdef HAVE_EIGEN3
 #include <Eigen/Core>

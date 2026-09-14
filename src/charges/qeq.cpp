@@ -19,10 +19,10 @@ GNU General Public License for more details.
 #ifdef HAVE_EIGEN3
 
 #include "qeq.h"
-#include <openbabel/locale.h>
 #include <openbabel/atom.h>
-#include <openbabel/oberror.h>
 #include <openbabel/generic.h>
+#include <openbabel/locale.h>
+#include <openbabel/oberror.h>
 #include <openbabel/obiter.h>
 
 using namespace std;
